@@ -314,14 +314,10 @@ CREATE TABLE crm_contact_location(
 	county VARCHAR(255),
 	state_province_id INT UNSIGNED NOT NULL COMMENT 'FK to crm_state_province table',
 
-    -- Is it useful to store US and non-US postal codes separately?
-	zip5 INT UNSIGNED COMMENT 'zipcode - 5 digit',
-	zip4 INT UNSIGNED COMMENT 'zipcode +4 segment',
-
-    -- US Postal Svc bulk mail address code
+	postal_code VARCHAR(255) COMMENT 'Store both US (zip5+4) AND international postal codes. App is responsible for country/region appropriate validation.',
+    -- US Postal Svc bulk mail address code (ADC = Area Distribution Center)
 	usps_adc VARCHAR(64),
 
-	postal_code VARCHAR(255) COMMENT 'other types of postal codes - non us',
 	country_id INT UNSIGNED COMMENT 'index to crm_country table',
 	geo_code1 VARCHAR(64) COMMENT 'latitude or UTM (Universal Transverse Mercator Grid)',
 	geo_code2 VARCHAR(64) COMMENT 'longitude or UTM (Universal Transverse Mercator Grid)',
