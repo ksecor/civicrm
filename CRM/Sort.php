@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
  +----------------------------------------------------------------------+
@@ -147,8 +147,6 @@ class CRM_Sort {
     }
 
     function orderBy( ) {
-        // CRM_utils::debug( 'Sort', $this );
-
         // get the current one first
         $sql = $this->getSingleClause( $this->_current );
 

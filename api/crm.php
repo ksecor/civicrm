@@ -1,33 +1,103 @@
 <?php
+/*
+ +----------------------------------------------------------------------+
+ | CiviCRM version 1.0                                                  |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2005 Donald A. Lobo                                    |
+ +----------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                      |
+ |                                                                      |
+ | CiviCRM is free software; you can redistribute it and/or modify it   |
+ | under the terms of the Affero General Public License Version 1,      |
+ | March 2002.                                                          |
+ |                                                                      |
+ | CiviCRM is distributed in the hope that it will be useful, but       |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+ | See the Affero General Public License for more details at            |
+ | http://www.affero.org/oagpl.html                                     |
+ |                                                                      |
+ | A copy of the Affero General Public License has been been            |
+ | distributed along with this program (affero_gpl.txt)                 |
+ +----------------------------------------------------------------------+
+*/
+
 
 /**
  * Definition of the CRM API. For more detailed documentation, please check:
  * http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
+ *
  * @package CRM
- * @subpackage API
- * @version $id
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
  */
 
 require_once 'PEAR.php';
-
 require_once 'CRM/Error.php';
 
 /**
- * Most API functions take in associative arrays ( name => value pairs as parameters)
- * Some of the most commonly used parameters are described below
- * $params - an associative array used in construction / retrieval of the object
- * $returnProperties - the limited set of object properties that need to be returned
- * to the caller
+ * Most API functions take in associative arrays ( name => value pairs
+ * as parameters. Some of the most commonly used parameters are
+ * described below
+ *
+ * @param array $params           an associative array used in construction
+                                  / retrieval of the object
+ * @param array $returnProperties the limited set of object properties that
+ *                                need to be returned to the caller
+ *
  */
 
 /**
- * Create a contact for the given contact_type
+ * Creates a new contact record and returns the newly created
+ * Contact object (including the contact_id property). Minimum
+ * required data values for the various contact_type are:
  *
- * @param array $params       input properties
- * @param enum  $contact_type type of contact to be created. Valid values are
- *                            'Individual', 'Household', 'Organization'
+ * Individual:
+ *         o 'email' OR
+ *         o 'first_name' and 'last_name'
+ * Household:
+ *         o 'household_name'
+ * Organization:
+ *         o 'organization_name'
  *
- * @return CRM_Contact or CRM_Error
+ * Available properties for each type of Contact are listed in the
+ * {@link http://objectledge.org/confluence/display/CRM/Data+Model#DataModel-ContactRef
+ * CRM Data Model.}
+ *
+ * A 'duplicate contact' error is returned if an existing contact has
+ * the same 'email' as its primary email address. A 'possible duplicate'
+ * warning is returned if an exact match is found for all passed input
+ * values.
+ *
+ * 
+ * <b>Tips - Creating Contacts</b>
+ * <ul>
+ * <li>The Contact data objects may include both identifying information
+ * (e.g. last_name, organization name, etc.) and primary communications
+ * data (e.g. primary email, primary phone, primary postal address...).
+ *
+ * <li>Properties which have administratively assigned sets of values (ENUM types)
+ * are passed as strings (e.g. mobile_service_provider', 'im_service', etc).
+ * If an unrecognized value is passed, an error will be returned.
+ *
+ * <li>Modules may invoke crm_get_option_values($property_name) to retrieve a list
+ * of currently available values for a given property.
+ *
+ * <li>Invoke crm_create_option_value($property_name) to add new option values for a property.
+ * </ul>
+ * <i>EXAMPLE: If the available values for mobile_service_provider are
+ * 'Working Assets', 'Sprint', 'Verizon' - and a value of 'Foobar' is passed,
+ * an error is returned.</i>
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param string $contact_type Which class of contact is being created.
+ *            Valid values = 'Individual', 'Household', 'Organization'.
+ *                            '
+ *
+ * @return CRM_Contact|CRM_Error Newly created Contact object
  *
  * @access public
  */

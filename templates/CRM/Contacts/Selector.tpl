@@ -3,7 +3,14 @@
 <table>
 <tr>
 {foreach from=$columnHeaders item=header}
-<th>{$header.label}</th>
+<th>
+{if $header.sort}
+{assign var='key' value=$header.sort}
+<a href={$sort.$key.link}>{$header.label}</a>&nbsp;{$sort.$key.direction}
+{else}
+{$header.label}
+{/if}
+</th>
 {/foreach}
 </tr>
 {foreach from=$rows item=row}

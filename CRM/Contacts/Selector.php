@@ -1,4 +1,27 @@
 <?php
+/*
+ +----------------------------------------------------------------------+
+ | CiviCRM version 1.0                                                  |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2005 Donald A. Lobo                                    |
+ +----------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                      |
+ |                                                                      |
+ | CiviCRM is free software; you can redistribute it and/or modify it   |
+ | under the terms of the Affero General Public License Version 1,      |
+ | March 2002.                                                          |
+ |                                                                      |
+ | CiviCRM is distributed in the hope that it will be useful, but       |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+ | See the Affero General Public License for more details at            |
+ | http://www.affero.org/oagpl.html                                     |
+ |                                                                      |
+ | A copy of the Affero General Public License has been been            |
+ | distributed along with this program (affero_gpl.txt)                 |
+ +----------------------------------------------------------------------+
+*/
+
 
 require_once 'CRM/Pager.php';
 require_once 'CRM/Selector/Base.php';
@@ -53,9 +76,9 @@ class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_AP
 
     function getSortOrder( $action ) {
         static $order = array(
-                              'Individual_last_name'  => CRM_Sort::ASCENDING,
-                              'Individual_first_name' => CRM_Sort::ASCENDING,
-                              'Email_email'           => CRM_Sort::ASCENDING
+                              'first_name' => CRM_Sort::DESCENDING,
+                              'last_name'  => CRM_Sort::DESCENDING,
+                              'id'         => CRM_Sort::ASCENDING,
                               );
         return $order;
     }
@@ -64,20 +87,16 @@ class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_AP
         static $headers = array(
                                 array(
                                       'label' => 'Contact Id',
-                                      'sort'  => null
+                                      'sort'  =>'id',
                                       ),
                                 array(
                                       'label' => 'First Name',
-                                      'sort'  => 'Individual_first_name',
+                                      'sort'  => 'first_name',
                                       ),
                                 array(
                                       'label' => 'Last Name',
-                                      'sort'  => 'Individual_last_name',
+                                      'sort'  => 'last_name',
                                       ),
-                                array(
-                                      'label' => 'Email',
-                                      'sort'  => 'Email_email',
-                                      )
                                 );
         return $headers;
     }
@@ -89,6 +108,8 @@ class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_AP
     function getRows( $action, $offset, $rowCount, $sort ) {
         $rows = array();
         $this->_contact->limit( $offset, $rowCount );
+        $this->_contact->orderBy( $sort->orderBy( ) );
+
         $this->_contact->find();
         while ( $this->_contact->fetch( ) ) {
             $row = array();
