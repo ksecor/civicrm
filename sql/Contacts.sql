@@ -275,10 +275,8 @@ CREATE TABLE crm_contact_organization(
 	organization_name VARCHAR(64) NOT NULL,
 	legal_name VARCHAR(64),
 	nick_name VARCHAR(64),
-<<<<<<< .mine
-=======
+
 	legal_identifier VARCHAR(32) COMMENT 'EIN or other applicable unique legal identifier for this organization',
->>>>>>> .r279
 	sic_code VARCHAR(8),
 
 	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this org',
