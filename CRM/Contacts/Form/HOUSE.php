@@ -233,12 +233,24 @@ class CRM_Contacts_Form_HOUSE extends CRM_Form
     }
     
     /**
-     * this function is used to validate the date
+     * this function is used to validate the contact, check if contact is present.
      */
     function valid_contact($value) 
     {
         $contact = new CRM_Contacts_DAO_Contact();
         if ($contact->get('id', $value)) {
+            return true;
+        } else {
+            return false;
+        }    
+    }
+
+    /**
+     * this function is used to validate the annual income.
+     */
+    function valid_income($value) 
+    {
+        if ($value >= 0) {
             return true;
         } else {
             return false;
@@ -256,6 +268,9 @@ class CRM_Contacts_Form_HOUSE extends CRM_Form
         $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'numeric', null, 'client');
         $this->registerRule('check_contactid', 'callback', 'valid_contact','CRM_Contacts_Form_HOUSE');
         $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'check_contactid');
+        $this->addRule('annual_income', t(' Enter valid annual income.'), 'numeric', null, 'client');
+        $this->registerRule('check_income', 'callback', 'valid_income','CRM_Contacts_Form_HOUSE');
+        $this->addRule('annual_income', t(' Enter valid annual income.'), 'check_income');
         
         $this->addGroupRule('location', array('email' => array( 
                                                                array(t( 'Please enter valid email for location'), 'email', null, 'client')),
