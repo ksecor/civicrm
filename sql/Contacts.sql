@@ -511,7 +511,7 @@ CREATE TABLE crm_note(
 
 	note TEXT COMMENT 'note or comment',
 
-	PRIMARY KEY(id),
+	PRIMARY KEY(id)
     -- FULLTEXT (description)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='multiple notes/comments related to a contact or other entity';
