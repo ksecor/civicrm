@@ -109,7 +109,7 @@
 
 	<!-- start main content -->
 <script type="text/javascript">//<![CDATA[
-var sections = new Array('core', 'demographics', 'phone0_2', 'location2', 'phone2-2','notes');
+var sections = new Array('demographics', 'notes', 'phone0_2', 'location2', 'expand_phone0_3', 'phone0_3');
 var showSections = new Array('core');
 function init(formName,fieldName) {
     for (var i = 0; i < sections.length; i++) {
@@ -120,6 +120,7 @@ function init(formName,fieldName) {
     }
     document.forms[formName].elements[fieldName].focus();
 }
+
 function show(section) {
     for (var i = 0; i < sections.length; i++) {
         if (sections[i] == section) {
@@ -127,10 +128,14 @@ function show(section) {
         }
     }
 }
+
 function hide(section) {
     for (var i = 0; i < sections.length; i++) {
         if (sections[i] == section) {
             document.getElementById(sections[i]).style.display = 'none';
+        }
+        else if (section == 'expand_phone0_2') {
+            document.getElementById(section).style.display = 'none';
         }
     }
 }
@@ -245,12 +250,33 @@ function hide(section) {
 		</td>
 		<td class="form-item">
 			<select name="edit[phoneType1-2]" class="form-select"><option>phone</option><option selected value="mobile">mobile</option><option>fax</option><option>pager</option></select>
-			<input type="text" maxlength="255" class="form-text" name="edit[0][phone][1]" size="25" value="" />
-		</td></tr></table></td>
+			<input type="text" maxlength="255" class="form-text" name="edit[0][phone][1]" size="25" value="" /><br/>
+		</td></tr>
+        <tr><td colspan="2"><a onclick="hide('phone0_2'); hide('expand_phone0_3'); return false;" onkeypress="hide('phone0_2'); return false;" href="#phone0_2">[-] hide phone...</a><td></tr>
+        </table></td>
+	</tr>
+
+    <!-- Third phone block.-->
+	<tr><td></td><td colspan="2">
+        <table id="phone0_3"><tr>
+		<td class="form-item">
+			<label>Other Phone:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[phoneType1-3]" class="form-select"><option>phone</option><option value="mobile">mobile</option><option value="fax" selected>fax</option><option>pager</option></select>
+			<input type="text" maxlength="255" class="form-text" name="edit[0][phone][3]" size="25" value="" /><br/>
+		</td></tr>
+        <tr><td colspan="2"><a onclick="hide('phone0_3'); return false;" onkeypress="hide('phone0_3'); return false;" href="#phone0_3">[-] hide phone...</a><td></tr>
+        </table></td>
 	</tr>
 
 	<tr><td></td><td colspan=2>
-        <a onclick="show('phone0_2'); return false;" onkeypress="show('phone0_2'); return false;" href="#phone0_2">[+] another phone...</a>
+        <table id="expand_phone0_2">
+        <tr><td><a onclick="show('phone0_2'); hide('expand_phone0_2'); show('expand_phone0_3'); return false;" onkeypress="show('phone0_2'); return false;" href="#phone0_2">[+] another phone...</a></td></tr>
+        </table>
+        <table id="expand_phone0_3">
+        <tr><td><a onclick="show('phone0_3'); hide('expand_phone0_3'); return false;" onkeypress="show('phone0_3'); return false;" href="#phone0_3">[+] another phone...</a></td></tr>
+        </table>
     </td></tr>
     
 	<tr>
