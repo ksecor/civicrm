@@ -47,29 +47,29 @@ class CRM_Contact_Form_Location extends CRM_Form
      * @var int
      * @const
      */
-    const BLOCKS = 2;
+    const BLOCKS = 3;
     
-    static function &buildLocationBlock($form, $count, $showHideBlocks) 
+    static function &buildLocationBlock($form, $maxLocationBlocks, $showHideBlocks) 
     {
         $location = array();
         
         $showHideBlocks->addShow( 'location[1]' );
         
-        if ( $count >= 2 ) {
+        if ( $maxLocationBlocks >= 2 ) {
             $showHideBlocks->addShow( 'location[2][show]' );
         }
         
-        // this element is send to loop to display ($count -1) locations
-        $form->assign( 'locationCount', $count + 1 );
+        // this element is send to loop to display ($maxLocationBlocks -1) locations
+        $form->assign( 'locationCount', $maxLocationBlocks + 1 );
         $form->assign( 'blockCount'   , self::BLOCKS + 1 );
 
-        for ($locationId = 1; $locationId <= $count; $locationId++) {    
+        for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {    
             $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_SelectValues::$locationType);
-            if ($count != 2 ) {
+            if ($maxLocationBlocks != 2 ) {
                 $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", 'Primary location for this contact',  'Make this the primary location.', array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId);" ) );
             }
             
-            if ( $i != 1 ) {
+            if ( $locationId != 1 ) {
                 $showHideBlocks->addHide( "location[$locationId]" );
                 $showHideBlocks->addHide( "location[$locationId][show]" );
             }
@@ -80,11 +80,71 @@ class CRM_Contact_Form_Location extends CRM_Form
             CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS, $showHideBlocks); 
             CRM_Contact_Form_IM::buildIMBlock      ($form, $location, $locationId, self::BLOCKS, $showHideBlocks); 
 
-            $showHideBlocks->linksForArray( $form, $locationId, $count, "location", '[+] another location', '[-] hide location');
+            $showHideBlocks->linksForArray( $form, $locationId, $maxLocationBlocks, "location", '[+] another location', '[-] hide location');
 
         }
         return $location;
     }
 
+    /**
+     * Fix what blocks to show/hide based on the default values set
+     *
+     * @param CRM_ShowHideBlocks $showHide the showHide object
+     * @param array @defaults the array of default values
+     *
+     * @return void
+     */
+    function fixShowHideBlocks( $showHide, &$defaults, $maxLocationBlocks ) {
+        if ( empty( $defaults ) ) {
+            return;
+        }
+
+        $locationKeys = array_keys( $defaults );
+        foreach ( $locationKeys as $locationId ) {
+            if ( empty( $defaults[$locationId] ) ) {
+                continue;
+            }
+
+            $showHide->addShow( "location[$locationId]" );
+            $showHide->addHide( "location[$locationId][show]" );
+            if ( $locationId < $maxLocationBlocks ) {
+                $nextLocationId = $locationId + 1;
+                $showHide->addShow( "location[$nextLocationId][show]" );
+            }
+
+            $commPrefs = array( 'phone', 'email', 'im' );
+            foreach ( $commPrefs as $block ) {
+                self::fixShowHideSubBlocks( $showHide, $block, "location[$locationId]",
+                                            CRM_Array::value( $block, $defaults[$locationId] ) );
+            }
+        }
+    }
+
+    function fixShowHideSubBlocks( $showHide, $name, $prefix, &$defaults ) {
+        if ( empty( $defaults ) ) {
+            return;
+        }
+
+        $blockKeys = array_keys( $defaults );
+
+        foreach ( $blockKeys as $blockId ) {
+            if ( empty( $defaults[$blockId] ) ) {
+                continue;
+            }
+            // blockId one is always shown, so skip
+            if ( $blockId == 1 ) {
+                continue;
+            }
+
+            $showHide->addShow( "${prefix}[$name][$blockId]" );
+            $showHide->addHide( "${prefix}[$name][$blockId][show]" );
+            if ( $blockId < self::BLOCKS ) {
+                $nextBlockId = $blockId + 1;
+                $showHide->addShow( "${prefix}[$name][$nextBlockId][show]" );
+            }
+        }
+    }
+
 }
+
 ?>

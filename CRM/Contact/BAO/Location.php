@@ -73,11 +73,15 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
         $params['location'][$locationId]['id'] = $location->id;
 
         CRM_Contact_BAO_Address::add( $params, $ids, $locationId );
-        
+
+        // set this to true if this has been made the primary IM.
+        // the rule is the first entered value is the primary object
+        $isPrimaryPhone = $isPrimaryEmail = $isPrimaryIM = true;
+
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
-            CRM_Contact_BAO_Phone::add( $params, $ids, $locationId, $i );
-            CRM_Contact_BAO_Email::add( $params, $ids, $locationId, $i );
-            CRM_Contact_BAO_IM::add   ( $params, $ids, $locationId, $i );
+            CRM_Contact_BAO_Phone::add( $params, $ids, $locationId, $i, $isPrimaryPhone );
+            CRM_Contact_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
+            CRM_Contact_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIM    );
         }
         return $location;
     }
@@ -154,7 +158,8 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
                     $ids['location'][$i+1]    = array();
                     $ids['location'][$i+1]['id'] = $location->id;
                     $location->storeValues( $values['location'][$i+1] );
-                    self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1], CRM_Contact_Form_Location::BLOCKS );
+                    self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1],
+                                     CRM_Contact_Form_Location::BLOCKS );
                 }
             }
         }

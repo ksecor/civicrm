@@ -136,7 +136,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      *
      */
     function registerRules( ) {
-        static $rules = array( 'name', 'variable', 'phone', 'query', 'url' );
+        static $rules = array( 'name', 'variable', 'phone', 'query', 'url', 'date', 'qfDate' );
 
         foreach ( $rules as $rule ) {
             $this->registerRule( $rule, 'callback', $rule, 'CRM_Rule' );
@@ -245,9 +245,6 @@ class CRM_Form extends HTML_QuickForm_Page {
      *
      */
     function buildForm() {
-
-        CRM_Error::le_method();
-
         $this->_formBuilt = true;
 
         $this->preProcess();
@@ -258,8 +255,6 @@ class CRM_Form extends HTML_QuickForm_Page {
         $this->setDefaults( $defaults );
 
         $this->addRules();
-
-        CRM_Error::ll_method();
     }
 
     /**

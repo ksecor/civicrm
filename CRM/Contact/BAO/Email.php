@@ -49,20 +49,24 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      * @param array  $ids            the array that holds all the db ids
      * @param int    $locationId
      * @param int    $emailId
+     * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
      * @return object CRM_Contact_BAO_Email object
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $emailId ) {
+    static function add( &$params, &$ids, $locationId, $emailId, &$isPrimary ) {
         if ( ! self::dataExists( $params, $locationId, $emailId ) ) {
             return null;
         }
 
         $email = new CRM_Contact_DAO_Email();
-        $email->location_id        = $params['location'][$locationId]['id'];
-        $email->email              = $params['location'][$locationId]['email'][$emailId]['email'];
-        $email->is_primary         = CRM_Array::value( 'is_primary', $params['location'][$locationId]['email'][$emailId], false );
+        $email->location_id = $params['location'][$locationId]['id'];
+        $email->email       = $params['location'][$locationId]['email'][$emailId]['email'];
+
+        // set this object to be the value of isPrimary and make sure no one else can be isPrimary
+        $email->is_primary  = $isPrimary;
+        $isPrimary          = false;
 
         $email->id = CRM_Array::value( $emailId, $ids['location'][$locationId]['email'] );
         return $email->save( );

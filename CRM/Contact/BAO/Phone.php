@@ -49,12 +49,13 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * @param array  $ids            the array that holds all the db ids
      * @param int    $locationId
      * @param int    $phoneId
+     * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
      * @return object CRM_Contact_BAO_Phone object
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $phoneId ) {
+    static function add( &$params, &$ids, $locationId, $phoneId, &$isPrimary ) {
         if ( ! self::dataExists( $params, $locationId, $phoneId ) ) {
             return null;
         }
@@ -63,7 +64,11 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
         $phone->location_id        = $params['location'][$locationId]['id'];
         $phone->phone              = $params['location'][$locationId]['phone'][$phoneId]['phone'];
         $phone->phone_type         = $params['location'][$locationId]['phone'][$phoneId]['phone_type'];
-        $phone->is_primary         = CRM_Array::value( 'is_primary', $params['location'][$locationId]['phone'][$phoneId], false );
+
+        // set this object to be the value of isPrimary and make sure no one else can be isPrimary
+        $phone->is_primary         = $isPrimary;
+        $isPrimary                 = false;
+
         $phone->mobile_provider_id = CRM_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
 
         $phone->id = CRM_Array::value( $phoneId, $ids['location'][$locationId]['phone'] );

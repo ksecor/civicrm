@@ -85,7 +85,7 @@ class CRM_SelectValues {
     static public $date       = array(
                                       'language'  => 'en',
                                       'format'    => 'dMY',
-                                      'minYear'   => 1900,
+                                      'minYear'   => 1950,
                                       'maxYear'   => 2005,
                                       );
 

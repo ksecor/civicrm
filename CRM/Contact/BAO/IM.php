@@ -49,12 +49,13 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      * @param array  $ids            the array that holds all the db ids
      * @param int    $locationId
      * @param int    $imId
+     * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
      * @return object CRM_Contact_BAO_IM object
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $imId ) {
+    static function add( &$params, &$ids, $locationId, $imId, &$isPrimary ) {
         if ( ! self::dataExists( $params, $locationId, $imId ) ) {
             return null;
         }
@@ -63,7 +64,10 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
         $im->location_id  = $params['location'][$locationId]['id'];
         $im->name         = $params['location'][$locationId]['im'][$imId]['name'];
         $im->provider_id  = $params['location'][$locationId]['im'][$imId]['provider_id'];
-        $im->is_primary   = CRM_Array::value( 'is_primary', $params['location'][$locationId]['im'][$imId], false );
+
+        // set this object to be the value of isPrimary and make sure no one else can be isPrimary
+        $im->is_primary   = $isPrimary;
+        $isPrimary        = false;
 
         $im->id = CRM_Array::value( $imId, $ids['location'][$locationId]['im'] );
         return $im->save( );

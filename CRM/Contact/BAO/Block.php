@@ -50,7 +50,7 @@ class CRM_Contact_BAO_Block {
      * @access public
      * @static
      */
-    static function getValues( $block, $blockName, &$params, &$values, &$ids, $blockCount = 0 ) {
+    static function getValues( $block, $blockName, &$params, &$values, &$ids, $blockCount = 0 )  {
         $block->copyValues( $params );
 
         $flatten = false;

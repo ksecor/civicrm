@@ -58,15 +58,15 @@ class CRM_Rule {
 
     static function phone( $phone ) {
         // check length etc
-        if ( empty( $phone ) || strlen( $phone ) < 10 ) {
+        if ( empty( $phone ) || strlen( $phone ) > 16 ) {
             return false;
         }
     
         // make sure it include valid characters, (, \s and numeric
-        if ( ! preg_match('/^[\w\(\)\-\.\ ]+$/', $phone ) ) {
-            return false;
+        if ( preg_match('/^[\d\(\)\-\.\s]+$/', $phone ) ) {
+            return true;
         }
-        return true;
+        return false;
     }
 
 
@@ -99,25 +99,29 @@ class CRM_Rule {
         }
         return $default;
     }
-  
-    static function integer($value, $default = null) {
+
+    static function qfDate($value) {
+        return checkdate( $value['M'], $value['d'], $value['Y'] );
+    }
+
+    static function integer($value) {
         if (is_int($value)) {
-            return $value;
+            return true;
         }
     
         if (is_numeric($value) && preg_match('/^\d+$/', $value)) {
-            return $value;
+            return true;
         }
 
-        return $default;
+        return false;
     }
 
-    static function string($value, $maxLength = 0, $default = null) {
+    static function string($value, $maxLength = 0) {
         if (is_string($value) &&
-            ($maxLength <= 0 || strlen($value) <= $maxLength)) {
-            return $value;
+            ($maxLength === 0 || strlen($value) <= $maxLength)) {
+            return true;
         }
-        return $default;
+        return false;
     }
 
     static function email($value, $checkDomain = false) {

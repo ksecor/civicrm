@@ -54,8 +54,15 @@ class CRM_Contact_Form_Individual extends CRM_Form
      * @var int
      * @const
      */
-    const LOCATION_BLOCKS = 3;
-    
+    const LOCATION_BLOCKS = 1;
+
+    /**
+     * what blocks should we show and hide. This is constructed partially by
+     * buildQuickForm and modified by setDefaults
+     * @var CRM_ShowHideBlocks
+     */
+    protected $_showHideBlocks;
+
     /**
      * This is the constructor of the class.
      *
@@ -85,7 +92,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function buildQuickForm( )
     {
-        $this->_buildAddForm();
+        $this->_buildQuickForm();
 
         if ($this->_mode == self::MODE_VIEW) {
             $this->freeze();
@@ -143,32 +150,27 @@ class CRM_Contact_Form_Individual extends CRM_Form
             }
         }
         
+        $this->fixShowHideBlocks( $defaults );
+        $this->_showHideBlocks->addToTemplate( );
         return $defaults;
     }
-    
-    /**
-     * This function is used to validate the date.
-     * 
-     * This is a custom validation function used to implement server side validation of the date entered by the user.
-     * It accepts an array $value whose keys 'M', 'd' & 'Y' contain the month day and the year information. It then calls the checkdate
-     * php function to verify the date entered.
-     * 
-     * @access public
-     * @param array $value This is a zero-based, one-dimensional, 3-rows array containing the date information. 
-     * @internal A typical date array pattern is : $value = array( 'M' => '6, 'd' => '20', 'Y' => '1990').
-     * @return Boolean value true or false depending on whether the date enterred is valid or invalid.
-     * @see addRules( )     
-     */
-    function valid_date($value) 
-    {
 
-        if (checkdate($value['M'], $value['d'], $value['Y'])) {
-            return true;
-        } else {
-            return false;
+    /**
+     * Fix what blocks to show/hide based on the default values set
+     *
+     * @param array @defaults the array of default values
+     *
+     * @return void
+     */
+    function fixShowHideBlocks( &$defaults ) {
+        if ( $this->_mode == self::MODE_ADD ) {
+            return;
         }
+
+        CRM_Contact_Form_Location::fixShowHideBlocks( $this->_showHideBlocks,
+                                                      CRM_Array::value( 'location', $defaults ),
+                                                      self::LOCATION_BLOCKS );
     }
-    
 
     /**
      * This function is used to add the rules for form.
@@ -187,36 +189,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function addRules( ) 
     {
-        
         $this->applyFilter('_ALL_', 'trim');
 
-        switch ($this->_mode) {
-        case self::MODE_ADD:
-        case self::MODE_UPDATE:
-            // print_r($_POST);
-            $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contact_Form_Individual');
-            // $this->registerRule('check_date', 'callback', CRM_RULE::date(),'CRM_Contact_Form_Individual');
-
-            $this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
-            
-            for ($lng_i = 1; $lng_i <= 3; $lng_i++) { 
-                for ($lng_j = 1; $lng_j <= 3; $lng_j++) { 
-                    $str_message = "Please enter valid email ".$lng_j." for primary location";
-                    if ($lng_i > 1) {
-                        $str_message = "Please enter valid email ".$lng_j." for additional location ".($lng_i-1);
-                    }
-                    
-                    $this->addRule('location['.$lng_i.'][email]['.$lng_j.'][email]', $str_message, 'email', null);                
-                }
-            }
-            
-            break;
-        case self::MODE_DELETE:
-            break;            
-        case self::MODE_SEARCH:
-            break;            
-        }    
-        
+        $this->addRule('birth_date', 'Select a valid date.', 'qfDate' );
     }
 
     function preProcess( ) {
@@ -252,7 +227,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
     {
 
         if ( $this->_mode == self::MODE_ADD || $this->_mode == self::MODE_UPDATE ) {
-            $this->_addPostProcess();
+            $this->_postProcess();
         }    
     }
     
@@ -271,7 +246,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      * @see buildQuickForm()         
      * 
      */
-    private function _buildAddForm( ) 
+    private function _buildQuickForm( ) 
     {
         
         // prefix
@@ -314,24 +289,21 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->addElement('date', 'birth_date', 'Date of birth', CRM_SelectValues::$date);
 
         /* Entering the compact location engine */ 
-        $showHideBlocks = new CRM_ShowHideBlocks( array('name'              => 1,
+        $this->_showHideBlocks = new CRM_ShowHideBlocks( array('name'              => 1,
                                                         'commPrefs'         => 1,),
                                                   array('notes'        => 1,
                                                         'demographics' => 1,) );
         
-        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, self::LOCATION_BLOCKS, $showHideBlocks);
+        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, self::LOCATION_BLOCKS, $this->_showHideBlocks);
 
         /* End of locations */
 
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82', 'maxlength' => 255));    
         
-
-        $showHideBlocks->links( $this, 'demographics', '[+] show demographics' , '[-] hide demographics'  );
-        $showHideBlocks->links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
-        $showHideBlocks->addToTemplate( );
+        $this->_showHideBlocks->links( $this, 'demographics', '[+] show demographics' , '[-] hide demographics'  );
+        $this->_showHideBlocks->links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
 
         if ($this->_mode != self::MODE_VIEW) {
-
             $this->addDefaultButtons( array(
                                             array ( 'type'      => 'next',
                                                     'name'      => 'Save',
@@ -351,14 +323,16 @@ class CRM_Contact_Form_Individual extends CRM_Form
      * Depending upon the mode this function is used to insert or update the Individual
      * @access private
      */
-    private function _addPostProcess() 
-    { 
+    private function _postProcess() 
+    {
         // store the submitted values in an array
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
         $ids = array( );
         if ($this->_mode & self::MODE_UPDATE ) {
+            // if update get all the valid database ids
+            // from the session
             $ids = $this->get('ids');
         }    
 

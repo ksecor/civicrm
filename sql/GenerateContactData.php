@@ -543,7 +543,7 @@ class CRM_GCD {
 
             // also update the sort name for the contact id.
             $contact->id = $individual->contact_id;
-            $contact->sort_name = $individual->display_name;
+            $contact->sort_name = $individual->last_name . ', ' . $individual->first_name;
             $this->_update($contact);
         }
         

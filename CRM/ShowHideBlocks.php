@@ -84,13 +84,17 @@ class CRM_ShowHideBlocks {
 
     function addShow( $name ) {
         $this->_show[$name] = 1;
+        if ( array_key_exists( $name, $this->_hide ) ) {
+            unset( $this->_hide[$name] );
+        }
     }
 
     function addHide( $name ) {
-        if ( ! array_key_exists( $name, $this->_show ) ) {
-            $this->_hide[$name] = 1;
+        $this->_hide[$name] = 1;
+        if ( array_key_exists( $name, $this->_show ) ) {
+            unset( $this->_show[$name] );
         }
-    }
+     }
 
     function linkHtml( $name, $href, $text, $js ) {
         return '<a name="' . $name . '" id="' . $name . '" href="' . $href . '" ' . $js . ">$text</a>";

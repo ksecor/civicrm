@@ -37,9 +37,6 @@ Class CRM_Contact_Form_Phone
 {
 
     static function buildPhoneBlock($form, &$location, $locationId, $count, $showHideBlocks) {
-        if ($count > 1) {
-            $showHideBlocks->addShow("location[$locationId][phone][2][show]");
-        }
 
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Preferred Phone:' : 'Other Phone:';
@@ -57,9 +54,16 @@ Class CRM_Contact_Form_Phone
                                                                                   CRM_DAO::getAttribute('CRM_Contact_DAO_Phone',
                                                                                                         'phone'));
 
+            // TODO: set this up as a group, we need a valid phone_type_id if we have a  phone number
+            $form->addRule( "location[$locationId][phone][$i][phone]", 'Phone number is not valid.', 'phone' );
+
             if ( $i != 1 ) {
                 $showHideBlocks->addHide("location[$locationId][phone][$i]");
-                $showHideBlocks->addHide("location[$locationId][phone][$i][show]");
+                if ( $i == 2 ) {
+                    $showHideBlocks->addShow("location[$locationId][phone][$i][show]");
+                } else {
+                    $showHideBlocks->addHide("location[$locationId][phone][$i][show]");
+                }           
             }
         }
     }

@@ -232,7 +232,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         
         $contact->copyValues( $params );
 
-        $contact->sort_name = CRM_Array::value( 'first_name', $params, '' ) . ' ' . CRM_Array::value( 'last_name', $params, '' );
+        $contact->sort_name = CRM_Array::value( 'last_name', $params, '' ) . ', ' . CRM_Array::value( 'first_name', $params, '' );
 
         $privacy = CRM_Array::value( 'privacy', $params );
         foreach ( self::$_commPrefs as $name ) {
