@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<title>Untitled Document</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript">//<![CDATA[
+var sections = new Array('partOne', 'partTwo', 'partThree');
+function init() {
+    show('partOne');
+    document.forms['contactform'].elements['person'].focus();
+}
+function show(section) {
+    for (var i = 0; i < sections.length; i++) {
+        if (sections[i] == section) {
+            document.getElementById(sections[i]).style.display = 'block';
+        } else {
+            document.getElementById(sections[i]).style.display = 'none';
+        }
+    }
+}
+//]]></script>
+<style type="text/css">
+	body {
+		font-family:helvetica,arial,sans-serif;
+		font-size:12px;
+		background:#fff;
+	}
+	h1 {
+		font-size:24px;
+	}
+	h2{
+		font-size:16px;
+		color:#900;
+	}
+	p{
+		margin:5px;
+	}
+	input, textarea, select {
+		display:block;
+		margin:0 5px 15px 5px;
+	}
+	label {
+		display:block;
+		margin:0 5px 5px 5px;
+		font-size:13px;
+	}
+	#partOne {
+		width:250px;
+		height:350px;
+		background:#fff;
+		border-top:1px #000 dashed;
+		border-bottom:1px #000 solid;
+	}
+	#partTwo, #partThree {
+		width:250px;
+		height:350px;
+		background:#fff;
+		border-top:1px #000 dashed;
+		border-bottom:1px #000 solid;
+	}
+	#partThree {
+		z-index:2;
+	}
+</style></head>
+
+<body onload="init();">
+<h1>Contact Form</h1>
+	<form id="contactform" action=""> 
+<div style="display: block;" id="partOne">
+
+		<h2>Personal Information</h2>
+		<label>Your Name?</label>
+		<input id="person" tabindex="1" size="16" type="text">
+		<label for="email">Your e-mail address?</label>
+		<input tabindex="2" id="email" type="text">
+		<label for="subject">Your reason for contacting us?</label>
+		<select tabindex="3" id="subject" size="1"><option value="---" selected="selected">---</option><option value="Bad Link">I found a bad link.</option><option value="Problems with Site">I'm having problems with the Site</option><option value="Just Hello">I'm just saying hello.</option><option value="Work Proposal">I'd like to give you a job.</option></select>
+
+		<p><a tabindex="4" onclick="show('partTwo');return false;" onkeypress="show('partTwo');return false;" href="#partTwo">» Next</a></p>
+</div>
+<div style="display: none;" id="partTwo">
+		<h2>Additional Information</h2>
+		<label for="occupation">Your Occupation?</label>
+		<input tabindex="5" id="occupation" type="text">
+		<label for="education">Level of Education?</label>
+
+		<input tabindex="6" id="education" type="text">
+		<label for="preference">Preferred Method of Contact?</label>
+		<select tabindex="7" id="preference" size="1"><option value="---" selected="selected">Please choose</option><option value="Prefer Phone">Phone</option><option value="Prefer E-mail">E-mail</option><option value="Prefer Postal">Postal Mail</option><option value="Prefer None">I prefer not to be contacted</option></select>
+		<p><a tabindex="9" onclick="show('partOne'); return false;" onkeypress="show('partOne'); return false;" href="#partOne">« Back</a> | 
+		<a tabindex="8" onclick="show('partThree'); return false;" onkeypress="show('partThree'); return false;" href="#partThree">Next »</a></p>
+</div>
+<div style="display: none;" id="partThree">
+		<h2>Finished</h2>
+
+		<p>Thanks for answering our questions.  Please use the “Send” button
+		to whisk your comments our direction.</p>
+		<p>(Send button does nothing for this example).</p>
+		<input style="margin: 40px 0pt;" tabindex="10" value="Send" onclick="return false;" type="submit">
+		<p><a tabindex="11" onclick="show('partTwo'); return false;" onkeypress="show('partTwo'); return false;" href="#partTwo">
+		« Make Changes</a></p>
+
+</div>
+</form>
+</body></html>

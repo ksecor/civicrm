@@ -1,0 +1,137 @@
+<html><head><title>Choose A Form</title>
+
+<script src="utility.txt"></script>
+
+<script type="text/javascript">
+<!--
+
+// function switchDiv()
+//  this function takes the id of a div
+//  and calls the other functions required
+//  to show that div
+//
+function switchDiv(div_id)
+{
+  var style_sheet = getStyleObject(div_id);
+  if (style_sheet)
+  {
+    hideAll();
+    changeObjectVisibility(div_id,"visible");
+  }
+  else 
+  {
+    alert("sorry, this only works in browsers that do Dynamic HTML");
+  }
+}
+
+// function hideAll()
+//  hides a bunch of divs
+//
+function hideAll()
+{
+   changeObjectVisibility("ez","hidden");
+   changeObjectVisibility("full","hidden");
+   changeObjectVisibility("superduper","hidden");
+}
+
+// function getStyleObject(string) -> returns style object
+//  given a string containing the id of an object
+//  the function returns the stylesheet of that object
+//  or false if it can't find a stylesheet.  Handles
+//  cross-browser compatibility issues.
+//
+function getStyleObject(objectId) {
+  // checkW3C DOM, then MSIE 4, then NN 4.
+  //
+  if(document.getElementById && document.getElementById(objectId)) {
+	return document.getElementById(objectId).style;
+   }
+   else if (document.all && document.all(objectId)) {  
+	return document.all(objectId).style;
+   } 
+   else if (document.layers && document.layers[objectId]) { 
+	return document.layers[objectId];
+   } else {
+	return false;
+   }
+}
+
+function changeObjectVisibility(objectId, newVisibility) {
+    // first get a reference to the cross-browser style object 
+    // and make sure the object exists
+    var styleObject = getStyleObject(objectId);
+    if(styleObject) {
+	styleObject.visibility = newVisibility;
+	return true;
+    } else {
+	// we couldn't find the object, so we can't change its visibility
+	return false;
+    }
+}
+// -->
+</script>
+</head>
+<body>
+<h1>Which form do you need?</h1>
+<form name="the_form">
+
+<input type="radio" name="form_type" value="ez"
+  onClick="switchDiv('ez');">Easy Form
+
+<input type="radio" name="form_type" value="full"
+  onClick="switchDiv('full');">Normal Form
+
+<input type="radio" name="form_type" value="full"
+  onClick="switchDiv('superduper');">Super-Complete Form
+
+
+</form>
+
+<div id="ez" style="position:absolute;visibility:hidden;top:100px;left:5px;border-width:thick thick thick thick; border-color:green; border-style:solid;">
+<form name="ez_form" method="POST" 
+  action="http://64.175.14.218/cgi-bin/thanks.cgi">
+<table>
+<tr><td>Name:</td><td><input type="text"></td><tr>
+<tr><td>Income:</td><td><input type="text"></td></tr>
+<tr><td>Taxes already paid:</td><td><input type="text"></td></tr>
+<tr><td>Taxes owed:</td><td><input type="text"></td></tr>
+</table>
+<input type="submit">
+</form>
+</div>
+
+
+<div id="full" style="position:absolute;visibility:hidden;top:100px;left:5px;border-width:thick thick thick thick; border-color:red; border-style:solid;">
+<form name="full_form" method="POST" 
+  action="http://64.175.14.218/cgi-bin/thanks.cgi">
+<table>
+<tr><td>Name:</td><td><input type="text"></td><tr>
+<tr><td>Income:</td><td><input type="text"></td></tr>
+<tr><td>Taxes already paid:</td><td><input type="text"></td></tr>
+<tr><td>Deductions:</td><td><input type="text"></td></tr>
+<tr><td>Taxes owed:</td><td><input type="text"></td></tr>
+</table>
+<input type="submit">
+
+</form>
+</div>
+
+<div id="superduper" style="position:absolute;visibility:hidden;top:100px;left:5px;border-width:thick thick thick thick; border-color:magenta; border-style:solid;">
+<form name="full_form" method="POST" 
+  action="http://64.175.14.218/cgi-bin/thanks.cgi">
+<table>
+<tr><td>Name:</td><td><input type="text"></td><tr>
+<tr><td>Income:</td><td><input type="text"></td></tr>
+<tr><td>Taxes already paid:</td><td><input type="text"></td></tr>
+<tr><td>Deductions:</td><td><input type="text"></td></tr>
+<tr><td>Taxes owed:</td><td><input type="text"></td></tr>
+<tr><td>Air-speed velocity of unladen swallow:</td>
+
+    <td><input type="text"></td></tr>
+</table>
+<input type="submit">
+</form>
+</div>
+
+</body>
+</html>
