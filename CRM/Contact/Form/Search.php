@@ -37,7 +37,7 @@
 require_once 'CRM/Form.php';
 require_once 'CRM/SelectValues.php';
 require_once 'CRM/Selector/Controller.php';
-require_once 'CRM/Contact/Selector/Selector.php';
+require_once 'CRM/Contact/Selector.php';
 
 /**
  * Base Search / View form for *all* listing of multiple 
@@ -137,7 +137,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
         }
 
 
-        $selector   = new CRM_Contact_Selector_Selector($params);
+        $selector   = new CRM_Contact_Selector($params);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, CRM_Selector_Controller::TEMPLATE, $this);
         $controller->run();
 

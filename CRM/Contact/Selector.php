@@ -22,10 +22,21 @@
  +----------------------------------------------------------------------+
 */
 
+/**
+ *
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
 
 require_once 'CRM/Pager.php';
 require_once 'CRM/Selector/Base.php';
 require_once 'CRM/Selector/API.php';
+require_once 'CRM/Form.php';
+require_once 'CRM/Contact/BAO/Contact.php';
 
 
 /**
@@ -36,8 +47,13 @@ require_once 'CRM/Selector/API.php';
  * objects that requires contacts to be selectively listed (list / search)
  *
  */
-class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API {
-
+class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API 
+{
+    /**
+     * This defines two actions- View and Edit.
+     *
+     * @var array
+     */
     static $_links = array(
                            CRM_Action::VIEW => array(
                                                      'name'     => 'View Contact',
@@ -52,91 +68,159 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                                                      'menuName' => 'Edit Contact Details'
                                                      ),
                            );
-
+    /**
+     * This caches the content for the display system.
+     *
+     * @var string
+     */
     protected $_contact;
 
-    function __construct() {
-        $this->_contact = new CRM_Contacts_BAO_Individual();
-    
-        $this->_contact->domain_id = 1;
-    }
+    /**
+     * Class constructor
+     *
+     * @param array $params (reference ) array of parameters for query
+     *
+     * @return CRM_Contact_Selector
+     * @access public
+     */
+    function __construct(&$params) 
+    {
 
-    function &getLinks() {
-        return self::$_links;
-    }
+        CRM_Error::le_method();
 
-    function getPagerParams( $action, &$params ) {
-        $params['status']       = "Contacts %%StatusMessage%%";
+        //object of BAO_Contact_Individual for fetching the records from db
+        $this->_contact = new CRM_Contact_BAO_Contact();
+
+        CRM_Error::debug_var("params", $params);
+        
+        foreach ($params as $name => $value) {
+            $this->_contact->$name = $value;
+        }
+        
+        CRM_Error::ll_method();                
+
+    }//end of constructor
+
+
+    /**
+     * This method returns the links that are given for each search row.
+     * currently the links added for each row are 
+     * 
+     * - View
+     * - Edit
+     *
+     * @param none
+     *
+     * @return array
+     * @access public
+     *
+     */
+    function &getLinks() 
+    {
+        return CRM_Contact_Selector::$_links;
+    } //end of function
+
+    /**
+     * getter for array of the parameters required for creating pager.
+     *
+     * @param 
+     * @access public
+     */
+    function getPagerParams($action, &$params) 
+    {
+        $params['status']       = "Contact %%StatusMessage%%";
         $params['csvString']    = null;
         $params['rowCount']     = CRM_Pager::ROWCOUNT;
 
         $params['buttonTop']    = 'PagerTopButton';
         $params['buttonBottom'] = 'PagerBottomButton';
-    }
+    }//end of function
 
-    function getSortOrder( $action ) {
+    /**
+     * getter for the sorting direction for the fields which will be displayed on the form. 
+     *
+     * @param 
+     * @return array 
+     * @access public
+     */    
+    function getSortOrder($action) 
+    {
         static $order = array(
-                              'first_name' => CRM_Sort::DESCENDING,
-                              'last_name'  => CRM_Sort::DESCENDING,
-                              'id'         => CRM_Sort::ASCENDING,
+                              'crm_contact_id'        => CRM_Sort::ASCENDING,
+                              'crm_contact_sort_name' => CRM_Sort::DESCENDING,
                               );
         return $order;
-    }
+    }//end of function
 
-    function getColumnHeaders( $action ) {
+    /**
+     * getter for headers for each column of the displayed form.
+     *
+     * @param 
+     * @return array 
+     * @access public
+     */
+    function getColumnHeaders($action) 
+    {
         static $headers = array(
                                 array(
-                                      'name' => 'Contact Id',
-                                      'sort' =>'id',
+                                      'name' => 'Contact ID',
+                                      'sort' => 'crm_contact_id',
                                       ),
                                 array(
-                                      'name' => 'First Name',
-                                      'sort' => 'first_name',
+                                      'name' => 'Name',
+                                      'sort' => 'crm_contact_sort_name',
                                       ),
-                                array(
-                                      'name' => 'Last Name',
-                                      'sort' => 'last_name',
-                                      ),
+                                array('name' => 'Email'),
+                                array('name' => 'Phone'),
+                                array('name' => 'Address'),
+                                array('name' => 'City'),
+                                array('name' => 'State'),
+                                array('name' => 'Operate'),
                                 );
         return $headers;
     }
 
-    function getTotalCount( $action ) {
+
+
+    /**
+     * getter for all the database values to be displayed on the form while listing
+     *
+     * @param 
+     * @return array 
+     * @access public
+     */
+    function getTotalCount($action)
+    {
         return $this->_contact->count();
+    }//end of function
+
+
+    /**
+     * getter for all the database values to be displayed on the form while listing
+     *
+     * @param 
+     * @return array 
+     * @access public
+     */
+    function getRows($action, $offset, $rowCount, $sort)
+    {
+        return $this->_contact->getSearchRows($offset, $rowCount, $sort);
+    }
+    
+
+    function getExportColumnHeaders($action, $type = 'csv')
+    {
     }
 
-    function getRows( $action, $offset, $rowCount, $sort ) {
-        $rows = array();
-        $this->_contact->limit( $offset, $rowCount );
-        $this->_contact->orderBy( $sort->orderBy( ) );
-
-        $this->_contact->find();
-        while ( $this->_contact->fetch( ) ) {
-            $row = array();
-            $row['contact_id'] = $this->_contact->contact_id;
-            $row['first_name'] = $this->_contact->first_name;
-            $row['last_name']  = $this->_contact->last_name;
-
-            $rows[] = $row;
-        }
-        return $rows;
+    function getExportRows($action, $type = 'csv')
+    {
     }
 
-    function getTemplateFileName( $action ) {
-        $className    = get_class( $this );
-        $templateName = str_replace( '_', '/', $className ) . '.tpl';
-        return $templateName;
+    function getExportFileName($action, $type = 'csv')
+    {
     }
 
-    function getExportColumnHeaders( $action, $type = 'csv' ) {
-    }
 
-    function getExportRows( $action, $type = 'csv' ) {
-    }
-
-    function getExportFileName( $action, $type = 'csv' ) {
-    }
-
-}
+}//end of class
 
 ?>
