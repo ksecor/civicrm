@@ -44,7 +44,7 @@ class CRM_Contact_Page_View extends CRM_Page {
         MODE_NONE                  =   0,
         MODE_NOTE                  =   1,
         MODE_GROUP                 =   2,
-        MODE_REL                   =   4;
+        MODE_REL                   =   4,
         MODE_TAGS                  =   8;
 
     /**
@@ -76,7 +76,7 @@ class CRM_Contact_Page_View extends CRM_Page {
         } else if ( $this->_mode == self::MODE_NOTE ) {
             CRM_Contact_Page_Note::run( $this );
         } else if ( $this->_mode == self::MODE_TAGS ) {
-            $this->runModeNone( );
+            $this->runModeTags( );
         } 
 
         return parent::run( );
