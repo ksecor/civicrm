@@ -16,7 +16,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         parent::__construct($name, $state, $mode);
     }
     
-
+    
     /**
      * In this function we build the CRUD.php. All the quickform componenets are defined in this function
      */
@@ -32,7 +32,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                'Dr'   => 'Dr.',
                                'none' => '(none)',
                                );
-    
+        
         $suffix_select = array(
                                ' '    => '-suffix-',
                                'Jr.'  => 'Jr.',
@@ -47,7 +47,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                  'Honorific' => 'Dear [title] [last]',
                                  'Custom'    => 'Customized',
                                  );
-    
+        
         $pcm_select = array(
                             ' '      => '-no preference-',
                             'Phone'  => 'by phone', 
@@ -55,13 +55,13 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                             'Post' => 'by postal email',
                             );
         
-         $date_options = array(
-                         'language'  => 'en',
-                         'format'    => 'dMY',
-                         'minYear'   => 1900,
-                         'maxYear'   => date('Y'),
-                         );  
-
+        $date_options = array(
+                              'language'  => 'en',
+                              'format'    => 'dMY',
+                              'minYear'   => 1900,
+                              'maxYear'   => date('Y'),
+                              );  
+        
         $context_select = array(
                                 1 => 'Home', 
                                 'Work', 
@@ -100,7 +100,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                 );
         
         $this->addElement('text','offsetter',label_offset("",28));
-
+        
         // prefix
         $this->addElement('select', 'prefix', null, $prefix_select);
         
@@ -112,7 +112,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         
         // suffix
         $this->addElement('select', 'suffix', null, $suffix_select);
-       
+        
         // greeting type
         $this->addElement('select', 'greeting_type', 'Greeting type :', $greeting_select);
         
@@ -128,7 +128,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $this->add('select','preferred_communication_method', 'Prefers:',$pcm_select);
         
         // radio button for gender
-
+        
         $this->addElement('radio', 'gender', 'Gender', 'Female','female',
                           array('onclick' => "document.CRUD.elements['mdyx'].value = 'true';",'checked' => null));
         $this->addElement('radio', 'gender', 'Gender', 'Male', 'male', 
@@ -142,29 +142,28 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                           array('onclick' => "document.CRUD.elements['mdyx'].value = 'true';"));
         
         /* Entering the compact location engine */ 
-
+        
         $i = 0;
         $loc[1][$i++] = & $this->createElement('select', 'location_type_id', null, $context_select,
-                                             array('onchange' => "return validate_selected_locationid(1);"));
+                                               array('onchange' => "return validate_selected_locationid(1);"));
         $loc[1][$i++] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact', null,
-                                             array('onchange' => "location_is_primary_onclick(1);"));
-
-
+                                               array('onchange' => "location_is_primary_onclick(1);"));
+        
         $i = 0;
         $loc[2][$i++] = & $this->createElement('select', 'location_type_id', null, $context_select,
-                                             array('onchange' => "return validate_selected_locationid(2);"));
+                                               array('onchange' => "return validate_selected_locationid(2);"));
         $loc[2][$i++] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact', null,
-                                             array('onchange' => "location_is_primary_onclick(2);"));
+                                               array('onchange' => "location_is_primary_onclick(2);"));
 
         $i = 0;
         $loc[3][$i++] = & $this->createElement('select', 'location_type_id', null, $context_select,
-                                             array('onchange' => "return validate_selected_locationid(3);"));
+                                               array('onchange' => "return validate_selected_locationid(3);"));
         $loc[3][$i++] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact', null,
-                                             array('onchange' => "location_is_primary_onclick(3);"));
+                                               array('onchange' => "location_is_primary_onclick(3);"));
         $forward = $i;
-
-
-            for ($i = 1;$i <= 3;$i++) {
+        
+        
+        for ($i = 1;$i <= 3;$i++) {
             $j = $forward;
             $loc[$i][$j++] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
             $loc[$i][$j++] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
@@ -188,14 +187,14 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
             $loc[$i][$j++] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
             $loc[$i][$j++] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
         }
-
+        
         $this->addGroup($loc[1],'location1');
         $this->addGroup($loc[2],'location2');
         $this->addGroup($loc[3],'location3');
-
+        
         /* Exiting location engine */
-
-
+        
+        
         for ($i = 1; $i <= 3; $i++) {    
             $this->addElement('link', 'exph02_'."{$i}", null, 'phone_'."{$i}".'_2', '[+] another phone',
                               array('onclick' => "show('phone_{$i}_2'); hide('expand_phone_{$i}_2'); show('expand_phone_{$i}_3'); return false;"));
@@ -232,8 +231,8 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $this->addElement('link', 'hideloc3', null, 'location3', '[-] hide location',
                           array('onclick' => "hide('location3'); show('expand_loc3'); hide('expand_loc2');return false;"));
         
-
-        /* End of locationas */
+        
+        /* End of locations */
         
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82'));    
         
@@ -261,10 +260,10 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                                 'name'      => 'Cancel' ),
                                         )
                                   );
-
+        
         $this->addRules();
         $this->setDefaultValues();
-
+        
         if ($this->_mode == self::MODE_CREATE || self::MODE_UPDATE || self::MODE_DELETE) {
             if ($this->validate()) {
                 $this->process();
@@ -277,7 +276,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         
           
     }//ENDING BUILD FORM 
-  
+    
     /**
      * this function sets the default values to the specified form element
      */
@@ -308,13 +307,13 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
      */
     function addRules() 
     {
-
+        
         $this->applyFilter('_ALL_', 'trim');
         $this->addRule('first_name', t(' First name is a required field.'), 'required', null, 'client');
         $this->addRule('last_name', t(' Last name is a required field.'), 'required', null, 'client');
         $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contacts_Form_CRUD');
         //$this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
-    
+        
          for ($i = 1; $i <= 3; $i++) { 
              $this->addGroupRule('location'."{$i}", array('email_1' => array( 
                                                                              array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),                                                 'email_2' => array( 
@@ -327,7 +326,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
          
     }
     
-
+    
     /**
      * this function is called when the form is submitted.
      */
@@ -396,7 +395,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                 $varname = "contact_location".$lngi;
                 $varname1 = "location".$lngi;
                 
-                if (strlen(trim($_POST[$varname1]['street'])) > 0  || strlen(trim($_POST[$varname1]['email_1'])) > 0 || strlen(trim($_POST[$varname1]['phone_1'])) > 0) {
+                if (strlen(trim($_POST[$varname1]['street_address'])) > 0  || strlen(trim($_POST[$varname1]['email_1'])) > 0 || strlen(trim($_POST[$varname1]['phone_1'])) > 0) {
                     
                     if(!strlen($str_error)){ //proceed if there are no errors
                         // create a object of crm location
@@ -412,14 +411,14 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                     }
                 
                     if(!strlen($str_error)){ //proceed if there are no errors
-                        if (strlen(trim($_POST[$varname1]['street'])) > 0) {
+                        if (strlen(trim($_POST[$varname1]['street_address'])) > 0) {
                             //create the object of crm address
                             $varaddress = "contact_address".$lngi;
                             $$varaddress = new CRM_Contacts_DAO_Address();
                             
                             $$varaddress->location_id = $$varname->id;
-                            $$varaddress->street_address = $_POST[$varname1]['street'];
-                            $$varaddress->supplemental_address_1 = $_POST[$varname1]['supplemental_address'];
+                            $$varaddress->street_address = $_POST[$varname1]['street_address'];
+                            $$varaddress->supplemental_address_1 = $_POST[$varname1]['supplemental_address_1'];
                             $$varaddress->city = $_POST[$varname1]['city'];
                             // $$varaddress->county_id = $_POST[$varname1]['county_id'];
                             $$varaddress->county_id = 1;
@@ -510,7 +509,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                     $$var_im->is_primary = 0;
                                 }
                                 
-                                $$var_im->location_id = $$varname->id;
+				$$var_im->location_id = $$varname->id;
                                 $$var_im->im_service_id =$_POST[$varname1][$var_service];
                                 $$var_im->im_screenname =$_POST[$varname1][$var_screenname];
                                 
@@ -534,9 +533,10 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         if(strlen($str_error)){ //proceed if there are no errors
             $contact->query('ROLLBACK');
             form_set_error('first_name', t($str_error));
-            $error['first_name'] = t('Database error, please try again.');
         } else {
             $contact->query('COMMIT');
+            form_set_error('first_name', t('Contact Individual has been added successfully.'));
+	    header("Location:".$PHP_SELF."?reset=1");
         }
         
     }//end of function
