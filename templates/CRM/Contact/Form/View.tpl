@@ -34,7 +34,7 @@
 
   <div class="col1">
     {$loc.address.street_address}<br />
-    {$loc.address.supplemental_address_1}<br />
+    {if $loc.address.supplemental_address_1}{$loc.address.supplemental_address_1}<br />{/if}
     {$loc.address.city}, {$loc.address.state_province} {$loc.address.postal_code}<br />
     {$loc.address.country}
   </div>

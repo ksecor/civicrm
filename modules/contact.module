@@ -201,6 +201,7 @@ function contact_menu($may_cache)
         $items[] = array(
                          'path'  => 'crm',
                          'title' => t('Contact Management'),
+                         'callback' => 'crm_invoke',
                          'access' => user_access('view contact'),
                          'type'   => MENU_IS_ROOT | MENU_VISIBLE_IN_TREE | MENU_CALLBACK,
                          'pid'    => 0,
@@ -221,21 +222,7 @@ function contact_menu($may_cache)
                          'weight' => 0
                          );
         
-        $items[] = array(
-                         'path'  => 'crm/contact/groups',
-                         'title' => t('Manage Groups'),
-                         'type'   => MENU_NORMAL_ITEM,
-                         'weight' => 1
-                         );
-        
-        $items[] = array(
-                         'path'  => 'crm/contact/import',
-                         'title' => t('Import Contacts'),
-                         'type'   => MENU_NORMAL_ITEM,
-                         'weight' => 2
-                         );
-        
-        $items[] = array(
+       $items[] = array(
                          'path'  => 'crm/contact/add',
                          'title' => t('Add Contact'),
                          'type'   => MENU_CALLBACK,
@@ -269,7 +256,21 @@ function contact_menu($may_cache)
                          'weight' => 2
                          );
         
-    }
+        $items[] = array(
+                         'path'  => 'crm/groups',
+                         'title' => t('Manage Groups'),
+                         'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 1
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm/import',
+                         'title' => t('Import Contacts'),
+                         'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 2
+                         );
+        
+     }
 
    return $items;
 }
@@ -291,42 +292,22 @@ function contact_init()
     PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Error', 'callback'));
 }
 
-/**
- * Implementation of hook_validate().
- * Experimenting w/ input validation models. Setting error for both top of page and inline displays.
- * Will replace this w/ logic which loops on array of form field defs in next iteration.
- */
-function contact_validate(&$contact) 
-{
-    if (isset($contact['first_name']) && !strlen($contact['first_name'])) {
-        form_set_error('first_name', t('First Name is required.'));
-    }
-    if (!strlen($contact['first_name'])) {
-        $error['first_name'] = '<div class="error">';
-        $error['first_name'] .= t('First Name field can not be blank.');
-        $error['first_name'] .= '</div>';
-    }
-    if (isset($contact['last_name']) && !strlen($contact['last_name'])) {
-        form_set_error('last_name', t('Last Name is required.'));
-    }
-    if (!strlen($contact['last_name'])) {
-        $error['last_name'] = '<div class="error">';
-        $error['last_name'] .= t('Last Name field can not be blank.');
-        $error['last_name'] .= '</div>';
-    }
-    return $error;
-}
 
 /**
- * Menu callback; dispatches control to the appropriate operation handler
+ * Menu callbacks; dispatches control to the appropriate handler
  */
-function contact_admin_invoke($operation) 
+function contact_admin_invoke() 
 {
     $content = "the contact administrator invoked $operation";
     print theme('page', $content);
 }
 
-function contact_invoke($operation) 
+function crm_invoke()
+{
+    $content = "";
+}
+
+function contact_invoke() 
 {
     $content = "";
 

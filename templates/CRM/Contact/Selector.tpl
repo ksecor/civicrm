@@ -19,7 +19,7 @@
   <tr class="{cycle values="odd-row,even-row"}">
     <td><input name="chk[{counter}]" type="checkbox" value="{$row.contact_id}"></td>
     <td>{$row.c_type}</td>	
-    <td class="nowrap"><a href="{$row.view}">{$row.sort_name}</a></td>
+    <td><a href="{$row.view}">{$row.sort_name}</a></td>
     <td>{$row.street_address|truncate:22:"...":true}</td>
     <td>{$row.city}</td>
     <td>{$row.state}</td>
@@ -27,7 +27,7 @@
     <td>{$row.country}</td>
     <td>{$row.email|truncate:17:"...":true}</td>
     <td>{$row.phone}</td>
-    <td class="nowrap"><a href="{$row.view}">View</a>&nbsp;|&nbsp;<a href="{$row.edit}">Edit</a></td>
+    <td><a href="{$row.view}">View</a><br><a href="{$row.edit}">Edit</a></td>
   </tr>
   {/foreach}
 

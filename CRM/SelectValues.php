@@ -59,7 +59,7 @@ class CRM_SelectValues {
                                       ''    => '-suffix-',
                                       'Jr'  => 'Jr.',
                                       'Sr'  => 'Sr.',
-                                      '||'   =>'||',
+                                      'II'   =>'II',
                                       'none' => '(none)',
                                       );
 
