@@ -182,7 +182,10 @@ class CRM_Contact_Selector_Selector extends CRM_Selector_Base implements CRM_Sel
                                        'name' => 'Email',
                                        'sort' => 'crm_contact_email',
                                        ),
-                                
+                                 array(
+                                       'name' => '&nbsp;',
+                                       'sort' => '',
+                                       ),
                                 );
         return $headers;
     }//end of function
@@ -229,7 +232,7 @@ class CRM_Contact_Selector_Selector extends CRM_Selector_Base implements CRM_Sel
             $row['contact_type']                   = (strlen(trim($this->_contact->crm_contact_contact_type))) ? $this->_contact->crm_contact_contact_type : "-----";
             $row['preferred_communication_method'] = (strlen(trim($this->_contact->crm_contact_preferred_communication_method))) ? $this->_contact->crm_contact_preferred_communication_method : "-----";
             $row['email'] = "yvb@yvb.yvb";
-
+            $row['edit']                          = 'index.php?q=/crm/contact/edit/'.$this->_contact->crm_contact_id;
             $rows[] = $row;
         }//end of while loop
         // print_r($rows); 
