@@ -83,52 +83,63 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             crm.email.pri
             QS;
         */
-        /*   
-        $query_string = "
-            SELECT distinct(crm_contact.id) as crm_contact_id, crm_contact.sort_name as crm_contact_sort_name,
-            crm_address.street_address as crm_address_street_address, crm_address.city as crm_address_city,
-            crm_state_province.name as crm_state_province_name,
-            crm_email.email as crm_email_email,
-            crm_phone.phone as crm_phone_phone
-            FROM crm_contact 
-                 left outer join crm_location on (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-                 left outer join crm_address on (crm_location.id = crm_address.location_id )
-                 left outer join crm_phone on (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
-                 left outer join crm_email on (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                 left outer join  crm_state_province on (crm_address.state_province_id = crm_state_province.id)
-            ";
 
 
-        $query_string .= " ORDER BY " . $sort->orderBy(); 
-        $query_string .= " LIMIT $offset, $rowCount ";
+        $str_select = $str_from = $str_where = $str_order = $str_limit = "";
+        
+        $str_select = "SELECT crm_contact.id as crm_contact_id, crm_contact.sort_name as crm_contact_sort_name,
+                              crm_address.street_address as crm_address_street_address, crm_address.city as crm_address_city,
+                              crm_state_province.name as crm_state_province_name, crm_email.email as crm_email_email,
+                              crm_phone.phone as crm_phone_phone, crm_contact.contact_type as crm_contact_contact_type";
+        
+        $str_from = " FROM crm_contact 
+                        left outer join crm_location on (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                        left outer join crm_address on (crm_location.id = crm_address.location_id )
+                        left outer join crm_phone on (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+                        left outer join crm_email on (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                        left outer join  crm_state_province on (crm_address.state_province_id = crm_state_province.id)";
 
-        //CRM_Error::debug_var("query_string", $query_string); 
+        // add where clause if any condition exists..
+        if (strlen($this->contact_type) || strlen(trim($this->sort_name))){
+            $str_where = " WHERE ";
+        }
 
+        // adding contact_type in where
+        if (strlen($this->contact_type)) {
+            $str_where .= " crm_contact.contact_type ='".$this->contact_type."'";
+        }
+
+        // adding sort_name
+        if (strlen(trim($this->sort_name))) {
+            if (strlen($this->contact_type)) { // check if contact_type is present..
+                $str_where .= " AND LOWER(crm_contact.sort_name) like '%".strtolower($this->sort_name)."%'";
+            } else {
+                $str_where .= " LOWER(crm_contact.sort_name) like '%".strtolower($this->sort_name)."%'";
+            }   
+        }
+        
+        $str_order = " ORDER BY " . $sort->orderBy(); 
+        $str_limit = " LIMIT $offset, $rowCount ";
+
+        // building the query string
+        $query_string = $str_select.$str_from.$str_where.$str_order.$str_limit;
+            
         $this->query($query_string);
-        */
 
+        /*
         $this->selectAdd( );
-        
+
         $location_DAO->joinAdd($email_DAO, "LEFT");
-        
-        //$location_DAO->whereAdd($email_DAO->location_id = $location_DAO->id );
-        //$location_DAO->whereAdd($email_DAO->getTableName().'.id = '.$location_DAO->getTableName().'.id' );
 
         $location_DAO->joinAdd($phone_DAO, "LEFT");
-        // $location_DAO->whereAdd($phone_DAO->location_id = $location_DAO->id );
-        //$location_DAO->whereAdd($phone_DAO->getTableName().'.id = '.$location_DAO->getTableName().'.id' );
 
         $location_DAO->joinAdd($address_DAO, "LEFT");
-        //$location_DAO->whereAdd($address_DAO->location_id = $location_DAO->id );
-        //$location_DAO->whereAdd($address_DAO->getTableName().'.id = '.$location_DAO->getTableName().'.id' );
 
-        $this->_join( 'AND '.$location_DAO->getTableName().'.is_primary = 1' );
         $this->joinAdd($location_DAO, "LEFT");         
-        //$location_DAO->whereAdd($location_DAO->getTableName().'.is_primary = 1' );
-        // $this->_join( 'AND '.$location_DAO->getTableName().'.is_primary = 1' );
 
-        //$location_DAO->whereAdd($location_DAO->getTableName().'.contact_id = '.$location_DAO->getTableName().'.id AND '.$location_DAO->getTableName().'.is_primary = 1' );
-        //$location_DAO->whereAdd($location_DAO->getTableName().'.is_primary = 1' );
+        $this->_join = preg_replace('/\s\s+/', ' ', $this->_join);
+
+        $this->_join = str_replace(' LEFT JOIN crm.crm_location ON crm_location.contact_id=crm_contact.id', ' LEFT JOIN crm.crm_location ON crm_location.contact_id = crm_contact.id AND crm_location.is_primary=1', $this->_join);
 
         $this->selectAs($this,'crm_contact_%s');
         $this->selectAs($email_DAO, 'crm_email_%s' );
@@ -139,39 +150,41 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         $this->orderBy($sort->orderBy());
         $this->limit($offset, $rowCount);
-        
 
         $this->find();
+        */
 
-        while($this->fetch())
-            {
-                $row = array();
-                $row['contact_id'] = $this->crm_contact_id;
-                $row['sort_name'] = $this->crm_contact_sort_name;
-                $row['email'] = $this->crm_email_email;
-                $row['phone'] = $this->crm_phone_phone;
-                $row['street_address'] = $this->crm_address_street_address;
-                $row['city'] = $this->crm_address_city;
-                $row['state'] = $this->state_province_name;
+        while($this->fetch()) {
+            $row = array();
+            $row['contact_id'] = $this->crm_contact_id;
+            $row['sort_name'] = $this->crm_contact_sort_name;
+            $row['email'] = $this->crm_email_email;
+            $row['phone'] = $this->crm_phone_phone;
+            $row['street_address'] = $this->crm_address_street_address;
+            $row['city'] = $this->crm_address_city;
+            $row['state'] = $this->state_province_name;
+            
+            switch ($this->crm_contact_contact_type) {
+            case 'Individual' :
                 $row['edit']  = 'index.php?q=/crm/contact/edit/'.$this->crm_contact_id;
                 $row['view']  = 'index.php?q=/crm/contact/view/'.$this->crm_contact_id;
-                $rows[] = $row;
-
-                /*                $row = array();
-                $row['contact_id'] = $this->crm_contact_id;
-                $row['sort_name'] = $this->crm_contact_sort_name;
-                $row['email'] = $this->crm_email_email;
-                $row['phone'] = $this->crm_phone_phone;
-                $row['street_address'] = $this->crm_address_street_address;
-                $row['city'] = $this->crm_address_city;
-                $row['state'] = $this->crm_state_province_name;
-                $row['edit']  = 'index.php?q=/crm/contact/edit/'.$this->crm_contact_id;
-                $row['view']  = 'index.php?q=/crm/contact/view/'.$this->crm_contact_id;
-                $rows[] = $row;*/
+                break;
+            case 'Household' :
+                $row['edit']  = 'index.php?q=/crm/contact/edit_house/'.$this->crm_contact_id;
+                $row['view']  = 'index.php?q=/crm/contact/view_house/'.$this->crm_contact_id;
+                break;
+            case 'Organization' :
+                $row['edit']  = 'index.php?q=/crm/contact/edit_org/'.$this->crm_contact_id;
+                $row['view']  = 'index.php?q=/crm/contact/view_org/'.$this->crm_contact_id;
+                break;
+                
             }
+            
+            $rows[] = $row;
+        }
         return $rows;
     }
-
+    
 
 
     function fetch() 
