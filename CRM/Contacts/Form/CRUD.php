@@ -97,6 +97,8 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                 1172 => 'Poland', 
                                 1128 => 'United States'
                                 );
+        
+        $this->addElement('text','offsetter',label_offset("",28));
 
         // prefix
         $this->addElement('select', 'prefix', null, $prefix_select);
@@ -109,7 +111,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         
         // suffix
         $this->addElement('select', 'suffix', null, $suffix_select);
-        
+       
         // greeting type
         $this->addElement('select', 'greeting_type', 'Greeting type :', $greeting_select);
         
@@ -184,17 +186,17 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $loc1[$i++] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
         $loc1[$i++] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
         $loc1[$i++] = & $this->createElement('select','phone_type_2', null, $phone_select);
-        $loc1[$i++] = & $this->createElement('text', 'phone_2', 'Other Phone:', array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('text', 'phone_2', label_offset("Other Phone:",4+5), array('size' => '37px'));
         $loc1[$i++] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
-        $loc1[$i++] = & $this->createElement('text', 'phone_3',  'Other Phone:', array('size' => '37px'));
-        $loc1[$i++] = & $this->createElement('text', 'email_1', 'Email:', array('size' => '47px'));
-        $loc1[$i++] = & $this->createElement('text', 'email_2', 'Other Email:', array('size' => '47px'));
-        $loc1[$i++] = & $this->createElement('text', 'email_3', 'Other Email:', array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('text', 'phone_3', label_offset("Other Phone:",4+5) , array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('text', 'email_1', "Email:", array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('text', 'email_2', label_offset("Other Email:",5+5), array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('text', 'email_3', label_offset("Other Email:",5+5), array('size' => '47px'));
         $loc1[$i++] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
         $loc1[$i++] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
-        $loc1[$i++] = & $this->createElement('select', 'im_service_id_2',  'Instant Message:', $im_select);
+        $loc1[$i++] = & $this->createElement('select', 'im_service_id_2',  label_offset('Instant Message:',5), $im_select);
         $loc1[$i++] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
-        $loc1[$i++] = & $this->createElement('select','im_service_id_3',  'Instant Message:', $im_select);
+        $loc1[$i++] = & $this->createElement('select','im_service_id_3',  label_offset('Instant Message:',5), $im_select);
         $loc1[$i++] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
         $loc1[$i++] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
         $loc1[$i++] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
@@ -202,8 +204,8 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $loc1[$i++] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
         $loc1[$i++] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
         $loc1[$i++] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
-        
-        
+
+
         /* Entering location cabin 2 */
         $i = 0;
         $loc2[$i++] = & $this->createElement('select', 'location_type_id', null, $context_select,
@@ -391,9 +393,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         
     }
     
-  
-    
-    /**
+       /**
      * this function is called when the form is submitted.
      */
     function process() 
@@ -607,4 +607,14 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
     }//end of function
     
 }
+
+    function label_offset($str,$num)
+    {
+        $return_string = "";
+        for ($i = 0; $i < $num; $i++) {
+            $return_string = $return_string . " &nbsp;"; 
+        }
+        return $str . $return_string;
+    }
+
 ?>
