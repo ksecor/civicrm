@@ -48,11 +48,11 @@ class CRM_Array {
      * @access public
      *
      */
-    static function value( $key, &$list ) {
+    static function value( $key, &$list, $default = null ) {
         if ( is_array( $list ) ) {
-            return array_key_exists( $key, $list ) ? $list[$key] : null;
+            return array_key_exists( $key, $list ) ? $list[$key] : $default;
         }
-        return null;
+        return $default;
     }
 
     /**

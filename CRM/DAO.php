@@ -220,6 +220,18 @@ abstract class CRM_DAO extends DB_DataObject {
         return $table;
     }
 
+    function save( ) {
+        if ( $this->id ) {
+            if ( ! $this->update( ) ) {
+                CRM_Error::addError( );
+            }
+        } else {
+            if ( ! $this->insert( ) ) {
+                CRM_Error::addError( );
+            }
+        }
+    }
+
 }
 
 ?>

@@ -35,6 +35,15 @@
 require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
 
 class CRM_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
+    static $_sizeMapper = array(
+                                2  => 'two',
+                                4  => 'four',
+                                8  => 'eight',
+                                12 => 'twelve',
+                                20 => 'medium',
+                                30 => 'big',
+                                45 => 'huge',
+                               );
 
     /*
      * Creates an array representing an element containing
@@ -50,12 +59,16 @@ class CRM_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
      * @return array
      */
     function _elementToArray(&$element, $required, $error) {
+        self::updateAttributes($element, $required, $error);
+
         $el = parent::_elementToArray($element, $required, $error);
 
         // add label html
-        if ( ! empty($el['label']) && ! empty( $el['name'] ) ) {
+        if ( ! empty($el['label']) ) {
             $id = $element->getAttribute('id');
-            $el['label'] = '<label for="' . $id . '">' . $el['label'] . '</label>';
+            if ( ! empty( $id ) ) {
+                $el['label'] = '<label for="' . $id . '">' . $el['label'] . '</label>';
+            }
         }
 
         // $el['required'] = $required ? theme('mark') : null;
@@ -63,5 +76,43 @@ class CRM_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
                        
         return $el;
     }
-  
+
+    function updateAttributes(&$element, $required, $error) {
+
+        // lets create an id for all input elements, so we can generate nice label tags
+        // to make it nice and clean, we'll just use the elementName if it is non null
+        if (!$element->getAttribute('id')) {
+            $name = $element->getAttribute('name');
+            if ($name) {
+                $element->updateAttributes(array('id' => $name ));
+            } else {
+                $element->_generateId( );
+            }
+        }
+        
+        $class = $element->getAttribute('class');
+        $type  = $element->getType( );
+        if ( empty( $class ) ) {
+            $class = 'form-' . $type;
+            
+            if ( $type == 'text' ) {
+                $size   = $element->getAttribute('size');
+                if (! empty( $size ) ) {
+                    if ( array_key_exists( $size, self::$_sizeMapper ) ) {
+                        $class = $class . ' ' . self::$_sizeMapper[$size];
+                    }
+                }
+            }
+        }
+
+        if ( $required ) {
+            $class .= ' required';
+        }
+
+        if ( $error ) {
+            $class .= ' error';
+        }
+        $element->updateAttributes( array( 'class' => $class ) );
+    }
+
 } // end CRM_Form_Renderer

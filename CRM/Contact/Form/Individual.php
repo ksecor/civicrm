@@ -394,10 +394,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $individualAttrs =& CRM_Contact_BAO_Individual::getAttributes( );
 
         // first_name
-        $this->addElement('text', 'first_name', 'First Name', $individualAttrs['first_name'] );
+        $this->add('text', 'first_name', 'First Name', $individualAttrs['first_name'], true );
         
         // last_name
-        $this->addElement('text', 'last_name', 'Last Name', $individualAttrs['last_name'] ); 
+        $this->add('text', 'last_name', 'Last Name', $individualAttrs['last_name'], true ); 
         
         // suffix
         $this->addElement('select', 'suffix', null, CRM_SelectValues::$suffixName);
@@ -466,12 +466,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $str_error = ""; // error is recorded  if there are any errors while inserting in database
 
         // action is taken depending upon the mode
-        switch ($this->_mode) {
-        case self::MODE_UPDATE:
+        if ($this->_mode) {
             $lng_contact_id = $_SESSION['id'];
-            break;
-        case self::MODE_VIEW:
-            break;
         }    
         
         // store the submitted values in an array

@@ -75,18 +75,18 @@ class CRM_Form extends HTML_QuickForm_Page {
      * @var const string
      */
     const
-    ATTR_TEXT                  = 'size=30 maxlength=60'      ,
-        ATTR_TEXT_TINY             = 'size=10 maxlength=10'      ,
-        ATTR_TEXT_SMALL            = 'size=30 maxlength=30'      ,
-        ATTR_TEXT_LARGE            = 'size=65 maxlength=100'     ,
-        ATTR_TEXTAREA              = 'rows=10 cols=65'           ,
-        ATTR_TEXTAREA_NOWRAP       = 'rows=10 cols=65 wrap="off"',
-        ATTR_TEXTAREA_SMALL        = 'rows=4 cols=60'            ,
-        ATTR_TEXTAREA_SMALL_NOWRAP = 'rows=4 cols=60 wrap="off"' ,
-        ATTR_PHONE_TEXT            = 'size=22 maxlength=22'      ,
-        ATTR_EXT_TEXT              = 'size=4 maxlength=6'        ,
-
-        ATTR_SPACING               = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+        ATTR_SPACING = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+        TWO          =  2,
+        FOUR         =  4,
+        EIGHT        =  8,
+        TWELVE       = 12,
+        SIXTEEN      = 16,
+        TWENTY       = 20,
+        MEDIUM       = 20,
+        THIRTY       = 30,
+        BIG          = 30,
+        FORTYFIVE    = 45,
+        HUGE         = 45;
 
     /**
      * constants for various modes that the form can operate as

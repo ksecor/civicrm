@@ -168,7 +168,37 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     {
         return parent::fetch();
     }
-  
+
+    static function add( &$params, $contactId = null ) {
+        $contact = new CRM_Contact_BAO_Contact( );
+        
+        $contact->domain_id = 1;
+        
+        static $properties = array( 'contact_type', 'legal_id', 'external_id',
+                                    'home_URL', 'image_URL', 'source', 'preferred_communication_method',
+                                    'privacy', 'hash' );
+        foreach ( $properties as $property ) {
+            $contact->$property = CRM_Array::value( $property, $params );
+        }
+        foreach ( $properties as $property ) {
+            $contact->$property = CRM_Array::value( $property, $params );
+        }
+
+        $contact->sort_name = $a_Values['first_name']." ".$a_Values['last_name'];
+
+        $privacy = $params['privacy'];
+        static $commPrefs = array( 'do_not_phone', 'do_not_email', 'do_not_mail' );
+        foreach ( $commPrefs as $property ) {
+            $contact->$property = CRM_Array::value( $property, $privacy, false );
+        }
+
+        $id = CRM_Array::value( 'contact_id', $params );
+        if ( $id ) {
+            $contact->id = $id;
+        }
+        $contact->save( );
+    }
+
 }
 
 ?>
