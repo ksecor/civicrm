@@ -499,7 +499,8 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                             $$varaddress->street_address = $_POST[$varname1]['street'];
                             $$varaddress->supplemental_address_1 = $_POST[$varname1]['supplemental_address'];
                             $$varaddress->city = $_POST[$varname1]['city'];
-                            $$varaddress->county = $_POST[$varname1]['county'];
+                            // $$varaddress->county_id = $_POST[$varname1]['county_id'];
+                            $$varaddress->county_id = 1;
                             $$varaddress->state_province_id = $_POST[$varname1]['state_province_id'];
                             $$varaddress->postal_code = $_POST[$varname1]['postal_code'];
                             $$varaddress->usps_adc = $_POST[$varname1]['usps_adc'];
