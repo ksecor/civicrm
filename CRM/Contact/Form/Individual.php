@@ -350,8 +350,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function postProcess( ) 
     {
-        if ( $this->_mode == MODE_ADD ||
-             $this->_mode == MODE_UPDATE ) {
+
+        if ( $this->_mode == self::MODE_ADD || $this->_mode == self::MODE_UPDATE ) {
             $this->_addPostProcess();
         }    
     }
@@ -448,6 +448,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     private function _addPostProcess() 
     { 
+
         $lng_contact_id = 0; // variable for crm_contact 'id'
         $str_error = ""; // error is recorded  if there are any errors while inserting in database
 
