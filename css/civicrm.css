@@ -65,13 +65,13 @@ div.status {
 
 #crm-container div.form-item span.labels {
   float: left;
-  width: 20%;
+  width: 25%;
   text-align: left;
 }
 
 #crm-container div.form-item span.fields {
   float: right;
-  width: 80%;
+  width: 75%;
   text-align: left;
 } 
 
@@ -197,4 +197,24 @@ div.crm-pager a {
   float: right;
   margin-left: 8px;
   width: auto;
+}
+
+/*
+**Styles for Advanced Search Page
+*/
+
+#crm-container .float-col1 {
+  float: left;
+  width: 30%;
+  margin-left: 5%;	  	 
+} 
+
+#crm-container .float-col2 {
+  float: left;
+  width: 30%;		
+}
+
+#crm-container .float-col3 {
+  float: right;
+  width: 35%;
 }
