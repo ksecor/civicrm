@@ -17,7 +17,8 @@
 	{* $form.hidden serves as a place holder for all the hidden elements defined in the quick form*}
 
 	 {if $form.hidden}
-	 {$form.hidden}{/if}
+	   {$form.hidden}
+	 {/if}
 
 	{* This block checks if there are errors in the form and generates the HTML for display*}
 	{* $form.errors is set normally when the form is relayed from the server after processing *}

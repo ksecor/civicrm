@@ -103,7 +103,10 @@ class CRM_Contact_Form_Contact extends CRM_Form
             }
             $this->_contactType = $contact->contact_type;
         } else {
-            $this->_contactType = $_GET['c_type'];
+            $this->_contactType = CRM_Array::value( 'c_type', $_REQUEST );
+            if ( ! $this->_contactType ) {
+                CRM_Error::fatal( 'Invalid contact type' );
+            }
         }
     }
 

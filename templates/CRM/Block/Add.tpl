@@ -18,6 +18,7 @@
 
 <input type="hidden" name="location[1][location_type_id]" value="1" />
 <input type="hidden" name="location[1][is_primary]"       value="1" />
+<input type="hidden" name="c_type"                        value="Individual" />
 
 <div class="form-item"><input type="submit" name="_qf_Contact_next" value="Save" class="form-submit" /></div>
 
