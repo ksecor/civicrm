@@ -67,7 +67,7 @@
 
 
  <div id = "demographics[show]" class="comment">
-    {$form.demographics.show.html}
+    {$demographics.show}
  </div>
 
  <div id="demographics">
@@ -85,7 +85,7 @@
         {$form.is_deceased.label}
     </div>
     <div id="demographics[hide]" class="box">
-        {$form.demographics.hide.html}
+        {$demographics.hide}
     </div>
  </fieldset>
  </div>
@@ -94,7 +94,7 @@
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
  <div id = "notes[show]" class="comment">
-    {$form.notes.show.html}
+    {$notes.show}
  </div>
 
  <div id = "notes">
@@ -107,7 +107,7 @@
         </div>
     </div>    
 	<div id="notes[hide]" class="box">
-        {$form.notes.hide.html}
+        {$notes.hide}
         </div>
  </fieldset>
  </div> <!-- End of "notes" div -->

@@ -49,9 +49,14 @@ class SmartyTemplate extends Smarty {
 
     $this->template_dir = $compileDir;
     $this->compile_dir  = $templateDir;
-    $this->cache_dir    = $compileDir . '/cache/';
     $this->use_sub_dirs = true;
-    $this->caching      = true;
+
+    /**
+     * for decent speedups enable caching, note that this messes up debugging etc,
+     * so might be worth doing only in production
+     */
+    $this->cache_dir    = $compileDir . '/cache/';
+    $this->caching      = false;
     $this->debugging    = false;
     $this->plugins_dir  = array ( CRM_SMARTYDIR . 'plugins', 'crm/CRM/Smarty/plugins' );
   }

@@ -92,14 +92,29 @@ class CRM_ShowHideBlocks {
         }
     }
 
+    function linkHtml( $name, $href, $text, $js ) {
+        return '<a name="' . $name . '" id="' . $name . '" href="' . $href . '" ' . $js . ">$text</a>";
+    }
+
     function links( $form, $prefix, $showLinkText, $hideLinkText ) {
         $showCode = "show('${prefix}'); hide('${prefix}[show]'); return false;";
         $hideCode = "hide('${prefix}'); show('${prefix}[show]'); return false;";
+        
+        $values = array();
+        $values['show'] = $this->linkHtml("${prefix}[show]", "#${prefix}", $showLinkText, "onclick=\"$showCode\"");
+        $values['hide'] = $this->linkHtml("${prefix}[hide]", "#${prefix}", $hideLinkText, "onclick=\"$hideCode\"");
+        $form->assign( $prefix, $values);
 
+        /**
+         * creating and using form elements seems quite expensive, and hence we bypass QFC for this.
+         * note that we introduce a fair number of show/hide links and hence this is a decent savings.
+         * we need to figure out how to handle nested arrays, defering for now
+         */
         $form->addElement('link', "${prefix}[show]", null, "#${prefix}", $showLinkText,
                           array( 'onclick' => "$showCode" ));
         $form->addElement('link', "${prefix}[hide]", null, "#${prefix}", $hideLinkText,
                           array('onclick' => "$hideCode" ));
+        **/
     }
 
     function linksForArray( $form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText ) {

@@ -480,7 +480,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      * assign value to name in template
      *
      * @param string $name  name  of variable
-     * @param string $value value of varaible
+     * @param mixed $value value of varaible
      *
      * @return void
      * @access public
