@@ -39,26 +39,26 @@
 	   for (i=0; i<2; i++) {
 
 		  if (document.forms['CRUD'].elements['location1[phone_'+String(i+2)+']'].value != '') {
-    	    	      document.getElementById('phone0_'+String(i+2)+'_1').style.display = 'block'; 
-		      document.getElementById('expand_phone0_'+String(i+2)+'_1').style.display = 'none';
+    	    	      document.getElementById('phone_1_'+String(i+2)).style.display = 'block'; 
+		      document.getElementById('expand_phone_1_'+String(i+2)).style.display = 'none';
  		      if (i<1) {
-			document.getElementById('expand_phone0_'+String(i+3)+'_1').style.display = 'block';
+			document.getElementById('expand_phone_1_'+String(i+3)).style.display = 'block';
 		    }
 		}
 
 		  if (document.forms['CRUD'].elements['location1[im_screenname_'+String(i+2)+']'].value != '') {
-		    document.getElementById('IM0_'+String(i+2)+'_1').style.display = 'block';
-	            document.getElementById('expand_IM0_'+String(i+2)+'_1').style.display = 'none';
+		    document.getElementById('IM_1_'+String(i+2)).style.display = 'block';
+	            document.getElementById('expand_IM_1_'+String(i+2)).style.display = 'none';
 		    if (i<1) {
-			document.getElementById('expand_IM0_'+String(i+3)+'_1').style.display = 'block';
+			document.getElementById('expand_IM_1_'+String(i+3)).style.display = 'block';
 		    }
 		}		        
              
 		  if (document.forms['CRUD'].elements['location1[email'+email_name_tail[i]+']'].value != '') {
-		   document.getElementById('email0_'+String(i+2)+'_1').style.display = 'block'; 
-		   document.getElementById('expand_email0_'+String(i+2)+'_1').style.display = 'none';
+		   document.getElementById('email_1_'+String(i+2)).style.display = 'block'; 
+		   document.getElementById('expand_email_1_'+String(i+2)).style.display = 'none';
 		    if (k<1) {
-		      document.getElementById('expand_email0_'+String(i+3)+'_1').style.display = 'block';
+		      document.getElementById('expand_email_1_'+String(i+3)).style.display = 'block';
 		    }
 		}
 
@@ -87,28 +87,28 @@
 					document.getElementById('expand_loc'+String(i+3)).style.display = 'block';
 				    }
 				    for (k=0; k<2; k++) {
-
+					
 		  			  if (document.forms['CRUD'].elements[location_name[i]+'[phone_'+String(k+2)+']'].value != '') {
-					    document.getElementById('phone0_'+String(k+2)+'_'+String(i+2)).style.display = 'block';
-		    		            document.getElementById('expand_phone0_'+String(k+2)+'_'+String(i+2)).style.display = 'none';
+					    document.getElementById('phone_'+String(i+2)+'_'+String(k+2)).style.display = 'block';
+		    		            document.getElementById('expand_phone_'+String(i+2)+'_'+String(k+2)).style.display = 'none';
  		    			    if (k<1) {
-					      document.getElementById('expand_phone0_'+String(k+3)+'_'+String(i+2)).style.display = 'block';
+					      document.getElementById('expand_phone_'+String(i+3)+'_'+String(k+2)).style.display = 'block';
 		    		            }
 				        }
 				
 		  			  if (document.forms['CRUD'].elements[location_name[i]+'[im_screenname_'+String(k+2)+']'].value != '') {
-					    document.getElementById('IM0_'+String(k+2)+'_'+String(i+2)).style.display = 'block';
-					    document.getElementById('expand_IM0_'+String(k+2)+'_'+String(i+2)).style.display = 'none';
+					    document.getElementById('IM_'+String(i+2)+'_'+String(k+2)).style.display = 'block';
+					    document.getElementById('expand_IM_'+String(i+2)+'_'+String(k+2)).style.display = 'none';
 					    if (k<1) {
-					      document.getElementById('expand_IM0_'+String(k+3)+'_'+String(i+2)).style.display = 'block';
+					      document.getElementById('expand_IM_'+String(i+3)+'_'+String(k+2)).style.display = 'block';
 				            }
 					}		        
 
 		  			  if (document.forms['CRUD'].elements[location_name[i]+'[email'+email_name_tail[k]+']'].value != '') {
-		   			    document.getElementById('email0_'+String(k+2)+'_'+String(i+2)).style.display = 'block';
-		                            document.getElementById('expand_email0_'+String(k+2)+'_'+String(i+2)).style.display = 'none';
+		   			    document.getElementById('email_'+String(i+2)+'_'+String(k+2)).style.display = 'block';
+		                            document.getElementById('expand_email_'+String(i+2)+'_'+String(k+2)).style.display = 'none';
 		    			    if (k<1) {
-					      document.getElementById('expand_email0_'+String(k+3)+'_'+String(i+2)).style.display = 'block';						}
+					      document.getElementById('expand_email_'+String(i+3)+'_'+String(k+2)).style.display = 'block';						}
 					}
 
 
@@ -145,20 +145,20 @@
 
 	function on_load_execute( )
 	{
-	    /* This array defines the various blocks present within the form template */
+	    /* This array defines the various blocks to be hidden within the form template */
 	       var hide_blocks = 
-		    new Array( 'phone0_2_1', 	     'phone0_3_1',
-			       'email0_2_1', 	     'email0_3_1',
-			       'IM0_2_1','IM0_3_1',  'expand_phone0_3_1',
-			       'expand_email0_3_1',  'expand_IM0_3_1',
-			       'phone0_2_2', 	     'phone0_3_2',
-			       'email0_2_2', 	     'email0_3_2',
-			       'IM0_2_2','IM0_3_2',  'expand_phone0_3_2',
-			       'expand_email0_3_2',  'expand_IM0_3_2',
-			       'phone0_2_3', 	     'phone0_3_3',
-			       'email0_2_3',	     'email0_3_3',
-			       'IM0_2_3','IM0_3_3',  'expand_phone0_3_3',
-			       'expand_email0_3_3',  'expand_IM0_3_3',
+		    new Array( 'phone_1_2', 	     'phone_1_3',
+			       'email_1_2', 	     'email_1_3',
+			       'IM_1_2','IM_1_3',  'expand_phone_1_3',
+			       'expand_email_1_3',  'expand_IM_1_3',
+			       'phone_2_2', 	     'phone_2_3',
+			       'email_2_2', 	     'email_2_3',
+			       'IM_2_2','IM_2_3',  'expand_phone_2_3',
+			       'expand_email_2_3',  'expand_IM_2_3',
+			       'phone_3_2', 	     'phone_3_3',
+			       'email_3_2',	     'email_3_3',
+			       'IM_3_2','IM_3_3',  'expand_phone_3_3',
+			       'expand_email_3_3',  'expand_IM_3_3',
 			       'notes','location2',  'demographics',
 			       'location3',	     'expand_loc3' 
 			      );
@@ -166,7 +166,7 @@
 
 			
 
-		/* This array stroes the blocks to be displayed */	
+		/* This array stores the blocks to be displayed */	
 		var show_blocks = new Array( "core" );
 
 		/* This loop is used to display the blocks whose IDs are present within the show_blocks array */ 
@@ -178,6 +178,8 @@
 		for ( var i = 0; i < hide_blocks.length; i++ ) { 
 			document.getElementById(hide_blocks[i]).style.display = 'none';
 		}
+		//document.forms['CRUD'].elements['exdemo'].value = 'exdemo_onclick'; 
+		document.getElementById('exdemo').onclick = exdemof_onclick;
 
 	}
 
@@ -201,5 +203,36 @@
 		document.getElementById(block_id).style.display = 'none';
 	}
 
+        
+        
+        function exdemof_onclick( ) 
+        {
+        	show('demographics'); 
+                hide('expand_demographics'); 
+		return false;
 
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
+          
+
+        
 
