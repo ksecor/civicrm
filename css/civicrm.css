@@ -69,6 +69,20 @@ div.spacer {
   text-align: left;
 } 
 
+#crm-container .data-group .col1 {
+  float: left;
+  width: 40%;
+  text-align: left;
+  margin: 5px 25px 5px 25px;
+} 
+
+#crm-container .data-group .col2 {
+  float: right;
+  width: 50%;
+  text-align: left;
+  margin: 5px 0px 5px 0px;
+} 
+
 /* Inline form field 'help' */
 #crm-container .description {
   padding: 5px 0px 5px;
@@ -163,6 +177,14 @@ div.crm-pager a {
   padding: 100px;
 }
 
+/* 
+** Styles for record browser table and pager bar
+*/
+#crm-container .data-group {
+  margin: 5px;
+  padding: 5px;
+  border-bottom: 2px solid #B0B0B0;
+}
 #crm-container .element-right {
   position: absolute;
   right: 50px;
