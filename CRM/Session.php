@@ -77,7 +77,7 @@ class CRM_Session {
     function __construct( $key = 'crm' ) { 
         $this->_key     = $key;
         $this->_session =& $_SESSION;
-    
+
         $this->create();
     }
 
@@ -134,7 +134,7 @@ class CRM_Session {
      * @return void
      */
     function createScope( $prefix ) {
-        if (! empty( $prefix ) ) {
+        if ( empty( $prefix ) ) {
             return;
         }
 
@@ -287,9 +287,9 @@ class CRM_Session {
             return;
         }
 
-        $this->createScope( CRM_Session::USER_CONTEXT );
+        $this->createScope( self::USER_CONTEXT );
 
-        array_push( $this->_session[$this->_key][CRM_Session::USER_CONTEXT], $userContext );
+        array_push( $this->_session[$this->_key][self::USER_CONTEXT], $userContext );
     }
 
     /**
@@ -307,10 +307,10 @@ class CRM_Session {
             return;
         }
 
-        $this->createScope( CRM_Session::USER_CONTEXT );
+        $this->createScope( self::USER_CONTEXT );
 
-        array_pop ( $this->_session[$this->_key][CRM_Session::USER_CONTEXT] );
-        array_push( $this->_session[$this->_key][CRM_Session::USER_CONTEXT], $userContext );
+        array_pop ( $this->_session[$this->_key][self::USER_CONTEXT] );
+        array_push( $this->_session[$this->_key][self::USER_CONTEXT], $userContext );
     }
 
     /**
@@ -322,9 +322,9 @@ class CRM_Session {
      *
      */
     function popUserContext( ) {
-        $this->createScope( CRM_Session::USER_CONTEXT );
+        $this->createScope( self::USER_CONTEXT );
 
-        return array_pop ( $this->_session[$this->_key][CRM_Session::USER_CONTEXT] );
+        return array_pop ( $this->_session[$this->_key][self::USER_CONTEXT] );
     }
 
     /**
@@ -336,11 +336,11 @@ class CRM_Session {
      *
      */
     function readUserContext( ) {
-        $this->createScope( CRM_Session::USER_CONTEXT );
+        $this->createScope( self::USER_CONTEXT );
 
-        $lastElement = count( $this->_session[$this->_key][CRM_Session::USER_CONTEXT] ) - 1;
+        $lastElement = count( $this->_session[$this->_key][self::USER_CONTEXT] ) - 1;
         return $lastElement >= 0 ? 
-            $this->_session[$this->_key][CRM_Session::USER_CONTEXT][$lastElement] :
+            $this->_session[$this->_key][self::USER_CONTEXT][$lastElement] :
             null;
     }
 

@@ -544,7 +544,6 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         } else {
             $contact->query('COMMIT');
             form_set_error('first_name', t('Contact Individual has been added successfully.'));
-            header("Location:".$PHP_SELF."?reset=1");
         }
         
     }//end of function

@@ -57,6 +57,7 @@ class CRM_QuickForm_Action extends HTML_QuickForm_Action {
         $config  = CRM_Config::singleton( );
 
         $userContext = $session->popUserContext( );
+
         if ( empty( $userContext ) ) {
             $userContext = $config->mainMenu;
         }

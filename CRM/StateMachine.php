@@ -163,7 +163,7 @@ class CRM_StateMachine {
      * @access public
      */
     function addState( $iname, $name, $type, $prev, $next ) {
-        $this->_states[$name] =& new CRM_State( $iname, $name, $type, $prev, $next, $this );
+        $this->_states[$iname] =& new CRM_State( $iname, $name, $type, $prev, $next, $this );
     }
 
     /**
@@ -223,8 +223,7 @@ class CRM_StateMachine {
 
             $classPath = str_replace( '_', '/', $pages[$i] ) . '.php';
             require_once($classPath);
-            // $name = eval( sprintf( "return %s::getDisplayName( );", $pages[$i] ) );
-            $name = $iname;
+            $name = eval( sprintf( "return %s::getDisplayName( );", $pages[$i] ) );
 
             if ( $numPages == 1 ) {
                 $prev = $next = null;
