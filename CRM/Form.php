@@ -99,7 +99,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      * @var const string / int
      */
     const
-    CB_PREFIX     = 'mark_x_',
+        CB_PREFIX     = 'mark_x_',
         CB_PREFIY     = 'mark_y_',
         CB_PREFIZ     = 'mark_z_',
         CB_PREFIX_LEN = 7;

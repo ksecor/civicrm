@@ -101,11 +101,6 @@ class CRM_Contact_Form_Contact extends CRM_Form
                 CRM_Error::fatal( 'Invalid contact type' );
             }
             $this->_contactId = null;
-            return;
-        } 
-
-        if ( $this->_mode == self::MODE_VIEW ) {
-            $this->_contactId   = CRM_Array::value( 'cid', $_REQUEST );
         } else {
             // this is update mode, first get the id from the session
             // else get it from the REQUEST
@@ -114,19 +109,18 @@ class CRM_Contact_Form_Contact extends CRM_Form
             if ( ! $this->_contactId ) {
                 $this->_contactId   = CRM_Array::value( 'cid', $_REQUEST );
             }
-        }
 
-        if ( $this->_contactId ) {
-            $contact = new CRM_Contact_DAO_Contact( );
-            $contact->id = $this->_contactId;
-            if ( ! $contact->find( true ) ) {
-                CRM_Error::fatal( "contact does not exist: $this->_contactId" );
+            if ( $this->_contactId ) {
+                $contact = new CRM_Contact_DAO_Contact( );
+                $contact->id = $this->_contactId;
+                if ( ! $contact->find( true ) ) {
+                    CRM_Error::fatal( "contact does not exist: $this->_contactId" );
+                }
+                $this->_contactType = $contact->contact_type;
+                return;
             }
-            $this->_contactType = $contact->contact_type;
-            return;
+            CRM_Error::fatal( "Could not get a contact_id and/or contact_type" );
         }
-
-        CRM_Error::fatal( "Could not get a contact_id and/or contact_type" );
     }
 
     /**
@@ -156,30 +150,17 @@ class CRM_Contact_Form_Contact extends CRM_Form
                 }
                 $defaults['location'][1]['is_primary'] = true;
             }
-        } else if ( $this->_mode & ( self::MODE_VIEW | self::MODE_UPDATE ) ) {
-            // get the id from the session that has to be modified
-            // get the values for $_SESSION['id']
-
+        } else {
+            // this is update mode
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $ids = array();
-            CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
+            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
 
-            unset($params['id']);
-            eval( 'CRM_Contact_BAO_' . $this->_contactType . '::getValues( $params, $defaults, $ids );' );
+            $this->set( 'ids', $ids );
 
-            CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, self::LOCATION_BLOCKS );
-
-            // get the notes
-
-            CRM_Contact_BAO_Note::getValues( $params, $defaults, $ids );
-        
-            if ( $this->_mode & self::MODE_UPDATE ) {
-                $this->set( 'ids', $ids );
-
-                // show notes
-                $this->assign( 'note',$defaults['note'] );
-            }
+            // show notes
+            $this->assign( 'note', $defaults['note'] );
             
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)
@@ -187,11 +168,6 @@ class CRM_Contact_Form_Contact extends CRM_Form
         }
         
         $this->setShowHide( $defaults );
-
-        if ( $this->_mode & self::MODE_VIEW ) {
-            CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
-            $this->assign( $defaults );
-        }
 
         return $defaults;
     }
@@ -213,32 +189,14 @@ class CRM_Contact_Form_Contact extends CRM_Form
             $this->_showHide->addHide( 'demographics' );
         }
 
-         // view has a simpler block structure based on data
-        if ( $this->_mode & self::MODE_VIEW ) {
-            $this->_showHide->addHide( 'commPrefs[show]' );
-            if ( array_key_exists( 'location', $defaults ) ) {
-                $numLocations = count( $defaults['location'] );
-                if ( $numLocations > 0 ) {
-                    $this->_showHide->addShow( 'location[1]' );
-                    $this->_showHide->addHide( 'location[1][show]' );
-                }
-                for ( $i = 1; $i < $numLocations; $i++ ) {
-                    $locationIndex = $i + 1;
-                    $this->_showHide->addShow( "location[$locationIndex][show]" );
-                    $this->_showHide->addHide( "location[$locationIndex]" );
-                }
-            }
+        // first do the defaults showing
+        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
+                                                        self::LOCATION_BLOCKS );
             
-        } else {
-            // first do the defaults showing
-            CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
-                                                            self::LOCATION_BLOCKS );
-            
-            if ( $this->_mode & self::MODE_UPDATE ) {
-                CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
-                                                           CRM_Array::value( 'location', $defaults ),
-                                                           self::LOCATION_BLOCKS );
-            }
+        if ( $this->_mode & self::MODE_UPDATE ) {
+            CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
+                                                       CRM_Array::value( 'location', $defaults ),
+                                                       self::LOCATION_BLOCKS );
         }
         
         $this->_showHide->addToTemplate( );
@@ -254,10 +212,6 @@ class CRM_Contact_Form_Contact extends CRM_Form
      */
     function addRules( )
     {
-        if ( $this->_mode & self::MODE_VIEW ) {
-            return;
-        }
-
         $this->addFormRule( array( 'CRM_Contact_Form_' . $this->_contactType, 'formRule' ) );
     }
 
@@ -273,11 +227,6 @@ class CRM_Contact_Form_Contact extends CRM_Form
         $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1 );
         $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
         $this->assign( 'contact_type' , $this->_contactType );
-
-        // view mode no longer builds a form :)
-        if ($this->_mode == self::MODE_VIEW) {
-            return;
-        }
 
         eval( 'CRM_Contact_Form_' . $this->_contactType . '::buildQuickForm( $this );' );
         
@@ -299,22 +248,16 @@ class CRM_Contact_Form_Contact extends CRM_Form
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82', 'maxlength' => 255));    
         CRM_ShowHideBlocks::links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
         */
-        if ($this->_mode != self::MODE_VIEW) {
-            $this->addDefaultButtons( array(
-                                            array ( 'type'      => 'next',
-                                                    'name'      => 'Save',
-                                                    'isDefault' => true   ),
-                                            array ( 'type'      => 'reset',
-                                                    'name'      => 'Reset'),
-                                            array ( 'type'       => 'cancel',
-                                                    'name'      => 'Cancel' ),
-                                            )
-                                      );
-        }
-
-        if ($this->_mode == self::MODE_VIEW) {
-            $this->freeze();
-        }
+        $this->addDefaultButtons( array(
+                                        array ( 'type'      => 'next',
+                                                'name'      => 'Save',
+                                                'isDefault' => true   ),
+                                        array ( 'type'      => 'reset',
+                                                'name'      => 'Reset'),
+                                        array ( 'type'       => 'cancel',
+                                                'name'      => 'Cancel' ),
+                                        )
+                                  );
 
     }
 
@@ -328,11 +271,6 @@ class CRM_Contact_Form_Contact extends CRM_Form
      */
     public function postProcess() 
     {
-        // no processing for a view form
-        if ( $this->_mode == self::MODE_VIEW ) {
-            return;
-        }
-
         // store the submitted values in an array
         $params = $this->exportValues();
 

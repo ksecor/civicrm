@@ -347,7 +347,8 @@ function contact_invoke()
     
     // view contact
     if (arg(2) == 'view') {
-        $content .= contact_form( CRM_Form::MODE_VIEW );
+	$view = new CRM_Contact_Page_View( 'View Contact' );
+        $content .= $view->run( );
     }
     
 

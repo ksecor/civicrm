@@ -236,7 +236,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @param array $ids    the array that holds all the db ids
      * @param int   $maxLocationBlocks the maximum number of location blocks to process
      *
-     * @return object CRM_Contact_BAO_Individual object 
+     * @return object CRM_Contact_BAO_Contact object 
      * @access public
      * @static
      */
@@ -288,6 +288,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
     }
 
+    /**
+     * This function is used to convert associative array names to values
+     * and vice-versa.
+     *
+     * This function is used by both the web form layer and the api. Note that
+     * the api needs the name => value conversion, also the view layer typically
+     * requires value => name conversion
+     */
     static function lookupValue( &$defaults, $property, &$lookup, $reverse ) {
         $id = $property . '_id';
 
@@ -305,6 +313,33 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $defaults[$dst] = $look[$defaults[$src]];
     }
 
+    /**
+     * Takes a bunch of params that are needed to match certain criteria and
+     * retrieves the relevant objects. Typically the valid params are only
+     * contact_id. We'll tweak this function to be more full featured over a period
+     * of time. This is the inverse function of create. It also stores all the retrieved
+     * values in the default array
+     *
+     * @param array $params   (reference ) an assoc array of name/value pairs
+     * @param array $defaults (reference ) an assoc array to hold the name / value pairs
+     *                        in a hierarchical manner
+     * @param array $ids      (reference) the array that holds all the db ids
+     *
+     * @return object CRM_Contact_BAO_Contact object
+     * @access public
+     * @static
+     */
+    static function retrieve( &$params, &$defaults, &$ids ) {
+        $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
+
+        unset($params['id']);
+        eval( '$contact->contact_type_object = CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
+
+        $contact->location = CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 3 );
+        $contact->notes    = CRM_Contact_BAO_Note::getValues( $params, $defaults, $ids );
+
+        return $contact;
+    }
 
 }
 
