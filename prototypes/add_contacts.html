@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>  
-  <title>Create Contact</title>
+  <title>Add Contact</title>
   <meta http-equiv="Content-Style-Type" content="text/css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <base href="http://localhost/dgg/prototypes/">
@@ -16,13 +16,14 @@
 		</div>
 	</form>
         <a href="" title="Index Page"><img src="i/logo.png" height="45" width="60" alt="Logo"></a>
-        <h1 id="site-name"><a href="" title="Index Page">RMS in Drupal</a></h1>
+        <h1 id="site-name"><a href="" title="Index Page">CRM Prototype (v1.0)</a></h1>
       <br class="clear">
 </div>
 <div id="top-nav">
   	
       <ul id="primary">
           <li><a href="" title="Return to the main page.">home</a></li>
+          <li><a href="list_contacts.html" title="Return to the main page.">crm</a></li>
           <li><a href="http://localhost/dgg/drupal/blog" title="Read the latest blog entries.">blogs</a></li>
           <li><a href="http://localhost/dgg/drupal/poll" title="View the list of polls on this site.">polls</a></li>
           <li><a href="http://localhost/dgg/drupal/search" title="Search for older content.">search</a></li>
@@ -33,7 +34,7 @@
 	<td class="sidebar" id="sidebar-left">
 
     <!-- Quick Search box for rms pages-->
-    <div class="block" id="rms-search-block">
+    <div class="block" id="crm-quick-search">
         <div class="rmsMenuTitle">Contact Search</div>
         <form name="quick_search_form" action="list_contacts.html" method="post">
         <input type="text" class="form-text" name="contact_search_string" size="20" value="-full or partial name-" onClick="contact_search_string.value = '';"/><br/>
@@ -42,19 +43,19 @@
     </div><br/>
     
     <!-- Shortcut Menu box for rms pages-->
-    <div class="block" id="rms-shortcut-menu">
+    <div class="block" id="crm-shortcuts">
         <div class="rmsMenuTitle">Shortcuts</div>
         <ul compact="compact">
         <li><a href="list_contacts.html">List Contacts</a>
-        <li>Create A Contact
+        <li>Add Contact
         <li>Manage Groups
         <li><a href="import_contacts.html">Import Contacts</a>
         </ul>
     </div><br/>
     
     <!-- Quick Create Contact box -->
-    <div class="block" id="rms-quick-create">
-        <div class="rmsMenuTitle">New Contact</div>
+    <div class="block" id="crm-quick-create">
+        <div class="rmsMenuTitle">Add Contact</div>
         <form name="rms_quick_create_form" action="list_contacts.html" method="post">
         <label>First Name:</label><br/>
         <input type="text" class="form-text" name="contact_first_name" size="15" value="" /><br/>
@@ -71,11 +72,11 @@
         <h2>Site Menu</h2>
         <div class="content"><div class="menu">
         <ul>
-        <li class="expanded"><a href="http://localhost/dgg/drupal/rms" title="">Relationship Management</a>
+        <li class="expanded"><a href="http://localhost/dgg/drupal/rms" title="">CRM</a>
         <ul>
         <li class="expanded"><a href="http://localhost/dgg/drupal/rms/contact" title="List, edit and add contacts">Contacts</a>
         <ul>
-        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/contact/list" class="active">Create Contact</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/contact/list" class="active">Add Contact</a></li>
         <li class="leaf"><a href="http://localhost/dgg/drupal/rms/contact/add">Import Contacts</a></li>
         <li class="leaf"><a href="http://localhost/dgg/drupal/rms/contact/search">Contact Groups</a></li>
         </ul>
@@ -98,7 +99,7 @@
 
 <td class="main-content" id="content-left">
     <!-- breadcrumb bar -->
-	<div class="breadcrumb"><a href="">Home</a> &raquo; <a href="http://localhost/dgg/prototypes" title="">Relationship Management</a> &raquo; <a href="http://localhost/dgg/prototypes/list_contacts.html" title="">Contacts</a> &raquo; Create Contact</div>
+	<div class="breadcrumb"><a href="">Home</a> &raquo; <a href="http://localhost/dgg/prototypes" title="">CRM</a> &raquo; <a href="http://localhost/dgg/prototypes/list_contacts.html" title="">Contacts</a> &raquo; Add Contact</div>
 
     <!-- recently viewed items bar -->
     <div class="rmsListNav">
@@ -142,9 +143,9 @@ function hide(section) {
 //]]>
 </script>
     <table class="rmsPageTitle" width="100%">
-        <tr><td><h3 class="content-title">Create Contact (Individual)</h3></td>
+        <tr><td><h3 class="content-title">Add Contact (Individual)</h3></td>
         <td align="right">
-            <span class="rmsSubLink"><a href="">&raquo; Create Contact Organization</a> &nbsp; &raquo; <a href="">Create Household</a></span> &nbsp; &nbsp;
+            <span class="rmsSubLink"><a href="">&raquo; Add Contact Organization</a> &nbsp; &raquo; <a href="">Add Household</a></span> &nbsp; &nbsp;
             <a href="" title="Help"><img src="i/help.png" align="absmiddle" alt="Help">&nbsp;Help</a>
         </td>
     </tr>
