@@ -344,13 +344,32 @@ function contact_invoke()
     if (arg(2) == 'edit') {
         $content .= contact_form( CRM_Form::MODE_UPDATE );
     }
-    
+ 
     // view contact
-    if (arg(2) == 'view') {
-	$view = new CRM_Contact_Page_View( 'View Contact' );
+    if (arg(2) == 'view' && arg(3) == '') {
+        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_NONE );
         $content .= $view->run( );
     }
-    
+
+    // view contact notes
+    if (arg(2) == 'view' && arg(3) == 'notes') {
+        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_NOTE );
+        $content .= $view->run( );
+    }
+
+    // view contact relationships
+    if (arg(2) == 'view' && arg(3) == 'rels') {
+        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_REL );
+        $content .= $view->run( );
+    }
+
+    // view contact groups
+    if (arg(2) == 'view' && arg(3) == 'groups') {
+        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_GROUP );
+        $content .= $view->run( );
+    }
+
+
 
     // search
     if (arg(2) == 'search') {

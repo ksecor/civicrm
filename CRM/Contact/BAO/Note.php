@@ -65,11 +65,12 @@ class CRM_Contact_BAO_Note extends CRM_DAO_Note {
         $note = new CRM_Contact_BAO_Note( );
         
         $params['modified_date'] = date("Ymd");
-        $params['table_id'] = 1;
+        $params['table_id'] = $params['contact_id'];
         $params['table_name'] = 'crm_contact';
 
         $note->copyValues( $params );
 
+        $note->contact_id = 1;
         $note->save( );
 
         return $note;
@@ -107,8 +108,10 @@ class CRM_Contact_BAO_Note extends CRM_DAO_Note {
      */
     static function getValues( &$params, &$values, &$ids ) {
         $note = new CRM_Contact_BAO_Note( );
-        $note->copyValues( $params );
-        
+       
+        //$note->copyValues( $params );
+        $note->table_id = $params['contact_id'] ;        
+
         // get the total count of notes
         $lng_total_cnt = $note->count( );
 

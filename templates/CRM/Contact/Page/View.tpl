@@ -21,6 +21,8 @@
     </p>
 </div>
 
+
+{if $mode eq 0}
 {* Display populated Locations. Primary location expanded by default. *}
 {foreach from=$location item=loc key=locationIndex}
 
@@ -56,7 +58,6 @@
   </div>
   <div class="spacer"></div>
  </div>
-
 {/foreach}
 
  <div id="commPrefs[show]" class="data-group form-item">
@@ -77,7 +78,7 @@
   <div class="spacer"></div>
 </div>
 
-{if $contact_type eq 'Individual'}
+ {if $contact_type eq 'Individual'}
  <div id="demographics[show]" class="data-group form-item">
   <a href="#" onClick="hide('demographics[show]'); show('demographics'); return false;">(+)</a> <label>Demographics</label><br />
  </div>
@@ -94,9 +95,11 @@
     <label>Date of Birth:</label> {$birth_date}
   </div>
   <div class="spacer"></div>
-</div>
+  </div>
+ {/if}
 {/if}
 
+{if $mode eq 4 || $mode eq 0}
 <div id="relationships" class="data-group form-item">
   <span class="float-right">
     <a href="#">Create relationship(s)...</a>
@@ -108,7 +111,9 @@
   <br />
   <div class="spacer"></div>
 </div>
+{/if}
 
+{if $mode eq 2 || $mode eq 0}
 <div id="groups" class="data-group form-item">
   <span class="float-right">
    <a href="#">Add this contact to one or more groups...</a>
@@ -120,7 +125,9 @@
   <br />
   <div class="spacer"></div>
 </div>
-{*debug*}
+{/if}
+
+{if $mode eq 1 || $mode eq 0}
 <div id="notes[show]" class="data-group form-item">
   <a href="#" onClick="hide('notes[show]'); show('notes'); return false;">(+)</a> <label>Contact Notes</label><br />
 </div>
@@ -146,6 +153,7 @@
  </fieldset>
  </p>
 </div>
+{/if}
 
 <div id="edit-link" class="form-item">
   <span class="float-right">

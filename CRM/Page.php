@@ -59,6 +59,18 @@ class CRM_Page {
      */
     protected $_mode;
 
+
+    /**
+     * constants for various modes that the page can operate as
+     *
+     * @var const int
+     */
+    const
+        VIEW_MODE_NONE                  =   0,
+        VIEW_MODE_NOTE                  =   1,
+        VIEW_MODE_GROUP                 =   2,
+        VIEW_MODE_REL                   =   4;
+
     /**
      * class constructor
      *
