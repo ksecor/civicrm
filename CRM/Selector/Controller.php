@@ -61,7 +61,7 @@ class CRM_Selector_Controller {
      * the current column to sort on
      * @var int
      */
-    private $_sortId;
+    private $_sortID;
 
     /*
      * the sortOrder array
@@ -76,10 +76,10 @@ class CRM_Selector_Controller {
     private $_pager;
 
     /*
-     * the pageId
+     * the pageID
      * @var int
      */
-    private $_pageId;
+    private $_pageID;
     
     /*
      * offset
@@ -106,13 +106,13 @@ class CRM_Selector_Controller {
     function __construct($object, $pageID, $sortID, $action) {
         $this->_object = $object;
         
-        $this->_pageId = $pageID;
-        $this->_sortId = $sortID;
+        $this->_pageID = $pageID ? $pageID : 1;
+        $this->_sortID = $sortID;
         $this->_action = $action;
         
         $params = array(
                         'total'   => $this->_object->getTotalCount($action),
-                        'pageID'  => $this->_pageId
+                        'pageID'  => $this->_pageID
                         );
         $this->_object->getPagerParams($action, $params);
 
@@ -128,7 +128,7 @@ class CRM_Selector_Controller {
             $this->_pager->getOffsetAndRowCount();
 
         $this->_sortOrder = $this->_object->getSortOrder($action);
-        $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortId );
+        $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortID );
     }
 
     function run( ) {

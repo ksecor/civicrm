@@ -42,7 +42,7 @@ class CRM_Pager extends Pager_Sliding {
      */
     function __construct( $params ) {
         if( $params['status'] === null ) {
-            $params['status'] = "Contacts %%statusMessage%%";
+            $params['status'] = "Contacts %%StatusMessage%%";
         }
 
         $this->initialize( $params );
@@ -54,27 +54,29 @@ class CRM_Pager extends Pager_Sliding {
         list( $offset, $limit ) = $this->getOffsetAndRowCount( );
         $start = $offset + 1;
         $end   = $offset + $limit;
-        if ( $end > $total ) {
-            $end = $total;
+        if ( $end > $params['total'] ) {
+            $end = $params['total'];
         }
 
-        if ( $total == 0 ) {
+        if ( $params['total'] == 0 ) {
             $statusMessage = '';
         } else {
-            $statusMessage = "$start - $end of $total";
+            $statusMessage = "$start - $end of " . $params['total'];
         }
-        $status = str_replace( '%%StatusMessage%%', $statusMessage );
+        $params['status'] = str_replace( '%%StatusMessage%%', $statusMessage, $params['status'] );
 
         $this->_values = array(
-                               'first'       => $links['first'],
-                               'back'        => $links['back'] ,
-                               'next'        => $links['next'] ,
-                               'last'        => $links['last'] ,
-                               'pages'       => $links['pages'],
-                               'currentPage' => $this->getCurrentPageID(),
-                               'numPages'    => $this->numPages(),
-                               'excelString' => $excelString,
-                               'status'      => $status,
+                               'first'        => $links['first'],
+                               'back'         => $links['back'] ,
+                               'next'         => $links['next'] ,
+                               'last'         => $links['last'] ,
+                               'pages'        => $links['pages'],
+                               'currentPage'  => $this->getCurrentPageID(),
+                               'numPages'     => $this->numPages(),
+                               'csvString'    => $params['csvString'],
+                               'status'       => $params['status'],
+                               'buttonTop'    => $params['buttonTop'],
+                               'buttonBottom' => $params['buttonBottom'],
                                );
 
 
@@ -86,7 +88,7 @@ class CRM_Pager extends Pager_Sliding {
          */
         $this->_values['titleTop']    = 'Page <input size=2 maxlength=3 name="' . CRM_Pager::PAGE_ID . '" type="text" value="' . $this->_values['currentPage'] . '" /> of ' . $this->_values['numPages'];
         $this->_values['titleBottom']    = 'Page <input size=2 maxlength=3 name="' . CRM_Pager::PAGE_ID_BOTTOM . '" type="text" value="' . $this->_values['currentPage'] . '" /> of ' . $this->_values['numPages'];
-    
+
     }
 
 
@@ -138,20 +140,20 @@ class CRM_Pager extends Pager_Sliding {
 
 
         // set previous and next text labels
-        $params['prevImg']    = '<img src="' . $config->imageBase . 'previous.gif" alt="Previous" border="0" />';
-        $params['nextImg']    = '<img src="' . $config->imageBase . 'next.gif" alt="Next" border="0" />';
+        $params['prevImg']    = 'Previous';
+        $params['nextImg']    = 'Next';
 
 
         // set first and last text fragments
         $params['firstPagePre']  = '';
-        $params['firstPageText'] = '<img src="' . $config->imageBase . 'first.gif" alt="First" border="0" />';
+        $params['firstPageText'] = 'First';
         $params['firstPagePost'] = '';
 
         $params['lastPagePre']   = '';
-        $params['lastPageText']  = '<img src="' . $config->imageBase . 'last.gif" alt="Last" border="0" />';
+        $params['lastPageText']  = 'Last';
         $params['lastPagePost']  = '';
 
-        $params['currentPage'] = CRM_Pager::getPageID( $defaultCurrentPage );
+        $params['currentPage'] = $this->getPageID( $params['pageID'], $params );
 
         return $params;
     }
@@ -169,17 +171,16 @@ class CRM_Pager extends Pager_Sliding {
      * @access public
      *
      */
-    static function getPageID( $defaultPageId = 1) {
+    function getPageID( $defaultPageId = 1, &$params ) {
         if ( isset( $_GET[ CRM_Pager::PAGE_ID ] ) ) {
             $currentPage = max( (int ) @$_GET[ CRM_Pager::PAGE_ID ], 1 );
-        } else if ( isset( $_POST[ CRM_Pager::PAGE_ID ] ) ) {
+        } else if ( isset( $_POST[ $params['buttonTop'] ] ) && isset( $_POST[ CRM_Pager::PAGE_ID ] ) ) {
             $currentPage = max( (int ) @$_POST[ CRM_Pager::PAGE_ID ], 1 );
-        } else if ( isset( $_POST[ CRM_Pager::PAGE_ID_BOTTOM ] ) ) {
+        } else if ( isset( $_POST[ $params['buttonBottom'] ] ) && isset( $_POST[ CRM_Pager::PAGE_ID_BOTTOM ] ) ) {
             $currentPage = max( (int ) @$_POST[ CRM_Pager::PAGE_ID_BOTTOM ], 1 );
         } else {
             $currentPage = $defaultPageId;
         }
-    
         return $currentPage;
     }
 

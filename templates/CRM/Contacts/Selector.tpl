@@ -1,3 +1,4 @@
+<form action="index.php?q=crm/contact/list" method="post" name="list" id="list">
 {include file="CRM/pager.tpl" location="top"}
 <table>
 <tr>
@@ -12,3 +13,4 @@
 {/foreach}
 </table>
 {include file="CRM/pager.tpl" location="bottom"}
+</form>

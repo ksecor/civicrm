@@ -43,9 +43,12 @@ class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_AP
     }
 
     function getPagerParams( $action, &$params ) {
-        $params['status']    = "Contacts %%statusMessage%%";
-        $params['csvString'] = null;
-        $params['rowCount']  = CRM_Pager::ROWCOUNT;
+        $params['status']       = "Contacts %%StatusMessage%%";
+        $params['csvString']    = null;
+        $params['rowCount']     = CRM_Pager::ROWCOUNT;
+
+        $params['buttonTop']    = 'PagerTopButton';
+        $params['buttonBottom'] = 'PagerBottomButton';
     }
 
     function getSortOrder( $action ) {
