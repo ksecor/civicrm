@@ -156,7 +156,7 @@ code {
   float: left;
 }
 #site-name {
-  font-size: 2.5em;
+  font-size: 2em;
   padding: 25px 0 0.2em 0;
   margin: 0;
 }
@@ -468,6 +468,10 @@ br.clear {
 }
 
 /* CRM-specific styles */
+#crm-quick-search, #crm-quick-create, #crm-shortcuts {
+    background-color: #eee;
+    }
+    
 .rmsPageTitle {
     width: 100%;
 	border-bottom: 1px solid #aaaaaa;
@@ -551,13 +555,13 @@ br.clear {
     whitespace: nowrap
 }
 
-#rms-select-list {
+#crm-select-list {
   vertical-align: bottom;
   margin: 0;
   padding: 0;
 }
 
-#rms-list-action {
+#crm-list-action {
     padding: 5px;
     width: 100%;
 }
