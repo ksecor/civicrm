@@ -23,13 +23,15 @@
 	{* $form.errors is set normally when the form is relayed from the server after processing *}
 
 	 {if count($form.errors) gt 0}
-	 <table width="100%" cellpadding="1" cellspacing="0" border="0" bgcolor="#ff9900"><tr><td>
-	 <table width="100%" cellpadding="10" cellspacing="0" border="0" bgcolor="#FFFFCC"><tr><td align="center">
-	 <span class="error" style="font-size: 13px;">Please correct the errors below.</span>
-	 </td></tr></table>
-	 </td></tr></table>
-	 </p>
-	 {/if}
+     <div class="messages error"
+        Please correct the following errors in the form fields below:
+        <ul id="errorList">
+        {foreach from=$form.errors key=name item=errorMsg}
+            <li>{$name} {$errorMsg}</li>
+        {/foreach}
+        </ul>
+    </div>
+    {/if}
 
  <div id="name">
  <fieldset><legend>Name and Greeting</legend>
@@ -42,12 +44,12 @@
      </div>
 
     <div class="form-item">
-        <label>{$form.greeting_type.label}</label>
+        {$form.greeting_type.label}
         {$form.greeting_type.html}
     </div>
 
     <div class="form-item">
-    <label>{$form.job_title.label}</label>
+    {$form.job_title.label}
     {$form.job_title.html}
     </div>
  </fieldset>
@@ -72,14 +74,15 @@
  <fieldset><legend>Demographics</legend>
     <div class="form-item">
         {$form.gender.label}
-	{$form.gender.html}
+        {$form.gender.html}
     </div>
 	<div class="form-item">
         {$form.birth_date.label}
 		{$form.birth_date.html}
     </div>
 	<div class="form-item">
-        {$form.is_deceased.html} {$form.is_deceased.label}
+        {$form.is_deceased.html}
+        {$form.is_deceased.label}
     </div>
     <div id="demographics[hide]" class="box">
         {$form.demographics.hide.html}
@@ -97,10 +100,7 @@
  <div id = "notes">
  <fieldset><legend>Contact Notes</legend>
     <div class="form-item">
-        <label>
-        {* {$form.address_note.label} *}
         {$form.address_note.html}
-        </label>
         <div class = "description">
           Record any descriptive comments about this contact.
           You may add an unlimited number of notes, and view or search on them at any time.
@@ -112,7 +112,7 @@
  </fieldset>
  </div> <!-- End of "notes" div -->
  
- <div id = "buttons" class="form-submit"> <!-- This class should get automated into form.buttons output -->
+ <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
 
