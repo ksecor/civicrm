@@ -77,27 +77,32 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
     {
         /*code for advanced search start*/
         $contact_type = array( );
-        foreach (CRM_SelectValues::$contactType as $keys => $values) {
-            $contact_type[] = HTML_QuickForm::createElement('checkbox', $keys, null, $values);
+        foreach (CRM_SelectValues::$contactType as $key => $value) {
+            // skip if key = ''
+            if ($key == '') {
+                continue;
+            }
+            $contact_type[] = HTML_QuickForm::createElement('checkbox', $key, null, $value);
         }
-
-        /*$contact_typeA[] = HTML_QuickForm::createElement('checkbox', 'individual', null, 'Individual');
-        $contact_typeA[] = HTML_QuickForm::createElement('checkbox', 'household', null, 'Household');
-        $contact_typeA[] = HTML_QuickForm::createElement('checkbox', 'organization', null, 'Organization');*/
 
         $this->addGroup($contact_type, 'contact_type', 'Show Me....', '<br />');
 
         $group_id = array();
-        foreach (CRM_Contact_Form_AdvancedSearch::$groups as $keys => $values) {
-            $group_id[] = HTML_QuickForm::createElement('checkbox', $values, null, $values);
+
+        foreach (CRM_SelectValues::$group as $key => $value) {
+            $group_id[] = HTML_QuickForm::createElement('checkbox', $value, null, $value);
         }
         $this->addGroup($group_id, 'group_id', 'In Group (s)', '<br />');
 
+
+
+        // add categories
         $category_id = array();
-        foreach (CRM_Contact_Form_AdvancedSearch::$categories as $keys => $values) {
-            $category_id[] = HTML_QuickForm::createElement('checkbox', $values, null, $values);
+        foreach (CRM_SelectValues::$category as $key => $value) {
+            $category_id[] = HTML_QuickForm::createElement('checkbox', $value, null, $value);
         }
         $this->addGroup($category_id, 'category_id', 'In Categorie (s)', '<br />');
+
 
         $this->add('text', 'last_name', 'Contact Name',
                    CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );

@@ -138,6 +138,21 @@ class CRM_SelectValues {
     public static $country;
 
     /**
+     * category array (fetch and cache from generic db)
+     * @var array
+     * @static
+     */
+    public static $category;
+
+    /**
+     * group array (fetch and cache from generic db)
+     * @var array
+     * @static
+     */
+    public static $group;
+    
+
+    /**
      * list of counties
      * @var array
      * @static
@@ -146,7 +161,7 @@ class CRM_SelectValues {
                                   ''   => '-select-',
                                   1001 => 'San Francisco',
                                   );
-
+    
     /**
      * preferred communication method
      * @var array
@@ -304,6 +319,76 @@ class CRM_SelectValues {
         }
         return self::$country;
     }
+
+
+
+    /**
+     * Get all the categories from database.
+     *
+     * The static array category is returned, and if it's
+     * called the first time, the <b>Category DAO</b> is used 
+     * to get all the categories.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @param none
+     * @return array - array reference of all categories.
+     *
+     */
+    public static function &getCategory()
+    {
+        if (!isset(self::$category)) {
+            CRM_Error::debug_log_message("category is not set");
+            self::$category = array();
+            $category_dao = new CRM_DAO_Contact_Category();
+            $category_dao->selectAdd('id, name, parent_id');
+            $category_dao->find();
+            while($category_dao->fetch()) {
+                self::$category[$category_dao->id] = array(
+                                                           'name' => "$category_dao->name",
+                                                           'parent_id' => $category_dao->parent_id,
+                                                           );
+            }
+        }
+        return self::$category;
+    }
+
+
+    /**
+     * Get all groups from database.
+     *
+     * The static array group is returned, and if it's
+     * called the first time, the <b>Group DAO</b> is used 
+     * to get all the groups.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @param none
+     * @return array - array reference of all groups.
+     *
+     */
+    public static function &getGroup()
+    {
+        CRM_Error::le_method();
+        if (!isset(self::$group)) {
+            CRM_Error::debug_log_message("group is not set");
+            self::$group = array();
+            $group_dao = new CRM_DAO_Contact_Group();
+            $group_dao->selectAdd('id, name');
+            $group_dao->find();
+            while($group_dao->fetch()) {
+                self::$group[$group_dao->id] = "$group_dao->name";
+            }
+        }
+        return self::$group;
+    }
+
 
 }
 
