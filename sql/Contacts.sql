@@ -36,7 +36,7 @@ use crm;
 * SIZE_4   (state codes, country codes)
 * SIZE_8   (prefixes, suffixes, sic_code)
 * SIZE_12  (postal codes)
-* SIZE_16  (phone numbers, UTM)
+* SIZE_16  (phone numbers, street_unit)
 * SIZE_32  (legal identifier, usps_adc
 * SIZE_64  (all names, email, job_title)
 * SIZE_96  (street_address)
@@ -428,7 +428,7 @@ CREATE TABLE crm_address(
 	street_name VARCHAR(64) COMMENT 'Actual street name, excluding St, Dr, Rd, Ave, e.g. For 112 Main St, the street_name = Main',
 	street_type VARCHAR(8) COMMENT 'St, Rd, Dr, etc.',
 	street_postdirectional VARCHAR(8) COMMENT 'Directional suffix, e.g. Main St S, S is the suffix',
-	street_unit VARCHAR(8) COMMENT 'Secondary unit designator, e.g. Apt 3 or Unit # 14, or Bldg 1200',
+	street_unit VARCHAR(16) COMMENT 'Secondary unit designator, e.g. Apt 3 or Unit # 14, or Bldg 1200',
 	street_unit_sort INT COMMENT 'Numeric portion of secondary unit designator for sorting, e.g. for Apt 18C, value is 18',
 
 	supplemental_address_1 VARCHAR(96) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
