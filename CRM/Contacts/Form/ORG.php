@@ -66,13 +66,17 @@ class CRM_Contacts_Form_ORG extends CRM_Form
                                 1128 => 'United States'
                                 );
   
-        
-        $this->addDefaultButtons(array(1 => array ('next', 'Save', true),
-                                       2 => array ('reset' , 'Reset', false),
-                                       3 => array ('cancel', 'Cancel', false)
+        $this->addDefaultButtons( array(
+                                        array ( 'type'      => 'next'  ,
+                                                'name'      => 'Save'  ,
+                                                'isDefault' => true     ),
+                                        array ( 'type'      => 'reset' ,
+                                                'name'      => 'Reset'  ),
+                                        array ( 'type'       => 'cancel',
+                                                'name'      => 'Cancel' ),
                                        )
                                  );
-        
+
         // organization_name
         $this->addElement('text', 'organization_name', 'Organization Name:');
 
