@@ -154,7 +154,7 @@
 	 <tr><!-- Second phone block.-->
 
 		 <td colspan="2">
-			 <table id="expand_phone0_2_{$pid}">
+			 <table id="expand_phone_{$pid}_2">
 			 <tr>
 				 <td>
 				 {$form.$exph02.html}
@@ -168,7 +168,7 @@
 
 		 <td colspan="2">	
 
-		 <table id="phone0_2_{$pid}">
+		 <table id="phone_{$pid}_2">
 			 <tr>
 				 <td class="form-item">
 				 <label>{$form.$lid.phone_2.label}</label>
@@ -190,7 +190,7 @@
 	 <tr><!-- Third phone block.-->
 
 		 <td colspan=2>
-		 <table id="expand_phone0_3_{$pid}">
+		 <table id="expand_phone_{$pid}_3">
 			 <tr>	<td>
 				 {$form.$exph03.html}
 				 </td>
@@ -201,7 +201,7 @@
 	 <tr>
 
 		 <td colspan="2">
-		 <table id="phone0_3_{$pid}">
+		 <table id="phone_{$pid}_3">
 			 <tr>
 				 <td class="form-item">
 				 <label>{$form.$lid.phone_3.label}</label></td>
@@ -233,7 +233,7 @@
 	 </tr>
 	 <tr><!-- email 2.-->
 		 <td colspan="2">
-		 <table id="expand_email0_2_{$pid}" >
+		 <table id="expand_email_{$pid}_2" >
 			 <tr>
 				 <td>
 				 {$form.$exem02.html}
@@ -245,7 +245,7 @@
 
 	 <tr>
 		 <td colspan="2">
-		 <table id="email0_2_{$pid}">
+		 <table id="email_{$pid}_2">
 			 <tr>
 				 <td class="form-item">
 				 <label>{$form.$lid.email_secondary.label}</label>
@@ -265,7 +265,7 @@
 	 <tr><!-- email 3.-->
 
 		 <td colspan="2">
-		 <table id="expand_email0_3_{$pid}" >
+		 <table id="expand_email_{$pid}_3" >
 			 <tr>
 				 <td>
 				 {$form.$exem03.html}
@@ -276,7 +276,7 @@
 	 </tr>
 	 <tr>
 		 <td colspan="2">
-		 <table id="email0_3_{$pid}">
+		 <table id="email_{$pid}_3">
 			 <tr>
 				 <td class="form-item">
 				 <label>{$form.$lid.email_tertiary.label}</label>
@@ -307,7 +307,7 @@
 	 <tr><!-- IM 2.-->
 
 		 <td colspan="2">
-			 <table id="expand_IM0_2_{$pid}" >
+			 <table id="expand_IM_{$pid}_2" >
 			 <tr>
 				 <td>
 				 {$form.$exim02.html}
@@ -318,7 +318,7 @@
 	 </tr>
 	 <tr>
 		 <td colspan="2">
-		 <table id="IM0_2_{$pid}">
+		 <table id="IM_{$pid}_2">
 			 <tr>
 				 <td class="form-item">
 				 <label>{$form.$lid.im_service_id_2.label}</label></td>
@@ -336,7 +336,7 @@
 	 </tr>
 	 <tr><!-- IM 3.-->
 		 <td colspan="2">
-		 <table id="expand_IM0_3_{$pid}" >
+		 <table id="expand_IM_{$pid}_3" >
 			 <tr>	
 				 <td>
 				 {$form.$exim03.html}
@@ -347,7 +347,7 @@
 	 </tr>
 	 <tr>
 		 <td colspan="2">	
-		 <table id="IM0_3_{$pid}">
+		 <table id="IM_{$pid}_3">
 			 <tr>
 				 <td class="form-item">
 				 <label>{$form.$lid.im_service_id_3.label}</label></td>
