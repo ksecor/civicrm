@@ -18,7 +18,7 @@ class WGM_Action_Display extends HTML_QuickForm_Action_Display {
     $template = SmartyTemplate::instance($config->templateDir, $config->templateCompileDir);
     $template->clear_all_assign();
     $template->assign('form',  $page->toSmarty());
-    $content = $template->fetch( $page->getTemplateFileName() );
+    $content = $template->fetch( $page->getTemplateFileName(), $config->templateDir );
     $this->_stateMachine->setContent($content);
     return;
   }

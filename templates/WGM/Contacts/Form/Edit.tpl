@@ -1,4 +1,3 @@
-
 <form {$form.attributes}>
 
 {if $form.hidden}
@@ -37,6 +36,10 @@
 </table>
 
 </table>
+
+{$form.first_name.theme}
+{$form.last_name.theme}
+{$form.address_line_1.theme}
 
 </form>
 

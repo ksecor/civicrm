@@ -60,12 +60,12 @@ class SmartyTemplate extends Smarty {
    * Method providing static instance of SmartTemplate, as
    * in Singleton pattern.
    */
-  static function instance($compileDir = null, $templateDir = WGM_TEMPLATE_COMPILEDIR) {
+  static function instance($templateDir = null, $compileDir = WGM_TEMPLATE_COMPILEDIR) {
     if ( self::$_instance === NULL ) {
       self::$_instance = new SmartyTemplate($compileDir, $templateDir);
     }
-    self::$_instance->template_dir = $compileDir;
-    self::$_instance->compile_dir  = $templateDir;
+    self::$_instance->template_dir = $templateDir;
+    self::$_instance->compile_dir  = $compileDir;
     return self::$_instance;
   }
 
