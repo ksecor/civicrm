@@ -92,6 +92,28 @@ CREATE TABLE crm_state_province (
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 
+
+/*******************************************************
+*
+* crm_county
+* Stores counties, keyed to state_province entities.
+*
+*******************************************************/
+DROP TABLE IF EXISTS crm_county;
+CREATE TABLE crm_county (
+
+	id INT UNSIGNED NOT NULL COMMENT 'county id',
+
+	name  VARCHAR(64),
+	abbreviation  VARCHAR(4),
+	state_province_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY(id),
+	FOREIGN KEY(state_province_id) REFERENCES crm_state_province(id) ON DELETE CASCADE
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+
+
 /*******************************************************
 *
 * crm_domain
@@ -356,6 +378,30 @@ CREATE TABLE crm_location(
 
 /*******************************************************
 *
+* crm_geo_coord
+*
+* Identifies the type of geo coding used and stores required
+* coordinate system information for crm_address
+* records. Multiple addresses will share a crm_geo_coord
+* record (which includes UTM Zones for UTM type geo coding).
+*
+*******************************************************/
+DROP TABLE IF EXISTS crm_geo_coord;
+CREATE TABLE crm_geo_coord(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'geo coord id',
+    coord_type   ENUM('LATLONG', 'UTM') COMMENT 'system we using to encode the coordinates',
+    coord_utm_zone   VARCHAR(3) COMMENT 'UTM zone for the address geo-code values. This is expected to be a 1-2 digit zone plus an alpha latitude band: (1-60) + (C-X)',
+    coord_datum  VARCHAR(8) COMMENT 'DATUM is the underlying assumption of the shape of the earth being used, e.g. NAD27, WGS84',
+    coord_units ENUM('DEGREE', 'GRAD', 'RADIAN', 'FOOT', 'METER'),
+
+ 	PRIMARY KEY (id)
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Geo code coordinate system info.';
+
+
+/*******************************************************
+*
 * crm_address
 *
 * stores the physical street / mailing address. This format
@@ -381,7 +427,7 @@ CREATE TABLE crm_address(
 	street_type VARCHAR(8) COMMENT 'St, Rd, Dr, etc.',
 	street_postdirectional VARCHAR(8) COMMENT 'Directional suffix, e.g. Main St S, S is the suffix',
 	street_unit VARCHAR(8) COMMENT 'Secondary unit designator, e.g. Apt 3 or Unit # 14, or Bldg 1200',
-	street_unit_number INT COMMENT 'Numeric portion of secondary unit designator for sorting, e.g. for Apt 18C, value is 18',
+	street_unit_sort INT COMMENT 'Numeric portion of secondary unit designator for sorting, e.g. for Apt 18C, value is 18',
 
 	supplemental_address_1 VARCHAR(96) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
 	supplemental_address_2 VARCHAR(96) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
@@ -389,22 +435,19 @@ CREATE TABLE crm_address(
 
 	city VARCHAR(64) COMMENT 'city, town, village...',
 
--- Should rename county to something more internationally used and make it a lookup.
-	county VARCHAR(64),
-	state_province_id INT UNSIGNED NOT NULL COMMENT 'FK to crm_state_province table',
+	county_id INT UNSIGNED COMMENT 'Optional FKey to crm_county table',
+	state_province_id INT UNSIGNED COMMENT 'Optional FK to crm_state_province table',
 
 	postal_code VARCHAR(12) COMMENT 'Store both US (zip5) AND international postal codes. App is responsible for country/region appropriate validation.',
     postal_code_suffix VARCHAR(12) COMMENT 'Store the suffix, like the +4 part in the USPS system.',
     -- US Postal Svc bulk mail address code (ADC = Area Distribution Center)
 	usps_adc VARCHAR(32),
 
-	country_id INT UNSIGNED COMMENT 'index to crm_country table',
+	country_id INT UNSIGNED COMMENT 'Optional FKey to crm_country table',
 
-    geo_type   ENUM('LATLONG', 'UTM') COMMENT 'system we using to encode the coordinates',
-	geo_code_1 FLOAT COMMENT 'latitude or UTM (Universal Transverse Mercator Grid) Northing',
+	geo_coord_id INT UNSIGNED COMMENT 'FKey to crm_geo_coord table (related record denotes coordinate system being used and supplemental coordinate sys info.',
+    geo_code_1 FLOAT COMMENT 'latitude or UTM (Universal Transverse Mercator Grid) Northing',
 	geo_code_2 FLOAT COMMENT 'longitude or UTM (Universal Transverse Mercator Grid) Easting',
-    geo_zone   VARCHAR(4) COMMENT 'UTM zone the codes are displayed in. This is typically a 2-3 character string: (1-36)(C-X)',
-    geo_datum  VARCHAR(8) COMMENT 'DATUM is the underlying assumption of the shape of the earth being used, e.g. NAD27, WGS84',
 
 	timezone VARCHAR(8) COMMENT 'timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6"',
 	address_note VARCHAR(255) COMMENT 'optional misc info (e.g. delivery instructions) for this address',
@@ -412,8 +455,10 @@ CREATE TABLE crm_address(
  	PRIMARY KEY (id),
     UNIQUE INDEX index_location (location_id),
     FOREIGN KEY (location_id)  REFERENCES crm_location(id),
-	FOREIGN KEY (state_province_id)    REFERENCES crm_state_province(id),
-	FOREIGN KEY (country_id)           REFERENCES crm_country(id)
+	FOREIGN KEY (county_id)   REFERENCES crm_county(id),
+	FOREIGN KEY (state_province_id) REFERENCES crm_state_province(id),
+	FOREIGN KEY (country_id)   REFERENCES crm_country(id),
+    FOREIGN KEY (geo_coord_id)  REFERENCES crm_geo_coord(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Address information for a specific location';
 
@@ -764,7 +809,7 @@ CREATE TABLE crm_group (
 	description VARCHAR(255) COMMENT 'group description (verbose)',
 
 	group_type	ENUM('static','query') NOT NULL COMMENT 'static group membership is defined via crm_contact_group',
-	saved_search_id	INT UNSIGNED COMMENT 'FK to saved_searches table for type=query. We may also store the FK here for static groups created via saved search.',
+	saved_search_id	INT UNSIGNED COMMENT 'FK to saved_searches table for type=query. We will also store the FK here for static groups created via saved search.',
 
 	source		VARCHAR(64) COMMENT 'module or process which created this group',
     -- Category concept now implemented via crm_entity_category table.
