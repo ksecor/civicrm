@@ -10,19 +10,6 @@ class CRM_Contacts_DAO_Base extends CRM_DAO_Base {
    */
   public $domain_id;
 
-  /*
-   * date and time of creation of this record. Since all records are revisioned, any
-   * modifications would be in a seperate record
-   * @var object
-   */
-  public $created;
-
-  /*
-   * id of the contact who created this record
-   * @var int
-   */
-  public $created_by;
-
   function __construct() {
     parent::__construct();
   }
@@ -31,8 +18,7 @@ class CRM_Contacts_DAO_Base extends CRM_DAO_Base {
     static $links = null;
 
     if ( $links === null ) {
-      $links = array( 'created_by' => 'Contact:id',
-                      'domain_id'  => 'Domain:id' );
+      $links = array( 'domain_id'  => 'crm_domain:id' );
     }
     return $links;
   }

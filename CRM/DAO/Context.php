@@ -15,12 +15,13 @@ class CRM_DAO_Context extends CRM_DAO_Base {
   public $description;
 
   function __construct() {
+    parent::__construct();
   }
 
   function links() {
     static $links;
     if ( $links == null ) {
-      $links = array( 'domain_id' => 'Domain:id' );
+      $links = array( 'domain_id' => 'crm_domain:id' );
     }
     return $links;
   }
@@ -28,7 +29,7 @@ class CRM_DAO_Context extends CRM_DAO_Base {
   function dbFields() {
     static $fields;
     if ( $fields === null ) {
-      $fields = arrray_merge(
+      $fields = array_merge(
                              parent::dbFields(),
                              array(
                                    'name'        => array( self::TYPE_STRING, self::NOT_NULL ),

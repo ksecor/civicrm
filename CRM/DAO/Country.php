@@ -45,7 +45,7 @@ class CRM_DAO_Country extends CRM_DAO_Base {
   function dbFields() {
     static $fields;
     if ( $fields === null ) {
-      $fields = arrray_merge(
+      $fields = array_merge(
                              parent::dbFields(),
                              array(
                                    'name'         => array( self::TYPE_STRING, self::NOT_NULL ),

@@ -27,7 +27,7 @@ class CRM_Contacts_DAO_Contact_Organization extends CRM_Contacts_DAO_ContactBase
     static $links;
     if ( $links === null ) {
       $links = array_merge( parent::links(),
-                            array( 'primary_contact_id' => 'Contact:id' ) );
+                            array( 'primary_contact_id' => 'crm_contact:id' ) );
     }
     return $links;
   }

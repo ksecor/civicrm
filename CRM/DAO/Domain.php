@@ -24,12 +24,13 @@ class CRM_DAO_Domain extends CRM_DAO_Base {
   public $created;
 
   function __construct() {
+    parent::__construct();
   }
 
   function dbFields() {
     static $fields;
     if ( $fields === null ) {
-      $fields = arrray_merge(
+      $fields = array_merge(
                              parent::dbFields(),
                              array(
                                    'name'        => array( self::TYPE_STRING, self::NOT_NULL ),

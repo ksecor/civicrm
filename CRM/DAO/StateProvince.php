@@ -35,7 +35,7 @@ class CRM_DAO_StateProvince extends CRM_Base {
   function links() {
     static $links;
     if ( $links === null ) {
-      $links = array( 'country_id' => 'Country:id' );
+      $links = array( 'country_id' => 'crm_country:id' );
     }
     return $links;
   }
@@ -44,7 +44,7 @@ class CRM_DAO_StateProvince extends CRM_Base {
   function dbFields() {
     static $fields;
     if ( $fields === null ) {
-      $fields = arrray_merge(
+      $fields = array_merge(
                              parent::dbFields(),
                              array(
                                    'name'         => array( self::TYPE_STRING, self::NOT_NULL ),

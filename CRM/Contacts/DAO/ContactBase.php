@@ -24,8 +24,8 @@ class CRM_Contacts_DAO_ContactBase extends CRM_DAO_Base {
     static $links = null;
 
     if ( $links === null ) {
-      $links = array( 'contact_id' => 'Contact:id',
-                      'domain_id'  => 'Domain:id' );
+      $links = array( 'contact_id' => 'crm_contact:id',
+                      'domain_id'  => 'crm_domain:id'  );
     }
     return $links;
   }

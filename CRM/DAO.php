@@ -96,18 +96,6 @@ class CRM_DAO extends DB_DataObject {
     }
   }
 	
-  /***
-   * Returns the db table name for this object. 
-   *
-   * For use when doing a selectAdd or whereAdd and you
-   * don't want to hardcode the table name into the SQL text.
-   *
-   * @access public
-   */
-  function getTableName() {
-    return $this->__table;
-  }
-	
   /**
    * Workaround to get the DB_DataObject::links() function to work. 
    * Include it in your object's table() function;
@@ -132,23 +120,6 @@ class CRM_DAO extends DB_DataObject {
 		
   }
 	
-  /**
-   * Overrides DB_DataObject::fetch().
-   *
-   * @access public
-   */
-  function fetch() {
-    $rtn = parent::fetch();
-    $this->fetched = true;
-    $this->_copyToCache();
-		
-    return $rtn;
-  }
-
-  function isFetched() {
-    return $this->fetched;
-  }
-  
   /**
    * Assembles a query based on the object passed in, then finds associated records from one of its linked tables.
    * Example, let's say I have a subscription record that is an intersection of members with memberLists.
@@ -219,7 +190,8 @@ class CRM_DAO extends DB_DataObject {
       GS_Error::fatal("No relationship setup on $col");
     }
   }
-	
+
+  /*****	
   function joinAdd($obj = false, $joinType='INNER', $joinAs=false, $joinCol=false) {
 		
     //patch for the bugs in the way DB_DataObject uses links()
@@ -232,7 +204,8 @@ class CRM_DAO extends DB_DataObject {
 		
     return parent::joinAdd($obj,$joinType,$joinAs,$joinCol);
   }
-	
+  ***/
+
   function getLinks($format = '_%s') {
     //patch for the bugs in the way DB_DataObject uses links()
     $this->setLinks();
