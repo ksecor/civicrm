@@ -65,8 +65,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
     function buildQuickForm()
     {
         switch ($this->_mode) {
-        case self::MODE_CREATE:
-            $this->addElement('text', 'mode', self::MODE_CREATE);
+        case self::MODE_ADD:
+            $this->addElement('text', 'mode', self::MODE_ADD);
             $this->_buildCreateForm();
             break;
         case self::MODE_VIEW:
@@ -79,8 +79,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $this->addElement('text', 'mode', self::MODE_SEARCH);
             $this->_buildSearchForm();
             break;            
-        case self::MODE_CREATE_MINI:
-            $this->addElement('text', 'mode', self::MODE_CREATE_MINI);
+        case self::MODE_ADD_MINI:
+            $this->addElement('text', 'mode', self::MODE_ADD_MINI);
             $this->_buildMiniCreateForm();
             break;            
         case self::MODE_SEARCH_MINI:
@@ -102,7 +102,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $defaults = array();
 
         switch ($this->_mode) {
-        case self::MODE_CREATE:
+        case self::MODE_ADD:
             $defaults['first_name'] = 'Dave';
             $defaults['last_name'] = 'Greenberg';
             $defaults['location1[email_1]'] = 'dgg@blackhole.net';
@@ -115,7 +115,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
             break;            
         case self::MODE_SEARCH:
             break;            
-        case self::MODE_CREATE_MINI:
+        case self::MODE_ADD_MINI:
             break;            
         case self::MODE_SEARCH_MINI:
 
@@ -150,7 +150,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->applyFilter('_ALL_', 'trim');
       
         switch ($this->_mode) {
-        case self::MODE_CREATE:
+        case self::MODE_ADD:
             $this->addRule('first_name', t(' First name is a required field.'), 'required', null, 'client');
             $this->addRule('last_name', t(' Last name is a required field.'), 'required', null, 'client');
             $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contact_Form_Individual');
@@ -176,7 +176,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
             break;            
         case self::MODE_SEARCH:
             break;            
-        case self::MODE_CREATE_MINI:
+        case self::MODE_ADD_MINI:
             $this->addRule('firstname', t(' First name is a required field.'), 'required', null, 'client');
             $this->addRule('lastname', t(' Last name is a required field.'), 'required', null, 'client');
             
@@ -198,7 +198,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function postProcess(){
         switch ($this->_mode) {
-        case self::MODE_CREATE:
+        case self::MODE_ADD:
             $this->_Create_postProcess();
             break;
         case self::MODE_VIEW:
@@ -209,7 +209,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
             break;            
         case self::MODE_SEARCH:
             break;            
-        case self::MODE_CREATE_MINI:
+        case self::MODE_ADD_MINI:
             $this->_MiniCreate_postProcess();
             break;            
         case self::MODE_SEARCH_MINI:

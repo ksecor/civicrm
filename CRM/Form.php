@@ -95,11 +95,11 @@ class CRM_Form extends HTML_QuickForm_Page {
      */
     const
         MODE_NONE                  = 0,
-        MODE_CREATE                = 1,
+        MODE_ADD                   = 1,
         MODE_VIEW                  = 2,
         MODE_UPDATE                = 4,
         MODE_DELETE                = 8,
-        MODE_CREATE_MINI           = 16,
+        MODE_ADD_MINI              = 16,
         MODE_SEARCH_MINI           = 32,
         MODE_SEARCH                = 64; 
 

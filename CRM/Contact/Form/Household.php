@@ -159,7 +159,7 @@ class CRM_Contact_Form_Household extends CRM_Form
         /* End of locationas */
         
         
-        if ($this->validate() && ($this->_mode == self::MODE_VIEW || self::MODE_CREATE)) {
+        if ($this->validate() && ($this->_mode == self::MODE_VIEW || self::MODE_ADD)) {
             //$this->freeze();    
             
         } else {
