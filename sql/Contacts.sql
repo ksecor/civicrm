@@ -18,36 +18,12 @@
 *	 provides better support for required unique and
 *    non-shared primary email addresses)
 *
-*
--------------------------------------------------------
-yvb -
-question regarding the sharing model i.e sharing the id, rid
-between tables contact(parent) and contact_individual(child)
-(parent->child relationship is 1:1).
-
-lets take an example row of contact
-1 1 1 1 'Individual' 'Donald Lobo' 'Source1' 'Email' 0 0 0 11 0 '11-Nov-2004' 1
-
-and a sample row of contact_individual
-1 1 1 'Donald' 'A' 'Lobo' 'Mr' 'Sr' 'Director' 'Formal' 'Welcome Mr. Lobo'
-
-now in the contact_individual we edit the greeting. we'll then get another row
-2 1 2 'Donald' 'A' 'Lobo' 'Mr' 'Sr' 'Director' 'Formal' 'Welcome Mr. Lobo Sr.'
-
-now my question is will this force a row in the parent contact table.
-1 2 2 1 'Individual' 'Donald Lobo' 'Source1' 'Email' 0 0 0 11 0 '11-Nov-2004' 1
-
-thx.
--------------------------------------------------------
-*
 *	Revisioning structures clarified. 1:1 object extension
 *	 records (e.g. contact_individual) will 'share' revision
 *	 id with parent (contact). A change in either will
 *	 force new revision. 1:many child types (e.g. contact_email)
 *	 will carry their own revision id (+ rid_latest...)
 *	 and will be revisioned independently.
-*
-*
 *
 *	Context is now indexed via contact_context to allow
 *	 structured grouping of context data (e.g. home address,
@@ -68,7 +44,39 @@ thx.
 * CREATE TABLES
 *
 *******************************************************/
-
+/*******************************************************
+*
+* users
+*
+* Must create users table if running this against a
+* standalone DB (i.e. NOT the drupal DB). Else, leave
+* commented out.
+*
+*******************************************************/
+/* DROP TABLE IF EXISTS users;
+CREATE TABLE IF NOT EXISTS users (
+  uid int(10) unsigned NOT NULL default '0',
+  name varchar(60) NOT NULL default '',
+  pass varchar(32) NOT NULL default '',
+  mail varchar(64) default '',
+  `mode` tinyint(1) NOT NULL default '0',
+  sort tinyint(1) default '0',
+  threshold tinyint(1) default '0',
+  theme varchar(255) NOT NULL default '',
+  signature varchar(255) NOT NULL default '',
+  created int(11) NOT NULL default '0',
+  `changed` int(11) NOT NULL default '0',
+  `status` tinyint(4) NOT NULL default '0',
+  timezone varchar(8) default NULL,
+  language varchar(12) NOT NULL default '',
+  picture varchar(255) NOT NULL default '',
+  init varchar(64) default '',
+  `data` longtext,
+  PRIMARY KEY  (uid),
+  UNIQUE KEY name (name),
+  KEY `changed` (`changed`)
+) ENGINE=InnoDB;
+*/
 
 /*******************************************************
 *
@@ -184,9 +192,6 @@ CREATE TABLE contact (
 	do_not_mail      BOOL DEFAULT 0,
 
 -- ? what is this used for ??
-  -- yvb - dont know. i got this from the previous schema listed at
-  -- http://civicspacelabs.org/developers/proposals/contact
-
 	hash INT UNSIGNED NOT NULL COMMENT 'key for hashing the entry',
 
 --  Need to flesh out approach for linking module actions to contact. Commented out for now. dgg
@@ -197,18 +202,7 @@ CREATE TABLE contact (
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added',
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
 
-
--------------------------------------------------------
--- question by yvb - 11/11/2004.
--- why is did a part of the primary key ?
--- (since id is AUTOINCREMENT i'm assuming that a new id would be generated
---  for every new contact added to the system so would not id,rid suffice as
---  primary keys)
---
--- the did would be needed for primary key if the contact belongs to
--- more than one domain though.
--------------------------------------------------------
-	PRIMARY KEY (id, rid, did),
+	PRIMARY KEY (id, rid),
 	FOREIGN KEY (did) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	INDEX contact_domain (did),
 	INDEX index_sort_name (sort_name(30))
@@ -224,10 +218,6 @@ CREATE TABLE contact (
 DROP TABLE IF EXISTS contact_individual;
 CREATE TABLE contact_individual(
 
--------------------------------------------------------
--- yvb - question - can we do without the id completely ?
--- since contact_individual is a 1:1 object extension of contact ?
--------------------------------------------------------
 	id  INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id (i.e. contact_individual record id-not FK)',
 
 -- cid+rid = contact.id+contact.rid gets a revision row for a contact with type=individual
@@ -252,12 +242,10 @@ CREATE TABLE contact_individual(
 	greeting_type ENUM('Formal', 'Informal', 'Honorific', 'Custom') COMMENT 'preferred greeting format',
 	custom_greeting VARCHAR(255) COMMENT 'custom greeting message',
 
--- yvb - can we have cid, rid as the the primary keys instead ?
-	PRIMARY KEY (id, rid),
+	PRIMARY KEY (id, cid, rid),
 
--- yvb - shldn't that be cid, rid ?
-	FOREIGN KEY (id, rid) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE,
-	INDEX contact_individual (cid, rid)
+	FOREIGN KEY (cid, rid) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE
+--	INDEX contact_individual (cid, rid)
 
 ) ENGINE=InnoDB COMMENT='extends contact for type=individual';
 
@@ -287,15 +275,6 @@ CREATE TABLE contact_address(
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 	rid INT UNSIGNED NOT NULL COMMENT 'contact_address revision id',
 	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
-
--------------------------------------------------------
--- yvb - would this be used to validate or autogenerate a contacts address ?
---  if c1 (contact1) belongs to d1(domain1)
---  and ca1 (contact address1) is owned by d1
---  then c1 would have address ca1
---  validation would be reverse. if c1 has address ca2 then there's a problem
---  since ca2 is not owned by d1 but by d2(domain 2) and c1 does not belong to d2.
--------------------------------------------------------
 
 	did  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact_address',
 
@@ -443,7 +422,9 @@ CREATE TABLE contact_phone_mobile (
 	pid INT UNSIGNED NOT NULL COMMENT 'contact_phone id',
 	rid INT UNSIGNED NOT NULL COMMENT 'contact_phone revision id',
 
-	mpid INT UNSIGNED NOT NULL COMMENT 'mobile provider id'
+	mpid INT UNSIGNED NOT NULL COMMENT 'mobile provider id',
+	PRIMARY KEY(id),
+	FOREIGN KEY(pid,rid) REFERENCES contact_phone(id,rid) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB COMMENT='contact phone mobile';
 
 
@@ -455,8 +436,10 @@ CREATE TABLE contact_phone_mobile (
 *******************************************************/
 DROP TABLE IF EXISTS contact_phone_mobile_providers;
 CREATE TABLE contact_phone_mobile_providers (
-	id INT UNSIGNED NOT NULL AUTOINCREMENT COMMENT 'mobile provider id',
-	name VARCHAR(255) COMMENT 'name of mobile provider'
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'mobile provider id',
+	name VARCHAR(255) COMMENT 'name of mobile provider',
+	PRIMARY KEY(id)
 
 ) ENGINE=InnoDB COMMENT='list of mobile phone providers';
 
@@ -506,7 +489,7 @@ CREATE TABLE contact_instant_message(
 DROP TABLE IF EXISTS contact_relationship_types;
 CREATE TABLE contact_relationship_types(
 
-	id INT UNSIGNED NOT NULL AUTOINCREMENT COMMENT 'contact relationship type id',
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'contact relationship type id',
 
 	did  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this type',
 
@@ -534,7 +517,7 @@ CREATE TABLE contact_relationship_types(
 DROP TABLE IF EXISTS contact_relationship;
 CREATE TABLE contact_relationship(
 
-	id INT UNSIGNED NOT NULL AUTOINCREMENT COMMENT 'contact relationship id',
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'contact relationship id',
 	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
 	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
 
@@ -548,7 +531,7 @@ CREATE TABLE contact_relationship(
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
 
 	PRIMARY KEY(id),
-	FOREIGN KEY(crtid) REFERENCES contact_relationship_type(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(crtid) REFERENCES contact_relationship_types(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(cid) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(target_cid) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE
 
@@ -969,5 +952,25 @@ INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1
 INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1049", "Wyoming", "WY", 1228);
 INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1050", "District of Columbia", "DC", 1228);
 INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1051", "APO", "XX", 1228);
-
+-- American Territories
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1052", "American Samoa", "AS", 1228);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1053", "Guam", "GU", 1228);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1054", "Marshall Islands", "MH", 1228);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1055", "Northern Mariana Islands", "MP", 1228);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1056", "Puerto Rico", "PR", 1228);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1057", "Virgin Islands", "VI", 1228);
+-- Canadian Provinces
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1058", "Alberta", "AB", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1059", "British Columbia", "BC", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1060", "Manitoba", "MB", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1061", "New Brunswick", "NB", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1062", "Newfoundland", "NL", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1063", "Northwest Territories", "NT", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1064", "Nova Scotia", "NS", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1065", "Nunavut", "NU", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1066", "Ontario", "ON", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1067", "Prince Edward Island", "PE", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1068", "Quebec", "QC", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1069", "Saskatchewan", "SK", 1039);
+INSERT INTO contact_state_province (id, name, abbreviation, countryid) VALUES("1070", "Yukon Territory", "YT", 1039);
 
