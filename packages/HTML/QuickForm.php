@@ -1450,9 +1450,14 @@ class HTML_QuickForm extends HTML_Common {
 
                 if (!$result || (!empty($rule['howmany']) && $rule['howmany'] > (int)$result)) {
                     if (isset($rule['group'])) {
-                        $this->_errors[$rule['group']] = $rule['message'];
+                        $this->_errors[$rule['group']] = array( 'label' => $rule['group'], 'message' => $rule['message'] );
                     } else {
-                        $this->_errors[$target] = $rule['message'];
+                        $label = $this->_elements[$this->_elementIndex[$target]]->getLabel( );
+                        if ( $label ) {
+                            $this->_errors[$target] = array( 'label' => $label, 'message' => $rule['message'] );
+                        } else {
+                            $this->_errors[$target] = array( 'label' => $target, 'message' => $rule['message'] );
+                        }
                     }
                 }
             }

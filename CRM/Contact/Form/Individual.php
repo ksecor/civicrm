@@ -98,7 +98,9 @@ class CRM_Contact_Form_Individual {
                 if ( array_key_exists( 'is_primary', $fields['location'][$locationId] ) ) {
                     if ( $fields['location'][$locationId]['is_primary'] ) {
                         if ( $isPrimary ) {
-                            $errors["location[$locationId][is_primary]"] = "Only one location can be marked as primary.";
+                            $errors["location[$locationId][is_primary]"] =
+                                array( 'label'   => '', 
+                                       'message' => "Only one location can be marked as primary." );
                         }
                         $isPrimary = true;
                     }
@@ -118,7 +120,9 @@ class CRM_Contact_Form_Individual {
             }
             
             if ( ! $isPrimary ) {
-                $errors["location[1][is_primary]"] = "One location needs to be marked as primary.";
+                $errors["location[1][is_primary]"] =
+                    array( 'label'   => '',
+                           'message' => "One location needs to be marked as primary." );
             }
 
         }
@@ -127,7 +131,8 @@ class CRM_Contact_Form_Individual {
         if (! ( (CRM_Array::value( 'first_name', $fields ) && 
                  CRM_Array::value( 'last_name' , $fields )    ) ||
                 !empty( $primaryEmail ) ) ) {
-            $errors['first_name'] = "First Name and Last Name OR an email in the Primary Location should be set.";
+            $errors['first_name'] = array( 'label'   => '',
+                                           'message' => "First Name and Last Name OR an email in the Primary Location should be set." );
         }
         
         // add code to make sure that the uniqueness criteria is satisfied

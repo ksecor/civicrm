@@ -27,8 +27,8 @@
      <div class="messages error">
         Please correct the following errors in the form fields below:
         <ul id="errorList">
-        {foreach from=$form.errors key=name item=errorMsg}
-            <li>{$name} {$errorMsg}</li>
+        {foreach from=$form.errors key=name item=error}
+            <li>{$error.label} {$error.message}</li>
         {/foreach}
         </ul>
     </div>
@@ -39,7 +39,7 @@
  <fieldset><legend>Name and Greeting</legend>
     <!-- <div class="spacer"></div> -->
     <div class="form-item">
-        <span class="labels"><label>First/Last:</label></span>
+o        <span class="labels"><label>First/Last:</label></span>
         <span class="fields">
             {$form.prefix.html}
             {$form.first_name.html}
