@@ -320,7 +320,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      * @access public
      */     
     function isSimpleForm() {
-        return $this->_state->getType( ) & ( CRM_State::SFINAL | CRM_State::INITIAL );
+        return $this->_state->getType( ) & ( CRM_State::START | CRM_State::FINISH );
     }
 
     /**
@@ -379,7 +379,7 @@ class CRM_Form extends HTML_QuickForm_Page {
         if (isset($this->_renderer)) {
             return $this->_renderer;
         } else {
-            $template = SmartyTemplate::instance();
+            $template = SmartyTemplate::singleton();
             $this->_renderer = new CRM_Form_Renderer($template);
             return $this->_renderer;
         }

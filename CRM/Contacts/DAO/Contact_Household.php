@@ -51,12 +51,12 @@ class CRM_Contacts_DAO_Contact_Household extends CRM_Contacts_DAO_ContactBase {
       $fields = array_merge(
                              parent::dbFields(),
                              array(
-                                   'household_name'    => array( self::TYPE_STRING, null ),
-                                   'nick_name'  => array( self::TYPE_STRING, null ),
-                                   'primary_contact_id' => array( self::TYPE_INT, null ),
-                                   'phone_to_household' => array( self::TYPE_BOOLEAN, null ),
-                                   'email_to_household' => array( self::TYPE_BOOLEAN, null ),
-                                   'mail_to_household' => array( self::TYPE_BOOLEAN, null ),
+                                   'household_name'    => array( CRM_Type::T_STRING, null ),
+                                   'nick_name'  => array( CRM_Type::T_STRING, null ),
+                                   'primary_contact_id' => array( CRM_Type::T_INT, null ),
+                                   'phone_to_household' => array( CRM_Type::T_BOOLEAN, null ),
+                                   'email_to_household' => array( CRM_Type::T_BOOLEAN, null ),
+                                   'mail_to_household' => array( CRM_Type::T_BOOLEAN, null ),
                                    )
                              );
     }

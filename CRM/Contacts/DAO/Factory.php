@@ -28,13 +28,13 @@ class CRM_Contacts_DAO_Factory {
     static $_suffix = '.php';
     
     static $_preCall = array(
-                             'instance'  =>  '',
+                             'singleton'  =>  '',
                              'business'  =>  'new',
                              'data'      =>  'new',
                              );
     
     static $_extCall = array(
-                             'instance'  =>  '::instance',
+                             'singleton'  =>  '::singleton',
                              'business'  =>  '',
                              'data'      =>  '',
                              );

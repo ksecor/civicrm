@@ -28,18 +28,24 @@ require 'Validate.php';
 
 class CRM_Type {
     const
-    T_INT     =   1,
-        T_BOOL    =   2,
-        T_DOUBLE  =   3,
-        T_MONEY   =   4,
-        T_STRING  =   5,
-        T_TEXT    =   6,
-        T_DATE    =   7,
-        T_EMAIL   =   8,
-        T_URL     =   9,
-        T_CCNUM   =  10;
+        T_INT       =     1,
+        T_STRING    =     2,
+        T_ENUM      =     2,
+        T_DATE      =     4,
+        T_TIME      =     8,
+        T_BOOL      =    16,
+        T_BOOLEAN   =    16,
+        T_TEXT      =    32,
+        T_BLOB      =    64,
+        T_TIMESTAMP =   256,
+        T_DOUBLE    =   512,
+        T_MONEY     =  1024,
+        T_DATE      =  2048,
+        T_EMAIL     =  4096,
+        T_URL       =  8192,
+        T_CCNUM     = 16384;
 
-    static $_match = array(
+    static $_regex = array(
                            self::T_INT    => '/^-?\d+$/',
                            self::T_BOOL   => '/^[01]$/',
                            self::T_DOUBLE => '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/',
@@ -68,7 +74,7 @@ class CRM_Type {
         case self::T_DOUBLE:
         case self::T_MONEY:
         case self::T_STRING:
-            if ( ! preg_match( self::$_match[$type], $value ) ) {
+            if ( ! preg_match( self::$_regex[$type], $value ) ) {
                 return false;
             }
             return true;

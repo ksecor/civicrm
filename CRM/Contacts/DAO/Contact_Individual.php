@@ -58,17 +58,17 @@ class CRM_Contacts_DAO_Contact_Individual extends CRM_Contacts_DAO_ContactBase
       $fields = array_merge(
 			    parent::dbFields(),
                              array(
-                                   'first_name'   => array(self::TYPE_STRING, self::NOT_NULL),
-                                   'last_name'    => array(self::TYPE_STRING, self::NOT_NULL),
-                                   'middle_name'  => array(self::TYPE_STRING, self::NOT_NULL),
-                                   'prefix'       => array(self::TYPE_STRING, self::NOT_NULL),
-                                   'suffix'       => array(self::TYPE_STRING, self::NOT_NULL),
-                                   'job_title'    => array(self::TYPE_STRING, self::NOT_NULL),
-                                   'greeting_type'   => array(self::TYPE_ENUM, self::NOT_NULL),
-                                   'custom_greeting' => array(self::TYPE_STRING, self::NOT_NULL),
-                                   'gender'       => array(self::TYPE_ENUM, self::NOT_NULL),
-                                   'birth_date'   => array(self::TYPE_DATE, self::NOT_NULL),
-				   'is_deceased'  => array(self::TYPE_BOOLEAN, null)
+                                   'first_name'   => array(CRM_Type::T_STRING, self::NOT_NULL),
+                                   'last_name'    => array(CRM_Type::T_STRING, self::NOT_NULL),
+                                   'middle_name'  => array(CRM_Type::T_STRING, self::NOT_NULL),
+                                   'prefix'       => array(CRM_Type::T_STRING, self::NOT_NULL),
+                                   'suffix'       => array(CRM_Type::T_STRING, self::NOT_NULL),
+                                   'job_title'    => array(CRM_Type::T_STRING, self::NOT_NULL),
+                                   'greeting_type'   => array(CRM_Type::T_ENUM, self::NOT_NULL),
+                                   'custom_greeting' => array(CRM_Type::T_STRING, self::NOT_NULL),
+                                   'gender'       => array(CRM_Type::T_ENUM, self::NOT_NULL),
+                                   'birth_date'   => array(CRM_Type::T_DATE, self::NOT_NULL),
+				   'is_deceased'  => array(CRM_Type::T_BOOLEAN, null)
                                    )
                              );
     }

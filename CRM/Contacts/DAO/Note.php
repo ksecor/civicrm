@@ -17,9 +17,9 @@ class CRM_Contacts_DAO_Note extends CRM_DAO_Base {
       $fields = array_merge(
 			    parent::dbFields(),
 			    array(
-				  'table_name' => array(self::TYPE_STRING, self::NOT_NULL),
-				  'table_id'   => array(self::TYPE_INT, self::NOT_NULL),
-				  'note'       => array(self::TYPE_TEXT),
+				  'table_name' => array(CRM_Type::T_STRING, self::NOT_NULL),
+				  'table_id'   => array(CRM_Type::T_INT, self::NOT_NULL),
+				  'note'       => array(CRM_Type::T_TEXT),
 				  ) // end of array
 			    );
     }

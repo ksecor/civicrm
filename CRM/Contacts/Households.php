@@ -16,8 +16,8 @@ class CRM_Contacts_Households extends CRM_Base {
   }
 
   function run( $mode, $id = 0 ) {
-    $session = CRM_Session::instance();
-    $config  = CRM_Config::instance();
+    $session = CRM_Session::singleton();
+    $config  = CRM_Config::singleton();
 
     // store the return url. Note that this is typically computed by the framework at runtime
     // based on multiple things (typically where the link was clicked from / http_referer

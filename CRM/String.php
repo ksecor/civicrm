@@ -45,42 +45,47 @@ class CRM_String {
         PHONE      = 'phone'  ;
   
     /**
-     * Takes a valid name and converts it to a valid variable
-     * name (needed typically for form keys)
+     * Convert a display name into a potential variable
+     * name that we could use in forms/code
      * 
      * @param  name    Name of the string
-     * @return string  The display name munged into a string
+     * @return string  An equivalent variable name
      *
      * @access public
      * @return string (or null)
+     * @static
      */
-    static function nameToVariable( $name ) {
-        if ( ! CRM_Validate::name( $name ) ) {
+    static function nameToVar( $name ) {
+        if ( ! CRM_Rule::name( $name ) ) {
             return null;
         }
 
-        $variable = CRM_String::mungeName( $name );
+        $variable = CRM_String::munge( $name );
 
-        if ( CRM_Validate::variable( $variable ) ) {
+        if ( CRM_Rule::variable( $variable ) ) {
             return $variable;
         }
       
         return null;
     }
 
-    static function mungeName( $name ) {
-        $variable = trim( $name );
+    /**
+     * given a string, replace all non alpha numeric characters and
+     * spaces with the replacement character
+     *
+     * @param string the name to be worked on
+     * @param string the character to use for non-valid chars
+     * @param int    length of valid variables
+     * @access public
+     * @return string
+     * @static
+     */
+    static function munge( $name, $char = '_', $len = 31 ) {
+        // replace all white space and non-alpha numeric with $char
+        $name = preg_replace('/\s+|\W+/', $char, trim($name) );
 
-        // replace all white space with an '_'
-        $variable = preg_replace('/\s+/', '_', $variable );
-
-        // replace all non-alpha numeric characters with an '_'
-        $variable = preg_replace( '/[^\w]/', '_', $variable );
-
-        // reduce the length of this to 31 characters
-        $variable = substr( $variable, 0, 31 );
-
-        return $variable;
+        // lets keep variable names short
+        return substr( $name, 0, $len );
     }
 
 
@@ -91,29 +96,14 @@ class CRM_String {
      * @return string  Randomized Variable Name
      * 
      * @access public 
+     * @return string
+     * @static
      */
-    static function renameVariable( $name ) {
-        // generate a 4 digit string
-        $rand = sprintf( "%04d", rand( ) % 10000 );
-        return substr_replace( $name, $rand, -4, 4 );
+    static function rename( $name, $len = 4 ) {
+        $rand = substr( uniqid(), 0, $len );
+        return substr_replace( $name, $rand, -$len, $len );
     }
 
-    /**
-     * takes a string and returns the count of the number of words
-     * in the string
-     *
-     * @param string $string - string to word counted
-     *
-     * @return int numberOfWords
-     * 
-     * @access public
-     *
-     */
-    static function wordCount( $string ) {
-        $words = preg_split( "\s+", $string );
-        return count( $words );
-    }
-    
     /**
      * takes a string and returns the last tuple of the string.
      * useful while converting file names to class names etc
@@ -123,13 +113,22 @@ class CRM_String {
      *
      * @access public
      * @return string the last component
-     *
+     * @static
      */
     static function getClassName( $string, $char = '_' ) {
         $path = explode( $char, $string );
         return $path[ count( $path ) - 1 ];
     }
 
+    /** 
+     * Given an associative array, trim the values of the associative array
+     *
+     * @param array associative array to be cleaned up
+     *
+     * @return the newly cleaned array
+     * @access public
+     * @static
+     */
     static function trimArrayValues( $array ) {
         $fields = array();
         foreach (array_keys($array) as $fldKey) {
@@ -180,7 +179,7 @@ class CRM_String {
         $match = $misMatch = 0;
         foreach ( $values as $value ) {
             $value = trim( $value );
-            if ( CRM_String::wordCount( $value ) > 1 ) {
+            if ( str_word_count( $value ) > 1 ) {
                 $match++;
             } else {
                 $misMatch++;

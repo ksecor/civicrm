@@ -16,7 +16,7 @@ class CRM_Contacts_DAO_Contact_List extends CRM_Contacts_DAO_ContactBase {
       $fields = array_merge(
 			    parent::dbFields(),
 			    array(
-				  'list_id' => array(self::TYPE_INT, self::NOT_NULL),
+				  'list_id' => array(CRM_Type::T_INT, self::NOT_NULL),
 				  ) // end of array
 			    );
     }

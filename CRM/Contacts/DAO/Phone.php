@@ -42,10 +42,10 @@ class CRM_Contacts_DAO_Phone extends CRM_Contacts_DAO_LocationBase
             $fields = array_merge(
                                   parent::dbFields(),
                                   array(
-                                        'is_primary'         => array(self::TYPE_BOOLEAN),
-                                        'phone'              => array(self::TYPE_STRING),
-                                        'phone_type'         => array(self::TYPE_ENUM),
-                                        'mobile_provider_id' => array(self::TYPE_INT)
+                                        'is_primary'         => array(CRM_Type::T_BOOLEAN),
+                                        'phone'              => array(CRM_Type::T_STRING),
+                                        'phone_type'         => array(CRM_Type::T_ENUM),
+                                        'mobile_provider_id' => array(CRM_Type::T_INT)
                                         ) // end of array
                                   );
         }

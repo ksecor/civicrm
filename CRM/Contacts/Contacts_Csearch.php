@@ -17,8 +17,8 @@ class CRM_Contacts_Contacts_Csearch extends CRM_Base {
 
   function run( $mode, $id = 0 ) 
     {
-        $session = CRM_Session::instance();
-        $config  = CRM_Config::instance();
+        $session = CRM_Session::singleton();
+        $config  = CRM_Config::singleton();
         
         // store the return url. Note that this is typically computed by the framework at runtime
         // based on multiple things (typically where the link was clicked from / http_referer
@@ -36,7 +36,7 @@ class CRM_Contacts_Contacts_Csearch extends CRM_Base {
         $contact->domain_id = 1;
         $contact->find();
         while ( $contact->fetch() ) {
-            // CRM_Utils::debug( 'contactInd', $contact );
+            // CRM_Log::debug( 'contactInd', $contact );
         }
         
         $contact = new CRM_Contacts_BAO_Contact_Individual();

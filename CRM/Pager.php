@@ -126,7 +126,7 @@ class CRM_Pager extends Pager_Sliding {
      *
      */
     function &getDefaultParams( &$total, $perPage, $defaultCurrentPage = 1 ) {
-        $config = CRM_Config::instance( );
+        $config = CRM_Config::singleton( );
 
         $params = array( );
 

@@ -19,10 +19,10 @@ class CRM_Contacts_DAO_Relationship_Type extends CRM_Contacts_DAO_DomainBase {
       $fields = array_merge(
 			    parent::dbFields(),
 			    array(
-				  'name'         => array(self::TYPE_STRING),
-				  'description'  => array(self::TYPE_STRING),
-				  'direction'    => array(self::TYPE_ENUM),
-				  'contact_type' => array(self::TYPE_ENUM),
+				  'name'         => array(CRM_Type::T_STRING),
+				  'description'  => array(CRM_Type::T_STRING),
+				  'direction'    => array(CRM_Type::T_ENUM),
+				  'contact_type' => array(CRM_Type::T_ENUM),
 				  ) // end of array
 			    );
     }

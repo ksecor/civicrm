@@ -69,14 +69,14 @@ class CRM_Contacts_DAO_Contact extends CRM_Contacts_DAO_DomainBase
       $fields = array_merge(
                             parent::dbFields(),
                             array(
-                                  'contact_type' => array(self::TYPE_ENUM, self::NOT_NULL),
-                                  'sort_name'    => array(self::TYPE_STRING, null),
-                                  'source'       => array(self::TYPE_STRING, null),
-                                  'preferred_communication_method' => array(self::TYPE_ENUM, null),
-                                  'do_not_phone' => array(self::TYPE_BOOLEAN, null),
-                                  'do_not_email' => array(self::TYPE_BOOLEAN, null),
-                                  'do_not_mail'  => array(self::TYPE_BOOLEAN, null),
-                                  'hash'         => array(self::TYPE_STRING, null),
+                                  'contact_type' => array(CRM_Type::T_ENUM, self::NOT_NULL),
+                                  'sort_name'    => array(CRM_Type::T_STRING, null),
+                                  'source'       => array(CRM_Type::T_STRING, null),
+                                  'preferred_communication_method' => array(CRM_Type::T_ENUM, null),
+                                  'do_not_phone' => array(CRM_Type::T_BOOLEAN, null),
+                                  'do_not_email' => array(CRM_Type::T_BOOLEAN, null),
+                                  'do_not_mail'  => array(CRM_Type::T_BOOLEAN, null),
+                                  'hash'         => array(CRM_Type::T_STRING, null),
                                   )
                             );
     }

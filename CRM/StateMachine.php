@@ -76,9 +76,9 @@ class CRM_StateMachine {
         }
     
         // the page is valid, process it before we jump to the next state
-        $page->process( );
+        $page->postProcess( );
 
-        $state->getNextState( $page );
+        $state->handleNextState( $page );
     }
   
     function getBackState( &$page, $actionName ) {
@@ -100,11 +100,11 @@ class CRM_StateMachine {
             return $page->handle('display');
         }
     
-        $state->getBackState( $page );
+        $state->handleBackState( $page );
     }
 
-    function addState( $name, $displayName, $type, $prev, $next ) {
-        $this->_states[$name] =& new CRM_State( $name, $displayName, $type, $prev, $next, $this );
+    function addState( $iname, $name, $type, $prev, $next ) {
+        $this->_states[$name] =& new CRM_State( $iname, $name, $type, $prev, $next, $this );
     }
 
     function isValidStateName( $name ) {
@@ -160,13 +160,13 @@ class CRM_StateMachine {
     }
   
     function navigationLabels( &$labels ) {
-        $states = $this->getStates( CRM_State::INITIAL );
+        $states = $this->getStates( CRM_State::START );
 
         // assume only 1 start state for now
         $state = $states[0];
         while ( $state != null ) {
-            $labels[ $state->getName( ) ] = $state->getDisplayName( );
-            $state = $state->getNextStateName( );
+            $labels[ $state->getIName( ) ] = $state->getName( );
+            $state = $state->getNextState( );
         }
     }
 
@@ -191,37 +191,35 @@ class CRM_StateMachine {
     function addSequentialStates( &$states ) {
         $this->_statesDescriptionArray = $states;
         $numStates = count( $states );
+        
         for ( $i = 0; $i < $numStates ; $i++ ) {
-            $name    = CRM_String::getClassName( $states[$i] );
+            $iname    = CRM_String::getClassName( $states[$i] );
 
             $classPath = str_replace( '_', '/', $states[$i] ) . '.php';
             require_once($classPath);
-            $display = eval( sprintf( "return %s::getDisplayName( );", $states[$i] ) );
+            $name = eval( sprintf( "return %s::getDisplayName( );", $states[$i] ) );
 
-            if ( $i == 0 ) {
-                // initial state
+            if ( $numStates == 1 ) {
+                $prev = $next = null;
+                $type = CRM_State::START | CRM_State::FINISH;
+            } else if ( $i == 0 ) {
+                // start state
                 $prev = null;
-                // StateMachine has only one state!
-                if ( $numStates == 1 ) {
-                    $next = null;
-                    $type = CRM_State::INITIAL | CRM_State::SFINAL | CRM_State::SEQ | CRM_State::PRESENT;
-                } else {
-                    $next = CRM_String::getClassName( $states[$i + 1] );
-                    $type = CRM_State::INITIAL | CRM_State::SEQ | CRM_State::PRESENT;
-                }
+                $next = CRM_String::getClassName( $states[$i + 1] );
+                $type = CRM_State::START;
             } else if ( $i == $numStates - 1 ) {
-                // final state
+                // finish state
                 $prev = CRM_String::getClassName( $states[$i - 1] );
                 $next = null;
-                $type = CRM_State::SFINAL | CRM_State::SEQ | CRM_State::PRESENT;
+                $type = CRM_State::FINISH;
             } else {
-                // intermediate state
+                // in between simple state
                 $prev = CRM_String::getClassName( $states[$i - 1] );
                 $next = CRM_String::getClassName( $states[$i + 1] ); 
-                $type = CRM_State::SEQ | CRM_State::PRESENT;
+                $type = CRM_State::SIMPLE;
             }
       
-            $this->addState( $name, $display, $type, $prev, $next );
+            $this->addState( $iname, $name, $type, $prev, $next );
         }
     }
   
@@ -236,8 +234,8 @@ class CRM_StateMachine {
     // this function should actually go in a superclass of action
     // since we dont have a superclass, putting it here 
     function returnToURL( ) {
-        $session = CRM_Session::instance( );
-        $config  = CRM_Config::instance( );
+        $session = CRM_Session::singleton( );
+        $config  = CRM_Config::singleton( );
 
         $returnURL = $session->popReturnURL( );
         if ( empty( $returnURL ) ) {

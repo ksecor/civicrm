@@ -30,7 +30,7 @@ class CRM_Contacts_DAO_ContactBase extends CRM_DAO_Base {
       $fields = array_merge(
                              parent::dbFields(),
                              array(
-                                   'contact_id'   => array( self::TYPE_INT, self::NOT_NULL ),
+                                   'contact_id'   => array( CRM_Type::T_INT, self::NOT_NULL ),
                                    )
                              );
     }

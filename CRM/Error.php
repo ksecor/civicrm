@@ -50,10 +50,11 @@ class CRM_Error extends PEAR_ErrorStack {
      * @var object
      * @static
      */
-    private static $_instance = null;
+    private static $_singleton = null;
 
     /**
-     * singleton function used to manage this object
+     * singleton function used to manage this object. This function is not
+     * explicity declared static to be compatible with PEAR_ErrorStack
      *  
      * @param string the key in which to record session / log information
      *
@@ -61,11 +62,11 @@ class CRM_Error extends PEAR_ErrorStack {
      * @static
      *
      */
-    static function instance( $key = 'CRM' ) {
-        if (self::$_instance === null ) {
-            self::$_instance = new CRM_Error( $key );
+    function singleton( $key = 'CRM' ) {
+        if (self::$_singleton === null ) {
+            self::$_singleton = new CRM_Error( $key );
         }
-        return self::$_instance;
+        return self::$_singleton;
     }
   
     /**

@@ -21,11 +21,11 @@ class CRM_Contacts_DAO_Contact_Action extends CRM_Contacts_DAO_ContactBase {
       $fields = array_merge(
 			    parent::dbFields(),
 			    array(
-				  'action_category'      => array(self::TYPE_ENUM),
-				  'callback'             => array(self::TYPE_STRING),
-				  'action_id'            => array(self::TYPE_INT, self::NOT_NULL),
-				  'action_date'          => array(self::TYPE_DATE | self::TYPE_TIME | self::TYPE_STRING),
-				  'action_summary'       => array(self::TYPE_STRING),
+				  'action_category'      => array(CRM_Type::T_ENUM),
+				  'callback'             => array(CRM_Type::T_STRING),
+				  'action_id'            => array(CRM_Type::T_INT, self::NOT_NULL),
+				  'action_date'          => array(CRM_Type::T_DATE | CRM_Type::T_TIME | CRM_Type::T_STRING),
+				  'action_summary'       => array(CRM_Type::T_STRING),
 				  ) // end of array
 			    );
     }

@@ -25,7 +25,7 @@
 /**
  * The Base class of the CRM hierarchy. Currently does not provide
  * any useful functionality. As such we dont require anyone to derive
- * from this class.
+ * from this class. However it includes a few common files
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -33,6 +33,9 @@
  * $Id$
  *
  */
+
+require_once 'CRM/Error.php';
+require_once 'CRM/Log.php';
 
 class CRM_Base {
 

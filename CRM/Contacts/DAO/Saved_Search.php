@@ -18,9 +18,9 @@ class CRM_Contacts_DAO_Saved_Search extends CRM_Contacts_DAO_DomainBase {
       $fields = array_merge(
 			    parent::dbFields(),
 			    array(
-				  'name'        => array(self::TYPE_STRING, self::NOT_NULL),
-				  'description' => array(self::TYPE_STRING),
-				  'query'       => array(self::TYPE_TEXT, self::NOT_NULL),
+				  'name'        => array(CRM_Type::T_STRING, self::NOT_NULL),
+				  'description' => array(CRM_Type::T_STRING),
+				  'query'       => array(CRM_Type::T_TEXT, self::NOT_NULL),
 				  ) // end of array
 			    );
     }

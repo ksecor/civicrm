@@ -20,11 +20,11 @@ class CRM_Contacts_DAO_List extends CRM_Contacts_DAO_DomainBase {
       $fields = array_merge(
 			    parent::dbFields(),
 			    array(
-				  'iname'           => array(self::TYPE_STRING, self::NOT_NULL),
-				  'name'            => array(self::TYPE_STRING, self::NOT_NULL),
-				  'description'     => array(self::TYPE_STRING),
-				  'list_type'       => array(self::TYPE_ENUM, self::NOT_NULL),
-				  'saved_search_id' => array(self::TYPE_INT),
+				  'iname'           => array(CRM_Type::T_STRING, self::NOT_NULL),
+				  'name'            => array(CRM_Type::T_STRING, self::NOT_NULL),
+				  'description'     => array(CRM_Type::T_STRING),
+				  'list_type'       => array(CRM_Type::T_ENUM, self::NOT_NULL),
+				  'saved_search_id' => array(CRM_Type::T_INT),
 				  ) // end of array
 			    );
     }

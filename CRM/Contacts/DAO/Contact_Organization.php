@@ -38,11 +38,11 @@ class CRM_Contacts_DAO_Contact_Organization extends CRM_Contacts_DAO_ContactBase
       $fields = array_merge(
                              parent::dbFields(),
                              array(
-                                   'organization_name'   => array( self::TYPE_STRING, self::NOT_NULL ),
-                                   'legal_name'    => array( self::TYPE_STRING, null ),
-                                   'nick_name'  => array( self::TYPE_STRING, null ), 
-                                   'sic_code'  => array( self::TYPE_STRING, null ),
-                                   'primary_contact_id' => array( self::TYPE_INT, null ),
+                                   'organization_name'   => array( CRM_Type::T_STRING, self::NOT_NULL ),
+                                   'legal_name'    => array( CRM_Type::T_STRING, null ),
+                                   'nick_name'  => array( CRM_Type::T_STRING, null ), 
+                                   'sic_code'  => array( CRM_Type::T_STRING, null ),
+                                   'primary_contact_id' => array( CRM_Type::T_INT, null ),
                                    )
                              );
     }

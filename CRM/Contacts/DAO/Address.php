@@ -45,18 +45,18 @@ class CRM_Contacts_DAO_Address extends CRM_Contacts_DAO_LocationBase
             $fields = array_merge(
                                   parent::dbFields(),
                                   array(
-                                        'street'               => array(self::TYPE_STRING),
-                                        'supplemental_address' => array(self::TYPE_TEXT),
-                                        'city'                 => array(self::TYPE_STRING),
-                                        'county'               => array(self::TYPE_STRING),
-                                        'state_province_id'    => array(self::TYPE_INT),
-                                        'postal_code'          => array(self::TYPE_STRING),
-                                        'usps_adc'             => array(self::TYPE_STRING),
-                                        'country_id'           => array(self::TYPE_INT),
-                                        'geo_code_1'           => array(self::TYPE_STRING),
-                                        'geo_code_2'           => array(self::TYPE_STRING),
-                                        'address_note'         => array(self::TYPE_STRING),
-                                        'timezone'                => array(self::TYPE_STRING)
+                                        'street'               => array(CRM_Type::T_STRING),
+                                        'supplemental_address' => array(CRM_Type::T_TEXT),
+                                        'city'                 => array(CRM_Type::T_STRING),
+                                        'county'               => array(CRM_Type::T_STRING),
+                                        'state_province_id'    => array(CRM_Type::T_INT),
+                                        'postal_code'          => array(CRM_Type::T_STRING),
+                                        'usps_adc'             => array(CRM_Type::T_STRING),
+                                        'country_id'           => array(CRM_Type::T_INT),
+                                        'geo_code_1'           => array(CRM_Type::T_STRING),
+                                        'geo_code_2'           => array(CRM_Type::T_STRING),
+                                        'address_note'         => array(CRM_Type::T_STRING),
+                                        'timezone'                => array(CRM_Type::T_STRING)
                                         ) // end of array
                                   );
         }

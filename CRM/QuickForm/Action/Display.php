@@ -15,10 +15,10 @@ class CRM_QuickForm_Action_Display extends HTML_QuickForm_Action_Display {
   }
 
   function _renderForm($page) {
-    $config = CRM_Config::instance();
+    $config = CRM_Config::singleton();
 
     $this->_setRenderTemplates($page);
-    $template = SmartyTemplate::instance($config->templateDir, $config->templateCompileDir);
+    $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
     $template->clear_all_assign();
     $template->assign('form',  $page->toSmarty());
     $content = $template->fetch( $page->getTemplateFileName(), $config->templateDir );
@@ -42,7 +42,7 @@ class CRM_QuickForm_Action_Display extends HTML_QuickForm_Action_Display {
       return;
     }
 
-    $config = CRM_Config::instance();
+    $config = CRM_Config::singleton();
     self::$_requiredTemplate = file_get_contents( $config->templateDir . '/themes/form_label.tpl' );
     self::$_errorTemplate    = file_get_contents( $config->templateDir . '/themes/form_error.tpl' );
   }

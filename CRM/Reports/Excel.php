@@ -89,7 +89,7 @@ class CRM_Reports_Excel {
     $mime_type = 'text/x-csv';
     $ext       = 'csv';
 
-    $fileName = CRM_String::mungeName( $fileName );
+    $fileName = CRM_String::munge( $fileName );
 
     // send the write header statements to the browser
     header('Content-Type: ' . $mime_type); 

@@ -22,39 +22,84 @@
  +----------------------------------------------------------------------+
 */
 
-
-require_once 'CRM/Error.php';
+/**
+ * The basic state element. Each state element is linked to a form and
+ * represents the form in the transition diagram. We use the state to 
+ * determine what action to take on various user input. Actions include
+ * things like going back / stepping forward / process etc
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
 
 class CRM_State {
 
-    protected $_name;
-    protected $_displayName;
+    /**
+     * Internal state name
+     * @var string
+     */
+    protected $_iname;
 
-    // this is a combination "OR" of the STATE_* constants defined below
+    /**
+     * Display name for state
+     * @var string
+     */
+    protected $_name;
+
+    /**
+     * this is a combination "OR" of the STATE_* constants defined below
+     * @var int
+     */
     protected $_type;
 
+    /**
+     * the state that precedes this state
+     * @var object
+     */
     protected $_back;
+
+    /**
+     * the state that succeeds this state
+     * @var object
+     */
     protected $_next;
 
+    /**
+     * The state machine that this state is part of
+     * @var object
+     */
     protected $_stateMachine;
 
-    //
-    // this is like an enum, primarily since a state could have multiple
-    // values
-    //
+    /**
+     * The different types of states. As we flush out the framework more
+     * we will introduce other conditional / looping states which will
+     * bring in more complexity to the framework. For now, lets keep it simple
+     * @var int
+     */
     const
-    INITIAL     =  1,
-        // changed name since final is a reserved word in php5
-        SFINAL      =  2,
-        SEQ         =  4,
-        BACK_BRANCH =  8,
-        NEXT_BRANCH = 16,
-        PRESENT     = 32,
-        COND        = 64;
+        START       =  1,
+        FINISH      =  2,
+        SIMPLE      =  4;
 
-    function CRM_State( $name, $displayName, $type, $back, $next, $stateMachine ) {
+    /**
+     * constructor
+     *
+     * @param string the internal name of the state
+     * @param string the display name for this state
+     * @param int    the state type
+     * @param object the state that precedes this state
+     * @param object the state that follows  this state
+     * @param object the statemachine that this states belongs to
+     *
+     * @return object
+     * @access public
+     */
+    function __construct( $iname, $name, $type, $back, $next, $stateMachine ) {
+        $this->_iName       = $iname;
         $this->_name        = $name;
-        $this->_displayName = $displayName;
         $this->_type        = $type;
         $this->_back        = $back;
         $this->_next        = $next;
@@ -62,102 +107,130 @@ class CRM_State {
         $this->_stateMachine = $stateMachine;
     }
 
-    function getBackState( &$page ) {
-        if ( $this->_type & CRM_State::INITIAL ) {
+    /**
+     * Given an CRM Form, jump to the previous page
+     *
+     * @param object the CRM_Form element under consideration
+     *
+     * @return mixed does a jump to the back state
+     * @access public
+     */
+    function handleBackState( &$page ) {
+        if ( $this->_type & CRM_State::START ) {
             $page->handle('display');
-        } elseif ( $this->_type & CRM_State::SEQ ) {
-            $back =& $page->controller->getPage($this->_back);
-            $back->handle('jump');
-        } elseif ( $this->_type & CRM_State::BACK_BRANCH ) {
-            $backName = $this->_back; 
-            if ( is_array( $backName ) ) { 
-                $back =& $page->controller->getPage( call_user_func( $backName, $page ) ); 
-            } else if ( $this->_stateMachine->isValidStateName($backName )) { 
-                $back =& $page->controller->getPage( $backName ); 
-            } else { 
-                CRM_Error::fatal( '', 'CRM-STM-8001', 'Fatal Error in back branch of code' ); 
-            } 
-            $back->handle('jump'); 
         } else { 
-            // assume sequential fall through case 
             $back =& $page->controller->getPage($this->_back); 
             return $back->handle('jump'); 
         }
     }
 
-    function getNextState( &$page ) {
-        // CRM_Utils::debug( "State", $this );
-        if ( $this->_type & CRM_State::SFINAL ) {
+    /**
+     * Given an CRM Form, jump to the next page
+     *
+     * @param object the CRM_Form element under consideration
+     *
+     * @return mixed does a jump to the nextstate
+     * @access public
+     */
+    function handleNextState( &$page ) {
+        if ( $this->_type & CRM_State::FINISH ) {
             $page->handle('process');
-        } elseif ( $this->_type & CRM_State::SEQ ) {
-            $next =& $page->controller->getPage($this->_next);
-            // CRM_Utils::debug( "Next State", $next );
-            return $next->handle('jump');
-        } elseif ( $this->_type & CRM_State::NEXT_BRANCH ) {
-            $nextName = $this->_next; 
-            if ( is_array( $nextName ) ) { 
-                $next =& $page->controller->getPage( call_user_func( $nextName, $page ) ); 
-            } else if ( $this->_stateMachine->isValidStateName($nextName )) { 
-                $next =& $page->controller->getPage( $nextName ); 
-            } else { 
-                CRM_Error::fatal( '', 'CRM-STM-8002', 'Fatal Error in next branch of code' ); 
-            } 
-            $next->handle('jump'); 
         } else { 
-            // assume sequential fall through case 
             $next =& $page->controller->getPage($this->_next); 
             return $next->handle('jump'); 
         } 
     }
 
-    function getNextStateName( ) {
-        // CRM_Utils::debug( "State", $this );
-        if ( $this->_type & CRM_State::SFINAL ) {
+    /**
+     * Determine the name of the next state. This is useful when we want
+     * to display the navigation labels or potential path
+     *
+     * @return string
+     * @access public
+     */
+    function getNextState( ) {
+        if ( $this->_type & CRM_State::FINISH ) {
             return null;
-        } elseif ( $this->_type & CRM_State::SEQ ) {
-            return $this->_stateMachine->find( $this->_next );
-        } elseif ( $this->_type & CRM_State::NEXT_BRANCH ) {
-            $nextName = $this->_next; 
-            if ( is_array( $nextName ) ) { 
-                $next =& $page->controller->getPage( call_user_func( $nextName, $page ) ); 
-            } else if ( $this->_stateMachine->isValidStateName($nextName )) { 
-                return $this->_stateMachine->find( $this->_next );
-            } else { 
-                CRM_Error::fatal( '', 'CRM-STM-8003', 'Fatal Error in next branch of code' ); 
-            } 
-            return $next;
         } else { 
-            // assume sequential fall through case 
             $next =& $page->controller->getPage( $this->_next ); 
             return $next;
         } 
     }
 
+    /**
+     * Mark this page as valid for the QFC framework. This is needed as
+     * we build more advanced functionality into the StateMachine
+     *
+     * @param object the QFC data container
+     *
+     * @return void
+     * @access public 
+     */
     function validate( &$data ) {
         $data['valid'][$this->_name] = true;
     }
 
+    /**
+     * Mark this page as invalid for the QFC framework. This is needed as
+     * we build more advanced functionality into the StateMachine
+     *
+     * @param object the QFC data container
+     *
+     * @return void
+     * @access public 
+     */
     function invalidate( &$data ) {
         $data['valid'][$this->_name] = null;
     }
 
-    // getters and setters
+    /**
+     * getter for name
+     *
+     * @return string
+     * @access public
+     */
     function getName( ) {
         return $this->_name;
     }
 
+    /**
+     * setter for name
+     *
+     * @param string
+     * @return void
+     * @access public
+     */
     function setName( $name ) {
         $this->_name = $name;
     }
 
-    function getDisplayName( ) {
-        return $this->_displayName;
+    /**
+     * getter for iname
+     *
+     * @return string
+     * @access public
+     */
+    function getIName( ) {
+        return $this->_iname;
     }
 
-    function setDisplayName( $displayName ) {
-        $this->_displayName = $displayName;
+    /**
+     * setter for iname
+     *
+     * @param string
+     * @return void
+     * @access public
+     */
+    function setIName( $iname ) {
+        $this->_iname = $iname;
     }
 
+    /**
+     * getter for type
+     *
+     * @return int
+     * @access public
+     */
     function getType( ) {
         return $this->_type;
     }

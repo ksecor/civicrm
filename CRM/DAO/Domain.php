@@ -20,7 +20,7 @@ class CRM_DAO_Domain extends CRM_DAO_Base {
       $fields = array_merge(
                              parent::dbFields(),
                              array(
-                                   'name'        => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'name'        => array( CRM_Type::T_STRING, self::NOT_NULL ),
                                    )
                              );
     }

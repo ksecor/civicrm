@@ -97,7 +97,7 @@ class CRM_Config {
      * @var object
      * @static
      */
-    private static $_instance = null;
+    private static $_singleton = null;
 
     /**
      * singleton function used to manage this object
@@ -108,11 +108,11 @@ class CRM_Config {
      * @static
      *
      */
-    static function instance($key = 'crm') {
-        if (self::$_instance === null ) {
-            self::$_instance = new CRM_Config($key);
+    static function singleton($key = 'crm') {
+        if (self::$_singleton === null ) {
+            self::$_singleton = new CRM_Config($key);
         }
-        return self::$_instance;
+        return self::$_singleton;
     }
 
     /**

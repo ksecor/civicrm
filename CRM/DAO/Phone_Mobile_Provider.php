@@ -17,7 +17,7 @@ class CRM_DAO_Phone_Mobile_Provider extends CRM_DAO_Base {
       $fields = array_merge(
                              parent::dbFields(),
                              array(
-                                   'name'         => array( self::TYPE_STRING),
+                                   'name'         => array( CRM_Type::T_STRING),
                                    )
                              );
     }

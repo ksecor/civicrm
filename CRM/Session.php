@@ -35,7 +35,7 @@ class CRM_Session {
      * @var object
      * @static
      */
-    static private $_instance = null;
+    static private $_singleton = null;
 
     /**
      * Constructor
@@ -67,11 +67,11 @@ class CRM_Session {
      * @static
      *
      */
-    static function instance($key = 'crm') {
-        if (self::$_instance === null ) {
-            self::$_instance = new CRM_Session($key);
+    static function singleton($key = 'crm') {
+        if (self::$_singleton === null ) {
+            self::$_singleton = new CRM_Session($key);
         }
-        return self::$_instance;
+        return self::$_singleton;
     }
 
     /**

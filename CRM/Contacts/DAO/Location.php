@@ -40,8 +40,8 @@ class CRM_Contacts_DAO_Location extends CRM_Contacts_DAO_ContactBase
             $fields = array_merge(
                                   parent::dbFields(),
                                   array(
-                                        'is_primary'        => array(self::TYPE_BOOLEAN),
-                                        'location_type_id'  => array(self::TYPE_INT),
+                                        'is_primary'        => array(CRM_Type::T_BOOLEAN),
+                                        'location_type_id'  => array(CRM_Type::T_INT),
                                         ) // end of array
                                   );
         }

@@ -32,8 +32,8 @@ class CRM_DAO_Context extends CRM_DAO_Base {
       $fields = array_merge(
                              parent::dbFields(),
                              array(
-                                   'name'        => array( self::TYPE_STRING, self::NOT_NULL ),
-                                   'description' => array( self::TYPE_STRING, null ),
+                                   'name'        => array( CRM_Type::T_STRING, self::NOT_NULL ),
+                                   'description' => array( CRM_Type::T_STRING, null ),
                                    )
                              );
     }
