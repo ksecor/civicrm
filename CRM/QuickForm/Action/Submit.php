@@ -65,14 +65,12 @@ class CRM_QuickForm_Action_Submit extends CRM_QuickForm_Action {
         $data['values'][$pageName] = $page->exportValues();
         $data['valid'][$pageName]  = $page->validate();
 
-        // All pages are valid, process
         if ($page->controller->isValid()) {
+            // All pages are valid, process
             return $page->handle('process');
-
-            // Current page is invalid, display it
         } elseif (!$data['valid'][$pageName]) {
+            // Current page is invalid, display it
             return $page->handle('display');
-
             // Some other page is invalid, redirect to it
         } else {
             $target =& $page->controller->getPage($page->controller->findInvalid());

@@ -364,7 +364,7 @@ function contact_admin_invoke($operation)
 function contact_invoke($operation) 
 {
     $content = "";
-    
+
     // check for add
     if (arg(2) == 'add' && (arg(3) == 'basic' || arg(3) == NULL)) {
         $content .= contact_add();
@@ -482,7 +482,7 @@ function contact_load($queryArgs)
 function contact_add()
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_ADD, 'crm/contact/add?reset=1', 0);
+    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_ADD, 'contact/add?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_add
 
@@ -495,7 +495,7 @@ function contact_add()
 function contact_add_house()
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Household', 'Contact Household Page', CRM_Form::MODE_ADD, 'crm/contact/add_house?reset=1', 0);
+    $contact->run('CRM_Contact_Form_Household', 'Contact Household Page', CRM_Form::MODE_ADD, 'contact/add_house?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_add_house
 
@@ -508,7 +508,7 @@ function contact_add_house()
 function contact_add_org()
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Organization', 'Contact Organization Page', CRM_Form::MODE_ADD, 'crm/contact/add_org?reset=1', 0);
+    $contact->run('CRM_Contact_Form_Organization', 'Contact Organization Page', CRM_Form::MODE_ADD, 'contact/add_org?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_add_org
 
@@ -541,7 +541,7 @@ function contact_list($id=0)
 function contact_query() 
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH, 'crm/contact/search?reset=1', 0);
+    $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/search?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_query
 
@@ -555,7 +555,7 @@ function contact_query()
 function contact_edit($id) 
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_UPDATE, 'crm/contact/add?reset=1', $id);
+    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_UPDATE, 'contact/add?reset=1', $id);
     return $contact->getContent();
 
 } // end of function contact_edit
@@ -569,7 +569,7 @@ function contact_edit($id)
 function contact_edit_house($id) 
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Household', 'Contact Household Page', CRM_Form::MODE_UPDATE, 'crm/contact/add_house?reset=1', $id);
+    $contact->run('CRM_Contact_Form_Household', 'Contact Household Page', CRM_Form::MODE_UPDATE, 'contact/add_house?reset=1', $id);
     return $contact->getContent();
 
 } // end of function contact_edit_house
@@ -583,7 +583,7 @@ function contact_edit_house($id)
 function contact_edit_org($id) 
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Organization', 'Contact Organization Page', CRM_Form::MODE_UPDATE, 'crm/contact/add_org?reset=1', $id);
+    $contact->run('CRM_Contact_Form_Organization', 'Contact Organization Page', CRM_Form::MODE_UPDATE, 'contact/add_org?reset=1', $id);
     return $contact->getContent();
 
 } // end of function contact_edit_org
@@ -598,7 +598,7 @@ function contact_edit_org($id)
 function contact_view($id) 
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_VIEW, 'crm/contact/search/', $id);
+    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_VIEW, 'contact/search/', $id);
     return $contact->getContent();
 } // end of function contact_view
 
@@ -612,7 +612,7 @@ function contact_view($id)
 function contact_view_house($id) 
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Household', 'Contact Household Page', CRM_Form::MODE_VIEW, 'crm/contact/search/', $id);
+    $contact->run('CRM_Contact_Form_Household', 'Contact Household Page', CRM_Form::MODE_VIEW, 'contact/search/', $id);
     return $contact->getContent();
 } // end of function contact_view_house
 
@@ -626,7 +626,7 @@ function contact_view_house($id)
 function contact_view_org($id) 
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Organization', 'Contact Organization Page', CRM_Form::MODE_VIEW, 'crm/contact/search/', $id);
+    $contact->run('CRM_Contact_Form_Organization', 'Contact Organization Page', CRM_Form::MODE_VIEW, 'contact/search/', $id);
     return $contact->getContent();
 } // end of function contact_view_org
 
@@ -644,34 +644,5 @@ function contact_delete($id)
     $contact->run(CRM_Form::MODE_DELETE, $id);
     return $contact->getContent();
 } // end of function contact_delete
-
-/**
- *
- * contact_miniadd()
- *
- * adds the contact (Individual) to db using quick add block. 
- *
- */
-
-function contact_miniadd(){
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_ADD_MINI, 'crm/contact/add?reset=1', 0);
-    return $contact->getContent();
-    
-}
-
-/**
- *
- * contact_miniadd()
- *
- * searches the contact (Individual) to db using quick search block. 
- *
- */
-
-function contact_qsearch(){
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Search', 'Contact Search Page', CRM_Form::MODE_SEARCH_MINI, 'crm/contact/search?reset=1', 0);
-    return $contact->getContent();
-}
 
 ?>

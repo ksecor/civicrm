@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
@@ -31,5 +31,65 @@
  *
  */
 
-?>
+require_once 'CRM/Contact/DAO/Email.php';
 
+class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
+    function __construct( ) {
+        parent::__construct( );
+    }
+
+    /**
+     * takes an associative array and creates a contact object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * contact object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param int    $locationId
+     * @param int    $emailId
+     *
+     * @return object CRM_Contact_BAO_Email object
+     * @access public
+     * @static
+     */
+    static function add( &$params, $locationId, $emailId ) {
+        if ( ! self::dataExists( $params, $locationId, $emailId ) ) {
+            return null;
+        }
+
+        $email = new CRM_Contact_DAO_Email();
+        $email->location_id        = $params['location'][$locationId]['id'];
+        $email->email              = $params['location'][$locationId]['email'][$emailId]['email'];
+        $email->is_primary         = CRM_Array::value( 'is_primary', $params['location'][$locationId]['email'][$emailId], false );
+        return $email->save( );
+    }
+
+    /**
+     * Check if there is data to create the object
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param int    $locationId
+     * @param int    $emailId
+     *
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function dataExists( &$params, $locationId, $emailId ) {
+        // return if no data present
+        if ( ! array_key_exists( 'email' , $params['location'][$locationId] ) ||
+             ! array_key_exists( $emailId, $params['location'][$locationId]['email'] ) ) {
+            return false;
+        }
+
+        if ( ! empty( $params['location'][$locationId]['email'][$emailId]['email'] ) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+}
+
+?>

@@ -91,7 +91,6 @@ class CRM_Contact_Wrapper extends CRM_Base
                  $mode        = CRM_Form::MODE_NONE,
                  $userContext = 'crm/contact/add?reset=1',
                  $id          = 0 ) {
-
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
 

@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
@@ -53,41 +53,62 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * @static
      */
     static function add( &$params, $locationId ) {
-        // return if no data present
-        if ( ! CRM_Array::value( 'location' , $params ) &&
-             ! CRM_Array::value( $locationId, $params['location'] ) ) {
+        $dataExists = self::dataExists( $params, $locationId );
+        if ( ! $dataExists ) {
             return null;
         }
-
-        $validLocation = false;
         
-        if ( CRM_Contact_BAO_Address::add( $params, $locationId ) ) {
-            $validLocation = true;
+        $location = new CRM_Contact_BAO_Location( );
+        
+        $location->contact_id       = $params['contact_id'];
+        $location->is_primary       = CRM_Array::value( 'is_primary', $params['location'][$locationId] );
+        $location->location_type_id = CRM_Array::value( 'location_type_id', $params['location'][$locationId] );
+
+        $location->id = CRM_Array::value( 'location_id', $params['location'][$locationId] );
+        $location->save( );
+
+        $params['location'][$locationId]['id'] = $location->id;
+
+        CRM_Contact_BAO_Address::add( $params, $locationId );
+        
+        for ( $i = 1; $i <= 3; $i++ ) {
+            CRM_Contact_BAO_Phone::add( $params, $locationId, $i );
+            CRM_Contact_BAO_Email::add( $params, $locationId, $i );
+            CRM_Contact_BAO_IM::add   ( $params, $locationId, $i );
+        }
+        return $location;
+    }
+
+    /**
+     * Check if there is data to create the object
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $locationId     
+     *
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function dataExists( &$params, $locationId ) {
+        // return if no data present
+        if ( ! array_key_exists( 'location' , $params ) ||
+             ! array_key_exists( $locationId, $params['location'] ) ) {
+            return false;
+        }
+
+        if ( CRM_Contact_BAO_Address::dataExists( $params, $locationId ) ) {
+            return true;
         }
 
         for ( $i = 1; $i <= 3; $i++ ) {
-            if ( CRM_Contact_BAO_Phone::add( $params, $locationId, $i ) ||
-                 CRM_Contact_BAO_Email::add( $params, $locationId, $i ) ||
-                 CRM_Contact_BAO_IM::add   ( $params, $locationId, $i ) ) {
-                $validLocation = true;
+            if ( CRM_Contact_BAO_Phone::dataExists( $params, $locationId, $i ) ||
+                 CRM_Contact_BAO_Email::dataExists( $params, $locationId, $i ) ||
+                 CRM_Contact_BAO_IM::dataExists   ( $params, $locationId, $i ) ) {
+                return true;
             }
         }
-            
-        if ( $validLocation ) {
-            $location = new CRM_Contact_BAO_Location( );
-            
-            $location->contact_id       = $params['contact_id'];
-            $location->is_primary       = CRM_Array::value( 'is_primary', $params['location'][$locationId] );
-            $location->location_type_id = CRM_Array::value( 'location_type_id', $params['location'][$locationId] );
-            
-            $location->id = CRM_Array::value( 'location_id', $params['location'][$locationId] );
-            return $location->save( );
-        }
-
-        return null;
+        return false;
     }
-
 }
 
 ?>
-

@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
@@ -31,5 +31,67 @@
  *
  */
 
-?>
+require_once 'CRM/Contact/DAO/Phone.php';
 
+class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
+    function __construct( ) {
+        parent::__construct( );
+    }
+
+    /**
+     * takes an associative array and creates a contact object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * contact object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param int    $locationId
+     * @param int    $phoneId
+     *
+     * @return object CRM_Contact_BAO_Phone object
+     * @access public
+     * @static
+     */
+    static function add( &$params, $locationId, $phoneId ) {
+        if ( ! self::dataExists( $params, $locationId, $phoneId ) ) {
+            return null;
+        }
+
+        $phone = new CRM_Contact_DAO_Phone();
+        $phone->location_id        = $params['location'][$locationId]['id'];
+        $phone->phone              = $params['location'][$locationId]['phone'][$phoneId]['phone'];
+        $phone->phone_type         = $params['location'][$locationId]['phone'][$phoneId]['phone_type'];
+        $phone->is_primary         = CRM_Array::value( 'is_primary', $params['location'][$locationId]['phone'][$phoneId], false );
+        $phone->mobile_provider_id = CRM_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
+        return $phone->save( );
+    }
+
+    /**
+     * Check if there is data to create the object
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param int    $locationId
+     * @param int    $phoneId
+     *
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function dataExists( &$params, $locationId, $phoneId ) {
+        // return if no data present
+        if ( ! array_key_exists( 'phone' , $params['location'][$locationId] ) ||
+             ! array_key_exists( $phoneId, $params['location'][$locationId]['phone'] ) ) {
+            return false;
+        }
+
+        if ( ! empty( $params['location'][$locationId]['phone'][$phoneId]['phone'] ) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+}
+
+?>

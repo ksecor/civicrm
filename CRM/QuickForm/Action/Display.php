@@ -102,7 +102,8 @@ class CRM_QuickForm_Action_Display extends CRM_QuickForm_Action {
 
         CRM_Error::ll_method();
 
-        return $this->_renderForm($page);
+        $f = $this->_renderForm($page);
+        return $f;
     }
 
     /**

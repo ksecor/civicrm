@@ -209,7 +209,7 @@ abstract class CRM_DAO extends DB_DataObject {
         $table = array();
         foreach ( $fields as $name => $value ) {
             $table[$name] = $value['type'];
-            if ( $value['required'] ) {
+            if ( CRM_Array::value( 'required', $value ) ) {
                 $table[$name] += self::DB_DAO_NOTNULL;
             }
         }
@@ -223,11 +223,13 @@ abstract class CRM_DAO extends DB_DataObject {
     function save( ) {
         if ( $this->id ) {
             if ( ! $this->update( ) ) {
-                CRM_Error::addError( );
+                CRM_Error::debug( 'this', $this );
+                exit( );
             }
         } else {
             if ( ! $this->insert( ) ) {
-                CRM_Error::addError( );
+                CRM_Error::debug( 'this', $this );
+                exit( );
             }
         }
         return $this;

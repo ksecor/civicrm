@@ -43,18 +43,19 @@ class CRM_Contact_Form_Location extends CRM_Form
     static function &buildLocationBlock($form, $count, $showHideBlocks) 
     {
         $location = array();
-
         
         $showHideBlocks->addShow( 'location[1]' );
         
-        if ( $count > 2 ) {
+        if ( $count >= 2 ) {
             $showHideBlocks->addShow( 'location[2][show]' );
         }
         
         // this element is send to loop to display ($count -1) locations
-        $form->addElement('static','count','',$count);
+        // should not be sending this value this way, should add to template directly
+        // TODO FIX
+        $form->addElement('static','count','', $count + 1);
 
-        for ($locationId = 1; $locationId < $count; $locationId++) {    
+        for ($locationId = 1; $locationId <= $count; $locationId++) {    
             $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_SelectValues::$locationType);
             $js = "location_is_primary_onclick('" . $form->getName() . "', $locationId);";
             if ($count != 2 ) {
@@ -66,12 +67,13 @@ class CRM_Contact_Form_Location extends CRM_Form
                 $showHideBlocks->addHide( "location[$locationId][show]" );
             }
 
-            CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, 3, $showHideBlocks); 
-            CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, 3, $showHideBlocks); 
-            CRM_Contact_Form_IM::buildImBlock($form, $location, $locationId, 3, $showHideBlocks); 
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId, $showHideBlocks);
 
-            $showHideBlocks->linksForArray( $form, $locationId, ($count-1), "location", '[+] another location', '[-] hide location');
+            CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, 3, $showHideBlocks); 
+            CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, 3, $showHideBlocks); 
+            CRM_Contact_Form_IM::buildIMBlock($form, $location, $locationId, 3, $showHideBlocks); 
+
+            $showHideBlocks->linksForArray( $form, $locationId, $count, "location", '[+] another location', '[-] hide location');
 
         }
         return $location;

@@ -183,6 +183,7 @@ class CRM_Error extends PEAR_ErrorStack {
      * @static
      */
     static function debug_stacktrace($trace_level=0, $log=true) {
+        return;
         $backtrace = debug_backtrace();
 
         if($trace_level) {
@@ -233,6 +234,7 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     static function le_method()
     {
+        return;
         $array1 = debug_backtrace();
         $string1 = "entering method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "() in " . $array1[0]['file']; 
         self::debug_log_message($string1);
@@ -253,6 +255,7 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function ll_method()
     {
+        return;
         $array1 = debug_backtrace();
         $string1 = "leaving  method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "() in " . $array1[0]['file']; 
         self::debug_log_message($string1);
@@ -272,6 +275,7 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function le_function()
     {
+        return;
         $array1 = debug_backtrace();
         $string1 = "entering function " . $array1[1]['function'] . "() in " . basename($array1[0]['file']);
         self::debug_log_message($string1);
@@ -291,6 +295,7 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function ll_function()
     {
+        return;
         $array1 = debug_backtrace();
         $string1 = "leaving  function " . $array1[1]['function'] . "() in " . basename($array1[0]['file']);
         self::debug_log_message($string1);
@@ -310,6 +315,7 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function le_file()
     {
+        return;
         $array1 = debug_backtrace();
         $string1 .= "entering file " . $array1[0]['file'];
         self::debug_log_message($string1);
@@ -329,6 +335,7 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function ll_file()
     {
+        return;
         $array1 = debug_backtrace();
         $string1 = "leaving  file " . $array1[0]['file'];
         self::debug_log_message($string1);  

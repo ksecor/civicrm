@@ -143,4 +143,3 @@ class {$table.className} extends CRM_DAO {ldelim}
 {rdelim}
 
 ?>
-
