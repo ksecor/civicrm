@@ -24,8 +24,9 @@
 	
 <br/>
 <div id="core">
-<label><i><h1>Household</h1></i></label>
-<table border = "1" cellpadding="2" cellspacing="2">
+<!--label><i><h1>Household</h1></i></label-->
+<fieldset><legend>Household</legend>
+<table border = "0" cellpadding="2" cellspacing="2">
 	<tr>
 		<td class="form-item"><label>{$form.household_name.label} </label></td>
 		<td>{$form.household_name.html}</td>
@@ -44,19 +45,18 @@
 	</tr>
 
 </table>
+</fieldset>
 
 <br/>
+<fieldset><legend>Communication Preferences</legend>
 <table cellpadding="2" cellspacing="2">		
-	<tr>
-		<td><label><i><h1>Communication Preferences</h1></i></label></td>
-		<td></td>
-	</tr>
+
 	<tr>	
 		<td>
-		<table border="1" cellpadding="2" cellspacing="2" width="90%">
+		<table border="0" cellpadding="2" cellspacing="2" width="100%">
 			<tr>
 				<td class="form-item"><label>{$form.do_not_phone.label}</label></td>
-				<td class="form-item">{$form.do_not_phone.html} 
+				<td>{$form.do_not_phone.html} 
 	                               		      {$form.do_not_email.html} 
                                        		      {$form.do_not_mail.html}</td>
 			</tr>
@@ -71,6 +71,7 @@
 
 	</tr> 
 </table>
+</fieldset>
 <br/>
 
 <label><i><h1>Location</h1></i></label>
