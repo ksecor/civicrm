@@ -102,10 +102,11 @@ class CRM_Selector_Controller {
      * @var string
      */
     protected $_content;
+    protected $_form;
 
     function __construct($object, $pageID, $sortID, $action) {
         $this->_object = $object;
-        
+        /**/$this->_form = $this->_object->buildForm('listing');
         $this->_pageID = $pageID ? $pageID : 1;
         $this->_sortID = $sortID;
         $this->_action = $action;
@@ -122,24 +123,26 @@ class CRM_Selector_Controller {
         // $params['rowCount'] = $params['rowCount'] ? $params['rowCount'] : CRM_Pager::ROWCOUNT;
         // This is a hack to make it easier to debug
         $params['rowCount'] = 5;
-        
         $this->_pager = new CRM_Pager( $params );
-        
         list($this->_pagerOffset, $this->_pagerRowCount) =
-            $this->_pager->getOffsetAndRowCount();
-
+        $this->_pager->getOffsetAndRowCount();
         $this->_sortOrder = $this->_object->getSortOrder($action);
         $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortID );
     }
 
+    /* ###### RUN FUNCTION */
+
     function run( ) {
+
+        //print $this->_pager->getPageID();
         $config = CRM_Config::singleton();
 
         $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
         $template->clear_all_assign();
 
         $template->assign('pager', $this->_pager->toArray() );
-        $template->assign('sort' , $this->_sort->toArray () );
+        $template->assign('sort', $this->_sort->toArray () );
+        /**/$template->assign('form', $this->_form ); 
         
         $template->assign('columnHeaders', 
                           $this->_object->getColumnHeaders( $this->_action ) );
