@@ -179,7 +179,7 @@
 
 		/* This loop is used to hide the blocks whose IDs are present within the hide_blocks array */ 
 		for ( var i = 0; i < hide_blocks.length; i++ ) { 
-			document.getElementById(hide_blocks[i]).style.display = 'none';
+		    document.getElementById(hide_blocks[i]).style.display = 'none';
 		}
 		
 		document.forms[formname].elements['location1[location_type_id]'].options[0].selected = "true";
@@ -264,7 +264,9 @@
 	       if (index_num != -1) {
 
 		   document.forms[formname].elements['location'+String(locid)+'[location_type_id]'].options[old_index].selected = "true";
-		   alert("You have selected duplicate location-id options in location"+String((index_num/3)+1)+" and location"+String(i));
+		   //alert("You have selected duplicate location-id options in location"+String((index_num/3)+1)+" and location"+String(i));
+		   alert("You cannot select multiple locations with location type : " + 
+			 document.forms[formname].elements['location'+String(i)+'[location_type_id]'].options[new_index].text);
 		   return false;
 	       }
 	       else {
@@ -311,7 +313,7 @@
 	
 	    for (i=1; i<4; i++) {
 		if (locid != i && valid_location(formname, i)) {
-		    assign_index[assigned]= document.forms[formname].elements['location'+String(i)+'[location_type_id]'].selectedIndex;
+		    assign_index[assigned]= document.forms[formname].elements['location'+String(i)+'[location_type_id]'].label;
 		    //alert('uploading select_index '+assign_index[assigned] +'at array index '+assigned);
 		    assigned++;
 		}
