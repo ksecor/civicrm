@@ -250,6 +250,14 @@ function contact_menu($may_cache)
                          );
         
         $items[] = array(
+                         'path'  => 'crm/contact/view/note',
+                         'title' => t('Notes'),
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => 2
+                         );
+
+
+        $items[] = array(
                          'path'  => 'crm/contact/view/groups',
                          'title' => t('Groups'),
                          'type'   => MENU_LOCAL_TASK,
@@ -269,7 +277,7 @@ function contact_menu($may_cache)
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 2
                          );
-        
+  
      }
 
    return $items;
@@ -311,7 +319,7 @@ function contact_invoke()
 {
     $content = "";
 
-    // check for add
+    //  add contact
     if (arg(2) == 'add') {
         $content .= contact_form( CRM_Form::MODE_ADD );
     }
@@ -322,12 +330,12 @@ function contact_invoke()
         $content .= contact_form( CRM_Form::MODE_UPDATE );
     }
     
-
-    // view individual
+    // view contact
     if (arg(2) == 'view') {
         $content .= contact_form( CRM_Form::MODE_VIEW );
     }
     
+
     // search
     if (arg(2) == 'search') {
         $content .= contact_query();
