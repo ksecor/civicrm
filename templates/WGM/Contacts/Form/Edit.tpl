@@ -40,6 +40,7 @@
 {$form.first_name.theme}
 {$form.last_name.theme}
 {$form.address_line_1.theme}
+{$form.buttons.theme}
 
 </form>
 

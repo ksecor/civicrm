@@ -31,9 +31,9 @@ class WGM_Action_Display extends HTML_QuickForm_Action_Display {
 				<span class="wgm-error">{$label|upper}</span>
 			{else}
 				{$label}
-				{if $required}
-					<span class="wgm-error" size="1">*</span>
-				{/if}
+			{/if}
+			{if $required}
+				<span class="wgm-error" size="1">*</span>
 			{/if}' );
 
     $renderer->setErrorTemplate('

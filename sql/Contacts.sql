@@ -49,7 +49,6 @@ CREATE TABLE contact_country (
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 
 
-
 /*******************************************************
 *
 * contact_state_province
@@ -81,22 +80,12 @@ CREATE TABLE contact_domain (
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incremented id',
 
-        uuid INT UNSIGNED NOT NULL COMMENT 'domain id',
-	rid INT UNSIGNED NOT NULL COMMENT 'domain revision id',
-	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
-
 	name VARCHAR(255) COMMENT 'domain/org name',
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
-    UNIQUE INDEX index_uuidrid(uuid, rid)
-
-    -- Must create FK after contact table is created (circular reference) 
-    -- FOREIGN KEY (created_by) REFERENCES contact(uuid)
-
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='define domains for multi-org installs, else all contacts belong to domain 1';
 
 /*******************************************************
@@ -109,14 +98,13 @@ CREATE TABLE contact_context (
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'context id',
 
-	domain_uuid  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this context',
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this context',
 
 	name        VARCHAR(255) COMMENT 'context name (typically brief)',
-        description VARCHAR(255) COMMENT 'context description (a more verbose description)',
+    description VARCHAR(255) COMMENT 'context description (a more verbose description)',
 
 	PRIMARY KEY (id),
-	FOREIGN KEY (domain_uuid) REFERENCES contact_domain(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
-	INDEX index_domain (domain_uuid)
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='domain-level set of available contexts (e.g. Home, Work, Other...)';
 
@@ -134,7 +122,7 @@ CREATE TABLE contact (
 	rid INT UNSIGNED NOT NULL COMMENT 'contact revision id',
 	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	domain_uuid  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact',
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact',
 
 	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact',
 	sort_name VARCHAR(255) COMMENT 'name being cached for sorting purposes',
@@ -149,8 +137,7 @@ CREATE TABLE contact (
     -- the hash col give us a unique random post/get param handle for the record that isn't easily reverse engineered
     -- since it is random. So we can use sequential ids (hence they can be guessed), but use the hash as a checksum to
     -- prevent the reverse engineering. the hash is generated during contact creation time
--- ? dgg - shouldn't need hash anymore given the uuid handle.	
---	hash INT UNSIGNED NOT NULL COMMENT 'key for hashing the entry',
+    hash INT UNSIGNED NOT NULL COMMENT 'key for hashing the entry',
 
     --  Need to flesh out approach for linking module actions to contact. Commented out for now. dgg
     --	caid_latest INT UNSIGNED COMMENT 'latest contact action id',
@@ -163,15 +150,13 @@ CREATE TABLE contact (
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
-    UNIQUE INDEX index_uuidrid   (uuid, rid),
-	FOREIGN KEY (domain_uuid) REFERENCES contact_domain(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
-	INDEX contact_domain (domain_uuid),
+
+    UNIQUE INDEX index_uuidrid   (uuid, rid),
 	INDEX index_sort_name (sort_name(30))
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='primary record for contacts';
-
-ALTER TABLE contact_domain ADD FOREIGN KEY (created_by) REFERENCES contact(uuid);
 
 /*******************************************************
 *
@@ -233,7 +218,6 @@ CREATE TABLE contact_organization(
 	primary_contact_uuid INT UNSIGNED COMMENT 'optional FK to primary contact for this org',
 
 	PRIMARY KEY (id),
-	UNIQUE INDEX index_uuidrid (contact_uuid, contact_rid),
 
 	FOREIGN KEY (contact_uuid, contact_rid) REFERENCES contact(uuid, rid) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (primary_contact_uuid) REFERENCES contact(uuid)
@@ -262,7 +246,6 @@ CREATE TABLE contact_household(
 	primary_contact_uuid INT UNSIGNED COMMENT 'optional FK to primary contact for this household',
 
 	PRIMARY KEY (id),
-	UNIQUE INDEX index_uuidrid (contact_uuid, contact_rid),
 
 	FOREIGN KEY (contact_uuid, contact_rid) REFERENCES contact(uuid, rid) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (primary_contact_uuid) REFERENCES contact(uuid)
@@ -284,7 +267,7 @@ CREATE TABLE contact_address(
 	rid INT UNSIGNED NOT NULL COMMENT 'contact_address revision id',
 	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	domain_uuid  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact_address',
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact_address',
 
 	line1 VARCHAR(255) COMMENT 'address line 1',
 	line2 VARCHAR(255) COMMENT 'address line 2',
@@ -313,9 +296,8 @@ CREATE TABLE contact_address(
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
-    UNIQUE INDEX index_uuidrid (uuid, rid),
 
-	FOREIGN KEY (domain_uuid) REFERENCES contact_domain(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
 	FOREIGN KEY(state_province_id) REFERENCES contact_state_province(id),
 	FOREIGN KEY(country_id) REFERENCES contact_country(id)
@@ -385,7 +367,6 @@ CREATE TABLE contact_email(
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
-	INDEX index_contact (contact_uuid),
 
 	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
@@ -428,9 +409,7 @@ CREATE TABLE contact_phone(
 	contact_uuid INT UNSIGNED NOT NULL COMMENT 'contact uuid',
 
 	number VARCHAR(255) COMMENT 'phone number',
-    -- same as 'number_striped' in Neil's schema, yes. basially removing all punctuation so u can compare numbers
-    -- if needed. maybe we should add this later
-	number_canonical VARCHAR(255) COMMENT 'phone number',
+	number_stripped VARCHAR(255) COMMENT 'phone number with all punctuation removed',
 
 	phone_type ENUM('Phone', 'Mobile', 'Fax', 'Pager') COMMENT 'what type of telecom device is this',
 	mobile_phone_provider_id INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
@@ -449,7 +428,6 @@ CREATE TABLE contact_phone(
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
 	FOREIGN KEY (context_id) REFERENCES contact_context(id),
 	FOREIGN KEY (mobile_phone_provider_id) REFERENCES contact_phone_mobile_providers(id),
-	INDEX phone_contact (contact_uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact phone numbers (base table)';
 
@@ -482,7 +460,6 @@ CREATE TABLE contact_instant_message(
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
-	INDEX index_contact (contact_uuid),
 
 	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
@@ -506,7 +483,7 @@ CREATE TABLE contact_relationship_types(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'contact relationship type id',
 
-	domain_uuid INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this type',
+	domain_id INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this type',
 
 	name VARCHAR(255) COMMENT 'name of the relationship',
 	description VARCHAR(255) COMMENT 'description of the relationship',
@@ -519,9 +496,8 @@ CREATE TABLE contact_relationship_types(
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY(id),
-	INDEX index_domain (domain_uuid),
 
-	FOREIGN KEY (domain_uuid) REFERENCES contact_domain(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact relationship types';
@@ -553,9 +529,6 @@ CREATE TABLE contact_relationship(
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
-
-    INDEX index_contact(contact_uuid),
-    INDEX index_target (target_contact_uuid),
 
 	FOREIGN KEY(relationship_type_id) REFERENCES contact_relationship_types(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -596,7 +569,6 @@ CREATE TABLE contact_task(
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
-	INDEX index_contact(assigned_contact_uuid,target_contact_uuid),
     
 	FOREIGN KEY(target_contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(assigned_contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -629,7 +601,6 @@ CREATE TABLE contact_note(
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
-	INDEX index_contact(contact_uuid),
 
 	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid)
@@ -679,7 +650,7 @@ CREATE TABLE contact_validation(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'validation rule id',
 
-	domain_uuid  INT UNSIGNED NOT NULL COMMENT 'which organization/domain contains this entry',
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain contains this entry',
 
 	type	ENUM('Email','Money','URL','Phone Number','Money','Positive Number','Alpha-only',
 				'Range','Comparison','RegEx-Match','RegEx-No Match')
@@ -695,8 +666,8 @@ CREATE TABLE contact_validation(
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
-	FOREIGN KEY (domain_uuid) REFERENCES contact_domain(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
-	INDEX index_domain (domain_uuid)
+
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='stores the data for extended properties';
 
@@ -714,7 +685,7 @@ CREATE TABLE contact_ext_property(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'extended property id',
 
-	domain_uuid  INT UNSIGNED NOT NULL COMMENT 'which organization/domain contains this ext property',
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain contains this ext property',
 
 	iname VARCHAR(255) COMMENT 'variable name/programmatic handle for this property',
 	name  VARCHAR(255) COMMENT 'friendly name',
@@ -722,6 +693,7 @@ CREATE TABLE contact_ext_property(
 
 	extends ENUM('contact','contact_individual','contact_organization','contact_household') DEFAULT 'contact' COMMENT 'type of object this property extends (can add other options later e.g. contact_address, etc.)',
 	data_type ENUM('char','int','float','memo','date','boolean') COMMENT 'controls location of data storage in extended_data table',
+
 	required BOOLEAN NULL DEFAULT 0 COMMENT 'is a value required for this property',
 	validation_id INT UNSIGNED COMMENT 'FK to validation_rule table',
 	
@@ -730,9 +702,9 @@ CREATE TABLE contact_ext_property(
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
-	FOREIGN KEY (domain_uuid) REFERENCES contact_domain(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (validation_id) REFERENCES contact_validation(id),
-	INDEX index_domain (domain_uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='stores the data for extended properties';
 
@@ -755,13 +727,13 @@ CREATE TABLE contact_ext_data(
 
 	ext_property_id INT UNSIGNED NOT NULL COMMENT 'FK to contact_ext_property',
 
--- Data is stored in one of these 'buckets' depending on property type.
+    -- Data is stored in one of these 'buckets' depending on property type.
+    -- ? Should we have separate storage bucket for BOOLEANS ? dgg
 	int_data INT COMMENT 'stores data for ext property data_type = integer. This col supports signed integers.',
 	float_data INT COMMENT 'stores data for ext property data_type = float and money.',
 	char_data VARCHAR(255) COMMENT 'data for ext property data_type = text',
 	date_data DATETIME COMMENT 'data for ext property data_type = date',
 	memo_data TEXT COMMENT 'data for ext property data_type = memo',
--- ? Should we have separate storage bucket for BOOLEANS ? dgg
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
@@ -769,11 +741,9 @@ CREATE TABLE contact_ext_data(
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
-	INDEX index_contact(contact_uuid),
 
 	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
-
 	FOREIGN KEY(ext_property_id) REFERENCES contact_ext_property(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='stores the data for extended properties';
@@ -794,9 +764,10 @@ CREATE TABLE contact_form(
 
 	name		VARCHAR(255) NOT NULL COMMENT 'friendly name for form',
 	title		VARCHAR(255) COMMENT 'display title for form',
+
+    -- 'Inline' style tells module to append this form to the parent form as defined in contact_form_builder.
+    -- 'Tab' style tells module to create a new tabbed page for this form.
 	style		ENUM('tab','inline') COMMENT 'Visual relationship between this form and its parent',
--- 'Inline' style tells module to append this form to the parent form as defined in contact_form_builder.
--- 'Tab' style tells module to create a new tabbed page for this form.
  
 	help_pre	TEXT default '' COMMENT 'Description and/or help text to display before fields in group',
 	help_post	TEXT default '' COMMENT 'Description and/or help text to display after fields',
@@ -843,7 +814,6 @@ CREATE TABLE contact_form_group(
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Defines form field groups';
 
 
-
 /*******************************************************
 *
 * contact_form_field
@@ -864,13 +834,13 @@ CREATE TABLE contact_form_field(
 				COMMENT 'HTML types plus several built-in extended types', 
 
 	field_mask	VARCHAR(255) COMMENT 'optional format instructions for specific field types.',
---	EX: for 'select_date' -> "mmm yyyy" requests a pair of selects with format = <Jan> <2004> 
+    --	EX: for 'select_date' -> "mmm yyyy" requests a pair of selects with format = <Jan> <2004> 
 
 	html_attributes	VARCHAR(255) COMMENT 'store collection of type-appropriate attributes',
---	EX: for 'textarea' ->  'rows="4" cols="80" class="myForms1"'
+    --	EX: for 'textarea' ->  'rows="4" cols="80" class="myForms1"'
 
 	script		VARCHAR(255) COMMENT 'store scripting attributes for field',
---	EX: for 'select' -> "onChange=reloadPage();"
+    --	EX: for 'select' -> "onChange=reloadPage();"
 
 	default_value VARCHAR(255) COMMENT 'use form_options.is_default for field_types which use options',
 
@@ -885,8 +855,8 @@ CREATE TABLE contact_form_field(
 	PRIMARY KEY (id),
 	INDEX index_property (property_id),
 
--- No explicit FK to for property_id to contact_ext_property because we will eventually reference
--- built-in properties too..
+    -- No explicit FK to for property_id to contact_ext_property because we will eventually reference
+    -- built-in properties too..
 
 	FOREIGN KEY (group_id) REFERENCES contact_form_group(id),
 	FOREIGN KEY (created_by) REFERENCES contact(uuid)
@@ -907,7 +877,7 @@ CREATE TABLE contact_form_builder(
 	form_id INT UNSIGNED NOT NULL COMMENT 'FK to contact_form',
 
 	component_type	ENUM('form_field','form_group','form') COMMENT 'type of item we are adding to form', 
--- Should we consider allowing Drupal content types like blocks to be included here too?
+    -- Should we consider allowing Drupal content types like blocks to be included here too?
 	component_id	INT UNSIGNED NOT NULL COMMENT 'conditional FK to contact_form_field | contact_group | contact_form',
 
 	weight		INT NOT NULL COMMENT 'sets sort order for components belonging to a form.',
@@ -919,7 +889,7 @@ CREATE TABLE contact_form_builder(
 	PRIMARY KEY (id),
 	INDEX index_form (form_id),
 
--- No explicit FK to for component_id since it may key to form, field or group.
+    -- No explicit FK to for component_id since it may key to form, field or group.
 	FOREIGN KEY (created_by) REFERENCES contact(uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Builds a form by defining its components';
@@ -940,8 +910,8 @@ CREATE TABLE contact_form_option(
 	field_id		INT UNSIGNED NOT NULL COMMENT 'FK to form_field table (who owns this option)',
 	option_value	VARCHAR(255) COMMENT 'If NULL, use option_label as option value.',
 	option_label	VARCHAR(255),
---	EX: <option value=$option_value>$option_label</option>
---  EX:	<input type=radio value=$option_value../>$option_label
+    --	EX: <option value=$option_value>$option_label</option>
+    --  EX:	<input type=radio value=$option_value../>$option_label
 
 	weight			INT NOT NULL COMMENT 'sets sort order for options in a set',
 	is_default		BOOLEAN NOT NULL DEFAULT 0,
@@ -951,6 +921,7 @@ CREATE TABLE contact_form_option(
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
+
 	FOREIGN KEY (field_id) REFERENCES contact_form_field(id),
 	FOREIGN KEY (created_by) REFERENCES contact(uuid)
 
@@ -969,7 +940,7 @@ CREATE TABLE contact_user(
 
 	contact_uuid INT UNSIGNED NOT NULL COMMENT 'contact uuid',
 	user_id INT UNSIGNED NOT NULL COMMENT 'implicit FK to Drupal users.uid',
--- Given discrepancy in DB Engines, we cannot create explicit FK to Drupal users table
+    -- Given discrepancy in DB Engines, we cannot create explicit FK to Drupal users table
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_contact_user (contact_uuid,user_id),
