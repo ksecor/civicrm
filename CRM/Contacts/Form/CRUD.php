@@ -16,6 +16,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         parent::__construct($name, $state, $mode);
     }
     
+
     /**
      * In this function we build the CRUD.php. All the quickform componenets are defined in this function
      */
@@ -271,7 +272,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $this->addGroup($loc2,'location2');
         $this->addGroup($loc3,'location3');
 
-            for ($i = 1; $i <= 3; $i++) {    
+        for ($i = 1; $i <= 3; $i++) {    
             $this->addElement('link', 'exph02_'."{$i}", null, 'phone_'."{$i}".'_2', '[+] another phone',
                               array('onclick' => "show('phone_{$i}_2'); hide('expand_phone_{$i}_2'); show('expand_phone_{$i}_3'); return false;"));
             $this->addElement('link', 'hideph02_'."{$i}", null, 'phone_'."{$i}".'_2', '[-] hide phone',
@@ -297,7 +298,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
             $this->addElement('link', 'hideim03_'."{$i}", null, 'IM_'."{$i}".'_3', '[-] hide instant message',
                               array('onclick' => "hide('IM_{$i}_3'); show('expand_IM_{$i}_3'); return false;"));
         }
-
+        
         $this->addElement('link', 'exloc2', null, 'location2', '[+] another location',
                           array( 'onclick' => "hide('expand_loc2'); show('location2'); show('expand_loc3'); return false;"));
         $this->addElement('link', 'hideloc2', null, 'location2', '[-] hide location',
@@ -309,23 +310,23 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         
 
         /* End of locationas */
-    
+        
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82'));    
-
+        
         $this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',
-                        array('onclick' => "show('demographics'); hide('expand_demographics'); return false;"));
-    
+                          array('onclick' => "show('demographics'); hide('expand_demographics'); return false;"));
+        
         $this->addElement('link', 'exnotes', null, 'notes', '[+] contact notes',
                           array('onclick' => "show('notes'); hide('expand_notes'); return false;"));
-    
+        
         $this->addElement('link', 'hidedemo', null,'demographics', '[-] hide demographics',
                           array('onclick' => "hide('demographics'); show('expand_demographics'); return false;"));
-    
+        
         $this->addElement('link', 'hidenotes', null, 'notes', '[-] hide contact notes',
                           array('onclick' => "hide('notes'); show('expand_notes'); return false;"));
         
         $this->addElement('hidden', 'mdyx','false');
-
+        
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'next'  ,
                                                 'name'      => 'Save'  ,
@@ -334,19 +335,23 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                                 'name'      => 'Reset'  ),
                                         array ( 'type'       => 'cancel',
                                                 'name'      => 'Cancel' ),
-                                       )
-                                 );
-        $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contacts_Form_CRUD');
+                                        )
+                                  );
 
-        if ($this->validate() && ($this->_mode == self::MODE_VIEW)) {
-            $this->freeze();    
-      
+        $this->addRules();
+        $this->setDefaultValues();
+
+        if ($this->_mode == self::MODE_CREATE || self::MODE_UPDATE || self::MODE_DELETE) {
+            if ($this->validate()) {
+                $this->process();
+            } 
         } else {
-            if ($this->_mode == self::MODE_VIEW || self::MODE_UPDATE) {
-                $this->setDefaultValues();
+            if ($this->_mode == self::MODE_VIEW ) {
+                $this->freeze();    
             }
         }
-  
+        
+          
     }//ENDING BUILD FORM 
   
     /**
@@ -379,32 +384,35 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
      */
     function addRules() 
     {
-        $this->applyFilter('first_name', 'trim');
-        $this->addRule('first_name', t(' First name is a required field.'), 'required', null, 'client');
-        $this->applyFilter('last_name', 'trim');
-        $this->addRule('last_name', t(' Last name is a required field.'), 'required', null, 'client');
 
+        $this->applyFilter('_ALL_', 'trim');
+        $this->addRule('first_name', t(' First name is a required field.'), 'required', null, 'client');
+        $this->addRule('last_name', t(' Last name is a required field.'), 'required', null, 'client');
+        $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contacts_Form_CRUD');
         $this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
     
          for ($i = 1; $i <= 3; $i++) { 
-            $this->addGroupRule('location'."{$i}", array('email_1' => array( 
-                                                              array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),                                                 'email_2' => array( 
-                                                              array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
-                                                         'email_3' => array( 
-                                                               array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
-                                                         )
-                                ); 
-        }
-        
+             $this->addGroupRule('location'."{$i}", array('email_1' => array( 
+                                                                             array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),                                                 'email_2' => array( 
+                                                                                                                                                                                                                                     array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
+                                                          'email_3' => array( 
+                                                                             array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
+                                                          )
+                                 ); 
+         }
+         
     }
     
-       /**
+
+
+
+    
+    /**
      * this function is called when the form is submitted.
      */
     function process() 
     { 
-        $lng_error = 0; // this flag is set if there are any errors while inserting in database 
-        
+        $str_error = ""; // error is recorded  if there are any errors while inserting in database         
         
         // create a object for inserting data in contact table 
         $contact = new CRM_Contacts_DAO_Contact();
@@ -422,10 +430,10 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $contact->query('BEGIN'); //begin the database transaction
         
         if (!$contact->insert()) {
-            $lng_error++;
+            $str_error = mysql_error();
         }
         
-        if (!$lng_error) { //proceed if there are no errors
+        if(!strlen($str_error)){ //proceed if there are no errors
             // create a object for inserting data in contact individual table 
             $contact_individual = new CRM_Contacts_DAO_Contact_Individual();
             $contact_individual->contact_id = $contact->id;
@@ -456,11 +464,11 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
             $contact_individual->is_deceased = $_POST['is_deceased'];
             
             if(!$contact_individual->insert()) {
-                $lng_error++;
+                $str_error = mysql_error();
             }
         }
         
-        if (!$lng_error) { //proceed if there are no errors        
+        if(!strlen($str_error)){ //proceed if there are no errors  
             // create a object for inserting data in crm_location, crm_email, crm_im, crm_phone table 
             for ($lngi= 1; $lngi <= 3; $lngi++) {
                 //create a object of location class
@@ -469,7 +477,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                 
                 if (strlen(trim($_POST[$varname1]['street'])) > 0  || strlen(trim($_POST[$varname1]['email_1'])) > 0 || strlen(trim($_POST[$varname1]['phone_1'])) > 0) {
                     
-                    if (!$lng_error) { //proceed if there are no errors
+                    if(!strlen($str_error)){ //proceed if there are no errors
                         // create a object of crm location
                         $$varname = new CRM_Contacts_DAO_Location();
                         $$varname->contact_id = $contact->id;
@@ -477,12 +485,12 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                         $$varname->location_type_id = $_POST[$varname1]['location_type_id'];
                         
                         if(!$$varname->insert()) {
-                            $lng_error++;
+                            $str_error = mysql_error();
                             break;
                         }
                     }
                 
-                    if (!$lng_error) { //proceed if there are no errors
+                    if(!strlen($str_error)){ //proceed if there are no errors
                         if (strlen(trim($_POST[$varname1]['street'])) > 0) {
                             //create the object of crm address
                             $varaddress = "contact_address".$lngi;
@@ -503,12 +511,13 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                             $$varaddress->timezone = $_POST[$varname1]['timezone'];
                             
                             if(!$$varaddress->insert()) {
-                                $lng_error++;
+                                $str_error = mysql_error();
                                 break;
                             }
                         }              
                     }
-                    if (!$lng_error) { //proceed if there are no errors
+                    
+                    if(!strlen($str_error)){ //proceed if there are no errors
                         //create the object of crm email
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
                             $varemail = "email_".$lng_i;
@@ -526,14 +535,14 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                 $$var_email->email = $_POST[$varname1][$varemail];
                                 
                                 if(!$$var_email->insert()) {
-                                    $lng_error++;
+                                    $str_error = mysql_error();
                                     break;
                                 }    
                             }  
                         }
                     }
 
-                    if (!$lng_error) { //proceed if there are no errors
+                    if(!strlen($str_error)){ //proceed if there are no errors
                         //create the object of crm phone
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
                             $varphone = "phone_".$lng_i;
@@ -557,14 +566,14 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                 
                                 
                                 if(!$$var_phone->insert()) {
-                                    $lng_error++;
+                                    $str_error = mysql_error();
                                     break;
                                 }    
                             }  
                         }
                     }
                 
-                    if (!$lng_error) { //proceed if there are no errors
+                    if(!strlen($str_error)){ //proceed if there are no errors
                         //create the object of crm im
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
                             $var_service = "im_service_id_".$lng_i;
@@ -584,7 +593,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                 $$var_im->im_screenname =$_POST[$varname1][$var_screenname];
                                 
                                 if (!$$var_im->insert()) {
-                                    $lng_error++;
+                                    $str_error = mysql_error();
                                     break;
                                 }    
                             }  
@@ -593,24 +602,23 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                     
                 }// end of if block    
             
-                if ($lng_error) {
+                if(strlen($str_error)){ //proceed if there are no errors
                     break;
                 }
             } //end of for loop
         }
         // check if there are any errors while inserting in database
 
-        if($lng_error){
+        if(strlen($str_error)){ //proceed if there are no errors
             $contact->query('ROLLBACK');
-            form_set_error('first_name', t('Database error, please try again.'));
+            form_set_error('first_name', t($str_error));
             $error['first_name'] = t('Database error, please try again.');
-
         } else {
             $contact->query('COMMIT');
         }
         
     }//end of function
-    
+     
 }
 
     function label_offset($str,$num)
