@@ -1,9 +1,8 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/ContactBase.php';
+require_once 'CRM/Contacts/DAO/DomainBase.php';
 
-class CRM_Contacts_DAO_Relationship_Types extends CRM_Contacts_DAO_Base {
-
+class CRM_Contacts_DAO_Relationship_Type extends CRM_Contacts_DAO_DomainBase {
 
   public $name;
   public $description;
@@ -30,6 +29,6 @@ class CRM_Contacts_DAO_Relationship_Types extends CRM_Contacts_DAO_Base {
     return $fields;
   } // end of method dbFields
 
-} // end of class CRM_Contacts_DAO_Relationship_Types
+} // end of class CRM_Contacts_DAO_Relationship_Type
 
 ?>
