@@ -15,7 +15,7 @@ a:active { color: #606; }
 #primary a:hover { color: #03f; }
 #secondary a { color: #333; }
 #secondary a:hover { color: #03f; }
-#primary a.active, #primary a.active:hover, #secondary a.active, #secondary a.active:hover { color: #ccc; }
+#primary a.active, #primary a.active:hover, #secondary a.active, #secondary a.active:hover { color: #ddd; }
 .sidebar .block a, .sidebar .block { color: #777; }
 .sidebar .block a:visited, .sidebar .block h2, .sidebar .block h3 { color: #999; }
 .sidebar .block a:hover { color: #03f; }
@@ -89,7 +89,7 @@ button.form-submit { border: solid 1px #ddd; }
 }
 fieldset { border: 1px solid #999; }
 .tabs li .active, .tabs li .active:hover  {
-  color: #ccc;
+  color: #000;
   background: #fff;
 }
 pre {
@@ -175,6 +175,10 @@ code {
 td.main-content {
   vertical-align: top;
   padding: 0em 1em;
+}
+td.form-item {
+  vertical-align: top;
+  white-space: nowrap;
 }
 td.sidebar {
   vertical-align: top;
@@ -279,10 +283,12 @@ td.sidebar {
   padding: 0;
 }
 .breadcrumb {
-  padding: 0.5em 1em;
-  font-size: 1em;
+  border-top: 1px dashed #aaa;
+  border-bottom: 1px dashed #aaa;
+  padding: .5em 1em .5em 0em;
+  margin-bottom: 1em;
+  font-size: .8em;
   font-weight: bold;
-  margin: 0;
   height: 1em;
 }
 .main-content .node .content, .comment .content, .book .body {
@@ -292,7 +298,7 @@ td.sidebar {
   margin: 0 1em 2em 1em;
 }
 .main-content .content-title {
-  font-size: 2em;
+  font-size: 1.3em;
   margin: 0 0 1.6em 0;
 }
 .main-content .node h2, .main-content h2 {
