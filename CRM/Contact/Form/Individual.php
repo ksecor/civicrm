@@ -77,17 +77,18 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function buildQuickForm( )
     {
-
-
         switch ($this->_mode) {
         case self::MODE_ADD:
-             $this->addElement('text', 'mode', self::MODE_ADD);
+            $this->addElement('text', 'mode', self::MODE_ADD);
             $this->_buildAddForm();
             break;  
         case self::MODE_VIEW:
+            $this->addElement('text', 'mode', self::MODE_VIEW);
+            $this->_buildAddForm();
+            $this->freeze();
             break;  
         case self::MODE_UPDATE:
-             $this->addElement('text', 'mode', self::MODE_UPDATE);
+            $this->addElement('text', 'mode', self::MODE_UPDATE);
             $this->_buildAddForm();
             break;  
         case self::MODE_DELETE:
@@ -133,7 +134,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $this->setDefaults($defaults);
             break;
         case self::MODE_VIEW:
-            break;
+
         case self::MODE_UPDATE:
             
             // get the id from the session that has to be modified

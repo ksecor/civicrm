@@ -512,12 +512,6 @@ function contact_query()
  */
 function contact_edit($id) 
 {
-    /*
-    $contact = new CRM_Contact_Contact();
-    $contact->run(CRM_Form::MODE_UPDATE, $id);
-    return $contact->getContent();
-    */
-
     $contact = new CRM_Contact_Wrapper();
     $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_UPDATE, 'crm/contact/add?reset=1', $id);
     return $contact->getContent();
@@ -532,10 +526,8 @@ function contact_edit($id)
  */
 function contact_view($id) 
 {
-    // echo "IN CONTACT VIEW: $id<p>";
-    // flush();
-    $contact = new CRM_Contact_Contact();
-    $contact->run(CRM_Form::MODE_VIEW, $id);
+    $contact = new CRM_Contact_Wrapper();
+    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_VIEW, 'crm/contact/search/', $id);
     return $contact->getContent();
 } // end of function contact_view
 
