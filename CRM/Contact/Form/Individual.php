@@ -137,8 +137,150 @@ class CRM_Contact_Form_Individual extends CRM_Form
         case self::MODE_VIEW:
             break;
         case self::MODE_UPDATE:
-            $defaults['location2[email_1]'] = 'dgg@blackhole.net';
+            
+            // get the id from the session that has to be modified
+            // get the values for $_SESSION['id']
+            $lng_contact_id = $_SESSION['id'];
+
+            // get values from contact table
+            $contact = new CRM_Contact_DAO_Contact();
+        
+            $contact->get("id",$lng_contact_id);
+
+            $defaults['preferred_communication_method'] = $contact->preferred_communication_method;
+            $defaults['do_not_phone'] = $contact->do_not_phone;
+            $defaults['do_not_email'] = $contact->do_not_email;
+            $defaults['do_not_mail'] = $contact->do_not_mail;
+            
+            // get the values from individual table
+            $contact_individual = new CRM_Contact_DAO_Individual;
+
+            $contact_individual->get("contact_id",$lng_contact_id);
+
+            $defaults['first_name'] = $contact_individual->first_name;
+            $defaults['last_name'] = $contact_individual->last_name;
+            $defaults['prefix'] =  $contact_individual->prefix; 
+            $defaults['suffix'] = $contact_individual->suffix;
+            $defaults['greeting_type'] = $contact_individual->greeting_type;
+            $defaults['job_title'] = $contact_individual->job_title;
+            $defaults['gender'] = $contact_individual->gender;
+            $a_birth_date = explode("-", $contact_individual->birth_date);
+            
+            // print_r($a_birth_date);
+
+            $defaults['birth_date[d]'] = $a_birth_date[2];
+            $defaults['birth_date[M]'] = $a_birth_date[1];
+            $defaults['birth_date[Y]'] = $a_birth_date[0];
+                
+            $defaults['is_deceased'] = $contact_individual->is_deceased;
+
+            // create DAO object of location
+            $contact_location = new CRM_Contact_DAO_Location();
+
+            $contact_location->contact_id = $lng_contact_id;
+            $contact_location->find();
+
+            while ($contact_location->fetch()) {
+                // we are are building $a_Location array, which has deatails for each location
+
+                // values from location table 
+               $a_Location[$contact_location->id]['location_type_id'] = $contact_location->location_type_id;
+               $a_Location[$contact_location->id]['is_primary'] = $contact_location->is_primary;
+
+               //get values from address table
+               $varaddress = "contact_address".$lng_key;
+               $$varaddress = new CRM_Contact_DAO_Address();
+               
+               $$varaddress->location_id = $contact_location->id;
+               $$varaddress->find();
+               
+               while ($$varaddress->fetch()) {
+                   $a_Location[$contact_location->id]['street_address'] = $$varaddress->street_address;
+                   $a_Location[$contact_location->id]['supplemental_address_1'] = $$varaddress->supplemental_address_1;
+                   $a_Location[$contact_location->id]['city'] = $$varaddress->city;
+                   $a_Location[$contact_location->id]['state_province_id'] = $$varaddress->state_province_id;
+                   $a_Location[$contact_location->id]['postal_code'] = $$varaddress->postal_code;
+                   $a_Location[$contact_location->id]['country_id'] = $$varaddress->country_id;
+               }
+               
+               // get data from email table
+               $var_email = "contact_email".$lng_key;
+               $$var_email = new CRM_Contact_DAO_Email();
+
+               $$var_email->location_id = $contact_location->id;
+               $$var_email->find();
+
+               $lng_email = 1;
+               while ($$var_email->fetch()) {
+                   $a_Location[$contact_location->id]['email_'.$lng_email] = $$var_email->email;
+                   $lng_email++;
+               }
+               
+               // get data from phone table
+               $var_phone = "contact_phone".$lng_key;
+               $$var_phone = new CRM_Contact_DAO_Phone();
+                      
+               $$var_phone->location_id = $contact_location->id;
+               $$var_phone->find();
+
+               $lng_phone = 1;
+               while ($$var_phone->fetch()) {
+                   $a_Location[$contact_location->id]['phone_'.$lng_phone] = $$var_phone->phone;
+                   $a_Location[$contact_location->id]['phone_type_'.$lng_phone] = $$var_phone->phone_type;
+                   $lng_phone++;
+               }
+
+               // get data from im table
+               $var_im = "contact_im" . $lng_i;
+               $$var_im = new CRM_Contact_DAO_IM();
+               
+               $$var_im->location_id = $contact_location->id;
+               $$var_im->find();
+
+               $lng_im = 1;
+               while ($$var_im->fetch()) {
+                   $a_Location[$contact_location->id]['im_service_id_'.$lng_im] = $$var_im->im_provider_id;
+                   $a_Location[$contact_location->id]['im_screenname_'.$lng_im] = $$var_im->im_screenname;
+                   $lng_im++;
+               }
+
+            }// end of outer while loop
+
+             //print_r($a_Location);                        
+            if (is_array($a_Location)) { 
+                $lng_count = 1;
+                foreach ($a_Location as $lng_key => $var_value) {
+                    $defaults['location'.$lng_count.'[location_type_id]'] = $var_value['location_type_id'];
+                    $defaults['location'.$lng_count.'[is_primary]'] = $var_value['is_primary'];
+                    $defaults['location'.$lng_count.'[street_address]'] = $var_value['street_address'];
+                    $defaults['location'.$lng_count.'[supplemental_address_1]'] = $var_value['supplemental_address_1'];
+
+                    $defaults['location'.$lng_count.'[city]'] = $var_value['city'];
+                    $defaults['location'.$lng_count.'[state_province_id]'] = $var_value['state_province_id'];
+                    $defaults['location'.$lng_count.'[postal_code]'] = $var_value['postal_code'];
+                    $defaults['location'.$lng_count.'[country_id]'] = $var_value['country_id'];
+                    $defaults['location'.$lng_count.'[email_1]'] = $var_value['email_1'];
+                    $defaults['location'.$lng_count.'[email_2]'] = $var_value['email_2'];
+                    $defaults['location'.$lng_count.'[email_3]'] = $var_value['email_3'];
+                    $defaults['location'.$lng_count.'[phone_1]'] = $var_value['phone_1'];
+                    $defaults['location'.$lng_count.'[phone_type_1]'] = $var_value['phone_type_1'];
+                    $defaults['location'.$lng_count.'[phone_2]'] = $var_value['phone_2'];
+                    $defaults['location'.$lng_count.'[phone_type_2]'] = $var_value['phone_type_2'];
+                    $defaults['location'.$lng_count.'[phone_3]'] = $var_value['phone_3'];
+                    $defaults['location'.$lng_count.'[phone_type_3]'] = $var_value['phone_type_3'];
+                    $defaults['location'.$lng_count.'[im_service_id_1]'] = $var_value['im_service_id_1'];
+                    $defaults['location'.$lng_count.'[im_screenname_1]'] = $var_value['im_screenname_1'];
+                    $defaults['location'.$lng_count.'[im_service_id_2]'] = $var_value['im_service_id_2'];
+                    $defaults['location'.$lng_count.'[im_screenname_2]'] = $var_value['im_screenname_2'];
+                    $defaults['location'.$lng_count.'[im_service_id_3]'] = $var_value['im_service_id_3'];
+                    $defaults['location'.$lng_count.'[im_screenname_3]'] = $var_value['im_screenname_3'];
+                    $lng_count++ ;
+                }
+            }
+
+            // set all elements with values from the database.
             $this->setDefaults($defaults);
+
             break;
         case self::MODE_DELETE:
             break;            
@@ -281,6 +423,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         case self::MODE_VIEW:
             break;
         case self::MODE_UPDATE:
+            $this->_addPostProcess();
             break;
         case self::MODE_DELETE:
             break;            
@@ -484,11 +627,23 @@ class CRM_Contact_Form_Individual extends CRM_Form
          
     /**
      * This function does all the processing of the form for New Contact Individual.
+     * Depending upon the mode this function is used to insert or update the Individual
      * @access private
      */
     private function _addPostProcess() 
     { 
+        $lng_contact_id = 0;
+        // action is taken depending upon the mode
 
+        switch ($this->_mode) {
+        case self::MODE_UPDATE:
+            $lng_contact_id = $_SESSION['id'];
+            break;
+        case self::MODE_VIEW:
+            break;
+
+        }    
+        
         $str_error = ""; // error is recorded  if there are any errors while inserting in database         
         
         // create a object for inserting data in contact table 
@@ -509,15 +664,19 @@ class CRM_Contact_Form_Individual extends CRM_Form
         //$contact->hash = $this->exportValue('hash');
         
         $contact->query('BEGIN'); //begin the database transaction
-        
-        if (!$contact->insert()) {
-
-            CRM_Error::debug_log_message("breakpoint 10");
+       
+        if ($lng_contact_id) {
+            // update the contact $lng_contact_id
+            $contact->get("id",$lng_contact_id);
+            if(!$contact->update()) $str_error = mysql_error();
             
-            $str_error = mysql_error();
+        } else {
+            // insert new contact
+           if (!$contact->insert())  $str_error = mysql_error();
         }
         
-        if(!strlen($str_error)){ //proceed if there are no errors
+
+        if (!strlen($str_error)) { //proceed if there are no errors
             // create a object for inserting data in contact individual table 
             $contact_individual = new CRM_Contact_DAO_Individual();
             $contact_individual->contact_id = $contact->id;
@@ -551,43 +710,54 @@ class CRM_Contact_Form_Individual extends CRM_Form
             //$contact_individual->phone_to_household_id = '';
             //$contact_individual->email_to_household_id = '';
             //$contact_individual->mail_to_household_id = '';
-                     
-            if(!$contact_individual->insert()) {
-                $str_error = mysql_error();
+ 
+            if ($lng_contact_id) {
+                // update the crm_individual for $lng_contact_id
+                $contact_individual->get("id",$lng_contact_id);
+                if(!$contact_individual->update()) $str_error = mysql_error();
+            
+            } else {
+                // insert in crm_individual
+                if (!$contact_individual->insert()) $str_error = mysql_error();                
             }
+         
         }
+        
                  
-                 
-        if(!strlen($str_error)){ //proceed if there are no errors  
+        if (!strlen($str_error)) { //proceed if there are no errors  
             // create a object for inserting data in crm_location, crm_email, crm_im, crm_phone table 
             for ($lngi= 1; $lngi <= 3; $lngi++) {
 
-                // CRM_Error::debug_var("lngi", $lngi);
-                            
                 //create a object of location class
                 $varname = "contact_location".$lngi;
                 $varname1 = "location".$lngi;
-                         
+                
                 $a_Location =  $this->exportValue($varname1);
-                         
+                
                 if (strlen(trim($a_Location['street_address'])) > 0  || strlen(trim($a_Location['email_1'])) > 0 || strlen(trim($a_Location['phone_1'])) > 0) {
-                             
-                    if(!strlen($str_error)){ //proceed if there are no errors
+                    
+                    if (!strlen($str_error)) { //proceed if there are no errors
                         // create a object of crm location
                         $$varname = new CRM_Contact_DAO_Location();
                         $$varname->contact_id = $contact->id;
                         $$varname->location_type_id = $a_Location['location_type_id'];
                         $$varname->is_primary = $a_Location['is_primary'];
-                        
-                                 
-                        if(!$$varname->insert()) {
-                            CRM_Error::debug_log_message("breakpoint 30");
-                            $str_error = mysql_error();
-                            break;
+ 
+                        if ($lng_contact_id) {
+                            // update the crm_location for $lng_contact_id
+                            $$varname->get("id",$lng_contact_id);
+                            if(!$$varname->update()) $str_error = mysql_error();
+
+                        } else {
+                            // insert new record
+                            if (!$$varname->insert()) {
+                                $str_error = mysql_error();
+                                break;
+                            }
                         }
                     }
                              
-                    if(!strlen($str_error)){ //proceed if there are no errors
+                    if (!strlen($str_error)) { //proceed if there are no errors
                         if (strlen(trim($a_Location['street_address'])) > 0) {
                             //create the object of crm address
                             $varaddress = "contact_address".$lngi;
@@ -618,16 +788,23 @@ class CRM_Contact_Form_Individual extends CRM_Form
                             $$varaddress->timezone = $a_Location['timezone'];
                             // $$varaddress->address_nite = '';
 
-                                     
-                            if(!$$varaddress->insert()) {
-                                $str_error = mysql_error();
-                                break;
+                            if ($lng_contact_id) {
+                                // update the crm_address for $lng_contact_id
+                                $$varaddress->get("id",$lng_contact_id);
+                                if(!$$varaddress->update()) $str_error = mysql_error();
+
+                            } else {
+                                // insert new record
+                                if (!$$varaddress->insert()) {
+                                    $str_error = mysql_error();
+                                    break;
+                                }
                             }
                         }              
                     }
                              
                              
-                    if(!strlen($str_error)){ //proceed if there are no errors
+                    if (!strlen($str_error)) { //proceed if there are no errors
                         //create the object of crm email
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
                             $varemail = "email_".$lng_i;
@@ -643,18 +820,24 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 } else {
                                     $$var_email->is_primary = 0;
                                 }
-                                         
-                                         
-                                if(!$$var_email->insert()) {
-                                    CRM_Error::debug_log_message("breakpoint 50");
-                                    $str_error = mysql_error();
-                                    break;
-                                }    
+                                     
+                                if ($lng_contact_id) {
+                                    // update the crm_email for $lng_contact_id
+                                    $$var_email->get("id",$lng_contact_id);
+                                    if(!$$var_email->update()) $str_error = mysql_error();
+                                    
+                                } else {
+                                    // insert new record
+                                    if (!$$var_email->insert()) {
+                                        $str_error = mysql_error();
+                                        break;
+                                    }    
+                                }
                             }  
                         }
                     }
                              
-                    if(!strlen($str_error)){ //proceed if there are no errors
+                    if (!strlen($str_error)) { //proceed if there are no errors
                         //create the object of crm phone
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
                             $varphone = "phone_".$lng_i;
@@ -668,28 +851,32 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 $$var_phone->phone = $a_Location[$varphone];
                                 $$var_phone->phone_type = $a_Location[$varphone_type];
                                 
-                                if($lng_i == 1) { //make first phone entered primary
+                                if ($lng_i == 1) { //make first phone entered primary
                                     $$var_phone->is_primary = 1;
                                 } else {
                                     $$var_phone->is_primary = 0;
                                 }
-
-
+                                
                                 // $$var_phone->mobile_provider_id = $a_Location[$varmobile_prov_id];
                                 $$var_phone->mobile_provider_id = 1;
-                                         
-                                         
-                                if(!$$var_phone->insert()) {
-                                    CRM_Error::debug_log_message("breakpoint 60");
-                                    $str_error = mysql_error();
-                                    break;
-                                }    
+                                
+                                if ($lng_contact_id) {
+                                    // update the crm_phone for $lng_contact_id
+                                    $$var_phone->get("id",$lng_contact_id);
+                                    if(!$$var_phone->update()) $str_error = mysql_error();
+                                    
+                                } else {
+                                    // insert new record
+                                    if (!$$var_phone->insert()) {
+                                        $str_error = mysql_error();
+                                        break;
+                                    }    
+                                }
                             }  
                         }
                     }
                              
-                             
-                    if(!strlen($str_error)){ //proceed if there are no errors
+                    if (!strlen($str_error)) { //proceed if there are no errors
                         //create the object of crm im
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
                             $var_service = "im_service_id_".$lng_i;
@@ -707,25 +894,32 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 } else {
                                     $$var_im->is_primary = 0;
                                 }                               
-                                         
-                                if (!$$var_im->insert()) {
-                                    $str_error = mysql_error();
-                                    break;
-                                }    
+
+                                if ($lng_contact_id) {
+                                    // update the crm_im for $lng_contact_id
+                                    $$var_im->get("id",$lng_contact_id);
+                                    if(!$$var_im->update()) $str_error = mysql_error();
+
+                                } else {
+                                    // insert new record
+                                    if (!$$var_im->insert()) {
+                                        $str_error = mysql_error();
+                                        break;
+                                    }    
+                                }
                             }  
                         }
                     }  
-                    
                 }// end of if block    
                          
-                if(strlen($str_error)){ //proceed if there are no errors
+                if (strlen($str_error)) { //proceed if there are no errors
                     break;
                 }
             } //end of main for loop
         } 
         // check if there are any errors while inserting in database
         
-        if(strlen($str_error)){ //commit if there are no errors else rollback
+        if (strlen($str_error)) { //commit if there are no errors else rollback
             $contact->query('ROLLBACK');
             form_set_error('first_name', t($str_error));
         } else {
@@ -837,7 +1031,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
             form_set_error('first_name', t($str_error));
         } else {
             $contact->query('COMMIT');
-            form_set_error('first_name', t('Contact Individual has been added successfully.'));
+            form_set_error('first_name', t('Contact Individual has been saved successfully.'));
         }
         
     }// end of function
