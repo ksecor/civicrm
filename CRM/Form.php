@@ -39,7 +39,7 @@ require_once 'HTML/QuickForm/Page.php';
 require_once 'CRM/Rule.php';
 require_once 'CRM/Form/Renderer.php';
 
-require_once(realpath('themes/engines/smarty/SmartyTemplate.php'));
+require_once 'themes/engines/smarty/SmartyTemplate.php';
 
 class CRM_Form extends HTML_QuickForm_Page {
 

@@ -32,13 +32,13 @@
        <comment>Type of Contact.</comment>
   </field>
   <field>
-       <name>legal_id</name>
+       <name>legal_identifier</name>
        <type>varchar</type>
        <length>32</length>
        <comment>May be used for SSN, EIN/TIN, Household ID (census) or other applicable unique legal/government ID.</comment>
   </field>
   <field>
-       <name>external_id</name>
+       <name>external_identifier</name>
        <type>varchar</type>
        <length>32</length>
        <comment>Unique trusted external ID (generally from a legacy app/datasource). Particularly useful for deduping operations.</comment>

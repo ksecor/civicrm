@@ -249,9 +249,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         //$contact->sort_name = CRM_Array::value( 'last_name', $params, '' ) . ', ' . CRM_Array::value( 'first_name', $params, '' );
 
         $privacy = CRM_Array::value( 'privacy', $params );
-        foreach ( self::$_commPrefs as $name ) {
-            if ( array_key_exists( $name, $privacy ) ) {
-                $contact->$name = $privacy[$name];
+        if ( $privacy && is_array( $privacy ) ) {
+            foreach ( self::$_commPrefs as $name ) {
+                if ( array_key_exists( $name, $privacy ) ) {
+                    $contact->$name = $privacy[$name];
+                }
             }
         }
 
@@ -294,6 +296,39 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             return $contact;
         }
         return null;
+    }
+
+    /**
+     * takes an associative array and creates a contact object and all the associated
+     * derived objects (i.e. individual, location, email, phone etc)
+     *
+     * This function is invoked from within the web form layer and also from the api layer
+     *
+     * @param array $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids
+     * @param int   $maxLocationBlocks the maximum number of location blocks to process
+     *
+     * @return object CRM_Contact_BAO_Individual object 
+     * @access public
+     * @static
+     */
+    static function create( &$params, &$ids, $maxLocationBlocks ) {
+        CRM_DAO::transaction( 'BEGIN' );
+        
+        $contact = self::add( $params, $ids );
+        
+        $params['contact_id'] = $contact->id;
+
+        // invoke the add operator on the contact_type class
+        eval( '$object = CRM_Contact_BAO_' . $params['contact_type'] . '::add( $params, $ids );' );
+
+        for ($locationId= 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
+            $location = CRM_Contact_BAO_Location::add( $params, $ids, $locationId );
+        }
+
+        CRM_DAO::transaction( 'COMMIT' );
+
+        return $object;
     }
 
 }

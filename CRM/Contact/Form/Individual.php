@@ -300,22 +300,12 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $ids = $this->get('ids');
         }    
 
+        $params['contact_type'] = 'Individual';
+        CRM_Contact_BAO_Contact::create( $params, $ids, self::LOCATION_BLOCKS );
+
         $tempDB = new CRM_Contact_DAO_Contact( );
         $tempDB->query('BEGIN');
         
-        $params['contact_type'] = 'Individual';
-        $contact = CRM_Contact_BAO_Contact::add( $params, $ids );
-        // need to check for error here and abort / rollback if error
-        
-        $params['contact_id'] = $contact->id;
-        
-        $individual = CRM_Contact_BAO_Individual::add( $params, $ids );
-        // need to check for error here and abort / rollback if error
-        
-        for ($locationId= 1; $locationId <= self::LOCATION_BLOCKS; $locationId++) { // start of for loop for location
-            $location = CRM_Contact_BAO_Location::add( $params, $ids, $locationId );
-        }
-
         $tempDB->query('COMMIT');
 
     }//end of function

@@ -94,7 +94,7 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $phone      = array(
+    static public $phoneType = array(
                                       ''       => '-select-',
                                       'Phone'  => 'Phone',
                                       'Mobile' => 'Mobile',
@@ -124,8 +124,8 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $im         = array(
-                                     '' => '-select-',
+    static public $imProvider = array(
+                                      '' => '-select-',
                                       1 => 'Yahoo',
                                       2 => 'MSN',
                                       3 => 'AIM',
@@ -138,12 +138,12 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $state      = array(
-                                      ''   => '-select-',
-                                      1004 => 'California',
-                                      1036 => 'Oregon',
-                                      1046 => 'Washington'
-                                      );
+    static public $stateProvince = array(
+                                         ''   => '-select-',
+                                         1004 => 'California',
+                                         1036 => 'Oregon',
+                                         1046 => 'Washington'
+                                         );
 
     /**
      * country array (fetch and cache from generic db, based on locale)
@@ -157,6 +157,16 @@ class CRM_SelectValues {
                                       1172 => 'Poland',
                                       1128 => 'United States'
                                       );
+
+    /**
+     * list of counties
+     * @var array
+     * @static
+     */
+    static public $county = array(
+                                  ''   => '-select-',
+                                  1001 => 'San Francisco',
+                                  );
 
     /**
      * preferred communication method

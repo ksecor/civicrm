@@ -36,7 +36,7 @@
 require_once 'PEAR.php';
 require_once 'DB/DataObject.php';
 
-abstract class CRM_DAO extends DB_DataObject {
+class CRM_DAO extends DB_DataObject {
 
     const
         NOT_NULL       =   1,
@@ -51,6 +51,14 @@ abstract class CRM_DAO extends DB_DataObject {
     static $_factory = null;
 
     /**
+     * We use this object to encapsulate transactions
+     *
+     * @var object
+     * @static
+     */
+    static private $_singleton = null;
+
+    /**
      * Class constructor
      *
      * @return object
@@ -60,7 +68,14 @@ abstract class CRM_DAO extends DB_DataObject {
         $this->initialize( );
         $this->__table = $this->getTableName();
     }
-	
+
+    /**
+     * empty definition for virtual function
+     */
+	function getTableName( ) {
+        return null;
+    }
+
     /**
      * initialize the DAO object
      *
@@ -201,7 +216,9 @@ abstract class CRM_DAO extends DB_DataObject {
      * @access public
      * @return array
      */
-    abstract function &fields( );
+    function &fields( ) {
+        return null;
+    }
 
     function table() {
         $fields =& $this->fields();
@@ -320,6 +337,20 @@ abstract class CRM_DAO extends DB_DataObject {
         return null;
     }
 
+    /**
+     * Function to begin/commit/rollback a transaction
+     *
+     * @param string $type an enum which is either BEGIN|COMMIT|ROLLBACK
+     * 
+     * @return void
+     * @access public
+     */
+    static function transaction( $type ) {
+        if ( self::$_singleton == null ) {
+            self::$_singleton = new CRM_DAO( );
+        }
+        self::$_singleton->query( $type );
+    }
 }
 
 ?>

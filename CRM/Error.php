@@ -103,7 +103,7 @@ class CRM_Error extends PEAR_ErrorStack {
      *
      * create the main callback method. this method centralizes error processing.
      *
-     * the erros we expect are from the pear modules DB, DB_DataObject
+     * the errors we expect are from the pear modules DB, DB_DataObject
      * which currently use PEAR::raiseError to notify of error messages.
      *
      * @param object PEAR_Error
@@ -134,6 +134,7 @@ class CRM_Error extends PEAR_ErrorStack {
         
         $template->assign( 'tplFile', "CRM/" . CRM_Error::ERROR_TEMPLATE); 
         $content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
+        CRM_Error::debug( 'error', $error );
 
         print theme('page', $content);
         exit(1);
