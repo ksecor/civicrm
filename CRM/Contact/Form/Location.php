@@ -35,7 +35,7 @@ require_once 'CRM/Form.php';
 require_once 'CRM/SelectValues.php';
 require_once 'CRM/Contact/Form/Phone.php';
 require_once 'CRM/Contact/Form/Email.php';
-require_once 'CRM/Contact/Form/Im.php';
+require_once 'CRM/Contact/Form/IM.php';
 require_once 'CRM/Contact/Form/Address.php';
 
 class CRM_Contact_Form_Location extends CRM_Form
