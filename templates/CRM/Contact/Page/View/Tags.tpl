@@ -1,4 +1,3 @@
-{debug}
 <div class="data-group form-item">
 <div>
     {if $contact_type eq 'Individual'}
@@ -15,18 +14,10 @@
 {strip}
 <table border="1">
 {foreach from=$category key=category_id item=category_array}
-
-{assign var="variable1" value=$entityCategory}
-
-{php}
-echo "category_id = $category_id<br/>";
-print_r($variable1);
-$checked = in_array($entityCategory, $category_id) ? "checked" : "";
-{/php}
 <tr>
-	<td>
-	<input type="checkbox" name="category" value="{$category_id}" "{$category_array.checked}" /> &nbsp; {$category_array.name} cat_id = {$category_id}
-	</td>
+  <td>
+    <input type="checkbox" name="category" value="{$category_id}" "{$category_array.checked}" /> &nbsp; {$category_array.name}
+  </td>
 </tr>
 {/foreach}
 
@@ -40,5 +31,4 @@ $checked = in_array($entityCategory, $category_id) ? "checked" : "";
         <input type="button" name="cancel" value="Cancel">
 </span>
 </div>
-
 </div>

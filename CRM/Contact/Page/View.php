@@ -78,7 +78,6 @@ class CRM_Contact_Page_View extends CRM_Page {
         } else if ( $this->_mode == self::MODE_TAGS ) {
             $this->runModeTags( );
         } 
-
         return parent::run( );
     }
 
@@ -137,50 +136,25 @@ class CRM_Contact_Page_View extends CRM_Page {
 
     function runModeTags()
     {
-
-        CRM_Error::le_method();
-
         $contactParam   = array();
         $defaults = array();
         $ids      = array();
-        $array1 = array();
 
+        // too heavy
         $contactParam['id'] = $contactParam['contact_id'] = $this->_contactId;
-        CRM_Error::debug_var("contactParam", $contactParam);
         $contact = CRM_Contact_BAO_Contact::retrieve($contactParam, $defaults, $ids);
-
         $this->assign($defaults);
-        
-        $contactEntityParam['entity_id'] = $this->_contactId;
 
-        CRM_Error::debug_var("this->_contactId", $this->_contactId);
-        
-
+        // get categories for the contact id
         $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
-        
-        CRM_Error::debug_var("entityCategory", $entityCategory);
-       
         $this->assign('entityCategory', $entityCategory); 
-
-        // $array1 = CRM_Contact_BAO_EntityCategory::getValues($params);        
-        // $this->assign($array1);         
 
         $category = CRM_SelectValues::getCategory();
 
+        // need to append the array with the " checked " if contact is tagged with the category
         foreach ($category as $categoryID => &$categoryDetail) {
-            //push($categoryDetail
-
-            CRM_Error::debug_var("categoryID", $categoryID);
-
-            //            $checked = in_array($entityCategory, $categoryID) ? " checked " : " ";
-            $checked = in_array($categoryID, $entityCategory) ? " checked " : " ";
-
-            CRM_Error::debug_var("checked", $checked);
-
-            $categoryDetail['checked'] = $checked;
+            $categoryDetail['checked'] = in_array($categoryID, $entityCategory) ? " checked " : " ";
         }
-
-        CRM_Error::debug_var('category', $category);
 
         $this->assign('category', $category);
     }
