@@ -89,7 +89,7 @@ class CRM_GCD{
 
   const NUM_RELATIONSHIP_TYPE = 100;
 
-  const DB_NAME='wgm';
+  const DB_NAME='crm';
   const DB_USERNAME='nobody';
   const DB_PASSWORD='test12345';
   const DB_HOSTNAME='localhost';

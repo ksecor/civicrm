@@ -1,8 +1,8 @@
 {if $error}
-  <span class="wgm-error">{$label|upper}</span>
+  <span class="crm-error">{$label|upper}</span>
 {else}
   {$label}
 {/if}
 {if $required}
-   <span class="wgm-error" size="1">*</span>
+   <span class="crm-error" size="1">*</span>
 {/if}

@@ -16,7 +16,7 @@ class CRM_Session {
 
   const RETURN_URL = 'returnUrl';
 
-  protected $_key = 'wgm';
+  protected $_key = 'crm';
 
   protected $_session;
 
@@ -27,20 +27,25 @@ class CRM_Session {
   /**
    * Constructor
    *
+   * Since we are now a client / module of drupal, drupal takes care
+   * of initiating the php session handler session_start ().
+   * All crm code should always use the session using
+   * CRM_Session. we prefix stuff to avoid collisions with drupal and also
+   * collisions with other crm modules!!
+   * This constructor is invoked whenever any module requests an instance of
+   * the session and one is not available.
+   *
    * @param  string   Index for session variables
    * @return void
    */
-  function __construct( $key = 'wgm' ) { 
-    // drupal does this for us for now
-    // session_start ();
- 
+  function __construct( $key = 'crm' ) { 
     $this->_key     = $key;
     $this->_session =& $_SESSION;
     
     $this->createSessionStore();
   }
 
-  static function instance($key = 'wgm') {
+  static function instance($key = 'crm') {
     if (self::$_instance === null ) {
       self::$_instance = new CRM_Session($key);
     }

@@ -19,7 +19,7 @@ class CRM_Config {
 
   private static $_instance = null;
 
-  static function instance($key = 'wgm') {
+  static function instance($key = 'crm') {
     if (self::$_instance === null ) {
       self::$_instance = new CRM_Config($key);
     }

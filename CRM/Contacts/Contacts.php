@@ -16,11 +16,17 @@ class CRM_Contacts_Contacts extends CRM_Base {
   }
 
   function run( $mode, $id = 0 ) {
+    // store the return url
+    $returnUrl = "/lobo/drupal/crm/contact/add?reset=1";
+    $session = CRM_Session::instance();
+    $session->pushReturnUrl( $returnUrl );
+
     $this->_controller = new CRM_Controller_SinglePage( 'CRM_Contacts_Form_CRUD', 'Contact CRUD Page', $mode );
 
     $this->_controller->process();
     $this->_controller->run();
 
+    /**
     $contact    = new CRM_Contacts_BAO_Contact_Individual();
 
     $contact->domain_id = 1;
@@ -29,7 +35,6 @@ class CRM_Contacts_Contacts extends CRM_Base {
       // CRM_Utils::debug( 'contactInd', $contact );
     }
 
-    /**
     $contact = new CRM_Contacts_BAO_Contact_Individual();
     $contact->contact_type = 'Individual';
     $contact->sort_name    = 'Donald Lobo';
