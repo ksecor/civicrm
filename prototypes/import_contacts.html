@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>  
+  <title>Import Contacts</title><meta http-equiv="Content-Style-Type" content="text/css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- base href="http://localhost/dgg/drupal/" -->
+<style type="text/css" media="all">@import "../drupal/misc/drupal.css";</style>
+<style type="text/css" media="all">@import "../drupal/themes/box_grey_smarty/style.css";</style>
+</head>
+<body>
+<div id="header">
+  	<form action="search" method="post">
+		<div id="search">
+			<input class="form-text" size="15" value="" name="keys" type="text"><input class="form-submit" value="search" type="submit">
+		</div>
+	</form>
+        <a href="" title="Index Page"><img src="i/logo.png" height="45" width="60" alt="Logo"></a>
+        <h1 id="site-name"><a href="" title="Index Page">RMS in Drupal</a></h1>
+      <br class="clear">
+</div>
+<div id="top-nav">
+  	
+      <ul id="primary">
+          <li><a href="" title="Return to the main page.">home</a></li>
+          <li><a href="http://localhost/dgg/drupal/blog" title="Read the latest blog entries.">blogs</a></li>
+          <li><a href="http://localhost/dgg/drupal/poll" title="View the list of polls on this site.">polls</a></li>
+          <li><a href="http://localhost/dgg/drupal/search" title="Search for older content.">search</a></li>
+        </ul>
+  </div>
+<table id="content">
+	<tbody><tr>
+	<td class="sidebar" id="sidebar-left">
+
+    <!-- Quick Search box for RMS pages-->
+    <div class="block" id="rms-search-block">
+        <div class="rmsMenuTitle">Contact Search</div>
+        <form name="quick_search_form" action="list_contacts.html" method="post">
+        <input type="text" class="form-text" name="contact_search_string" size="20" value="-full or partial name-" onClick="contact_search_string.value = '';"/><br/>
+        <input type="submit" name="contact_search" value="search" class="form-submit"><br/>
+        <a href="">&raquo; Advanced Search</a>
+    </div><br/>
+    
+    <!-- Shortcut Menu box for RMS pages-->
+    <div class="block" id="rms-shortcut-menu">
+        <div class="rmsMenuTitle">Shortcuts</div>
+        <ul compact="compact">
+        <li>List Contacts
+        <li>Create A Contact
+        <li>Manage Groups
+        </ul>
+    </div><br/>
+    
+    <!-- Quick Create Contact box -->
+    <div class="block" id="rms-quick-create">
+        <div class="rmsMenuTitle">New Contact</div>
+        <form name="rms_quick_create_form" action="list_contacts.html" method="post">
+        <label>First Name:</label><br/>
+        <input type="text" class="form-text" name="contact_first_name" size="15" value="" /><br/>
+        <label>Last Name:</label><br/>
+        <input type="text" class="form-text" name="contact_last_name" size="15" value="" /><br/>
+        <label>Phone:</label><br/>
+        <input type="text" class="form-text" name="contact_phone" size="15" value="" /><br/>
+        <label>Email:</label><br/>
+        <input type="text" class="form-text" name="contact_email" size="15" value="" /><br/>
+        <input type="submit" name="contact_create" value="save" class="form-submit"><br/>
+    </div><br/>
+    
+    <div class="block block-user" id="block-user-1">
+        <h2>Site Menu</h2>
+        <div class="content"><div class="menu">
+        <ul>
+        <li class="expanded"><a href="http://localhost/dgg/drupal/rms" title="">Relationship Management</a>
+        <ul>
+        <li class="expanded"><a href="http://localhost/dgg/drupal/rms/contacts" title="List, edit and add contacts">Contacts</a>
+        <ul>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/contact/add" class="active">Create Contact</a></li>
+        <li class="leaf">Import Contacts</li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/contact/groups">Contact Groups</a></li>
+        </ul>
+        </li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/communicate" title="">Communicate</a></li>
+
+        </ul>
+        </li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/blog" title="view blogs here">blogs</a></li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/node" title="">content</a></li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/search" title="">search</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/user/1">my account</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/profile" title="">user list</a></li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/admin">administer</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/logout">log out</a></li>
+
+        </ul>
+    </div></div></div>
+</td> <!-- End of sidebar cell -->
+
+<td class="main-content" id="content-left">
+    <!-- breadcrumb bar -->
+	<div class="breadcrumb"><a href="">Home</a> &raquo; <a href="http://localhost/dgg/drupal/rms" title="">Relationship Management</a> &raquo; <a href="" title="list contacts">Contacts</a> &raquo; Import Contacts</div>
+
+    <!-- recently viewed items bar -->
+    <div class="rmsListNav">
+        <span>Recently Viewed:</span> 
+        <a href=""><img src="i/contacts.png" align="absmiddle">&nbsp;Janet Ball</a> &nbsp;&nbsp;
+        <a href=""><img src="i/contacts.png" align="absmiddle">&nbsp;Darsha</a>
+    </div>
+
+	<!-- start main content -->
+    <table class="rmsPageTitle" width="100%">
+        <tr><td><h3 class="content-title">Import Contacts: 1. Upload Import File</h3></td>
+        <td align="right"><a href="" title="Help"><img src="i/help.png" align="absmiddle" alt="Help">&nbsp;Help</a></td></tr>
+    </table>
+        
+	<table><tbody><tr>
+    <td class="rmsFrame"> <!-- Begin cell for contact list -->
+
+    <!-- Form to choose import file. -->
+    <div class="help">
+    <p><br>Intro and explanation text will go here...<p>&nbsp;</p>
+    </div>
+    
+    <div class="form-item">
+	<form action="list_contacts.html" method="post" name="uploadFile" enctype="multipart/form-data">
+    <label>Upload File: <label>
+    <input type="file" class="form-text" name="edit[uploadFile]" size="25" value="" /><br/>
+	<input type="submit" name="change_list_view" value="next" />
+    </div>
+     
+    </td> <!-- End cell for wizard content -->
+    
+    <!-- Begin cell for wizard menus -->
+    <td class="rmsFrame">
+        <div class="block" id="rmsWizardSteps">
+        <ol>
+        <li class="wizActiveStep">Upload Import File
+        <li class="wizFutureStep">Verify and Match Fields
+        </ol>
+        </div>
+    </td>
+    <!-- End cell for wizard menus. -->
+    
+    </tr></tbody>
+    </table>
+	<!-- end content -->
+
+<!-- end main content -->
+</td><!-- mainContent -->		
+</tr>
+</tbody></table>
+
+<div id="footer">
+      <p>Dave's Drupal Sandbox on Patagonia</p>
+  Validate <a href="http://validator.w3.org/check/referer">XHTML</a> or <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
+</div><!-- footer -->	
+ 
+</body></html>
