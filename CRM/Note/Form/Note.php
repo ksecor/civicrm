@@ -154,7 +154,7 @@ class CRM_Note_Form_Note extends CRM_Form
         $config  = CRM_Config::singleton ( );
         $session = CRM_Session::singleton( );
 
-        $session->setStatus( "A new Note has been saved" );
+        $session->setStatus( "Your Note has been saved." );
 
         $returnUserContext = $config->httpBase . 'contact/view/note&op=browse';
         $session->pushUserContext( $returnUserContext );

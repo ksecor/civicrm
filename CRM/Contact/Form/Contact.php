@@ -303,7 +303,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
         $config  = CRM_Config::singleton( );
         $session = CRM_Session::singleton( );
 
-        $session->setStatus( 'A new ' . $contact->contact_type . ' contact record has been saved' );
+        $session->setStatus( 'Your ' . $contact->contact_type . ' contact record has been saved' );
 
         $returnUserContext = $config->httpBase . 'contact/view?cid=' . $contact->id;
         $session->replaceUserContext( $returnUserContext );
