@@ -315,7 +315,7 @@ function contact_menu($may_cache)
 }
 
 function contact_init() {
-    menu_rebuild();
+    // menu_rebuild();
     $config = CRM_Config::singleton();
     CRM_DAO::init($config->dsn, $config->daoDebug);
     
