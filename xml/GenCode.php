@@ -7,18 +7,23 @@ $smarty = new Smarty( );
 $smarty->template_dir = './templates';
 $smarty->compile_dir  = '/tmp/templates_c';
 
-$dbXML =& parseInput( 'Contacts.xml' );
+$file = 'Schema.xml';
+echo "Parsing input file $file\n";
+$dbXML =& parseInput( $file );
 // print_r( $dbXML );
 
+echo "Extracting database information\n";
 $database =& getDatabase( $dbXML );
 // print_r( $database );
 
+echo "Extracting table information\n";
 $tables   =& getTables( $dbXML, $database );
 // print_r( $tables );
 
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );
 
+echo "Generating sql file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
 $fd = fopen( "./gen/sql/Contacts.sql", "w" );
 fputs( $fd, $sql );
@@ -34,20 +39,36 @@ $oToken->setIndentNumber(4);
 $oToken->setNewLine("\n");
 
 foreach ( array_keys( $tables ) as $name ) {
+    echo "Generating $name as " . $tables[$name]['fileName'] . "\n";
     $smarty->clear_all_assign( );
 
     $smarty->assign_by_ref( 'table', $tables[$name] );
     $php = $smarty->fetch( 'dao.tpl' );
 
     $oToken->setInputString( $php );
-    $oToken->setOutputFile( "./gen/php/$name.php" );
+    
+    $path     = "./gen/php/";
+    $oToken->setOutputFile( $path . $tables[$name]['fileName'] );
     $oToken->process(); // required
     
     $oToken->save( );
 }
 
+function convertName( $name, $skipDBPrefix = true, $pre = '', $post = '' ) {
+    $names = explode( '_', strtolower($name) );
+    
+    $start = $skipDBPrefix ? 1 : 0;
+    $fileName = '';
+    for ( $i = $start; $i < count($names); $i++ ) {
+        $fileName .= ucfirst( $names[$i] );
+    }
+    return $pre . $fileName . $post;
+}
+
 function &parseInput( $file ) {
-    $dbXML = simplexml_load_file( $file );
+    $dom = DomDocument::load( $file );
+    $dom->xinclude( );
+    $dbXML = simplexml_import_dom( $dom );
     return $dbXML;
 }
 
@@ -80,6 +101,8 @@ function &getTables( &$dbXML, &$database ) {
 function getTable( $tableXML, &$database, &$tables ) {
     $name  = trim($tableXML->name );
     $table = array( 'name'       => $name,
+                    'fileName'   => convertName( $name, true, '', '.php' ),
+                    'className'  => convertName( $name, true, 'CRM_Contact_DAO_', '' ),
                     'attributes' => trim($database['tableAttributes']),
                     'comment'    => value( 'comment', $tableXML ) );
     

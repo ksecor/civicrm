@@ -126,9 +126,7 @@
 
 <table>
   <name>crm_domain</name>
-  <comment>Top-level hierarchy to support multi-org/domain
-* installations. Define domains for multi-org installs, else all
-*  contacts belong to one domain.</comment>
+  <comment>Top-level hierarchy to support multi-org/domain installations. Define domains for multi-org installs, else all contacts belong to one domain.</comment>
   <field>
       <name>id</name>
       <type>int unsigned</type>
@@ -159,7 +157,7 @@
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>ID</comment>
+      <comment>Location Type ID</comment>
   </field>
   <primaryKey>
        <name>id</name>

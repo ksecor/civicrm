@@ -33,11 +33,13 @@
 
 require_once 'CRM/DAO/Base.php';
 
-class {$table.name} extends CRM_DAO_Base {ldelim}
+class {$table.className} extends CRM_DAO_Base {ldelim}
 
 {foreach from=$table.fields item=field}
     /**
+{if $field.comment}
      * {$field.comment}
+{/if}
      *
      * @var {$field.phpType}
      */

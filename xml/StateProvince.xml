@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <name>crm_state_province</name>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+       <comment>State / Province ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>false</autoincrement>
+  </primaryKey>
+  <field>
+       <name>name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Name of State / Province</comment>
+  </field>
+  <field>
+       <name>abbreviation</name>
+       <type>varchar</type>
+       <length>4</length>
+       <comment>2-4 Character Abbreviation of State / Province</comment>
+  </field>
+  <field>
+       <name>country_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>ID of Country that State / Province belong</comment>
+  </field>
+  <foreignKey>
+       <name>country_id</name>
+       <table>crm_country</table>
+       <key>id</key>
+  </foreignKey>
+</table>
