@@ -59,7 +59,6 @@
 
 require_once '../modules/config.inc.php';
 require_once 'CRM/Config.php';
-require_once 'CRM/DAO/Domain.php';
 
 class CRM_GCD {
 
@@ -82,6 +81,12 @@ class CRM_GCD {
     const HEAD_OF_HOUSEHOLD   = 6;
     const MEMBER_OF_HOUSEHOLD = 7;
 
+
+    // location types from the table crm_location_type
+    const HOME            = 1;
+    const WORK            = 2;
+    const MAIN            = 3;
+    const OTHER           = 4;
     
     const ADD_TO_DB=TRUE;
     // const ADD_TO_DB=FALSE;
@@ -202,6 +207,20 @@ class CRM_GCD {
         return mt_rand(0,1);
 
     } // end of getRandomBoolean
+
+
+
+    // insert data into db's
+    private function _insert($dao)
+    {
+        if (self::ADD_TO_DB) {
+            if (!$dao->insert()) {
+                echo mysql_error() . "\n";
+                exit(1);
+            }
+        }
+    }
+
 
 
 
@@ -331,18 +350,13 @@ class CRM_GCD {
         $this->lee();
 
         for ($id=2; $id<=self::NUM_DOMAIN; $id++) {
-            $domain = new CRM_Contact_DAO_Domain();
+            $domain = new CRM_DAO_Domain();
             // domain name is pretty simple. it is "Domain $id"
             $domain->name = "Domain $id";
             $domain->description = "Description $id";
             
             // insert domain
-            if (self::ADD_TO_DB) {
-                if (!$domain->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+            $this->_insert($domain);
         }
 
         $this->lel();
@@ -389,12 +403,7 @@ class CRM_GCD {
             // choose randomly from phone, email and snail mail
             $contact->preferred_communication_method = $this->preferred_communication_array[mt_rand(1, count($this->preferred_communication_array))];
 
-            if (self::ADD_TO_DB) {
-                if (!$contact->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+            $this->_insert($contact);
         }
         
         $this->lel();
@@ -446,12 +455,8 @@ class CRM_GCD {
             // $individual->email_to_household_id = mt_rand(0, 1);
             // $individual->mail_to_household_id = mt_rand(0, 1);
             
-            if (self::ADD_TO_DB) {
-                if (!$individual->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+
+            $this->_insert($individual);
 
         }
         
@@ -490,12 +495,7 @@ class CRM_GCD {
             $household->household_name = "Household Name $id";
             $household->nick_name = "Nick Name $id";
             $household->primary_contact_id = $this->household_individual_array[$household->contact_id][0];
-            if (self::ADD_TO_DB) {
-                if (!$household->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+            $this->_insert($household);
         }
 
         $this->lel();
@@ -534,13 +534,7 @@ class CRM_GCD {
             $organization->nick_name = "Nick Name $id";
             $organization->sic_code = "Sic Code $id";
             $organization->primary_contact_id = $this->strict_individual_array[mt_rand(0,$this->num_strict_individual)];
-
-            if (self::ADD_TO_DB) {
-                if (!$organization->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+            $this->_insert($organization);
         }
 
         $this->lel();
@@ -569,108 +563,151 @@ class CRM_GCD {
             // add child_of relationship
             // 2 for each child
             $relationship->relationship_type_id = self::CHILD_OF;
+            $relationship->contact_id_a = $household_member[2];
+            $relationship->contact_id_b = $household_member[0];
+            $this->_insert($relationship);
+            $relationship->contact_id_a = $household_member[3];
+            $relationship->contact_id_b = $household_member[0];
+            $this->_insert($relationship);
+            $relationship->contact_id_a = $household_member[2];
+            $relationship->contact_id_b = $household_member[1];
+            $this->_insert($relationship);
+            $relationship->contact_id_a = $household_member[3];
+            $relationship->contact_id_b = $household_member[1];
+            $this->_insert($relationship);
 
-            $relationship->contact_id_a = $household_member[2];
-            $relationship->contact_id_b = $household_member[0];
-            if (self::ADD_TO_DB) {
-                if (!$relationship->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
-            $relationship->contact_id_a = $household_member[3];
-            $relationship->contact_id_b = $household_member[0];
-            if (self::ADD_TO_DB) {
-                if (!$relationship->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
-            $relationship->contact_id_a = $household_member[2];
-            $relationship->contact_id_b = $household_member[1];
-            if (self::ADD_TO_DB) {
-                if (!$relationship->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
-            $relationship->contact_id_a = $household_member[3];
-            $relationship->contact_id_b = $household_member[1];
-            if (self::ADD_TO_DB) {
-                if (!$relationship->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
-            
-            // add spouse_of relationship
-            // 1 for both the spouses
+            // add spouse_of relationship 1 for both the spouses
             $relationship->relationship_type_id = self::SPOUSE_OF;
             $relationship->contact_id_a = $household_member[1];
             $relationship->contact_id_b = $household_member[0];
-            if (self::ADD_TO_DB) {
-                if (!$relationship->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+            $this->_insert($relationship);
 
-
-            
-            // add sibling_of relationship
-            // 1 for both the siblings
+            // add sibling_of relationship 1 for both the siblings
             $relationship->relationship_type_id = self::SIBLING_OF;
             $relationship->contact_id_a = $household_member[3];
             $relationship->contact_id_b = $household_member[2];
-            if (self::ADD_TO_DB) {
-                if (!$relationship->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+            $this->_insert($relationship);
 
-
-
-            // add head_of_household relationship
-            // 1 for head of house
+            // add head_of_household relationship 1 for head of house
             $relationship->relationship_type_id = self::HEAD_OF_HOUSEHOLD;
             $relationship->contact_id_a = $household_member[0];
             $relationship->contact_id_b = $household_id;
-            if (self::ADD_TO_DB) {
-                if (!$relationship->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+            $this->_insert($relationship);
 
-
-            // add member_of_household relationship
-            // 3 for all other members
+            // add member_of_household relationship 3 for all other members
             $relationship->relationship_type_id = self::MEMBER_OF_HOUSEHOLD;
             $relationship->contact_id_a = $household_member[1];
-            if (self::ADD_TO_DB) {
-                if (!$relationship->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+            $this->_insert($relationship);
             $relationship->contact_id_a = $household_member[2];
-            if (self::ADD_TO_DB) {
-                if (!$relationship->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+            $this->_insert($relationship);
             $relationship->contact_id_a = $household_member[3];
-            if (self::ADD_TO_DB) {
-                if (!$relationship->insert()) {
-                    echo mysql_error() . "\n";
-                    exit(1);
-                }
-            }
+            $this->_insert($relationship);
+
         }
         $this->lel();
-    } // end of method addRelationship
+    }
+
+
+    /*******************************************************
+     *
+     * addLocation()
+     *
+     * This method adds data to the location table
+     *
+     *******************************************************/
+    public function addLocation()
+    {
+
+        $this->lee();
+
+        $location = new CRM_Contact_DAO_Location();
+        $address = new CRM_Contact_DAO_Address();
+        $email = new CRM_Contact_DAO_Email();
+        $phone = new CRM_Contact_DAO_Phone();
+        
+        // primary location
+        $location->is_primary = 1;
+
+        for ($location_id=1; $location_id<=$this->num_location; $location_id++) {
+
+            // get the index of the location in the location array
+            $index = array_search($location_id, $this->location_array);
+
+            echo "index = $index\n";
+
+            if ($index < $this->num_strict_individual) {
+
+                echo "in individual\n";
+
+                // this belongs to the individual
+                $location->location_type_id = self::HOME;
+                $location->contact_id = $this->strict_individual_array[$index];
+
+            } else if ($index < ($this->num_strict_individual+$this->num_household)) {
+
+                echo "in household\n";
+
+                // belongs to household 
+                $location->location_type_id = self::MAIN;
+
+                $index1 = $index - $this->num_strict_individual;
+                $contact_id = $this->household_array[$index1];
+
+                echo "index1 = $index1    contact_id = $contact_id \n";
+
+                $location->contact_id = $this->household_array[$index-$this->num_strict_individual];
+
+            } else {
+
+                echo "in organization\n";
+
+                // belongs to organization
+                $location->location_type_id = self::MAIN;
+
+                $index1 = $index - $this->num_strict_individual - $this->num_household;
+                $contact_id = $this->organization_array[$index1];
+
+                echo "index1 = $index1    contact_id = $contact_id \n";
+
+                $location->contact_id = $this->organization_array[$index-$this->num_strict_individual-$this->num_household];
+            }
+
+            $this->_insert($location);
+
+            // add addresses now currently we are adding only 1 address for each location
+            $address->location_id = $location_id;
+            $address->street_address = "Street Address $location_id";
+            $address->street_name = "Street Name $location_id";
+            $address->supplemental_address_1 = "Supplemental Address 1 $location_id";
+            $address->supplemental_address_2 = "Supplemental Address 2 $location_id";
+            $address->supplemental_address_3 = "Supplemental Address 3 $location_id";
+            $address->city = "City $location_id";
+            $address->county_id = 1;
+            $address->state_province_id = 1004;
+            $address->postal_code = "94401";
+            $address->country_id = 1228;
+            $address->geo_coord_id = 1;
+
+            $this->_insert($address);
+
+            // add 3 email for each location
+            for ($email_id=1; $email_id<=3; $email_id++) {
+                $email->location_id = $location_id;
+                $email->email = "location_$location_id_$email_id@crm.com";
+                $this->_insert($email);
+            }
+            // add 3 phones for each location
+            for ($phone_id=1; $phone_id<=3; $phone_id++) {
+                $phone->location_id = $location_id;
+                $phone->phone = "phone $location_id $phone_id";
+                $phone->phone_type = $this->phone_type_array[mt_rand(1, count($this->phone_type_array))];
+                $this->_insert($phone);
+            }            
+        }
+
+
+        $this->lel();
+    }
 
 
 
@@ -745,7 +782,7 @@ $obj1->addIndividual();
 $obj1->addHousehold();
 $obj1->addOrganization();
 $obj1->addRelationship();
-//$obj1->addLocation();
+$obj1->addLocation();
 
 echo("Ending on " . date("F dS h:i:s A") . "\n");
 
