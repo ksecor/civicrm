@@ -1,3 +1,7 @@
+{if $form.javascript}
+  {$form.javascript}
+{/form}
+
 {if $form.hidden}
   {$form.hidden}
 {/if}
