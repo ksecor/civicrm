@@ -7,9 +7,9 @@
 <fieldset>
 	<!----------- Display Primary IM BLOCK ----------->	
     <div class="form-item">
-        {$form.location.$index.im.service_id.1.label}
-        {$form.location.$index.im.service_id.1.html}
-        {$form.location.$index.im.screenname.1.html}
+        {$form.location.$index.im.1.service_id.label}
+        {$form.location.$index.im.1.service_id.html}
+        {$form.location.$index.im.1.screenname.html}
         <div class="description">Select IM service and enter screen-name / user id.</div>
     </div>
 

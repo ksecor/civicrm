@@ -54,7 +54,6 @@ class CRM_Contact_HideShowLinks {
                              'demographics'     => 1,
                              );
         foreach ( self::$_commMethods as $item ) {
-            $this->_show["location[1][$item][1]"] = 1;
             $this->_show["location[1][$item][2][show]"] = 1; 
         }
 
