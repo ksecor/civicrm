@@ -89,23 +89,25 @@ CREATE TABLE crm_domain (
 
 /*******************************************************
 *
-* crm_context
+* crm_location_type
 *
 *******************************************************/
-DROP TABLE IF EXISTS crm_context;
-CREATE TABLE crm_context (
+DROP TABLE IF EXISTS crm_location_type;
+CREATE TABLE crm_location_type (
 
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'context id',
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'location_type id',
 
-	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this context',
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this location_type',
 
-	name        VARCHAR(255) COMMENT 'context name (typically brief)',
-	description VARCHAR(255) COMMENT 'context description (a more verbose description)',
+	name        VARCHAR(255) COMMENT 'location_type name (typically brief)',
+	description VARCHAR(255) COMMENT 'location_type description (a more verbose description)',
+
+    is_reserved BOOLEAN DEFAULT 0 COMMENT 'is this location type a system created location that cannot be deleted by the user',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE
 
-) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='domain-level set of available contexts (e.g. Home, Work, Other...)';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='domain-level set of available location_types (e.g. Home, Work, Other...)';
 
 
 
@@ -300,18 +302,40 @@ CREATE TABLE crm_im_service (
 * crm_contact_location
 * 
 * Stores address, phone info, email, im for each contact
-* by 'context' - e.g. Home, Work, etc. Contacts may
+* by 'location_type' - e.g. Home, Work, etc. Contacts may
 * have 1 -> n contact_location records.
 *
 *******************************************************/
-DROP TABLE IF EXISTS crm_contact_location;
-CREATE TABLE crm_contact_location(
+DROP TABLE IF EXISTS crm_location;
+CREATE TABLE crm_location(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'record id',
 
 	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id',
-	context_id INT UNSIGNED COMMENT 'fk to contact_context (e.g. Home, Work...)',
+	location_type_id INT UNSIGNED COMMENT 'fk to location_type (e.g. Home, Work...)',
+
 	is_primary BOOLEAN NOT NULL DEFAULT 0 COMMENT 'primary contact location for this contact (allow 1 primary location per contact)',
+
+	PRIMARY KEY (id),
+	FOREIGN KEY (location_type_id) REFERENCES crm_location_type(id)
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='All contact information is keyed to location';
+
+
+/*******************************************************
+*
+* crm_address
+*
+* stores the physical street / mailing address. This format
+* should be capable of storing ALL international addresses
+*
+*******************************************************/
+DROP TABLE IF EXISTS crm_address;
+CREATE TABLE crm_address(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'address id',
+
+    location_id INT UNSIGNED NOT NULL COMMENT 'which location does this address belong to',
 
 	street VARCHAR(255) COMMENT 'e.g. address line 1 - should include all physical delivery info including street, street number, apt #, suite, etc.',
 	supplemental_address TEXT COMMENT 'e.g. address line 2 - multi-line storage for supplemental address info, e.g. c/o, department name, building name, etc.',
@@ -330,40 +354,90 @@ CREATE TABLE crm_contact_location(
 	timezone VARCHAR(10) COMMENT 'timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6"',
 	address_note VARCHAR(255) COMMENT 'optional misc info (e.g. delivery instructions) for this address',
 
-	email VARCHAR(255) COMMENT 'primary email address for this location. is_primary row marks preferred email when contact has multiple locations.',
-	email_secondary VARCHAR(255) COMMENT 'additional email address for this location',
-
-	phone_1 VARCHAR(255) COMMENT 'primary phone number',
-	phone_type_1 ENUM('Phone', 'Mobile', 'Fax', 'Pager') DEFAULT 'Phone' COMMENT 'what type of telecom device is this',
-	mobile_provider_id_1 INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
-
-	phone_2 VARCHAR(255) COMMENT 'additional phone number',
-	phone_type_2 ENUM('Phone', 'Mobile', 'Fax', 'Pager') Default 'Mobile' COMMENT 'what type of telecom device is this',
-	mobile_provider_id_2 INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
-
-	phone_3 VARCHAR(255) COMMENT 'additional phone number',
-	phone_type_3 ENUM('Phone', 'Mobile', 'Fax', 'Pager') DEFAULT 'Fax' COMMENT 'what type of telecom device is this',
-	mobile_provider_id_3 INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
-
-	im_screenname_1 VARCHAR(255) COMMENT 'primary instant messenger screenname',
-	im_service_id_1 INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
-	im_screenname_2 VARCHAR(255) COMMENT 'instant messenger screenname',
-	im_service_id_2 INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
+    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary address for the contact / location',
 
 	PRIMARY KEY (id),
-    -- FULLTEXT (street, city, zip5, email, phone_1, im_screenname_1),
-
-	FOREIGN KEY (context_id)           REFERENCES crm_context(id),
+    FOREIGN KEY (location_id)  REFERENCES crm_location(id),
 	FOREIGN KEY (state_province_id)    REFERENCES crm_state_province(id),
-	FOREIGN KEY (country_id)           REFERENCES crm_country(id),
-	FOREIGN KEY (mobile_provider_id_1) REFERENCES crm_phone_mobile_provider(id),
-	FOREIGN KEY (mobile_provider_id_2) REFERENCES crm_phone_mobile_provider(id),
-	FOREIGN KEY (mobile_provider_id_3) REFERENCES crm_phone_mobile_provider(id),
-	FOREIGN KEY (im_service_id_1)      REFERENCES crm_im_service(id),
-	FOREIGN KEY (im_service_id_2)      REFERENCES crm_im_service(id)
+	FOREIGN KEY (country_id)           REFERENCES crm_country(id)
 
-) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Contact address and communications info by context.';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Address information for a specific location';
 
+/*******************************************************
+*
+* crm_email
+*
+* stores the email for a specific location
+*
+*******************************************************/
+DROP TABLE IF EXISTS crm_email;
+CREATE TABLE crm_email(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'address id',
+
+    location_id INT UNSIGNED NOT NULL COMMENT 'which location does this address belong to',
+
+    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary address for the contact / location',
+
+	PRIMARY KEY (id),
+    FOREIGN KEY (location_id)  REFERENCES crm_location(id)
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Email information for a specific location';
+
+
+
+/*******************************************************
+*
+* crm_phone
+*
+* stores the phone for a specific location
+*
+*******************************************************/
+DROP TABLE IF EXISTS crm_phone;
+CREATE TABLE crm_phone(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'address id',
+
+    location_id INT UNSIGNED NOT NULL COMMENT 'which location does this address belong to',
+
+	phone VARCHAR(255) COMMENT 'primary phone number',
+	phone_type ENUM('Phone', 'Mobile', 'Fax', 'Pager') DEFAULT 'Phone' COMMENT 'what type of telecom device is this',
+	mobile_provider_id INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
+
+    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary address for the contact / location',
+
+	PRIMARY KEY (id),
+    FOREIGN KEY (location_id)  REFERENCES crm_location(id),
+	FOREIGN KEY (mobile_provider_id) REFERENCES crm_phone_mobile_provider(id)
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Phone information for a specific location.';
+
+
+
+/*******************************************************
+*
+* crm_im
+*
+* stores the instant messenger information for a specific location
+*
+*******************************************************/
+DROP TABLE IF EXISTS crm_im;
+CREATE TABLE crm_im(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'address id',
+
+    location_id INT UNSIGNED NOT NULL COMMENT 'which location does this address belong to',
+
+	im_screenname VARCHAR(255) COMMENT 'instant messenger screenname',
+	im_service_id INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
+
+    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary address for the contact / location',
+
+	PRIMARY KEY (id),
+    FOREIGN KEY (location_id)  REFERENCES crm_location(id),
+	FOREIGN KEY (im_service_id)        REFERENCES crm_im_service(id)
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='IM information for a specific location';
 
 
 /*******************************************************
@@ -387,6 +461,8 @@ CREATE TABLE crm_relationship_type(
 
 	direction ENUM('Unidirectional', 'Bidirectional') COMMENT 'relationship cardinality',
 	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact this relationship type is applicable to',
+
+    is_reserved BOOLEAN DEFAULT 0 COMMENT 'is this relationship type a system created location type that cannot be deleted by the user',
 
 	PRIMARY KEY(id),
 
@@ -1323,10 +1399,10 @@ INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1070
 
 
 #
-# insert same data for context and domain
+# insert same data for location_type and domain
 #
 INSERT INTO crm_domain( name ) VALUES ( 'CRM Test Domain' );
 
-INSERT INTO crm_context( domain_id, name, description ) VALUES( 1, 'home', 'Place of Residence'  );
-INSERT INTO crm_context( domain_id, name, description ) VALUES( 1, 'work', 'Place of Business'   );
-INSERT INTO crm_context( domain_id, name, description ) VALUES( 1, 'play', 'Place of Recreation' );
+INSERT INTO crm_location_type( domain_id, name, description ) VALUES( 1, 'home', 'Place of Residence'  );
+INSERT INTO crm_location_type( domain_id, name, description ) VALUES( 1, 'work', 'Place of Business'   );
+INSERT INTO crm_location_type( domain_id, name, description ) VALUES( 1, 'play', 'Place of Recreation' );
