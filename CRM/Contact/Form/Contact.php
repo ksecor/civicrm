@@ -61,7 +61,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
             $showCode = $hideCode = "return false;";
         } else {
             $next = $index + 1;
-            $showCode = "show('${prefix}[${next}]'); return false;";
+            $showCode = "show('${prefix}[${next}][show]'); return false;";
             $hideCode = "hide('${prefix}[${next}][show]'); return false;";
         }
 

@@ -60,15 +60,11 @@ class CRM_Contact_HideShowLinks {
         for ( $i = 1; $i < 4; $i++ ) {
             $this->addHide( "location[$i]" );
 
-            foreach (self::$_hideShow as $hs) {
-                $this->addHide( "location[$i][$hs]" );
-            }
+            $this->addHide( "location[$i][show]" );
             foreach ( self::$_commMethods as $item ) {
                 for ($j = 2; $j < 4; $j++) {
                     $this->addHide( "location[$i][$item][$j]" );
-                    foreach (self::$_hideShow as $hs) {
-                        $this->addHide( "location[$i][$item][$j][$hs]" );
-                    }
+                    $this->addHide( "location[$i][$item][$j][show]" );
                 }
             }
         }
