@@ -81,7 +81,6 @@ class CRM_Contact_Individual_Selector extends CRM_Selector_Base implements CRM_S
 
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact_Individual();
-        //$this->_form = $this->buildQuickForm('have_mercy');
         $this->_contact->domain_id = 1;
     }//end of constructor
 
@@ -89,7 +88,8 @@ class CRM_Contact_Individual_Selector extends CRM_Selector_Base implements CRM_S
     /** 
      * This function is used to provide the dynamic HTML content to the Selector template.
      * The return value of this function is an array which is assigned to the form variable
-     * in smarty and is used to ac
+     * in smarty and is used to access the form elements.
+     */
 
 
     function buildForm($name) {
