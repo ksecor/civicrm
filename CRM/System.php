@@ -120,5 +120,3 @@ function __autoload( $class ) {
 
 
 ?>
-
-
