@@ -69,11 +69,36 @@ div.spacer {
   width: 80%;
   text-align: left;
   padding-bottom: 5px;
+  font-size: 0.9em;
+  
 }
 
 /* 
 ** [group description comment here]
 */
+#crm-container a {
+  color: #000000;
+}
+
+#crm-container fieldset {
+  border: thin solid #000000;
+  -moz-border-radius: 10px 10px 10px 10px;
+}
+
+#crm-container legend {
+  font-family:   Lucida, Arial, Verdana, Helvetica, sans-serif;
+  font-size: 11pt;
+  color: #5A5A5A;
+} 
+
+#crm-container table {
+  width: 100%;
+}
+
+#crm.container th {
+  padding: 0.4em;
+}
+
 #crm-container tr.columnheader {
   background-color: #CCCCCC;
   color: #000000;
@@ -97,9 +122,9 @@ div.spacer {
   height: 35px;
 }
 
-#crm-container span.horizontal-position {
+#crm-container div.form-item span.horizontal-position {
   margin-right: 30px;
-  margin-left: 50px;
+  margin-left: 30px;
 }
 
 #crm-container #pager-position {
@@ -113,13 +138,21 @@ div.spacer {
   padding-top: 5px;
 }
 
+ #crm-container #pager-position a {
+  color: #FFFFFF;
+}
+
+#crm-container a:hover, #crm-container #pager-position a:hover {
+  color: #0000FF;
+} 
+
 #crm-container span.pager {
   position: absolute;
   height: 25px;
   padding-left: 150px;
 }
 
-#crm-container .element-right {
+#crm-container div.form-item .element-right {
   position: absolute;
   right: 50px;
 }
@@ -128,7 +161,4 @@ div.spacer {
   background-color: #EAEAEA;
 }
 
-#crm-container fieldset.fieldset-property {
-  border: thin solid #000000;
-  -moz-border-radius: 10px 10px 10px 10px;
-}
+
