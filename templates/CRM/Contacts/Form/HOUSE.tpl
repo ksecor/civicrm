@@ -162,7 +162,7 @@
 
 		<tr>
 			<td colspan="2">
-			{$form.$hideph03_1.html}
+			{$form.hideph03_1.html}
 			</td>
 		</tr>
 		</table></td>
