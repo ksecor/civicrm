@@ -124,8 +124,9 @@ class CRM_Contact_Form_Individual {
         }
         
         // make sure that firstName and lastName or a primary email is set
-        if (!((array_key_exists( 'first_name', $fields ) && 
-               array_key_exists( 'last_name' , $fields )) || (!empty($primaryEmail)))) {
+        if (! ( (CRM_Array::value( 'first_name', $fields ) && 
+                 CRM_Array::value( 'last_name' , $fields )    ) ||
+                !empty( $primaryEmail ) ) ) {
             $errors['first_name'] = "First Name and Last Name OR an email in the Primary Location should be set.";
         }
         

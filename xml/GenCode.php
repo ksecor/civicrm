@@ -99,7 +99,7 @@ function &parseInput( $file ) {
 }
 
 function &getDatabase( &$dbXML ) {
-    $database = array( 'name' => trim( $dbXML->name ) );
+    $database = array( 'name' => trim( (string ) $dbXML->name ) );
 
     $attributes = '';
     checkAndAppend( $attributes, $dbXML, 'character_set', 'DEFAULT CHARACTER SET ', '' );
@@ -125,7 +125,7 @@ function &getTables( &$dbXML, &$database ) {
 }
 
 function getTable( $tableXML, &$database, &$tables ) {
-    $name  = trim($tableXML->name );
+    $name  = trim((string ) $tableXML->name );
     $base  = value( 'base', $tableXML ) . '/DAO/';
     $pre   = str_replace( '/', '_', $base );
     $class = convertName( $name, true, $pre, '' );
@@ -167,24 +167,24 @@ function getTable( $tableXML, &$database, &$tables ) {
 }
 
 function getField( &$fieldXML, &$fields ) {
-    $name  = trim( $fieldXML->name );
+    $name  = trim( (string ) $fieldXML->name );
     $field = array( 'name' => $name );
     
     $type = (string ) $fieldXML->type;
     switch ( $type ) {
     case 'varchar':
-        $field['sqlType'] = 'varchar(' . $fieldXML->length . ')';
+        $field['sqlType'] = 'varchar(' . (int ) $fieldXML->length . ')';
         $field['phpType'] = 'string';
         $field['crmType'] = 'CRM_Type::T_STRING';
-        $field['length' ] = $fieldXML->length;
+        $field['length' ] = (int ) $fieldXML->length;
         $field['size'   ] = getSize($field['length']);
         break;
 
     case 'char':
-        $field['sqlType'] = 'char(' . $fieldXML->length . ')';
+        $field['sqlType'] = 'char(' . (int ) $fieldXML->length . ')';
         $field['phpType'] = 'string';
         $field['crmType'] = 'CRM_Type::T_STRING';
-        $field['length' ] = $fieldXML->length;
+        $field['length' ] = (int ) $fieldXML->length;
         $field['size'   ] = getSize($field['length']);
         break;
 
@@ -228,7 +228,7 @@ function getField( &$fieldXML, &$fields ) {
 }
 
 function getPrimaryKey( &$primaryXML, &$fields, &$table ) {
-    $name = trim( $primaryXML->name );
+    $name = trim( (string ) $primaryXML->name );
     
     /** need to make sure there is a field of type name */
     if ( ! array_key_exists( $name, $fields ) ) {
@@ -245,8 +245,8 @@ function getPrimaryKey( &$primaryXML, &$fields, &$table ) {
 }
 
 function getIndex( &$indexXML, &$fields, &$indices ) {
-    $name      = trim( $indexXML->name );
-    $fieldName = trim( $indexXML->fieldName );
+    $name      = trim( (string ) $indexXML->name );
+    $fieldName = trim( (string ) $indexXML->fieldName );
 
     /** need to make sure there is a field of type name */
     if ( ! array_key_exists( $fieldName, $fields ) ) {
@@ -261,7 +261,7 @@ function getIndex( &$indexXML, &$fields, &$indices ) {
 }
 
 function getForeignKey( &$foreignXML, &$fields, &$foreignKeys ) {
-    $name = trim( $foreignXML->name );
+    $name = trim( (string ) $foreignXML->name );
     
     /** need to make sure there is a field of type name */
     if ( ! array_key_exists( $name, $fields ) ) {

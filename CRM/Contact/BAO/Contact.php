@@ -107,7 +107,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // building the query string
         $query_string = $str_select.$str_from.$str_where.$str_order.$str_limit;
-            
         $this->query($query_string);
 
         while($this->fetch()) {

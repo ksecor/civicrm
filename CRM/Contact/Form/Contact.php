@@ -313,7 +313,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
         $config  = CRM_Config::singleton( );
         $session = CRM_Session::singleton( );
 
-        $returnUserContext = $config->httpBase . 'contact/view/' . $contact->id;
+        $returnUserContext = $config->httpBase . 'contact/view?cid=' . $contact->id;
         $session->replaceUserContext( $returnUserContext );
     }//end of function
 

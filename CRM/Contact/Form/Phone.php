@@ -44,9 +44,9 @@ Class CRM_Contact_Form_Phone
             CRM_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", '[+] another phone', '[-] hide phone');
             
             $location[$locationId]['phone'][$i]['phone_type'] = $form->addElement('select',
-                                                                                     "location[$locationId][phone][$i][phone_type]",
-                                                                                     null,
-                                                                                     CRM_SelectValues::$phoneType);
+                                                                                  "location[$locationId][phone][$i][phone_type]",
+                                                                                  null,
+                                                                                  CRM_SelectValues::$phoneType);
 
             $location[$locationId]['phone'][$i]['phone']      = $form->addElement('text',
                                                                                   "location[$locationId][phone][$i][phone]", 
