@@ -64,7 +64,8 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $context_select = array(
                                 1 => 'Home', 
                                 'Work', 
-                                'Play'
+                                'Main',
+                                'Other'
                                 );
         
         $im_select = array( 
@@ -138,80 +139,126 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                           array('onclick' => "document.CRUD.elements['mdyx'].value = 'true';"));
         
         
+
+        /*  PLEASE DONOT REMOVE THIS CODE : UNDER REVISION 
+            for ($i = 1;$i <= 3;$i++) {
+            $j = 0;
+            $loc[$i][$j++] = & $this->createElement('select', 'location_type_id', null, $context_select,
+                                                    array('onchange' => "return validate_selected_locationid("+"{$i}"+");"));
+            $loc[$i][$j++] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact', null,
+                                                    array('onchange' => "location_is_primary_onclick("+"{$i}"+");"));
+            $loc[$i][$j++] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
+            $loc[$i][$j++] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
+            $loc[$i][$j++] = & $this->createElement('select','phone_type_2', null, $phone_select);
+            $loc[$i][$j++] = & $this->createElement('text', 'phone_2', 'Other Phone:', array('size' => '37px'));
+            $loc[$i][$j++] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
+            $loc[$i][$j++] = & $this->createElement('text', 'phone_3',  'Other Phone:', array('size' => '37px'));
+            $loc[$i][$j++] = & $this->createElement('text', 'email_1', 'Email:', array('size' => '47px'));
+            $loc[$i][$j++] = & $this->createElement('text', 'email_2', 'Other Email:', array('size' => '47px'));
+            $loc[$i][$j++] = & $this->createElement('text', 'email_3', 'Other Email:', array('size' => '47px'));
+            $loc[$i][$j++] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
+            $loc[$i][$j++] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
+            $loc[$i][$j++] = & $this->createElement('select', 'im_service_id_2',  'Instant Message:', $im_select);
+            $loc[$i][$j++] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
+            $loc[$i][$j++] = & $this->createElement('select','im_service_id_3',  'Instant Message:', $im_select);
+            $loc[$i][$j++] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
+            $loc[$i][$j++] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
+            $loc[$i][$j++] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
+            $loc[$i][$j++] = & $this->createElement('text', 'city', 'City:');
+            $loc[$i][$j++] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
+            $loc[$i][$j++] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
+            $loc[$i][$j++] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
+        }
+
+        $this->addGroup($loc[1],'location1');
+        $this->addGroup($loc[2],'location2');
+        $this->addGroup($loc[3],'location3');*/
+
         /* Entering location cabin 1 */ 
-        $loc1[0] = & $this->createElement('select', 'context_id', null, $context_select);
-        $loc1[1] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact');
-        $loc1[2] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
-        $loc1[3] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
-        $loc1[4] = & $this->createElement('select','phone_type_2', null, $phone_select);
-        $loc1[5] = & $this->createElement('text', 'phone_2', 'Other Phone:', array('size' => '37px'));
-        $loc1[6] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
-        $loc1[7] = & $this->createElement('text', 'phone_3',  'Other Phone:', array('size' => '37px'));
-        $loc1[8] = & $this->createElement('text', 'email', 'Email:', array('size' => '47px'));
-        $loc1[9] = & $this->createElement('text', 'email_secondary', 'Other Email:', array('size' => '47px'));
-        $loc1[10] = & $this->createElement('text', 'email_tertiary', 'Other Email:', array('size' => '47px'));
-        $loc1[11] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
-        $loc1[12] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
-        $loc1[13] = & $this->createElement('select', 'im_service_id_2',  'Instant Message:', $im_select);
-        $loc1[14] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
-        $loc1[15] = & $this->createElement('select','im_service_id_3',  'Instant Message:', $im_select);
-        $loc1[16] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
-        $loc1[17] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
-        $loc1[18] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
-        $loc1[19] = & $this->createElement('text', 'city', 'City:');
-        $loc1[20] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
-        $loc1[21] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
-        $loc1[22] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
+        $i = 0;
+        
+        $loc1[$i++] = & $this->createElement('select', 'location_type_id', null, $context_select,
+                                             array('onchange' => "return validate_selected_locationid(1);"));
+        $loc1[$i++] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact', null,
+                                             array('onchange' => "location_is_primary_onclick(1);"));
+        $loc1[$i++] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
+        $loc1[$i++] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('select','phone_type_2', null, $phone_select);
+        $loc1[$i++] = & $this->createElement('text', 'phone_2', 'Other Phone:', array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
+        $loc1[$i++] = & $this->createElement('text', 'phone_3',  'Other Phone:', array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('text', 'email_1', 'Email:', array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('text', 'email_2', 'Other Email:', array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('text', 'email_3', 'Other Email:', array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
+        $loc1[$i++] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('select', 'im_service_id_2',  'Instant Message:', $im_select);
+        $loc1[$i++] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('select','im_service_id_3',  'Instant Message:', $im_select);
+        $loc1[$i++] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
+        $loc1[$i++] = & $this->createElement('text', 'city', 'City:');
+        $loc1[$i++] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
+        $loc1[$i++] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
+        $loc1[$i++] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
+        
         
         /* Entering location cabin 2 */
-        $loc2[0] = & $this->createElement('select', 'context_id', null, $context_select);
-        $loc2[1] = & $this->createElement('checkbox', 'is_primary', null, 'Primary location for this contact');
-        $loc2[2] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
-        $loc2[3] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
-        $loc2[4] = & $this->createElement('select','phone_type_2', null, $phone_select);
-        $loc2[5] = & $this->createElement('text', 'phone_2', 'Other Phone:', array('size' => '37px'));
-        $loc2[6] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
-        $loc2[7] = & $this->createElement('text', 'phone_3', 'Other Phone:', array('size' => '37px'));
-        $loc2[8] = & $this->createElement('text', 'email', 'Email:', array('size' => '47px'));
-        $loc2[9] = & $this->createElement('text', 'email_secondary', 'Other Email:', array('size' => '47px'));
-        $loc2[10] = & $this->createElement('text', 'email_tertiary', 'Other Email:', array('size' => '47px'));
-        $loc2[11] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
-        $loc2[12] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
-        $loc2[13] = & $this->createElement('select', 'im_service_id_2', 'Instant Message:', $im_select);
-        $loc2[14] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
-        $loc2[15] = & $this->createElement('select','im_service_id_3', 'Instant Message:', $im_select);
-        $loc2[16] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
-        $loc2[17] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
-        $loc2[18] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
-        $loc2[19] = & $this->createElement('text', 'city', 'City:');
-        $loc2[20] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
-        $loc2[21] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
-        $loc2[22] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
+        $i = 0;
+        $loc2[$i++] = & $this->createElement('select', 'location_type_id', null, $context_select,
+                                             array('onchange' => "return validate_selected_locationid(2);"));
+        $loc2[$i++] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact', null,
+                                             array('onchange' => "location_is_primary_onclick(2);"));
+        $loc2[$i++] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
+        $loc2[$i++] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
+        $loc2[$i++] = & $this->createElement('select','phone_type_2', null, $phone_select);
+        $loc2[$i++] = & $this->createElement('text', 'phone_2', 'Other Phone:', array('size' => '37px'));
+        $loc2[$i++] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
+        $loc2[$i++] = & $this->createElement('text', 'phone_3', 'Other Phone:', array('size' => '37px'));
+        $loc2[$i++] = & $this->createElement('text', 'email_1', 'Email:', array('size' => '47px'));
+        $loc2[$i++] = & $this->createElement('text', 'email_2', 'Other Email:', array('size' => '47px'));
+        $loc2[$i++] = & $this->createElement('text', 'email_3', 'Other Email:', array('size' => '47px'));
+        $loc2[$i++] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
+        $loc2[$i++] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
+        $loc2[$i++] = & $this->createElement('select', 'im_service_id_2', 'Instant Message:', $im_select);
+        $loc2[$i++] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
+        $loc2[$i++] = & $this->createElement('select','im_service_id_3', 'Instant Message:', $im_select);
+        $loc2[$i++] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
+        $loc2[$i++] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
+        $loc2[$i++] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
+        $loc2[$i++] = & $this->createElement('text', 'city', 'City:');
+        $loc2[$i++] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
+        $loc2[$i++] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
+        $loc2[$i++] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
         
         /* Entering location cabin 3 */
-        $loc3[0] = & $this->createElement('select', 'context_id', null, $context_select);
-        $loc3[1] = & $this->createElement('checkbox', 'is_primary', null, 'Primary location for this contact');
-        $loc3[2] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
-        $loc3[3] = & $this->createElement('text', 'phone_1',  'Preferred Phone:', array('size' => '37px'));
-        $loc3[4] = & $this->createElement('select','phone_type_2', null, $phone_select);
-        $loc3[5] = & $this->createElement('text', 'phone_2', null, array('size' => '37px'));
-        $loc3[6] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
-        $loc3[7] = & $this->createElement('text', 'phone_3', null, array('size' => '37px'));
-        $loc3[8] = & $this->createElement('text', 'email', 'Email:', array('size' => '47px'));
-        $loc3[9] = & $this->createElement('text', 'email_secondary', 'Other Email:', array('size' => '47px'));
-        $loc3[10] = & $this->createElement('text', 'email_tertiary', 'Other Email:', array('size' => '47px'));
-        $loc3[11] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
-        $loc3[12] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
-        $loc3[13] = & $this->createElement('select', 'im_service_id_2',  'Instant Message:', $im_select);
-        $loc3[14] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
-        $loc3[15] = & $this->createElement('select','im_service_id_3',  'Instant Message:', $im_select);
-        $loc3[16] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
-        $loc3[17] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
-        $loc3[18] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
-        $loc3[19] = & $this->createElement('text', 'city', 'City:');
-        $loc3[20] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
-        $loc3[21] = & $this->createElement('select', 'state_province_id',  'State / Province:', $state_select);
-        $loc3[22] = & $this->createElement('select', 'country_id', 'Country:' , $country_select);
+        $i = 0;
+        $loc3[$i++] = & $this->createElement('select', 'location_type_id', null, $context_select,
+                                             array('onchange' => "return validate_selected_locationid(3);"));
+        $loc3[$i++] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact', null,
+                                             array('onchange' => "location_is_primary_onclick(3);"));
+        $loc3[$i++] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
+        $loc3[$i++] = & $this->createElement('text', 'phone_1',  'Preferred Phone:', array('size' => '37px'));
+        $loc3[$i++] = & $this->createElement('select','phone_type_2', null, $phone_select);
+        $loc3[$i++] = & $this->createElement('text', 'phone_2', null, array('size' => '37px'));
+        $loc3[$i++] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
+        $loc3[$i++] = & $this->createElement('text', 'phone_3', null, array('size' => '37px'));
+        $loc3[$i++] = & $this->createElement('text', 'email_1', 'Email:', array('size' => '47px'));
+        $loc3[$i++] = & $this->createElement('text', 'email_2', 'Other Email:', array('size' => '47px'));
+        $loc3[$i++] = & $this->createElement('text', 'email_3', 'Other Email:', array('size' => '47px'));
+        $loc3[$i++] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
+        $loc3[$i++] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
+        $loc3[$i++] = & $this->createElement('select', 'im_service_id_2',  'Instant Message:', $im_select);
+        $loc3[$i++] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
+        $loc3[$i++] = & $this->createElement('select','im_service_id_3',  'Instant Message:', $im_select);
+        $loc3[$i++] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
+        $loc3[$i++] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
+        $loc3[$i++] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
+        $loc3[$i++] = & $this->createElement('text', 'city', 'City:');
+        $loc3[$i++] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
+        $loc3[$i++] = & $this->createElement('select', 'state_province_id',  'State / Province:', $state_select);
+        $loc3[$i++] = & $this->createElement('select', 'country_id', 'Country:' , $country_select);
         
         $this->addGroup($loc1,'location1');
         $this->addGroup($loc2,'location2');
@@ -243,7 +290,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
             $this->addElement('link', 'hideim03_'."{$i}", null, 'IM_'."{$i}".'_3', '[-] hide instant message',
                               array('onclick' => "hide('IM_{$i}_3'); show('expand_IM_{$i}_3'); return false;"));
         }
-        
+
         $this->addElement('link', 'exloc2', null, 'location2', '[+] another location',
                           array( 'onclick' => "hide('expand_loc2'); show('location2'); show('expand_loc3'); return false;"));
         $this->addElement('link', 'hideloc2', null, 'location2', '[-] hide location',
@@ -258,11 +305,9 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
     
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82'));    
 
-        //$this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',
-        //                array('onclick' => "show('demographics'); hide('expand_demographics'); return false;"));
+        $this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',
+                        array('onclick' => "show('demographics'); hide('expand_demographics'); return false;"));
     
-        $this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',array('id'=>'exdemo'));
-
         $this->addElement('link', 'exnotes', null, 'notes', '[+] contact notes',
                           array('onclick' => "show('notes'); hide('expand_notes'); return false;"));
     
@@ -300,7 +345,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $defaults = array();
         $defaults['first_name'] = 'Dave';
         $defaults['last_name'] = 'Greenberg';
-        $defaults['location1[email]'] = 'dgg@blackhole.net';
+        $defaults['location1[email_1]'] = 'dgg@blackhole.net';
         
         $this->setDefaults($defaults);
     }
@@ -329,17 +374,16 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
 
         $this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
     
-               for ($i = 1; $i <= 3; $i++) { 
-            $this->addGroupRule('location'."{$i}", array('email' => array( 
-                                                   array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),
-                                                             'email_secondary' => array( 
-                                                   array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
-                                                    'email_tertiary' => array( 
-                                                                              array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
+         for ($i = 1; $i <= 3; $i++) { 
+            $this->addGroupRule('location'."{$i}", array('email_1' => array( 
+                                                              array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),                                                 'email_2' => array( 
+                                                              array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
+                                                         'email_3' => array( 
+                                                               array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
                                                          )
                                 ); 
         }
-         
+        
     }
     
     /**
@@ -460,6 +504,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
             }// end of if
         }//end of for
     }// end of function
+    
   
 }
 
