@@ -355,8 +355,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     private function _buildMiniSearchForm() 
     {
+        $this->addElement('select', 'contact_type', '', array('Individual', 'Household', 'Organization'));
         $this->addElement('text', 'sname', 'Name: ');
-        $this->addElement('text', 'semail', 'Email: ');
+        //        $this->addElement('text', 'semail', 'Email: ');
         $this->addElement('link','search','advsearch','crm/contact/search','>> Advanced Search');
         
         $this->addDefaultButtons( array (

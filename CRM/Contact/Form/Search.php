@@ -37,8 +37,7 @@
 require_once 'CRM/Form.php';
 require_once 'CRM/SelectValues.php';
 require_once 'CRM/Selector/Controller.php';
-
-require_once 'CRM/Contact/Individual_Selector.php';
+require_once 'CRM/Contact/Selector/Individual.php';
 
 
 /**
@@ -113,12 +112,23 @@ class CRM_Contact_Form_Search extends CRM_Form {
     function preProcess( ) {
         $params = array( );
         $contact_type = trim( $this->controller->exportValue( $this->_name, 'contact_type' ) );
-        if ( ! empty( $contact_type ) ) {
+        if (!empty( $contact_type ))  {
+
             $params['contact_type'] = $contact_type;
         }
-        $contact = new CRM_Contact_Individual_Selector( $params );
-        $selector = new CRM_Selector_Controller( $contact , null, null, CRM_Action::VIEW );
-        $selector->run( );
+
+        
+        // $sname = trim($this->controller->exportValue($this->_name, 'sname'));
+        // CRM_Error::debug_var("sname", $sname);
+        // $classPath = "CRM_Contact_Selector_" . "$contact_type";
+        // CRM_Utils::import($classPath);
+        // $contact = new $classPath($params);
+        
+        $contact = new CRM_Contact_Selector_Individual($params);
+
+
+        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW);
+        $selector->run();
     }
 
     /**

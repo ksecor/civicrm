@@ -47,7 +47,7 @@ require_once 'CRM/Contact/Individual.php';
  * objects that requires contacts to be selectively listed (list / search)
  *
  */
-class CRM_Contact_Individual_Selector extends CRM_Selector_Base implements CRM_Selector_API 
+class CRM_Contact_Selector_Individual extends CRM_Selector_Base implements CRM_Selector_API 
 {
     /**
      * This defines two actions- View and Edit.
@@ -171,6 +171,7 @@ class CRM_Contact_Individual_Selector extends CRM_Selector_Base implements CRM_S
     {
         return $this->_contact->count();
     }//end of function
+
 
     /**
      * getter for all the database values to be displayed on the form while listing

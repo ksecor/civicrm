@@ -41,17 +41,11 @@ require_once 'CRM/Action.php';
 require_once 'CRM/Form.php';
 require_once 'CRM/Utils.php';
 
-require_once 'CRM/Contact/Individual.php';
-require_once 'CRM/Contact/Household.php';
-require_once 'CRM/Contact/Organization.php';
+require_once 'CRM/Contact/Wrapper.php';
 
-//require_once 'CRM/Contact/Contact_Qadd.php';
-//require_once 'CRM/Contact/Contact_Csearch.php';
-//require_once 'CRM/Contact/Contact_Search.php';
-//require_once 'CRM/Contact/List_Contact.php';
-
-require_once 'CRM/Contact/Individual_Selector.php';
 require_once 'CRM/Selector/Controller.php';
+require_once 'CRM/Contact/Selector/Individual.php';
+
 
 
 /**
@@ -448,7 +442,7 @@ function contact_load($queryArgs)
 
 function contact_add() 
 {
-    $contact = new CRM_Contact_Individual();
+    $contact = new CRM_Contact_Wrapper();
     $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_CREATE, 'crm/contact/add?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_add
@@ -463,6 +457,8 @@ function contact_add()
 
 function contact_add_house() 
 {
+    $contact = new CRM_Contact_Wrapper();
+    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_CREATE, 'crm/contact/add?reset=1', 0);
     $contact = new CRM_Contact_Household();
     $contact->run(CRM_Form::MODE_CREATE, 0);
     return $contact->getContent();
@@ -478,8 +474,8 @@ function contact_add_house()
 
 function contact_add_org() 
 {
-    $contact = new CRM_Contact_Organization();
-    $contact->run(CRM_Form::MODE_CREATE, 0);
+    $contact = new CRM_Contact_Wrapper();
+    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_CREATE, 'crm/contact/add?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_add_org
 
@@ -501,8 +497,8 @@ function contact_add_org()
 
 function contact_list($id=0) 
 {
-    $contact = new CRM_Contact_Individual_Selector();
-    $controller = new CRM_Selector_Controller( $contact , null, null, CRM_Action::VIEW );
+    $contact = new CRM_Contact_Selector_Individual();
+    $controller = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW);
     $controller->run( );
     return $controller->getContent();   
 } // end of function contact_list
@@ -578,7 +574,8 @@ function contact_delete($id)
 function contact_miniadd(){
 
     $contact = new CRM_Contact_Individual();
-    $contact->run(CRM_Form::MODE_CREATE_MINI, 0);
+    //    $contact->run(CRM_Form::MODE_CREATE_MINI, 0);
+    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_CREATE_MINI, 'crm/contact/add?reset=1', 0);
     return $contact->getContent();
     
 }
@@ -593,7 +590,8 @@ function contact_miniadd(){
 
 function contact_qsearch(){
     $contact = new CRM_Contact_Individual();
-    $contact->run(CRM_Form::MODE_SEARCH_MINI, 0);
+    //    $contact->run(CRM_Form::MODE_SEARCH_MINI, 0);
+    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_SEARCH_MINI, 'crm/contact/search', 0);
     return $contact->getContent();
 }
 

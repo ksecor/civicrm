@@ -216,13 +216,12 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         foreach ( $pages as $classPath ) {
             $className   = CRM_String::getClassName($classPath);
 
-	    // append the mode to the className
-	    $className .= "_$mode";
+            // append the mode to the className
+            $className .= "_$mode";
 
             $pageNames[] = $className;
 
             CRM_Utils::import( $classPath );
-
             $page = new $classPath( $className,
                                     $stateMachine->find( $classPath ),
                                     $mode );
@@ -230,7 +229,6 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         }
 
         $this->addDirect( $pageNames );
-
     }
 
     /**

@@ -23,15 +23,11 @@
 */
 
 /**
- * An Individual is a contact that represents a human being.
- * The Individual class handles the different actions that need to performed 
- * on an individual. actions are
+ * The Contact Wrapper is a wrapper class which is called by
+ * contact.module after it parses the menu path.
  *
- * - add
- * - view (single or multiple)
- * - edit
- * - search
- * - delete
+ * The key elements of the wrapper are the controller and the 
+ * run method as explained below.
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -42,9 +38,8 @@
 
 require_once 'CRM/Base.php';
 require_once 'CRM/Controller/Simple.php';
-require_once 'CRM/Contact/BAO/Contact_Individual.php';
 
-class CRM_Contact_Individual extends CRM_Base
+class CRM_Contact_Wrapper extends CRM_Base
 {
     /**
      * Simple Controller
@@ -77,8 +72,10 @@ class CRM_Contact_Individual extends CRM_Base
      * Run.
      *
      * The heart of the callback processing is done by this method.
-     * An individual object will create a form for display.
+     * A contact object will create a form for display.
      * forms are of different type and have different operations.
+     *
+     * Please Note: The default wrapper will work on an "Individual" contact.
      *
      * @param string $formName    name of the form processing this action
      * @param string $formLabel   label for the above form
@@ -89,12 +86,11 @@ class CRM_Contact_Individual extends CRM_Base
      * @returns none.
      * @access public
      */
-    function run( $formName    = 'CRM_Contact_Form_Individual',
-                  $formLabel   = 'Contact Individual Page'    ,
-                  $mode        = CRM_Form::MODE_NONE,
-                  $userContext = 'crm/contact/add?reset=1',
-                  $id          = 0 ) {
-        // CRM_Error::le_method();
+    function run($formName    = 'CRM_Contact_Form_Individual',
+                 $formLabel   = 'Contact Individual Page'    ,
+                 $mode        = CRM_Form::MODE_NONE,
+                 $userContext = 'crm/contact/add?reset=1',
+                 $id          = 0 ) {
 
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();

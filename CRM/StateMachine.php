@@ -229,7 +229,6 @@ class CRM_StateMachine {
             // have a consistent iname with form name
             $iname .= "_$mode";
 
-
             $classPath = str_replace( '_', '/', $pages[$i] ) . '.php';
             require_once($classPath);
             $name = eval( sprintf( "return %s::getDisplayName( );", $pages[$i] ) );
