@@ -77,6 +77,7 @@
   <div class="spacer"></div>
 </div>
 
+{if $contact_type eq 'Individual'}
  <div id="demographics[show]" class="data-group form-item">
   <a href="#" onClick="hide('demographics[show]'); show('demographics'); return false;">(+)</a> <label>Demographics</label><br />
  </div>
@@ -94,6 +95,7 @@
   </div>
   <div class="spacer"></div>
 </div>
+{/if}
 
 <div id="relationships" class="data-group form-item">
   <span class="float-right">

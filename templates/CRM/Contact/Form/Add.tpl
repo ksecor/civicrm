@@ -39,7 +39,7 @@
  <fieldset><legend>Name and Greeting</legend>
     <!-- <div class="spacer"></div> -->
     <div class="form-item">
-o        <span class="labels"><label>First/Last:</label></span>
+        <span class="labels"><label>First/Last:</label></span>
         <span class="fields">
             {$form.prefix.html}
             {$form.first_name.html}
