@@ -5,7 +5,8 @@
 
 
 {$form.javascript}
-<form {$form.attributes}>
+
+<form name = "page_header">
 
 <table>
 <tr>
@@ -16,7 +17,9 @@
 </td>
 </tr>
 </table>
+</form>
 
+<form name = "page_body">
 <fieldset>
 <table id = "linkheader">
 <tr>
@@ -31,7 +34,7 @@
 	{$form.previouspage.html}
 </td-->
 
-<td>
+<td width = "300">
     
     	{$form.pager.label}
 </td>
@@ -39,30 +42,30 @@
 	{$form.page_no.label}
 	{$form.page_no.html}
 	{$form.gotopage.html}
-
 </td>
 </tr>
 </table>
 </fieldset>
+</form>
 
-
-
+<form {$form.attributes}>
+{$form.hidden}
 
 <table border=0 cellpadding=3 cellspacing=3 id = "datagrid" width = "100%" border-color="#000000">
 <tr class="contact_listtable">
-<td >{$form.name.html}</td>
+<td width = "250">{$form.name.html}</td>
 <td>{$form.email.html}</td>
 <td>{$form.phone.html}</td>
 <td>{$form.address.html}</td>
 <td>{$form.city.html}</td>
-<td>{$form.state_province.html}</td>
+<td width = "30">{$form.state_province.html}</td>
 <td></td>
 </tr>
 
 
 {assign var = "bgc" value =  "#EAEAEA"}
 
-{section name = listing start = 0 loop = $form.row_no.label }
+{section name = listing start = 0 loop = $form.row_count.label }
 
 {assign var = "index" value = $smarty.section.listing.index}
 {assign var = "name_link" value = "name_`$smarty.section.listing.index`"}
@@ -91,6 +94,9 @@
 
 {/section}
 </table>
+</form>
+
+<form name = "page_crumb">
 
 <table id = "pagecrumb" width = "90%">
 	<tr><td>&nbsp;</td></tr>
