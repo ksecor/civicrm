@@ -7,7 +7,7 @@
 *    (contact relationship management system).
 *
 * Rev 11/15/2004:
-*	Resolve INNODB-MyISAM FK issue for now by leaving FK's to users
+*	Resolve InnoDB-MyISAM FK issue for now by leaving FK's to users
 *		table as implicit
 *	Created_by is now explicit FK to contact table.
 *	Added contact_phone.phone_type (ENUM).
@@ -46,7 +46,9 @@
 
 /*******************************************************
 *
-* CREATE DATABASE
+* CREATE DATABASE XXX DEFAULT CHARACTER SET utf8 COLLATION utf8_bin
+* the above changes are important for mysql4.1 else we get errors
+* with pma
 * [removed this - tables added to drupal DB for now]
 *******************************************************/
 
@@ -86,7 +88,7 @@ CREATE TABLE IF NOT EXISTS users (
   PRIMARY KEY  (uid),
   UNIQUE KEY name (name),
   KEY `changed` (`changed`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 */
 
 /*******************************************************
@@ -100,15 +102,14 @@ CREATE TABLE contact_country (
 	id INT UNSIGNED NOT NULL COMMENT 'country id',
 	name  VARCHAR(255),
 	iso_code CHAR(2),
-	phone_code VARCHAR(5),
 
--- ? Need to research what these next 2 are about ?
-	idd_code VARCHAR(5),
-	ndd_code VARCHAR(5),
+	country_code VARCHAR(5) COMMENT 'national prefix to be used when dialing TO this country',
+	idd_prefix   VARCHAR(5) COMMENT 'international direct dialing prefix from within the country TO another country',
+	ndd_prefix   VARCHAR(5) COMMENT 'access prefix to call within a country to a different area',
 
   PRIMARY KEY(id)
 
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 
 
 
@@ -128,7 +129,7 @@ CREATE TABLE contact_state_province (
 	PRIMARY KEY(id),
 	FOREIGN KEY(countryid) REFERENCES contact_country(id) ON DELETE CASCADE ON UPDATE CASCADE
 
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 
 
 
@@ -157,7 +158,7 @@ CREATE TABLE contact_domain (
 -- Must create FK after contact table is created (circular reference) 
 -- FOREIGN KEY (created_by) REFERENCES contact(id)
 
-) ENGINE=InnoDB COMMENT='define domains for multi-org installs, else all contacts belong to domain 1';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='define domains for multi-org installs, else all contacts belong to domain 1';
 
 
 /*******************************************************
@@ -177,7 +178,7 @@ CREATE TABLE contact_context (
 	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	INDEX context_domain (domain_id)
 
-) ENGINE=InnoDB COMMENT='domain-level set of available contexts (e.g. Home, Work, Other...)';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='domain-level set of available contexts (e.g. Home, Work, Other...)';
 
 
 /*******************************************************
@@ -223,7 +224,7 @@ CREATE TABLE contact (
 	INDEX contact_domain (domain_id),
 	INDEX index_sort_name (sort_name(30))
 
-) ENGINE=InnoDB COMMENT='primary record for contacts';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='primary record for contacts';
 
 ALTER TABLE contact_domain ADD FOREIGN KEY (created_by) REFERENCES contact(id);
 
@@ -264,7 +265,7 @@ CREATE TABLE contact_individual(
 	FOREIGN KEY (contact_id, revision_id) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE
 --	INDEX contact_individual (contact_id, revision_id)
 
-) ENGINE=InnoDB COMMENT='extends contact for type=individual';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=individual';
 
 
 /*******************************************************
@@ -295,7 +296,7 @@ CREATE TABLE contact_organization(
 	FOREIGN KEY (primary_contact_id) REFERENCES contact(id)
 --	INDEX contact_organization (contact_id, rid)
 
-) ENGINE=InnoDB COMMENT='extends contact for type=organization';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=organization';
 
 
 /*******************************************************
@@ -324,7 +325,7 @@ CREATE TABLE contact_family(
 	FOREIGN KEY (primary_contact_id) REFERENCES contact(id)
 --	INDEX contact_family (contact_id, revision_id)
 
-) ENGINE=InnoDB COMMENT='extends contact for type=family';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=family';
 
 
 /*******************************************************
@@ -373,7 +374,7 @@ CREATE TABLE contact_address(
 	FOREIGN KEY(state_province_id) REFERENCES contact_state_province(id),
 	FOREIGN KEY(country_id) REFERENCES contact_country(id)
 
-) ENGINE=INNODB COMMENT='Contact addresses (sharable by multiple contacts).';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Contact addresses (sharable by multiple contacts).';
 
 
 /*******************************************************
@@ -405,7 +406,7 @@ CREATE TABLE contact_contact_address(
 	FOREIGN KEY (created_by) REFERENCES contact(id),
 	FOREIGN KEY (context_id) REFERENCES contact_context(id)
 
-) ENGINE=InnoDB COMMENT='joins contacts to (shareable) address locations; defines context for each';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='joins contacts to (shareable) address locations; defines context for each';
 
 
 
@@ -437,7 +438,7 @@ CREATE TABLE contact_email(
 	FOREIGN KEY (context_id) REFERENCES contact_context(id),
 	INDEX email_contact (contact_id)
 
-) ENGINE=InnoDB COMMENT='contact email';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact email';
 
 
 
@@ -453,7 +454,7 @@ CREATE TABLE contact_phone_mobile_providers (
 	name VARCHAR(255) COMMENT 'name of mobile provider',
 	PRIMARY KEY(id)
 
-) ENGINE=InnoDB COMMENT='list of mobile phone providers';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='list of mobile phone providers';
 
 
 
@@ -492,7 +493,7 @@ CREATE TABLE contact_phone(
 	FOREIGN KEY (mobile_phone_provider_id) REFERENCES contact_phone_mobile_providers(id),
 	INDEX phone_contact (contact_id)
 
-) ENGINE=InnoDB COMMENT='contact phone numbers (base table)';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact phone numbers (base table)';
 
 
 
@@ -525,7 +526,7 @@ CREATE TABLE contact_instant_message(
 	FOREIGN KEY (context_id) REFERENCES contact_context(id),
 	INDEX im_contact (contact_id)
 
-) ENGINE=InnoDB COMMENT='contact instant message';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact instant message';
 
 
 
@@ -559,7 +560,7 @@ CREATE TABLE contact_relationship_types(
 	FOREIGN KEY (created_by) REFERENCES contact(id),
 	INDEX crt_domain (domain_id)
 
-) ENGINE=InnoDB COMMENT='contact relationship types';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact relationship types';
 
 
 
@@ -590,7 +591,7 @@ CREATE TABLE contact_relationship(
 	FOREIGN KEY(target_contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(id)
 
-) ENGINE=InnoDB COMMENT='contact relationships';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact relationships';
 
 
 
@@ -626,7 +627,7 @@ CREATE TABLE contact_task(
 	FOREIGN KEY (created_by) REFERENCES contact(id),
 	INDEX task_contact(assigned_contact_id,target_contact_id)
 
-) ENGINE=InnoDB COMMENT='tasks related to a contact';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='tasks related to a contact';
 
 
 /*******************************************************
@@ -654,7 +655,7 @@ CREATE TABLE contact_note(
 	FOREIGN KEY (created_by) REFERENCES contact(id),
 	INDEX note_contact(contact_id)
 
-) ENGINE=InnoDB COMMENT='multiple notes/comments related to a contact';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='multiple notes/comments related to a contact';
 
 
 
@@ -719,7 +720,7 @@ CREATE TABLE contact_ext_data(
 -- FOREIGN KEY(ext_property_id) REFERENCES contact_ext_property(id),
 	INDEX ext_data_contact (contact_id)
 
-) ENGINE=InnoDB COMMENT='stores the data for extended properties';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='stores the data for extended properties';
 
 
 /*******************************************************
