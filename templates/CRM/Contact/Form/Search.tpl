@@ -33,7 +33,7 @@
  </div>  
 
  <p>
-   {include file="CRM/Contact/Selector/Selector.tpl"}
+   {include file="CRM/Contact/Selector.tpl"}
  </p>
 
 </fieldset>

@@ -125,7 +125,7 @@
 {/if}
 
 {* Plugging the Communication preferences block *} 
- {include file="CRM/Contact/Form/Contact/Comm_prefs.tpl"}
+ {include file="CRM/Contact/Form/CommPrefs.tpl"}
  
 {* Plugging the Location block *}
  {include file="CRM/Contact/Form/Location.tpl"}
