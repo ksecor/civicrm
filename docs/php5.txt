@@ -6,4 +6,4 @@ we should write a script to convert php4 to php5. here are some of the things we
 
 3. does php4 handle parent, if not figure inheritance and do parent substitution
 
-4. 
+4.     
