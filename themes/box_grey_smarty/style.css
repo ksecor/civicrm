@@ -2,7 +2,7 @@
 body, #search {
   color: #000;
   background: #fff;
-  }
+}
 a, a:link { color: #333; }
 a:visited { color: #777; }
 a:hover, a:focus { color: #03f; }
@@ -15,9 +15,9 @@ a:active { color: #606; }
 #primary a:hover { color: #03f; }
 #secondary a { color: #333; }
 #secondary a:hover { color: #03f; }
-#primary a.active, #primary a.active:hover, #secondary a.active, #secondary a.active:hover { color: #ddd; }
+#primary a.active, #primary a.active:hover, #secondary a.active, #secondary a.active:hover { color: #ccc; }
 .sidebar .block a, .sidebar .block { color: #777; }
-.sidebar .block a:visited, .sidebar .block h2, .sidebar .block h3 { color: #999;}
+.sidebar .block a:visited, .sidebar .block h2, .sidebar .block h3 { color: #999; }
 .sidebar .block a:hover { color: #03f; }
 .sidebar .block {
   background: #fff;
@@ -28,7 +28,8 @@ a:active { color: #606; }
 .breadcrumb, .main-content .content-title, .links a.read-more { color: #111; }
 .links a.read-more:hover { color: #03f; }
 .main-content .node .content a, .comment .content a, .book .body a { border-bottom: 1px solid; }
-.main-content .node .info { color: #999; }
+.main-content .node .info, .main-content .node .terms { color: #999; }
+.main-content .sticky { border: 1px solid #eee; }
 img { border: 0; }
 blockquote { border: 1px 0px #ddd solid; }
 #mission {
@@ -60,12 +61,12 @@ form .form-item .title  {
   border-bottom: #ddd solid 1px;
   color: #777;
   background: transparent;
-  }
+}
 .form-radio, .form-checkbox {
   background: transparent;
   border: 0;
 }
-select, textarea {
+input, textarea {
   background: transparent;
   color: inherit;
   border: 1px solid #777;
@@ -78,7 +79,7 @@ input:focus, textarea:focus {
   background: transparent;
   border: 1px solid #03f;
 }
-input.form-text { border: solid 1px #777; }
+input.form-text { border: solid 1px #ddd; }
 button.form-submit { border: solid 1px #ddd; }
 .marker, .error { color: #f00; }
 .ok { color: #080; }
@@ -89,11 +90,9 @@ button.form-submit { border: solid 1px #ddd; }
 }
 fieldset { border: 1px solid #999; }
 .tabs li .active, .tabs li .active:hover  {
-  color: #000;
+  color: #ccc;
   background: #fff;
 }
-legend { font-weight: bold; color: #777; }
-.form-item label { font-size: .9em; padding: 0 10px 0 0 }
 pre {
   background: #ddd;
   border: 1px solid #aaa;
@@ -106,6 +105,7 @@ div.picture { border: 0; }
 .calendar .day-today a { color: #fff; }
 .calendar .day-selected { background: #555; color: #fff; }
 .calendar .day-link { background: #ddd; color: #fff; }
+
 /* END of colours and borders */
 
 body {
@@ -114,9 +114,9 @@ body {
   padding: 0;
   margin: 0;
 }
-h1{ font-size: 1.3em; }
-h2{ font-size: 1.1em; }
-h3{ font-size: 1em; font-weight: bold;}
+h1 { font-size: 1.3em; }
+h2 { font-size: 1.1em; }
+h3 { font-size: 1em; font-weight: bold;}
 h4, h5, h6 { font-size: 0.9em; font-weight: bold;}
 h1, h2, h3, h4, h5, h6 {
   font-family: Helvetica, Arial, Lucida, Verdana, sans-serif;
@@ -156,7 +156,7 @@ code {
   float: left;
 }
 #site-name {
-  font-size: 2em;
+  font-size: 2.5em;
   padding: 25px 0 0.2em 0;
   margin: 0;
 }
@@ -178,12 +178,6 @@ td.main-content {
   vertical-align: top;
   padding: 0em 1em;
 }
-td.form-item {
-  vertical-align: top;
-}
-label.form-item {
-  white-space: nowrap;
-}
 td.sidebar {
   vertical-align: top;
   padding: 0;
@@ -194,7 +188,6 @@ td.sidebar {
   padding: 0 5px 5px 5px;
 }
 .sidebar .block h2 {
-  /*color: #FFFFFF;*/ 
   padding: 3px 0 0 0;
   margin: 0;
   font-size: 1em;
@@ -288,12 +281,10 @@ td.sidebar {
   padding: 0;
 }
 .breadcrumb {
-  border-top: 1px dashed #aaa;
-  border-bottom: 1px dashed #aaa;
-  padding: .5em 1em .5em 0em;
-  margin-bottom: 1em;
-  font-size: .8em;
+  padding: 0.5em 1em;
+  font-size: 1em;
   font-weight: bold;
+  margin: 0;
   height: 1em;
 }
 .main-content .node .content, .comment .content, .book .body {
@@ -303,8 +294,8 @@ td.sidebar {
   margin: 0 1em 2em 1em;
 }
 .main-content .content-title {
-  font-size: 1.3em;
-  margin: .5em 0 .25em 0;
+  font-size: 2em;
+  margin: 0 0 1.6em 0;
 }
 .main-content .node h2, .main-content h2 {
   padding: 0;
@@ -316,15 +307,18 @@ td.sidebar {
   margin: 0;
   font-size: 0.9em;
 }
-.main-content .node .info .terms {
-	padding: 0;
-	margin-left: 2em;
-}
-.main-content .node .links {
+.main-content .node .links, .main-content .node .terms {
   padding: 0;
   margin: 0;
   font-size: 0.9em;
   font-weight: bold;
+}
+.main-content .node .terms {
+  font-weight: normal;
+  text-align: right;
+}
+.main-content .sticky { 
+  padding: 0.5em;
 }
 .links a.read-more {
   font-style: italic;
@@ -407,10 +401,10 @@ td.sidebar {
 .xml-icon {
   text-align: center;
 }
-.main-content .form-submit {
-  margin: 0.5em 0 0.5em 0.5em;
+.form-submit {
+  margin: 0;
 }
-.main-content .form-item {
+.form-item {
   margin: 3px 0;
   padding: 0.3em 0;
 }
@@ -435,9 +429,9 @@ form .form-item .title  {
   padding: 0.3em 0;
   text-align: left;
 }
-/* select {
+select {
   margin: 1px 5px;
-}*/
+}
 .container-inline {
   margin: 0 0 1.6em 0;
 }
@@ -466,153 +460,4 @@ div.picture {
 }
 br.clear {
   clear: both;
-}
-
-/******************************************************************************************************************/
-/* CRM-specific styles */
-/******************************************************************************************************************/
-#crm-quick-search, #crm-quick-create, #crm-shortcuts {
-    background-color: #eee;
-    }    
-    
-.rmsPageTitle {
-    width: 100%;
-    border-bottom: 1px solid #aaaaaa;
-    }
-    
-.rmsMenuTitle {
-    border: 1px solid #000;
-    padding: 2px;
-    margin: 0 0 5px 0;
-    font-size: 11px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #888;
-    width: 100%
-}
-
-.rmsListNav {
-    border: 1px solid #000;
-    padding: 2px;
-    background-color: #888;
-    font-size: 10px;
-    font-weight: bold;
-    width: 100%;
-}
-.rmsListNav span {
-    color: #fff;
-    font-weight: bold;
-    padding-right: 5px;
-}
-
-.rmsListNav a, .listNav a:visited, .listNav a:active {
-    color: #fff;
-}
-
-.rmsFrame td {
-    vertical-align: top;
-    padding: 20px;
-//    background-color: #eee;
-}
-
-.rmsWizardMenu div {
-    border: 1px solid #000;
-    padding: 5px;
-    background-color: #fff;
-    width: 95%;
-}
-
-.rmsListContacts {
-    border: 1px solid #777;
-    width: 100%;
-}
-
-.rmsListContacts th {
-    font-size: 11px;
-    color: #666666;
-    font-weight: bold;
-    text-align: left;
-//    background-image: url(images/listContactsBg.png);
-    background-color: #ddd;
-    padding: 5px;
-//    padding-left: 5px;
-//    padding-right: 5px;
-    border-bottom: 1px solid #980000;
-}
-
-.rmsListContacts tr.even {
-    background-color: #eee;
-}
-
-.rmsListContacts tr.odd {
-    background-color: #fff;
-}
-
-.rmsListContacts td {
-    font-size: 11px;
-    color: #000000;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 2px;
-    padding-top: 2px;
-    whitespace: nowrap
-}
-
-#crm-select-list {
-  vertical-align: bottom;
-  margin: 0;
-  padding: 0;
-}
-
-#crm-list-action {
-    padding: 5px;
-    width: 100%;
-}
-
-.rmsSubLink {
-    padding: 5px 0 0 0;
-    font-size: 11px;
-}
-
-div.title_menu {
-  font-weight: bold;
-  font-size: 18px;
-  font-family: Arial,Helvetica, Lucida, Verdana, sans-serif;
-  color: #000000;
-}
-
-hr {
-border: 0;
-color: #c0c0c0;
-background-color: #043;
-height: 1px;
-width: 100%;
-text-align: left;
-}
-
-INPUT, SELECT, TEXTAREA
-{
-	font-size : x-small;
-	BORDER-BOTTOM-COLOR: #111111;
-	BORDER-BOTTOM-WIDTH: 1px;
-	BORDER-LEFT-COLOR: #111111;
-	BORDER-LEFT-WIDTH: 1px;
-	BORDER-RIGHT-COLOR: #111111;
-	BORDER-RIGHT-WIDTH: 1px;
-	BORDER-TOP-COLOR: #111111;
-	BORDER-TOP-WIDTH: 1px;
-	COLOR: #111111;
-	FONT-FAMILY: Arial;
-	FONT-SIZE: 9pt;
-}
-
-.crm_blocktitle { 
-  color: #FFFFFF;  
-  background-color: #89898F;
-  display: block;
-  }
-
-.contact_listtable {
-  background-color:#C5C5C5;
-  color: #000000; 	
 }
