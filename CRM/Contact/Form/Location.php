@@ -109,7 +109,7 @@ class CRM_Contact_Form_Location extends CRM_Form
      *
      * @return void
      */
-    function updateShowHideBlocks( $showHide, &$values, $maxLocationBlocks ) {
+    function updateShowHide( $showHide, &$values, $maxLocationBlocks ) {
         if ( empty( $values ) ) {
             return;
         }

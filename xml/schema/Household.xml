@@ -42,7 +42,6 @@
   <field>
       <name>primary_contact_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Optional FK to Primary Contact for this household.</comment>
   </field>
   <foreignKey>

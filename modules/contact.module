@@ -373,29 +373,19 @@ function contact_invoke($operation)
 
     // check for add
     if (arg(2) == 'add' && (arg(3) == 'basic' || arg(3) == NULL)) {
-        $content .= contact_add();
+        $content .= contact_form( array( 'contact_type' => 'Individual' ), CRM_Form::MODE_ADD );
     }
     
     // add household
     if (arg(2) == 'add_house') {
-        $content .= contact_add_house();
+        $content .= contact_form( array( 'contact_type' => 'Household' ), CRM_Form::MODE_ADD );
     }
 
     // add organisation
     if (arg(2) == 'add_org') {
-        $content .= contact_add_org();
+        $content .= contact_form_org(array( 'contact_type' => 'Organization' ), CRM_Form::MODE_ADD );
     }
 
-    // quick add contact
-    if (arg(2) == 'qadd') {
-        $content .= contact_miniadd();
-    }
-
-    // quick search contact
-    if (arg(2) == 'qsearch') {
-        $content .= contact_qsearch();
-    }
-    
     // list
     if (arg(2) == 'list') {
         $content .= contact_list(arg(3));
@@ -404,7 +394,7 @@ function contact_invoke($operation)
     // edit individual
     if (arg(2) == 'edit') {
         if(is_numeric(arg(3))) {
-            $content .= contact_edit(arg(3));
+            $content .= contact_form(array( 'contact_type' => 'Individual' , 'id' => arg(3) ), CRM_Form::MODE_UPDATE );
         } else {
             $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
         }
@@ -413,7 +403,7 @@ function contact_invoke($operation)
     // edit household 
     if (arg(2) == 'edit_house') {
         if(is_numeric(arg(3))) {
-            $content .= contact_edit_house(arg(3));
+            $content .= contact_form(array( 'contact_type' => 'Household' , 'id' => arg(3) ), CRM_Form::MODE_UPDATE );
         } else {
             $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
         }
@@ -422,7 +412,7 @@ function contact_invoke($operation)
     // edit organization 
     if (arg(2) == 'edit_org') {
         if(is_numeric(arg(3))) {
-            $content .= contact_edit_org(arg(3));
+            $content .= contact_form(array( 'contact_type' => 'Organization' , 'id' => arg(3) ), CRM_Form::MODE_UPDATE );
         } else {
             $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
         }
@@ -432,7 +422,7 @@ function contact_invoke($operation)
     // view individual
     if (arg(2) == 'view') {
         if(is_numeric(arg(3))) {
-            $content .= contact_view(arg(3));
+            $content .= contact_form(array( 'contact_type' => 'Individual' , 'id' => arg(3) ), CRM_Form::MODE_VIEW );
         } else {
             $content .= 'Please select a valid contact id to view - ' . arg(3) . ' is not a valid contact id';
         }
@@ -441,7 +431,7 @@ function contact_invoke($operation)
     // view household
     if (arg(2) == 'view_house') {
         if(is_numeric(arg(3))) {
-            $content .= contact_view_house(arg(3));
+            $content .= contact_form(array( 'contact_type' => 'Household' , 'id' => arg(3) ), CRM_Form::MODE_VIEW );
         } else {
             $content .= 'Please select a valid contact id to view - ' . arg(3) . ' is not a valid contact id';
         }
@@ -450,7 +440,7 @@ function contact_invoke($operation)
     // view organization
     if (arg(2) == 'view_org') {
         if(is_numeric(arg(3))) {
-            $content .= contact_view_org(arg(3));
+            $content .= contact_form(array( 'contact_type' => 'Organization' , 'id' => arg(3) ), CRM_Form::MODE_VIEW );
         } else {
             $content .= 'Please select a valid contact id to view - ' . arg(3) . ' is not a valid contact id';
         }
@@ -485,39 +475,12 @@ function contact_load($queryArgs)
  *
  * @return this returns the display content
  */
-function contact_add()
+function contact_form( $data, $mode )
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_ADD, 'contact/add?reset=1', 0);
+    $contact->run('CRM_Contact_Form_Contact', 'Contact Page', $mode, 'contact/add?reset=1', $data);
     return $contact->getContent();
 } // end of function contact_add
-
-
-/**
- * This function is used to add contact(Household) to db
- *
- * @return this returns the display content
- */
-function contact_add_house()
-{
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Household', 'Contact Household Page', CRM_Form::MODE_ADD, 'contact/add_house?reset=1', 0);
-    return $contact->getContent();
-} // end of function contact_add_house
-
-/**
- * This function is used to add contact(Organization) to db
- *
- * @return this returns the display content
- */
-
-function contact_add_org()
-{
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Organization', 'Contact Organization Page', CRM_Form::MODE_ADD, 'contact/add_org?reset=1', 0);
-    return $contact->getContent();
-} // end of function contact_add_org
-
 
 /**
  * contacts_list()
@@ -550,91 +513,6 @@ function contact_query()
     $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/search?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_query
-
-
-/**
- * This function is for editing contact(Individual)
- * 
- * @param $id interger this is the contact_id that has to be edited
- * @return this returns the display content
- */
-function contact_edit($id) 
-{
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_UPDATE, 'contact/add?reset=1', $id);
-    return $contact->getContent();
-
-} // end of function contact_edit
-
-/**
- * This function is for editing contact(Household)
- *
- * @param $id interger this is the contact_id that has to be edited
- * @return this returns the display content
- */
-function contact_edit_house($id) 
-{
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Household', 'Contact Household Page', CRM_Form::MODE_UPDATE, 'contact/add_house?reset=1', $id);
-    return $contact->getContent();
-
-} // end of function contact_edit_house
-
-/**
- * This function is for editing contact(Organization)
- *
- * @param $id interger this is the contact_id that has to be edited
- * @return this returns the display content
- */
-function contact_edit_org($id) 
-{
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Organization', 'Contact Organization Page', CRM_Form::MODE_UPDATE, 'contact/add_org?reset=1', $id);
-    return $contact->getContent();
-
-} // end of function contact_edit_org
-
-
-/**
- * This function is for viewing contact(Individual)
- *
- * @param $id interger this is the contact_id that is viewed
- * @return this returns the display content
- */
-function contact_view($id) 
-{
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_VIEW, 'contact/search/', $id);
-    return $contact->getContent();
-} // end of function contact_view
-
-
-/**
- * This function is for viewing contact(Household)
- *
- * @param $id interger this is the contact_id that is viewed
- * @return this returns the display content
- */
-function contact_view_house($id) 
-{
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Household', 'Contact Household Page', CRM_Form::MODE_VIEW, 'contact/search/', $id);
-    return $contact->getContent();
-} // end of function contact_view_house
-
-
-/**
- * This function is for viewing contact(Organization)
- *
- * @param $id interger this is the contact_id that is viewed
- * @return this returns the display content
- */
-function contact_view_org($id) 
-{
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Organization', 'Contact Organization Page', CRM_Form::MODE_VIEW, 'contact/search/', $id);
-    return $contact->getContent();
-} // end of function contact_view_org
 
 
 /**

@@ -299,14 +299,14 @@ class CRM_Controller extends HTML_QuickForm_Controller {
     /**
      * Store the variable with the value in the form scope
      *
-     * @param  string name  : name  of the variable
-     * @param  mixed  value : value of the variable
+     * @param  string|array $name  name  of the variable or an assoc array of name/value pairs
+     * @param  mixed        $value value of the variable if string
      *
      * @access public
      * @return void
      *
      */
-    function set( $name, $value ) {
+    function set( $name, $value = null) {
         $session = CRM_Session::singleton( );
         $session->set( $name, $value, $this->_name );
     }

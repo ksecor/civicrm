@@ -177,7 +177,7 @@ class CRM_Session {
      * @return void
      *
      */
-    function set( $name, $value, $prefix = null ) {
+    function set( $name, $value = null, $prefix = null ) {
         // create session scope
         $this->create();
         $this->createScope( $prefix );
@@ -188,38 +188,15 @@ class CRM_Session {
             $session =& $this->_session[$this->_key][$prefix];
         }
 
-        $session[$name] = $value;
-    }
-
-    /**
-     * Store the variable with the value in the session scope
-     *
-     * This function takes an associate array of name, value pair
-     * and stores this in the session scope. The associate array is
-     * flattened and stored in the $_key scope of the session array
-     *
-     * @access   public
-     * @param  mixed  $vars    (reference ) associative array of name / values
-     * @param  string $prefix  a string to prefix the keys in the session with
-     * @return void
-     *
-     */
-    function setVars( &$vars, $prefix = null ) {
-        // create session scope
-        $this->create();
-        $this->createScope( $prefix );
-
-        if ( empty( $prefix ) ) {
-            $session =& $this->_session[$this->_key];
+        if ( is_array( $name ) ) {
+            foreach ( $name as $n => $v ) {
+                $session[$n] = $v;
+            }
         } else {
-            $session =& $this->_session[$this->_key][$prefix];
-        }
-
-        foreach ( $vars as $name => $value ) {
             $session[$name] = $value;
         }
     }
-  
+
     /**
      * Gets the value of the named variable in the session scope
      *

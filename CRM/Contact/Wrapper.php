@@ -66,8 +66,6 @@ class CRM_Contact_Wrapper extends CRM_Base
         parent::__construct();
     }
 
-
-
     /**
      * Run.
      *
@@ -81,7 +79,7 @@ class CRM_Contact_Wrapper extends CRM_Base
      * @param string $formLabel   label for the above form
      * @param int    $mode        mode of operation.
      * @param string $userContext where should we go when done
-     * @param int    $id          id of the contact.
+     * @param array  $data        the data for this form, stored in the session
      *
      * @returns none.
      * @access public
@@ -90,13 +88,9 @@ class CRM_Contact_Wrapper extends CRM_Base
                  $formLabel   = 'Contact Individual Page'    ,
                  $mode        = CRM_Form::MODE_NONE,
                  $userContext = 'crm/contact/add?reset=1',
-                 $id          = 0 ) {
+                 $data        = null ) {
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
-
-
-        //CRM_Error::le_method();
-        //CRM_Error::debug_var("userContext", $userContext);
 
 
         // store the return url. Note that this is typically computed by the framework at runtime
@@ -104,10 +98,10 @@ class CRM_Contact_Wrapper extends CRM_Base
         // since we are just starting and figuring out navigation, we are hard coding it here
         $session->pushUserContext( $config->httpBase . $userContext );
 
-        //temporray registering the id in session
-        $_SESSION['id'] = $id;
-        
         $this->_controller = new CRM_Controller_Simple( $formName, $formLabel, $mode );
+        if ( $data ) {
+            $this->_controller->set( $data );
+        }
         $this->_controller->process();
         $this->_controller->run();
     }
