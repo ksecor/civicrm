@@ -37,6 +37,7 @@ require_once 'CRM/Contact/DAO/Location.php';
 require_once 'CRM/Contact/DAO/Address.php';
 require_once 'CRM/Contact/DAO/Phone.php';
 require_once 'CRM/Contact/DAO/Email.php';
+require_once 'CRM/DAO/Note.php';
 
 /**
  * rare case where because of inheritance etc, we actually store a reference
@@ -254,6 +255,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $locations[] = CRM_Contact_BAO_Location::add( $params, $ids, $locationId );
         }
         $contact->locations = $locations;
+
+        // add notes
+        CRM_Contact_BAO_Note::add( $params, $ids );
 
         CRM_DAO::transaction( 'COMMIT' );
 

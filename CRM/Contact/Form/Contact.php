@@ -39,6 +39,7 @@ require_once 'CRM/Contact/Form/Location.php';
 require_once 'CRM/Contact/Form/Individual.php';
 require_once 'CRM/Contact/Form/Household.php';
 require_once 'CRM/Contact/Form/Organization.php';
+require_once 'CRM/Contact/Form/Note.php';
 
 /**
  * This class generates form components generic to all the contact types.
@@ -151,10 +152,13 @@ class CRM_Contact_Form_Contact extends CRM_Form
 
             CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, self::LOCATION_BLOCKS );
 
+            // get the note
+            CRM_Contact_BAO_Note::getValues( $params, $defaults, $ids );
+            
             if ( $this->_mode & self::MODE_UPDATE ) {
                 $this->set( 'ids', $ids );
             }
-
+            
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)
             $this->_contactType = CRM_Array::value( 'contact_type', $defaults );
@@ -166,7 +170,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
             CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
             $this->assign( $defaults );
         }
-        
+
         return $defaults;
     }
 
@@ -202,6 +206,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
                     $this->_showHide->addHide( "location[$locationIndex]" );
                 }
             }
+            
         } else {
             // first do the defaults showing
             CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
@@ -261,9 +266,15 @@ class CRM_Contact_Form_Contact extends CRM_Form
         $location =& CRM_Contact_Form_Location::buildLocationBlock($this, self::LOCATION_BLOCKS, $this->_showHideBlocks);
 
         /* End of locations */
+        
+        // add note block
+        $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
+
+
+        /*        
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82', 'maxlength' => 255));    
         CRM_ShowHideBlocks::links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
-
+        */
         if ($this->_mode != self::MODE_VIEW) {
             $this->addDefaultButtons( array(
                                             array ( 'type'      => 'next',

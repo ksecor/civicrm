@@ -120,7 +120,7 @@
   <br />
   <div class="spacer"></div>
 </div>
-
+{*debug*}
 <div id="notes[show]" class="data-group form-item">
   <a href="#" onClick="hide('notes[show]'); show('notes'); return false;">(+)</a> <label>Contact Notes</label><br />
 </div>
@@ -129,7 +129,8 @@
  <p>
  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;">(-)</a> Contact Notes</legend>
     <div class="form-item">
-    (listing of most recent notes will go here)
+     {$note}  
+   {* (listing of most recent notes will go here)*}
     </div>
  </fieldset>
  </p>

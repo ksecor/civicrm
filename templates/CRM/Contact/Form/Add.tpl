@@ -176,7 +176,7 @@
  <div id = "notes">
  <fieldset><legend>Contact Notes</legend>
     <div class="form-item">
-        {$form.address_note.html}
+        {$form.note.html}
         <div class = "description">
           Record any descriptive comments about this contact.
           You may add an unlimited number of notes, and view or search on them at any time.
