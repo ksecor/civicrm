@@ -78,18 +78,26 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      * @static
      */
     static function dataExists( &$params, $locationId, $imId ) {
-        // return if no data present
-        if ( ! array_key_exists( 'im' , $params['location'][$locationId] ) ||
-             ! array_key_exists( $imId, $params['location'][$locationId]['im'] ) ) {
-            return false;
-        }
+        return CRM_Contact_BAO_Block::dataExists('im', array( 'name', 'provider_id' ), 
+                                                 $params, $locationId, $imId );
+    }
 
-        if ( ! empty( $params['location'][$locationId]['im'][$imId]['name'] ) &&
-             ! empty( $params['location'][$locationId]['im'][$imId]['provider_id'] ) ) {
-            return true;
-        }
 
-        return false;
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params        input parameters to find object
+     * @param array $values        output values of the object
+     * @param int   $blockCount    number of blocks to fetch
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function getValues( &$params, &$values, $blockCount = 0 ) {
+        $im = new CRM_Contact_BAO_IM( );
+        CRM_Contact_BAO_Common::getBlockValues( $im, 'im', $params, $values, $blockCount );
     }
 
 }

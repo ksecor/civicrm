@@ -63,76 +63,6 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
     }
     
     /**
-     * This function sets the values in the form.
-     */
-    function setContactValues() 
-    {
-        $fields  =& $this->_contactDAO->fields();
-        foreach ($fields as $fieldName => $dontCare) {
-            $this->_contactDAO->$fieldName = isset($this->$fieldName) ? $this->$fieldName : null;
-        }
-    }
-    
-    function fillContactValues() 
-    {
-        $fields  =& $this->_contactDAO->fields();
-        $tableName = $this->_contactDAO->tableName();
-        
-        foreach ($fields as $fieldName => $dontCare) {
-            $selectFieldName = $tableName . '_' . $fieldName;
-            $this->_contactDAO->$fieldName = isset($this->$selectFieldName) ? $this->$selectFieldName : null;
-        }
-    }
-    
-    function getContactValues() 
-    {
-        $fields  =& $this->_contactDAO->fields();
-        
-        foreach ($fields as $fieldName => $dontCare) {
-            $this->$fieldName = $this->_contactDAO->$fieldName;
-        }
-    }
-    
-    function insertContact() 
-    {
-        $this->setContactValues();
-        
-        $this->_contactDAO->insert();
-        
-        /* above insertion triggers setting the contact_id */
-        $this->contact_id = $this->_contactDAO->id;
-    }
-
-    function count($countWhat = false,$whereAddOnly = false) {
-        $this->setContactValues();
-        $this->joinAdd( $this->_contactDAO );
-        return parent::count($countWhat, $whereAddOnly);
-    }
-
-    function find($get = false) 
-    {
-        $this->setContactValues();
-        $this->joinAdd( );
-        $this->whereAdd( );
-        $this->selectAdd();
-        parent::find($get);
-        
-        if ($get) {
-            $this->fillContactValues();
-        }
-        
-    }
-    
-    function fetch() 
-    {
-        $result = parent::fetch();
-        if ($result) {
-            $this->fillContactValues();
-        }
-        return $result;
-    }
-
-    /**
      * takes an associative array and creates a contact object
      *
      * the function extract all the params it needs to initialize the create a
@@ -166,7 +96,34 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         }
         return $individual->save( );
     }
-    
+
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params input parameters to find object
+     * @param array $values output values of the object
+     *
+     * @return CRM_Contact_BAO_Individual|null the found object or null
+     * @access public
+     * @static
+     */
+    static function getValues( &$params, &$values ) {
+        $individual = new CRM_Contact_BAO_Individual( );
+        
+        $individual->copyValues( $params );
+        if ( $individual->find(true) ) {
+            $individual->storeValues( $values );
+        }
+
+        if ( isset( $individual->gender ) ) {
+            $values['gender'] = array( 'gender' => $individual->gender );
+        }
+     
+        // i suspect we'll have to fix the birth_date values here
+        return $individual;
+    }
+        
 }
 
 ?>

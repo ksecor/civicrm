@@ -77,19 +77,26 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      * @static
      */
     static function dataExists( &$params, $locationId, $emailId ) {
-        // return if no data present
-        if ( ! array_key_exists( 'email' , $params['location'][$locationId] ) ||
-             ! array_key_exists( $emailId, $params['location'][$locationId]['email'] ) ) {
-            return false;
-        }
-
-        if ( ! empty( $params['location'][$locationId]['email'][$emailId]['email'] ) ) {
-            return true;
-        }
-
-        return false;
+        return CRM_Contact_BAO_Block::dataExists('email', array( 'email' ), 
+                                                 $params, $locationId, $emailId );
     }
 
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params        input parameters to find object
+     * @param array $values        output values of the object
+     * @param int   $blockCount    number of blocks to fetch
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function getValues( &$params, &$values, $blockCount = 0 ) {
+        $email = new CRM_Contact_BAO_Email( );
+        CRM_Contact_BAO_Block::getValues( $email, 'email', $params, $values, $blockCount );
+    }
 }
 
 ?>

@@ -94,6 +94,39 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
 
         return false;
     }
+
+
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params        input parameters to find object
+     * @param array $values        output values of the object
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function getValues( &$params, &$values, $blockCount = 0 ) {
+        $address = new CRM_Contact_BAO_Address( );
+        $address->copyValues( $params );
+
+        $flatten = false;
+        if ( empty($blockCount) ) {
+            $flatten       = true;
+        }
+        
+        // we first get the primary location due to the order by clause
+        if ( $address->find( true ) ) {
+            if ( $flatten ) {
+                $address->storeValues( $values );
+            } else {
+                $values['address'] = array();
+                $address->storeValues( $values['address'] );
+            }
+        }
+    }
+
 }
 
 ?>

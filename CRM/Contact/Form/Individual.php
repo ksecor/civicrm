@@ -107,142 +107,22 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function setDefaultValues( ) 
     {
-        $defaults = array();
-
+        $defaults = array( );
+        $params   = array( );
         if ( $this->_mode & ( self::MODE_VIEW | self::MODE_UPDATE ) ) {
             // get the id from the session that has to be modified
             // get the values for $_SESSION['id']
-            $lng_contact_id = $_SESSION['id'];
 
             // get values from contact table
-            $contact = new CRM_Contact_DAO_Contact();
-        
-            $contact->get("id",$lng_contact_id);
+            $params['id'] = $params['contact_id'] = $_SESSION['id'];
+            CRM_Contact_BAO_Contact::getValues( $params, $defaults );
 
-            $defaults['preferred_communication_method'] = $contact->preferred_communication_method;
-            $defaults['privacy[do_not_phone]'] = $contact->do_not_phone;
-            $defaults['privacy[do_not_email]'] = $contact->do_not_email;
-            $defaults['privacy[do_not_mail]'] = $contact->do_not_mail;
-            
-            // get the values from individual table
-            $contact_individual = new CRM_Contact_DAO_Individual;
+            unset($params['id']);
+            CRM_Contact_BAO_Individual::getValues( $params, $defaults );
 
-            $contact_individual->get("contact_id",$lng_contact_id);
-
-            $defaults['first_name'] = $contact_individual->first_name;
-            $defaults['last_name'] = $contact_individual->last_name;
-            $defaults['prefix'] =  $contact_individual->prefix; 
-            $defaults['suffix'] = $contact_individual->suffix;
-            $defaults['greeting_type'] = $contact_individual->greeting_type;
-            $defaults['job_title'] = $contact_individual->job_title;
-            $defaults['gender[gender]'] = $contact_individual->gender;
-
-            $defaults['birth_date'] = $contact_individual->birth_date;
-
-            $defaults['is_deceased'] = $contact_individual->is_deceased;
-
-            // create DAO object of location
-            $contact_location = new CRM_Contact_DAO_Location();
-
-            $contact_location->contact_id = $lng_contact_id;
-            $contact_location->find();
-
-            while ($contact_location->fetch()) {
-                // we are are building $a_Location array, which has deatails for each location
-
-                // values from location table 
-               $a_Location[$contact_location->id]['location_type_id'] = $contact_location->location_type_id;
-               $a_Location[$contact_location->id]['is_primary'] = $contact_location->is_primary;
-
-               //get values from address table
-               $varaddress = "contact_address".$lng_key;
-               $$varaddress = new CRM_Contact_DAO_Address();
-               
-               $$varaddress->location_id = $contact_location->id;
-               $$varaddress->find();
-               
-               while ($$varaddress->fetch()) {
-                   $a_Location[$contact_location->id]['street_address'] = $$varaddress->street_address;
-                   $a_Location[$contact_location->id]['supplemental_address_1'] = $$varaddress->supplemental_address_1;
-                   $a_Location[$contact_location->id]['supplemental_address_2'] = $$varaddress->supplemental_address_2;
-                   $a_Location[$contact_location->id]['city'] = $$varaddress->city;
-                   $a_Location[$contact_location->id]['state_province_id'] = $$varaddress->state_province_id;
-                   $a_Location[$contact_location->id]['postal_code'] = $$varaddress->postal_code;
-                   $a_Location[$contact_location->id]['country_id'] = $$varaddress->country_id;
-               }
-               
-               // get data from email table
-               $var_email = "contact_email".$lng_key;
-               $$var_email = new CRM_Contact_DAO_Email();
-
-               $$var_email->location_id = $contact_location->id;
-               $$var_email->find();
-
-               $lng_email = 1;
-               while ($$var_email->fetch()) {
-                   $a_Location[$contact_location->id]['email'][$lng_email] = $$var_email->email;
-                   $lng_email++;
-               }
-               
-               // get data from phone table
-               $var_phone = "contact_phone".$lng_key;
-               $$var_phone = new CRM_Contact_DAO_Phone();
-                      
-               $$var_phone->location_id = $contact_location->id;
-               $$var_phone->find();
-
-               $lng_phone = 1;
-               while ($$var_phone->fetch()) {
-                   $a_Location[$contact_location->id]['phone'][$lng_phone] = $$var_phone->phone;
-                   $a_Location[$contact_location->id]['phone_type'][$lng_phone] = $$var_phone->phone_type;
-                   $lng_phone++;
-               }
-
-               // get data from im table
-               $var_im = "contact_im" . $lng_i;
-               $$var_im = new CRM_Contact_DAO_IM();
-               
-               $$var_im->location_id = $contact_location->id;
-               $$var_im->find();
-
-               $lng_im = 1;
-               while ($$var_im->fetch()) {
-                   $a_Location[$contact_location->id]['im_service_id'][$lng_im] = $$var_im->im_provider_id;
-                   $a_Location[$contact_location->id]['im_screenname'][$lng_im] = $$var_im->im_screenname;
-                   $lng_im++;
-               }
-
-            }// end of outer while loop
-
-             //print_r($a_Location);                        
-            if (is_array($a_Location)) { 
-                $lng_count = 1;
-                foreach ($a_Location as $lng_key => $var_value) {
-                    $defaults['location'][$lng_count]['location_type_id'] = $var_value['location_type_id'];
-                    $defaults['location'][$lng_count]['is_primary'] = $var_value['is_primary'];
-
-                    $defaults['location'][$lng_count]['address']['street_address'] = $var_value['street_address'];
-                    $defaults['location'][$lng_count]['address']['supplemental_address_1'] = $var_value['supplemental_address_1'];
-                    $defaults['location'][$lng_count]['address']['supplemental_address_2'] = $var_value['supplemental_address_2'];
-                    $defaults['location'][$lng_count]['address']['city'] = $var_value['city'];
-                    $defaults['location'][$lng_count]['address']['state_province_id'] = $var_value['state_province_id'];
-                    $defaults['location'][$lng_count]['address']['postal_code'] = $var_value['postal_code'];
-                    $defaults['location'][$lng_count]['address']['country_id'] = $var_value['country_id'];
-                    
-                    for ($lng_i = 1; $lng_i <=3; $lng_i++) {
-                        $defaults['location'][$lng_count]['email'][$lng_i]['email'] = $var_value['email'][$lng_i];
-                        $defaults['location'][$lng_count]['phone'][$lng_i]['phone'] = $var_value['phone'][$lng_i];
-                        $defaults['location'][$lng_count]['phone'][$lng_i]['phone_type_id'] = $var_value['phone_type'][$lng_i];
-                        $defaults['location'][$lng_count]['im'][$lng_i]['service_id'] = $var_value['im_service_id'][$lng_i];
-                        $defaults['location'][$lng_count]['im'][$lng_i]['screenname'] = $var_value['im_screenname'][$lng_i];
-                    }
-
-                    $lng_count++ ;
-                }
-            }
+            CRM_Contact_BAO_Location::getValues( $params, $defaults, self::LOCATION_BLOCKS );
         }
 
-        // set all elements with values from the database.
         return $defaults;
     }
     
@@ -377,14 +257,16 @@ class CRM_Contact_Form_Individual extends CRM_Form
         // prefix
         $this->addElement('select', 'prefix', null, CRM_SelectValues::$prefixName);
 
+        $attributes = CRM_DAO::getAttribute('CRM_Contact_DAO_Individual');
+
         // first_name
         $this->add('text', 'first_name', 'First Name',
-                   CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'first_name'),
+                   $attributes['first_name'],
                    true );
         
         // last_name
         $this->add('text', 'last_name', 'Last Name',
-                   CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'last_name'),
+                   $attributes['last_name'],
                    true ); 
         
         // suffix
@@ -395,7 +277,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         
         // job title
         $this->addElement('text', 'job_title', 'Job title :',
-                          CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'job_title') );
+                          $attributes['job_title']);
         
         // add the communications block
         CRM_Contact_Form_Contact::buildCommunicationBlock($this);
@@ -451,33 +333,28 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     private function _addPostProcess() 
     { 
-
-        $lng_contact_id = 0; // variable for crm_contact 'id'
-        $str_error = ""; // error is recorded  if there are any errors while inserting in database
-
         // store the submitted values in an array
-        $a_Values = $this->exportValues();
+        $params = $this->exportValues();
 
         // action is taken depending upon the mode
         if ($this->_mode) {
-            $lng_contact_id = $_SESSION['id'];
-            $a_Values['contact_id'] = $_SESSION['id'];
+            $params['contact_id'] = $_SESSION['id'];
         }    
 
         $tempDB = new CRM_Contact_DAO_Contact( );
         $tempDB->query('BEGIN');
 
-        $a_Values['contact_type'] = 'Individual';
-        $contact = CRM_Contact_BAO_Contact::add( $a_Values );
+        $params['contact_type'] = 'Individual';
+        $contact = CRM_Contact_BAO_Contact::add( $params );
         // need to check for error here and abort / rollback if error
         
-        $a_Values['contact_id'] = $contact->id;
+        $params['contact_id'] = $contact->id;
         
-        $individual = CRM_Contact_BAO_Individual::add( $a_Values );
+        $individual = CRM_Contact_BAO_Individual::add( $params );
         // need to check for error here and abort / rollback if error
 
         for ($locationId= 1; $locationId <= self::LOCATION_BLOCKS; $locationId++) { // start of for loop for location
-            $location = CRM_Contact_BAO_Location::add( $a_Values, $locationId );
+            $location = CRM_Contact_BAO_Location::add( $params, $locationId );
         }
 
         $tempDB->query('COMMIT');

@@ -33,6 +33,8 @@
 
 require_once 'CRM/Contact/DAO/Location.php';
 
+require_once 'CRM/Contact/BAO/Block.php';
+
 class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
     function __construct( ) {
         parent::__construct( );
@@ -71,7 +73,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
 
         CRM_Contact_BAO_Address::add( $params, $locationId );
         
-        for ( $i = 1; $i <= 3; $i++ ) {
+        for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
             CRM_Contact_BAO_Phone::add( $params, $locationId, $i );
             CRM_Contact_BAO_Email::add( $params, $locationId, $i );
             CRM_Contact_BAO_IM::add   ( $params, $locationId, $i );
@@ -100,7 +102,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
             return true;
         }
 
-        for ( $i = 1; $i <= 3; $i++ ) {
+        for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
             if ( CRM_Contact_BAO_Phone::dataExists( $params, $locationId, $i ) ||
                  CRM_Contact_BAO_Email::dataExists( $params, $locationId, $i ) ||
                  CRM_Contact_BAO_IM::dataExists   ( $params, $locationId, $i ) ) {
@@ -109,6 +111,60 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
         }
         return false;
     }
+
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params        input parameters to find object
+     * @param array $values        output values of the object
+     * @param int   $locationCount number of locations to fetch
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function getValues( &$params, &$values, $locationCount = 0 ) {
+        $location = new CRM_Contact_BAO_Location( );
+        $location->copyValues( $params );
+
+        $flatten = false;
+        if ( empty($locationCount) ) {
+            $locationCount = 1;
+            $flatten       = true;
+        } else {
+            $values['location'] = array();
+        }
+
+        // we first get the primary location due to the order by clause
+        $location->orderBy( 'is_primary asc' );
+        $location->find( );
+        for ($i = 0; $i < $locationCount; $i++) {
+            if ($location->fetch()) {
+                $params['location_id'] = $location->id;
+                if ($flatten) {
+                    $location->storeValues( $values );
+                    self::getBlocks( $params, $values );
+                } else {
+                    $values['location'][$i+1] = array();
+                    $location->storeValues( $values['location'][$i+1] );
+                    self::getBlocks( $params, $values['location'][$i+1], CRM_Contact_Form_Location::BLOCKS );
+                }
+            }
+        }
+    }
+
+    /**
+     * simple helper function to dispatch getCall to lower comm blocks
+     */
+    static function getBlocks( &$params, &$values, $blockCount = 0 ) {
+        CRM_Contact_BAO_Address::getValues( $params, $values, $blockCount );
+
+        CRM_Contact_BAO_Phone::getValues( $params, $values, $blockCount );
+        CRM_Contact_BAO_Email::getValues( $params, $values, $blockCount );
+        CRM_Contact_BAO_IM::getValues   ( $params, $values, $blockCount );
+    }
+
 }
 
 ?>

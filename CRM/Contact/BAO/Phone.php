@@ -79,17 +79,25 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * @static
      */
     static function dataExists( &$params, $locationId, $phoneId ) {
-        // return if no data present
-        if ( ! array_key_exists( 'phone' , $params['location'][$locationId] ) ||
-             ! array_key_exists( $phoneId, $params['location'][$locationId]['phone'] ) ) {
-            return false;
-        }
+        return CRM_Contact_BAO_Block::dataExists('phone', array( 'phone' ), 
+                                                 $params, $locationId, $phoneId );
+    }
 
-        if ( ! empty( $params['location'][$locationId]['phone'][$phoneId]['phone'] ) ) {
-            return true;
-        }
-
-        return false;
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params        input parameters to find object
+     * @param array $values        output values of the object
+     * @param int   $blockCount    number of blocks to fetch
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function getValues( &$params, &$values, $blockCount = 0 ) {
+        $phone = new CRM_Contact_BAO_Phone( );
+        CRM_Contact_BAO_Block::getValues( $phone, 'phone', $params, $values, $blockCount );
     }
 
 }

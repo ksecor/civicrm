@@ -109,7 +109,6 @@
   <field>
       <name>state_province_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Which State_Province does this address belong to.</comment>
   </field>
   <foreignKey>
@@ -138,7 +137,6 @@
   <field>
       <name>country_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Which Country does this address belong to.</comment>
   </field>
   <foreignKey>

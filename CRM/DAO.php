@@ -223,12 +223,12 @@ abstract class CRM_DAO extends DB_DataObject {
     function save( ) {
         if ( $this->id ) {
             if ( ! $this->update( ) ) {
-                CRM_Error::debug( 'this', $this );
+                CRM_Error::debug( 'ERROR: DB_DO IS', $this );
                 exit( );
             }
         } else {
             if ( ! $this->insert( ) ) {
-                CRM_Error::debug( 'this', $this );
+                CRM_Error::debug( 'ERROR: DB_DO IS', $this );
                 exit( );
             }
         }
@@ -242,12 +242,32 @@ abstract class CRM_DAO extends DB_DataObject {
      * @param array $params (reference ) associative array of name/value pairs
      *
      * @return void
+     * @access public
      */
     function copyValues( &$params ) {
         $fields =& $this->fields( );
         foreach ( $fields as $name => &$value ) {
             if ( array_key_exists( $name, $params ) ) {
                 $this->$name = $params[$name];
+            }
+        }
+    }
+
+    /**
+     * Store all the values from this object in an associative array
+     * this is a destructive store, calling function is responsible
+     * for keeping sanity of id's
+     *
+     * @param array $values (reference ) associative array of name/value pairs
+     *
+     * @return void
+     * @access public
+     */
+    function storeValues( &$values ) {
+        $fields =& $this->fields( );
+        foreach ( $fields as $name => &$value ) {
+            if ( isset( $this->$name ) ) {
+                $values[$name] = $this->$name;
             }
         }
     }

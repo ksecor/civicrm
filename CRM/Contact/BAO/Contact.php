@@ -45,7 +45,14 @@ require_once 'CRM/Contact/DAO/Email.php';
 
 class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact 
 {
- 
+
+    /**
+     * the types of communication preferences
+     *
+     * @var array
+     */
+    static $_commPrefs = array( 'do_not_phone', 'do_not_email', 'do_not_mail' );
+
     function __construct()
     {
         parent::__construct();
@@ -53,39 +60,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     
     function getSearchRows($offset, $rowCount, $sort)
     {
-        //
-        // create the DAO's
-        // all trash code... will clean it up in next commit... --- yvb
-        //
-
-        $location_DAO = new CRM_Contact_DAO_Location();
-        $address_DAO = new CRM_Contact_DAO_Address();
-        $email_DAO = new CRM_Contact_DAO_Email();
-        $phone_DAO = new CRM_Contact_DAO_Phone();
-
-        
         // we need to run the loop thru the num rows with offset in mind.
         $rows = array();
-        /*
-        $query_string = <<<QS
-            SELECT crm_contact.id as crm_contact_id, crm_contact.sort_name as crm_contact_sort_name,
-            crm_address.street_address as crm_address_street_address, crm_address.city as crm_address_city,
-            crm_state_province.name as crm_state_province_name,
-            crm_email.email as crm_email_email,
-            crm_phone.phone as crm_phone_phone
-            FROM crm_contact, crm_location, crm_address, crm_phone, crm_email, crm_state_province
-            WHERE crm_contact.id = crm_location.contact_id AND
-            crm_location.id = crm_address.location_id AND
-            crm_location.id = crm_phone.location_id AND
-            crm_location.id = crm_email.location_id AND
-            crm_address.state_province_id = crm_state_province.id AND
-            crm.location.is_primary = TRUE AND
-            crm.email.pri
-            QS;
-        */
-
-
-        $str_select = $str_from = $str_where = $str_order = $str_limit = "";
+        $str_select = $str_from = $str_where = $str_order = $str_limit = '';
         
         $str_select = "SELECT crm_contact.id as crm_contact_id, crm_contact.sort_name as crm_contact_sort_name,
                               crm_address.street_address as crm_address_street_address, crm_address.city as crm_address_city,
@@ -126,34 +103,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             
         $this->query($query_string);
 
-        /*
-        $this->selectAdd( );
-
-        $location_DAO->joinAdd($email_DAO, "LEFT");
-
-        $location_DAO->joinAdd($phone_DAO, "LEFT");
-
-        $location_DAO->joinAdd($address_DAO, "LEFT");
-
-        $this->joinAdd($location_DAO, "LEFT");         
-
-        $this->_join = preg_replace('/\s\s+/', ' ', $this->_join);
-
-        $this->_join = str_replace(' LEFT JOIN crm.crm_location ON crm_location.contact_id=crm_contact.id', ' LEFT JOIN crm.crm_location ON crm_location.contact_id = crm_contact.id AND crm_location.is_primary=1', $this->_join);
-
-        $this->selectAs($this,'crm_contact_%s');
-        $this->selectAs($email_DAO, 'crm_email_%s' );
-        $this->selectAs($phone_DAO, 'crm_phone_%s' );
-        $this->selectAs($address_DAO, 'crm_address_%s' );
-        $this->selectAs($location_DAO, 'crm_location_%s' );
-        $this->selectAdd('distinct ' . $this->selectAdd());
-
-        $this->orderBy($sort->orderBy());
-        $this->limit($offset, $rowCount);
-
-        $this->find();
-        */
-
         while($this->fetch()) {
             $row = array();
             $row['contact_id'] = $this->crm_contact_id;
@@ -187,11 +136,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     
 
 
-    function fetch() 
-    {
-        return parent::fetch();
-    }
-
     /**
      * takes an associative array and creates a contact object
      *
@@ -215,8 +159,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact->sort_name = CRM_Array::value( 'first_name', $params, '' ) . ' ' . CRM_Array::value( 'last_name', $params, '' );
 
         $privacy = CRM_Array::value( 'privacy', $params );
-        static $commPrefs = array( 'do_not_phone', 'do_not_email', 'do_not_mail' );
-        foreach ( $commPrefs as $name ) {
+        foreach ( self::$_commPrefs as $name ) {
             if ( array_key_exists( $name, $privacy ) ) {
                 $contact->$name = $privacy[$name];
             }
@@ -227,6 +170,38 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $contact->id = $id;
         }
         return $contact->save( );
+    }
+
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params input parameters to find object
+     * @param array $values output values of the object
+     *
+     * @return CRM_Contact_BAO_Contact|null the found object or null
+     * @access public
+     * @static
+     */
+    static function getValues( &$params, &$values ) {
+        $contact = new CRM_Contact_BAO_Contact( );
+
+        $contact->copyValues( $params );
+        if ( $contact->find(true) ) {
+            $contact->storeValues( $values );
+        }
+
+        $privacy = array( );
+        foreach ( self::$_commPrefs as $name ) {
+            if ( isset( $contact->$name ) ) {
+                $privacy[$name] = $contact->$name;
+            }
+        }
+        if ( !empty($privacy) ) {
+            $values['privacy'] = $privacy;
+        }
+
+        return null;
     }
 
 }
