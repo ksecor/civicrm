@@ -14,8 +14,8 @@
 			<input class="form-text" size="15" value="" name="keys" type="text"><input class="form-submit" value="search" type="submit">
 		</div>
 	</form>
-        <a href="" title="Index Page"><img src="i/logo.png" alt="Logo"></a>
-        <h1 id="site-name"><a href="" title="Index Page">drupal</a></h1>
+        <a href="" title="Index Page"><img src="i/logo.png" height="45" width="60" alt="Logo"></a>
+        <h1 id="site-name"><a href="" title="Index Page">RMS in Drupal</a></h1>
       <br class="clear">
 </div>
 <div id="top-nav">
@@ -31,31 +31,30 @@
 	<tbody><tr>
 	<td class="sidebar" id="sidebar-left">
 
-    <!-- Quick Search box for CRM pages-->
-    <div class="block" id="crm-search-block">
-        <div class="crmMenuTitle">Search by Name</div>
+    <!-- Quick Search box for RMS pages-->
+    <div class="block" id="rms-search-block">
+        <div class="rmsMenuTitle">Contact Search</div>
         <form name="quick_search_form" action="list_contacts.html" method="post">
-        <input type="text" class="form-text" name="contact_search_string" size="15" value="-find a contact-" onClick="contact_search_string.value = '';"/><br/>
+        <input type="text" class="form-text" name="contact_search_string" size="20" value="-full or partial name-" onClick="contact_search_string.value = '';"/><br/>
         <input type="submit" name="contact_search" value="search" class="form-submit"><br/>
         <a href="">&raquo; Advanced Search</a>
     </div><br/>
     
-    <!-- Shortcut Menu box for CRM pages-->
-    <div class="block" id="crm-shortcut-menu">
-        <div class="crmMenuTitle">Shortcuts</div>
+    <!-- Shortcut Menu box for RMS pages-->
+    <div class="block" id="rms-shortcut-menu">
+        <div class="rmsMenuTitle">Shortcuts</div>
         <ul compact="compact">
         <li>List Contacts
-        <li>Create A Contact
+        <li><a href="add_contacts.html">Create A Contact</a>
         <li>Manage Groups
-        <li>Import
-        <li>Export
+        <li><a href="import_contacts.html">Import Contacts</a>
         </ul>
     </div><br/>
     
     <!-- Quick Create Contact box -->
-    <div class="block" id="crm-quick-create">
-        <div class="crmMenuTitle">New Contact</div>
-        <form name="crm_quick_create_form" action="list_contacts.html" method="post">
+    <div class="block" id="rms-quick-create">
+        <div class="rmsMenuTitle">New Contact</div>
+        <form name="rms_quick_create_form" action="list_contacts.html" method="post">
         <label>First Name:</label><br/>
         <input type="text" class="form-text" name="contact_first_name" size="15" value="" /><br/>
         <label>Last Name:</label><br/>
@@ -71,16 +70,16 @@
         <h2>Site Menu</h2>
         <div class="content"><div class="menu">
         <ul>
-        <li class="expanded"><a href="http://localhost/dgg/drupal/crm" title="">Contact Management</a>
+        <li class="expanded"><a href="http://localhost/dgg/prototypes" title="">Relationship Management</a>
         <ul>
-        <li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact" title="List, edit and add contacts">Contacts</a>
-        <!-- <ul>
-        <li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/list" class="active">List Contacts</a></li>
-        <li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/add">Add Contact</a></li>
-        <li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/search">Search Contacts</a></li>
-        </ul> -->
+        <li class="expanded"><a href="http://localhost/dgg/drupal/rms/contact" title="List, edit and add contacts">Contacts</a>
+        <ul>
+        <li class="leaf"><a href="http://localhost/dgg/prototypes/add_contacts.html" class="active">Create Contact</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/prototypes/import_contacts.html">Import Contacts</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/contact/search">Contact Groups</a></li>
+        </ul>
         </li>
-        <li class="leaf"><a href="http://localhost/dgg/drupal/crm/communicate" title="">Communicate</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/communicate" title="">Communicate</a></li>
 
         </ul>
         </li>
@@ -98,22 +97,22 @@
 
 <td class="main-content" id="content-left">
     <!-- breadcrumb bar -->
-	<div class="breadcrumb"><a href="">Home</a> &raquo; <a href="http://localhost/dgg/drupal/crm" title="">Contact Management</a> &raquo; <a href="" title="list contacts">Contacts</a></div>
+	<div class="breadcrumb"><a href="http://localhost/dgg/drupal">Home</a> &raquo; <a href="http://localhost/dgg/prototypes" title="">Relationship Management</a> &raquo; Contacts</div>
 
     <!-- recently viewed items bar -->
-    <div class="listNav">
+    <div class="rmsListNav">
         <span>Recently Viewed:</span> 
         <a href=""><img src="i/contacts.png" align="absmiddle">&nbsp;Janet Ball</a> &nbsp;&nbsp;
         <a href=""><img src="i/contacts.png" align="absmiddle">&nbsp;Darsha</a>
     </div>
 
 	<!-- start main content -->
-    <table class="crmPageTitle" width="100%">
+    <table class="rmsPageTitle" width="100%">
         <tr><td><h3 class="content-title">Contacts</h3></td>
         <td align="right"><a href="" title="Help"><img src="i/help.png" align="absmiddle" alt="Help">&nbsp;Help</a></td></tr>
     </table>
         
-	<table><tbody><tr id="crm-frame">
+	<table><tbody><tr id="rms-frame">
     <td> <!-- Begin cell for contact list -->
 
     <!-- Form to choose a list to display. -->
@@ -128,16 +127,20 @@
     </div></div>
     
 	<div id="contact_list">
-	<table class="listNav" width="100%"><tbody>
+	<table class="rmsListNav" width="100%"><tbody>
     <tr>
-        <td><a href="" title="Go to first record">&lt;&lt;&nbsp;first&nbsp;&nbsp;
+        <td width="150">
+            &nbsp; <a href="" title="Export all records in this list"><img src="i/export.png" align="absmiddle"> Export</a>
+        </td>
+        <td>
+            <a href="" title="Go to first record">&lt;&lt;&nbsp;first&nbsp;&nbsp;
             <a href="" title="Go to previous record">&lt;&nbsp;previous
             &nbsp; &nbsp; &nbsp; (1-25 of 233) &nbsp; &nbsp; &nbsp;
             <a href="" title="Go to next record">&gt;&nbsp;next&nbsp;&nbsp;
             <a href="" title="Go to previous record">&raquo;&nbsp;previous
         </td>
         <td class="form-item" align="right">
-            <form name="crmPager" action="post" action="list_contacts.html">
+            <form name="rmsPager" action="post" action="list_contacts.html">
             <span>Page <input class="form-text" type="text" name="page_number" size="1" value="1"> of 9</span>
             <input type="submit" name="goToPage" value="go">&nbsp;
             </form>
@@ -145,8 +148,8 @@
     </tr>
     </tbody></table>
     
-	<form action="list_contacts.html" method="post" name="crmListForm">
-    <table class="listContacts" width="100%"><tbody>
+	<form action="list_contacts.html" method="post" name="rmsListForm">
+    <table class="rmsListContacts" width="100%"><tbody>
     <tr><th><a href="list_contacts.html" title="Sort by Name"><img src="i/arrow.png" align="absmiddle">&nbsp;Name</a></th>
         <th><a href="list_contacts.html" title="Sort by Email"><img src="i/arrow.png" align="absmiddle">&nbsp;Email</a></th>
         <th><a href="list_contacts.html" title="Sort by Phone"><img src="i/arrow.png" align="absmiddle">&nbsp;Phone</a></th>
@@ -263,21 +266,21 @@
 	</form>
     
     <!-- Rows per page.  -->
-    <table id="crm-list-action"><tbody><tr valign="top">
-	<td class="crmSubLink">
+    <table id="rms-list-action"><tbody><tr valign="top">
+	<td class="rmsSubLink">
     <label>Rows per page:</label>
     25 &nbsp; | &nbsp; <a href="">50</a> &nbsp; | &nbsp; <a href="">100</a> &nbsp; | &nbsp; <a href="">All</a>
 	</td>
 
     <!-- Action select. -->
 	<td class="form-item" align="right">
-	<form action="list_contacts.html" method="post" name="crmActionForm">
+	<form action="list_contacts.html" method="post" name="rmsActionForm">
     <label>Action:</label>
-    <select name="crm_action" class="form-select">
-        <option value="">-for selected records-</option><option value="del">Delete</option><option value="print">Print</option><option value="Export">Export</option><option value="addToGroup">Add to a Group</option>
+    <select name="rms_action" class="form-select">
+        <option value="">-for selected records-</option><option value="del">Delete</option><option value="print">Print</option><option value="Export">Export</option><option value="addToGroup">Add to a Group</option><option value="addToHousehold">Add to Household</option><option value="defineRelationship">Define Relationship</option>
     </select>
 	<input type="submit" name="do_action" value="go">
-    <div class="crmSubLink">Select: <a href="">All</a> &nbsp; | &nbsp; <a href="">None</a></div>
+    <div class="rmsSubLink">Select: <a href="">All</a> &nbsp; | &nbsp; <a href="">None</a></div>
     </form>
 	</td>
     </tr></tbody></table>
@@ -285,7 +288,7 @@
     </td> <!-- End cell for contact list -->
     
     <!-- Begin cell for wizard menus -->
-    <!-- <td class="crmWizardMenu"></td> -->
+    <!-- <td class="rmsWizardMenu"></td> -->
     <!-- End cell for wizard menus. -->
     
     </tr></tbody>

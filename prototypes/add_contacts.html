@@ -1,17 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>  
-  <title>Add Person</title><meta http-equiv="Content-Style-Type" content="text/css">
+  <title>Create Contact</title>
+  <meta http-equiv="Content-Style-Type" content="text/css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <!-- base href="http://localhost/dgg/drupal/" -->
 <style type="text/css" media="all">@import "../drupal/misc/drupal.css";</style>
 <style type="text/css" media="all">@import "../drupal/themes/box_grey_smarty/style.css";</style>
 <script type="text/javascript">//<![CDATA[
-var sections = new Array('core', 'demographics', 'location2','notes');
+var sections = new Array('core', 'demographics', 'phone0_2', 'location2', 'phone2-2','notes');
 function init() {
     show('core');
+    hide('phone0_2');
 	hide('demographics');
 	hide('location2');
+    hide('phone2-2');
 	hide('notes');
     document.forms['add_contact'].elements['contact_title'].focus();
 }
@@ -19,8 +22,6 @@ function show(section) {
     for (var i = 0; i < sections.length; i++) {
         if (sections[i] == section) {
             document.getElementById(sections[i]).style.display = 'block';
-//			linkDev = section + '_link';
-//           document.getElementById(linkDev).style.display = 'block';			
         }
     }
 }
@@ -41,8 +42,8 @@ function hide(section) {
 			<input class="form-text" size="15" value="" name="keys" type="text"><input class="form-submit" value="search" type="submit">
 		</div>
 	</form>
-        <a href="" title="Index Page"><img src="i/logo.png" alt="Logo"></a>
-        <h1 id="site-name"><a href="" title="Index Page">drupal</a></h1>
+        <a href="" title="Index Page"><img src="i/logo.png" height="45" width="60" alt="Logo"></a>
+        <h1 id="site-name"><a href="" title="Index Page">RMS in Drupal</a></h1>
       <br class="clear">
 </div>
 <div id="top-nav">
@@ -57,56 +58,95 @@ function hide(section) {
 <table id="content">
 	<tbody><tr>
 	<td class="sidebar" id="sidebar-left">
-	<div class="block block-block" id="block-block-1">
-  <h2>Welcome</h2>
-  <div class="content">Welcome dgg, good to have you back!</div>
-</div><div class="block block-block" id="block-block-2">
-  <h2>Restaurant Guide</h2>
-  <div class="content"><ul compact="compact">
-<a href="http://localhost/dgg/drupal/flexinode/table/1"><li>List Restaurants</li></a><a href="http://localhost/dgg/drupal/flexinode/search/1"><li>Search</li></a><a href="http://localhost/dgg/drupal/node/add/flexinode-1"><li>Add a Restaurant</li></a></ul></div>
-</div><div class="block block-blog" id="block-blog-0">
-  <h2>Recent blog posts</h2>
-  <div class="content"><div class="item-list"><ul><li><a href="http://localhost/dgg/drupal/node/1">Election Day Dreams</a></li></ul></div><div class="more-link"><a href="http://localhost/dgg/drupal/blog" title="Read the latest blog entries.">more</a></div></div>
-</div><div class="block block-taxonomy" id="block-taxonomy-0">
-  <h2>Categories</h2>
-  <div class="content"><div class="item-list"><ul><li><a href="http://localhost/dgg/drupal/taxonomy/term/1">US Election (2)</a><br>2 weeks 3 days ago</li></ul></div></div>
-</div><div class="block block-user" id="block-user-1">
-  <h2>dgg</h2>
-  <div class="content"><div class="menu">
-<ul>
-<li class="expanded"><a href="http://localhost/dgg/drupal/crm" title="">Contact Management</a>
-<ul>
-<li class="expanded"><a href="http://localhost/dgg/drupal/crm/contact" title="List, edit and add contacts">Contacts</a>
-<ul>
-<li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/list" class="active">List Contacts</a></li>
-<li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/add">Add Contact</a></li>
-<li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/search">Search Contacts</a></li>
 
-</ul>
-</li>
-<li class="leaf"><a href="http://localhost/dgg/drupal/crm/communicate" title="">Communicate</a></li>
+    <!-- Quick Search box for rms pages-->
+    <div class="block" id="rms-search-block">
+        <div class="rmsMenuTitle">Contact Search</div>
+        <form name="quick_search_form" action="list_contacts.html" method="post">
+        <input type="text" class="form-text" name="contact_search_string" size="20" value="-full or partial name-" onClick="contact_search_string.value = '';"/><br/>
+        <input type="submit" name="contact_search" value="search" class="form-submit"><br/>
+        <a href="">&raquo; Advanced Search</a>
+    </div><br/>
+    
+    <!-- Shortcut Menu box for rms pages-->
+    <div class="block" id="rms-shortcut-menu">
+        <div class="rmsMenuTitle">Shortcuts</div>
+        <ul compact="compact">
+        <li><a href="list_contacts.html">List Contacts</a>
+        <li>Create A Contact
+        <li>Manage Groups
+        <li><a href="import_contacts.html">Import Contacts</a>
+        </ul>
+    </div><br/>
+    
+    <!-- Quick Create Contact box -->
+    <div class="block" id="rms-quick-create">
+        <div class="rmsMenuTitle">New Contact</div>
+        <form name="rms_quick_create_form" action="list_contacts.html" method="post">
+        <label>First Name:</label><br/>
+        <input type="text" class="form-text" name="contact_first_name" size="15" value="" /><br/>
+        <label>Last Name:</label><br/>
+        <input type="text" class="form-text" name="contact_last_name" size="15" value="" /><br/>
+        <label>Phone:</label><br/>
+        <input type="text" class="form-text" name="contact_phone" size="15" value="" /><br/>
+        <label>Email:</label><br/>
+        <input type="text" class="form-text" name="contact_email" size="15" value="" /><br/>
+        <input type="submit" name="contact_create" value="save" class="form-submit"><br/>
+    </div><br/>
+    
+    <div class="block block-user" id="block-user-1">
+        <h2>Site Menu</h2>
+        <div class="content"><div class="menu">
+        <ul>
+        <li class="expanded"><a href="http://localhost/dgg/drupal/rms" title="">Relationship Management</a>
+        <ul>
+        <li class="expanded"><a href="http://localhost/dgg/drupal/rms/contact" title="List, edit and add contacts">Contacts</a>
+        <ul>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/contact/list" class="active">Create Contact</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/contact/add">Import Contacts</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/contact/search">Contact Groups</a></li>
+        </ul>
+        </li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/rms/communicate" title="">Communicate</a></li>
 
-</ul>
-</li>
-<li class="collapsed"><a href="http://localhost/dgg/drupal/blog" title="view blogs here">blogs</a></li>
-<li class="collapsed"><a href="http://localhost/dgg/drupal/node" title="">content</a></li>
-<li class="collapsed"><a href="http://localhost/dgg/drupal/search" title="">search</a></li>
-<li class="leaf"><a href="http://localhost/dgg/drupal/user/1">my account</a></li>
-<li class="leaf"><a href="http://localhost/dgg/drupal/profile" title="">user list</a></li>
-<li class="collapsed"><a href="http://localhost/dgg/drupal/admin">administer</a></li>
-<li class="leaf"><a href="http://localhost/dgg/drupal/logout">log out</a></li>
+        </ul>
+        </li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/blog" title="view blogs here">blogs</a></li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/node" title="">content</a></li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/search" title="">search</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/user/1">my account</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/profile" title="">user list</a></li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/admin">administer</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/logout">log out</a></li>
 
-</ul>
-</div></div>
-</div>
+        </ul>
+    </div></div></div>
 </td> <!-- End of sidebar cell -->
 
 <td class="main-content" id="content-left">
-	<div class="breadcrumb"><a href="">Home</a> &raquo; <a href="http://localhost/dgg/drupal/crm" title="">Contact Management</a> &raquo; <a href="http://localhost/dgg/drupal/crm/contact" title="add contact">Add Contact</a></div>
-	<h3 class="content-title">Contacts: Add a Person</h3>
+    <!-- breadcrumb bar -->
+	<div class="breadcrumb"><a href="">Home</a> &raquo; <a href="http://localhost/dgg/prototypes" title="">Relationship Management</a> &raquo; <a href="http://localhost/dgg/prototypes/list_contacts.html" title="">Contacts</a> &raquo; Create Contact</div>
+
+    <!-- recently viewed items bar -->
+    <div class="rmsListNav">
+        <span>Recently Viewed:</span> 
+        <a href=""><img src="i/contacts.png" align="absmiddle">&nbsp;Janet Ball</a> &nbsp;&nbsp;
+        <a href=""><img src="i/contacts.png" align="absmiddle">&nbsp;Darsha</a>
+    </div>
+
+	<!-- start main content -->
+    <table class="rmsPageTitle" width="100%">
+        <tr><td><h3 class="content-title">Create Contact (Individual)</h3></td>
+        <td align="right">
+            <span class="rmsSubLink"><a href="">&raquo; Create Contact Organization</a> &nbsp; &raquo; <a href="">Create Household</a></span> &nbsp; &nbsp;
+            <a href="" title="Help"><img src="i/help.png" align="absmiddle" alt="Help">&nbsp;Help</a>
+        </td>
+    </tr>
+    </table>
+    <br/>
 	<ul class="tabs primary">
 	<li class="active"><a href="admin/block" class="active">Contact Details</a></li>
-	<li><a href="">Roles and Relationships</a></li>
+	<li><a href="">Relationships and Roles</a></li>
 	<li><a href="">Voter Info [ext]</a></li>
 	</ul>
 	
@@ -114,6 +154,7 @@ function hide(section) {
 	<form action="add_contacts.html" method="post" name="add_contact">
 	<input type="submit" name="add_contact" value="save" class="form-submit">
 	<input type="button" name="cancel" value="cancel" class="form-submit"><br/>
+
 	<div id="core">
 	<fieldset><legend>Name and Greeting</legend>
 	<table border="0" cellpadding="2" cellspacing="2" width="90%"><tbody>
@@ -124,8 +165,8 @@ function hide(section) {
 		</td>
 		<td class="form-item">
 			<select name="edit[title]" id="contact_title"><option>-title-</option><option>Ms.</option><option>Mrs.</option><option>Mr.</option><option>Dr.</option><option>(none)</option></select>
-			<input type="text" maxlength="64" class="form-text" name="edit[first_name]" size="25" value="" />
-			<input type="text" maxlength="64" class="form-text" name="edit[last_name]" size="25" value="" />
+			<input type="text" maxlength="255" class="form-text" name="edit[first_name]" size="25" value="" />
+			<input type="text" maxlength="255" class="form-text" name="edit[last_name]" size="25" value="" />
 			<select name="edit[suffix]"><option>-suffix-</option><option>Jr.</option><option>Sr.</option><option>II</option><option>(none)</option></select>
 		</td>
 	</tr>
@@ -135,6 +176,14 @@ function hide(section) {
 		</td>
 		<td class="form-item">
 			<select name="edit[greeting]"><option>default - 'Dear [first] [last]'</option><option>informal - 'Dear [first]'</option><option>formal - 'Dear [title] [last]'</option></select>
+		</td>
+	</tr>
+	<tr>
+		<td class="form-item">
+			<label>Job Title:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="255" class="form-text" name="edit[job_title]" size="35" value="" />
 		</td>
 	</tr>
 	</tbody></table>
@@ -166,60 +215,85 @@ function hide(section) {
 	</fieldset>
 
 	<fieldset><legend>Location</legend>
-	<table border="0" cellpadding="2" cellspacing="2" width="90%"><tbody>
+	<table border="1" cellpadding="2" cellspacing="2"><tbody>
 
 	<tr>
 		<td class="form-item">
-			<select name="edit[context]"><option>Home</option><option>Work</option><option>Other</option></select>
-		</td><td colspan=3></td>
+			<select name="edit[0][context]"><option>Home</option><option>Work</option><option>Other</option></select> &nbsp;
+		</td>
+		<td colspan=2 class="form-item">
+			<input type="checkbox" class="form-checkbox" value="edit[0][primary-location]"> <label>Primary location for this contact</label>
+		</td>
 	</tr>
 	<tr>
 		<td></td>
 		<td class="form-item">
-			<label>Phone:</label>
+			<label>Preferred Phone:</label>
 		</td>
 		<td class="form-item">
-			<select name="edit[title]" class="form-select"><option>---</option><option>mobile</option><option>fax</option><option>pager</option></select>
-			<input type="text" maxlength="64" class="form-text" name="edit[phone1]" size="25" value="" />
-		</td>
-			
-		</td>
-		<td class="form-item">
-			<input type="checkbox" class="form-checkbox" value="edit[preferred-phone]"> Preferred Phone
+			<select name="edit[0][phoneType][0]" class="form-select"><option selected>phone</option><option>mobile</option><option>fax</option><option>pager</option></select>
+			<input type="text" maxlength="255" class="form-text" name="edit[0][phone][0]" size="25" value="" />
 		</td>
 	</tr>
-	<tr><td></td><td colspan=2 class="form-item"><a href="">[+] another phone</a></td></tr>
+
+    <!-- Second phone block.-->
+	<tr><td></td><td colspan="2">
+        <table id="phone0_2"><tr>
+		<td class="form-item">
+			<label>Other Phone:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[phoneType1-2]" class="form-select"><option>phone</option><option selected value="mobile">mobile</option><option>fax</option><option>pager</option></select>
+			<input type="text" maxlength="255" class="form-text" name="edit[0][phone][1]" size="25" value="" />
+		</td></tr></table></td>
+	</tr>
+
+	<tr><td></td><td colspan=2>
+        <a onclick="show('phone0_2'); return false;" onkeypress="show('phone0_2'); return false;" href="#phone0_2">[+] another phone...</a>
+    </td></tr>
+    
 	<tr>
 		<td></td>
 		<td class="form-item">
 			<label>Email:</label>
 		</td>
 		<td class="form-item">
-			<input type="text" maxlength="64" class="form-text" name="edit[1][phone][0]" size="25" value="" />
-		</td>
-		<td class="form-item">
-			<input type="checkbox" class="form-checkbox" value="edit[preferred-phone]"> Preferred Email
+			<input type="text" maxlength="255" class="form-text" name="edit[0][email][0]" size="35" value="" />
 		</td>
 	</tr>
 	<tr><td></td><td colspan=2 class="form-item"><a href="">[+] another email</a></td></tr>
+
 	<tr>
 		<td></td>
 		<td class="form-item">
-			<label>Address Line 1:</label>
+			<label>Instant Message:</label>
 		</td>
 		<td class="form-item">
-			<input type="text" maxlength="64" class="form-text" name="edit[1][address1]" size="25" value="" /><br/>
-			<div class="description">Street address, P.O. box, company name, c/o</div>
+			<select name="edit[0][imType][0]" class="form-select"><option>-select IM service-</option><option>AIM (AOL)</option><option>ICQ</option><option>MSN Messenger</option><option>Yahoo! Messenger</option></select>
+			<input type="text" maxlength="255" class="form-text" name="contact_location[0].im_1" size="15" value="" />
+			<div class="description">Select IM service and enter screen-name / user id.</div>
+		</td>
+	</tr>
+	<tr><td></td><td colspan=2 class="form-item"><a href="">[+] another instant message id</a></td></tr>
+
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Street Address:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="255" class="form-text" name="edit[0][street]" size="35" value="" /><br/>
+			<div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
 		</td>
 	</tr>
 	<tr>
 		<td></td>
 		<td class="form-item">
-			<label>Address Line 2:</label>
+			<label>Additional<br/>Address:</label>
 		</td>
 		<td class="form-item">
-			<input type="text" maxlength="64" class="form-text" name="edit[address2]" size="25" value="" /><br/>
-			<div class="description">Apartment, suite, unit, building, floor, etc.</div>
+			<textarea class="form-textarea" name="edit[0][address2]" cols="35" rows="2"></textarea><br/>
+			<div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
 		</td>
 	</tr>
 	<tr>
@@ -228,7 +302,7 @@ function hide(section) {
 			<label>City:</label>
 		</td>
 		<td class="form-item">
-			<input type="text" maxlength="64" class="form-text" name="edit[city]" size="25" value="" /><br/>
+			<input type="text" maxlength="255" class="form-text" name="edit[city]" size="35" value="" /><br/>
 		</td>
 	</tr>
 	<tr>
@@ -237,7 +311,7 @@ function hide(section) {
 			<label>State / Province:</label>
 		</td>
 		<td class="form-item">
-			<select name="edit[title]"><option>-none-</option><option>California</option><option>Oregon</option><option>Washington</option><option>-Canadian Provinces-</option><option>British Columbia</option></select>
+			<select name="edit[0][state]"><option>-none-</option><option>California</option><option>Oregon</option><option>Washington</option><option>-Canadian Provinces-</option><option>British Columbia</option></select>
 		</td>
 	</tr>
 	<tr>
@@ -246,7 +320,7 @@ function hide(section) {
 			<label>Zip / Postal Code:</label>
 		</td>
 		<td class="form-item">
-			<input type="text" maxlength="64" class="form-text" name="edit[postal_code]" size="15" value="" /><br/>
+			<input type="text" maxlength="64" class="form-text" name="edit[0][postal_code]" size="15" value="" /><br/>
 		</td>
 	</tr>
 	<tr>
@@ -255,68 +329,94 @@ function hide(section) {
 			<label>Country:</label>
 		</td>
 		<td class="form-item">
-			<select name="edit[title]"><option>-select-</option><option>Canada</option><option>India</option><option>Poland</option><option>United States</option></select>
+			<select name="edit[0][country]"><option>-select-</option><option>Canada</option><option>India</option><option>Poland</option><option>United States</option></select>
 		</td>
 	</tr>
 
 	</tbody></table>
 	</fieldset>
 	</div> <!-- end 'core' section of contact form -->
-	
+
 	<div id="location2">
 	<fieldset><legend>Location</legend>
-	<table border="0" cellpadding="2" cellspacing="2" width="90%"><tbody>
+	<table border="0" cellpadding="2" cellspacing="2"><tbody>
 
 	<tr>
 		<td class="form-item">
-			<select name="edit[context]"><option>Home</option><option selected>Work</option><option>Other</option></select>
-		</td><td colspan=3></td>
+			<select name="edit[1][context]"><option>Home</option><option selected>Work</option><option>Other</option></select> &nbsp;
+		</td>
+		<td colspan=2 class="form-item">
+			<input type="checkbox" class="form-checkbox" value="edit[1][primary-location]"> <label>Primary location for this contact</label>
+		</td>
 	</tr>
 	<tr>
 		<td></td>
 		<td class="form-item">
-			<label>Phone:</label>
+			<label>Preferred Phone:</label>
 		</td>
 		<td class="form-item">
-			<select name="edit[title]" class="form-select"><option>---</option><option>mobile</option><option>fax</option><option>pager</option></select>
-			<input type="text" maxlength="64" class="form-text" name="edit[phone1]" size="25" value="" /><br>
-			<a href="">[+] another phone</a>
-		</td>
-		<td class="form-item">
-			<input type="checkbox" class="form-checkbox" value="edit[preferred-phone]"> Preferred Phone
+			<select name="edit[1][phoneType][0]" class="form-select"><option selected>phone</option><option>mobile</option><option>fax</option><option>pager</option></select>
+			<input type="text" maxlength="255" class="form-text" name="edit[1][phone[0]" size="25" value="" />
 		</td>
 	</tr>
+
+    <!-- Second phone block.-->
+    <div id="phone2-2" style="display: none;">
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Other Phone:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[1][phoneType][1]" class="form-select"><option>phone</option><option selected value="mobile">mobile</option><option>fax</option><option>pager</option></select>
+			<input type="text" maxlength="255" class="form-text" name="edit[1][phone][1]" size="25" value="" />
+		</td>
+	</tr>
+    </div>
+
+	<tr><td></td><td colspan=2 class="form-item"><a href="">[+] another phone</a></td></tr>
+    
 	<tr>
 		<td></td>
 		<td class="form-item">
 			<label>Email:</label>
 		</td>
 		<td class="form-item">
-			<input type="text" maxlength="64" class="form-text" name="edit[phone1]" size="25" value="" /><br/>
-			<a href="">[+] another email</a>
+			<input type="text" maxlength="255" class="form-text" name="edit[1][email][0]" size="35" value="" />
+		</td>
+	</tr>
+	<tr><td></td><td colspan=2 class="form-item"><a href="">[+] another email</a></td></tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Instant Message:</label>
 		</td>
 		<td class="form-item">
-			<input type="checkbox" class="form-checkbox" value="edit[preferred-phone]"> Preferred Email
+			<select name="edit[1][imType][0]" class="form-select"><option>-select IM service-</option><option>AIM (AOL)</option><option>ICQ</option><option>MSN Messenger</option><option>Yahoo! Messenger</option><option>pager</option></select>
+			<input type="text" maxlength="255" class="form-text" name="edit[1][im][0]" size="15" value="" />
+			<div class="description">Select IM service and enter screen-name / user id.</div>
+		</td>
+	</tr>
+	<tr><td></td><td colspan=2 class="form-item"><a href="">[+] another instant message id</a></td></tr>
+
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Street Address:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="255" class="form-text" name="edit[1][street]" size="35" value="" /><br/>
+			<div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
 		</td>
 	</tr>
 	<tr>
 		<td></td>
 		<td class="form-item">
-			<label>Address Line 1:</label>
+			<label>Additional<br/>Address:</label>
 		</td>
 		<td class="form-item">
-			<input type="text" maxlength="64" class="form-text" name="edit[address1]" size="25" value="" /><br/>
-			<div class="description">Street address, P.O. box, company name, c/o</div>
-		</td>
-	</tr>
-	<tr>
-		<td></td>
-		<td class="form-item">
-			<label>Address Line 2:</label>
-		</td>
-		<td class="form-item">
-			<input type="text" maxlength="64" class="form-text" name="edit[address2]" size="25" value="" /><br/>
-			<div class="description">Apartment, suite, unit, building, floor, etc.</div>
+			<textarea class="form-textarea" name="edit[1][address2]" cols="35" row="2"></textarea><br/>
+			<div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
 		</td>
 	</tr>
 	<tr>
@@ -325,7 +425,7 @@ function hide(section) {
 			<label>City:</label>
 		</td>
 		<td class="form-item">
-			<input type="text" maxlength="64" class="form-text" name="edit[city]" size="25" value="" /><br/>
+			<input type="text" maxlength="255" class="form-text" name="edit[city]" size="35" value="" /><br/>
 		</td>
 	</tr>
 	<tr>
@@ -334,7 +434,7 @@ function hide(section) {
 			<label>State / Province:</label>
 		</td>
 		<td class="form-item">
-			<select name="edit[title]"><option>-none-</option><option>California</option><option>Oregon</option><option>Washington</option><option>-Canadian Provinces-</option><option>British Columbia</option></select>
+			<select name="edit[1][state]"><option>-none-</option><option>California</option><option>Oregon</option><option>Washington</option><option>-Canadian Provinces-</option><option>British Columbia</option></select>
 		</td>
 	</tr>
 	<tr>
@@ -343,7 +443,7 @@ function hide(section) {
 			<label>Zip / Postal Code:</label>
 		</td>
 		<td class="form-item">
-			<input type="text" maxlength="64" class="form-text" name="edit[postal_code]" size="15" value="" /><br/>
+			<input type="text" maxlength="64" class="form-text" name="edit[1][postal_code]" size="15" value="" /><br/>
 		</td>
 	</tr>
 	<tr>
@@ -352,7 +452,7 @@ function hide(section) {
 			<label>Country:</label>
 		</td>
 		<td class="form-item">
-			<select name="edit[title]"><option>-select-</option><option>Canada</option><option>India</option><option>Poland</option><option>United States</option></select>
+			<select name="edit[1][country]"><option>-select-</option><option>Canada</option><option>India</option><option>Poland</option><option>United States</option></select>
 		</td>
 	</tr>
 	<tr>
@@ -371,7 +471,7 @@ function hide(section) {
 
 	<div id="demographics">
 	<fieldset><legend>Demographics</legend>
-	<table border="0" cellpadding="2" cellspacing="2" width="90%"><tbody>
+	<table border="0" cellpadding="2" cellspacing="2"><tbody>
 	<tr>
 		<td class="form-item">
 			<label>Gender:</label>
@@ -393,8 +493,14 @@ function hide(section) {
 		</td>
 	</tr>
 	<tr>
+		<td class="form-item" colspan=2>
+            <input type="checkbox" class="form-checkbox" value="1"> 
+			<label>Contact is Deceased</label>
+		</td>
+	</tr>
+	<tr>
 		<td class="form-item">
-			<label>[ other demo flds ]:</label>
+			<label>[ custom demographics flds ]:</label>
 		</td>
 		<td class="form-item">... go here ...
 		</td>
@@ -410,7 +516,7 @@ function hide(section) {
 	</div> <!-- end demographics div -->
 
 	<div id="demographics_link">
-	<a tabindex="20" onclick="show('demographics'); return false;" onkeypress="show('demographics'); return false;" href="#demographics">[+] demographics (gender, date of birth, education)</a><br/><br/>
+	<a tabindex="20" onclick="show('demographics'); return false;" onkeypress="show('demographics'); return false;" href="#demographics">[+] demographics (gender, date of birth)</a><br/><br/>
 	</div>
 
 	<div id="notes">
@@ -440,11 +546,12 @@ function hide(section) {
 	<a tabindex="20" onclick="show('notes'); return false;" onkeypress="show('notes'); return false;" href="#notes">[+] contact notes</a>
 	</div>
 	
-	<div class="form-item"
+	<div class="form-item">
 	<input type="submit" name="add_contact" value="save" class="form-submit">
 	<input type="button" name="cancel" value="cancel" class="form-submit"><br/>
 	</div>
 	</form>
+    
 	<!-- end content -->
 
 <!-- end main content -->
