@@ -109,9 +109,9 @@ class CRM_Pager extends Pager_Sliding {
                                  'status'       => $params['status'],
                                  'buttonTop'    => $params['buttonTop'],
                                  'buttonBottom' => $params['buttonBottom'],
-                                 'low'          => $this->getPerPageLink(25),
-                                 'medium'       => $this->getPerPageLink(50),
-                                 'high'         => $this->getPerPageLink(100),
+                                 'twentyfive'   => $this->getPerPageLink(25),
+                                 'fifty'        => $this->getPerPageLink(50),
+                                 'onehundred'   => $this->getPerPageLink(100),
                                  );
 
 

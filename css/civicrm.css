@@ -46,6 +46,7 @@ div.spacer {
 
 #crm-container div.form-item {
   clear: both;
+  padding-top: 5px;
   padding-bottom: 5px;
 }
 
@@ -129,19 +130,21 @@ div.spacer {
    vertical-align: middle;
 }
 
+/* 
 #crm-container div.vertical-position {
   position: relative;
   top: 10px;
   width: 100%;
   height: 35px;
 }
+*/
 
-#crm-container div.form-item span.horizontal-position {
+#crm-container span.horizontal-position {
   margin-right: 30px;
   margin-left: 30px;
 }
 
-#crm-pager {
+div.crm-pager {
   border: thin solid #000000;
   background-color: #B0B0B0;
   color: #FFFFFF;
@@ -151,20 +154,16 @@ div.spacer {
   padding-top: 5px;
 }
 
-#crm-pager a {
+div.crm-pager a {
   color: #FFFFFF;
 }
-
-#crm-pager a:hover {
-  color: #0000FF;
-} 
 
 .crm-pager-nav {
   height: 25px;
   padding: 100px;
 }
 
-#crm-container div.form-item .element-right {
+#crm-container .element-right {
   position: absolute;
   right: 50px;
 }
