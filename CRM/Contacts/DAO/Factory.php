@@ -16,6 +16,8 @@ class CRM_Contacts_DAO_Factory {
 			      'Task'                 => 'data',
 			      'Note'                 => 'data',
 			      'Saved_Search'         => 'data',
+			      'List'                 => 'data',
+			      'Contact_List'         => 'data',
                              );
 
     static $_prefix = array(
