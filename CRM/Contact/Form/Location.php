@@ -44,14 +44,23 @@ class CRM_Contact_Form_Location extends CRM_Form
     {
         $location = array();
 
-        $showHideBlocks->addShow( 'location[1]' );
-        $showHideBlocks->addShow( 'location[2][show]' );
         
-        for ($locationId = 1; $locationId <= $count; $locationId++) {    
+        $showHideBlocks->addShow( 'location[1]' );
+        
+        if ( $count > 2 ) {
+            $showHideBlocks->addShow( 'location[2][show]' );
+        }
+        
+        // this element is send to loop to display ($count -1) locations
+        $form->addElement('static','count','',$count);
+
+        for ($locationId = 1; $locationId < $count; $locationId++) {    
             $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_SelectValues::$locationType);
             $js = "location_is_primary_onclick('" . $form->getName() . "', $locationId);";
-            $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", 'Primary location for this contact',  'Make this the primary location.', array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId);" ) );
-
+            if ($count != 2 ) {
+                $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", 'Primary location for this contact',  'Make this the primary location.', array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId);" ) );
+            }
+            
             if ( $i != 1 ) {
                 $showHideBlocks->addHide( "location[$locationId]" );
                 $showHideBlocks->addHide( "location[$locationId][show]" );
@@ -62,7 +71,7 @@ class CRM_Contact_Form_Location extends CRM_Form
             CRM_Contact_Form_IM::buildImBlock($form, $location, $locationId, 3, $showHideBlocks); 
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId, $showHideBlocks);
 
-            $showHideBlocks->linksForArray( $form, $locationId, $count, "location", '[+] another location', '[-] hide location');
+            $showHideBlocks->linksForArray( $form, $locationId, ($count-1), "location", '[+] another location', '[-] hide location');
 
         }
         return $location;

@@ -1,24 +1,39 @@
-<script type="text/javascript" src="/js/ORG.js"></script>
+{* This file provides the HTML for the big add contact form *}
+{* It provides the templating for Organization Name block and Contact notes *}
+{* The templating for Location and Communication preferences block has been plugged by including the Location.tpl file *}    
 
-{$form.javascript}
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
-<form {$form.attributes}>
+ {* Including the javascript source code from the ORG.js and Common.js files *}
+ <script type="text/javascript" src="{$config->httpBase}js/ORG.js"></script>
+ <script type="text/javascript" src="{$config->httpBase}js/Common.js"></script>
 
-	{if $form.hidden}
-	{$form.hidden}{/if}
+{* Including the custom javascript validations added by the HTML_QuickForm for all client validations in addRules *} 
+ {$form.javascript}
 
-	{if count($form.errors) gt 0}
-	<table width="100%" cellpadding="1" cellspacing="0" border="0" bgcolor="#ff9900"><tr><td>
-	<table width="100%" cellpadding="10" cellspacing="0" border="0" bgcolor="#FFFFCC"><tr><td align="center">
-	<span class="error" style="font-size: 13px;">Please correct the errors below.</span>
-	</td></tr></table>
-	</td></tr></table>
-	</p>
-	{/if}
+{* $form.attributes serves as a place holder for all form attributes to be defined in the form tag *}
+ <form {$form.attributes}>
 
+	{* $form.hidden serves as a place holder for all the hidden elements defined in the quick form*}
 
-<div id="core">
-<fieldset><legend>Organization</legend>
+	 {if $form.hidden}
+	 {$form.hidden}{/if}
+
+	{* This block checks if there are errors in the form and generates the HTML for display*}
+	{* $form.errors is set normally when the form is relayed from the server after processing *}
+
+	 {if count($form.errors) gt 0}
+	 <table width="100%" cellpadding="1" cellspacing="0" border="0" bgcolor="#ff9900"><tr><td>
+	 <table width="100%" cellpadding="10" cellspacing="0" border="0" bgcolor="#FFFFCC"><tr><td align="center">
+	 <span class="error" style="font-size: 13px;">Please correct the errors below.</span>
+	 </td></tr></table>
+	 </td></tr></table>
+	 </p>
+	 {/if}
+
+ <div id="name">
+ <fieldset>
+   <legend>Organization</legend>
   <div class="form-item">
     <label>{$form.organization_name.label}</label>
     {$form.organization_name.html}
@@ -40,36 +55,49 @@
 	{$form.sic_code.html}
    </div>
 
-</fieldset>
-
+  </fieldset>
+ </div>
+ 
 {* Plugging the Communication preferences block *} 
  {include file="CRM/Contact/Form/Contact/Comm_prefs.tpl"}
+ 
+{* Plugging the Location block *}
+ {include file="CRM/Contact/Form/Location.tpl"}
 
+ {******************************** END THE CORE DIV SECTION **************************************}
 
-{* location block *}
+ </div> <!--end 'core' section of contact form -->
 
- {include file="CRM/Contact/Form/Location.tpl" locloop = 2 phoneloop = 4 emailloop = 4 imloop = 4} 
+ <div id = "notes[show]" class="comment">
+    {$form.notes.show.html}
+ </div>
 
-{******************************** ENDIND THE DIV SECTION **************************************}
+ <div id = "notes">
+ <fieldset><legend>Contact Notes</legend>
+    <div class="form-item">
+        <label>
+        {* {$form.address_note.label} *}
+        {$form.address_note.html}
+        </label>
+        <div class = "description">
+          Record any descriptive comments about this contact.
+          You may add an unlimited number of notes, and view or search on them at any time.
+        </div>
+    </div>    
+	<div id="notes[hide]" class="box">
+        {$form.notes.hide.html}
+        </div>
+ </fieldset>
+ </div> <!-- End of "notes" div -->
+ 
+ <div id = "buttons" class="form-submit"> <!-- This class should get automated into form.buttons output -->
+    {$form.buttons.html}
+ </div>
 
-</div> <!-- end 'core' section of contact form -->
+ <script type="text/javascript">
+    var showBlocks = new Array({$showBlocks});
+    var hideBlocks = new Array({$hideBlocks});
 
-
-<div id = "buttons" class="form-submit">
-	{$form.buttons.html}
-</div>
-
- {$form.my_script.label}
-</form>
-	
-<script type="text/javascript">
-on_load_execute(frm.name);
-</script>
-
-
-{if count($form.errors) gt 0}
-<script type="text/javascript">
-on_error_execute(frm.name);
-</script>
-{/if}
-
+{* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showBlocks, hideBlocks );
+ </script>

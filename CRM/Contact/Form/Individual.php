@@ -428,7 +428,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                                   array('notes'        => 1,
                                                         'demographics' => 1,) );
         
-        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, 3, $showHideBlocks);
+        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, 4, $showHideBlocks);
 
         /* End of locations */
 
