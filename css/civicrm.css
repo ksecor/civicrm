@@ -72,7 +72,6 @@ div.spacer {
 #crm-container .description {
   padding: 5px 0px 5px;
   font-size: 0.9em;
-  
 }
 
 /* 
@@ -86,10 +85,18 @@ div.spacer {
   padding: 0.4em;
 }
 
+#crm-container tr {
+  font-size: 8pt;
+}
+
 #crm-container tr.columnheader {
   background-color: #CCCCCC;
   color: #000000;
   border: thin solid #000000;
+}
+
+#crm-container tr.columnheader a:before {
+   content: url(arrow.png);
 }
 
 #crm-container tr.odd-row {
@@ -119,22 +126,24 @@ div.spacer {
   background-color: #B0B0B0;
   color: #FFFFFF;
   position: relative;
-  height: 25px;
+  height: 15px;
   margin-left: -1px;
   margin-bottom: -11px;
   padding-top: 5px;
 }
 
+
+
 #crm-pager a {
   color: #FFFFFF;
 }
 
-#crm-container a:hover, #crm-pager a:hover {
+#crm-pager a:hover {
   color: #0000FF;
 } 
 
 .crm-pager-nav {
-  position: absolute;
+  /*position: absolute;*/
   height: 25px;
   padding-left: 150px;
 }
