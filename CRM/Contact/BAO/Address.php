@@ -127,7 +127,9 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
                 $values['address'] = array();
                 $address->storeValues( $values['address'] );
             }
+            return $address;
         }
+        return null;
     }
 
 }

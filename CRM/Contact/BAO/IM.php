@@ -105,7 +105,7 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      */
     static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
         $im = new CRM_Contact_BAO_IM( );
-        CRM_Contact_BAO_Block::getValues( $im, 'im', $params, $values, $ids, $blockCount );
+        return CRM_Contact_BAO_Block::getValues( $im, 'im', $params, $values, $ids, $blockCount );
     }
 
 }

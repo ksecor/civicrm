@@ -103,7 +103,7 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      */
     static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
         $email = new CRM_Contact_BAO_Email( );
-        CRM_Contact_BAO_Block::getValues( $email, 'email', $params, $values, $ids, $blockCount );
+        return CRM_Contact_BAO_Block::getValues( $email, 'email', $params, $values, $ids, $blockCount );
     }
 }
 

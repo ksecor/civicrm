@@ -146,9 +146,10 @@ class CRM_Contact_Form_Contact extends CRM_Form
         $this->setShowHideBlocks( $defaults );
         
         if ( $this->_mode & self::MODE_VIEW ) {
+            CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
             $this->assign( $defaults );
         }
-
+        
         return $defaults;
     }
 
@@ -161,8 +162,9 @@ class CRM_Contact_Form_Contact extends CRM_Form
      */
     function setShowHideBlocks( &$defaults ) {
         $this->_showHide = new CRM_ShowHideBlocks( array('name'              => 1,
-                                                               'commPrefs'         => 1,),
-                                                         array('notes'        => 1 ) ) ;
+                                                         'commPrefs'         => 1,),
+                                                   array('notes'        => 1 ) ) ;
+
         if ( $this->_contactType == 'Individual' ) {
             $this->_showHide->addHide( 'demographics' );
         }
@@ -273,7 +275,14 @@ class CRM_Contact_Form_Contact extends CRM_Form
         }    
 
         $params['contact_type'] = $this->_contactType;
-        CRM_Contact_BAO_Contact::create( $params, $ids, self::LOCATION_BLOCKS );
+        $contact = CRM_Contact_BAO_Contact::create( $params, $ids, self::LOCATION_BLOCKS );
+
+        // here we replace the user context with the url to view this contact
+        $config  = CRM_Config::singleton( );
+        $session = CRM_Session::singleton( );
+
+        $returnUserContext = $config->httpBase . 'contact/view/' . $contact->id;
+        $session->replaceUserContext( $returnUserContext );
     }//end of function
 
     public static function buildCommunicationBlock(&$form)

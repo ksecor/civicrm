@@ -118,10 +118,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 
     // return error if we do not get any params
     if ( empty( $params ) ) {
-        $error = CRM_Error::singleton( );
-
-        $error->push( 8000, "Fatal Error", array( ), "Input Parameters empty" );
-        return $error;
+        return _crm_error( "Input Parameters empty" );
     }
 
     $error = _crm_check_params( $params, $contact_type );
@@ -131,12 +128,16 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 
     $values  = array( );
     $values['contact_type'] = $contact_type;
-    _crm_format_params( $params, $values );
+    $error = _crm_format_params( $params, $values );
+
+    if ( $error instanceof CRM_Error ) {
+        return $error;
+    }
 
     $ids     = array( );
 
     $contact = CRM_Contact_BAO_Contact::create( $values, $ids, 1 );
-    echo "<b>Info</b>: Contact ID: " . $contact->contact_id . "<br />\n";
+    echo "<b>Info</b>: Contact ID: " . $contact->id . "<br />\n";
     return $contact;
 }
 
@@ -161,28 +162,22 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
                                                    'email',
                                                    ),
                              'Household'    => array(
-                                                   'household_name',
-                                                   'nick_name',
-                                                   ),
+                                                     'household_name',
+                                                     ),
                              'Organization' => array(
-                                                   'organization_name',
-                                                   'nick_name',
-                                                   ),
+                                                     'organization_name',
+                                                     ),
                              );
-
-    $error = CRM_Error::singleton( );
 
     // cannot create a contact with empty params
     if ( empty( $params ) ) {
-        $error->push( 8000, 'Fatal Error', array( ), 'Input Parameters empty' );
-        return $error;
+        return _crm_error( 'Input Parameters empty' );
     }
 
     // contact_type has a limited number of valid values
     $fields = CRM_Array::value( $contact_type, $required );
     if ( $fields == null ) {
-        $error->push( 8000, 'Fatal Error', array( ), "Invalid Contact Type: $contact_type" );
-        return $error;
+        return _crm_error( "Invalid Contact Type: $contact_type" );
     }
 
     $valid = false;
@@ -206,21 +201,18 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
     }
     
     if ( ! $valid ) {
-        $error->push( 8000, 'Fatal Error', array( ), "Required fields not found for $contact_type" );
-        return $error;
+        return _crm_error( "Required fields not found for $contact_type" );
     }
 
     // make sure phone and email are valid strings
     if ( array_key_exists( 'email', $params ) &&
          ! CRM_Rule::email( $params['email'] ) ) {
-        $error->push( 8000, 'Fatal Error', array( ), "Email not valid " . $params['email'] );
-        return $error;
+        return _crm_error( "Email not valid " . $params['email'] );
     }
 
     if ( array_key_exists( 'phone', $params ) &&
          ! CRM_Rule::phone( $params['phone'] ) ) {
-        $error->push( 8000, 'Fatal Error', array( ), "Phone not valid " . $params['phone'] );
-        return $error;
+        return _crm_error( "Phone not valid " . $params['phone'] );
     }
     
     return true;
@@ -245,26 +237,31 @@ function _crm_format_params( &$params, &$values ) {
     eval( '$fields =& CRM_Contact_DAO_' . $values['contact_type'] . '::fields( );' );
     _crm_store_values( $fields, $params, $values );
 
+    $locationTypeNeeded = false;
+
     $values['location']               = array( );
     $values['location'][1]            = array( );
     $fields =& CRM_Contact_DAO_Location::fields( );
-    _crm_store_values( $fields, $params, $values['location'][1] );
-    _crm_resolve_value( $params, 'location_type',
-                        $values['location'][1],
-                        CRM_SelectValues::$locationType );
+    if ( _crm_store_values( $fields, $params, $values['location'][1] ) ) {
+        $locationTypeNeeded = true;
+    }
+    if ( array_key_exists( 'location_type', $params ) ) {
+        $values['location'][1]['location_type'] = $params['location_type'];
+        $locationTypeNeeded = true;
+    }
 
     $values['location'][1]['address'] = array( );
     $fields =& CRM_Contact_DAO_Address::fields( );
-    _crm_store_values( $fields, $params, $values['location'][1]['address'] );
-    _crm_resolve_value( $params, 'county',
-                        $values['location'][1]['address'],
-                        CRM_SelectValues::$county );
-    _crm_resolve_value( $params, 'country',
-                        $values['location'][1]['address'],
-                        CRM_SelectValues::$country );
-    _crm_resolve_value( $params, 'state_province',
-                        $values['location'][1]['address'],
-                        CRM_SelectValues::$stateProvince );
+    if ( _crm_store_values( $fields, $params, $values['location'][1]['address'] ) ) {
+        $locationTypeNeeded = true;
+    }
+    $ids = array( 'county', 'country', 'state_province' );
+    foreach ( $ids as $id ) {
+        if ( array_key_exists( $id, $params ) ) {
+            $values['location'][1]['address'][$id] = $params[$id];
+            $locationTypeNeeded = true;
+        }
+    }
 
     $blocks = array( 'Email', 'Phone', 'IM' );
     foreach ( $blocks as $block ) {
@@ -272,48 +269,28 @@ function _crm_format_params( &$params, &$values ) {
         $values['location'][1][$name]    = array( );
         $values['location'][1][$name][1] = array( );
         eval( '$fields =& CRM_Contact_DAO_' . $block . '::fields( );' );
-        _crm_store_values( $fields, $params, $values['location'][1][$name][1] );
+        if ( _crm_store_values( $fields, $params, $values['location'][1][$name][1] ) ) {
+            $locationTypeNeeded = true;
+        }
     }
-
-    _crm_resolve_value( $params, 'phone_type',
-                        $values['location'][1]['phone'][1],
-                        CRM_SelectValues::$phoneType );
-    _crm_resolve_value( $params, 'im_provider',
-                        $values['location'][1]['im'][1],
-                        CRM_SelectValues::$imProvider );
 
     if ( array_key_exists( 'im_name', $params ) ) {
         $values['location'][1]['im'][1]['name'] = $params['im_name'];
+        $locationTypeNeeded = true;
     }
-    if ( array_key_exists( 'im_provider_id', $values ) ) {
-        $values['location'][1]['im'][1]['provider_id'] = $values['location'][1]['im'][1]['im_provider_id'];
+
+    if ( array_key_exists( 'im_provider', $params ) ) {
+        $values['location'][1]['im'][1]['provider'] = $params['im_provider'];
+        $locationTypeNeeded = true;
     }
-}
 
-function _crm_store_values( &$fields, &$params, &$values ) {
-    foreach ( $fields as $name => &$field ) {
-        // ignore all ids for now
-        if ( $name === 'id' || substr( $name, -1, 3 ) === '_id' ) {
-            continue;
-        }
-
-        if ( array_key_exists( $name, $params ) ) {
-            $values[$name] = $params[$name];
+    if ( $locationTypeNeeded ) {
+        if ( ! array_key_exists( 'location_type', $values['location'][1] ) ) {
+            return _crm_error( "Location Type not defined" );
         }
     }
-}
-
-function _crm_resolve_value( &$params, $name, &$dest, &$values ) {
-    if ( ! array_key_exists( $name, $params ) ) {
-        return;
-    }
-
-    $flip = array_flip( $values );
-    if ( ! array_key_exists( $params[$name], $flip ) ) {
-        return;
-    }
-
-    $dest[ $name . '_id' ] = $flip[$params[$name]];
+    CRM_Contact_BAO_Contact::resolveDefaults( $values, true );
+    return null;
 }
 
 /**
@@ -361,6 +338,23 @@ function _crm_resolve_value( &$params, $name, &$dest, &$values ) {
  *
  */
 function &crm_get_contact( $params, $returnProperties = null ) {
+    if ( empty( $params ) || ! is_array( $params ) || ! array_key_exists( 'contact_id', $params ) ) {
+        return _crm_error( 'Contact ID not present in params' );
+    }
+
+    $params['id'] = $params['contact_id'];
+    $ids          = array( );
+    $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
+    if ( $contact == null || $contact instanceof CRM_Error || ! $contact->id ) {
+        return _crm_error( 'Did not find contact object for ' . $params['contact_id'] );
+    }
+
+    unset($params['id']);
+    $contact->contact_type_object =
+        eval( 'return CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
+
+    $contact->location = CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 1 );
+    return $contact;
 }
 
 /**

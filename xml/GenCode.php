@@ -20,7 +20,7 @@ createDir( $smarty->compile_dir );
 $file = 'schema/Schema.xml';
 
 $codePath    = "./gen/";
-$sqlCodePath = $codePath . "sql/";
+$sqlCodePath = '../sql/';
 $phpCodePath = '../';
 // $phpCodePath = $codePath . "php/";
 

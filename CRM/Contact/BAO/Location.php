@@ -146,34 +146,37 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
         // we first get the primary location due to the order by clause
         $location->orderBy( 'is_primary desc' );
         $location->find( );
+        $locations = array( );
         for ($i = 0; $i < $locationCount; $i++) {
             if ($location->fetch()) {
                 $params['location_id'] = $location->id;
                 if ($flatten) {
                     $ids['location'] = $location->id;
                     $location->storeValues( $values );
-                    self::getBlocks( $params, $values, $ids );
+                    self::getBlocks( $params, $values, $ids, 0, $location );
                 } else {
                     $values['location'][$i+1] = array();
                     $ids['location'][$i+1]    = array();
                     $ids['location'][$i+1]['id'] = $location->id;
                     $location->storeValues( $values['location'][$i+1] );
                     self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1],
-                                     CRM_Contact_Form_Location::BLOCKS );
+                                     CRM_Contact_Form_Location::BLOCKS, $location );
                 }
+                $locations[] = $location;
             }
         }
+        return $locations;
     }
 
     /**
      * simple helper function to dispatch getCall to lower comm blocks
      */
-    static function getBlocks( &$params, &$values, &$ids, $blockCount = 0 ) {
-        CRM_Contact_BAO_Address::getValues( $params, $values, $ids, $blockCount );
+    static function getBlocks( &$params, &$values, &$ids, $blockCount = 0, $parent ) {
+        $parent->address = CRM_Contact_BAO_Address::getValues( $params, $values, $ids, $blockCount );
 
-        CRM_Contact_BAO_Phone::getValues( $params, $values, $ids, $blockCount );
-        CRM_Contact_BAO_Email::getValues( $params, $values, $ids, $blockCount );
-        CRM_Contact_BAO_IM::getValues   ( $params, $values, $ids, $blockCount );
+        $parent->phone   = CRM_Contact_BAO_Phone::getValues( $params, $values, $ids, $blockCount );
+        $parent->email   = CRM_Contact_BAO_Email::getValues( $params, $values, $ids, $blockCount );
+        $parent->im      = CRM_Contact_BAO_IM::getValues   ( $params, $values, $ids, $blockCount );
     }
 
 }

@@ -100,8 +100,11 @@ class CRM_Rule {
         return $default;
     }
 
-    static function qfDate($value) {
-        return checkdate( $value['M'], $value['d'], $value['Y'] );
+    static function qfDate($date) {
+        if ( ! empty( $date['M'] ) && ! empty( $date['d'] ) && ! empty( $data['Y'] ) ) {
+            return checkdate( $date['M'], $date['d'], $date['Y'] );
+        }
+        return true;
     }
 
     static function integer($value) {

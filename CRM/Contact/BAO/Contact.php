@@ -69,7 +69,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                               crm_address.street_address as crm_address_street_address,
                               crm_address.city as crm_address_city,
                               crm_address.postal_code as crm_address_postal_code,
-                              crm_state_province.name as crm_state_province_name,
+                              crm_state_province.abbreviation as crm_state_province_name,
                               crm_country.name as crm_country_name,
                               crm_email.email as crm_email_email,
                               crm_phone.phone as crm_phone_phone,
@@ -171,7 +171,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact->copyValues( $params );
 
         if ($contact->contact_type == 'Individual') {
-            $contact->sort_name = CRM_Array::value( 'first_name', $params, '' ) . ' ' . CRM_Array::value( 'last_name', $params, '' );
+            $contact->sort_name = CRM_Array::value( 'last_name', $params, '' ) . ', ' . CRM_Array::value( 'first_name', $params, '' );
         } else if ($contact->contact_type == 'Household') {
             $contact->sort_name = CRM_Array::value( 'household_name', $params, '' ) ;
         } else {
@@ -252,16 +252,56 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $params['contact_id'] = $contact->id;
 
         // invoke the add operator on the contact_type class
-        eval( '$object = CRM_Contact_BAO_' . $params['contact_type'] . '::add( $params, $ids );' );
+        eval( '$contact->contact_type_object = CRM_Contact_BAO_' . $params['contact_type'] . '::add( $params, $ids );' );
 
+        $locations = array( );
         for ($locationId= 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-            $location = CRM_Contact_BAO_Location::add( $params, $ids, $locationId );
+            $locations[] = CRM_Contact_BAO_Location::add( $params, $ids, $locationId );
         }
+        $contact->locations = $locations;
 
         CRM_DAO::transaction( 'COMMIT' );
 
-        return $object;
+        return $contact;
     }
+
+    static function resolveDefaults( &$defaults, $reverse = false ) {
+        if ( array_key_exists( 'location', $defaults ) ) {
+            $locations =& $defaults['location'];
+            foreach ( $locations as $index => &$location ) {
+                self::lookupValue( $location, 'location_type', CRM_SelectValues::$locationType, $reverse );
+                if ( array_key_exists( 'address', $location ) ) {
+                    self::lookupValue( $location['address'], 'state_province', CRM_SelectValues::$stateProvince, $reverse );
+                    self::lookupValue( $location['address'], 'country'       , CRM_SelectValues::$country      , $reverse );
+                    self::lookupValue( $location['address'], 'county'        , CRM_SelectValues::$county       , $reverse );
+                }
+                if ( array_key_exists( 'im', $location ) ) {
+                    $ims =& $location['im'];
+                    foreach ( $ims as $innerIndex => &$im ) {
+                        self::lookupValue( $im, 'provider', CRM_SelectValues::$imProvider , $reverse );
+                    }
+                }
+            }
+        }
+    }
+
+    static function lookupValue( &$defaults, $property, &$lookup, $reverse ) {
+        $id = $property . '_id';
+
+        $src = $reverse ? $property : $id;
+        $dst = $reverse ? $id       : $property;
+
+        if ( ! array_key_exists( $src, $defaults ) ) {
+            return;
+        }
+
+        $look = $reverse ? array_flip( $lookup ) : $lookup;
+        if ( ! array_key_exists( $defaults[$src], $look ) ) {
+            return;
+        }
+        $defaults[$dst] = $look[$defaults[$src]];
+    }
+
 
 }
 

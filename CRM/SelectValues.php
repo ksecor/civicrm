@@ -87,6 +87,9 @@ class CRM_SelectValues {
                                       'format'    => 'dMY',
                                       'minYear'   => 1950,
                                       'maxYear'   => 2005,
+                                      'addEmptyOption'   => true,
+                                      'emptyOptionText'  => '-select-',
+                                      'emptyOptionValue' => ''
                                       );
 
     /**

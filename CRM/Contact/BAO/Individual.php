@@ -68,14 +68,29 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
 
         $individual->copyValues( $params );
 
+        $individual->display_name =
+            CRM_Array::value( 'first_name' , $params, '' ) . ' ' .
+            CRM_Array::value( 'middle_name', $params, '' ) . ' ' .
+            CRM_Array::value( 'last_name'  , $params, '' );
+            
         // fix gender and date
         $individual->gender = $params['gender']['gender'];
 
         $date = CRM_Array::value( 'birth_date', $params );
         if ( $date ) {
-            $date['M'] = ( $date['M'] < 10 ) ? '0' . $date['M'] : $date['M'];
-            $date['d'] = ( $date['d'] < 10 ) ? '0' . $date['d'] : $date['d'];
-            $individual->birth_date = $date['Y'] . $date['M'] . $date['d'];
+            if ( ! empty( $date['M'] ) && ! empty( $date['d'] ) && ! empty( $data['Y'] ) ) {
+                $date['M'] = ( $date['M'] < 10 ) ? '0' . $date['M'] : $date['M'];
+                $date['d'] = ( $date['d'] < 10 ) ? '0' . $date['d'] : $date['d'];
+                $individual->birth_date = $date['Y'] . $date['M'] . $date['d'];
+            } else {
+                $individual->birth_date = null;
+            }
+        } else {
+            $individual->birth_date = null;
+        }
+
+        if ( ! array_key_exists( 'is_deceased', $params ) ) {
+            $individual->is_deceased = 0;
         }
 
         $individual->id = CRM_Array::value( 'individual', $ids );

@@ -62,6 +62,8 @@ class CRM_Contact_BAO_Block {
             $ids[$blockName]    = array();
         }
 
+        $blocks = array( );
+
         // we first get the primary location due to the order by clause
         $block->orderBy( 'is_primary desc' );
         $block->find( );
@@ -75,8 +77,10 @@ class CRM_Contact_BAO_Block {
                     $block->storeValues( $values[$blockName][$i+1] );
                     $ids[$blockName][$i+1] = $block->id;
                 }
+                $blocks[] = $block;
             }
         }
+        return $blocks;
     }
 
     static function dataExists( $blockName, $blockFields, &$params, $locationId, $blockId ) {
