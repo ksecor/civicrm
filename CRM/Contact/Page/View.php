@@ -145,8 +145,9 @@ class CRM_Contact_Page_View extends CRM_Page {
         $contact = CRM_Contact_BAO_EntityCategory::retrieve($params, $defaults, $ids);
         $this->assign($defaults);
         
-        $eCategory = CRM_Contact_BAO_EntityCategory::getValues($params);        
-               
+        $eCategory['categoryId'] = CRM_Contact_BAO_EntityCategory::getValues($params);        
+        $this->assign($eCategory); 
+        
         $category = CRM_SelectValues::getCategory();
         $this->assign($category);
                 

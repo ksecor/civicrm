@@ -1,5 +1,3 @@
-{debug}
-
 <div class="data-group form-item">
 <div>
     {if $contact_type eq 'Individual'}
@@ -13,23 +11,60 @@
 
 <div>
 <h3>Tags(categories) for this contact:</h3>
+{strip}
 <table border="1">
 <tr>
-<td><input type="checkbox" name="category" value="category0" />{$0.name}</td>
+	<td>
+	{if $categoryId.1 eq 1}
+	<input type="checkbox" name="category" value="category1" checked="checked" />
+	{else}
+	<input type="checkbox" name="category" value="category1" />
+	{/if}
+	{$0.name}
+	</td>
 </tr>
 <tr>
-<td><input type="checkbox" name="category" value="category1" />{$1.name}</td>
+	<td>
+	{if $categoryId.2 eq 2}
+	<input type="checkbox" name="category" value="category2" checked="checked" />
+	{else}
+	<input type="checkbox" name="category" value="category2" />
+	{/if}
+	{$1.name}
+	</td>
 </tr>
 <tr>
-<td><input type="checkbox" name="category" value="category2" />{$2.name}</td>
+	<td>
+	{if $categoryId.3 eq 3}
+	<input type="checkbox" name="category" value="category3" checked="checked" />
+	{else}
+	<input type="checkbox" name="category" value="category3" />
+	{/if}
+	{$2.name}
+	</td>
 </tr>
 <tr>
-<td><input type="checkbox" name="category" value="category3" />{$3.name}</td>
+	<td>
+	{if $categoryId.4 eq 4}	
+	<input type="checkbox" name="category" value="category4" checked="checked" />
+	{else}
+	<input type="checkbox" name="category" value="category4" />
+	{/if}
+	{$3.name}
+	</td>
 </tr>
 <tr>
-<td><input type="checkbox" name="category" value="category4" />{$4.name}</td>
+	<td>
+	{if $categoryId.5 eq 5}
+	<input type="checkbox" name="category" value="category5" checked="checked" />
+	{else}
+	<input type="checkbox" name="category" value="category5" />
+	{/if}
+	{$4.name}
+	</td>
 </tr>
 </table>
+{/strip}
 </div>
 
 <div>
