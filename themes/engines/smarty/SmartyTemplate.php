@@ -1,11 +1,16 @@
 <?php
 
-require_once 'WGM/Config.php';
+if ( ! defined( 'WGM_SMARTYDIR' ) ) {
+  define( 'WGM_SMARTYDIR', '/opt/local/lib/php/Smarty/' );
+}
 
-$config = WGM_Config::instance();
+if ( ! defined( 'WGM_TEMPLATE_COMPILEDIR' ) ) {
+  define( 'WGM_TEMPLATE_COMPILEDIR', '/Users/lobo/svn/crm/templates_c' );
+}
+
 
 // load Smarty library files
-require_once  $config->smartyDir . 'Smarty.class.php';
+require_once  WGM_SMARTYDIR . 'Smarty.class.php';
 
 /**
  * Copyright (c) 2004 Donald A. Lobo (lobo at yahoo dot com)
@@ -39,13 +44,13 @@ class SmartyTemplate extends Smarty {
    *
    * @return void
    */
-  function __construct() {
+  function __construct($compileDir = null, $templateDir = WGM_TEMPLATE_COMPILEDIR) {
     $this->Smarty();
 
     $config = WGM_Config::instance();
 
-    $this->template_dir = $config->templateDir;
-    $this->compile_dir  = $config->templateCompileDir;
+    $this->template_dir = $compileDir;
+    $this->compile_dir  = $templateDir;
     $this->use_sub_dirs = true;
     $this->caching      = false;
     $this->debugging    = true;
@@ -57,10 +62,12 @@ class SmartyTemplate extends Smarty {
    * Method providing static instance of SmartTemplate, as
    * in Singleton pattern.
    */
-  static function instance() {
+  static function instance($compileDir = null, $templateDir = WGM_TEMPLATE_COMPILEDIR) {
     if ( self::$_instance === NULL ) {
-      self::$_instance = new SmartyTemplate($path);
+      self::$_instance = new SmartyTemplate($compileDir, $templateDir);
     }
+    self::$_instance->template_dir = $compileDir;
+    self::$_instance->compile_dir  = $templateDir;
     return self::$_instance;
   }
 
