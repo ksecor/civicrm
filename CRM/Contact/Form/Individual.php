@@ -518,6 +518,11 @@ class CRM_Contact_Form_Individual extends CRM_Form
                           array('onclick' => "hide('notes'); show('expand_notes'); return false;"));
         
         $this->addElement('hidden', 'mdyx','false');
+
+        $java_script = "<script type = \"text/javascript\">
+                        frm = document." . $form_name .";</script>";
+
+        $this->addElement('static', 'my_script', $java_script);
         
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'next'  ,
