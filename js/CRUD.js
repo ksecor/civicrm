@@ -54,7 +54,7 @@
 		    }
 		}		        
              
-		  if (document.forms['CRUD'].elements['location1[email'+email_name_tail[i]+']'].value != '') {
+		  if (document.forms['CRUD'].elements['location1[email_'+String(i+2)+']'].value != '') {
 		   document.getElementById('email_1_'+String(i+2)).style.display = 'block'; 
 		   document.getElementById('expand_email_1_'+String(i+2)).style.display = 'none';
 		    if (k<1) {
@@ -78,10 +78,12 @@
 	   */ 
   
 	   for (i = 0; i < location_name.length; i++) {
-		   for (j = 0; j < document.forms['CRUD'].length; j++) {
-			if (document.forms['CRUD'].elements[j].name.indexOf(location_name[i]) != -1) {
+		for (j = 0; j < document.forms['CRUD'].length; j++) {
+
+		      if (document.forms['CRUD'].elements[j].name) {
+			 if (document.forms['CRUD'].elements[j].name.indexOf(location_name[i]) != -1) {
 			    if (document.forms['CRUD'].elements[j].type.indexOf("text")!= -1) {
-				if (document.forms['CRUD'].elements[j].value != '') { 
+				    if (document.forms['CRUD'].elements[j].value != '') { 
 			            document.getElementById(location_name[i]).style.display = 'block';
 				    if (i<1) {
 					document.getElementById('expand_loc'+String(i+3)).style.display = 'block';
@@ -104,10 +106,11 @@
 				            }
 					}		        
 
-		  			  if (document.forms['CRUD'].elements[location_name[i]+'[email'+email_name_tail[k]+']'].value != '') {
+		  			  if (document.forms['CRUD'].elements[location_name[i]+'[email_'+String(k+2)+']'].value != '') {
 		   			    document.getElementById('email_'+String(i+2)+'_'+String(k+2)).style.display = 'block';
 		                            document.getElementById('expand_email_'+String(i+2)+'_'+String(k+2)).style.display = 'none';
 		    			    if (k<1) {
+						alert('expand_email_'+String(i+3)+'_'+String(k+2));
 					      document.getElementById('expand_email_'+String(i+3)+'_'+String(k+2)).style.display = 'block';						}
 					}
 
@@ -119,7 +122,7 @@
 			     }
 
 			}
-	           }
+		  }}
 	    }
 
 
@@ -178,9 +181,13 @@
 		for ( var i = 0; i < hide_blocks.length; i++ ) { 
 			document.getElementById(hide_blocks[i]).style.display = 'none';
 		}
-		//document.forms['CRUD'].elements['exdemo'].value = 'exdemo_onclick'; 
-		document.getElementById('exdemo').onclick = exdemof_onclick;
-
+		
+		document.forms['CRUD'].elements['location1[location_type_id]'].options[0].selected = "true";
+		document.forms['CRUD'].elements['location1[location_type_id]'].label = '0';
+		document.forms['CRUD'].elements['location2[location_type_id]'].options[1].selected = "true";
+		document.forms['CRUD'].elements['location2[location_type_id]'].label = '1';
+		document.forms['CRUD'].elements['location3[location_type_id]'].options[2].selected = "true";
+		document.forms['CRUD'].elements['location3[location_type_id]'].label = '2';
 	}
 
 	/** This function is used to display a block. It is usually called by various links which handle requests to display
@@ -214,25 +221,151 @@
 	}
 
 
+       function location_is_primary_onclick(locid) 
+       {
+
+	   switch(locid) {
+
+	   case 1: { 
+	             document.forms['CRUD'].elements['location1[is_primary]'].checked = 'checked';
+	             document.forms['CRUD'].elements['location2[is_primary]'].checked = null;
+		     document.forms['CRUD'].elements['location3[is_primary]'].checked = null;
+		     break;
+	           }
+	              
+	   case 2: { 
+	             document.forms['CRUD'].elements['location1[is_primary]'].checked = null;
+	             document.forms['CRUD'].elements['location2[is_primary]'].checked = 'checked';
+		     document.forms['CRUD'].elements['location3[is_primary]'].checked = null;
+		     break;
+	           }
+	   
+	   case 3: { 
+	             document.forms['CRUD'].elements['location1[is_primary]'].checked = null;
+	             document.forms['CRUD'].elements['location2[is_primary]'].checked = null;
+		     document.forms['CRUD'].elements['location3[is_primary]'].checked = 'checked';
+		     break;
+	           }       
+	   
+	   }
+
+       }
+
+
+ 
+      function validate_selected_locationid(locid)
+       {
+	   new_index = document.forms['CRUD'].elements['location'+String(locid)+'[location_type_id]'].selectedIndex;
+	   old_index = document.forms['CRUD'].elements['location'+String(locid)+'[location_type_id]'].label;
+	   var index_string = "";
+	   for (i=1; i<4; i++) {
+	       if (i>1) {
+		   //if (document.getElementById('location'+String(i)).style.display == 'block') {
+		     if (valid_location(i) || i == locid) {
+
+		       index = '*'+document.forms['CRUD'].elements['location'+String(i)+'[location_type_id]'].selectedIndex+'*';
+		   }
+	       }
+	       else { 
+		    index = '*'+document.forms['CRUD'].elements['location'+String(i)+'[location_type_id]'].selectedIndex+'*';
+		     }
+		   
+	       index_num = index_string.indexOf(index);
+	       if (index_num != -1) {
+
+		   document.forms['CRUD'].elements['location'+String(locid)+'[location_type_id]'].options[old_index].selected = "true";
+		   alert("You have selected duplicate location-id options in location"+String((index_num/3)+1)+" and location"+String(i));
+		   return false;
+	       }
+	       else {
+		   if (index != "@") {
+		       index_string = index_string + index;
+		   }
+	       }
+	       index = "@";   
+	   }    
+	   document.forms['CRUD'].elements['location'+String(locid)+'[location_type_id]'].label = String(new_index);
+	   index_re_adjust(locid, old_index, new_index);
+	   return true;
+       }   
+
+
+        function valid_location(locid) {
+
+	    if (locid == 1) { 
+		return true;
+	    }
+
+	    if (document.forms['CRUD'].elements['location'+String(locid)+'[phone_1]'].value != '') {
+		return true;
+	    }
+	    
+	    if (document.forms['CRUD'].elements['location'+String(locid)+'[email_1]'].value != '') {
+		return true;
+	    }
+	    
+	    if (document.forms['CRUD'].elements['location'+String(locid)+'[street]'].value != '') {
+		return true;
+	    }
+	    return false;
+
+	}
+
+        function index_re_adjust(locid, old_index, new_index) {
+
+	    var assign_index = new Array();
+	    var free_index = new Array();
+	    var assigned=1;
+
+	    assign_index[0]=new_index;
+	
+	    for (i=1; i<4; i++) {
+		if (locid != i && valid_location(i)) {
+		    assign_index[assigned]= document.forms['CRUD'].elements['location'+String(i)+'[location_type_id]'].selectedIndex;
+		    //alert('uploading select_index '+assign_index[assigned] +'at array index '+assigned);
+		    assigned++;
+		}
+	    }
+	   
+	    free_from=assigned;
+	    for (i=0; i<=3; i++) {
+		er = 0;
+		for (j=0; j<free_from; j++) {
+		    if (i == assign_index[j]) {
+			er = 1;
+			break;
+		    }
+		}
+		    if (er == 0) {
+			assign_index[free_from] = i;
+			//alert('freeloading select_index '+assign_index[free_from] +'at array index '+free_from);
+			free_from++;
+
+		    }
+	    }
+
+	    //count = 0;
+	    for (i=1; i<=3; i++) {
+		if (locid != i && !valid_location(i)) {
+		    for (j=0; j<assigned; j++) {
+		    if (document.forms['CRUD'].elements['location'+String(i)+'[location_type_id]'].selectedIndex == assign_index[j]) {
+			document.forms['CRUD'].elements['location'+String(i)+'[location_type_id]'].options[assign_index[assigned]].selected = "true";
+			document.forms['CRUD'].elements['location'+String(i)+'[location_type_id]'].label = assign_index[assigned];
+			//alert('assigning select_index '+assign_index[assigned]+' to location_id '+i); 
+			assigned++;
+			break;
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-         
-          
+		    }}
+		}
+	    }
+	}
+			    
 
         
 
+	    
+	    
