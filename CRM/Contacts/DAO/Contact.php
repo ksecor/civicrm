@@ -1,5 +1,3 @@
-
-
 <?php
 
 require_once 'CRM/Contacts/DAO/DomainBase.php';
@@ -88,4 +86,3 @@ class CRM_Contacts_DAO_Contact extends CRM_Contacts_DAO_DomainBase
 }
 
 ?>
-
