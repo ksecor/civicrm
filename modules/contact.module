@@ -272,14 +272,14 @@ function contact_menu($may_cache)
                         );
 
         $items[] = array(
-                         'path'  => 'crm/contact/view/rels',
+                         'path'  => 'crm/contact/view/rel',
                          'title' => t('Relationships'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
         
         $items[] = array(
-                         'path'  => 'crm/contact/view/notes',
+                         'path'  => 'crm/contact/view/note',
                          'title' => t('Notes'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
@@ -287,7 +287,7 @@ function contact_menu($may_cache)
 
 
         $items[] = array(
-                         'path'  => 'crm/contact/view/groups',
+                         'path'  => 'crm/contact/view/group',
                          'title' => t('Groups'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
@@ -401,13 +401,13 @@ function contact_invoke()
     }
 
     // view contact relationships
-    if (arg(2) == 'view' && arg(3) == 'rels') {
+    if (arg(2) == 'view' && arg(3) == 'rel') {
         $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_REL );
         $content .= $view->run( );
     }
 
     // view contact groups
-    if (arg(2) == 'view' && arg(3) == 'groups') {
+    if (arg(2) == 'view' && arg(3) == 'group') {
         $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_GROUP );
         $content .= $view->run( );
     }
