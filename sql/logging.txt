@@ -56,8 +56,10 @@ C  has 1-n relationship with CL
      we create a CI record with id 12, contact_id 23, first_name neill, last_name drumm
      we create a CL record with id 9, contact_id 23, context home, primary_email drumm@del.com
 
-Lets define a change packet as an "xml" packet which records the changes applied to a datanase record using an insert/update sql statement
-so for the C record we have (since its a create operation we dont need old values)
+Lets define a change packet as an "xml" packet which records the
+changes applied to a datanase record using an insert/update sql
+statement so for the C record we have (since its a create operation we
+dont need old values).
 
 <id>23</id>
 <sort_name>Neil Drumm</sort_name>
@@ -80,9 +82,16 @@ later on we edit CL 9 to primary_email drumm@cs.org, other_email drumm@del.com
         <new>drumm@del.com</new>
       </other_email>
 
-(note that the above is a crappy storage mechanism. Coming up with a
+Note that the above is a crappy storage mechanism. Coming up with a
 simple agorithm to record only the new state but derive the old state
-from previous crm_logrecords is left as an exercise for the reader)
+from previous crm_logrecords is left as an exercise for the reader
+
+Note that the change packet need not be xml, it could be "a sql code
+fragment" to revert the changes or something custom. This is again
+implementation dependent, i chose xml since the explanation is much
+easier :). Also note that we probably want to be able to re-revert our
+changes, so the loggin application should use same API as the web
+application 
 
 we also create and enter an appropriate transaction record
 

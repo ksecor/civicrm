@@ -5,12 +5,6 @@ require_once 'CRM/DAO/Base.php';
 class CRM_Contacts_DAO_ContactBase extends CRM_DAO_Base {
 
   /*
-   * organization this record belong to
-   * @var int
-   */
-  public $domain_id;
-
-  /*
    * FK link to uuid in contact table
    * @var int
    */
@@ -24,8 +18,7 @@ class CRM_Contacts_DAO_ContactBase extends CRM_DAO_Base {
     static $links = null;
 
     if ( $links === null ) {
-      $links = array( 'contact_id' => 'crm_contact:id',
-                      'domain_id'  => 'crm_domain:id'  );
+      $links = array( 'contact_id'  => 'crm_contact:id'  );
     }
     return $links;
   }
@@ -37,7 +30,6 @@ class CRM_Contacts_DAO_ContactBase extends CRM_DAO_Base {
       $fields = array_merge(
                              parent::dbFields(),
                              array(
-                                   'domain_id'    => array( self::TYPE_INT, self::NOT_NULL ),
                                    'contact_id'   => array( self::TYPE_INT, self::NOT_NULL ),
                                    )
                              );

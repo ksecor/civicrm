@@ -12,15 +12,6 @@ class CRM_DAO extends DB_DataObject {
    */
   const NULL_PROPERTY = 'NULL_PROPERTY';
 	
-  public $_original = null; //cache of what is currently in the db
-  public $_childError = null;
-	
-  public $_useUpdateCache = true;
-
-  public $_links = null;
-
-  private $fetched = false; // set to true when fetch is called.
-
   function __construct() {
   }
 	
@@ -84,18 +75,6 @@ class CRM_DAO extends DB_DataObject {
     return $CRM_DAO_Factory->create($table);
   }
 	
-  function _copyToCache() {
-    if ( $this->canUpdate() && $this->_useUpdateCache ) {
-      $this->_original = null;
-		 	
-      //don't clone, just make a light weight object with the same db fields
-      foreach( array_keys($this->table()) as $k ) {
-        $this->_original->$k = $this->$k;
-      }
-		 	
-    }
-  }
-	
   /**
    * Workaround to get the DB_DataObject::links() function to work. 
    * Include it in your object's table() function;
@@ -155,57 +134,6 @@ class CRM_DAO extends DB_DataObject {
     
   }
   
-  /**
-   * add related objects based on the links() array
-   *
-   * symmetrical with getLink(), given either a CRM_DAO
-   * or an array, attach a related object to this object.  if an 
-   * array is passed a new object will be created, and the array 
-   * will be based to setProperties()
-   *
-   * @param string $col  column tables are linked on (index into links array)
-   * @param mixed $props GS_DataObject or array of properties
-   * @return int Id on success
-   *
-   */
-  function addLink($col, $props) {
-    $links = $this->links();
-    if ($links && isset($links[$col]) ) {
-      list($table,$link) = explode(':', $links[$col] );
-      
-      if (is_object($props) && 
-          is_a('CRM_DAO') && $prop->getTableName() == $table ) {
-        $obj = $props;
-      } else {
-        $obj = self::factory($table);
-        $obj->setProperties($props);
-      }
-      $get = 'get' . $col;
-      $set = 'set' . $link;
-      $obj->$set( $this->$get() );
-
-      return $obj->save();
-    }
-    else {
-      GS_Error::fatal("No relationship setup on $col");
-    }
-  }
-
-  /*****	
-  function joinAdd($obj = false, $joinType='INNER', $joinAs=false, $joinCol=false) {
-		
-    //patch for the bugs in the way DB_DataObject uses links()
-    $this->setLinks();
-        
-    // joinAdd() should clear the joinAdd field as in the parent
-    if ($obj) {
-      $obj->setLinks();
-    }
-		
-    return parent::joinAdd($obj,$joinType,$joinAs,$joinCol);
-  }
-  ***/
-
   function getLinks($format = '_%s') {
     //patch for the bugs in the way DB_DataObject uses links()
     $this->setLinks();
@@ -219,51 +147,6 @@ class CRM_DAO extends DB_DataObject {
   }
 	
   /**
-   * Overrides DB_DataObject::update().
-   * 
-   * @return the objects id if successful, false if the update failed. Ignores 'No affeted rows' message/error.
-   * @access public
-   */
-  function update($dataObject = false) {
-    if ( $this->_original && ($this->id != $this->_original->id) ) {
-      CRM_Error::fatal('Object id does not match update cache. If you are trying to reuse this object for updates, call turnOffUpdateCache() first.');
-    }
-	    
-    if ( !$this->canUpdate() ) {
-      $className = $this->getClass();
-      CRM_Error::fatal("This object cannot be updated: $className");
-    }
-	    
-    //this should work as long as we never change primary keys outside of the db
-    //and the primary key is called 'id'
-    if ($dataObject == false && $this->_original) {
-      if ( $this->isDirty() ) {
-
-        //copy any insertOnly fields from the original so they are not updated
-        foreach( $this->insertOnlyFields() as $insertOnlyField ) {
-          $this->$insertOnlyField = $this->_original->$insertOnlyField;
-        }
-	    		
-        $rtn = parent::update($this->_original);
-      } else {
-        $this->debug("NOT UPDATING:  object isn't dirty", 1);
-        $rtn = $this->getId();
-      }
-    } else { //always update in this case
-      $rtn = parent::update($dataObject);
-    }
-	    
-    //always return the id from an update, even if we get a DB_DATAOBJECT_ERROR_NOAFFECTEDROWS error
-    if ( (!$rtn) && (!$this->checkForError()) ) {
-      $rtn = $this->getId();
-    }
-	
-    $this->_copyToCache();
-		
-    return $rtn;
-  }
-    
-  /**
    * Defines the default key as 'id'.
    * Override if your object does not use the 'id' field as a primary key.
    *
@@ -274,7 +157,6 @@ class CRM_DAO extends DB_DataObject {
     if ( !isset ($keys) ) {
       $keys = array('id');
     }
-		
     return $keys;
   }
     
@@ -289,86 +171,9 @@ class CRM_DAO extends DB_DataObject {
     if ( !isset ($seqKey) ) {
       $seqKey = array('id', true);
     }
-		
     return $seqKey;
   }
 	
-  /**
-   * Used by {link @_checkRequired} and {link @validate()}.
-   * Override if your subclass has fields that are NOT NULL and do not have a default value specified in the db.
-   *
-   * @access public
-   */
-  function requiredFields() {
-    static $requiredFields;
-    if ( !isset ($requiredFields) ) {
-      $requiredFields = array();
-    }
-		
-    return $requiredFields;
-  }
-
-  /**
-   * used by isDirty and update() to determine if there are any fields to leave out of the query
-   *
-   * @access public
-   * @return array of strings
-   */
-  function insertOnlyFields() {
-    static $insertOnlyFields;
-    if ( !isset ($insertOnlyFields) )
-      $insertOnlyFields = array();
-		
-    return $insertOnlyFields;
-  }
-
-  /**
-   *
-   * @return false if no error, otherwise returns an error object
-   * @access public
-   */
-  function &checkForError() {
-    if ( $this->_childError ) {
-      return $this->_childError;
-    }
-    		
-    if ($this->_lastError ) {
-      return $this->_lastError;//ignore no affected rows error
-    }
-    	
-    //this sucks; the error code for "already exists" is the same as "no affected rows"
-    if ( $this->_lastError && strpos( $this->_lastError->getMessage(), 'already exists') ) {
-      return $this->_lastError;
-    }
-      
-    return false;
-  }
-    
-  /**
-   * For use with compound objects and the save() function.
-   * 
-   * During the save process, if one of the associated child object's insert/updates fails (an address) within
-   * a parent (member object) you can call setChildError on the parent to let it keep track of the error, so the caller
-   * only has to call checkForError on the parent.
-   * Example, $address->save();
-   *			$member->setChildError($address->checkForError());
-   *			if ( !$member->checkForError() ) {
-   *				echo 'success';
-   *			}
-   * @access public
-   */
-  function setChildError(&$err) {
-    	
-    if ( $err ) {
-      //only copy the error if we don't already have one.
-      if ( !$this->_childError ) {
-        $_childError =& $err;
-      }
-    }
-	    
-    return $err;
-  }
-    
   /**
    * An accessor for fields using a non-case comparision on the field name
    *
@@ -383,7 +188,6 @@ class CRM_DAO extends DB_DataObject {
         return $this->$getter();
       }
     }
-	 	
     return 'PROPERTY_NOT_FOUND';
   }
 
@@ -485,48 +289,6 @@ class CRM_DAO extends DB_DataObject {
 	                    
   }
 	
-  /**
-   * Returns true if the object's values do not match the _original copy or the _original field is not set.
-   * Otherwise returns false.
-   *
-   * @access protected
-   */
-  function isDirty() {
-    if ( !$this->_useUpdateCache )
-      return true;
-    		
-    if ( !$this->_original )
-      return true;
-    	
-    //compare, see if anything is different
-    $insertOnly = $this->insertOnlyFields();
-
-    foreach( array_keys($this->table()) as $key) {
-      if ( array_search( $key, $insertOnly) === false ) {
-        if ($this->$key != $this->_original->$key) {
-          return true;
-        }
-      }
-    }
-    	
-    return false;
-  }
-	
-  function hasData() {
-
-    foreach( array_keys($this->table()) as $field) {
-      if ( isset($this->$field) && $this->$field ) 
-        return true;
-    }
-		
-    return false;
-  }
-	
-  function turnOffUpdateCache() {
-    $this->_original = null;
-    $this->_useUpdateCache = false;
-  }
-	
   // call a DB specific escape string
   function escapeString( $str ) {
     // need to add link information here
@@ -534,11 +296,5 @@ class CRM_DAO extends DB_DataObject {
   }
 
 }
-
-/**
- * these are constants are used to defined field types in the table() method
- * and build on the constants defined in DB_DataObject
- */
-define('DB_DATAOBJECT_ENUM',  '2');  // treat as string
 
 ?>

@@ -192,6 +192,7 @@ CREATE TABLE crm_contact_individual(
 	is_deceased BOOLEAN NOT NULL DEFAULT 0,
 	
 	PRIMARY KEY (id),
+    -- FULLTEXT (first_name, last_name ),
 
 	FOREIGN KEY (contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
 
@@ -217,6 +218,7 @@ CREATE TABLE crm_contact_organization(
 	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this org',
 
 	PRIMARY KEY (id),
+    -- FULLTEXT (organization_name, legal_name, nick_name),
 
 	FOREIGN KEY (contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
 	FOREIGN KEY (primary_contact_id) REFERENCES crm_contact(id)
@@ -246,6 +248,7 @@ CREATE TABLE crm_contact_household(
 	mail_to_household BOOL NOT NULL DEFAULT 0 COMMENT 'TRUE = Direct postal mail to household rather than indiviual household members.',
 
 	PRIMARY KEY (id),
+    -- FULLTEXT (household_name, nick_name),
 
 	FOREIGN KEY (contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
 	FOREIGN KEY (primary_contact_id) REFERENCES crm_contact(id)
@@ -346,15 +349,16 @@ CREATE TABLE crm_contact_location(
 	im_service_id_2 INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
 
 	PRIMARY KEY (id),
+    -- FULLTEXT (street, city, zip5, email, phone_1, im_screenname_1),
 
-	FOREIGN KEY (context_id) REFERENCES crm_context(id),
-	FOREIGN KEY(state_province_id) REFERENCES crm_state_province(id),
-	FOREIGN KEY(country_id) REFERENCES crm_country(id),
+	FOREIGN KEY (context_id)           REFERENCES crm_context(id),
+	FOREIGN KEY (state_province_id)    REFERENCES crm_state_province(id),
+	FOREIGN KEY (country_id)           REFERENCES crm_country(id),
 	FOREIGN KEY (mobile_provider_id_1) REFERENCES crm_phone_mobile_provider(id),
 	FOREIGN KEY (mobile_provider_id_2) REFERENCES crm_phone_mobile_provider(id),
 	FOREIGN KEY (mobile_provider_id_3) REFERENCES crm_phone_mobile_provider(id),
-	FOREIGN KEY (im_service_id_1) REFERENCES crm_im_service(id),
-	FOREIGN KEY (im_service_id_2) REFERENCES crm_im_service(id)
+	FOREIGN KEY (im_service_id_1)      REFERENCES crm_im_service(id),
+	FOREIGN KEY (im_service_id_2)      REFERENCES crm_im_service(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Contact address and communications info by context.';
 
@@ -436,6 +440,7 @@ CREATE TABLE crm_task(
 	description VARCHAR(255) COMMENT 'description of task',
 
 	PRIMARY KEY(id),
+    -- FULLTEXT (description),
     
 	FOREIGN KEY(target_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
 	FOREIGN KEY(assigned_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
@@ -461,7 +466,8 @@ CREATE TABLE crm_note(
 
 	note TEXT COMMENT 'note or comment',
 
-	PRIMARY KEY(id)
+	PRIMARY KEY(id),
+    -- FULLTEXT (description)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='multiple notes/comments related to a contact or other entity';
 
