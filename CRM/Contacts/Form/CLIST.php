@@ -39,12 +39,14 @@ class CRM_Contacts_Form_CLIST extends CRM_Form
                                'Define Relationship'
                               );
 
+        $this->addELement('static', 'formx_head', "name='form_head'");
+        $this->addELement('static', 'formx_body', "name='form_body'");
+        $this->addELement('static', 'formx_crumb', "name='form_crumb'");
+
         $this->addElement('select', 'contact_select', 'List:', $contacts_select);
         $this->addElement('select', 'action_select', 'Action:', $action_select); 
         $this->addElement('text', 'page_no', '&nbsp;Page', array('id' => 'page_no', 'size' => '2'));
         
-        
-
         $this->addElement('submit','change_list_view', 'go');
         $this->addElement('submit','gotopage', 'go', array('onclick' => "return verify_page_number();"));
         $this->addElement('submit','do_action', 'go');
