@@ -18,7 +18,7 @@ class CRM_Session {
      */
     protected $_key = 'crm';
 
-    const RETURN_URL = 'returnUrl';
+    const USER_CONTEXT = 'userContext';
 
     /**
      * This is just a reference to the real session. Allows us to
@@ -250,7 +250,7 @@ class CRM_Session {
     }
 
     /**
-     * adds a returnUrl to the stack
+     * adds a userContext to the stack
      *
      * @param string the url to return to when done
      *
@@ -259,18 +259,18 @@ class CRM_Session {
      * @access public
      * 
      */
-    function pushReturnUrl( $returnUrl ) {
-        if ( empty( $returnUrl ) ) {
+    function pushUserContext( $userContext ) {
+        if ( empty( $userContext ) ) {
             return;
         }
 
-        $this->createScope( CRM_Session::RETURN_URL );
+        $this->createScope( CRM_Session::USER_CONTEXT );
 
-        array_push( $this->_session[$this->_key][CRM_Session::RETURN_URL], $returnUrl );
+        array_push( $this->_session[$this->_key][CRM_Session::USER_CONTEXT], $userContext );
     }
 
     /**
-     * replace the returnURL of the stack with the passed one
+     * replace the userContext of the stack with the passed one
      *
      * @param string the url to return to when done
      *
@@ -279,45 +279,45 @@ class CRM_Session {
      * @access public
      * 
      */
-    function replaceReturnUrl( $returnUrl ) {
-        if ( empty( $returnUrl ) ) {
+    function replaceUserContext( $userContext ) {
+        if ( empty( $userContext ) ) {
             return;
         }
 
-        $this->createScope( CRM_Session::RETURN_URL );
+        $this->createScope( CRM_Session::USER_CONTEXT );
 
-        array_pop ( $this->_session[$this->_key][CRM_Session::RETURN_URL] );
-        array_push( $this->_session[$this->_key][CRM_Session::RETURN_URL], $returnUrl );
+        array_pop ( $this->_session[$this->_key][CRM_Session::USER_CONTEXT] );
+        array_push( $this->_session[$this->_key][CRM_Session::USER_CONTEXT], $userContext );
     }
 
     /**
-     * pops the top returnUrl stack
+     * pops the top userContext stack
      *
      * @param void
      *
-     * @return the top of the returnUrl stack (also pops the top element)
+     * @return the top of the userContext stack (also pops the top element)
      *
      */
-    function popReturnUrl( ) {
-        $this->createScope( CRM_Session::RETURN_URL );
+    function popUserContext( ) {
+        $this->createScope( CRM_Session::USER_CONTEXT );
 
-        return array_pop ( $this->_session[$this->_key][CRM_Session::RETURN_URL] );
+        return array_pop ( $this->_session[$this->_key][CRM_Session::USER_CONTEXT] );
     }
 
     /**
-     * reads the top returnUrl stack
+     * reads the top userContext stack
      *
      * @param void
      *
-     * @return the top of the returnUrl stack
+     * @return the top of the userContext stack
      *
      */
-    function readReturnUrl( ) {
-        $this->createScope( CRM_Session::RETURN_URL );
+    function readUserContext( ) {
+        $this->createScope( CRM_Session::USER_CONTEXT );
 
-        $lastElement = count( $this->_session[$this->_key][CRM_Session::RETURN_URL] ) - 1;
+        $lastElement = count( $this->_session[$this->_key][CRM_Session::USER_CONTEXT] ) - 1;
         return $lastElement >= 0 ? 
-            $this->_session[$this->_key][CRM_Session::RETURN_URL][$lastElement] :
+            $this->_session[$this->_key][CRM_Session::USER_CONTEXT][$lastElement] :
             null;
     }
 

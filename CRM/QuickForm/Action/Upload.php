@@ -1,69 +1,138 @@
 <?php
-// $Id: Upload.class.php,v 1.4 2004/05/24 23:38:51 lobo Exp $
+/**
+ +----------------------------------------------------------------------+
+ | CiviCRM version 1.0                                                  |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2005 Donald A. Lobo                                    |
+ +----------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                      |
+ |                                                                      |
+ | CiviCRM is free software; you can redistribute it and/or modify it   |
+ | under the terms of the Affero General Public License Version 1,      |
+ | March 2002.                                                          |
+ |                                                                      |
+ | CiviCRM is distributed in the hope that it will be useful, but       |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+ | See the Affero General Public License for more details at            |
+ | http://www.affero.org/oagpl.html                                     |
+ |                                                                      |
+ | A copy of the Affero General Public License has been been            |
+ | distributed along with this program (affero_gpl.txt)                 |
+ +----------------------------------------------------------------------+
+*/
 
-require_once 'HTML/QuickForm/Action/Next.php';
+/**
+ * Redefine the upload action.
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
 
-class CRM_QuickForm_Action_Upload extends HTML_QuickForm_Action {
-  protected $_stateMachine;
-  protected $_uploadNames;
-  protected $_uploadDir   ;
+require_once 'CRM/QuickForm/Action.php';
 
-  function CRM_QuickForm_Action_Upload( &$stateMachine, $uploadDir, $uploadNames ) {
-    $this->_stateMachine =& $stateMachine;
-    $this->_uploadDir    =  $uploadDir;
-    $this->_uploadNames  =  $uploadNames;
-  }
+class CRM_QuickForm_Action_Upload extends CRM_QuickForm_Action {
 
-  function upload( &$page, &$data, $pageName, $uploadName ) {
-    if ( empty( $uploadName ) ) {
-      return;
+    /**
+     * the array of uploaded file names
+     * @var array
+     */
+    protected $_uploadNames;
+
+    /**
+     * The directory to store the uploaded files
+     * @var string
+     */
+    protected $_uploadDir   ;
+    
+    /**
+     * class constructor
+     *
+     * @param object $stateMachine reference to state machine object
+     *
+     * @return object
+     * @access public
+     */
+    function __construct( &$stateMachine ) {
+        parent::__construct( $stateMachine );
+
+        $this->_uploadDir    =  $uploadDir;
+        $this->_uploadNames  =  $uploadNames;
     }
 
-    // get the element containing the upload
-    $element =& $page->getElement( $uploadName );
-    if ( 'file' == $element->getType( ) ) {
-      if ($element->isUploadedFile()) {
-        // rename the uploaded file with a unique number at the end
-        $value = $element->getValue();
-        $newName = uniqid( "${value['name']}." );
-        $element->moveUploadedFile( $this->_uploadDir, $newName );
-        if (!empty($data['values'][$pageName][$uploadName])) {
-          @unlink($this->_uploadDir . $data['values'][$pageName][$uploadName]);
+    /**
+     * upload and move the file if valid to the uploaded directory
+     *
+     * @param object $page       the CRM_Form object
+     * @param object $data       the QFC data container
+     * @param string $pageName   the name of the page which index the data container with
+     * @param string $uploadName the name of the uploaded file
+     *
+     * @return void
+     * @access private
+     */
+    function upload( &$page, &$data, $pageName, $uploadName ) {
+        if ( empty( $uploadName ) ) {
+            return;
+        }
+
+        // get the element containing the upload
+        $element =& $page->getElement( $uploadName );
+        if ( 'file' == $element->getType( ) ) {
+            if ($element->isUploadedFile()) {
+                // rename the uploaded file with a unique number at the end
+                $value = $element->getValue();
+                $newName = uniqid( "${value['name']}." );
+                $element->moveUploadedFile( $this->_uploadDir, $newName );
+                if (!empty($data['values'][$pageName][$uploadName])) {
+                    @unlink($this->_uploadDir . $data['values'][$pageName][$uploadName]);
+                }
+                
+                $data['values'][$pageName][$uploadName] = $this->_uploadDir . $newName;
+            }
+        }
+    }
+
+    /**
+     * Processes the request.
+     *
+     * @param  object    $page       CRM_Form the current form-page
+     * @param  string    $actionName Current action name, as one Action object can serve multiple actions
+     *
+     * @return void
+     * @access public
+     */
+    function perform(&$page, $actionName) {
+        // like in Action_Next 
+        $page->isFormBuilt() or $page->buildForm(); 
+        
+        $pageName =  $page->getAttribute('name'); 
+        $data     =& $page->controller->container(); 
+        $data['values'][$pageName] = $page->exportValues(); 
+        $data['valid'][$pageName]  = $page->validate(); 
+        
+        if (!$data['valid'][$pageName]) { 
+            return $page->handle('display'); 
+        } 
+        
+        foreach ($name as $uploadNames) {
+            $this->upload( $page, $data, $pageName, $name );
         }
         
-        $data['values'][$pageName][$uploadName] = $this->_uploadDir . $newName;
-      }
+        // redirect to next page
+        $state = $this->_stateMachine->_states[$pageName];
+        if ( empty($state) ) {
+            return $page->handle('display');
+        }
+        
+        // the page is valid, process it before we jump to the next state
+        $page->postProcess( );
+        
+        $state->handleNextState( $page );
     }
-  }
-
-  function perform(&$page, $actionName) {
-    // like in Action_Next 
-    $page->isFormBuilt() or $page->buildForm(); 
-
-    $pageName =  $page->getAttribute('name'); 
-    $data     =& $page->controller->container(); 
-    $data['values'][$pageName] = $page->exportValues(); 
-    $data['valid'][$pageName]  = $page->validate(); 
-    
-    if (!$data['valid'][$pageName]) { 
-      return $page->handle('display'); 
-    } 
-
-    foreach ($name as $uploadNames) {
-      $this->upload( $page, $data, $pageName, $name );
-    }
-
-    // redirect to next page
-    $state = $this->_stateMachine->_states[$pageName];
-    if ( empty($state) ) {
-      return $page->handle('display');
-    }
-    
-    // the page is valid, process it before we jump to the next state
-    $page->postProcess( );
-
-    $state->handleNextState( $page );
-  }
 
 }
 

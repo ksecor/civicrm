@@ -22,8 +22,7 @@ class CRM_Contacts_Contacts extends CRM_Base {
     // store the return url. Note that this is typically computed by the framework at runtime
     // based on multiple things (typically where the link was clicked from / http_referer
     // since we are just starting and figuring out navigation, we are hard coding it here
-    $returnUrl = $config->httpBase . "crm/contact/add?reset=1";
-    $session->pushReturnUrl( $returnUrl );
+    $session->pushUserContext( $config->httpBase . "crm/contact/add?reset=1" );
 
     $this->_controller = new CRM_Controller_Simple( 'CRM_Contacts_Form_CRUD', 'Contact CRUD Page', $mode );
 

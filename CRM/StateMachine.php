@@ -231,21 +231,6 @@ class CRM_StateMachine {
         return $this->_mode;
     }
 
-    // this function should actually go in a superclass of action
-    // since we dont have a superclass, putting it here 
-    function returnToURL( ) {
-        $session = CRM_Session::singleton( );
-        $config  = CRM_Config::singleton( );
-
-        $returnURL = $session->popReturnURL( );
-        if ( empty( $returnURL ) ) {
-            $returnURL = $config->mainMenu;
-        }
-
-        header( "Location: $returnURL" );
-        exit();
-    }
-  
     function setContent(&$content) {
         $this->_controller->setContent($content);
     }

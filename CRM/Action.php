@@ -48,7 +48,7 @@ class CRM_Action {
      * @access public
      */
     const
-    CREATE        =     1,
+        CREATE        =     1,
         VIEW          =     2,
         UPDATE        =     4,
         DELETE        =     8,

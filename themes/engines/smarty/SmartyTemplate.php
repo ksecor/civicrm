@@ -36,7 +36,7 @@ require_once  CRM_SMARTYDIR . 'Smarty.class.php';
  */
 
 class SmartyTemplate extends Smarty {
-  private static $_instance = null;
+  private static $_singleton = null;
 
   /**
    * Constructor
@@ -59,13 +59,13 @@ class SmartyTemplate extends Smarty {
    * Method providing static instance of SmartTemplate, as
    * in Singleton pattern.
    */
-  static function instance($templateDir = null, $compileDir = CRM_TEMPLATE_COMPILEDIR) {
-    if ( self::$_instance === NULL ) {
-      self::$_instance = new SmartyTemplate($compileDir, $templateDir);
+  static function singleton($templateDir = null, $compileDir = CRM_TEMPLATE_COMPILEDIR) {
+    if ( self::$_singleton === NULL ) {
+      self::$_singleton = new SmartyTemplate($compileDir, $templateDir);
     }
-    self::$_instance->template_dir = $templateDir;
-    self::$_instance->compile_dir  = $compileDir;
-    return self::$_instance;
+    self::$_singleton->template_dir = $templateDir;
+    self::$_singleton->compile_dir  = $compileDir;
+    return self::$_singleton;
   }
 
 

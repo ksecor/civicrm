@@ -23,9 +23,7 @@ class CRM_Contacts_Contacts_Qadd extends CRM_Base {
         // store the return url. Note that this is typically computed by the framework at runtime
         // based on multiple things (typically where the link was clicked from / http_referer
         // since we are just starting and figuring out navigation, we are hard coding it here
-        $returnUrl = $config->httpBase . "crm/contact/add?reset=1";
-        //   $returnUrl = $config->httpBase . "crm/contact/add";
-        $session->pushReturnUrl($returnUrl);
+        $session->pushUserContext( $config->httpBase . "crm/contact/add?reset=1" );
         $this->_controller = new CRM_Controller_Simple('CRM_Contacts_Form_QCADD', 'Contact QCADD Page', $mode);
         $this->_controller->process();
         $this->_controller->run();

@@ -253,7 +253,7 @@ function contact_init()
 {
     menu_rebuild();
     
-    $config = CRM_Config::instance();
+    $config = CRM_Config::singleton();
     CRM_DAO::init($config->dsn, $config->daoDebugLvl);
     
     $factoryClass = 'CRM_Contacts_DAO_Factory';
