@@ -214,7 +214,11 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         $pages = $stateMachine->getPages( );
 
         foreach ( $pages as $classPath ) {
-            $className   = CRM_String::getClassName( $classPath );
+            $className   = CRM_String::getClassName($classPath);
+
+	    // append the mode to the className
+	    $className .= "_$mode";
+
             $pageNames[] = $className;
 
             CRM_Utils::import( $classPath );

@@ -47,7 +47,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function __construct($name, $state, $mode = self::MODE_NONE) 
     {
-        parent::__construct($name ."_" . $mode, $state, $mode);
+        parent::__construct($name, $state, $mode);
     }
     
     
