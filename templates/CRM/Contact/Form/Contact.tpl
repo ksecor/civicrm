@@ -1,25 +1,26 @@
-{* Contact.tpl is the first template file to be invoked by the controller when any form associated with Contact is displayed *}
-{* This template file includes the appropriate file depending on the mode value set in the label field of the mode text box *} 
+{* This is a template file for displaying communication preference block *}
 
-{*$form.mode.label*}
-{if $form.mode.label eq 1}
-{include file="CRM/Contact/Form/Contact/Add.tpl"} 
-{/if}
-{if $form.mode.label eq 2}
-{include file="CRM/Contact/Form/Contact/View.tpl"} 
-{/if}
-{if $form.mode.label eq 4}
-{include file="CRM/Contact/Form/Contact/Update.tpl"} 
-{/if}
-{if $form.mode.label eq 8}
-{include file="CRM/Contact/Form/Contact/Delete.tpl"} 
-{/if}
-{if $form.mode.label eq 16}
-{include file="CRM/Contact/Form/Contact/AddMini.tpl"} 
-{/if}
-{if $form.mode.label eq 32}
-{include file="CRM/Contact/Form/Contact/SearchMini.tpl"} 
-{/if}
-{if $form.mode.label eq 64}
-{include file="CRM/Contact/Form/Contact/Search.tpl"} 
-{/if}
+<fieldset><legend>Communication Preferences</legend>
+<table cellpadding="2" cellspacing="2">		
+
+	<tr>	
+		<td>
+		<table border="0" cellpadding="2" cellspacing="2" width="100%">
+			<tr>
+				<td class="form-item"><label>{$form.do_not_phone.label}</label></td>
+				<td>{$form.do_not_phone.html} 
+	                               		      {$form.do_not_email.html} 
+                                       		      {$form.do_not_mail.html}</td>
+			</tr>
+			<tr>
+				<td class="form-item"><label>{$form.preferred_communication_method.label}</label></td>
+				<td class="form-item">{$form.preferred_communication_method.html}
+				<div class="description">Preferred method of communicating with this individual</div></td>
+			</tr>
+			</table>
+			
+		</td>
+
+	</tr> 
+</table>
+</fieldset>
