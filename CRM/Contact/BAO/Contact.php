@@ -182,7 +182,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         while($this->fetch()) {
             $row = array();
-            $row['contact_id'] = $this->crm_contact_id;
+            // $row['contact_id'] = $this->crm_contact_id;
             $row['sort_name'] = $this->crm_contact_sort_name;
             $row['email'] = $this->crm_email_email;
             $row['phone'] = $this->crm_phone_phone;
@@ -190,21 +190,27 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $row['city'] = $this->crm_address_city;
             $row['state'] = $this->crm_state_province_name;
             
+            $str_type = "";
             switch ($this->crm_contact_contact_type) {
             case 'Individual' :
+                $str_type = '(I)';
                 $row['edit']  = 'index.php?q=/crm/contact/edit/'.$this->crm_contact_id;
                 $row['view']  = 'index.php?q=/crm/contact/view/'.$this->crm_contact_id;
                 break;
             case 'Household' :
+                $str_type = '(H)';
                 $row['edit']  = 'index.php?q=/crm/contact/edit_house/'.$this->crm_contact_id;
                 $row['view']  = 'index.php?q=/crm/contact/view_house/'.$this->crm_contact_id;
                 break;
             case 'Organization' :
+                $str_type = '(O)';
                 $row['edit']  = 'index.php?q=/crm/contact/edit_org/'.$this->crm_contact_id;
                 $row['view']  = 'index.php?q=/crm/contact/view_org/'.$this->crm_contact_id;
                 break;
                 
             }
+
+            $row['c_type'] = $str_type;
             
             $rows[] = $row;
         }
