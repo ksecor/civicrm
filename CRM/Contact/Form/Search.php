@@ -66,18 +66,18 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @access protected
      * @return void
      */
-    function buildQuickForm( ) {
-        $this->add('select', 'contact_type', 'Contact Type', CRM_SelectValues::$contactType);
-        $this->add('text', 'sort_name', 'Name', 'rows=65');
-
+    function buildQuickForm( ) 
+    {
+        $this->add('select', 'contact_type', 'Show me.... ', CRM_SelectValues::$contactType);
+        $this->add('text', 'sort_name', 'Name:', array('Size' => '64', 'rows' => '64'));
         $groups     = array(''  => '- any group -', 
                             1   => 'Group A',
                             2   => 'Group B' );
         $categories = array(''  => '- any category -', 
                             1   => 'Category A',
                             2   => 'Category B' );
-        $this->add('select', 'group_id'   , 'Groups'    , $groups    );
-        $this->add('select', 'category_id', 'Categories', $categories);
+        $this->add('select', 'group_id'   , 'in '    , $groups    );
+        $this->add('select', 'category_id', 'Category ', $categories);
 
         $actions = array( '' => '- actions -',
                           1  => 'Add Contacts to a Group',
@@ -86,14 +86,23 @@ class CRM_Contact_Form_Search extends CRM_Form {
                           4  => 'Delete',
                           5  => 'Print',
                           6  => 'Export' );
-        $this->add('select', 'action_id'   , 'Actions'    , $actions    );
+        $this->add('select', 'action_id'   , 'Actions: '    , $actions    );
+        
+        //link to show advanced search form
+        $this->addElement('link', 'adv_search', null, 'crm/contact/search', ' >> Advanced Search....');
 
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'refresh',
                                                 'name'      => 'Search' ,
-                                                'isDefault' => true     ),
-                                        )
+                                                'isDefault' => true     )
+                                        )        
                                   );
+        
+        /*
+         * added one extra button, this is needed as per the design of the action form
+         */
+        $this->add('submit', 'go', 'Go');
+        
     }
 
 
