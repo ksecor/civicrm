@@ -1,150 +1,535 @@
-
-
 {* smarty *}
 <html>
-   <head>
-
-
-
-
+<head>
 	{literal}
 	<script type="text/javascript">
-	 // var i;
-	  var sections = new Array('demographics','expand_phone0_2','phone0_2','expand_phone0_3','phone0_3',
-				 'expand_email0_2','email0_2','expand_email0_3','email0_3',
-				 'expand_IM0_2','IM0_2','expand_IM0_3','IM0_3','expand_demographics');
-
-	var showit = new Array("core");
-
-	/*function donotuseinit (fn,fld){alert("l");
-	 for (var i = 0; i < showit.length; i++) 
-	 {document.getElementById(showit[i]).style.display = 'block';}
-	 for (var i = 0; i < 13; i++)
-	{document.getElementById(sections[i]).style.display = 'none';}
-	//document.forms[fn].elements[fld].focus();
-	}*/
 
 	function show(sectionx) {
-	for (var i = 0; i < sections.length; i++) {
-	if (sections[i] == sectionx) {
-	document.getElementById(sections[i]).style.display = 'block';}}}
+		document.getElementById(sectionx).style.display = 'block';
+	}
 
 	function hide(sectionx) {
-	for (var i = 0; i < sections.length; i++) {
-	if (sections[i] == sectionx) {
-	document.getElementById(sections[i]).style.display = 'none';}}}
+		document.getElementById(sectionx).style.display = 'none';
+	}
+
+	function mdyf() {
+		document.getElementById('mdy').value = 
+		document.getElementById('mmsel').value + "/" +
+		document.getElementById('ddsel').value + "/" +
+		document.getElementById('yysel').value ;
+	}
 
 	</script>
 	{/literal}
 
 
-   </head>
-   <body>
-	<form {$form.attributes}id = 'llk' >  
+</head>
+<body>
+<form {$form.attributes}>  
 	{if $form.hidden}
 	{$form.hidden}{/if}
+	{$form.mdyx.html}
+	<script type = "text/javascript">
+		document.getElementById('mdy').value = "0";
+	</script>
 	{if count($form.errors) gt 0}
 	<table width="100%" cellpadding="1" cellspacing="0" border="0" bgcolor="#ff9900"><tr><td>
 	<table width="100%" cellpadding="10" cellspacing="0" border="0" bgcolor="#FFFFCC"><tr><td align="center">
 	<span class="error" style="font-size: 13px;">Please correct the errors below.</span>
+	<script type="text/javascript">
+		document.getElementById('mdy').value = "error";
+	</script>
 	</td></tr></table>
 	</td></tr></table>
 	</p>
 	{/if}
-	</br>
+	
+<br/>
+<div id="core">
+<label><i><h1>Name and Greeting</h1></i></label>
+<table border = "1" cellpadding="2" cellspacing="2">
+	<tr>
+		<td class="form-item"><label>First / Last:</label></td>
+		<td>{$form.prefix.html}
+		{$form.first_name.html}
+		{$form.last_name.html}
+		{$form.suffix.html}</td>
+	</tr>
+	<tr>
+		<td class="form-item"><label>Greeting:</label></td>
+		<td class="form-item">{$form.greeting_type.html}</td>
+	</tr>
+	<tr>
+		<td class="form-item"><label>Job Title:</label></td>
+		<td class="form-item">{$form.job_title.html}</td>
+	</tr>
 
-	<div id="core">
-	<label>Name and Greeting</label>
-	<table cellpadding="2" cellspacing="2">
+
+</table>
+
+<br/>
+<table cellpadding="2" cellspacing="2">		
 	<tr>
-	<td class="form-item">{*{$form.buttons.html}*}</td>
+		<td><label><i><h1>Communication Preferences</h1></i></label></td>
+		<td></td>
 	</tr>
+	<tr>	
+		<td>
+		<table border="1" cellpadding="2" cellspacing="2" width="90%">
+			<tr>
+				<td class="form-item"><label>Privacy:</label></td>
+				<td class="form-item">{$form.do_not_phone.html} Do not call
+	                               		      {$form.do_not_email.html} Do not contact by email
+                                       		      {$form.do_not_mail.html} Do not contact by postal mail</td>
+			</tr>
+			<tr>
+				<td class="form-item"><label>Prefers:</label></td>
+				<td class="form-item">{$form.preferred_communication_method.html}
+				<div class="description">Preferred method of communicating with this individual</div></td>
+			</tr>
+			</table>
+			
+		</td>
+
+	</tr> 
+</table>
+<br/>
+
+<label><i><h1>Location</h1></i></label>
+
+{* STARTING UNIT gx3 LOCATION ENGINE *}
+
+{section name = locationt start = 1 loop = 4}
+{assign var = "lid" value = "location`$smarty.section.locationt.index`"}
+{assign var = "pid" value = `$smarty.section.locationt.index`}
+{assign var = "exloc" value = "exloc`$smarty.section.locationt.index`"} 
+{assign var = "hideloc" value = "hideloc`$smarty.section.locationt.index`"} 
+
+{assign var = "exph02" value = "exph02_`$smarty.section.locationt.index`"} 
+{assign var = "exem02" value = "exem02_`$smarty.section.locationt.index`"} 
+{assign var = "exim02" value = "exim02_`$smarty.section.locationt.index`"}
+{assign var = "hideph02" value = "hideph02_`$smarty.section.locationt.index`"}
+{assign var = "hideem02" value = "hideem02_`$smarty.section.locationt.index`"} 
+{assign var = "hideim02" value = "hideim02_`$smarty.section.locationt.index`"}
+
+{assign var = "exph03" value = "exph03_`$smarty.section.locationt.index`"} 
+{assign var = "exem03" value = "exem03_`$smarty.section.locationt.index`"}
+{assign var = "exim03" value = "exim03_`$smarty.section.locationt.index`"}
+{assign var = "hideph03" value = "hideph03_`$smarty.section.locationt.index`"} 
+{assign var = "hideem03" value = "hideem03_`$smarty.section.locationt.index`"}
+{assign var = "hideim03" value = "hideim03_`$smarty.section.locationt.index`"}
+
+<br/>
+{if $pid > 1}
+<table id = "expand_loc{$pid}" border="0" cellpadding="2" cellspacing="2">
 	<tr>
-	<td class="form-item"><label>First / Last:</label></td>
-	<td>{$form.prefix.html}{$form.first_name.html}{$form.last_name.html}{$form.suffix.html}</td>
+		<td>
+		{$form.$exloc.html}
+		</td>
+	<tr>
+</table>
+{/if}
+
+
+<table id = "location{$pid}" border="1" cellpadding="2" cellspacing="2" width="90%">
+	<tr>
+		<td colspan = "2" class = "form-item">Location{$pid}:</td>
 	</tr>
-	<tr>
-	<td class="form-item"><label>Greeting:</label></td>
-	<td class="form-item">{$form.greeting_type.html}</td>
-	</tr>
-	<tr>
-	<td class="form-item"><label>Job Title:</label></td>
-	<td class="form-item">{$form.job_title.html}</td>
+	<tr>	
+		<td class="form-item">
+		{$form.$lid.context_id.html}</td>
+		<td colspan=2 class="form-item">	
+		{$form.$lid.is_primary.html}<label>Primary location for this contact</label></td>
 	</tr>
 
+<!-- LOADING PHONE BLOCK -->
 	<tr>
-	<td><label>Communication Preferences</label></td>
-		<td><table border="0" cellpadding="2" cellspacing="2" width="90%">
+		
+		<td class="form-item">
+		<label>Preferred Phone:</label></td>
+		<td class="form-item">
+		{$form.$lid.phone_type_1.html}{$form.$lid.phone_1.html}
+		</td>
+	</tr>
+
+	<tr><!-- Second phone block.-->
+		
+		<td colspan="2">
+		<table id="expand_phone0_2_{$pid}">
 		<tr>
-		<td class="form-item"><label>Privacy:</label></td>
-		<td class="form-item">{$form.do_not_phone.html} Do not call
-	                               {$form.do_not_email.html} Do not contact by email
-                                       {$form.do_not_mail.html} Do not contact by postal mail</td>
-		</tr>
-		<tr>
-		<td class="form-item"><label>Prefers:</label></td>
-		<td class="form-item">{$form.preferred_communication_method.html}
-			<div class="description">Preferred method of communicating with this individual</div></td>
+			<td>
+			{$form.$exph02.html}
+			</td>
 		</tr>
 		</table></td>
 	</tr>
 
-	<td><a id = "expand_demographics" 
-	onclick="show('demographics'); hide('expand_demographics');
-	return false;" href="#demographics">[+] show demographics...</a><br/><br/></td>
-	</table>
-	</div> <!-- end 'core' section of contact form --></br></br>
-	
-	
-
-	<div id="demographics">
-	<table border="0" cellpadding="2" cellspacing="2">
-	 <label>Demographics</label>
 	<tr>
-	<td class="form-item"><label>Gender:</label></td>
-	<td class="form-item">{$form.gender.female.html}
-	{$form.gender.male.html}
-	{$form.gender.transgender.html}</td>
+	
+		<td colspan="2">	
+
+		<table id="phone0_2_{$pid}">
+		<tr>
+			<td class="form-item">
+			<label>Other Phone:</label>
+			</td>
+			<td class="form-item">
+			{$form.$lid.phone_type_2.html}{$form.$lid.phone_2.html}
+			</td>
+		</tr>	
+
+		<tr>
+			<td colspan="2">
+			{$form.$hideph02.html}
+			</td>
+		</tr>
+		</table></td>
+	</tr>
+
+	<tr><!-- Third phone block.-->
+	
+		<td colspan=2>
+		<table id="expand_phone0_3_{$pid}">
+			<tr>	<td>
+				{$form.$exph03.html}
+				</td>
+			</tr>
+		</table>
+	       	</td>
+	</tr>
+	<tr>
+
+		<td colspan="2">
+		<table id="phone0_3_{$pid}">
+		<tr>
+			<td class="form-item">
+			<label>Other Phone:</label></td>
+			<td class="form-item">
+			{$form.$lid.phone_type_3.html}{$form.$lid.phone_3.html}
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="2">
+			{$form.$hideph03.html}
+			</td>
+		</tr>
+		</table></td>
+	</tr>
+
+
+
+<!-- LOADING EMAIL BLOCK -->
+
+	<tr>
+		<td class="form-item">
+		<label>Email:</label></td>
+		<td class = "form-item">
+		{$form.$lid.email.html}</td>
+	</tr>
+	<tr><!-- email 2.-->
+		<td colspan="2">
+		<table id="expand_email0_2_{$pid}" >
+		<tr>
+			<td>
+			{$form.$exem02.html}
+			</td>
+		</tr>
+		</table>
+		</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">
+		<table id="email0_2_{$pid}">
+		<tr>
+			<td class="form-item">
+			<label>Other Email:</label>
+			</td>
+			<td class = "form-item">
+			{$form.$lid.email_secondary.html}
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			{$form.$hideem02.html}
+			</td>
+		</tr>
+		</table>
+		</td>
+	</tr>
+	<tr><!-- email 3.-->
+
+		<td colspan="2">
+		<table id="expand_email0_3_{$pid}" >
+		<tr>
+			<td>
+			{$form.$exem03.html}
+			</td>
+		</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+		<table id="email0_3_{$pid}">
+		<tr>
+			<td class="form-item">
+			<label>Other Email:</label></td>
+			<td class = "form-item">{$form.$lid.email_tertiary.html}
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="2">
+			{$form.$hideem03.html}
+			</td>
+		</tr>
+		</table></td>
+	</tr>
+	<tr><!-- LOADING IM BLOCK -->
+		
+		<td class="form-item">
+		<label>Instant Message:</label>
+		</td>
+		<td class="form-item">
+		{$form.$lid.im_service_id_1.html}{$form.$lid.im_screenname_1.html}
+		<div class="description">Select IM service and enter screen-name / user id.</div>
+		</td>
+	</tr>
+	<tr><!-- IM 2.-->
+		
+		<td colspan="2">
+		<table id="expand_IM0_2_{$pid}" >
+		<tr>
+			<td>
+			{$form.$exim02.html}
+			</td>
+		</tr>
+		</table	></td>
+	</tr>
+	<tr>
+		<td colspan="2">
+		<table id="IM0_2_{$pid}">
+		<tr>
+			<td class="form-item">
+			<label>Instant Message:</label></td>
+			<td class="form-item">
+			{$form.$lid.im_service_id_2.html}{$form.$lid.im_screenname_2.html}
+			<div class="description">Select IM service and enter screen-name / user id.</div></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			{$form.$hideim02.html}
+			</td>
+		</tr>
+		</table></td>
+	</tr>
+	<tr><!-- IM 3.-->
+		<td colspan="2">
+		<table id="expand_IM0_3_{$pid}" >
+		<tr>	<td>
+			{$form.$exim03.html}
+			</td>
+		</tr>
+		</table></td>
+	</tr>
+	<tr>
+		<td colspan="2">	
+		<table id="IM0_3_{$pid}">
+		<tr>
+			<td class="form-item">
+			<label>Instant Message:</label></td>
+			<td class="form-item">
+			{$form.$lid.im_service_id_3.html}{$form.$lid.im_screenname_3.html}
+			<div class="description">Select IM service and enter screen-name / user id.</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			{$form.$hideim03.html}
+			</td>
+		</tr>
+		</table></td>
+	</tr>
+	<tr>
+		
+		<td class="form-item">
+		<label>Street Address:</label></td>
+		<td class="form-item">
+		{$form.$lid.street.html}<br/>
+		<div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
+		</td>
+	</tr>
+	<tr>
+		
+		<td class="form-item">
+		<label>Additional<br/>Address:</label></td>
+		<td class="form-item">
+		{$form.$lid.supplemental_address.html}<br/>
+		<div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="form-item">
+		<label>City:</label>
+		</td><td class="form-item">
+		{$form.$lid.city.html}<br/>
+		</td>
+	</tr>
+	<tr>
+		<td class="form-item">
+		<label>State / Province:</label></td>
+		<td class="form-item">
+		{$form.$lid.state_province_id.html}
+		</td>
+	</tr>
+	<tr>
+		<td class="form-item">
+		<label>Zip / Postal Code:</label></td>
+		<td class="form-item">
+		{$form.$lid.postal_code.html}<br/>
+		</td>
+	</tr>
+	<tr>
+		<td class="form-item">
+		<label>Country:</label>
+		</td><td class="form-item">
+		{$form.$lid.country_id.html}
+		</td>
+	</tr>
+
+		</td>
+	</tr>
+	{if $pid > 1 }
+	<tr>
+		<td colspan = "2">
+	
+		{$form.$hideloc.html}
+	
+		</td>
+	</tr>
+	{/if}
+</table>
+
+{/section}
+
+
+{* ENDING UNIT gx3 LOCATION ENGINE } */
+
+{******************************** ENDIND THE DIV SECTION **************************************}
+{******************************** ENDIND THE DIV SECTION **************************************}
+
+</div> <!-- end 'core' section of contact form -->
+
+<br/>
+<div id = "expand_demographics">
+<table>
+	<tr>
+		<td>
+		{$form.exdemo.html}
+		</td>
+	<tr>
+</table>
+</div>
+
+<div id="demographics">
+<table border="1" cellpadding="2" cellspacing="2">
+	 <label><i><h1>Demographics</h1></i></label>
+	<tr>
+		<td class="form-item"><label>Gender:</label></td>
+		<td class="form-item">{$form.gender.female.html}
+		{$form.gender.male.html}
+		{$form.gender.transgender.html}</td>
 	{*{html_radios options=$form.gender.values selected=$form.gender.selected separator="<br />"}*}
 	</tr>
 	<tr>
-	<td class="form-item"><label>Date of Birth:</label></td>
-	<td class="form-item">{$form.dd.html}{$form.mm.html}{$form.yy.html}</td>
+		<td class="form-item"><label>Date of Birth:</label></td>
+		<td class="form-item">{$form.dd.html}{$form.mm.html}{$form.yy.html}</td>
 	</tr>
 	<tr>
-	<td class="form-item" colspan=2>{$form.is_deceased.html}<label> Contact is Deceased </label></td>
+		<td class="form-item" colspan=2>{$form.is_deceased.html}<label> Contact is Deceased </label></td>
 	</tr>
 	<tr>
-	<td class="form-item"><label> Custom demographics flds </label></td>
-	<td class="form-item">... go here ...</td>
+		<td class="form-item"><label> Custom demographics flds </label></td>
+		<td class="form-item">... go here ...</td>
 	</tr>
 	<tr>
-	<td colspan=2><a tabindex="20" onclick="hide('demographics');show('expand_demographics');return false;" 
-			 href="#demographics">[-] hide demographics...</a><br/><br/></td>
+		<td colspan=2>
+		{$form.hidedemo.html}
+		</td>
 	</tr>
-	</table>
-	</div> <!-- end demographics div -->
 
-	<table cellpadding="2" cellspacing="2"">
+</table>
+</div> <!-- end demographics div -->
+<br/>
+
+{******************************** ENDIND THE DEMOGRAPHICS SECTION **************************************}
+{******************************** ENDIND THE DEMOGRAPHICS SECTION **************************************}
+
+<div id = "expand_notes">
+<table border="0" cellpadding="2" cellspacing="2">
 	<tr>
-	<td class="form-item">
-	   <td>{$form.buttons.html}</td>
-	</td>
+		<td>
+		{$form.exnotes.html}
+		</td>
+	<tr>
+</table>
+</div>
+
+<br/>
+<div id = "notes">
+<table border="1" cellpadding="2" cellspacing="2">
+	<tr>
+		<td class="form-item"><label>Notes:</label></td>
+		<td class="form-item">{$form.address_note.html}
+		<div class = "description">
+		Record any descriptive comments about this contact. You may add an unlimited number of notes, and view or 
+		<br/>search on them at any time.</div>
+		</td>
+	
 	</tr>
-	</table>
-	</form>
+	<tr>	
+		<td colspan=2>{$form.hidenotes.html}</td>
+	</tr>
+
+</table>
+</div>
+
+<br/>
+<div id = "buttons">
+<table cellpadding="2" cellspacing="2">
+<tr>
+	<td class="form-item">
+	{$form.buttons.html}</td>
+	
+</tr>
+</table>
+</div>
+
+</form>
 	
 	{literal}<script type="text/javascript">
-	 var sections = new Array('demographics','expand_phone0_2','phone0_2','expand_phone0_3','phone0_3',
-				 'expand_email0_2','email0_2','expand_email0_3','email0_3',
-				 'expand_IM0_2','IM0_2','expand_IM0_3','IM0_3','expand_demographics');
+	 var sections = 
+	new Array('phone0_2_1','phone0_3_1','email0_2_1','email0_3_1','IM0_2_1','IM0_3_1','expand_phone0_3_1',
+		'expand_email0_3_1','expand_IM0_3_1',
+		'phone0_2_2','phone0_3_2','email0_2_2','email0_3_2','IM0_2_2','IM0_3_2','expand_phone0_3_2',
+		'expand_email0_3_2','expand_IM0_3_2',
+		'phone0_2_3','phone0_3_3','email0_2_3','email0_3_3','IM0_2_3','IM0_3_3','expand_phone0_3_3',
+		'expand_email0_3_3','expand_IM0_3_3',
+		 'notes','location2','demographics','location3','expand_loc3','mdy');
+
+
 	 var showit = new Array("core");
-	//function init (fn,fld) 
-         {for (var i = 0; i < showit.length; i++) 
+ 	 if (document.getElementById('mdy').value!= "error"){
+         for (var i = 0; i < showit.length; i++) 
 	 {document.getElementById(showit[i]).style.display = 'block';}
-	 for (var i = 0; i < 13; i++)
+	 for (var i = 0; i < sections.length; i++)
 	 {document.getElementById(sections[i]).style.display = 'none';}
-	 document.getElementById('txt').focus();}
+	 document.getElementById('fem').checked = 'checked';}
+	 mdyf();
+	 
+	
 	</script>{/literal}
 
    </body>
