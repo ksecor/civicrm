@@ -1,7 +1,7 @@
 <?php
 
 require_once 'CRM/Base.php';
-require_once 'CRM/Controller/SinglePage.php';
+require_once 'CRM/Controller/Simple.php';
 
 require_once 'CRM/DAO/Domain.php';
 
@@ -26,7 +26,7 @@ class CRM_Contacts_Contacts_Qadd extends CRM_Base {
         $returnUrl = $config->httpBase . "crm/contact/add?reset=1";
         //   $returnUrl = $config->httpBase . "crm/contact/add";
         $session->pushReturnUrl($returnUrl);
-        $this->_controller = new CRM_Controller_SinglePage('CRM_Contacts_Form_QCADD', 'Contact QCADD Page', $mode);
+        $this->_controller = new CRM_Controller_Simple('CRM_Contacts_Form_QCADD', 'Contact QCADD Page', $mode);
         $this->_controller->process();
         $this->_controller->run();
         
