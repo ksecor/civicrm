@@ -31,8 +31,106 @@
  *
  */
 
+/** 
+*  This function can be used to clear default 'suggestive text' from an input field
+*  When the cursor is moved into the field.
+*  
+*  It is generally invoked by the input field's onFocus event. Use the reserved
+*  word 'this' to pass this object. EX: onFocus="clearFldVal(this);"
+* 
+* @access public
+* @param  fld The form field object whose value is to be cleared
+* @param  hideBlocks Array of element Id's to be hidden
+* @return none 
+*/
 function clearFldVal(fld) {
     if (fld.value == fld.defaultValue) {
         fld.value = "";
     }
 }
+
+/** 
+*  This function is called by default at the bottom of template files which have forms that have
+*  conditionally displayed/hidden sections and elements. The PHP is responsible for generating
+*  a list of 'blocks to show' and 'blocks to hide' and the template passes these parameters to
+*  this function.
+* 
+* @access public
+* @param  showBlocks Array of element Id's to be displayed
+* @param  hideBlocks Array of element Id's to be hidden
+* @return none 
+*/
+function on_load_init_blocks(showBlocks, hideBlocks)
+{   
+    /* This loop is used to display the blocks whose IDs are present within the showBlocks array */ 
+    for ( var i = 0; i < showBlocks.length; i++ ) {
+        var myElement = document.getElementById(showBlocks[i]);
+        /* getElementById returns null if element id doesn't exist in the document */
+        if (myElement != null) {
+            myElement.style.display = 'block';
+        } else {
+            alert('showBlocks array item not in .tpl = ' + showBlocks[i]);
+        }
+    }
+    
+    /* This loop is used to hide the blocks whose IDs are present within the hideBlocks array */ 
+    for ( var i = 0; i < hideBlocks.length; i++ ) { 
+        var myElement = document.getElementById(hideBlocks[i]);
+        /* getElementById returns null if element id doesn't exist in the document */
+        if (myElement != null) {
+            myElement.style.display = 'none';
+        } else {
+            alert('showBlocks array item not in .tpl = ' + hideBlocks[i]);
+        }
+    }
+    
+}
+
+
+/** 
+* This function is used to display a block. 
+* 
+* This function is called by various links which handle requests to display the hidden blocks.
+* An example is the <code>[+] another phone</code> link which expands an additional phone block.
+* The parameter block_id must have the id of the block which has to be displayed.
+*
+* 
+* @access public
+* @param block_id Id value of the block to be displayed.
+* @return none
+*/
+function show(block_id) 
+{
+    var myElement = document.getElementById(block_id);
+    if (myElement != null) {
+        myElement.style.display = 'block';
+    } else {
+        alert('Request to show() function failed. Element id undefined = '+ block_id);
+    }
+    //    document.getElementById(block_id).style.display = 'block';
+}
+
+
+/** 
+* This function is used to hide a block. 
+* 
+* This function is called by various links which handle requests to hide the visible blocks.
+* An example is the <code>[-] hide phone</code> link which hides the phone block.
+* The parameter block_id must have the id of the block which has to be hidden.
+*
+* @access public
+* @param block_id Id value of the block to be hidden.
+* @return none
+*/
+function hide(block_id) 
+{
+    var myElement = document.getElementById(block_id);
+    if (myElement != null) {
+        myElement.style.display = 'none';
+    } else {
+        alert('Request to hide() function failed. Element id undefined = ' + block_id);
+    }
+    
+    //    document.getElementById(block_id).style.display = 'none';
+}
+
