@@ -1,4 +1,3 @@
-
 /*******************************************************
 *
 * crm_transaction;
@@ -167,11 +166,3 @@ core small and clean
 5. You can archive the logs periodically to shrink the size of the
 logging database (though this makes infinite undo-redo
 impossible).
-
-
-
-
-
-
-
-     
