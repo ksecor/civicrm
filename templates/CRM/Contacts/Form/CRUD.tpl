@@ -19,19 +19,34 @@
 		document.getElementById('yysel').value ;
 	}
 
+	function checkdt() {
+	var mth = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+	if ( mth[document.getElementById('mmsel').value - 1] < document.getElementById('ddsel').value ) {
+	  alert('Wrong date'); return false;
+	}
+	else { return true;}
+	}
+
 	</script>
 	{/literal}
 
 
 </head>
 <body>
-<form {$form.attributes}>  
+<form {$form.attributes} 
+
+onsubmit = " return checkdt( );">  
+
+	{$form.mdyx.html}
+
 	{if $form.hidden}
 	{$form.hidden}{/if}
-	{$form.mdyx.html}
+
 	<script type = "text/javascript">
 		document.getElementById('mdy').value = "0";
+	        document.getElementById('mdy').style.display = 'none';
 	</script>
+
 	{if count($form.errors) gt 0}
 	<table width="100%" cellpadding="1" cellspacing="0" border="0" bgcolor="#ff9900"><tr><td>
 	<table width="100%" cellpadding="10" cellspacing="0" border="0" bgcolor="#FFFFCC"><tr><td align="center">
@@ -517,16 +532,34 @@
 		'expand_email0_3_2','expand_IM0_3_2',
 		'phone0_2_3','phone0_3_3','email0_2_3','email0_3_3','IM0_2_3','IM0_3_3','expand_phone0_3_3',
 		'expand_email0_3_3','expand_IM0_3_3',
-		 'notes','location2','demographics','location3','expand_loc3','mdy');
+		 'notes','location2','demographics','location3','expand_loc3');
 
 
-	 var showit = new Array("core");
- 	 if (document.getElementById('mdy').value!= "error"){
-         for (var i = 0; i < showit.length; i++) 
-	 {document.getElementById(showit[i]).style.display = 'block';}
-	 for (var i = 0; i < sections.length; i++)
-	 {document.getElementById(sections[i]).style.display = 'none';}
-	 document.getElementById('fem').checked = 'checked';}
+	var showit = new Array("core");
+ 	if (document.getElementById('mdy').value!= "error") {
+        for (var i = 0; i < showit.length; i++) {
+   		document.getElementById(showit[i]).style.display = 'block';
+	}
+
+	for (var i = 0; i < sections.length; i++) { 
+ 	    document.getElementById(sections[i]).style.display = 'none';}
+	    document.getElementById('fem').checked = 'checked';
+	}
+
+	else {
+	 var sectionh = new Array(
+		'expand_email0_3_1','expand_IM0_3_1','expand_phone0_3_2',
+		'expand_email0_3_2','expand_IM0_3_2','expand_phone0_3_3',
+		'expand_email0_3_3','expand_IM0_3_3','expand_phone0_2_1',
+		'expand_email0_2_1','expand_IM0_2_1','expand_phone0_2_2',
+		'expand_email0_2_2','expand_IM0_2_2','expand_phone0_2_3',
+		'expand_email0_2_3','expand_IM0_2_3','expand_phone0_3_1',
+		'expand_loc3','expand_loc2');
+
+	 for (var i = 0; i < sectionh.length; i++) {
+	  document.getElementById(sectionh[i]).style.display = 'none';
+	 }
+	}
 	 mdyf();
 	 
 	
