@@ -1,3 +1,4 @@
+{debug}
 {* This file provides the HTML for the big add contact form *}
 {* It provides the templating for Name, Demographics and Contact notes *}
 {* The templating for Location and Communication preferences block has been plugged by including the Location.tpl file *}    
@@ -57,7 +58,7 @@
  {include file="CRM/Contact/Form/Contact/Comm_prefs.tpl"}
  
 {* Plugging the Location block *}
-{include file="CRM/Contact/Form/Location.tpl"}
+ {include file="CRM/Contact/Form/Location.tpl"}
 
  {******************************** END THE CORE DIV SECTION **************************************}
 
@@ -107,7 +108,7 @@
         </div>
     </div>    
 	<div id="notes[hide]" class="box">
-        {$form.unotes.hide.html}
+        {$form.notes.hide.html}
         </div>
  </fieldset>
  </div> <!-- End of "notes" div -->
