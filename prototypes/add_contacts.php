@@ -64,7 +64,8 @@
     </div>
 
 	<!-- start main content -->
-<script type="text/javascript">//<![CDATA[
+<script type="text/javascript">
+//<![CDATA[
 var sections = new Array('demographics', 'notes', 'phone0_2', 'location2', 'expand_phone0_3', 'phone0_3');
 var showSections = new Array('core');
 function init(formName,fieldName) {
