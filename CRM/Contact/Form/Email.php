@@ -50,7 +50,7 @@ Class CRM_Contact_Form_Email
                 }
                 else { $scode = "return false;"; $hcode = "return false;"; }
 
-                $form->addElement('link', "exem{$i}_{$locid}", null, 'email_'."{$i}_{$locid}", '[+] another enail',
+                $form->addElement('link', "exem{$i}_{$locid}", null, 'email_'."{$i}_{$locid}", '[+] another email',
                                   array('onclick' => "show('email_{$locid}_{$i}'); hide('expand_email_{$locid}_{$i}');" . $scode));
 
                 $form->addElement('link', "hideem{$i}_{$locid}", null, 'email_'."{$locid}_{$i}", '[-] hide email',
