@@ -95,8 +95,9 @@ class CRM_Contact_Wrapper extends CRM_Base
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
 
-        CRM_Error::le_method();
-        CRM_Error::debug_var("userContext", $userContext);
+
+        //CRM_Error::le_method();
+        //CRM_Error::debug_var("userContext", $userContext);
 
 
         // store the return url. Note that this is typically computed by the framework at runtime
@@ -104,12 +105,12 @@ class CRM_Contact_Wrapper extends CRM_Base
         // since we are just starting and figuring out navigation, we are hard coding it here
         $session->pushUserContext( $config->httpBase . $userContext );
 
+        //temporray registering the id in session
+        $_SESSION['id'] = $id;
+        
         $this->_controller = new CRM_Controller_Simple( $formName, $formLabel, $mode );
         $this->_controller->process();
         $this->_controller->run();
-
-        CRM_Error::ll_method();
-
     }
 
     /**
