@@ -24,7 +24,10 @@
 
 /**
  *
- * Base class to provide generic sort functionality
+ * Base class to provide generic sort functionality. Note that some ideas
+ * have been borrowed from the drupal tablesort.inc code. Also note that
+ * since the Pager and Sort class are similar, do match the function names
+ * if introducing additional functionality
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -54,8 +57,6 @@ class CRM_Sort {
          */
         SORT_ID    = 'crmSID';
 
-
-
     /**
      * name of the sort function. Used to isolate session variables
      * @var string
@@ -70,26 +71,12 @@ class CRM_Sort {
     protected $_vars;
 
     /**
-     * the basename of the file being invoked. Note that most
-     * of this stuff has been copied from the PEAR Pager Code.
+     * the newly formulated base url to be used as links
+     * for various table elements
      *
      * @var string
      */
-    protected $_fileName;
-
-    /**
-     * the dirname of the file being invoked
-     *
-     * @var string
-     */
-    protected $_path;
-
-    /**
-     * the newly formulate url
-     *
-     * @var string
-     */
-    protected $_url;
+    protected $_link;
 
     /**
      * what's the name of the sort variable in a REQUEST
@@ -124,125 +111,45 @@ class CRM_Sort {
      * @access public
      *
      */
-    function CRM_Sort( $vars, $defaultSortOrder = null ) {
+    function __construct( $vars, $defaultSortOrder = null ) {
         $this->_vars      = array( );
-        $this->_order     = array( );
         $this->_response  = array();
 
         $count = 1;
 
         foreach ( $vars as $name => $value ) {
-            $this->_order   [$count] = $name;
-
-            $item = array( );
-            $item['direction'] = $value;
-            $item['order']     = $count;
-
-            $this->_vars[$name] = $item;
-
+            $this->_vars[$count] = array(
+                                        'name'      => $name ,
+                                        'direction' => $value,
+                                        );
             $count++;
         }
     
         $this->_currentSortID  = 1;
+        $this->_urlVar         = CRM_Sort::SORT_ID;
+        $this->_link           = CRM_System::getLinksUrl( $this->_urlVar );
 
-        $this->_urlVar   = CRM_Sort::SORT_ID;
-
-        $this->_fileName = basename( $_SERVER['PHP_SELF'] );
-        $this->_path     = str_replace( '\\' , '/' , dirname( $_SERVER['PHP_SELF'] ) );
-        $this->_url      = $this->_path . '/' . $this->_fileName . $this->getQueryString( );
-
-
-        $this->parseURLString( $defaultSortOrder );
-        $this->initLinks( );
-    }
-
-    /**
-     * Copied from Pager/Common.php
-     */
-    function getQueryString( ) {
-        // Sort out query string to prevent messy urls
-        $querystring = array();
-        $qs = array();
-
-        if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
-            $qs = explode('&', str_replace( '&amp;', '&', $_SERVER['QUERY_STRING'] ) );
-            for ($i = 0, $cnt = count($qs); $i < $cnt; $i++) {
-                if ( strstr( $qs[$i], '=' ) !== false ) { // check first if exist a pair
-                    list($name, $value) = explode( '=', $qs[$i] );
-                    if ( $name != $this->_urlVar ) {
-                        $qs[$name] = $value;
-                    }
-                    unset( $qs[$i] );
-                }
-            }
-        }
-
-        foreach ($qs as $name => $value) {
-            if ( $name != 'reset' ) {
-                $querystring[] = $name . '=' . $value;
-            }
-        }
-
-        return '?' . implode( '&amp;', $querystring) . ( ! empty( $querystring ) ? '&amp;' : '') . $this->_urlVar . '=';
-    }
-
-    function getSingleClause( $current ) {
-        $name = $this->_order[$current];
-        $sql  = $name;
-        if ( $this->_vars[$name]['direction'] == CRM_Sort::ASCENDING || 
-             $this->_vars[$name]['direction'] == CRM_Sort::DONTCARE ) {
-            $sql .= " asc,";
-        } else {
-            $sql .= " desc,";
-        }
-    
-        return $sql;
+        $this->initialize( $defaultSortOrder );
     }
 
     function orderBy( ) {
-        // get the current one first
-        $sql = $this->getSingleClause( $this->_currentSortID );
-
-        for ( $i = 1; $i <= count( $this->_order ); $i++ ) {
-            if ( $i != $this->_currentSortID ) {
-                $name = $this->_order[$i];
-                $sql .= " $name asc,";
-            }
-        }
-    
-        return substr( $sql, 0, -1 );
-    }
-
-    function formURLString( ) {
-        $url   = '';
-
-        $name = $this->_order[$this->_currentSortID];
-
-        $url  = $this->_currentSortID;
-        $dir  = $this->_vars[$name]['direction'];
-        if ( $dir == CRM_Sort::ASCENDING || $dir == CRM_SORT::DONTCARE ) {
-            $url .= "_u";
+        if ( $this->_vars[$this->_currentSortID]['direction'] == CRM_Sort::ASCENDING || 
+             $this->_vars[$this->_currentSortID]['direction'] == CRM_Sort::DONTCARE ) {
+            return $this->_vars[$this->_currentSortID]['name'] . ' asc';
         } else {
-            $url .= "_d";
+            return $this->_vars[$this->_currentSortID]['name'] . ' desc';
         }
+    }
 
-        return $url;
+    function sortIDValue( $index, $dir ) {
+        return ( $dir == CRM_Sort::DESCENDING ) ? $index . '_d' : $index . '_u';
     }
   
-    function getDirection() {
-        $name = $this->_order[$this->_currentSortID];
-        $dir  = $this->_vars[$name]['direction'];
-        return $dir;
-    }
-  
-    function parseURLString( $defaultSortOrder ) {
-        $url = $_GET[CRM_Sort::SORT_ID];
+    function getSortID( $defaultSortOrder ) {
+        $url = $_GET[CRM_Sort::SORT_ID] ? $_GET[CRM_Sort::SORT_ID] : $defaultSortOrder;
 
         if ( empty( $url ) ) {
-            $url = $defaultSortOrder;
-            if ( empty( $url ) ) {
-                return;
-            }
+            return;
         }
 
         list( $current, $direction ) = explode( '_', $url );
@@ -256,35 +163,28 @@ class CRM_Sort {
         }
 
         $this->_currentSortID = $current;
-        $name = $this->_order[$this->_currentSortID];
-        $this->_vars[$name]['direction'] = $direction;
+        $this->_vars[$current]['direction'] = $direction;
     }
 
-    function initLinks( ) {
+    function initialize( $defaultSortOrder ) {
+        $this->getSortID( $defaultSortOrder );
+
         $this->_response = array( );
 
         $current = $this->_currentSortID;
-        foreach ( $this->_vars as $name => $item ) {
+        foreach ( $this->_vars as $index => $item ) {
+            $name = $item['name'];
             $this->_response[$name] = array();
 
-            $prevDirection = $item['direction'];
+            $direction = ( $item['direction'] == CRM_Sort::ASCENDING ) ? CRM_Sort::DESCENDING : CRM_Sort::ASCENDING;
 
-            $newDirection = ( $prevDirection == CRM_Sort::DESCENDING || $prevDirection == CRM_Sort::DONTCARE ) ?
-                CRM_Sort::ASCENDING : CRM_Sort::DESCENDING;
+            $this->_response[$name]['link'] = $this->_link . $this->sortIDValue( $index, $direction );
 
-            $this->_currentSortID = $item['order'];
-            $this->_vars[$name]['direction'] = $newDirection;
-
-            $this->_response[$name]['link'] = $this->_url . $this->formURLString( );
-
-            if ( $current == $item['order'] ) {
-                $this->_response[ $name ]['direction' ] = ( $prevDirection == CRM_Sort::ASCENDING ) ? '^' : 'v';
+            if ( $current == $index ) {
+                $this->_response[ $name ]['direction' ] = ( $direction == CRM_Sort::ASCENDING ) ? '^' : 'v';
             } else {
                 $this->_response[ $name ]['direction' ] = '';
             }
-
-            $this->_vars[$name]['direction'] = $prevDirection;
-            $this->_currentSortID = $current;
         }
 
     }

@@ -34,22 +34,4 @@
  *
  */
 
-class CRM_Utils {
- 
-    static function getClassName( $object ) {
-        return array_pop( explode( '_', get_class( $object ) ) );
-    }
-
-    static function import( $classPath ) {
-        if ( class_exists( $classPath ) ) {
-            return;
-        }
-        
-        $classPath = CRM_String::munge( $classPath, '', 1024);
-        $classPath = str_replace( '_', '/', $classPath ) . '.php';
-        require_once($classPath);
-    }
-
-}
-
 ?>

@@ -94,14 +94,12 @@ class CRM_Form extends HTML_QuickForm_Page {
      * @var const int
      */
     const
-        MODE_NONE                  = 0,
-        MODE_ADD                   = 1,
-        MODE_VIEW                  = 2,
-        MODE_UPDATE                = 4,
-        MODE_DELETE                = 8,
-        MODE_ADD_MINI              = 16,
-        MODE_SEARCH_MINI           = 32,
-        MODE_SEARCH                = 64; 
+        MODE_NONE                  =   0,
+        MODE_ADD                   =   1,
+        MODE_VIEW                  =   2,
+        MODE_UPDATE                =   4,
+        MODE_DELETE                =   8,
+        MODE_SEARCH                =  16; 
 
     /**
      * All checkboxes are defined with a common prefix. This allows us to
@@ -465,6 +463,14 @@ class CRM_Form extends HTML_QuickForm_Page {
         return $this->controller->get( $name );
     }
 
+    /**
+     * getter for mode
+     *
+     * @return int
+     */
+    function getMode( ) {
+        return $this->_mode;
+    }
 
 }
 

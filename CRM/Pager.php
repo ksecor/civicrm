@@ -43,6 +43,7 @@ class CRM_Pager extends Pager_Sliding {
     const
         ROWCOUNT         = 50,
         PAGE_ID          = 'crmPID',
+        PAGE_ID_TOP      = 'crmPID',
         PAGE_ID_BOTTOM   = 'crmPID_B';
 
     /**
@@ -50,7 +51,7 @@ class CRM_Pager extends Pager_Sliding {
      * that an application could use to display the pager
      * @var array
      */
-    public $_response;  // array of caculated Pager values;
+    public $_response;
   
     /**  
      * The pager constructor. Takes a few values, and then assigns a lot of defaults
@@ -101,7 +102,6 @@ class CRM_Pager extends Pager_Sliding {
                                'back'         => $links['back'] ,
                                'next'         => $links['next'] ,
                                'last'         => $links['last'] ,
-                               'pages'        => $links['pages'],
                                'currentPage'  => $this->getCurrentPageID(),
                                'numPages'     => $this->numPages(),
                                'csvString'    => $params['csvString'],
@@ -176,7 +176,7 @@ class CRM_Pager extends Pager_Sliding {
     /**
      * Figure out the current page number based on value of
      * GET / POST variables. Hierarchy rules are followed,
-     * GET over-rides a POST, a POST at the top overrides
+     * POST over-rides a GET, a POST at the top overrides
      * a POST at the bottom (of the page)
      *
      * @param int defaultPageId   current pageId

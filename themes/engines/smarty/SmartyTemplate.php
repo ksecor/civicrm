@@ -50,8 +50,9 @@ class SmartyTemplate extends Smarty {
     $this->template_dir = $compileDir;
     $this->compile_dir  = $templateDir;
     $this->use_sub_dirs = true;
-    $this->caching      = false;
-    $this->debugging    = true;
+    $this->caching      = true;
+    $this->debugging    = false;
+    $this->plugins_dir  = array ( CRM_SMARTYDIR . 'plugins', '/Users/lobo/svn/crm/CRM/Smarty/plugins' );
   }
 
   /**

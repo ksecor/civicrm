@@ -127,23 +127,6 @@ class CRM_Controller extends HTML_QuickForm_Controller {
     }
 
     /**
-     * Helper function to add a jump to all the states as direct jumps. Helps
-     * if we need to have links / submit buttons to goto one specific page.
-     * Not needed for all forms, but does not hurt to have something like this 
-     * standard for all forms
-     *
-     * @param array names of all the states that compose this wizard
-     * @access private
-     * @return void
-     *
-     */
-    function addDirect( $stateNames ) {
-        foreach ( $stateNames as $name ) {
-            $this->addAction( $name, new HTML_QuickForm_Action_Direct( ) );
-        }
-    }
-
-    /**
      * Helper function to add all the needed default actions. Note that the framework
      * redefines all of the default QFC actions
      *
@@ -168,13 +151,10 @@ class CRM_Controller extends HTML_QuickForm_Controller {
                               );
 
         foreach ( $names as $name => $classPath ) {
-            CRM_Utils::import( $classPath );
             $this->addAction( $name, new $classPath( $this->_stateMachine ) );
         }
     
         if ( ! empty( $uploadDirectory ) ) {
-            require_once 'CRM/QuickForm/Action/Upload.php';
-
             $this->addAction('upload' ,
                              new CRM_QuickForm_Action_Upload ($this->_stateMachine,
                                                               $uploadDirectory,
@@ -218,31 +198,20 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      *
      */
     function addPages( $stateMachine, $mode = CRM_Form::MODE_NONE ) {
-        $pageNames = array( );
-
         $pages = $stateMachine->getPages( );
 
-        // CRM_Error::debug_var("pages", $pages);
-
         foreach ( $pages as $classPath ) {
-            $className   = CRM_String::getClassName($classPath);
+            $stateName   = CRM_String::getClassName($classPath);
 
-            // append the mode to the className
-            $className .= "_$mode";
+            // append the mode to the stateName
+            $stateName .= "_$mode";
 
-            $pageNames[] = $className;
-
-            CRM_Utils::import( $classPath );
-
-            // CRM_Error::debug_var("className", $className);
-
-            $page = new $classPath( $className,
+            $page = new $classPath( $stateName,
                                     $stateMachine->find( $classPath ),
                                     $mode );
             $this->addPage( $page );
+            $this->addAction( $stateName, new HTML_QuickForm_Action_Direct( ) );
         }
-
-        $this->addDirect( $pageNames );
     }
 
     /**

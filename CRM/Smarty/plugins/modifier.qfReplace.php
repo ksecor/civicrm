@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
  +----------------------------------------------------------------------+
@@ -24,7 +24,6 @@
 
 /**
  *
- *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo 01/15/2005
@@ -32,28 +31,31 @@
  *
  */
 
-require_once 'CRM/Form.php';
-require_once 'CRM/SelectValues.php';
-
-
 /**
- * The class which generates form components generic to all the contact types
+ * Replace the value of an attribute in the input string. Assume
+ * the the attribute is well formed, of the type name="value". If
+ * no replacement is mentioned the value is inserted at the end of
+ * the form element
+ *
+ * @param string $string   the html to be tweaked with
+ * @param string $insert   the value to insert
+ * @param string $replace  the attribute to modify
+ *
+ * @return string        the new modified html string
+ * @access public
  */
-class CRM_Contact_Form_Contact extends CRM_Form
-{
-    public static function buildCommunicationBlock(&$form)
-    {
-        $privacy = array( );
+function smarty_modifier_qfReplace( $string, $insert, $replace = null ) {
+    static $endOfElement = '/>';
 
-        // checkboxes for DO NOT phone, email, mail
-        $privacy[] = HTML_QuickForm::createElement('checkbox', 'do_not_phone', null, 'Do not call');
-        $privacy[] = HTML_QuickForm::createElement('checkbox', 'do_not_email', null, 'Do not contact by email');
-        $privacy[] = HTML_QuickForm::createElement('checkbox', 'do_not_mail' , null, 'Do not contact by postal mail');
-
-        $form->addGroup( $privacy, 'privacy', 'Privacy' );
-
-        // preferred communication method 
-        $form->add('select', 'preferred_communication_method', 'Prefers:', CRM_SelectValues::$pcm);
+    if ( $replace ) {
+        // if we know what attribute we need to replace
+        // we need to search and replace the string: $replace=XXX or $replace="XXX"
+        // with $replace=\"$insert\"
+        $pattern = '/' . $replace . '="([^"]+?)"/';
+        return preg_replace( $pattern, $replace . '="' . $insert . '"', $string );
+    } else {
+        return str_replace( $endOfElement, ' ' . $insert . $endOfElement, $string );
     }
 }
+
 ?>

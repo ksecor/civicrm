@@ -35,7 +35,6 @@ include_once 'config.inc.php';
 
 require_once 'CRM/Action.php';
 require_once 'CRM/Form.php';
-require_once 'CRM/Utils.php';
 require_once 'CRM/Block.php';
 
 require_once 'CRM/Contact/Wrapper.php';
@@ -291,13 +290,12 @@ function contact_menu($may_cache)
 
 function contact_init() 
 {
-    menu_rebuild();
+    // menu_rebuild();
     
     $config = CRM_Config::singleton();
     CRM_DAO::init($config->dsn, $config->daoDebug);
     
     $factoryClass = 'CRM_Contact_DAO_Factory';
-    CRM_Utils::import($factoryClass);
     
     CRM_DAO::setFactory(new $factoryClass());
 }

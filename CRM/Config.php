@@ -38,6 +38,7 @@
 
 require_once 'Log.php';
 require_once 'CRM/DAO.php';
+require_once 'CRM/System.php';
 
 class CRM_Config {
 
@@ -193,7 +194,6 @@ class CRM_Config {
                       );
 
         $factoryClass = $this->DAOFactoryClass;
-        CRM_Utils::import($factoryClass);
         CRM_DAO::setFactory(new $factoryClass());
     }
 

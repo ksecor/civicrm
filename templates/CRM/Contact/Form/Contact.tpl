@@ -7,10 +7,8 @@
 		<td>
 		<table border="0" cellpadding="2" cellspacing="2" width="100%">
 			<tr>
-				<td class="form-item"><label>{$form.do_not_phone.label}</label></td>
-				<td>{$form.do_not_phone.html} 
-	                               		      {$form.do_not_email.html} 
-                                       		      {$form.do_not_mail.html}</td>
+				<td class="form-item"><label>{$form.privacy.label}</label></td>
+				<td>{$form.privacy.html} </td>
 			</tr>
 			<tr>
 				<td class="form-item"><label>{$form.preferred_communication_method.label}</label></td>

@@ -60,8 +60,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
         parent::__construct($name, $state, $mode);
     }
     
-
-    
     /**
      * In this function we build the Individual.php. All the quickform components are defined in this function.
      * 
@@ -77,37 +75,12 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function buildQuickForm( )
     {
-        switch ($this->_mode) {
-        case self::MODE_ADD:
-            $this->addElement('text', 'mode', self::MODE_ADD);
-            $this->_buildAddForm();
-            break;  
-        case self::MODE_VIEW:
-            $this->addElement('text', 'mode', self::MODE_VIEW);
-            $this->_buildAddForm();
+        $this->_buildAddForm();
+
+        if ($this->_mode == self::MODE_VIEW) {
             $this->freeze();
-            break;  
-        case self::MODE_UPDATE:
-            $this->addElement('text', 'mode', self::MODE_UPDATE);
-            $this->_buildAddForm();
-            break;  
-        case self::MODE_DELETE:
-            break;            
-        case self::MODE_SEARCH:
-            $this->addElement('text', 'mode', self::MODE_SEARCH);
-            $this->_buildSearchForm();
-            break;            
-        case self::MODE_ADD_MINI:
-            $this->addElement('text', 'mode', self::MODE_ADD_MINI);
-            $this->_buildMiniAddForm();
-            break;            
-        case self::MODE_SEARCH_MINI:
-            $this->addElement('text', 'mode', self::MODE_SEARCH_MINI);
-            $this->_buildMiniSearchForm();
-            break;            
-            
-        } // end of switch
-        
+        }
+
     }//ENDING BUILD FORM 
 
     
@@ -126,17 +99,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
     {
         $defaults = array();
 
-        switch ($this->_mode) {
-        case self::MODE_ADD:
-            $defaults['first_name'] = 'Dave';
-            $defaults['last_name'] = 'Greenberg';
-            $defaults['location1[email_1]'] = 'dgg@blackhole.net';
-            $this->setDefaults($defaults);
-            break;
-        case self::MODE_VIEW:
-
-        case self::MODE_UPDATE:
-            
+        if ( $this->_mode & ( self::MODE_VIEW | self::MODE_UPDATE ) ) {
             // get the id from the session that has to be modified
             // get the values for $_SESSION['id']
             $lng_contact_id = $_SESSION['id'];
@@ -270,23 +233,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
                     $lng_count++ ;
                 }
             }
-
-            // set all elements with values from the database.
-            $this->setDefaults($defaults);
-
-            break;
-        case self::MODE_DELETE:
-            break;            
-        case self::MODE_SEARCH:
-            break;            
-        case self::MODE_ADD_MINI:
-            break;            
-        case self::MODE_SEARCH_MINI:
-            
-            $defaults['sname'] = ' - full or partial name - ';
-            $this->setDefaults($defaults);
-            break;            
         }
+
+        // set all elements with values from the database.
+        $this->setDefaults($defaults);
     }
     
     /**
@@ -367,17 +317,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
             break;            
         case self::MODE_SEARCH:
             break;            
-        case self::MODE_ADD_MINI:
-            $this->addRule('firstname', t(' First name is a required field.'), 'required', null, 'client');
-            $this->addRule('lastname', t(' Last name is a required field.'), 'required', null, 'client');
-            $this->addRule('email', t(' Email Address is required field.'), 'required', null, 'client');
-            $this->addRule('email', t(' Enter valid email address.'), 'email', null, 'client');
-            break;            
-        case self::MODE_SEARCH_MINI:
-            $this->addRule('sname', t(' Enter valid criteria for searching.'), 'required', null, 'client');
-            $this->addRule('semail', t(' Enter valid Email Address.'), 'email', null, 'client');
-            
-            break;            
         }    
         
     }
@@ -388,15 +327,17 @@ class CRM_Contact_Form_Individual extends CRM_Form
      * 
      * The function implements a switch functionality to differentiate between different mode types of the form. It is based on the 
      * value of the $mode form class variable. 
-     * @internal Possible mode options being MODE_ADD, MODE_VIEW, MODE_UPDATE, MODE_DELETE, MODE_ADD_MINI, MODE_SEARCH_MINI.
+     * @internal Possible mode options being MODE_ADD, MODE_VIEW, MODE_UPDATE, MODE_DELETE
      * The process works as follows:
      * <code>
+     * great example of BAD code, please use classes and virtual function if u want to do something like this
+     * integrate forms only if a large part of the functionality is the same
      * switch ($this->_mode) {
      *        case self::MODE_ADD:
      *             $this->_Add_postProcess();
      *             break;
-     *        case self::MODE_ADD_MINI:
-     *             $this->_MiniAdd_postProcess();
+     *        case self::MODE_VIEW:
+     *             $this->_view_postProcess();
      *             break; 
      *        case ..
      *        ..
@@ -421,11 +362,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
         case self::MODE_DELETE:
             break;            
         case self::MODE_SEARCH:
-            break;            
-        case self::MODE_ADD_MINI:
-            $this->_miniAddPostProcess();
-            break;            
-        case self::MODE_SEARCH_MINI:
             break;            
         }    
     }
@@ -535,36 +471,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
        
     /**
-     * This function provides the HTML form elements for the add operation of a mini individual contact form.
-     * 
-     * This function is called by the buildQuickForm method, when the value of the $mode class variable is set to MODE_ADD_MINI
-     * The addElement and addGroup method of HTML_QuickForm is used to add HTML elements to the form which is referenced using the $this 
-     * form handle. Also the default values for the form elements are set in this function.
-     * 
-     * @access private
-     * @return None
-     * @see buildQuickForm() 
-     * @see _buildMiniSearchForm()
-     * 
-     */  
-    private function _buildMiniAddForm() 
-    {
-        $this->setFormAction("crm/contact/qadd/");
-        $this->addElement('text', 'firstname', 'First Name: ');
-        $this->addElement('text', 'lastname', 'Last Name: ');
-        $this->addElement('text', 'email', 'Email: ');
-        $this->addElement('text', 'phone', 'Phone: ');
-
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next',
-                                                'name'      => 'Save',
-                                                'isDefault' =>  true )
-                                        )
-                                  );
-    }
-
-         
-    /**
      * This function provides the HTML form elements for an advanced search operation of an individual.
      * 
      * This function is called by the buildQuickForm method, when the value of the $mode class variable is set to MODE_SEARCH
@@ -591,34 +497,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                                'isDefault'  =>  true )
                                         )
                                  );
-    }
-         
-    /**
-     * This function provides the HTML form elements for the add operation of a mini individual search form.
-     * 
-     * This function is called by the buildQuickForm method, when the value of the $mode class variable is set to MODE_SEARCH_MINI
-     * The addElement and addGroup method of HTML_QuickForm is used to add HTML elements to the form which is referenced using the $this 
-     * form handle. Also the default values for the form elements are set in this function.
-     * 
-     * @access private
-     * @return None
-     * @see buildQuickForm() 
-     * @see _buildMiniAddForm()
-     * 
-     */  
-    private function _buildMiniSearchForm() 
-    {
-        $this->addElement('text', 'sname', 'Name: ');
-        $this->addElement('text', 'semail', 'Email: ');
-        $this->addElement('link','search','advsearch','crm/contact/search','>> Advanced Search');
-        
-        $this->addDefaultButtons( array (
-                                         array ('type'      =>  'submit', 
-                                                'name'      =>  'Search',
-                                                'isDefault' =>   true
-                                                )
-                                         )
-                                  );
     }
          
     /**

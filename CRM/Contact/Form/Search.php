@@ -67,7 +67,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return void
      */
     function buildQuickForm( ) {
-        $this->addElement('text','mode',self::MODE_SEARCH);
         $this->add('select', 'contact_type', 'Contact Type', CRM_SelectValues::$contactType);
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'refresh',
