@@ -99,7 +99,6 @@
   <field>
       <name>county_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Which County does this address belong to.</comment>
   </field>
   <foreignKey>
@@ -150,7 +149,6 @@
   <field>
       <name>geo_coord_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Which Geo_Coord does this address belong to.</comment>
   </field>
   <foreignKey>

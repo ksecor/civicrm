@@ -458,17 +458,17 @@ CREATE TABLE crm_address (
      supplemental_address_2 varchar(96)    COMMENT 'Supplemental Address Information, Line 2',
      supplemental_address_3 varchar(96)    COMMENT 'Supplemental Address Information, Line 3',
      city varchar(64)    COMMENT 'City, Town or Village Name.',
-     county_id int unsigned NOT NULL   COMMENT 'Which County does this address belong to.',
+     county_id int unsigned    COMMENT 'Which County does this address belong to.',
      state_province_id int unsigned NOT NULL   COMMENT 'Which State_Province does this address belong to.',
      postal_code varchar(12)    COMMENT 'Store both US (zip5) AND international postal codes. App is responsible for country/region appropriate validation.',
      postal_code_suffix varchar(12)    COMMENT 'Store the suffix, like the +4 part in the USPS system.',
      usps_adc varchar(32)    COMMENT 'USPS Bulk mailing code.',
      country_id int unsigned NOT NULL   COMMENT 'Which Country does this address belong to.',
-     geo_coord_id int unsigned NOT NULL   COMMENT 'Which Geo_Coord does this address belong to.',
+     geo_coord_id int unsigned    COMMENT 'Which Geo_Coord does this address belong to.',
      geo_code_1 float    COMMENT 'Latitude or UTM (Universal Transverse Mercator Grid) Northing.',
      geo_code_2 float    COMMENT 'Longitude or UTM (Universal Transverse Mercator Grid) Easting.',
      timezone varchar(8)    COMMENT 'Timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6".',
-     address_nite varchar(255)    COMMENT 'Optional misc info (e.g. delivery instructions) for this address.' 
+     address_note varchar(255)    COMMENT 'Optional misc info (e.g. delivery instructions) for this address.' 
 ,
     PRIMARY KEY ( id )
  
@@ -554,8 +554,8 @@ CREATE TABLE crm_im (
 
      id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique IM ID',
      location_id int unsigned NOT NULL   COMMENT 'Which Location does this IM identifier belong to.',
-     im_screenname varchar(64)    COMMENT 'IM screen name',
-     im_provider_id int unsigned    COMMENT 'Which IM Provider does this screen name belong to.',
+     name varchar(64)    COMMENT 'IM screen name',
+     provider_id int unsigned NOT NULL   COMMENT 'Which IM Provider does this screen name belong to.',
      is_primary boolean   DEFAULT 'false' COMMENT 'Is this the primary IM for this contact and location.' 
 ,
     PRIMARY KEY ( id )
@@ -564,7 +564,39 @@ CREATE TABLE crm_im (
 ,
      FOREIGN KEY (location_id) REFERENCES crm_location(id)
 ,
-     FOREIGN KEY (im_provider_id) REFERENCES crm_im_provider(id)
+     FOREIGN KEY (provider_id) REFERENCES crm_im_provider(id)
+  
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+
+
+/*******************************************************
+*
+* crm_relationship
+*
+* Relationship between any 2 types of contacts.
+*
+*******************************************************/
+DROP TABLE IF EXISTS crm_relationship;
+CREATE TABLE crm_relationship (
+
+
+     id int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Relationship ID',
+     contact_id_a int unsigned NOT NULL   COMMENT 'id of the first contact',
+     contact_id_b int unsigned NOT NULL   COMMENT 'id of the second contact',
+     relationship_type_id int unsigned NOT NULL   COMMENT 'id of the relationship',
+     start_date date    COMMENT 'date when the relationship started',
+     end_date date    COMMENT 'date when the relationship ended',
+     is_active boolean   DEFAULT 'true' COMMENT 'is the relationship active ?' 
+,
+    PRIMARY KEY ( id )
+ 
+ 
+,
+     FOREIGN KEY (contact_id_a) REFERENCES crm_contact(id)
+,
+     FOREIGN KEY (contact_id_b) REFERENCES crm_contact(id)
+,
+     FOREIGN KEY (relationship_type_id) REFERENCES crm_relationship_type(id)
   
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 
