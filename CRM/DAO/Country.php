@@ -1,5 +1,7 @@
 <?php
 
+require_once 'CRM/DAO/Base.php';
+
 class CRM_DAO_Country extends CRM_DAO_Base {
 
   /*

@@ -1,0 +1,168 @@
+
+/*******************************************************
+*
+* crm_transaction;
+*
+*******************************************************/
+DROP TABLE IF EXISTS crm_transaction;
+CREATE TABLE crm_transaction(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
+    
+    name VARCHAR(32)  NOT NULL COMMENT 'a description of the transaction: import/edit contact etc',
+
+	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person responsible for this transaction',
+
+	PRIMARY KEY(id),
+	FOREIGN KEY (created_by) REFERENCES crm_contact(id),
+
+    INDEX index_created (created),
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='a grouping of log records, multiple changes happen in one transaction';
+
+/*******************************************************
+*
+* crm_logrecord;
+*
+*******************************************************/
+DROP TABLE IF EXISTS crm_logrecord;
+CREATE TABLE crm_logrecord(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
+
+    table_name VARCHAR(32)  NOT NULL COMMENT 'name of table being logged',
+    table_id   INT UNSIGNED NOT NULL COMMENT 'foreign key to the modified record',
+    delta      text         NOT NULL COMMENT 'delta of changes applied to this record',
+    operation  enum( 'CREATE', 'INSERT', 'UPDATE', 'DELETE' ) NOT NULL COMMENT 'type opf operation performed',
+    transaction_id   INT UNSIGNED NOT NULL COMMENT 'transaction id that this specific record belongs to',
+
+	PRIMARY KEY(id),
+    INDEX index_table( table_name, table_id ),
+
+    FOREIGN KEY(transaction_id) REFERENCES crm_transaction(id) ON DELETE CASCADE
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='a single log record that details a change to a specific record in a specific table';
+
+assume current schema:
+
+Contact(C), ContactIndividual (CI), ContactLocation(CL)
+
+CI has 1-1 relationship with C
+C  has 1-n relationship with CL
+
+- Create record for 'Neil Drumm, drumm@del.com'
+     so we create a C with id 23, sort_name Neil Drumm, contact_type Individual, source WebForm and hash 5346284
+     we create a CI record with id 12, contact_id 23, first_name neill, last_name drumm
+     we create a CL record with id 9, contact_id 23, context home, primary_email drumm@del.com
+
+Lets define a change packet as an "xml" packet which records the changes applied to a datanase record using an insert/update sql statement
+so for the C record we have (since its a create operation we dont need old values)
+
+<id>23</id>
+<sort_name>Neil Drumm</sort_name>
+<contact_type>Individual</
+so we create a crm_transaction with name 'Create Contact' and
+appropriate created and created_by records 
+
+we create 3 crm_logrecord records with the above transaction id and
+set the table_name, id's and change records (the operation would be
+set to CREATE)
+
+later on we edit CL 9 to primary_email drumm@cs.org, other_email drumm@del.com
+    our change packet now is:
+      <primary_email>
+        <old>drumm@del.org</old>
+        <new>drumm@cs.org</new>
+      </primary_email>
+      <other_email>
+        <old></old>
+        <new>drumm@del.com</new>
+      </other_email>
+
+(note that the above is a crappy storage mechanism. Coming up with a
+simple agorithm to record only the new state but derive the old state
+from previous crm_logrecords is left as an exercise for the reader)
+
+we also create and enter an appropriate transaction record
+
+To revert the last change, we can basically recode the xml as sql
+since we have the old data and the table names. Since a group of
+changes could be part of a transaction, we can revert an entire
+transaction if needed. We might want to enable "logging" for the
+reversal process or also allow people to revert multiple transactions
+at the same time (in which case we need to do the reversals in the
+"reverse time order")
+
+What about deletions?
+---------------------
+
+Deletions are also handled easily by storing the entire object state
+in the delta
+
+What about batch updates (or multi table updates)?
+-------------------------------------------------
+
+lets assume u want to "remove" all the elements from a crm_list
+object. The above does not allow it, and you would have to do it
+iteratively and affect each object independently. From our GS
+experience there were very few "batch update" operations exposed. Note
+that since "revision" support is at an object/record level (and not
+supported by the database), any mechanism would have to disallow batch
+updates. 
+
+A useful feature might be to snapshot the system state at some time
+and provide revision support from that point on. This allows you to
+perform batch operations (thus invalidating the transaction and
+logrecord entries )  and then snapshot the system to get back
+revision support 
+
+Where is support for this built in?
+-----------------------------------
+
+Support for this can be built into the Database Access Object (DAO)
+through which all sql calls should be channeled through :) 
+
+check:
+http://pear.php.net/manual/en/package.database.db-dataobject.php for
+more details
+
+Each DAO can be configured to enable / disable logging for its
+objects. Note that each DAO is smart enough to know what fields have
+changed in-memory vs db and hence will "record" only the changes
+
+At the transaction level, support would have to be built into the
+business object level that commits multiple operations on behalf of a
+user
+
+Advantages of Logging
+---------------------
+
+1. The database tables need not be in the same database as the main
+server. This can reduce the cpu / memory / disk load on the main
+database server significanltly. The logging portion can be implemented
+via an API whose backend can be kept as files / database tables etc
+
+2. You can enable/disable logging on a per table basis (though in a
+complex relationship structure this might not make too much
+sense).
+
+3. The transaction facility allows us to group a bunch of operations
+as one unit, something which is kinda cool but difficult to do with a
+fine-grained structure. 
+
+4. Auxilary fields such as created / created-by / modified /
+modified-by / is-deleted to a different data structure which make the
+core small and clean
+
+5. You can archive the logs periodically to shrink the size of the
+logging database (though this makes infinite undo-redo
+impossible).
+
+
+
+
+
+
+
+     

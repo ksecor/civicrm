@@ -32,8 +32,9 @@ class CRM_DAO_StateProvince extends CRM_Base {
 
   function links() {
     static $links = null;
-    if ( self::$links === null ) {
-      self::$links = array( 'country_id' => 'Country:id' );
+
+    if ( $links === null ) {
+      $links = array( 'country_id' => 'Country:id' );
       array_merge( $this->_links, self::$links );
     }
 

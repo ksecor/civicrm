@@ -1,12 +1,8 @@
 <?php
 
-class CRM_DAO_Domain {
+require_once 'CRM/DAO/Base.php';
 
-  /*
-   * auto incremented id
-   * @var int
-   */
-  public $id;
+class CRM_DAO_Domain extends CRM_DAO_Base {
 
   /*
    * name of the domain / organization
