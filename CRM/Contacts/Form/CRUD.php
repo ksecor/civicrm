@@ -10,11 +10,11 @@ class CRM_Contacts_Form_CRUD extends CRM_Form {
   }
   
 
-  function verifydate($element,$value) {
+  /* function verifydate($element,$value) {
     $gxfire3 = explode('/',$element); 
     $ret = checkdate($gxfire3[0],$gxfire3[1],$gxfire3[2]);   
     return $ret;
-    }
+    }*/
   
   function buildQuickForm( ) {
 
@@ -107,7 +107,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form {
     $this->addElement( 'select', 'dd', null, $ddselect, array('id' => 'ddsel', 'onclick' => "mdyf();"));
     $this->addElement( 'select', 'mm',  null, $mmselect, array('id' => 'mmsel', 'onclick' => "mdyf();"));
     $this->addElement( 'select', 'yy', null, $yyselect , array('id' => 'yysel', 'onclick' => "mdyf();"));
-    $this->addElement( 'text', 'mdyx', null,array('id' => 'mdy' ));
+
     
 
 
@@ -148,80 +148,6 @@ class CRM_Contacts_Form_CRUD extends CRM_Form {
 
     $ctyvar = array( 1039 => 'Canada', 1101 => 'India', 1172 => 'Poland', 1128 => 'United States' );
     $loc1[22]=& $this->createElement( 'select', 'country_id', null, $ctyvar );
-
-
-
-    $cotvar = array( 1=> 'Home', 'Work', 'Play' );
-    $loc3[0]=& $this->createElement( 'select', 'context_id', null, $cotvar );
-    $loc3[1]=& $this->createElement( 'checkbox', 'is_primary', null );
-
-    $phvar = array('Phone'=> 'Phone', 'Mobile' => 'Mobile', 'Fax'=> 'Fax', 'Pager'=> 'Pager' );
-    $loc3[2]=& $this->createElement( 'select', 'phone_type_1', null, $phvar );
-    $loc3[3]=& $this->createElement( 'text', 'phone_1', null, array('size' => '37px'));
-    $loc3[4]=& $this->createElement( 'select','phone_type_2', null, $phvar );
-    $loc3[5]=& $this->createElement( 'text', 'phone_2', null, array('size' => '37px'));
-    $loc3[6]=& $this->createElement( 'select', 'phone_type_3', null, $phvar );
-    $loc3[7]=& $this->createElement( 'text', 'phone_3', null, array('size' => '37px'));
-    $loc3[8]=& $this->createElement( 'text', 'email', null, array('size' => '47px'));
-    $loc3[9]=& $this->createElement( 'text', 'email_secondary', null, array('size' => '47px'));
-    $loc3[10]=& $this->createElement( 'text', 'email_tertiary', null, array('size' => '47px'));
-
-    $imvar = array( 1=> 'Yahoo', 'MSN', 'AIM', 'Jabber','Indiatimes' );
-    $loc3[11]=& $this->createElement( 'select', 'im_service_id_1', null, $imvar);
-    $loc3[12]=& $this->createElement( 'text', 'im_screenname_1', null, array('size' => '37px'));
-    $loc3[13]=& $this->createElement( 'select', 'im_service_id_2', null, $imvar);
-    $loc3[14]=& $this->createElement( 'text', 'im_screenname_2', null,array('size' => '37px'));
-    $loc3[15]=& $this->createElement( 'select','im_service_id_3', null, $imvar);
-    $loc3[16]=& $this->createElement( 'text', 'im_screenname_3', null, array('size' => '37px'));
-    
-    $loc3[17]=& $this->createElement( 'text', 'street', null, array('size' => '47px'));
-    $loc3[18]=& $this->createElement( 'textarea', 'supplemental_address', null, array('cols' => '47'));
-
-    $loc3[19]=& $this->createElement( 'text', 'city', null );
-    $loc3[20]=& $this->createElement( 'text', 'postal_code', null );
-
-    $esvar = array( 1004 => 'California', 1036 => 'Oregon', 1046 => 'Washington' );
-    $loc3[21]=& $this->createElement( 'select', 'state_province_id', null, $esvar );
-
-    $ctyvar = array( 1039 => 'Canada', 1101 => 'India', 1172 => 'Poland', 1128 => 'United States' );
-    $loc3[22]=& $this->createElement( 'select', 'country_id', null, $ctyvar );
-
-
-    $cotvar = array( 1=> 'Home', 'Work', 'Play' );
-    $loc2[0]=& $this->createElement( 'select', 'context_id', null, $cotvar );
-    $loc2[1]=& $this->createElement( 'checkbox', 'is_primary', null );
-
-    $phvar = array('Phone'=> 'Phone', 'Mobile' => 'Mobile', 'Fax'=> 'Fax', 'Pager'=> 'Pager' );
-    $loc2[2]=& $this->createElement( 'select', 'phone_type_1', null, $phvar );
-    $loc2[3]=& $this->createElement( 'text', 'phone_1', null, array('size' => '37px'));
-    $loc2[4]=& $this->createElement( 'select','phone_type_2', null, $phvar );
-    $loc2[5]=& $this->createElement( 'text', 'phone_2', null, array('size' => '37px'));
-    $loc2[6]=& $this->createElement( 'select', 'phone_type_3', null, $phvar );
-    $loc2[7]=& $this->createElement( 'text', 'phone_3', null, array('size' => '37px'));
-    $loc2[8]=& $this->createElement( 'text', 'email', null, array('size' => '47px'));
-    $loc2[9]=& $this->createElement( 'text', 'email_secondary', null, array('size' => '47px'));
-    $loc2[10]=& $this->createElement( 'text', 'email_tertiary', null, array('size' => '47px'));
-
-    $imvar = array( 1=> 'Yahoo', 'MSN', 'AIM', 'Jabber','Indiatimes' );
-    $loc2[11]=& $this->createElement( 'select', 'im_service_id_1', null, $imvar);
-    $loc2[12]=& $this->createElement( 'text', 'im_screenname_1', null, array('size' => '37px'));
-    $loc2[13]=& $this->createElement( 'select', 'im_service_id_2', null, $imvar);
-    $loc2[14]=& $this->createElement( 'text', 'im_screenname_2', null,array('size' => '37px'));
-    $loc2[15]=& $this->createElement( 'select','im_service_id_3', null, $imvar);
-    $loc2[16]=& $this->createElement( 'text', 'im_screenname_3', null, array('size' => '37px'));
-    
-    $loc2[17]=& $this->createElement( 'text', 'street', null, array('size' => '47px'));
-    $loc2[18]=& $this->createElement( 'textarea', 'supplemental_address', null, array('cols' => '47'));
-
-    $loc2[19]=& $this->createElement( 'text', 'city', null );
-    $loc2[20]=& $this->createElement( 'text', 'postal_code', null );
-
-    $esvar = array( 1004 => 'California', 1036 => 'Oregon', 1046 => 'Washington' );
-    $loc2[21]=& $this->createElement( 'select', 'state_province_id', null, $esvar );
-
-    $ctyvar = array( 1039 => 'Canada', 1101 => 'India', 1172 => 'Poland', 1128 => 'United States' );
-    $loc2[22]=& $this->createElement( 'select', 'country_id', null, $ctyvar );
-
 
     for ($i = 1 ; $i <= 3 ; $i++) {    
      $this->addElement( 'link', 'exph02_'."{$i}", null, 'phone0_2_'."{$i}", '[+] another phone',
@@ -266,8 +192,8 @@ class CRM_Contacts_Form_CRUD extends CRM_Form {
 
    
     $this->addGroup($loc1,'location1');
-    $this->addGroup($loc2,'location2');
-    $this->addGroup($loc3,'location3');
+    $this->addGroup($loc1,'location2');
+    $this->addGroup($loc1,'location3');
 
     /* End of location cabin */
 
@@ -284,18 +210,21 @@ class CRM_Contacts_Form_CRUD extends CRM_Form {
     $this->addElement( 'link', 'hidenotes', null, 'notes', '[-] hide contact notes',
 		      array( 'onclick' => "hide( 'notes' ); show( 'expand_notes' ); return false;" ));
 
-    $this->registerRule( 'checkdate', 'function', 'verifydate', 'CRM_Contacts_Form_CRUD');
 
- 
-      if ($this->_mode == self::MODE_VIEW || self::MODE_UPDATE ) {
-	  $this->setDefaultValues( );
-      }
-    
+    $this->addElement( 'hidden', 'mdyx', null,array('id' => 'mdy' ));
+    //$this->registerRule( 'checkdate', 'function', 'verifydate', 'CRM_Contacts_Form_CRUD');
+
 
     if ( $this->validate( ) && $this->_mode == self::MODE_VIEW ) {
-      $this->freeze( );
+     $this->freeze( );     
+    }
+    else
+     {
+      if ($this->_mode == self::MODE_VIEW || self::MODE_UPDATE ) {
+      $this->setDefaultValues( );
      }
-
+    }
+    
   }//ENDING BUILD FORM 
 
   function setDefaultValues( ) {
@@ -310,7 +239,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form {
 
     $this->addRule( 'first_name', t(' FIRST NAME IS A REQUIRRED FIELD.'), 'required', null);
     $this->addRule( 'last_name', t(' LAST NAME IS A REQUIRRED FIELD.'), 'required', null);
-    $this->addRule( 'mdyx',t(' PLEASE ENTER A VALID DATE '),'checkdate',null);
+    //$this->addRule( 'mdyx',t(' PLEASE ENTER A VALID DATE '),'checkdate',null);
     for( $i = 1; $i <= 3; $i++) { 
      $this->addGroupRule('location'."{$i}", array(
 					    'email' => array( 
@@ -325,8 +254,9 @@ class CRM_Contacts_Form_CRUD extends CRM_Form {
 					    )
 			); 
     }
-
+   
   }
+
 
   function process( ) { // this form performs the action after clicking save
     // print_r($_POST);
@@ -442,7 +372,8 @@ class CRM_Contacts_Form_CRUD extends CRM_Form {
       }// end of if
     }//end of for
   }// end of function
-  
+
+
 
 }
 
