@@ -77,20 +77,20 @@
 </table>
 </div>
 
- {$form.my_script.label}
-</form>
-	
-{literal}
-<script type="text/javascript">
-on_load_execute(frm.name);
-</script>
-{/literal}
+  {$form.my_script.label}
+ </form>
 
-{if count($form.errors) gt 0}
-{literal}
-<script type="text/javascript">
-on_error_execute(frm.name);
-</script>
-{/literal}
-{/if}
+
+ 
+ {literal}
+ <script type="text/javascript">
+ on_load_execute(frm.name);
+ </script>
+ {/literal}
+
+ {literal}
+ <script type="text/javascript">
+ on_error_execute(frm.name);
+ </script>
+ {/literal}
 
