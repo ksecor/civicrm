@@ -258,6 +258,9 @@ class CRM_Form extends HTML_QuickForm_Page {
      *
      */
     function buildForm() {
+
+        CRM_Error::le_method();
+
         $this->_formBuilt = true;
 
         $this->preProcess();
@@ -268,6 +271,8 @@ class CRM_Form extends HTML_QuickForm_Page {
         $this->setDefaults( $defaults );
 
         $this->addRules();
+
+        CRM_Error::ll_method();
     }
 
     /**

@@ -95,7 +95,6 @@ class CRM_Contact_Wrapper extends CRM_Base
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
 
-
         CRM_Error::le_method();
         CRM_Error::debug_var("userContext", $userContext);
 
@@ -108,6 +107,9 @@ class CRM_Contact_Wrapper extends CRM_Base
         $this->_controller = new CRM_Controller_Simple( $formName, $formLabel, $mode );
         $this->_controller->process();
         $this->_controller->run();
+
+        CRM_Error::ll_method();
+
     }
 
     /**

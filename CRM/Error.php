@@ -158,6 +158,7 @@ class CRM_Error extends PEAR_ErrorStack {
             $out = "\$$variable_name is not set";
         } else {
             $out = print_r($variable, true);
+            // $out = "<pre> \$$variable_name = $out</pre>";
             $out = "\$$variable_name = $out";
             // reset if it is an array
             if(is_array($variable)) {
@@ -211,9 +212,9 @@ class CRM_Error extends PEAR_ErrorStack {
     static function debug_log_message($message="", $log=true)
     {
         $error =& self::singleton( );
-        $out = "<br />$message";
+        $out = "<p /><code>$message</code>";
         if ($log) {
-            //echo $out;
+            echo $out;
         }
         return $out;
     }

@@ -13,9 +13,10 @@
 </th>
 {/foreach}
 </tr>
+
 {foreach from=$rows item=row}
 <tr>
-<td>{$row.contact_id}</td><td>{$row.sort_name}</td><td>{$row.contact_type}</td><td>{$row.preferred_communication_method}</td>
+<td>{$row.contact_id}</td><td>{$row.sort_name}</td><td>{$row.contact_type}</td><td>{$row.preferred_communication_method}</td><td>{$row.email}</td>
 <!--td>{$row.contact_id}</td><td>{$row.first_name}</td><td>{$row.last_name}</td><td>{$row.email}</td-->
 </tr>
 {/foreach}

@@ -96,6 +96,10 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      *
      */
     function run( ) {
+
+        CRM_Error::ll_method();
+
+
         // the names of the action and page should be saved
         // note that this is split into two, because some versions of
         // php 5.x core dump on the triple assignment :)
@@ -116,6 +120,8 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         // e.g. if action is a valid JUMP, u basically do a redirect
         // to the appropriate place
         $this->_pages[$pageName]->handle($action);
+
+        CRM_Error::ll_method();
 
         return $pageName;
     }

@@ -177,6 +177,9 @@ class CRM_Selector_Controller {
 
         $this->_sortOrder = $this->_object->getSortOrder($action);
         $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortID );
+
+        CRM_Error::ll_method();
+
     }
 
     function hasChanged( ) {

@@ -50,6 +50,9 @@ class CRM_Controller_Simple extends CRM_Controller {
      * @access public
      */
     function __construct($path, $name, $mode) {
+
+        CRM_Error::le_method();
+
         // by definition a single page is modal :)
         parent::__construct( $name, true );
 
@@ -57,12 +60,13 @@ class CRM_Controller_Simple extends CRM_Controller {
 
         $params = array($path);
 
-
-        // CRM_Error::debug_var("params", $params);
+        CRM_Error::debug_var("params", $params);
         $this->_stateMachine->addSequentialStates($params, $mode);
 
         $this->addPages( $this->_stateMachine, $mode );
         $this->addDefault( );
+
+        CRM_Error::ll_method();
 
     }
 }
