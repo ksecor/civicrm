@@ -10,7 +10,7 @@ require_once 'CRM/Pager.php';
  * objects that requires contacts to be selectively listed (list / search)
  *
  */
-class CRM_Contacts_Selector extends CRM_Selector implements CRM_Selector_API {
+class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_API {
 
   static $_links = array(
                          CRM_Action::VIEW => array(
@@ -71,6 +71,13 @@ class CRM_Contacts_Selector extends CRM_Selector implements CRM_Selector_API {
                             );
     return $headers;
   }
+
+  function getTotalCount( $action ) {
+  }
+
+  function getExportColumnHeaders( $action ) {
+  }
+
 
 }
 

@@ -29,6 +29,18 @@ class CRM_Selector_Base {
    * This is a virtual function, since the $_links array is typically
    * static, we use a virtual function to get the links array. Each 
    * inherited class must redefine this function
+   *
+   * links is an array of associative arrays. Each element of the array
+   * has 4 fields
+   *
+   * name    : the name of the link
+   * link    : the URI to be used for this link, along with any strings that will
+   *           be replaced dynamically
+   * linkName: (same as name??)
+   * menuName: Sometimes the linkName and menuName differ. The linkName could be
+   *           "Edit Contact", while the menuName would be the more descriptive
+   *           "Edit Contact Details"
+   *
    */
   function &getLinks() {
     return null;
