@@ -27,7 +27,7 @@
 			 <table id="expand_phone_{$index}_{$phindex}">
 			 <tr>
 				 <td>
-				 {$form.$exph.label}
+				 {$form.$exph.html}
 				 </td>
 			 </tr>
 		 </table>
@@ -50,7 +50,7 @@
 
 			 <tr>
 				 <td colspan="2">
-				 {$form.$hideph.label}
+				 {$form.$hideph.html}
 				 </td>
 			 </tr>
 		 </table>
