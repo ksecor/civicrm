@@ -170,6 +170,7 @@ class CRM_SelectValues {
      * @static
      */
     static public $contactType = array(
+                                       ' '     => '-no preference-',
                                        'Individual' => 'Individual',
                                        'Organization' => 'Organization',
                                        'Household' => 'Household'

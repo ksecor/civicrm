@@ -26,6 +26,8 @@
 </tr>
 {/foreach}
 <tr>
+</tr>
+<tr>
 <td colspan=5>{include file="CRM/pager.tpl" location="top"}</td>
 </tr>
 </table>
