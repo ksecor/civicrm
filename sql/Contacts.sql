@@ -325,8 +325,8 @@ CREATE TABLE crm_contact_location(
 	usps_adc VARCHAR(64),
 
 	country_id INT UNSIGNED COMMENT 'index to crm_country table',
-	geo_code1 VARCHAR(64) COMMENT 'latitude or UTM (Universal Transverse Mercator Grid)',
-	geo_code2 VARCHAR(64) COMMENT 'longitude or UTM (Universal Transverse Mercator Grid)',
+	geo_code_1 VARCHAR(64) COMMENT 'latitude or UTM (Universal Transverse Mercator Grid)',
+	geo_code_2 VARCHAR(64) COMMENT 'longitude or UTM (Universal Transverse Mercator Grid)',
 	timezone VARCHAR(10) COMMENT 'timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6"',
 	address_note VARCHAR(255) COMMENT 'optional misc info (e.g. delivery instructions) for this address',
 
