@@ -94,7 +94,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
     }
 
     function preProcess( ) {
-        $this->_contactType = $this->get( 'contact_type' );
+        $this->_contactType = $_GET['c_type'];
         $this->_contactId   = $this->get( 'contact_id'   );
     }
 
