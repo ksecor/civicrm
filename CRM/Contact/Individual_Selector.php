@@ -74,32 +74,28 @@ class CRM_Contact_Individual_Selector extends CRM_Selector_Base implements CRM_S
      * @var string
      */
     protected $_contact;
-    //var $_form;
-    
-    function __construct() 
-    {
+
+    /**
+     * Class constructor
+     *
+     * @param array $params (reference ) array of parameters for query
+     *
+     * @return CRM_Contact_Individual_Selector
+     * @access public
+     */
+    function __construct( &$params ) {
 
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact_Individual();
         $this->_contact->domain_id = 1;
+
+        foreach ( $params as $name => $value ) {
+            $this->_contact->$name = $value;
+        }
+                
     }//end of constructor
 
 
-    /** 
-     * This function is used to provide the dynamic HTML content to the Selector template.
-     * The return value of this function is an array which is assigned to the form variable
-     * in smarty and is used to access the form elements.
-     */
-
-
-    function buildForm($name) {
-        
-        $form = new CRM_Form($name, 'post', "/drupal/index.php?q=crm/contact/list");
-        $form->addElement('text', 'abc', 'abc');
-        return $form->toSmarty();
-    }
-
-    
     function &getLinks() 
     {
         return CRM_Contact_Selector::$_links;

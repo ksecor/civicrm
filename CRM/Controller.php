@@ -101,7 +101,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         // php 5.x core dump on the triple assignment :)
         $this->_actionName = $this->getActionName();
         list($pageName, $action) = $this->_actionName;
- 
+
         if ( $this->isModal( ) ) {
             if ( ! $this->isValid( $pageName ) ) {
                 $pageName = $this->findInvalid( );

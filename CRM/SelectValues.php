@@ -172,7 +172,7 @@ class CRM_SelectValues {
     static public $contactType = array(
                                        ' '            => '-no preference-',
                                        'Individual'   => 'Individual',
-                                       'Household'    => 'Household'
+                                       'Household'    => 'Household',
                                        'Organization' => 'Organization',
                                        );
     

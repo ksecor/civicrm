@@ -71,8 +71,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $this->add( 'select', 'contact_type', 'Contact Type', CRM_SelectValues::$contactType );
 
         $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next'  ,
-                                                'name'      => 'Submit',
+                                        array ( 'type'      => 'refresh',
+                                                'name'      => 'Submit' ,
                                                 'isDefault' => true     ),
                                         array ( 'type'      => 'done'  ,
                                                 'name'      => 'Done'   ),
@@ -91,7 +91,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return array the default array reference
      */
     function &setDefaultValues( ) {
-        $defaults = array( 'contact_type' => 'Individual' );
+        $defaults = array( );
         return $defaults;
     }
 
@@ -111,7 +111,12 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return void
      */
     function preProcess( ) {
-        $contact = new CRM_Contact_Individual_Selector();
+        $params = array( );
+        $contact_type = trim( $this->controller->exportValue( $this->_name, 'contact_type' ) );
+        if ( ! empty( $contact_type ) ) {
+            $params['contact_type'] = $contact_type;
+        }
+        $contact = new CRM_Contact_Individual_Selector( $params );
         $selector = new CRM_Selector_Controller( $contact , null, null, CRM_Action::VIEW );
         $selector->run( );
     }

@@ -82,13 +82,21 @@ class CRM_Contact_BAO_Contact_Individual extends CRM_Contact_DAO_Contact_Individ
         
         parent::insert();
     }
-    
+
+    function count($countWhat = false,$whereAddOnly = false) {
+        $this->setContactValues();
+        $this->joinAdd( $this->_contactDAO );
+        return parent::count($countWhat, $whereAddOnly);
+    }
+
     function find($get = false) 
     {
         //log_message("============= add contact 8  =============");    
         //echo "============= add contact 8  =============<br>";
         
         $this->setContactValues();
+        $this->joinAdd( );
+        $this->whereAdd( );
         $this->joinAdd( $this->_contactDAO );
         $this->selectAdd();
         $this->selectAs( $this, '%s' );

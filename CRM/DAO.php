@@ -99,10 +99,9 @@ class CRM_DAO extends DB_DataObject {
          * reset the various DB_DAO structures manually
          */
         $this->_query = array( );
-        $this->_query['condition'] = '';
-        $this->selectAdd();
-
-        $this->_original = null;
+        $this->whereAdd ( );
+        $this->selectAdd( );
+        $this->joinAdd  ( );
     }
 	
     /**
