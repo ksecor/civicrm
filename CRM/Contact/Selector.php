@@ -237,7 +237,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                 $contact_type .= 'house.png" alt="Household" height="16" width="16">';
                 break;
             case 'Organization' :
-                $contact_type .= '_org.gif" alt="Organization" height="16" width="18">';
+                $contact_type .= 'org.gif" alt="Organization" height="16" width="18">';
                 break;
 
             }
