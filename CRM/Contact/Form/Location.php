@@ -42,7 +42,7 @@ class CRM_Contact_Form_Location extends CRM_Form
 {
 
     //public static function buildLocationBlock($form)
-    static function blb($form, $blocks) 
+    static function buildLocationBlock($form, $blocks) 
     {
 
 
@@ -57,10 +57,10 @@ class CRM_Contact_Form_Location extends CRM_Form
             $loc[$i][$j++] =  $form->createElement('select', 'location_type_id', null, CRM_SelectValues::$locationType);
             $loc[$i][$j++] =  $form->createElement('checkbox', 'is_primary', 'Primary location for this contact', null);
 
-            CRM_Contact_Form_Phone::bpb($loc, $form, $i, $j, 3); 
-            CRM_Contact_Form_Email::beb($loc, $form, $i, $j, 3);   
-            CRM_Contact_Form_Im::bib($loc, $form, $i, $j, 3);
-            CRM_Contact_Form_Address::bab($loc, $form, $i, $j);
+            CRM_Contact_Form_Phone::buildPhoneBlock($loc, $form, $i, $j, 3); 
+            CRM_Contact_Form_Email::buildEmailBlock($loc, $form, $i, $j, 3);   
+            CRM_Contact_Form_IM::buildImBlock($loc, $form, $i, $j, 3);
+            CRM_Contact_Form_Address::buildAddressBlock($loc, $form, $i, $j);
             // total = 0 - 22
            
             if($i > 1) {
