@@ -472,6 +472,8 @@ CREATE TABLE crm_contact_action(
 * target contact (e.g. call Dana Donor), or 'free-floating'
 * (e.g. clean the bathroom).
 *
+* should it be part of CRM or as a seperate work-flow
+* investigate phpflow, typo3 etc
 *******************************************************/
 DROP TABLE IF EXISTS crm_task;
 CREATE TABLE crm_task(
@@ -536,6 +538,9 @@ CREATE TABLE crm_note(
 * may want to also support linking saved searches to
 * particular users or groups of users.
 *  
+* be able to turn off dynamic queries, cache dynamic queries
+* have invalidate dates etc
+*
 *******************************************************/
 DROP TABLE IF EXISTS crm_saved_search;
 CREATE TABLE crm_saved_search (

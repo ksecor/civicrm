@@ -162,7 +162,7 @@ class CRM_String {
    * Tokens currently matched include:
    *   email ( if @ sign is present )
    *   state ( if tokens are mainly 2 alphabetic characters )
-   *   address1 ( if token has more than 1 space in it )
+   *   address ( if token has more than 1 space in it )
    *   postalCode ( if token is made up of numbers and - )
    *
    * @param array $values a vector of strings
@@ -188,6 +188,48 @@ class CRM_String {
     }
 
     return null;
+  }
+
+
+  /**
+   * Takes an array of lines and returns the seperator that occurs
+   * the most in the group of lines
+   * Note: this is not the smartest way to do things, on the other
+   * hand its the simplest. This is an O(n^2) algorithm, so make
+   * sure the number of lines is pretty small
+   *
+   * @param lines an array of lines
+   * 
+   * @return string the best seperator found
+   * @access public
+   *
+   */
+  static function findBestSeperator( $lines ) {
+    $count = array( );
+    $seperators = array(
+                        CRM_SEPERATOR_COMMA      => 0,
+                        CRM_SEPERATOR_SEMICOLON  => 0,
+                        CRM_SEPERATOR_TAB        => 0,
+                        CRM_SEPERATOR_SPACE      => 0,
+                        CRM_SEPERATOR_LF         => 0,
+                        CRM_SEPERATOR_CRLF       => 0,
+                        CRM_SEPERATOR_CR         => 0,
+                        );
+
+    $max  = -1;
+    $best = CRM_SEPERATOR_COMMA; // default, in case we dont find any or dont get into the loop
+    foreach ( $seperators as $seperator => $value ) {
+      foreach ( $lines as $line ) {
+        $seperators[$seperator] = $seperators[$seperator] + substr_count( $line, $seperator );
+      }
+
+      if ( $seperators[$seperator] > $max ) {
+        $max  = $seperators[$seperator];
+        $best = $seperator;
+      }
+    }
+
+    return $best;
   }
 
   /**
@@ -294,10 +336,6 @@ class CRM_String {
     }
   }
 
-  function isWhiteSpaceOnly( $line ) {
-    return preg_match( '/^\s*$/', $line ) ? true : false;
-  }
-
   function isHTMLLine( $line ) {
     $htmlTags = array( '<br>', '<p>', '<html>', '<head>',
                        '<body', '<title>', 'href',
@@ -359,6 +397,14 @@ class CRM_String {
 
     fclose( $fd );
     return $html;
+  }
+
+  function isWhiteSpace( $string ) {
+    return preg_match( '/^\s*$/', $string ) ? true : false;
+  }
+
+  function isComment( $string ) {
+    return preg_match( '/^#/', $string ) ? true : false;
   }
 
 }
