@@ -9,17 +9,17 @@
 *
 *******************************************************/
 
-DROP DATABASE IF EXISTS wgm;
-CREATE DATABASE wgm DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-use wgm;
-
 /*******************************************************
 *
 * CREATE DATABASE XXX DEFAULT CHARACTER SET utf8 COLLATION utf8_bin
-* the above changes are important for mysql4.1 else we get errors
+* the above params are important for mysql4.1 else we get errors
 * with pma
-* [removed this - tables added to drupal DB for now]
-*******************************************************/
+* *******************************************************/
+
+DROP DATABASE IF EXISTS crm;
+CREATE DATABASE crm DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+use crm;
+
 
 /*******************************************************
 *
@@ -64,7 +64,7 @@ CREATE TABLE contact_state_province (
 	country_id INT UNSIGNED NOT NULL,
 
 	PRIMARY KEY(id),
-	FOREIGN KEY(country_id) REFERENCES contact_country(id) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY(country_id) REFERENCES contact_country(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 
@@ -85,7 +85,8 @@ CREATE TABLE contact_domain (
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added',
 
-	PRIMARY KEY (id),
+	PRIMARY KEY (id)
+	
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='define domains for multi-org installs, else all contacts belong to domain 1';
 
 /*******************************************************
@@ -104,7 +105,7 @@ CREATE TABLE contact_context (
     description VARCHAR(255) COMMENT 'context description (a more verbose description)',
 
 	PRIMARY KEY (id),
-	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='domain-level set of available contexts (e.g. Home, Work, Other...)';
 
@@ -142,7 +143,7 @@ CREATE TABLE contact (
     --  Need to flesh out approach for linking module actions to contact. Commented out for now. dgg
     --	caid_latest INT UNSIGNED COMMENT 'latest contact action id',
 
-    -- ? Why is this needed? dgg
+    -- ? Is this needed?
     --	module VARCHAR(255) COMMENT 'which module is handling this type',
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
@@ -150,7 +151,7 @@ CREATE TABLE contact (
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
-	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
 
     UNIQUE INDEX index_uuidrid   (uuid, rid),
@@ -191,7 +192,7 @@ CREATE TABLE contact_individual(
 	PRIMARY KEY (id),
 	UNIQUE INDEX index_uuidrid (contact_uuid, contact_rid),
 
-	FOREIGN KEY (contact_uuid, contact_rid) REFERENCES contact(uuid, rid) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY (contact_uuid, contact_rid) REFERENCES contact(uuid, rid) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=individual';
 
@@ -219,7 +220,7 @@ CREATE TABLE contact_organization(
 
 	PRIMARY KEY (id),
 
-	FOREIGN KEY (contact_uuid, contact_rid) REFERENCES contact(uuid, rid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (contact_uuid, contact_rid) REFERENCES contact(uuid, rid) ON DELETE CASCADE,
 	FOREIGN KEY (primary_contact_uuid) REFERENCES contact(uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=organization';
@@ -247,7 +248,7 @@ CREATE TABLE contact_household(
 
 	PRIMARY KEY (id),
 
-	FOREIGN KEY (contact_uuid, contact_rid) REFERENCES contact(uuid, rid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (contact_uuid, contact_rid) REFERENCES contact(uuid, rid) ON DELETE CASCADE,
 	FOREIGN KEY (primary_contact_uuid) REFERENCES contact(uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=household';
@@ -296,8 +297,9 @@ CREATE TABLE contact_address(
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
+    UNIQUE INDEX index_uuidrid (uuid, rid),
 
-	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
 	FOREIGN KEY(state_province_id) REFERENCES contact_state_province(id),
 	FOREIGN KEY(country_id) REFERENCES contact_country(id)
@@ -332,8 +334,8 @@ CREATE TABLE contact_contact_address(
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
     
-	FOREIGN KEY (contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (address_uuid) REFERENCES contact_address(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE,
+	FOREIGN KEY (address_uuid) REFERENCES contact_address(uuid) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
 	FOREIGN KEY (context_id) REFERENCES contact_context(id)
 
@@ -368,7 +370,7 @@ CREATE TABLE contact_email(
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
 
-	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
 	FOREIGN KEY (context_id) REFERENCES contact_context(id)
 
@@ -424,10 +426,10 @@ CREATE TABLE contact_phone(
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
 
-	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
 	FOREIGN KEY (context_id) REFERENCES contact_context(id),
-	FOREIGN KEY (mobile_phone_provider_id) REFERENCES contact_phone_mobile_providers(id),
+	FOREIGN KEY (mobile_phone_provider_id) REFERENCES contact_phone_mobile_providers(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact phone numbers (base table)';
 
@@ -461,7 +463,7 @@ CREATE TABLE contact_instant_message(
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
 
-	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
 	FOREIGN KEY (context_id) REFERENCES contact_context(id)
 
@@ -497,7 +499,7 @@ CREATE TABLE contact_relationship_types(
 
 	PRIMARY KEY(id),
 
-	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact relationship types';
@@ -530,9 +532,9 @@ CREATE TABLE contact_relationship(
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
 
-	FOREIGN KEY(relationship_type_id) REFERENCES contact_relationship_types(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(target_contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(relationship_type_id) REFERENCES contact_relationship_types(id) ON DELETE CASCADE,
+	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE,
+	FOREIGN KEY(target_contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact relationships';
@@ -570,8 +572,8 @@ CREATE TABLE contact_task(
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
     
-	FOREIGN KEY(target_contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(assigned_contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(target_contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE,
+	FOREIGN KEY(assigned_contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='tasks related to a contact';
@@ -602,7 +604,7 @@ CREATE TABLE contact_note(
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
 
-	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='multiple notes/comments related to a contact';
@@ -617,6 +619,7 @@ CREATE TABLE contact_note(
 *	from 'structure'. It also facilitates moving toward dynamic form rendering
 *	for standard object properties in a future version.
 *	
+*	contact_ext_property_group : logical sets of extended properties (e.g. voter info, ...)
 *	contact_ext_property : defines the parent object, data type, and validation rule
 *	contact_validation : defines built-in and customizable validation rules
 *   contact_ext_data : stores the data for each instance of a property
@@ -667,17 +670,53 @@ CREATE TABLE contact_validation(
 
 	PRIMARY KEY (id),
 
-	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='stores the data for extended properties';
+
+
+
+/*******************************************************
+*
+* contact_ext_property_group
+*	All extended (custom) properties are associated with a group.
+*	These are logical sets of related data.
+*
+*******************************************************/
+DROP TABLE IF EXISTS contact_ext_property_group;
+CREATE TABLE contact_ext_property_group(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'extended property group id',
+
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain contains this ext property',
+
+	iname VARCHAR(255) COMMENT 'variable name/programmatic handle for this group',
+	name  VARCHAR(255) COMMENT 'friendly name',
+    description VARCHAR(255) COMMENT 'group description (verbose)',
+
+	extends ENUM('contact','contact_individual','contact_organization','contact_household') DEFAULT 'contact' COMMENT 'type of object this group extends (can add other options later e.g. contact_address, etc.)',
+	
+	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
+	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
+
+	PRIMARY KEY (id),
+
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extended property grouping';
+
 
 
 /*******************************************************
 *
 * contact_ext_property
 *	Stores core info about an extended (custom) property.
-*	Input form-related info is kept separately (in contact_form_field),
-*	so a property may be 'presented' in multiple form fields.
+*
+*	NOTE: Input form-related info is kept separately (in contact_form_field),
+*	because a property may be 'presented' in multiple form fields. It
+*   may also be populated via import or other method, and not be part
+*	of any 'form'.
 *
 *******************************************************/
 DROP TABLE IF EXISTS contact_ext_property;
@@ -685,13 +724,12 @@ CREATE TABLE contact_ext_property(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'extended property id',
 
-	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain contains this ext property',
+	group_id  INT UNSIGNED NOT NULL COMMENT 'FK to contact_ext_property_group',
 
 	iname VARCHAR(255) COMMENT 'variable name/programmatic handle for this property',
 	name  VARCHAR(255) COMMENT 'friendly name',
     description VARCHAR(255) COMMENT 'property description (verbose)',
 
-	extends ENUM('contact','contact_individual','contact_organization','contact_household') DEFAULT 'contact' COMMENT 'type of object this property extends (can add other options later e.g. contact_address, etc.)',
 	data_type ENUM('char','int','float','memo','date','boolean') COMMENT 'controls location of data storage in extended_data table',
 
 	required BOOLEAN NULL DEFAULT 0 COMMENT 'is a value required for this property',
@@ -703,8 +741,8 @@ CREATE TABLE contact_ext_property(
 
 	PRIMARY KEY (id),
 
-	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (validation_id) REFERENCES contact_validation(id),
+	FOREIGN KEY (group_id) REFERENCES contact_ext_property_group(id) ON DELETE CASCADE,
+	FOREIGN KEY (validation_id) REFERENCES contact_validation(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='stores the data for extended properties';
 
@@ -742,7 +780,7 @@ CREATE TABLE contact_ext_data(
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
 
-	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE,
 	FOREIGN KEY (created_by) REFERENCES contact(uuid),
 	FOREIGN KEY(ext_property_id) REFERENCES contact_ext_property(id)
 
@@ -945,7 +983,7 @@ CREATE TABLE contact_user(
 	PRIMARY KEY(id),
     UNIQUE INDEX index_contact_user (contact_uuid,user_id),
 
-	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='1:1 link between contact and authenticated user';
 
