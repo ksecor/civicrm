@@ -51,11 +51,11 @@ class CRM_Contact_Form_IM
                                                                                $label,
                                                                                CRM_SelectValues::$im   );
 
-            $attributes =& $form->getFormAttributes('CRM_Contact_DAO_IM');
             $location[$locationId]['im'][$i]['name'] = $form->addElement('text',
                                                                          "location[$locationId][im][$i][name]",
                                                                          null,
-                                                                         $attributes['name']);
+                                                                         CRM_DAO::getAttribute('CRM_Contact_DAO_IM',
+                                                                                               'name'));
 
             if ( $i != 1 ) {
                 $showHideBlocks->addHide("location[$locationId][im][$i]");

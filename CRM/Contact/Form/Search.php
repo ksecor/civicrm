@@ -69,7 +69,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
     function buildQuickForm( ) 
     {
         $this->add('select', 'contact_type', 'Show me.... ', CRM_SelectValues::$contactType);
-        $this->add('text', 'sort_name', 'Name:', array('Size' => '64', 'rows' => '64'));
+        $this->add('text', 'sort_name', 'Name:',
+                   CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        
         $groups     = array(''  => '- any group -', 
                             1   => 'Group A',
                             2   => 'Group B' );

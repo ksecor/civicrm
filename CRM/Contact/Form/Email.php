@@ -45,11 +45,11 @@ class CRM_Contact_Form_Email
 
             $showHideBlocks->linksForArray( $form, $i, $count, "location[$locationId][email]", '[+] another email', '[-] hide email');
             
-            $attributes =& $form->getFormAttributes('CRM_Contact_DAO_Email');
             $location[$locationId]['email'][$i]['email'] = $form->addElement('text', 
                                                                              "location[$locationId][email][$i][email]",
                                                                              $label,
-                                                                             $attributes['email']);
+                                                                             CRM_DAO::getAttribute('CRM_Contact_DAO_Email',
+                                                                                                   'email'));
 
             if ( $i != 1 ) {
                 $showHideBlocks->addHide("location[$locationId][email][$i]");

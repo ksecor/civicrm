@@ -377,13 +377,15 @@ class CRM_Contact_Form_Individual extends CRM_Form
         // prefix
         $this->addElement('select', 'prefix', null, CRM_SelectValues::$prefixName);
 
-        $attributes =& $this->getFormAttributes('CRM_Contact_DAO_Individual');
-
         // first_name
-        $this->add('text', 'first_name', 'First Name', $attributes['first_name'], true );
+        $this->add('text', 'first_name', 'First Name',
+                   CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'first_name'),
+                   true );
         
         // last_name
-        $this->add('text', 'last_name', 'Last Name', $attributes['last_name'], true ); 
+        $this->add('text', 'last_name', 'Last Name',
+                   CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'last_name'),
+                   true ); 
         
         // suffix
         $this->addElement('select', 'suffix', null, CRM_SelectValues::$suffixName);
@@ -392,7 +394,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->addElement('select', 'greeting_type', 'Greeting type :', CRM_SelectValues::$greeting);
         
         // job title
-        $this->addElement('text', 'job_title', 'Job title :', $attributes['job_title'] );
+        $this->addElement('text', 'job_title', 'Job title :',
+                          CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'job_title') );
         
         // add the communications block
         CRM_Contact_Form_Contact::buildCommunicationBlock($this);

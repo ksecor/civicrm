@@ -51,11 +51,11 @@ Class CRM_Contact_Form_Phone
                                                                                      null,
                                                                                      CRM_SelectValues::$phone);
 
-            $attributes =& $form->getFormAttributes('CRM_Contact_DAO_Phone');
             $location[$locationId]['phone'][$i]['phone']      = $form->addElement('text',
                                                                                   "location[$locationId][phone][$i][phone]", 
                                                                                   $label,
-                                                                                  $attributes['phone']);
+                                                                                  CRM_DAO::getAttribute('CRM_Contact_DAO_Phone',
+                                                                                                        'phone'));
 
             if ( $i != 1 ) {
                 $showHideBlocks->addHide("location[$locationId][phone][$i]");

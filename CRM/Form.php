@@ -462,21 +462,6 @@ class CRM_Form extends HTML_QuickForm_Page {
     }
 
     /**
-     * Given a class name, get the form attributes for the elements
-     * of this class.
-     *
-     * @param string $class name of the class
-     *
-     * @return array (reference ) attribute associative array
-     * @access public
-     */
-    function &getFormAttributes( $class ) {
-        $object = new $class( );
-        return $object->getFormAttributes( );
-
-    }
-
-    /**
      * assign value to name in template
      *
      * @param string $name  name  of variable
