@@ -134,7 +134,7 @@ function contact_block($op='list', $delta='0')
                                            array( 'path'  => 'crm/contact/add',
                                                   'qs'    => '&c_type=Household&reset=1',
                                                   'title' => 'New Household' ),
-                                           array( 'path'  => 'crm/group/add',
+                                           array( 'path'  => 'crm/groups/add/',
                                                   'qs'    => '&reset=1',
                                                   'title' => 'New Group' ));
                                                   
@@ -212,9 +212,9 @@ function contact_menu($may_cache)
                          'title' => t('Contact'),
                          'callback' => 'contact_invoke',
                          'access' => user_access('view contact'),
-                         'type'   => MENU_NORMAL_ITEM
+                         'type'   => MENU_CALLBACK
                          );
-        
+
         $items[] = array(
                          'path'  => 'crm/contact/search',
                          'title' => t('Browse Contacts'),
@@ -250,7 +250,7 @@ function contact_menu($may_cache)
                          );
         
         $items[] = array(
-                         'path'  => 'crm/contact/view/note',
+                         'path'  => 'crm/contact/view/notes',
                          'title' => t('Notes'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
@@ -312,7 +312,22 @@ function contact_admin_invoke()
 
 function crm_invoke()
 {
-    $content = "";
+    //  manage groups
+    if (arg(1) == 'groups') {
+        if(arg(2) == 'edit' OR arg(2) == 'add') {
+            $content = fetch_tpl( 'Groups/Form/Edit.tpl');
+        } else {
+            contact_assign( 'name','dave');
+            $content = fetch_tpl( 'Groups/Groups.tpl');
+        }
+    }
+
+    //  import wizard
+    if (arg(1) == 'import') {
+        $content = fetch_tpl( 'Import/ImportStart.tpl');
+    }
+    
+    print theme('page', $content);
 }
 
 function contact_invoke() 
@@ -370,6 +385,31 @@ function contact_form( $mode )
     $contact->run('CRM_Contact_Form_Contact', 'Contact Page', $mode, 'contact/add?reset=1', NULL);
     return $contact->getContent();
 }
+
+/**
+ * Temporary function to load static templates for prototyping
+ */
+function fetch_tpl( $tpl ) {
+    $baseDir = 'CRM/';
+    
+    $fileName = $baseDir . $tpl;
+    
+    $config  = CRM_Config::singleton ();
+    $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+    return $template->fetch( $fileName );
+
+}
+
+function contact_assign( $var, $value = null) {
+        static $template = null;
+
+        if ( ! isset( $template ) ) {
+            $config  = CRM_Config::singleton ();
+            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        }
+
+        $template->assign($var, $value);
+    }
 
 /*
  *

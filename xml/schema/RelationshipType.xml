@@ -8,7 +8,7 @@
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Category ID</comment>
+      <comment>Primary key</comment>
   </field>
   <primaryKey>
        <name>id</name>
@@ -41,7 +41,7 @@
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
-       <comment>Optional verbose description of the category.</comment>
+       <comment>Optional verbose description of the relationship type.</comment>
   </field>
   <field>
        <name>contact_type_a</name>

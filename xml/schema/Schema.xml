@@ -29,5 +29,7 @@
 <xi:include href="Note.xml"             parse="xml" />
 <xi:include href="Relationship.xml"     parse="xml" />
 <xi:include href="Group.xml"            parse="xml" />
+<xi:include href="GroupContact.xml"     parse="xml" />
+<xi:include href="EntityCategory.xml"   parse="xml" />
 
 </database>

@@ -44,6 +44,12 @@ div.spacer {
   height: 5px;
   }
 
+div.status {
+  background-color: #ffff99;
+  padding: .5em;
+  border: 1px solid #000;
+}
+
 #crm-container div.form-item {
   clear: both;
   padding-top: 5px;

@@ -127,13 +127,13 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $str_type = "";
             switch ($this->crm_contact_contact_type) {
             case 'Individual' :
-                $str_type = '(I)';
+                $str_type = '<img src="crm/i/contact_ind.png" alt="Individual">';
                 break;
             case 'Household' :
-                $str_type = '(H)';
+                $str_type = '<img src="crm/i/contact_house.png" alt="Household" height="16" width="16">';
                 break;
             case 'Organization' :
-                $str_type = '(O)';
+                $str_type = '<img src="crm/i/contact_org.gif" alt="Organization" height="16" width="18">';
                 break;
                 
             }

@@ -134,7 +134,7 @@
 
   <email_tlds>
     <email_tld>com</email_tld>
-    <email_tld>info</email_tld>
+    <email_tld>org</email_tld>
     <email_tld>net</email_tld>
     <email_tld>co.in</email_tld>
     <email_tld>org</email_tld>
@@ -152,9 +152,9 @@
     <organization_name>Ocean Access</organization_name>
     <organization_name>Direct Access</organization_name>
     <organization_name>Reliance</organization_name>
-    <organization_name>Tata Sons</organization_name>
-    <organization_name>Bajaj Brothers</organization_name>
-    <organization_name>Hero Honda</organization_name>
+    <organization_name>National</organization_name>
+    <organization_name>Southwestern</organization_name>
+    <organization_name>Sierra</organization_name>
     <organization_name>Onjus</organization_name>
     <organization_name>JayPee Group</organization_name>
     <organization_name>Parle Sons</organization_name>
@@ -164,22 +164,22 @@
   <organization_fields>
     <organization_field>Software</organization_field>
     <organization_field>Agro</organization_field>
-    <organization_field>Jewellery</organization_field>
+    <organization_field>Environmental Defense</organization_field>
     <organization_field>Electronics</organization_field>
     <organization_field>Motors</organization_field>
     <organization_field>Steel</organization_field>
-    <organization_field>Petrochemical</organization_field>
+    <organization_field>Education</organization_field>
     <organization_field>Construction</organization_field>
-    <organization_field>Heavy Engineering</organization_field>
-    <organization_field>Device Driver</organization_field>
+    <organization_field>Arts Alliance</organization_field>
+    <organization_field>Device Drivers</organization_field>
     <organization_field>Advertising</organization_field>
     <organization_field>Hospital</organization_field>
   </organization_fields>
 
   <organization_types>
-    <organization_type>Prop.</organization_type>
-    <organization_type>Partnersip</organization_type>
-    <organization_type>Pvt. Ltd.</organization_type>
+    <organization_type>Assoc.</organization_type>
+    <organization_type>Partnership</organization_type>
+    <organization_type>Inc.</organization_type>
     <organization_type>Ltd.</organization_type>
     <organization_type>PSU</organization_type>
     <organization_type>MNC</organization_type>

@@ -363,6 +363,10 @@ INSERT INTO crm_category( domain_id, name, description, parent_id )
     VALUES( 1, 'Company', 'For-profit organization.', NULL );
 INSERT INTO crm_category( domain_id, name, description, parent_id )
     VALUES( 1, 'Government Entity', 'Any governmental entity.', NULL );
+INSERT INTO crm_category( domain_id, name, description, parent_id )
+    VALUES( 1, 'Major Donor', 'High-value supporter of our organization.', NULL );
+INSERT INTO crm_category( domain_id, name, description, parent_id )
+    VALUES( 1, 'Volunteer', 'Active volunteers.', NULL );
 
 
 INSERT INTO crm_im_provider(name) VALUES('Yahoo');
@@ -379,6 +383,11 @@ INSERT INTO crm_mobile_provider (name) VALUES ('BPL Mobile');
 INSERT INTO crm_mobile_provider (name) VALUES ('Airtel');
 INSERT INTO crm_mobile_provider (name) VALUES ('Tata Indicom');
 
+INSERT INTO crm_county (name, state_province_id) VALUES ('Alameda', 1004);
+INSERT INTO crm_county (name, state_province_id) VALUES ('Contra Costa', 1004);
+INSERT INTO crm_county (name, state_province_id) VALUES ('Marin', 1004);
+INSERT INTO crm_county (name, state_province_id) VALUES ('San Francisco', 1004);
+INSERT INTO crm_county (name, state_province_id) VALUES ('San Mateo', 1004);
+INSERT INTO crm_county (name, state_province_id) VALUES ('Santa Clara', 1004);
 
-INSERT INTO crm_county (id, name, state_province_id) VALUES (1, 'San Mateo', 1004);
 INSERT INTO crm_geo_coord (id, coord_type, coord_units, coord_ogc_wkt_string) VALUES (1, 'LatLong', 'Degree', 31);
