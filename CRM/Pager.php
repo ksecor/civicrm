@@ -16,11 +16,6 @@ class CRM_Pager extends Pager_Sliding {
 
   const ROWCOUNT = 50;
 
-  /**
-   * for our current display scheme, we don't really use this. Keeping it in case we come back to it
-   */
-  const DELTA    = 5;
-  
   const PAGE_ID          = 'crmPageId';
   const PAGE_ID_BOTTOM   = 'crmPageId_bottom';
   
@@ -90,8 +85,8 @@ class CRM_Pager extends Pager_Sliding {
 
     /**
      * A page cannot have two variables with the same form name. Hence in the 
-     * pager display, we have a form submission at the top but not at the bottom
-     * Easy fix would be to rename the variable like crmPageID and crmPageID_Bottom
+     * pager display, we have a form submission at the top with the normal
+     * page variable, but a different form element for one at the bottom
      *
      */
     $this->_values['titleTop']    = 'Page <input size=2 maxlength=3 name="' . CRM_Pager::PAGE_ID . '" type="text" value="' . $this->_values['currentPage'] . '" /> of ' . $this->_values['numPages'];
@@ -140,7 +135,9 @@ class CRM_Pager extends Pager_Sliding {
 
     /* also set the urlVar to be a crm specific get variable */
     $params['urlVar']     = CRM_Pager::PAGE_ID;
-    $params['delta']      = CRM_Pager::DELTA;
+    
+    /* set this to a small value, since we dont use this functionality */
+    $params['delta']      = 1;
 
     $params['totalItems'] = $total;
     $params['perPage']    = $perPage;
@@ -207,7 +204,7 @@ class CRM_Pager extends Pager_Sliding {
    * @access public
    *
    */
-  function getOffsetAndLimit( ) {
+  function getOffsetAndRowCount( ) {
     $pageId = $this->getCurrentPageID( );
     if ( ! $pageId ) {
       $pageId = 1;

@@ -169,7 +169,7 @@ class CRM_StateMachine {
     $this->_statesDescriptionArray = $states;
     $numStates = count( $states );
     for ( $i = 0; $i < $numStates ; $i++ ) {
-      $name    = CRM_String::getLastTuple( $states[$i] );
+      $name    = CRM_String::getClassName( $states[$i] );
 
       $classPath = str_replace( '_', '/', $states[$i] ) . '.php';
       require_once($classPath);
@@ -183,18 +183,18 @@ class CRM_StateMachine {
           $next = null;
           $type = CRM_State::INITIAL | CRM_State::SFINAL | CRM_State::SEQ | CRM_State::PRESENT;
         } else {
-          $next = CRM_String::getLastTuple( $states[$i + 1] );
+          $next = CRM_String::getClassName( $states[$i + 1] );
           $type = CRM_State::INITIAL | CRM_State::SEQ | CRM_State::PRESENT;
         }
       } else if ( $i == $numStates - 1 ) {
         // final state
-        $prev = CRM_String::getLastTuple( $states[$i - 1] );
+        $prev = CRM_String::getClassName( $states[$i - 1] );
         $next = null;
         $type = CRM_State::SFINAL | CRM_State::SEQ | CRM_State::PRESENT;
       } else {
         // intermediate state
-        $prev = CRM_String::getLastTuple( $states[$i - 1] );
-        $next = CRM_String::getLastTuple( $states[$i + 1] ); 
+        $prev = CRM_String::getClassName( $states[$i - 1] );
+        $next = CRM_String::getClassName( $states[$i + 1] ); 
         $type = CRM_State::SEQ | CRM_State::PRESENT;
       }
       

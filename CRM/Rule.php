@@ -1,9 +1,11 @@
 <?php
 
-class CRM_Validate {
+require_once 'HTML/QuickForm/Rule/Email.php';
+
+class CRM_Rule {
 
   static function name( $str ) {
-
+    
     // check length etc
     if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > 127 ) {
       return false;
@@ -31,7 +33,7 @@ class CRM_Validate {
     return true;
   }
 
-  static function phoneNumber( $phone ) {
+  static function phone( $phone ) {
     // check length etc
     if ( empty( $phone ) || strlen( $phone ) < 10 ) {
       return false;
@@ -45,37 +47,29 @@ class CRM_Validate {
   }
 
 
-  static function queryString( $qStr ) {
+  static function query( $query ) {
 
     // check length etc
-    if ( empty( $qStr ) || strlen( $qStr ) < 3 || strlen( $qStr ) > 127 ) {
+    if ( empty( $query ) || strlen( $query ) < 3 || strlen( $query ) > 127 ) {
       return false;
     }
     
     // make sure it include valid characters, alpha numeric and underscores
-    if ( ! preg_match('/^[\w\s\%\'\&\,\$\#]+$/i', $qStr ) ) {
+    if ( ! preg_match('/^[\w\s\%\'\&\,\$\#]+$/i', $query ) ) {
       return false;
     }
 
     return true;
   }
 
-  static function url( $url, $domainCheck = false) {
-    $purl = parse_url($url);
-    if (preg_match('|^http$|i', @$purl['scheme']) && !empty($purl['host'])) {
-      if ($domainCheck && function_exists('checkdnsrr')) {
-        if (checkdnsrr($purl['host'], 'A')) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-      return true;
-    }
-    return false;
+  static function url( $url, $checkDomain = false) {
+    $options = array( 'domain_check'    => $checkDomain,
+                      'allowed_schemes' => array( 'http', 'https', 'mailto', 'ftp' ) );
+
+    return Validate::uri( $url, $options );
   }
 
-  static function dateStr($value, $default = null) {
+  static function date($value, $default = null) {
     if (is_string($value) &&
         preg_match('/^\d\d\d\d-\d\d-\d\d$/', $value)) {
       return $value;
@@ -102,7 +96,15 @@ class CRM_Validate {
     }
     return $default;
   }
-  
+
+  static function email($value, $checkDomain = false) {
+    static $qfRule = null;
+    if ( ! isset( $qfRule ) ) {
+      $qfRule = new HTML_QuickForm_Rule_Email();
+    }
+    return $qfRule->validate( $value, $checkDomain );
+  }
+
 }
 
 ?>

@@ -1,4 +1,3 @@
-<?php
 /**
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
@@ -22,26 +21,3 @@
  +----------------------------------------------------------------------+
 */
 
-/**
- * The Base class of the CRM hierarchy. Currently does not provide
- * any useful functionality. As such we dont require anyone to derive
- * from this class.
- *
- * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
- * $Id$
- *
- */
-
-class CRM_Base {
-
-  /**
-   * constructor
-   */
-  function __construct() {
-  }
-
-}
-
-?>

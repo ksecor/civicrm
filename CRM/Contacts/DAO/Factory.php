@@ -4,26 +4,26 @@ require_once 'CRM/DAO/Factory.php';
 
 class CRM_Contacts_DAO_Factory {
 
-    static $_classes = array (
-                              'Contact'              => 'data',
-                              'Contact_Household'    => 'data',
-                              'Contact_Individual'   => 'data',
-                              'Contact_Organization' => 'data',
-			      'Contact_Location'     => 'data',
-			      'Relationship_Type'    => 'data',
-			      'Relationship'         => 'data',
-			      'Contact_Action'       => 'data',
-			      'Task'                 => 'data',
-			      'Note'                 => 'data',
-			      'Saved_Search'         => 'data',
-			      'List'                 => 'data',
-			      'Contact_List'         => 'data',
-                             );
+  static $_classes = array (
+                            'Contact'              => 'data',
+                            'Contact_Household'    => 'data',
+                            'Contact_Individual'   => 'data',
+                            'Contact_Organization' => 'data',
+                            'Contact_Location'     => 'data',
+                            'Relationship_Type'    => 'data',
+                            'Relationship'         => 'data',
+                            'Contact_Action'       => 'data',
+                            'Task'                 => 'data',
+                            'Note'                 => 'data',
+                            'Saved_Search'         => 'data',
+                            'List'                 => 'data',
+                            'Contact_List'         => 'data',
+                            );
 
-    static $_prefix = array(
-                           'business'  =>  'CRM/Contacts/BAO/',
-                           'data'      =>  'CRM/Contacts/DAO/',
-                           );
+  static $_prefix = array(
+                          'business'  =>  'CRM/Contacts/BAO/',
+                          'data'      =>  'CRM/Contacts/DAO/',
+                          );
     
     static $_suffix = '.php';
     

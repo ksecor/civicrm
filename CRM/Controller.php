@@ -1,33 +1,64 @@
 <?php
+/**
+ +----------------------------------------------------------------------+
+ | CiviCRM version 1.0                                                  |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2005 Donald A. Lobo                                    |
+ +----------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                      |
+ |                                                                      |
+ | CiviCRM is free software; you can redistribute it and/or modify it   |
+ | under the terms of the Affero General Public License Version 1,      |
+ | March 2002.                                                          |
+ |                                                                      |
+ | CiviCRM is distributed in the hope that it will be useful, but       |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+ | See the Affero General Public License for more details at            |
+ | http://www.affero.org/oagpl.html                                     |
+ |                                                                      |
+ | A copy of the Affero General Public License has been been            |
+ | distributed along with this program (affero_gpl.txt)                 |
+ +----------------------------------------------------------------------+
+*/
+
+/**
+ * This class acts as our base controller class and adds additional 
+ * functionality and smarts to the base QFC. Specifically we create
+ * our own action classes and handle the transitions ourselves by
+ * simulating a state machine. We also create direct jump links to any
+ * page that can be used universally.
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
 
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Action/Direct.php';
 
-require_once 'CRM/QuickForm/Action/Back.php';
-require_once 'CRM/QuickForm/Action/Cancel.php';
-require_once 'CRM/QuickForm/Action/Display.php';
-require_once 'CRM/QuickForm/Action/Done.php';
-require_once 'CRM/QuickForm/Action/Jump.php';
-require_once 'CRM/QuickForm/Action/Next.php';
-require_once 'CRM/QuickForm/Action/Process.php';
-require_once 'CRM/QuickForm/Action/Refresh.php';
-require_once 'CRM/QuickForm/Action/Submit.php';
-require_once 'CRM/QuickForm/Action/Upload.php';
-
 require_once 'CRM/StateMachine.php';
 
 class CRM_Controller extends HTML_QuickForm_Controller {
+
+  /**
+   * the state machine associated with this controller
+   *
+   * @var object
+   */
   protected $_stateMachine;
-  protected $_stateNames;
 
   /**
    * This caches the content for the display system
+   *
+   * @var string
    */
   protected $_content;
 
   /**
-   * All CRM single or multi page pages should inherit from this class. This
-   * class extends the basic controller and adds additional useful functionality
+   * All CRM single or multi page pages should inherit from this class. 
    *
    * @param string  name of the controller
    * @param boolean whether controller is modal
@@ -61,6 +92,8 @@ class CRM_Controller extends HTML_QuickForm_Controller {
    */
   function run( ) {
     // the names of the action and page should be saved
+    // note that this is split into two, because some versions of
+    // php 5.x core dump on the triple assignment :)
     $this->_actionName = $this->getActionName();
     list($pageName, $action) = $this->_actionName;
  
@@ -90,7 +123,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
    * @return void
    *
    */
-  function addDirectActions( $stateNames ) {
+  function addDirect( $stateNames ) {
     foreach ( $stateNames as $name ) {
       $this->addAction( $name, new HTML_QuickForm_Action_Direct( ) );
     }
@@ -107,18 +140,27 @@ class CRM_Controller extends HTML_QuickForm_Controller {
    * @return void
    *
    */
-  function addDefaultActions( $uploadDirectory = null, $uploadNames = null ) {
-    $this->addAction('display', new CRM_QuickForm_Action_Display($this->_stateMachine));
-    $this->addAction('next'   , new CRM_QuickForm_Action_Next   ($this->_stateMachine));
-    $this->addAction('back'   , new CRM_QuickForm_Action_Back   ($this->_stateMachine));
-    $this->addAction('process', new CRM_QuickForm_Action_Process($this->_stateMachine));
-    $this->addAction('cancel' , new CRM_QuickForm_Action_Cancel ($this->_stateMachine));
-    $this->addAction('refresh', new CRM_QuickForm_Action_Refresh($this->_stateMachine));
-    $this->addAction('done'   , new CRM_QuickForm_Action_Done   ($this->_stateMachine));
-    $this->addAction('jump'   , new CRM_QuickForm_Action_Jump   ($this->_stateMachine));
-    $this->addAction('submit' , new CRM_QuickForm_Action_Submit ($this->_stateMachine));
+  function addDefault( $uploadDirectory = null, $uploadNames = null ) {
+    static $names = array(
+                          'display'   => 'CRM_QuickForm_Action_Display',
+                          'next'      => 'CRM_QuickForm_Action_Next'   ,
+                          'back'      => 'CRM_QuickForm_Action_Back'   ,
+                          'process'   => 'CRM_QuickForm_Action_Process',
+                          'cancel'    => 'CRM_QuickForm_Action_Cancel' ,
+                          'refresh'   => 'CRM_QuickForm_Action_Refresh',
+                          'done'      => 'CRM_QuickForm_Action_Done'   ,
+                          'jump'      => 'CRM_QuickForm_Action_Jump'   ,
+                          'submit'    => 'CRM_QuickForm_Action_Submit' ,
+                          );
 
+    foreach ( $names as $name => $classPath ) {
+      CRM_Utils::import( $classPath );
+      $this->addAction( $name, new $classPath( $this->_stateMachine ) );
+    }
+    
     if ( ! empty( $uploadDirectory ) ) {
+      require_once 'CRM/QuickForm/Action/Upload.php';
+
       $this->addAction('upload' ,
                        new CRM_QuickForm_Action_Upload ($this->_stateMachine,
                                                         $uploadDirectory,
@@ -127,39 +169,60 @@ class CRM_Controller extends HTML_QuickForm_Controller {
     
   }
 
+  /**
+   * getter method for stateMachine
+   *
+   * @return object
+   * @access public
+   */
   function getStateMachine( ) {
     return $this->_stateMachine;
   }
 
+  /**
+   * setter method for stateMachine
+   *
+   * @param object a stateMachineObject
+   *
+   * @return void
+   * @access public
+   */
  function setStateMachine( $stateMachine) {
     $this->_stateMachine = $stateMachine;
   }
 
   /**
-   * add pages to the controller
+   * add pages to the controller. Note that the controller does not really care
+   * the order in which the pages are added
+   *
+   * @param object stateMachine  the state machine object
+   * @param int    mode          the mode in which the state machine is operating
+   *                             typicaly this will be add/view/edit
+   *
+   * @return void
+   * @access public
    *
    */
-  function addPages( $stateMachine, $states = null, $mode = CRM_Form::MODE_NONE ) {
+  function addPages( $stateMachine, $mode = CRM_Form::MODE_NONE ) {
     $stateNames = array( );
 
     if ( ! $states ) {
       $states = $stateMachine->getStatesDescription( );
     }
 
-    foreach ( $states as $state ) {
-      $className    = $state;
-      $classString  = CRM_String::getLastTuple( $className );
-      $stateNames[] = $classString;
+    foreach ( $states as $classPath ) {
+      $className  = CRM_String::getClassName( $classPath );
+      $stateNames[] = $className;
 
-      CRM_Utils::import( $className );
+      CRM_Utils::import( $classPath );
 
-      $page = new $className( $classString,
-                              $stateMachine->find( $classString ),
+      $page = new $classPath( $className,
+                              $stateMachine->find( $classPath ),
                               $mode );
       $this->addPage( $page );
     }
 
-    $this->addDirectActions( $stateNames );
+    $this->addDirect( $stateNames );
 
   }
 
@@ -171,8 +234,8 @@ class CRM_Controller extends HTML_QuickForm_Controller {
    *
    * @param string name of the button
    *
-   * @access public
    * @return string the value of the button data (null if not present)
+   * @access public
    *
    */
   function getButtonData( $buttonName ) {
@@ -216,14 +279,30 @@ class CRM_Controller extends HTML_QuickForm_Controller {
    * what pages are potentially involved in this wizard. (this is dynamic
    * and can change based on the arguments
    *
+   * @return void
+   * @access public
    */
   function process( ) {
   }
 
+
+  /**
+   * setter for content
+   *
+   * @param string
+   * @return void
+   * @access public
+   */
   function setContent(&$content) {
     $this->_content =& $content;
   }
 
+  /**
+   * getter for content
+   *
+   * @return void
+   * @access public
+   */
   function &getContent() {
     return $this->_content;
   }

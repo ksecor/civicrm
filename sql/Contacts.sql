@@ -397,8 +397,13 @@ CREATE TABLE crm_address(
 	usps_adc VARCHAR(32),
 
 	country_id INT UNSIGNED COMMENT 'index to crm_country table',
-	geo_code_1 FLOAT COMMENT 'latitude or UTM (Universal Transverse Mercator Grid)',
-	geo_code_2 FLOAT COMMENT 'longitude or UTM (Universal Transverse Mercator Grid)',
+
+    geo_type   ENUM('LATLONG', 'UTM') COMMENT 'system we using to encode the coordinates"
+	geo_code_1 FLOAT COMMENT 'latitude or UTM (Universal Transverse Mercator Grid) Northing',
+	geo_code_2 FLOAT COMMENT 'longitude or UTM (Universal Transverse Mercator Grid) Easting',
+    geo_zone   VARCHAR(4) COMMENT 'UTM zone the codes are displayed in. This is typically a 2-3 character string: (1-36)(C-X)',
+    geo_datum  VARCHAR(8) COMMENT 'DATUM is the underlying assumption of the shape of the earth being used, e.g. NAD27, WGS84'
+
 	timezone VARCHAR(8) COMMENT 'timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6"',
 	address_note VARCHAR(255) COMMENT 'optional misc info (e.g. delivery instructions) for this address',
 

@@ -1,5 +1,6 @@
 <?php
 
+require 'CRM/Rule.php';
 require 'Validate.php';
 
 class CRM_Type {
@@ -50,10 +51,10 @@ class CRM_Type {
       return true;
 
     case self::T_EMAIL:
-      return Validate::email( $value );
+      return CRM_Rule::email( $value );
 
     case self::T_URL:
-      return Validate::uri( $value );
+      return CRM_Rule::uri( $value );
 
     case self::T_CCNUM:
       return Validate::creditCard( $value );

@@ -319,9 +319,14 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         
         $this->addElement('hidden', 'mdyx','false');
 
-        $this->addDefaultButtons(array(1 => array ('next', 'Save', true),
-                                       2 => array ('reset' , 'Reset', false),
-                                       3 => array ('cancel', 'Cancel', false)
+        $this->addDefaultButtons( array(
+                                        array ( 'type'      => 'next'  ,
+                                                'name'      => 'Save'  ,
+                                                'isDefault' => true     ),
+                                        array ( 'type'      => 'reset' ,
+                                                'name'      => 'Reset'  ),
+                                        array ( type'       => 'cancel',
+                                                'name'      => 'Cancel' ),
                                        )
                                  );
         $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contacts_Form_CRUD');

@@ -326,9 +326,14 @@ class HTML_QuickForm_Controller
             return $this->_actionName;
         }
         $names = array_map('preg_quote', array_keys($this->_pages));
-        $regex = '/^_qf_(' . implode('|', $names) . ')_(.+?)(_.+?)(_x)?$/';
+        $regex = '/^_qf_(' . implode('|', $names) . ')_(.+?)(_.+?)?(_x)?$/';
         foreach (array_keys($_REQUEST) as $key) {
             if (preg_match($regex, $key, $matches)) {
+                if ( array_key_exists( 3, $matches ) ) {
+                    $data =& $this->container();
+                    $key = preg_replace( '/_(x|y)$/', '', $key );
+                    $data['_qf_button_data'][$key] = 1;
+                }
                 return array($matches[1], $matches[2]);
             }
         }

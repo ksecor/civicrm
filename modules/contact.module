@@ -5,6 +5,7 @@ include_once 'config.inc.php';
 require_once 'CRM/Contacts/Contacts.php';
 require_once 'CRM/Contacts/Households.php';
 require_once 'CRM/Contacts/Organizations.php';
+require_once 'CRM/Form.php';
 require_once 'CRM/Utils.php';
 
 /**

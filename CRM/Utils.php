@@ -2,7 +2,7 @@
 
 require_once 'Log.php';
 
-require_once 'CRM/Validate.php';
+require_once 'CRM/Rule.php';
 require_once 'CRM/Pager.php';
 require_once 'CRM/Sort.php';
 
@@ -113,13 +113,13 @@ class CRM_Utils {
     return $path[ count( $path ) - 1 ];
   }
 
-  static function import( $className ) {
-    if ( class_exists( $className ) ) {
+  static function import( $classPath ) {
+    if ( class_exists( $classPath ) ) {
       return;
     }
 	
-    $className = self::safe_identifier( $className);
-    $classPath = str_replace( '_', '/', $className ) . '.php';
+    $classPath = self::safe_identifier( $classPath);
+    $classPath = str_replace( '_', '/', $classPath ) . '.php';
     require_once($classPath);
   }
 

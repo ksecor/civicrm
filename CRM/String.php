@@ -3,6 +3,16 @@
 require_once 'HTML/QuickForm/Rule/Email.php';
 
 class CRM_String {
+  
+  const
+    COMMA          = ","   ,
+    SEMICOLON      = ";"   ,
+    SPACE          = " "   ,
+    TAB            = "\t"  ,
+    LINEFEED       = "\n"  ,
+    CARRIAGELINE   = "\r\n",
+    LINECARRIAGE   = "\n\r",
+    CARRIAGERETURN = "\r"  ;
 
   const
     EMAIL      = 'email'  ,
@@ -92,7 +102,7 @@ class CRM_String {
    * @return string the last component
    *
    */
-  static function getLastTuple( $string, $char = '_' ) {
+  static function getClassName( $string, $char = '_' ) {
     $path = explode( $char, $string );
     return $path[ count( $path ) - 1 ];
   }
@@ -205,19 +215,20 @@ class CRM_String {
    *
    */
   static function findBestSeperator( $lines ) {
-    $count = array( );
     $seperators = array(
-                        CRM_SEPERATOR_COMMA      => 0,
-                        CRM_SEPERATOR_SEMICOLON  => 0,
-                        CRM_SEPERATOR_TAB        => 0,
-                        CRM_SEPERATOR_SPACE      => 0,
-                        CRM_SEPERATOR_LF         => 0,
-                        CRM_SEPERATOR_CRLF       => 0,
-                        CRM_SEPERATOR_CR         => 0,
+                        CRM_String::COMMA          => 0,
+                        CRM_String::SEMICOLON      => 0,
+                        CRM_String::TAB            => 0,
+                        CRM_String::SPACE          => 0,
+                        CRM_String::LINEFEED       => 0,
+                        CRM_String::CARRIAGELINE   => 0,
+                        CRM_String::CARRIAGERETURN => 0,
                         );
 
+    $count = array( );
+
     $max  = -1;
-    $best = CRM_SEPERATOR_COMMA; // default, in case we dont find any or dont get into the loop
+    $best = CRM_String::COMMA; // default, in case we dont find any or dont get into the loop
     foreach ( $seperators as $seperator => $value ) {
       foreach ( $lines as $line ) {
         $seperators[$seperator] = $seperators[$seperator] + substr_count( $line, $seperator );
