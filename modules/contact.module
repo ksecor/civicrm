@@ -82,19 +82,21 @@ function contact_block($op='list', $delta='0')
                 break;   
             case 0:
                 if (is_array($menu_arr)){
+                    $content .= "<div id='crm-shortcuts'>";
                     foreach ($menu_arr as $menu_key => $menu_value) {
                         if ($menu_value['type']==MENU_NORMAL_ITEM) {
                             $content.="<a href=".$menu_value['path'].">".$menu_value['title']."</a><br>";
                         }
                     }
+                    $content .= "</div>";
                 } else {
                     $content.="!!!";
                 }
-                $block['subject'] = 'CRM';
+                $block['subject'] = "<span class='crm_blocktitle'>CRM Shortcuts</span>";
                 $block['content'] = $content;
                 break;
             }
-                    return $block;
+            return $block;
         }
     }
 }
