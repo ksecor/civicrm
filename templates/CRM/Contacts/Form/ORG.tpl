@@ -83,278 +83,333 @@
 
 <br />
 
-<table id = "location" border="1" cellpadding="2" cellspacing="2" width="90%">
-	<tr>
-		<td colspan = "2" class = "form-item">Location :</td>
-	</tr>
-	<tr>	
-		<td class="form-item">
-		{$form.$lid.context_id.html}</td>
-		<td colspan=2 class="form-item">	
-		{$form.$lid.is_primary.html}<label>{$form.$lid.is_primary.label}</label></td>
-	</tr>
 
-<!-- LOADING PHONE BLOCK -->
+<table id = "location" border="0" cellpadding="2" cellspacing="2" width="100%">
+
+
+	<tr><td>
+	<fieldset><legend>Location</legend>
+
+	<table border="0" cellpadding="2" cellspacing="2" width="100%">
+
+	<tr>		
+		 <td class="form-item">
+		 {$form.$lid.location_type_id.html}
+		</td>
+		<td></td><td></td>
+	</tr>
 	<tr>
+		 <td></td>		
+		 <td colspan=2 class="form-item">	
+		 {$form.$lid.is_primary.html}{$form.$lid.is_primary.label}
+		 </td>
+	 </tr>
+
+	 <!-- LOADING PHONE BLOCK -->
+	 <tr>
+		<td>&nbsp;</td>	
+		 <td class="form-item">
+		 <label>{$form.$lid.phone_1.label}</label>
+		 </td>
+		 <td class="form-item">
+		 {$form.$lid.phone_type_1.html}{$form.$lid.phone_1.html}
+		 </td>
+
+	 </tr>
+
+	 <tr><!-- Second phone block.-->
+		<td></td>
+		 <td colspan = "2">
+			 <table id="expand_phone0_2_1">
+			 <tr>
+				 <td>
+				 {$form.exph02_1.html}
+				 </td>
+			 </tr>
+		 </table>
+		 </td> 
 		
-		<td class="form-item">
-		<label>{$form.$lid.phone_1.label}</label></td>
-		<td class="form-item">
-		{$form.$lid.phone_type_1.html}{$form.$lid.phone_1.html}
-		</td>
-	</tr>
+	 </tr>
 
-	<tr><!-- Second phone block.-->
+	 <tr>
+		<td></td>
+		 <td colspan = "2">	
+
+		 <table id="phone0_2_1">
+			 <tr>
+				 <td class="form-item">
+				 <label>{$form.$lid.phone_2.label}</label>
+				 </td>
+				 <td class="form-item">
+				 {$form.$lid.phone_type_2.html}{$form.$lid.phone_2.html}
+				 </td>
+			 </tr>	
+
+			 <tr>
+				 <td colspan="2">
+				 {$form.hideph02_1.html}
+				 </td>
+			 </tr>
+		 </table>
+		 </td> 
 		
-		<td colspan="2">
-		<table id="expand_phone0_2_1">
-		<tr>
-			<td>
-			{$form.exph02_1.html}
-			</td>
-		</tr>
-		</table></td>
-	</tr>
+	 </tr>
 
-	<tr>
-	
-		<td colspan="2">	
-
-		<table id="phone0_2_1">
-		<tr>
-			<td class="form-item">
-			<label>{$form.$lid.phone_2.label}</label>
-			</td>
-			<td class="form-item">
-			{$form.$lid.phone_type_2.html}{$form.$lid.phone_2.html}
-			</td>
-		</tr>	
-
-		<tr>
-			<td colspan="2">
-			{$form.hideph02_1.html}
-			</td>
-		</tr>
-		</table></td>
-	</tr>
-
-	<tr><!-- Third phone block.-->
-	
-		<td colspan=2>
-		<table id="expand_phone0_3_1">
-			<tr>	<td>
-				{$form.exph03_1.html}
-				</td>
-			</tr>
-		</table>
-	       	</td>
-	</tr>
-	<tr>
-
-		<td colspan="2">
-		<table id="phone0_3_1">
-		<tr>
-			<td class="form-item">
-			<label>{$form.$lid.phone_3.label}</label></td>
-			<td class="form-item">
-			{$form.$lid.phone_type_3.html}{$form.$lid.phone_3.html}
-			</td>
-		</tr>
-
-		<tr>
-			<td colspan="2">
-			{$form.hideph03_1.html}
-			</td>
-		</tr>
-		</table></td>
-	</tr>
-
-
-
-<!-- LOADING EMAIL BLOCK -->
-
-	<tr>
-		<td class="form-item">
-		<label>{$form.$lid.email.label}</label></td>
-		<td class = "form-item">
-		{$form.$lid.email.html}</td>
-	</tr>
-	<tr><!-- email 2.-->
-		<td colspan="2">
-		<table id="expand_email0_2_1" >
-		<tr>
-			<td>
-			{$form.exem02_1.html}
-			</td>
-		</tr>
-		</table>
-		</td>
-	</tr>
-
-	<tr>
-		<td colspan="2">
-		<table id="email0_2_1">
-		<tr>
-			<td class="form-item">
-			<label>{$form.$lid.email_secondary.label}</label>
-			</td>
-			<td class = "form-item">
-			{$form.$lid.email_secondary.html}
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-			{$form.hideem02_1.html}
-			</td>
-		</tr>
-		</table>
-		</td>
-	</tr>
-	<tr><!-- email 3.-->
-
-		<td colspan="2">
-		<table id="expand_email0_3_1" >
-		<tr>
-			<td>
-			{$form.exem03_1.html}
-			</td>
-		</tr>
-		</table>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2">
-		<table id="email0_3_1">
-		<tr>
-			<td class="form-item">
-			<label>{$form.$lid.email_tertiary.label}</label></td>
-			<td class = "form-item">{$form.$lid.email_tertiary.html}
-			</td>
-		</tr>
-
-		<tr>
-			<td colspan="2">
-			{$form.hideem03_1.html}
-			</td>
-		</tr>
-		</table></td>
-	</tr>
-	<tr><!-- LOADING IM BLOCK -->
+	 <tr><!-- Third phone block.-->
+		<td></td>
+		 <td colspan = "2">
+		 <table id="expand_phone0_3_1">
+			 <tr>	<td>
+				 {$form.exph03_1.html}
+				 </td>
+			 </tr>
+		 </table>
+		 </td>
 		
-		<td class="form-item">
-		<label>{$form.$lid.im_service_id_1.label}</label>
-		</td>
-		<td class="form-item">
-		{$form.$lid.im_service_id_1.html}{$form.$lid.im_screenname_1.html}
-		<div class="description">Select IM service and enter screen-name / user id.</div>
-		</td>
-	</tr>
-	<tr><!-- IM 2.-->
-		
-		<td colspan="2">
-		<table id="expand_IM0_2_1" >
-		<tr>
-			<td>
-			{$form.exim02_1.html}
-			</td>
-		</tr>
-		</table	></td>
-	</tr>
-	<tr>
-		<td colspan="2">
-		<table id="IM0_2_1">
-		<tr>
-			<td class="form-item">
-			<label>{$form.$lid.im_service_id_2.label}</label></td>
-			<td class="form-item">
-			{$form.$lid.im_service_id_2.html}{$form.$lid.im_screenname_2.html}
-			<div class="description">Select IM service and enter screen-name / user id.</div></td>
-		</tr>
-		<tr>
-			<td colspan="2">
-			{$form.hideim02_1.html}
-			</td>
-		</tr>
-		</table></td>
-	</tr>
-	<tr><!-- IM 3.-->
-		<td colspan="2">
-		<table id="expand_IM0_3_1" >
-		<tr>	<td>
-			{$form.exim03_1.html}
-			</td>
-		</tr>
-		</table></td>
-	</tr>
-	<tr>
-		<td colspan="2">	
-		<table id="IM0_3_1">
-		<tr>
-			<td class="form-item">
-			<label>{$form.$lid.im_service_id_3.label}</label></td>
-			<td class="form-item">
-			{$form.$lid.im_service_id_3.html}{$form.$lid.im_screenname_3.html}
-			<div class="description">Select IM service and enter screen-name / user id.</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-			{$form.hideim03_1.html}
-			</td>
-		</tr>
-		</table></td>
-	</tr>
-	<tr>
-		
-		<td class="form-item">
-		<label>{$form.$lid.street.label}</label></td>
-		<td class="form-item">
-		{$form.$lid.street.html}<br/>
-		<div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
-		</td>
-	</tr>
-	<tr>
-		
-		<td class="form-item">
-		<label>{$form.$lid.supplemental_address.label}</label></td>
-		<td class="form-item">
-		{$form.$lid.supplemental_address.html}<br/>
-		<div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
-		</td>
-	</tr>
-	<tr>
-		<td class="form-item">
-		<label>{$form.$lid.city.label}</label>
-		</td><td class="form-item">
-		{$form.$lid.city.html}<br/>
-		</td>
-	</tr>
-	<tr>
-		<td class="form-item">
-		<label>{$form.$lid.state_province_id.label}</label></td>
-		<td class="form-item">
-		{$form.$lid.state_province_id.html}
-		</td>
-	</tr>
-	<tr>
-		<td class="form-item">
-		<label>{$form.$lid.postal_code.label}</label></td>
-		<td class="form-item">
-		{$form.$lid.postal_code.html}<br/>
-		</td>
-	</tr>
-	<tr>
-		<td class="form-item">
-		<label>{$form.$lid.country_id.label}</label>
-		</td><td class="form-item">
-		{$form.$lid.country_id.html}
-		</td>
-	</tr>
+	 </tr>
+	 <tr>
+		<td></td>
+		 <td colspan = "2">
+		 <table id="phone0_3_1">
+			 <tr>
+				 <td class="form-item">
+				 <label>{$form.$lid.phone_3.label}</label></td>
+				 <td class="form-item">
+				 {$form.$lid.phone_type_3.html}{$form.$lid.phone_3.html}
+				 </td>
+			 </tr>
 
+			 <tr>
+				 <td colspan="2">
+				 {$form.hideph03_1.html}
+				 </td>
+			 </tr>
+		 </table>
+		 </td> 
+	 </tr>
+
+
+
+ <!-- LOADING EMAIL BLOCK -->
+
+	 <tr>
+		<td></td>
+		 <td class="form-item">
+			 <label>{$form.$lid.email_1.label}</label>
+		 </td>
+		 <td class = "form-item">
+			 {$form.$lid.email_1.html}
+		 </td>
+		
+	 </tr>
+	 <tr><!-- email 2.-->
+		<td></td>
+		 <td colspan = "2">
+		 <table id="expand_email0_2_1" >
+			 <tr>
+				 <td>
+				 {$form.exem02_1.html}
+				 </td>
+			 </tr>
+		 </table>
+		 </td>
+	 </tr>
+
+	 <tr>
+		<td></td>
+		 <td colspan = "2">
+		 <table id="email0_2_1">
+			 <tr>
+				 <td class="form-item">
+				 <label>{$form.$lid.email_2.label}</label>
+				 </td>
+				 <td class = "form-item">
+				 {$form.$lid.email_2.html}
+				 </td>
+		 </tr>
+		 <tr>
+
+			 <td>
+			 {$form.hideem02_1.html}
+			 </td>
+		 </tr>
+		 </table>
+		 </td>
+	 </tr>
+	 <tr><!-- email 3.-->
+
+		<td></td>
+		 <td colspan = "2">
+		 <table id="expand_email0_3_1" >
+			 <tr>
+				 <td>
+				 {$form.exem03_1.html}
+				 </td>
+			 </tr>
+		 </table>
+		 </td> 
+	 </tr>
+	 <tr>
+		<td></td>
+		 <td colspan = "2">
+		 <table id="email0_3_1">
+			 <tr>
+				 <td class="form-item">
+				 <label>{$form.$lid.email_3.label}</label>
+				 </td>
+				 <td class = "form-item">
+				 {$form.$lid.email_3.html}
+				 </td>
+			 </tr>	
+
+			 <tr>
+				 <td colspan="2">
+				 {$form.hideem03_1.html}
+				 </td>
+			 </tr>
+		 </table>
+		 </td>
+	 </tr>
+	 <tr><!-- LOADING IM BLOCK -->
+
+		<td></td>
+		 <td class="form-item">
+		 <label>{$form.$lid.im_service_id_1.label}</label>
+		 </td>
+		 <td class="form-item">
+		 {$form.$lid.im_service_id_1.html}{$form.$lid.im_screenname_1.html}
+		 <div class="description">Select IM service and enter screen-name / user id.</div>
+		 </td>
+		 
+	 </tr>
+	 <tr><!-- IM 2.-->
+
+		<td></td>
+		 <td colspan = "2">
+			 <table id="expand_IM0_2_1">
+			 <tr>
+				 <td>
+				 {$form.exim02_1.html}
+				 </td>
+			 </tr>
+			 </table>
+		 </td>
+	 </tr>
+	 <tr>
+		<td></td>
+		 <td colspan = "2">
+		 <table id="IM0_2_1">
+			 <tr>
+				 <td class="form-item">
+				 <label>{$form.$lid.im_service_id_2.label}</label></td>
+				 <td class="form-item">
+				 {$form.$lid.im_service_id_2.html}{$form.$lid.im_screenname_2.html}
+				 <div class="description">Select IM service and enter screen-name / user id.</div></td>
+			 </tr>
+			 <tr>
+				 <td colspan="2">
+				 {$form.hideim02_1.html}
+				 </td>
+			 </tr>
+		 </table>
+		 </td>
+	 </tr>
+	 <tr><!-- IM 3.-->
+
+		<td></td>
+		 <td colspan = "2">
+		 <table id="expand_IM0_3_1" >
+			 <tr>	
+				 <td>
+				 {$form.exim03_1.html}
+				 </td>
+			 </tr>
+		 </table>
+		 </td> 
+	 </tr>
+	 <tr>
+		<td></td>
+		 <td colspan = "2">	
+		 <table id="IM0_3_1">
+			 <tr>
+				 <td class="form-item">
+				 <label>{$form.$lid.im_service_id_3.label}</label></td>
+				 <td class="form-item">
+				 {$form.$lid.im_service_id_3.html}{$form.$lid.im_screenname_3.html}
+				 <div class="description">Select IM service and enter screen-name / user id.</div>
+				 </td>
+			 </tr>
+			 <tr>
+				 <td colspan="2">
+				 {$form.hideim03_1.html}
+				 </td>
+			 </tr>
+		 </table>
+		 </td>
+	 </tr>
+	 <tr>
+		<td></td>
+		 <td class="form-item">
+		 <label>{$form.$lid.street.label}</label>
+		</td>
+		 <td class="form-item">
+		 {$form.$lid.street.html}<!--br/-->
+		 <div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
+		 </td>
+	 </tr>
+	 <tr>
+		<td></td>
+		 <td class="form-item">
+		 <label>{$form.$lid.supplemental_address.label}</label>
+		</td>
+		 <td class="form-item">
+		 {$form.$lid.supplemental_address.html}<!--br/-->
+
+		 <div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
+		 </td>
+	 </tr>
+	 <tr>
+		<td></td>
+		 <td class="form-item">
+		 <label>{$form.$lid.city.label}</label>
+		 </td>
+		 <td class="form-item">
+		 {$form.$lid.city.html}<!--br/-->
+		 </td>
+	 </tr>
+	 <tr>
+		<td></td>
+		 <td class="form-item">
+		 <label>{$form.$lid.state_province_id.label}</label>
+		 </td>
+		 <td class="form-item">
+		 {$form.$lid.state_province_id.html}
+		 </td>
+	 </tr>
+	 <tr>
+		<td></td>
+		 <td class="form-item">
+		 <label>{$form.$lid.postal_code.label}</label>
+		 </td>
+		 <td class="form-item">
+		 {$form.$lid.postal_code.html}<!--br/-->
+		 </td>
+	 </tr>
+	 <tr>
+		<td></td>
+		 <td class="form-item">
+		 <label>{$form.$lid.country_id.label}</label>
+		 </td>
+		 <td class="form-item">
+		 {$form.$lid.country_id.html}
+		 </td>
+	 </tr>
+
+
+	</table>
+	</fieldset>
+	</td></tr>
 </table>
-
-
-
 
 {* ENDING UNIT gx3 LOCATION ENGINE } */
 
