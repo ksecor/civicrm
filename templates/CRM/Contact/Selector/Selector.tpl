@@ -23,7 +23,7 @@
     <td width="15" align="center"><input name="chk[{counter}]" type="checkbox" value="{$row.contact_id}"></td>
     <!--td valign="top" align="center" width="75">{$row.contact_id}</td-->
     <td width="15" valign="top">{$row.c_type}</td>	
-    <td valign="top">{$row.sort_name}</td>
+    <td valign="top"><a href={$row.view}>{$row.sort_name}</a></td>
     <td valign="top">{$row.email}</td>
     <td valign="top">{$row.phone}</td>
     <td valign="top">{$row.street_address}</td>
@@ -36,4 +36,3 @@
 </table>
 
   {include file="CRM/pager.tpl" location="bottom"}
-
