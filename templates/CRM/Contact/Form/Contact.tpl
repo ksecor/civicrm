@@ -3,7 +3,7 @@
 
 {if $mode eq 1 || $mode eq 4}
     {* Add or Update (Edit) mode *}
-    {include file="CRM/Contact/Form/Add.tpl"} 
+    {include file="CRM/Contact/Form/Edit.tpl"} 
 {elseif $mode eq 2}
     {include file="CRM/Contact/Form/View.tpl"} 
 {/if}

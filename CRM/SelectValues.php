@@ -85,7 +85,7 @@ class CRM_SelectValues {
     public static $date       = array(
                                       'language'  => 'en',
                                       'format'    => 'dMY',
-                                      'minYear'   => 1950,
+                                      'minYear'   => 1900,
                                       'maxYear'   => 2005,
                                       'addEmptyOption'   => true,
                                       'emptyOptionText'  => '-select-',

@@ -77,16 +77,14 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         $individual->gender = $params['gender']['gender'];
 
         $date = CRM_Array::value( 'birth_date', $params );
-        if ( $date ) {
-            if ( ! empty( $date['M'] ) && ! empty( $date['d'] ) && ! empty( $data['Y'] ) ) {
-                $date['M'] = ( $date['M'] < 10 ) ? '0' . $date['M'] : $date['M'];
-                $date['d'] = ( $date['d'] < 10 ) ? '0' . $date['d'] : $date['d'];
-                $individual->birth_date = $date['Y'] . $date['M'] . $date['d'];
-            } else {
-                $individual->birth_date = null;
-            }
-        } else {
-            $individual->birth_date = null;
+        $individual->birth_date = null;
+        if ( $date              &&
+             !empty($date['M']) &&
+             !empty($date['d']) &&
+             !empty($date['Y']) ) {
+            $date['M'] = ( $date['M'] < 10 ) ? '0' . $date['M'] : $date['M'];
+            $date['d'] = ( $date['d'] < 10 ) ? '0' . $date['d'] : $date['d'];
+            $individual->birth_date = $date['Y'] . $date['M'] . $date['d'];
         }
 
         if ( ! array_key_exists( 'is_deceased', $params ) ) {
