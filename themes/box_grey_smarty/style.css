@@ -65,7 +65,7 @@ form .form-item .title  {
   background: transparent;
   border: 0;
 }
-input, textarea {
+select, textarea {
   background: transparent;
   color: inherit;
   border: 1px solid #777;
@@ -78,7 +78,7 @@ input:focus, textarea:focus {
   background: transparent;
   border: 1px solid #03f;
 }
-input.form-text { border: solid 1px #ddd; }
+input.form-text { border: solid 1px #777; }
 button.form-submit { border: solid 1px #ddd; }
 .marker, .error { color: #f00; }
 .ok { color: #080; }
@@ -92,6 +92,8 @@ fieldset { border: 1px solid #999; }
   color: #000;
   background: #fff;
 }
+legend { font-weight: bold; color: #777; }
+.form-item label { font-size: .9em; padding: 0 10px 0 0 }
 pre {
   background: #ddd;
   border: 1px solid #aaa;
@@ -178,6 +180,8 @@ td.main-content {
 }
 td.form-item {
   vertical-align: top;
+}
+label.form-item {
   white-space: nowrap;
 }
 td.sidebar {
@@ -299,7 +303,7 @@ td.sidebar {
 }
 .main-content .content-title {
   font-size: 1.3em;
-  margin: 0 0 1.6em 0;
+  margin: .5em 0 .25em 0;
 }
 .main-content .node h2, .main-content h2 {
   padding: 0;
@@ -402,10 +406,10 @@ td.sidebar {
 .xml-icon {
   text-align: center;
 }
-.form-submit {
-  margin: 0;
+.main-content .form-submit {
+  margin: 0.5em 0 0.5em 0.5em;
 }
-.form-item {
+.main-content .form-item {
   margin: 3px 0;
   padding: 0.3em 0;
 }
@@ -430,9 +434,9 @@ form .form-item .title  {
   padding: 0.3em 0;
   text-align: left;
 }
-select {
+/* select {
   margin: 1px 5px;
-}
+}*/
 .container-inline {
   margin: 0 0 1.6em 0;
 }
@@ -461,4 +465,98 @@ div.picture {
 }
 br.clear {
   clear: both;
+}
+
+/* CRM-specific styles */
+.crmMenuTitle {
+    border: 1px solid #000;
+    padding: 2px;
+    margin: 0 0 5px 0;
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #888;
+    width: 100%
+}
+
+.listNav {
+    border: 1px solid #000;
+    padding: 2px;
+    background-color: #888;
+    font-size: 10px;
+    font-weight: bold;
+    width: 100%;
+}
+.listNav span {
+    color: #fff;
+    font-weight: bold;
+    padding-right: 5px;
+}
+
+.listNav a, .listNav a:visited, .listNav a:active {
+    color: #fff;
+}
+
+#crm-frame {
+    vertical-align: top;
+//    background-color: #eee;
+}
+
+.crmWizardMenu div {
+    border: 1px solid #000;
+    padding: 5px;
+    background-color: #fff;
+    width: 95%;
+}
+
+.listContacts {
+    border: 1px solid #777;
+    width: 100%;
+}
+
+.listContacts th {
+    font-size: 11px;
+    color: #666666;
+    font-weight: bold;
+    text-align: left;
+//    background-image: url(images/listContactsBg.png);
+    background-color: #ddd;
+    padding: 5px;
+//    padding-left: 5px;
+//    padding-right: 5px;
+    border-bottom: 1px solid #980000;
+}
+
+.listContacts tr.even {
+    background-color: #eee;
+}
+
+.listContacts tr.odd {
+    background-color: #fff;
+}
+
+.listContacts td {
+    font-size: 11px;
+    color: #000000;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    whitespace: nowrap
+}
+
+#select-contact-list {
+  vertical-align: bottom;
+  margin: 0;
+  padding: 0;
+}
+
+#crm-list-action {
+    padding: 5px;
+    width: 100%;
+}
+
+.crmSubLink {
+    padding: 5px 0 0 0;
+    font-size: 11px;
 }
