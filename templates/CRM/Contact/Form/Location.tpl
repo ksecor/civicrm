@@ -22,7 +22,7 @@
  {section name = locationt start = 1 loop = $locloop}
  {assign var = "index" value = "`$smarty.section.locationt.index`"}
  
- {if $locloop - 1  > 1} 
+ {if $locloop - 1  >= 1} 
  {assign var = "pid" value = "`$smarty.section.locationt.index`"}
 
  {/if}
@@ -34,91 +34,56 @@
  {assign var = "width" value = "200"}
  
 
- <tr><td>
  {if $pid > 1}
- <table id = "expand_loc{$pid}" border="0" cellpadding="2" cellspacing="2" width="100%">
-	 <tr>
-		 <td>
-		 {$form.$exloc.html}
-		 </td>
-	 <tr>
- </table>
+ <div id="expand_loc{$index}" class="comment">
+    {$form.$exloc.html}
+ </div>
  {/if}
- </td></tr>
 
+<div id="location{$pid}">
+	<fieldset>
+    {if $pid > 1}
+    <legend>Additional Location</legend>
+    {else}
+    <legend>Primary Location</legend>
+    {/if}
+    
+    <div class="form-item">
+        <!-- Location type drop-down (e.g. Home, Work...) -->
+        {$form.$lid.location_type_id.html}
+        
+        {if $pid > 1}
+            <!-- Checkbox for "make this the primary location" -->
+            {$form.$lid.is_primary.html} Make this the primary location {*$form.$lid.is_primary.label*}
+        {/if}
+    </div>
 
- <tr><td>
- <table id = "location{$pid}" border="0" cellpadding="2" cellspacing="2">
+    <div>
+        {* Display the phone block(s) *}
+        {include file="CRM/Contact/Form/Phone.tpl"}
+    </div>
 
-	<tr><td>
-	<fieldset><legend>Location{$pid}</legend>
+    <div>
+        {* Display the email block(s) *}
+        {include file="CRM/Contact/Form/Email.tpl"}
+    </div>
 
-	<table border="0" cellpadding="2" cellspacing="2" width="750">
-
-		<tr>		
-			<td class="form-item" width = "50">
-		 	{$form.$lid.location_type_id.html}
-			</td>
-			<td>&nbsp;</td><td>&nbsp;</td>
-		</tr>
-		<tr>
-			 <td>&nbsp;</td>		
-			 <td colspan=2 class="form-item">	
-		 	{$form.$lid.is_primary.html}{$form.$lid.is_primary.label}
-		 	</td>
-	 	</tr>
-
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan = 2>
-			{* Plugging the phone block *}
-			{include file="CRM/Contact/Form/Phone.tpl"}
-			</td>
-		</tr> 
-
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan = 2>
-			{* Plugging the email block *}
-			{include file="CRM/Contact/Form/Email.tpl"}
-			</td>
-		</tr>
+    <div>
+        {* Display the instant messenger block(s) *}
+        {include file="CRM/Contact/Form/IM.tpl"}
+    </div>
  
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan = 2>		
-			{* Plugging the instant messenger block *}
-			{include file="CRM/Contact/Form/IM.tpl"}
-			</td>
-		</tr>
- 
-		<tr>
-			<td>&nbsp;</td>
-			<td colspan = 2>
-			{* Plugging the address block *}
-			{include file="CRM/Contact/Form/Address.tpl"} 
-		 	</td>
-		</tr>
+    <div>
+        {* Plugging the address block *}
+        {include file="CRM/Contact/Form/Address.tpl"} 
+    <div>
 
-	 	<tr>
-			<td>&nbsp;</td>
-			<td colspan = "2">
-			{if $pid > 1 }
- 			<table id = "expand_loc{$index}" border="0" cellpadding="2" cellspacing="2" width="100%">	
-				<tr>
-		 			<td colspan = "2">
-			 		{$form.$hideloc.html}
-		 			</td>
-				</tr>
-			</table> 
-			{/if}
-			</td>
-		
-	 	</tr>
-</table>
-</fieldset>
-</td></tr>
-</table>
-</td></tr>
+    {if $pid > 1 }
+        <div class="box">
+            {$form.$hideloc.html}
+        </div>
+    {/if}
+    </fieldset>
+</div> <!-- End of Location block div -->
 {/section}
 

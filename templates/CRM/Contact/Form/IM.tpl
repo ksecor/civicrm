@@ -5,20 +5,13 @@
 {* @var $width Contains the width setting for the first column in the table *} 
 
 <fieldset>
-<table border="0" cellpadding="2" cellspacing="2" width="100%"> 
-	<!----------- LOADING IM BLOCK ----------->	
-	 <tr>
-
-
-		 <td class="form-item" width = {$width}>
-		 <label>{$form.$lid.im_service_id_1.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.im_service_id_1.html}{$form.$lid.im_screenname_1.html}
-		 <div class="description">Select IM service and enter screen-name / user id.</div>
-		 </td>
-		 
-	 </tr>
+	<!----------- Display Primary IM BLOCK ----------->	
+    <div class="form-item">
+        {$form.$lid.im_service_id_1.label}
+        {$form.$lid.im_service_id_1.html}
+        {$form.$lid.im_screenname_1.html}
+        <div class="description">Select IM service and enter screen-name / user id.</div>
+    </div>
 
 	{* The imt section provides the HTML for the im block *}
 	{* The section loops as many times as indicated by the variable $imloop to give as many im blocks *}
@@ -39,37 +32,19 @@
 	{assign var = "exim" value = "exim`$imindex`_`$index`"} 	
  	{assign var = "hideim" value = "hideim`$imindex`_`$index`"}
 
-	 <tr><!-- IM 2.-->
+    <!-- Link to EXPAND Additional IM block -->
+    <div id="expand_IM_{$index}_{$imindex}" class="comment">
+        {$form.$exim.html}
+    </div>
+    <!-- Display Additional IM block fields -->
+    <div id="IM_{$index}_{$imindex}" class="form-item">
+        {$form.$lid.$im_service_id.label}
+        {$form.$lid.$im_service_id.html}{$form.$lid.$im_screenname.html}
 
-		 <td colspan = "2">
-			 <table id="expand_IM_{$index}_{$imindex}">
-			 <tr>
-				 <td>
-				 {$form.$exim.html}
-				 </td>
-			 </tr>
-			 </table>
-		 </td>
-	 </tr>
-	 <tr>
-
-		 <td colspan = "2">
-		 <table id="IM_{$index}_{$imindex}">
-			 <tr>
-				 <td class="form-item" width = {$width}>
-				 <label>{$form.$lid.$im_service_id.label}</label></td>
-				 <td class="form-item">
-				 {$form.$lid.$im_service_id.html}{$form.$lid.$im_screenname.html}
-				 <div class="description">Select IM service and enter screen-name / user id.</div></td>
-			 </tr>
-			 <tr>
-				 <td colspan="2">
-				 {$form.$hideim.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td>
-	 </tr>
-	{/section}
-</table>
+        <!-- Link to hide this IM block -->
+        <div class="box">
+            {$form.$hideim.html}
+        </div>
+    </div>
+    {/section}
 </fieldset>

@@ -5,18 +5,11 @@
 {* @var $width Contains the width setting for the first column in the table *} 
  
 <fieldset>
-<table border="0" cellpadding="2" cellspacing="2" width="100%">
-	 <!------------ LOADING PHONE BLOCK ------------->
-	 <tr>
-
-		 <td class="form-item" width = {$width} >
-		 <label>{$form.$lid.phone_1.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.phone_type_1.html}{$form.$lid.phone_1.html}
-		 </td>
-
-	 </tr>
+    <!------------ Primary (1st) PHONE BLOCK ------------->
+    <div class="form-item">
+        <label>{$form.$lid.phone_1.label}</label>
+        {$form.$lid.phone_type_1.html}{$form.$lid.phone_1.html}
+    </div>
 
 	{* The phonet section provides the HTML for the phone block *}
 	{* The section loops as many times as indicated by the variable $phoneloop to give as many phone blocks *}
@@ -38,43 +31,21 @@
 	{assign var = "exph" value = "exph`$phindex`_`$index`"} 	
  	{assign var = "hideph" value = "hideph`$phindex`_`$index`"}
 
-	 <tr><!-- Second phone block.-->
+    <!-- Link to expand additional phone block.-->
+    <div id="expand_phone_{$index}_{$phindex}" class="comment">
+        {$form.$exph.html}
+    </div>
 
-		 <td colspan = "2">
-			 <table id="expand_phone_{$index}_{$phindex}">
-			 <tr>
-				 <td>
-				 {$form.$exph.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td> 
-		
-	 </tr>
-	 <tr>
+    <!-- Additional phone block.-->
+    <div id="phone_{$index}_{$phindex}" class="form-item">
+        <label>{$form.$lid.$phone.label}</label>
+        {$form.$lid.$phone_type.html}{$form.$lid.$phone.html}
 
-		 <td colspan = "2">	
-
-		 <table id="phone_{$index}_{$phindex}">
-			 <tr>
-				 <td class="form-item" width = {$width}>
-				 <label>{$form.$lid.$phone.label}</label>
-				 </td>
-				 <td class="form-item">
-				 {$form.$lid.$phone_type.html}{$form.$lid.$phone.html}
-				 </td>
-			 </tr>	
-
-			 <tr>
-				 <td colspan="2">
-				 {$form.$hideph.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td> 
-		
-	 </tr>
+		<!-- Link to hide this phone block -->
+        <div class="box">
+            {$form.$hideph.html}
+        </div>
+	 </div>
 
 	{/section}
-</table>
-</fielsdet>
+</fieldset>

@@ -5,19 +5,11 @@
 {* @var $width Contains the width setting for the first column in the table *} 
 
 <fieldset>
-<table border="0" cellpadding="2" cellspacing="2" width="100%"> 
-	<!----------- LOADING EMAIL BLOCK--------- -->
-
-	 <tr>
-
-		 <td class="form-item" width = {$width}>
-			 <label>{$form.$lid.email_1.label}</label>
-		 </td>
-		 <td class = "form-item">
-			 {$form.$lid.email_1.html}
-		 </td>
-		
-	 </tr>
+	<!----------- Primary EMAIL BLOCK--------- -->
+    <div class="form-item">
+        {$form.$lid.email_1.label}
+        {$form.$lid.email_1.html}
+    </div>
 
 	{* The emailt section provides the HTML for the email block *}
 	{* The section loops as many times as indicated by the variable $emailloop to give as many phone blocks *}
@@ -36,40 +28,20 @@
 	{assign var = "exem" value = "exem`$emindex`_`$index`"} 	
  	{assign var = "hideem" value = "hideem`$emindex`_`$index`"}
 
-	 <tr><!-- email 2.-->
+    <!-- Link to EXPAND additional email block.-->
+    <div id="expand_email_{$index}_{$emindex}" class="comment">
+        {$form.$exem.html}
+	</div>
 
-		 <td colspan = "2">
-		 <table id="expand_email_{$index}_{$emindex}" >
-			 <tr>
-				 <td>
-				 {$form.$exem.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td>
-	 </tr>
+    <!-- Additional email block.-->
+	<div id="email_{$index}_{$emindex}" class="form-item">
+        {$form.$lid.$email.label}
+        {$form.$lid.$email.html}
 
-	 <tr>
-
-		 <td colspan = "2">
-		 <table id="email_{$index}_{$emindex}">
-			 <tr>
-				 <td class="form-item" width = {$width}>
-				 <label>{$form.$lid.$email.label}</label>
-				 </td>
-				 <td class = "form-item">
-				 {$form.$lid.$email.html}
-				 </td>
-		 </tr>
-		 <tr>
-
-			 <td>
-			 {$form.$hideem.html}
-			 </td>
-		 </tr>
-		 </table>
-		 </td>
-	 </tr>
+        <!-- Link to HIDE this email block.-->
+        <div class="box">
+            {$form.$hideem.html}
+        </div>
+	</div>
 	{/section}
-</table>
 </fieldset>
