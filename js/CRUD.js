@@ -1,4 +1,14 @@
 
+	/** 
+	*  This function executes when there is an error within a form element and the page is relayed from the server
+	*  with errors. The mechanism by which this function is fired is present within the template file where the 
+	*  condition for count of form errors is checked and if found greater than 0, the following function is called.
+	*
+	*  This function is loaded at the top of the template file and is called at the bottom according to the condition.
+	*  This function checks for data within different elements, within different blocks which are normally hidden on 
+	*  the first display. Thus it checks the values of these elements and determines if the block has to be displayed     	
+	*  which is based on the presence of values within a block.  
+	*/
 
 	function on_error_execute( ) 
 	{  
@@ -81,6 +91,12 @@
 	}
 
 
+
+	/** 
+	* This function is called by default at the bottom of the template file when the page has finished loading the elements
+	* It hides certain blocks which are not to be displayed by default on a fresh load.   
+	*/
+
 	function on_load_execute( )
 	{
 			var sections = 
@@ -114,12 +130,20 @@
 		document.getElementById('fem').checked = 'checked';
 	}
 
+	/** This function is used to display a block. It is usually called by various links which handle requests to display
+	*   hidden blocks. An example is the ~another phone~ link which expands an additional phone block.
+	*   The parameter block_id must have the id of the block which has to be displayed
+  	*/
 
 	function show(block_id) 
 	{
 		document.getElementById(block_id).style.display = 'block';
 	}
 
+	/** This function is used to hide a block. It is usually called by various links which handle requests to hide
+	*   visible blocks. An example is the ~hide phone~ link which expands an additional phone block.
+	*   The parameter block_id must have the id of the block which has to be hidden.  
+	*/
 
 	function hide(block_id) 
 	{
@@ -127,6 +151,10 @@
 	}
 
 
+	/** This is a trimming function which is used to remove leading and trailing whitespaces. 
+	*   The parameter text_value must have the string type value to be trimmed.	
+	*/
+ 
 	function trim(text_value) 
 	{
 		chrx = String.fromCharCode(32);
@@ -142,6 +170,12 @@
 		}
 	return text_value;
 	}
+
+
+	/** This is a defacto function which verifies for errors on the client side before the page is passed to the server. 
+	   The variable er has the error value which directs the status of submit 
+	   Currently this function is not in use. 	
+	*/
 
 	function verify_on_submit( ) 
 	{
