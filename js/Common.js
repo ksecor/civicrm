@@ -134,3 +134,16 @@ function hide(block_id)
     //    document.getElementById(block_id).style.display = 'none';
 }
 
+/**
+ *
+ * function for checking and unchecking of check boxes
+ *
+ * @access public
+ * @param 
+ * @return
+ */
+
+function check()
+{
+    alert("hihihihihi");
+}

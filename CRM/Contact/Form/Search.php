@@ -90,6 +90,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
         
         //link to show advanced search form
         $this->addElement('link', 'adv_search', null, 'crm/contact/search', ' >> Advanced Search....');
+        $this->addElement('link', 'select_all', null, '#', 'All', array('onclick' => 'check(); return false;'));
+        $this->addElement('link', 'select_none', null, '#', 'None', array('onclick' => 'check(); return false;'));
+
 
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'refresh',
