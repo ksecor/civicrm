@@ -1,7 +1,6 @@
 {* smarty *}
 {literal}
 <script type="text/javascript" src="/js/HOUSE.js"></script>
-<link rel="stylesheet" href="/js/HOUSE.js"></script>
 {/literal}
 
 {$form.javascript}
@@ -28,19 +27,19 @@
 <label><i><h1>Household</h1></i></label>
 <table border = "1" cellpadding="2" cellspacing="2">
 	<tr>
-		<td class="form-item"><label>Name:</label></td>
+		<td class="form-item"><label>{$form.household_name.label} </label></td>
 		<td>{$form.household_name.html}</td>
 	</tr>
 	<tr>
-		<td class="form-item"><label>Nick Name:</label></td>
+		<td class="form-item"><label>{$form.nick_name.label}</label></td>
 		<td>{$form.nick_name.html}</td>
 	</tr>
 	<tr>
-		<td class="form-item"><label>Enter contact id:</label></td>
+		<td class="form-item"><label>{$form.primary_contact_id.label}</label></td>
 		<td>{$form.primary_contact_id.html}</td>
 	</tr>
 	<tr>
-		<td class="form-item"><label>Annual Income:</label></td>
+		<td class="form-item"><label>{$form.annual_income.label}</label></td>
 		<td>{$form.annual_income.html}</td>
 	</tr>
 
@@ -56,13 +55,13 @@
 		<td>
 		<table border="1" cellpadding="2" cellspacing="2" width="90%">
 			<tr>
-				<td class="form-item"><label>Privacy:</label></td>
-				<td class="form-item">{$form.do_not_phone.html} Do not call
-	                               		      {$form.do_not_email.html} Do not contact by email
-                                       		      {$form.do_not_mail.html} Do not contact by postal mail</td>
+				<td class="form-item"><label>{$form.do_not_phone.label}</label></td>
+				<td class="form-item">{$form.do_not_phone.html} 
+	                               		      {$form.do_not_email.html} 
+                                       		      {$form.do_not_mail.html}</td>
 			</tr>
 			<tr>
-				<td class="form-item"><label>Prefers:</label></td>
+				<td class="form-item"><label>{$form.preferred_communication_method.label}</label></td>
 				<td class="form-item">{$form.preferred_communication_method.html}
 				<div class="description">Preferred method of communicating with this individual</div></td>
 			</tr>
@@ -78,56 +77,27 @@
 
 {* STARTING UNIT gx3 LOCATION ENGINE *}
 
-{section name = locationt start = 1 loop = 4}
-{assign var = "lid" value = "location`$smarty.section.locationt.index`"}
-{assign var = "pid" value = `$smarty.section.locationt.index`}
-{assign var = "exloc" value = "exloc`$smarty.section.locationt.index`"} 
-{assign var = "hideloc" value = "hideloc`$smarty.section.locationt.index`"} 
 
-{assign var = "exph02" value = "exph02_`$smarty.section.locationt.index`"} 
-{assign var = "exem02" value = "exem02_`$smarty.section.locationt.index`"} 
-{assign var = "exim02" value = "exim02_`$smarty.section.locationt.index`"}
-{assign var = "hideph02" value = "hideph02_`$smarty.section.locationt.index`"}
-{assign var = "hideem02" value = "hideem02_`$smarty.section.locationt.index`"} 
-{assign var = "hideim02" value = "hideim02_`$smarty.section.locationt.index`"}
-
-{assign var = "exph03" value = "exph03_`$smarty.section.locationt.index`"} 
-{assign var = "exem03" value = "exem03_`$smarty.section.locationt.index`"}
-{assign var = "exim03" value = "exim03_`$smarty.section.locationt.index`"}
-{assign var = "hideph03" value = "hideph03_`$smarty.section.locationt.index`"} 
-{assign var = "hideem03" value = "hideem03_`$smarty.section.locationt.index`"}
-{assign var = "hideim03" value = "hideim03_`$smarty.section.locationt.index`"}
+{assign var = "lid" value = "location"}
 
 <br />
-{if $pid > 1}
-<table id = "expand_loc{$pid}" border="0" cellpadding="2" cellspacing="2">
-	<tr>
-		<td>
-		{$form.$exloc.html}
-		</td>
-	<tr>
-</table>
 
-<br />
-{/if}
-
-
-<table id = "location{$pid}" border="1" cellpadding="2" cellspacing="2" width="90%">
+<table id = "location" border="1" cellpadding="2" cellspacing="2" width="90%">
 	<tr>
-		<td colspan = "2" class = "form-item">Location{$pid}:</td>
+		<td colspan = "2" class = "form-item">Location :</td>
 	</tr>
 	<tr>	
 		<td class="form-item">
 		{$form.$lid.context_id.html}</td>
 		<td colspan=2 class="form-item">	
-		{$form.$lid.is_primary.html}<label>Primary location for this contact</label></td>
+		{$form.$lid.is_primary.html}<label>{$form.$lid.is_primary.label}</label></td>
 	</tr>
 
 <!-- LOADING PHONE BLOCK -->
 	<tr>
 		
 		<td class="form-item">
-		<label>Preferred Phone:</label></td>
+		<label>{$form.$lid.phone_1.label}</label></td>
 		<td class="form-item">
 		{$form.$lid.phone_type_1.html}{$form.$lid.phone_1.html}
 		</td>
@@ -136,10 +106,10 @@
 	<tr><!-- Second phone block.-->
 		
 		<td colspan="2">
-		<table id="expand_phone0_2_{$pid}">
+		<table id="expand_phone0_2_1">
 		<tr>
 			<td>
-			{$form.$exph02.html}
+			{$form.exph02_1.html}
 			</td>
 		</tr>
 		</table></td>
@@ -149,10 +119,10 @@
 	
 		<td colspan="2">	
 
-		<table id="phone0_2_{$pid}">
+		<table id="phone0_2_1">
 		<tr>
 			<td class="form-item">
-			<label>Other Phone:</label>
+			<label>{$form.$lid.phone_2.label}</label>
 			</td>
 			<td class="form-item">
 			{$form.$lid.phone_type_2.html}{$form.$lid.phone_2.html}
@@ -161,7 +131,7 @@
 
 		<tr>
 			<td colspan="2">
-			{$form.$hideph02.html}
+			{$form.hideph02_1.html}
 			</td>
 		</tr>
 		</table></td>
@@ -170,9 +140,9 @@
 	<tr><!-- Third phone block.-->
 	
 		<td colspan=2>
-		<table id="expand_phone0_3_{$pid}">
+		<table id="expand_phone0_3_1">
 			<tr>	<td>
-				{$form.$exph03.html}
+				{$form.exph03_1.html}
 				</td>
 			</tr>
 		</table>
@@ -181,10 +151,10 @@
 	<tr>
 
 		<td colspan="2">
-		<table id="phone0_3_{$pid}">
+		<table id="phone0_3_1">
 		<tr>
 			<td class="form-item">
-			<label>Other Phone:</label></td>
+			<label>{$form.$lid.phone_3.label}</label></td>
 			<td class="form-item">
 			{$form.$lid.phone_type_3.html}{$form.$lid.phone_3.html}
 			</td>
@@ -192,7 +162,7 @@
 
 		<tr>
 			<td colspan="2">
-			{$form.$hideph03.html}
+			{$form.$hideph03_1.html}
 			</td>
 		</tr>
 		</table></td>
@@ -204,16 +174,16 @@
 
 	<tr>
 		<td class="form-item">
-		<label>Email:</label></td>
+		<label>{$form.$lid.email.label}</label></td>
 		<td class = "form-item">
 		{$form.$lid.email.html}</td>
 	</tr>
 	<tr><!-- email 2.-->
 		<td colspan="2">
-		<table id="expand_email0_2_{$pid}" >
+		<table id="expand_email0_2_1" >
 		<tr>
 			<td>
-			{$form.$exem02.html}
+			{$form.exem02_1.html}
 			</td>
 		</tr>
 		</table>
@@ -222,10 +192,10 @@
 
 	<tr>
 		<td colspan="2">
-		<table id="email0_2_{$pid}">
+		<table id="email0_2_1">
 		<tr>
 			<td class="form-item">
-			<label>Other Email:</label>
+			<label>{$form.$lid.email_secondary.label}</label>
 			</td>
 			<td class = "form-item">
 			{$form.$lid.email_secondary.html}
@@ -233,7 +203,7 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-			{$form.$hideem02.html}
+			{$form.hideem02_1.html}
 			</td>
 		</tr>
 		</table>
@@ -242,10 +212,10 @@
 	<tr><!-- email 3.-->
 
 		<td colspan="2">
-		<table id="expand_email0_3_{$pid}" >
+		<table id="expand_email0_3_1" >
 		<tr>
 			<td>
-			{$form.$exem03.html}
+			{$form.exem03_1.html}
 			</td>
 		</tr>
 		</table>
@@ -253,17 +223,17 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-		<table id="email0_3_{$pid}">
+		<table id="email0_3_1">
 		<tr>
 			<td class="form-item">
-			<label>Other Email:</label></td>
+			<label>{$form.$lid.email_tertiary.label}</label></td>
 			<td class = "form-item">{$form.$lid.email_tertiary.html}
 			</td>
 		</tr>
 
 		<tr>
 			<td colspan="2">
-			{$form.$hideem03.html}
+			{$form.hideem03_1.html}
 			</td>
 		</tr>
 		</table></td>
@@ -271,7 +241,7 @@
 	<tr><!-- LOADING IM BLOCK -->
 		
 		<td class="form-item">
-		<label>Instant Message:</label>
+		<label>{$form.$lid.im_service_id_1.label}</label>
 		</td>
 		<td class="form-item">
 		{$form.$lid.im_service_id_1.html}{$form.$lid.im_screenname_1.html}
@@ -281,46 +251,46 @@
 	<tr><!-- IM 2.-->
 		
 		<td colspan="2">
-		<table id="expand_IM0_2_{$pid}" >
+		<table id="expand_IM0_2_1" >
 		<tr>
 			<td>
-			{$form.$exim02.html}
+			{$form.exim02_1.html}
 			</td>
 		</tr>
 		</table	></td>
 	</tr>
 	<tr>
 		<td colspan="2">
-		<table id="IM0_2_{$pid}">
+		<table id="IM0_2_1">
 		<tr>
 			<td class="form-item">
-			<label>Instant Message:</label></td>
+			<label>{$form.$lid.im_service_id_2.label}</label></td>
 			<td class="form-item">
 			{$form.$lid.im_service_id_2.html}{$form.$lid.im_screenname_2.html}
 			<div class="description">Select IM service and enter screen-name / user id.</div></td>
 		</tr>
 		<tr>
 			<td colspan="2">
-			{$form.$hideim02.html}
+			{$form.hideim02_1.html}
 			</td>
 		</tr>
 		</table></td>
 	</tr>
 	<tr><!-- IM 3.-->
 		<td colspan="2">
-		<table id="expand_IM0_3_{$pid}" >
+		<table id="expand_IM0_3_1" >
 		<tr>	<td>
-			{$form.$exim03.html}
+			{$form.exim03_1.html}
 			</td>
 		</tr>
 		</table></td>
 	</tr>
 	<tr>
 		<td colspan="2">	
-		<table id="IM0_3_{$pid}">
+		<table id="IM0_3_1">
 		<tr>
 			<td class="form-item">
-			<label>Instant Message:</label></td>
+			<label>{$form.$lid.im_service_id_3.label}</label></td>
 			<td class="form-item">
 			{$form.$lid.im_service_id_3.html}{$form.$lid.im_screenname_3.html}
 			<div class="description">Select IM service and enter screen-name / user id.</div>
@@ -328,7 +298,7 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-			{$form.$hideim03.html}
+			{$form.hideim03_1.html}
 			</td>
 		</tr>
 		</table></td>
@@ -336,7 +306,7 @@
 	<tr>
 		
 		<td class="form-item">
-		<label>Street Address:</label></td>
+		<label>{$form.$lid.street.label}</label></td>
 		<td class="form-item">
 		{$form.$lid.street.html}<br/>
 		<div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
@@ -345,7 +315,7 @@
 	<tr>
 		
 		<td class="form-item">
-		<label>Additional<br/>Address:</label></td>
+		<label>{$form.$lid.supplemental_address.label}</label></td>
 		<td class="form-item">
 		{$form.$lid.supplemental_address.html}<br/>
 		<div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
@@ -353,46 +323,36 @@
 	</tr>
 	<tr>
 		<td class="form-item">
-		<label>City:</label>
+		<label>{$form.$lid.city.label}</label>
 		</td><td class="form-item">
 		{$form.$lid.city.html}<br/>
 		</td>
 	</tr>
 	<tr>
 		<td class="form-item">
-		<label>State / Province:</label></td>
+		<label>{$form.$lid.state_province_id.label}</label></td>
 		<td class="form-item">
 		{$form.$lid.state_province_id.html}
 		</td>
 	</tr>
 	<tr>
 		<td class="form-item">
-		<label>Zip / Postal Code:</label></td>
+		<label>{$form.$lid.postal_code.label}</label></td>
 		<td class="form-item">
 		{$form.$lid.postal_code.html}<br/>
 		</td>
 	</tr>
 	<tr>
 		<td class="form-item">
-		<label>Country:</label>
+		<label>{$form.$lid.country_id.label}</label>
 		</td><td class="form-item">
 		{$form.$lid.country_id.html}
 		</td>
 	</tr>
 
-
-	{if $pid > 1 }
-	<tr>
-		<td colspan = "2">
-	
-		{$form.$hideloc.html}
-	
-		</td>
-	</tr>
-	{/if}
 </table>
 
-{/section}
+
 
 
 {* ENDING UNIT gx3 LOCATION ENGINE } */
