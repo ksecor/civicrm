@@ -5,63 +5,35 @@
 {* @var $width Contains the width setting for the first column in the table *} 
  
 <fieldset>
-<table border="0" cellpadding="2" cellspacing="2" width="100%"
-	 <tr>
+<div class="form-item">
+    {$form.$lid.street_address.label}
+    {$form.$lid.street_address.html}
+    <div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
+</div>
 
-		 <td class="form-item" width = {$width}>
-		 <label>{$form.$lid.street_address.label}</label>
-		</td>
-		 <td class="form-item">
-		 {$form.$lid.street_address.html}<!--br/-->
-		 <div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
-		 </td>
-	 </tr>
-	 <tr>
+<div class="form-item">
+    {$form.$lid.supplemental_address_1.label}
+    {$form.$lid.supplemental_address_1.html}
+    <div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
+</div>
 
-		 <td class="form-item" width = {$width}>
-		 <label>{$form.$lid.supplemental_address_1.label}</label>
-		</td>
-		 <td class="form-item">
-		 {$form.$lid.supplemental_address_1.html}<!--br/-->
+<div class="form-item">
+    {$form.$lid.city.label}
+    {$form.$lid.city.html}
+</div>
 
-		 <div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
-		 </td>
-	 </tr>
-	 <tr>
+<div class="form-item">
+    {$form.$lid.state_province_id.label}
+    {$form.$lid.state_province_id.html}
+</div>
 
-		 <td class="form-item" width = {$width}>
-		 <label>{$form.$lid.city.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.city.html}<!--br/-->
-		 </td>
-	 </tr>
-	 <tr>
-
-		 <td class="form-item" width = {$width}>
-		 <label>{$form.$lid.state_province_id.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.state_province_id.html}
-		 </td>
-	 </tr>
-	 <tr>
-
-		 <td class="form-item" width = {$width}>
-		 <label>{$form.$lid.postal_code.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.postal_code.html}<!--br/-->
-		 </td>
-	 </tr>
-	 <tr>
-
-		 <td class="form-item" width = {$width}>
-		 <label>{$form.$lid.country_id.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.country_id.html}
-		 </td>
-	 </tr>
-</table>
+<div class="form-item">
+    {$form.$lid.postal_code.label}
+    {$form.$lid.postal_code.html}
+</div>
+		 
+<div class="form-item">
+    {$form.$lid.country_id.label}
+    {$form.$lid.country_id.html}
+</div>
 </fieldset>
