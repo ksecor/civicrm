@@ -64,94 +64,24 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $rows = array();
         $str_select = $str_from = $str_where = $str_order = $str_limit = '';
         
-        /*   
-        $str_select = "SELECT crm_contact.id as crm_contact_id, crm_contact.sort_name as crm_contact_sort_name,
-                              crm_address.street_address as crm_address_street_address, crm_address.city as crm_address_city,
-                              crm_state_province.name as crm_state_province_name, crm_email.email as crm_email_email,
-                              crm_phone.phone as crm_phone_phone, crm_contact.contact_type as crm_contact_contact_type";
-        */
-
-        $str_select = "SELECT crm_contact.id AS crm_contact_id, crm_contact.sort_name AS crm_contact_sort_name,
-
-                          IFNULL( crm_address.street_address, (SELECT crm_address.street_address 
-                          FROM crm_contact
-                          LEFT OUTER JOIN crm_location ON ( crm_contact.id = crm_location.contact_id
-                                                            AND crm_location.is_primary =1 )
-                          LEFT OUTER JOIN crm_address ON ( crm_location.id = crm_address.location_id )
- 
-                          WHERE  crm_contact.id = (SELECT IFNULL(contact_id_b,crm_contact_id) AS crm_contact_id
-                                                                    FROM crm_relationship
-                                                                    WHERE crm_relationship.contact_id_a =crm_contact_id
-                                                                    AND ( crm_relationship.relationship_type_id =6 OR crm_relationship.relationship_type_id =7)
-                                                                     )
-                                                            )                                                                
-                           ) AS crm_address_street_address,
-
-                          IFNULL( crm_address.city, (SELECT crm_address.city
-                          FROM crm_contact
-                          LEFT OUTER JOIN crm_location ON ( crm_contact.id = crm_location.contact_id
-                                                            AND crm_location.is_primary =1 )
-                          LEFT OUTER JOIN crm_address ON ( crm_location.id = crm_address.location_id )
-
-                          WHERE  crm_contact.id = (SELECT IFNULL(contact_id_b,crm_contact_id) AS crm_contact_id
-                                                                    FROM crm_relationship
-                                                                    WHERE crm_relationship.contact_id_a =crm_contact_id
-                                                                    AND ( crm_relationship.relationship_type_id =6 OR crm_relationship.relationship_type_id =7)
-                                                                     )
-                                                            )             
-                          ) AS crm_address_city, 
-
-                          IFNULL( crm_state_province.name, (SELECT crm_state_province.name
-                          FROM crm_contact
-                          LEFT OUTER JOIN crm_location ON ( crm_contact.id = crm_location.contact_id
-                                                            AND crm_location.is_primary =1 )
-                          LEFT OUTER JOIN crm_address ON ( crm_location.id = crm_address.location_id )
-                          LEFT OUTER JOIN crm_state_province ON ( crm_address.state_province_id = crm_state_province.id )
-                          WHERE  crm_contact.id = (SELECT IFNULL(contact_id_b,crm_contact_id) AS crm_contact_id
-                                                                    FROM crm_relationship
-                                                                    WHERE crm_relationship.contact_id_a =crm_contact_id
-                                                                    AND ( crm_relationship.relationship_type_id =6 OR crm_relationship.relationship_type_id =7)
-                                                                     )
-                                                            )
-                          ) AS crm_state_province_name, 
-
-
-                          IFNULL( crm_email.email, (SELECT crm_email.email
-                          FROM crm_contact
-                          LEFT OUTER JOIN crm_location ON ( crm_contact.id = crm_location.contact_id
-                                                            AND crm_location.is_primary =1 )
-                          LEFT OUTER JOIN crm_email ON ( crm_location.id = crm_email.location_id
-                                                         AND crm_email.is_primary =1 )
-                          WHERE  crm_contact.id = (SELECT IFNULL(contact_id_b,crm_contact_id) AS crm_contact_id
-                                                                    FROM crm_relationship
-                                                                    WHERE crm_relationship.contact_id_a =crm_contact_id
-                                                                    AND ( crm_relationship.relationship_type_id =6 OR crm_relationship.relationship_type_id =7)
-                                                                     )
-                                                                    )
-                          ) AS crm_email_email,
-
-                          IFNULL( crm_phone.phone, (SELECT crm_phone.phone
-                          FROM crm_contact
-                          LEFT OUTER JOIN crm_location ON ( crm_contact.id = crm_location.contact_id
-                                                            AND crm_location.is_primary =1 )
-                          LEFT OUTER JOIN crm_phone ON ( crm_location.id = crm_phone.location_id
-                                                         AND crm_phone.is_primary =1 )
-                          WHERE  crm_contact.id = (SELECT IFNULL(contact_id_b,crm_contact_id) AS crm_contact_id
-                                                                    FROM crm_relationship
-                                                                    WHERE crm_relationship.contact_id_a =crm_contact_id
-                                                                    AND ( crm_relationship.relationship_type_id =6 OR crm_relationship.relationship_type_id =7)
-                                                                     )
-                                                                    )
-                          ) AS crm_phone_phone,
-
-                          crm_contact.contact_type AS crm_contact_contact_type";
+        $str_select = "SELECT crm_contact.id as crm_contact_id,
+                              crm_contact.sort_name as crm_contact_sort_name,
+                              crm_address.street_address as crm_address_street_address,
+                              crm_address.city as crm_address_city,
+                              crm_address.postal_code as crm_address_postal_code,
+                              crm_state_province.name as crm_state_province_name,
+                              crm_country.name as crm_country_name,
+                              crm_email.email as crm_email_email,
+                              crm_phone.phone as crm_phone_phone,
+                              crm_contact.contact_type as crm_contact_contact_type";
 
         $str_from = " FROM crm_contact 
                         LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
                         LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
                         LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
                         LEFT OUTER JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                        LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)";
+                        LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
+                        LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id)";
 
         // add where clause if any condition exists..
         if (strlen($this->contact_type) || strlen(trim($this->sort_name))){
@@ -184,11 +114,13 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $row = array();
             // $row['contact_id'] = $this->crm_contact_id;
             $row['sort_name'] = $this->crm_contact_sort_name;
-            $row['email'] = $this->crm_email_email;
-            $row['phone'] = $this->crm_phone_phone;
             $row['street_address'] = $this->crm_address_street_address;
             $row['city'] = $this->crm_address_city;
             $row['state'] = $this->crm_state_province_name;
+            $row['postal_code'] = $this->crm_address_postal_code;
+            $row['country'] = $this->crm_country_name;
+            $row['email'] = $this->crm_email_email;
+            $row['phone'] = $this->crm_phone_phone;
             
             $str_type = "";
             switch ($this->crm_contact_contact_type) {

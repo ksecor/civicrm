@@ -33,6 +33,7 @@
  */
 
 require_once 'CRM/Pager.php';
+require_once 'CRM/Sort.php';
 require_once 'CRM/Selector/Base.php';
 require_once 'CRM/Selector/API.php';
 require_once 'CRM/Form.php';
@@ -85,20 +86,13 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function __construct(&$params) 
     {
-
-        CRM_Error::le_method();
-
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
-
-        CRM_Error::debug_var("params", $params);
         
         foreach ($params as $name => $value) {
             $this->_contact->$name = $value;
         }
         
-        CRM_Error::ll_method();                
-
     }//end of constructor
 
 
@@ -146,8 +140,10 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     function getSortOrder($action) 
     {
         static $order = array(
-                              /*'crm_contact_id'        => CRM_Sort::ASCENDING,*/
-                              'crm_contact_sort_name' => CRM_Sort::DESCENDING,
+                              'crm_contact_sort_name'   => CRM_Sort::DESCENDING,
+                              'crm_address_city'        => CRM_Sort::DONTCARE,
+                              'crm_state_province_name' => CRM_Sort::DONTCARE,
+                              'crm_country_name'        => CRM_Sort::DONTCARE,
                               );
         return $order;
     }//end of function
@@ -164,24 +160,30 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         static $headers = array(
                                 array('name' => ''),
                                 array('name' => ''),
-                                /*array(
-                                      'name' => 'Contact ID',
-                                      'sort' => 'crm_contact_id',
-                                      ),*/
                                 array(
                                       'name' => 'Name',
                                       'sort' => 'crm_contact_sort_name',
                                       ),
+                                array('name' => 'Address'),
+                                array(
+                                      'name' => 'City',
+                                      'sort' => 'crm_address_city',
+                                      ),
+                                array(
+                                      'name' => 'State/Prov',
+                                      'sort' => 'crm_state_province_name',
+                                      ),
+                                array('name' => 'Postal'),
+                                array(
+                                      'name' => 'Ctry',
+                                      'sort' => 'crm_country_name',
+                                      ),
                                 array('name' => 'Email'),
                                 array('name' => 'Phone'),
-                                array('name' => 'Address'),
-                                array('name' => 'City'),
-                                array('name' => 'State'),
                                 array('name' => 'Operate'),
                                 );
         return $headers;
     }
-
 
 
     /**
