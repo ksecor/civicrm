@@ -37,9 +37,7 @@
 class CRM_Utils {
  
     static function getClassName( $object ) {
-        $name = get_class( $object );
-        $path = explode( '_', $name );
-        return $path[ count( $path ) - 1 ];
+        return array_pop( explode( '_', get_class( $object ) ) );
     }
 
     static function import( $classPath ) {

@@ -111,23 +111,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function preProcess( ) {
         $params = array( );
-        $contact_type = trim( $this->controller->exportValue( $this->_name, 'contact_type' ) );
-        if (!empty( $contact_type ))  {
-
-            $params['contact_type'] = $contact_type;
-        }
-
-        
-        // $sname = trim($this->controller->exportValue($this->_name, 'sname'));
-        // CRM_Error::debug_var("sname", $sname);
-        // $classPath = "CRM_Contact_Selector_" . "$contact_type";
-        // CRM_Utils::import($classPath);
-        // $contact = new $classPath($params);
-        
         $contact = new CRM_Contact_Selector_Individual($params);
-
-
-        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW);
+        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::TRANSFER );
         $selector->run();
     }
 
@@ -139,6 +124,15 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return void
      */
     function postProcess( ) {
+        $params = array( );
+        $contact_type = trim( $this->controller->exportValue( $this->_name, 'contact_type' ) );
+        if (!empty( $contact_type ))  {
+            $params['contact_type'] = $contact_type;
+        }
+
+        $contact = new CRM_Contact_Selector_Individual($params);
+        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::SESSION );
+        $selector->run();
     }
 
 }

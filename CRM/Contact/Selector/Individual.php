@@ -201,20 +201,6 @@ class CRM_Contact_Selector_Individual extends CRM_Selector_Base implements CRM_S
     }//end of function
     
 
-    /**
-     *getter for template file name
-     *
-     * @param string
-     * @return tempalate file name
-     * @access public
-     */
-    function getTemplateFileName($action) 
-    {
-        $className    = get_class($this);
-        $templateName = str_replace('_', '/', $className) . '.tpl';
-        return $templateName;
-    }//end of function
-
     function getExportColumnHeaders($action, $type = 'csv') 
     {
     }//end of function

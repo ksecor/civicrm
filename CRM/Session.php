@@ -197,12 +197,12 @@ class CRM_Session {
      * flattened and stored in the $_key scope of the session array
      *
      * @access   public
-     * @param  mixed  vars : associative array of name / values
-     * @param  string  a string to prefix the keys in the session with
+     * @param  mixed  $vars    (reference ) associative array of name / values
+     * @param  string $prefix  a string to prefix the keys in the session with
      * @return void
      *
      */
-    function setVars( $vars, $prefix = null ) {
+    function setVars( &$vars, $prefix = null ) {
         // create session scope
         $this->create();
         $this->createScope( $prefix );
@@ -344,6 +344,13 @@ class CRM_Session {
             null;
     }
 
+    /**
+     * dumps the session to the log
+     *
+     */
+    function debug( ) {
+        CRM_Error::debug( 'CRM Session', $this->_session[$this->_key] );
+    }
 }
 
 ?>

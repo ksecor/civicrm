@@ -46,6 +46,17 @@ require_once 'CRM/Report/Excel.php';
 class CRM_Selector_Controller {
 
     /**
+     * constants to determine if we should store
+     * the output in the session or template
+     * @var int
+     */
+    const
+        SESSION   = 1,
+        TEMPLATE  = 2,
+        BOTH      = 3, // this is primarily done for ease of use
+        TRANSFER  = 4; // move the values from the session to the template
+
+    /**
      * a CRM Object that implements CRM_Selector_api
      * @var object
      */
@@ -103,11 +114,27 @@ class CRM_Selector_Controller {
      */
     protected $_content;
 
-    function __construct($object, $pageID, $sortID, $action) {
+    /**
+     * Output target, session, template or both?
+     *
+     * @var int
+     */
+    protected $_output;
+
+    /**
+     * Array of properties that the controller dumps into the output object
+     *
+     * @var array
+     * @static
+     */
+    static $_properties = array( 'pager', 'sort', 'columnHeaders', 'rows', 'rowsEmpty' );
+
+    function __construct($object, $pageID, $sortID, $action, $output = self::TEMPLATE) {
         $this->_object = $object;
         $this->_pageID = $pageID ? $pageID : 1;
         $this->_sortID = $sortID;
         $this->_action = $action;
+        $this->_output = $output;
         
         $params = array(
                         'total'   => $this->_object->getTotalCount($action),
@@ -133,29 +160,57 @@ class CRM_Selector_Controller {
     function run( ) {
 
         //print $this->_pager->getPageID();
-        $config = CRM_Config::singleton();
+        $config  = CRM_Config::singleton ();
+        $session = CRM_Session::singleton();
 
-        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        // $template->clear_all_assign();
-
-        $template->assign('pager', $this->_pager->toArray() );
-        $template->assign('sort', $this->_sort->toArray () );
-        
-        $template->assign('columnHeaders', 
-                          $this->_object->getColumnHeaders( $this->_action ) );
-        
-        $rows =    $this->_object->getRows( $this->_action, 
-                                            $this->_pagerOffset,
-                                            $this->_pagerRowCount,
-                                            $this->_sort );
-        if ( count( $rows ) ) {
-            $template->assign('rowsEmpty', false);
-            $template->assign('rows'     , $rows);
-        } else {
-            $template->assign('rowsEmpty', true);
+        if ( $this->_output & self::TRANSFER ) {
+            $this->moveFromSessionToTemplate( );
+            return;
         }
+
+        $pager         = $this->_pager->toArray();
+        $sort          = $this->_sort->toArray ();
+        $columnHeaders = $this->_object->getColumnHeaders( $this->_action );
+        $rows          = $this->_object->getRows( $this->_action,
+                                                  $this->_pagerOffset,
+                                                  $this->_pagerRowCount,
+                                                  $this->_sort );
+        $rowsEmpty = count( $rows ) ? false : true;
+
+        if ( $this->_output & self::TEMPLATE ) {
+            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+            $template->assign_by_ref( 'config' , $config  );
+            $template->assign_by_ref( 'session', $session );
+
+            foreach ( self::$_properties as $property ) {
+                $template->assign_by_ref( $property, $$property );
+            }
+            $this->_content = $template->fetch( $this->_object->getTemplateFileName(), $config->templateDir );
+        }
+
+        if ( $this->_output & self::SESSION ) {
+            $prefix = $this->_object->getModuleName( $this->_action );
+            foreach ( self::$_properties as $property ) {
+                $session->set( $property, $$property, $prefix );
+            }
+        }
+    }
+
+    function moveFromSessionToTemplate( ) {
+        $config  = CRM_Config::singleton ();
+        $session = CRM_Session::singleton();
+
+        $prefix = $this->_object->getModuleName( $this->_action );
         
-        $this->_content = $template->fetch( $this->_object->getTemplateFileName(), $config->templateDir );
+        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        $template->assign_by_ref( 'config' , $config  );
+        $template->assign_by_ref( 'session', $session );
+
+        foreach ( self::$_properties as $property ) {
+            $template->assign_by_ref( $property,
+                                      $session->get( $property, $prefix ) );
+        }
+
     }
 
     function getPager() {

@@ -5,8 +5,9 @@ if ( ! defined( 'CRM_SMARTYDIR' ) ) {
 }
 
 if ( ! defined( 'CRM_TEMPLATE_COMPILEDIR' ) ) {
-  define( 'CRM_TEMPLATE_COMPILEDIR', '/Users/dgg/svn/crm/templates_c/' );
+  define( 'CRM_TEMPLATE_COMPILEDIR', '/tmp/templates_c/' );
 }
+
 
 // load Smarty library files
 require_once  CRM_SMARTYDIR . 'Smarty.class.php';

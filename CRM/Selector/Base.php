@@ -81,6 +81,37 @@ class CRM_Selector_Base {
         return null;
     }
 
+    /**
+     * compose the template file name from the class name
+     *
+     * @param string $action the action being performed
+     *
+     * @return string template file name
+     * @access public
+     */
+    function getTemplateFileName($action)
+    {
+        return str_replace('_', '/', get_class( $this ) ) . '.tpl';
+    }//end of function
+
+    /**
+     * compose the module name from the class name
+     *
+     * @param string $action the action being performed
+     *
+     * @return string module name
+     * @access public
+     */
+    function getModuleName($action)
+    {
+        $names = explode( '_', get_class($this) );
+
+        // we compose the module name from the last two tokens
+        // we use two tokens to prevent name conflicts
+        $last = array_pop( $names );
+        $prev = array_pop( $names );
+        return ucfirst( $prev ) . '_' . ucfirst( $last );
+    }//end of function
 }
 
 ?>
