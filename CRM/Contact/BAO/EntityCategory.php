@@ -32,29 +32,50 @@
  *
  */
 
+
+
+
 class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory 
 {
-    static function getValues(&$params, &$values = null, &$ids = null) 
-    {
-        $category_id = array();
-        $entityCategory = new CRM_Contact_BAO_EntityCategory();
-        $entityCategory->copyValues($params);
-        $entityCategory->entity_id = $params['contact_id'];
-        $entityCategory->find();
-        while ($entityCategory->fetch()) {
-            $category_id[$entityCategory->category_id] = $entityCategory->category_id;
-        } 
-        return $category_id;        
-    }
 
-    static function retrieve(&$params, &$defaults, &$ids) 
+
+    /**
+     *
+     * Given a contact id, it returns an array of category id's the 
+     * contact belongs to.
+     *
+     * @param string $entityTable name of the entity table usually 'crm_contact'
+     * @param int $entityID id of the entity usually the contactID.
+     * @returns array() reference $category array of catagory id's the contact belongs to.
+     *
+     * @access public
+     * @static
+     */
+
+    static function &getCategory($entityTable = 'crm_contact', $entityID) 
     {
-        $contact = CRM_Contact_BAO_Contact::getValues($params, $defaults, $ids);
-        
-        unset($params['id']);
-        eval('$contact->contact_type_object = CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );');
-        
-        return $contact;
+        CRM_Error::le_method();
+
+        CRM_Error::debug_var('entityID', $entityID);
+
+        $category = array();
+
+        $entityCategory = new CRM_Contact_DAO_EntityCategory();
+
+        $entityCategory->entity_table = $entityTable;
+
+        $entityCategory->entity_id = $entityID;
+
+        $entityCategory->find();
+
+        while ($entityCategory->fetch()) {
+            
+            CRM_Error::debug_var('category_id', $entityCategory->category_id);
+
+            $category[] = $entityCategory->category_id;
+        } 
+        return $category;        
     }
 }
+
 ?>

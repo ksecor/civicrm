@@ -137,21 +137,39 @@ class CRM_Contact_Page_View extends CRM_Page {
 
     function runModeTags()
     {
-        $params   = array();
+
+        CRM_Error::le_method();
+
+        $contactParam   = array();
         $defaults = array();
         $ids      = array();
+        $array1 = array();
 
-        $params['id'] = $params['contact_id'] = $this->_contactId;
-        $contact = CRM_Contact_BAO_EntityCategory::retrieve($params, $defaults, $ids);
+        $contactParam['id'] = $contactParam['contact_id'] = $this->_contactId;
+        CRM_Error::debug_var("contactParam", $contactParam);
+        $contact = CRM_Contact_BAO_Contact::retrieve($contactParam, $defaults, $ids);
+
         $this->assign($defaults);
         
-        $eCategory['categoryId'] = CRM_Contact_BAO_EntityCategory::getValues($params);        
-        $this->assign($eCategory); 
+        $contactEntityParam['entity_id'] = $this->_contactId;
+
+        CRM_Error::debug_var("this->_contactId", $this->_contactId);
         
+
+        $eCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
+        
+        CRM_Error::debug_var("eCategory", $eCategory);
+       
+        $this->assign('eCategory', $eCategory); 
+
+        // $array1 = CRM_Contact_BAO_EntityCategory::getValues($params);        
+        // $this->assign($array1);         
+
         $category = CRM_SelectValues::getCategory();
-        $this->assign($category);
-                
-        $this->setShowHide($defaults);
+
+        CRM_Error::debug_var('category', $category);
+
+        $this->assign('category', $category);
     }
 
     function setShowHide( &$defaults ) {

@@ -1,3 +1,4 @@
+{debug}
 <div class="data-group form-item">
 <div>
     {if $contact_type eq 'Individual'}
@@ -13,56 +14,19 @@
 <h3>Tags(categories) for this contact:</h3>
 {strip}
 <table border="1">
+{foreach from=$category key=category_id item=category_array}
+{php}
+echo "category_id = $category_id<br/>";
+print_r($eCategory);
+$checked = in_array($eCategory, $category_id) ? "checked" : "";
+{/php}
 <tr>
 	<td>
-	{if $categoryId.1 eq 1}
-	<input type="checkbox" name="category" value="category1" checked="checked" />
-	{else}
-	<input type="checkbox" name="category" value="category1" />
-	{/if}
-	{$0.name}
+	<input type="checkbox" name="category" value="{$category_id}" {$checked} /> &nbsp; {$category_array.name} cat_id = {$category_id}
 	</td>
 </tr>
-<tr>
-	<td>
-	{if $categoryId.2 eq 2}
-	<input type="checkbox" name="category" value="category2" checked="checked" />
-	{else}
-	<input type="checkbox" name="category" value="category2" />
-	{/if}
-	{$1.name}
-	</td>
-</tr>
-<tr>
-	<td>
-	{if $categoryId.3 eq 3}
-	<input type="checkbox" name="category" value="category3" checked="checked" />
-	{else}
-	<input type="checkbox" name="category" value="category3" />
-	{/if}
-	{$2.name}
-	</td>
-</tr>
-<tr>
-	<td>
-	{if $categoryId.4 eq 4}	
-	<input type="checkbox" name="category" value="category4" checked="checked" />
-	{else}
-	<input type="checkbox" name="category" value="category4" />
-	{/if}
-	{$3.name}
-	</td>
-</tr>
-<tr>
-	<td>
-	{if $categoryId.5 eq 5}
-	<input type="checkbox" name="category" value="category5" checked="checked" />
-	{else}
-	<input type="checkbox" name="category" value="category5" />
-	{/if}
-	{$4.name}
-	</td>
-</tr>
+{/foreach}
+
 </table>
 {/strip}
 </div>
