@@ -56,9 +56,9 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
 			'Postal' => 'by postal email',
 			);
         
-    $this->addDefaultButtons(array(1 => array ( 'next', 'Save', true ),
-				   2 => array ( 'reset' , 'Reset', false ),
-				   3 => array ( 'cancel', 'Cancel', false)
+    $this->addDefaultButtons(array(1 => array ('next', 'Save', true),
+				   2 => array ('reset' , 'Reset', false),
+				   3 => array ('cancel', 'Cancel', false)
 				   )
 			     );
 
@@ -142,13 +142,13 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
     $loc1[22] = & $this->createElement('select', 'country_id', null, $ctyvar);
 
    /* Entering location cabin 2 */
-    $loc2[0] = & $this->createElement('select', 'context_id', null, $cotvar );
-    $loc2[1] = & $this->createElement('checkbox', 'is_primary', null );
-    $loc2[2] = & $this->createElement('select', 'phone_type_1', null, $phvar );
+    $loc2[0] = & $this->createElement('select', 'context_id', null, $cotvar);
+    $loc2[1] = & $this->createElement('checkbox', 'is_primary', null);
+    $loc2[2] = & $this->createElement('select', 'phone_type_1', null, $phvar);
     $loc2[3] = & $this->createElement('text', 'phone_1', null, array('size' => '37px'));
-    $loc2[4] = & $this->createElement('select','phone_type_2', null, $phvar );
+    $loc2[4] = & $this->createElement('select','phone_type_2', null, $phvar);
     $loc2[5] = & $this->createElement('text', 'phone_2', null, array('size' => '37px'));
-    $loc2[6] = & $this->createElement('select', 'phone_type_3', null, $phvar );
+    $loc2[6] = & $this->createElement('select', 'phone_type_3', null, $phvar);
     $loc2[7] = & $this->createElement('text', 'phone_3', null, array('size' => '37px'));
     $loc2[8] = & $this->createElement('text', 'email', null, array('size' => '47px','id' => 'l2em'));
     $loc2[9] = & $this->createElement('text', 'email_secondary', null, array('size' => '47px','id' => 'l2ems'));
@@ -197,9 +197,9 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
       $this->addElement('link', 'hideph02_'."{$i}", null, 'phone0_2_'."{$i}", '[-] hide phone',
 			array('onclick' => "hide('phone0_2_{$i}'); hide('expand_phone0_3_{$i}'); show('expand_phone0_2_{$i}');hide('phone0_3_{$i}'); return false;"));
       $this->addElement('link', 'exph03_'."{$i}", null, 'phone0_3_'."{$i}", '[+] another phone',
-			array('onclick'=> "show('phone0_3_{$i}'); hide('expand_phone0_3_{$i}'); return false;" ));
+			array('onclick'=> "show('phone0_3_{$i}'); hide('expand_phone0_3_{$i}'); return false;"));
       $this->addElement('link', 'hideph03_'."{$i}", null, 'phone0_3_'."{$i}", '[-] hide phone',
-			array( 'onclick' => "hide('phone0_3_{$i}'); show('expand_phone0_3_{$i}'); return false;" ));
+			array( 'onclick' => "hide('phone0_3_{$i}'); show('expand_phone0_3_{$i}'); return false;"));
       $this->addElement('link', 'exem02_'."{$i}", null, 'email0_2_'."{$i}", '[+] another email',
 			array('onclick' => "show('email0_2_{$i}'); hide('expand_email0_2_{$i}'); show('expand_email0_3_{$i}'); return false;"));
       $this->addElement('link','hideem02_'."{$i}", null, 'email0_2_'."{$i}", '[-] hide email',
@@ -252,7 +252,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
     if ($this->validate() && ($this->_mode == self::MODE_CREATE || self::MODE_VIEW)) {
       //  $this->freeze();     
     } else {
-      if ($this->_mode == self::MODE_VIEW || self::MODE_UPDATE ) {
+      if ($this->_mode == self::MODE_VIEW || self::MODE_UPDATE) {
 	$this->setDefaultValues();
       }
     }
@@ -296,16 +296,12 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
     $this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
     
     for ($i = 1; $i <= 3; $i++) { 
-      $this->addGroupRule('location'."{$i}", array(
-						   'email' => array( 
-								    array( t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')
-								    ),
+      $this->addGroupRule('location'."{$i}", array('email' => array( 
+								    array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),
 						   'email_secondary' => array( 
-									      array( t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')
-									      ),
+									      array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
 						   'email_tertiary' => array( 
-									     array( t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client')
-									     )
+									     array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
 						   )
 			  ); 
     }
@@ -434,3 +430,4 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
 }
 
 ?>
+
