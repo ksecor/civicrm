@@ -4,7 +4,6 @@
   <title>Add Contact</title>
   <meta http-equiv="Content-Style-Type" content="text/css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<base href="http://localhost/dgg/prototypes/">
 <style type="text/css" media="all">@import "misc/drupal.css";</style>
 <style type="text/css" media="all">@import "themes/box_grey_smarty/style.css";</style>
 </head>
