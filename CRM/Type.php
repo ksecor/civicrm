@@ -46,6 +46,19 @@ class CRM_Type {
         T_CCNUM     = 16384,
         T_FLOAT     = 32768;
 
+    const
+        TWO          =  2,
+        FOUR         =  4,
+        EIGHT        =  8,
+        TWELVE       = 12,
+        SIXTEEN      = 16,
+        TWENTY       = 20,
+        MEDIUM       = 20,
+        THIRTY       = 30,
+        BIG          = 30,
+        FORTYFIVE    = 45,
+        HUGE         = 45;
+
     static $_regex = array(
                            self::T_INT    => '/^-?\d+$/',
                            self::T_BOOL   => '/^[01]$/',

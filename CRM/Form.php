@@ -75,18 +75,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      * @var const string
      */
     const
-        ATTR_SPACING = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-        TWO          =  2,
-        FOUR         =  4,
-        EIGHT        =  8,
-        TWELVE       = 12,
-        SIXTEEN      = 16,
-        TWENTY       = 20,
-        MEDIUM       = 20,
-        THIRTY       = 30,
-        BIG          = 30,
-        FORTYFIVE    = 45,
-        HUGE         = 45;
+        ATTR_SPACING = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
     /**
      * constants for various modes that the form can operate as

@@ -349,7 +349,7 @@ class CRM_GCD {
 
         $this->lee();
 
-        for ($id=2; $id<=self::NUM_DOMAIN; $id++) {
+        for ($id=1; $id<=self::NUM_DOMAIN; $id++) {
             $domain = new CRM_DAO_Domain();
             // domain name is pretty simple. it is "Domain $id"
             $domain->name = "Domain $id";

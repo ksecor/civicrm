@@ -332,19 +332,19 @@ function append( &$str, $delim, $name ) {
 
 function getSize( $maxLength ) {
     if ( $maxLength <= 2 ) {
-        return 'CRM_Form::TWO';
+        return 'CRM_Type::TWO';
     } else if ( $maxLength <= 4 ) {
-        return 'CRM_Form::FOUR';
+        return 'CRM_Type::FOUR';
     } else if ( $maxLength <= 8 ) {
-        return 'CRM_Form::EIGHT';
+        return 'CRM_Type::EIGHT';
     } else if ( $maxLength <= 16 ) {
-        return 'CRM_Form::TWELVE';
+        return 'CRM_Type::TWELVE';
     } else if ( $maxLength <= 32 ) {
-        return 'CRM_Form::MEDIUM';
+        return 'CRM_Type::MEDIUM';
     } else if ( $maxLength <= 64 ) {
-        return 'CRM_Form::BIG';
+        return 'CRM_Type::BIG';
     } else {
-        return 'CRM_Form::HUGE';
+        return 'CRM_Type::HUGE';
     }
 }
 
