@@ -4,10 +4,9 @@
 
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
- {* Including the javascript source code from the Individual.js file *}
- {literal}
-  <script type="text/javascript" src="/js/Individual.js"></script>
- {/literal}
+ {* Including the javascript source code from the Individual.js and Common.js files *}
+ <script type="text/javascript" src="{$config->httpBase}js/Individual.js"></script>
+ <script type="text/javascript" src="{$config->httpBase}js/Common.js"></script>
 
 {* Including the custom javascript validations added by the HTML_QuickForm for all client validations in addRules *} 
  {$form.javascript}
@@ -17,8 +16,6 @@
 
  {$form.mdyx.html}
 
- <table border="0" width="100%" cellpadding="2" cellspacing="2">
- <tr><td>
 	{* $form.hidden serves as a place holder for all the hidden elements defined in the quick form*}
 
 	 {if $form.hidden}
@@ -35,39 +32,30 @@
 	 </td></tr></table>
 	 </p>
 	 {/if}
-</td></tr>
-
 
  <div id="core">
- <tr><td>
- <!--label><i><h1>Name and Greeting</h1></i></label-->
  <fieldset><legend>Name and Greeting</legend>
- <table border = "0" cellpadding="2" cellspacing="2" width="100%">
-	 <tr>
-		 <td class="form-item" width="130"><label>{$form.first_name.label}</label></td>
-		 <td>
-		 {$form.prefix.html}
-		 {$form.first_name.html}
-		 {$form.last_name.html}
-		 {$form.suffix.html}
-		 </td>
-	 </tr>
-	 <tr>
-		 <td class="form-item"><label>{$form.greeting_type.label}</label></td>
-		 <td class="form-item">{$form.greeting_type.html}</td>
-	 </tr>
-	 <tr>
-		 <td class="form-item"><label>{$form.job_title.label}</label></td>
-		 <td class="form-item">{$form.job_title.html}</td>
-	 </tr>
- </table>
+     <div class="form-item">
+        {$form.first_name.label_html}
+        {$form.prefix.html}
+        {$form.first_name.html}
+        {$form.last_name.html}
+        {$form.suffix.html}
+     </div>
+
+    <div class="form-item">
+        <label>{$form.greeting_type.label}</label>
+        {$form.greeting_type.html}
+    </div>
+
+    <div class="form-item">
+    <label>{$form.job_title.label}</label>
+    {$form.job_title.html}
+    </div>
  </fieldset>
- </td></tr>
  
- <tr><td>
 {* Plugging the Communication preferences block *} 
- {include file="CRM/Contact/Form/Contact.tpl"}  
- </td></tr>
+ {include file="CRM/Contact/Form/Contact/Comm_prefs.tpl"}
  
 {* Plugging the Location block *}
 {* @var locloop Total number of Location loops *}
@@ -76,102 +64,61 @@
 {* @var phoneloop Total number of instant messenger loops *}
  {include file="CRM/Contact/Form/Location.tpl" locloop = 4 phoneloop = 4 emailloop = 4 imloop = 4} 
 
- {******************************** ENDIND THE CORE DIV SECTION **************************************}
+ {******************************** END THE CORE DIV SECTION **************************************}
 
  </div> <!--end 'core' section of contact form -->
 
 
+ <div id = "expand_demographics" class="comment">
+    {$form.exdemo.html}
+ </div>
 
-<tr><td>
- <div id = "expand_demographics">
- <table>
-	 <tr>
-		 <td>
-		 {$form.exdemo.html}
-		 </td>
-	 </tr>
- </table>
-</div>
-</td></tr>
-
-
- <tr><td>
  <div id="demographics">
  <fieldset><legend>Demographics</legend>
- <table border="0" cellpadding="2" cellspacing="2" width="100%">
-	  <!--label><i><h1>Demographics</h1></i></label-->
-	 <tr>
-		 <td class="form-item"><label>{$form.gender.label}</label></td>
-		 <td class="form-item">{$form.gender.html}</td>
-	 </tr>
-	 <tr>
-		 <td class="form-item"><label>{$form.birth_date.label}</label></td>
-		 <td class="form-item">{$form.birth_date.html}</td>
-	 </tr>
-	 <tr>
-		 <td class="form-item" colspan=2>{$form.is_deceased.html}<label>{$form.is_deceased.label} </label></td>
-	 </tr>
-	 <tr>
-		 <td class="form-item"><label> Custom demographics flds </label></td>
-		 <td class="form-item">... go here ...</td>
-	 </tr>
-	 <tr>
-		 <td colspan=2>
-		 {$form.hidedemo.html}
-		 </td>
-	 </tr>
-
- </table>
+    <div class="form-item">
+        {$form.gender.label}
+	{$form.gender.html}
+    </div>
+	<div class="form-item">
+        {$form.birth_date.label}
+		{$form.birth_date.html}
+    </div>
+	<div class="form-item">
+        {$form.is_deceased.html} {$form.is_deceased.label}
+    </div>
+    <div class="box">
+        {$form.hidedemo.html}
+    </div>
  </fieldset>
  </div>
- </td></tr>
   
 
- {******************************** ENDIND THE DEMOGRAPHICS SECTION **************************************}
+ {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
-<tr><td> 
-<div id = "expand_notes">
-<table border="0" cellpadding="2" cellspacing="2">
-	 <tr>
-		 <td>
-		 {$form.exnotes.html}
-		 </td>
-	 <tr>
- </table>
-</div>
-</td></tr>
+ <div id = "expand_notes" class="comment">
+    {$form.exnotes.html}
+ </div>
 
-
-
- <tr><td>
  <div id = "notes">
- <fieldset><legend>Notes</legend>
- <table border="0" cellpadding="2" cellspacing="2">
-	 <tr>
-		 <td class="form-item">{$form.address_note.label}</td>
-		 <td class="form-item">{$form.address_note.html}
-		 <div class = "description">
-		  Record any descriptive comments about this contact. You may add an unlimited number of notes, and view or 
-		 <br/>search on them at any time.</div>
-		 </td>
-	 </tr>
-	 <tr>	
-		 <td colspan=2>{$form.hidenotes.html}</td>
-	 </tr>
- </table>
+ <fieldset><legend>Contact Notes</legend>
+    <div class="form-item">
+        <label>
+        {* {$form.address_note.label} *}
+        {$form.address_note.html}
+        </label>
+        <div class = "description">
+          Record any descriptive comments about this contact.
+          You may add an unlimited number of notes, and view or search on them at any time.
+        </div>
+    </div>    
+	<div class="box">
+        {$form.hidenotes.html}
+    <div>
  </fieldset>
-</div>
- </td></tr>
-</table>
-
- <div id = "buttons">
- <table cellpadding="2" cellspacing="2" width="100%">
- <tr>
-	 <td class="form-item">
-	 {$form.buttons.html}
-	 </td>
- </tr>
- </table>
+ </div> <!-- End of "notes" div -->
+ 
+ <div id = "buttons" class="form-submit"> <!-- This class should get automated into form.buttons output -->
+    {$form.buttons.html}
  </div>
 
 {* A critical javascript placeholder which provides the form object and name dynamically, The script is formed in the php file *}
