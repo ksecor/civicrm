@@ -43,44 +43,32 @@
  * @param locid Serial number of the location block.
  * @return none
  */
-function location_is_primary_onclick(formname, locid) 
-{
+function location_is_primary_onclick(formname, locid) {
+    var changedKey = 'location[' + locid + '][is_primary]';
     switch(locid) {
-	
+
+    case 1: 
+        var notPrimary = new Array(2,3); 
+    break;
+            
     case 2: 
-	
-	if (document.forms[formname].elements['location[2][is_primary]'].checked) {
-	    if ( confirm('Do you want to set this Location as primary location') == true ) {
-		document.forms[formname].elements['location[2][is_primary]'].checked = 'checked';
-		document.forms[formname].elements['location[3][is_primary]'].checked = null;
-	    } else {
-		document.forms[formname].elements['location[2][is_primary]'].checked = null;
-	    }
-	} else {
-	    document.forms[formname].elements['location[2][is_primary]'].checked = null;
-	}
-	
-	break;
+        var notPrimary = new Array(1,3);
+    break;
 	
     case 3:  
-	if (document.forms[formname].elements['location[3][is_primary]'].checked) {
-	    if ( confirm('Do you want to set this Location as primary location') == true ) {
-		document.forms[formname].elements['location[2][is_primary]'].checked = null;
-		document.forms[formname].elements['location[3][is_primary]'].checked = 'checked';
-	    } else {
-		document.forms[formname].elements['location[3][is_primary]'].checked = null;
-	    }
-	} else {
-	    document.forms[formname].elements['location[3][is_primary]'].checked = null;
-	}
-
-	break;
-
-    default:
-
-	document.forms[formname].elements['location'][2]['is_primary'].checked = null;
-	document.forms[formname].elements['location'][3]['is_primary'].checked = null;
-	break;
+        var notPrimary = new Array(1,2);
     }
+
+    if (document.forms[formname].elements[changedKey].checked) {
+        if ( confirm('Do you want to make this the primary location?') == true ) {
+            for (var i = 0; i < notPrimary.length; i++) {
+                otherKey = 'location[' + notPrimary[i] + '][is_primary]';
+                document.forms[formname].elements[otherKey].checked = null;
+            }
+        } else {
+            document.forms[formname].elements[changedKey].checked = null;
+        }
+    } 	
+    
 }
 
