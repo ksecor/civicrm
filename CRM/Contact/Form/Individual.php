@@ -88,59 +88,18 @@ class CRM_Contact_Form_Individual {
     static function formRule( &$fields ) {
         $errors = array( );
         
-        $primaryEmail = null;
+        $primaryEmail = CRM_Contact_Form_Contact::formRule( $fields, $errors );
 
-        // make sure that at least one field is marked is_primary
-        if ( array_key_exists( 'location', $fields ) && is_array( $fields['location'] ) ) {
-            $locationKeys = array_keys( $fields['location']);
-            $isPrimary = false;
-            foreach ( $locationKeys as $locationId ) {
-                if ( array_key_exists( 'is_primary', $fields['location'][$locationId] ) ) {
-                    if ( $fields['location'][$locationId]['is_primary'] ) {
-                        if ( $isPrimary ) {
-                            $errors["location[$locationId][is_primary]"] =
-                                array( 'label'   => '', 
-                                       'message' => "Only one location can be marked as primary." );
-                        }
-                        $isPrimary = true;
-                    }
-
-                    // only harvest email from the primary locations
-                    if ( array_key_exists( 'email', $fields['location'][$locationId] ) &&
-                         is_array( $fields['location'][$locationId]['email'] )         &&
-                         empty( $primaryEmail ) ) {
-                        foreach ( $fields['location'][$locationId]['email'] as $idx => &$email ) {
-                            if ( array_key_exists( 'email', $email ) ) {
-                                $primaryEmail = $email['email'];
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            
-            if ( ! $isPrimary ) {
-                $errors["location[1][is_primary]"] =
-                    array( 'label'   => '',
-                           'message' => "One location needs to be marked as primary." );
-            }
-
-        }
-        
         // make sure that firstName and lastName or a primary email is set
         if (! ( (CRM_Array::value( 'first_name', $fields ) && 
                  CRM_Array::value( 'last_name' , $fields )    ) ||
                 !empty( $primaryEmail ) ) ) {
-            $errors['first_name'] = array( 'label'   => '',
-                                           'message' => "First Name and Last Name OR an email in the Primary Location should be set." );
+            $errors['first_name'] = "First Name and Last Name OR an email in the Primary Location should be set.";
         }
         
         // add code to make sure that the uniqueness criteria is satisfied
 
-        if ( ! empty( $errors ) ) {
-            return $errors;
-        }
-        return true;
+        return empty( $errors ) ? true : $errors;
     }
 
 }

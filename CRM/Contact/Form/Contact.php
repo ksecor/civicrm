@@ -346,6 +346,74 @@ class CRM_Contact_Form_Contact extends CRM_Form
         $form->add('select', 'preferred_communication_method', 'Prefers:', CRM_SelectValues::$pcm);
     }
 
+    static function formRule( &$fields, &$errors ) {
+        $primaryEmail = null;
+
+        // make sure that at least one field is marked is_primary
+        if ( array_key_exists( 'location', $fields ) && is_array( $fields['location'] ) ) {
+            $locationKeys = array_keys( $fields['location']);
+            $isPrimary = false;
+            foreach ( $locationKeys as $locationId ) {
+                if ( array_key_exists( 'is_primary', $fields['location'][$locationId] ) ) {
+                    if ( $fields['location'][$locationId]['is_primary'] ) {
+                        if ( $isPrimary ) {
+                            $errors["location[$locationId][is_primary]"] = "Only one location can be marked as primary.";
+                        }
+                        $isPrimary = true;
+                    }
+
+                    // only harvest email from the primary locations
+                    if ( array_key_exists( 'email', $fields['location'][$locationId] ) &&
+                         is_array( $fields['location'][$locationId]['email'] )         &&
+                         empty( $primaryEmail ) ) {
+                        foreach ( $fields['location'][$locationId]['email'] as $idx => &$email ) {
+                            if ( array_key_exists( 'email', $email ) ) {
+                                $primaryEmail = $email['email'];
+                                break;
+                            }
+                        }
+                    }
+                }
+                if ( self::locationDataExists( $fields['location'][$locationId] ) ) {
+                    if ( ! CRM_Array::value( 'location_type_id', $fields['location'][$locationId] ) ) {
+                        $errors["location[$locationId][location_type_id]"] = 'The Location Type should be set if there is any location information';
+                    }
+                }
+            }
+
+            if ( ! $isPrimary ) {
+                $errors["location[1][is_primary]"] = "One location should be marked as primary.";
+            }
+        }
+        return $primaryEmail;
+    }
+
+    static function locationDataExists( &$fields ) {
+        static $skipFields = array( 'location_type_id', 'is_primary', 'phone_type', 'provider_id' );
+        foreach ( $fields as $name => &$value ) {
+            $skipField = false;
+            foreach ( $skipFields as $skip ) {
+                if ( strpos( "[$skip]", $name ) !== false ) {
+                    $skipField = true;
+                    break;
+                }
+            }
+            if ( $skipField ) {
+                continue;
+            }
+            if ( is_array( $value ) ) {
+                if ( self::locationDataExists( $value ) ) {
+                    return true;
+                }
+            } else {
+                if ( ! empty( $value ) ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
 
 ?>

@@ -53,7 +53,7 @@ class CRM_Contact_Form_Organization extends CRM_Form
         $attributes = CRM_DAO::getAttribute('CRM_Contact_DAO_Organization');
         
         // Organization_name
-        $this->addElement('text', 'organization_name', 'Organization Name:', $attributes['organization_name']);
+        $this->add('text', 'organization_name', 'Organization Name:', $attributes['organization_name'], true);
         
         // legal_name
         $this->addElement('text', 'legal_name', 'Legal Name:', $attributes['legal_name']);
@@ -68,53 +68,10 @@ class CRM_Contact_Form_Organization extends CRM_Form
     static function formRule( &$fields ) {
         $errors = array( );
         
-        $primaryEmail = null;
-
-        // make sure that at least one field is marked is_primary
-        if ( array_key_exists( 'location', $fields ) && is_array( $fields['location'] ) ) {
-            $locationKeys = array_keys( $fields['location']);
-            $isPrimary = false;
-            foreach ( $locationKeys as $locationId ) {
-                if ( array_key_exists( 'is_primary', $fields['location'][$locationId] ) ) {
-                    if ( $fields['location'][$locationId]['is_primary'] ) {
-                        if ( $isPrimary ) {
-                            $errors["location[$locationId][is_primary]"] = "Only one location can be marked as primary.";
-                        }
-                        $isPrimary = true;
-                    }
-
-                    // only harvest email from the primary locations
-                    if ( array_key_exists( 'email', $fields['location'][$locationId] ) &&
-                         is_array( $fields['location'][$locationId]['email'] )         &&
-                         empty( $primaryEmail ) ) {
-                        foreach ( $fields['location'][$locationId]['email'] as $idx => &$email ) {
-                            if ( array_key_exists( 'email', $email ) ) {
-                                $primaryEmail = $email['email'];
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            
-            if ( ! $isPrimary ) {
-                $errors["location[1][is_primary]"] = "One location needs to be marked as primary.";
-            }
-
-        }
-        
-        // make sure that Organization Name or a primary email is set
-        if ( ! array_key_exists( 'organization_name', $fields ) ||
-             empty( $primaryEmail ) ) {
-            $errors['organization_name'] = "Organization Name OR an email in the Primary Location should be set.";
-        }
+        $primaryEmail = CRM_Contact_Form_Contact::formRule( $fields, $errors );
         
         // add code to make sure that the uniqueness criteria is satisfied
-
-        if ( ! empty( $errors ) ) {
-            return $errors;
-        }
-        return true;
+        return empty( $errors ) ? true : $errors;
     }
 }
 

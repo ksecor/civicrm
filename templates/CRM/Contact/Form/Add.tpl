@@ -28,7 +28,11 @@
         Please correct the following errors in the form fields below:
         <ul id="errorList">
         {foreach from=$form.errors key=name item=error}
-            <li>{$error.label} {$error.message}</li>
+	   {if is_array($error)}
+              <li>{$error.label} {$error.message}</li>
+           {else}
+              <li>{$error}</li>
+           {/if}
         {/foreach}
         </ul>
     </div>
