@@ -17,12 +17,38 @@
 *	 with sharable contact_address records (this structure
 *	 provides better support for required unique and
 *    non-shared primary email addresses)
+*
+*
+-------------------------------------------------------
+yvb -
+question regarding the sharing model i.e sharing the id, rid
+between tables contact(parent) and contact_individual(child)
+(parent->child relationship is 1:1).
+
+lets take an example row of contact
+1 1 1 1 'Individual' 'Donald Lobo' 'Source1' 'Email' 0 0 0 11 0 '11-Nov-2004' 1
+
+and a sample row of contact_individual
+1 1 1 'Donald' 'A' 'Lobo' 'Mr' 'Sr' 'Director' 'Formal' 'Welcome Mr. Lobo'
+
+now in the contact_individual we edit the greeting. we'll then get another row
+2 1 2 'Donald' 'A' 'Lobo' 'Mr' 'Sr' 'Director' 'Formal' 'Welcome Mr. Lobo Sr.'
+
+now my question is will this force a row in the parent contact table.
+1 2 2 1 'Individual' 'Donald Lobo' 'Source1' 'Email' 0 0 0 11 0 '11-Nov-2004' 1
+
+thx.
+-------------------------------------------------------
+*
 *	Revisioning structures clarified. 1:1 object extension
 *	 records (e.g. contact_individual) will 'share' revision
 *	 id with parent (contact). A change in either will
 *	 force new revision. 1:many child types (e.g. contact_email)
 *	 will carry their own revision id (+ rid_latest...)
 *	 and will be revisioned independently.
+*
+*
+*
 *	Context is now indexed via contact_context to allow
 *	 structured grouping of context data (e.g. home address,
 *	 home phone, home email...).
@@ -56,13 +82,13 @@ CREATE TABLE contact_country (
 	name  VARCHAR(255),
 	iso_code CHAR(2),
 	phone_code VARCHAR(5),
-	
+
 -- ? Need to research what these next 2 are about ?
 	idd_code VARCHAR(5),
 	ndd_code VARCHAR(5),
 
   PRIMARY KEY(id)
-  
+
 ) ENGINE=InnoDB;
 
 
@@ -82,7 +108,7 @@ CREATE TABLE contact_state_province (
 
 	PRIMARY KEY(id),
 	FOREIGN KEY(countryid) REFERENCES contact_country(id) ON DELETE CASCADE ON UPDATE CASCADE
-	
+
 ) ENGINE=InnoDB;
 
 
@@ -125,11 +151,11 @@ CREATE TABLE contact_context (
 	did  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this context',
 
 	context  VARCHAR(255),
- 
+
 	PRIMARY KEY (id),
 	FOREIGN KEY (did) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	INDEX context_domain (did)
-	
+
 ) ENGINE=InnoDB;
 
 
@@ -146,7 +172,7 @@ CREATE TABLE contact (
 	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
 
 	did  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact',
-	
+
 	contact_type ENUM('Individual','Organization','Family') COMMENT 'type of contact',
 	sort_name VARCHAR(255) COMMENT 'name for sorting purposes',
 	source VARCHAR(255) COMMENT 'where did contact come from, e.g. import, donate module insert...',
@@ -158,16 +184,30 @@ CREATE TABLE contact (
 	do_not_mail      BOOL DEFAULT 0,
 
 -- ? what is this used for ??
+  -- yvb - dont know. i got this from the previous schema listed at
+  -- http://civicspacelabs.org/developers/proposals/contact
+
 	hash INT UNSIGNED NOT NULL COMMENT 'key for hashing the entry',
 
 --  Need to flesh out approach for linking module actions to contact. Commented out for now. dgg
 --	caid_latest INT UNSIGNED COMMENT 'latest contact action id',
 --	module VARCHAR(255) COMMENT 'which module is handling this type',
-	
+
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added',
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
 
+
+-------------------------------------------------------
+-- question by yvb - 11/11/2004.
+-- why is did a part of the primary key ?
+-- (since id is AUTOINCREMENT i'm assuming that a new id would be generated
+--  for every new contact added to the system so would not id,rid suffice as
+--  primary keys)
+--
+-- the did would be needed for primary key if the contact belongs to
+-- more than one domain though.
+-------------------------------------------------------
 	PRIMARY KEY (id, rid, did),
 	FOREIGN KEY (did) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	INDEX contact_domain (did),
@@ -184,10 +224,15 @@ CREATE TABLE contact (
 DROP TABLE IF EXISTS contact_individual;
 CREATE TABLE contact_individual(
 
+-------------------------------------------------------
+-- yvb - question - can we do without the id completely ?
+-- since contact_individual is a 1:1 object extension of contact ?
+-------------------------------------------------------
 	id  INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id (i.e. contact_individual record id-not FK)',
 
 -- cid+rid = contact.id+contact.rid gets a revision row for a contact with type=individual
 -- revision to contact_individual values forces revisioning of parent contact record
+
 	cid INT UNSIGNED NOT NULL COMMENT 'contact id FK',
 	rid INT UNSIGNED NOT NULL COMMENT 'contact revision id FK',
 
@@ -207,9 +252,13 @@ CREATE TABLE contact_individual(
 	greeting_type ENUM('Formal', 'Informal', 'Honorific', 'Custom') COMMENT 'preferred greeting format',
 	custom_greeting VARCHAR(255) COMMENT 'custom greeting message',
 
+-- yvb - can we have cid, rid as the the primary keys instead ?
 	PRIMARY KEY (id, rid),
+
+-- yvb - shldn't that be cid, rid ?
 	FOREIGN KEY (id, rid) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE,
 	INDEX contact_individual (cid, rid)
+
 ) ENGINE=InnoDB COMMENT='extends contact for type=individual';
 
 
@@ -239,6 +288,15 @@ CREATE TABLE contact_address(
 	rid INT UNSIGNED NOT NULL COMMENT 'contact_address revision id',
 	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
 
+-------------------------------------------------------
+-- yvb - would this be used to validate or autogenerate a contacts address ?
+--  if c1 (contact1) belongs to d1(domain1)
+--  and ca1 (contact address1) is owned by d1
+--  then c1 would have address ca1
+--  validation would be reverse. if c1 has address ca2 then there's a problem
+--  since ca2 is not owned by d1 but by d2(domain 2) and c1 does not belong to d2.
+-------------------------------------------------------
+
 	did  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact_address',
 
 	line1 VARCHAR(255) COMMENT 'address line 1',
@@ -267,6 +325,7 @@ CREATE TABLE contact_address(
 	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
 
 	PRIMARY KEY (id, rid),
+
 	FOREIGN KEY (did) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(cspid) REFERENCES contact_state_province(id),
 	FOREIGN KEY(ccoid) REFERENCES contact_country(id)
@@ -281,6 +340,7 @@ CREATE TABLE contact_address(
 *******************************************************/
 DROP TABLE IF EXISTS contact_contact_address;
 CREATE TABLE contact_contact_address(
+
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
@@ -366,7 +426,7 @@ CREATE TABLE contact_phone(
 	FOREIGN KEY(cid) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (context_id) REFERENCES contact_context(id),
 	INDEX phone_contact (cid)
-	
+
 ) ENGINE=InnoDB COMMENT='contact phone numbers (base table)';
 
 
