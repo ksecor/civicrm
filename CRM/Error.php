@@ -35,8 +35,8 @@
 
 //require_once 'PEAR.php';
 require_once 'PEAR/ErrorStack.php';
-
 require_once 'CRM/Config.php';
+require_once 'themes/engines/smarty/SmartyTemplate.php';
 
 class CRM_Error extends PEAR_ErrorStack {
 
