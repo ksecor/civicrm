@@ -22,12 +22,13 @@ require_once 'CRM/Utils.php';
  * module administration page. This example also illustrates how to add help
  * text to the pages your module defines.
  */
-function contact_help($section) {
-  switch ($section) {
-  case 'admin/modules#description':
-    // This description is shown in the listing at admin/modules.
-    return t('CRM module v0.1');
-  }
+function contact_help($section)
+{
+    switch ($section) {
+    case 'admin/modules#description':
+        // This description is shown in the listing at admin/modules.
+        return t('CRM module v0.1');
+    }
 }
 
 /**
@@ -38,8 +39,36 @@ function contact_help($section) {
  * This ensures that they are available to enable on the user role
  * administration pages.
  */
-function contact_perm() {
-  return array( 'view contact', 'edit contact', 'administer contact' );
+function contact_perm() 
+{
+    return array('view contact', 'edit contact', 'administer contact');
+}
+
+/**
+ * Implementation of hook_block().
+ */
+
+function contact_block($op='list', $delta='0')
+{
+    $menu_arr = contact_menu(true);
+    if ($op == 'list') {
+        $block[]['info'] = 'CRM Block';
+        return $block;
+    } else {
+        if (is_array($menu_arr)){
+            foreach ($menu_arr as $menu_key => $menu_value) {
+                if ($menu_value['type']==MENU_NORMAL_ITEM) {
+                    $content.="<a href=".$menu_value['path'].">".$menu_value['title']."</a><br>";
+                }
+            }
+        } else {
+            $content.="!!!";
+        }
+        $block['subject'] = 'CRM';
+        $block['content'] = $content;
+        
+        return $block;
+    }
 }
 
 /**
@@ -58,149 +87,149 @@ function contact_perm() {
  * find a match, and execute contact_foo().
  *
  */
-function contact_menu($may_cache) {
-  $items = array();
-
-  // The $may_cache parameter is used to divide menu items into two parts. Those
-  // returned when $may_cache is true must be consistently applicable for the
-  // current user at all times; the others may change or be defined at only
-  // certain paths. Most modules will have excusively cacheable menu items.
-
-  if ($may_cache) {
-    // This is the minimum information you can provide for a menu item.
-    $items[] = array(
-        		     'path'  => 'admin/contact',
-                     'title' => t('Contact'),
-                     'callback' => 'contact_admin_invoke',
-                     'access' => user_access('administer contact')
-                     );
-
-    $items[] = array(
-                     'path'  => 'admin/contact/configure',
-                     'title' => t('Configure Contact'),
-                     'type'   => MENU_DEFAULT_LOCAL_TASK
-                     );
-
-    $items[] = array(
-                     'path'  => 'admin/contact/settings',
-                     'title' => t('Contact Settings'),
-                     'type'   => MENU_LOCAL_TASK
-                     );
-
-    $items[] = array(
-                     'path'  => 'crm',
-                     'title' => t('Contact Management'),
-                     'callback' => 'contact_invoke',
-                     'access' => user_access('view contact'),
-                     'type'   => MENU_CALLBACK
-                     );
-
-    $items[] = array(
-                     'path'  => 'crm/contact',
-                     'title' => t('Contacts'),
-                     'access' => user_access('view contact'),
-                     'type'   => MENU_NORMAL_ITEM
-                     );
-
-    $items[] = array(
-                     'path'  => 'crm/contact/list',
-                     'title' => t('List Contacts'),
-                     'type'   => MENU_NORMAL_ITEM,
-                     'weight' => 0
-                     );
-
-    $items[] = array(
-                     'path'  => 'crm/contact/add',
-                     'title' => t('Add Contact'),
-                     'type'   => MENU_NORMAL_ITEM,
-                     'weight' => 1
-                     );
-
-    $items[] = array(
-                     'path'  => 'crm/contact/add_house',
-                     'title' => t('Add Household'),
-                     'type'   => MENU_NORMAL_ITEM,
-                     'weight' => 3
-                     );
+function contact_menu($may_cache) 
+{
+    $items = array();
     
-    $items[] = array(
-                     'path'  => 'crm/contact/add_org',
-                     'title' => t('Add Organization'),
-                     'type'   => MENU_NORMAL_ITEM,
-                     'weight' => 4
-                     );
-
-
-    $items[] = array(
-                     'path'  => 'crm/contact/add/basic',
-                     'title' => t('Basic Information'),
-                     'type'   => MENU_DEFAULT_LOCAL_TASK
-                     );
-
-    $items[] = array(
-                     'path'  => 'crm/contact/add/rr',
-                     'title' => t('Relationships and Roles'),
-                     'type'   => MENU_LOCAL_TASK,
-                     'weight' => 1
-                     );
-
-    $items[] = array(
-                     'path'  => 'crm/contact/search',
-                     'title' => t('Search Contacts'),
-                     'type'   => MENU_NORMAL_ITEM,
-                     'weight' => 2
-                     );
-
-    $items[] = array(
-                     'path'  => 'crm/communicate',
-                     'title' => t('Communicate'),
-                     'access' => user_access('view contact'),
-                     'type'   => MENU_NORMAL_ITEM
-                     );
-  }
-  if ( arg(0) == 'crm' && arg(1) == 'contact' && is_numeric( arg(2) ) ) {
-    $cid = arg(2);
-    if ( $cid ) {
-      $items[] = array(
-                       'path'  => 'crm/contact/' . arg(2),
-                       'title' => t('View Contact'),
-                       'type'   => MENU_CALLBACK
-                       );
-      
-      $items[] = array(
-                       'path'  => 'crm/contact/' . arg(2) . '/view',
-                       'title' => t('View Contact'),
-                       'type'   => MENU_DEFAULT_LOCAL_TASK,
-                       );
-      
-      $items[] = array(
-                       'path'  => 'crm/contact/' . arg(2) . '/edit',
-                       'title' => t('Edit Contact'),
-                       'type'   => MENU_LOCAL_TASK,
-                       );
-      
-      $items[] = array(
-                       'path'  => 'crm/contact/' . arg(2) . '/delete',
-                       'title' => t('Delete Contact'),
-                       'type'   => MENU_LOCAL_TASK,
-                       );
+    // The $may_cache parameter is used to divide menu items into two parts. Those
+    // returned when $may_cache is true must be consistently applicable for the
+    // current user at all times; the others may change or be defined at only
+    // certain paths. Most modules will have excusively cacheable menu items.
+    
+    if ($may_cache) {
+        // This is the minimum information you can provide for a menu item.
+        $items[] = array(
+                         'path'  => 'admin/contact',
+                         'title' => t('Contact'),
+                         'callback' => 'contact_admin_invoke',
+                         'access' => user_access('administer contact')
+                         );
+        
+        $items[] = array(
+                         'path'  => 'admin/contact/configure',
+                         'title' => t('Configure Contact'),
+                         'type'   => MENU_DEFAULT_LOCAL_TASK
+                         );
+        
+        $items[] = array(
+                         'path'  => 'admin/contact/settings',
+                         'title' => t('Contact Settings'),
+                         'type'   => MENU_LOCAL_TASK
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm',
+                         'title' => t('Contact Management'),
+                         'callback' => 'contact_invoke',
+                         'access' => user_access('view contact'),
+                         'type'   => MENU_CALLBACK
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm/contact',
+                         'title' => t('Contacts'),
+                         'access' => user_access('view contact'),
+                         'type'   => MENU_NORMAL_ITEM
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm/contact/list',
+                         'title' => t('List Contacts'),
+                         'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 0
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm/contact/add',
+                         'title' => t('Add Contact'),
+                         'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 1
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm/contact/add_house',
+                         'title' => t('Add Household'),
+                         'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 3
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm/contact/add_org',
+                         'title' => t('Add Organization'),
+                         'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 4
+                         );
+        
+        
+        $items[] = array(
+                         'path'  => 'crm/contact/add/basic',
+                         'title' => t('Basic Information'),
+                         'type'   => MENU_DEFAULT_LOCAL_TASK
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm/contact/add/rr',
+                         'title' => t('Relationships and Roles'),
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => 1
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm/contact/search',
+                         'title' => t('Search Contacts'),
+                         'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 2
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm/communicate',
+                         'title' => t('Communicate'),
+                         'access' => user_access('view contact'),
+                         'type'   => MENU_NORMAL_ITEM
+                         );
     }
-  }
-
-  return $items;
+    if ( arg(0) == 'crm' && arg(1) == 'contact' && is_numeric( arg(2) ) ) {
+        $cid = arg(2);
+        if ( $cid ) {
+            $items[] = array(
+                             'path'  => 'crm/contact/' . arg(2),
+                             'title' => t('View Contact'),
+                             'type'   => MENU_CALLBACK
+                             );
+            
+            $items[] = array(
+                             'path'  => 'crm/contact/' . arg(2) . '/view',
+                             'title' => t('View Contact'),
+                             'type'   => MENU_DEFAULT_LOCAL_TASK,
+                             );
+            
+            $items[] = array(
+                             'path'  => 'crm/contact/' . arg(2) . '/edit',
+                             'title' => t('Edit Contact'),
+                             'type'   => MENU_LOCAL_TASK,
+                             );
+            
+            $items[] = array(
+                             'path'  => 'crm/contact/' . arg(2) . '/delete',
+                             'title' => t('Delete Contact'),
+                             'type'   => MENU_LOCAL_TASK,
+                             );
+        }
+    }
+    return $items;
 }
 
-function contact_init() {
-  menu_rebuild();
-
-  $config = CRM_Config::instance();
-  CRM_DAO::init( $config->dsn, $config->daoDebugLvl );
-
-  $factoryClass = 'CRM_Contacts_DAO_Factory';
-  CRM_Utils::import( $factoryClass );
-
-  CRM_DAO::setFactory( new $factoryClass() );
-
+function contact_init() 
+{
+    menu_rebuild();
+    
+    $config = CRM_Config::instance();
+    CRM_DAO::init($config->dsn, $config->daoDebugLvl);
+    
+    $factoryClass = 'CRM_Contacts_DAO_Factory';
+    CRM_Utils::import($factoryClass);
+    
+    CRM_DAO::setFactory(new $factoryClass());
 }
 
 /**
@@ -208,123 +237,126 @@ function contact_init() {
  * Experimenting w/ input validation models. Setting error for both top of page and inline displays.
  * Will replace this w/ logic which loops on array of form field defs in next iteration.
  */
-function contact_validate(&$contact) {
-  if (isset($contact['first_name']) && !strlen($contact['first_name'])) {
-    form_set_error('first_name', t('First Name is required.'));
-  }
-  if (!strlen($contact['first_name'])) {
-    $error['first_name'] = '<div class="error">';
-    $error['first_name'] .= t('First Name field can not be blank.');
-    $error['first_name'] .= '</div>';
-  }
-  if (isset($contact['last_name']) && !strlen($contact['last_name'])) {
-    form_set_error('last_name', t('Last Name is required.'));
-  }
-  if (!strlen($contact['last_name'])) {
-    $error['last_name'] = '<div class="error">';
-    $error['last_name'] .= t('Last Name field can not be blank.');
-    $error['last_name'] .= '</div>';
-  }
-  return $error;
+function contact_validate(&$contact) 
+{
+    if (isset($contact['first_name']) && !strlen($contact['first_name'])) {
+        form_set_error('first_name', t('First Name is required.'));
+    }
+    if (!strlen($contact['first_name'])) {
+        $error['first_name'] = '<div class="error">';
+        $error['first_name'] .= t('First Name field can not be blank.');
+        $error['first_name'] .= '</div>';
+    }
+    if (isset($contact['last_name']) && !strlen($contact['last_name'])) {
+        form_set_error('last_name', t('Last Name is required.'));
+    }
+    if (!strlen($contact['last_name'])) {
+        $error['last_name'] = '<div class="error">';
+        $error['last_name'] .= t('Last Name field can not be blank.');
+        $error['last_name'] .= '</div>';
+    }
+    return $error;
 }
 
 /**
  * Menu callback; dispacthes control to the appropriate operation handler
  */
-function contact_admin_invoke( $operation ) {
-  $content = "the contact administrator invoked $operation";
-  print theme( 'page', $content );
+function contact_admin_invoke($operation) 
+{
+    $content = "the contact administrator invoked $operation";
+    print theme('page', $content);
 }
 
-function contact_invoke( $operation ) {
-
-  // echo "the contact module invoked " . arg(0) . arg(1) . arg(2) . arg(3) . "<p>";
-  // flush();
-
-  $content = "";
-
-
-  // check for add
-  if (arg(2) == 'add' && (arg(3) == 'basic' || arg(3) == NULL )) {
-    $content .= contact_add();
-  }
-
-  // add household
-  if (arg(2) == 'add_house') {
-    $content .= contact_add_house();
-  }
-
-  // add organisation
-  if (arg(2) == 'add_org') {
-    $content .= contact_add_org();
-  }
-
-
-  // list
-  if (arg(2) == 'list') {
-    $content .= contact_list(arg(3));
-  }
-
-
-  // edit
-  if (arg(2) == 'edit') {
-    if(is_numeric(arg(3))) {
-      $content .= contact_edit(arg(3));
-    } else {
-      $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
+function contact_invoke($operation) 
+{
+    // echo "the contact module invoked " . arg(0) . arg(1) . arg(2) . arg(3) . "<p>";
+    // flush();
+    
+    $content = "";
+    
+    
+    // check for add
+    if (arg(2) == 'add' && (arg(3) == 'basic' || arg(3) == NULL)) {
+        $content .= contact_add();
     }
-  }
-
-  if (arg(2) == 'view') {
-    if(is_numeric(arg(3))) {
-      $content .= contact_view(arg(3));
-    } else {
-      $content .= 'Please select a valid contact id to view - ' . arg(3) . ' is not a valid contact id';
+    
+    // add household
+    if (arg(2) == 'add_house') {
+        $content .= contact_add_house();
     }
-  }
 
-  // search
-  if (arg(2) == 'search') {
-    $content .= contact_query();
-  }
-
-
-  // delete
-  if (arg(2) == 'delete') {
-    if(is_numeric(arg(3))) {
-      $content .= contact_delete(arg(3));
-    } else {
-      $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
+    // add organisation
+    if (arg(2) == 'add_org') {
+        $content .= contact_add_org();
     }
-  }
 
-  print theme( 'page', $content );
+    // list
+    if (arg(2) == 'list') {
+        $content .= contact_list(arg(3));
+    }
 
+    // edit
+    if (arg(2) == 'edit') {
+        if(is_numeric(arg(3))) {
+            $content .= contact_edit(arg(3));
+        } else {
+            $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
+        }
+    }
+    
+    if (arg(2) == 'view') {
+        if(is_numeric(arg(3))) {
+            $content .= contact_view(arg(3));
+        } else {
+            $content .= 'Please select a valid contact id to view - ' . arg(3) . ' is not a valid contact id';
+        }
+    }
+    
+    // search
+    if (arg(2) == 'search') {
+        $content .= contact_query();
+    }
+        
+    // delete
+    if (arg(2) == 'delete') {
+        if(is_numeric(arg(3))) {
+            $content .= contact_delete(arg(3));
+        } else {
+            $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
+        }
+    }
+    
+    print theme('page', $content);
+    
 } // end of function contact_invoke
 
 
-function contact_load( $queryArgs ) {
+function contact_load($queryArgs) 
+{
 }
 
 
 
-function contact_add() {
-  $contact = new CRM_Contacts_Contacts();
-  $contact->run( CRM_Form::MODE_CREATE, 0 );
-  return $contact->display();
+function contact_add() 
+{
+    $contact = new CRM_Contacts_Contacts();
+    $contact->run(CRM_Form::MODE_CREATE, 0);
+    return $contact->display();
 } // end of function contact_add
 
 
-function contact_add_house() {
-  $contact = new CRM_Contacts_Households();
-  $contact->run( CRM_Form::MODE_CREATE, 0 );
-  return $contact->display();
+function contact_add_house() 
+{
+    $contact = new CRM_Contacts_Households();
+    $contact->run(CRM_Form::MODE_CREATE, 0);
+    return $contact->display();
 } // end of function contact_add_house
 
-function contact_add_org() {
-  $contact = new CRM_Contacts_Organizations();
-  $contact->run( CRM_Form::MODE_CREATE, 0 );
-  return $contact->display();
+function contact_add_org() 
+{
+    $contact = new CRM_Contacts_Organizations();
+    $contact->run(CRM_Form::MODE_CREATE, 0);
+    return $contact->display();
 } // end of function contact_add_org
 
 
@@ -335,8 +367,9 @@ function contact_add_org() {
  * lists all contacts from db.
  *
  *******************************************************/
-function contact_list($id=0) {
-  return '';
+function contact_list($id=0) 
+{
+    return '';
 } // end of function contact_list
 
 /*******************************************************
@@ -348,8 +381,9 @@ function contact_list($id=0) {
  * character of sql
  *
  *******************************************************/
-function contact_query() {
-  return '';
+function contact_query() 
+{
+    return '';
 } // end of function contact_query
 
 /*******************************************************
@@ -357,10 +391,11 @@ function contact_query() {
  * contact_edit
  *
  *******************************************************/
-function contact_edit($id) {
-  $contact = new CRM_Contacts_Contacts();
-  $contact->run( CRM_Form::MODE_UPDATE, $id );
-  return $contact->display();
+function contact_edit($id) 
+{
+    $contact = new CRM_Contacts_Contacts();
+    $contact->run(CRM_Form::MODE_UPDATE, $id);
+    return $contact->display();
 } // end of function contact_edit
 
 
@@ -369,12 +404,13 @@ function contact_edit($id) {
  * contact_view
  *
  *******************************************************/
-function contact_view($id) {
-  // echo "IN CONTACT VIEW: $id<p>";
-  // flush();
-  $contact = new CRM_Contacts_Contacts();
-  $contact->run( CRM_Form::MODE_VIEW, $id );
-  return $contact->display();
+function contact_view($id) 
+{
+    // echo "IN CONTACT VIEW: $id<p>";
+    // flush();
+    $contact = new CRM_Contacts_Contacts();
+    $contact->run(CRM_Form::MODE_VIEW, $id);
+    return $contact->display();
 } // end of function contact_view
 
 
@@ -385,10 +421,11 @@ function contact_view($id) {
  * lists all contacts from db.
  *
  *******************************************************/
-function contact_delete($id) {
-  $contact = new CRM_Contacts_Contacts();
-  $contact->run( CRM_Form::MODE_DELETE, $id );
-  return $contact->display();
+function contact_delete($id) 
+{
+    $contact = new CRM_Contacts_Contacts();
+    $contact->run(CRM_Form::MODE_DELETE, $id);
+    return $contact->display();
 } // end of function contact_delete
 
 
