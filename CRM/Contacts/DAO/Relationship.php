@@ -17,9 +17,9 @@ class CRM_Contacts_DAO_Relationship extends CRM_DAO_Base {
       $fields = array_merge(
 			    parent::dbFields(),
 			    array(
-				  'contact_id'           => array(self::TYPE_INT),
-				  'target_contact_id'    => array(self::TYPE_INT),
-				  'relationship_type_id' => array(self::TYPE_INT),
+				  'contact_id'           => array(self::TYPE_INT, self::NOT_NULL),
+				  'target_contact_id'    => array(self::TYPE_INT, self::NOT_NULL),
+				  'relationship_type_id' => array(self::TYPE_INT, self::NOT_NULL),
 				  ) // end of array
 			    );
     }
