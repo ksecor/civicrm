@@ -53,17 +53,17 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     
     function getSearchRows($offset, $rowCount, $sort)
     {
-
         //
         // create the DAO's
         // all trash code... will clean it up in next commit... --- yvb
         //
+
         $location_DAO = new CRM_Contact_DAO_Location();
         $address_DAO = new CRM_Contact_DAO_Address();
         $email_DAO = new CRM_Contact_DAO_Email();
         $phone_DAO = new CRM_Contact_DAO_Phone();
 
-
+        
         // we need to run the loop thru the num rows with offset in mind.
         $rows = array();
         /*
@@ -83,7 +83,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             crm.email.pri
             QS;
         */
-
+        /*   
         $query_string = "
             SELECT distinct(crm_contact.id) as crm_contact_id, crm_contact.sort_name as crm_contact_sort_name,
             crm_address.street_address as crm_address_street_address, crm_address.city as crm_address_city,
@@ -102,13 +102,52 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $query_string .= " ORDER BY " . $sort->orderBy(); 
         $query_string .= " LIMIT $offset, $rowCount ";
 
-        CRM_Error::debug_var("query_string", $query_string); 
+        //CRM_Error::debug_var("query_string", $query_string); 
 
         $this->query($query_string);
-	
+        */
+        
+        $location_DAO->joinAdd($email_DAO, "LEFT");
+        //$location_DAO->whereAdd($email_DAO->location_id = $location_DAO->id );
+        //$location_DAO->whereAdd($email_DAO->getTableName().'.id = '.$location_DAO->getTableName().'.id' );
+
+        $location_DAO->joinAdd($phone_DAO, "LEFT");
+        // $location_DAO->whereAdd($phone_DAO->location_id = $location_DAO->id );
+        //$location_DAO->whereAdd($phone_DAO->getTableName().'.id = '.$location_DAO->getTableName().'.id' );
+
+        $location_DAO->joinAdd($address_DAO, "LEFT");
+        //$location_DAO->whereAdd($address_DAO->location_id = $location_DAO->id );
+        //$location_DAO->whereAdd($address_DAO->getTableName().'.id = '.$location_DAO->getTableName().'.id' );
+
+        $this->_join( 'AND '.$location_DAO->getTableName().'.is_primary = 1' );
+        $this->joinAdd($location_DAO, "LEFT");         
+        //$location_DAO->whereAdd($location_DAO->getTableName().'.is_primary = 1' );
+        // $this->_join( 'AND '.$location_DAO->getTableName().'.is_primary = 1' );
+
+        //$location_DAO->whereAdd($location_DAO->getTableName().'.contact_id = '.$location_DAO->getTableName().'.id AND '.$location_DAO->getTableName().'.is_primary = 1' );
+        //$location_DAO->whereAdd($location_DAO->getTableName().'.is_primary = 1' );
+        $this->selectAs($this,'crm_contact_%s');
+        $this->orderBy($sort->orderBy());
+        $this->limit($offset, $rowCount);
+        
+
+        $this->find();
+
         while($this->fetch())
             {
                 $row = array();
+                $row['contact_id'] = $this->crm_contact_id;
+                $row['sort_name'] = $this->crm_contact_sort_name;
+                $row['email'] = $this->email;
+                $row['phone'] = $this->phone;
+                $row['street_address'] = $this->street_address;
+                $row['city'] = $this->city;
+                $row['state'] = $this->state_province_name;
+                $row['edit']  = 'index.php?q=/crm/contact/edit/'.$this->crm_contact_id;
+                $row['view']  = 'index.php?q=/crm/contact/view/'.$this->crm_contact_id;
+                $rows[] = $row;
+
+                /*                $row = array();
                 $row['contact_id'] = $this->crm_contact_id;
                 $row['sort_name'] = $this->crm_contact_sort_name;
                 $row['email'] = $this->crm_email_email;
@@ -118,8 +157,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $row['state'] = $this->crm_state_province_name;
                 $row['edit']  = 'index.php?q=/crm/contact/edit/'.$this->crm_contact_id;
                 $row['view']  = 'index.php?q=/crm/contact/view/'.$this->crm_contact_id;
-                $rows[] = $row;
-                CRM_Error::debug_var("row", $row);
+                $rows[] = $row;*/
             }
         return $rows;
     }
