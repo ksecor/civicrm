@@ -50,24 +50,27 @@ function contact_perm()
 
 function contact_block($op='list', $delta='0')
 {
-    $menu_arr = contact_menu(true);
-    if ($op == 'list') {
-        $block[]['info'] = 'CRM Block';
-        return $block;
-    } else {
-        if (is_array($menu_arr)){
-            foreach ($menu_arr as $menu_key => $menu_value) {
-                if ($menu_value['type']==MENU_NORMAL_ITEM) {
-                    $content.="<a href=".$menu_value['path'].">".$menu_value['title']."</a><br>";
-                }
-            }
+    global $user;
+    if ($user->uid) {
+        $menu_arr = contact_menu(true);
+        if ($op == 'list') {
+            $block[]['info'] = 'CRM Block';
+            return $block;
         } else {
-            $content.="!!!";
+            if (is_array($menu_arr)){
+                foreach ($menu_arr as $menu_key => $menu_value) {
+                    if ($menu_value['type']==MENU_NORMAL_ITEM) {
+                        $content.="<a href=".$menu_value['path'].">".$menu_value['title']."</a><br>";
+                    }
+                }
+            } else {
+                $content.="!!!";
+            }
+            $block['subject'] = 'CRM';
+            $block['content'] = $content;
+            
+            return $block;
         }
-        $block['subject'] = 'CRM';
-        $block['content'] = $content;
-        
-        return $block;
     }
 }
 
