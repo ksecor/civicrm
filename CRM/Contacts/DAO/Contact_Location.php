@@ -1,16 +1,31 @@
+
+
 <?php
 
 require_once 'CRM/Contacts/DAO/ContactBase.php';
 
-class CRM_Contacts_DAO_Contact_Location extends CRM_Contacts_DAO_ContactBase {
-
+/**
+ * This is a dataobject class for Contact Location table.
+ */
+class CRM_Contacts_DAO_Contact_Location extends CRM_Contacts_DAO_ContactBase 
+{
+  
   public $context_id;
+
+  /**
+   * boolean operator
+   * @var boolean
+   */
   public $is_primary;
 
+  /**
+   * @var string
+   */
   public $street;
   public $supplemental_address;
   public $city;
   public $county;
+
   public $state_province_id;
   public $postal_code;
   public $usps_adc;
@@ -20,6 +35,9 @@ class CRM_Contacts_DAO_Contact_Location extends CRM_Contacts_DAO_ContactBase {
   public $geo_code2;
   public $address_note;
 
+  /**
+   * @var string
+   */
   public $email;
   public $email_secondary;
   public $email_tertiary;
@@ -41,14 +59,23 @@ class CRM_Contacts_DAO_Contact_Location extends CRM_Contacts_DAO_ContactBase {
   public $im_screenname_2;
   public $im_service_id_2;
 
-
-  function __construct() {
+  /**
+   * This the constructor of the class
+   */
+  
+  function __construct() 
+  {
     parent::__construct();
   }
 
-  function dbFields() {
+  /**
+   * This function is used to create the array of the feilds from Contact Location table.
+   * @return array array contains the feilds of the table
+   */
+  function dbFields() 
+  {
     static $fields;
-    if ( $fields === null ) {
+    if ($fields === null) {
       $fields = array_merge(
 			    parent::dbFields(),
 			    array(
@@ -114,3 +141,4 @@ class CRM_Contacts_DAO_Contact_Location extends CRM_Contacts_DAO_ContactBase {
 } // end of class CRM_Contacts_DAO_Contact_Location
 
 ?>
+
