@@ -1,4 +1,5 @@
 {* smarty *}
+
 {literal}
 <script type="text/javascript" src="/js/CRUD.js"></script>
 {/literal}
@@ -13,7 +14,6 @@
 	{if $form.hidden}
 	{$form.hidden}{/if}
 
-
 	{if count($form.errors) gt 0}
 	<table width="100%" cellpadding="1" cellspacing="0" border="0" bgcolor="#ff9900"><tr><td>
 	<table width="100%" cellpadding="10" cellspacing="0" border="0" bgcolor="#FFFFCC"><tr><td align="center">
@@ -21,25 +21,30 @@
 	</td></tr></table>
 	</td></tr></table>
 	</p>
+
 	{/if}
+
+
 	
 <br/>
 <div id="core">
 <label><i><h1>Name and Greeting</h1></i></label>
 <table border = "1" cellpadding="2" cellspacing="2">
 	<tr>
-		<td class="form-item"><label>First / Last:</label></td>
-		<td>{$form.prefix.html}
+		<td class="form-item"><label>{$form.first_name.label}</label></td>
+		<td>
+		{$form.prefix.html}
 		{$form.first_name.html}
 		{$form.last_name.html}
-		{$form.suffix.html}</td>
+		{$form.suffix.html}
+		</td>
 	</tr>
 	<tr>
-		<td class="form-item"><label>Greeting:</label></td>
+		<td class="form-item"><label>{$form.greeting_type.label}</label></td>
 		<td class="form-item">{$form.greeting_type.html}</td>
 	</tr>
 	<tr>
-		<td class="form-item"><label>Job Title:</label></td>
+		<td class="form-item"><label>{$form.job_title.label}</label></td>
 		<td class="form-item">{$form.job_title.html}</td>
 	</tr>
 
@@ -56,22 +61,24 @@
 		<td>
 		<table border="1" cellpadding="2" cellspacing="2" width="90%">
 			<tr>
-				<td class="form-item"><label>Privacy:</label></td>
-				<td class="form-item">{$form.do_not_phone.html} Do not call
-	                               		      {$form.do_not_email.html} Do not contact by email
-                                       		      {$form.do_not_mail.html} Do not contact by postal mail</td>
+				<td class="form-item"><label>{$form.do_not_phone.label}</label></td>
+				<td class="form-item">{$form.do_not_phone.html}{$form.do_not_phone.text} 
+	                               		      {$form.do_not_email.html}{$form.do_not_email.text}
+                                       		      {$form.do_not_mail.html}{$form.do_not_mail.text}
+				</td>
 			</tr>
 			<tr>
-				<td class="form-item"><label>Prefers:</label></td>
+				<td class="form-item"><label>{$form.preferred_communication_method.label}</label></td>
 				<td class="form-item">{$form.preferred_communication_method.html}
 				<div class="description">Preferred method of communicating with this individual</div></td>
 			</tr>
-			</table>
+		</table>
 			
 		</td>
 
 	</tr> 
 </table>
+
 <br/>
 
 <label><i><h1>Location</h1></i></label>
@@ -114,20 +121,22 @@
 
 <table id = "location{$pid}" border="1" cellpadding="2" cellspacing="2" width="90%">
 	<tr>
-		<td colspan = "2" class = "form-item">Location{$pid}:</td>
+		<td colspan = "2" class = "form-item">Location{$pid}:</td> 
 	</tr>
 	<tr>	
 		<td class="form-item">
 		{$form.$lid.context_id.html}</td>
 		<td colspan=2 class="form-item">	
-		{$form.$lid.is_primary.html}<label>Primary location for this contact</label></td>
+		{$form.$lid.is_primary.html}<label>{$form.$lid.is_primary.label}</label>
+		</td>
 	</tr>
 
 <!-- LOADING PHONE BLOCK -->
 	<tr>
 		
 		<td class="form-item">
-		<label>Preferred Phone:</label></td>
+		<label>{$form.$lid.phone_1.label}</label>
+		</td>
 		<td class="form-item">
 		{$form.$lid.phone_type_1.html}{$form.$lid.phone_1.html}
 		</td>
@@ -136,13 +145,14 @@
 	<tr><!-- Second phone block.-->
 		
 		<td colspan="2">
-		<table id="expand_phone0_2_{$pid}">
-		<tr>
-			<td>
-			{$form.$exph02.html}
-			</td>
-		</tr>
-		</table></td>
+			<table id="expand_phone0_2_{$pid}">
+			<tr>
+				<td>
+				{$form.$exph02.html}
+				</td>
+			</tr>
+		</table>
+		</td> 
 	</tr>
 
 	<tr>
@@ -150,21 +160,22 @@
 		<td colspan="2">	
 
 		<table id="phone0_2_{$pid}">
-		<tr>
-			<td class="form-item">
-			<label>Other Phone:</label>
-			</td>
-			<td class="form-item">
-			{$form.$lid.phone_type_2.html}{$form.$lid.phone_2.html}
-			</td>
-		</tr>	
+			<tr>
+				<td class="form-item">
+				<label>{$form.$lid.phone_2.label}</label>
+				</td>
+				<td class="form-item">
+				{$form.$lid.phone_type_2.html}{$form.$lid.phone_2.html}
+				</td>
+			</tr>	
 
-		<tr>
-			<td colspan="2">
-			{$form.$hideph02.html}
-			</td>
-		</tr>
-		</table></td>
+			<tr>
+				<td colspan="2">
+				{$form.$hideph02.html}
+				</td>
+			</tr>
+		</table>
+		</td> 
 	</tr>
 
 	<tr><!-- Third phone block.-->
@@ -176,26 +187,27 @@
 				</td>
 			</tr>
 		</table>
-	       	</td>
+	       	</td> 
 	</tr>
 	<tr>
 
 		<td colspan="2">
 		<table id="phone0_3_{$pid}">
-		<tr>
-			<td class="form-item">
-			<label>Other Phone:</label></td>
-			<td class="form-item">
-			{$form.$lid.phone_type_3.html}{$form.$lid.phone_3.html}
-			</td>
-		</tr>
+			<tr>
+				<td class="form-item">
+				<label>{$form.$lid.phone_3.label}</label></td>
+				<td class="form-item">
+				{$form.$lid.phone_type_3.html}{$form.$lid.phone_3.html}
+				</td>
+			</tr>
 
-		<tr>
-			<td colspan="2">
-			{$form.$hideph03.html}
-			</td>
-		</tr>
-		</table></td>
+			<tr>
+				<td colspan="2">
+				{$form.$hideph03.html}
+				</td>
+			</tr>
+		</table>
+		</td> 
 	</tr>
 
 
@@ -204,32 +216,34 @@
 
 	<tr>
 		<td class="form-item">
-		<label>Email:</label></td>
+			<label>{$form.$lid.email.label}</label>
+		</td>
 		<td class = "form-item">
-		{$form.$lid.email.html}</td>
+			{$form.$lid.email.html}
+		</td>
 	</tr>
 	<tr><!-- email 2.-->
 		<td colspan="2">
 		<table id="expand_email0_2_{$pid}" >
-		<tr>
-			<td>
-			{$form.$exem02.html}
-			</td>
-		</tr>
+			<tr>
+				<td>
+				{$form.$exem02.html}
+				</td>
+			</tr>
 		</table>
-		</td>
+		</td> 
 	</tr>
 
 	<tr>
 		<td colspan="2">
 		<table id="email0_2_{$pid}">
-		<tr>
-			<td class="form-item">
-			<label>Other Email:</label>
-			</td>
-			<td class = "form-item">
-			{$form.$lid.email_secondary.html}
-			</td>
+			<tr>
+				<td class="form-item">
+				<label>{$form.$lid.email_secondary.label}</label>
+				</td>
+				<td class = "form-item">
+				{$form.$lid.email_secondary.html}
+				</td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -237,166 +251,177 @@
 			</td>
 		</tr>
 		</table>
-		</td>
+		</td> 
 	</tr>
 	<tr><!-- email 3.-->
 
 		<td colspan="2">
 		<table id="expand_email0_3_{$pid}" >
-		<tr>
-			<td>
-			{$form.$exem03.html}
-			</td>
-		</tr>
+			<tr>
+				<td>
+				{$form.$exem03.html}
+				</td>
+			</tr>
 		</table>
-		</td>
+		</td> 
 	</tr>
 	<tr>
 		<td colspan="2">
 		<table id="email0_3_{$pid}">
-		<tr>
-			<td class="form-item">
-			<label>Other Email:</label></td>
-			<td class = "form-item">{$form.$lid.email_tertiary.html}
-			</td>
-		</tr>
+			<tr>
+				<td class="form-item">
+				<label>{$form.$lid.email_tertiary.label}</label>
+				</td>
+				<td class = "form-item">
+				{$form.$lid.email_tertiary.html}
+				</td>
+			</tr>	
 
-		<tr>
-			<td colspan="2">
-			{$form.$hideem03.html}
-			</td>
-		</tr>
-		</table></td>
+			<tr>
+				<td colspan="2">
+				{$form.$hideem03.html}
+				</td>
+			</tr>
+		</table>
+		</td>
 	</tr>
 	<tr><!-- LOADING IM BLOCK -->
 		
 		<td class="form-item">
-		<label>Instant Message:</label>
+		<label>{$form.$lid.im_service_id_1.label}</label>
 		</td>
 		<td class="form-item">
 		{$form.$lid.im_service_id_1.html}{$form.$lid.im_screenname_1.html}
 		<div class="description">Select IM service and enter screen-name / user id.</div>
-		</td>
+		</td> 
 	</tr>
 	<tr><!-- IM 2.-->
 		
 		<td colspan="2">
-		<table id="expand_IM0_2_{$pid}" >
-		<tr>
-			<td>
-			{$form.$exim02.html}
-			</td>
-		</tr>
-		</table	></td>
+			<table id="expand_IM0_2_{$pid}" >
+			<tr>
+				<td>
+				{$form.$exim02.html}
+				</td>
+			</tr>
+			</table	>
+		</td> 
 	</tr>
 	<tr>
 		<td colspan="2">
 		<table id="IM0_2_{$pid}">
-		<tr>
-			<td class="form-item">
-			<label>Instant Message:</label></td>
-			<td class="form-item">
-			{$form.$lid.im_service_id_2.html}{$form.$lid.im_screenname_2.html}
-			<div class="description">Select IM service and enter screen-name / user id.</div></td>
-		</tr>
-		<tr>
-			<td colspan="2">
-			{$form.$hideim02.html}
-			</td>
-		</tr>
-		</table></td>
+			<tr>
+				<td class="form-item">
+				<label>{$form.$lid.im_service_id_2.label}</label></td>
+				<td class="form-item">
+				{$form.$lid.im_service_id_2.html}{$form.$lid.im_screenname_2.html}
+				<div class="description">Select IM service and enter screen-name / user id.</div></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				{$form.$hideim02.html}
+				</td>
+			</tr>
+		</table>
+		</td> 
 	</tr>
 	<tr><!-- IM 3.-->
 		<td colspan="2">
 		<table id="expand_IM0_3_{$pid}" >
-		<tr>	<td>
-			{$form.$exim03.html}
-			</td>
-		</tr>
-		</table></td>
+			<tr>	
+				<td>
+				{$form.$exim03.html}
+				</td>
+			</tr>
+		</table>
+		</td> 
 	</tr>
 	<tr>
 		<td colspan="2">	
 		<table id="IM0_3_{$pid}">
-		<tr>
-			<td class="form-item">
-			<label>Instant Message:</label></td>
-			<td class="form-item">
-			{$form.$lid.im_service_id_3.html}{$form.$lid.im_screenname_3.html}
-			<div class="description">Select IM service and enter screen-name / user id.</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-			{$form.$hideim03.html}
-			</td>
-		</tr>
-		</table></td>
+			<tr>
+				<td class="form-item">
+				<label>{$form.$lid.im_service_id_3.label}</label></td>
+				<td class="form-item">
+				{$form.$lid.im_service_id_3.html}{$form.$lid.im_screenname_3.html}
+				<div class="description">Select IM service and enter screen-name / user id.</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				{$form.$hideim03.html}
+				</td>
+			</tr>
+		</table>
+		</td> 
 	</tr>
 	<tr>
 		
 		<td class="form-item">
-		<label>Street Address:</label></td>
+		<label>{$form.$lid.street.label}</label></td>
 		<td class="form-item">
-		{$form.$lid.street.html}<br/>
+		{$form.$lid.street.html}<!--br/-->
 		<div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
 		</td>
 	</tr>
 	<tr>
 		
 		<td class="form-item">
-		<label>Additional<br/>Address:</label></td>
+		<label>{$form.$lid.supplemental_address.label}</label></td>
 		<td class="form-item">
-		{$form.$lid.supplemental_address.html}<br/>
+		{$form.$lid.supplemental_address.html}<!--br/-->
 		<div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
 		</td>
 	</tr>
 	<tr>
 		<td class="form-item">
-		<label>City:</label>
-		</td><td class="form-item">
-		{$form.$lid.city.html}<br/>
+		<label>{$form.$lid.city.label}</label>
+		</td>
+		<td class="form-item">
+		{$form.$lid.city.html}<!--br/-->
 		</td>
 	</tr>
 	<tr>
 		<td class="form-item">
-		<label>State / Province:</label></td>
+		<label>{$form.$lid.state_province_id.label}</label>
+		</td>
 		<td class="form-item">
 		{$form.$lid.state_province_id.html}
 		</td>
 	</tr>
 	<tr>
 		<td class="form-item">
-		<label>Zip / Postal Code:</label></td>
+		<label>{$form.$lid.postal_code.label}</label>
+		</td>
 		<td class="form-item">
-		{$form.$lid.postal_code.html}<br/>
+		{$form.$lid.postal_code.html}<!--br/-->
 		</td>
 	</tr>
 	<tr>
 		<td class="form-item">
-		<label>Country:</label>
-		</td><td class="form-item">
+		<label>{$form.$lid.country_id.label}</label>
+		</td>
+		<td class="form-item">
 		{$form.$lid.country_id.html}
 		</td>
 	</tr>
 
-		</td>
+	</td>
 	</tr>
 	{if $pid > 1 }
 	<tr>
 		<td colspan = "2">
-	
 		{$form.$hideloc.html}
-	
-		</td>
+		</td> 
 	</tr>
 	{/if}
 </table>
+
 <br />
 {/section}
 
 
-{* ENDING UNIT gx3 LOCATION ENGINE } */
+{* ENDING UNIT gx3 LOCATION ENGINE *} 
 
 {******************************** ENDIND THE DIV SECTION **************************************}
 {******************************** ENDIND THE DIV SECTION **************************************}
@@ -418,18 +443,18 @@
 <table border="1" cellpadding="2" cellspacing="2">
 	 <label><i><h1>Demographics</h1></i></label>
 	<tr>
-		<td class="form-item"><label>Gender:</label></td>
+		<td class="form-item"><label>{$form.gender.female.label}</label></td>
 		<td class="form-item">{$form.gender.female.html}
 		{$form.gender.male.html}
 		{$form.gender.transgender.html}</td>
-	{*{html_radios options=$form.gender.values selected=$form.gender.selected separator="<br />"}*}
+	{*{html_radios options=$form.gender.values selected=$form.gender.selected separator="<br />"*}
 	</tr>
 	<tr>
-		<td class="form-item"><label>Date of Birth:</label></td>
+		<td class="form-item"><label>{$form.birth_date.label}</label></td>
 		<td class="form-item">{$form.birth_date.html}</td>
 	</tr>
 	<tr>
-		<td class="form-item" colspan=2>{$form.is_deceased.html}<label> Contact is Deceased </label></td>
+		<td class="form-item" colspan=2>{$form.is_deceased.html}<label>{$form.is_deceased.label} </label></td>
 	</tr>
 	<tr>
 		<td class="form-item"><label> Custom demographics flds </label></td>
@@ -465,10 +490,10 @@
 
 <table border="1" cellpadding="2" cellspacing="2">
 	<tr>
-		<td class="form-item"><label>Notes:</label></td>
+		<td class="form-item"><label>{$form.address_note.label}</label></td>
 		<td class="form-item">{$form.address_note.html}
 		<div class = "description">
-		Record any descriptive comments about this contact. You may add an unlimited number of notes, and view or 
+		 Record any descriptive comments about this contact. You may add an unlimited number of notes, and view or 
 		<br/>search on them at any time.</div>
 		</td>
 	
@@ -482,24 +507,27 @@
 
 
 
-<br/>
+
 <div id = "buttons">
 <table cellpadding="2" cellspacing="2">
 <tr>
 	<td class="form-item">
-	{$form.buttons.html}</td>
+	{$form.buttons.html}
+	</td>
 	
 </tr>
 </table>
 </div>
 
 </form>
+
 	
 {literal}
 <script type="text/javascript">
 on_load_execute();
 </script>
 {/literal}
+
 
 {if count($form.errors) gt 0}
 {literal}
@@ -508,4 +536,5 @@ on_error_execute();
 </script>
 {/literal}
 {/if}
+
 
