@@ -1,14 +1,19 @@
 <?php
 
-class CRM_Import extends CRM_Base {
+require_once 'CRM/String.php';
+require_once 'CRM/Type.php';
+
+require_once 'CRM/Import/Field.php';
+
+class CRM_Import_Base extends CRM_Base {
 
   const
     MAX_ERRORS   = 25,
     MAX_WARNINGS = 25,
-    VALID_LINE   =  1,
-    WARNING_LINE =  2,
-    ERROR_LINE   =  4,
-    STOP_LINE    =  8;
+    VALID        =  1,
+    WARNING      =  2,
+    ERROR        =  4,
+    STOP         =  8;
 
   protected $_fileName;
 
@@ -80,6 +85,9 @@ class CRM_Import extends CRM_Base {
 
   function __construct() {
     parent::__construct();
+
+    $this->_fields       = array();
+    $this->_activeFields = array();
   }
 
   abstract function init();
@@ -113,26 +121,21 @@ class CRM_Import extends CRM_Base {
       }
 
 
-      $elements = CRM_String::explodeLine( $line, $seperator, true );
-
-      $returnCode = $this->setActiveFields( $elements );
-      if ( $returnCode & self::VALID_LINE ) {
-        $returnCode = $this->process( $line );
-      }
+      $returnCode = $this->process( $line );
 
       // note that a line could be valid but still produce a warning
-      if ( $returnCode & self::VALID_LINE ) {
+      if ( $returnCode & self::VALID ) {
         $this->_validCount++;
       }
 
-      if ( $returnCode & self::WARNING_LINE ) {
+      if ( $returnCode & self::WARNING ) {
         $this->_warningCount++;
         if ( $this->_warningCount < $this->_maxWarningCount ) {
           push( $this->_warningCount, $line );
         }
       } 
 
-      if ( $returnCode & self::ERROR_LINE ) {
+      if ( $returnCode & self::ERROR ) {
         $this->_errorCount++;
         if ( $this->_errorCount < $this->_maxErrorCount ) {
           push( $this->_errorCount, $line );
@@ -141,7 +144,7 @@ class CRM_Import extends CRM_Base {
 
       // we give the derived class a way of aborting the process
       // note that the return code could be multiple code or'ed together
-      if ( $returnCode & self::STOP_LINE ) {
+      if ( $returnCode & self::STOP ) {
         break;
       }
     }
@@ -165,13 +168,26 @@ class CRM_Import extends CRM_Base {
     }
 
     // now validate the fields and return false if error
-    $valid = true;
+    $valid = self::VALID;
     for ( $j = 0; $j < $this->_activeFieldCount; $j++ ) {
       if ( $this->_activeFields[$j]->validate() ) {
-        return self::ERROR_LINE;
+        $valid = self::ERROR;
       }
     }
-    return self::VALID_LINE;
+    return $valid;
+  }
+
+  function getSelectValues() {
+    $values = array();
+    foreach ( $this->_fields as $field ) {
+      $values[$field->iname] = $field->name;
+    }
+    return $values;
+  }
+
+  function addField( $name, $fieldName, $type = CRM_Type::INTEGER, $required = false, $payload = null, $active = false ) {
+    $field = new CRM_Field($name, $fieldName, $type, $required, $payload, $active);
+    $this->_fields[] = $field;
   }
 
 }

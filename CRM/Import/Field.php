@@ -56,7 +56,7 @@ class CRM_Import_Fields {
   }
 
   function resetValue( ) {
-    $this->value     = null;
+    $this->_value     = null;
   }
 
   /**
@@ -64,8 +64,19 @@ class CRM_Import_Fields {
    * and set the field value with the appropriate type
    */
   function setValue( $value ) {
-    $this->value = null;
-    $this->value = CRM_Type::format( $value, $this->type );
+    $this->_value = $value;
+  }
+
+  function validate( ) {
+    if ( $this->_value === null ) {
+      return true;
+    }
+
+    if ( $this->_value === null ) {
+      return false;
+    }
+
+    return true;
   }
 
 }
