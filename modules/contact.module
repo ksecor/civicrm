@@ -209,7 +209,7 @@ function contact_menu($may_cache)
         
         $items[] = array(
                          'path'  => 'crm/contact/list',
-                         'title' => t('List Contact'),
+                         'title' => t('Browse Contacts'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 0
                          );
@@ -237,16 +237,29 @@ function contact_menu($may_cache)
         
         
         $items[] = array(
-                         'path'  => 'crm/contact/add/basic',
-                         'title' => t('Basic Information'),
+                         'path'  => 'crm/contact/view',
+                         'title' => t('View Contact'),
+                         'type'   => MENU_CALLBACK
+                         );
+
+        $items[] = array(
+                         'path'  => 'crm/contact/view/basic',
+                         'title' => t('Contact Info'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK
                          );
         
         $items[] = array(
-                         'path'  => 'crm/contact/add/rr',
-                         'title' => t('Relationships and Roles'),
+                         'path'  => 'crm/contact/view/rr',
+                         'title' => t('Relationships'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
+                         );
+        
+        $items[] = array(
+                         'path'  => 'crm/contact/view/groups',
+                         'title' => t('Groups'),
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => 2
                          );
         
         $items[] = array(
