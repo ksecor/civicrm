@@ -89,13 +89,21 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                                              'sort'      => 'crm_state_province_name',
                                              'direction' => CRM_Sort::DONTCARE,
                                              ),
-                                       array('name' => 'Postal'),
+                                       array(
+                                             'name'      => 'Postal',
+                                             'sort'      => 'crm_address_postal_code',
+                                             'direction' => CRM_Sort::DONTCARE,
+                                             ),
                                        array(
                                              'name'      => 'Country',
                                              'sort'      => 'crm_country_name',
                                              'direction' => CRM_Sort::DONTCARE,
                                              ),
-                                       array('name' => 'Email'),
+                                       array(
+                                             'name'      => 'Email',
+                                             'sort'      => 'crm_email_email',
+                                             'direction' => CRM_Sort::DONTCARE,
+                                             ),
                                        array('name' => 'Phone'),
                                        array('name' => ''),
                                        );
