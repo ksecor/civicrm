@@ -1,64 +1,150 @@
 <?php
+    /*
+    +----------------------------------------------------------------------+
+    | CiviCRM version 1.0                                                  |
+    +----------------------------------------------------------------------+
+    | Copyright (c) 2005 Donald A. Lobo                                    |
+    +----------------------------------------------------------------------+
+    | This file is a part of CiviCRM.                                      |
+    |                                                                      |
+    | CiviCRM is free software; you can redistribute it and/or modify it   |
+    | under the terms of the Affero General Public License Version 1,      |
+    | March 2002.                                                          |
+    |                                                                      |
+    | CiviCRM is distributed in the hope that it will be useful, but       |
+    | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+    | See the Affero General Public License for more details at            |
+    | http://www.affero.org/oagpl.html                                     |
+    |                                                                      |
+    | A copy of the Affero General Public License has been been            |
+    | distributed along with this program (affero_gpl.txt)                 |
+    +----------------------------------------------------------------------+
+    */
+    /**
+    *
+    * @package CRM
+    * @author Donald A. Lobo <lobo@yahoo.com>
+    * @copyright Donald A. Lobo 01/15/2005
+    * $Id$
+    *
+    */
+    require_once 'CRM/DAO/Base.php';
+    class CRM_Contact_DAO_Country extends CRM_DAO_Base {
 
-require_once 'CRM/DAO/Base.php';
+        /**
+        * static instance to hold the table name
+        *
+        * @var string
+        * @static
+        */
+        static $_tableName = 'crm_country';
+        /**
+        * static instance to hold the field values
+        *
+        * @var string
+        * @static
+        */
+        static $_fields;
+        /**
+        * Country Id
+        *
+        * @var int unsigned
+        */
+        public $id;
 
-class CRM_DAO_Country extends CRM_DAO_Base {
+        /**
+        * Country Name
+        *
+        * @var string
+        */
+        public $name;
 
-  /*
-   * name of the country
-   * @var string
-   */
-  public $name;
+        /**
+        * ISO Code
+        *
+        * @var string
+        */
+        public $iso_code;
 
+        /**
+        * National prefix to be used when dialing TO this country.
+        *
+        * @var string
+        */
+        public $country_code;
 
-  /*
-   * iso code of the country
-   * @var string
-   */
-  public $iso_code;
+        /**
+        * International direct dialing prefix from within the country TO another country
+        *
+        * @var string
+        */
+        public $idd_prefix;
 
-  /*
-   * country_code the national prefix of this country which is needed when dialing from
-   * another country to this country
-   * @var string
-   */
-  public $country_code;
+        /**
+        * Access prefix to call within a country to a different area
+        *
+        * @var string
+        */
+        public $ndd_prefix;
 
-  /*
-   * the international dialing prefix for this country. i.e. how do u dial another country
-   * from within this country
-   * @var string
-   */
-  public $idd_prefix;
-
-  /*
-   * the national dialing prefix for this country. i.e. how do u dial another area code
-   * from within this country
-   * @var string
-   */
-  public $ndd_prefix;
-
-  function __construct() {
-    parent::$_construct();
-  }
-
-  function dbFields() {
-    static $fields;
-    if ( $fields === null ) {
-      $fields = array_merge(
-                             parent::dbFields(),
-                             array(
-                                   'name'         => array( CRM_Type::T_STRING, self::NOT_NULL ),
-                                   'iso_code'     => array( CRM_Type::T_STRING, null ),
-                                   'country_code' => array( CRM_Type::T_STRING, null ),
-                                   'idd_prefix'   => array( CRM_Type::T_STRING, null ),
-                                   'ndd_prefix'   => array( CRM_Type::T_STRING, null ),
-                                   )
-                             );
+        /**
+        * class constructor
+        *
+        * @access public
+        * @return crm_country
+        */
+        function __construct() 
+        {
+            parent::__construct();
+        }
+        /**
+        * returns all the column names of this table
+        *
+        * @access public
+        * @return array
+        */
+        function &fields() 
+        {
+            if (!isset(self::$_fields)) {
+                self::$_fields = array_merge(parent::fields() , array(
+                    'id'=>array(
+                        'type'=>CRM_Type::T_INT,
+                        'required'=>true,
+                    ) ,
+                    'name'=>array(
+                        'type'=>CRM_Type::T_STRING,
+                        'length'=>64,
+                    ) ,
+                    'iso_code'=>array(
+                        'type'=>CRM_Type::T_STRING,
+                        'length'=>2,
+                    ) ,
+                    'country_code'=>array(
+                        'type'=>CRM_Type::T_STRING,
+                        'length'=>4,
+                    ) ,
+                    'idd_prefix'=>array(
+                        'type'=>CRM_Type::T_STRING,
+                        'length'=>4,
+                    ) ,
+                    'ndd_prefix'=>array(
+                        'type'=>CRM_Type::T_STRING,
+                        'length'=>4,
+                    ) ,
+                ));
+            }
+            return self::$_fields;
+        }
+        /**
+        * returns the names of this table
+        *
+        * @access public
+        * @return string
+        */
+        function getTableName() 
+        {
+            return self::$_tableName;
+        }
     }
-    return $fields;
-  }
-
-}
-
 ?>

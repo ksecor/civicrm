@@ -42,11 +42,6 @@ require_once 'CRM/Contact/Wrapper.php';
 require_once 'CRM/Selector/Controller.php';
 require_once 'CRM/Contact/Selector/Individual.php';
 
-require_once 'CRM/Contact/BAO/Contact_Household.php';
-
-require_once 'CRM/Contact/BAO/Contact_Organization.php';
-
-
 /**
  * @file
  * This is an example outlining how a module can be used to display a

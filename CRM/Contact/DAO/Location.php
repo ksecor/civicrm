@@ -1,64 +1,144 @@
 <?php
+    /*
+    +----------------------------------------------------------------------+
+    | CiviCRM version 1.0                                                  |
+    +----------------------------------------------------------------------+
+    | Copyright (c) 2005 Donald A. Lobo                                    |
+    +----------------------------------------------------------------------+
+    | This file is a part of CiviCRM.                                      |
+    |                                                                      |
+    | CiviCRM is free software; you can redistribute it and/or modify it   |
+    | under the terms of the Affero General Public License Version 1,      |
+    | March 2002.                                                          |
+    |                                                                      |
+    | CiviCRM is distributed in the hope that it will be useful, but       |
+    | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+    | See the Affero General Public License for more details at            |
+    | http://www.affero.org/oagpl.html                                     |
+    |                                                                      |
+    | A copy of the Affero General Public License has been been            |
+    | distributed along with this program (affero_gpl.txt)                 |
+    +----------------------------------------------------------------------+
+    */
+    /**
+    *
+    * @package CRM
+    * @author Donald A. Lobo <lobo@yahoo.com>
+    * @copyright Donald A. Lobo 01/15/2005
+    * $Id$
+    *
+    */
+    require_once 'CRM/DAO/Base.php';
+    class CRM_Contact_DAO_Location extends CRM_DAO_Base {
 
-require_once 'CRM/Contact/DAO/LocationBase.php';
+        /**
+        * static instance to hold the table name
+        *
+        * @var string
+        * @static
+        */
+        static $_tableName = 'crm_location';
+        /**
+        * static instance to hold the field values
+        *
+        * @var string
+        * @static
+        */
+        static $_fields;
+        /**
+        * Unique Location ID
+        *
+        * @var int unsigned
+        */
+        public $id;
 
-/**
- * This is a dataobject class for Contact Location table.
- */
-class CRM_Contact_DAO_Location extends CRM_Contact_DAO_ContactBase 
-{
-  
-    /**
-     * boolean operator
-     * @var boolean
-     */
-    public $is_primary;
-    
-    /**
-     * @param int location_type_id : foreign key from crm_location_type
-     */
-    
-    public $location_type_id ;
-    
-    /**
-     * This the constructor of the class
-     */
-    
-    function __construct() 
-    {
-        parent::__construct();
+        /**
+        * FK to Contact ID
+        *
+        * @var int unsigned
+        */
+        public $contact_id;
+
+        /**
+        * FK to Location Type ID
+        *
+        * @var int unsigned
+        */
+        public $location_type_id;
+
+        /**
+        * Is this the primary location for the contact. (allow only ONE primary location / contact.)
+        *
+        * @var boolean
+        */
+        public $is_primary;
+
+        /**
+        * class constructor
+        *
+        * @access public
+        * @return crm_location
+        */
+        function __construct() 
+        {
+            parent::__construct();
+        }
+        /**
+        * return foreign links
+        *
+        * @access public
+        * @return array
+        */
+        function &links() 
+        {
+            static $links;
+            if (!isset($links)) {
+                $links = array(
+                    'contact_id'=>'crm_contact:id',
+                    'location_type_id'=>'crm_location_type:id',
+                );
+            }
+            return $links;
+        }
+        /**
+        * returns all the column names of this table
+        *
+        * @access public
+        * @return array
+        */
+        function &fields() 
+        {
+            if (!isset(self::$_fields)) {
+                self::$_fields = array_merge(parent::fields() , array(
+                    'id'=>array(
+                        'type'=>CRM_Type::T_INT,
+                        'required'=>true,
+                    ) ,
+                    'contact_id'=>array(
+                        'type'=>CRM_Type::T_INT,
+                        'required'=>true,
+                    ) ,
+                    'location_type_id'=>array(
+                        'type'=>CRM_Type::T_INT,
+                        'required'=>true,
+                    ) ,
+                    'is_primary'=>array(
+                        'type'=>CRM_Type::T_BOOLEAN,
+                    ) ,
+                ));
+            }
+            return self::$_fields;
+        }
+        /**
+        * returns the names of this table
+        *
+        * @access public
+        * @return string
+        */
+        function getTableName() 
+        {
+            return self::$_tableName;
+        }
     }
-    
-    /**
-     * This function is used to create the array of the feilds from Contact Location table.
-     * @return array array contains the feilds of the table
-     */
-    function dbFields() 
-    {
-        static $fields;
-        if ($fields === null) {
-            $fields = array_merge(
-                                  parent::dbFields(),
-                                  array(
-                                        'is_primary'        => array(CRM_Type::T_BOOLEAN),
-                                        'location_type_id'  => array(CRM_Type::T_INT),
-                                        ) // end of array
-                                  );
-        }
-        return $fields;
-    } // end of method dbFields
-    
-    function links() {
-        static $links;
-        if ($links === null) {
-            $links = array_merge(parent::links(),
-                                 array('location_type_id'  => 'crm_location_type:id'
-                                       )
-                                 );
-        }
-        return $links;
-    } // end of method links()
-    
-} // end of class CRM_Contact_DAO_Contact_Location
-
 ?>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
+  <base>CRM/Contact</base>
   <name>crm_contact</name>
   <comment>Three types of contacts are defined: Individual, Organization and Household. Contact objects are defined by a crm_contact record plus a related crm_contact_type record.</comment>
   <field>
@@ -79,17 +80,18 @@
   <field>
        <name>do_not_phone</name>
        <type>boolean</type>
-       <default>false</default>
+       <default>'false'</default>
   </field>
   <field>
        <name>do_not_email</name>
        <type>boolean</type>
-       <default>false</default>
+       <default>'false'</default>
   </field>
   <field>
        <name>do_not_mail</name>
        <type>boolean</type>
-       <default>false</default>
+       <default>'false'</default>
+
   </field>
   <field>
       <name>hash</name>

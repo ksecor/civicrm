@@ -37,7 +37,7 @@ require_once 'CRM/Selector/Base.php';
 require_once 'CRM/Selector/API.php';
 require_once 'CRM/Form.php';
 
-require_once 'CRM/Contact/BAO/Contact_Individual.php';
+require_once 'CRM/Contact/BAO/Individual.php';
 
 
 /**
@@ -88,8 +88,8 @@ class CRM_Contact_Selector_Individual extends CRM_Selector_Base implements CRM_S
         
         CRM_Error::le_method();
 
-        //object of BAO_Contact_Individual for fetching the records from db
-        $this->_contact = new CRM_Contact_BAO_Contact_Individual();
+        //object of BAO_Individual for fetching the records from db
+        $this->_contact = new CRM_Contact_BAO_Individual();
         $this->_contact->domain_id = 1;
 
         foreach ( $params as $name => $value ) {

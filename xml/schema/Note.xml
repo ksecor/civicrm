@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM</base>
+  <name>crm_note</name>
+  <comment>Notes can be linked to any object in the application.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Note ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+       <name>table_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <required>true</required>
+       <comment>Name of table where item being referenced is stored.</comment>
+  </field>
+  <field>
+       <name>table_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>Foreign key to the referenced item.</comment>
+  </field>
+  <field>
+       <name>note</name>
+       <type>text</type>
+       <comment>Note and/or Comment.</comment>
+  </field>
+</table>

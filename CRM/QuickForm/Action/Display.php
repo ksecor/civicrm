@@ -114,10 +114,10 @@ class CRM_QuickForm_Action_Display extends CRM_QuickForm_Action {
 
         $this->_setRenderTemplates($page);
         $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        // $template->clear_all_assign();
-        $template->assign('form',  $page->toSmarty());
         $template->assign_by_ref( 'config' , $config  );
         $template->assign_by_ref( 'session', $session );
+        // $template->clear_all_assign();
+        $template->assign('form',  $page->toSmarty());
         $content = $template->fetch( $page->getTemplateFileName(), $config->templateDir );
         $this->_stateMachine->setContent($content);
         return;

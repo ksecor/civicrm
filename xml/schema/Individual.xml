@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
+  <base>CRM/Contact</base>
   <name>crm_individual</name>
   <comment>Define individual specific properties</comment>
   <field>
@@ -91,36 +92,21 @@
   <field>
        <name>is_deceased</name>
        <type>boolean</type>
-       <default>false</default>
+       <default>'false'</default>
   </field>
   <field>
       <name>phone_to_household_id</name>
       <type>int unsigned</type>
       <comment>OPTIONAL FK to crm_contact_household record. If NOT NULL, direct phone communications to household rather than individual location.</comment>
   </field>
-  <foreignKey>
-       <name>phone_to_household_id</name>
-       <table>crm_household</table>
-       <key>id</key>
-  </foreignKey>
   <field>
       <name>email_to_household_id</name>
       <type>int unsigned</type>
       <comment>OPTIONAL FK to crm_contact_household record. If NOT NULL, direct phone communications to household rather than individual location.</comment>
   </field>
-  <foreignKey>
-       <name>email_to_household_id</name>
-       <table>crm_household</table>
-       <key>id</key>
-  </foreignKey>
   <field>
       <name>mail_to_household_id</name>
       <type>int unsigned</type>
       <comment>OPTIONAL FK to crm_contact_household record. If NOT NULL, direct mail communications to household rather than individual location.</comment>
   </field>
-  <foreignKey>
-       <name>mail_to_household_id</name>
-       <table>crm_household</table>
-       <key>id</key>
-  </foreignKey>
 </table>

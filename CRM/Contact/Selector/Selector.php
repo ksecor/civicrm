@@ -222,5 +222,4 @@ class CRM_Contact_Selector_Selector extends CRM_Selector_Base implements CRM_Sel
 
 }//end of class
 
-
 ?>

@@ -56,13 +56,13 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     protected $_contact;
 
     function __construct() {
-        $this->_contact = new CRM_Contacts_BAO_Contact_Individual();
+        $this->_contact = new CRM_Contacts_BAO_Individual();
     
         $this->_contact->domain_id = 1;
     }
 
     function &getLinks() {
-        return CRM_Contacts_Selector::$_links;
+        return self::$_links;
     }
 
     function getPagerParams( $action, &$params ) {

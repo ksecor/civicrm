@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Contact</base>
+  <name>crm_email</name>
+  <comment>Email information for a specific location.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Email ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>location_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Location does this email belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>location_id</name>
+       <table>crm_location</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>email</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Email address</comment>
+  </field>
+  <field>
+       <name>is_primary</name>
+       <type>boolean</type>
+       <default>'false'</default>
+       <comment>Is this the primary email for this contact and location.</comment>
+  </field>
+
+</table>

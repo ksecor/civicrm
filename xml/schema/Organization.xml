@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
+  <base>CRM/Contact</base>
   <name>crm_organization</name>
   <comment>Define organization specific properties</comment>
   <field>

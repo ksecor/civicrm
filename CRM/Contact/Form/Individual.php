@@ -516,7 +516,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         
         if(!strlen($str_error)){ //proceed if there are no errors
             // create a object for inserting data in contact individual table 
-            $contact_individual = new CRM_Contact_DAO_Contact_Individual();
+            $contact_individual = new CRM_Contact_DAO_Individual();
             $contact_individual->contact_id = $contact->id;
             $contact_individual->first_name = $this->exportValue('first_name');
             //$contact_individual->middle_name = $this->exportValue('middle_name');
@@ -745,7 +745,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         
         if(!strlen($str_error)){ //proceed if there are no errors
             // create a object for inserting data in contact individual table 
-            $contact_individual = new CRM_Contact_DAO_Contact_Individual();
+            $contact_individual = new CRM_Contact_DAO_Individual();
             $contact_individual->contact_id = $contact->id;
             $contact_individual->first_name = $this->exportValue('firstname');
             $contact_individual->last_name = $this->exportValue('lastname');

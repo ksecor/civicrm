@@ -5,19 +5,17 @@ require_once 'CRM/DAO/Factory.php';
 class CRM_Contact_DAO_Factory {
 
   static $_classes = array (
-                            'Contact'              => 'data',
-                            'Contact_Household'    => 'data',
-                            'Contact_Individual'   => 'data',
-                            'Contact_Organization' => 'data',
-                            'Contact_Location'     => 'data',
-                            'Relationship_Type'    => 'data',
-                            'Relationship'         => 'data',
-                            'Contact_Action'       => 'data',
-                            'Task'                 => 'data',
-                            'Note'                 => 'data',
-                            'Saved_Search'         => 'data',
-                            'List'                 => 'data',
-                            'Contact_List'         => 'data',
+                            'Address'      => 'data',
+                            'Contact'      => 'data',
+                            'Email'        => 'data',
+                            'Household'    => 'data',
+                            'IM'           => 'data',
+                            'Individual'   => 'data',
+                            'Location'     => 'data',
+                            'LocationType' => 'data',
+                            'Organization' => 'data',
+                            'Phone'        => 'data',
+                            'Relationship' => 'data',
                             );
 
   static $_prefix = array(

@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <database xmlns:xi="http://www.w3.org/2001/XInclude">
-<name>crmtest</name>
+<name>crm</name>
 <character_set>utf8</character_set>
 <collate>utf8_bin</collate>
 <table_type>InnoDB</table_type>
 <comment>Schema for the CRM Module</comment>
 
-<xi:include href="Country.xml" />
-<xi:include href="StateProvince.xml" parse="xml" />
-<xi:include href="County.xml" parse="xml" />
-<xi:include href="Domain.xml" parse="xml" />
-<xi:include href="LocationType.xml" parse="xml" />
-<xi:include href="Contact.xml" parse="xml" />
-<xi:include href="Individual.xml" parse="xml" />
-<xi:include href="Household.xml" parse="xml" />
-<xi:include href="Organization.xml" parse="xml" />
-<xi:include href="MobileProvider.xml" parse="xml" />
-<xi:include href="IMProvider.xml" parse="xml" />
-<xi:include href="GeoCoord.xml" parse="xml" />
-<xi:include href="LocationType.xml" parse="xml" />
-<xi:include href="Address.xml" parse="xml" />
-
+<xi:include href="Country.xml"          parse="xml" />
+<xi:include href="StateProvince.xml"    parse="xml" />
+<xi:include href="County.xml"           parse="xml" />
+<xi:include href="Domain.xml"           parse="xml" />
+<xi:include href="MobileProvider.xml"   parse="xml" />
+<xi:include href="GeoCoord.xml"         parse="xml" />
+<xi:include href="IMProvider.xml"       parse="xml" />
+<xi:include href="Note.xml"             parse="xml" />
+<xi:include href="Category.xml"         parse="xml" />
+<xi:include href="RelationshipType.xml" parse="xml" />
+<xi:include href="LocationType.xml"     parse="xml" />
+<xi:include href="Contact.xml"          parse="xml" />
+<xi:include href="Individual.xml"       parse="xml" />
+<xi:include href="Household.xml"        parse="xml" />
+<xi:include href="Organization.xml"     parse="xml" />
+<xi:include href="Location.xml"         parse="xml" />
+<xi:include href="Address.xml"          parse="xml" />
+<xi:include href="Phone.xml"            parse="xml" />
+<xi:include href="Email.xml"            parse="xml" />
+<xi:include href="IM.xml"               parse="xml" />
 
 </database>

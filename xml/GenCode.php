@@ -11,7 +11,7 @@ $file = 'schema/Schema.xml';
 
 $codePath    = "./gen/";
 $sqlCodePath = $codePath . "sql/";
-$phpCodePath = $codePath . "php/";
+$phpCodePath = '../';
 
 echo "Parsing input file $file\n";
 $dbXML =& parseInput( $file );
@@ -35,13 +35,13 @@ fputs( $fd, $sql );
 fclose($fd);
 
 
-$oToken = new PHP_Beautifier(); // create a instance
-$oToken->addFilter('ArrayNested');
-$oToken->addFilter('Pear'); // add one or more filters
-$oToken->addFilter('NewLines', array( 'after' => 'class, public, require, comment' ) ); // add one or more filters
-$oToken->setIndentChar(' ');
-$oToken->setIndentNumber(4);
-$oToken->setNewLine("\n");
+$beautifier = new PHP_Beautifier(); // create a instance
+$beautifier->addFilter('ArrayNested');
+$beautifier->addFilter('Pear'); // add one or more filters
+$beautifier->addFilter('NewLines', array( 'after' => 'class, public, require, comment' ) ); // add one or more filters
+$beautifier->setIndentChar(' ');
+$beautifier->setIndentNumber(4);
+$beautifier->setNewLine("\n");
 
 foreach ( array_keys( $tables ) as $name ) {
     echo "Generating $name as " . $tables[$name]['fileName'] . "\n";
@@ -50,12 +50,21 @@ foreach ( array_keys( $tables ) as $name ) {
     $smarty->assign_by_ref( 'table', $tables[$name] );
     $php = $smarty->fetch( 'dao.tpl' );
 
-    $oToken->setInputString( $php );
+    $beautifier->setInputString( $php );
     
-    $oToken->setOutputFile( $phpCodePath . $tables[$name]['fileName'] );
-    $oToken->process(); // required
+    if ( empty( $tables[$name]['base'] ) ) {
+        echo "No base defined for $name, skipping output generation\n";
+        continue;
+    }
+
+    $directory = $phpCodePath . $tables[$name]['base'];
+    if ( ! is_dir( $directory ) ) {
+        mkdir( $directory, 0777, true );
+    }
+    $beautifier->setOutputFile( $directory . $tables[$name]['fileName'] );
+    $beautifier->process(); // required
     
-    $oToken->save( );
+    $beautifier->save( );
 }
 
 function convertName( $name, $skipDBPrefix = true, $pre = '', $post = '' ) {
@@ -64,6 +73,9 @@ function convertName( $name, $skipDBPrefix = true, $pre = '', $post = '' ) {
     $start = $skipDBPrefix ? 1 : 0;
     $fileName = '';
     for ( $i = $start; $i < count($names); $i++ ) {
+        if ( strtolower( $names[$i] ) == 'im' ) {
+            $names[$i] = 'IM';
+        }
         $fileName .= ucfirst( $names[$i] );
     }
     return $pre . $fileName . $post;
@@ -105,6 +117,7 @@ function &getTables( &$dbXML, &$database ) {
 function getTable( $tableXML, &$database, &$tables ) {
     $name  = trim($tableXML->name );
     $table = array( 'name'       => $name,
+                    'base'       => value( 'base', $tableXML ) . '/DAO/',
                     'fileName'   => convertName( $name, true, '', '.php' ),
                     'className'  => convertName( $name, true, 'CRM_Contact_DAO_', '' ),
                     'attributes' => trim($database['tableAttributes']),
@@ -158,6 +171,27 @@ function getField( &$fieldXML, &$fields ) {
         $field['phpType'] = 'string';
         $field['crmType'] = 'CRM_Type::T_STRING';
         $field['length' ] = $fieldXML->length;
+        break;
+
+    case 'enum':
+        $value = (string ) $fieldXML->values;
+        $field['sqlType'] = 'enum(';
+        $field['values']  = array( );
+        $values = explode( ',', $value );
+        $first = true;
+        foreach ( $values as $v ) {
+            $v = trim($v);
+            $field['values'][]  = $v;
+
+            if ( ! $first ) {
+                $field['sqlType'] .= ', ';
+            }
+            $first = false;
+            $field['sqlType'] .= "'$v'";
+        }
+        $field['sqlType'] .= ')';
+        $field['phpType'] = $field['sqlType'];
+        $field['crmType'] = 'CRM_Type::T_ENUM';
         break;
 
     default:

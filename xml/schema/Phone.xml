@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Contact</base>
+  <name>crm_phone</name>
+  <comment>Phone information for a specific location.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Phone ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>location_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Location does this phone belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>location_id</name>
+       <table>crm_location</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>phone</name>
+       <type>varchar</type>
+       <length>16</length>
+       <comment>Complete phone number.</comment>
+  </field>
+  <field>
+       <name>phone_type</name>
+       <type>enum</type>
+       <values>Phone, Mobile, Fax, Pager</values>
+       <comment>What type of telecom device is this.</comment>
+  </field>
+  <field>
+       <name>is_primary</name>
+       <type>boolean</type>
+       <default>'false'</default>
+       <comment>Is this the primary phone for this contact and location.</comment>
+  </field>
+  <field>
+      <name>mobile_provider_id</name>
+      <type>int unsigned</type>
+      <comment>Which Mobile Provider does this phone belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>mobile_provider_id</name>
+       <table>crm_mobile_provider</table>
+       <key>id</key>
+  </foreignKey>
+</table>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
+  <base>CRM/Contact</base>
   <name>crm_location</name>
   <comment>Define location specific properties</comment>
   <field>
@@ -44,7 +45,7 @@
   <field>
        <name>is_primary</name>
        <type>boolean</type>
-       <default>false</default>
+       <default>'false'</default>
        <comment>Is this the primary location for the contact. (allow only ONE primary location / contact.)</comment>
   </field>
 </table>

@@ -5,12 +5,14 @@ require_once 'CRM/Array.php';
 class CRM_DAO_Factory {
 
     static $_classes = array (
-                              'Context'       => 'data',
-                              'Domain'        => 'data',
+                              'Domain'         => 'data',
 
-                              'Country'       => 'singleton',
-                              'StateProvince' => 'singleton',
-                              
+                              'Country'        => 'singleton',
+                              'County'         => 'singleton',
+                              'StateProvince'  => 'singleton',
+                              'GeoCoord'       => 'singleton',
+                              'IMProvider'     => 'singleton',
+                              'MobileProvider' => 'singleton',
                              );
 
     static $_prefix = array(

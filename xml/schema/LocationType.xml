@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
+  <base>CRM/Contact</base>
   <name>crm_location_type</name>
   <field>
       <name>id</name>

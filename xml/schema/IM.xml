@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Contact</base>
+  <name>crm_im</name>
+  <comment>IM information for a specific location.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique IM ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>location_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Location does this IM identifier belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>location_id</name>
+       <table>crm_location</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>im_screenname</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>IM screen name</comment>
+  </field>
+  <field>
+      <name>im_provider_id</name>
+      <type>int unsigned</type>
+      <comment>Which IM Provider does this screen name belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>im_provider_id</name>
+       <table>crm_im_provider</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>is_primary</name>
+       <type>boolean</type>
+       <default>'false'</default>
+       <comment>Is this the primary IM for this contact and location.</comment>
+  </field>
+
+</table>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
+  <base>CRM</base>
   <name>crm_state_province</name>
   <field>
       <name>id</name>

@@ -35,6 +35,23 @@ require_once 'CRM/DAO/Base.php';
 
 class {$table.className} extends CRM_DAO_Base {ldelim}
 
+     /**
+      * static instance to hold the table name
+      *
+      * @var string
+      * @static
+      */
+      static $_tableName = '{$table.name}';
+
+     /**
+      * static instance to hold the field values
+      *
+      * @var string
+      * @static
+      */
+      static $_fields;
+
+
 {foreach from=$table.fields item=field}
     /**
 {if $field.comment}
@@ -84,11 +101,9 @@ class {$table.className} extends CRM_DAO_Base {ldelim}
        * @return array
        */
       function &fields( ) {ldelim}
-          static $fields;
-
-          if ( ! isset( $fields ) ) {ldelim}
-               $fields = array_merge(
-                                     parent::fields( ),
+          if ( ! isset( self::$_fields ) ) {ldelim}
+               self::$_fields = array_merge(
+                       	              parent::fields( ),
                                      array (
 {foreach from=$table.fields item=field}
                                             '{$field.name}' => array( 'type'     => {$field.crmType},
@@ -106,6 +121,17 @@ class {$table.className} extends CRM_DAO_Base {ldelim}
                                            )
                                     );
           {rdelim}
+          return self::$_fields;   
+      {rdelim}
+
+      /**
+       * returns the names of this table
+       *
+       * @access public
+       * @return string
+       */
+      function getTableName( ) {ldelim}
+          return self::$_tableName;
       {rdelim}
 {rdelim}
 

@@ -20,11 +20,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $this->_contactDAO = new CRM_Contact_DAO_Contact();
     }
     
-    function count($countWhat = false,$whereAddOnly = false) {
-        //$this->setContactValues();
-        return parent::count($countWhat, $whereAddOnly);
-    }
-    
     function find($get = false) 
     {
         $this->selectAdd();
