@@ -49,6 +49,19 @@ class CRM_DAO_Base extends CRM_DAO {
     return $table;
   }
 
+  function getTableName() {
+    $name = strtolower( get_class( $this ) );
+
+    // eliminate the early part of the class name till the DAO sign
+    $tableName = strstr( $name, 'dao_' );
+    if ( $tableName ) {
+      // replace dao with crm
+      $tableName = 'crm' . substr( $tableName, 3 );
+      return $tableName;
+    }
+    return null;
+  }
+
 }
 
 ?>

@@ -2,7 +2,7 @@
 
 require_once 'CRM/Contacts/DAO/ContactBase.php';
 
-class CRM_Contacts_DAO_ContactIndividual extends CRM_Contacts_DAO_ContactBase {
+class CRM_Contacts_DAO_Contact_Individual extends CRM_Contacts_DAO_ContactBase {
 
   /**
    * name and salutation of individual

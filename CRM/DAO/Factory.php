@@ -2,9 +2,15 @@
 
 require_once 'CRM/Array.class.php';
 
-class CRM_DataObject_Factory {
+class CRM_DAO_Factory {
 
     static $_classes = array (
+                              'Context'       => 'data',
+                              'Domain'        => 'data',
+
+                              'Country'       => 'instance',
+                              'StateProvince' => 'instance',
+                              
                              );
 
     static $_prefix = array(
@@ -12,7 +18,7 @@ class CRM_DataObject_Factory {
                            'data'      =>  'CRM/DAO/',
                            );
     
-    static $_suffix = '.class.php';
+    static $_suffix = '.php';
     
     static $_preCall = array(
                              'instance'  =>  '',
