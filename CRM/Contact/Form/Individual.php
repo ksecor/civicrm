@@ -34,6 +34,8 @@
 
 require_once 'CRM/Form.php';
 require_once 'CRM/SelectValues.php';
+require_once 'CRM/Contact/HideShowLinks.php';
+
 require_once 'CRM/Contact/Form/Contact.php';
 
 require_once 'CRM/Contact/Form/Location.php';
@@ -317,7 +319,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
         }    
         
     }
-    
+
+    function preProcess( ) {
+        $hs = new CRM_Contact_HideShowLinks( );
+    }
 
     /**
      * This function is used to call appropriate process function when a form is submitted.
