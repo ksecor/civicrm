@@ -34,7 +34,7 @@ function _crm_update_object( &$object, &$values ) {
 
         if ( array_key_exists( $name, $values ) ) {
             $object->$name = $values[$name];
-            if ( ! substr( $name, -1, 3 ) === '_id' ) {
+            if ( substr( $name, -1, 3 ) !== '_id' ) {
                 $valueFound = true;
             }
         }
@@ -197,8 +197,42 @@ function _crm_format_params( &$params, &$values ) {
 }
 
 function _crm_update_contact( $contact, $values ) {
+    // fix sort_name and display_name
+    if ( $contact->contact_type == 'Individual' ) {
+        $firstName = CRM_Array::value( 'first_name', $values );
+        if ( ! $firstName ) {
+            $firstName = isset( $contact->contact_type_object->first_name ) ? $contact->contact_type_object->first_name : '';
+        }
+        
+        $middleName = CRM_Array::value( 'middle_name', $values );
+        if ( ! $middleName ) {
+            $middleName = isset( $contact->contact_type_object->middle_name ) ? $contact->contact_type_object->middle_name : '';
+        }
+        
+        $lastName = CRM_Array::value( 'last_name', $values );
+        if ( ! $lastName ) {
+            $lastName = isset( $contact->contact_type_object->last_name ) ? $contact->contact_type_object->last_name : '';
+        }
+
+        $values['sort_name'] = "$lastName, $firstName";
+        $values['display_name'] = "$firstName $middleName $lastName";
+    } else if ( $contact->contact_type == 'Household' ) {
+        $householdName = CRM_Array::value( 'household_name', $values );
+        if ( ! $householdName ) {
+            $householdName = isset( $contact->contact_type_object->household_name ) ? $contact->contact_type_object->household_name : '';
+        }
+        $values['sort_name'] = $householdName;
+    } else {
+        $organizationName = CRM_Array::value( 'organization_name', $values );
+        if ( ! $organizationName ) {
+            $organizationName = isset( $contact->contact_type_object->organization_name ) ? $contact->contact_type_object->organization_name : '';
+        }
+        $values['sort_name'] = $organizationName;
+    }
+
     _crm_update_object( $contact, $values );
 
+    // fix display_name
     _crm_update_object( $contact->contact_type_object, $values );
 
     if ( ! isset( $contact->location ) ) {

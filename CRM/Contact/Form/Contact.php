@@ -160,8 +160,9 @@ class CRM_Contact_Form_Contact extends CRM_Form
             $this->set( 'ids', $ids );
 
             // show notes
-            $this->assign( 'note', $defaults['note'] );
-            
+            $this->assign( 'note'      , $defaults['note'] );
+            $this->assign( 'notesCount', $defaults['notesCount'] );
+            $this->assign( 'contactId' , $this->_contactId );
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)
             $this->_contactType = CRM_Array::value( 'contact_type', $defaults );

@@ -68,20 +68,46 @@ class CRM_Contact_Page_View extends CRM_Page {
     function run( ) {
 
         $this->_contactId = CRM_Request::retrieve( 'cid', $this, true );
-        
-        $this->assign( 'displayName', $this->get( 'displayName' ) );
+        $this->getContactDetails( );
 
-        switch ( $this->_mode ) {
-        case self::MODE_NONE:
+        if ( $this->_mode == self::MODE_NONE ) {
             $this->runModeNone( );
-            break;
-
-        case self::MODE_NOTE:
+        } else if ( $this->_mode == self::MODE_NOTE ) {
             CRM_Contact_Page_Note::run( $this );
-            break;
         }
 
         return parent::run( );
+    }
+
+    function getContactDetails( ) {
+        // for all other tabs, we only need the displayName
+        // so if the display name is cached, we can skip the other processing
+        $displayName = $this->get( 'displayName' );
+        if ( isset( $displayName ) && $this->_mode != self::MODE_NONE ) {
+            $this->assign( 'displayName', $displayName );
+            return;
+        }
+
+        $params   = array( );
+        $defaults = array( );
+        $ids      = array( );
+
+        $params['id'] = $params['contact_id'] = $this->_contactId;
+        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
+
+        CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
+
+        // fix the display name for various types and store in session
+        if ( $defaults['contact_type'] == 'Individual' ) {
+            $displayName = $defaults['prefix'] . ' ' . $defaults['display_name'] . ' ' . $defaults['suffix'];
+        } else {
+            $displayName = $defaults['sort_name'];
+        }
+        $this->set( 'displayName', $displayName );
+        
+        if ( $this->_mode == self::MODE_NONE ) {
+            $this->assign( $defaults );
+        }
     }
 
     function runModeNone( ) {

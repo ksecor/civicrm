@@ -41,23 +41,6 @@ class CRM_Contact_Page_Note {
     function __construct( ) {
     }
 
-    static function common( ) {
-        $note = new CRM_DAO_Note( );
-        $note->table_name = 'crm_contact';
-        $note->table_id   = $page->getContactId( );
-
-        $note->orderBy( 'modified_date desc' );
-
-        $values = array( );
-        $count  = 0;
-        while ( $note->fetch( ) && $count < CRM_Contact_BAO_Note::MAX_NOTES ) {
-            $values[$note->id] = array( );
-            $note->storeValues( $values[$note->id] );
-            $count++;
-        }
-        $page->assign( 'notes', $values );
-    }
-
     static function view( $page, $noteId ) {
         $note = new CRM_DAO_Note( );
         $note->id = $noteId;
@@ -88,7 +71,13 @@ class CRM_Contact_Page_Note {
 
     static function edit( $page, $mode, $noteId = null ) {
         $controller = new CRM_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', $mode );
-        
+
+        // set the userContext stack
+        $session = CRM_Session::singleton();
+        $config  = CRM_Config::singleton();
+        $session->pushUserContext( $config->httpBase . 'contact/view/note&op=browse' );
+
+
         $controller->reset( );
         $controller->set( 'tableName', 'crm_contact' );
         $controller->set( 'tableId'  , $page->getContactId( ) );
@@ -100,6 +89,7 @@ class CRM_Contact_Page_Note {
 
     static function run( $page ) {
         $contactId = $page->getContactId( );
+        $page->assign( 'contactId', $contactId );
 
         $op = CRM_Request::retrieve( 'op', $page, false, 'browse' );
         $page->assign( 'op', $op );
