@@ -379,7 +379,7 @@ class CRM_SelectValues {
         if (!isset(self::$group)) {
             CRM_Error::debug_log_message("group is not set");
             self::$group = array();
-            $group_dao = new CRM_DAO_Contact_Group();
+            $group_dao = new CRM_Contact_DAO_Group();
             $group_dao->selectAdd('id, name');
             $group_dao->find();
             while($group_dao->fetch()) {
@@ -389,6 +389,40 @@ class CRM_SelectValues {
         return self::$group;
     }
 
+
+
+
+    /**
+     * Get all Relationship Types  from database.
+     *
+     * The static array group is returned, and if it's
+     * called the first time, the <b>RelationshipType DAO</b> is used 
+     * to get all the relationship types.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @param none
+     * @return array - array reference of all relationship types.
+     *
+     */
+    public static function &getRelationshipType()
+    {
+        CRM_Error::le_method();
+        if (!isset(self::$relationshipType)) {
+            CRM_Error::debug_log_message("relationshipType is not set");
+            self::$relationshipType = array();
+            $relationshipTypeDAO = new CRM_Contact_DAO_RelationshipType();
+            $relationshipTypeDAO->selectAdd('id, description');
+            $relationshipTypeDAO->find();
+            while($relationshipTypeDAO->fetch()) {
+                self::$relationshipType[$relationshipTypeDAO->id] = "$relationshipTypeDAO->description";
+            }
+        }
+        return self::$relationshipType;
+    }
 
 }
 

@@ -60,13 +60,6 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         parent::__construct($name, $state, $mode);
     }
 
-    public static $groups     = array(''  => '- any group -', 
-                                      1   => 'Group A',
-                                      2   => 'Group B' );
-    public static $categories = array(''  => '- any category -', 
-                                      1   => 'Category A',
-                                      2   => 'Category B' );
-
     /**
      * Build the form
      *
@@ -77,7 +70,10 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
     {
         /*code for advanced search start*/
         $contact_type = array( );
+
         foreach (CRM_SelectValues::$contactType as $key => $value) {
+            CRM_Error::debug_var("key", $key);
+            CRM_Error::debug_var("value", $value);
             // skip if key = ''
             if ($key == '') {
                 continue;
@@ -88,8 +84,9 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         $this->addGroup($contact_type, 'contact_type', 'Show Me....', '<br />');
 
         $group_id = array();
-        foreach (CRM_SelectValues::$group as $key => $value) {
-            $group_id[] = HTML_QuickForm::createElement('checkbox', $value, null, $value);
+        $group = CRM_SelectValues::getGroup();
+        foreach ($group as $groupID => $groupName) {
+            $group_id[] = HTML_QuickForm::createElement('checkbox', $groupName, null, $groupName);
         }
         $this->addGroup($group_id, 'group_id', 'In Group (s)', '<br />');
 
@@ -97,21 +94,22 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
 
         // add categories
         $category_id = array();
-        foreach (CRM_SelectValues::$category as $key => $value) {
-            $category_id[] = HTML_QuickForm::createElement('checkbox', $value, null, $value);
+        $category = CRM_SelectValues::getCategory();
+        foreach ($category as $categoryID => $categoryDetail) {
+            $category_id[] = HTML_QuickForm::createElement('checkbox', $categoryDetail['name'], null, $categoryDetail['name']);
         }
+
         $this->addGroup($category_id, 'category_id', 'In Categorie (s)', '<br />');
 
+        $this->add('text', 'last_name', 'Contact Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->add('text', 'first_name', 'First Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'first_name') );
+        $this->add('text', 'street_name', 'Street Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
+        $this->add('text', 'city', 'City:',CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
 
-        $this->add('text', 'last_name', 'Contact Name',
-                   CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-        $this->add('text', 'first_name', 'First Name',
-                   CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'first_name') );
-        
-        $this->add('text', 'street_name', 'Street Name:',
-                   CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
-        $this->add('text', 'city', 'City:',
-                   CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));        
+
+
+
+
         /*code for advanced search end*/
     }
 
