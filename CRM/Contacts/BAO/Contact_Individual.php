@@ -2,6 +2,7 @@
 
 require_once 'CRM/Contacts/DAO/Contact.php';
 require_once 'CRM/Contacts/DAO/Contact_Individual.php';
+require_once 'CRM/Contacts/DAO/Contact_Location.php';
 
 class CRM_Contacts_BAO_Contact_Individual extends CRM_Contacts_DAO_Contact_Individual {
 
