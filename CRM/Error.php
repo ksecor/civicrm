@@ -33,6 +33,7 @@
  *
  */
 
+//require_once 'PEAR.php';
 require_once 'PEAR/ErrorStack.php';
 
 require_once 'CRM/Config.php';
@@ -45,6 +46,15 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     const
         FATAL_ERROR = 2;
+
+
+    /**
+     * filename of the error template
+     * @var const
+     */
+    const
+        ERROR_TEMPLATE = 'error.tpl';
+  
 
     /**
      * We only need one instance of this object. So we use the singleton
@@ -87,6 +97,48 @@ class CRM_Error extends PEAR_ErrorStack {
         $log =& CRM_Config::getLog();
         $this->setLogger( $log );
     }
+
+
+    /**
+     *
+     * create the main callback method. this method centralizes error processing.
+     *
+     * the erros we expect are from the pear modules DB, DB_DataObject
+     * which currently use PEAR::raiseError to notify of error messages.
+     *
+     * @param object PEAR_Error
+     * @returns none
+     *
+     */
+    public static function callback($pear_error)
+    {
+        // setup smarty with config, session and template location.
+        $config  = CRM_Config::singleton();
+        $session = CRM_Session::singleton();
+        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        $template->assign_by_ref( 'config' , $config  );
+        $template->assign_by_ref( 'session', $session );
+        
+        // create the error array
+        $error = array();
+        $error['callback']   = $pear_error->getCallback();
+        $error['code']       = $pear_error->getCode();
+        $error['message']    = $pear_error->getMessage();
+        $error['mode']       = $pear_error->getMode();
+        $error['debug_info'] = $pear_error->getDebugInfo();
+        $error['type']       = $pear_error->getType();
+        $error['user_info']  = $pear_error->getUserInfo();
+        $error['to_string']  = $pear_error->toString();
+
+        $template->assign_by_ref('error', $error);
+        
+        $template->assign( 'tplFile', "CRM/" . CRM_Error::ERROR_TEMPLATE); 
+        $content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
+
+        print theme('page', $content);
+        exit(1);
+    }
+
 
     /**
      * display an error page with an error message describing what happened
@@ -158,7 +210,6 @@ class CRM_Error extends PEAR_ErrorStack {
             $out = "\$$variable_name is not set";
         } else {
             $out = print_r($variable, true);
-            // $out = "<pre> \$$variable_name = $out</pre>";
             $out = "\$$variable_name = $out";
             // reset if it is an array
             if(is_array($variable)) {
@@ -183,7 +234,6 @@ class CRM_Error extends PEAR_ErrorStack {
      * @static
      */
     static function debug_stacktrace($trace_level=0, $log=true) {
-        return;
         $backtrace = debug_backtrace();
 
         if($trace_level) {
@@ -234,7 +284,6 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     static function le_method()
     {
-        return;
         $array1 = debug_backtrace();
         $string1 = "entering method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "() in " . $array1[0]['file']; 
         self::debug_log_message($string1);
@@ -255,7 +304,6 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function ll_method()
     {
-        return;
         $array1 = debug_backtrace();
         $string1 = "leaving  method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "() in " . $array1[0]['file']; 
         self::debug_log_message($string1);
@@ -275,7 +323,6 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function le_function()
     {
-        return;
         $array1 = debug_backtrace();
         $string1 = "entering function " . $array1[1]['function'] . "() in " . basename($array1[0]['file']);
         self::debug_log_message($string1);
@@ -295,7 +342,6 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function ll_function()
     {
-        return;
         $array1 = debug_backtrace();
         $string1 = "leaving  function " . $array1[1]['function'] . "() in " . basename($array1[0]['file']);
         self::debug_log_message($string1);
@@ -315,7 +361,6 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function le_file()
     {
-        return;
         $array1 = debug_backtrace();
         $string1 .= "entering file " . $array1[0]['file'];
         self::debug_log_message($string1);
@@ -335,7 +380,6 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function ll_file()
     {
-        return;
         $array1 = debug_backtrace();
         $string1 = "leaving  file " . $array1[0]['file'];
         self::debug_log_message($string1);  

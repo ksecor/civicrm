@@ -18,7 +18,7 @@
       <name>domain_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Which Domain owns this contact</comment>
+      <comment>Which Domain owns this category</comment>
   </field>
   <foreignKey>
        <name>domain_id</name>
@@ -38,8 +38,14 @@
        <comment>Optional verbose description of the category.</comment>
   </field>
   <field>
-      <name>parent_id</name>
-      <type>int unsigned</type>
-      <comment>Optional parent id for this category.</comment>
+       <name>parent_id</name>
+       <type>int unsigned</type>
+       <default>NULL</default>
+       <comment>Optional parent id for this category.</comment>
   </field>
+  <foreignKey>
+       <name>parent_id</name>
+       <table>crm_category</table>
+       <key>id</key>
+  </foreignKey>
 </table>

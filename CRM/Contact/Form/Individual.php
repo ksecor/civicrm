@@ -302,7 +302,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
         $tempDB = new CRM_Contact_DAO_Contact( );
         $tempDB->query('BEGIN');
-
+        
         $params['contact_type'] = 'Individual';
         $contact = CRM_Contact_BAO_Contact::add( $params, $ids );
         // need to check for error here and abort / rollback if error
@@ -311,7 +311,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         
         $individual = CRM_Contact_BAO_Individual::add( $params, $ids );
         // need to check for error here and abort / rollback if error
-
+        
         for ($locationId= 1; $locationId <= self::LOCATION_BLOCKS; $locationId++) { // start of for loop for location
             $location = CRM_Contact_BAO_Location::add( $params, $ids, $locationId );
         }
@@ -359,9 +359,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
         }
         
         // make sure that firstName and lastName or a primary email is set
-        if ( ! array_key_exists( 'first_name', $fields ) &&
-             ! array_key_exists( 'last_name' , $fields ) ||
-             empty( $primaryEmail ) ) {
+        if (!((array_key_exists( 'first_name', $fields ) && 
+               array_key_exists( 'last_name' , $fields )) || (!empty($primaryEmail)))) {
             $errors['first_name'] = "First Name and Last Name OR an email in the Primary Location should be set.";
         }
         

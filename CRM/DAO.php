@@ -221,18 +221,10 @@ abstract class CRM_DAO extends DB_DataObject {
     }
 
     function save( ) {
-        if ( $this->id ) {
-            if ( $this->update( ) === false ) {
-                CRM_Error::debug( 'ERROR UPDATE: DB_DO IS', $this );
-                print_r(mysql_error());
-                exit( );
-            }
+        if ($this->id) {
+            $this->update();
         } else {
-            if ( ! $this->insert( ) ) {
-                CRM_Error::debug( 'ERROR INSERT: DB_DO IS', $this );
-                print_r(mysql_error());
-                exit( );
-            }
+            $this->insert();
         }
         return $this;
     }

@@ -31,7 +31,11 @@
  * $Id$
  *
  */
+
+
 include_once 'config.inc.php';
+
+require_once 'PEAR.php';
 
 require_once 'CRM/Action.php';
 require_once 'CRM/Form.php';
@@ -324,6 +328,8 @@ function contact_init()
     // Add module-specific stylesheet to page header
     drupal_set_html_head(crm_html_head());
 
+    // set error handling
+    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Error', 'callback'));
 }
 
 /**

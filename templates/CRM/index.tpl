@@ -1,3 +1,4 @@
+{debug}
 {if $smarty.get.smartyDebug}
 {debug}
 {/if}

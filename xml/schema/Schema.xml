@@ -28,5 +28,6 @@
 <xi:include href="Email.xml"            parse="xml" />
 <xi:include href="IM.xml"               parse="xml" />
 <xi:include href="Relationship.xml"     parse="xml" />
+<xi:include href="Group.xml"            parse="xml" />
 
 </database>
