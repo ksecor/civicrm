@@ -15,7 +15,7 @@ require_once 'CRM/Pager.php';
 require_once 'CRM/Sort.php';
 require_once 'CRM/Reports/Excel.php';
 
-class CRM_Selector {
+class CRM_Selector_Controller {
 
   /* a CRM Object that implements CRM_Selector_API */
   private $_object;
@@ -58,7 +58,7 @@ class CRM_Selector {
     /*
      * Set the default values of RowsPerPage
      */
-    $params{'rowCount'} = $params{'rowCount'} ? $params{'rowCount'} : CRM_Pager::DISPLAY_ROWCOUNT;
+    $params{'rowCount'} = $params{'rowCount'} ? $params{'rowCount'} : CRM_Pager::ROWCOUNT;
     
     $this->_pager = new CRM_Pager( $params );
         

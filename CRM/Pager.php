@@ -14,12 +14,12 @@ require_once 'Pager/Sliding.php';
 
 class CRM_Pager extends Pager_Sliding {
 
-  const DISPLAY_ROWCOUNT = 50;
+  const ROWCOUNT = 50;
 
   /**
    * for our current display scheme, we don't really use this. Keeping it in case we come back to it
    */
-  const DISPLAY_DELTA    = 5;
+  const DELTA    = 5;
   
   const PAGE_ID          = 'crmPageId';
   const PAGE_ID_BOTTOM   = 'crmPageId_bottom';
@@ -49,7 +49,7 @@ class CRM_Pager extends Pager_Sliding {
                         $currentPage = 1,
                         $status      = null,
                         $csvString   = '',
-                        $perPage     = CRM_Pager::DISPLAY_ROWCOUNT ) {
+                        $perPage     = CRM_Pager::ROWCOUNT ) {
 
     if( $status === null ) {
       $status = "Contacts %%statusMessage%%";
@@ -140,7 +140,7 @@ class CRM_Pager extends Pager_Sliding {
 
     /* also set the urlVar to be a crm specific get variable */
     $params['urlVar']     = CRM_Pager::PAGE_ID;
-    $params['delta']      = CRM_Pager::DISPLAY_DELTA;
+    $params['delta']      = CRM_Pager::DELTA;
 
     $params['totalItems'] = $total;
     $params['perPage']    = $perPage;

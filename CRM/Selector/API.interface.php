@@ -21,7 +21,6 @@ interface CRM_Selector_API {
      *              page: e.g. Displaying Page 3 of 5
      *  csvString - The html string to display for export as csv
      *  rowCount  - the number of rows to be included
-     *  delta     - The number of links surronding the current page.
      *
      */
     function getPagerParams( $action, &$params );
