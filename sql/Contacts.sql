@@ -6,10 +6,21 @@
 *    This script creates the schema for CRM
 *    (contact relationship management system).
 *
+* Rev 11/15/2004:
+*	Resolve INNODB-MyISAM FK issue for now by leaving FK's to users
+*		table as implicit
+*	Created_by is now explicit FK to contact table.
+*	Added contact_phone.phone_type (ENUM).
+*	Eliminated contact_phone_mobile_provider table.
+*	New/revised tables: contact_user, contact_task, contact_ext_data
+*		contact_organization, contact_family, contact_note
+*	Explicit naming for FK cols
+*	rid_latest renamed to latest_rev, changed BOOLEAN
+*
 * Rev 11/11/2004:
 *	Added domain heirarchy (for top-level contact and
 *	 app/config tables
-*	 now include did (domain_id))
+*	 now include domain_id (domain_id))
 *	All PKs, revisioning cols assigned same names to
 *	 facilitate data-object library dev
 *	Added created_by (uid) to all user-editable tables
@@ -22,7 +33,7 @@
 *	 records (e.g. contact_individual) will 'share' revision
 *	 id with parent (contact). A change in either will
 *	 force new revision. 1:many child types (e.g. contact_email)
-*	 will carry their own revision id (+ rid_latest...)
+*	 will carry their own revision id (+ latest_rev...)
 *	 and will be revisioned independently.
 *
 *	Context is now indexed via contact_context to allow
@@ -53,7 +64,7 @@
 * commented out.
 *
 *******************************************************/
-/* DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users (
   uid int(10) unsigned NOT NULL default '0',
   name varchar(60) NOT NULL default '',
@@ -76,7 +87,7 @@ CREATE TABLE IF NOT EXISTS users (
   UNIQUE KEY name (name),
   KEY `changed` (`changed`)
 ) ENGINE=InnoDB;
-*/
+
 
 /*******************************************************
 *
@@ -134,15 +145,17 @@ CREATE TABLE contact_domain (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'domain id',
 
 	rid INT UNSIGNED NOT NULL COMMENT 'domain revision id',
-	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest domain revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
 	name VARCHAR(255) COMMENT 'domain/org name',
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
 
 	PRIMARY KEY (id, rid)
+-- Must create FK after contact table is created (circular reference) 
+-- FOREIGN KEY (created_by) REFERENCES contact(id)
 
 ) ENGINE=InnoDB COMMENT='define domains for multi-org installs, else all contacts belong to domain 1';
 
@@ -156,15 +169,15 @@ DROP TABLE IF EXISTS contact_context;
 CREATE TABLE contact_context (
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'context id',
-	did  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this context',
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this context',
 
 	context  VARCHAR(255),
 
 	PRIMARY KEY (id),
-	FOREIGN KEY (did) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	INDEX context_domain (did)
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	INDEX context_domain (domain_id)
 
-) ENGINE=InnoDB;
+) ENGINE=InnoDB COMMENT='domain-level set of available contexts (e.g. Home, Work, Other...)';
 
 
 /*******************************************************
@@ -177,13 +190,13 @@ CREATE TABLE contact (
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'contact id',
 	rid INT UNSIGNED NOT NULL COMMENT 'contact revision id',
-	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	did  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact',
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact',
 
 	contact_type ENUM('Individual','Organization','Family') COMMENT 'type of contact',
 	sort_name VARCHAR(255) COMMENT 'name for sorting purposes',
-	source VARCHAR(255) COMMENT 'where did contact come from, e.g. import, donate module insert...',
+	source VARCHAR(255) COMMENT 'where domain_id contact come from, e.g. import, donate module insert...',
 
 -- contact-level communication permissions and preferences
 	preferred_communication_method ENUM('Phone', 'Email', 'Postal Mail') COMMENT 'what is the preferred mode of communication',
@@ -191,24 +204,28 @@ CREATE TABLE contact (
 	do_not_email     BOOL DEFAULT 0,
 	do_not_mail      BOOL DEFAULT 0,
 
--- ? what is this used for ??
+-- ? does the hash col give us a unique post/get param handle for the record that isn't easily hackable?
 	hash INT UNSIGNED NOT NULL COMMENT 'key for hashing the entry',
 
 --  Need to flesh out approach for linking module actions to contact. Commented out for now. dgg
 --	caid_latest INT UNSIGNED COMMENT 'latest contact action id',
+
+-- ? Why is this needed? dgg
 --	module VARCHAR(255) COMMENT 'which module is handling this type',
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
 
 	PRIMARY KEY (id, rid),
-	FOREIGN KEY (did) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	INDEX contact_domain (did),
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (created_by) REFERENCES contact(id),
+	INDEX contact_domain (domain_id),
 	INDEX index_sort_name (sort_name(30))
 
 ) ENGINE=InnoDB COMMENT='primary record for contacts';
 
+ALTER TABLE contact_domain ADD FOREIGN KEY (created_by) REFERENCES contact(id);
 
 /*******************************************************
 *
@@ -220,11 +237,11 @@ CREATE TABLE contact_individual(
 
 	id  INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id (i.e. contact_individual record id-not FK)',
 
--- cid+rid = contact.id+contact.rid gets a revision row for a contact with type=individual
+-- contact_id+rid = contact.id+contact.rid gets a revision row for a contact with type=individual
 -- revision to contact_individual values forces revisioning of parent contact record
 
-	cid INT UNSIGNED NOT NULL COMMENT 'contact id FK',
-	rid INT UNSIGNED NOT NULL COMMENT 'contact revision id FK',
+	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id FK',
+	revision_id INT UNSIGNED NOT NULL COMMENT 'contact revision id FK',
 
 	first_name VARCHAR(255) NOT NULL COMMENT 'first name',
 	middle_name VARCHAR(255) COMMENT 'middle name',
@@ -242,26 +259,72 @@ CREATE TABLE contact_individual(
 	greeting_type ENUM('Formal', 'Informal', 'Honorific', 'Custom') COMMENT 'preferred greeting format',
 	custom_greeting VARCHAR(255) COMMENT 'custom greeting message',
 
-	PRIMARY KEY (id, cid, rid),
+	PRIMARY KEY (id, contact_id, revision_id),
 
-	FOREIGN KEY (cid, rid) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE
---	INDEX contact_individual (cid, rid)
+	FOREIGN KEY (contact_id, revision_id) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE
+--	INDEX contact_individual (contact_id, revision_id)
 
 ) ENGINE=InnoDB COMMENT='extends contact for type=individual';
 
 
 /*******************************************************
 *
-* contact_organization (TBD)
+* contact_organization
 *
 *******************************************************/
+DROP TABLE IF EXISTS contact_organization;
+CREATE TABLE contact_organization(
+
+	id  INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
+
+-- contact_id+rid = contact.id+contact.rid gets a revision row for a contact with type=organization
+-- revision to contact_organization values forces revisioning of parent contact record
+
+	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id FK',
+	revision_id INT UNSIGNED NOT NULL COMMENT 'contact revision id FK',
+
+	organization_name VARCHAR(255) NOT NULL,
+	legal_name VARCHAR(255),
+	nick_name VARCHAR(255),
+	sic_code VARCHAR(64),
+	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this org',
+
+	PRIMARY KEY (id, contact_id, revision_id),
+
+	FOREIGN KEY (contact_id, revision_id) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (primary_contact_id) REFERENCES contact(id)
+--	INDEX contact_organization (contact_id, rid)
+
+) ENGINE=InnoDB COMMENT='extends contact for type=organization';
+
 
 /*******************************************************
 *
-* contact_family (TBD)
+* contact_family
 *
 *******************************************************/
+DROP TABLE IF EXISTS contact_family;
+CREATE TABLE contact_family(
 
+	id  INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
+
+-- contact_id+rid = contact.id+contact.rid gets a revision row for a contact with type=family
+-- revision to contact_organization values forces revisioning of parent contact record
+
+	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id FK',
+	revision_id INT UNSIGNED NOT NULL COMMENT 'contact revision id FK',
+
+	family_name VARCHAR(255) NOT NULL COMMENT 'actual surname, e.g. Smith',
+	nick_name VARCHAR(255) COMMENT 'e.g. The Smiths',
+	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this family',
+
+	PRIMARY KEY (id, contact_id, revision_id),
+
+	FOREIGN KEY (contact_id, revision_id) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (primary_contact_id) REFERENCES contact(id)
+--	INDEX contact_family (contact_id, revision_id)
+
+) ENGINE=InnoDB COMMENT='extends contact for type=family';
 
 
 /*******************************************************
@@ -274,15 +337,15 @@ CREATE TABLE contact_address(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 	rid INT UNSIGNED NOT NULL COMMENT 'contact_address revision id',
-	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	did  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact_address',
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact_address',
 
 	line1 VARCHAR(255) COMMENT 'address line 1',
 	line2 VARCHAR(255) COMMENT 'address line 2',
 	city VARCHAR(255) COMMENT 'city',
 	county VARCHAR(255),
-	cspid INT UNSIGNED NOT NULL COMMENT 'index to contact_state_province table',
+	state_province_id INT UNSIGNED NOT NULL COMMENT 'FK to contact_state_province table',
 
 -- Is it useful to store US and non-US postal codes separately?
 	zip5 INT UNSIGNED COMMENT 'zipcode - 5 digit',
@@ -291,7 +354,7 @@ CREATE TABLE contact_address(
 	usps_adc VARCHAR(64),
 
 	postal_code VARCHAR(255) COMMENT 'other types of postal codes - non us',
-	ccoid INT UNSIGNED COMMENT 'index to contact_country table',
+	country_id INT UNSIGNED COMMENT 'index to contact_country table',
 
 	address_organization VARCHAR(255) COMMENT 'organization name for mailing address',
 	address_department VARCHAR(255) COMMENT 'department name for mailing address',
@@ -301,13 +364,14 @@ CREATE TABLE contact_address(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
 
 	PRIMARY KEY (id, rid),
 
-	FOREIGN KEY (did) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(cspid) REFERENCES contact_state_province(id),
-	FOREIGN KEY(ccoid) REFERENCES contact_country(id)
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (created_by) REFERENCES contact(id),
+	FOREIGN KEY(state_province_id) REFERENCES contact_state_province(id),
+	FOREIGN KEY(country_id) REFERENCES contact_country(id)
 
 ) ENGINE=INNODB COMMENT='Contact addresses (sharable by multiple contacts).';
 
@@ -323,21 +387,22 @@ CREATE TABLE contact_contact_address(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
-	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	cid INT UNSIGNED NOT NULL COMMENT 'contact id',
-	aid INT UNSIGNED NOT NULL COMMENT 'contact_address id',
+	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id',
+	address_id INT UNSIGNED NOT NULL COMMENT 'contact_address id',
 
 	context_id INT UNSIGNED COMMENT 'fk to contact_context (e.g. Home, Work...)',
 	is_primary BOOLEAN NOT NULL DEFAULT 0 COMMENT 'primary mailing address for this contact (app allows 1 primary for each contact-communication type)',
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
 
 	PRIMARY KEY(id, rid),
-	FOREIGN KEY (cid) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (aid) REFERENCES contact_address(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (address_id) REFERENCES contact_address(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (created_by) REFERENCES contact(id),
 	FOREIGN KEY (context_id) REFERENCES contact_context(id)
 
 ) ENGINE=InnoDB COMMENT='joins contacts to (shareable) address locations; defines context for each';
@@ -354,9 +419,9 @@ CREATE TABLE contact_email(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
-	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	cid INT UNSIGNED NOT NULL COMMENT 'contact id',
+	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id',
 	email VARCHAR(255) COMMENT 'email address',
 
 	context_id INT UNSIGNED COMMENT 'fk to contact_context (e.g. Home, Work...)',
@@ -364,68 +429,15 @@ CREATE TABLE contact_email(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
 
 	PRIMARY KEY(id, rid),
-	FOREIGN KEY(cid) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (created_by) REFERENCES contact(id),
 	FOREIGN KEY (context_id) REFERENCES contact_context(id),
-	INDEX email_contact (cid)
+	INDEX email_contact (contact_id)
 
 ) ENGINE=InnoDB COMMENT='contact email';
-
-
-
-/*******************************************************
-*
-* contact_phone
-*
-*******************************************************/
-DROP TABLE IF EXISTS contact_phone;
-CREATE TABLE contact_phone(
-
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
-	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
-	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
-
-	cid INT UNSIGNED NOT NULL COMMENT 'contact id',
-
-	number VARCHAR(255) COMMENT 'phone number',
--- ? what is this? same as 'number_striped' in Neil's schema ?
-	number_canonical VARCHAR(255) COMMENT 'phone number',
-
--- ? Do we need phone_type (mobile,landline) to tell us whether record is extended by contact_phone_mobile ?
-	context_id INT UNSIGNED COMMENT 'fk to contact_context (e.g. Home, Work...)',
-	is_primary BOOLEAN NOT NULL DEFAULT 0 COMMENT 'primary email address for this contact (app allows 1 primary for each contact-communication type)',
-
-	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
-
-	PRIMARY KEY(id, rid),
-	FOREIGN KEY(cid) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (context_id) REFERENCES contact_context(id),
-	INDEX phone_contact (cid)
-
-) ENGINE=InnoDB COMMENT='contact phone numbers (base table)';
-
-
-/*******************************************************
-*
-* contact_phone_mobile
-* Extends contact_phone for type=mobile
-*******************************************************/
--- ? I think we should de-normalize and put this in contact_phone - too much crap for 1 int column. dgg
-DROP TABLE IF EXISTS contact_phone_mobile;
-CREATE TABLE contact_phone_mobile (
-
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
-	pid INT UNSIGNED NOT NULL COMMENT 'contact_phone id',
-	rid INT UNSIGNED NOT NULL COMMENT 'contact_phone revision id',
-
-	mpid INT UNSIGNED NOT NULL COMMENT 'mobile provider id',
-	PRIMARY KEY(id),
-	FOREIGN KEY(pid,rid) REFERENCES contact_phone(id,rid) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB COMMENT='contact phone mobile';
 
 
 
@@ -447,6 +459,45 @@ CREATE TABLE contact_phone_mobile_providers (
 
 /*******************************************************
 *
+* contact_phone
+*
+*******************************************************/
+DROP TABLE IF EXISTS contact_phone;
+CREATE TABLE contact_phone(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
+	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
+
+	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id',
+
+	number VARCHAR(255) COMMENT 'phone number',
+-- ? what is this? same as 'number_striped' in Neil's schema ?
+	number_canonical VARCHAR(255) COMMENT 'phone number',
+
+	phone_type ENUM('Phone', 'Mobile', 'Fax', 'Pager') COMMENT 'what type of telecom device is this',
+	mobile_phone_provider_id INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
+
+	context_id INT UNSIGNED COMMENT 'fk to contact_context (e.g. Home, Work...)',
+	is_primary BOOLEAN NOT NULL DEFAULT 0 COMMENT 'primary email address for this contact (app allows 1 primary for each contact-communication type)',
+
+	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
+	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
+
+	PRIMARY KEY(id, rid),
+	FOREIGN KEY(contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (created_by) REFERENCES contact(id),
+	FOREIGN KEY (context_id) REFERENCES contact_context(id),
+	FOREIGN KEY (mobile_phone_provider_id) REFERENCES contact_phone_mobile_providers(id),
+	INDEX phone_contact (contact_id)
+
+) ENGINE=InnoDB COMMENT='contact phone numbers (base table)';
+
+
+
+/*******************************************************
+*
 * contact_instant_message
 *
 *******************************************************/
@@ -455,9 +506,9 @@ CREATE TABLE contact_instant_message(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
-	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	cid INT UNSIGNED NOT NULL COMMENT 'contact id',
+	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id',
 
 	screenname VARCHAR(255) COMMENT 'messenger id',
 
@@ -466,12 +517,13 @@ CREATE TABLE contact_instant_message(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
 
 	PRIMARY KEY(id, rid),
-	FOREIGN KEY(cid) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (created_by) REFERENCES contact(id),
 	FOREIGN KEY (context_id) REFERENCES contact_context(id),
-	INDEX im_contact (cid)
+	INDEX im_contact (contact_id)
 
 ) ENGINE=InnoDB COMMENT='contact instant message';
 
@@ -491,7 +543,7 @@ CREATE TABLE contact_relationship_types(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'contact relationship type id',
 
-	did  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this type',
+	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this type',
 
 	direction ENUM('Unidirectional', 'Bidirectional') COMMENT 'relationship cardinality',
 
@@ -500,10 +552,12 @@ CREATE TABLE contact_relationship_types(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
 
 	PRIMARY KEY(id),
-	FOREIGN KEY (did) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY (domain_id) REFERENCES contact_domain(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (created_by) REFERENCES contact(id),
+	INDEX crt_domain (domain_id)
 
 ) ENGINE=InnoDB COMMENT='contact relationship types';
 
@@ -519,100 +573,153 @@ CREATE TABLE contact_relationship(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'contact relationship id',
 	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
-	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	cid INT UNSIGNED NOT NULL COMMENT 'contact id',
-	target_cid INT UNSIGNED NOT NULL COMMENT 'target contact id',
+	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id',
+	target_contact_id INT UNSIGNED NOT NULL COMMENT 'target contact id',
 
-	crtid INT UNSIGNED NOT NULL COMMENT 'contact relationship type id',
+	relationship_type_id INT UNSIGNED NOT NULL COMMENT 'contact relationship type id',
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
 
 	PRIMARY KEY(id),
-	FOREIGN KEY(crtid) REFERENCES contact_relationship_types(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(cid) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(target_cid) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY(relationship_type_id) REFERENCES contact_relationship_types(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(target_contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (created_by) REFERENCES contact(id)
 
-) ENGINE=InnoDB COMMENT='contact relationship';
+) ENGINE=InnoDB COMMENT='contact relationships';
 
 
 
 /*******************************************************
 *
-* contact_todo
+* contact_task
 *
 *******************************************************/
-DROP TABLE IF EXISTS contact_todo;
-CREATE TABLE contact_todo(
+DROP TABLE IF EXISTS contact_task;
+CREATE TABLE contact_task(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
-	rid_latest INT UNSIGNED NOT NULL COMMENT 'latest revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
--- ? This struct implies that all tasks (to-do's) have a target contact. What about 'mailings'
+-- ? This struct implies that all tasks have a target contact. What about 'mailings'
 --		which target groups. How does this relate to other types of org tasks (e.g. "compose newsletter"...)?
-	cid INT UNSIGNED NOT NULL COMMENT 'target contact id for task',
-	uid INT UNSIGNED NOT NULL COMMENT 'assigned to which user',
+	target_contact_id INT UNSIGNED NOT NULL COMMENT 'target contact id for task',
+	assigned_contact_id INT UNSIGNED NOT NULL COMMENT 'task assigned to which contact',
 
-	time_started TIMESTAMP DEFAULT 0 COMMENT 'when did it start',
-	time_completed TIMESTAMP DEFAULT 0 COMMENT 'when did it end',
+	time_started DATETIME DEFAULT 0 COMMENT 'when was task started',
+	time_completed DATETIME DEFAULT 0 COMMENT 'when was task completed',
 
-	description VARCHAR(255) COMMENT 'description',
+	description VARCHAR(255) COMMENT 'description of task',
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person inserting this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
 
 	PRIMARY KEY(id),
-	FOREIGN KEY(cid) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(uid) REFERENCES users(uid) ON DELETE CASCADE ON UPDATE CASCADE,
-	INDEX todo_user_contact(uid,cid)
+	FOREIGN KEY(target_contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(assigned_contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (created_by) REFERENCES contact(id),
+	INDEX task_contact(assigned_contact_id,target_contact_id)
 
-) ENGINE=InnoDB COMMENT='to-do list for a contact';
+) ENGINE=InnoDB COMMENT='tasks related to a contact';
+
+
+/*******************************************************
+*
+* contact_note
+*
+*******************************************************/
+DROP TABLE IF EXISTS contact_note;
+CREATE TABLE contact_note(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
+	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
+
+	contact_id INT UNSIGNED NOT NULL COMMENT 'note is about this contact',
+
+	note TEXT COMMENT 'note or comment',
+
+	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
+	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
+
+	PRIMARY KEY(id),
+	FOREIGN KEY(contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (created_by) REFERENCES contact(id),
+	INDEX note_contact(contact_id)
+
+) ENGINE=InnoDB COMMENT='multiple notes/comments related to a contact';
 
 
 
 /*******************************************************
 *
-* dynamic property tables (TBD)
-*	contact_dynamic_property
-*	contact_dynamic_property_group
-*	contact_dynamic_property_option
-*	contact_dynamic_property_validation
+* extended property tables (TBD)
+*	contact_ext_property
+*	contact_ext_property_validation_rule (? separate table vs. defined in contact_ext_property
+*
+* ? Should we name/model these form/display tables for use with extended properties only?
+*		Or use generic naming on assmption we well extend them to defined
+*		all form elements? Is validation a 
+*	contact_ext_property_form (contact_form)
+*	contact_ext_property_form_component (contact_form_component)
+*	contact_ext_property_form_field (contact_form_field)
+*	contact_ext_property_group (contact_form_group) etc.
+*	contact_ext_property_option
+*
+* Draft concept for form rendering tables:
+*	- form_fields point to (or ARE) a contact_ext_property row
+*	- form_groups contain one or more related form_fields
+*	- forms are sets of form_components
+*	- form_components may be form_fields, form_groups, or other forms
 *
 *******************************************************/
 
 /*******************************************************
 *
-* contact_dynamic_data  (!! not revised yet)
+* contact_ext_data
 *
 *******************************************************/
-/*
-DROP TABLE IF EXISTS contact_dynamic_data;
-CREATE TABLE contact_dynamic_data(
+DROP TABLE IF EXISTS contact_ext_data;
+CREATE TABLE contact_ext_data(
 
-	cdid INT UNSIGNED NOT NULL COMMENT 'contact data id',
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
+	rid INT UNSIGNED NOT NULL COMMENT 'revision id',
+	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	cid INT UNSIGNED NOT NULL COMMENT 'contact id',
-	crid INT UNSIGNED NOT NULL COMMENT 'contact revision id',
+	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id',
 
-	fid  INT UNSIGNED NOT NULL COMMENT 'form id ( form is a named collection of fields )',
-	ffid INT UNSIGNED NOT NULL COMMENT 'form field id',
+	ext_property_id INT UNSIGNED NOT NULL COMMENT 'FK to contact_ext_property',
 
-	int_data INT UNSIGNED COMMENT 'integer data',
-	varchar_data VARCHAR(255) COMMENT 'small string data',
-	date_data TIMESTAMP COMMENT 'timestamp data',
-	text_data TEXT COMMENT 'all other data',
+-- ? Do we need to know the 'group' (I think this is presentation info only and not needed here?)
+--	ext_property_group_id  INT UNSIGNED NOT NULL COMMENT 'group id ( group is a named collection of fields )',
 
-	ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added/updated',
+-- Data is stored in one of these 'buckets' depending on property type.
+	int_data INT COMMENT 'stores data for ext property types = ?_int. This col supports signed integers.',
+	float_data INT COMMENT 'stores data for ext property types = ?_float and $_money.',
+	char_data VARCHAR(255) COMMENT 'data for ext property types = ?_text',
+	date_data DATETIME COMMENT 'data for ext property types = ?_date',
+	memo_data TEXT COMMENT 'data for ext property type = ?_memo',
+-- ? Should we have separate storage bucket for BOOLEANS ? dgg
 
-	PRIMARY KEY(cdid),
-	FOREIGN KEY(cid, crid) REFERENCES contact(cid, crid) ON DELETE CASCADE ON UPDATE CASCADE
+	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
+	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
 
-) ENGINE=InnoDB COMMENT='contact data';
-*/
+	PRIMARY KEY(id, rid),
+	FOREIGN KEY(contact_id) REFERENCES contact(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(created_by) REFERENCES contact(id),
+-- dgg Uncomment FK once related table is in place
+-- FOREIGN KEY(ext_property_id) REFERENCES contact_ext_property(id),
+	INDEX ext_data_contact (contact_id)
+
+) ENGINE=InnoDB COMMENT='stores the data for extended properties';
 
 
 /*******************************************************
