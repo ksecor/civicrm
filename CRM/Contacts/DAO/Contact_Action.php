@@ -1,6 +1,6 @@
 <?php
 
-require_once 'CRM/DAO/Base.php';
+require_once 'CRM/Contacts/DAO/ContactBase.php';
 
 class CRM_Contacts_DAO_Contact_Action extends CRM_Contacts_DAO_ContactBase {
 
