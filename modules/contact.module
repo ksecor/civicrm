@@ -357,6 +357,11 @@ function contact_invoke()
         $content .= contact_query();
     }
         
+    // advanced search
+    if (arg(2) == 'advanced_search') {
+        $content .= contact_advanced_search();
+    }
+
     // delete
     if (arg(2) == 'delete') {
         if(is_numeric(arg(3))) {
@@ -426,6 +431,24 @@ function contact_query()
     $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/search?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_query
+
+
+/**
+ * Create form for advanced search options.
+ *
+ * Advanced search options include <b>Groups, Categories, Addresses, Email.</b>
+ *
+ * @param None
+ *
+ * @return this returns the display content
+ */
+function contact_advanced_search() 
+{
+    $contact = new CRM_Contact_Wrapper();
+    $contact->run('CRM_Contact_Form_AdvancedSearch', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/advanced_search?reset=1', 0);
+    return $contact->getContent();
+} // end of function contact_query
+
 
 
 /**
