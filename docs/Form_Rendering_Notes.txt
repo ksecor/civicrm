@@ -1,0 +1,19 @@
+Notes on Forms and Templates
+============================
+* Functions for creating each type of form are found in common.inc. These populate the core html
+	tag structure and values (e.g. <input name="$name" value="$value etc)
+	EX: form_textfield() line 1307
+	
+* These functions use theme_form_element to populate the HTML of the form element chunks, including
+	specifying <div class='form_item'/>, <label
+	and form element and, including label and <input.../> and post-description
+	[theme.inc line 541]
+	- this function determines the layout of the form element (including always putting <br> after label!)
+
+* Created form_element.tpl in box_grey_smarty theme folder and modified smarty.engine (adding function smarty_form_element) in order to have
+	custom display of form label+element (w/o <br> tag).
+	
+To do:
+- Figure out input validation model
+x - Figure out how to override call to theme_form_element (to get rid of <br> for example)
+- Figure out if/how to move form element definition params into either DB or .tpl
