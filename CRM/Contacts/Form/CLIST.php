@@ -38,16 +38,15 @@ class CRM_Contacts_Form_CLIST extends CRM_Form
                                'Add to household',
                                'Define Relationship'
                               );
-        
-        
+
         $this->addElement('select', 'contact_select', 'List:', $contacts_select);
         $this->addElement('select', 'action_select', 'Action:', $action_select); 
-        $this->addElement('text', 'page_no', '&nbsp;Page',
-                          array( 'size' => '1'));
+        $this->addElement('text', 'page_no', '&nbsp;Page', array('id' => 'page_no', 'size' => '2'));
+        
         
 
         $this->addElement('submit','change_list_view', 'go');
-        $this->addElement('submit','gotopage', 'go');
+        $this->addElement('submit','gotopage', 'go', array('onclick' => "return verify_page_number();"));
         $this->addElement('submit','do_action', 'go');
         
         /* Page top links */
@@ -61,25 +60,49 @@ class CRM_Contacts_Form_CLIST extends CRM_Form
         $this->addElement('link', 'city', null, 'datagrid', 'City');
         $this->addElement('link', 'state_province', null, 'datagrid', 'State/Province');
 
-        /* Page crumb links */
-        $this->addElement('link', 'show_25', 'Rows per page:', 'pagecrumb', '25');
-        $this->addElement('link', 'show_50', '|', 'pagecrumb', '50');
-        $this->addElement('link', 'show_100', '|', 'pagecrumb', '100');
-        $this->addElement('link', 'show_all', '|', 'pagecrumb', 'All');
-        $this->addElement('link', 'select_all', 'Select:', 'pagecrumb', 'All');
-        $this->addElement('link', 'select_none', '|', 'pagecrumb', 'None');
+        /* Page crumb links */ 
+        $this->addElement('link', 'select_all', 'Select:', 'pagecrumb', 'All', array('onclick' => "return select_checkboxes(true);"));
+        $this->addElement('link', 'select_none', '|', 'pagecrumb', 'None', array('onclick' => "return select_checkboxes(false);"));
+
+        /* Implementing the record limit emulation engine :: CODE IS UNDER STRICT REVISION */ 
+        $http_base = $_SERVER['SCRIPT_NAME'] . "?" . $_SERVER['QUERY_STRING'];
+ 
+        if (strpos($_SERVER['QUERY_STRING'],"record_limit") === false) {
+            $number_of_records_to_show = 25;
+            $this->addElement('static', 'show_25', 'Rows per page:', '25');
+
+          }
+        else {
+            $number_of_records_to_show = $_GET['record_limit'];
+            $number_of_records_to_show > 0 ? $no_rec = "{$number_of_records_to_show}" : $no_rec = "All" ;
+            $number_of_records_to_show == 25 ? $ln_label = "Rows per page:" : $ln_label = "|" ;
+            $this->addElement('static', 'show_'.$no_rec, $ln_label, $no_rec);
+        }
         
-        /* Implementing the record generating mortar CODE UNDER REVISION*/
-      
+        if ($number_of_records_to_show != 25) {
+            $this->addElement('link', 'show_25', 'Rows per page:', $http_base . "&record_limit=25" , '25'); 
+        }
+        if ($number_of_records_to_show != 50) {
+            $this->addElement('link', 'show_50', '|', $http_base . "&record_limit=50" , '50'); 
+        }
+        if ($number_of_records_to_show != 100) {
+            $this->addElement('link', 'show_100', '|', $http_base . "&record_limit=100" , '100'); 
+        }
+        if ($number_of_records_to_show != -1) {
+            $this->addElement('link', 'show_all', '|', $http_base . "&record_limit=-1" , 'All');
+        }
+        /* ----- emulation engine ----- */
+
+
+        /* Implementing the record generating mortar */
 
         $pager_list = new CRM_Contacts_List_Contacts();
         $arr = $pager_list->list_contact();
         $rows_per_page = count($arr[1]);
         $this->addElement('text', 'pager', $arr[0]);
         $lng_row_count = count($arr[1]);
-        $this->addElement('text', 'row_no', $lng_row_count);
-        
-
+        $this->addElement('text', 'row_count', $lng_row_count);
+        $this->addElement('hidden', 'hidden_row_count', $lng_row_count);
         $i = 0;
         foreach ($arr[1] as $key_arr => $value_arr) {
             
@@ -92,7 +115,6 @@ class CRM_Contacts_Form_CLIST extends CRM_Form
             //$address_link_group[$i] =& $this->createElement('link','address_'."{$i}", null, "datagrid", $records[1][$i]['address']);
             //$city_link_group[$i] =& $this->createElement('link','city_'."{$i}", null, "datagrid", $records[$i]['city']);
             //$state_link_group[$i] =& $this->createElement('link','state_province_'."{$i}", null, "datagrid", $records[$i]['state_prov']);
-            
             //$city_link_group[$i] =& $this->createElement('static','city_'."{$i}", null,$records[$i]['city']);
             //$state_link_group[$i] =& $this->createElement('static','state_province_'."{$i}", null,$records[$i]['state_prov']);
             
@@ -108,15 +130,25 @@ class CRM_Contacts_Form_CLIST extends CRM_Form
         $this->addGroup($state_link_group,'state_link_group');
         $this->addGroup($checkbox_group,'checkbox_group');
         
-
         /* End of mortar */
         
         /************************************   End of all DHTML elements ******************************/
         /************************************   End of all DHTML elements ******************************/
         /************************************   End of all DHTML elements ******************************/
         
-        if ($this->validate() && ($this->_mode == self::MODE_VIEW || self::MODE_CREATE)) {
-            $this->freeze();    
+
+        if ($_SERVER['REQUEST_METHOD']=='POST') {
+            /* print "llk";
+           if (isset($_POST['change_list_view'])) { print 'head';}
+           if (isset($_POST['gotopage'])) { print 'body';}
+           if (isset($_POST['do_action'])) { print 'crumb';}
+            */
+        }
+
+             if ($this->_mode == self::MODE_VIEW) {
+            if ($this->validate()) {
+                 $this->freeze();
+            }    
         } else {
             if ($this->_mode == self::MODE_VIEW || self::MODE_UPDATE) {
                 $this->setDefaultValues();
