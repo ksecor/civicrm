@@ -36,7 +36,7 @@
 Class CRM_Contact_Form_Phone 
 {
 
-    static function bpb(& $loc, $form, $locid, & $start, $count) {
+    static function buildPhoneBlock(& $loc, $form, $locid, & $start, $count) {
         $j = $start;
         
         for ($i = 1; $i <= $count; $i++) {
