@@ -1,11 +1,11 @@
 <?php
 
-if ( ! defined( 'SMARTY_DIR' ) ) {
-  define('SMARTY_DIR', '/opt/local/lib/php/Smarty/');
-}
+require_once 'WGM/Config.php';
+
+$config = WGM_Config::instance();
 
 // load Smarty library files
-require_once  SMARTY_DIR . 'Smarty.class.php';
+require_once  $config->smartyDir . 'Smarty.class.php';
 
 /**
  * Copyright (c) 2004 Donald A. Lobo (lobo at yahoo dot com)
@@ -32,32 +32,23 @@ require_once  SMARTY_DIR . 'Smarty.class.php';
  */
 
 class SmartyTemplate extends Smarty {
-    private static $_instance = null;
+  private static $_instance = null;
 
-	protected $path; /// Path to the templates
+  /**
+   * Constructor
+   *
+   * @return void
+   */
+  function __construct() {
+    $this->Smarty();
 
-	/**
-	 * Constructor
-	 *
-	 * @param string $path the path to the templates
-	 *
-	 * @return void
-	 */
-	function __construct($path = null) {
-	  $this->path = $path;
-	  
-	  $this->Smarty();
+    $config = WGM_Config::instance();
 
-	  $this->template_dir = $path;
-      $this->compile_dir  = '/tmp/drupal/templates_c';
-	  $this->use_sub_dirs = true;
-	  $this->caching      = false;
-	  $this->debugging    = true;
-	}
-
-  function setPath($path) {
-    $this->path = $path;
-    $this->template_dir = $path;
+    $this->template_dir = $config->templateDir;
+    $this->compile_dir  = $config->templateCompileDir;
+    $this->use_sub_dirs = true;
+    $this->caching      = false;
+    $this->debugging    = true;
   }
 
   /**
@@ -66,64 +57,59 @@ class SmartyTemplate extends Smarty {
    * Method providing static instance of SmartTemplate, as
    * in Singleton pattern.
    */
-  static function instance($path = null) {
+  static function instance() {
     if ( self::$_instance === NULL ) {
       self::$_instance = new SmartyTemplate($path);
     }
-    self::$_instance->setPath($path);
     return self::$_instance;
   }
 
 
-	/**
-	 * Set the path to the template files.
-	 *
-	 * @param string $path path to template files
-	 *
-	 * @return void
-	 */
-	function set_path($path) {
-		$this->path = $path;
-	}
+  /**
+   * Set a template variable.
+   *
+   * @param string $name name of the variable to set
+   * @param mixed $value the value of the variable
+   *
+   * @return void
+   */
+  function set($name, $value) {
+    $this->assign($name, $value);
+  }
 
-	/**
-	 * Set a template variable.
-	 *
-	 * @param string $name name of the variable to set
-	 * @param mixed $value the value of the variable
-	 *
-	 * @return void
-	 */
-	function set($name, $value) {
-	  $this->assign($name, $value);
-	}
+  /**
+   * Set a bunch of variables at once using an associative array.
+   *
+   * @param array $vars array of vars to set
+   * @param bool $clear whether to completely overwrite the existing vars
+   *
+   * @return void
+   */
+  function set_vars($vars, $clear = false) {
+    if($clear) {
+      $this->clear_all_assign( );
+    }
+    foreach ( $vars as $name => $value ) {
+      $this->assign( $name, $value );
+    }
+  }
 
-	/**
-	 * Set a bunch of variables at once using an associative array.
-	 *
-	 * @param array $vars array of vars to set
-	 * @param bool $clear whether to completely overwrite the existing vars
-	 *
-	 * @return void
-	 */
-	function set_vars($vars, $clear = false) {
-	  if($clear) {
-	    $this->clear_all_assign( );
-	  }
-	  foreach ( $vars as $name => $value ) {
-	    $this->assign( $name, $value );
-	  }
-	}
-
-	/**
-	 * Open, parse, and return the template file.
-	 *
-	 * @param string string the template file name
-	 *
-	 * @return string
-	 */
-	function fetch($file, $cache_id = null, $compile_id = null) {
-	  return parent::fetch( $file );              // Return the contents
-	}
+  /**
+   * Open, parse, and return the template file.
+   *
+   * @param string string the template file name
+   *
+   * @return string
+   */
+  function fetch($file, $templateDir = null, $cache_id = null, $compile_id = null) {
+    if ( $templateDir !== null ) {
+      $this->template_dir = $templateDir;
+    } else {
+      $config = WGM_Config::instance();
+      $this->template_dir = $config->templateDir;
+    }
+    return parent::fetch( $file );              // Return the contents
+  }
 }
+
 ?>

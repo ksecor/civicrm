@@ -1,10 +1,6 @@
 <?php
 
-$user_home = "/Users/lobo/svn/crm";
-
-$include_path = ini_get('include_path');
-$include_path .= ":$user_home";
-ini_set('include_path', $include_path);
+include_once 'config.inc.php';
 
 require_once 'WGM/Contacts/Contacts.php';
 require_once 'WGM/Utils.php';
@@ -278,9 +274,9 @@ function cms2_add_contact() {
 
   $content = '';
 
-  //  $contact = new WGM_Contacts_Contacts();
-  //  $contact->run();
-  //  return $contact->display();
+  $contact = new WGM_Contacts_Contacts();
+  $contact->run();
+  return $contact->display();
 
   if(isset($_POST['add_contact_form_submit'])) {
     // run 'example' validation routine

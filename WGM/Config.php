@@ -9,6 +9,7 @@ class WGM_Config {
    */
   public $dsn;
   public $daoDebugLvl		  = 0;
+  public $smartyDir           = '/opt/local/lib/php/Smarty/';
   public $templateDir		  = './templates';
   public $templateCompileDir  = './templates_c';
   public $smtpServer          = 'outbound2.groundspring.org';
@@ -25,7 +26,7 @@ class WGM_Config {
     return self::$_instance;
   }
 
-  function WGM_Configuration() {
+  function __construct() {
     if (defined('WGM_DSN')) {
       $this->dsn = WGM_DSN;
     }
@@ -36,6 +37,10 @@ class WGM_Config {
 
     if (defined('WGM_DAO_FACTORY_CLASS') ) {
       $this->DAOFactoryClass = WGM_DAO_FACTORY_CLASS;
+    }
+
+    if (defined('WGM_SMARTYDIR')) {
+      $this->smartyDir = WGM_SMARTYDIR;
     }
 
     if (defined('WGM_TEMPLATEDIR')) {

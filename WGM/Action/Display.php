@@ -14,7 +14,7 @@ class WGM_Action_Display extends HTML_QuickForm_Action_Display {
     $template = SmartyTemplate::instance();
     $template->clear_all_assign();
     $template->assign('form',  $page->toSmarty());
-    $content = $template->fetch('/Users/lobo/svn/crm/templates/WGM/Contacts/Form/Edit.tpl');
+    $content = $template->fetch( $page->getTemplateFileName() );
     $this->_stateMachine->setContent($content);
     return;
   }

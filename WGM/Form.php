@@ -285,6 +285,12 @@ class WGM_Form extends HTML_QuickForm_Page {
     }
   }
   
+  function getTemplateFileName() {
+    $className    = get_class( $this );
+    $templateName = str_replace( '_', '/', $className ) . '.tpl';
+    return $templateName;
+  }
+
 }
 
 ?>

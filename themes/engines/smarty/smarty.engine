@@ -312,10 +312,10 @@ function _smarty_default($vars, $hook, $file = null) {
   }
 
   if ($file) {
-    $smarty[$hook] = SmartyTemplate::instance(dirname($file));
+    $smarty[$hook] = SmartyTemplate::instance(); 
     $smarty[$hook]->clear_all_assign();
     $smarty[$hook]->set_vars($vars);
-    return $smarty[$hook]->fetch(basename($file));
+    return $smarty[$hook]->fetch(basename($file), dirname($file));
   }
 }
 
