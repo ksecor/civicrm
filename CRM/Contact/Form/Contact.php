@@ -55,5 +55,22 @@ class CRM_Contact_Form_Contact extends CRM_Form
         // preferred communication method 
         $form->add('select', 'preferred_communication_method', 'Prefers:', CRM_SelectValues::$pcm);
     }
+
+    function createHideShowLinks( $form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText ) {
+        if ( $index == $maxIndex ) {
+            $showCode = $hideCode = "return false;";
+        } else {
+            $next = $index + 1;
+            $showCode = "show('$prefix[$next]'); return false;";
+            $hideCode = "hide('$prefix[$next][show]'); return false;";
+        }
+
+        $form->addElement('link', "${prefix}[${index}][show]", null, "#${prefix}[${index}]", $showLinkText,
+                          array( 'onclick' => "hide('${prefix}[${index}][show]'); show('${prefix}[${index}]');" . $showCode)); 
+        $form->addElement('link', "${prefix}[${index}][hide]", null, "#${prefix}[${index}]", $hideLinkText,
+                          array('onclick' => "hide('${prefix}[${index}]'); show('${prefix}[${index}][show]');" . $hideCode));
+    }
+
 }
+
 ?>

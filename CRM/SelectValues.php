@@ -76,7 +76,8 @@ class CRM_SelectValues {
                                       );
     
     /**
-     * date combinations. We need to fix maxYear (maybe in the constructor)
+     * date combinations. We need to fix maxYear (and we do so at the
+     * end of this file)
      * static values cannot invoke a function in php
      * @var array
      * @static
@@ -177,5 +178,12 @@ class CRM_SelectValues {
                                        );
     
 }
+
+/**
+ * initialize maxYear to the right value, i.e.
+ * the current year
+ */
+CRM_SelectValues::$date['maxYear'] = date('Y');
+
 
 ?>

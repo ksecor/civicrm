@@ -290,9 +290,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
         
         switch ($this->_mode) {
         case self::MODE_ADD:
-            $this->addRule('first_name', t(' First name is a required field.'), 'required', null, 'client');
-            $this->addRule('last_name', t(' Last name is a required field.'), 'required', null, 'client');
-
             $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contact_Form_Individual');
             $this->registerRule('check_date', 'callback', CRM_RULE::date(),'CRM_Contact_Form_Individual');
 
@@ -300,10 +297,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
             
             for ($i = 1; $i <= 3; $i++) { 
                 $this->addGroupRule('location'."{$i}", array('email_1' => array( 
-                                                                                array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),                                                 'email_2' => array( 
-                                                                                                                                                                                                                                        array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
+                                                                                array(t( 'Please enter valid email for location').$i.'.', 'email', null)),                                                 'email_2' => array( 
+                                                                                                                                                                                                                                        array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null)),
                                                              'email_3' => array( 
-                                                                                array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
+                                                                                array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null))
                                                              )
                                     ); 
             }
@@ -379,7 +376,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
      * @uses CRM_Contact_Form_Location::buildLocationBlock($this, 3) Used to obtain the HTML element for pulgging the Location block. 
      * @uses CRM_Contact_Form_Contact::buildCommunicationBlock($this) Used to obtain elements for plugging the Communication preferences.
      * @see buildQuickForm()         
-     * @see _buildMiniAddForm()
      * 
      */
     private function _buildAddForm( ) 
@@ -387,7 +383,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
         
         $form_name = $this->getName();
 
-        CRM_SelectValues::$date['maxYear'] = date('Y');
         
         // prefix
         $this->addElement('select', 'prefix', null, CRM_SelectValues::$prefixName);
@@ -412,27 +407,21 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
         // radio button for gender
         $genderOptions = array( );
-        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', 'Gender', 'Female', 'Female',
-                                                         array('onclick' => "document.Individual.elements['mdyx'].value = 'true';",'checked' => null));
-        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', 'Gender', 'Male', 'Male', 
-                                                         array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
-        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', 'Gender', 'Transgender','Transgender', 
-                                                         array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
+        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', 'Gender', 'Female', 'Female');
+        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', 'Gender', 'Male', 'Male');
+        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', 'Gender', 'Transgender','Transgender');
         $this->addGroup( $genderOptions, 'gender', 'Gender' );
         
-        $this->addElement('checkbox', 'is_deceased', null, 'Contact is deceased',
-                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
+        $this->addElement('checkbox', 'is_deceased', null, 'Contact is deceased');
         
-        $this->addElement('date', 'birth_date', 'Date of birth', CRM_SelectValues::$date, 
-                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
+        $this->addElement('date', 'birth_date', 'Date of birth', CRM_SelectValues::$date);
 
         /* Entering the compact location engine */ 
 
-        $location = CRM_Contact_Form_Location::buildLocationBlock($this, 3);
+        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, 3);
+
         for ($i = 1; $i < 4; $i++) {
-            $this->addGroup($location[$i],'location'."{$i}");
-            $this->UpdateElementAttr(array($location[$i][0]), array('onchange' => "return validate_selected_locationid(\"$form_name\", {$i});"));
-            $this->UpdateElementAttr(array($location[$i][1]), array('onchange' => "location_is_primary_onclick(\"$form_name\", {$i});"));
+            $this->UpdateElementAttr(array($location[$i]['is_primary']), array('onchange' => "location_is_primary_onclick(\"$form_name\", {$i});"));
         }
         /* End of locations */
 
@@ -450,8 +439,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->addElement('link', 'hidenotes', null, 'notes', '[-] hide contact notes',
                           array('onclick' => "hide('notes'); show('expand_notes'); return false;"));
         
-        $this->addElement('hidden', 'mdyx', 'false');
-
         $java_script = "<script type = \"text/javascript\">
                         frm = document." . $form_name ."; frm_name = '" . $form_name ."'; </script>";
 

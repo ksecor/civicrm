@@ -19,30 +19,21 @@
 {* @var $exloc Contains the name of the location expansion link *}
 {* @var $hideloc Contains the name of the location hide link *}
 
- {section name = locationt start = 1 loop = $locloop}
- {assign var = "index" value = "`$smarty.section.locationt.index`"}
- 
- {if $locloop - 1  >= 1} 
- {assign var = "pid" value = "`$smarty.section.locationt.index`"}
+ {section name = locationLoop start = 1 loop = 4}
+ {assign var=index value=$smarty.section.locationLoop.index}
 
- {/if}
-
- {assign var = "lid" value = "location`$pid`"}
-
- {assign var = "exloc" value = "exloc`$index`"} 
- {assign var = "hideloc" value = "hideloc`$index`"} 
+ {assign var = "exloc" value = "exloc$index"} 
+ {assign var = "hideloc" value = "hideloc$index"} 
  {assign var = "width" value = "200"}
  
 
- {if $pid > 1}
- <div id="expand_loc{$index}" class="comment">
-    {$form.$exloc.html}
+ <div id="location[{$index}][show]" class="comment">
+    {$form.location.$index.show.html}
  </div>
- {/if}
 
-<div id="location{$pid}">
+<div id="location[{$index}]">
 	<fieldset>
-    {if $pid > 1}
+    {if $index > 1}
     <legend>Additional Location</legend>
     {else}
     <legend>Primary Location</legend>
@@ -50,11 +41,11 @@
     
     <div class="form-item">
         <!-- Location type drop-down (e.g. Home, Work...) -->
-        {$form.$lid.location_type_id.html}
+        {$form.$location.$index.location_type_id.html}
         
-        {if $pid > 1}
+        {if $index > 1}
             <!-- Checkbox for "make this the primary location" -->
-            {$form.$lid.is_primary.html} Make this the primary location {*$form.$lid.is_primary.label*}
+            {$form.$location.$index.is_primary.html} Make this the primary location {*$form.$location.$index.is_primary.label*}
         {/if}
     </div>
 
@@ -78,12 +69,11 @@
         {include file="CRM/Contact/Form/Address.tpl"} 
     <div>
 
-    {if $pid > 1 }
-        <div class="box">
-            {$form.$hideloc.html}
-        </div>
-    {/if}
-    </fieldset>
+  <div id="location[{$index}][hide]" class="comment">
+    {$form.location.$index.hide.html}
+  </div>
+
+   </fieldset>
 </div> <!-- End of Location block div -->
 {/section}
 

@@ -41,40 +41,25 @@ require_once 'CRM/Contact/Form/Address.php';
 class CRM_Contact_Form_Location extends CRM_Form
 {
 
-    //public static function buildLocationBlock($form)
-    static function buildLocationBlock($form, $blocks) 
+    static function &buildLocationBlock($form, $count) 
     {
+        $location = array();
+
+        for ($locationId = 1; $locationId <= $count; $locationId++) {    
+
+            $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_SelectValues::$locationType);
+            $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", 'Primary location for this contact', null);
+
+            CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, 3); 
+            CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, 3); 
+            CRM_Contact_Form_IM::buildImBlock($form, $location, $locationId, 3); 
+            CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
 
 
-        
-        $form = $form;
-        $blocks = $blocks;
-        
-        for ($i = 1; $i <= $blocks; $i++) {    
-
-            $j = 0;
-
-            $loc[$i][$j++] =  $form->createElement('select', 'location_type_id', null, CRM_SelectValues::$locationType);
-            $loc[$i][$j++] =  $form->createElement('checkbox', 'is_primary', 'Primary location for this contact', null);
-
-            CRM_Contact_Form_Phone::buildPhoneBlock($loc, $form, $i, $j, 3); 
-            CRM_Contact_Form_Email::buildEmailBlock($loc, $form, $i, $j, 3);   
-            CRM_Contact_Form_IM::buildImBlock($loc, $form, $i, $j, 3);
-            CRM_Contact_Form_Address::buildAddressBlock($loc, $form, $i, $j);
-            // total = 0 - 22
-           
-            if($i > 1) {
-                if ($i == $blocks) {$next = $i; $prev = $i-1; $code = "return false;";} 
-                else {$next = $i+1; $prev = $i+1; $code = "show('expand_loc{$next}'); return false;";}
-
-                $form->addElement('link', 'exloc'."{$i}", null, 'location'."{$i}", '[+] another location',
-                                  array( 'onclick' => "hide('expand_loc{$i}'); show('location{$i}');" . $code)); 
-
-                $form->addElement('link', 'hideloc'."{$i}", null, 'location'."{$i}", '[-] hide location',
-                                  array('onclick' => "hide('location{$i}'); show('expand_loc{$i}'); hide('expand_loc{$prev}'); return false;"));
-            }
+            CRM_Contact_Form_Contact::createHideShowLinks( $form, $locationId, $count, "location", '[+] another location', '[-] hide location');
         }
-        return $loc;
+        return $location;
     }
+
 }
 ?>

@@ -14,8 +14,6 @@
 {* $form.attributes serves as a place holder for all form attributes to be defined in the form tag *}
  <form {$form.attributes}>
 
- {$form.mdyx.html}
-
 	{* $form.hidden serves as a place holder for all the hidden elements defined in the quick form*}
 
 	 {if $form.hidden}

@@ -1,4 +1,4 @@
-<?Php
+<?php
 /**
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
@@ -33,20 +33,24 @@
  */
 
 
-Class CRM_Contact_Form_Address
+class CRM_Contact_Form_Address
 {
 
-    static function buildAddressBlock(& $loc, $form, $locid, & $start) {
-        $j = $start;
-
-        $loc[$locid][$j++] =  $form->createElement('text', 'street_address', 'Street Address:', array('size' => '47px', 'maxlength' => 96));
-        $loc[$locid][$j++] =  $form->createElement('textarea', 'supplemental_address_1', 'Address:', array('cols' => '47', 'maxlength' => 96));
-        $loc[$locid][$j++] =  $form->createElement('text', 'city', 'City:', array('maxlength' => 64));
-        $loc[$locid][$j++] =  $form->createElement('text', 'postal_code', 'Zip / Postal Code:', array('maxlength' => 12));
-        $loc[$locid][$j++] =  $form->createElement('select', 'state_province_id', 'State / Province:', CRM_SelectValues::$state);
-        $loc[$locid][$j++] =  $form->createElement('select', 'country_id', 'Country:', CRM_SelectValues::$country);
-        $start = $start + 6;
-
+    static function buildAddressBlock($form, &$location, $locationId) {
+        $location[$locationId]['address']['street_address']         =
+            $form->addElement('text', "location[$locationId][address][street_address]", 'Street Address:', array('size' => '47px', 'maxlength' => 96));
+        $location[$locationId]['address']['supplemental_address_1'] =
+            $form->addElement('text', "location[$locationId][address][supplemental_address_1]", 'Address Line 1:', array('cols' => '47', 'maxlength' => 96));
+        $location[$locationId]['address']['supplemental_address_2'] =
+            $form->addElement('text', "location[$locationId][address][supplemental_address_2]", 'Address Line 2:', array('cols' => '47', 'maxlength' => 96));
+        $location[$locationId]['address']['city']                   =
+            $form->addElement('text', "location[$locationId][address][city]", 'City:', array('maxlength' => 64));
+        $location[$locationId]['address']['postal_code']            =
+            $form->addElement('text', "location[$locationId][address][postal_code]", 'Zip / Postal Code:', array('maxlength' => 12));
+        $location[$locationId]['address']['state_province_id']      =
+            $form->addElement('select', "location[$locationId][address][state_province_id]", 'State / Province:', CRM_SelectValues::$state);
+        $location[$locationId]['address']['country_id']             =
+            $form->addElement('select', "location[$locationId][address][country_id]", 'Country:', CRM_SelectValues::$country);
     }
 
 }

@@ -36,41 +36,15 @@
 Class CRM_Contact_Form_Phone 
 {
 
-    static function buildPhoneBlock(& $loc, $form, $locid, & $start, $count) {
-        $j = $start;
-        
+    static function buildPhoneBlock($form, &$location, $locationId, $count) {
         for ($i = 1; $i <= $count; $i++) {
+            $label = ($i == 1) ? 'Preferred Phone:' : 'Other Phone:';
+
+            CRM_Contact_Form_Contact::createHideShowLinks( $form, $i, $count, "location[$locationId][phone]", '[+] another phone', '[-] hide phone');
             
-            if ($i > 1) {
-                $label = "Other Phone:"; 
-
-
-                if ($i != $count) {
-                    $next = $i+1;
-                    $scode = "show('expand_phone_{$locid}_{$next}'); return false;";
-                    $hcode = "hide('phone_{$locid}_{$next}'); hide('expand_phone_{$locid}_{$next}'); return false;";                    
-                }
-                else { $scode = "return false;"; $hcode = "return false;"; }
-
-                $form->addElement('link', "exph{$i}_{$locid}", null, 'phone_'."{$i}_{$locid}", '[+] another phone',
-                                  array('onclick' => "show('phone_{$locid}_{$i}'); hide('expand_phone_{$locid}_{$i}');" . $scode));
-
-                $form->addElement('link', "hideph{$i}_{$locid}", null, 'phone_'."{$locid}_{$i}", '[-] hide phone',
-                                  array('onclick' => "hide('phone_{$locid}_{$i}'); show('expand_phone_{$locid}_{$i}');" . $hcode));
-
-
-            }
-            else
-            {
-                $label = 'Preferred Phone:';
-            }
-            
-            $loc[$locid][$j++] = $form->createElement('select', 'phone_type_' . "{$i}", null, CRM_SelectValues::$phone);
-            $loc[$locid][$j++] = $form->createElement('text', 'phone_' . "{$i}", $label, array('size' => '37px', 'maxlength' => 16));
+            $location[$locationId]['phone'][$i]['phone_type_id'] = $form->addElement('select', "location[$locationId][phone][$i][phone_type_id]", null, CRM_SelectValues::$phone);
+            $location[$locationId]['phone'][$i]['phone']      = $form->addElement('text', "location[$locationId][phone][$i][phone]", $label, array('size' => '37px', 'maxlength' => 16));
         }
-
-        $start += $count*2;
-
     }
 
 }

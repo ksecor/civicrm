@@ -5,17 +5,13 @@
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
  {* Including the javascript source code from the Individual.js file *}
- {literal}
- <script type="text/javascript" src="/js/Individual.js"></script>
- {/literal}
+ <script type="text/javascript" src="{$config->httpBase}js/Individual.js"></script>
 
 {* Including the custom javascript validations added by the HTML_QuickForm for all client validations in addRules *} 
  {$form.javascript}
 
 {* $form.attributes serves as a place holder for all form attributes to be defined in the form tag *}
  <form {$form.attributes}>
-
- {$form.mdyx.html}
 
  <table border="0" width="100%" cellpadding="2" cellspacing="2">
  <tr><td>

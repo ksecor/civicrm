@@ -1,3 +1,4 @@
+{debug}
 {* This file provides the HTML for the big add contact form *}
 {* It provides the templating for Name, Demographics and Contact notes *}
 {* The templating for Location and Communication preferences block has been plugged by including the Location.tpl file *}    
@@ -13,8 +14,6 @@
 
 {* $form.attributes serves as a place holder for all form attributes to be defined in the form tag *}
  <form {$form.attributes}>
-
- {$form.mdyx.html}
 
 	{* $form.hidden serves as a place holder for all the hidden elements defined in the quick form*}
 
@@ -58,11 +57,7 @@
  {include file="CRM/Contact/Form/Contact/Comm_prefs.tpl"}
  
 {* Plugging the Location block *}
-{* @var locloop Total number of Location loops *}
-{* @var phoneloop Total number of phone loops *}
-{* @var phoneloop Total number of email loops *}
-{* @var phoneloop Total number of instant messenger loops *}
- {include file="CRM/Contact/Form/Location.tpl" locloop = 4 phoneloop = 4 emailloop = 4 imloop = 4} 
+{include file="CRM/Contact/Form/Location.tpl"}
 
  {******************************** END THE CORE DIV SECTION **************************************}
 

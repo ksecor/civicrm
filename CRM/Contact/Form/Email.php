@@ -1,4 +1,4 @@
-<?Php
+<?php
 /**
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
@@ -32,38 +32,16 @@
  *
  */
 
-Class CRM_Contact_Form_Email 
+class CRM_Contact_Form_Email 
 {
 
-    static function buildEmailBlock(& $loc, $form, $locid, & $start, $count) {
-        $j = $start;
-        
+    static function buildEmailBlock($form, &$location, $locationId, $count) {
         for ($i = 1; $i <= $count; $i++) {
+            $label = ($i == 1) ? 'Email:' : 'Other Email:';
+
+            CRM_Contact_Form_Contact::createHideShowLinks( $form, $i, $count, "location[$locationId][email]", '[+] another email', '[-] hide email');
             
-            if ($i > 1) {
-                $label = "Other Email:";
-
-                if ($i != $count) {
-                    $next = $i+1;
-                    $scode = "show('expand_email_{$locid}_{$next}'); return false;";
-                    $hcode = "hide('email_{$locid}_{$next}'); hide('expand_email_{$locid}_{$next}'); return false;";                    
-                }
-                else { $scode = "return false;"; $hcode = "return false;"; }
-
-                $form->addElement('link', "exem{$i}_{$locid}", null, 'email_'."{$i}_{$locid}", '[+] another email',
-                                  array('onclick' => "show('email_{$locid}_{$i}'); hide('expand_email_{$locid}_{$i}');" . $scode));
-
-                $form->addElement('link', "hideem{$i}_{$locid}", null, 'email_'."{$locid}_{$i}", '[-] hide email',
-                                  array('onclick' => "hide('email_{$locid}_{$i}'); show('expand_email_{$locid}_{$i}');" . $hcode));
-
-
-            }
-            else
-            {
-                $label = 'Email:';
-            }
-            
-            $loc[$locid][$j++] = $form->createElement('text', 'email_' . "{$i}", $label, array('size' => '37px', 'maxlength' => 64));
+            $location[$locationId]['email'][$i]['email'] = $form->addElement('text', "location[$locationId][email][$i][email]", $label, array('size' => '37px', 'maxlength' => 64));
         }
         $start += $count;
 

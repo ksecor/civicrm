@@ -36,31 +36,15 @@
 class CRM_Contact_Form_IM
 {
 
-    static function buildImBlock(& $loc, $form, $locid, & $start, $count) {
-        $j = $start;
-        
+    static function buildImBlock($form, &$location, $locationId, $count) {
         for ($i = 1; $i <= $count; $i++) {
             $label = 'Instant Message:';
 
-            if ($i > 1) {
-                if ($i != $count) {
-                    $next = $i+1;
-                    $scode = "show('expand_IM_{$locid}_{$next}'); return false;";
-                    $hcode = "hide('IM_{$locid}_{$next}'); hide('expand_IM_{$locid}_{$next}'); return false;";                    
-                }
-                else { $scode = "return false;"; $hcode = "return false;"; }
-
-                $form->addElement('link', "exim{$i}_{$locid}", null, 'IM_'."{$i}_{$locid}", '[+] another Instant message',
-                                  array('onclick' => "show('IM_{$locid}_{$i}'); hide('expand_IM_{$locid}_{$i}');" . $scode));
-
-                $form->addElement('link', "hideim{$i}_{$locid}", null, 'IM_'."{$locid}_{$i}", '[-] hide Instant message',
-                                  array('onclick' => "hide('IM_{$locid}_{$i}'); show('expand_IM_{$locid}_{$i}');" . $hcode));
-            }
+            CRM_Contact_Form_Contact::createHideShowLinks( $form, $i, $count, "location[$locationId][im]", '[+] another Instant Message', '[-] hide Instant Message');
  
-            $loc[$locid][$j++] = $form->createElement('select', 'im_service_id_' . "{$i}", $label, CRM_SelectValues::$im   );
-            $loc[$locid][$j++] = $form->createElement('text', 'im_screenname_' . "{$i}", null, array('size' => '37px', 'maxlength' => 64 ));
+            $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select', "location[$locationId][im][$i][service_id]", $label, CRM_SelectValues::$im   );
+            $location[$locationId]['im'][$i]['screenname'] = $form->addElement('text', "location[$locationId][im][$i][screenname]", null, array('size' => '37px', 'maxlength' => 64 ));
         }
-        $start += $count*2;
     }
 
 }
