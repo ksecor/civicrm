@@ -35,11 +35,11 @@
 class CRM_Contact_Form_Email 
 {
 
-    static function buildEmailBlock($form, &$location, $locationId, $count, $showHideBlocks) {
+    static function buildEmailBlock($form, &$location, $locationId, $count) {
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Email:' : 'Other Email:';
 
-            $showHideBlocks->linksForArray( $form, $i, $count, "location[$locationId][email]", '[+] another email', '[-] hide email');
+            CRM_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][email]", '[+] another email', '[-] hide email');
             
             $location[$locationId]['email'][$i]['email'] = $form->addElement('text', 
                                                                              "location[$locationId][email][$i][email]",
@@ -47,16 +47,6 @@ class CRM_Contact_Form_Email
                                                                              CRM_DAO::getAttribute('CRM_Contact_DAO_Email',
                                                                                                    'email'));
             $form->addRule( "location[$locationId][email][$i][email]", 'Email is not valid.', 'email' );
-
-            if ( $i != 1 ) {
-                $showHideBlocks->addHide("location[$locationId][email][$i]");
-                if ($i == 2) {
-                    $showHideBlocks->addShow("location[$locationId][email][$i][show]");
-                } else {
-                    $showHideBlocks->addHide("location[$locationId][email][$i][show]");
-                }
-            }
-
         }
     }
 }

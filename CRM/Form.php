@@ -459,13 +459,13 @@ class CRM_Form extends HTML_QuickForm_Page {
     /**
      * assign value to name in template
      *
-     * @param string $name  name  of variable
+     * @param array|string $name  name  of variable
      * @param mixed $value value of varaible
      *
      * @return void
      * @access public
      */
-    function assign( $name, $value ) {
+    function assign( $var, $value = null) {
         static $template = null;
 
         if ( ! isset( $template ) ) {
@@ -473,7 +473,7 @@ class CRM_Form extends HTML_QuickForm_Page {
             $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
         }
 
-        $template->assign($name, $value);
+        $template->assign($var, $value);
     }
 }
 

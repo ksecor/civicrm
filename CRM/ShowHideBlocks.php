@@ -105,8 +105,8 @@ class CRM_ShowHideBlocks {
         $hideCode = "hide('${prefix}'); show('${prefix}[show]'); return false;";
         
         $values = array();
-        $values['show'] = $this->linkHtml("${prefix}[show]", "#${prefix}", $showLinkText, "onclick=\"$showCode\"");
-        $values['hide'] = $this->linkHtml("${prefix}[hide]", "#${prefix}", $hideLinkText, "onclick=\"$hideCode\"");
+        $values['show'] = self::linkHtml("${prefix}[show]", "#${prefix}", $showLinkText, "onclick=\"$showCode\"");
+        $values['hide'] = self::linkHtml("${prefix}[hide]", "#${prefix}", $hideLinkText, "onclick=\"$hideCode\"");
         $form->assign( $prefix, $values);
 
         /**

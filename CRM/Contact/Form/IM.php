@@ -36,11 +36,11 @@
 class CRM_Contact_Form_IM
 {
 
-    static function buildIMBlock($form, &$location, $locationId, $count, $showHideBlocks) {
+    static function buildIMBlock($form, &$location, $locationId, $count) {
         for ($i = 1; $i <= $count; $i++) {
             $label = 'Instant Message:';
 
-            $showHideBlocks->linksForArray( $form, $i, $count, "location[$locationId][im]", '[+] another Instant Message', '[-] hide Instant Message');
+            CRM_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][im]", '[+] another Instant Message', '[-] hide Instant Message');
 
             $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select',
                                                                                "location[$locationId][im][$i][provider_id]",
@@ -52,16 +52,6 @@ class CRM_Contact_Form_IM
                                                                          null,
                                                                          CRM_DAO::getAttribute('CRM_Contact_DAO_IM',
                                                                                                'name'));
-
-            if ( $i != 1 ) {
-                $showHideBlocks->addHide("location[$locationId][im][$i]");
-                if ($i == 2) {
-                    $showHideBlocks->addShow("location[$locationId][im][$i][show]");
-                } else {
-                    $showHideBlocks->addHide("location[$locationId][im][$i][show]");
-                }
-            }
-
         }
     }
 

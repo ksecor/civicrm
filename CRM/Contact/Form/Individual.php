@@ -78,30 +78,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
     }
     
     /**
-     * In this function we build the Individual.php. All the quickform components are defined in this function.
-     * 
-     * This function implements a switch strategy using the form public variable $mode to identify the type of mode rendered by the 
-     * form. The types of mode could be either Contact CREATE, VIEW, UPDATE, DELETE or SEARCH. 
-     * CREATE and SEARCH forms can be implemented in a mini format using mode MODE_CREARE_MINI and MODE_SEARCH_MINI. 
-     * This function adds a default text element to the form whose value indicates the mode rendered by the form. It further calls the 
-     * corresponding function build<i>mode</i>Form() to provide dynamic HTML content and is passed to the renderer in an  array format.
-     * 
-     * @access public
-     * @return None
-     * @see _buildAddForm( ) 
-     */
-    function buildQuickForm( )
-    {
-        $this->_buildQuickForm();
-
-        if ($this->_mode == self::MODE_VIEW) {
-            $this->freeze();
-        }
-
-    }//ENDING BUILD FORM 
-
-    
-    /**
      * This function sets the default values to the specified form element.
      * 
      * The function uses the $default array to load default values for element names provided as keys. It further calls the setDefaults 
@@ -150,8 +126,13 @@ class CRM_Contact_Form_Individual extends CRM_Form
             }
         }
         
-        $this->fixShowHideBlocks( $defaults );
+        $this->updateShowHideBlocks( $defaults );
         $this->_showHideBlocks->addToTemplate( );
+        
+        if ( $this->_mode & self::MODE_VIEW ) {
+            $this->assign( $defaults );
+        }
+
         return $defaults;
     }
 
@@ -162,26 +143,26 @@ class CRM_Contact_Form_Individual extends CRM_Form
      *
      * @return void
      */
-    function fixShowHideBlocks( &$defaults ) {
-        if ( $this->_mode == self::MODE_ADD ) {
-            return;
+    function updateShowHideBlocks( &$defaults ) {
+        $this->_showHideBlocks = new CRM_ShowHideBlocks( array('name'              => 1,
+                                                               'commPrefs'         => 1,),
+                                                         array('notes'        => 1,
+                                                               'demographics' => 1,) );
+        
+        // first do the defaults showing
+        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHideBlocks,
+                                                        self::LOCATION_BLOCKS );
+        
+        if ( ! ( $this->_mode & self::MODE_ADD ) ) {
+            CRM_Contact_Form_Location::updateShowHideBlocks( $this->_showHideBlocks,
+                                                             CRM_Array::value( 'location', $defaults ),
+                                                             self::LOCATION_BLOCKS );
         }
-
-        CRM_Contact_Form_Location::fixShowHideBlocks( $this->_showHideBlocks,
-                                                      CRM_Array::value( 'location', $defaults ),
-                                                      self::LOCATION_BLOCKS );
     }
 
     /**
-     * This function is used to add the rules for form.
-     * 
-     * This function is used to add filters using applyFilter(), which filters the element value on being submitted. 
-     * Rules of validation for form elements are established using addRule() or addGroupRule() QuickForm methods. Validation can either
-     * be at the client by default javascript added by QuickForm, or at the server.  
-     * Any custom rule of validation is set here using the registerRule() method. In this file, the custom validation function for 
-     * birth date is set by registering the rule check_date which calls the valid_date function for date validation.
-     * This function differentiates between different mode types of the form by implementing the switch functionality based on the
-     * value of the class variable $mode.  
+     * This function is used to add the rules (mainly global rules) for form.
+     * All local rules are added near the element
      * 
      * @return None
      * @access public
@@ -189,66 +170,41 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function addRules( ) 
     {
-        $this->applyFilter('_ALL_', 'trim');
+        if ( $this->_mode & self::MODE_VIEW ) {
+            return;
+        }
 
-        $this->addRule('birth_date', 'Select a valid date.', 'qfDate' );
+        $this->addFormRule( array( 'CRM_Contact_Form_Individual', 'formRule' ) );
     }
 
     function preProcess( ) {
     }
 
     /**
-     * This function is used to call appropriate process function when a form is submitted.
+     * This function provides the HTML form elements for the add operation of a contact form.
      * 
-     * The function implements a switch functionality to differentiate between different mode types of the form. It is based on the 
-     * value of the $mode form class variable. 
-     * @internal Possible mode options being MODE_ADD, MODE_VIEW, MODE_UPDATE, MODE_DELETE
-     * The process works as follows:
-     * <code>
-     * great example of BAD code, please use classes and virtual function if u want to do something like this
-     * integrate forms only if a large part of the functionality is the same
-     * switch ($this->_mode) {
-     *        case self::MODE_ADD:
-     *             $this->_Add_postProcess();
-     *             break;
-     *        case self::MODE_VIEW:
-     *             $this->_view_postProcess();
-     *             break; 
-     *        case ..
-     *        ..
-     *        ..
-     * }         
-     * </code>
-     * 
-     * @access public
-     * @return None
-     */
-    function postProcess( ) 
-    {
-
-        if ( $this->_mode == self::MODE_ADD || $this->_mode == self::MODE_UPDATE ) {
-            $this->_postProcess();
-        }    
-    }
-    
-    /**
-     * This function provides the HTML form elements for the add operation of individual contact form.
-     * 
-     * This function is called by the buildQuickForm method, when the value of the $mode class variable is set to MODE_ADD
      * The addElement and addGroup method of HTML_QuickForm is used to add HTML elements to the form which is referenced using the $this 
      * form handle. Also the default values for the form elements are set in this function.
      * 
-     * @access private
+     * @access public
      * @return None 
      * @uses CRM_SelectValues Used to obtain static array content for setting select values for select element.
      * @uses CRM_Contact_Form_Location::buildLocationBlock($this, 3) Used to obtain the HTML element for pulgging the Location block. 
      * @uses CRM_Contact_Form_Contact::buildCommunicationBlock($this) Used to obtain elements for plugging the Communication preferences.
-     * @see buildQuickForm()         
      * 
      */
-    private function _buildQuickForm( ) 
+    public function buildQuickForm( ) 
     {
-        
+        // assign a few constants used by all display elements
+        // we can obsolete this when smarty can access class constans directly
+        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1 );
+        $this->assign( 'blockCount'  , CRM_Contact_Form_Location::BLOCKS + 1 );
+
+        // view mode no longer builds a form :)
+        if ($this->_mode == self::MODE_VIEW) {
+            return;
+        }
+
         // prefix
         $this->addElement('select', 'prefix', null, CRM_SelectValues::$prefixName);
 
@@ -287,21 +243,17 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->addElement('checkbox', 'is_deceased', null, 'Contact is deceased');
         
         $this->addElement('date', 'birth_date', 'Date of birth', CRM_SelectValues::$date);
+        $this->addRule('birth_date', 'Select a valid date.', 'qfDate' );
 
         /* Entering the compact location engine */ 
-        $this->_showHideBlocks = new CRM_ShowHideBlocks( array('name'              => 1,
-                                                        'commPrefs'         => 1,),
-                                                  array('notes'        => 1,
-                                                        'demographics' => 1,) );
-        
         $location =& CRM_Contact_Form_Location::buildLocationBlock($this, self::LOCATION_BLOCKS, $this->_showHideBlocks);
 
         /* End of locations */
 
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82', 'maxlength' => 255));    
         
-        $this->_showHideBlocks->links( $this, 'demographics', '[+] show demographics' , '[-] hide demographics'  );
-        $this->_showHideBlocks->links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
+        CRM_ShowHideBlocks::links( $this, 'demographics', '[+] show demographics' , '[-] hide demographics'  );
+        CRM_ShowHideBlocks::links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
 
         if ($this->_mode != self::MODE_VIEW) {
             $this->addDefaultButtons( array(
@@ -315,16 +267,28 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                             )
                                       );
         }
+
+        if ($this->_mode == self::MODE_VIEW) {
+            $this->freeze();
+        }
+
     }
 
        
     /**
      * This function does all the processing of the form for New Contact Individual.
      * Depending upon the mode this function is used to insert or update the Individual
-     * @access private
+     *
+     * @access public
+     * @return None
      */
-    private function _postProcess() 
+    public function postProcess() 
     {
+        // no processing for a view form
+        if ( $this->_mode == self::MODE_VIEW ) {
+            return;
+        }
+
         // store the submitted values in an array
         $params = $this->exportValues();
 
@@ -356,6 +320,56 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
     }//end of function
 
+    static function formRule( &$fields ) {
+        $errors = array( );
+        
+        $emails = array( );
+
+        // make sure that at least one field is marked is_primary
+        if ( array_key_exists( 'location', $fields ) && is_array( $fields['location'] ) ) {
+            $locationKeys = array_keys( $fields['location']);
+            $isPrimary = false;
+            foreach ( $locationKeys as $locationId ) {
+                if ( array_key_exists( 'is_primary', $fields['location'][$locationId] ) ) {
+                    if ( $fields['location'][$locationId]['is_primary'] ) {
+                        if ( $isPrimary ) {
+                            $errors["location[$locationId][is_primary]"] = "Only one location can be marked as primary.";
+                        }
+                        $isPrimary = true;
+                    }
+
+                    // only harvest email from the primary locations
+                    if ( array_key_exists( 'email', $fields['location'][$locationId] ) &&
+                         is_array( $fields['location'][$locationId]['email'] ) ) {
+                        foreach ( $fields['location'][$locationId]['email'] as $idx => &$email ) {
+                            if ( array_key_exists( 'email', $email ) ) {
+                                $emails[] = $email['email'];
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if ( ! $isPrimary ) {
+                $errors["location[1][is_primary]"] = "One location needs to be marked as primary.";
+            }
+
+        }
+        
+        // make sure that firstName and lastName or a primary email is set
+        if ( ! array_key_exists( 'first_name', $fields ) &&
+             ! array_key_exists( 'last_name' , $fields ) ||
+             empty( $emails ) ) {
+            $errors['first_name'] = "First Name and Last Name OR an email in the Primary Location should be set.";
+        }
+        
+        // add code to make sure that the uniqueness criteria is satisfied
+
+        if ( ! empty( $errors ) ) {
+            return $errors;
+        }
+        return true;
+    }
 
 }
 

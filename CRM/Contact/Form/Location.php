@@ -47,43 +47,58 @@ class CRM_Contact_Form_Location extends CRM_Form
      * @var int
      * @const
      */
-    const BLOCKS = 3;
-    
-    static function &buildLocationBlock($form, $maxLocationBlocks, $showHideBlocks) 
+    const BLOCKS = 2;
+
+    static $_commPrefs = array( 'phone', 'email', 'im' );
+
+    static function &buildLocationBlock($form, $maxLocationBlocks) 
     {
         $location = array();
         
-        $showHideBlocks->addShow( 'location[1]' );
-        
-        if ( $maxLocationBlocks >= 2 ) {
-            $showHideBlocks->addShow( 'location[2][show]' );
-        }
-        
-        // this element is send to loop to display ($maxLocationBlocks -1) locations
-        $form->assign( 'locationCount', $maxLocationBlocks + 1 );
-        $form->assign( 'blockCount'   , self::BLOCKS + 1 );
-
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {    
             $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_SelectValues::$locationType);
             if ($maxLocationBlocks != 2 ) {
                 $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", 'Primary location for this contact',  'Make this the primary location.', array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId);" ) );
             }
             
-            if ( $locationId != 1 ) {
-                $showHideBlocks->addHide( "location[$locationId]" );
-                $showHideBlocks->addHide( "location[$locationId][show]" );
-            }
+            CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
 
-            CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId, $showHideBlocks);
+            CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, self::BLOCKS); 
+            CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS); 
+            CRM_Contact_Form_IM::buildIMBlock      ($form, $location, $locationId, self::BLOCKS); 
 
-            CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, self::BLOCKS, $showHideBlocks); 
-            CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS, $showHideBlocks); 
-            CRM_Contact_Form_IM::buildIMBlock      ($form, $location, $locationId, self::BLOCKS, $showHideBlocks); 
-
-            $showHideBlocks->linksForArray( $form, $locationId, $maxLocationBlocks, "location", '[+] another location', '[-] hide location');
+            CRM_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '[+] another location', '[-] hide location');
 
         }
         return $location;
+    }
+
+    function setShowHideDefaults( $showHide, $maxLocationBlocks ) {
+        for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {
+            if ( $locationId == 1 ) {
+                $showHide->addShow( "location[$locationId]" );
+            } else {
+                $showHide->addHide( "location[$locationId]" );
+                if ( $locationId == 2 ) {
+                    $showHide->addShow( "location[$locationId][show]" );
+                } else {
+                    $showHide->addHide( "location[$locationId][show]" );
+                }
+            }
+            
+            foreach ( self::$_commPrefs as $block ) {
+                for ( $blockId = 1; $blockId <= self::BLOCKS; $blockId++ ) {
+                    if ( $blockId != 1 ) {
+                        $showHide->addHide( "location[$locationId][$block][$blockId]");
+                        if ( $blockId == 2 ) {
+                            $showHide->addShow( "location[$locationId][$block][$blockId][show]" );
+                        } else {
+                            $showHide->addHide( "location[$locationId][$block][$blockId][show]" );
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -94,44 +109,47 @@ class CRM_Contact_Form_Location extends CRM_Form
      *
      * @return void
      */
-    function fixShowHideBlocks( $showHide, &$defaults, $maxLocationBlocks ) {
-        if ( empty( $defaults ) ) {
+    function updateShowHideBlocks( $showHide, &$values, $maxLocationBlocks ) {
+        if ( empty( $values ) ) {
             return;
         }
 
-        $locationKeys = array_keys( $defaults );
+        $locationKeys = array_keys( $values );
         foreach ( $locationKeys as $locationId ) {
-            if ( empty( $defaults[$locationId] ) ) {
+            if ( empty( $values[$locationId] ) ) {
                 continue;
             }
 
             $showHide->addShow( "location[$locationId]" );
-            $showHide->addHide( "location[$locationId][show]" );
+            if ( $locationId != 1 ) {
+                $showHide->addHide( "location[$locationId][show]" );
+            }
             if ( $locationId < $maxLocationBlocks ) {
                 $nextLocationId = $locationId + 1;
                 $showHide->addShow( "location[$nextLocationId][show]" );
             }
 
             $commPrefs = array( 'phone', 'email', 'im' );
-            foreach ( $commPrefs as $block ) {
-                self::fixShowHideSubBlocks( $showHide, $block, "location[$locationId]",
-                                            CRM_Array::value( $block, $defaults[$locationId] ) );
+            foreach ( self::$_commPrefs as $block ) {
+                self::updateShowHideSubBlocks( $showHide, $block, "location[$locationId]",
+                                               CRM_Array::value( $block, $values[$locationId] ) );
             }
         }
     }
 
-    function fixShowHideSubBlocks( $showHide, $name, $prefix, &$defaults ) {
-        if ( empty( $defaults ) ) {
+    function updateShowHideSubBlocks( $showHide, $name, $prefix, &$values ) {
+        if ( empty( $values ) ) {
             return;
         }
 
-        $blockKeys = array_keys( $defaults );
+        $blockKeys = array_keys( $values );
 
         foreach ( $blockKeys as $blockId ) {
-            if ( empty( $defaults[$blockId] ) ) {
+            if ( empty( $values[$blockId] ) ) {
                 continue;
             }
-            // blockId one is always shown, so skip
+
+            // blockId 1 is always shows
             if ( $blockId == 1 ) {
                 continue;
             }
