@@ -5,8 +5,8 @@
   <meta http-equiv="Content-Style-Type" content="text/css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <base href="http://localhost/dgg/prototypes/">
-<style type="text/css" media="all">@import "../drupal/misc/drupal.css";</style>
-<style type="text/css" media="all">@import "../drupal/themes/box_grey_smarty/style.css";</style>
+<style type="text/css" media="all">@import "misc/drupal.css";</style>
+<style type="text/css" media="all">@import "themes/box_grey_smarty/style.css";</style>
 </head>
 <!-- init function sets display properties for form sections -->
 <body onload="init('add_contact','contact_title');">
@@ -540,13 +540,13 @@ function hide(section) {
 <!-- end main content -->
 </td><!-- mainContent -->		
 </tr>
+
 </tbody></table>
 
-<div id="footer">
-      <p>Dave's Drupal Sandbox on Patagonia</p>
-  Validate <a href="http://validator.w3.org/check/referer">XHTML</a> or <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
-</div><!-- footer -->	
- 
+<?php
+include_once 'page_footer.tpl';
+?>
+
 </body></html>
 
 
