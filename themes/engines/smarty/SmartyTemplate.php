@@ -1,11 +1,11 @@
 <?php
 
 if ( ! defined( 'WGM_SMARTYDIR' ) ) {
-  define( 'WGM_SMARTYDIR', '/opt/local/lib/php/Smarty/' );
+  define( 'WGM_SMARTYDIR', ini_get( 'wgm.smartyDir' ) );
 }
 
 if ( ! defined( 'WGM_TEMPLATE_COMPILEDIR' ) ) {
-  define( 'WGM_TEMPLATE_COMPILEDIR', '/Users/lobo/svn/crm/templates_c' );
+  define( 'WGM_TEMPLATE_COMPILEDIR', ini_get( 'wgm.compileDir' ) );
 }
 
 
