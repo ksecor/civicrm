@@ -1,12 +1,12 @@
 {* smarty *}
  {literal}
- <script type="text/javascript" src="/js/LIST.js"></script>
+ <script type="text/javascript" src="/js/CLIST.js"></script>
  {/literal}
 
 
 {$form.javascript}
 
-<form name = "page_header">
+<form {$form.formx_head.label}>
 
 <table>
 <tr>
@@ -19,7 +19,7 @@
 </table>
 </form>
 
-<form name = "page_body">
+<form {$form.formx_body.label}>
 <fieldset>
 <table id = "linkheader">
 <tr>
@@ -96,7 +96,7 @@
 </table>
 </form>
 
-<form name = "page_crumb">
+<form  {$form.formx_crumb.label}>
 
 <table id = "pagecrumb" width = "90%">
 	<tr><td>&nbsp;</td></tr>
