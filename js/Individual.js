@@ -45,53 +45,42 @@
  */
 function location_is_primary_onclick(formname, locid) 
 {
-    /*
-    if (document.forms[formname].elements['location1[is_primary]'].checked = 'checked') {
-	if ( confirm('Location 1 is selected as primary location do you want to change it? ') == "true" ) {
-	    document.forms[formname].elements['location2[is_primary]'].checked = null;
-	    document.forms[formname].elements['location3[is_primary]'].checked = null;
-	}
-	
-    }
-    */
     switch(locid) {
-    case 1:  
-	if ( confirm('Do you want to set Location 1 as primary location') == true ) {
-	    document.forms[formname].elements['location1[is_primary]'].checked = 'checked';
-	    document.forms[formname].elements['location2[is_primary]'].checked = null;
-	    document.forms[formname].elements['location3[is_primary]'].checked = null;
-	} else {
-	    if ((document.forms[formname].elements['location2[is_primary]'].checked = 'checked') || (document.forms[formname].elements['location3[is_primary]'].checked = 'checked')) { 
-		document.forms[formname].elements['location1[is_primary]'].checked = null;
+	
+    case 2: 
+	
+	if (document.forms[formname].elements['location[2][is_primary]'].checked) {
+	    if ( confirm('Do you want to set this Location as primary location') == true ) {
+		document.forms[formname].elements['location[2][is_primary]'].checked = 'checked';
+		document.forms[formname].elements['location[3][is_primary]'].checked = null;
 	    } else {
-		document.forms[formname].elements['location1[is_primary]'].checked = 'checked';
-	    }	
-	}
-	
-	break;
-	
-    case 2:  
-	if ( confirm('Do you want to set Location 2 as primary location') == true ) {
-	    document.forms[formname].elements['location1[is_primary]'].checked = null;
-	    document.forms[formname].elements['location2[is_primary]'].checked = 'checked';
-	    document.forms[formname].elements['location3[is_primary]'].checked = null;
+		document.forms[formname].elements['location[2][is_primary]'].checked = null;
+	    }
 	} else {
-	    document.forms[formname].elements['location2[is_primary]'].checked = null;
+	    document.forms[formname].elements['location[2][is_primary]'].checked = null;
 	}
 	
 	break;
 	
     case 3:  
-	if ( confirm('Do you want to set Location 3 as primary location') == true ) {
-	    document.forms[formname].elements['location1[is_primary]'].checked = null;
-	    document.forms[formname].elements['location2[is_primary]'].checked = null;
-	    document.forms[formname].elements['location3[is_primary]'].checked = 'checked';
+	if (document.forms[formname].elements['location[3][is_primary]'].checked) {
+	    if ( confirm('Do you want to set this Location as primary location') == true ) {
+		document.forms[formname].elements['location[2][is_primary]'].checked = null;
+		document.forms[formname].elements['location[3][is_primary]'].checked = 'checked';
+	    } else {
+		document.forms[formname].elements['location[3][is_primary]'].checked = null;
+	    }
 	} else {
-	    document.forms[formname].elements['location3[is_primary]'].checked = null;
+	    document.forms[formname].elements['location[3][is_primary]'].checked = null;
 	}
-   
+
+	break;
+
+    default:
+
+	document.forms[formname].elements['location'][2]['is_primary'].checked = null;
+	document.forms[formname].elements['location'][3]['is_primary'].checked = null;
 	break;
     }
-    
 }
 

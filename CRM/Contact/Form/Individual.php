@@ -611,8 +611,15 @@ class CRM_Contact_Form_Individual extends CRM_Form
                         // create a object of crm location
                         $$varname = new CRM_Contact_DAO_Location();
                         $$varname->contact_id = $contact->id;
+
                         $$varname->location_type_id = $a_Values['location'][$lngi]['location_type_id'];
-                        $$varname->is_primary = $a_Values['location'][$lngi]['is_primary'];
+                        if ($lngi == 1){
+                            if (!strlen($a_Values['location'][2]['is_primary']) && !strlen($a_Values['location'][3]['is_primary'])){
+                                $$varname->is_primary = 1;
+                            }
+                        } else {
+                            $$varname->is_primary = $a_Values['location'][$lngi]['is_primary'];
+                        }
  
                         if (strlen($a_location_array[$lngi])) {
                             // update the crm_location for $lng_contact_id
