@@ -19,6 +19,29 @@ DROP DATABASE IF EXISTS crm;
 CREATE DATABASE crm DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 use crm;
 
+/*******************************************************
+* Standard sizes for various VARCHAR.
+* GOAL: 
+* 255 is a waste of space and resource. use reasonable
+* sizes
+* Standardize on 10 sizes (approx)
+* Implement size check constraints at the DAO level
+* of the application. So the DAO knows the type and size
+* if it is a VARCHAR or CHAR
+*
+* sizes being considered (anything of size less than 4 should be a CHAR!)
+*
+* SIZE_4   (state codes, country codes)
+* SIZE_8   (prefixes, suffixes, sic_code)
+* SIZE_12  (postal codes)
+* SIZE_16  (phone numbers, UTM)
+* SIZE_32  (legal identifier, usps_adc
+* SIZE_64  (all names, email, job_title)
+* SIZE_96  (street_address)
+* SIZE_128 (url, display_name, custom_greeting, household name)
+* SIZE_255 (descriptions, source)
+*
+*/
 
 /*******************************************************
 *
@@ -36,12 +59,12 @@ CREATE TABLE crm_country (
 
 	id INT UNSIGNED NOT NULL COMMENT 'country id',
 
-	name  VARCHAR(255),
-	iso_code CHAR(2),
+	name         VARCHAR(64),
+	iso_code     CHAR(2),
 
-	country_code VARCHAR(5) COMMENT 'national prefix to be used when dialing TO this country',
-	idd_prefix   VARCHAR(5) COMMENT 'international direct dialing prefix from within the country TO another country',
-	ndd_prefix   VARCHAR(5) COMMENT 'access prefix to call within a country to a different area',
+	country_code VARCHAR(4) COMMENT 'national prefix to be used when dialing TO this country',
+	idd_prefix   VARCHAR(4) COMMENT 'international direct dialing prefix from within the country TO another country',
+	ndd_prefix   VARCHAR(4) COMMENT 'access prefix to call within a country to a different area',
 
     PRIMARY KEY(id)
 
@@ -58,8 +81,8 @@ CREATE TABLE crm_state_province (
 
 	id INT UNSIGNED NOT NULL COMMENT 'state_province id',
 
-	name  VARCHAR(255),
-	abbreviation  VARCHAR(10),
+	name  VARCHAR(64),
+	abbreviation  VARCHAR(4),
 	country_id INT UNSIGNED NOT NULL,
 
 	PRIMARY KEY(id),
@@ -79,7 +102,7 @@ CREATE TABLE crm_domain (
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incremented id',
 
-	name VARCHAR(255) COMMENT 'domain/org name',
+	name VARCHAR(64) COMMENT 'domain/org name',
 
 	PRIMARY KEY (id)
 
@@ -99,7 +122,7 @@ CREATE TABLE crm_location_type (
 
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this location_type',
 
-	name        VARCHAR(255) COMMENT 'location_type name (typically brief)',
+	name        VARCHAR(64) COMMENT 'location_type name (typically brief)',
 	description VARCHAR(255) COMMENT 'location_type description (a more verbose description)',
 
     is_reserved BOOLEAN DEFAULT 0 COMMENT 'is this location type a system created location that cannot be deleted by the user',
@@ -131,10 +154,10 @@ CREATE TABLE crm_contact (
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact',
 
 	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact',
-	sort_name VARCHAR(255) COMMENT 'name being cached for sorting purposes',
+	sort_name VARCHAR(64) COMMENT 'name being cached for sorting purposes',
 
-    home_URL VARCHAR(255) COMMENT 'optional "home page" URL for this contact',
-    image_URL VARCHAR(255) COMMENT 'optional URL for preferred image (photo, logo, etc.) to display for this contact',
+    home_URL VARCHAR(128) COMMENT 'optional "home page" URL for this contact',
+    image_URL VARCHAR(128) COMMENT 'optional URL for preferred image (photo, logo, etc.) to display for this contact',
     
 	source VARCHAR(255) COMMENT 'where domain_id contact come from, e.g. import, donate module insert...',
 
@@ -158,7 +181,7 @@ CREATE TABLE crm_contact (
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE,
 
-	INDEX index_sort_name (sort_name(30))
+	INDEX index_sort_name ( sort_name )
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='primary record for contacts';
 
@@ -175,14 +198,14 @@ CREATE TABLE crm_contact_individual(
 
 	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id FK',
 
-	first_name VARCHAR(255) COMMENT 'first name',
-	middle_name VARCHAR(255) COMMENT 'middle name',
-	last_name VARCHAR(255) COMMENT 'last name',
+	first_name VARCHAR(64) COMMENT 'first name',
+	middle_name VARCHAR(64) COMMENT 'middle name',
+	last_name VARCHAR(64) COMMENT 'last name',
 
-	prefix VARCHAR(64) COMMENT 'prefix',
-	suffix VARCHAR(64) COMMENT 'suffix',
+	prefix VARCHAR(8) COMMENT 'prefix',
+	suffix VARCHAR(8) COMMENT 'suffix',
 
-    display_name VARCHAR(255) COMMENT 'formatted name representing preferred format for display/print/other output',
+    display_name VARCHAR(128) COMMENT 'formatted name representing preferred format for display/print/other output',
 
     -- greeting_type constants:
 	-- Formal: Prefix + first_name + last_name
@@ -190,9 +213,9 @@ CREATE TABLE crm_contact_individual(
 	-- Honorific: prefix + ?? (not sure how this is supposed to work - check w/ Bob Schmitt)
 	-- Custom: greeting is stored in custom_greeting column
 	greeting_type ENUM('Formal', 'Informal', 'Honorific', 'Custom') COMMENT 'preferred greeting format',
-	custom_greeting VARCHAR(255) COMMENT 'custom greeting message',
+	custom_greeting VARCHAR(128) COMMENT 'custom greeting message',
 
-	job_title VARCHAR(255) COMMENT 'optional job title for contact',
+	job_title VARCHAR(64) COMMENT 'optional job title for contact',
 
 	-- core demographics fields (additional demographics to be defined by other modules)
 	gender ENUM('female','male','transgender'),
@@ -223,11 +246,11 @@ CREATE TABLE crm_contact_organization(
 
 	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id FK',
 
-	organization_name VARCHAR(255) NOT NULL,
-	legal_name VARCHAR(255),
-	nick_name VARCHAR(255),
+	organization_name VARCHAR(64) NOT NULL,
+	legal_name VARCHAR(64),
+	nick_name VARCHAR(64),
     legal_identifier VARCHAR(32) COMMENT 'EIN or other applicable unique legal identifier for this organization',
-	sic_code VARCHAR(64),
+	sic_code VARCHAR(8),
 
 	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this org',
 
@@ -253,8 +276,8 @@ CREATE TABLE crm_contact_household(
 
 	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id FK',
 
-	household_name VARCHAR(255) NOT NULL COMMENT 'Formal display/identifying name for Household. May be actual family surname, or collection of surnames for non-family households',
-	nick_name VARCHAR(255) COMMENT 'e.g. The Smiths',
+	household_name VARCHAR(128) NOT NULL COMMENT 'Formal display/identifying name for Household. May be actual family surname, or collection of surnames for non-family households',
+	nick_name VARCHAR(128) COMMENT 'e.g. The Smiths',
     legal_identifier VARCHAR(32) COMMENT 'Census Household ID, or other applicable unique identifier for this household',
 
 	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this household',
@@ -278,7 +301,7 @@ DROP TABLE IF EXISTS crm_phone_mobile_provider;
 CREATE TABLE crm_phone_mobile_provider(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'mobile provider id',
-	name VARCHAR(255) COMMENT 'name of mobile provider',
+	name VARCHAR(64) COMMENT 'name of mobile provider',
 	PRIMARY KEY(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='list of mobile phone providers';
@@ -294,7 +317,7 @@ DROP TABLE IF EXISTS crm_im_service;
 CREATE TABLE crm_im_service (
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Instant Messenger Svc id',
-	name VARCHAR(255) COMMENT 'name of IM Service (e.g. AOL,Yahoo...',
+	name VARCHAR(64) COMMENT 'name of IM Service (e.g. AOL,Yahoo...',
 	PRIMARY KEY(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='list of mobile phone providers';
@@ -346,31 +369,32 @@ CREATE TABLE crm_address(
     location_id INT UNSIGNED NOT NULL COMMENT 'which location does this address belong to',
 
 -- EITHER a concatenated street_address OR a set of street components (street_number, street_prefix, etc.) should be populated (depending on available source data).
-	street_address VARCHAR(255) COMMENT 'Concatenation of all routable street address components (prefix, street number, street name, suffix, unit number OR P.O. Box. Apps should be able to determine physical location with this data (for mapping, mail delivery, etc.)',
+	street_address VARCHAR(96) COMMENT 'Concatenation of all routable street address components (prefix, street number, street name, suffix, unit number OR P.O. Box. Apps should be able to determine physical location with this data (for mapping, mail delivery, etc.)',
 
 -- Street address components
-	street_number VARCHAR(255) COMMENT 'Address number on the street, e.g. For 112 Main St, the street_number = 112',
-	street_prefix VARCHAR(255) COMMENT 'Directional or other prefix, e.g. SE Main St, SE is the prefix',
-	street_name VARCHAR(255) COMMENT 'Actual street name, including St, Dr, Rd, Ave...treet, e.g. For 112 Main St, the street_name = Main St',
-	street_suffix VARCHAR(255) COMMENT 'Directional or other suffix, e.g. Main St S, S is the suffix',
-	street_unit VARCHAR(255) COMMENT 'Secondary unit designator, e.g. Apt 3 or Unit # 14, or Bldg 1200',
+	street_number VARCHAR(8) COMMENT 'Address number on the street, e.g. For 112 Main St, the street_number = 112',
+	street_prefix VARCHAR(8) COMMENT 'Directional or other prefix, e.g. SE Main St, SE is the prefix',
+	street_name VARCHAR(64) COMMENT 'Actual street name, including St, Dr, Rd, Ave...treet, e.g. For 112 Main St, the street_name = Main St',
+	street_suffix VARCHAR(8) COMMENT 'Directional or other suffix, e.g. Main St S, S is the suffix',
+	street_unit VARCHAR(8) COMMENT 'Secondary unit designator, e.g. Apt 3 or Unit # 14, or Bldg 1200',
 
-	supplemental_address_1 VARCHAR(255) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
-	supplemental_address_2 VARCHAR(255) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
-	supplemental_address_3 VARCHAR(255) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
+	supplemental_address_1 VARCHAR(96) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
+	supplemental_address_2 VARCHAR(96) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
+	supplemental_address_3 VARCHAR(96) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
 
-	city VARCHAR(255) COMMENT 'city',
-	county VARCHAR(255),
+	city VARCHAR(64) COMMENT 'city',
+	county VARCHAR(64),
 	state_province_id INT UNSIGNED NOT NULL COMMENT 'FK to crm_state_province table',
 
-	postal_code VARCHAR(255) COMMENT 'Store both US (zip5+4) AND international postal codes. App is responsible for country/region appropriate validation.',
+	postal_code VARCHAR(12) COMMENT 'Store both US (zip5) AND international postal codes. App is responsible for country/region appropriate validation.',
+    postal_code_suffix VARCHAR(12) COMMENT 'Store the suffix, like the +4 part in the USPS system.',
     -- US Postal Svc bulk mail address code (ADC = Area Distribution Center)
-	usps_adc VARCHAR(64),
+	usps_adc VARCHAR(32),
 
 	country_id INT UNSIGNED COMMENT 'index to crm_country table',
-	geo_code_1 VARCHAR(64) COMMENT 'latitude or UTM (Universal Transverse Mercator Grid)',
-	geo_code_2 VARCHAR(64) COMMENT 'longitude or UTM (Universal Transverse Mercator Grid)',
-	timezone VARCHAR(10) COMMENT 'timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6"',
+	geo_code_1 VARCHAR(16) COMMENT 'latitude or UTM (Universal Transverse Mercator Grid)',
+	geo_code_2 VARCHAR(16) COMMENT 'longitude or UTM (Universal Transverse Mercator Grid)',
+	timezone VARCHAR(8) COMMENT 'timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6"',
 	address_note VARCHAR(255) COMMENT 'optional misc info (e.g. delivery instructions) for this address',
 
  	PRIMARY KEY (id),
@@ -395,7 +419,7 @@ CREATE TABLE crm_email(
 
     location_id INT UNSIGNED NOT NULL COMMENT 'which location does this email belong to',
 
-	email VARCHAR(255) COMMENT 'email address',
+	email VARCHAR(64) COMMENT 'email address',
 
     is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary email for the contact / location',
 
@@ -420,7 +444,7 @@ CREATE TABLE crm_phone(
 
     location_id INT UNSIGNED NOT NULL COMMENT 'which location does this phone number belong to',
 
-	phone VARCHAR(255) COMMENT 'complete phone number',
+	phone VARCHAR(16) COMMENT 'complete phone number',
 	phone_type ENUM('Phone', 'Mobile', 'Fax', 'Pager') DEFAULT 'Phone' COMMENT 'what type of telecom device is this',
 	mobile_provider_id INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
 
@@ -448,7 +472,7 @@ CREATE TABLE crm_im(
 
     location_id INT UNSIGNED NOT NULL COMMENT 'which location does this IM identifier belong to',
 
-	im_screenname VARCHAR(255) COMMENT 'instant messenger screenname',
+	im_screenname VARCHAR(64) COMMENT 'instant messenger screenname',
 	im_service_id INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
 
     is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary IM for the contact / location',
@@ -486,8 +510,8 @@ CREATE TABLE crm_relationship_type(
 
 	domain_id INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this type',
 
-	name_a_b VARCHAR(255) NOT NULL COMMENT 'name/label for relationship of contact_a to contact_b',
-	name_b_a VARCHAR(255) COMMENT 'Optional name/label for relationship of contact_b to contact_a',
+	name_a_b VARCHAR(64) NOT NULL COMMENT 'name/label for relationship of contact_a to contact_b',
+	name_b_a VARCHAR(64) COMMENT 'Optional name/label for relationship of contact_b to contact_a',
 
 	description VARCHAR(255) COMMENT 'description of the relationship',
 
@@ -561,8 +585,8 @@ CREATE TABLE crm_contact_action(
 	contact_id INT UNSIGNED NOT NULL COMMENT 'action is related to this contact id',
 
 -- Module and callback may be modified to FKeys to proposed crm_external_modules/callbacks tables.
-    module VARCHAR(255) COMMENT 'Display name of module which registered this action.',
-    callback VARCHAR(255) COMMENT 'Function to call to get details for this action',
+    module VARCHAR(64) COMMENT 'Display name of module which registered this action.',
+    callback VARCHAR(64) COMMENT 'Function to call to get details for this action',
 	action_id INT UNSIGNED NOT NULL COMMENT 'FK to details item - passed to callback',
 	action_summary VARCHAR(255) COMMENT 'brief description of action for summary display - as populated by registering module',
 
@@ -585,7 +609,7 @@ CREATE TABLE crm_contact_action(
     -- Consider adding a quantity bucket to quick summarization across actions of the same category (esp. donations)
     -- Are future 'scheduled' actions are recorded in this table, or only things which have happened?
     -- other possible foreign key relationships (potentially null)
-    -- action_key VARCHAR(255) COMMENT 'a keycode that actions can use to share data across multiple actions. An example usage could be correlating all actions to a specific campaign'
+    -- action_key VARCHAR(16) COMMENT 'a keycode that actions can use to share data across multiple actions. An example usage could be correlating all actions to a specific campaign'
     -- acton_data VARCHAR(255) COMMENT 'data that accompanies the above key. The key could group like minded items together, the data could give more specifics / details for further subgrouping'
     -- Category concept now implemented via crm_entity_category table.
     -- category VARCHAR(255) COMMENT 'Module-provided display string for grouping/classifying actions, e.g. Email Sent, Letter Sent, Donation Pledge, etc',
@@ -646,7 +670,7 @@ CREATE TABLE crm_note(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 
-    table_name VARCHAR(32)  NOT NULL DEFAULT 'crm_contact' COMMENT 'name of table where item being referenced is stored',
+    table_name VARCHAR(64)  NOT NULL DEFAULT 'crm_contact' COMMENT 'name of table where item being referenced is stored',
     table_id   INT UNSIGNED NOT NULL COMMENT 'foreign key to the referenced item',
 -- this would need manual constraint checking during insert/update/delete.
 
@@ -683,7 +707,7 @@ CREATE TABLE crm_saved_search (
 
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this saved_search',
 
-	name        VARCHAR(255) NOT NULL COMMENT 'search name (brief)',
+	name        VARCHAR(64) NOT NULL COMMENT 'search name (brief)',
 	description VARCHAR(255) COMMENT 'verbose description',
     query       TEXT NOT NULL COMMENT 'SQL query for this search',
 
@@ -723,14 +747,14 @@ CREATE TABLE crm_group (
 
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this role_type',
 
-	iname		VARCHAR(255) NOT NULL COMMENT 'internal group name (constructed from display/friendly name)',
-	name		VARCHAR(255) COMMENT 'display name (user-defined friendly name)',
+	iname		VARCHAR(64) NOT NULL COMMENT 'internal group name (constructed from display/friendly name)',
+	name		VARCHAR(64) COMMENT 'display name (user-defined friendly name)',
 	description VARCHAR(255) COMMENT 'group description (verbose)',
 
 	group_type	ENUM('static','query') NOT NULL COMMENT 'static group membership is defined via crm_contact_group',
 	saved_search_id	INT UNSIGNED COMMENT 'FK to saved_searches table for type=query. We may also store the FK here for static groups created via saved search.',
 
-	source		VARCHAR(255) COMMENT 'module or process which created this group',
+	source		VARCHAR(64) COMMENT 'module or process which created this group',
     -- Category concept now implemented via crm_entity_category table.
 	-- category	VARCHAR(255) COMMENT 'user-defined category, use comma-delimited list for multiple categories. This column may be used as a hook for permissioning queries.',
 
@@ -793,7 +817,7 @@ CREATE TABLE crm_category(
 
 	domain_id INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this category',
 
-	name VARCHAR(255) NOT NULL COMMENT 'name/label for the category',
+	name VARCHAR(64) NOT NULL COMMENT 'name/label for the category',
 	description VARCHAR(255) COMMENT 'Optional verbose description of the category',
 
 	parent_category_id INT COMMENT 'OPTIONAL reference to crm_category.id of a parent category. NULL for top-level categories.',
@@ -820,7 +844,7 @@ CREATE TABLE crm_entity_category(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'entity_category id',
 
-	entity_table VARCHAR(255) NOT NULL COMMENT 'physical tablename for entity being assigned, e.g. crm_contact',
+	entity_table VARCHAR(64) NOT NULL COMMENT 'physical tablename for entity being assigned, e.g. crm_contact',
 	entity_id INT UNSIGNED NOT NULL COMMENT 'FK to the entity in the specified entity_table - e.g. value of crm_contact.id, crm_group.id...',
 	category_id INT UNSIGNED NOT NULL COMMENT 'FK to the category - crm_category.id',
 
@@ -883,7 +907,7 @@ CREATE TABLE crm_validation(
 	parameters VARCHAR(255)
 			COMMENT 'optional value(s) passed to validation function, e.g.
 			a regular expression, min and max for Range, operator + number for Comparison type, etc.',
-	functionName VARCHAR(255) COMMENT 'custom validation function name',
+	functionName VARCHAR(64) COMMENT 'custom validation function name',
     description VARCHAR(255) COMMENT 'rule description (verbose)',
 
 	PRIMARY KEY (id),
@@ -908,8 +932,8 @@ CREATE TABLE crm_ext_property_group(
 
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain contains this ext property',
 
-	iname VARCHAR(255) COMMENT 'variable name/programmatic handle for this group',
-	name  VARCHAR(255) COMMENT 'friendly name',
+	iname VARCHAR(64) COMMENT 'variable name/programmatic handle for this group',
+	name  VARCHAR(64) COMMENT 'friendly name',
     description VARCHAR(255) COMMENT 'group description (verbose)',
 
 	extends ENUM('contact','contact_individual','contact_organization','contact_household') DEFAULT 'contact' COMMENT 'type of object this group extends (can add other options later e.g. contact_address, etc.)',
@@ -940,8 +964,8 @@ CREATE TABLE crm_ext_property(
 
 	group_id  INT UNSIGNED NOT NULL COMMENT 'FK to crm_ext_property_group',
 
-	iname VARCHAR(255) COMMENT 'variable name/programmatic handle for this property',
-	name  VARCHAR(255) COMMENT 'friendly name',
+	iname VARCHAR(64) COMMENT 'variable name/programmatic handle for this property',
+	name  VARCHAR(64) COMMENT 'friendly name',
     description VARCHAR(255) COMMENT 'property description (verbose)',
 
 	data_type ENUM('string','int','float','money','text','date','boolean') COMMENT 'controls location of data storage in extended_data table',
@@ -1003,8 +1027,8 @@ CREATE TABLE crm_form(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 
-	name		VARCHAR(255) NOT NULL COMMENT 'friendly name for form',
-	title		VARCHAR(255) COMMENT 'display title for form',
+	name		VARCHAR(64) NOT NULL COMMENT 'friendly name for form',
+	title		VARCHAR(64) COMMENT 'display title for form',
 
     -- 'Inline' style tells module to append this form to the parent form as defined in contact_form_builder.
     -- 'Tab' style tells module to create a new tabbed page for this form.
@@ -1032,8 +1056,8 @@ CREATE TABLE crm_form_group(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 
-	name		VARCHAR(255) NOT NULL COMMENT 'friendly name for group',
-	title		VARCHAR(255) COMMENT 'display title for group (legend)',
+	name		VARCHAR(64) NOT NULL COMMENT 'friendly name for group',
+	title		VARCHAR(64) COMMENT 'display title for group (legend)',
 
 	help_pre	TEXT default '' COMMENT 'Description and/or help text to display before fields in group',
 	help_post	TEXT default '' COMMENT 'Description and/or help text to display after fields',
@@ -1058,13 +1082,13 @@ CREATE TABLE crm_form_field(
 	property_type ENUM('built-in','extended'),
 	property_id INT UNSIGNED NOT NULL COMMENT 'FK to contact_ext_property (when property_type = extended)',
 
-	field_name	VARCHAR(255) NOT NULL default '' COMMENT 'variable name assigned to HTML form element',
-	label		VARCHAR(255) default '' COMMENT 'field label for display',
+	field_name	VARCHAR(64) NOT NULL default '' COMMENT 'variable name assigned to HTML form element',
+	label		VARCHAR(64) default '' COMMENT 'field label for display',
 
 	field_type	ENUM('text','textarea','select','radio','checkbox','select_date','select_state_province','select_country')
 				COMMENT 'HTML types plus several built-in extended types', 
 
-	field_mask	VARCHAR(255) COMMENT 'optional format instructions for specific field types.',
+	field_mask	VARCHAR(64) COMMENT 'optional format instructions for specific field types.',
     --	EX: for 'select_date' -> "mmm yyyy" requests a pair of selects with format = <Jan> <2004> 
 
 	html_attributes	VARCHAR(255) COMMENT 'store collection of type-appropriate attributes',
@@ -1133,8 +1157,8 @@ CREATE TABLE crm_form_option(
 	id				INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 
 	field_id		INT UNSIGNED NOT NULL COMMENT 'FK to form_field table (who owns this option)',
-	option_value	VARCHAR(255) COMMENT 'If NULL, use option_label as option value.',
-	option_label	VARCHAR(255),
+	option_value	VARCHAR(64) COMMENT 'If NULL, use option_label as option value.',
+	option_label	VARCHAR(64),
     --	EX: <option value=$option_value>$option_label</option>
     --  EX:	<input type=radio value=$option_value../>$option_label
 
