@@ -21,7 +21,8 @@
   {foreach from=$rows item=row}
   <tr class="{cycle values="odd-row,even-row"}">
     <td width="15" align="center"><input name="chk[{counter}]" type="checkbox" value="{$row.contact_id}"></td>
-    <td valign="top" align="center" width="75">{$row.contact_id}</td>
+    <!--td valign="top" align="center" width="75">{$row.contact_id}</td-->
+    <td width="15" valign="top">{$row.c_type}</td>	
     <td valign="top">{$row.sort_name}</td>
     <td valign="top">{$row.email}</td>
     <td valign="top">{$row.phone}</td>
