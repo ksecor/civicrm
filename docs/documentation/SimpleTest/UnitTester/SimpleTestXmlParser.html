@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class SimpleTestXmlParser</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class SimpleTestXmlParser
+</h2> (line <span class="linenumber">443</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_xml_php.html">/packages/SimpleTest/xml.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Parser for importing the output of the XmlReporter.</h5>
+<div class="desc"><p>Dispatches that output to another reporter.</p></div>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_attributes" title="details" class="property"><strong>$_attributes</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_content" title="details" class="property"><strong>$_content</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_expat" title="details" class="property"><strong>$_expat</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_in_content_tag" title="details" class="property"><strong>$_in_content_tag</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_listener" title="details" class="property"><strong>$_listener</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_tag_stack" title="details" class="property"><strong>$_tag_stack</strong></a>
+</div>
+<hr />
+<a name="var$_attributes" id="var$_attributes"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_attributes</strong> (line <span class="linenumber">449</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_content" id="var$_content"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_content</strong> (line <span class="linenumber">448</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_expat" id="var$_expat"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_expat</strong> (line <span class="linenumber">445</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_in_content_tag" id="var$_in_content_tag"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_in_content_tag</strong> (line <span class="linenumber">447</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_listener" id="var$_listener"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_listener</strong> (line <span class="linenumber">444</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_tag_stack" id="var$_tag_stack"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_tag_stack</strong> (line <span class="linenumber">446</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">SimpleTestXmlParser</span>
+        <a href="#methodSimpleTestXmlParser" title="details" class="method-name">SimpleTestXmlParser</a>
+        (<span class="var-type"><a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a></span>&nbsp;<span class="var-name">&$listener</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodparse" title="details" class="method-name">parse</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$chunk</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_addContent" title="details" class="method-name">_addContent</a>
+        (<span class="var-type">resource</span>&nbsp;<span class="var-name">$expat</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$text</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">resource</span>
+        <a href="#method_createParser" title="details" class="method-name">&amp;_createParser</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_default" title="details" class="method-name">_default</a>
+        (<span class="var-type">resource</span>&nbsp;<span class="var-name">$expat</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$default</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_endElement" title="details" class="method-name">_endElement</a>
+        (<span class="var-type">resource</span>&nbsp;<span class="var-name">$expat</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$tag</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">@boolean</span>
+        <a href="#method_isLeaf" title="details" class="method-name">_isLeaf</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_startElement" title="details" class="method-name">_startElement</a>
+        (<span class="var-type">resource</span>&nbsp;<span class="var-name">$expat</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$tag</span>, <span class="var-type">hash</span>&nbsp;<span class="var-name">$attributes</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodSimpleTestXmlParser" id="methodSimpleTestXmlParser"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor SimpleTestXmlParser</strong> (line <span class="linenumber">457</span>)
+ </h4> 
+<h4><i>SimpleTestXmlParser</i> <strong>SimpleTestXmlParser(
+<a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a>
+&$listener)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Loads a listener with the SimpleReporter     interface.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a> $listener</strong>: Listener of tag events.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodparse" id="methodparse"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method parse</strong> (line <span class="linenumber">473</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>parse(
+string
+$chunk)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Parses a block of XML sending the results to     the listener.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $chunk</strong>: Block of text to read.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if valid XML.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method_addContent" id="method_addContent"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _addContent</strong> (line <span class="linenumber">599</span>)
+ </h4> 
+<h4><i>void</i> <strong>_addContent(
+resource
+$expat, string
+$text)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Content between start and end elements.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>resource $expat</strong>: Parser handle.</li>
+			<li><strong>string $text</strong>: Usually output messages.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="method_createParser" id="method_createParser"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _createParser</strong> (line <span class="linenumber">487</span>)
+ </h4> 
+<h4><i>resource</i> <strong>&amp;_createParser(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets up expat as the XML parser.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Expat handle.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="method_default" id="method_default"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _default</strong> (line <span class="linenumber">612</span>)
+ </h4> 
+<h4><i>void</i> <strong>_default(
+resource
+$expat, string
+$default)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>XML and Doctype handler. Discards all such content.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>resource $expat</strong>: Parser handle.</li>
+			<li><strong>string $default</strong>: Text of default content.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="method_endElement" id="method_endElement"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _endElement</strong> (line <span class="linenumber">567</span>)
+ </h4> 
+<h4><i>void</i> <strong>_endElement(
+resource
+$expat, string
+$tag)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>End of element event.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>resource $expat</strong>: Parser handle.</li>
+			<li><strong>string $tag</strong>: Element name.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="method_isLeaf" id="method_isLeaf"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _isLeaf</strong> (line <span class="linenumber">532</span>)
+ </h4> 
+<h4><i>@boolean</i> <strong>_isLeaf(
+string
+$tag)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Test if tag is a leaf node with only text content.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag</strong>: XML tag name.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if leaf, false if nesting.</li>
+			<li><strong>private</strong> - </li>
+		</ul>
+</div>
+<a name="method_startElement" id="method_startElement"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _startElement</strong> (line <span class="linenumber">547</span>)
+ </h4> 
+<h4><i>void</i> <strong>_startElement(
+resource
+$expat, string
+$tag, hash
+$attributes)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Handler for start of event element.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>resource $expat</strong>: Parser handle.</li>
+			<li><strong>string $tag</strong>: Element name.</li>
+			<li><strong>hash $attributes</strong>: Name value pairs.                                Attributes without content                                are marked as true.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:22:07 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

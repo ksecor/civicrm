@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class HTML_QuickForm_Renderer_ArraySmarty</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class HTML_QuickForm_Renderer_ArraySmarty
+</h2> (line <span class="linenumber">76</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../civiCRM/HTML_QuickForm_Renderer.html">HTML_QuickForm_Renderer</a>
+   |
+   --<a href="../civiCRM/HTML_QuickForm_Renderer_Array.html">HTML_QuickForm_Renderer_Array</a>
+      |
+      --HTML_QuickForm_Renderer_ArraySmarty</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_HTML_QuickForm_Renderer_ArraySmarty_php.html">/packages/HTML/QuickForm/Renderer/ArraySmarty.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A static renderer for HTML_QuickForm, makes an array of form content  useful for an Smarty template</h5>
+<div class="desc"><p>Based on old toArray() code and ITStatic renderer.</p><p>The form array structure is the following:  Array (   [frozen]       =&gt; whether the complete form is frozen'   [javascript]   =&gt; javascript for client-side validation   [attributes]   =&gt; attributes for &lt;form&gt; tag   [hidden]       =&gt; html of all hidden elements   [requirednote] =&gt; note about the required elements   [errors] =&gt; Array       (           [1st_element_name] =&gt; Error for the 1st element           ...           [nth_element_name] =&gt; Error for the nth element       )</p><p>[header] =&gt; Array       (           [1st_header_name] =&gt; Header text for the 1st header           ...           [nth_header_name] =&gt; Header text for the nth header       )</p><p>[1st_element_name] =&gt; Array for the 1st element   ...   [nth_element_name] =&gt; Array for the nth element</p><p>// where an element array has the form:       (           [name]      =&gt; element name           [value]     =&gt; element value,           [type]      =&gt; type of the element           [frozen]    =&gt; whether element is frozen           [label]     =&gt; label for the element           [required]  =&gt; whether element is required  // if element is not a group:           [html]      =&gt; HTML for the element  // if element is a group:           [separator] =&gt; separator for group elements           [1st_gitem_name] =&gt; Array for the 1st element in group           ...           [nth_gitem_name] =&gt; Array for the nth element in group       )  )</p></div>
+<ul>
+		<li><strong>author:</strong> - Alexey Borzov &lt;<a href="mailto:borz_off@cs.msu.su">borz_off@cs.msu.su</a>&gt;</li>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from HTML_QuickForm_Renderer_ArraySmarty:</span>
+ 		<dl>
+	<dt><a href="../CRM/CRM_Form_Renderer.html">CRM_Form_Renderer</a></dt>
+		<dd>A static renderer for HTML_QuickForm, makes an array of form content  useful for an Smarty template</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">integer</span>
+    <a href="#var$_elementIdx" title="details" class="property"><strong>$_elementIdx</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_error" title="details" class="property"><strong>$_error</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">integer</span>
+    <a href="#var$_groupElementIdx" title="details" class="property"><strong>$_groupElementIdx</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_required" title="details" class="property"><strong>$_required</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$_tpl" title="details" class="property"><strong>$_tpl</strong></a>
+</div>
+<hr />
+<a name="var$_elementIdx" id="var$_elementIdx"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_elementIdx =  0</strong> (line <span class="linenumber">88</span>)
+ </h4>
+<h4>Data type : integer</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Current element index</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_error" id="var$_error"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_error =  ''</strong> (line <span class="linenumber">108</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>How to handle error messages in form validation</h5>
+<ul>
+		<li><strong>see:</strong> - <a href="../civiCRM/HTML_QuickForm_Renderer_ArraySmarty.html#methodsetErrorTemplate">HTML_QuickForm_Renderer_ArraySmarty::setErrorTemplate()</a></li>
+	</ul>
+</div>
+<a name="var$_groupElementIdx" id="var$_groupElementIdx"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_groupElementIdx =  0</strong> (line <span class="linenumber">94</span>)
+ </h4>
+<h4>Data type : integer</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The current element index inside a group</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_required" id="var$_required"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_required =  ''</strong> (line <span class="linenumber">101</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>How to handle the required tag for required fields</h5>
+<ul>
+		<li><strong>see:</strong> - <a href="../civiCRM/HTML_QuickForm_Renderer_ArraySmarty.html#methodsetRequiredTemplate">HTML_QuickForm_Renderer_ArraySmarty::setRequiredTemplate()</a></li>
+	</ul>
+</div>
+<a name="var$_tpl" id="var$_tpl"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_tpl =  null</strong> (line <span class="linenumber">82</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The Smarty template engine instance</h5>
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">HTML_QuickForm_Renderer_ArraySmarty</span>
+        <a href="#methodHTML_QuickForm_Renderer_ArraySmarty" title="details" class="method-name">HTML_QuickForm_Renderer_ArraySmarty</a>
+        (<span class="var-type">object reference</span>&nbsp;<span class="var-name">&$tpl</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$staticLabels</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrenderHeader" title="details" class="method-name">renderHeader</a>
+        (<span class="var-type">object An</span>&nbsp;<span class="var-name">&$header</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetErrorTemplate" title="details" class="method-name">setErrorTemplate</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$template</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetRequiredTemplate" title="details" class="method-name">setRequiredTemplate</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$template</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodstartGroup" title="details" class="method-name">startGroup</a>
+        (<span class="var-type">object An</span>&nbsp;<span class="var-name">&$group</span>, <span class="var-type">bool</span>&nbsp;<span class="var-name">$required</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$error</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodHTML_QuickForm_Renderer_ArraySmarty" id="methodHTML_QuickForm_Renderer_ArraySmarty"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor HTML_QuickForm_Renderer_ArraySmarty</strong> (line <span class="linenumber">117</span>)
+ </h4> 
+<h4><i>HTML_QuickForm_Renderer_ArraySmarty</i> <strong>HTML_QuickForm_Renderer_ArraySmarty(
+object reference
+&$tpl, [bool
+$staticLabels = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Constructor</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object reference &$tpl</strong>: to the Smarty template engine instance</li>
+			<li><strong>bool $staticLabels</strong>: true: render an array of labels to many labels, $key 0 to 'label' and the oterh to &quot;label_$key&quot;</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrenderHeader" id="methodrenderHeader"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method renderHeader</strong> (line <span class="linenumber">130</span>)
+ </h4> 
+<h4><i>void</i> <strong>renderHeader(
+object An
+&$header)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodrenderHeader">HTML_QuickForm_Renderer_Array::renderHeader()</a> parent method not documented</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Called when visiting a header element</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object An &$header</strong>: HTML_QuickForm_header element being visited</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetErrorTemplate" id="methodsetErrorTemplate"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setErrorTemplate</strong> (line <span class="linenumber">371</span>)
+ </h4> 
+<h4><i>void</i> <strong>setErrorTemplate(
+string
+$template)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the way elements with validation errors are rendered</h5>
+<div class="desc"><p>You can use {$label} or {$html} placeholders to let the renderer know where  where the element label or the element html are positionned according to the  error message. They will be replaced accordingly with the right value.  The error message will replace the {$error} placeholder.  For example:  {if $error}&lt;span style=&quot;color: red;&quot;&gt;{$error}&lt;/span&gt;{/if}<br />{$html}  will put the error message in red on top of the element html.</p><p>If you want all error messages to be output in the main error block, use  the {$form.errors} part of the rendered array that collects all raw error  messages.</p><p>If you want to place all error messages manually, do not specify {$html}  nor {$label}.</p><p>Groups can have special layouts. With this kind of groups, you have to  place the formated error message manually. In this case, use {$form.group.error}  where you want the formated error message to appear in the form.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $template</strong>: The element error template</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetRequiredTemplate" id="methodsetRequiredTemplate"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setRequiredTemplate</strong> (line <span class="linenumber">340</span>)
+ </h4> 
+<h4><i>void</i> <strong>setRequiredTemplate(
+string
+$template)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the way required elements are rendered</h5>
+<div class="desc"><p>You can use {$label} or {$html} placeholders to let the renderer know where  where the element label or the element html are positionned according to the  required tag. They will be replaced accordingly with the right value.	You  can use the full smarty syntax here, especially a custom modifier for I18N.  For example:  {if $required}&lt;span style=&quot;color: red;&quot;&gt;*&lt;/span&gt;{/if}{$label|translate}  will put a red star in front of the label if the element is required and  translate the label.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $template</strong>: The required element template</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodstartGroup" id="methodstartGroup"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method startGroup</strong> (line <span class="linenumber">149</span>)
+ </h4> 
+<h4><i>void</i> <strong>startGroup(
+object An
+&$group, bool
+$required, string
+$error)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodstartGroup">HTML_QuickForm_Renderer_Array::startGroup()</a> parent method not documented</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Called when visiting a group, before processing any group elements</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object An &$group</strong>: HTML_QuickForm_group object being visited</li>
+			<li><strong>bool $required</strong>: Whether a group is required</li>
+			<li><strong>string $error</strong>: An error message associated with a group</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html">HTML_QuickForm_Renderer_Array</a></h4>
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#var$staticLabels">HTML_QuickForm_Renderer_Array::$staticLabels</a></strong> - true:  render an array of labels to many labels, $key 0 named 'label', the rest &quot;label_$key&quot;
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#var$_ary">HTML_QuickForm_Renderer_Array::$_ary</a></strong> - An array being generated
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#var$_collectHidden">HTML_QuickForm_Renderer_Array::$_collectHidden</a></strong> - true: collect all hidden elements into string; false: process them as usual form elements
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#var$_currentGroup">HTML_QuickForm_Renderer_Array::$_currentGroup</a></strong> - Array representing current group
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#var$_currentSection">HTML_QuickForm_Renderer_Array::$_currentSection</a></strong> - Current section number
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#var$_elementStyles">HTML_QuickForm_Renderer_Array::$_elementStyles</a></strong> - Additional style information for different elements
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#var$_sectionCount">HTML_QuickForm_Renderer_Array::$_sectionCount</a></strong> - Number of sections in the form (i.e. number of headers in it)
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html">HTML_QuickForm_Renderer_Array</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodHTML_QuickForm_Renderer_Array">HTML_QuickForm_Renderer_Array::HTML_QuickForm_Renderer_Array()</a></strong> - Constructor
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodfinishGroup">HTML_QuickForm_Renderer_Array::finishGroup()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodrenderElement">HTML_QuickForm_Renderer_Array::renderElement()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodrenderHeader">HTML_QuickForm_Renderer_Array::renderHeader()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodrenderHidden">HTML_QuickForm_Renderer_Array::renderHidden()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodsetElementStyle">HTML_QuickForm_Renderer_Array::setElementStyle()</a></strong> - Sets a style to use for element rendering
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodstartForm">HTML_QuickForm_Renderer_Array::startForm()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodstartGroup">HTML_QuickForm_Renderer_Array::startGroup()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer_Array.html#methodtoArray">HTML_QuickForm_Renderer_Array::toArray()</a></strong> - Returns the resultant array
+		</h4> 
+
+				<br />
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/HTML_QuickForm_Renderer.html">HTML_QuickForm_Renderer</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodHTML_QuickForm_Renderer">HTML_QuickForm_Renderer::HTML_QuickForm_Renderer()</a></strong> - Constructor
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodfinishForm">HTML_QuickForm_Renderer::finishForm()</a></strong> - Called when visiting a form, after processing all form elements
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodfinishGroup">HTML_QuickForm_Renderer::finishGroup()</a></strong> - Called when visiting a group, after processing all group elements
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderElement">HTML_QuickForm_Renderer::renderElement()</a></strong> - Called when visiting an element
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderHeader">HTML_QuickForm_Renderer::renderHeader()</a></strong> - Called when visiting a header element
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderHidden">HTML_QuickForm_Renderer::renderHidden()</a></strong> - Called when visiting a hidden element
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderHtml">HTML_QuickForm_Renderer::renderHtml()</a></strong> - Called when visiting a raw HTML/text pseudo-element
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodstartForm">HTML_QuickForm_Renderer::startForm()</a></strong> - Called when visiting a form, before processing any form elements
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodstartGroup">HTML_QuickForm_Renderer::startGroup()</a></strong> - Called when visiting a group, before processing any group elements
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:20 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class RemoteTestCase</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class RemoteTestCase
+</h2> (line <span class="linenumber">22</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_remote_php.html">/packages/SimpleTest/remote.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Runs an XML formated test on a remote server.</h5>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_dry_url" title="details" class="property"><strong>$_dry_url</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_size" title="details" class="property"><strong>$_size</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_url" title="details" class="property"><strong>$_url</strong></a>
+</div>
+<hr />
+<a name="var$_dry_url" id="var$_dry_url"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_dry_url</strong> (line <span class="linenumber">24</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_size" id="var$_size"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_size</strong> (line <span class="linenumber">25</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_url" id="var$_url"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_url</strong> (line <span class="linenumber">23</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">RemoteTestCase</span>
+        <a href="#methodRemoteTestCase" title="details" class="method-name">RemoteTestCase</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$dry_url</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetLabel" title="details" class="method-name">getLabel</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">integer</span>
+        <a href="#methodgetSize" title="details" class="method-name">getSize</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodrun" title="details" class="method-name">run</a>
+        (<span class="var-type"><a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a></span>&nbsp;<span class="var-name">&$reporter</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../../SimpleTest/WebTester/SimpleBrowser.html">SimpleBrowser</a></span>
+        <a href="#method_createBrowser" title="details" class="method-name">&amp;_createBrowser</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">SimpleTestXmlListener</span>
+        <a href="#method_createParser" title="details" class="method-name">&amp;_createParser</a>
+        (<span class="var-type"><a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a></span>&nbsp;<span class="var-name">&$reporter</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodRemoteTestCase" id="methodRemoteTestCase"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor RemoteTestCase</strong> (line <span class="linenumber">33</span>)
+ </h4> 
+<h4><i>RemoteTestCase</i> <strong>RemoteTestCase(
+string
+$url, [string
+$dry_url = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the location of the remote test.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $url</strong>: Test location.</li>
+			<li><strong>string $dry_url</strong>: Location for dry run.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetLabel" id="methodgetLabel"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getLabel</strong> (line <span class="linenumber">44</span>)
+ </h4> 
+<h4><i>string</i> <strong>getLabel(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for the test name for subclasses.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Name of the test.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetSize" id="methodgetSize"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getSize</strong> (line <span class="linenumber">96</span>)
+ </h4> 
+<h4><i>integer</i> <strong>getSize(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for the number of subtests.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Number of test cases.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrun" id="methodrun"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method run</strong> (line <span class="linenumber">56</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>run(
+<a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a>
+&$reporter)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Runs the top level test for this class. Currently     reads the data as a single chunk. I'll fix this     once I have added iteration to the browser.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a> $reporter</strong>: Target of test results.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if no failures.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method_createBrowser" id="method_createBrowser"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _createBrowser</strong> (line <span class="linenumber">77</span>)
+ </h4> 
+<h4><i><a href="../../SimpleTest/WebTester/SimpleBrowser.html">SimpleBrowser</a></i> <strong>&amp;_createBrowser(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Creates a new web browser object for fetching     the XML report.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - New browser.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="method_createParser" id="method_createParser"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _createParser</strong> (line <span class="linenumber">87</span>)
+ </h4> 
+<h4><i>SimpleTestXmlListener</i> <strong>&amp;_createParser(
+<a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a>
+&$reporter)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Creates the XML parser.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a> $reporter</strong>: Target of test results.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - XML reader.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:16 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

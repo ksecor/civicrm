@@ -1,0 +1,2046 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class WebTestCase</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class WebTestCase
+</h2> (line <span class="linenumber">477</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a>
+   |
+   --WebTestCase</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_web_tester_php.html">/packages/SimpleTest/web_tester.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</h5>
+<ul>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from WebTestCase:</span>
+ 		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLiveFetching.html">TestOfLiveFetching</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLivePageLinkingWithMinimalLinks.html">TestOfLivePageLinkingWithMinimalLinks</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLiveFrontControllerEmulation.html">TestOfLiveFrontControllerEmulation</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLiveHeaders.html">TestOfLiveHeaders</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLiveRedirects.html">TestOfLiveRedirects</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLiveCookies.html">TestOfLiveCookies</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLiveForms.html">TestOfLiveForms</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLiveMultiValueWidgets.html">TestOfLiveMultiValueWidgets</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLiveHistoryNavigation.html">TestOfLiveHistoryNavigation</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLiveAuthentication.html">TestOfLiveAuthentication</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfLoadingFrames.html">TestOfLoadingFrames</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfFrameAuthentication.html">TestOfFrameAuthentication</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/TestOfNestedFrames.html">TestOfNestedFrames</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/LiveSitesTestCase.html">LiveSitesTestCase</a></dt>
+		<dd>Test case for testing of web pages. Allows     fetching of pages, parsing of HTML and     submitting forms.</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_browser" title="details" class="property"><strong>$_browser</strong></a>
+</div>
+<hr />
+<a name="var$_browser" id="var$_browser"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_browser</strong> (line <span class="linenumber">478</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">WebTestCase</span>
+        <a href="#methodWebTestCase" title="details" class="method-name">WebTestCase</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$label</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddHeader" title="details" class="method-name">addHeader</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$header</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodageCookies" title="details" class="method-name">ageCookies</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$interval</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertAuthentication" title="details" class="method-name">assertAuthentication</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$authentication</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertCookie" title="details" class="method-name">assertCookie</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$expected</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertField" title="details" class="method-name">assertField</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$expected</span> = <span class="var-default">true</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertFieldById" title="details" class="method-name">assertFieldById</a>
+        (<span class="var-type">string/integer</span>&nbsp;<span class="var-name">$id</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$expected</span> = <span class="var-default">true</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertHeader" title="details" class="method-name">assertHeader</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$header</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">false</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertHeaderPattern" title="details" class="method-name">assertHeaderPattern</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$header</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$pattern</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertLink" title="details" class="method-name">assertLink</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$label</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertLinkById" title="details" class="method-name">assertLinkById</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$id</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertMime" title="details" class="method-name">assertMime</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$types</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNoAuthentication" title="details" class="method-name">assertNoAuthentication</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNoCookie" title="details" class="method-name">assertNoCookie</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNoLink" title="details" class="method-name">assertNoLink</a>
+        (<span class="var-type">string/integer</span>&nbsp;<span class="var-name">$label</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNoLinkById" title="details" class="method-name">assertNoLinkById</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$id</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNoUnwantedHeader" title="details" class="method-name">assertNoUnwantedHeader</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$header</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNoUnwantedPattern" title="details" class="method-name">assertNoUnwantedPattern</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$pattern</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNoUnwantedText" title="details" class="method-name">assertNoUnwantedText</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$text</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertRealm" title="details" class="method-name">assertRealm</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$realm</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertResponse" title="details" class="method-name">assertResponse</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$responses</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertTitle" title="details" class="method-name">assertTitle</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$title</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertWantedPattern" title="details" class="method-name">assertWantedPattern</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$pattern</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertWantedText" title="details" class="method-name">assertWantedText</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$text</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodauthenticate" title="details" class="method-name">authenticate</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$username</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$password</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodback" title="details" class="method-name">back</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodclearFrameFocus" title="details" class="method-name">clearFrameFocus</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean/string</span>
+        <a href="#methodclickImage" title="details" class="method-name">clickImage</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$label</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$x</span> = <span class="var-default">1</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$y</span> = <span class="var-default">1</span>], [<span class="var-type">hash</span>&nbsp;<span class="var-name">$additional</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean/string</span>
+        <a href="#methodclickImageById" title="details" class="method-name">clickImageById</a>
+        (<span class="var-type">integer/string</span>&nbsp;<span class="var-name">$id</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$x</span> = <span class="var-default">1</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$y</span> = <span class="var-default">1</span>], [<span class="var-type">hash</span>&nbsp;<span class="var-name">$additional</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean/string</span>
+        <a href="#methodclickImageByName" title="details" class="method-name">clickImageByName</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$x</span> = <span class="var-default">1</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$y</span> = <span class="var-default">1</span>], [<span class="var-type">hash</span>&nbsp;<span class="var-name">$additional</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean/string</span>
+        <a href="#methodclickLink" title="details" class="method-name">clickLink</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$label</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$index</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean/string</span>
+        <a href="#methodclickLinkById" title="details" class="method-name">clickLinkById</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$id</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean/string</span>
+        <a href="#methodclickSubmit" title="details" class="method-name">clickSubmit</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$label</span> = <span class="var-default">'Submit'</span>], [<span class="var-type">hash</span>&nbsp;<span class="var-name">$additional</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean/string</span>
+        <a href="#methodclickSubmitById" title="details" class="method-name">clickSubmitById</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$id</span>, [<span class="var-type">hash</span>&nbsp;<span class="var-name">$additional</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean/string</span>
+        <a href="#methodclickSubmitByName" title="details" class="method-name">clickSubmitByName</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">hash</span>&nbsp;<span class="var-name">$additional</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">TestBrowser</span>
+        <a href="#methodcreateBrowser" title="details" class="method-name">&amp;createBrowser</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../../SimpleTest/UnitTester/SimpleInvoker.html">SimpleInvoker</a></span>
+        <a href="#methodcreateInvoker" title="details" class="method-name">&amp;createInvoker</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodforward" title="details" class="method-name">forward</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodget" title="details" class="method-name">get</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>, [<span class="var-type">hash</span>&nbsp;<span class="var-name">$parameters</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../../SimpleTest/WebTester/SimpleBrowser.html">SimpleBrowser</a></span>
+        <a href="#methodgetBrowser" title="details" class="method-name">&amp;getBrowser</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetCookie" title="details" class="method-name">getCookie</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">integer/string/boolean</span>
+        <a href="#methodgetFrameFocus" title="details" class="method-name">getFrameFocus</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetTransportError" title="details" class="method-name">getTransportError</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetUrl" title="details" class="method-name">getUrl</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodhead" title="details" class="method-name">head</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>, [<span class="var-type">hash</span>&nbsp;<span class="var-name">$parameters</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodignoreFrames" title="details" class="method-name">ignoreFrames</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodpost" title="details" class="method-name">post</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>, [<span class="var-type">hash</span>&nbsp;<span class="var-name">$parameters</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrestart" title="details" class="method-name">restart</a>
+        ([<span class="var-type">string/integer</span>&nbsp;<span class="var-name">$date</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodretry" title="details" class="method-name">retry</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetBrowser" title="details" class="method-name">setBrowser</a>
+        (<span class="var-type"><a href="../../SimpleTest/WebTester/SimpleBrowser.html">SimpleBrowser</a></span>&nbsp;<span class="var-name">&$browser</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetConnectionTimeout" title="details" class="method-name">setConnectionTimeout</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$timeout</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetCookie" title="details" class="method-name">setCookie</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span> = <span class="var-default">"/"</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$expiry</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodsetField" title="details" class="method-name">setField</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodsetFieldById" title="details" class="method-name">setFieldById</a>
+        (<span class="var-type">string/integer</span>&nbsp;<span class="var-name">$id</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodsetFrameFocus" title="details" class="method-name">setFrameFocus</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodsetFrameFocusByIndex" title="details" class="method-name">setFrameFocusByIndex</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$choice</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetMaximumRedirects" title="details" class="method-name">setMaximumRedirects</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$max</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodshowHeaders" title="details" class="method-name">showHeaders</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodshowRequest" title="details" class="method-name">showRequest</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodshowSource" title="details" class="method-name">showSource</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean/string</span>
+        <a href="#methodsubmitFormById" title="details" class="method-name">submitFormById</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$id</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodunsetBrowser" title="details" class="method-name">unsetBrowser</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoduseProxy" title="details" class="method-name">useProxy</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$proxy</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$username</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$password</span> = <span class="var-default">false</span>])
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodWebTestCase" id="methodWebTestCase"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor WebTestCase</strong> (line <span class="linenumber">487</span>)
+ </h4> 
+<h4><i>WebTestCase</i> <strong>WebTestCase(
+[string
+$label = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Creates an empty test case. Should be subclassed     with test methods for a functional test case.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $label</strong>: Name of test case. Will use                              the class name if none specified.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddHeader" id="methodaddHeader"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addHeader</strong> (line <span class="linenumber">628</span>)
+ </h4> 
+<h4><i>void</i> <strong>addHeader(
+string
+$header)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds a header to every fetch.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $header</strong>: Header line to add to every                                 request until cleared.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodageCookies" id="methodageCookies"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method ageCookies</strong> (line <span class="linenumber">609</span>)
+ </h4> 
+<h4><i>void</i> <strong>ageCookies(
+integer
+$interval)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Moves cookie expiry times back into the past.</h5>
+<div class="desc"><p>Useful for testing timeouts and expiries.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $interval</strong>: Amount to age in seconds.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertAuthentication" id="methodassertAuthentication"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertAuthentication</strong> (line <span class="linenumber">1126</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertAuthentication(
+[string
+$authentication = false], [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Attempt to match the authentication type within     the security realm we are currently matching.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $authentication</strong>: Usually basic.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertCookie" id="methodassertCookie"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertCookie</strong> (line <span class="linenumber">1303</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertCookie(
+string
+$name, [string
+$expected = false], [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Checks that a cookie is set for the current page     and optionally checks the value.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Name of cookie to test.</li>
+			<li><strong>string $expected</strong>: Expected value as a string or                                false if any value will do.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertField" id="methodassertField"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertField</strong> (line <span class="linenumber">1044</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertField(
+string
+$name, [mixed
+$expected = true], [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Confirms that the form element is currently set     to the expected value. A missing form will always     fail. If no value is given then only the existence     of the field is checked.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Name of field in forms.</li>
+			<li><strong>mixed $expected</strong>: Expected string/array value or                               false for unset fields.</li>
+			<li><strong>string $message</strong>: Message to display. Default                               can be embedded with %s.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertFieldById" id="methodassertFieldById"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertFieldById</strong> (line <span class="linenumber">1071</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertFieldById(
+string/integer
+$id, [mixed
+$expected = true], [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Confirms that the form element is currently set     to the expected value. A missing form will always     fail. If no ID is given then only the existence     of the field is checked.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string/integer $id</strong>: Name of field in forms.</li>
+			<li><strong>mixed $expected</strong>: Expected string/array value or                                false for unset fields.</li>
+			<li><strong>string $message</strong>: Message to display. Default                                can be embedded with %s.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertHeader" id="methodassertHeader"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertHeader</strong> (line <span class="linenumber">1179</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertHeader(
+string
+$header, [string
+$value = false], [mixed
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Checks each header line for the required value. If no     value is given then only an existence check is made.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $header</strong>: Case insensitive header name.</li>
+			<li><strong>string $value</strong>: Case sensitive trimmed string to                              match against.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertHeaderPattern" id="methodassertHeaderPattern"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertHeaderPattern</strong> (line <span class="linenumber">1193</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertHeaderPattern(
+string
+$header, string
+$pattern, [mixed
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Checks each header line for the required pattern.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $header</strong>: Case insensitive header name.</li>
+			<li><strong>string $pattern</strong>: Pattern to match value against.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertLink" id="methodassertLink"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertLink</strong> (line <span class="linenumber">958</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertLink(
+string
+$label, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests for the presence of a link label. Match is     case insensitive with normalised space.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $label</strong>: Text between the anchor tags.</li>
+			<li><strong>string $message</strong>: Message to display. Default                              can be embedded with %s.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if link present.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertLinkById" id="methodassertLinkById"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertLinkById</strong> (line <span class="linenumber">988</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertLinkById(
+string
+$id, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests for the presence of a link id attribute.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $id</strong>: Id attribute value.</li>
+			<li><strong>string $message</strong>: Message to display. Default                              can be embedded with %s.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if link present.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertMime" id="methodassertMime"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertMime</strong> (line <span class="linenumber">1110</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertMime(
+array
+$types, [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Checks the mime type against a list     of possible values.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $types</strong>: Possible mime types for a pass.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNoAuthentication" id="methodassertNoAuthentication"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNoAuthentication</strong> (line <span class="linenumber">1149</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNoAuthentication(
+[string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Checks that no authentication is necessary to view     the desired page.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNoCookie" id="methodassertNoCookie"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNoCookie</strong> (line <span class="linenumber">1324</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNoCookie(
+string
+$name, [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Checks that no cookie is present or that it has     been successfully cleared.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Name of cookie to test.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNoLink" id="methodassertNoLink"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNoLink</strong> (line <span class="linenumber">974</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNoLink(
+string/integer
+$label, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests for the non-presence of a link label. Match is     case insensitive with normalised space.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string/integer $label</strong>: Text between the anchor tags                                     or ID attribute.</li>
+			<li><strong>string $message</strong>: Message to display. Default                                     can be embedded with %s.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if link missing.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNoLinkById" id="methodassertNoLinkById"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNoLinkById</strong> (line <span class="linenumber">1003</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNoLinkById(
+string
+$id, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests for the non-presence of a link label. Match is     case insensitive with normalised space.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $id</strong>: Id attribute value.</li>
+			<li><strong>string $message</strong>: Message to display. Default                              can be embedded with %s.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if link missing.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNoUnwantedHeader" id="methodassertNoUnwantedHeader"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNoUnwantedHeader</strong> (line <span class="linenumber">1209</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNoUnwantedHeader(
+string
+$header, [mixed
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Confirms that the header type has not been received.</h5>
+<div class="desc"><p>Only the landing page is checked. If you want to check     redirect pages, then you should limit redirects so     as to capture the page you want.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $header</strong>: Case insensitive header name.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNoUnwantedPattern" id="methodassertNoUnwantedPattern"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNoUnwantedPattern</strong> (line <span class="linenumber">1286</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNoUnwantedPattern(
+string
+$pattern, [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if the perl regex pattern     is not present in raw content.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $pattern</strong>: Perl regex to look for including                               the regex delimiters.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNoUnwantedText" id="methodassertNoUnwantedText"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNoUnwantedText</strong> (line <span class="linenumber">1254</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNoUnwantedText(
+string
+$text, [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if the text is not found in the plain     text form of the page.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $text</strong>: Text to look for.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertRealm" id="methodassertRealm"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertRealm</strong> (line <span class="linenumber">1162</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertRealm(
+string
+$realm, [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Attempts to match the current security realm.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $realm</strong>: Name of security realm.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertResponse" id="methodassertResponse"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertResponse</strong> (line <span class="linenumber">1094</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertResponse(
+array
+$responses, [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Checks the response code against a list     of possible values.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $responses</strong>: Possible responses for a pass.</li>
+			<li><strong>string $message</strong>: Message to display. Default                                can be embedded with %s.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertTitle" id="methodassertTitle"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertTitle</strong> (line <span class="linenumber">1224</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertTitle(
+[string
+$title = false], [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests the text between the title tags.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $title</strong>: Expected title or empty                              if expecting no title.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertWantedPattern" id="methodassertWantedPattern"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertWantedPattern</strong> (line <span class="linenumber">1270</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertWantedPattern(
+string
+$pattern, [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if the Perl regex pattern     is found in the raw content.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $pattern</strong>: Perl regex to look for including                               the regex delimiters.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertWantedText" id="methodassertWantedText"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertWantedText</strong> (line <span class="linenumber">1239</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertWantedText(
+string
+$text, [string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if the text is found in the plain     text form of the page.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $text</strong>: Text to look for.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodauthenticate" id="methodauthenticate"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method authenticate</strong> (line <span class="linenumber">759</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>authenticate(
+string
+$username, string
+$password)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Retries a request after setting the authentication     for the current realm.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $username</strong>: Username for realm.</li>
+			<li><strong>string $password</strong>: Password for realm.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if successful fetch. Note                                that authentication may still have                                failed.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodback" id="methodback"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method back</strong> (line <span class="linenumber">734</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>back(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Equivalent to hitting the back button on the     browser.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if history entry and                         fetch succeeded.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclearFrameFocus" id="methodclearFrameFocus"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method clearFrameFocus</strong> (line <span class="linenumber">823</span>)
+ </h4> 
+<h4><i>void</i> <strong>clearFrameFocus(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Clears the frame focus. All frames will be searched     for content.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclickImage" id="methodclickImage"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method clickImage</strong> (line <span class="linenumber">877</span>)
+ </h4> 
+<h4><i>boolean/string</i> <strong>clickImage(
+string
+$label, [integer
+$x = 1], [integer
+$y = 1], [hash
+$additional = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Clicks the submit image by some kind of label. Usually</h5>
+<div class="desc"><p>the alt tag or the nearest equivalent. The owning     form will be submitted by this. Clicking outside of     the boundary of the coordinates will result in     a failure.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $label</strong>: Alt attribute of button.</li>
+			<li><strong>integer $x</strong>: X-coordinate of imaginary click.</li>
+			<li><strong>integer $y</strong>: Y-coordinate of imaginary click.</li>
+			<li><strong>hash $additional</strong>: Additional form values.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Page on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclickImageById" id="methodclickImageById"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method clickImageById</strong> (line <span class="linenumber">910</span>)
+ </h4> 
+<h4><i>boolean/string</i> <strong>clickImageById(
+integer/string
+$id, [integer
+$x = 1], [integer
+$y = 1], [hash
+$additional = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Clicks the submit image by ID attribute. The owning     form will be submitted by this. Clicking outside of     the boundary of the coordinates will result in     a failure.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer/string $id</strong>: ID attribute of button.</li>
+			<li><strong>integer $x</strong>: X-coordinate of imaginary click.</li>
+			<li><strong>integer $y</strong>: Y-coordinate of imaginary click.</li>
+			<li><strong>hash $additional</strong>: Additional form values.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Page on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclickImageByName" id="methodclickImageByName"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method clickImageByName</strong> (line <span class="linenumber">894</span>)
+ </h4> 
+<h4><i>boolean/string</i> <strong>clickImageByName(
+string
+$name, [integer
+$x = 1], [integer
+$y = 1], [hash
+$additional = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Clicks the submit image by the name. Usually</h5>
+<div class="desc"><p>the alt tag or the nearest equivalent. The owning     form will be submitted by this. Clicking outside of     the boundary of the coordinates will result in     a failure.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Name attribute of button.</li>
+			<li><strong>integer $x</strong>: X-coordinate of imaginary click.</li>
+			<li><strong>integer $y</strong>: Y-coordinate of imaginary click.</li>
+			<li><strong>hash $additional</strong>: Additional form values.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Page on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclickLink" id="methodclickLink"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method clickLink</strong> (line <span class="linenumber">935</span>)
+ </h4> 
+<h4><i>boolean/string</i> <strong>clickLink(
+string
+$label, [integer
+$index = 0])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Follows a link by name. Will click the first link     found with this link text by default, or a later     one if an index is given. Match is case insensitive     with normalised space.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $label</strong>: Text between the anchor tags.</li>
+			<li><strong>integer $index</strong>: Link position counting from zero.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Page on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclickLinkById" id="methodclickLinkById"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method clickLinkById</strong> (line <span class="linenumber">945</span>)
+ </h4> 
+<h4><i>boolean/string</i> <strong>clickLinkById(
+string
+$id)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Follows a link by id attribute.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $id</strong>: ID attribute value.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Page on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclickSubmit" id="methodclickSubmit"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method clickSubmit</strong> (line <span class="linenumber">836</span>)
+ </h4> 
+<h4><i>boolean/string</i> <strong>clickSubmit(
+[string
+$label = 'Submit'], [hash
+$additional = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Clicks the submit button by label. The owning     form will be submitted by this.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $label</strong>: Button label. An unlabeled                             button can be triggered by 'Submit'.</li>
+			<li><strong>hash $additional</strong>: Additional form values.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Page on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclickSubmitById" id="methodclickSubmitById"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method clickSubmitById</strong> (line <span class="linenumber">860</span>)
+ </h4> 
+<h4><i>boolean/string</i> <strong>clickSubmitById(
+string
+$id, [hash
+$additional = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Clicks the submit button by ID attribute. The owning     form will be submitted by this.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $id</strong>: ID attribute of button.</li>
+			<li><strong>hash $additional</strong>: Additional form values.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Page on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclickSubmitByName" id="methodclickSubmitByName"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method clickSubmitByName</strong> (line <span class="linenumber">848</span>)
+ </h4> 
+<h4><i>boolean/string</i> <strong>clickSubmitByName(
+string
+$name, [hash
+$additional = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Clicks the submit button by name attribute. The owning     form will be submitted by this.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Name attribute of button.</li>
+			<li><strong>hash $additional</strong>: Additional form values.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Page on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodcreateBrowser" id="methodcreateBrowser"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method createBrowser</strong> (line <span class="linenumber">538</span>)
+ </h4> 
+<h4><i>TestBrowser</i> <strong>&amp;createBrowser(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Creates a new default web browser object.</h5>
+<div class="desc"><p>Will be cleared at the end of the test method.</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - New browser.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodcreateInvoker" id="methodcreateInvoker"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method createInvoker</strong> (line <span class="linenumber">497</span>)
+ </h4> 
+<h4><i><a href="../../SimpleTest/UnitTester/SimpleInvoker.html">SimpleInvoker</a></i> <strong>&amp;createInvoker(
+)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodcreateInvoker">SimpleTestCase::createInvoker()</a> Used to invoke the single tests.</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the invoker to one that restarts the browser on     each request.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Invoker for each method.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodforward" id="methodforward"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method forward</strong> (line <span class="linenumber">745</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>forward(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Equivalent to hitting the forward button on the     browser.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if history entry and                         fetch succeeded.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodget" id="methodget"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method get</strong> (line <span class="linenumber">679</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>get(
+string
+$url, [hash
+$parameters = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Fetches a page into the page buffer. If     there is no base for the URL then the     current base URL is used. After the fetch     the base URL reflects the new location.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $url</strong>: URL to fetch.</li>
+			<li><strong>hash $parameters</strong>: Optional additional GET data.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetBrowser" id="methodgetBrowser"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getBrowser</strong> (line <span class="linenumber">508</span>)
+ </h4> 
+<h4><i><a href="../../SimpleTest/WebTester/SimpleBrowser.html">SimpleBrowser</a></i> <strong>&amp;getBrowser(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Gets a current browser reference for setting     special expectations or for detailed     examination of page fetches.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Current test browser object.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetCookie" id="methodgetCookie"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getCookie</strong> (line <span class="linenumber">769</span>)
+ </h4> 
+<h4><i>string</i> <strong>getCookie(
+string
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Gets the cookie value for the current browser context.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Name of cookie.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Value of cookie or false if unset.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetFrameFocus" id="methodgetFrameFocus"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getFrameFocus</strong> (line <span class="linenumber">794</span>)
+ </h4> 
+<h4><i>integer/string/boolean</i> <strong>getFrameFocus(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for current frame focus. Will be     false if no frame has focus.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Label if any, otherwise                                       the position in the frameset                                       or false if none.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetTransportError" id="methodgetTransportError"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getTransportError</strong> (line <span class="linenumber">547</span>)
+ </h4> 
+<h4><i>string</i> <strong>getTransportError(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Gets the last response error.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Last low level HTTP error.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetUrl" id="methodgetUrl"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getUrl</strong> (line <span class="linenumber">557</span>)
+ </h4> 
+<h4><i>string</i> <strong>getUrl(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for the currently selected URL.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Current location or false if                           no page yet fetched.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodhead" id="methodhead"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method head</strong> (line <span class="linenumber">713</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>head(
+string
+$url, [hash
+$parameters = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Does a HTTP HEAD fetch, fetching only the page     headers. The current base URL is unchanged by this.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $url</strong>: URL to fetch.</li>
+			<li><strong>hash $parameters</strong>: Optional additional GET data.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodignoreFrames" id="methodignoreFrames"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method ignoreFrames</strong> (line <span class="linenumber">618</span>)
+ </h4> 
+<h4><i>void</i> <strong>ignoreFrames(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Disables frames support. Frames will not be fetched     and the frameset page will be used instead.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodpost" id="methodpost"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method post</strong> (line <span class="linenumber">697</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>post(
+string
+$url, [hash
+$parameters = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Fetches a page by POST into the page buffer.</h5>
+<div class="desc"><p>If there is no base for the URL then the     current base URL is used. After the fetch     the base URL reflects the new location.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $url</strong>: URL to fetch.</li>
+			<li><strong>hash $parameters</strong>: Optional additional GET data.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrestart" id="methodrestart"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method restart</strong> (line <span class="linenumber">596</span>)
+ </h4> 
+<h4><i>void</i> <strong>restart(
+[string/integer
+$date = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Simulates the closing and reopening of the browser.</h5>
+<div class="desc"><p>Temporary cookies will be discarded and timed     cookies will be expired if later than the     specified time.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string/integer $date</strong>: Time when session restarted.                                 If ommitted then all persistent                                 cookies are kept. Time is either                                 Cookie format string or timestamp.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodretry" id="methodretry"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method retry</strong> (line <span class="linenumber">723</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>retry(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Equivalent to hitting the retry button on the     browser. Will attempt to repeat the page fetch.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if fetch succeeded.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetBrowser" id="methodsetBrowser"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setBrowser</strong> (line <span class="linenumber">519</span>)
+ </h4> 
+<h4><i>void</i> <strong>setBrowser(
+<a href="../../SimpleTest/WebTester/SimpleBrowser.html">SimpleBrowser</a>
+&$browser)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Gets a current browser reference for setting     special expectations or for detailed     examination of page fetches.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleBrowser.html">SimpleBrowser</a> $browser</strong>: New test browser object.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetConnectionTimeout" id="methodsetConnectionTimeout"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setConnectionTimeout</strong> (line <span class="linenumber">652</span>)
+ </h4> 
+<h4><i>void</i> <strong>setConnectionTimeout(
+integer
+$timeout)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the socket timeout for opening a connection and     receiving at least one byte of information.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $timeout</strong>: Maximum time in seconds.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetCookie" id="methodsetCookie"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setCookie</strong> (line <span class="linenumber">782</span>)
+ </h4> 
+<h4><i>void</i> <strong>setCookie(
+string
+$name, string
+$value, [string
+$host = false], [string
+$path = "/"], [string
+$expiry = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets a cookie in the current browser.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Name of cookie.</li>
+			<li><strong>string $value</strong>: Cookie value.</li>
+			<li><strong>string $host</strong>: Host upon which the cookie is valid.</li>
+			<li><strong>string $path</strong>: Cookie path if not host wide.</li>
+			<li><strong>string $expiry</strong>: Expiry date.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetField" id="methodsetField"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setField</strong> (line <span class="linenumber">1016</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>setField(
+string
+$name, string
+$value)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets all form fields with that name.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Name of field in forms.</li>
+			<li><strong>string $value</strong>: New value of field.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if field exists, otherwise false.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetFieldById" id="methodsetFieldById"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setFieldById</strong> (line <span class="linenumber">1027</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>setFieldById(
+string/integer
+$id, string
+$value)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets all form fields with that name.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string/integer $id</strong>: Id of field in forms.</li>
+			<li><strong>string $value</strong>: New value of field.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if field exists, otherwise false.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetFrameFocus" id="methodsetFrameFocus"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setFrameFocus</strong> (line <span class="linenumber">814</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>setFrameFocus(
+string
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the focus by name.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Chosen frame.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if frame exists.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetFrameFocusByIndex" id="methodsetFrameFocusByIndex"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setFrameFocusByIndex</strong> (line <span class="linenumber">804</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>setFrameFocusByIndex(
+integer
+$choice)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the focus by index. The integer index starts from 1.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $choice</strong>: Chosen frame.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if frame exists.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetMaximumRedirects" id="methodsetMaximumRedirects"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setMaximumRedirects</strong> (line <span class="linenumber">638</span>)
+ </h4> 
+<h4><i>void</i> <strong>setMaximumRedirects(
+integer
+$max)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the maximum number of redirects before     the web page is loaded regardless.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $max</strong>: Maximum hops.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodshowHeaders" id="methodshowHeaders"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method showHeaders</strong> (line <span class="linenumber">573</span>)
+ </h4> 
+<h4><i>void</i> <strong>showHeaders(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Dumps the current HTTP headers for debugging.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodshowRequest" id="methodshowRequest"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method showRequest</strong> (line <span class="linenumber">565</span>)
+ </h4> 
+<h4><i>void</i> <strong>showRequest(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Dumps the current request for debugging.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodshowSource" id="methodshowSource"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method showSource</strong> (line <span class="linenumber">581</span>)
+ </h4> 
+<h4><i>void</i> <strong>showSource(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Dumps the current HTML source for debugging.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsubmitFormById" id="methodsubmitFormById"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method submitFormById</strong> (line <span class="linenumber">921</span>)
+ </h4> 
+<h4><i>boolean/string</i> <strong>submitFormById(
+string
+$id)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Submits a form by the ID.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $id</strong>: Form ID. No button information                             is submitted this way.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Page on success.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodunsetBrowser" id="methodunsetBrowser"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method unsetBrowser</strong> (line <span class="linenumber">528</span>)
+ </h4> 
+<h4><i>void</i> <strong>unsetBrowser(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Clears the current browser reference to help the     PHP garbage collector.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoduseProxy" id="methoduseProxy"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method useProxy</strong> (line <span class="linenumber">665</span>)
+ </h4> 
+<h4><i>void</i> <strong>useProxy(
+string
+$proxy, [string
+$username = false], [string
+$password = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets proxy to use on all requests for when     testing from behind a firewall. Set URL     to false to disable.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $proxy</strong>: Proxy URL.</li>
+			<li><strong>string $username</strong>: Proxy username for authentication.</li>
+			<li><strong>string $password</strong>: Proxy password for authentication.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a></h4>
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#var$_label">SimpleTestCase::$_label</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#var$_runner">SimpleTestCase::$_runner</a></strong> - 
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a></h4>
+				<h4>
+<img src="../../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodSimpleTestCase">SimpleTestCase::SimpleTestCase()</a></strong> - Sets up the test with no display.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertExpectation">SimpleTestCase::assertExpectation()</a></strong> - Runs an expectation directly, for extending the     tests with new expectation classes.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertFalse">SimpleTestCase::assertFalse()</a></strong> - Will be true on false and vice versa. False     is the PHP definition of false, so that null,     empty strings, zero and an empty array all count     as false.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertTrue">SimpleTestCase::assertTrue()</a></strong> - Called from within the test methods to register     passes and failures.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodcreateInvoker">SimpleTestCase::createInvoker()</a></strong> - Used to invoke the single tests.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methoddump">SimpleTestCase::dump()</a></strong> - Sends a formatted dump of a variable to the     test suite for those emergency debugging     situations.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methoderror">SimpleTestCase::error()</a></strong> - Formats a PHP error and dispatches it to the     runner.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodfail">SimpleTestCase::fail()</a></strong> - Sends a fail event with a message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetAssertionLine">SimpleTestCase::getAssertionLine()</a></strong> - Uses a stack trace to find the line of an assertion.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetLabel">SimpleTestCase::getLabel()</a></strong> - Accessor for the test name for subclasses.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetSize">SimpleTestCase::getSize()</a></strong> - Accessor for the number of subtests.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodpass">SimpleTestCase::pass()</a></strong> - Sends a pass event with a message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodrun">SimpleTestCase::run()</a></strong> - Uses reflection to run every method within itself     starting with the string &quot;test&quot; unless a method     is specified.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsendMessage">SimpleTestCase::sendMessage()</a></strong> - Dispatches a text message straight to the     test suite. Useful for status bar displays.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsetUp">SimpleTestCase::setUp()</a></strong> - Sets up unit test wide variables at the start     of each test method. To be overridden in     actual user test cases.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsignal">SimpleTestCase::signal()</a></strong> - Sends a user defined event to the test runner.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodswallowErrors">SimpleTestCase::swallowErrors()</a></strong> - Cancels any outstanding errors.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodtearDown">SimpleTestCase::tearDown()</a></strong> - Clears the data set in the setUp() method call.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#method_createRunner">SimpleTestCase::_createRunner()</a></strong> - Can modify the incoming reporter so as to run     the tests differently. This version simply     passes it straight through.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:22:03 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

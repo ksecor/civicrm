@@ -1,0 +1,1090 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class Log</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class Log
+</h2> (line <span class="linenumber">37</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_Log_php.html">/packages/Log.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The Log:: class implements both an abstraction for various logging  mechanisms and the Subject end of a Subject-Observer pattern.</h5>
+<ul>
+		<li><strong>since:</strong> - Horde 1.3</li>
+		<li><strong>author:</strong> - Chuck Hagenbuch &lt;<a href="mailto:chuck@horde.org">chuck@horde.org</a>&gt;</li>
+		<li><strong>author:</strong> - Jon Parise &lt;<a href="mailto:jon@php.net">jon@php.net</a>&gt;</li>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from Log:</span>
+ 		<dl>
+	<dt><a href="../Log/Log_display.html">Log_display</a></dt>
+		<dd>The Log_display class is a concrete implementation of the Log::  abstract class which writes message into browser in usual PHP maner.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_error_log.html">Log_error_log</a></dt>
+		<dd>The Log_error_log class is a concrete implementation of the Log abstract  class that logs messages using PHP's error_log() function.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_sqlite.html">Log_sqlite</a></dt>
+		<dd>The Log_sqlite class is a concrete implementation of the Log::  abstract class which sends messages to an Sqlite database.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_daemon.html">Log_daemon</a></dt>
+		<dd>The Log_daemon class is a concrete implementation of the Log::  abstract class which sends messages to syslog daemon on UNIX-like machines.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_mcal.html">Log_mcal</a></dt>
+		<dd>The Log_mcal class is a concrete implementation of the Log::  abstract class which sends messages to a local or remote calendar  store accessed through MCAL.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_composite.html">Log_composite</a></dt>
+		<dd>The Log_composite:: class implements a Composite pattern which  allows multiple Log implementations to receive the same events.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_console.html">Log_console</a></dt>
+		<dd>The Log_console class is a concrete implementation of the Log::  abstract class which writes message to the text console.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_file.html">Log_file</a></dt>
+		<dd>The Log_file class is a concrete implementation of the Log abstract  class that logs messages to a text file.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_null.html">Log_null</a></dt>
+		<dd>The Log_null class is a concrete implementation of the Log:: abstract  class.  It simply consumes log events.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_syslog.html">Log_syslog</a></dt>
+		<dd>The Log_syslog class is a concrete implementation of the Log::  abstract class which sends messages to syslog on UNIX-like machines  (PHP emulates this with the Event Log on Windows machines).</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_mail.html">Log_mail</a></dt>
+		<dd>The Log_mail class is a concrete implementation of the Log:: abstract class  which sends log messages to a mailbox.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_win.html">Log_win</a></dt>
+		<dd>The Log_win class is a concrete implementation of the Log abstract  class that logs messages to a separate browser window.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_sql.html">Log_sql</a></dt>
+		<dd>The Log_sql class is a concrete implementation of the Log::  abstract class which sends messages to an SQL server.  Each entry  occupies a separate row in the database.</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodalert" title="details" class="method-name">alert</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodattach" title="details" class="method-name">attach</a>
+        (<span class="var-type">object</span>&nbsp;<span class="var-name">&$observer</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">1</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodclose" title="details" class="method-name">close</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodcrit" title="details" class="method-name">crit</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methoddebug" title="details" class="method-name">debug</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddetach" title="details" class="method-name">detach</a>
+        (<span class="var-type">object</span>&nbsp;<span class="var-name">$observer</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">1</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodemerg" title="details" class="method-name">emerg</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methoderr" title="details" class="method-name">err</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../Log/Log.html">object Log</a></span>
+        <a href="#methodfactory" title="details" class="method-name">&amp;factory</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$handler</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">''</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$ident</span> = <span class="var-default">''</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$conf</span> = <span class="var-default">array()</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">PEAR_LOG_DEBUG</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodflush" title="details" class="method-name">flush</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetIdent" title="details" class="method-name">getIdent</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">interger</span>
+        <a href="#methodgetMask" title="details" class="method-name">getMask</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">integer</span>
+        <a href="#methodgetPriority" title="details" class="method-name">getPriority</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodinfo" title="details" class="method-name">info</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodisComposite" title="details" class="method-name">isComposite</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodlog" title="details" class="method-name">log</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$priority</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">integer</span>
+        <a href="#methodMASK" title="details" class="method-name">MASK</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$priority</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodnotice" title="details" class="method-name">notice</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodopen" title="details" class="method-name">open</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodpriorityToString" title="details" class="method-name">priorityToString</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$priority</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetIdent" title="details" class="method-name">setIdent</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$ident</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">integer</span>
+        <a href="#methodsetMask" title="details" class="method-name">setMask</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$mask</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetPriority" title="details" class="method-name">setPriority</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$priority</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../Log/Log.html">object Log</a></span>
+        <a href="#methodsingleton" title="details" class="method-name">&amp;singleton</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$handler</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">''</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$ident</span> = <span class="var-default">''</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$conf</span> = <span class="var-default">array()</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">PEAR_LOG_DEBUG</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">integer</span>
+        <a href="#methodUPTO" title="details" class="method-name">UPTO</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$priority</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodwarning" title="details" class="method-name">warning</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodalert" id="methodalert"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method alert</strong> (line <span class="linenumber">250</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>alert(
+mixed
+$message)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A convenience function for logging an alert event.  It will log a  message at the PEAR_LOG_ALERT log level.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $message</strong>: String or object containing the message                               to log.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if the message was successfully logged.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodattach" id="methodattach"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method attach</strong> (line <span class="linenumber">544</span>)
+ </h4> 
+<h4><i>void</i> <strong>attach(
+object
+&$observer, boolean
+1)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds a Log_observer instance to the list of observers that are listening  for messages emitted by this Log instance.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object $observer</strong>: The Log_observer instance to attach as a                               listener.</li>
+			<li><strong>boolean 1</strong>: True if the observer is successfully attached.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>since</strong> - Log 1.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclose" id="methodclose"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method close</strong> (line <span class="linenumber">198</span>)
+ </h4> 
+<h4><i>void</i> <strong>close(
+)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../Log/Log_sqlite.html#methodclose">Log_sqlite::close()</a></dt>
+		<dd>Closes the connection to the database if it is still open and we were  the ones that opened it.  It is the caller's responsible to close an  existing connection that was passed to us via $conf['db'].</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_daemon.html#methodclose">Log_daemon::close()</a></dt>
+		<dd>Closes the connection to the system logger, if it is open.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_mcal.html#methodclose">Log_mcal::close()</a></dt>
+		<dd>Closes the calendar stream, if it is open.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_composite.html#methodclose">Log_composite::close()</a></dt>
+		<dd>Closes any child instances.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_file.html#methodclose">Log_file::close()</a></dt>
+		<dd>Closes the log file if it is open.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_syslog.html#methodclose">Log_syslog::close()</a></dt>
+		<dd>Closes the connection to the system logger, if it is open.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_mail.html#methodclose">Log_mail::close()</a></dt>
+		<dd>Closes the message, if it is open, and sends the mail.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_win.html#methodclose">Log_win::close()</a></dt>
+		<dd>Closes the output stream if it is open.  If there are still pending  lines in the output buffer, the output window will be opened so that  the buffer can be drained.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_sql.html#methodclose">Log_sql::close()</a></dt>
+		<dd>Closes the connection to the database if it is still open and we were  the ones that opened it.  It is the caller's responsible to close an  existing connection that was passed to us via $conf['db'].</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Abstract implementation of the close() method.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>since</strong> - Log 1.0</li>
+		</ul>
+</div>
+<a name="methodcrit" id="methodcrit"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method crit</strong> (line <span class="linenumber">267</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>crit(
+mixed
+$message)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A convenience function for logging a critical event.  It will log a  message at the PEAR_LOG_CRIT log level.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $message</strong>: String or object containing the message                               to log.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if the message was successfully logged.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddebug" id="methoddebug"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method debug</strong> (line <span class="linenumber">352</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>debug(
+mixed
+$message)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A convenience function for logging a debug event.  It will log a  message at the PEAR_LOG_DEBUG log level.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $message</strong>: String or object containing the message                               to log.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if the message was successfully logged.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddetach" id="methoddetach"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method detach</strong> (line <span class="linenumber">566</span>)
+ </h4> 
+<h4><i>void</i> <strong>detach(
+object
+$observer, boolean
+1)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Removes a Log_observer instance from the list of observers.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object $observer</strong>: The Log_observer instance to detach from                               the list of listeners.</li>
+			<li><strong>boolean 1</strong>: True if the observer is successfully detached.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>since</strong> - Log 1.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodemerg" id="methodemerg"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method emerg</strong> (line <span class="linenumber">233</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>emerg(
+mixed
+$message)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A convenience function for logging a emergency event.  It will log a  message at the PEAR_LOG_EMERG log level.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $message</strong>: String or object containing the message                               to log.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if the message was successfully logged.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoderr" id="methoderr"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method err</strong> (line <span class="linenumber">284</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>err(
+mixed
+$message)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A convenience function for logging a error event.  It will log a  message at the PEAR_LOG_ERR log level.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $message</strong>: String or object containing the message                               to log.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if the message was successfully logged.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodfactory" id="methodfactory"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method factory</strong> (line <span class="linenumber">112</span>)
+ </h4> 
+<h4><i><a href="../Log/Log.html">object Log</a></i> <strong>&amp;factory(
+string
+$handler, [string
+$name = ''], [string
+$ident = ''], [array
+$conf = array()], [int
+$level = PEAR_LOG_DEBUG])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Attempts to return a concrete Log instance of type $handler.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $handler</strong>: The type of concrete Log subclass to return.                           Attempt to dynamically include the code for                           this subclass. Currently, valid values are                           'console', 'syslog', 'sql', 'file', and 'mcal'.</li>
+			<li><strong>string $name</strong>: The name of the actually log file, table, or                           other specific store to use. Defaults to an                           empty string, with which the subclass will                           attempt to do something intelligent.</li>
+			<li><strong>string $ident</strong>: The identity reported to the log system.</li>
+			<li><strong>array $conf</strong>: A hash containing any additional configuration                           information that a subclass might need.</li>
+			<li><strong>int $level</strong>: Log messages up to and including this level.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The newly created concrete Log instance, or an                           false on an error.</li>
+			<li><strong>since</strong> - Log 1.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodflush" id="methodflush"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method flush</strong> (line <span class="linenumber">207</span>)
+ </h4> 
+<h4><i>void</i> <strong>flush(
+)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../Log/Log_composite.html#methodflush">Log_composite::flush()</a></dt>
+		<dd>Flushes all open child instances.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_console.html#methodflush">Log_console::flush()</a></dt>
+		<dd>Flushes all pending (&quot;buffered&quot;) data to the output stream.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_file.html#methodflush">Log_file::flush()</a></dt>
+		<dd>Flushes all pending data to the file handle.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_mail.html#methodflush">Log_mail::flush()</a></dt>
+		<dd>Flushes the log output by forcing the email message to be sent now.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Abstract implementation of the flush() method.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>since</strong> - Log 1.8.2</li>
+		</ul>
+</div>
+<a name="methodgetIdent" id="methodgetIdent"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getIdent</strong> (line <span class="linenumber">629</span>)
+ </h4> 
+<h4><i>string</i> <strong>getIdent(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the current identification string.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The current Log instance's identification string.</li>
+			<li><strong>since</strong> - Log 1.6.3</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetMask" id="methodgetMask"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getMask</strong> (line <span class="linenumber">485</span>)
+ </h4> 
+<h4><i>interger</i> <strong>getMask(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the current level mask.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The current level mask.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetPriority" id="methodgetPriority"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPriority</strong> (line <span class="linenumber">514</span>)
+ </h4> 
+<h4><i>integer</i> <strong>getPriority(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the current default priority.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The current default priority.</li>
+			<li><strong>since</strong> - Log 1.8.4</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodinfo" id="methodinfo"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method info</strong> (line <span class="linenumber">335</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>info(
+mixed
+$message)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A convenience function for logging a information event.  It will log a  message at the PEAR_LOG_INFO log level.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $message</strong>: String or object containing the message                               to log.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if the message was successfully logged.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisComposite" id="methodisComposite"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isComposite</strong> (line <span class="linenumber">603</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>isComposite(
+)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../Log/Log_composite.html#methodisComposite">Log_composite::isComposite()</a></dt>
+		<dd>Returns true if this is a composite.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Indicates whether this is a composite class.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if this is a composite class.</li>
+			<li><strong>since</strong> - Log 1.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodlog" id="methodlog"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method log</strong> (line <span class="linenumber">216</span>)
+ </h4> 
+<h4><i>void</i> <strong>log(
+mixed
+$message, [mixed
+$priority = null])</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../Log/Log_display.html#methodlog">Log_display::log()</a></dt>
+		<dd>Writes $message to the text browser. Also, passes the message  along to any Log_observer instances that are observing this Log.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_error_log.html#methodlog">Log_error_log::log()</a></dt>
+		<dd>Logs $message using PHP's error_log() function.  The message is also  passed along to any Log_observer instances that are observing this Log.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_sqlite.html#methodlog">Log_sqlite::log()</a></dt>
+		<dd>Inserts $message to the currently open database.  Calls open(),  if necessary.  Also passes the message along to any Log_observer  instances that are observing this Log.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_daemon.html#methodlog">Log_daemon::log()</a></dt>
+		<dd>Sends $message to the currently open syslog connection.  Calls  open() if necessary. Also passes the message along to any Log_observer  instances that are observing this Log.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_mcal.html#methodlog">Log_mcal::log()</a></dt>
+		<dd>Logs $message and associated information to the currently open  calendar stream. Calls open() if necessary. Also passes the  message along to any Log_observer instances that are observing  this Log.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_composite.html#methodlog">Log_composite::log()</a></dt>
+		<dd>Sends $message and $priority to each child of this composite.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_console.html#methodlog">Log_console::log()</a></dt>
+		<dd>Writes $message to the text console. Also, passes the message  along to any Log_observer instances that are observing this Log.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_file.html#methodlog">Log_file::log()</a></dt>
+		<dd>Logs $message to the output window.  The message is also passed along  to any Log_observer instances that are observing this Log.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_null.html#methodlog">Log_null::log()</a></dt>
+		<dd>Simply consumes the log event.  The message will still be passed  along to any Log_observer instances that are observing this Log.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_syslog.html#methodlog">Log_syslog::log()</a></dt>
+		<dd>Sends $message to the currently open syslog connection.  Calls  open() if necessary. Also passes the message along to any Log_observer  instances that are observing this Log.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_mail.html#methodlog">Log_mail::log()</a></dt>
+		<dd>Writes $message to the currently open mail message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_win.html#methodlog">Log_win::log()</a></dt>
+		<dd>Logs $message to the output window.  The message is also passed along  to any Log_observer instances that are observing this Log.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_sql.html#methodlog">Log_sql::log()</a></dt>
+		<dd>Inserts $message to the currently open database.  Calls open(),  if necessary.  Also passes the message along to any Log_observer  instances that are observing this Log.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Abstract implementation of the log() method.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>since</strong> - Log 1.0</li>
+		</ul>
+</div>
+<a name="methodMASK" id="methodMASK"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method MASK</strong> (line <span class="linenumber">440</span>)
+ </h4> 
+<h4><i>integer</i> <strong>MASK(
+integer
+$priority)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Calculate the log mask for the given priority.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $priority</strong>: The priority whose mask will be calculated.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The calculated log mask.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodnotice" id="methodnotice"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method notice</strong> (line <span class="linenumber">318</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>notice(
+mixed
+$message)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A convenience function for logging a notice event.  It will log a  message at the PEAR_LOG_NOTICE log level.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $message</strong>: String or object containing the message                               to log.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if the message was successfully logged.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodopen" id="methodopen"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method open</strong> (line <span class="linenumber">189</span>)
+ </h4> 
+<h4><i>void</i> <strong>open(
+)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../Log/Log_sqlite.html#methodopen">Log_sqlite::open()</a></dt>
+		<dd>Opens a connection to the database, if it has not already  been opened. This is implicitly called by log(), if necessary.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_daemon.html#methodopen">Log_daemon::open()</a></dt>
+		<dd>Opens a connection to the system logger, if it has not already  been opened.  This is implicitly called by log(), if necessary.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_mcal.html#methodopen">Log_mcal::open()</a></dt>
+		<dd>Opens a calendar stream, if it has not already been  opened. This is implicitly called by log(), if necessary.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_composite.html#methodopen">Log_composite::open()</a></dt>
+		<dd>Opens the child connections.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_file.html#methodopen">Log_file::open()</a></dt>
+		<dd>Opens the log file for output.  If the specified log file does not  already exist, it will be created.  By default, new log entries are  appended to the end of the log file.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_syslog.html#methodopen">Log_syslog::open()</a></dt>
+		<dd>Opens a connection to the system logger, if it has not already  been opened.  This is implicitly called by log(), if necessary.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_mail.html#methodopen">Log_mail::open()</a></dt>
+		<dd>Starts a new mail message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_win.html#methodopen">Log_win::open()</a></dt>
+		<dd>The first time open() is called, it will open a new browser window and  prepare it for output.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_sql.html#methodopen">Log_sql::open()</a></dt>
+		<dd>Opens a connection to the database, if it has not already  been opened. This is implicitly called by log(), if necessary.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Abstract implementation of the open() method.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>since</strong> - Log 1.0</li>
+		</ul>
+</div>
+<a name="methodpriorityToString" id="methodpriorityToString"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method priorityToString</strong> (line <span class="linenumber">414</span>)
+ </h4> 
+<h4><i>string</i> <strong>priorityToString(
+int
+$priority)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the string representation of a PEAR_LOG_* integer constant.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $priority</strong>: A PEAR_LOG_* integer constant.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The string representation of $level.</li>
+			<li><strong>since</strong> - Log 1.0</li>
+		</ul>
+</div>
+<a name="methodsetIdent" id="methodsetIdent"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setIdent</strong> (line <span class="linenumber">616</span>)
+ </h4> 
+<h4><i>void</i> <strong>setIdent(
+string
+$ident)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../Log/Log_composite.html#methodsetIdent">Log_composite::setIdent()</a></dt>
+		<dd>Sets this identification string for all of this composite's children.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Log/Log_sql.html#methodsetIdent">Log_sql::setIdent()</a></dt>
+		<dd>Sets this Log instance's identification string.  Note that this  SQL-specific implementation will limit the length of the $ident string  to sixteen (16) characters.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets this Log instance's identification string.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $ident</strong>: The new identification string.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>since</strong> - Log 1.6.3</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetMask" id="methodsetMask"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setMask</strong> (line <span class="linenumber">470</span>)
+ </h4> 
+<h4><i>integer</i> <strong>setMask(
+integer
+$mask)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set and return the level mask for the current Log instance.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $mask</strong>: A bitwise mask of log levels.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The current level mask.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetPriority" id="methodsetPriority"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setPriority</strong> (line <span class="linenumber">527</span>)
+ </h4> 
+<h4><i>void</i> <strong>setPriority(
+integer
+$priority)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the default priority to the specified value.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $priority</strong>: The new default priority.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>since</strong> - Log 1.8.4</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsingleton" id="methodsingleton"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method singleton</strong> (line <span class="linenumber">170</span>)
+ </h4> 
+<h4><i><a href="../Log/Log.html">object Log</a></i> <strong>&amp;singleton(
+string
+$handler, [string
+$name = ''], [string
+$ident = ''], [array
+$conf = array()], [int
+$level = PEAR_LOG_DEBUG])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Attempts to return a reference to a concrete Log instance of type  $handler, only creating a new instance if no log instance with the same  parameters currently exists.</h5>
+<div class="desc"><p>You should use this if there are multiple places you might create a  logger, you don't want to create multiple loggers, and you don't want to  check for the existance of one each time. The singleton pattern does all  the checking work for you.</p><p><strong>You MUST call this method with the $var = &amp;Log::singleton() syntax.
+ Without the ampersand (&amp;) in front of the method name, you will not get
+ a reference, you will get a copy.</strong></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $handler</strong>: The type of concrete Log subclass to return.                           Attempt to dynamically include the code for                           this subclass. Currently, valid values are                           'console', 'syslog', 'sql', 'file', and 'mcal'.</li>
+			<li><strong>string $name</strong>: The name of the actually log file, table, or                           other specific store to use.  Defaults to an                           empty string, with which the subclass will                           attempt to do something intelligent.</li>
+			<li><strong>string $ident</strong>: The identity reported to the log system.</li>
+			<li><strong>array $conf</strong>: A hash containing any additional configuration                           information that a subclass might need.</li>
+			<li><strong>int $level</strong>: Log messages up to and including this level.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The newly created concrete Log instance, or an                           false on an error.</li>
+			<li><strong>since</strong> - Log 1.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodUPTO" id="methodUPTO"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method UPTO</strong> (line <span class="linenumber">455</span>)
+ </h4> 
+<h4><i>integer</i> <strong>UPTO(
+integer
+$priority)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Calculate the log mask for all priorities up to the given priority.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $priority</strong>: The maximum priority covered by this mask.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The calculated log mask.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodwarning" id="methodwarning"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method warning</strong> (line <span class="linenumber">301</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>warning(
+mixed
+$message)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A convenience function for logging a warning event.  It will log a  message at the PEAR_LOG_WARNING log level.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $message</strong>: String or object containing the message                               to log.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if the message was successfully logged.</li>
+			<li><strong>since</strong> - Log 1.7.0</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:40 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class DB</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class DB
+</h2> (line <span class="linenumber">432</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_DB_php.html">/packages/DB.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Database independent query interface</h5>
+<div class="desc"><p>The main &quot;DB&quot; class is simply a container class with some static  methods for creating DB objects as well as some utility functions  common to all parts of DB.</p><p>The object model of DB is as follows (indentation means inheritance):  <pre> DB           The main DB class.  This is simply a utility class
+              with some "static" methods for creating DB objects as
+              well as common utility functions for other DB classes.
+
+ DB_common    The base for each DB implementation.  Provides default
+ |            implementations (in OO lingo virtual methods) for
+ |            the actual DB implementations as well as a bunch of
+ |            query utility functions.
+ |
+ +-DB_mysql   The DB implementation for MySQL.  Inherits DB_common.
+              When calling DB::factory or DB::connect for MySQL
+              connections, the object returned is an instance of this
+              class.</pre></p></div>
+<ul>
+		<li><strong>version:</strong> - Release: 1.7.4</li>
+		<li><strong>link:</strong> - <a href="http://pear.php.net/package/DB">http://pear.php.net/package/DB</a></li>
+		<li><strong>license:</strong> - <a href="http://www.php.net/license/3_0.txt">PHP License 3.0</a></li>
+		<li><strong>copyright:</strong> - 1997-2005 The PHP Group</li>
+		<li><strong>author:</strong> - Tomas V.V.Cox &lt;<a href="mailto:cox@idecnet.com">cox@idecnet.com</a>&gt;</li>
+		<li><strong>author:</strong> - Stig Bakken &lt;<a href="mailto:ssb@php.net">ssb@php.net</a>&gt;</li>
+		<li><strong>author:</strong> - Daniel Convissor &lt;<a href="mailto:danielc@php.net">danielc@php.net</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodapiVersion" title="details" class="method-name">apiVersion</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object a</span>
+        <a href="#methodconnect" title="details" class="method-name">&amp;connect</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$dsn</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">array()</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methoderrorMessage" title="details" class="method-name">errorMessage</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object a</span>
+        <a href="#methodfactory" title="details" class="method-name">&amp;factory</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodisConnection" title="details" class="method-name">isConnection</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodisError" title="details" class="method-name">isError</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodisManip" title="details" class="method-name">isManip</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodparseDSN" title="details" class="method-name">parseDSN</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$dsn</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodapiVersion" id="methodapiVersion"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method apiVersion</strong> (line <span class="linenumber">573</span>)
+ </h4> 
+<h4><i>string</i> <strong>apiVersion(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return the DB API version</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the DB API version number</li>
+		</ul>
+</div>
+<a name="methodconnect" id="methodconnect"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method connect</strong> (line <span class="linenumber">518</span>)
+ </h4> 
+<h4><i>object a</i> <strong>&amp;connect(
+mixed
+$dsn, [array
+$options = array()])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Create a new DB object including a connection to the specified database</h5>
+<div class="desc"><p>Example 1.  <pre><ol><code><pre><li> <font color="blue">require_once </font><font color="#66cccc">'DB.php'</font><strong>;</strong></li>
+<li>&nbsp;</li>
+<li> <strong>$dsn </strong>= <font color="#66cccc">'pgsql://user:password@host/database'</font><strong>;</strong></li>
+<li> <strong>$options </strong>= array<strong>(</strong></li>
+<li>     <font color="#66cccc">'debug'       </font>=&gt; 2<strong>,</strong></li>
+<li>     <font color="#66cccc">'portability' </font>=&gt; <a href="../DB/_packages_DB_php.html#defineDB_PORTABILITY_ALL">DB_PORTABILITY_ALL</a><strong>,</strong></li>
+<li> <strong>)</strong><strong>;</strong></li>
+<li>&nbsp;</li>
+<li> <strong>$db </strong>=<strong>&amp; </strong><a href="../DB/DB.html">DB</a><strong>::</strong><a href="../DB/DB.html#methodconnect">connect</a><strong>(</strong><strong>$dsn</strong><strong>, </strong><strong>$options</strong><strong>)</strong><strong>;</strong></li>
+<li> <font color="blue">if </font><strong>(</strong><a href="../civiCRM/PEAR.html">PEAR</a><strong>::</strong><a href="../civiCRM/PEAR.html#methodisError">isError</a><strong>(</strong><strong>$db</strong><strong>)) </strong><strong>{</strong></li>
+<li>     die<strong>(</strong><strong>$db</strong><strong>-&gt;</strong>getMessage<strong>(</strong><strong>))</strong><strong>;</strong></li>
+<li> <strong>}</strong></li>
+</pre></code></ol></pre></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $dsn</strong>: the string &quot;data source name&quot; or array in the                          format returned by DB::parseDSN()</li>
+			<li><strong>array $options</strong>: an associative array of option names and values</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - new DB object.  A DB_Error object on failure.</li>
+			<li><strong>uses</strong> - <a href="../DB/DB.html#methodparseDSN">DB::parseDSN()</a>,  - DB_common::setOption(), PEAR::isError()</li>
+			<li><strong>uses</strong> - <a href="../DB/DB_dbase.html#methodconnect">DB_dbase::connect()</a>,  - DB_fbsql::connect(), DB_ibase::connect(),
+       DB_ifx::connect(), DB_msql::connect(), DB_mssql::connect(),
+       DB_mysql::connect(), DB_mysqli::connect(), DB_oci8::connect(),
+       DB_odbc::connect(), DB_pgsql::connect(), DB_sqlite::connect(),
+       DB_sybase::connect()</li>
+		</ul>
+</div>
+<a name="methoderrorMessage" id="methoderrorMessage"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method errorMessage</strong> (line <span class="linenumber">648</span>)
+ </h4> 
+<h4><i>string</i> <strong>errorMessage(
+integer
+$value)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return a textual error message for a DB error code</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $value</strong>: the DB error code</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the error message or false if the error code was                   not recognized</li>
+		</ul>
+</div>
+<a name="methodfactory" id="methodfactory"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method factory</strong> (line <span class="linenumber">447</span>)
+ </h4> 
+<h4><i>object a</i> <strong>&amp;factory(
+string
+$type, [array
+$options = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Create a new DB object for the specified database type but don't  connect to the database</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $type</strong>: the database type (eg &quot;mysql&quot;)</li>
+			<li><strong>array $options</strong>: an associative array of option names and values</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - new DB object.  A DB_Error object on failure.</li>
+			<li><strong>see</strong> - <a href="../DB/DB_common.html#methodsetOption">DB_common::setOption()</a></li>
+		</ul>
+</div>
+<a name="methodisConnection" id="methodisConnection"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isConnection</strong> (line <span class="linenumber">603</span>)
+ </h4> 
+<h4><i>bool</i> <strong>isConnection(
+mixed
+$value)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Determines if a value is a DB_&lt;driver&gt; object</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $value</strong>: the value to test</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - whether $value is a DB_&lt;driver&gt; object</li>
+		</ul>
+</div>
+<a name="methodisError" id="methodisError"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isError</strong> (line <span class="linenumber">588</span>)
+ </h4> 
+<h4><i>bool</i> <strong>isError(
+mixed
+$value)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Determines if a variable is a DB_Error object</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $value</strong>: the variable to check</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - whether $value is DB_Error object</li>
+		</ul>
+</div>
+<a name="methodisManip" id="methodisManip"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isManip</strong> (line <span class="linenumber">624</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>isManip(
+string
+$query)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tell whether a query is a data manipulation or data definition query</h5>
+<div class="desc"><p>Examples of data manipulation queries are INSERT, UPDATE and DELETE.  Examples of data definition queries are CREATE, DROP, ALTER, GRANT,  REVOKE.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $query</strong>: the query</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - whether $query is a data manipulation query</li>
+		</ul>
+</div>
+<a name="methodparseDSN" id="methodparseDSN"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method parseDSN</strong> (line <span class="linenumber">729</span>)
+ </h4> 
+<h4><i>array</i> <strong>parseDSN(
+string
+$dsn)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Parse a data source name</h5>
+<div class="desc"><p>Additional keys can be added by appending a URI query string to the  end of the DSN.</p><p>The format of the supplied DSN is in its fullest form:  <pre><ol><code><pre><li>  phptype<strong>(</strong>dbsyntax<strong>)</strong>:</li>
+</pre></code></ol></pre></p><p>Most variations are allowed:  <pre><ol><code><pre><li>  phptype:<font color="green">//username:password@protocol+hostspec:110//usr/db_file.db?mode=0644</font></li>
+<li>  phptype:<font color="green">//username:password@hostspec/database_name</font></li>
+<li>  phptype:<font color="green">//username:password@hostspec</font></li>
+<li>  phptype:<font color="green">//username@hostspec</font></li>
+<li>  phptype:<font color="green">//hostspec/database</font></li>
+<li>  phptype:<font color="green">//hostspec</font></li>
+<li>  phptype<strong>(</strong>dbsyntax<strong>)</strong></li>
+<li>  phptype</li>
+</pre></code></ol></pre></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $dsn</strong>: Data Source Name to be parsed</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - an associative array with the following keys: <ul><li>phptype:  Database backend used in PHP (mysql, odbc etc.)</li><li>dbsyntax: Database used with regards to SQL syntax etc.</li><li>protocol: Communication protocol to use (tcp, unix etc.)</li><li>hostspec: Host specification (hostname[:port])</li><li>database: Database to use on the DBMS server</li><li>username: User name for login</li><li>password: Password for login</li></ul></li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:51 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

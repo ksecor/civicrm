@@ -1,0 +1,1369 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class DB_DataObject</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class DB_DataObject
+</h2> (line <span class="linenumber">213</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../DB_DataObject/DB_DataObject_Overload.html">DB_DataObject_Overload</a>
+   |
+   --DB_DataObject</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_DB_DataObject_php.html">/packages/DB/DataObject.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>storage for connection and result objects,  it is done this way so that print_r()'ing the is smaller, and  it reduces the memory size of the object.</h5>
+<div class="desc"><p>-- future versions may use $this-&gt;_connection = &amp; PEAR object..    although will need speed tests to see how this affects it. <ul></ul><ul><li>connections = md5 sum mapp to pear db object</li><li>results     = [id] =&gt; map to pear db object</li><li>resultseq   = sequence id for results &amp; results field</li><li>resultfields = [id] =&gt; list of fields return from query (for use with toArray())</li><li>ini         = mapping of database to ini file results</li><li>links       = mapping of database to links file</li><li>lasterror   = pear error objects for last error event.</li><li>config      = aliased view of PEAR::getStaticPropery('DB_DataObject','options') * done for performance.</li><li>array of loaded classes by autoload method - to stop it doing file access request over and over again!</li></ul></p></div>
+<ul>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from DB_DataObject:</span>
+ 		<dl>
+	<dt><a href="../DB_DataObject/DB_DataObject_Generator.html">DB_DataObject_Generator</a></dt>
+		<dd>Generator class</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$N" title="details" class="property"><strong>$N</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object PEAR_Error</span>
+    <a href="#var$_lastError" title="details" class="property"><strong>$_lastError</strong></a>
+</div>
+<hr />
+<a name="var$N" id="var$N"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$N =  0</strong> (line <span class="linenumber">237</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The Number of rows returned from a query</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$_lastError" id="var$_lastError"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_lastError =  false</strong> (line <span class="linenumber">3542</span>)
+ </h4>
+<h4>Data type : object PEAR_Error</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Last Error that has occured <ul><li>use $this-&gt;_lastError or</li></ul> $last_error = &amp;PEAR::getStaticProperty('DB_DataObject','lastError');</h5>
+<ul>
+		<li><strong>var:</strong> - (or false)</li>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodcount" title="details" class="method-name">count</a>
+        ([<span class="var-type">bool|string</span>&nbsp;<span class="var-name">$countWhat</span> = <span class="var-default">false</span>], [<span class="var-type">bool</span>&nbsp;<span class="var-name">$whereAddOnly</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methoddatabase" title="details" class="method-name">database</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">true</span>
+        <a href="#methoddatabaseStructure" title="details" class="method-name">databaseStructure</a>
+        (<span class="var-type">optional</span>&nbsp;<span class="var-name">0</span>, <span class="var-type">optional</span>&nbsp;<span class="var-name">1</span>, <span class="var-type">optional</span>&nbsp;<span class="var-name">2</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">none</span>
+        <a href="#methoddebug" title="details" class="method-name">debug</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$logtype</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">1</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">none</span>
+        <a href="#methoddebugLevel" title="details" class="method-name">debugLevel</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$v</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methoddelete" title="details" class="method-name">delete</a>
+        ([<span class="var-type">bool</span>&nbsp;<span class="var-name">$useWhere</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodescape" title="details" class="method-name">escape</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$string</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodfetch" title="details" class="method-name">fetch</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodfetchRow" title="details" class="method-name">fetchRow</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$row</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodfind" title="details" class="method-name">find</a>
+        ([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$n</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">none</span>
+        <a href="#methodfree" title="details" class="method-name">free</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">true|</span>
+        <a href="#methodfromValue" title="details" class="method-name">fromValue</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$col</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodget" title="details" class="method-name">get</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$k</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$v</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object The</span>
+        <a href="#methodgetDatabaseConnection" title="details" class="method-name">&amp;getDatabaseConnection</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object The</span>
+        <a href="#methodgetDatabaseResult" title="details" class="method-name">&amp;getDatabaseResult</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodgetLink" title="details" class="method-name">&amp;getLink</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$row</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$table</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$link</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetLinkArray" title="details" class="method-name">&amp;getLinkArray</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$row</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$table</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodgetLinks" title="details" class="method-name">getLinks</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$format</span> = <span class="var-default">'_%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">none|PEAR::Error</span>
+        <a href="#methodgroupBy" title="details" class="method-name">groupBy</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$group</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">none|PEAR::Error</span>
+        <a href="#methodhaving" title="details" class="method-name">having</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$having</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodinsert" title="details" class="method-name">insert</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">none</span>
+        <a href="#methodjoinAdd" title="details" class="method-name">joinAdd</a>
+        ([<span class="var-type">optional</span>&nbsp;<span class="var-name">$obj</span> = <span class="var-default">false</span>], [<span class="var-type">optional</span>&nbsp;<span class="var-name">$joinType</span> = <span class="var-default">'INNER'</span>], [<span class="var-type">optional</span>&nbsp;<span class="var-name">$joinAs</span> = <span class="var-default">false</span>], [<span class="var-type">optional</span>&nbsp;<span class="var-name">$joinCol</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">none|PEAR::Error</span>
+        <a href="#methodlimit" title="details" class="method-name">limit</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$a</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$b</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array|null</span>
+        <a href="#methodlinks" title="details" class="method-name">links</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">none|PEAR::Error</span>
+        <a href="#methodorderBy" title="details" class="method-name">orderBy</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$order</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodquery" title="details" class="method-name">query</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$string</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">error</span>
+        <a href="#methodraiseError" title="details" class="method-name">raiseError</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$message</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$behaviour</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodselectAdd" title="details" class="method-name">selectAdd</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$k</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodselectAs" title="details" class="method-name">selectAs</a>
+        ([<span class="var-type">array|object|null</span>&nbsp;<span class="var-name">$from</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$format</span> = <span class="var-default">'%s'</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$tableName</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">true</span>
+        <a href="#methodsetFrom" title="details" class="method-name">setFrom</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">&$from</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$format</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object</span>
+        <a href="#methodstaticGet" title="details" class="method-name">&amp;staticGet</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$class</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$k</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$v</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodtable" title="details" class="method-name">table</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">0</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodtableName" title="details" class="method-name">tableName</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodtoArray" title="details" class="method-name">toArray</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$format</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">true</span>
+        <a href="#methodtoValue" title="details" class="method-name">toValue</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$col</span>, [<span class="var-type">format</span>&nbsp;<span class="var-name">$format</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodupdate" title="details" class="method-name">update</a>
+        ([<span class="var-type">object dataobject</span>&nbsp;<span class="var-name">$dataObject</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodvalidate" title="details" class="method-name">validate</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string|PEAR::Error</span>
+        <a href="#methodwhereAdd" title="details" class="method-name">whereAdd</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$cond</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$logic</span> = <span class="var-default">'AND'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">true?</span>
+        <a href="#method_call" title="details" class="method-name">_call</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$method</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$return</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_get_keys" title="details" class="method-name">_get_keys</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_get_table" title="details" class="method-name">_get_table</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object an</span>
+        <a href="#method_loadConfig" title="details" class="method-name">_loadConfig</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodcount" id="methodcount"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method count</strong> (line <span class="linenumber">1378</span>)
+ </h4> 
+<h4><i>int</i> <strong>count(
+[bool|string
+$countWhat = false], [bool
+$whereAddOnly = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Find the number of results from a simple query</h5>
+<div class="desc"><p>for example</p><p>$object = new mytable();  $object-&gt;name = &quot;fred&quot;;  echo $object-&gt;count();  echo $object-&gt;count(true);  // dont use object vars.  echo $object-&gt;count('distinct mycol');  echo $object-&gt;count('distinct mycol',true); // dont use object vars.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>bool $whereAddOnly</strong>: (optional) If DB_DATAOBJECT_WHEREADD_ONLY is passed in then                   we will build the condition only using the whereAdd's.  Default is to                   build the condition using the object parameters as well.</li>
+			<li><strong>bool|string $countWhat</strong>: (optional)                   (true|false = see below not on whereAddonly)                   (string)                   $countWhat (optional) normally it counts primary keys - you can use                   this to do things like $do-&gt;count('distinct mycol');</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddatabase" id="methoddatabase"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method database</strong> (line <span class="linenumber">1703</span>)
+ </h4> 
+<h4><i>string</i> <strong>database(
+string
+0)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return or assign the name of the current database</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string 0</strong>: optional database name to set</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The name of the current database</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddatabaseStructure" id="methoddatabaseStructure"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method databaseStructure</strong> (line <span class="linenumber">1558</span>)
+ </h4> 
+<h4><i>true</i> <strong>databaseStructure(
+optional
+0, optional
+1, optional
+2)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Autoload or manually load the table definitions</h5>
+<div class="desc"><p>usage :  DB_DataObject::databaseStructure(  'databasename',                                     parse_ini_file('mydb.ini',true),                                     parse_ini_file('mydb.link.ini',true));</p><p>obviously you dont have to use ini files.. (just return array similar to ini files..)</p><p>It should append to the table structure array</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>optional 0</strong>: string  name of database to assign / read</li>
+			<li><strong>optional 1</strong>: array   structure of database, and keys</li>
+			<li><strong>optional 2</strong>: array  table links</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - or PEAR:error on wrong paramenters.. or false if no file exists..               or the array(tablename =&gt; array(column_name=&gt;type)) if called with 1 argument.. (databasename)</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddebug" id="methoddebug"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method debug</strong> (line <span class="linenumber">3481</span>)
+ </h4> 
+<h4><i>none</i> <strong>debug(
+string
+$message, [string
+$logtype = 0], [string
+$level = 1])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Debugger. - use this in your extended classes to output debugging information.</h5>
+<div class="desc"><p>Uses DB_DataObject::DebugLevel(x) to turn it on</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $message</strong>: - message to output</li>
+			<li><strong>string $logtype</strong>: - bold at start</li>
+			<li><strong>string $level</strong>: <ul><li>output level</li></ul></li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddebugLevel" id="methoddebugLevel"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method debugLevel</strong> (line <span class="linenumber">3520</span>)
+ </h4> 
+<h4><i>none</i> <strong>debugLevel(
+[int
+$v = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>sets and returns debug level  eg. DB_DataObject::debugLevel(4);</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $v</strong>: level</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddelete" id="methoddelete"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method delete</strong> (line <span class="linenumber">1242</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>delete(
+[bool
+$useWhere = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Deletes items from table which match current objects variables</h5>
+<div class="desc"><p>Returns the true on success</p><p>for example</p><p>Designed to be extended</p><p>$object = new mytable();  $object-&gt;ID=123;  echo $object-&gt;delete(); // builds a conditon</p><p>$object = new mytable();  $object-&gt;whereAdd('age &gt; 12');  $object-&gt;limit(1);  $object-&gt;orderBy('age DESC');  $object-&gt;delete(true); // dont use object vars, use the conditions, limit and order.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>bool $useWhere</strong>: (optional) If DB_DATAOBJECT_WHEREADD_ONLY is passed in then              we will build the condition only using the whereAdd's.  Default is to              build the condition only using the object parameters.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on success, false on failure, 0 on no data affected</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodescape" id="methodescape"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method escape</strong> (line <span class="linenumber">1459</span>)
+ </h4> 
+<h4><i>string</i> <strong>escape(
+string
+$string)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>an escape wrapper around DB-&gt;escapeSimple()  can be used when adding manual queries or clauses  eg.</h5>
+<div class="desc"><p>$object-&gt;query(&quot;select * from xyz where abc like '&quot;. $object-&gt;escape($_GET['name']) . &quot;'&quot;);</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $string</strong>: value to be escaped</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodfetch" id="methodfetch"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method fetch</strong> (line <span class="linenumber">459</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>fetch(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>fetches next row into this objects var's</h5>
+<div class="desc"><p>returns 1 on success 0 on failure</p><p>Example  $object = new mytable();  $object-&gt;name = &quot;fred&quot;;  $object-&gt;find();  $store = array();  while ($object-&gt;fetch()) {    echo $this-&gt;ID;    $store[] = $object; // builds an array of object lines.  }</p><p>to add features to a fetch  function fetch () {     $ret = parent::fetch();     $this-&gt;date_formated = date('dmY',$this-&gt;date);     return $ret;  }</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - on success</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodfetchRow" id="methodfetchRow"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method fetchRow</strong> (line <span class="linenumber">1306</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>fetchRow(
+[int
+$row = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>fetches a specific row into this object variables</h5>
+<div class="desc"><p>Not recommended - better to use fetch()</p><p>Returens true on success</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $row</strong>: row</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - true on success</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodfind" id="methodfind"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method find</strong> (line <span class="linenumber">369</span>)
+ </h4> 
+<h4><i>int</i> <strong>find(
+[boolean
+$n = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>find results, either normal or crosstable</h5>
+<div class="desc"><p>for example</p><p>$object = new mytable();  $object-&gt;ID = 1;  $object-&gt;find();</p><p>will set $object-&gt;N to number of rows, and expects next command to fetch rows  will return $object-&gt;N</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>boolean $n</strong>: Fetch first result</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodfree" id="methodfree"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method free</strong> (line <span class="linenumber">3615</span>)
+ </h4> 
+<h4><i>none</i> <strong>free(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Free global arrays associated with this object.</h5>
+<div class="desc"><p>Note: as we now store resultfields in a global, it is never freed, if you do alot of calls to find(),  memory will grow gradually.</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodfromValue" id="methodfromValue"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method fromValue</strong> (line <span class="linenumber">3308</span>)
+ </h4> 
+<h4><i>true|</i> <strong>fromValue(
+string
+$col, mixed
+$value)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>standard set* implementation.</h5>
+<div class="desc"><p>takes data and uses it to set dates/strings etc.  normally called from __call..</p><p>Current supports    date      = using (standard time format, or unixtimestamp).... so you could create a method :                function setLastread($string) { $this-&gt;fromValue('lastread',strtotime($string)); }</p><p>time      = using strtotime    datetime  = using  same as date - accepts iso standard or unixtimestamp.    string    = typecast only..</p><p>TODO: add formater:: eg. d/m/Y for date! ???</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $col</strong>: column of database</li>
+			<li><strong>mixed $value</strong>: value to assign</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - false     (False on error)</li>
+			<li><strong>see</strong> - DB_DataObject::_call</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodget" id="methodget"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method get</strong> (line <span class="linenumber">265</span>)
+ </h4> 
+<h4><i>int</i> <strong>get(
+[string
+$k = null], [string
+$v = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get a result using key, value.</h5>
+<div class="desc"><p>for example  $object-&gt;get(&quot;ID&quot;,1234);  Returns Number of rows located (usually 1) for success,  and puts all the table columns into this classes variables</p><p>see the fetch example on how to extend this.</p><p>if no value is entered, it is assumed that $key is a value  and get will then use the first key in keys()  to obtain the key.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $k</strong>: column</li>
+			<li><strong>string $v</strong>: value</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - No. of rows</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetDatabaseConnection" id="methodgetDatabaseConnection"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getDatabaseConnection</strong> (line <span class="linenumber">3161</span>)
+ </h4> 
+<h4><i>object The</i> <strong>&amp;getDatabaseConnection(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Gets the DB object related to an object - so you can use funky peardb stuf with it :)</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB connection</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetDatabaseResult" id="methodgetDatabaseResult"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getDatabaseResult</strong> (line <span class="linenumber">3183</span>)
+ </h4> 
+<h4><i>object The</i> <strong>&amp;getDatabaseResult(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Gets the DB result object related to the objects active query <ul><li>so you can use funky pear stuff with it - like pager for example.. :)</li></ul></h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB result object</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetLink" id="methodgetLink"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getLink</strong> (line <span class="linenumber">2530</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>&amp;getLink(
+string
+$row, [string
+$table = null], [string
+$link = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>return name from related object</h5>
+<div class="desc"><p>There are two ways to use this, one is to set up a &lt;dbname&gt;.links.ini file  into a static property named &lt;dbname&gt;.links and specifies the table joins,  the other is highly dependant on naming columns 'correctly' :)</p><p>NOTE: the naming convention is depreciated!!! - use links.ini</p><p>using colname = xxxxx_yyyyyy  xxxxxx = related table; (yyyyy = user defined..)  looks up table xxxxx, for value id=$this-&gt;xxxxx  stores it in $this-&gt;_xxxxx_yyyyy</p><p>you can also use $this-&gt;getLink('thisColumnName','otherTable','otherTableColumnName')</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $row</strong>: either row or row.xxxxx</li>
+			<li><strong>string $table</strong>: name of table to look up value in</li>
+			<li><strong>string $link</strong>: name of column in other table to match</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - object on success</li>
+			<li><strong>access</strong> - public</li>
+			<li><strong>author</strong> - Tim White &lt;<a href="mailto:tim@cyface.com">tim@cyface.com</a>&gt;</li>
+		</ul>
+</div>
+<a name="methodgetLinkArray" id="methodgetLinkArray"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getLinkArray</strong> (line <span class="linenumber">2608</span>)
+ </h4> 
+<h4><i>array</i> <strong>&amp;getLinkArray(
+mixed
+$row, [mixed
+$table = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>IS THIS SUPPORTED/USED ANYMORE???? return a list of options for a linked table</h5>
+<div class="desc"><p>This is highly dependant on naming columns 'correctly' :)  using colname = xxxxx_yyyyyy  xxxxxx = related table; (yyyyy = user defined..)  looks up table xxxxx, for value id=$this-&gt;xxxxx  stores it in $this-&gt;_xxxxx_yyyyy</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - of results (empty array on failure)</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetLinks" id="methodgetLinks"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getLinks</strong> (line <span class="linenumber">2452</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>getLinks(
+[string
+$format = '_%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>load related objects</h5>
+<div class="desc"><p>There are two ways to use this, one is to set up a &lt;dbname&gt;.links.ini file  into a static property named &lt;dbname&gt;.links and specifies the table joins,  the other highly dependent on naming columns 'correctly' :)  using colname = xxxxx_yyyyyy  xxxxxx = related table; (yyyyy = user defined..)  looks up table xxxxx, for value id=$this-&gt;xxxxx  stores it in $this-&gt;_xxxxx_yyyyy  you can change what object vars the links are stored in by  changeing the format parameter</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $format</strong>: format (default _%s) where %s is the table name.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - , true on success</li>
+			<li><strong>access</strong> - public</li>
+			<li><strong>author</strong> - Tim White &lt;<a href="mailto:tim@cyface.com">tim@cyface.com</a>&gt;</li>
+		</ul>
+</div>
+<a name="methodgroupBy" id="methodgroupBy"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method groupBy</strong> (line <span class="linenumber">614</span>)
+ </h4> 
+<h4><i>none|PEAR::Error</i> <strong>groupBy(
+[string
+$group = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds a group by condition</h5>
+<div class="desc"><p>$object-&gt;groupBy(); //reset the grouping  $object-&gt;groupBy(&quot;ID DESC&quot;);  $object-&gt;groupBy(&quot;ID,age&quot;);</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $group</strong>: Grouping</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - - invalid args only</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodhaving" id="methodhaving"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method having</strong> (line <span class="linenumber">649</span>)
+ </h4> 
+<h4><i>none|PEAR::Error</i> <strong>having(
+[string
+$having = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds a having clause</h5>
+<div class="desc"><p>$object-&gt;having(); //reset the grouping  $object-&gt;having(&quot;sum(value) &gt; 0 &quot;);</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $having</strong>: condition</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - - invalid args only</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodinsert" id="methodinsert"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method insert</strong> (line <span class="linenumber">827</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>insert(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Insert the current objects variables into the database</h5>
+<div class="desc"><p>Returns the ID of the inserted element (if auto increment or sequences are used.)</p><p>for example</p><p>Designed to be extended</p><p>$object = new mytable();  $object-&gt;name = &quot;fred&quot;;  echo $object-&gt;insert();</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - false on failure, int when auto increment or sequence used, otherwise true on success</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodjoinAdd" id="methodjoinAdd"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method joinAdd</strong> (line <span class="linenumber">2710</span>)
+ </h4> 
+<h4><i>none</i> <strong>joinAdd(
+[optional
+$obj = false], [optional
+$joinType = 'INNER'], [optional
+$joinAs = false], [optional
+$joinCol = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>joinAdd - adds another dataobject to this, building a joined query.</h5>
+<div class="desc"><p>example (requires links.ini to be set up correctly)  // get all the images for product 24  $i = new DataObject_Image();  $pi = new DataObjects_Product_image();  $pi-&gt;product_id = 24; // set the product id to 24  $i-&gt;joinAdd($pi); // add the product_image connectoin  $i-&gt;find();  while ($i-&gt;fetch()) {      // do stuff  }  // an example with 2 joins  // get all the images linked with products or productgroups  $i = new DataObject_Image();  $pi = new DataObject_Product_image();  $pgi = new DataObject_Productgroup_image();  $i-&gt;joinAdd($pi);  $i-&gt;joinAdd($pgi);  $i-&gt;find();  while ($i-&gt;fetch()) {      // do stuff  }</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>optional $obj</strong>: object |array    the joining object (no value resets the join)                                           If you use an array here it should be in the format:                                           array('local_column','remotetable:remote_column');                                           if remotetable does not have a definition, you should                                           use @ to hide the include error message..</li>
+			<li><strong>optional $joinType</strong>: string     'LEFT'|'INNER'|'RIGHT'|'' Inner is default, '' indicates                                           just select ... from a,b,c with no join and                                           links are added as where items.</li>
+			<li><strong>optional $joinAs</strong>: string     if you want to select the table as anther name                                           useful when you want to select multiple columsn                                           from a secondary table.</li>
+			<li><strong>optional $joinCol</strong>: string     The column on This objects table to match (needed                                           if this table links to the child object in                                           multiple places eg.                                           user-&gt;friend (is a link to another user)                                           user-&gt;mother (is a link to another user..)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>author</strong> - Stijn de Reede      &lt;<a href="mailto:sjr@gmx.co.uk">sjr@gmx.co.uk</a>&gt;</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodlimit" id="methodlimit"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method limit</strong> (line <span class="linenumber">690</span>)
+ </h4> 
+<h4><i>none|PEAR::Error</i> <strong>limit(
+[string
+$a = null], [string
+$b = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the Limit</h5>
+<div class="desc"><p>$boject-&gt;limit(); // clear limit  $object-&gt;limit(12);  $object-&gt;limit(12,10);</p><p>Note this will emit an error on databases other than mysql/postgress  as there is no 'clean way' to implement it. - you should consider refering to  your database manual to decide how you want to implement it.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $a</strong>: limit start (or number), or blank to reset</li>
+			<li><strong>string $b</strong>: number</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - - invalid args only</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodlinks" id="methodlinks"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method links</strong> (line <span class="linenumber">2409</span>)
+ </h4> 
+<h4><i>array|null</i> <strong>links(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the links associate array  as defined by the links.ini file.</h5>
+<div class="desc"><p>Experimental... -  Should look a bit like        [local_col_name] =&gt; &quot;related_tablename:related_col_name&quot;</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - array       = if there are links defined for this table.            empty array - if there is a links.ini file, but no links on this table            null        - if no links.ini exists for this database (hence try auto_links).</li>
+			<li><strong>see</strong> - <a href="../DB_DataObject/DB_DataObject.html#methodgetLinks">DB_DataObject::getLinks()</a>, <a href="../DB_DataObject/DB_DataObject.html#methodgetLink">DB_DataObject::getLink()</a></li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodorderBy" id="methodorderBy"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method orderBy</strong> (line <span class="linenumber">579</span>)
+ </h4> 
+<h4><i>none|PEAR::Error</i> <strong>orderBy(
+[string
+$order = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds a order by condition</h5>
+<div class="desc"><p>$object-&gt;orderBy(); //clears order by  $object-&gt;orderBy(&quot;ID&quot;);  $object-&gt;orderBy(&quot;ID,age&quot;);</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $order</strong>: Order</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - - invalid args only</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodquery" id="methodquery"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method query</strong> (line <span class="linenumber">1443</span>)
+ </h4> 
+<h4><i>void</i> <strong>query(
+string
+$string)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>sends raw query to database</h5>
+<div class="desc"><p>Since _query has to be a private 'non overwriteable method', this is a relay</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $string</strong>: SQL Query</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - or DB_Error</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodraiseError" id="methodraiseError"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method raiseError</strong> (line <span class="linenumber">3555</span>)
+ </h4> 
+<h4><i>error</i> <strong>raiseError(
+int
+$message, [int
+$type = null], [int
+$behaviour = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Default error handling is to create a pear error, but never return it.</h5>
+<div class="desc"><p>if you need to handle errors you should look at setting the PEAR_Error callback  this is due to the fact it would wreck havoc on the internal methods!</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $message</strong>: message</li>
+			<li><strong>int $type</strong>: type</li>
+			<li><strong>int $behaviour</strong>: behaviour (die or continue!);</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - object</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodselectAdd" id="methodselectAdd"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method selectAdd</strong> (line <span class="linenumber">733</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>selectAdd(
+[string
+$k = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds a select columns</h5>
+<div class="desc"><p>$object-&gt;selectAdd(); // resets select to nothing!  $object-&gt;selectAdd(&quot;*&quot;); // default select  $object-&gt;selectAdd(&quot;unixtime(DATE) as udate&quot;);  $object-&gt;selectAdd(&quot;DATE&quot;);</p><p>to prepend distict:  $object-&gt;selectAdd('distinct ' . $object-&gt;selectAdd());</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $k</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - null or old string if you reset it.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodselectAs" id="methodselectAs"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method selectAs</strong> (line <span class="linenumber">773</span>)
+ </h4> 
+<h4><i>void</i> <strong>selectAs(
+[array|object|null
+$from = null], [string
+$format = '%s'], [string
+$tableName = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds multiple Columns or objects to select with formating.</h5>
+<div class="desc"><p>$object-&gt;selectAs(null); // adds &quot;table.colnameA as colnameA,table.colnameB as colnameB,......&quot;                       // note with null it will also clear the '*' default select  $object-&gt;selectAs(array('a','b'),'%s_x'); // adds &quot;a as a_x, b as b_x&quot;  $object-&gt;selectAs(array('a','b'),'ddd_%s','ccc'); // adds &quot;ccc.a as ddd_a, ccc.b as ddd_b&quot;  $object-&gt;selectAdd($object,'prefix_%s'); // calls $object-&gt;get_table and adds it all as                   objectTableName.colnameA as prefix_colnameA</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array|object|null $from</strong>: the array or object to take column names from.</li>
+			<li><strong>string $format</strong>: format in sprintf format (use %s for the colname)</li>
+			<li><strong>string $tableName</strong>: table name eg. if you have joinAdd'd or send $from as an array.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetFrom" id="methodsetFrom"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setFrom</strong> (line <span class="linenumber">2964</span>)
+ </h4> 
+<h4><i>true</i> <strong>setFrom(
+array
+&$from, [string
+$format = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Copies items that are in the table definitions from an  array or object into the current object  will not override key values.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $format</strong>: eg. map xxxx_name to $object-&gt;name using 'xxxx_%s' (defaults to %s - eg. name -&gt; $object-&gt;name</li>
+			<li><strong>array &$from</strong>: | object  $from</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - on success or array of key=&gt;setValue error message</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodstaticGet" id="methodstaticGet"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method staticGet</strong> (line <span class="linenumber">311</span>)
+ </h4> 
+<h4><i>object</i> <strong>&amp;staticGet(
+string
+$class, string
+$k, [string
+$v = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>An autoloading, caching static get method  using key, value (based on get)</h5>
+<div class="desc"><p>Usage:  $object = DB_DataObject::staticGet(&quot;DbTable_mytable&quot;,12);  or  $object =  DB_DataObject::staticGet(&quot;DbTable_mytable&quot;,&quot;name&quot;,&quot;fred&quot;);</p><p>or write it into your extended class:  function &amp;staticGet($k,$v=NULL) { return DB_DataObject::staticGet(&quot;This_Class&quot;,$k,$v);  }</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $class</strong>: class name</li>
+			<li><strong>string $k</strong>: column (or value if using keys)</li>
+			<li><strong>string $v</strong>: value (optional)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodtable" id="methodtable"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method table</strong> (line <span class="linenumber">1719</span>)
+ </h4> 
+<h4><i>array</i> <strong>table(
+array
+0)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>get/set an associative array of table columns</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array 0</strong>: key=&gt;type array</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - (associative)</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodtableName" id="methodtableName"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method tableName</strong> (line <span class="linenumber">1687</span>)
+ </h4> 
+<h4><i>string</i> <strong>tableName(
+string
+0)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return or assign the name of the current table</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string 0</strong>: optinal table name to set</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The name of the current table</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodtoArray" id="methodtoArray"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method toArray</strong> (line <span class="linenumber">3045</span>)
+ </h4> 
+<h4><i>array</i> <strong>toArray(
+[string
+$format = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns an associative array from the current data  (kind of oblivates the idea behind DataObjects, but  is usefull if you use it with things like QuickForms.</h5>
+<div class="desc"><p>you can use the format to return things like user[key]  by sending it $object-&gt;toArray('user[%s]')</p><p>will also return links converted to arrays.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $format</strong>: sprintf format for array</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - of key =&gt; value for row</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodtoValue" id="methodtoValue"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method toValue</strong> (line <span class="linenumber">3408</span>)
+ </h4> 
+<h4><i>true</i> <strong>toValue(
+string
+$col, [format
+$format = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>standard get* implementation.</h5>
+<div class="desc"><p>with formaters..  supported formaters:    date/time : %d/%m/%Y (eg. php strftime) or pear::Date    numbers   : %02d (eg. sprintf)   NOTE you will get unexpected results with times like 0000-00-00 !!!</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $col</strong>: column of database</li>
+			<li><strong>format $format</strong>: foramt</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Description</li>
+			<li><strong>see</strong> - <a href="../DB_DataObject/DB_DataObject.html#method_call">DB_DataObject::_call()</a>, http://www.php.net/strftime, Date::format()</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodupdate" id="methodupdate"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method update</strong> (line <span class="linenumber">1057</span>)
+ </h4> 
+<h4><i>int</i> <strong>update(
+[object dataobject
+$dataObject = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Updates  current objects variables into the database  uses the keys() to decide how to update  Returns the  true on success</h5>
+<div class="desc"><p>for example</p><p>$object = DB_DataObject::factory('mytable');  $object-&gt;get(&quot;ID&quot;,234);  $object-&gt;email=&quot;testing@test.com&quot;;  if(!$object-&gt;update())    echo &quot;UPDATE FAILED&quot;;</p><p>to only update changed items :  $dataobject-&gt;get(132);  $original = $dataobject; // clone/copy it..  $dataobject-&gt;setFrom($_POST);  if ($dataobject-&gt;validate()) {     $dataobject-&gt;update($original);  } // otherwise an error...</p><p>performing global updates:  $object = DB_DataObject::factory('mytable');  $object-&gt;status = &quot;dead&quot;;  $object-&gt;whereAdd('age &gt; 150');  $object-&gt;update(DB_DATAOBJECT_WHEREADD_ONLY);</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object dataobject $dataObject</strong>: (optional) | DB_DATAOBJECT_WHEREADD_ONLY - used to only update changed items.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - rows affected or false on failure</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodvalidate" id="methodvalidate"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method validate</strong> (line <span class="linenumber">3091</span>)
+ </h4> 
+<h4><i>array</i> <strong>validate(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>validate - override this to set up your validation rules</h5>
+<div class="desc"><p>validate the current objects values either just testing strings/numbers or  using the user defined validate{Row name}() methods.  will attempt to call $this-&gt;validate{column_name}() - expects true = ok  false = ERROR  you can the use the validate Class from your own methods.</p><p>This should really be in a extenal class - eg. DB_DataObject_Validate.</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - of validation results or true</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodwhereAdd" id="methodwhereAdd"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method whereAdd</strong> (line <span class="linenumber">542</span>)
+ </h4> 
+<h4><i>string|PEAR::Error</i> <strong>whereAdd(
+[string
+$cond = false], [string
+$logic = 'AND'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds a condition to the WHERE statement, defaults to AND</h5>
+<div class="desc"><p>$object-&gt;whereAdd(); //reset or cleaer ewhwer  $object-&gt;whereAdd(&quot;ID &gt; 20&quot;);  $object-&gt;whereAdd(&quot;age &gt; 20&quot;,&quot;OR&quot;);</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $cond</strong>: condition</li>
+			<li><strong>string $logic</strong>: optional logic &quot;OR&quot; (defaults to &quot;AND&quot;)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - - previous condition or Error when invalid args found</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method_call" id="method_call"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _call</strong> (line <span class="linenumber">3217</span>)
+ </h4> 
+<h4><i>true?</i> <strong>_call(
+mixed
+$method, mixed
+$params, mixed
+&$return)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Overload Extension support <ul><li>enables setCOLNAME/getCOLNAME</li></ul>  if you define a set/get method for the item it will be called.</h5>
+<div class="desc"><p>otherwise it will just return/set the value.  NOTE this currently means that a few Names are NO-NO's  eg. links,link,linksarray, from, Databaseconnection,databaseresult</p><p>note <ul></ul><ul><li>get is automatically called by toArray()</li></ul>  setters return true on success. = strings on failure  getters return the value!</p><p>this fires off trigger_error - if any problems.. pear_error,  has problems with 4.3.2RC2 here</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>see</strong> - overload</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method_get_keys" id="method_get_keys"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _get_keys</strong> (line <span class="linenumber">3636</span>)
+ </h4> 
+<h4><i>void</i> <strong>_get_keys(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_get_table" id="method_get_table"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _get_table</strong> (line <span class="linenumber">3635</span>)
+ </h4> 
+<h4><i>void</i> <strong>_get_table(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_loadConfig" id="method_loadConfig"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _loadConfig</strong> (line <span class="linenumber">3597</span>)
+ </h4> 
+<h4><i>object an</i> <strong>_loadConfig(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Define the global $_DB_DATAOBJECT['CONFIG'] as an alias to  PEAR::getStaticProperty('DB_DataObject','options');</h5>
+<div class="desc"><p>After Profiling DB_DataObject, I discoved that the debug calls where taking  considerable time (well 0.1 ms), so this should stop those calls happening. as  all calls to debug are wrapped with direct variable queries rather than actually calling the funciton  THIS STILL NEEDS FURTHER INVESTIGATION</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - error object</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../DB_DataObject/DB_DataObject_Overload.html">DB_DataObject_Overload</a></h4>
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB_DataObject/DB_DataObject_Overload.html#method__call">DB_DataObject_Overload::__call()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB_DataObject/DB_DataObject_Overload.html#method__sleep">DB_DataObject_Overload::__sleep()</a></strong> - 
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:49 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

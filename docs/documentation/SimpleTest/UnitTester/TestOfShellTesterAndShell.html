@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class TestOfShellTesterAndShell</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class TestOfShellTesterAndShell
+</h2> (line <span class="linenumber">20</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a>
+   |
+   --<a href="../../SimpleTest/UnitTester/ShellTestCase.html">ShellTestCase</a>
+      |
+      --TestOfShellTesterAndShell</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_test_shell_test_php.html">/packages/SimpleTest/test/shell_test.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Test case for testing of command line scripts and     utilities. Usually scripts taht are external to the     PHP code, but support it in some way.</h5>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodtestEcho" title="details" class="method-name">testEcho</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodtestFileExistence" title="details" class="method-name">testFileExistence</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodtestFilePatterns" title="details" class="method-name">testFilePatterns</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodtestEcho" id="methodtestEcho"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method testEcho</strong> (line <span class="linenumber">22</span>)
+ </h4> 
+<h4><i>void</i> <strong>testEcho(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodtestFileExistence" id="methodtestFileExistence"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method testFileExistence</strong> (line <span class="linenumber">28</span>)
+ </h4> 
+<h4><i>void</i> <strong>testFileExistence(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodtestFilePatterns" id="methodtestFilePatterns"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method testFilePatterns</strong> (line <span class="linenumber">33</span>)
+ </h4> 
+<h4><i>void</i> <strong>testFilePatterns(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/ShellTestCase.html">ShellTestCase</a></h4>
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#var$_current_shell">ShellTestCase::$_current_shell</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#var$_last_command">ShellTestCase::$_last_command</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#var$_last_status">ShellTestCase::$_last_status</a></strong> - 
+	</h4> 
+			<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a></h4>
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#var$_label">SimpleTestCase::$_label</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#var$_runner">SimpleTestCase::$_runner</a></strong> - 
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/ShellTestCase.html">ShellTestCase</a></h4>
+				<h4>
+<img src="../../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodShellTestCase">ShellTestCase::ShellTestCase()</a></strong> - Creates an empty test case. Should be subclassed     with test methods for a functional test case.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodassertExitCode">ShellTestCase::assertExitCode()</a></strong> - Tests the last status code from the shell.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodassertFileExists">ShellTestCase::assertFileExists()</a></strong> - File existence check.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodassertFileNotExists">ShellTestCase::assertFileNotExists()</a></strong> - File non-existence check.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodassertFilePattern">ShellTestCase::assertFilePattern()</a></strong> - Scans a file for a Perl regex. If found     anywhere it passes, else it fails.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodassertNoFilePattern">ShellTestCase::assertNoFilePattern()</a></strong> - If a Perl regex is found anywhere in the named     file then a failure is generated, else a pass.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodassertNoOutputPattern">ShellTestCase::assertNoOutputPattern()</a></strong> - If a Perl regex is found anywhere in the current     output then a failure is generated, else a pass.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodassertOutput">ShellTestCase::assertOutput()</a></strong> - Attempt to exactly match the combined STDERR and     STDOUT output.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodassertOutputPattern">ShellTestCase::assertOutputPattern()</a></strong> - Scans the output for a Perl regex. If found     anywhere it passes, else it fails.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methoddumpOutput">ShellTestCase::dumpOutput()</a></strong> - Dumps the output of the last command.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodexecute">ShellTestCase::execute()</a></strong> - Executes a command and buffers the results.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodgetOutput">ShellTestCase::getOutput()</a></strong> - Accessor for the last output.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#methodgetOutputAsList">ShellTestCase::getOutputAsList()</a></strong> - Accessor for the last output.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#method_createShell">ShellTestCase::_createShell()</a></strong> - Factory for the shell to run the command on.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/ShellTestCase.html#method_getShell">ShellTestCase::_getShell()</a></strong> - Accessor for current shell. Used for testing the     the tester itself.
+		</h4> 
+
+				<br />
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a></h4>
+				<h4>
+<img src="../../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodSimpleTestCase">SimpleTestCase::SimpleTestCase()</a></strong> - Sets up the test with no display.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertExpectation">SimpleTestCase::assertExpectation()</a></strong> - Runs an expectation directly, for extending the     tests with new expectation classes.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertFalse">SimpleTestCase::assertFalse()</a></strong> - Will be true on false and vice versa. False     is the PHP definition of false, so that null,     empty strings, zero and an empty array all count     as false.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertTrue">SimpleTestCase::assertTrue()</a></strong> - Called from within the test methods to register     passes and failures.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodcreateInvoker">SimpleTestCase::createInvoker()</a></strong> - Used to invoke the single tests.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methoddump">SimpleTestCase::dump()</a></strong> - Sends a formatted dump of a variable to the     test suite for those emergency debugging     situations.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methoderror">SimpleTestCase::error()</a></strong> - Formats a PHP error and dispatches it to the     runner.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodfail">SimpleTestCase::fail()</a></strong> - Sends a fail event with a message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetAssertionLine">SimpleTestCase::getAssertionLine()</a></strong> - Uses a stack trace to find the line of an assertion.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetLabel">SimpleTestCase::getLabel()</a></strong> - Accessor for the test name for subclasses.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetSize">SimpleTestCase::getSize()</a></strong> - Accessor for the number of subtests.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodpass">SimpleTestCase::pass()</a></strong> - Sends a pass event with a message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodrun">SimpleTestCase::run()</a></strong> - Uses reflection to run every method within itself     starting with the string &quot;test&quot; unless a method     is specified.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsendMessage">SimpleTestCase::sendMessage()</a></strong> - Dispatches a text message straight to the     test suite. Useful for status bar displays.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsetUp">SimpleTestCase::setUp()</a></strong> - Sets up unit test wide variables at the start     of each test method. To be overridden in     actual user test cases.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsignal">SimpleTestCase::signal()</a></strong> - Sends a user defined event to the test runner.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodswallowErrors">SimpleTestCase::swallowErrors()</a></strong> - Cancels any outstanding errors.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodtearDown">SimpleTestCase::tearDown()</a></strong> - Clears the data set in the setUp() method call.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#method_createRunner">SimpleTestCase::_createRunner()</a></strong> - Can modify the incoming reporter so as to run     the tests differently. This version simply     passes it straight through.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:21 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

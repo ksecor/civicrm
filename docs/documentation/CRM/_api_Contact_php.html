@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs for page Contact.php</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><h2>File: /api/Contact.php</h2>
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ) );
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Definition of the Contact part of the CRM API.</h5>
+<div class="desc"><p>More detailed documentation can be found  <a href="http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs">here</a></p></div>
+<ul>
+		<li><strong>copyright:</strong> - Donald A. Lobo 01/15/2005  $Id$</li>
+		<li><strong>author:</strong> - Donald A. Lobo &lt;<a href="mailto:lobo@yahoo.com">lobo@yahoo.com</a>&gt;</li>
+	</ul>
+<!-- =========== Used Classes =========== -->
+<A NAME='classes_summary'><!-- --></A>
+<h3>Classes defined in this file</h3>
+
+<TABLE CELLPADDING='3' CELLSPACING='0' WIDTH='100%' CLASS="border">
+	<THEAD>
+		<TR><TD STYLE="width:20%"><h4>CLASS NAME</h4></TD><TD STYLE="width: 80%"><h4>DESCRIPTION</h4></TD></TR>
+	</THEAD>
+	<TBODY>
+			</TBODY>
+</TABLE>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+<!-- ============ Includes DETAIL =========== -->
+
+<h2 class="tab">Include/Require Statements</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+
+
+<a name="_CRM/Array_php"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/file.png" border="0" /> <strong class="Property"><a href="../CRM/_CRM_Array_php.html">'CRM/Array.php'</a></strong> (line <span class="linenumber">44</span>)
+ </h4> 
+<h4>require_once : <a href="../CRM/_CRM_Array_php.html">'CRM/Array.php'</a></h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="_CRM/Error_php"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/file.png" border="0" /> <strong class="Property"><a href="../CRM/_CRM_Error_php.html">'CRM/Error.php'</a></strong> (line <span class="linenumber">43</span>)
+ </h4> 
+<h4>require_once : <a href="../CRM/_CRM_Error_php.html">'CRM/Error.php'</a></h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="_PEAR_php"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/file.png" border="0" /> <strong class="Property"><a href="../civiCRM/_packages_PEAR_php.html">PEAR.php</a></strong> (line <span class="linenumber">41</span>)
+ </h4> 
+<h4>require_once : <a href="../civiCRM/_packages_PEAR_php.html">PEAR.php</a></h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Files required for this package</h5>
+<ul>
+	</ul>
+</div>
+</div>
+<div class="tab-page" id="tabPage2">
+<!-- ============ GLOBAL DETAIL =========== -->
+
+<h2 class="tab">Global Variables</h2>
+
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script>
+
+</div>
+<div class="tab-page" id="tabPage3">
+<!-- ============ CONSTANT DETAIL =========== -->
+
+<A NAME='constant_detail'></A>
+<h2 class="tab">Constants</h2>
+
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage3" ) );</script>
+
+</div>
+<div class="tab-page" id="tabPage4">
+<!-- ============ FUNCTION DETAIL =========== -->
+
+<h2 class="tab">Functions</h2>
+
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage4" ) );</script>
+
+<a name="functioncrm_create_contact" id="functioncrm_create_contact"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_create_contact</strong> (line <span class="linenumber">117</span>)
+ </h4> 
+<h4><i>CRM_Contact|<a href="../CRM/CRM_Error.html">CRM_Error</a></i> <strong>&amp;crm_create_contact(
+array &$params, [string $contact_type = 'Individual'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Create a new contact.</h5>
+<div class="desc"><p>Creates a new contact record and returns the newly created  Contact object (including the contact_id property). Minimum  required data values for the various contact_type are:</p><p>Individual: <ul><li>'email' OR</li><li>'first_name' and 'last_name'</li></ul> Household: <ul><li>'household_name'</li></ul> Organization: <ul><li>'organization_name'</li></ul>  Available properties for each type of Contact are listed in the  <a href="http://objectledge.org/confluence/display/CRM/Data+Model#DataModel-ContactRef">CRM Data Model.</a></p><p>A 'duplicate contact' error is returned if an existing contact has  the same 'email' as its primary email address. A 'possible duplicate'  warning is returned if an exact match is found for all passed input  values.</p><p><strong>Tips - Creating Contacts</strong>  <ul><li>The Contact data objects may include both identifying
+ information (e.g. last_name, organization name, etc.) and primary
+ communications data (e.g. primary email, primary phone, primary
+ postal address...).</li><li>Properties which have administratively assigned sets of values
+ (ENUM types) are passed as strings (e.g. mobile_service_provider',
+ 'im_service', etc). If an unrecognized value is passed, an error
+ will be returned.</li><li>Modules may invoke crm_get_option_values($property_name) to
+ retrieve a list of currently available values for a given
+ property.</li><li>Invoke crm_create_option_value($property_name) to add new
+ option values for a property.</li></ul></p><p><em>EXAMPLE: If the available values for mobile_service_provider are
+ 'Working Assets', 'Sprint', 'Verizon' - and a value of 'Foobar' is passed,
+ an error is returned.</em></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $params</strong>: Associative array of property name/value                              pairs to insert in new contact.</li>
+			<li><strong>string $contact_type</strong>: Which class of contact is being created.             Valid values = 'Individual', 'Household', 'Organization'.                             '</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Newly created Contact object</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="functioncrm_delete_contact" id="functioncrm_delete_contact"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_delete_contact</strong> (line <span class="linenumber">411</span>)
+ </h4> 
+<h4><i>void|<a href="../CRM/CRM_Error.html">CRM_Error</a></i> <strong>crm_delete_contact(
+CRM_Contact &$contact)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Delete a specified contact.</h5>
+<div class="desc"><p><strong>Versioning and Un-delete</strong></p><p><ul><li>CRM will implement a 'Versioning' utility which will include
+ structural support for 'un-delete' operations. The API and UI
+ interfaces for 'un-delete' will probably be available in v1.x.</li></ul></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>CRM_Contact $contact</strong>: Contact object to be deleted</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - An error if 'contact' is invalid,                          permissions are insufficient, etc.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="functioncrm_get_contact" id="functioncrm_get_contact"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_get_contact</strong> (line <span class="linenumber">340</span>)
+ </h4> 
+<h4><i>CRM_Contact|<a href="../CRM/CRM_Error.html">CRM_Error</a></i> <strong>&amp;crm_get_contact(
+array $params, [array $returnProperties = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get an existing contact.</h5>
+<div class="desc"><p>Returns a single existing Contact object which matches ALL property  values passed in $params. An error object is returned if there is  no match, or more than one match. This API can be used to retrieve  the CRM internal identifier (contact_id) based on a unique property  (e.g. email address). It can also be used to retrieve any desired  contact properties based on a known contact_id. Available  properties for each type of Contact are listed in the <a href="http://objectledge.org/confluence/display/CRM/Data+Model#DataModel-ContactRef">CRM Data Model.</a> Modules may also invoke crm_get_class_properties()  to retrieve all available property names, including extended  (i.e. custom) properties.contact of the specific type that matches  the input params</p><p><strong>Primary Location and Communication Info</strong></p><p><ul><li>Primary location properties (email address, phone, postal address,
+ etc.) are available in the Contact data objects. Primary email and
+ phone number are returned by default. Postal address fields and
+ primary instant messenger identifier are returned when specified in
+ $return_properties. For contacts with multiple locations, use
+ crm_get_locations() to retrieve additional location data.</li></ul></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $params</strong>: Associative array of property name/value                                 pairs to attempt to match on.</li>
+			<li><strong>array $returnProperties</strong>: Which properties should be included in the                                 returned Contact object. If NULL, the default                                 set of properties will be included.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Return the Contact Object if found, else                                 Error Object</li>
+			<li><strong>access</strong> - public</li>
+			<li><strong>example</strong> - <a href="../__examplesource/exsource__home_manish_svn_crm_examples_api_Contact.php_143553b3401097ba989acf0bb679f1c9.html">example</a></li>
+			<li><strong>see</strong> - <a href="../CRM/_api_crm_php.html#functioncrm_get_locations">crm_get_locations()</a></li>
+			<li><strong>see</strong> - <a href="../CRM/_api_crm_php.html#functioncrm_get_class_properties">crm_get_class_properties()</a></li>
+		</ul>
+</div>
+<a name="functioncrm_update_contact" id="functioncrm_update_contact"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_update_contact</strong> (line <span class="linenumber">388</span>)
+ </h4> 
+<h4><i>CRM_Contact|<a href="../CRM/CRM_Error.html">CRM_Error</a></i> <strong>&amp;crm_update_contact(
+CRM_Contact &$contact, array $params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Update a specified contact.</h5>
+<div class="desc"><p>Updates a contact with the values passed in the 'params' array. An  error is returned if an invalid contact is passed, or an invalid  property name or property value is included in 'params'. An error  is also returned if the processing the update would violate data  integrity rules, e.g. if a primary 'email' value is passed which is  the same as the primary email of another contact.</p><p><strong>Clearing Property Values with Update APIs</strong></p><p><ul><li>For any CRM 'update' API...to clear the value of an existing
+ property (i.e. set it to empty) - pass the property name in the
+ $params array with a NULL value.</li></ul></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>CRM_Contact $contact</strong>: A valid Contact object</li>
+			<li><strong>array $params</strong>: Associative array of property                              name/value pairs to be updated.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Return the updated Contact Object else                                 Error Object (if integrity violation)</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="function_crm_check_params" id="function_crm_check_params"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">_crm_check_params</strong> (line <span class="linenumber">158</span>)
+ </h4> 
+<h4><i>bool|<a href="../CRM/CRM_Error.html">CRM_Error</a></i> <strong>_crm_check_params(
+array &$params, [string $contact_type = 'Individual'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This function ensures that we have the right input parameters</h5>
+<div class="desc"><p>We also need to make sure we run all the form rules on the params list  to ensure that the params are valid</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $params</strong>: Associative array of property name/value                              pairs to insert in new contact.</li>
+			<li><strong>string $contact_type</strong>: Which class of contact is being created.             Valid values = 'Individual', 'Household', 'Organization'.                             '</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="function_crm_format_params" id="function_crm_format_params"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">_crm_format_params</strong> (line <span class="linenumber">232</span>)
+ </h4> 
+<h4><i>array|<a href="../CRM/CRM_Error.html">CRM_Error</a></i> <strong>_crm_format_params(
+array &$params, array &$values)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>take the input parameter list as specified in the data model and  convert it into the same format that we use in QF and BAO object</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $params</strong>: Associative array of property name/value                              pairs to insert in new contact.</li>
+			<li><strong>array $values</strong>: The reformatted properties that we can use internally                             '</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:42 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

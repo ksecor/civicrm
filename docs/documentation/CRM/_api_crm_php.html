@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs for page crm.php</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><h2>File: /api/crm.php</h2>
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ) );
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Definition of the CRM API. For more detailed documentation, please check:</h5>
+<div class="desc"><p>More detailed documentation can be found  <a href="http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs">here</a></p></div>
+<ul>
+		<li><strong>copyright:</strong> - Donald A. Lobo 01/15/2005  $Id$</li>
+		<li><strong>author:</strong> - Donald A. Lobo &lt;<a href="mailto:lobo@yahoo.com">lobo@yahoo.com</a>&gt;</li>
+	</ul>
+<!-- =========== Used Classes =========== -->
+<A NAME='classes_summary'><!-- --></A>
+<h3>Classes defined in this file</h3>
+
+<TABLE CELLPADDING='3' CELLSPACING='0' WIDTH='100%' CLASS="border">
+	<THEAD>
+		<TR><TD STYLE="width:20%"><h4>CLASS NAME</h4></TD><TD STYLE="width: 80%"><h4>DESCRIPTION</h4></TD></TR>
+	</THEAD>
+	<TBODY>
+			</TBODY>
+</TABLE>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+<!-- ============ Includes DETAIL =========== -->
+
+<h2 class="tab">Include/Require Statements</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+
+
+<a name="_PEAR_php"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/file.png" border="0" /> <strong class="Property"><a href="../civiCRM/_packages_PEAR_php.html">PEAR.php</a></strong> (line <span class="linenumber">43</span>)
+ </h4> 
+<h4>require_once : <a href="../civiCRM/_packages_PEAR_php.html">PEAR.php</a></h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Files required for this package</h5>
+<ul>
+	</ul>
+</div>
+<a name="_api/Contact_php"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/file.png" border="0" /> <strong class="Property"><a href="../CRM/_api_Contact_php.html">'api/Contact.php'</a></strong> (line <span class="linenumber">47</span>)
+ </h4> 
+<h4>require_once : <a href="../CRM/_api_Contact_php.html">'api/Contact.php'</a></h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="_CRM/Error_php"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/file.png" border="0" /> <strong class="Property"><a href="../CRM/_CRM_Error_php.html">'CRM/Error.php'</a></strong> (line <span class="linenumber">44</span>)
+ </h4> 
+<h4>require_once : <a href="../CRM/_CRM_Error_php.html">'CRM/Error.php'</a></h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="_api/utils_php"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/file.png" border="0" /> <strong class="Property"><a href="../civiCRM/_api_utils_php.html">'api/utils.php'</a></strong> (line <span class="linenumber">45</span>)
+ </h4> 
+<h4>require_once : <a href="../civiCRM/_api_utils_php.html">'api/utils.php'</a></h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+</div>
+<div class="tab-page" id="tabPage2">
+<!-- ============ GLOBAL DETAIL =========== -->
+
+<h2 class="tab">Global Variables</h2>
+
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script>
+
+</div>
+<div class="tab-page" id="tabPage3">
+<!-- ============ CONSTANT DETAIL =========== -->
+
+<A NAME='constant_detail'></A>
+<h2 class="tab">Constants</h2>
+
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage3" ) );</script>
+
+</div>
+<div class="tab-page" id="tabPage4">
+<!-- ============ FUNCTION DETAIL =========== -->
+
+<h2 class="tab">Functions</h2>
+
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage4" ) );</script>
+
+<a name="functioncrm_add_group_contacts" id="functioncrm_add_group_contacts"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_add_group_contacts</strong> (line <span class="linenumber">84</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_add_group_contacts(
+mixed &$group, mixed $contacts, [mixed $status = 'In'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_add_option_value" id="functioncrm_add_option_value"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_add_option_value</strong> (line <span class="linenumber">117</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_add_option_value(
+mixed $property, [mixed $filter = null], mixed $option_values)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_contact_search" id="functioncrm_contact_search"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_contact_search</strong> (line <span class="linenumber">108</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_contact_search(
+mixed $params, mixed $returnProperties, [mixed $sort = null], [mixed $offset = 0], [mixed $row_count = 25])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_contact_search_count" id="functioncrm_contact_search_count"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_contact_search_count</strong> (line <span class="linenumber">105</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_contact_search_count(
+mixed $params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_create_action" id="functioncrm_create_action"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_create_action</strong> (line <span class="linenumber">111</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_create_action(
+mixed &$contact, mixed $params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_create_extended_property" id="functioncrm_create_extended_property"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_create_extended_property</strong> (line <span class="linenumber">129</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_create_extended_property(
+mixed &$property_group, mixed $params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_create_extended_property_group" id="functioncrm_create_extended_property_group"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_create_extended_property_group</strong> (line <span class="linenumber">126</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_create_extended_property_group(
+mixed $class_name, mixed $params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_create_group" id="functioncrm_create_group"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_create_group</strong> (line <span class="linenumber">72</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_create_group(
+mixed $params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_create_location" id="functioncrm_create_location"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_create_location</strong> (line <span class="linenumber">60</span>)
+ </h4> 
+<h4><i>CRM_Contact</i> <strong>crm_create_location(
+CRM_Contact &$contact, array $params, enum 2)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Create an additional location for an existing contact</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>CRM_Contact $contact</strong>: Contact object to be deleted</li>
+			<li><strong>array $params</strong>: input properties</li>
+			<li><strong>enum 2</strong>: context_name Name of a valid Context</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - or CRM_Error (db error or contact was not valid)</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="functioncrm_create_relationship" id="functioncrm_create_relationship"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_create_relationship</strong> (line <span class="linenumber">93</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_create_relationship(
+mixed &$contact, mixed &$target_contact, mixed $relationship_type_name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_create_relationship_type" id="functioncrm_create_relationship_type"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_create_relationship_type</strong> (line <span class="linenumber">102</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_create_relationship_type(
+mixed $params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_delete_group" id="functioncrm_delete_group"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_delete_group</strong> (line <span class="linenumber">81</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_delete_group(
+mixed &$group)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_delete_group_contacts" id="functioncrm_delete_group_contacts"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_delete_group_contacts</strong> (line <span class="linenumber">90</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_delete_group_contacts(
+mixed &$group, mixed $contacts)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_delete_location" id="functioncrm_delete_location"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_delete_location</strong> (line <span class="linenumber">66</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_delete_location(
+mixed &$contact, mixed $context_name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_delete_relationship" id="functioncrm_delete_relationship"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_delete_relationship</strong> (line <span class="linenumber">99</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_delete_relationship(
+mixed &$contact, mixed &$target_contact, mixed $relationship_type_name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_get_actions" id="functioncrm_get_actions"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_get_actions</strong> (line <span class="linenumber">114</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_get_actions(
+mixed &$contact, mixed $params, [mixed $sort = null], [mixed $offset = 0], [mixed $row_count = 25])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_get_class_properties" id="functioncrm_get_class_properties"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_get_class_properties</strong> (line <span class="linenumber">123</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_get_class_properties(
+[mixed $class_name = 'Individual'], [mixed $filter = 'all'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_get_groups" id="functioncrm_get_groups"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_get_groups</strong> (line <span class="linenumber">75</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_get_groups(
+[mixed $params = null], [mixed $returnProperties = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_get_group_contacts" id="functioncrm_get_group_contacts"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_get_group_contacts</strong> (line <span class="linenumber">87</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_get_group_contacts(
+mixed &$group, [mixed $returnProperties = null], [mixed $status = 'In'], [mixed $sort = null], [mixed $offset = 0], [mixed $row_count = 25])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_get_locations" id="functioncrm_get_locations"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_get_locations</strong> (line <span class="linenumber">69</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_get_locations(
+mixed &$contact)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_get_option_values" id="functioncrm_get_option_values"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_get_option_values</strong> (line <span class="linenumber">120</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_get_option_values(
+mixed $property, [mixed $filter = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_get_relationships" id="functioncrm_get_relationships"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_get_relationships</strong> (line <span class="linenumber">96</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_get_relationships(
+mixed &$contact, [mixed $relationship_type_name = null], [mixed $returnProperties = null], [mixed $sort = null], [mixed $offset = 0], [mixed $row_count = 25])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_update_group" id="functioncrm_update_group"><!-- --></a>
+<div style="background='#ffffff'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_update_group</strong> (line <span class="linenumber">78</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_update_group(
+mixed &$group, mixed $params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="functioncrm_update_location" id="functioncrm_update_location"><!-- --></a>
+<div style="background='#eeeeee'">
+<h4>
+  <img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">crm_update_location</strong> (line <span class="linenumber">63</span>)
+ </h4> 
+<h4><i>void</i> <strong>crm_update_location(
+mixed &$contact, mixed $context_name, mixed $params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:48 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

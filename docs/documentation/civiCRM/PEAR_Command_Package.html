@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class PEAR_Command_Package</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class PEAR_Command_Package
+</h2> (line <span class="linenumber">26</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../civiCRM/PEAR.html">PEAR</a>
+   |
+   --<a href="../civiCRM/PEAR_Command_Common.html">PEAR_Command_Common</a>
+      |
+      --PEAR_Command_Package</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_PEAR_Command_Package_php.html">/packages/PEAR/Command/Package.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Base class for other PEAR classes.  Provides rudimentary  emulation of destructors.</h5>
+<div class="desc"><p>If you want a destructor in your class, inherit PEAR and make a  destructor method called _yourclassname (same name as the  constructor, but with a &quot;_&quot; prefix).  Also, in your constructor you  have to call the PEAR constructor: $this-&gt;PEAR();.  The destructor method will be called without parameters.  Note that  at in some SAPI implementations (such as Apache), any output during  the request shutdown (in which destructors are called) seems to be  discarded.  If you need to get any debug information from your  destructor, use error_log(), syslog() or something similar.</p><p>IMPORTANT! To use the emulated destructors you need to create the  objects by reference: $obj =&amp; new PEAR_child;</p></div>
+<ul>
+		<li><strong>author:</strong> - Stig Bakken &lt;<a href="mailto:ssb@php.net">ssb@php.net</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$commands" title="details" class="property"><strong>$commands</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$output" title="details" class="property"><strong>$output</strong></a>
+</div>
+<hr />
+<a name="var$commands" id="var$commands"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$commands = array(<br />        'package' =&gt; array(<br />            'summary' =&gt; 'Build Package',<br />            'function' =&gt; 'doPackage',<br />            'shortcut' =&gt; 'p',<br />            'options' =&gt; array(<br />                'nocompress' =&gt; array(<br />                    'shortopt' =&gt; 'Z',<br />                    'doc' =&gt; 'Do not gzip the package file'<br />                    ),'showname'=&gt;array('shortopt'=&gt;'n','doc'=&gt;'Print the name of the packaged file.',),),'doc'=&gt;'[descfile]<br />Creates a PEAR package from its description file (usually called<br />package.xml).<br />'),'package-validate'=&gt;array('summary'=&gt;'Validate Package Consistency','function'=&gt;'doPackageValidate','shortcut'=&gt;'pv','options'=&gt;array(),'doc'=&gt;'<br />',),'cvsdiff'=&gt;array('summary'=&gt;'Run a &quot;cvs diff&quot; for all files in a package','function'=&gt;'doCvsDiff','shortcut'=&gt;'cd','options'=&gt;array('quiet'=&gt;array('shortopt'=&gt;'q','doc'=&gt;'Be quiet',),'reallyquiet'=&gt;array('shortopt'=&gt;'Q','doc'=&gt;'Be really quiet',),'date'=&gt;array('shortopt'=&gt;'D','doc'=&gt;'Diff against revision of DATE','arg'=&gt;'DATE',),'release'=&gt;array('shortopt'=&gt;'R','doc'=&gt;'Diff against tag for package release REL','arg'=&gt;'REL',),'revision'=&gt;array('shortopt'=&gt;'r','doc'=&gt;'Diff against revision REV','arg'=&gt;'REV',),'context'=&gt;array('shortopt'=&gt;'c','doc'=&gt;'Generate context diff',),'unified'=&gt;array('shortopt'=&gt;'u','doc'=&gt;'Generate unified diff',),'ignore-case'=&gt;array('shortopt'=&gt;'i','doc'=&gt;'Ignore case, consider upper- and lower-case letters equivalent',),'ignore-whitespace'=&gt;array('shortopt'=&gt;'b','doc'=&gt;'Ignore changes in amount of white space',),'ignore-blank-lines'=&gt;array('shortopt'=&gt;'B','doc'=&gt;'Ignore changes that insert or delete blank lines',),'brief'=&gt;array('doc'=&gt;'Report only whether the files differ, no details',),'dry-run'=&gt;array('shortopt'=&gt;'n','doc'=&gt;'Don\'t do anything, just pretend',),),'doc'=&gt;'&lt;package.xml&gt;<br />Compares all the files in a package.  Without any options, this<br />command will compare the current code with the last checked-in code.<br />Using the -r or -R option you may compare the current code with that<br />of a specific release.<br />',),'cvstag'=&gt;array('summary'=&gt;'Set CVS Release Tag','function'=&gt;'doCvsTag','shortcut'=&gt;'ct','options'=&gt;array('quiet'=&gt;array('shortopt'=&gt;'q','doc'=&gt;'Be quiet',),'reallyquiet'=&gt;array('shortopt'=&gt;'Q','doc'=&gt;'Be really quiet',),'slide'=&gt;array('shortopt'=&gt;'F','doc'=&gt;'Move (slide) tag if it exists',),'delete'=&gt;array('shortopt'=&gt;'d','doc'=&gt;'Remove tag',),'dry-run'=&gt;array('shortopt'=&gt;'n','doc'=&gt;'Don\'t do anything, just pretend',),),'doc'=&gt;'&lt;package.xml&gt;<br />Sets a CVS tag on all files in a package.  Use this command after you have<br />packaged a distribution tarball with the &quot;package&quot; command to tag what<br />revisions of what files were in that release.  If need to fix something<br />after running cvstag once, but before the tarball is released to the public,<br />use the &quot;slide&quot; option to move the release tag.<br />',),'run-tests'=&gt;array('summary'=&gt;'Run Regression Tests','function'=&gt;'doRunTests','shortcut'=&gt;'rt','options'=&gt;array('recur'=&gt;array('shortopt'=&gt;'r','doc'=&gt;'Run tests in child directories, recursively.  4 dirs deep maximum',),'ini'=&gt;array('shortopt'=&gt;'i','doc'=&gt;'actual string of settings to pass to php in format &quot; -d setting=blah&quot;','arg'=&gt;'SETTINGS'),'realtimelog'=&gt;array('shortopt'=&gt;'l','doc'=&gt;'Log test runs/results as they are run',),),'doc'=&gt;'[testfile|dir ...]<br />Run regression tests with PHP\'s regression testing script (run-tests.php).',),'package-dependencies'=&gt;array('summary'=&gt;'Show package dependencies','function'=&gt;'doPackageDependencies','shortcut'=&gt;'pd','options'=&gt;array(),'doc'=&gt;'<br />List all depencies the package has.'),'sign'=&gt;array('summary'=&gt;'Sign a package distribution file','function'=&gt;'doSign','shortcut'=&gt;'si','options'=&gt;array(),'doc'=&gt;'&lt;package-file&gt;<br />Signs a package distribution (.tar or .tgz) file with GnuPG.',),'makerpm'=&gt;array('summary'=&gt;'Builds an RPM spec file from a PEAR package','function'=&gt;'doMakeRPM','shortcut'=&gt;'rpm','options'=&gt;array('spec-template'=&gt;array('shortopt'=&gt;'t','arg'=&gt;'FILE','doc'=&gt;'Use FILE as RPM spec file template'),'rpm-pkgname'=&gt;array('shortopt'=&gt;'p','arg'=&gt;'FORMAT','doc'=&gt;'Use FORMAT as format string for RPM package name, %s is replaced<br />by the PEAR package name, defaults to &quot;PEAR::%s&quot;.',),),'doc'=&gt;'&lt;package-file&gt;<br /><br />Creates an RPM .spec file for wrapping a PEAR package inside an RPM<br />package.  Intended to be used from the SPECS directory, with the PEAR<br />package tarball in the SOURCES directory:<br /><br />$ pear makerpm ../SOURCES/Net_Socket-1.0.tgz<br />Wrote RPM spec file PEAR::Net_Geo-1.0.spec<br />$ rpm -bb PEAR::Net_Socket-1.0.spec<br />...<br />Wrote: /usr/src/redhat/RPMS/i386/PEAR::Net_Socket-1.0-1.i386.rpm<br />',),)</strong> (line <span class="linenumber">30</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$output" id="var$output"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$output</strong> (line <span class="linenumber">195</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">PEAR_Command_Package</span>
+        <a href="#methodPEAR_Command_Package" title="details" class="method-name">PEAR_Command_Package</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">&$ui</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$config</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddoCvsDiff" title="details" class="method-name">doCvsDiff</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddoCvsTag" title="details" class="method-name">doCvsTag</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddoMakeRPM" title="details" class="method-name">doMakeRPM</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddoPackage" title="details" class="method-name">doPackage</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddoPackageDependencies" title="details" class="method-name">doPackageDependencies</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddoPackageValidate" title="details" class="method-name">doPackageValidate</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddoRunTests" title="details" class="method-name">doRunTests</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddoSign" title="details" class="method-name">doSign</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_displayValidationResults" title="details" class="method-name">_displayValidationResults</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$err</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$warn</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$strict</span> = <span class="var-default">false</span>])
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodPEAR_Command_Package" id="methodPEAR_Command_Package"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor PEAR_Command_Package</strong> (line <span class="linenumber">205</span>)
+ </h4> 
+<h4><i>PEAR_Command_Package</i> <strong>PEAR_Command_Package(
+mixed
+&$ui, mixed
+&$config)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>PEAR_Command_Package constructor.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddoCvsDiff" id="methoddoCvsDiff"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method doCvsDiff</strong> (line <span class="linenumber">354</span>)
+ </h4> 
+<h4><i>void</i> <strong>doCvsDiff(
+mixed
+$command, mixed
+$options, mixed
+$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methoddoCvsTag" id="methoddoCvsTag"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method doCvsTag</strong> (line <span class="linenumber">295</span>)
+ </h4> 
+<h4><i>void</i> <strong>doCvsTag(
+mixed
+$command, mixed
+$options, mixed
+$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methoddoMakeRPM" id="methoddoMakeRPM"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method doMakeRPM</strong> (line <span class="linenumber">660</span>)
+ </h4> 
+<h4><i>void</i> <strong>doMakeRPM(
+mixed
+$command, mixed
+$options, mixed
+$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methoddoPackage" id="methoddoPackage"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method doPackage</strong> (line <span class="linenumber">234</span>)
+ </h4> 
+<h4><i>void</i> <strong>doPackage(
+mixed
+$command, mixed
+$options, mixed
+$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methoddoPackageDependencies" id="methoddoPackageDependencies"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method doPackageDependencies</strong> (line <span class="linenumber">537</span>)
+ </h4> 
+<h4><i>void</i> <strong>doPackageDependencies(
+mixed
+$command, mixed
+$options, mixed
+$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methoddoPackageValidate" id="methoddoPackageValidate"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method doPackageValidate</strong> (line <span class="linenumber">265</span>)
+ </h4> 
+<h4><i>void</i> <strong>doPackageValidate(
+mixed
+$command, mixed
+$options, mixed
+$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methoddoRunTests" id="methoddoRunTests"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method doRunTests</strong> (line <span class="linenumber">417</span>)
+ </h4> 
+<h4><i>void</i> <strong>doRunTests(
+mixed
+$command, mixed
+$options, mixed
+$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methoddoSign" id="methoddoSign"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method doSign</strong> (line <span class="linenumber">596</span>)
+ </h4> 
+<h4><i>void</i> <strong>doSign(
+mixed
+$command, mixed
+$options, mixed
+$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_displayValidationResults" id="method_displayValidationResults"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _displayValidationResults</strong> (line <span class="linenumber">214</span>)
+ </h4> 
+<h4><i>void</i> <strong>_displayValidationResults(
+mixed
+$err, mixed
+$warn, [mixed
+$strict = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR_Command_Common.html">PEAR_Command_Common</a></h4>
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Command_Common.html#var$config">PEAR_Command_Common::$config</a></strong> - PEAR_Config object used to pass user system and configuration  on when executing commands
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Command_Common.html#var$ui">PEAR_Command_Common::$ui</a></strong> - User Interface object, for all interaction with the user.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Command_Common.html#var$_deps_rel_trans">PEAR_Command_Common::$_deps_rel_trans</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Command_Common.html#var$_deps_type_trans">PEAR_Command_Common::$_deps_type_trans</a></strong> - 
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR_Command_Common.html">PEAR_Command_Common</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Command_Common.html#methodPEAR_Command_Common">PEAR_Command_Common::PEAR_Command_Common()</a></strong> - PEAR_Command_Common constructor.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Command_Common.html#methodgetCommands">PEAR_Command_Common::getCommands()</a></strong> - Return a list of all the commands defined by this class.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Command_Common.html#methodgetGetoptArgs">PEAR_Command_Common::getGetoptArgs()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Command_Common.html#methodgetHelp">PEAR_Command_Common::getHelp()</a></strong> - Returns the help message for the given command
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Command_Common.html#methodgetHelpArgs">PEAR_Command_Common::getHelpArgs()</a></strong> - Returns the help for the accepted arguments of a command
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Command_Common.html#methodgetOptions">PEAR_Command_Common::getOptions()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Command_Common.html#methodgetShortcuts">PEAR_Command_Common::getShortcuts()</a></strong> - Return a list of all the command shortcuts defined by this class.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Command_Common.html#methodrun">PEAR_Command_Common::run()</a></strong> - 
+		</h4> 
+
+				<br />
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR.html">PEAR</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodPEAR">PEAR::PEAR()</a></strong> - Constructor.  Registers this object in  $_PEAR_destructor_object_list for destructor emulation if a  destructor object exists.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methoddelExpect">PEAR::delExpect()</a></strong> - This method deletes all occurences of the specified element from  the expected error codes stack.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodexpectError">PEAR::expectError()</a></strong> - This method is used to tell which errors you expect to get.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodgetStaticProperty">PEAR::getStaticProperty()</a></strong> - If you have a class that's mostly/entirely static, and you need static
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodisError">PEAR::isError()</a></strong> - Tell whether a value is a PEAR error.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodloadExtension">PEAR::loadExtension()</a></strong> - OS independant PHP extension load. Remember to take care  on the correct extension name for case sensitive OSes.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpopErrorHandling">PEAR::popErrorHandling()</a></strong> - Pop the last error handler used
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpopExpect">PEAR::popExpect()</a></strong> - This method pops one element off the expected error codes  stack.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpushErrorHandling">PEAR::pushErrorHandling()</a></strong> - Push a new error handler on top of the error handler options stack. With this  you can easily override the actual error handler for some code and restore  it later with popErrorHandling.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodraiseError">PEAR::raiseError()</a></strong> - This method is a wrapper that returns an instance of the  configured error class with this object's default error  handling applied.  If the $mode and $options parameters are not  specified, the object's defaults are used.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodregisterShutdownFunc">PEAR::registerShutdownFunc()</a></strong> - Use this function to register a shutdown method for static  classes.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodsetErrorHandling">PEAR::setErrorHandling()</a></strong> - Sets how errors generated by this object should be handled.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodstaticPopErrorHandling">PEAR::staticPopErrorHandling()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodstaticPushErrorHandling">PEAR::staticPushErrorHandling()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodthrowError">PEAR::throwError()</a></strong> - Simpler form of raiseError with fewer options.  In most cases  message, code and userinfo are enough.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#method_PEAR">PEAR::_PEAR()</a></strong> - Destructor (the emulated type of...).  Does nothing right now,  but is included for forward compatibility, so subclass  destructors should always call it.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:57 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

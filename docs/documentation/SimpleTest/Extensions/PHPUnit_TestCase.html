@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class PHPUnit_TestCase</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class PHPUnit_TestCase
+</h2> (line <span class="linenumber">24</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a>
+   |
+   --PHPUnit_TestCase</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_extensions_pear_test_case_php.html">/packages/SimpleTest/extensions/pear_test_case.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adapter for PEAR PHPUnit test case to allow     legacy PEAR test cases to be used with SimpleTest.</h5>
+<ul>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from PHPUnit_TestCase:</span>
+ 		<dl>
+	<dt><a href="../../SimpleTest/Extensions/TestOfPearAdapter.html">TestOfPearAdapter</a></dt>
+		<dd>Adapter for PEAR PHPUnit test case to allow     legacy PEAR test cases to be used with SimpleTest.</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_loosely_typed" title="details" class="property"><strong>$_loosely_typed</strong></a>
+</div>
+<hr />
+<a name="var$_loosely_typed" id="var$_loosely_typed"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_loosely_typed</strong> (line <span class="linenumber">25</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">PHPUnit_TestCase</span>
+        <a href="#methodPHPUnit_TestCase" title="details" class="method-name">PHPUnit_TestCase</a>
+        ([<span class="var-type">$label</span>&nbsp;<span class="var-name">$label</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodassertEquals" title="details" class="method-name">assertEquals</a>
+        (<span class="var-type">$first</span>&nbsp;<span class="var-name">$first</span>, <span class="var-type">$second</span>&nbsp;<span class="var-name">$second</span>, [<span class="var-type">$message</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>], <span class="var-type">mixed</span>&nbsp;<span class="var-name">$delta</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodassertFalse" title="details" class="method-name">assertFalse</a>
+        (<span class="var-type">$condition</span>&nbsp;<span class="var-name">$condition</span>, [<span class="var-type">$message</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodassertNotNull" title="details" class="method-name">assertNotNull</a>
+        (<span class="var-type">$value</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">$message</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodassertNotSame" title="details" class="method-name">assertNotSame</a>
+        (<span class="var-type">$first</span>&nbsp;<span class="var-name">&$first</span>, <span class="var-type">$second</span>&nbsp;<span class="var-name">&$second</span>, [<span class="var-type">$message</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodassertNull" title="details" class="method-name">assertNull</a>
+        (<span class="var-type">$value</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">$message</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodassertRegExp" title="details" class="method-name">assertRegExp</a>
+        (<span class="var-type">$pattern</span>&nbsp;<span class="var-name">$pattern</span>, <span class="var-type">$subject</span>&nbsp;<span class="var-name">$subject</span>, [<span class="var-type">$message</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodassertSame" title="details" class="method-name">assertSame</a>
+        (<span class="var-type">$first</span>&nbsp;<span class="var-name">&$first</span>, <span class="var-type">$second</span>&nbsp;<span class="var-name">&$second</span>, [<span class="var-type">$message</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodassertTrue" title="details" class="method-name">assertTrue</a>
+        (<span class="var-type">$condition</span>&nbsp;<span class="var-name">$condition</span>, [<span class="var-type">$message</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodassertType" title="details" class="method-name">assertType</a>
+        (<span class="var-type">$value</span>&nbsp;<span class="var-name">$value</span>, <span class="var-type">$type</span>&nbsp;<span class="var-name">$type</span>, [<span class="var-type">$message</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">Usually</span>
+        <a href="#methodcountTestCases" title="details" class="method-name">countTestCases</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetName" title="details" class="method-name">getName</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetLooselyTyped" title="details" class="method-name">setLooselyTyped</a>
+        (<span class="var-type">$loosely_typed</span>&nbsp;<span class="var-name">$loosely_typed</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetName" title="details" class="method-name">setName</a>
+        (<span class="var-type">$name</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodPHPUnit_TestCase" id="methodPHPUnit_TestCase"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor PHPUnit_TestCase</strong> (line <span class="linenumber">32</span>)
+ </h4> 
+<h4><i>PHPUnit_TestCase</i> <strong>PHPUnit_TestCase(
+[$label
+$label = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Constructor. Sets the test name.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$label $label</strong>: Test name to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodassertEquals" id="methodassertEquals"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertEquals</strong> (line <span class="linenumber">45</span>)
+ </h4> 
+<h4><i>void</i> <strong>assertEquals(
+$first
+$first, $second
+$second, [$message
+$message = "%s"], [mixed
+$delta = 0])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will test straight equality if set to loose     typing, or identity if not.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$first $first</strong>: First value.</li>
+			<li><strong>$second $second</strong>: Comparison value.</li>
+			<li><strong>$message $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodassertFalse" id="methodassertFalse"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertFalse</strong> (line <span class="linenumber">132</span>)
+ </h4> 
+<h4><i>void</i> <strong>assertFalse(
+$condition
+$condition, [$message
+$message = "%s"])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertFalse">SimpleTestCase::assertFalse()</a> Will be true on false and vice versa. False     is the PHP definition of false, so that null,     empty strings, zero and an empty array all count     as false.</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sends pass if the test condition resolves false,     a fail otherwise.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$condition $condition</strong>: Condition to test false.</li>
+			<li><strong>$message $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodassertNotNull" id="methodassertNotNull"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNotNull</strong> (line <span class="linenumber">60</span>)
+ </h4> 
+<h4><i>void</i> <strong>assertNotNull(
+$value
+$value, [$message
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Passes if the value tested is not null.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$value $value</strong>: Value to test against.</li>
+			<li><strong>$message $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodassertNotSame" id="methodassertNotSame"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNotSame</strong> (line <span class="linenumber">102</span>)
+ </h4> 
+<h4><i>void</i> <strong>assertNotSame(
+$first
+&$first, $second
+&$second, [$message
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>In PHP5 the identity test tests for the same     object. This is a reference test in PHP4.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$first &$first</strong>: First object handle.</li>
+			<li><strong>$second &$second</strong>: Hopefully a different handle.</li>
+			<li><strong>$message $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodassertNull" id="methodassertNull"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNull</strong> (line <span class="linenumber">70</span>)
+ </h4> 
+<h4><i>void</i> <strong>assertNull(
+$value
+$value, [$message
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Passes if the value tested is null.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$value $value</strong>: Value to test against.</li>
+			<li><strong>$message $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodassertRegExp" id="methodassertRegExp"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertRegExp</strong> (line <span class="linenumber">143</span>)
+ </h4> 
+<h4><i>void</i> <strong>assertRegExp(
+$pattern
+$pattern, $subject
+$subject, [$message
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests a regex match. Needs refactoring.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$pattern $pattern</strong>: Regex to match.</li>
+			<li><strong>$subject $subject</strong>: String to search in.</li>
+			<li><strong>$message $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodassertSame" id="methodassertSame"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertSame</strong> (line <span class="linenumber">82</span>)
+ </h4> 
+<h4><i>void</i> <strong>assertSame(
+$first
+&$first, $second
+&$second, [$message
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>In PHP5 the identity test tests for the same     object. This is a reference test in PHP4.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$first &$first</strong>: First object handle.</li>
+			<li><strong>$second &$second</strong>: Hopefully the same handle.</li>
+			<li><strong>$message $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodassertTrue" id="methodassertTrue"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertTrue</strong> (line <span class="linenumber">121</span>)
+ </h4> 
+<h4><i>void</i> <strong>assertTrue(
+$condition
+$condition, [$message
+$message = "%s"])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertTrue">SimpleTestCase::assertTrue()</a> Called from within the test methods to register     passes and failures.</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sends pass if the test condition resolves true,     a fail otherwise.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$condition $condition</strong>: Condition to test true.</li>
+			<li><strong>$message $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodassertType" id="methodassertType"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertType</strong> (line <span class="linenumber">157</span>)
+ </h4> 
+<h4><i>void</i> <strong>assertType(
+$value
+$value, $type
+$type, [$message
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests the type of a value.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$value $value</strong>: Value to take type of.</li>
+			<li><strong>$type $type</strong>: Hoped for type.</li>
+			<li><strong>$message $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodcountTestCases" id="methodcountTestCases"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method countTestCases</strong> (line <span class="linenumber">178</span>)
+ </h4> 
+<h4><i>Usually</i> <strong>countTestCases(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>For progress indication during     a test amongst other things.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - one.</li>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetName" id="methodgetName"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getName</strong> (line <span class="linenumber">187</span>)
+ </h4> 
+<h4><i>void</i> <strong>getName(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for name, normally just the class     name.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodsetLooselyTyped" id="methodsetLooselyTyped"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setLooselyTyped</strong> (line <span class="linenumber">168</span>)
+ </h4> 
+<h4><i>void</i> <strong>setLooselyTyped(
+$loosely_typed
+$loosely_typed)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets equality operation to act as a simple equal     comparison only, allowing a broader range of     matches.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$loosely_typed $loosely_typed</strong>: True for broader comparison.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodsetName" id="methodsetName"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setName</strong> (line <span class="linenumber">196</span>)
+ </h4> 
+<h4><i>void</i> <strong>setName(
+$name
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Does nothing. For compatibility only.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$name $name</strong>: Dummy</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a></h4>
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#var$_label">SimpleTestCase::$_label</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#var$_runner">SimpleTestCase::$_runner</a></strong> - 
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a></h4>
+				<h4>
+<img src="../../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodSimpleTestCase">SimpleTestCase::SimpleTestCase()</a></strong> - Sets up the test with no display.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertExpectation">SimpleTestCase::assertExpectation()</a></strong> - Runs an expectation directly, for extending the     tests with new expectation classes.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertFalse">SimpleTestCase::assertFalse()</a></strong> - Will be true on false and vice versa. False     is the PHP definition of false, so that null,     empty strings, zero and an empty array all count     as false.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertTrue">SimpleTestCase::assertTrue()</a></strong> - Called from within the test methods to register     passes and failures.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodcreateInvoker">SimpleTestCase::createInvoker()</a></strong> - Used to invoke the single tests.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methoddump">SimpleTestCase::dump()</a></strong> - Sends a formatted dump of a variable to the     test suite for those emergency debugging     situations.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methoderror">SimpleTestCase::error()</a></strong> - Formats a PHP error and dispatches it to the     runner.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodfail">SimpleTestCase::fail()</a></strong> - Sends a fail event with a message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetAssertionLine">SimpleTestCase::getAssertionLine()</a></strong> - Uses a stack trace to find the line of an assertion.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetLabel">SimpleTestCase::getLabel()</a></strong> - Accessor for the test name for subclasses.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetSize">SimpleTestCase::getSize()</a></strong> - Accessor for the number of subtests.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodpass">SimpleTestCase::pass()</a></strong> - Sends a pass event with a message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodrun">SimpleTestCase::run()</a></strong> - Uses reflection to run every method within itself     starting with the string &quot;test&quot; unless a method     is specified.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsendMessage">SimpleTestCase::sendMessage()</a></strong> - Dispatches a text message straight to the     test suite. Useful for status bar displays.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsetUp">SimpleTestCase::setUp()</a></strong> - Sets up unit test wide variables at the start     of each test method. To be overridden in     actual user test cases.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsignal">SimpleTestCase::signal()</a></strong> - Sends a user defined event to the test runner.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodswallowErrors">SimpleTestCase::swallowErrors()</a></strong> - Cancels any outstanding errors.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodtearDown">SimpleTestCase::tearDown()</a></strong> - Clears the data set in the setUp() method call.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#method_createRunner">SimpleTestCase::_createRunner()</a></strong> - Can modify the incoming reporter so as to run     the tests differently. This version simply     passes it straight through.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:08 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

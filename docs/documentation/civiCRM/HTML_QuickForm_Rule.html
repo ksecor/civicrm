@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class HTML_QuickForm_Rule</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class HTML_QuickForm_Rule
+</h2> (line <span class="linenumber">21</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_HTML_QuickForm_Rule_php.html">/packages/HTML/QuickForm/Rule.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from HTML_QuickForm_Rule:</span>
+ 		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Range.html">HTML_QuickForm_Rule_Range</a></dt>
+		<dd>Validates values using range comparison</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Required.html">HTML_QuickForm_Rule_Required</a></dt>
+		<dd>Required elements validation</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Regex.html">HTML_QuickForm_Rule_Regex</a></dt>
+		<dd>Validates values using regular expressions</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Email.html">HTML_QuickForm_Rule_Email</a></dt>
+		<dd>Email validation rule</dd>
+	</dl>
+		<dl>
+	<dt><a href="../HTML_QuickForm/HTML_QuickForm_Rule_Compare.html">HTML_QuickForm_Rule_Compare</a></dt>
+		<dd>Rule to compare two form fields</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Callback.html">HTML_QuickForm_Rule_Callback</a></dt>
+		<dd>Validates values using callback functions or methods</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$name" title="details" class="property"><strong>$name</strong></a>
+</div>
+<hr />
+<a name="var$name" id="var$name"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$name</strong> (line <span class="linenumber">32</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Name of the rule to use in validate method</h5>
+<div class="desc"><p>This property is used in more global rules like Callback and Regex  to determine which callback and which regex is to be used for validation</p></div>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetValidationScript" title="details" class="method-name">getValidationScript</a>
+        ([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetName" title="details" class="method-name">setName</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$ruleName</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodvalidate" title="details" class="method-name">validate</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodgetValidationScript" id="methodgetValidationScript"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getValidationScript</strong> (line <span class="linenumber">62</span>)
+ </h4> 
+<h4><i>array</i> <strong>getValidationScript(
+[mixed
+$options = null])</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Range.html#methodgetValidationScript">HTML_QuickForm_Rule_Range::getValidationScript()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Required.html#methodgetValidationScript">HTML_QuickForm_Rule_Required::getValidationScript()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Regex.html#methodgetValidationScript">HTML_QuickForm_Rule_Regex::getValidationScript()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Email.html#methodgetValidationScript">HTML_QuickForm_Rule_Email::getValidationScript()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../HTML_QuickForm/HTML_QuickForm_Rule_Compare.html#methodgetValidationScript">HTML_QuickForm_Rule_Compare::getValidationScript()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Callback.html#methodgetValidationScript">HTML_QuickForm_Rule_Callback::getValidationScript()</a></dt>
+		<dd></dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the javascript test (the test should return true if the value is INVALID)</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $options</strong>: Options for the rule</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - first element is code to setup validation, second is the check itself</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetName" id="methodsetName"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setName</strong> (line <span class="linenumber">50</span>)
+ </h4> 
+<h4><i>void</i> <strong>setName(
+mixed
+$ruleName)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the rule name</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodvalidate" id="methodvalidate"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method validate</strong> (line <span class="linenumber">40</span>)
+ </h4> 
+<h4><i>void</i> <strong>validate(
+mixed
+$value)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Range.html#methodvalidate">HTML_QuickForm_Rule_Range::validate()</a></dt>
+		<dd>Validates a value using a range comparison</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Required.html#methodvalidate">HTML_QuickForm_Rule_Required::validate()</a></dt>
+		<dd>Checks if an element is empty</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Regex.html#methodvalidate">HTML_QuickForm_Rule_Regex::validate()</a></dt>
+		<dd>Validates a value using a regular expression</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Email.html#methodvalidate">HTML_QuickForm_Rule_Email::validate()</a></dt>
+		<dd>Validates an email address</dd>
+	</dl>
+		<dl>
+	<dt><a href="../HTML_QuickForm/HTML_QuickForm_Rule_Compare.html#methodvalidate">HTML_QuickForm_Rule_Compare::validate()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/HTML_QuickForm_Rule_Callback.html#methodvalidate">HTML_QuickForm_Rule_Callback::validate()</a></dt>
+		<dd>Validates a value using a callback</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Validates a value</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>abstract</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:18 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

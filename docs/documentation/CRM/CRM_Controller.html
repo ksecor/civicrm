@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class CRM_Controller</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class CRM_Controller
+</h2> (line <span class="linenumber">49</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+HTML_QuickForm_Controller
+   |
+   --CRM_Controller</pre>
+<p>
+	<b><i>Located in File: <a href="_CRM_Controller_php.html">/CRM/Controller.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from CRM_Controller:</span>
+ 		<dl>
+	<dt><a href="../CRM/CRM_Controller_Simple.html">CRM_Controller_Simple</a></dt>
+		<dd></dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_content" title="details" class="property"><strong>$_content</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$_stateMachine" title="details" class="property"><strong>$_stateMachine</strong></a>
+</div>
+<hr />
+<a name="var$_content" id="var$_content"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_content</strong> (line <span class="linenumber">63</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This caches the content for the display system</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_stateMachine" id="var$_stateMachine"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_stateMachine</strong> (line <span class="linenumber">56</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>the state machine associated with this controller</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$modal</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddPages" title="details" class="method-name">addPages</a>
+        (<span class="var-type">object stateMachine</span>&nbsp;<span class="var-name">$stateMachine</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$mode</span> = <span class="var-default">CRM_Form::MODE_NONE</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodget" title="details" class="method-name">get</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetButtonData" title="details" class="method-name">getButtonData</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$buttonName</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetContent" title="details" class="method-name">&amp;getContent</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object</span>
+        <a href="#methodgetStateMachine" title="details" class="method-name">getStateMachine</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodprocess" title="details" class="method-name">process</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodreset" title="details" class="method-name">reset</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodresetButtonData" title="details" class="method-name">resetButtonData</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrun" title="details" class="method-name">run</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodset" title="details" class="method-name">set</a>
+        (<span class="var-type">string|array</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetContent" title="details" class="method-name">setContent</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">&$content</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetStateMachine" title="details" class="method-name">setStateMachine</a>
+        (<span class="var-type">object a</span>&nbsp;<span class="var-name">$stateMachine</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber">76</span>)
+ </h4> 
+<h4><i>void</i> <strong>__construct(
+string
+$name, boolean
+$modal)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../CRM/CRM_Controller_Simple.html#method__construct">CRM_Controller_Simple::__construct()</a></dt>
+		<dd>constructor</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>All CRM single or multi page pages should inherit from this class.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: name of the controller</li>
+			<li><strong>boolean $modal</strong>: whether controller is modal</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddPages" id="methodaddPages"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addPages</strong> (line <span class="linenumber">200</span>)
+ </h4> 
+<h4><i>void</i> <strong>addPages(
+object stateMachine
+$stateMachine, [int
+$mode = CRM_Form::MODE_NONE])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>add pages to the controller. Note that the controller does not really care  the order in which the pages are added</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object stateMachine $stateMachine</strong>: the state machine object</li>
+			<li><strong>int $mode</strong>: mode          the mode in which the state machine is operating                              typicaly this will be add/view/edit</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodget" id="methodget"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method get</strong> (line <span class="linenumber">323</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>get(
+string
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the variable from the form scope</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: name  : name  of the variable</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetButtonData" id="methodgetButtonData"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getButtonData</strong> (line <span class="linenumber">229</span>)
+ </h4> 
+<h4><i>string</i> <strong>getButtonData(
+string
+$buttonName)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>QFC does not provide native support to have different 'submit' buttons.</h5>
+<div class="desc"><p>We introduce this notion to QFC by using button specific data. Thus if  we have two submit buttons, we could have one displayed as a button and  the other as an image, both are of type 'submit'.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $buttonName</strong>: name of the button</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the value of the button data (null if not present)</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetContent" id="methodgetContent"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getContent</strong> (line <span class="linenumber">294</span>)
+ </h4> 
+<h4><i>void</i> <strong>&amp;getContent(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for content</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetStateMachine" id="methodgetStateMachine"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getStateMachine</strong> (line <span class="linenumber">172</span>)
+ </h4> 
+<h4><i>object</i> <strong>getStateMachine(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter method for stateMachine</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodprocess" id="methodprocess"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method process</strong> (line <span class="linenumber">273</span>)
+ </h4> 
+<h4><i>void</i> <strong>process(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>virtual function to do any processing of data.</h5>
+<div class="desc"><p>Sometimes it is useful for the controller to actually process data.  This is typically used when we need the controller to figure out  what pages are potentially involved in this wizard. (this is dynamic  and can change based on the arguments</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodreset" id="methodreset"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method reset</strong> (line <span class="linenumber">259</span>)
+ </h4> 
+<h4><i>void</i> <strong>reset(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>function to destroy all the session state of the controller.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodresetButtonData" id="methodresetButtonData"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method resetButtonData</strong> (line <span class="linenumber">247</span>)
+ </h4> 
+<h4><i>void</i> <strong>resetButtonData(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The above button data is actually stored in the session by QFC.</h5>
+<div class="desc"><p>It is super important to reset this data once you have retrieved it.  We avoid doing it in the above routine in case the user calls the  getButtonData function multiple times</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrun" id="methodrun"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method run</strong> (line <span class="linenumber">98</span>)
+ </h4> 
+<h4><i>void</i> <strong>run(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Process the request, overrides the default QFC run method</h5>
+<div class="desc"><p>This routine actually checks if the QFC is modal and if it  is the first invalid page, if so it call the requested action  if not, it calls the display action on the first invalid page  avoids the issue of users hitting the back button and getting  a broken page</p><p>This run is basically a composition of the original run and the  jump action</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodset" id="methodset"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method set</strong> (line <span class="linenumber">309</span>)
+ </h4> 
+<h4><i>void</i> <strong>set(
+string|array
+$name, [mixed
+$value = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Store the variable with the value in the form scope</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string|array $name</strong>: name  of the variable or an assoc array of name/value pairs</li>
+			<li><strong>mixed $value</strong>: value of the variable if string</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetContent" id="methodsetContent"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setContent</strong> (line <span class="linenumber">284</span>)
+ </h4> 
+<h4><i>void</i> <strong>setContent(
+string
+&$content)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>setter for content</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string &$content</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetStateMachine" id="methodsetStateMachine"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setStateMachine</strong> (line <span class="linenumber">184</span>)
+ </h4> 
+<h4><i>void</i> <strong>setStateMachine(
+object a
+$stateMachine)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>setter method for stateMachine</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object a $stateMachine</strong>: stateMachineObject</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:44 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class Validate_UK</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class Validate_UK
+</h2> (line <span class="linenumber">26</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_Validate_UK_php.html">/packages/Validate/UK.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodbankAC" title="details" class="method-name">bankAC</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$ac</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodcarReg" title="details" class="method-name">carReg</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$reg</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methoddrive" title="details" class="method-name">drive</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$dl</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetZipValFunc" title="details" class="method-name">getZipValFunc</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodni" title="details" class="method-name">ni</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$ni</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodpassport" title="details" class="method-name">passport</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$pp</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodpostcode" title="details" class="method-name">postcode</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$postcode</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$strong</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodsortCode" title="details" class="method-name">sortCode</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sc</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodssn" title="details" class="method-name">ssn</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$ssn</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodtel" title="details" class="method-name">tel</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tel</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodbankAC" id="methodbankAC"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method bankAC</strong> (line <span class="linenumber">130</span>)
+ </h4> 
+<h4><i>bool</i> <strong>bankAC(
+string
+$ac)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Validates a bank ac number  do not use - it is too basic at the moment</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $ac</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>author</strong> - Michael Dransfield &lt;<a href="mailto:mikeNO@SPAMblueroot.net">mikeNO@SPAMblueroot.net</a>&gt;</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodcarReg" id="methodcarReg"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method carReg</strong> (line <span class="linenumber">164</span>)
+ </h4> 
+<h4><i>bool</i> <strong>carReg(
+string
+$reg)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Validates a car registration number</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $reg</strong>: the registration number</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>author</strong> - Michael Dransfield &lt;<a href="mailto:mikeNO@SPAMblueroot.net">mikeNO@SPAMblueroot.net</a>&gt;</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddrive" id="methoddrive"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method drive</strong> (line <span class="linenumber">213</span>)
+ </h4> 
+<h4><i>bool</i> <strong>drive(
+string
+$dl)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Validates a UK driving licence</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $dl</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>author</strong> - Michael Dransfield &lt;<a href="mailto:mikeNO@SPAMblueroot.net">mikeNO@SPAMblueroot.net</a>&gt;</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetZipValFunc" id="methodgetZipValFunc"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getZipValFunc</strong> (line <span class="linenumber">29</span>)
+ </h4> 
+<h4><i>void</i> <strong>getZipValFunc(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodni" id="methodni"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method ni</strong> (line <span class="linenumber">79</span>)
+ </h4> 
+<h4><i>bool</i> <strong>ni(
+string
+$ni)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>validates a National Insurance Number (ssn equiv)</h5>
+<div class="desc"><p>Validation according to the &quot;UK Government Data Standards Catalogue&quot;  Using NationalInsuranceNumber-format version 2.1, which can be obtained from:  http://www.govtalk.gov.uk/gdsc/html/noframes/NationalInsuranceNumber-2-1-Release.htm</p><p>Note: The official validation-pattern was altered to also support numbers  with none or even spaces at various places. We don't count spaces as being  &quot;essential&quot;  for the validation-process.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $ni</strong>: NI number</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodpassport" id="methodpassport"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method passport</strong> (line <span class="linenumber">197</span>)
+ </h4> 
+<h4><i>string</i> <strong>passport(
+mixed
+$pp, string
+$, string
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Validates a UK passport number, EU might be the same  just checks for 9 digits mine starts 00 and i have included that - might cause problems</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $</strong>: </li>
+			<li><strong>string $name</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>author</strong> - Michael Dransfield &lt;<a href="mailto:mikeNO@SPAMblueroot.net">mikeNO@SPAMblueroot.net</a>&gt;</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodpostcode" id="methodpostcode"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method postcode</strong> (line <span class="linenumber">50</span>)
+ </h4> 
+<h4><i>bool</i> <strong>postcode(
+string
+$postcode, [bool
+$strong = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>validates a postcode</h5>
+<div class="desc"><p>Validation according to the &quot;UK Government Data Standards Catalogue&quot;  Using PostCode-format version 2.1, which can be obtained from:  http://www.govtalk.gov.uk/gdsc/html/noframes/PostCode-2-1-Release.htm</p><p>Note: The official validation-pattern was altered to also support postcodes  with none or even spaces at various places. We don't count spaces as being  &quot;essential&quot; for the validation-process.  It was also necessary to refactor the regex to make it usable for preg_match.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $postcode</strong>: the postcode to be validated</li>
+			<li><strong>bool $strong</strong>: optional; strong checks (e.g. against a list of postcodes)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsortCode" id="methodsortCode"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method sortCode</strong> (line <span class="linenumber">112</span>)
+ </h4> 
+<h4><i>bool</i> <strong>sortCode(
+string
+$sc)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Validates a sort code, must be passed with dashes in the right places</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sc</strong>: the sort code</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>see</strong> - </li>
+			<li><strong>author</strong> - Michael Dransfield &lt;<a href="mailto:mikeNO@SPAMblueroot.net">mikeNO@SPAMblueroot.net</a>&gt;</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodssn" id="methodssn"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method ssn</strong> (line <span class="linenumber">98</span>)
+ </h4> 
+<h4><i>bool</i> <strong>ssn(
+string
+$ssn)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Validates a social security number; alias-function for ni()</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $ssn</strong>: number to validate</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>see</strong> - <a href="../civiCRM/Validate_UK.html#methodni">Validate_UK::ni()</a></li>
+		</ul>
+</div>
+<a name="methodtel" id="methodtel"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method tel</strong> (line <span class="linenumber">147</span>)
+ </h4> 
+<h4><i>bool</i> <strong>tel(
+string
+$tel)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Checks that the entry is a number starting with 0 of the right length</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tel</strong>: the tel number</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>see</strong> - </li>
+			<li><strong>author</strong> - Michael Dransfield &lt;<a href="mailto:mikeNO@SPAMblueroot.net">mikeNO@SPAMblueroot.net</a>&gt;</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:50 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

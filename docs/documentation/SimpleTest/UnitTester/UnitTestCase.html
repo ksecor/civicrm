@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class UnitTestCase</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class UnitTestCase
+</h2> (line <span class="linenumber">24</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a>
+   |
+   --UnitTestCase</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_unit_tester_php.html">/packages/SimpleTest/unit_tester.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</h5>
+<ul>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from UnitTestCase:</span>
+ 		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfNestingTags.html">TestOfNestingTags</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfXmlStructureParsing.html">TestOfXmlStructureParsing</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfXmlResultsParsing.html">TestOfXmlResultsParsing</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfOptions.html">TestOfOptions</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfCompatibility.html">TestOfCompatibility</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfRealm.html">TestOfRealm</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfAuthenticator.html">TestOfAuthenticator</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfWildcardExpectation.html">TestOfWildcardExpectation</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfParametersExpectation.html">TestOfParametersExpectation</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfCallMap.html">TestOfCallMap</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfStubGeneration.html">TestOfStubGeneration</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfServerStubReturns.html">TestOfServerStubReturns</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfMockGeneration.html">TestOfMockGeneration</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfMockReturns.html">TestOfMockReturns</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfMockTally.html">TestOfMockTally</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfMockExpectations.html">TestOfMockExpectations</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfMockComparisons.html">TestOfMockComparisons</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfPartialMocks.html">TestOfPartialMocks</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfPageBuilder.html">TestOfPageBuilder</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfPageParsing.html">TestOfPageParsing</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfErrorPage.html">TestOfErrorPage</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfPageHeaders.html">TestOfPageHeaders</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfHtmlPage.html">TestOfHtmlPage</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfForms.html">TestOfForms</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfPageScraping.html">TestOfPageScraping</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfForm.html">TestOfForm</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfUrl.html">TestOfUrl</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfAbsoluteUrls.html">TestOfAbsoluteUrls</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfFrameUrl.html">TestOfFrameUrl</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfCookie.html">TestOfCookie</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfDirectRoute.html">TestOfDirectRoute</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfProxyRoute.html">TestOfProxyRoute</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfHttpRequest.html">TestOfHttpRequest</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfHttpPostRequest.html">TestOfHttpPostRequest</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfHttpHeaders.html">TestOfHttpHeaders</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfHttpResponse.html">TestOfHttpResponse</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfLiveBrowser.html">TestOfLiveBrowser</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfTextFormatting.html">TestOfTextFormatting</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/FormEncodingTestCase.html">FormEncodingTestCase</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfParallelRegex.html">TestOfParallelRegex</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfStateStack.html">TestOfStateStack</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfLexer.html">TestOfLexer</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfLexerModes.html">TestOfLexerModes</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfLexerHandlers.html">TestOfLexerHandlers</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfHtmlLexer.html">TestOfHtmlLexer</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfTextExtraction.html">TestOfTextExtraction</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfSaxGeneration.html">TestOfSaxGeneration</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfFieldExpectation.html">TestOfFieldExpectation</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfHeaderExpectations.html">TestOfHeaderExpectations</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfTextExpectations.html">TestOfTextExpectations</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfErrorQueue.html">TestOfErrorQueue</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfErrorTrap.html">TestOfErrorTrap</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfErrors.html">TestOfErrors</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfUnitTester.html">TestOfUnitTester</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfJBehaveStyleRunner.html">TestOfJBehaveStyleRunner</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfShell.html">TestOfShell</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfSimpleStickyError.html">TestOfSimpleStickyError</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfTag.html">TestOfTag</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfWidget.html">TestOfWidget</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfTextArea.html">TestOfTextArea</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfSelection.html">TestOfSelection</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfRadioGroup.html">TestOfRadioGroup</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfTagGroup.html">TestOfTagGroup</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfFrameset.html">TestOfFrameset</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfFrameNavigation.html">TestOfFrameNavigation</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfFramesetPageInterface.html">TestOfFramesetPageInterface</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfUnitTestCaseOutput.html">TestOfUnitTestCaseOutput</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfMockObjectsOutput.html">TestOfMockObjectsOutput</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfPastBugs.html">TestOfPastBugs</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfEquality.html">TestOfEquality</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfInequality.html">TestOfInequality</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfIdentity.html">TestOfIdentity</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfNonIdentity.html">TestOfNonIdentity</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfPatterns.html">TestOfPatterns</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfMethodExistence.html">TestOfMethodExistence</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfIsA.html">TestOfIsA</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfNotA.html">TestOfNotA</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestCaseWithParseError.html">TestCaseWithParseError</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/LiveHttpTestCase.html">LiveHttpTestCase</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfHistory.html">TestOfHistory</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfParsedPageAccess.html">TestOfParsedPageAccess</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfBrowserNavigation.html">TestOfBrowserNavigation</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfBrowserFrames.html">TestOfBrowserFrames</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfSimpleCookieJar.html">TestOfSimpleCookieJar</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfFetchingUrlParameters.html">TestOfFetchingUrlParameters</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfAdditionalHeaders.html">TestOfAdditionalHeaders</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfBrowserCookies.html">TestOfBrowserCookies</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfHttpRedirects.html">TestOfHttpRedirects</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfBadHosts.html">TestOfBadHosts</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfAuthorisation.html">TestOfAuthorisation</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/TestOfContactAPI.html">TestOfContactAPI</a></dt>
+		<dd>Standard unit test class for day to day testing     of PHP code XP style. Adds some useful standard     assertions.</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">UnitTestCase</span>
+        <a href="#methodUnitTestCase" title="details" class="method-name">UnitTestCase</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$label</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertCopy" title="details" class="method-name">assertCopy</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">&$first</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$second</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertEqual" title="details" class="method-name">assertEqual</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$first</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$second</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertError" title="details" class="method-name">assertError</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$expected</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertErrorPattern" title="details" class="method-name">assertErrorPattern</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$pattern</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertIdentical" title="details" class="method-name">assertIdentical</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$first</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$second</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertIsA" title="details" class="method-name">assertIsA</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$object</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNoErrors" title="details" class="method-name">assertNoErrors</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNotA" title="details" class="method-name">assertNotA</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$object</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNotEqual" title="details" class="method-name">assertNotEqual</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$first</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$second</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNotIdentical" title="details" class="method-name">assertNotIdentical</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$first</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$second</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNotNull" title="details" class="method-name">assertNotNull</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNoUnwantedPattern" title="details" class="method-name">assertNoUnwantedPattern</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$pattern</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$subject</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertNull" title="details" class="method-name">assertNull</a>
+        (<span class="var-type">null</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertReference" title="details" class="method-name">assertReference</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">&$first</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$second</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodassertWantedPattern" title="details" class="method-name">assertWantedPattern</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$pattern</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$subject</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">"%s"</span>])
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodUnitTestCase" id="methodUnitTestCase"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor UnitTestCase</strong> (line <span class="linenumber">33</span>)
+ </h4> 
+<h4><i>UnitTestCase</i> <strong>UnitTestCase(
+[string
+$label = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Creates an empty test case. Should be subclassed     with test methods for a functional test case.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $label</strong>: Name of test case. Will use                              the class name if none specified.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertCopy" id="methodassertCopy"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertCopy</strong> (line <span class="linenumber">198</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertCopy(
+mixed
+&$first, mixed
+&$second, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if both parameters refer     to different objects. Fail otherwise.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $first</strong>: Object reference to check.</li>
+			<li><strong>mixed $second</strong>: Hopefully not the same object.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertEqual" id="methodassertEqual"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertEqual</strong> (line <span class="linenumber">113</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertEqual(
+mixed
+$first, mixed
+$second, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if the two parameters have     the same value only. Otherwise a fail.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $first</strong>: Value to compare.</li>
+			<li><strong>mixed $second</strong>: Value to compare.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertError" id="methodassertError"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertError</strong> (line <span class="linenumber">267</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertError(
+[string
+$expected = false], [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Confirms that an error has occoured and     optionally that the error text matches exactly.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $expected</strong>: Expected error text or                               false for no check.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertErrorPattern" id="methodassertErrorPattern"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertErrorPattern</strong> (line <span class="linenumber">290</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertErrorPattern(
+string
+$pattern, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Confirms that an error has occoured and     that the error text matches a Perl regular     expression.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $pattern</strong>: Perl regular expresion to                               match against.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertIdentical" id="methodassertIdentical"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertIdentical</strong> (line <span class="linenumber">145</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertIdentical(
+mixed
+$first, mixed
+$second, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if the two parameters have     the same value and same type. Otherwise a fail.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $first</strong>: Value to compare.</li>
+			<li><strong>mixed $second</strong>: Value to compare.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertIsA" id="methodassertIsA"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertIsA</strong> (line <span class="linenumber">80</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertIsA(
+mixed
+$object, string
+$type, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Type and class test. Will pass if class     matches the type name or is a subclass or     if not an object, but the type is correct.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $object</strong>: Object to test.</li>
+			<li><strong>string $type</strong>: Type name as string.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNoErrors" id="methodassertNoErrors"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNoErrors</strong> (line <span class="linenumber">251</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNoErrors(
+[string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Confirms that no errors have occoured so     far in the test method.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNotA" id="methodassertNotA"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNotA</strong> (line <span class="linenumber">97</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNotA(
+mixed
+$object, string
+$type, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Type and class mismatch test. Will pass if class     name or underling type does not match the one     specified.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $object</strong>: Object to test.</li>
+			<li><strong>string $type</strong>: Type name as string.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNotEqual" id="methodassertNotEqual"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNotEqual</strong> (line <span class="linenumber">129</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNotEqual(
+mixed
+$first, mixed
+$second, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if the two parameters have     a different value. Otherwise a fail.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $first</strong>: Value to compare.</li>
+			<li><strong>mixed $second</strong>: Value to compare.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNotIdentical" id="methodassertNotIdentical"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNotIdentical</strong> (line <span class="linenumber">161</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNotIdentical(
+mixed
+$first, mixed
+$second, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if the two parameters have     the different value or different type.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $first</strong>: Value to compare.</li>
+			<li><strong>mixed $second</strong>: Value to compare.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNotNull" id="methodassertNotNull"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNotNull</strong> (line <span class="linenumber">62</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNotNull(
+mixed
+$value, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will be true if the value is set.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $value</strong>: Supposedly set value.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNoUnwantedPattern" id="methodassertNoUnwantedPattern"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNoUnwantedPattern</strong> (line <span class="linenumber">237</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNoUnwantedPattern(
+string
+$pattern, string
+$subject, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if the perl regex pattern     is not present in subject. Fail if found.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $pattern</strong>: Perl regex to look for including                               the regex delimiters.</li>
+			<li><strong>string $subject</strong>: String to search in.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertNull" id="methodassertNull"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertNull</strong> (line <span class="linenumber">47</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertNull(
+null
+$value, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will be true if the value is null.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>null $value</strong>: Supposedly null value.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertReference" id="methodassertReference"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertReference</strong> (line <span class="linenumber">177</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertReference(
+mixed
+&$first, mixed
+&$second, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if both parameters refer     to the same object. Fail otherwise.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $first</strong>: Object reference to check.</li>
+			<li><strong>mixed $second</strong>: Hopefully the same object.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassertWantedPattern" id="methodassertWantedPattern"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assertWantedPattern</strong> (line <span class="linenumber">220</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>assertWantedPattern(
+string
+$pattern, string
+$subject, [string
+$message = "%s"])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Will trigger a pass if the Perl regex pattern     is found in the subject. Fail otherwise.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $pattern</strong>: Perl regex to look for including                               the regex delimiters.</li>
+			<li><strong>string $subject</strong>: String to search in.</li>
+			<li><strong>string $message</strong>: Message to display.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on pass</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a></h4>
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#var$_label">SimpleTestCase::$_label</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#var$_runner">SimpleTestCase::$_runner</a></strong> - 
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleTestCase.html">SimpleTestCase</a></h4>
+				<h4>
+<img src="../../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodSimpleTestCase">SimpleTestCase::SimpleTestCase()</a></strong> - Sets up the test with no display.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertExpectation">SimpleTestCase::assertExpectation()</a></strong> - Runs an expectation directly, for extending the     tests with new expectation classes.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertFalse">SimpleTestCase::assertFalse()</a></strong> - Will be true on false and vice versa. False     is the PHP definition of false, so that null,     empty strings, zero and an empty array all count     as false.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodassertTrue">SimpleTestCase::assertTrue()</a></strong> - Called from within the test methods to register     passes and failures.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodcreateInvoker">SimpleTestCase::createInvoker()</a></strong> - Used to invoke the single tests.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methoddump">SimpleTestCase::dump()</a></strong> - Sends a formatted dump of a variable to the     test suite for those emergency debugging     situations.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methoderror">SimpleTestCase::error()</a></strong> - Formats a PHP error and dispatches it to the     runner.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodfail">SimpleTestCase::fail()</a></strong> - Sends a fail event with a message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetAssertionLine">SimpleTestCase::getAssertionLine()</a></strong> - Uses a stack trace to find the line of an assertion.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetLabel">SimpleTestCase::getLabel()</a></strong> - Accessor for the test name for subclasses.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodgetSize">SimpleTestCase::getSize()</a></strong> - Accessor for the number of subtests.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodpass">SimpleTestCase::pass()</a></strong> - Sends a pass event with a message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodrun">SimpleTestCase::run()</a></strong> - Uses reflection to run every method within itself     starting with the string &quot;test&quot; unless a method     is specified.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsendMessage">SimpleTestCase::sendMessage()</a></strong> - Dispatches a text message straight to the     test suite. Useful for status bar displays.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsetUp">SimpleTestCase::setUp()</a></strong> - Sets up unit test wide variables at the start     of each test method. To be overridden in     actual user test cases.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodsignal">SimpleTestCase::signal()</a></strong> - Sends a user defined event to the test runner.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodswallowErrors">SimpleTestCase::swallowErrors()</a></strong> - Cancels any outstanding errors.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#methodtearDown">SimpleTestCase::tearDown()</a></strong> - Clears the data set in the setUp() method call.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleTestCase.html#method_createRunner">SimpleTestCase::_createRunner()</a></strong> - Can modify the incoming reporter so as to run     the tests differently. This version simply     passes it straight through.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:51 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

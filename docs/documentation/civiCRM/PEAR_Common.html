@@ -1,0 +1,1095 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class PEAR_Common</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class PEAR_Common
+</h2> (line <span class="linenumber">105</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../civiCRM/PEAR.html">PEAR</a>
+   |
+   --PEAR_Common</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_PEAR_Common_php.html">/packages/PEAR/Common.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Class providing common functionality for PEAR administration classes.</h5>
+<ul>
+		<li><strong>author:</strong> - Stig Bakken &lt;<a href="mailto:ssb@php.net">ssb@php.net</a>&gt;</li>
+		<li><strong>deprecated:</strong> - This class will disappear, and its components will be spread              into smaller classes, like the AT&amp;T breakup</li>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from PEAR_Common:</span>
+ 		<dl>
+	<dt><a href="../civiCRM/PEAR_Downloader.html">PEAR_Downloader</a></dt>
+		<dd>Administration class used to download PEAR packages and maintain the  installed package database.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Packager.html">PEAR_Packager</a></dt>
+		<dd>Administration class used to make a PEAR release tarball.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Builder.html">PEAR_Builder</a></dt>
+		<dd>Class to handle building (compiling) extensions.</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$config" title="details" class="property"><strong>$config</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$current_attributes" title="details" class="property"><strong>$current_attributes</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$current_element" title="details" class="property"><strong>$current_element</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$current_path" title="details" class="property"><strong>$current_path</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$element_stack" title="details" class="property"><strong>$element_stack</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$pkginfo" title="details" class="property"><strong>$pkginfo</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$source_analyzer" title="details" class="property"><strong>$source_analyzer</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$ui" title="details" class="property"><strong>$ui</strong></a>
+</div>
+<hr />
+<a name="var$config" id="var$config"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$config =  null</strong> (line <span class="linenumber">132</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Configuration object (PEAR_Config).</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$current_attributes" id="var$current_attributes"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$current_attributes = array()</strong> (line <span class="linenumber">116</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>array of attributes of the currently parsed XML element</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$current_element" id="var$current_element"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$current_element</strong> (line <span class="linenumber">113</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>name of currently parsed XML element</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$current_path" id="var$current_path"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$current_path =  null</strong> (line <span class="linenumber">134</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$element_stack" id="var$element_stack"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$element_stack = array()</strong> (line <span class="linenumber">110</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>stack of elements, gives some sort of XML context</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$pkginfo" id="var$pkginfo"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$pkginfo = array()</strong> (line <span class="linenumber">119</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>assoc with information about a package</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$source_analyzer" id="var$source_analyzer"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$source_analyzer =  null</strong> (line <span class="linenumber">140</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>PEAR_SourceAnalyzer instance</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$ui" id="var$ui"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$ui =  null</strong> (line <span class="linenumber">126</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>User Interface object (PEAR_Frontend_* class).  If null,  the log() method uses print.</h5>
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">PEAR_Common</span>
+        <a href="#methodPEAR_Common" title="details" class="method-name">PEAR_Common</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddTempFile" title="details" class="method-name">addTempFile</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$file</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodanalyzeSourceCode" title="details" class="method-name">analyzeSourceCode</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$file</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">false|array</span>
+        <a href="#methodbetterStates" title="details" class="method-name">betterStates</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$state</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$include</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodbuildProvidesArray" title="details" class="method-name">buildProvidesArray</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$srcinfo</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddetectDependencies" title="details" class="method-name">detectDependencies</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$any</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$status_callback</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methoddownloadHttp" title="details" class="method-name">downloadHttp</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>, <span class="var-type">object</span>&nbsp;<span class="var-name">&$ui</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$save_dir</span> = <span class="var-default">'.'</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$callback</span> = <span class="var-default">null</span>], <span class="var-type">object</span>&nbsp;<span class="var-name">$config</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetDependencyRelations" title="details" class="method-name">getDependencyRelations</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetDependencyTypes" title="details" class="method-name">getDependencyTypes</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetFileRoles" title="details" class="method-name">getFileRoles</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetProvideTypes" title="details" class="method-name">getProvideTypes</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetReleaseStates" title="details" class="method-name">getReleaseStates</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetReplacementTypes" title="details" class="method-name">getReplacementTypes</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetScriptPhases" title="details" class="method-name">getScriptPhases</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetUserRoles" title="details" class="method-name">getUserRoles</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodinfoFromAny" title="details" class="method-name">infoFromAny</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$info</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodinfoFromDescriptionFile" title="details" class="method-name">infoFromDescriptionFile</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$descfile</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodinfoFromString" title="details" class="method-name">infoFromString</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$data</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodinfoFromTgzFile" title="details" class="method-name">infoFromTgzFile</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$file</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodlog" title="details" class="method-name">log</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$level</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$msg</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$append_crlf</span> = <span class="var-default">true</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodmkDirHier" title="details" class="method-name">mkDirHier</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$dir</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodmkTempDir" title="details" class="method-name">mkTempDir</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$tmpdir</span> = <span class="var-default">''</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetFrontendObject" title="details" class="method-name">setFrontendObject</a>
+        (<span class="var-type">object Reference</span>&nbsp;<span class="var-name">&$ui</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodsortPkgDeps" title="details" class="method-name">sortPkgDeps</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">&$packages</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$uninstall</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodvalidatePackageInfo" title="details" class="method-name">validatePackageInfo</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$info</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">&$errors</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">&$warnings</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$dir_prefix</span> = <span class="var-default">''</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodvalidPackageName" title="details" class="method-name">validPackageName</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodvalidPackageVersion" title="details" class="method-name">validPackageVersion</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$ver</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodxmlFromInfo" title="details" class="method-name">xmlFromInfo</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$pkginfo</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodPEAR_Common" id="methodPEAR_Common"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor PEAR_Common</strong> (line <span class="linenumber">157</span>)
+ </h4> 
+<h4><i>PEAR_Common</i> <strong>PEAR_Common(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>PEAR_Common constructor</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddTempFile" id="methodaddTempFile"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addTempFile</strong> (line <span class="linenumber">200</span>)
+ </h4> 
+<h4><i>void</i> <strong>addTempFile(
+string
+$file)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Register a temporary file or directory.  When the destructor is  executed, all registered temporary files and directories are  removed.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $file</strong>: name of file or directory</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodanalyzeSourceCode" id="methodanalyzeSourceCode"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method analyzeSourceCode</strong> (line <span class="linenumber">1297</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>analyzeSourceCode(
+string
+$file)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Analyze the source code of the given PHP file</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $file</strong>: Filename of the PHP file</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodbetterStates" id="methodbetterStates"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method betterStates</strong> (line <span class="linenumber">1494</span>)
+ </h4> 
+<h4><i>false|array</i> <strong>betterStates(
+string
+$state, [boolean
+$include = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return an array containing all of the states that are more stable than  or equal to the passed in state</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $state</strong>: Release state</li>
+			<li><strong>boolean $include</strong>: Determines whether to include $state in the list</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - False if $state is not a valid release state</li>
+		</ul>
+</div>
+<a name="methodbuildProvidesArray" id="methodbuildProvidesArray"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method buildProvidesArray</strong> (line <span class="linenumber">1241</span>)
+ </h4> 
+<h4><i>void</i> <strong>buildProvidesArray(
+array
+$srcinfo)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Build a &quot;provides&quot; array from data returned by  analyzeSourceCode().  The format of the built array is like  this:</h5>
+<div class="desc"><p>array(     'class;MyClass' =&gt; 'array('type' =&gt; 'class', 'name' =&gt; 'MyClass'),     ...   )</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $srcinfo</strong>: array with information about a source file  as returned by the analyzeSourceCode() method.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddetectDependencies" id="methoddetectDependencies"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method detectDependencies</strong> (line <span class="linenumber">1510</span>)
+ </h4> 
+<h4><i>void</i> <strong>detectDependencies(
+mixed
+$any, [mixed
+$status_callback = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methoddownloadHttp" id="methoddownloadHttp"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method downloadHttp</strong> (line <span class="linenumber">1739</span>)
+ </h4> 
+<h4><i>string</i> <strong>downloadHttp(
+string
+$url, object
+&$ui, [string
+$save_dir = '.'], [mixed
+$callback = null], object
+$config)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Download a file through HTTP.  Considers suggested file name in</h5>
+<div class="desc"><p>Content-disposition: header and can run a callback function for  different events.  The callback will be called with two  parameters: the callback type, and parameters.  The implemented  callback types are:</p><p>'setup'       called at the very beginning, parameter is a UI object                 that should be used for all output   'message'     the parameter is a string with an informational message   'saveas'      may be used to save with a different file name, the                 parameter is the filename that is about to be used.                 If a 'saveas' callback returns a non-empty string,                 that file name will be used as the filename instead.                 Note that $save_dir will not be affected by this, only                 the basename of the file.   'start'       download is starting, parameter is number of bytes                 that are expected, or -1 if unknown   'bytesread'   parameter is the number of bytes read so far   'done'        download is complete, parameter is the total number                 of bytes read   'connfailed'  if the TCP connection fails, this callback is called                 with array(host,port,errno,errmsg)   'writefailed' if writing to disk fails, this callback is called                 with array(destfile,errmsg)</p><p>If an HTTP proxy has been configured (http_proxy PEAR_Config  setting), the proxy will be used.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $url</strong>: the URL to download</li>
+			<li><strong>object $ui</strong>: PEAR_Frontend_* instance</li>
+			<li><strong>object $config</strong>: PEAR_Config instance</li>
+			<li><strong>string $save_dir</strong>: (optional) directory to save file in</li>
+			<li><strong>mixed $callback</strong>: (optional) function/method to call for status                            updates</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Returns the full path of the downloaded file or a PEAR                  error on failure.  If the error is caused by                  socket-related errors, the error object will                  have the fsockopen error code available through                  getCode().</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetDependencyRelations" id="methodgetDependencyRelations"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getDependencyRelations</strong> (line <span class="linenumber">1594</span>)
+ </h4> 
+<h4><i>array</i> <strong>getDependencyRelations(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the implemented dependency relations (has, lt, ge etc.)</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetDependencyTypes" id="methodgetDependencyTypes"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getDependencyTypes</strong> (line <span class="linenumber">1580</span>)
+ </h4> 
+<h4><i>array</i> <strong>getDependencyTypes(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the implemented dependency types (php, ext, pkg etc.)</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetFileRoles" id="methodgetFileRoles"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getFileRoles</strong> (line <span class="linenumber">1608</span>)
+ </h4> 
+<h4><i>array</i> <strong>getFileRoles(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the implemented file roles</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetProvideTypes" id="methodgetProvideTypes"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getProvideTypes</strong> (line <span class="linenumber">1636</span>)
+ </h4> 
+<h4><i>array</i> <strong>getProvideTypes(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the implemented file replacement types in</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetReleaseStates" id="methodgetReleaseStates"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getReleaseStates</strong> (line <span class="linenumber">1566</span>)
+ </h4> 
+<h4><i>array</i> <strong>getReleaseStates(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the valid package release states of packages</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetReplacementTypes" id="methodgetReplacementTypes"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getReplacementTypes</strong> (line <span class="linenumber">1622</span>)
+ </h4> 
+<h4><i>array</i> <strong>getReplacementTypes(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the implemented file replacement types in</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetScriptPhases" id="methodgetScriptPhases"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getScriptPhases</strong> (line <span class="linenumber">1650</span>)
+ </h4> 
+<h4><i>array</i> <strong>getScriptPhases(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the implemented file replacement types in</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetUserRoles" id="methodgetUserRoles"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getUserRoles</strong> (line <span class="linenumber">1552</span>)
+ </h4> 
+<h4><i>array</i> <strong>getUserRoles(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the valid roles for a PEAR package maintainer</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodinfoFromAny" id="methodinfoFromAny"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method infoFromAny</strong> (line <span class="linenumber">836</span>)
+ </h4> 
+<h4><i>string</i> <strong>infoFromAny(
+string
+$info)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns package information from different sources</h5>
+<div class="desc"><p>This method is able to extract information about a package  from a .tgz archive or from a XML package definition file.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $info</strong>: Filename of the source ('package.xml', '&lt;package&gt;.tgz')</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodinfoFromDescriptionFile" id="methodinfoFromDescriptionFile"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method infoFromDescriptionFile</strong> (line <span class="linenumber">748</span>)
+ </h4> 
+<h4><i>array</i> <strong>infoFromDescriptionFile(
+string
+$descfile)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns information about a package file.  Expects the name of  a package xml file as input.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $descfile</strong>: name of package xml file</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - array with package information</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodinfoFromString" id="methodinfoFromString"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method infoFromString</strong> (line <span class="linenumber">775</span>)
+ </h4> 
+<h4><i>array</i> <strong>infoFromString(
+string
+$data)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns information about a package file.  Expects the contents  of a package xml file as input.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $data</strong>: name of package xml file</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - array with package information</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodinfoFromTgzFile" id="methodinfoFromTgzFile"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method infoFromTgzFile</strong> (line <span class="linenumber">697</span>)
+ </h4> 
+<h4><i>array</i> <strong>infoFromTgzFile(
+string
+$file)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns information about a package file.  Expects the name of  a gzipped tar file as input.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $file</strong>: name of .tgz file</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - array with package information</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodlog" id="methodlog"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method log</strong> (line <span class="linenumber">237</span>)
+ </h4> 
+<h4><i>void</i> <strong>log(
+int
+$level, string
+$msg, [mixed
+$append_crlf = true])</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Builder.html#methodlog">PEAR_Builder::log()</a></dt>
+		<dd></dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Logging method.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $level</strong>: log level (0 is quiet, higher is noisier)</li>
+			<li><strong>string $msg</strong>: message to write to the log</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodmkDirHier" id="methodmkDirHier"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method mkDirHier</strong> (line <span class="linenumber">218</span>)
+ </h4> 
+<h4><i>bool</i> <strong>mkDirHier(
+string
+$dir)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Installer.html#methodmkDirHier">PEAR_Installer::mkDirHier()</a></dt>
+		<dd></dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Wrapper to System::mkDir(), creates a directory as well as  any necessary parent directories.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $dir</strong>: directory name</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - TRUE on success, or a PEAR error</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodmkTempDir" id="methodmkTempDir"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method mkTempDir</strong> (line <span class="linenumber">262</span>)
+ </h4> 
+<h4><i>string</i> <strong>mkTempDir(
+[string
+$tmpdir = ''])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Create and register a temporary directory.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tmpdir</strong>: (optional) Directory to use as tmpdir.                        Will use system defaults (for example                        /tmp or c:\windows\temp) if not specified</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - name of created directory</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetFrontendObject" id="methodsetFrontendObject"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setFrontendObject</strong> (line <span class="linenumber">287</span>)
+ </h4> 
+<h4><i>void</i> <strong>setFrontendObject(
+object Reference
+&$ui)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set object that represents the frontend to be used.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object Reference &$ui</strong>: of the frontend object</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsortPkgDeps" id="methodsortPkgDeps"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method sortPkgDeps</strong> (line <span class="linenumber">1869</span>)
+ </h4> 
+<h4><i>array</i> <strong>sortPkgDeps(
+array
+&$packages, [boolean
+$uninstall = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sort a list of arrays of array(downloaded packagefilename) by dependency.</h5>
+<div class="desc"><p>It also removes duplicate dependencies</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array &$packages</strong>: </li>
+			<li><strong>boolean $uninstall</strong>: Sort packages in reverse order if true</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - array of array(packagefilename, package.xml contents)</li>
+		</ul>
+</div>
+<a name="methodvalidatePackageInfo" id="methodvalidatePackageInfo"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method validatePackageInfo</strong> (line <span class="linenumber">1040</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>validatePackageInfo(
+string
+$info, array
+&$errors, array
+&$warnings, [string
+$dir_prefix = ''])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Validate XML package definition file.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $info</strong>: Filename of the package archive or of the                 package definition file</li>
+			<li><strong>array $errors</strong>: Array that will contain the errors</li>
+			<li><strong>array $warnings</strong>: Array that will contain the warnings</li>
+			<li><strong>string $dir_prefix</strong>: (optional) directory where source files                 may be found, or empty if they are not available</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodvalidPackageName" id="methodvalidPackageName"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method validPackageName</strong> (line <span class="linenumber">1667</span>)
+ </h4> 
+<h4><i>bool</i> <strong>validPackageName(
+string
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Test whether a string contains a valid package name.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: the package name to test</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodvalidPackageVersion" id="methodvalidPackageVersion"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method validPackageVersion</strong> (line <span class="linenumber">1685</span>)
+ </h4> 
+<h4><i>bool</i> <strong>validPackageVersion(
+string
+$ver)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Test whether a string contains a valid package version.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $ver</strong>: the package version to test</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodxmlFromInfo" id="methodxmlFromInfo"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method xmlFromInfo</strong> (line <span class="linenumber">874</span>)
+ </h4> 
+<h4><i>string</i> <strong>xmlFromInfo(
+array
+$pkginfo)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return an XML document based on the package info (as returned  by the PEAR_Common::infoFrom* methods).</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $pkginfo</strong>: package info</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - XML data</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR.html">PEAR</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodPEAR">PEAR::PEAR()</a></strong> - Constructor.  Registers this object in  $_PEAR_destructor_object_list for destructor emulation if a  destructor object exists.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methoddelExpect">PEAR::delExpect()</a></strong> - This method deletes all occurences of the specified element from  the expected error codes stack.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodexpectError">PEAR::expectError()</a></strong> - This method is used to tell which errors you expect to get.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodgetStaticProperty">PEAR::getStaticProperty()</a></strong> - If you have a class that's mostly/entirely static, and you need static
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodisError">PEAR::isError()</a></strong> - Tell whether a value is a PEAR error.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodloadExtension">PEAR::loadExtension()</a></strong> - OS independant PHP extension load. Remember to take care  on the correct extension name for case sensitive OSes.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpopErrorHandling">PEAR::popErrorHandling()</a></strong> - Pop the last error handler used
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpopExpect">PEAR::popExpect()</a></strong> - This method pops one element off the expected error codes  stack.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpushErrorHandling">PEAR::pushErrorHandling()</a></strong> - Push a new error handler on top of the error handler options stack. With this  you can easily override the actual error handler for some code and restore  it later with popErrorHandling.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodraiseError">PEAR::raiseError()</a></strong> - This method is a wrapper that returns an instance of the  configured error class with this object's default error  handling applied.  If the $mode and $options parameters are not  specified, the object's defaults are used.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodregisterShutdownFunc">PEAR::registerShutdownFunc()</a></strong> - Use this function to register a shutdown method for static  classes.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodsetErrorHandling">PEAR::setErrorHandling()</a></strong> - Sets how errors generated by this object should be handled.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodstaticPopErrorHandling">PEAR::staticPopErrorHandling()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodstaticPushErrorHandling">PEAR::staticPushErrorHandling()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodthrowError">PEAR::throwError()</a></strong> - Simpler form of raiseError with fewer options.  In most cases  message, code and userinfo are enough.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#method_PEAR">PEAR::_PEAR()</a></strong> - Destructor (the emulated type of...).  Does nothing right now,  but is included for forward compatibility, so subclass  destructors should always call it.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:34 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,887 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class PEAR_Installer</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class PEAR_Installer
+</h2> (line <span class="linenumber">40</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../civiCRM/PEAR.html">PEAR</a>
+   |
+   --<a href="../civiCRM/PEAR_Common.html">PEAR_Common</a>
+      |
+      --<a href="../civiCRM/PEAR_Downloader.html">PEAR_Downloader</a>
+         |
+         --PEAR_Installer</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_PEAR_Installer_php.html">/packages/PEAR/Installer.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Administration class used to install PEAR packages and maintain the  installed package database.</h5>
+<div class="desc"><p>TODO: <ul><li>Check dependencies break on package uninstall (when no force given)</li><li>add a guessInstallDest() method with the code from _installFile() and
+     use that method in Registry::_rebuildFileMap() &amp; Command_Registry::doList(),
+     others..</li></ul></p></div>
+<ul>
+		<li><strong>author:</strong> - Stig Bakken &lt;<a href="mailto:ssb@php.net">ssb@php.net</a>&gt;</li>
+		<li><strong>author:</strong> - Martin Jansen &lt;<a href="mailto:mj@php.net">mj@php.net</a>&gt;</li>
+		<li><strong>author:</strong> - Greg Beaver &lt;<a href="mailto:cellog@php.net">cellog@php.net</a>&gt;</li>
+		<li><strong>since:</strong> - PHP 4.0.2</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$debug" title="details" class="property"><strong>$debug</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$docdir" title="details" class="property"><strong>$docdir</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$extdir" title="details" class="property"><strong>$extdir</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$file_operations" title="details" class="property"><strong>$file_operations</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$installroot" title="details" class="property"><strong>$installroot</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$phpdir" title="details" class="property"><strong>$phpdir</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$pkgdir" title="details" class="property"><strong>$pkgdir</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$registry" title="details" class="property"><strong>$registry</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$tmpdir" title="details" class="property"><strong>$tmpdir</strong></a>
+</div>
+<hr />
+<a name="var$debug" id="var$debug"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$debug =  1</strong> (line <span class="linenumber">73</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>debug level</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$docdir" id="var$docdir"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$docdir</strong> (line <span class="linenumber">62</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>directory where documentation goes</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$extdir" id="var$extdir"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$extdir</strong> (line <span class="linenumber">57</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>directory where PHP extension files go</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$file_operations" id="var$file_operations"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$file_operations = array()</strong> (line <span class="linenumber">96</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>List of file transactions queued for an install/upgrade/uninstall.</h5>
+<div class="desc"><p>Format:     array( <ol><li>=&gt; array(&quot;rename =&gt; array(&quot;from-file&quot;, &quot;to-file&quot;)),</li><li>=&gt; array(&quot;delete&quot; =&gt; array(&quot;file-to-delete&quot;)),</li></ol>      ...     )</p></div>
+<ul>
+	</ul>
+</div>
+<a name="var$installroot" id="var$installroot"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$installroot =  ''</strong> (line <span class="linenumber">68</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>installation root directory (ala PHP's INSTALL_ROOT or</h5>
+<div class="desc"><p>automake's DESTDIR</p></div>
+<ul>
+	</ul>
+</div>
+<a name="var$phpdir" id="var$phpdir"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$phpdir</strong> (line <span class="linenumber">52</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>directory where PHP code files go</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$pkgdir" id="var$pkgdir"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$pkgdir</strong> (line <span class="linenumber">47</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>name of the package directory, for example Foo-1.0</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$registry" id="var$registry"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$registry</strong> (line <span class="linenumber">83</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>PEAR_Registry object used by the installer</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$tmpdir" id="var$tmpdir"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$tmpdir</strong> (line <span class="linenumber">78</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>temporary directory</h5>
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">PEAR_Installer</span>
+        <a href="#methodPEAR_Installer" title="details" class="method-name">PEAR_Installer</a>
+        (<span class="var-type">object</span>&nbsp;<span class="var-name">&$ui</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddFileOperation" title="details" class="method-name">addFileOperation</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$data</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodcheckDeps" title="details" class="method-name">checkDeps</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">&$pkginfo</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">&$errors</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodcommitFileTransaction" title="details" class="method-name">commitFileTransaction</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddownload" title="details" class="method-name">download</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$packages</span>, <span class="var-type"><a href="../civiCRM/PEAR_Config.html">PEAR_Config</a></span>&nbsp;<span class="var-name">$options</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">&$config</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">&$installpackages</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">&$errors</span>, [<span class="var-type">false</span>&nbsp;<span class="var-name">$installed</span> = <span class="var-default">false</span>], [<span class="var-type">false</span>&nbsp;<span class="var-name">$willinstall</span> = <span class="var-default">false</span>], [<span class="var-type">false</span>&nbsp;<span class="var-name">$state</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array|<a href="../civiCRM/PEAR_Error.html">PEAR_Error</a></span>
+        <a href="#methodinstall" title="details" class="method-name">install</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$pkgfile</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">array()</span>], <span class="var-type">array</span>&nbsp;<span class="var-name">$options
+</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodmkDirHier" title="details" class="method-name">mkDirHier</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$dir</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrollbackFileTransaction" title="details" class="method-name">rollbackFileTransaction</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodstartFileTransaction" title="details" class="method-name">startFileTransaction</a>
+        ([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$rollback_in_case</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoduninstall" title="details" class="method-name">uninstall</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$package</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">array()</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_buildCallback" title="details" class="method-name">_buildCallback</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$what</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$data</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_sortDirs" title="details" class="method-name">_sortDirs</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$a</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$b</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodPEAR_Installer" id="methodPEAR_Installer"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor PEAR_Installer</strong> (line <span class="linenumber">109</span>)
+ </h4> 
+<h4><i>PEAR_Installer</i> <strong>PEAR_Installer(
+object
+&$ui)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>PEAR_Installer constructor.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object $ui</strong>: user interface object (instance of PEAR_Frontend_*)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddFileOperation" id="methodaddFileOperation"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addFileOperation</strong> (line <span class="linenumber">371</span>)
+ </h4> 
+<h4><i>void</i> <strong>addFileOperation(
+mixed
+$type, mixed
+$data)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Add a file operation to the current file transaction.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>var</strong> - This can be one of: <ul><li>rename:  rename a file ($data has 2 values)</li><li>chmod:   change permissions on a file ($data has 2 values)</li><li>delete:  delete a file ($data has 1 value)</li><li>rmdir:   delete a directory if empty ($data has 1 value)</li><li>installed_as: mark a file as installed ($data has 4 values).</li></ul></li>
+			<li><strong>see</strong> - <a href="../civiCRM/PEAR_Installer.html#methodstartFileTransaction">PEAR_Installer::startFileTransaction()</a></li>
+		</ul>
+</div>
+<a name="methodcheckDeps" id="methodcheckDeps"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method checkDeps</strong> (line <span class="linenumber">966</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>checkDeps(
+array
+&$pkginfo, string
+&$errors)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Check if the package meets all dependencies</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array &$pkginfo</strong>: Package information (passed by reference)</li>
+			<li><strong>string &$errors</strong>: Error message (passed by reference)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - False when no error occured, otherwise true</li>
+		</ul>
+</div>
+<a name="methodcommitFileTransaction" id="methodcommitFileTransaction"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method commitFileTransaction</strong> (line <span class="linenumber">400</span>)
+ </h4> 
+<h4><i>void</i> <strong>commitFileTransaction(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methoddownload" id="methoddownload"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method download</strong> (line <span class="linenumber">563</span>)
+ </h4> 
+<h4><i>void</i> <strong>download(
+array
+$packages, <a href="../civiCRM/PEAR_Config.html">PEAR_Config</a>
+$options, array
+&$config, array
+&$installpackages, array
+&$errors, [false
+$installed = false], [false
+$willinstall = false], [false
+$state = false])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/PEAR_Downloader.html#methoddownload">PEAR_Downloader::download()</a> Download any files and their dependencies, if necessary</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Download any files and their dependencies, if necessary</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $packages</strong>: a mixed list of package names, local files, or package.xml</li>
+			<li><strong><a href="../civiCRM/PEAR_Config.html">PEAR_Config</a> $options</strong>: </li>
+			<li><strong>array &$config</strong>: options from the command line</li>
+			<li><strong>array &$installpackages</strong>: <p>this is the array that will be populated with packages to               install.  Format of each entry:</p><p><pre><ol><code><pre><li> array<strong>(</strong><font color="#66cccc">'pkg' </font>=&gt; <font color="#66cccc">'package_name'</font><strong>, </strong><font color="#66cccc">'file' </font>=&gt; <font color="#66cccc">'/path/to/local/file'</font><strong>,</strong></li>
+<li>    <font color="#66cccc">'info' </font>=&gt; array<strong>(</strong><strong>) </strong><font color="green">// parsed package.xml</font></li>
+<li> <strong>)</strong><strong>;</strong></li>
+</pre></code></ol></pre></p></li>
+			<li><strong>array &$errors</strong>: this will be populated with any error messages</li>
+			<li><strong>false $installed</strong>: private recursion variable</li>
+			<li><strong>false $willinstall</strong>: private recursion variable</li>
+			<li><strong>false $state</strong>: private recursion variable</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>deprecated</strong> - in favor of PEAR_Downloader</li>
+		</ul>
+</div>
+<a name="methodinstall" id="methodinstall"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method install</strong> (line <span class="linenumber">597</span>)
+ </h4> 
+<h4><i>array|<a href="../civiCRM/PEAR_Error.html">PEAR_Error</a></i> <strong>install(
+string
+$pkgfile, [mixed
+$options = array()], array
+$options
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Installs the files within the package file specified.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $pkgfile</strong>: path to the package file</li>
+			<li><strong>array $options
+</strong>: recognized options: <ul><li>installroot   : optional prefix directory for installation</li><li>force         : force installation</li><li>register-only : update registry but don't install files</li><li>upgrade       : upgrade existing install</li><li>soft          : fail silently</li><li>nodeps        : ignore dependency conflicts/missing dependencies</li><li>alldeps       : install all dependencies</li><li>onlyreqdeps   : install only required dependencies</li></ul></li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - package info if successful</li>
+		</ul>
+</div>
+<a name="methodmkDirHier" id="methodmkDirHier"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method mkDirHier</strong> (line <span class="linenumber">534</span>)
+ </h4> 
+<h4><i>void</i> <strong>mkDirHier(
+mixed
+$dir)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/PEAR_Common.html#methodmkDirHier">PEAR_Common::mkDirHier()</a> Wrapper to System::mkDir(), creates a directory as well as  any necessary parent directories.</p>
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodrollbackFileTransaction" id="methodrollbackFileTransaction"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method rollbackFileTransaction</strong> (line <span class="linenumber">489</span>)
+ </h4> 
+<h4><i>void</i> <strong>rollbackFileTransaction(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodstartFileTransaction" id="methodstartFileTransaction"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method startFileTransaction</strong> (line <span class="linenumber">389</span>)
+ </h4> 
+<h4><i>void</i> <strong>startFileTransaction(
+[mixed
+$rollback_in_case = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methoduninstall" id="methoduninstall"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method uninstall</strong> (line <span class="linenumber">891</span>)
+ </h4> 
+<h4><i>void</i> <strong>uninstall(
+string
+$package, [array
+$options = array()])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Uninstall a package</h5>
+<div class="desc"><p>This method removes all files installed by the application, and then  removes any empty directories.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $package</strong>: package name</li>
+			<li><strong>array $options</strong>: <p>Command-line options.  Possibilities include:</p><p><ul><li>installroot: base installation dir, if not the default</li><li>nodeps: do not process dependencies of other packages to ensure
+                        uninstallation does not break things</li></ul></p></li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_buildCallback" id="method_buildCallback"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _buildCallback</strong> (line <span class="linenumber">1045</span>)
+ </h4> 
+<h4><i>void</i> <strong>_buildCallback(
+mixed
+$what, mixed
+$data)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_sortDirs" id="method_sortDirs"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _sortDirs</strong> (line <span class="linenumber">949</span>)
+ </h4> 
+<h4><i>void</i> <strong>_sortDirs(
+mixed
+$a, mixed
+$b)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR_Downloader.html">PEAR_Downloader</a></h4>
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Downloader.html#var$_installed">PEAR_Downloader::$_installed</a></strong> - Array of every package installed, with names lower-cased.
+	</h4> 
+			<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR_Common.html">PEAR_Common</a></h4>
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Common.html#var$config">PEAR_Common::$config</a></strong> - Configuration object (PEAR_Config).
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Common.html#var$current_attributes">PEAR_Common::$current_attributes</a></strong> - array of attributes of the currently parsed XML element
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Common.html#var$current_element">PEAR_Common::$current_element</a></strong> - name of currently parsed XML element
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Common.html#var$current_path">PEAR_Common::$current_path</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Common.html#var$element_stack">PEAR_Common::$element_stack</a></strong> - stack of elements, gives some sort of XML context
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Common.html#var$pkginfo">PEAR_Common::$pkginfo</a></strong> - assoc with information about a package
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Common.html#var$source_analyzer">PEAR_Common::$source_analyzer</a></strong> - PEAR_SourceAnalyzer instance
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../civiCRM/PEAR_Common.html#var$ui">PEAR_Common::$ui</a></strong> - User Interface object (PEAR_Frontend_* class).  If null,  the log() method uses print.
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR_Downloader.html">PEAR_Downloader</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#methodPEAR_Downloader">PEAR_Downloader::PEAR_Downloader()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#methodconfigSet">PEAR_Downloader::configSet()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#methoddoDownload">PEAR_Downloader::doDownload()</a></strong> - Download any files and their dependencies, if necessary
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#methoddownload">PEAR_Downloader::download()</a></strong> - Download any files and their dependencies, if necessary
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#methodextractDownloadFileName">PEAR_Downloader::extractDownloadFileName()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#methodgetDownloadedPackages">PEAR_Downloader::getDownloadedPackages()</a></strong> - Retrieve a list of downloaded packages after a call to download().
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#methodgetErrorMsgs">PEAR_Downloader::getErrorMsgs()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#methodgetPackageDownloadUrl">PEAR_Downloader::getPackageDownloadUrl()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#methodpushError">PEAR_Downloader::pushError()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#methodsetOptions">PEAR_Downloader::setOptions()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#method_downloadCallback">PEAR_Downloader::_downloadCallback()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Downloader.html#method_prependPath">PEAR_Downloader::_prependPath()</a></strong> - 
+		</h4> 
+
+				<br />
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR_Common.html">PEAR_Common</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodPEAR_Common">PEAR_Common::PEAR_Common()</a></strong> - PEAR_Common constructor
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodaddTempFile">PEAR_Common::addTempFile()</a></strong> - Register a temporary file or directory.  When the destructor is  executed, all registered temporary files and directories are  removed.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodanalyzeSourceCode">PEAR_Common::analyzeSourceCode()</a></strong> - Analyze the source code of the given PHP file
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodbetterStates">PEAR_Common::betterStates()</a></strong> - Return an array containing all of the states that are more stable than  or equal to the passed in state
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodbuildProvidesArray">PEAR_Common::buildProvidesArray()</a></strong> - Build a &quot;provides&quot; array from data returned by  analyzeSourceCode().  The format of the built array is like  this:
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methoddetectDependencies">PEAR_Common::detectDependencies()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methoddownloadHttp">PEAR_Common::downloadHttp()</a></strong> - Download a file through HTTP.  Considers suggested file name in
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodgetDependencyRelations">PEAR_Common::getDependencyRelations()</a></strong> - Get the implemented dependency relations (has, lt, ge etc.)
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodgetDependencyTypes">PEAR_Common::getDependencyTypes()</a></strong> - Get the implemented dependency types (php, ext, pkg etc.)
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodgetFileRoles">PEAR_Common::getFileRoles()</a></strong> - Get the implemented file roles
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodgetProvideTypes">PEAR_Common::getProvideTypes()</a></strong> - Get the implemented file replacement types in
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodgetReleaseStates">PEAR_Common::getReleaseStates()</a></strong> - Get the valid package release states of packages
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodgetReplacementTypes">PEAR_Common::getReplacementTypes()</a></strong> - Get the implemented file replacement types in
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodgetScriptPhases">PEAR_Common::getScriptPhases()</a></strong> - Get the implemented file replacement types in
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodgetUserRoles">PEAR_Common::getUserRoles()</a></strong> - Get the valid roles for a PEAR package maintainer
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodinfoFromAny">PEAR_Common::infoFromAny()</a></strong> - Returns package information from different sources
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodinfoFromDescriptionFile">PEAR_Common::infoFromDescriptionFile()</a></strong> - Returns information about a package file.  Expects the name of  a package xml file as input.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodinfoFromString">PEAR_Common::infoFromString()</a></strong> - Returns information about a package file.  Expects the contents  of a package xml file as input.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodinfoFromTgzFile">PEAR_Common::infoFromTgzFile()</a></strong> - Returns information about a package file.  Expects the name of  a gzipped tar file as input.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodlog">PEAR_Common::log()</a></strong> - Logging method.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodmkDirHier">PEAR_Common::mkDirHier()</a></strong> - Wrapper to System::mkDir(), creates a directory as well as  any necessary parent directories.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodmkTempDir">PEAR_Common::mkTempDir()</a></strong> - Create and register a temporary directory.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodsetFrontendObject">PEAR_Common::setFrontendObject()</a></strong> - Set object that represents the frontend to be used.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodsortPkgDeps">PEAR_Common::sortPkgDeps()</a></strong> - Sort a list of arrays of array(downloaded packagefilename) by dependency.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodvalidatePackageInfo">PEAR_Common::validatePackageInfo()</a></strong> - Validate XML package definition file.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodvalidPackageName">PEAR_Common::validPackageName()</a></strong> - Test whether a string contains a valid package name.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodvalidPackageVersion">PEAR_Common::validPackageVersion()</a></strong> - Test whether a string contains a valid package version.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR_Common.html#methodxmlFromInfo">PEAR_Common::xmlFromInfo()</a></strong> - Return an XML document based on the package info (as returned  by the PEAR_Common::infoFrom* methods).
+		</h4> 
+
+				<br />
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR.html">PEAR</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodPEAR">PEAR::PEAR()</a></strong> - Constructor.  Registers this object in  $_PEAR_destructor_object_list for destructor emulation if a  destructor object exists.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methoddelExpect">PEAR::delExpect()</a></strong> - This method deletes all occurences of the specified element from  the expected error codes stack.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodexpectError">PEAR::expectError()</a></strong> - This method is used to tell which errors you expect to get.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodgetStaticProperty">PEAR::getStaticProperty()</a></strong> - If you have a class that's mostly/entirely static, and you need static
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodisError">PEAR::isError()</a></strong> - Tell whether a value is a PEAR error.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodloadExtension">PEAR::loadExtension()</a></strong> - OS independant PHP extension load. Remember to take care  on the correct extension name for case sensitive OSes.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpopErrorHandling">PEAR::popErrorHandling()</a></strong> - Pop the last error handler used
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpopExpect">PEAR::popExpect()</a></strong> - This method pops one element off the expected error codes  stack.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpushErrorHandling">PEAR::pushErrorHandling()</a></strong> - Push a new error handler on top of the error handler options stack. With this  you can easily override the actual error handler for some code and restore  it later with popErrorHandling.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodraiseError">PEAR::raiseError()</a></strong> - This method is a wrapper that returns an instance of the  configured error class with this object's default error  handling applied.  If the $mode and $options parameters are not  specified, the object's defaults are used.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodregisterShutdownFunc">PEAR::registerShutdownFunc()</a></strong> - Use this function to register a shutdown method for static  classes.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodsetErrorHandling">PEAR::setErrorHandling()</a></strong> - Sets how errors generated by this object should be handled.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodstaticPopErrorHandling">PEAR::staticPopErrorHandling()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodstaticPushErrorHandling">PEAR::staticPushErrorHandling()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodthrowError">PEAR::throwError()</a></strong> - Simpler form of raiseError with fewer options.  In most cases  message, code and userinfo are enough.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#method_PEAR">PEAR::_PEAR()</a></strong> - Destructor (the emulated type of...).  Does nothing right now,  but is included for forward compatibility, so subclass  destructors should always call it.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:36 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

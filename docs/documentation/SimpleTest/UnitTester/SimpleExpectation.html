@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class SimpleExpectation</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class SimpleExpectation
+</h2> (line <span class="linenumber">23</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_expectation_php.html">/packages/SimpleTest/expectation.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Assertion that can display failure information.</h5>
+<div class="desc"><p>Also includes various helper methods.</p></div>
+<ul>
+		<li><strong>abstract:</strong> - </li>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from SimpleExpectation:</span>
+ 		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/WildcardExpectation.html">WildcardExpectation</a></dt>
+		<dd>A wildcard expectation always matches.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/ParametersExpectation.html">ParametersExpectation</a></dt>
+		<dd>Parameter comparison assertion.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/CallCountExpectation.html">CallCountExpectation</a></dt>
+		<dd>Confirms that the number of calls on a method is as expected.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/MinimumCallCountExpectation.html">MinimumCallCountExpectation</a></dt>
+		<dd>Confirms that the number of calls on a method is as expected.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/MaximumCallCountExpectation.html">MaximumCallCountExpectation</a></dt>
+		<dd>Confirms that the number of calls on a method is as expected.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/EqualExpectation.html">EqualExpectation</a></dt>
+		<dd>Test for equality.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/WantedPatternExpectation.html">WantedPatternExpectation</a></dt>
+		<dd>Test for a pattern using Perl regex rules.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/IsAExpectation.html">IsAExpectation</a></dt>
+		<dd>Tests either type or class name if it's an object.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/MethodExistsExpectation.html">MethodExistsExpectation</a></dt>
+		<dd>Tests for existance of a method in an object</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/FieldExpectation.html">FieldExpectation</a></dt>
+		<dd>Test for an HTML widget value match.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/HttpHeaderExpectation.html">HttpHeaderExpectation</a></dt>
+		<dd>Test for a specific HTTP header within a header block.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/WantedTextExpectation.html">WantedTextExpectation</a></dt>
+		<dd>Test for a text substring.</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_dumper" title="details" class="property"><strong>$_dumper</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_message" title="details" class="property"><strong>$_message</strong></a>
+</div>
+<hr />
+<a name="var$_dumper" id="var$_dumper"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_dumper</strong> (line <span class="linenumber">24</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_message" id="var$_message"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_message</strong> (line <span class="linenumber">25</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">SimpleExpectation</span>
+        <a href="#methodSimpleExpectation" title="details" class="method-name">SimpleExpectation</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">'%s'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodoverlayMessage" title="details" class="method-name">overlayMessage</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$compare</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodtest" title="details" class="method-name">test</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$compare</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodtestMessage" title="details" class="method-name">testMessage</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$compare</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../../SimpleTest/UnitTester/SimpleDumper.html">SimpleDumper</a></span>
+        <a href="#method_getDumper" title="details" class="method-name">&amp;_getDumper</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodSimpleExpectation" id="methodSimpleExpectation"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor SimpleExpectation</strong> (line <span class="linenumber">32</span>)
+ </h4> 
+<h4><i>SimpleExpectation</i> <strong>SimpleExpectation(
+[string
+$message = '%s'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Creates a dumper for displaying values and sets     the test message.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $message</strong>: Customised message on failure.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodoverlayMessage" id="methodoverlayMessage"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method overlayMessage</strong> (line <span class="linenumber">66</span>)
+ </h4> 
+<h4><i>string</i> <strong>overlayMessage(
+mixed
+$compare)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Overlays the generated message onto the stored user     message.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $compare</strong>: Comparison value.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Description of success                                or failure.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodtest" id="methodtest"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method test</strong> (line <span class="linenumber">44</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>test(
+mixed
+$compare)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/WildcardExpectation.html#methodtest">WildcardExpectation::test()</a></dt>
+		<dd>Tests the expectation. Always true.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/ParametersExpectation.html#methodtest">ParametersExpectation::test()</a></dt>
+		<dd>Tests the assertion. True if correct.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/CallCountExpectation.html#methodtest">CallCountExpectation::test()</a></dt>
+		<dd>Tests the assertion. True if correct.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/MinimumCallCountExpectation.html#methodtest">MinimumCallCountExpectation::test()</a></dt>
+		<dd>Tests the assertion. True if correct.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/MaximumCallCountExpectation.html#methodtest">MaximumCallCountExpectation::test()</a></dt>
+		<dd>Tests the assertion. True if correct.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/EqualExpectation.html#methodtest">EqualExpectation::test()</a></dt>
+		<dd>Tests the expectation. True if it matches the     held value.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/NotEqualExpectation.html#methodtest">NotEqualExpectation::test()</a></dt>
+		<dd>Tests the expectation. True if it differs from the     held value.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/IdenticalExpectation.html#methodtest">IdenticalExpectation::test()</a></dt>
+		<dd>Tests the expectation. True if it exactly     matches the held value.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/NotIdenticalExpectation.html#methodtest">NotIdenticalExpectation::test()</a></dt>
+		<dd>Tests the expectation. True if it differs from the     held value.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/WantedPatternExpectation.html#methodtest">WantedPatternExpectation::test()</a></dt>
+		<dd>Tests the expectation. True if the Perl regex     matches the comparison value.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/UnwantedPatternExpectation.html#methodtest">UnwantedPatternExpectation::test()</a></dt>
+		<dd>Tests the expectation. False if the Perl regex     matches the comparison value.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/IsAExpectation.html#methodtest">IsAExpectation::test()</a></dt>
+		<dd>Tests the expectation. True if the type or     class matches the string value.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/NotAExpectation.html#methodtest">NotAExpectation::test()</a></dt>
+		<dd>Tests the expectation. False if the type or     class matches the string value.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/MethodExistsExpectation.html#methodtest">MethodExistsExpectation::test()</a></dt>
+		<dd>Tests the expectation. True if the method exists in the test object.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/FieldExpectation.html#methodtest">FieldExpectation::test()</a></dt>
+		<dd>Tests the expectation. True if it matches     a string value or an array value in any order.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/HttpHeaderExpectation.html#methodtest">HttpHeaderExpectation::test()</a></dt>
+		<dd>Tests the expectation. True if it matches     a string value or an array value in any order.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/HttpUnwantedHeaderExpectation.html#methodtest">HttpUnwantedHeaderExpectation::test()</a></dt>
+		<dd>Tests that the unwanted header is not found.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/WantedTextExpectation.html#methodtest">WantedTextExpectation::test()</a></dt>
+		<dd>Tests the expectation. True if the text contains the     substring.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/UnwantedTextExpectation.html#methodtest">UnwantedTextExpectation::test()</a></dt>
+		<dd>Tests the expectation. False if the substring appears     in the text.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests the expectation. True if correct.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $compare</strong>: Comparison value.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if correct.</li>
+			<li><strong>abstract</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodtestMessage" id="methodtestMessage"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method testMessage</strong> (line <span class="linenumber">55</span>)
+ </h4> 
+<h4><i>string</i> <strong>testMessage(
+mixed
+$compare)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/WildcardExpectation.html#methodtestMessage">WildcardExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/ParametersExpectation.html#methodtestMessage">ParametersExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/CallCountExpectation.html#methodtestMessage">CallCountExpectation::testMessage()</a></dt>
+		<dd>Reports the comparison.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/MinimumCallCountExpectation.html#methodtestMessage">MinimumCallCountExpectation::testMessage()</a></dt>
+		<dd>Reports the comparison.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/MockObjects/MaximumCallCountExpectation.html#methodtestMessage">MaximumCallCountExpectation::testMessage()</a></dt>
+		<dd>Reports the comparison.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/EqualExpectation.html#methodtestMessage">EqualExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/NotEqualExpectation.html#methodtestMessage">NotEqualExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/IdenticalExpectation.html#methodtestMessage">IdenticalExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/NotIdenticalExpectation.html#methodtestMessage">NotIdenticalExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/WantedPatternExpectation.html#methodtestMessage">WantedPatternExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/UnwantedPatternExpectation.html#methodtestMessage">UnwantedPatternExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/IsAExpectation.html#methodtestMessage">IsAExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/NotAExpectation.html#methodtestMessage">NotAExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/MethodExistsExpectation.html#methodtestMessage">MethodExistsExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/FieldExpectation.html#methodtestMessage">FieldExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/HttpHeaderExpectation.html#methodtestMessage">HttpHeaderExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/HttpUnwantedHeaderExpectation.html#methodtestMessage">HttpUnwantedHeaderExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/WantedTextExpectation.html#methodtestMessage">WantedTextExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/UnitTester/UnwantedTextExpectation.html#methodtestMessage">UnwantedTextExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns a human readable test message.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $compare</strong>: Comparison value.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Description of success                                or failure.</li>
+			<li><strong>abstract</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method_getDumper" id="method_getDumper"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _getDumper</strong> (line <span class="linenumber">75</span>)
+ </h4> 
+<h4><i><a href="../../SimpleTest/UnitTester/SimpleDumper.html">SimpleDumper</a></i> <strong>&amp;_getDumper(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for the dumper.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Current value dumper.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:08 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

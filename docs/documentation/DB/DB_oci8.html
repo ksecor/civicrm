@@ -1,0 +1,1282 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class DB_oci8</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class DB_oci8
+</h2> (line <span class="linenumber">53</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../civiCRM/PEAR.html">PEAR</a>
+   |
+   --<a href="../DB/DB_common.html">DB_common</a>
+      |
+      --DB_oci8</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_DB_oci8_php.html">/packages/DB/oci8.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The methods PEAR DB uses to interact with PHP's oci8 extension  for interacting with Oracle databases</h5>
+<div class="desc"><p>Definitely works with versions 8 and 9 of Oracle.</p><p>These methods overload the ones declared in DB_common.</p><p>Be aware...  OCIError() only appears to return anything when given a  statement, so functions return the generic DB_ERROR instead of more  useful errors that have to do with feedback from the database.</p></div>
+<ul>
+		<li><strong>version:</strong> - Release: 1.7.4</li>
+		<li><strong>link:</strong> - <a href="http://pear.php.net/package/DB">http://pear.php.net/package/DB</a></li>
+		<li><strong>license:</strong> - <a href="http://www.php.net/license/3_0.txt">PHP License 3.0</a></li>
+		<li><strong>copyright:</strong> - 1997-2005 The PHP Group</li>
+		<li><strong>author:</strong> - James L. Pine &lt;<a href="mailto:jlp@valinux.com">jlp@valinux.com</a>&gt;</li>
+		<li><strong>author:</strong> - Daniel Convissor &lt;<a href="mailto:danielc@php.net">danielc@php.net</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">resource</span>
+    <a href="#var$connection" title="details" class="property"><strong>$connection</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$dbsyntax" title="details" class="property"><strong>$dbsyntax</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$dsn" title="details" class="property"><strong>$dsn</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$errorcode_map" title="details" class="property"><strong>$errorcode_map</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$features" title="details" class="property"><strong>$features</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">resource</span>
+    <a href="#var$last_stmt" title="details" class="property"><strong>$last_stmt</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$phptype" title="details" class="property"><strong>$phptype</strong></a>
+</div>
+<hr />
+<a name="var$connection" id="var$connection"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$connection</strong> (line <span class="linenumber">121</span>)
+ </h4>
+<h4>Data type : resource</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The raw database connection created by PHP</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$dbsyntax" id="var$dbsyntax"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$dbsyntax =  'oci8'</strong> (line <span class="linenumber">67</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The database syntax variant to be used (db2, access, etc.), if any</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$dsn" id="var$dsn"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$dsn = array()</strong> (line <span class="linenumber">127</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The DSN information for connecting to a database</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$errorcode_map" id="var$errorcode_map"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$errorcode_map = array(<br />        1    =&gt; DB_ERROR_CONSTRAINT,<br />        900  =&gt; DB_ERROR_SYNTAX,<br />        904  =&gt; DB_ERROR_NOSUCHFIELD,<br />        913  =&gt; DB_ERROR_VALUE_COUNT_ON_ROW,<br />        921  =&gt; DB_ERROR_SYNTAX,<br />        923  =&gt; DB_ERROR_SYNTAX,<br />        942  =&gt; DB_ERROR_NOSUCHTABLE,<br />        955  =&gt; DB_ERROR_ALREADY_EXISTS,<br />        1400 =&gt; DB_ERROR_CONSTRAINT_NOT_NULL,<br />        1401 =&gt; DB_ERROR_INVALID,<br />        1407 =&gt; DB_ERROR_CONSTRAINT_NOT_NULL,<br />        1418 =&gt; DB_ERROR_NOT_FOUND,<br />        1476 =&gt; DB_ERROR_DIVZERO,<br />        1722 =&gt; DB_ERROR_INVALID_NUMBER,<br />        2289 =&gt; DB_ERROR_NOSUCHTABLE,<br />        2291 =&gt; DB_ERROR_CONSTRAINT,<br />        2292 =&gt; DB_ERROR_CONSTRAINT,<br />        2449 =&gt; DB_ERROR_CONSTRAINT,<br />    )</strong> (line <span class="linenumber">96</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A mapping of native error codes to DB error codes</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$features" id="var$features"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$features = array(<br />        'limit'         =&gt; 'alter',<br />        'new_link'      =&gt; '5.0.0',<br />        'numrows'       =&gt; 'subquery',<br />        'pconnect'      =&gt; true,<br />        'prepare'       =&gt; true,<br />        'ssl'           =&gt; false,<br />        'transactions'  =&gt; true,<br />    )</strong> (line <span class="linenumber">82</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The capabilities of this DB implementation</h5>
+<div class="desc"><p>The 'new_link' element contains the PHP version that first provided  new_link support for this DBMS.  Contains false if it's unsupported.</p><p>Meaning of the 'limit' element: <ul><li>'emulate' = emulate with fetch row by number</li><li>'alter'   = alter the query</li><li>false     = skip rows</li></ul></p></div>
+<ul>
+	</ul>
+</div>
+<a name="var$last_stmt" id="var$last_stmt"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$last_stmt</strong> (line <span class="linenumber">154</span>)
+ </h4>
+<h4>Data type : resource</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The result or statement handle from the most recently executed query</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$phptype" id="var$phptype"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$phptype =  'oci8'</strong> (line <span class="linenumber">61</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The DB driver type (mysql, oci8, odbc, etc.)</h5>
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodDB_oci8" title="details" class="method-name">DB_oci8</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodaffectedRows" title="details" class="method-name">affectedRows</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodautoCommit" title="details" class="method-name">autoCommit</a>
+        ([<span class="var-type">bool</span>&nbsp;<span class="var-name">$onoff</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodcommit" title="details" class="method-name">commit</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodconnect" title="details" class="method-name">connect</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$dsn</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$persistent</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodcreateSequence" title="details" class="method-name">createSequence</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$seq_name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methoddisconnect" title="details" class="method-name">disconnect</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methoddropSequence" title="details" class="method-name">dropSequence</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$seq_name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methoderrorNative" title="details" class="method-name">errorNative</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodexecute" title="details" class="method-name">&amp;execute</a>
+        (<span class="var-type">resource</span>&nbsp;<span class="var-name">$stmt</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$data</span> = <span class="var-default">array()</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodfetchInto" title="details" class="method-name">fetchInto</a>
+        (<span class="var-type">resource</span>&nbsp;<span class="var-name">$result</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">&$arr</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$fetchmode</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$rownum</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodfreePrepared" title="details" class="method-name">freePrepared</a>
+        (<span class="var-type">resource</span>&nbsp;<span class="var-name">$stmt</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$free_resource</span> = <span class="var-default">true</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodfreeResult" title="details" class="method-name">freeResult</a>
+        (<span class="var-type">resource</span>&nbsp;<span class="var-name">$result</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetSpecialQuery" title="details" class="method-name">getSpecialQuery</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodmodifyLimitQuery" title="details" class="method-name">modifyLimitQuery</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$from</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$count</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodmodifyQuery" title="details" class="method-name">modifyQuery</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodnextId" title="details" class="method-name">nextId</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$seq_name</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$ondemand</span> = <span class="var-default">true</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">true</span>
+        <a href="#methodnextResult" title="details" class="method-name">nextResult</a>
+        (<span class="var-type">a</span>&nbsp;<span class="var-name">$result</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodnumCols" title="details" class="method-name">numCols</a>
+        (<span class="var-type">resource</span>&nbsp;<span class="var-name">$result</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodnumRows" title="details" class="method-name">numRows</a>
+        (<span class="var-type">resource</span>&nbsp;<span class="var-name">$result</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object the</span>
+        <a href="#methodoci8RaiseError" title="details" class="method-name">oci8RaiseError</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$errno</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodprepare" title="details" class="method-name">prepare</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodrollback" title="details" class="method-name">rollback</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodsimpleQuery" title="details" class="method-name">simpleQuery</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$query</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodtableInfo" title="details" class="method-name">tableInfo</a>
+        (<span class="var-type">object|string</span>&nbsp;<span class="var-name">$result</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$mode</span> = <span class="var-default">null</span>])
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodDB_oci8" id="methodDB_oci8"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor DB_oci8</strong> (line <span class="linenumber">172</span>)
+ </h4> 
+<h4><i>void</i> <strong>DB_oci8(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This constructor calls <kbd>$this-&gt;DB_common()</kbd></h5>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodaffectedRows" id="methodaffectedRows"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method affectedRows</strong> (line <span class="linenumber">730</span>)
+ </h4> 
+<h4><i>int</i> <strong>affectedRows(
+)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodaffectedRows">DB_common::affectedRows()</a> Determines the number of rows affected by a data maniuplation query</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Determines the number of rows affected by a data maniuplation query</h5>
+<div class="desc"><p><ol><li>is returned for queries that don't manipulate data.</li></ol></p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the number of rows.  A DB_Error object on failure.</li>
+		</ul>
+</div>
+<a name="methodautoCommit" id="methodautoCommit"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method autoCommit</strong> (line <span class="linenumber">680</span>)
+ </h4> 
+<h4><i>int</i> <strong>autoCommit(
+[bool
+$onoff = false])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodautoCommit">DB_common::autoCommit()</a> Enables or disables automatic commits</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Enables or disables automatic commits</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>bool $onoff</strong>: true turns it on, false turns it off</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB_OK on success.  A DB_Error object if the driver                doesn't support auto-committing transactions.</li>
+		</ul>
+</div>
+<a name="methodcommit" id="methodcommit"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method commit</strong> (line <span class="linenumber">694</span>)
+ </h4> 
+<h4><i>int</i> <strong>commit(
+)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodcommit">DB_common::commit()</a> Commits the current transaction</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Commits the current transaction</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB_OK on success.  A DB_Error object on failure.</li>
+		</ul>
+</div>
+<a name="methodconnect" id="methodconnect"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method connect</strong> (line <span class="linenumber">208</span>)
+ </h4> 
+<h4><i>int</i> <strong>connect(
+array
+$dsn, [bool
+$persistent = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Connect to the database server, log in and open the database</h5>
+<div class="desc"><p>Don't call this method directly.  Use DB::connect() instead.</p><p>If PHP is at version 5.0.0 or greater: <ul><li>Generally, oci_connect() or oci_pconnect() are used.</li><li>But if the new_link DSN option is set to true, oci_new_connect()
+     is used.</li></ul>  When using PHP version 4.x, OCILogon() or OCIPLogon() are used.</p><p>PEAR DB's oci8 driver supports the following extra DSN options: <ul><li>charset       The character set to be used on the connection.
+                    Only used if PHP is at version 5.0.0 or greater
+                    and the Oracle server is at 9.2 or greater.
+                    Available since PEAR DB 1.7.0.</li><li>new_link      If set to true, causes subsequent calls to
+                    connect() to return a new connection link
+                    instead of the existing one.  WARNING: this is
+                    not portable to other DBMS's.
+                    Available since PEAR DB 1.7.0.</li></ul></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $dsn</strong>: the data source name</li>
+			<li><strong>bool $persistent</strong>: should the connection be persistent?</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB_OK on success. A DB_Error object on failure.</li>
+		</ul>
+</div>
+<a name="methodcreateSequence" id="methodcreateSequence"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method createSequence</strong> (line <span class="linenumber">882</span>)
+ </h4> 
+<h4><i>int</i> <strong>createSequence(
+string
+$seq_name)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodcreateSequence">DB_common::createSequence()</a> Creates a new sequence</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Creates a new sequence</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $seq_name</strong>: name of the new sequence</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB_OK on success.  A DB_Error object on failure.</li>
+			<li><strong>see</strong> - <a href="../DB/DB_common.html#methodcreateSequence">DB_common::createSequence()</a>, <a href="../DB/DB_common.html#methodgetSequenceName">DB_common::getSequenceName()</a>, DB_oci8::nextID(), <a href="../DB/DB_oci8.html#methoddropSequence">DB_oci8::dropSequence()</a></li>
+		</ul>
+</div>
+<a name="methoddisconnect" id="methoddisconnect"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method disconnect</strong> (line <span class="linenumber">271</span>)
+ </h4> 
+<h4><i>bool</i> <strong>disconnect(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Disconnects from the database server</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - TRUE on success, FALSE on failure</li>
+		</ul>
+</div>
+<a name="methoddropSequence" id="methoddropSequence"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method dropSequence</strong> (line <span class="linenumber">901</span>)
+ </h4> 
+<h4><i>int</i> <strong>dropSequence(
+string
+$seq_name)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methoddropSequence">DB_common::dropSequence()</a> Deletes a sequence</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Deletes a sequence</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $seq_name</strong>: name of the sequence to be deleted</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB_OK on success.  A DB_Error object on failure.</li>
+			<li><strong>see</strong> - <a href="../DB/DB_common.html#methoddropSequence">DB_common::dropSequence()</a>, <a href="../DB/DB_common.html#methodgetSequenceName">DB_common::getSequenceName()</a>, DB_oci8::nextID(), <a href="../DB/DB_oci8.html#methodcreateSequence">DB_oci8::createSequence()</a></li>
+		</ul>
+</div>
+<a name="methoderrorNative" id="methoderrorNative"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method errorNative</strong> (line <span class="linenumber">945</span>)
+ </h4> 
+<h4><i>int</i> <strong>errorNative(
+)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methoderrorNative">DB_common::errorNative()</a> Gets the DBMS' native error code produced by the last query</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Gets the DBMS' native error code produced by the last query</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the DBMS' error code.  FALSE if the code could not be                determined</li>
+		</ul>
+</div>
+<a name="methodexecute" id="methodexecute"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method execute</strong> (line <span class="linenumber">611</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>&amp;execute(
+resource
+$stmt, [mixed
+$data = array()])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodexecute">DB_common::execute()</a> Executes a DB statement prepared with prepare()</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Executes a DB statement prepared with prepare().</h5>
+<div class="desc"><p>To determine how many rows of a result set get buffered using  ocisetprefetch(), see the &quot;result_buffering&quot; option in setOptions().  This option was added in Release 1.7.0.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>resource $stmt</strong>: a DB statement resource returned from prepare()</li>
+			<li><strong>mixed $data</strong>: array, string or numeric data to be used in                       execution of the statement.  Quantity of items                       passed must match quantity of placeholders in                       query:  meaning 1 for non-array items or the                       quantity of elements in the array.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - returns an oic8 result resource for successful SELECT                 queries, DB_OK for other successful queries.                 A DB error object is returned on failure.</li>
+			<li><strong>see</strong> - <a href="../DB/DB_oci8.html#methodprepare">DB_oci8::prepare()</a></li>
+		</ul>
+</div>
+<a name="methodfetchInto" id="methodfetchInto"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method fetchInto</strong> (line <span class="linenumber">365</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>fetchInto(
+resource
+$result, array
+&$arr, int
+$fetchmode, [int
+$rownum = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Places a row from the result set into the given array</h5>
+<div class="desc"><p>Formating of the array and the data therein are configurable.  See DB_result::fetchInto() for more information.</p><p>This method is not meant to be called directly.  Use  DB_result::fetchInto() instead.  It can't be declared &quot;protected&quot;  because DB_result is a separate object.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>resource $result</strong>: the query result resource</li>
+			<li><strong>array $arr</strong>: the referenced array to put the data in</li>
+			<li><strong>int $fetchmode</strong>: how the resulting array should be indexed</li>
+			<li><strong>int $rownum</strong>: the row number to fetch (0 = first row)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB_OK on success, NULL when the end of a result set is                  reached or on failure</li>
+			<li><strong>see</strong> - <a href="../DB/DB_result.html#methodfetchInto">DB_result::fetchInto()</a></li>
+		</ul>
+</div>
+<a name="methodfreePrepared" id="methodfreePrepared"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method freePrepared</strong> (line <span class="linenumber">425</span>)
+ </h4> 
+<h4><i>bool</i> <strong>freePrepared(
+resource
+$stmt, [bool
+$free_resource = true])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodfreePrepared">DB_common::freePrepared()</a> Frees the internal resources associated with a prepared query</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Frees the internal resources associated with a prepared query</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>resource $stmt</strong>: the prepared statement's resource</li>
+			<li><strong>bool $free_resource</strong>: should the PHP resource be freed too?                                   Use false if you need to get data                                   from the result set later.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - TRUE on success, FALSE if $result is invalid</li>
+			<li><strong>see</strong> - <a href="../DB/DB_oci8.html#methodprepare">DB_oci8::prepare()</a></li>
+		</ul>
+</div>
+<a name="methodfreeResult" id="methodfreeResult"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method freeResult</strong> (line <span class="linenumber">408</span>)
+ </h4> 
+<h4><i>bool</i> <strong>freeResult(
+resource
+$result)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Deletes the result set and frees the memory occupied by the result set</h5>
+<div class="desc"><p>This method is not meant to be called directly.  Use  DB_result::free() instead.  It can't be declared &quot;protected&quot;  because DB_result is a separate object.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>resource $result</strong>: PHP's query result resource</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - TRUE on success, FALSE if $result is invalid</li>
+			<li><strong>see</strong> - <a href="../DB/DB_result.html#methodfree">DB_result::free()</a></li>
+		</ul>
+</div>
+<a name="methodgetSpecialQuery" id="methodgetSpecialQuery"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getSpecialQuery</strong> (line <span class="linenumber">1086</span>)
+ </h4> 
+<h4><i>string</i> <strong>getSpecialQuery(
+string
+$type)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodgetSpecialQuery">DB_common::getSpecialQuery()</a> Obtains the query string needed for listing a given type of objects</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Obtains the query string needed for listing a given type of objects</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $type</strong>: the kind of objects you want to retrieve</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the SQL query string or null if the driver doesn't                   support the object type requested</li>
+			<li><strong>see</strong> - <a href="../DB/DB_common.html#methodgetListOf">DB_common::getListOf()</a></li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="methodmodifyLimitQuery" id="methodmodifyLimitQuery"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method modifyLimitQuery</strong> (line <span class="linenumber">784</span>)
+ </h4> 
+<h4><i>string</i> <strong>modifyLimitQuery(
+string
+$query, int
+$from, int
+$count, [mixed
+$params = array()])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodmodifyLimitQuery">DB_common::modifyLimitQuery()</a> Adds LIMIT clauses to a query string according to current DBMS standards</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds LIMIT clauses to a query string according to current DBMS standards</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $query</strong>: the query to modify</li>
+			<li><strong>int $from</strong>: the row to start to fetching (0 = the first row)</li>
+			<li><strong>int $count</strong>: the numbers of rows to fetch</li>
+			<li><strong>mixed $params</strong>: array, string or numeric data to be used in                          execution of the statement.  Quantity of items                          passed must match quantity of placeholders in                          query:  meaning 1 placeholder for non-array                          parameters or 1 placeholder per array element.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the query string with LIMIT clauses added</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="methodmodifyQuery" id="methodmodifyQuery"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method modifyQuery</strong> (line <span class="linenumber">756</span>)
+ </h4> 
+<h4><i>string</i> <strong>modifyQuery(
+string
+$query)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodmodifyQuery">DB_common::modifyQuery()</a> Changes a query string for various DBMS specific reasons</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Changes a query string for various DBMS specific reasons</h5>
+<div class="desc"><p>&quot;SELECT 2+2&quot; must be &quot;SELECT 2+2 FROM dual&quot; in Oracle.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $query</strong>: the query string to modify</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the modified query string</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="methodnextId" id="methodnextId"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method nextId</strong> (line <span class="linenumber">846</span>)
+ </h4> 
+<h4><i>int</i> <strong>nextId(
+string
+$seq_name, [boolean
+$ondemand = true])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodnextId">DB_common::nextId()</a> Returns the next free id in a sequence</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the next free id in a sequence</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $seq_name</strong>: name of the sequence</li>
+			<li><strong>boolean $ondemand</strong>: when true, the seqence is automatically                             created if it does not exist</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the next id number in the sequence.                A DB_Error object on failure.</li>
+			<li><strong>see</strong> - DB_common::nextID(), <a href="../DB/DB_common.html#methodgetSequenceName">DB_common::getSequenceName()</a>, <a href="../DB/DB_oci8.html#methodcreateSequence">DB_oci8::createSequence()</a>, <a href="../DB/DB_oci8.html#methoddropSequence">DB_oci8::dropSequence()</a></li>
+		</ul>
+</div>
+<a name="methodnextResult" id="methodnextResult"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method nextResult</strong> (line <span class="linenumber">337</span>)
+ </h4> 
+<h4><i>true</i> <strong>nextResult(
+a
+$result)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Move the internal oracle result pointer to the next available result</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>a $result</strong>: valid oci8 result resource</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - if a result is available otherwise return false</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodnumCols" id="methodnumCols"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method numCols</strong> (line <span class="linenumber">506</span>)
+ </h4> 
+<h4><i>int</i> <strong>numCols(
+resource
+$result)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Gets the number of columns in a result set</h5>
+<div class="desc"><p>This method is not meant to be called directly.  Use  DB_result::numCols() instead.  It can't be declared &quot;protected&quot;  because DB_result is a separate object.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>resource $result</strong>: PHP's query result resource</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the number of columns.  A DB_Error object on failure.</li>
+			<li><strong>see</strong> - <a href="../DB/DB_result.html#methodnumCols">DB_result::numCols()</a></li>
+		</ul>
+</div>
+<a name="methodnumRows" id="methodnumRows"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method numRows</strong> (line <span class="linenumber">461</span>)
+ </h4> 
+<h4><i>int</i> <strong>numRows(
+resource
+$result)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodnumRows">DB_common::numRows()</a> Determines the number of rows in a query result</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Gets the number of rows in a result set</h5>
+<div class="desc"><p>Only works if the DB_PORTABILITY_NUMROWS portability option  is turned on.</p><p>This method is not meant to be called directly.  Use  DB_result::numRows() instead.  It can't be declared &quot;protected&quot;  because DB_result is a separate object.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>resource $result</strong>: PHP's query result resource</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the number of rows.  A DB_Error object on failure.</li>
+			<li><strong>see</strong> - <a href="../DB/DB_result.html#methodnumRows">DB_result::numRows()</a>, <a href="../DB/DB_common.html#methodsetOption">DB_common::setOption()</a></li>
+		</ul>
+</div>
+<a name="methodoci8RaiseError" id="methodoci8RaiseError"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method oci8RaiseError</strong> (line <span class="linenumber">922</span>)
+ </h4> 
+<h4><i>object the</i> <strong>oci8RaiseError(
+[int
+$errno = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Produces a DB_Error object regarding the current problem</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $errno</strong>: if the error is being manually raised pass a                      DB_ERROR* constant here.  If this isn't passed                      the error information gathered from the DBMS.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB_Error object</li>
+			<li><strong>see</strong> - <a href="../DB/DB_common.html#methodraiseError">DB_common::raiseError()</a>, <a href="../DB/DB_oci8.html#methoderrorNative">DB_oci8::errorNative()</a>, DB_oci8::errorCode()</li>
+		</ul>
+</div>
+<a name="methodprepare" id="methodprepare"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method prepare</strong> (line <span class="linenumber">545</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>prepare(
+string
+$query)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodprepare">DB_common::prepare()</a> Prepares a query for multiple execution with execute()</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Prepares a query for multiple execution with execute().</h5>
+<div class="desc"><p>With oci8, this is emulated.</p><p>prepare() requires a generic query as string like <pre><ol><code><pre><li>    INSERT INTO numbers VALUES <strong>(</strong>?<strong>, </strong>?<strong>, </strong>?<strong>)</strong></li>
+</pre></code></ol></pre>.  The <kbd>?</kbd> characters are placeholders.</p><p>Three types of placeholders can be used: <ul><li><kbd>?</kbd>  a quoted scalar value, i.e. strings, integers</li><li><kbd>!</kbd>  value is inserted 'as is'</li><li><kbd>&amp;</kbd>  requires a file name.  The file's contents get
+                     inserted into the query (i.e. saving binary
+                     data in a db)</li></ul>  Use backslashes to escape placeholder characters if you don't want  them to be interpreted as placeholders.  Example: <pre><ol><code><pre><li>    <font color="#66cccc">&quot;UPDATE foo SET col=? WHERE col='over \&amp; under'&quot;</font></li>
+</pre></code></ol></pre></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $query</strong>: the query to be prepared</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB statement resource on success. DB_Error on failure.</li>
+			<li><strong>see</strong> - <a href="../DB/DB_oci8.html#methodexecute">DB_oci8::execute()</a></li>
+		</ul>
+</div>
+<a name="methodrollback" id="methodrollback"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method rollback</strong> (line <span class="linenumber">711</span>)
+ </h4> 
+<h4><i>int</i> <strong>rollback(
+)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodrollback">DB_common::rollback()</a> Reverts the current transaction</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Reverts the current transaction</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB_OK on success.  A DB_Error object on failure.</li>
+		</ul>
+</div>
+<a name="methodsimpleQuery" id="methodsimpleQuery"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method simpleQuery</strong> (line <span class="linenumber">298</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>simpleQuery(
+string
+$query)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sends a query to the database server</h5>
+<div class="desc"><p>To determine how many rows of a result set get buffered using  ocisetprefetch(), see the &quot;result_buffering&quot; option in setOptions().  This option was added in Release 1.7.0.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $query</strong>: the SQL query string</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - + a PHP result resrouce for successful SELECT queries <ul><li>the DB_OK constant for other successful queries</li><li>a DB_Error object on failure</li></ul></li>
+		</ul>
+</div>
+<a name="methodtableInfo" id="methodtableInfo"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method tableInfo</strong> (line <span class="linenumber">981</span>)
+ </h4> 
+<h4><i>array</i> <strong>tableInfo(
+object|string
+$result, [int
+$mode = null])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../DB/DB_common.html#methodtableInfo">DB_common::tableInfo()</a> Returns information about a table or a result set</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns information about a table or a result set</h5>
+<div class="desc"><p>NOTE: only supports 'table' and 'flags' if <var>$result</var>  is a table name.</p><p>NOTE: flags won't contain index information.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object|string $result</strong>: DB_result object from a query or a                                  string containing the name of a table.                                  While this also accepts a query result                                  resource identifier, this behavior is                                  deprecated.</li>
+			<li><strong>int $mode</strong>: a valid tableInfo mode</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - an associative array with the information requested.                  A DB_Error object on failure.</li>
+			<li><strong>see</strong> - <a href="../DB/DB_common.html#methodtableInfo">DB_common::tableInfo()</a></li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../DB/DB_common.html">DB_common</a></h4>
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../DB/DB_common.html#var$fetchmode">DB_common::$fetchmode</a></strong> - The current default fetch mode
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../DB/DB_common.html#var$fetchmode_object_class">DB_common::$fetchmode_object_class</a></strong> - The name of the class into which results should be fetched when  DB_FETCHMODE_OBJECT is in effect
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../DB/DB_common.html#var$last_parameters">DB_common::$last_parameters</a></strong> - The parameters from the most recently executed query
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../DB/DB_common.html#var$last_query">DB_common::$last_query</a></strong> - The most recently executed query
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../DB/DB_common.html#var$options">DB_common::$options</a></strong> - Run-time configuration options
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../DB/DB_common.html#var$prepared_queries">DB_common::$prepared_queries</a></strong> - The prepared queries
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../DB/DB_common.html#var$prepare_tokens">DB_common::$prepare_tokens</a></strong> - The elements from each prepared statement
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../DB/DB_common.html#var$prepare_types">DB_common::$prepare_types</a></strong> - The data types of the various elements in each prepared statement
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../DB/DB_common.html#var$was_connected">DB_common::$was_connected</a></strong> - Was a connection present when the object was serialized()?
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../DB/DB_common.html">DB_common</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodDB_common">DB_common::DB_common()</a></strong> - This constructor calls <kbd>$this-&gt;PEAR('DB_Error')</kbd>
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodaffectedRows">DB_common::affectedRows()</a></strong> - Determines the number of rows affected by a data maniuplation query
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodautoCommit">DB_common::autoCommit()</a></strong> - Enables or disables automatic commits
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodautoExecute">DB_common::autoExecute()</a></strong> - Automaticaly generates an insert or update query and call prepare()  and execute() with it
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodautoPrepare">DB_common::autoPrepare()</a></strong> - Automaticaly generates an insert or update query and pass it to prepare()
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodbuildManipSQL">DB_common::buildManipSQL()</a></strong> - Produces an SQL query string for autoPrepare()
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodcommit">DB_common::commit()</a></strong> - Commits the current transaction
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodcreateSequence">DB_common::createSequence()</a></strong> - Creates a new sequence
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methoddropSequence">DB_common::dropSequence()</a></strong> - Deletes a sequence
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methoderrorCode">DB_common::errorCode()</a></strong> - Maps native error codes to DB's portable ones
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methoderrorMessage">DB_common::errorMessage()</a></strong> - Maps a DB error code to a textual message
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methoderrorNative">DB_common::errorNative()</a></strong> - Gets the DBMS' native error code produced by the last query
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodescapeSimple">DB_common::escapeSimple()</a></strong> - Escapes a string according to the current DBMS's standards
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodexecute">DB_common::execute()</a></strong> - Executes a DB statement prepared with prepare()
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodexecuteEmulateQuery">DB_common::executeEmulateQuery()</a></strong> - Emulates executing prepared statements if the DBMS not support them
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodexecuteMultiple">DB_common::executeMultiple()</a></strong> - Performs several execute() calls on the same statement handle
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodfreePrepared">DB_common::freePrepared()</a></strong> - Frees the internal resources associated with a prepared query
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodgetAll">DB_common::getAll()</a></strong> - Fetches all of the rows from a query result
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodgetAssoc">DB_common::getAssoc()</a></strong> - Fetches an entire query result and returns it as an  associative array using the first column as the key
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodgetCol">DB_common::getCol()</a></strong> - Fetches a single column from a query result and returns it as an  indexed array
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodgetListOf">DB_common::getListOf()</a></strong> - Lists internal database information
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodgetOne">DB_common::getOne()</a></strong> - Fetches the first column of the first row from a query result
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodgetOption">DB_common::getOption()</a></strong> - Returns the value of an option
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodgetRow">DB_common::getRow()</a></strong> - Fetches the first row of data returned from a query result
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodgetSequenceName">DB_common::getSequenceName()</a></strong> - Generates the name used inside the database for a sequence
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodgetSpecialQuery">DB_common::getSpecialQuery()</a></strong> - Obtains the query string needed for listing a given type of objects
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodgetTables">DB_common::getTables()</a></strong> - Lists the tables in the current database
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodlimitQuery">DB_common::limitQuery()</a></strong> - Generates and executes a LIMIT query
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodmodifyLimitQuery">DB_common::modifyLimitQuery()</a></strong> - Adds LIMIT clauses to a query string according to current DBMS standards
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodmodifyQuery">DB_common::modifyQuery()</a></strong> - Changes a query string for various DBMS specific reasons
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodnextId">DB_common::nextId()</a></strong> - Returns the next free id in a sequence
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodnumRows">DB_common::numRows()</a></strong> - Determines the number of rows in a query result
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodprepare">DB_common::prepare()</a></strong> - Prepares a query for multiple execution with execute()
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodprovides">DB_common::provides()</a></strong> - Tells whether the present driver supports a given feature
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodquery">DB_common::query()</a></strong> - Sends a query to the database server
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodquote">DB_common::quote()</a></strong> - DEPRECATED: Quotes a string so it can be safely used in a query
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodquoteIdentifier">DB_common::quoteIdentifier()</a></strong> - Quotes a string so it can be safely used as a table or column name
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodquoteSmart">DB_common::quoteSmart()</a></strong> - Formats input so it can be safely used in a query
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodquoteString">DB_common::quoteString()</a></strong> - DEPRECATED: Quotes a string so it can be safely used within string  delimiters in a query
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodraiseError">DB_common::raiseError()</a></strong> - Communicates an error and invoke error callbacks, etc
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodrollback">DB_common::rollback()</a></strong> - Reverts the current transaction
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodsetFetchMode">DB_common::setFetchMode()</a></strong> - Sets the fetch mode that should be used by default for query results
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodsetOption">DB_common::setOption()</a></strong> - Sets run-time configuration options for PEAR DB
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodtableInfo">DB_common::tableInfo()</a></strong> - Returns information about a table or a result set
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#methodtoString">DB_common::toString()</a></strong> - DEPRECATED:  String conversion method
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#method_convertNullArrayValuesToEmpty">DB_common::_convertNullArrayValuesToEmpty()</a></strong> - Converts all null values in an array to empty strings
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#method_rtrimArrayValues">DB_common::_rtrimArrayValues()</a></strong> - Right-trims all strings in an array
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#method__sleep">DB_common::__sleep()</a></strong> - Automatically indicates which properties should be saved  when PHP's serialize() function is called
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#method__toString">DB_common::__toString()</a></strong> - Automatic string conversion for PHP 5
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../DB/DB_common.html#method__wakeup">DB_common::__wakeup()</a></strong> - Automatically reconnects to the database when PHP's unserialize()  function is called
+		</h4> 
+
+				<br />
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR.html">PEAR</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodPEAR">PEAR::PEAR()</a></strong> - Constructor.  Registers this object in  $_PEAR_destructor_object_list for destructor emulation if a  destructor object exists.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methoddelExpect">PEAR::delExpect()</a></strong> - This method deletes all occurences of the specified element from  the expected error codes stack.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodexpectError">PEAR::expectError()</a></strong> - This method is used to tell which errors you expect to get.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodgetStaticProperty">PEAR::getStaticProperty()</a></strong> - If you have a class that's mostly/entirely static, and you need static
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodisError">PEAR::isError()</a></strong> - Tell whether a value is a PEAR error.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodloadExtension">PEAR::loadExtension()</a></strong> - OS independant PHP extension load. Remember to take care  on the correct extension name for case sensitive OSes.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpopErrorHandling">PEAR::popErrorHandling()</a></strong> - Pop the last error handler used
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpopExpect">PEAR::popExpect()</a></strong> - This method pops one element off the expected error codes  stack.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpushErrorHandling">PEAR::pushErrorHandling()</a></strong> - Push a new error handler on top of the error handler options stack. With this  you can easily override the actual error handler for some code and restore  it later with popErrorHandling.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodraiseError">PEAR::raiseError()</a></strong> - This method is a wrapper that returns an instance of the  configured error class with this object's default error  handling applied.  If the $mode and $options parameters are not  specified, the object's defaults are used.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodregisterShutdownFunc">PEAR::registerShutdownFunc()</a></strong> - Use this function to register a shutdown method for static  classes.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodsetErrorHandling">PEAR::setErrorHandling()</a></strong> - Sets how errors generated by this object should be handled.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodstaticPopErrorHandling">PEAR::staticPopErrorHandling()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodstaticPushErrorHandling">PEAR::staticPushErrorHandling()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodthrowError">PEAR::throwError()</a></strong> - Simpler form of raiseError with fewer options.  In most cases  message, code and userinfo are enough.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#method_PEAR">PEAR::_PEAR()</a></strong> - Destructor (the emulated type of...).  Does nothing right now,  but is included for forward compatibility, so subclass  destructors should always call it.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:52 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

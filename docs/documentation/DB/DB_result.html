@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class DB_result</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class DB_result
+</h2> (line <span class="linenumber">915</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_DB_php.html">/packages/DB.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This class implements a wrapper for a DB result set</h5>
+<div class="desc"><p>A new instance of this class will be returned by the DB implementation  after processing a query that returns data.</p></div>
+<ul>
+		<li><strong>link:</strong> - <a href="http://pear.php.net/package/DB">http://pear.php.net/package/DB</a></li>
+		<li><strong>version:</strong> - Release: 1.7.4</li>
+		<li><strong>license:</strong> - <a href="http://www.php.net/license/3_0.txt">PHP License 3.0</a></li>
+		<li><strong>copyright:</strong> - 1997-2005 The PHP Group</li>
+		<li><strong>author:</strong> - Stig Bakken &lt;<a href="mailto:ssb@php.net">ssb@php.net</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">boolean</span>
+    <a href="#var$autofree" title="details" class="property"><strong>$autofree</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$dbh" title="details" class="property"><strong>$dbh</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">integer</span>
+    <a href="#var$fetchmode" title="details" class="property"><strong>$fetchmode</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$fetchmode_object_class" title="details" class="property"><strong>$fetchmode_object_class</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">integer</span>
+    <a href="#var$limit_count" title="details" class="property"><strong>$limit_count</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">integer</span>
+    <a href="#var$limit_from" title="details" class="property"><strong>$limit_from</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$parameters" title="details" class="property"><strong>$parameters</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$query" title="details" class="property"><strong>$query</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">resource</span>
+    <a href="#var$result" title="details" class="property"><strong>$result</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">integer</span>
+    <a href="#var$row_counter" title="details" class="property"><strong>$row_counter</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">resource</span>
+    <a href="#var$statement" title="details" class="property"><strong>$statement</strong></a>
+</div>
+<hr />
+<a name="var$autofree" id="var$autofree"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$autofree</strong> (line <span class="linenumber">924</span>)
+ </h4>
+<h4>Data type : boolean</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Should results be freed automatically when there are no more rows?</h5>
+<ul>
+		<li><strong>see:</strong> - <a href="../DB/DB_common.html#var$options">DB_common::$options</a></li>
+	</ul>
+</div>
+<a name="var$dbh" id="var$dbh"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$dbh</strong> (line <span class="linenumber">930</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A reference to the DB_&lt;driver&gt; object</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$fetchmode" id="var$fetchmode"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$fetchmode</strong> (line <span class="linenumber">937</span>)
+ </h4>
+<h4>Data type : integer</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The current default fetch mode</h5>
+<ul>
+		<li><strong>see:</strong> - <a href="../DB/DB_common.html#var$fetchmode">DB_common::$fetchmode</a></li>
+	</ul>
+</div>
+<a name="var$fetchmode_object_class" id="var$fetchmode_object_class"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$fetchmode_object_class</strong> (line <span class="linenumber">946</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The name of the class into which results should be fetched when  DB_FETCHMODE_OBJECT is in effect</h5>
+<ul>
+		<li><strong>see:</strong> - <a href="../DB/DB_common.html#var$fetchmode_object_class">DB_common::$fetchmode_object_class</a></li>
+	</ul>
+</div>
+<a name="var$limit_count" id="var$limit_count"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$limit_count =  null</strong> (line <span class="linenumber">952</span>)
+ </h4>
+<h4>Data type : integer</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The number of rows to fetch from a limit query</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$limit_from" id="var$limit_from"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$limit_from =  null</strong> (line <span class="linenumber">958</span>)
+ </h4>
+<h4>Data type : integer</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The row to start fetching from in limit queries</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$parameters" id="var$parameters"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$parameters</strong> (line <span class="linenumber">965</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The execute parameters that created this result</h5>
+<ul>
+		<li><strong>since:</strong> - Property available since Release 1.7.0</li>
+	</ul>
+</div>
+<a name="var$query" id="var$query"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$query</strong> (line <span class="linenumber">975</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The query string that created this result</h5>
+<div class="desc"><p>Copied here incase it changes in $dbh, which is referenced</p></div>
+<ul>
+		<li><strong>since:</strong> - Property available since Release 1.7.0</li>
+	</ul>
+</div>
+<a name="var$result" id="var$result"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$result</strong> (line <span class="linenumber">981</span>)
+ </h4>
+<h4>Data type : resource</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The query result resource id created by PHP</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$row_counter" id="var$row_counter"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$row_counter =  null</strong> (line <span class="linenumber">987</span>)
+ </h4>
+<h4>Data type : integer</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The present row being dealt with</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$statement" id="var$statement"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$statement</strong> (line <span class="linenumber">1004</span>)
+ </h4>
+<h4>Data type : resource</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The prepared statement resource id created by PHP in $dbh</h5>
+<div class="desc"><p>This resource is only available when the result set was created using  a driver's native execute() method, not PEAR DB's emulated one.</p><p>Copied here incase it changes in $dbh, which is referenced</p><p>}</p></div>
+<ul>
+		<li><strong>since:</strong> - Property available since Release 1.7.0</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodDB_result" title="details" class="method-name">DB_result</a>
+        (<span class="var-type">object</span>&nbsp;<span class="var-name">&$dbh</span>, <span class="var-type">resource</span>&nbsp;<span class="var-name">$result</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">array()</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodfetchInto" title="details" class="method-name">fetchInto</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">&$arr</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$fetchmode</span> = <span class="var-default">DB_FETCHMODE_DEFAULT</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$rownum</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodfetchRow" title="details" class="method-name">&amp;fetchRow</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$fetchmode</span> = <span class="var-default">DB_FETCHMODE_DEFAULT</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$rownum</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodfree" title="details" class="method-name">free</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetQuery" title="details" class="method-name">getQuery</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">integer</span>
+        <a href="#methodgetRowCounter" title="details" class="method-name">getRowCounter</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodnextResult" title="details" class="method-name">nextResult</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodnumCols" title="details" class="method-name">numCols</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodnumRows" title="details" class="method-name">numRows</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetOption" title="details" class="method-name">setOption</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$key</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodtableInfo" title="details" class="method-name">tableInfo</a>
+        ([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$mode</span> = <span class="var-default">null</span>])
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodDB_result" id="methodDB_result"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor DB_result</strong> (line <span class="linenumber">1019</span>)
+ </h4> 
+<h4><i>void</i> <strong>DB_result(
+object
+&$dbh, resource
+$result, [array
+$options = array()])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This constructor sets the object's properties</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object &$dbh</strong>: the DB object reference</li>
+			<li><strong>resource $result</strong>: the result resource id</li>
+			<li><strong>array $options</strong>: an associative array with result options</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodfetchInto" id="methodfetchInto"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method fetchInto</strong> (line <span class="linenumber">1165</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>fetchInto(
+array
+&$arr, [int
+$fetchmode = DB_FETCHMODE_DEFAULT], [int
+$rownum = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Fetch a row of data into an array which is passed by reference</h5>
+<div class="desc"><p>The type of array returned can be controlled either by setting this  method's <var>$fetchmode</var> parameter or by changing the default  fetch mode setFetchMode() before calling this method.</p><p>There are two options for standardizing the information returned  from databases, ensuring their values are consistent when changing  DBMS's.  These portability options can be turned on when creating a  new DB object or by using setOption().</p><p><ul><li><var>DB_PORTABILITY_LOWERCASE</var>
+     convert names of fields to lower case</li></ul> <ul><li><var>DB_PORTABILITY_RTRIM</var>
+     right trim the data</li></ul></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array &$arr</strong>: the variable where the data should be placed</li>
+			<li><strong>int $fetchmode</strong>: the constant indicating how to format the data</li>
+			<li><strong>int $rownum</strong>: the row number to fetch (index starts at 0)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - DB_OK if a row is processed, NULL when the end of the                  result set is reached or a DB_Error object on failure</li>
+			<li><strong>see</strong> - <a href="../DB/DB_common.html#methodsetOption">DB_common::setOption()</a>, <a href="../DB/DB_common.html#methodsetFetchMode">DB_common::setFetchMode()</a></li>
+		</ul>
+</div>
+<a name="methodfetchRow" id="methodfetchRow"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method fetchRow</strong> (line <span class="linenumber">1083</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>&amp;fetchRow(
+[int
+$fetchmode = DB_FETCHMODE_DEFAULT], [int
+$rownum = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Fetch a row of data and return it by reference into an array</h5>
+<div class="desc"><p>The type of array returned can be controlled either by setting this  method's <var>$fetchmode</var> parameter or by changing the default  fetch mode setFetchMode() before calling this method.</p><p>There are two options for standardizing the information returned  from databases, ensuring their values are consistent when changing  DBMS's.  These portability options can be turned on when creating a  new DB object or by using setOption().</p><p><ul><li><var>DB_PORTABILITY_LOWERCASE</var>
+     convert names of fields to lower case</li></ul> <ul><li><var>DB_PORTABILITY_RTRIM</var>
+     right trim the data</li></ul></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $fetchmode</strong>: the constant indicating how to format the data</li>
+			<li><strong>int $rownum</strong>: the row number to fetch (index starts at 0)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - an array or object containing the row's data,                  NULL when the end of the result set is reached                  or a DB_Error object on failure.</li>
+			<li><strong>see</strong> - <a href="../DB/DB_common.html#methodsetOption">DB_common::setOption()</a>, <a href="../DB/DB_common.html#methodsetFetchMode">DB_common::setFetchMode()</a></li>
+		</ul>
+</div>
+<a name="methodfree" id="methodfree"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method free</strong> (line <span class="linenumber">1283</span>)
+ </h4> 
+<h4><i>bool</i> <strong>free(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Frees the resources allocated for this result set</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - true on success.  A DB_Error object on failure.</li>
+		</ul>
+</div>
+<a name="methodgetQuery" id="methodgetQuery"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getQuery</strong> (line <span class="linenumber">1319</span>)
+ </h4> 
+<h4><i>string</i> <strong>getQuery(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Determine the query string that created this result</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the query string</li>
+			<li><strong>since</strong> - Method available since Release 1.7.0</li>
+		</ul>
+</div>
+<a name="methodgetRowCounter" id="methodgetRowCounter"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getRowCounter</strong> (line <span class="linenumber">1332</span>)
+ </h4> 
+<h4><i>integer</i> <strong>getRowCounter(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tells which row number is currently being processed</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the current row being looked at.  Starts at 1.</li>
+		</ul>
+</div>
+<a name="methodnextResult" id="methodnextResult"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method nextResult</strong> (line <span class="linenumber">1270</span>)
+ </h4> 
+<h4><i>bool</i> <strong>nextResult(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the next result if a batch of queries was executed</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - true if a new result is available or false if not</li>
+		</ul>
+</div>
+<a name="methodnumCols" id="methodnumCols"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method numCols</strong> (line <span class="linenumber">1226</span>)
+ </h4> 
+<h4><i>int</i> <strong>numCols(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the the number of columns in a result set</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the number of columns.  A DB_Error object on failure.</li>
+		</ul>
+</div>
+<a name="methodnumRows" id="methodnumRows"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method numRows</strong> (line <span class="linenumber">1239</span>)
+ </h4> 
+<h4><i>int</i> <strong>numRows(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the number of rows in a result set</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the number of rows.  A DB_Error object on failure.</li>
+		</ul>
+</div>
+<a name="methodsetOption" id="methodsetOption"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setOption</strong> (line <span class="linenumber">1042</span>)
+ </h4> 
+<h4><i>void</i> <strong>setOption(
+string
+$key, [mixed
+$value = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set options for the DB_result object</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $key</strong>: the option to set</li>
+			<li><strong>mixed $value</strong>: the value to set the option to</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodtableInfo" id="methodtableInfo"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method tableInfo</strong> (line <span class="linenumber">1301</span>)
+ </h4> 
+<h4><i>void</i> <strong>tableInfo(
+[mixed
+$mode = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>deprecated</strong> - Method deprecated some time before Release 1.2</li>
+			<li><strong>see</strong> - <a href="../DB/DB_common.html#methodtableInfo">DB_common::tableInfo()</a></li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:52 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

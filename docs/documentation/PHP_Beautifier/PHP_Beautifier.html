@@ -1,0 +1,1820 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class PHP_Beautifier</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class PHP_Beautifier
+</h2> (line <span class="linenumber">81</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_PHP_Beautifier_php.html">/packages/PHP/Beautifier.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>PHP_Beautifier</h5>
+<div class="desc"><p>Class to beautify php code  How to use: <ul><li>Create a instance of the object</li><li>Define the input and output files</li><li>Optional: Set one or more Filter. They are processed in LIFO order (last in, first out)</li><li>Process the file</li><li>Get it, save it or show it.</li></ul>  <pre><ol><code><pre><li> <strong>$oToken </strong>= new <a href="../PHP_Beautifier/PHP_Beautifier.html">PHP_Beautifier</a><strong>(</strong><strong>)</strong><strong>; </strong><font color="green">// create a instance</font></li>
+<li> <strong>$oToken</strong><strong>-&gt;</strong><a href="../PHP_Beautifier/PHP_Beautifier.html#methodaddFilter">addFilter</a><strong>(</strong><font color="#66cccc">'ArraySimple'</font><strong>)</strong><strong>;</strong></li>
+<li> <strong>$oToken</strong><strong>-&gt;</strong><a href="../PHP_Beautifier/PHP_Beautifier.html#methodaddFilter">addFilter</a><strong>(</strong><font color="#66cccc">'ListClassFunction'</font><strong>)</strong><strong>; </strong><font color="green">// add one or more filters</font></li>
+<li> <strong>$oToken</strong><strong>-&gt;</strong><a href="../PHP_Beautifier/PHP_Beautifier.html#methodsetInputFile">setInputFile</a><strong>(</strong>__FILE__<strong>)</strong><strong>; </strong><font color="green">// nice... process the same file</font></li>
+<li> <strong>$oToken</strong><strong>-&gt;</strong><a href="../PHP_Beautifier/PHP_Beautifier.html#methodprocess">process</a><strong>(</strong><strong>)</strong><strong>; </strong><font color="green">// required</font></li>
+<li> <strong>$oToken</strong><strong>-&gt;</strong><a href="../PHP_Beautifier/PHP_Beautifier.html#methodshow">show</a><strong>(</strong><strong>)</strong><strong>;</strong></li>
+</pre></code></ol></pre></p></div>
+<ul>
+		<li><strong>license:</strong> - <a href="http://www.php.net/license/3_0.txt">PHP License 3.0</a></li>
+		<li><strong>version:</strong> - Release: 0.1.3</li>
+		<li><strong>link:</strong> - <a href="http://clbustos.dotgeek.org">http://clbustos.dotgeek.org</a></li>
+		<li><strong>link:</strong> - <a href="http://pear.php.net/package/PHP_Beautifier">http://pear.php.net/package/PHP_Beautifier</a></li>
+		<li><strong>author:</strong> - Claudio Bustos &lt;<a href="mailto:clbustos@dotgeek.org">clbustos@dotgeek.org</a>&gt;</li>
+		<li><strong>copyright:</strong> - 2004-2005 Claudio Bustos</li>
+		<li><strong>todo:</strong> - create a web interface.</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$aAssocs" title="details" class="property"><strong>$aAssocs</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$aModes" title="details" class="property"><strong>$aModes</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$aModesAvailable" title="details" class="property"><strong>$aModesAvailable</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$aOut" title="details" class="property"><strong>$aOut</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$aSettings" title="details" class="property"><strong>$aSettings</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$aTokenFunctions" title="details" class="property"><strong>$aTokenFunctions</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$aTokens" title="details" class="property"><strong>$aTokens</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$currentWhitespace" title="details" class="property"><strong>$currentWhitespace</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$iArray" title="details" class="property"><strong>$iArray</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$iCount" title="details" class="property"><strong>$iCount</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$iIndentNumber" title="details" class="property"><strong>$iIndentNumber</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$iParenthesis" title="details" class="property"><strong>$iParenthesis</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$iVerbose" title="details" class="property"><strong>$iVerbose</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$sIndentChar" title="details" class="property"><strong>$sIndentChar</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$sInputFile" title="details" class="property"><strong>$sInputFile</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$sNewLine" title="details" class="property"><strong>$sNewLine</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$sOutputFile" title="details" class="property"><strong>$sOutputFile</strong></a>
+</div>
+<hr />
+<a name="var$aAssocs" id="var$aAssocs"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$aAssocs = array()</strong> (line <span class="linenumber">174</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Association $aTokens=&gt;$aOut</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$aModes" id="var$aModes"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$aModes = array()</strong> (line <span class="linenumber">106</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Contains the assigment of modes</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+		<li><strong>see:</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#methodgetMode">PHP_Beautifier::getMode()</a></li>
+		<li><strong>see:</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#methodunsetMode">PHP_Beautifier::unsetMode()</a></li>
+		<li><strong>see:</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#methodsetMode">PHP_Beautifier::setMode()</a></li>
+	</ul>
+</div>
+<a name="var$aModesAvailable" id="var$aModesAvailable"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$aModesAvailable = array(<br />            'ternary_operator',<br />            'double_quote'<br />        )</strong> (line <span class="linenumber">111</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>List of availables modes</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$aOut" id="var$aOut"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$aOut = array()</strong> (line <span class="linenumber">98</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Stores the output</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$aSettings" id="var$aSettings"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$aSettings = array()</strong> (line <span class="linenumber">119</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Settings for the class</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$aTokenFunctions" id="var$aTokenFunctions"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$aTokenFunctions = array()</strong> (line <span class="linenumber">93</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tokens codes assigned to method on Filter</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$aTokens" id="var$aTokens"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$aTokens = array()</strong> (line <span class="linenumber">88</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tokens created by the tokenizer</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$currentWhitespace" id="var$currentWhitespace"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$currentWhitespace =  ''</strong> (line <span class="linenumber">169</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Save the last whitespace used. Use only for Filter! (i miss friends of C++ :( )</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$iArray" id="var$iArray"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$iArray =  0</strong> (line <span class="linenumber">134</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Level of array nesting</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$iCount" id="var$iCount"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$iCount =  0</strong> (line <span class="linenumber">124</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Index of current token</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$iIndentNumber" id="var$iIndentNumber"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$iIndentNumber =  4</strong> (line <span class="linenumber">129</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Chars for indentation</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$iParenthesis" id="var$iParenthesis"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$iParenthesis =  0</strong> (line <span class="linenumber">139</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Level of parenthesis nesting</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$iVerbose" id="var$iVerbose"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$iVerbose =  false</strong> (line <span class="linenumber">144</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Level of verbosity (debug)</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$sIndentChar" id="var$sIndentChar"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$sIndentChar =  ' '</strong> (line <span class="linenumber">164</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Type of whitespace to use for indent</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$sInputFile" id="var$sInputFile"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$sInputFile =  ''</strong> (line <span class="linenumber">149</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Name of input file</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$sNewLine" id="var$sNewLine"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$sNewLine =  &quot;\n&quot;</strong> (line <span class="linenumber">159</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Type of newline</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$sOutputFile" id="var$sOutputFile"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$sOutputFile =  ''</strong> (line <span class="linenumber">154</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Name of output file</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">PHP_Beautifier</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodadd" title="details" class="method-name">add</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$token</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodaddFilter" title="details" class="method-name">addFilter</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$mFilter</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$aSettings</span> = <span class="var-default">array()</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddFilterDirectory" title="details" class="method-name">addFilterDirectory</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sDir</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddIndent" title="details" class="method-name">addIndent</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddNewLine" title="details" class="method-name">addNewLine</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddNewLineIndent" title="details" class="method-name">addNewLineIndent</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddecIndent" title="details" class="method-name">decIndent</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodget" title="details" class="method-name">get</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodgetControlParenthesis" title="details" class="method-name">getControlParenthesis</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$iRet</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetControlSeq" title="details" class="method-name">getControlSeq</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$iRet</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodgetFilterDescription" title="details" class="method-name">getFilterDescription</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sFilter</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetFilterDirectories" title="details" class="method-name">getFilterDirectories</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetFilterList" title="details" class="method-name">getFilterList</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetFilterListTotal" title="details" class="method-name">getFilterListTotal</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetIndentChar" title="details" class="method-name">getIndentChar</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetIndentNumber" title="details" class="method-name">getIndentNumber</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodgetMode" title="details" class="method-name">getMode</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetNewLine" title="details" class="method-name">getNewLine</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodgetNextTokenConstant" title="details" class="method-name">getNextTokenConstant</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$iPrev</span> = <span class="var-default">1</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodgetNextTokenContent" title="details" class="method-name">getNextTokenContent</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$iNext</span> = <span class="var-default">1</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodgetPreviousTokenConstant" title="details" class="method-name">getPreviousTokenConstant</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$iPrev</span> = <span class="var-default">1</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetPreviousTokenContent" title="details" class="method-name">getPreviousTokenContent</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$iPrev</span> = <span class="var-default">1</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetPreviousWhitespace" title="details" class="method-name">getPreviousWhitespace</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodgetSetting" title="details" class="method-name">getSetting</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetToken" title="details" class="method-name">&amp;getToken</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$iIndex</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodgetTokenAssoc" title="details" class="method-name">getTokenAssoc</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$iIndex</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodgetTokenAssocText" title="details" class="method-name">getTokenAssocText</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$iIndex</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodgetTokenFunction" title="details" class="method-name">getTokenFunction</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$sTokenType</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodincIndent" title="details" class="method-name">incIndent</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$iIncr</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodisNextTokenConstant" title="details" class="method-name">isNextTokenConstant</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$mValue</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$iPrev</span> = <span class="var-default">1</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodisNextTokenContent" title="details" class="method-name">isNextTokenContent</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$mValue</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$iPrev</span> = <span class="var-default">1</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodisPreviousTokenConstant" title="details" class="method-name">isPreviousTokenConstant</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$mValue</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$iPrev</span> = <span class="var-default">1</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodisPreviousTokenContent" title="details" class="method-name">isPreviousTokenContent</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$mValue</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$iPrev</span> = <span class="var-default">1</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodpop" title="details" class="method-name">pop</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$iReps</span> = <span class="var-default">1</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodprocess" title="details" class="method-name">process</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodremoveFilter" title="details" class="method-name">removeFilter</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sFilter</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodremoveWhitespace" title="details" class="method-name">removeWhitespace</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodreplaceTokenAssoc" title="details" class="method-name">replaceTokenAssoc</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$iIndex</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sText</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsave" title="details" class="method-name">save</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$sFile</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetBeautify" title="details" class="method-name">setBeautify</a>
+        (<span class="var-type">bool</span>&nbsp;<span class="var-name">$sFlag</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetBeforeNewLine" title="details" class="method-name">setBeforeNewLine</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$sText</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetFileType" title="details" class="method-name">setFileType</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sType</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetIndentChar" title="details" class="method-name">setIndentChar</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sChar</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetIndentNumber" title="details" class="method-name">setIndentNumber</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$iIndentNumber</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetInputFile" title="details" class="method-name">setInputFile</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sFile</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetInputString" title="details" class="method-name">setInputString</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sText</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetMode" title="details" class="method-name">setMode</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetNewLine" title="details" class="method-name">setNewLine</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sNewLine</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetNoDeletePreviousSpaceHack" title="details" class="method-name">setNoDeletePreviousSpaceHack</a>
+        ([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$bFlag</span> = <span class="var-default">true</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetOutputFile" title="details" class="method-name">setOutputFile</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sFile</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodshow" title="details" class="method-name">show</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodstartLog" title="details" class="method-name">startLog</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$sFile</span> = <span class="var-default">'php_beautifier.log'</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$iLevel</span> = <span class="var-default">PEAR_LOG_DEBUG</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodunsetMode" title="details" class="method-name">unsetMode</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sKey</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber">229</span>)
+ </h4> 
+<h4><i>PHP_Beautifier</i> <strong>__construct(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Constructor.</h5>
+<div class="desc"><p>Assing values to $aControlStructures,$aControlStructuresEnd,  <a href="../PHP_Beautifier/PHP_Beautifier.html#var$aTokenFunctions">$aTokenFunctions</a></p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodadd" id="methodadd"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method add</strong> (line <span class="linenumber">1081</span>)
+ </h4> 
+<h4><i>void</i> <strong>add(
+string
+$token)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Add a string to the output</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $token</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddFilter" id="methodaddFilter"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addFilter</strong> (line <span class="linenumber">386</span>)
+ </h4> 
+<h4><i>bool</i> <strong>addFilter(
+string
+$mFilter, [array
+$aSettings = array()])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Add a Filter to the Beautifier  The first argument is the name of the file of the Filter.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $mFilter</strong>: name of the Filter</li>
+			<li><strong>array $aSettings</strong>: settings for the Filter</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - true if Filter is loaded, false if the same filter was loaded previously</li>
+			<li><strong>access</strong> - public</li>
+			<li><strong>throws</strong> - Exception</li>
+			<li><strong>tutorial</strong> - Filter2.pkg</li>
+		</ul>
+</div>
+<a name="methodaddFilterDirectory" id="methodaddFilterDirectory"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addFilterDirectory</strong> (line <span class="linenumber">355</span>)
+ </h4> 
+<h4><i>void</i> <strong>addFilterDirectory(
+string
+$sDir)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Add a filter directory</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sDir</strong>: path to directory</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+			<li><strong>throws</strong> - Exception</li>
+		</ul>
+</div>
+<a name="methodaddIndent" id="methodaddIndent"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addIndent</strong> (line <span class="linenumber">1103</span>)
+ </h4> 
+<h4><i>void</i> <strong>addIndent(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Add Indent to the output</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+			<li><strong>see</strong> - $iIndent</li>
+			<li><strong>see</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#var$iIndentNumber">PHP_Beautifier::$iIndentNumber</a></li>
+			<li><strong>see</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#var$sIndentChar">PHP_Beautifier::$sIndentChar</a></li>
+		</ul>
+</div>
+<a name="methodaddNewLine" id="methodaddNewLine"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addNewLine</strong> (line <span class="linenumber">1120</span>)
+ </h4> 
+<h4><i>void</i> <strong>addNewLine(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Add a new line to the output</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+			<li><strong>see</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#var$sNewLine">PHP_Beautifier::$sNewLine</a></li>
+		</ul>
+</div>
+<a name="methodaddNewLineIndent" id="methodaddNewLineIndent"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addNewLineIndent</strong> (line <span class="linenumber">1135</span>)
+ </h4> 
+<h4><i>void</i> <strong>addNewLineIndent(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Add a new line and a indent to output</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+			<li><strong>see</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#var$sNewLine">PHP_Beautifier::$sNewLine</a></li>
+			<li><strong>see</strong> - $iIndent</li>
+			<li><strong>see</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#var$iIndentNumber">PHP_Beautifier::$iIndentNumber</a></li>
+			<li><strong>see</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#var$sIndentChar">PHP_Beautifier::$sIndentChar</a></li>
+		</ul>
+</div>
+<a name="methoddecIndent" id="methoddecIndent"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method decIndent</strong> (line <span class="linenumber">1160</span>)
+ </h4> 
+<h4><i>void</i> <strong>decIndent(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Decrements the indent.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodget" id="methodget"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method get</strong> (line <span class="linenumber">1007</span>)
+ </h4> 
+<h4><i>string</i> <strong>get(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the beautified code</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+			<li><strong>see</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#methodsetNoDeletePreviousSpaceHack">PHP_Beautifier::setNoDeletePreviousSpaceHack()</a></li>
+		</ul>
+</div>
+<a name="methodgetControlParenthesis" id="methodgetControlParenthesis"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getControlParenthesis</strong> (line <span class="linenumber">1039</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>getControlParenthesis(
+[int
+$iRet = 0])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the token constant for the current Parenthesis</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iRet</strong>: current token -'x'</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - token constant or false</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetControlSeq" id="methodgetControlSeq"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getControlSeq</strong> (line <span class="linenumber">1029</span>)
+ </h4> 
+<h4><i>void</i> <strong>getControlSeq(
+[int
+$iRet = 0])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the token constant for the current control construct</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iRet</strong>: current token -'x' @ return mixed token constant or false</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetFilterDescription" id="methodgetFilterDescription"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getFilterDescription</strong> (line <span class="linenumber">427</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>getFilterDescription(
+string
+$sFilter)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return the Filter Description</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sFilter</strong>: name of the filter</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - string or false</li>
+			<li><strong>access</strong> - public</li>
+			<li><strong>see</strong> - PHP_Beautifier_Filter::__toString();</li>
+		</ul>
+</div>
+<a name="methodgetFilterDirectories" id="methodgetFilterDirectories"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getFilterDirectories</strong> (line <span class="linenumber">368</span>)
+ </h4> 
+<h4><i>array</i> <strong>getFilterDirectories(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return an array with all the Filter Dirs</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - List of Filter Directories</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetFilterList" id="methodgetFilterList"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getFilterList</strong> (line <span class="linenumber">470</span>)
+ </h4> 
+<h4><i>array</i> <strong>getFilterList(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the names of the loaded filters</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - list of Filters</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetFilterListTotal" id="methodgetFilterListTotal"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getFilterListTotal</strong> (line <span class="linenumber">481</span>)
+ </h4> 
+<h4><i>array</i> <strong>getFilterListTotal(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the list of all available Filters in all the include Dirs</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - list of Filters</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetIndentChar" id="methodgetIndentChar"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getIndentChar</strong> (line <span class="linenumber">503</span>)
+ </h4> 
+<h4><i>void</i> <strong>getIndentChar(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetIndentNumber" id="methodgetIndentNumber"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getIndentNumber</strong> (line <span class="linenumber">507</span>)
+ </h4> 
+<h4><i>void</i> <strong>getIndentNumber(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetMode" id="methodgetMode"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getMode</strong> (line <span class="linenumber">1069</span>)
+ </h4> 
+<h4><i>bool</i> <strong>getMode(
+string
+$sKey)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the state of a mode</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sKey</strong>: name of the mode</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetNewLine" id="methodgetNewLine"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getNewLine</strong> (line <span class="linenumber">511</span>)
+ </h4> 
+<h4><i>void</i> <strong>getNewLine(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetNextTokenConstant" id="methodgetNextTokenConstant"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getNextTokenConstant</strong> (line <span class="linenumber">1292</span>)
+ </h4> 
+<h4><i>int</i> <strong>getNextTokenConstant(
+[int
+$iPrev = 1])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the 'x' significant (non whitespace) next token constant</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iPrev</strong>: current+x token</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetNextTokenContent" id="methodgetNextTokenContent"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getNextTokenContent</strong> (line <span class="linenumber">1302</span>)
+ </h4> 
+<h4><i>int</i> <strong>getNextTokenContent(
+[int
+$iNext = 1])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the 'x' significant (non whitespace) next token text</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iNext</strong>: current+x token</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetPreviousTokenConstant" id="methodgetPreviousTokenConstant"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPreviousTokenConstant</strong> (line <span class="linenumber">1272</span>)
+ </h4> 
+<h4><i>int</i> <strong>getPreviousTokenConstant(
+[int
+$iPrev = 1])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the 'x' significant (non whitespace) previous token constant</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iPrev</strong>: current-x token</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetPreviousTokenContent" id="methodgetPreviousTokenContent"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPreviousTokenContent</strong> (line <span class="linenumber">1282</span>)
+ </h4> 
+<h4><i>string</i> <strong>getPreviousTokenContent(
+[int
+$iPrev = 1])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the 'x' significant (non whitespace) previous token text</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iPrev</strong>: current-x token</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetPreviousWhitespace" id="methodgetPreviousWhitespace"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPreviousWhitespace</strong> (line <span class="linenumber">1315</span>)
+ </h4> 
+<h4><i>string</i> <strong>getPreviousWhitespace(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return the whitespace previous to current token</h5>
+<div class="desc"><p>Ex.: You have  '    if($a)'  if you call this funcion on 'if', you get '    '</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - previous whitespace</li>
+			<li><strong>access</strong> - public</li>
+			<li><strong>todo</strong> - implements a more economic way to handle this.</li>
+		</ul>
+</div>
+<a name="methodgetSetting" id="methodgetSetting"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getSetting</strong> (line <span class="linenumber">1020</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>getSetting(
+string
+$sKey)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the value of a settings</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sKey</strong>: Name of the setting</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Value of the settings or false</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetToken" id="methodgetToken"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getToken</strong> (line <span class="linenumber">1376</span>)
+ </h4> 
+<h4><i>array</i> <strong>&amp;getToken(
+int
+$iIndex)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get a token by number</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iIndex</strong>: number of the token</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetTokenAssoc" id="methodgetTokenAssoc"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getTokenAssoc</strong> (line <span class="linenumber">728</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>getTokenAssoc(
+int
+$iIndex)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the reference to $aOut, based on the number of the token</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iIndex</strong>: token number</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - false array or false if token doesn't exists</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetTokenAssocText" id="methodgetTokenAssocText"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getTokenAssocText</strong> (line <span class="linenumber">737</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>getTokenAssocText(
+int
+$iIndex)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the output for the specified token</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iIndex</strong>: token number</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - string or false if token doesn't exists</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetTokenFunction" id="methodgetTokenFunction"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getTokenFunction</strong> (line <span class="linenumber">766</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>getTokenFunction(
+mixed
+$sTokenType)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return the function for a token constant or string.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $sTokenType</strong>: token constant or string</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - name of function or false</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodincIndent" id="methodincIndent"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method incIndent</strong> (line <span class="linenumber">1149</span>)
+ </h4> 
+<h4><i>void</i> <strong>incIndent(
+[int
+$iIncr = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Increments the indent in X chars.</h5>
+<div class="desc"><p>If param omitted, used <a href="../PHP_Beautifier/PHP_Beautifier.html#var$iIndentNumber">iIndentNumber</a></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iIncr</strong>: increment indent in x chars</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisNextTokenConstant" id="methodisNextTokenConstant"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isNextTokenConstant</strong> (line <span class="linenumber">1242</span>)
+ </h4> 
+<h4><i>bool</i> <strong>isNextTokenConstant(
+mixed
+$mValue, [mixed
+$iPrev = 1])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return true if any of the constant defined in param 1 is the next 'x' content</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $mValue</strong>: int (constant) or array of constants</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisNextTokenContent" id="methodisNextTokenContent"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isNextTokenContent</strong> (line <span class="linenumber">1257</span>)
+ </h4> 
+<h4><i>bool</i> <strong>isNextTokenContent(
+mixed
+$mValue, [mixed
+$iPrev = 1])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return true if any of the content defined is param 1 is the next 'x' content</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $mValue</strong>: string (content) or array of contents</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisPreviousTokenConstant" id="methodisPreviousTokenConstant"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isPreviousTokenConstant</strong> (line <span class="linenumber">1212</span>)
+ </h4> 
+<h4><i>bool</i> <strong>isPreviousTokenConstant(
+mixed
+$mValue, [mixed
+$iPrev = 1])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return true if any of the constant defined is param 1 is the previous 'x' constant</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $mValue</strong>: int (constant) or array of constants</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisPreviousTokenContent" id="methodisPreviousTokenContent"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isPreviousTokenContent</strong> (line <span class="linenumber">1227</span>)
+ </h4> 
+<h4><i>bool</i> <strong>isPreviousTokenContent(
+mixed
+$mValue, [mixed
+$iPrev = 1])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return true if any of the content defined is param 1 is the previous 'x' content</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $mValue</strong>: string (content) or array of contents</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodpop" id="methodpop"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method pop</strong> (line <span class="linenumber">1090</span>)
+ </h4> 
+<h4><i>void</i> <strong>pop(
+[int
+$iReps = 1])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Delete the last added output(s)</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iReps</strong>: number of outputs to drop</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+			<li><strong>deprecated</strong> - </li>
+		</ul>
+</div>
+<a name="methodprocess" id="methodprocess"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method process</strong> (line <span class="linenumber">641</span>)
+ </h4> 
+<h4><i>bool</i> <strong>process(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Process the string or file to beautify</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - true on success</li>
+			<li><strong>access</strong> - public</li>
+			<li><strong>throws</strong> - Exception</li>
+		</ul>
+</div>
+<a name="methodremoveFilter" id="methodremoveFilter"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method removeFilter</strong> (line <span class="linenumber">410</span>)
+ </h4> 
+<h4><i>bool</i> <strong>removeFilter(
+string
+$sFilter)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Removes a Filter</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sFilter</strong>: name of the filter</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - true if Filter is removed, false otherwise</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodremoveWhitespace" id="methodremoveWhitespace"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method removeWhitespace</strong> (line <span class="linenumber">1346</span>)
+ </h4> 
+<h4><i>bool</i> <strong>removeWhitespace(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Remove all whitespace from the previous tag</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - false if previous token was short comment or heredoc                (don't remove ws)                true anything else.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodreplaceTokenAssoc" id="methodreplaceTokenAssoc"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method replaceTokenAssoc</strong> (line <span class="linenumber">750</span>)
+ </h4> 
+<h4><i>bool</i> <strong>replaceTokenAssoc(
+int
+$iIndex, string
+$sText)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Replace the output for specified token</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iIndex</strong>: token number</li>
+			<li><strong>string $sText</strong>: replace text</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsave" id="methodsave"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method save</strong> (line <span class="linenumber">580</span>)
+ </h4> 
+<h4><i>void</i> <strong>save(
+[string
+$sFile = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Save the beautified code to output file</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sFile</strong>: path to file. If null, <a href="../PHP_Beautifier/PHP_Beautifier.html#var$sOutputFile">$sOutputFile</a> if exists, throw exception otherwise</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+			<li><strong>throws</strong> - Exception</li>
+			<li><strong>see</strong> - setOutputFile();</li>
+		</ul>
+</div>
+<a name="methodsetBeautify" id="methodsetBeautify"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setBeautify</strong> (line <span class="linenumber">978</span>)
+ </h4> 
+<h4><i>void</i> <strong>setBeautify(
+bool
+$sFlag)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the Beautifier on or off</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>bool $sFlag</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetBeforeNewLine" id="methodsetBeforeNewLine"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setBeforeNewLine</strong> (line <span class="linenumber">1112</span>)
+ </h4> 
+<h4><i>void</i> <strong>setBeforeNewLine(
+mixed
+$sText)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set a string to put before a new line</h5>
+<div class="desc"><p>You could use this to put a standard comment after some sentences  or to add extra newlines</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetFileType" id="methodsetFileType"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setFileType</strong> (line <span class="linenumber">970</span>)
+ </h4> 
+<h4><i>void</i> <strong>setFileType(
+string
+$sType)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the filetype</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sType</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetIndentChar" id="methodsetIndentChar"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setIndentChar</strong> (line <span class="linenumber">519</span>)
+ </h4> 
+<h4><i>void</i> <strong>setIndentChar(
+string
+$sChar)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Character used for indentation</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sChar</strong>: usually ' ' or &quot;\t&quot;</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetIndentNumber" id="methodsetIndentNumber"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setIndentNumber</strong> (line <span class="linenumber">527</span>)
+ </h4> 
+<h4><i>void</i> <strong>setIndentNumber(
+int
+$iIndentNumber)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Number of characters for indentation</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $iIndentNumber</strong>: ussualy 4 for space or 1 for tabs</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetInputFile" id="methodsetInputFile"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setInputFile</strong> (line <span class="linenumber">544</span>)
+ </h4> 
+<h4><i>void</i> <strong>setInputFile(
+string
+$sFile)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the file for beautify</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sFile</strong>: path to file</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+			<li><strong>throws</strong> - Exception</li>
+		</ul>
+</div>
+<a name="methodsetInputString" id="methodsetInputString"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setInputString</strong> (line <span class="linenumber">606</span>)
+ </h4> 
+<h4><i>void</i> <strong>setInputString(
+string
+$sText)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set a string for beautify</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sText</strong>: Must be preceded by open tag</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetMode" id="methodsetMode"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setMode</strong> (line <span class="linenumber">1052</span>)
+ </h4> 
+<h4><i>void</i> <strong>setMode(
+string
+$sKey)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set a mode to true</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sKey</strong>: name of the mode</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetNewLine" id="methodsetNewLine"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setNewLine</strong> (line <span class="linenumber">535</span>)
+ </h4> 
+<h4><i>void</i> <strong>setNewLine(
+string
+$sNewLine)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Character used as a new line</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sNewLine</strong>: ussualy &quot;\n&quot;, &quot;\r\n&quot; or &quot;\r&quot;</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetNoDeletePreviousSpaceHack" id="methodsetNoDeletePreviousSpaceHack"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setNoDeletePreviousSpaceHack</strong> (line <span class="linenumber">998</span>)
+ </h4> 
+<h4><i>void</i> <strong>setNoDeletePreviousSpaceHack(
+[mixed
+$bFlag = true])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Activate or deactivate this ominous hack</h5>
+<div class="desc"><p>If you need to maintain some special whitespace  you can activate this hack and use (delete the space between * and /)  <pre><ol><code><pre></pre></code></ol></pre>  in <a href="../PHP_Beautifier/PHP_Beautifier.html#methodget">get()</a>, this text will be erased.</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>see</strong> - <a href="../PHP_Beautifier/Filter/PHP_Beautifier_Filter_NewLines.html">PHP_Beautifier_Filter_NewLines</a></li>
+			<li><strong>see</strong> - <a href="../PHP_Beautifier/PHP_Beautifier.html#methodremoveWhitespace">PHP_Beautifier::removeWhitespace()</a></li>
+		</ul>
+</div>
+<a name="methodsetOutputFile" id="methodsetOutputFile"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setOutputFile</strong> (line <span class="linenumber">570</span>)
+ </h4> 
+<h4><i>void</i> <strong>setOutputFile(
+string
+$sFile)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the output file for beautify</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sFile</strong>: path to file</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodshow" id="methodshow"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method show</strong> (line <span class="linenumber">985</span>)
+ </h4> 
+<h4><i>void</i> <strong>show(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Show the beautified code</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodstartLog" id="methodstartLog"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method startLog</strong> (line <span class="linenumber">344</span>)
+ </h4> 
+<h4><i>void</i> <strong>startLog(
+[string
+$sFile = 'php_beautifier.log'], [int
+$iLevel = PEAR_LOG_DEBUG])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Start the log for debug</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sFile</strong>: filename</li>
+			<li><strong>int $iLevel</strong>: debug level. See <a href="../Log/Log.html">Log</a></li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodunsetMode" id="methodunsetMode"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method unsetMode</strong> (line <span class="linenumber">1060</span>)
+ </h4> 
+<h4><i>void</i> <strong>unsetMode(
+string
+$sKey)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set a mode to false</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sKey</strong>: name of the mode</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:25 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

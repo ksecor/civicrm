@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class CRM_Pager</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class CRM_Pager
+</h2> (line <span class="linenumber">38</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../Pager/Pager_Common.html">Pager_Common</a>
+   |
+   --<a href="../Pager/Pager_Sliding.html">Pager_Sliding</a>
+      |
+      --CRM_Pager</pre>
+<p>
+	<b><i>Located in File: <a href="_CRM_Pager_php.html">/CRM/Pager.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Pager_Sliding - Generic data paging class  (&quot;sliding window&quot; style)</h5>
+<div class="desc"><p>Usage examples can be found in the doc provided</p></div>
+<ul>
+		<li><strong>version:</strong> - $Id: Sliding.php,v 1.5 2004/01/16 10:29:57 quipo Exp $</li>
+		<li><strong>author:</strong> - Lorenzo Alberton &lt;<a href="mailto:l.alberton">at quipo.it l.alberton at quipo.it</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$_response" title="details" class="property"><strong>$_response</strong></a>
+</div>
+<hr />
+<a name="var$_response" id="var$_response"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_response</strong> (line <span class="linenumber">55</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>the output of the pager. This is a name/value array with various keys</h5>
+<div class="desc"><p>that an application could use to display the pager</p></div>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="const-title">
+    <a href="#constPAGE_ID" title="details" class="property"><strong>PAGE_ID</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constPAGE_ID_BOTTOM" title="details" class="property"><strong>PAGE_ID_BOTTOM</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constPAGE_ID_TOP" title="details" class="property"><strong>PAGE_ID_TOP</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constPAGE_ROWCOUNT" title="details" class="property"><strong>PAGE_ROWCOUNT</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constROWCOUNT" title="details" class="property"><strong>ROWCOUNT</strong></a>
+</div>
+<hr />
+<a name="constPAGE_ID" id="constPAGE_ID"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">PAGE_ID =  'crmPID'</strong> (line <span class="linenumber">45</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constPAGE_ID_BOTTOM" id="constPAGE_ID_BOTTOM"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">PAGE_ID_BOTTOM =  'crmPID_B'</strong> (line <span class="linenumber">47</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constPAGE_ID_TOP" id="constPAGE_ID_TOP"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">PAGE_ID_TOP =  'crmPID'</strong> (line <span class="linenumber">46</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constPAGE_ROWCOUNT" id="constPAGE_ROWCOUNT"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">PAGE_ROWCOUNT =  'crmRowCount'</strong> (line <span class="linenumber">48</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constROWCOUNT" id="constROWCOUNT"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">ROWCOUNT =  50</strong> (line <span class="linenumber">44</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>constants for static parameters of the pager</h5>
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">object the</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$params</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">1</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">2</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">3</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">4</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array:</span>
+        <a href="#methodgetOffsetAndRowCount" title="details" class="method-name">getOffsetAndRowCount</a>
+        (<span class="var-type">void</span>&nbsp;<span class="var-name">0</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodgetPageID" title="details" class="method-name">getPageID</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$defaultPageId</span> = <span class="var-default">1</span>], <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodgetPageRowCount" title="details" class="method-name">getPageRowCount</a>
+        ([<span class="var-type">int</span>&nbsp;<span class="var-name">$defaultPageRowCount</span> = <span class="var-default">self::ROWCOUNT</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetPerPageLink" title="details" class="method-name">getPerPageLink</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$perPage</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodinitialize" title="details" class="method-name">initialize</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">&$params</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber">76</span>)
+ </h4> 
+<h4><i>object the</i> <strong>__construct(
+int
+$params, int
+1, string
+2, string
+3, int
+4)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The pager constructor. Takes a few values, and then assigns a lot of defaults</h5>
+<div class="desc"><p>to the PEAR pager class  We have embedded some html in this class. Need to figure out how to export this  to the top level at some point in time</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int 1</strong>: currentPage  the page currently being displayed</li>
+			<li><strong>string 2</strong>: status       the status message to be displayed. It embeds a token                              %%statusMessage%% that will be replaced with which items                              are currently being displayed</li>
+			<li><strong>string 3</strong>: csvString    the title of the link to be displayed for the export</li>
+			<li><strong>int 4</strong>: perPage      the number of items displayed per page</li>
+			<li><strong>int $params</strong>: total        the total count of items to be displayed</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - newly created and initialized pager object</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetOffsetAndRowCount" id="methodgetOffsetAndRowCount"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getOffsetAndRowCount</strong> (line <span class="linenumber">237</span>)
+ </h4> 
+<h4><i>array:</i> <strong>getOffsetAndRowCount(
+void
+0)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Use the pager class to get the pageId and Offset</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>void 0</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - an array of the pageID and offset</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetPageID" id="methodgetPageID"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPageID</strong> (line <span class="linenumber">192</span>)
+ </h4> 
+<h4><i>int</i> <strong>getPageID(
+[int
+$defaultPageId = 1], mixed
+&$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Figure out the current page number based on value of</h5>
+<div class="desc"><p>GET / POST variables. Hierarchy rules are followed,  POST over-rides a GET, a POST at the top overrides  a POST at the bottom (of the page)</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $defaultPageId</strong>: defaultPageId   current pageId</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - new pageId to display to the user</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetPageRowCount" id="methodgetPageRowCount"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPageRowCount</strong> (line <span class="linenumber">215</span>)
+ </h4> 
+<h4><i>int</i> <strong>getPageRowCount(
+[int
+$defaultPageRowCount = self::ROWCOUNT])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the number of rows to display from either a GET / POST variable</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $defaultPageRowCount</strong>: the default value if not set</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the rowCount value to use</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetPerPageLink" id="methodgetPerPageLink"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPerPageLink</strong> (line <span class="linenumber">257</span>)
+ </h4> 
+<h4><i>string</i> <strong>getPerPageLink(
+int
+$perPage)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>given a number create a link that will display the number of  rows as specified by that link</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $perPage</strong>: the number of rows</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the link</li>
+		</ul>
+</div>
+<a name="methodinitialize" id="methodinitialize"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method initialize</strong> (line <span class="linenumber">141</span>)
+ </h4> 
+<h4><i>void</i> <strong>initialize(
+array
+&$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>helper function to assign remaining pager options as good default  values</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $params</strong>: the set of options needed to initialize the parent                              constructor</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../Pager/Pager_Common.html">Pager_Common</a></h4>
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Pager/Pager_Common.html#var$links">Pager_Common::$links</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Pager/Pager_Common.html#var$linkTags">Pager_Common::$linkTags</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Pager/Pager_Common.html#var$range">Pager_Common::$range</a></strong> - 
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../Pager/Pager_Sliding.html">Pager_Sliding</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Sliding.html#methodPager_Sliding">Pager_Sliding::Pager_Sliding()</a></strong> - Constructor
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Sliding.html#methodgetLinks">Pager_Sliding::getLinks()</a></strong> - Returns back/next/first/last and page links,  both as ordered and associative array.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Sliding.html#methodgetPageIdByOffset">Pager_Sliding::getPageIdByOffset()</a></strong> - &quot;Overload&quot; PEAR::Pager method. VOID. Not needed here...
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Sliding.html#methodgetPageRangeByPageId">Pager_Sliding::getPageRangeByPageId()</a></strong> - Given a PageId, it returns the limits of the range of pages displayed.
+		</h4> 
+
+				<br />
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../Pager/Pager_Common.html">Pager_Common</a></h4>
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methoderrorMessage">Pager_Common::errorMessage()</a></strong> - Return a textual error message for a PAGER error code
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetCurrentPageID">Pager_Common::getCurrentPageID()</a></strong> - Returns ID of current page
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetLinks">Pager_Common::getLinks()</a></strong> - Returns back/next/first/last and page links,  both as ordered and associative array.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetNextPageID">Pager_Common::getNextPageID()</a></strong> - Returns next page ID. If current page is last page  this function returns FALSE
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetOffsetByPageId">Pager_Common::getOffsetByPageId()</a></strong> - Returns offsets for given pageID. Eg, if you  pass it pageID one and your perPage limit is 10  it will return (1, 10). PageID of 2 would  give you (11, 20).
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetPageData">Pager_Common::getPageData()</a></strong> - Returns an array of current pages data
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetPageIdByOffset">Pager_Common::getPageIdByOffset()</a></strong> - Returns pageID for given offset
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetPageRangeByPageId">Pager_Common::getPageRangeByPageId()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetPerPageSelectBox">Pager_Common::getPerPageSelectBox()</a></strong> - Returns a string with a XHTML SELECT menu,
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetPreviousPageID">Pager_Common::getPreviousPageID()</a></strong> - Returns previous page ID. If current page is first page  this function returns FALSE
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodisFirstPage">Pager_Common::isFirstPage()</a></strong> - Returns whether current page is first page
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodisLastPage">Pager_Common::isLastPage()</a></strong> - Returns whether current page is last page
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodisLastPageComplete">Pager_Common::isLastPageComplete()</a></strong> - Returns whether last page is complete
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodnumItems">Pager_Common::numItems()</a></strong> - Returns number of items
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodnumPages">Pager_Common::numPages()</a></strong> - Returns number of pages
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:58 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

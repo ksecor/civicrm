@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class PHP_Beautifier_Common</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class PHP_Beautifier_Common
+</h2> (line <span class="linenumber">37</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_PHP_Beautifier_Common_php.html">/packages/PHP/Beautifier/Common.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Wraps commons method por PHP_Beautifier</h5>
+<div class="desc"><p>Common methods for PHP_Beautifier, almost file management.  All the methods are static</p></div>
+<ul>
+		<li><strong>license:</strong> - <a href="http://www.php.net/license/3_0.txt">PHP License 3.0</a></li>
+		<li><strong>version:</strong> - Release: 0.1.3</li>
+		<li><strong>link:</strong> - <a href="http://clbustos.dotgeek.org">http://clbustos.dotgeek.org</a></li>
+		<li><strong>link:</strong> - <a href="http://pear.php.net/package/PHP_Beautifier">http://pear.php.net/package/PHP_Beautifier</a></li>
+		<li><strong>copyright:</strong> - 2004-2005 Claudio Bustos</li>
+		<li><strong>author:</strong> - Claudio Bustos &lt;<a href="mailto:clbustos@dotgeek.org">clbustos@dotgeek.org</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodcreateDir" title="details" class="method-name">createDir</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sFile</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetFilesByGlob" title="details" class="method-name">getFilesByGlob</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sPath</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$bRecursive</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetFilesByPattern" title="details" class="method-name">getFilesByPattern</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sDir</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sFilePattern</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$bRecursive</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../Log/Log_composite.html">Log_composite</a></span>
+        <a href="#methodgetLog" title="details" class="method-name">getLog</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetSavePath" title="details" class="method-name">getSavePath</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$aFiles</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$sPath</span> = <span class="var-default">'./'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodnormalizeDir" title="details" class="method-name">normalizeDir</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sDir</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodwsToString" title="details" class="method-name">wsToString</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sText</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodcreateDir" id="methodcreateDir"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method createDir</strong> (line <span class="linenumber">93</span>)
+ </h4> 
+<h4><i>bool</i> <strong>createDir(
+string
+$sFile)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Create a dir for a file path</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sFile</strong>: file path</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+			<li><strong>access</strong> - public</li>
+			<li><strong>throws</strong> - Exception</li>
+		</ul>
+</div>
+<a name="methodgetFilesByGlob" id="methodgetFilesByGlob"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getFilesByGlob</strong> (line <span class="linenumber">158</span>)
+ </h4> 
+<h4><i>array</i> <strong>getFilesByGlob(
+string
+$sPath, [bool
+$bRecursive = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Search, inside a dir, for a file pattern using glob(* and ?)</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sPath</strong>: path</li>
+			<li><strong>bool $bRecursive</strong>: recursive</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - path to files</li>
+			<li><strong>static</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetFilesByPattern" id="methodgetFilesByPattern"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getFilesByPattern</strong> (line <span class="linenumber">63</span>)
+ </h4> 
+<h4><i>array</i> <strong>getFilesByPattern(
+string
+$sDir, string
+$sFilePattern, [bool
+$bRecursive = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Search, inside a dir, for a file pattern, using regular expresion  Example:</h5>
+<div class="desc"><p><pre><ol><code><pre><li><a href="../PHP_Beautifier/PHP_Beautifier_Common.html">PHP_Beautifier_Common</a><strong>::</strong><a href="../PHP_Beautifier/PHP_Beautifier_Common.html#methodgetFilesByPattern">getFilesByPattern</a><strong>(</strong><font color="#66cccc">'.'</font><strong>,</strong><font color="#66cccc">'*.php'</font><strong>,</strong>true<strong>)</strong><strong>;</strong></li>
+</pre></code></ol></pre>  Search recursively for all the files with php extensions  in the current dir</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sDir</strong>: path to a dir</li>
+			<li><strong>string $sFilePattern</strong>: file pattern</li>
+			<li><strong>bool $bRecursive</strong>: recursive?</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - path to files</li>
+			<li><strong>static</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetLog" id="methodgetLog"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getLog</strong> (line <span class="linenumber">185</span>)
+ </h4> 
+<h4><i><a href="../Log/Log_composite.html">Log_composite</a></i> <strong>getLog(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get a <a href="../Log/Log_composite.html">Log_composite</a> object for PHP_Beautifier</h5>
+<div class="desc"><p>Always return the same object (Singleton pattern)</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetSavePath" id="methodgetSavePath"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getSavePath</strong> (line <span class="linenumber">120</span>)
+ </h4> 
+<h4><i>array</i> <strong>getSavePath(
+array
+$aFiles, [string
+$sPath = './'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return an array with the paths to save for an array of files</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $aFiles</strong>: Array of files (input)</li>
+			<li><strong>string $sPath</strong>: Init path</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Array of files (output)</li>
+			<li><strong>static</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodnormalizeDir" id="methodnormalizeDir"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method normalizeDir</strong> (line <span class="linenumber">43</span>)
+ </h4> 
+<h4><i>string</i> <strong>normalizeDir(
+string
+$sDir)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Normalize reference to directories</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sDir</strong>: path to directory</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - normalized path to directory</li>
+			<li><strong>static</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodwsToString" id="methodwsToString"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method wsToString</strong> (line <span class="linenumber">196</span>)
+ </h4> 
+<h4><i>string</i> <strong>wsToString(
+string
+$sText)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Transform whitespaces into its representation</h5>
+<div class="desc"><p>So, tabs becomes \t, newline \n and feed \r  Useful for log</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sText</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:35 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class PHP_Beautifier_Batch</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class PHP_Beautifier_Batch
+</h2> (line <span class="linenumber">66</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../../PHP_Beautifier/PHP_Beautifier_Decorator.html">PHP_Beautifier_Decorator</a>
+   |
+   --PHP_Beautifier_Batch</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_PHP_Beautifier_Batch_php.html">/packages/PHP/Beautifier/Batch.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds functionality to handle multiple files.</h5>
+<div class="desc"><p><ul><li>STDIN  : As normal</li><li>STDOUT : Send all the scripts, prepended with the name of the original route</li><li>One in, one out: as normal</li></ul><ul><li>Without '/' at the end, same as STDOUT.</li><li>With '/' at the end, copy the base structure and copy all the scripts</li></ul>  If the file out end in .tgz, the output will be a tar archive. The same action  will be obtained with <a href="../../PHP_Beautifier/Batch/PHP_Beautifier_Batch.html#methodsetCompress">setCompress()</a> to true  Use:  <pre><ol><code><pre><li> require <font color="#66cccc">&quot;PHP/Beautifier.php&quot;</font><strong>;</strong></li>
+<li> require <font color="#66cccc">&quot;PHP/Beautifier/Batch.php&quot;</font><strong>;</strong></li>
+<li> <strong>$oBeaut</strong>= new <a href="../../PHP_Beautifier/PHP_Beautifier.html">PHP_Beautifier</a><strong>(</strong><strong>)</strong><strong>;</strong></li>
+<li> <strong>$oBatch</strong>= new <a href="../../PHP_Beautifier/Batch/PHP_Beautifier_Batch.html">PHP_Beautifier_Batch</a><strong>(</strong><strong>$oBeaut</strong><strong>)</strong><strong>; </strong><font color="green">// Decorator</font></li>
+<li> <strong>$oBatch</strong><strong>-&gt;</strong><a href="../../PHP_Beautifier/Batch/PHP_Beautifier_Batch.html#methodsetInputFile">setInputFile</a><strong>(</strong>__FILE__<strong>)</strong><strong>;</strong></li>
+<li> <strong>$oBatch</strong><strong>-&gt;</strong><a href="../../PHP_Beautifier/Batch/PHP_Beautifier_Batch.html#methodprocess">process</a><strong>(</strong><strong>)</strong><strong>;</strong></li>
+<li> <strong>$oBatch</strong><strong>-&gt;</strong><a href="../../PHP_Beautifier/Batch/PHP_Beautifier_Batch.html#methodshow">show</a><strong>(</strong><strong>)</strong><strong>;</strong></li>
+</pre></code></ol></pre></p></div>
+<ul>
+		<li><strong>license:</strong> - <a href="http://www.php.net/license/3_0.txt">PHP License 3.0</a></li>
+		<li><strong>version:</strong> - Release: 0.1.3</li>
+		<li><strong>link:</strong> - <a href="http://clbustos.dotgeek.org">http://clbustos.dotgeek.org</a></li>
+		<li><strong>link:</strong> - <a href="http://pear.php.net/package/PHP_Beautifier">http://pear.php.net/package/PHP_Beautifier</a></li>
+		<li><strong>copyright:</strong> - 2004-2005 Claudio Bustos</li>
+		<li><strong>author:</strong> - Claudio Bustos &lt;<a href="mailto:clbustos@dotgeek.org">clbustos@dotgeek.org</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">bool</span>
+    <a href="#var$bRecursive" title="details" class="property"><strong>$bRecursive</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$mInputFiles" title="details" class="property"><strong>$mInputFiles</strong></a>
+</div>
+<hr />
+<a name="var$bRecursive" id="var$bRecursive"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$bRecursive =  false</strong> (line <span class="linenumber">101</span>)
+ </h4>
+<h4>Data type : bool</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Recursive search on dirs</h5>
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<a name="var$mInputFiles" id="var$mInputFiles"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$mInputFiles</strong> (line <span class="linenumber">89</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+		<li><strong>access:</strong> - public</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="const-title">
+    <a href="#constDIRECTORY" title="details" class="property"><strong>DIRECTORY</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constFILES" title="details" class="property"><strong>FILES</strong></a>
+</div>
+<hr />
+<a name="constDIRECTORY" id="constDIRECTORY"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/Constant.gif" border="0" /> <strong class="property">DIRECTORY =  'Directory'</strong> (line <span class="linenumber">96</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constFILES" id="constFILES"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/Constant.gif" border="0" /> <strong class="property">FILES =  'Files'</strong> (line <span class="linenumber">95</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodcallBeautifier" title="details" class="method-name">callBeautifier</a>
+        (<span class="var-type">PHP_Beautifier_Batch_Output</span>&nbsp;<span class="var-name">$oEngine</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sMethod</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$aArgs</span> = <span class="var-default">array()</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodget" title="details" class="method-name">get</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetInputFiles" title="details" class="method-name">getInputFiles</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetOutputPath" title="details" class="method-name">getOutputPath</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodprocess" title="details" class="method-name">process</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodsave" title="details" class="method-name">save</a>
+        ([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$sFile</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetCompress" title="details" class="method-name">setCompress</a>
+        ([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$mCompress</span> = <span class="var-default">true</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodsetInputFile" title="details" class="method-name">setInputFile</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$mFiles</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">true</span>
+        <a href="#methodsetOutputFile" title="details" class="method-name">setOutputFile</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$sFile</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetRecursive" title="details" class="method-name">setRecursive</a>
+        ([<span class="var-type">bool</span>&nbsp;<span class="var-name">$bRecursive</span> = <span class="var-default">true</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodshow" title="details" class="method-name">show</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodcallBeautifier" id="methodcallBeautifier"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method callBeautifier</strong> (line <span class="linenumber">294</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>callBeautifier(
+PHP_Beautifier_Batch_Output
+$oEngine, string
+$sMethod, [array
+$aArgs = array()])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Allows subclass of PHP_Beautifier_Batch_Engine call methods of $oBeaut</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>PHP_Beautifier_Batch_Engine $oEngine</strong>: </li>
+			<li><strong>string $sMethod</strong>: method to call</li>
+			<li><strong>array $aArgs</strong>: array of args</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodget" id="methodget"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method get</strong> (line <span class="linenumber">278</span>)
+ </h4> 
+<h4><i>string</i> <strong>get(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return a string with the content of the file(s)</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetInputFiles" id="methodgetInputFiles"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getInputFiles</strong> (line <span class="linenumber">301</span>)
+ </h4> 
+<h4><i>void</i> <strong>getInputFiles(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetOutputPath" id="methodgetOutputPath"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getOutputPath</strong> (line <span class="linenumber">305</span>)
+ </h4> 
+<h4><i>void</i> <strong>getOutputPath(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodprocess" id="methodprocess"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method process</strong> (line <span class="linenumber">231</span>)
+ </h4> 
+<h4><i>bool</i> <strong>process(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Create the real references to files</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+			<li><strong>throws</strong> - Exception</li>
+		</ul>
+</div>
+<a name="methodsave" id="methodsave"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method save</strong> (line <span class="linenumber">269</span>)
+ </h4> 
+<h4><i>bool</i> <strong>save(
+[mixed
+$sFile = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Save the beautified sources to file(s)</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+			<li><strong>throws</strong> - Exception</li>
+		</ul>
+</div>
+<a name="methodsetCompress" id="methodsetCompress"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setCompress</strong> (line <span class="linenumber">116</span>)
+ </h4> 
+<h4><i>void</i> <strong>setCompress(
+[mixed
+$mCompress = true])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set compression on/off</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $mCompress</strong>: bool(false, true for gzip) or string ('gz' or 'gz2')</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetInputFile" id="methodsetInputFile"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setInputFile</strong> (line <span class="linenumber">133</span>)
+ </h4> 
+<h4><i>bool</i> <strong>setInputFile(
+mixed
+$mFiles)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the input(s) files</h5>
+<div class="desc"><p>Could be STDIN or a name, with special chars (?,*)</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $mFiles</strong>: STDIN or string(path)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetOutputFile" id="methodsetOutputFile"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setOutputFile</strong> (line <span class="linenumber">156</span>)
+ </h4> 
+<h4><i>true</i> <strong>setOutputFile(
+mixed
+$sFile)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the output file</h5>
+<div class="desc"><p>Could be STDOUT or a path to a file or dir (with '/' at the end)</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $sFile</strong>: STDOUT or string (path)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetRecursive" id="methodsetRecursive"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setRecursive</strong> (line <span class="linenumber">108</span>)
+ </h4> 
+<h4><i>void</i> <strong>setRecursive(
+[bool
+$bRecursive = true])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set recursive search for files in dirs on</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>bool $bRecursive</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodshow" id="methodshow"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method show</strong> (line <span class="linenumber">283</span>)
+ </h4> 
+<h4><i>void</i> <strong>show(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../PHP_Beautifier/PHP_Beautifier_Decorator.html">PHP_Beautifier_Decorator</a></h4>
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../PHP_Beautifier/PHP_Beautifier_Decorator.html#var$oBeaut">PHP_Beautifier_Decorator::$oBeaut</a></strong> - 
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../PHP_Beautifier/PHP_Beautifier_Decorator.html">PHP_Beautifier_Decorator</a></h4>
+				<h4>
+<img src="../../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../../PHP_Beautifier/PHP_Beautifier_Decorator.html#method__construct">PHP_Beautifier_Decorator::__construct()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../PHP_Beautifier/PHP_Beautifier_Decorator.html#method__call">PHP_Beautifier_Decorator::__call()</a></strong> - 
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:24 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

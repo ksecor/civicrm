@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class SimpleBrowserHistory</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class SimpleBrowserHistory
+</h2> (line <span class="linenumber">27</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_browser_php.html">/packages/SimpleTest/browser.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Browser history list.</h5>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_position" title="details" class="property"><strong>$_position</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_sequence" title="details" class="property"><strong>$_sequence</strong></a>
+</div>
+<hr />
+<a name="var$_position" id="var$_position"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_position</strong> (line <span class="linenumber">29</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_sequence" id="var$_sequence"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_sequence</strong> (line <span class="linenumber">28</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">SimpleBrowserHistory</span>
+        <a href="#methodSimpleBrowserHistory" title="details" class="method-name">SimpleBrowserHistory</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodback" title="details" class="method-name">back</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodforward" title="details" class="method-name">forward</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetMethod" title="details" class="method-name">getMethod</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a></span>
+        <a href="#methodgetParameters" title="details" class="method-name">getParameters</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a></span>
+        <a href="#methodgetUrl" title="details" class="method-name">getUrl</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrecordEntry" title="details" class="method-name">recordEntry</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$method</span>, <span class="var-type"><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a></span>&nbsp;<span class="var-name">$url</span>, <span class="var-type"><a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a></span>&nbsp;<span class="var-name">$parameters</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodSimpleBrowserHistory" id="methodSimpleBrowserHistory"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor SimpleBrowserHistory</strong> (line <span class="linenumber">35</span>)
+ </h4> 
+<h4><i>SimpleBrowserHistory</i> <strong>SimpleBrowserHistory(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Starts empty.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodback" id="methodback"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method back</strong> (line <span class="linenumber">128</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>back(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Step back one place in the history. Stops at     the first page.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if any previous entries.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodforward" id="methodforward"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method forward</strong> (line <span class="linenumber">142</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>forward(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Step forward one place. If already at the     latest entry then nothing will happen.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if any future entries.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetMethod" id="methodgetMethod"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getMethod</strong> (line <span class="linenumber">89</span>)
+ </h4> 
+<h4><i>string</i> <strong>getMethod(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Last fetching method for current history     position.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - GET or POST for this point in                         the history.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetParameters" id="methodgetParameters"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getParameters</strong> (line <span class="linenumber">115</span>)
+ </h4> 
+<h4><i><a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a></i> <strong>getParameters(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Parameters of last fetch from current history     position.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Post parameters.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetUrl" id="methodgetUrl"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getUrl</strong> (line <span class="linenumber">102</span>)
+ </h4> 
+<h4><i><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a></i> <strong>getUrl(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Last fully qualified URL for current history     position.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - URL for this position.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrecordEntry" id="methodrecordEntry"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method recordEntry</strong> (line <span class="linenumber">74</span>)
+ </h4> 
+<h4><i>void</i> <strong>recordEntry(
+string
+$method, <a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a>
+$url, <a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a>
+$parameters)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds a successfully fetched page to the history.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $method</strong>: GET or POST.</li>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a> $url</strong>: URL of fetch.</li>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a> $parameters</strong>: Any post data with the fetch.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:28 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

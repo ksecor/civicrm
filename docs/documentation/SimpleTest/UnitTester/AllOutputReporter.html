@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class AllOutputReporter</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class AllOutputReporter
+</h2> (line <span class="linenumber">345</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../../SimpleTest/UnitTester/SimpleScorer.html">SimpleScorer</a>
+   |
+   --<a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a>
+      |
+      --<a href="../../SimpleTest/UnitTester/HtmlReporter.html">HtmlReporter</a>
+         |
+         --AllOutputReporter</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_test_visual_test_php.html">/packages/SimpleTest/test/visual_test.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sample minimal test displayer. Generates only     failure messages and a pass count.</h5>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodpaintPass" title="details" class="method-name">paintPass</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$message</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodpaintSignal" title="details" class="method-name">paintSignal</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$payload</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_getCss" title="details" class="method-name">_getCss</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodpaintPass" id="methodpaintPass"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method paintPass</strong> (line <span class="linenumber">351</span>)
+ </h4> 
+<h4><i>void</i> <strong>paintPass(
+mixed
+$message)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintPass">SimpleScorer::paintPass()</a> Increments the pass count.</p>
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodpaintSignal" id="methodpaintSignal"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method paintSignal</strong> (line <span class="linenumber">360</span>)
+ </h4> 
+<h4><i>void</i> <strong>paintSignal(
+mixed
+$type, mixed
+&$payload)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintSignal">SimpleScorer::paintSignal()</a> By default just ignores user generated events.</p>
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_getCss" id="method_getCss"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _getCss</strong> (line <span class="linenumber">347</span>)
+ </h4> 
+<h4><i>void</i> <strong>_getCss(
+)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#method_getCss">HtmlReporter::_getCss()</a> Paints the CSS. Add additional styles here.</p>
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/HtmlReporter.html">HtmlReporter</a></h4>
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#var$_character_set">HtmlReporter::$_character_set</a></strong> - 
+	</h4> 
+			<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a></h4>
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#var$_progress">SimpleReporter::$_progress</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#var$_size">SimpleReporter::$_size</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#var$_test_stack">SimpleReporter::$_test_stack</a></strong> - 
+	</h4> 
+			<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleScorer.html">SimpleScorer</a></h4>
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#var$_exceptions">SimpleScorer::$_exceptions</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#var$_fails">SimpleScorer::$_fails</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#var$_is_dry_run">SimpleScorer::$_is_dry_run</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#var$_passes">SimpleScorer::$_passes</a></strong> - 
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/HtmlReporter.html">HtmlReporter</a></h4>
+				<h4>
+<img src="../../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#methodHtmlReporter">HtmlReporter::HtmlReporter()</a></strong> - Does nothing yet. The first output will     be sent on the first test start. For use     by a web browser.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#methodpaintException">HtmlReporter::paintException()</a></strong> - Paints a PHP error or exception.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#methodpaintFail">HtmlReporter::paintFail()</a></strong> - Paints the test failure with a breadcrumbs     trail of the nesting test suites below the     top level test.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#methodpaintFooter">HtmlReporter::paintFooter()</a></strong> - Paints the end of the test with a summary of     the passes and failures.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#methodpaintFormattedMessage">HtmlReporter::paintFormattedMessage()</a></strong> - Paints formatted text such as dumped variables.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#methodpaintHeader">HtmlReporter::paintHeader()</a></strong> - Paints the top of the web page setting the     title to the name of the starting test.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#methodsendNoCacheHeaders">HtmlReporter::sendNoCacheHeaders()</a></strong> - Send the headers necessary to ensure the page is     reloaded on every request. Otherwise you could be     scratching your head over out of date test data.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#method_getCss">HtmlReporter::_getCss()</a></strong> - Paints the CSS. Add additional styles here.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/HtmlReporter.html#method_htmlEntities">HtmlReporter::_htmlEntities()</a></strong> - Character set adjusted entity conversion.
+		</h4> 
+
+				<br />
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleReporter.html">SimpleReporter</a></h4>
+				<h4>
+<img src="../../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodSimpleReporter">SimpleReporter::SimpleReporter()</a></strong> - Starts the display with no results in.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodgetTestCaseCount">SimpleReporter::getTestCaseCount()</a></strong> - Accessor for total test size in number     of test cases. Null until the first     test is started.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodgetTestCaseProgress">SimpleReporter::getTestCaseProgress()</a></strong> - Accessor for the number of test cases     completed so far.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodgetTestList">SimpleReporter::getTestList()</a></strong> - Accessor for internal test stack. For     subclasses that need to see the whole test     history for display purposes.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodinCli">SimpleReporter::inCli()</a></strong> - Static check for running in the comand line.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodpaintCaseEnd">SimpleReporter::paintCaseEnd()</a></strong> - Paints the end of a test case. Will paint the page     footer if the stack of tests has unwound.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodpaintCaseStart">SimpleReporter::paintCaseStart()</a></strong> - Paints the start of a test case. Will also paint     the page header and footer if this is the     first test. Will stash the size if the first     start.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodpaintFooter">SimpleReporter::paintFooter()</a></strong> - Paints the test document footer.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodpaintGroupEnd">SimpleReporter::paintGroupEnd()</a></strong> - Paints the end of a group test. Will paint the page     footer if the stack of tests has unwound.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodpaintGroupStart">SimpleReporter::paintGroupStart()</a></strong> - Paints the start of a group test. Will also paint     the page header and footer if this is the     first test. Will stash the size if the first     start.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodpaintHeader">SimpleReporter::paintHeader()</a></strong> - Paints the test document header.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodpaintMethodEnd">SimpleReporter::paintMethodEnd()</a></strong> - Paints the end of a test method. Will paint the page     footer if the stack of tests has unwound.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleReporter.html#methodpaintMethodStart">SimpleReporter::paintMethodStart()</a></strong> - Paints the start of a test method.
+		</h4> 
+
+				<br />
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleScorer.html">SimpleScorer</a></h4>
+				<h4>
+<img src="../../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodSimpleScorer">SimpleScorer::SimpleScorer()</a></strong> - Starts the test run with no results.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodgetExceptionCount">SimpleScorer::getExceptionCount()</a></strong> - Accessor for the number of untrapped errors     so far.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodgetFailCount">SimpleScorer::getFailCount()</a></strong> - Accessor for the number of fails so far.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodgetPassCount">SimpleScorer::getPassCount()</a></strong> - Accessor for the number of passes so far.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodgetStatus">SimpleScorer::getStatus()</a></strong> - Accessor for current status. Will be false     if there have been any failures or exceptions.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodmakeDry">SimpleScorer::makeDry()</a></strong> - Signals that the next evaluation will be a dry     run. That is, the structure events will be     recorded, but no tests will be run.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintCaseEnd">SimpleScorer::paintCaseEnd()</a></strong> - Paints the end of a test case.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintCaseStart">SimpleScorer::paintCaseStart()</a></strong> - Paints the start of a test case.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintError">SimpleScorer::paintError()</a></strong> - Deals with PHP 4 throwing an error.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintException">SimpleScorer::paintException()</a></strong> - Deals with PHP 5 throwing an exception     This isn't really implemented yet.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintFail">SimpleScorer::paintFail()</a></strong> - Increments the fail count.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintFormattedMessage">SimpleScorer::paintFormattedMessage()</a></strong> - Paints a formatted ASCII message such as a     variable dump.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintGroupEnd">SimpleScorer::paintGroupEnd()</a></strong> - Paints the end of a group test.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintGroupStart">SimpleScorer::paintGroupStart()</a></strong> - Paints the start of a group test.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintMessage">SimpleScorer::paintMessage()</a></strong> - Paints a simple supplementary message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintMethodEnd">SimpleScorer::paintMethodEnd()</a></strong> - Paints the end of a test method.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintMethodStart">SimpleScorer::paintMethodStart()</a></strong> - Paints the start of a test method.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintPass">SimpleScorer::paintPass()</a></strong> - Increments the pass count.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodpaintSignal">SimpleScorer::paintSignal()</a></strong> - By default just ignores user generated events.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleScorer.html#methodshouldInvoke">SimpleScorer::shouldInvoke()</a></strong> - The reporter has a veto on what should be run.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:59 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

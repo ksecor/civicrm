@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class CRM_Contact_Selector</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class CRM_Contact_Selector
+</h2> (line <span class="linenumber">51</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../CRM/CRM_Selector_Base.html">CRM_Selector_Base</a>
+   |
+   --CRM_Contact_Selector</pre>
+<p>
+	<b><i>Located in File: <a href="_CRM_Contact_Selector_php.html">/CRM/Contact/Selector.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This class is used to retrieve and display a range of  contacts that match the given criteria</h5>
+<div class="desc"><p>This class is a generic class and should be used by any / all  objects that requires contacts to be selectively listed (list / search)</p></div>
+<ul>
+		<li><strong>copyright:</strong> - Donald A. Lobo 01/15/2005  $Id$</li>
+		<li><strong>author:</strong> - Donald A. Lobo &lt;<a href="mailto:lobo@yahoo.com">lobo@yahoo.com</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_contact" title="details" class="property"><strong>$_contact</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$_links" title="details" class="property"><strong>$_links</strong></a>
+</div>
+<hr />
+<a name="var$_contact" id="var$_contact"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_contact</strong> (line <span class="linenumber">77</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This caches the content for the display system.</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_links" id="var$_links"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_links = array(<br />                           CRM_Action::VIEW =&gt; array(<br />                                                     'name'     =&gt; 'View Contact',<br />                                                     'link'     =&gt; '/crm/contact?action=view&amp;id=%%id%%',<br />                                                     'linkName' =&gt; 'View Contact',<br />                                                     'menuName' =&gt; 'View Contact Details'<br />                                                     ),CRM_Action::EDIT=&gt;array('name'=&gt;'Edit Contact','link'=&gt;'/crm/contact?action=edit&amp;id=%%id%%','linkName'=&gt;'Edit Contact','menuName'=&gt;'Edit Contact Details'),)</strong> (line <span class="linenumber">58</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This defines two actions- View and Edit.</h5>
+<ul>
+		<li><strong>static:</strong> - </li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../CRM/CRM_Contact_Selector.html">CRM_Contact_Selector</a></span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">&$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetColumnHeaders" title="details" class="method-name">getColumnHeaders</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$action</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetExportColumnHeaders" title="details" class="method-name">getExportColumnHeaders</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$action</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'csv'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetExportFileName" title="details" class="method-name">getExportFileName</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$action</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'csv'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetExportRows" title="details" class="method-name">getExportRows</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$action</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'csv'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetLinks" title="details" class="method-name">&amp;getLinks</a>
+        (<span class="var-type">none</span>&nbsp;<span class="var-name">0</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetPagerParams" title="details" class="method-name">getPagerParams</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$action</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetRows" title="details" class="method-name">getRows</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$action</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$offset</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$rowCount</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$sort</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetSortOrder" title="details" class="method-name">getSortOrder</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$action</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetTotalCount" title="details" class="method-name">getTotalCount</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$action</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber">87</span>)
+ </h4> 
+<h4><i><a href="../CRM/CRM_Contact_Selector.html">CRM_Contact_Selector</a></i> <strong>__construct(
+array
+&$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Class constructor</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $params</strong>: (reference ) array of parameters for query</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetColumnHeaders" id="methodgetColumnHeaders"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getColumnHeaders</strong> (line <span class="linenumber">158</span>)
+ </h4> 
+<h4><i>array</i> <strong>getColumnHeaders(
+mixed
+$action)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for headers for each column of the displayed form.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetExportColumnHeaders" id="methodgetExportColumnHeaders"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getExportColumnHeaders</strong> (line <span class="linenumber">215</span>)
+ </h4> 
+<h4><i>void</i> <strong>getExportColumnHeaders(
+mixed
+$action, [mixed
+$type = 'csv'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetExportFileName" id="methodgetExportFileName"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getExportFileName</strong> (line <span class="linenumber">223</span>)
+ </h4> 
+<h4><i>void</i> <strong>getExportFileName(
+mixed
+$action, [mixed
+$type = 'csv'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetExportRows" id="methodgetExportRows"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getExportRows</strong> (line <span class="linenumber">219</span>)
+ </h4> 
+<h4><i>void</i> <strong>getExportRows(
+mixed
+$action, [mixed
+$type = 'csv'])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetLinks" id="methodgetLinks"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getLinks</strong> (line <span class="linenumber">112</span>)
+ </h4> 
+<h4><i>array</i> <strong>&amp;getLinks(
+none
+0)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../CRM/CRM_Selector_Base.html#methodgetLinks">CRM_Selector_Base::getLinks()</a> This is a virtual function, since the $_links array is typically  static, we use a virtual function to get the links array. Each  inherited class must redefine this function</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This method returns the links that are given for each search row.</h5>
+<div class="desc"><p>currently the links added for each row are</p><p><ul><li>View</li><li>Edit</li></ul></p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>none 0</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetPagerParams" id="methodgetPagerParams"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPagerParams</strong> (line <span class="linenumber">123</span>)
+ </h4> 
+<h4><i>void</i> <strong>getPagerParams(
+mixed
+$action, mixed
+&$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for array of the parameters required for creating pager.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetRows" id="methodgetRows"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getRows</strong> (line <span class="linenumber">209</span>)
+ </h4> 
+<h4><i>array</i> <strong>getRows(
+mixed
+$action, mixed
+$offset, mixed
+$rowCount, mixed
+$sort)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for all the database values to be displayed on the form while listing</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetSortOrder" id="methodgetSortOrder"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getSortOrder</strong> (line <span class="linenumber">140</span>)
+ </h4> 
+<h4><i>array</i> <strong>getSortOrder(
+mixed
+$action)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for the sorting direction for the fields which will be displayed on the form.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetTotalCount" id="methodgetTotalCount"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getTotalCount</strong> (line <span class="linenumber">196</span>)
+ </h4> 
+<h4><i>array</i> <strong>getTotalCount(
+mixed
+$action)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for all the database values to be displayed on the form while listing</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../CRM/CRM_Selector_Base.html">CRM_Selector_Base</a></h4>
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../CRM/CRM_Selector_Base.html#methodgetActionAttribute">CRM_Selector_Base::getActionAttribute()</a></strong> - This function gets the attribute for the action that  it matches.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../CRM/CRM_Selector_Base.html#methodgetLinks">CRM_Selector_Base::getLinks()</a></strong> - This is a virtual function, since the $_links array is typically  static, we use a virtual function to get the links array. Each  inherited class must redefine this function
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../CRM/CRM_Selector_Base.html#methodgetModuleName">CRM_Selector_Base::getModuleName()</a></strong> - compose the module name from the class name
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../CRM/CRM_Selector_Base.html#methodgetTemplateFileName">CRM_Selector_Base::getTemplateFileName()</a></strong> - compose the template file name from the class name
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:20 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class CRM_State</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class CRM_State
+</h2> (line <span class="linenumber">38</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_CRM_State_php.html">/CRM/State.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The basic state element. Each state element is linked to a form and</h5>
+<div class="desc"><p>represents the form in the transition diagram. We use the state to  determine what action to take on various user input. Actions include  things like going back / stepping forward / process etc</p></div>
+<ul>
+		<li><strong>copyright:</strong> - Donald A. Lobo 01/15/2005  $Id$</li>
+		<li><strong>author:</strong> - Donald A. Lobo &lt;<a href="mailto:lobo@yahoo.com">lobo@yahoo.com</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$_back" title="details" class="property"><strong>$_back</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_iname" title="details" class="property"><strong>$_iname</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_name" title="details" class="property"><strong>$_name</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$_next" title="details" class="property"><strong>$_next</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$_stateMachine" title="details" class="property"><strong>$_stateMachine</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$_type" title="details" class="property"><strong>$_type</strong></a>
+</div>
+<hr />
+<a name="var$_back" id="var$_back"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_back</strong> (line <span class="linenumber">62</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>the state that precedes this state</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_iname" id="var$_iname"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_iname</strong> (line <span class="linenumber">44</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Internal state name</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_name" id="var$_name"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_name</strong> (line <span class="linenumber">50</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Display name for state</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_next" id="var$_next"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_next</strong> (line <span class="linenumber">68</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>the state that succeeds this state</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_stateMachine" id="var$_stateMachine"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_stateMachine</strong> (line <span class="linenumber">74</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The state machine that this state is part of</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_type" id="var$_type"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_type</strong> (line <span class="linenumber">56</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>this is a combination &quot;OR&quot; of the STATE_* constants defined below</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="const-title">
+    <a href="#constFINISH" title="details" class="property"><strong>FINISH</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constSIMPLE" title="details" class="property"><strong>SIMPLE</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constSTART" title="details" class="property"><strong>START</strong></a>
+</div>
+<hr />
+<a name="constFINISH" id="constFINISH"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">FINISH =   2</strong> (line <span class="linenumber">84</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constSIMPLE" id="constSIMPLE"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">SIMPLE =   4</strong> (line <span class="linenumber">85</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constSTART" id="constSTART"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">START =   1</strong> (line <span class="linenumber">83</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The different types of states. As we flush out the framework more</h5>
+<div class="desc"><p>we will introduce other conditional / looping states which will  bring in more complexity to the framework. For now, lets keep it simple</p></div>
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">object</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$iname</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">object the</span>&nbsp;<span class="var-name">$back</span>, <span class="var-type">object the</span>&nbsp;<span class="var-name">$next</span>, <span class="var-type">object the</span>&nbsp;<span class="var-name">$stateMachine</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetIName" title="details" class="method-name">getIName</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetName" title="details" class="method-name">getName</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetNextState" title="details" class="method-name">getNextState</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodgetType" title="details" class="method-name">getType</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodhandleBackState" title="details" class="method-name">handleBackState</a>
+        (<span class="var-type">object the</span>&nbsp;<span class="var-name">&$page</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodhandleNextState" title="details" class="method-name">handleNextState</a>
+        (<span class="var-type">object the</span>&nbsp;<span class="var-name">&$page</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodinvalidate" title="details" class="method-name">invalidate</a>
+        (<span class="var-type">object the</span>&nbsp;<span class="var-name">&$data</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetIName" title="details" class="method-name">setIName</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$iname</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetName" title="details" class="method-name">setName</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodvalidate" title="details" class="method-name">validate</a>
+        (<span class="var-type">object the</span>&nbsp;<span class="var-name">&$data</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber">100</span>)
+ </h4> 
+<h4><i>object</i> <strong>__construct(
+string
+$iname, string
+$name, int
+$type, object the
+$back, object the
+$next, object the
+$stateMachine)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>constructor</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $iname</strong>: the internal name of the state</li>
+			<li><strong>string $name</strong>: the display name for this state</li>
+			<li><strong>int $type</strong>: the state type</li>
+			<li><strong>object the $back</strong>: state that precedes this state</li>
+			<li><strong>object the $next</strong>: state that follows  this state</li>
+			<li><strong>object the $stateMachine</strong>: statemachine that this states belongs to</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetIName" id="methodgetIName"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getIName</strong> (line <span class="linenumber">213</span>)
+ </h4> 
+<h4><i>string</i> <strong>getIName(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for iname</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetName" id="methodgetName"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getName</strong> (line <span class="linenumber">192</span>)
+ </h4> 
+<h4><i>string</i> <strong>getName(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for name</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetNextState" id="methodgetNextState"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getNextState</strong> (line <span class="linenumber">151</span>)
+ </h4> 
+<h4><i>string</i> <strong>getNextState(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Determine the name of the next state. This is useful when we want  to display the navigation labels or potential path</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetType" id="methodgetType"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getType</strong> (line <span class="linenumber">234</span>)
+ </h4> 
+<h4><i>int</i> <strong>getType(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for type</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodhandleBackState" id="methodhandleBackState"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method handleBackState</strong> (line <span class="linenumber">118</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>handleBackState(
+object the
+&$page)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Given an CRM Form, jump to the previous page</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object the &$page</strong>: CRM_Form element under consideration</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - does a jump to the back state</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodhandleNextState" id="methodhandleNextState"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method handleNextState</strong> (line <span class="linenumber">135</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>handleNextState(
+object the
+&$page)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Given an CRM Form, jump to the next page</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object the &$page</strong>: CRM_Form element under consideration</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - does a jump to the nextstate</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodinvalidate" id="methodinvalidate"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method invalidate</strong> (line <span class="linenumber">182</span>)
+ </h4> 
+<h4><i>void</i> <strong>invalidate(
+object the
+&$data)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Mark this page as invalid for the QFC framework. This is needed as  we build more advanced functionality into the StateMachine</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object the &$data</strong>: QFC data container</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetIName" id="methodsetIName"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setIName</strong> (line <span class="linenumber">224</span>)
+ </h4> 
+<h4><i>void</i> <strong>setIName(
+string
+$iname)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>setter for iname</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $iname</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetName" id="methodsetName"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setName</strong> (line <span class="linenumber">203</span>)
+ </h4> 
+<h4><i>void</i> <strong>setName(
+string
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>setter for name</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodvalidate" id="methodvalidate"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method validate</strong> (line <span class="linenumber">169</span>)
+ </h4> 
+<h4><i>void</i> <strong>validate(
+object the
+&$data)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Mark this page as valid for the QFC framework. This is needed as  we build more advanced functionality into the StateMachine</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object the &$data</strong>: QFC data container</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:37 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

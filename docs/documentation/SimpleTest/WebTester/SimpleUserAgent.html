@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class SimpleUserAgent</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class SimpleUserAgent
+</h2> (line <span class="linenumber">161</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_user_agent_php.html">/packages/SimpleTest/user_agent.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Fetches web pages whilst keeping track of     cookies and authentication.</h5>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_additional_headers" title="details" class="property"><strong>$_additional_headers</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_authenticator" title="details" class="property"><strong>$_authenticator</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_connection_timeout" title="details" class="property"><strong>$_connection_timeout</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_cookie_jar" title="details" class="property"><strong>$_cookie_jar</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_max_redirects" title="details" class="property"><strong>$_max_redirects</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_proxy" title="details" class="property"><strong>$_proxy</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_proxy_password" title="details" class="property"><strong>$_proxy_password</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_proxy_username" title="details" class="property"><strong>$_proxy_username</strong></a>
+</div>
+<hr />
+<a name="var$_additional_headers" id="var$_additional_headers"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_additional_headers</strong> (line <span class="linenumber">169</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_authenticator" id="var$_authenticator"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_authenticator</strong> (line <span class="linenumber">163</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_connection_timeout" id="var$_connection_timeout"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_connection_timeout</strong> (line <span class="linenumber">168</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_cookie_jar" id="var$_cookie_jar"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_cookie_jar</strong> (line <span class="linenumber">162</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_max_redirects" id="var$_max_redirects"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_max_redirects</strong> (line <span class="linenumber">164</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_proxy" id="var$_proxy"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_proxy</strong> (line <span class="linenumber">165</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_proxy_password" id="var$_proxy_password"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_proxy_password</strong> (line <span class="linenumber">167</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_proxy_username" id="var$_proxy_username"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_proxy_username</strong> (line <span class="linenumber">166</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">SimpleUserAgent</span>
+        <a href="#methodSimpleUserAgent" title="details" class="method-name">SimpleUserAgent</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddHeader" title="details" class="method-name">addHeader</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$header</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodageCookies" title="details" class="method-name">ageCookies</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$interval</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../../SimpleTest/WebTester/SimpleHttpResponse.html">SimpleHttpResponse</a></span>
+        <a href="#methodfetchResponse" title="details" class="method-name">&amp;fetchResponse</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$method</span>, <span class="var-type">string/SimpleUrl</span>&nbsp;<span class="var-name">$url</span>, [<span class="var-type"><a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a></span>&nbsp;<span class="var-name">$parameters</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetBaseCookieValue" title="details" class="method-name">getBaseCookieValue</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type"><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a></span>&nbsp;<span class="var-name">$base</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetCookieValue" title="details" class="method-name">getCookieValue</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrestart" title="details" class="method-name">restart</a>
+        ([<span class="var-type">string/integer</span>&nbsp;<span class="var-name">$date</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetConnectionTimeout" title="details" class="method-name">setConnectionTimeout</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$timeout</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetCookie" title="details" class="method-name">setCookie</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span> = <span class="var-default">'/'</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$expiry</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetIdentity" title="details" class="method-name">setIdentity</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$realm</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$username</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$password</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetMaximumRedirects" title="details" class="method-name">setMaximumRedirects</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$max</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoduseProxy" title="details" class="method-name">useProxy</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$proxy</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$username</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$password</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../../SimpleTest/WebTester/SimpleHttpRequest.html">SimpleHttpRequest</a></span>
+        <a href="#method_createHttpRequest" title="details" class="method-name">&amp;_createHttpRequest</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$method</span>, <span class="var-type"><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a></span>&nbsp;<span class="var-name">$url</span>, <span class="var-type"><a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a></span>&nbsp;<span class="var-name">$parameters</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../../SimpleTest/WebTester/SimpleRoute.html">SimpleRoute</a></span>
+        <a href="#method_createRoute" title="details" class="method-name">&amp;_createRoute</a>
+        (<span class="var-type"><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a></span>&nbsp;<span class="var-name">$url</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../../SimpleTest/WebTester/SimpleHttpResponse.html">SimpleHttpResponse</a></span>
+        <a href="#method_fetch" title="details" class="method-name">&amp;_fetch</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$method</span>, <span class="var-type"><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a></span>&nbsp;<span class="var-name">$url</span>, <span class="var-type"><a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a></span>&nbsp;<span class="var-name">$parameters</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodSimpleUserAgent" id="methodSimpleUserAgent"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor SimpleUserAgent</strong> (line <span class="linenumber">175</span>)
+ </h4> 
+<h4><i>SimpleUserAgent</i> <strong>SimpleUserAgent(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Starts with no cookies, realms or proxies.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddHeader" id="methodaddHeader"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addHeader</strong> (line <span class="linenumber">206</span>)
+ </h4> 
+<h4><i>void</i> <strong>addHeader(
+string
+$header)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds a header to every fetch.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $header</strong>: Header line to add to every                                 request until cleared.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodageCookies" id="methodageCookies"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method ageCookies</strong> (line <span class="linenumber">215</span>)
+ </h4> 
+<h4><i>void</i> <strong>ageCookies(
+integer
+$interval)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Ages the cookies by the specified time.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $interval</strong>: Amount in seconds.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodfetchResponse" id="methodfetchResponse"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method fetchResponse</strong> (line <span class="linenumber">347</span>)
+ </h4> 
+<h4><i><a href="../../SimpleTest/WebTester/SimpleHttpResponse.html">SimpleHttpResponse</a></i> <strong>&amp;fetchResponse(
+string
+$method, string/SimpleUrl
+$url, [<a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a>
+$parameters = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Fetches a URL as a response object. Will keep trying if redirected.</h5>
+<div class="desc"><p>It will also collect authentication realm information.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $method</strong>: GET, POST, etc.</li>
+			<li><strong>string/SimpleUrl $url</strong>: Target to fetch.</li>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a> $parameters</strong>: Additional parameters for request.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Hopefully the target page.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetBaseCookieValue" id="methodgetBaseCookieValue"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getBaseCookieValue</strong> (line <span class="linenumber">268</span>)
+ </h4> 
+<h4><i>string</i> <strong>getBaseCookieValue(
+string
+$name, <a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a>
+$base)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Reads the current cookies within the base URL.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Key of cookie to find.</li>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a> $base</strong>: Base URL to search from.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Null if there is no base URL, false                             if the cookie is not set.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetCookieValue" id="methodgetCookieValue"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getCookieValue</strong> (line <span class="linenumber">247</span>)
+ </h4> 
+<h4><i>string</i> <strong>getCookieValue(
+string
+$host, string
+$path, string
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Reads the most specific cookie value from the     browser cookies.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $host</strong>: Host to search.</li>
+			<li><strong>string $path</strong>: Applicable path.</li>
+			<li><strong>string $name</strong>: Name of cookie to read.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - False if not present, else the                                value as a string.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrestart" id="methodrestart"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method restart</strong> (line <span class="linenumber">195</span>)
+ </h4> 
+<h4><i>void</i> <strong>restart(
+[string/integer
+$date = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Removes expired and temporary cookies as if     the browser was closed and re-opened. Authorisation     has to be obtained again as well.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string/integer $date</strong>: Time when session restarted.                                   If omitted then all persistent                                   cookies are kept.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetConnectionTimeout" id="methodsetConnectionTimeout"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setConnectionTimeout</strong> (line <span class="linenumber">280</span>)
+ </h4> 
+<h4><i>void</i> <strong>setConnectionTimeout(
+integer
+$timeout)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the socket timeout for opening a connection.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $timeout</strong>: Maximum time in seconds.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetCookie" id="methodsetCookie"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setCookie</strong> (line <span class="linenumber">229</span>)
+ </h4> 
+<h4><i>void</i> <strong>setCookie(
+string
+$name, string
+$value, [string
+$host = false], [string
+$path = '/'], [string
+$expiry = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets an additional cookie. If a cookie has     the same name and path it is replaced.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Cookie key.</li>
+			<li><strong>string $value</strong>: Value of cookie.</li>
+			<li><strong>string $host</strong>: Host upon which the cookie is valid.</li>
+			<li><strong>string $path</strong>: Cookie path if not host wide.</li>
+			<li><strong>string $expiry</strong>: Expiry date.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetIdentity" id="methodsetIdentity"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setIdentity</strong> (line <span class="linenumber">334</span>)
+ </h4> 
+<h4><i>void</i> <strong>setIdentity(
+string
+$host, string
+$realm, string
+$username, string
+$password)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the identity for the current realm.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $host</strong>: Host to which realm applies.</li>
+			<li><strong>string $realm</strong>: Full name of realm.</li>
+			<li><strong>string $username</strong>: Username for realm.</li>
+			<li><strong>string $password</strong>: Password for realm.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetMaximumRedirects" id="methodsetMaximumRedirects"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setMaximumRedirects</strong> (line <span class="linenumber">290</span>)
+ </h4> 
+<h4><i>void</i> <strong>setMaximumRedirects(
+integer
+$max)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the maximum number of redirects before     a page will be loaded anyway.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $max</strong>: Most hops allowed.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoduseProxy" id="methoduseProxy"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method useProxy</strong> (line <span class="linenumber">303</span>)
+ </h4> 
+<h4><i>void</i> <strong>useProxy(
+string
+$proxy, string
+$username, string
+$password)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets proxy to use on all requests for when     testing from behind a firewall. Set URL     to false to disable.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $proxy</strong>: Proxy URL.</li>
+			<li><strong>string $username</strong>: Proxy username for authentication.</li>
+			<li><strong>string $password</strong>: Proxy password for authentication.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method_createHttpRequest" id="method_createHttpRequest"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _createHttpRequest</strong> (line <span class="linenumber">433</span>)
+ </h4> 
+<h4><i><a href="../../SimpleTest/WebTester/SimpleHttpRequest.html">SimpleHttpRequest</a></i> <strong>&amp;_createHttpRequest(
+string
+$method, <a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a>
+$url, <a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a>
+$parameters)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Builds the appropriate HTTP request object.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $method</strong>: Fetching method.</li>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a> $url</strong>: Target to fetch as url object.</li>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a> $parameters</strong>: POST/GET parameters.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - New request object.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="method_createRoute" id="method_createRoute"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _createRoute</strong> (line <span class="linenumber">453</span>)
+ </h4> 
+<h4><i><a href="../../SimpleTest/WebTester/SimpleRoute.html">SimpleRoute</a></i> <strong>&amp;_createRoute(
+<a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a>
+$url)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets up either a direct route or via a proxy.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a> $url</strong>: Target to fetch as url object.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Route to take to fetch URL.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="method_fetch" id="method_fetch"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _fetch</strong> (line <span class="linenumber">401</span>)
+ </h4> 
+<h4><i><a href="../../SimpleTest/WebTester/SimpleHttpResponse.html">SimpleHttpResponse</a></i> <strong>&amp;_fetch(
+string
+$method, <a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a>
+$url, <a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a>
+$parameters)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Actually make the web request.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $method</strong>: GET, POST, etc.</li>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleUrl.html">SimpleUrl</a> $url</strong>: Target to fetch.</li>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleFormEncoding.html">SimpleFormEncoding</a> $parameters</strong>: Additional parameters for request.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Headers and hopefully content.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:55 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class PEAR_Command_Common</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class PEAR_Command_Common
+</h2> (line <span class="linenumber">23</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../civiCRM/PEAR.html">PEAR</a>
+   |
+   --PEAR_Command_Common</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_PEAR_Command_Common_php.html">/packages/PEAR/Command/Common.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Base class for other PEAR classes.  Provides rudimentary  emulation of destructors.</h5>
+<div class="desc"><p>If you want a destructor in your class, inherit PEAR and make a  destructor method called _yourclassname (same name as the  constructor, but with a &quot;_&quot; prefix).  Also, in your constructor you  have to call the PEAR constructor: $this-&gt;PEAR();.  The destructor method will be called without parameters.  Note that  at in some SAPI implementations (such as Apache), any output during  the request shutdown (in which destructors are called) seems to be  discarded.  If you need to get any debug information from your  destructor, use error_log(), syslog() or something similar.</p><p>IMPORTANT! To use the emulated destructors you need to create the  objects by reference: $obj =&amp; new PEAR_child;</p></div>
+<ul>
+		<li><strong>author:</strong> - Stig Bakken &lt;<a href="mailto:ssb@php.net">ssb@php.net</a>&gt;</li>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from PEAR_Command_Common:</span>
+ 		<dl>
+	<dt><a href="../civiCRM/PEAR_Command_Build.html">PEAR_Command_Build</a></dt>
+		<dd>PEAR commands for building extensions.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Command_Auth.html">PEAR_Command_Auth</a></dt>
+		<dd>PEAR commands for managing configuration data.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Command_Install.html">PEAR_Command_Install</a></dt>
+		<dd>PEAR commands for installation or deinstallation/upgrading of  packages.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Command_Package.html">PEAR_Command_Package</a></dt>
+		<dd>Base class for other PEAR classes.  Provides rudimentary  emulation of destructors.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Command_Remote.html">PEAR_Command_Remote</a></dt>
+		<dd>Base class for other PEAR classes.  Provides rudimentary  emulation of destructors.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Command_Registry.html">PEAR_Command_Registry</a></dt>
+		<dd>Base class for other PEAR classes.  Provides rudimentary  emulation of destructors.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Command_Config.html">PEAR_Command_Config</a></dt>
+		<dd>PEAR commands for managing configuration data.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../civiCRM/PEAR_Command_Mirror.html">PEAR_Command_Mirror</a></dt>
+		<dd>PEAR commands for providing file mirrors</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$config" title="details" class="property"><strong>$config</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$ui" title="details" class="property"><strong>$ui</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_deps_rel_trans" title="details" class="property"><strong>$_deps_rel_trans</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_deps_type_trans" title="details" class="property"><strong>$_deps_type_trans</strong></a>
+</div>
+<hr />
+<a name="var$config" id="var$config"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$config</strong> (line <span class="linenumber">33</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>PEAR_Config object used to pass user system and configuration  on when executing commands</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$ui" id="var$ui"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$ui</strong> (line <span class="linenumber">39</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>User Interface object, for all interaction with the user.</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_deps_rel_trans" id="var$_deps_rel_trans"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_deps_rel_trans = array(<br />                                 'lt' =&gt; '&lt;',<br />                                 'le' =&gt; '&lt;=',<br />                                 'eq' =&gt; '=',<br />                                 'ne' =&gt; '!=',<br />                                 'gt' =&gt; '&gt;',<br />                                 'ge' =&gt; '&gt;=',<br />                                 'has' =&gt; '=='<br />                                 )</strong> (line <span class="linenumber">41</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_deps_type_trans" id="var$_deps_type_trans"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_deps_type_trans = array(<br />                                  'pkg' =&gt; 'package',<br />                                  'extension' =&gt; 'extension',<br />                                  'php' =&gt; 'PHP',<br />                                  'prog' =&gt; 'external program',<br />                                  'ldlib' =&gt; 'external library for linking',<br />                                  'rtlib' =&gt; 'external runtime library',<br />                                  'os' =&gt; 'operating system',<br />                                  'websrv' =&gt; 'web server',<br />                                  'sapi' =&gt; 'SAPI backend'<br />                                  )</strong> (line <span class="linenumber">51</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">PEAR_Command_Common</span>
+        <a href="#methodPEAR_Command_Common" title="details" class="method-name">PEAR_Command_Common</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">&$ui</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$config</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetCommands" title="details" class="method-name">getCommands</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetGetoptArgs" title="details" class="method-name">getGetoptArgs</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$short_args</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$long_args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodgetHelp" title="details" class="method-name">getHelp</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$command</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetHelpArgs" title="details" class="method-name">getHelpArgs</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$command</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetOptions" title="details" class="method-name">getOptions</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetShortcuts" title="details" class="method-name">getShortcuts</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrun" title="details" class="method-name">run</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$command</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$params</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodPEAR_Command_Common" id="methodPEAR_Command_Common"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor PEAR_Command_Common</strong> (line <span class="linenumber">71</span>)
+ </h4> 
+<h4><i>PEAR_Command_Common</i> <strong>PEAR_Command_Common(
+mixed
+&$ui, mixed
+&$config)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>PEAR_Command_Common constructor.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetCommands" id="methodgetCommands"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getCommands</strong> (line <span class="linenumber">87</span>)
+ </h4> 
+<h4><i>array</i> <strong>getCommands(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return a list of all the commands defined by this class.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - list of commands</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetGetoptArgs" id="methodgetGetoptArgs"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getGetoptArgs</strong> (line <span class="linenumber">126</span>)
+ </h4> 
+<h4><i>void</i> <strong>getGetoptArgs(
+mixed
+$command, mixed
+&$short_args, mixed
+&$long_args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetHelp" id="methodgetHelp"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getHelp</strong> (line <span class="linenumber">164</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>getHelp(
+string
+$command)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the help message for the given command</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $command</strong>: The command</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - A fail string if the command does not have help or                a two elements array containing [0]=&gt;help string,                [1]=&gt; help string for the accepted cmd args</li>
+		</ul>
+</div>
+<a name="methodgetHelpArgs" id="methodgetHelpArgs"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getHelpArgs</strong> (line <span class="linenumber">190</span>)
+ </h4> 
+<h4><i>string</i> <strong>getHelpArgs(
+string
+$command)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the help for the accepted arguments of a command</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $command</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The help string</li>
+		</ul>
+</div>
+<a name="methodgetOptions" id="methodgetOptions"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getOptions</strong> (line <span class="linenumber">118</span>)
+ </h4> 
+<h4><i>void</i> <strong>getOptions(
+mixed
+$command)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetShortcuts" id="methodgetShortcuts"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getShortcuts</strong> (line <span class="linenumber">104</span>)
+ </h4> 
+<h4><i>array</i> <strong>getShortcuts(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return a list of all the command shortcuts defined by this class.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - shortcut =&gt; command</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrun" id="methodrun"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method run</strong> (line <span class="linenumber">227</span>)
+ </h4> 
+<h4><i>void</i> <strong>run(
+mixed
+$command, mixed
+$options, mixed
+$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/PEAR.html">PEAR</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodPEAR">PEAR::PEAR()</a></strong> - Constructor.  Registers this object in  $_PEAR_destructor_object_list for destructor emulation if a  destructor object exists.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methoddelExpect">PEAR::delExpect()</a></strong> - This method deletes all occurences of the specified element from  the expected error codes stack.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodexpectError">PEAR::expectError()</a></strong> - This method is used to tell which errors you expect to get.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodgetStaticProperty">PEAR::getStaticProperty()</a></strong> - If you have a class that's mostly/entirely static, and you need static
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodisError">PEAR::isError()</a></strong> - Tell whether a value is a PEAR error.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodloadExtension">PEAR::loadExtension()</a></strong> - OS independant PHP extension load. Remember to take care  on the correct extension name for case sensitive OSes.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpopErrorHandling">PEAR::popErrorHandling()</a></strong> - Pop the last error handler used
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpopExpect">PEAR::popExpect()</a></strong> - This method pops one element off the expected error codes  stack.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodpushErrorHandling">PEAR::pushErrorHandling()</a></strong> - Push a new error handler on top of the error handler options stack. With this  you can easily override the actual error handler for some code and restore  it later with popErrorHandling.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodraiseError">PEAR::raiseError()</a></strong> - This method is a wrapper that returns an instance of the  configured error class with this object's default error  handling applied.  If the $mode and $options parameters are not  specified, the object's defaults are used.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodregisterShutdownFunc">PEAR::registerShutdownFunc()</a></strong> - Use this function to register a shutdown method for static  classes.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodsetErrorHandling">PEAR::setErrorHandling()</a></strong> - Sets how errors generated by this object should be handled.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodstaticPopErrorHandling">PEAR::staticPopErrorHandling()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodstaticPushErrorHandling">PEAR::staticPushErrorHandling()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#methodthrowError">PEAR::throwError()</a></strong> - Simpler form of raiseError with fewer options.  In most cases  message, code and userinfo are enough.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/PEAR.html#method_PEAR">PEAR::_PEAR()</a></strong> - Destructor (the emulated type of...).  Does nothing right now,  but is included for forward compatibility, so subclass  destructors should always call it.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:35 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

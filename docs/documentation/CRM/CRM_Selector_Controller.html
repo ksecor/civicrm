@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class CRM_Selector_Controller</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class CRM_Selector_Controller
+</h2> (line <span class="linenumber">46</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_CRM_Selector_Controller_php.html">/CRM/Selector/Controller.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_content" title="details" class="property"><strong>$_content</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$_output" title="details" class="property"><strong>$_output</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$_properties" title="details" class="property"><strong>$_properties</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">Object</span>
+    <a href="#var$_store" title="details" class="property"><strong>$_store</strong></a>
+</div>
+<hr />
+<a name="var$_content" id="var$_content"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_content</strong> (line <span class="linenumber">115</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This caches the content for the display system</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_output" id="var$_output"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_output</strong> (line <span class="linenumber">122</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Output target, session, template or both?</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_properties" id="var$_properties"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_properties = array( 'columnHeaders', 'rows', 'rowsEmpty' )</strong> (line <span class="linenumber">130</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Array of properties that the controller dumps into the output object</h5>
+<ul>
+		<li><strong>static:</strong> - </li>
+	</ul>
+</div>
+<a name="var$_store" id="var$_store"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_store</strong> (line <span class="linenumber">137</span>)
+ </h4>
+<h4>Data type : Object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The storage object (typically a form or a page)</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="const-title">
+    <a href="#constBOTH" title="details" class="property"><strong>BOTH</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constSESSION" title="details" class="property"><strong>SESSION</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constTEMPLATE" title="details" class="property"><strong>TEMPLATE</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constTRANSFER" title="details" class="property"><strong>TRANSFER</strong></a>
+</div>
+<hr />
+<a name="constBOTH" id="constBOTH"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">BOTH =  3</strong> (line <span class="linenumber">56</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constSESSION" id="constSESSION"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">SESSION =  1</strong> (line <span class="linenumber">54</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>constants to determine if we should store</h5>
+<div class="desc"><p>the output in the session or template</p></div>
+<ul>
+	</ul>
+</div>
+<a name="constTEMPLATE" id="constTEMPLATE"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">TEMPLATE =  2</strong> (line <span class="linenumber">55</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constTRANSFER" id="constTRANSFER"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">TRANSFER =  4</strong> (line <span class="linenumber">56</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">Object</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        (<span class="var-type"><a href="../CRM/CRM_Selector_API.html">CRM_Selector_API</a></span>&nbsp;<span class="var-name">$object</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$pageID</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$sortID</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$action</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$output</span> = <span class="var-default">self::TEMPLATE</span>], [<span class="var-type">CRM_Page|<a href="../CRM/CRM_Form.html">CRM_Form</a></span>&nbsp;<span class="var-name">$store</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodexport" title="details" class="method-name">export</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetContent" title="details" class="method-name">&amp;getContent</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetPager" title="details" class="method-name">getPager</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetSort" title="details" class="method-name">getSort</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodhasChanged" title="details" class="method-name">hasChanged</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodmoveFromSessionToTemplate" title="details" class="method-name">moveFromSessionToTemplate</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrun" title="details" class="method-name">run</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetContent" title="details" class="method-name">setContent</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">&$content</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber">152</span>)
+ </h4> 
+<h4><i>Object</i> <strong>__construct(
+<a href="../CRM/CRM_Selector_API.html">CRM_Selector_API</a>
+$object, int
+$pageID, int
+$sortID, int
+$action, [int
+$output = self::TEMPLATE], [CRM_Page|<a href="../CRM/CRM_Form.html">CRM_Form</a>
+$store = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Class constructor</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../CRM/CRM_Selector_API.html">CRM_Selector_API</a> $object</strong>: an object that implements the selector API</li>
+			<li><strong>int $pageID</strong>: default pageID</li>
+			<li><strong>int $sortID</strong>: default sortID</li>
+			<li><strong>int $action</strong>: the actions to potentially support</li>
+			<li><strong>int $output</strong>: what should we do with our results</li>
+			<li><strong>CRM_Page|<a href="../CRM/CRM_Form.html">CRM_Form</a> $store</strong>: place in session to store some values</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodexport" id="methodexport"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method export</strong> (line <span class="linenumber">260</span>)
+ </h4> 
+<h4><i>void</i> <strong>export(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetContent" id="methodgetContent"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getContent</strong> (line <span class="linenumber">293</span>)
+ </h4> 
+<h4><i>void</i> <strong>&amp;getContent(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for content</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetPager" id="methodgetPager"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPager</strong> (line <span class="linenumber">252</span>)
+ </h4> 
+<h4><i>void</i> <strong>getPager(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetSort" id="methodgetSort"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getSort</strong> (line <span class="linenumber">256</span>)
+ </h4> 
+<h4><i>void</i> <strong>getSort(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodhasChanged" id="methodhasChanged"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method hasChanged</strong> (line <span class="linenumber">183</span>)
+ </h4> 
+<h4><i>void</i> <strong>hasChanged(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodmoveFromSessionToTemplate" id="methodmoveFromSessionToTemplate"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method moveFromSessionToTemplate</strong> (line <span class="linenumber">235</span>)
+ </h4> 
+<h4><i>void</i> <strong>moveFromSessionToTemplate(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodrun" id="methodrun"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method run</strong> (line <span class="linenumber">191</span>)
+ </h4> 
+<h4><i>void</i> <strong>run(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodsetContent" id="methodsetContent"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setContent</strong> (line <span class="linenumber">283</span>)
+ </h4> 
+<h4><i>void</i> <strong>setContent(
+string
+&$content)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>setter for content</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string &$content</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:19:43 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

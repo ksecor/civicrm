@@ -1,0 +1,1076 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class CRM_Form</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class CRM_Form
+</h2> (line <span class="linenumber">44</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+HTML_QuickForm
+   |
+   --<a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html">HTML_QuickForm_Page</a>
+      |
+      --CRM_Form</pre>
+<p>
+	<b><i>Located in File: <a href="_CRM_Form_php.html">/CRM/Form.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The class represents a page of a multipage form.</h5>
+<div class="desc"><p>Generally you'll need to subclass this and define your buildForm()  method that will build the form. While it is also possible to instantiate  this class and build the form manually, this is not the recommended way.</p></div>
+<ul>
+		<li><strong>version:</strong> - $Revision: 1.3 $</li>
+		<li><strong>author:</strong> - Alexey Borzov &lt;<a href="mailto:avb@php.net">avb@php.net</a>&gt;</li>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from CRM_Form:</span>
+ 		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Contact.html">CRM_Contact_Form_Contact</a></dt>
+		<dd>This class generates form components generic to all the contact types.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Location.html">CRM_Contact_Form_Location</a></dt>
+		<dd>The class represents a page of a multipage form.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Search.html">CRM_Contact_Form_Search</a></dt>
+		<dd>Base Search / View form for *all* listing of multiple</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Organization.html">CRM_Contact_Form_Organization</a></dt>
+		<dd>Auxilary class to provide support to the Contact Form class. Does this by implementing</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$_mode" title="details" class="property"><strong>$_mode</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_name" title="details" class="property"><strong>$_name</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$_renderer" title="details" class="property"><strong>$_renderer</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$_state" title="details" class="property"><strong>$_state</strong></a>
+</div>
+<hr />
+<a name="var$_mode" id="var$_mode"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_mode</strong> (line <span class="linenumber">62</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The mode of operation for this form</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_name" id="var$_name"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_name</strong> (line <span class="linenumber">56</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The name of this form</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_renderer" id="var$_renderer"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_renderer</strong> (line <span class="linenumber">68</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>the renderer used for this form</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_state" id="var$_state"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_state</strong> (line <span class="linenumber">50</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The state object that this form belongs to</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="const-title">
+    <a href="#constATTR_SPACING" title="details" class="property"><strong>ATTR_SPACING</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constCB_PREFIX" title="details" class="property"><strong>CB_PREFIX</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constCB_PREFIX_LEN" title="details" class="property"><strong>CB_PREFIX_LEN</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constCB_PREFIY" title="details" class="property"><strong>CB_PREFIY</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constCB_PREFIZ" title="details" class="property"><strong>CB_PREFIZ</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constMODE_ADD" title="details" class="property"><strong>MODE_ADD</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constMODE_DELETE" title="details" class="property"><strong>MODE_DELETE</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constMODE_NONE" title="details" class="property"><strong>MODE_NONE</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constMODE_SEARCH" title="details" class="property"><strong>MODE_SEARCH</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constMODE_UPDATE" title="details" class="property"><strong>MODE_UPDATE</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constMODE_VIEW" title="details" class="property"><strong>MODE_VIEW</strong></a>
+</div>
+<hr />
+<a name="constATTR_SPACING" id="constATTR_SPACING"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">ATTR_SPACING =  '&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;'</strong> (line <span class="linenumber">78</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>constants for attributes for various form elements  attempt to standardize on the number of variations that we  use of the below form elements</h5>
+<ul>
+		<li><strong>var:</strong> - string</li>
+	</ul>
+</div>
+<a name="constCB_PREFIX" id="constCB_PREFIX"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">CB_PREFIX =  'mark_x_'</strong> (line <span class="linenumber">102</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>All checkboxes are defined with a common prefix. This allows us to</h5>
+<div class="desc"><p>have the same javascript to check / clear all the checkboxes etc  If u have multiple groups of checkboxes, you will need to give them different  ids to avoid potential name collision</p></div>
+<ul>
+		<li><strong>var:</strong> - string / int</li>
+	</ul>
+</div>
+<a name="constCB_PREFIX_LEN" id="constCB_PREFIX_LEN"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">CB_PREFIX_LEN =  7</strong> (line <span class="linenumber">105</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constCB_PREFIY" id="constCB_PREFIY"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">CB_PREFIY =  'mark_y_'</strong> (line <span class="linenumber">103</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constCB_PREFIZ" id="constCB_PREFIZ"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">CB_PREFIZ =  'mark_z_'</strong> (line <span class="linenumber">104</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constMODE_ADD" id="constMODE_ADD"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">MODE_ADD =    1</strong> (line <span class="linenumber">87</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constMODE_DELETE" id="constMODE_DELETE"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">MODE_DELETE =    8</strong> (line <span class="linenumber">90</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constMODE_NONE" id="constMODE_NONE"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">MODE_NONE =    0</strong> (line <span class="linenumber">86</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>constants for various modes that the form can operate as</h5>
+<ul>
+		<li><strong>var:</strong> - int</li>
+	</ul>
+</div>
+<a name="constMODE_SEARCH" id="constMODE_SEARCH"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">MODE_SEARCH =   16</strong> (line <span class="linenumber">91</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constMODE_UPDATE" id="constMODE_UPDATE"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">MODE_UPDATE =    4</strong> (line <span class="linenumber">89</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constMODE_VIEW" id="constMODE_VIEW"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">MODE_VIEW =    2</strong> (line <span class="linenumber">88</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">object html</span>
+        <a href="#methodadd" title="details" class="method-name">add</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$label</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$attributes</span> = <span class="var-default">''</span>], [<span class="var-type">bool</span>&nbsp;<span class="var-name">$required</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddDefaultButtons" title="details" class="method-name">addDefaultButtons</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddRules" title="details" class="method-name">addRules</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodassign" title="details" class="method-name">assign</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$var</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>], <span class="var-type">array|string</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodbuildForm" title="details" class="method-name">buildForm</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodbuildQuickForm" title="details" class="method-name">buildQuickForm</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">''</span>], [<span class="var-type">object</span>&nbsp;<span class="var-name">$state</span> = <span class="var-default">null</span>], [<span class="var-type">enum</span>&nbsp;<span class="var-name">$mode</span> = <span class="var-default">self::MODE_NONE</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoderror" title="details" class="method-name">error</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$code</span> = <span class="var-default">null</span>], [<span class="var-type"><a href="../CRM/CRM_DAO.html">CRM_DAO</a></span>&nbsp;<span class="var-name">$dao</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodget" title="details" class="method-name">get</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetDisplayName" title="details" class="method-name">getDisplayName</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetFormAction" title="details" class="method-name">getFormAction</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodgetMode" title="details" class="method-name">getMode</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetName" title="details" class="method-name">getName</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object</span>
+        <a href="#methodgetRenderer" title="details" class="method-name">getRenderer</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object</span>
+        <a href="#methodgetState" title="details" class="method-name">getState</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodgetStateType" title="details" class="method-name">getStateType</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetTemplateFileName" title="details" class="method-name">getTemplateFileName</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodisSimpleForm" title="details" class="method-name">isSimpleForm</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodpostProcess" title="details" class="method-name">postProcess</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodpreProcess" title="details" class="method-name">preProcess</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodset" title="details" class="method-name">set</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodsetDefaultValues" title="details" class="method-name">setDefaultValues</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetFormAction" title="details" class="method-name">setFormAction</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$action</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodtoSmarty" title="details" class="method-name">toSmarty</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodadd" id="methodadd"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method add</strong> (line <span class="linenumber">161</span>)
+ </h4> 
+<h4><i>object html</i> <strong>add(
+string
+$type, string
+$name, string
+$label, [string
+$attributes = ''], [bool
+$required = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Simple easy to use wrapper around addElement. Deal with  simple validation rules</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $type</strong>: type of html element to be added</li>
+			<li><strong>string $name</strong>: name of the html element</li>
+			<li><strong>string $label</strong>: display label for the html element</li>
+			<li><strong>string $attributes</strong>: attributes used for this element.                These are not default values</li>
+			<li><strong>bool $required</strong>: is this a required field</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - element, could be an error object</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddDefaultButtons" id="methodaddDefaultButtons"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addDefaultButtons</strong> (line <span class="linenumber">273</span>)
+ </h4> 
+<h4><i>void</i> <strong>addDefaultButtons(
+array
+$params)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Add default Next / Back buttons</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $params</strong>: array of associative arrays in the order in which the buttons should be                 displayed. The associate array has 3 fields: 'type', 'name' and 'isDefault'                 The base form class will define a bunch of static arrays for commonly used                 formats</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddRules" id="methodaddRules"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addRules</strong> (line <span class="linenumber">238</span>)
+ </h4> 
+<h4><i>void</i> <strong>addRules(
+)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Contact.html#methodaddRules">CRM_Contact_Form_Contact::addRules()</a></dt>
+		<dd>This function is used to add the rules (mainly global rules) for form.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Search.html#methodaddRules">CRM_Contact_Form_Search::addRules()</a></dt>
+		<dd>Add local and global form rules</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This is a virtual function that adds group and global rules to  the form. Keeping it distinct from the form to keep code small  and localized in the form building code</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodassign" id="methodassign"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method assign</strong> (line <span class="linenumber">468</span>)
+ </h4> 
+<h4><i>void</i> <strong>assign(
+mixed
+$var, [mixed
+$value = null], array|string
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>assign value to name in template</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array|string $name</strong>: name  of variable</li>
+			<li><strong>mixed $value</strong>: value of varaible</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodbuildForm" id="methodbuildForm"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method buildForm</strong> (line <span class="linenumber">247</span>)
+ </h4> 
+<h4><i>void</i> <strong>buildForm(
+)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#methodbuildForm">HTML_QuickForm_Page::buildForm()</a> Builds a form.</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Core function that builds the form. We redefine this function  here and expect all CRM forms to build their form in the function  buildQuickForm.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodbuildQuickForm" id="methodbuildQuickForm"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method buildQuickForm</strong> (line <span class="linenumber">215</span>)
+ </h4> 
+<h4><i>void</i> <strong>buildQuickForm(
+)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Contact.html#methodbuildQuickForm">CRM_Contact_Form_Contact::buildQuickForm()</a></dt>
+		<dd>Function to actually build the form</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Search.html#methodbuildQuickForm">CRM_Contact_Form_Search::buildQuickForm()</a></dt>
+		<dd>Build the form</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Organization.html#methodbuildQuickForm">CRM_Contact_Form_Organization::buildQuickForm()</a></dt>
+		<dd>This function provides the HTML form elements that are specific to this Contact Type</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This virtual function is used to build the form. It replaces the  buildForm associated with QuickForm_Page. This allows us to put  preProcess in front of the actual form building routine</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber">121</span>)
+ </h4> 
+<h4><i>object</i> <strong>__construct(
+[string
+$name = ''], [object
+$state = null], [enum
+$mode = self::MODE_NONE])</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Contact.html#method__construct">CRM_Contact_Form_Contact::__construct()</a></dt>
+		<dd>class constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Search.html#method__construct">CRM_Contact_Form_Search::__construct()</a></dt>
+		<dd>Class construtor</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Constructor for the basic form page</h5>
+<div class="desc"><p>We should not use QuickForm directly. This class provides a lot  of default convenient functions, rules and buttons</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Form Name</li>
+			<li><strong>object $state</strong>: State associated with this form</li>
+			<li><strong>enum $mode</strong>: The mode the form is operating in (None/Create/View/Update/Delete)</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoderror" id="methoderror"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method error</strong> (line <span class="linenumber">413</span>)
+ </h4> 
+<h4><i>void</i> <strong>error(
+string
+$message, [int
+$code = null], [<a href="../CRM/CRM_DAO.html">CRM_DAO</a>
+$dao = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Error reporting mechanism</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $message</strong>: Error Message</li>
+			<li><strong>int $code</strong>: Error Code</li>
+			<li><strong><a href="../CRM/CRM_DAO.html">CRM_DAO</a> $dao</strong>: A data access object on which we perform a rollback if non - empty</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodget" id="methodget"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method get</strong> (line <span class="linenumber">446</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>get(
+string
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the variable from the form scope</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: name  : name  of the variable</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetDisplayName" id="methodgetDisplayName"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getDisplayName</strong> (line <span class="linenumber">336</span>)
+ </h4> 
+<h4><i>string</i> <strong>getDisplayName(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter function for DisplayName. Should be over-ridden by derived class</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetFormAction" id="methodgetFormAction"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getFormAction</strong> (line <span class="linenumber">346</span>)
+ </h4> 
+<h4><i>string</i> <strong>getFormAction(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter function for Form Action</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetMode" id="methodgetMode"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getMode</strong> (line <span class="linenumber">455</span>)
+ </h4> 
+<h4><i>int</i> <strong>getMode(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter for mode</h5>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetName" id="methodgetName"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getName</strong> (line <span class="linenumber">296</span>)
+ </h4> 
+<h4><i>string</i> <strong>getName(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter function for Name</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetRenderer" id="methodgetRenderer"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getRenderer</strong> (line <span class="linenumber">382</span>)
+ </h4> 
+<h4><i>object</i> <strong>getRenderer(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter function for renderer. If renderer is not set  create one and initialize it</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetState" id="methodgetState"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getState</strong> (line <span class="linenumber">306</span>)
+ </h4> 
+<h4><i>object</i> <strong>getState(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter function for State</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetStateType" id="methodgetStateType"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getStateType</strong> (line <span class="linenumber">316</span>)
+ </h4> 
+<h4><i>int</i> <strong>getStateType(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>getter function for StateType</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetTemplateFileName" id="methodgetTemplateFileName"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getTemplateFileName</strong> (line <span class="linenumber">398</span>)
+ </h4> 
+<h4><i>string</i> <strong>getTemplateFileName(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Use the form name to create the tpl file name</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisSimpleForm" id="methodisSimpleForm"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isSimpleForm</strong> (line <span class="linenumber">326</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>isSimpleForm(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>boolean function to determine if this is a one form page</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodpostProcess" id="methodpostProcess"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method postProcess</strong> (line <span class="linenumber">203</span>)
+ </h4> 
+<h4><i>void</i> <strong>postProcess(
+)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Contact.html#methodpostProcess">CRM_Contact_Form_Contact::postProcess()</a></dt>
+		<dd>This function does all the processing of the form for New Contact Individual.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Search.html#methodpostProcess">CRM_Contact_Form_Search::postProcess()</a></dt>
+		<dd></dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This function is called after the form is validated. Any  processing of form state etc should be done in this function.</h5>
+<div class="desc"><p>Typically all processing associated with a form should be done  here and relevant state should be stored in the session</p><p>This is a virtual function and should be redefined if needed</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodpreProcess" id="methodpreProcess"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method preProcess</strong> (line <span class="linenumber">188</span>)
+ </h4> 
+<h4><i>void</i> <strong>preProcess(
+)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Contact.html#methodpreProcess">CRM_Contact_Form_Contact::preProcess()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Search.html#methodpreProcess">CRM_Contact_Form_Search::preProcess()</a></dt>
+		<dd></dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This function is called before buildForm. Any pre-processing that  needs to be done for buildForm should be done here</h5>
+<div class="desc"><p>This is a virtual function and should be redefined if needed</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodset" id="methodset"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method set</strong> (line <span class="linenumber">433</span>)
+ </h4> 
+<h4><i>void</i> <strong>set(
+string
+$name, mixed
+$value)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Store the variable with the value in the form scope</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: name  : name  of the variable</li>
+			<li><strong>mixed $value</strong>: value : value of the variable</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetDefaultValues" id="methodsetDefaultValues"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setDefaultValues</strong> (line <span class="linenumber">226</span>)
+ </h4> 
+<h4><i>array</i> <strong>setDefaultValues(
+)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Contact.html#methodsetDefaultValues">CRM_Contact_Form_Contact::setDefaultValues()</a></dt>
+		<dd>This function sets the default values for the form. Note that in edit/view mode  the default values are retrieved from the database</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CRM/CRM_Contact_Form_Search.html#methodsetDefaultValues">CRM_Contact_Form_Search::setDefaultValues()</a></dt>
+		<dd>Set the default form values</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>This virtual function is used to set the default values of  various form elements</h5>
+<div class="desc"><p>access        public</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - reference to the array of default values</li>
+		</ul>
+</div>
+<a name="methodsetFormAction" id="methodsetFormAction"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setFormAction</strong> (line <span class="linenumber">357</span>)
+ </h4> 
+<h4><i>void</i> <strong>setFormAction(
+string
+$action)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>setter function for Form Action</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $action</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodtoSmarty" id="methodtoSmarty"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method toSmarty</strong> (line <span class="linenumber">367</span>)
+ </h4> 
+<h4><i>string</i> <strong>toSmarty(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>render form and return contents</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html">HTML_QuickForm_Page</a></h4>
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#var$controller">HTML_QuickForm_Page::$controller</a></strong> - Contains a reference to a Controller object containing this page
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#var$_actions">HTML_QuickForm_Page::$_actions</a></strong> - Contains the mapping of actions to corresponding HTML_QuickForm_Action objects
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#var$_formBuilt">HTML_QuickForm_Page::$_formBuilt</a></strong> - Should be set to true on first call to buildForm()
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html">HTML_QuickForm_Page</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#methodHTML_QuickForm_Page">HTML_QuickForm_Page::HTML_QuickForm_Page()</a></strong> - Class constructor
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#methodaddAction">HTML_QuickForm_Page::addAction()</a></strong> - Registers a handler for a specific action.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#methodbuildForm">HTML_QuickForm_Page::buildForm()</a></strong> - Builds a form.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#methodgetButtonName">HTML_QuickForm_Page::getButtonName()</a></strong> - Returns a name for a submit button that will invoke a specific action.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#methodhandle">HTML_QuickForm_Page::handle()</a></strong> - Handles an action.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#methodisFormBuilt">HTML_QuickForm_Page::isFormBuilt()</a></strong> - Checks whether the form was already built.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#methodloadValues">HTML_QuickForm_Page::loadValues()</a></strong> - Loads the submit values from the array.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../HTML_QuickForm_Controller/HTML_QuickForm_Page.html#methodsetDefaultAction">HTML_QuickForm_Page::setDefaultAction()</a></strong> - Sets the default action invoked on page-form submit
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:16 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

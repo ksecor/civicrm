@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class SimpleTag</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class SimpleTag
+</h2> (line <span class="linenumber">20</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_tag_php.html">/packages/SimpleTest/tag.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>HTML or XML tag.</h5>
+<ul>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from SimpleTag:</span>
+ 		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleTitleTag.html">SimpleTitleTag</a></dt>
+		<dd>Page title.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleAnchorTag.html">SimpleAnchorTag</a></dt>
+		<dd>Link.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleWidget.html">SimpleWidget</a></dt>
+		<dd>Form element.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleFormTag.html">SimpleFormTag</a></dt>
+		<dd>Tag to aid parsing the form.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleFrameTag.html">SimpleFrameTag</a></dt>
+		<dd>Tag to aid parsing the frames in a page.</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_attributes" title="details" class="property"><strong>$_attributes</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_content" title="details" class="property"><strong>$_content</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_name" title="details" class="property"><strong>$_name</strong></a>
+</div>
+<hr />
+<a name="var$_attributes" id="var$_attributes"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_attributes</strong> (line <span class="linenumber">22</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_content" id="var$_content"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_content</strong> (line <span class="linenumber">23</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_name" id="var$_name"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_name</strong> (line <span class="linenumber">21</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">SimpleTag</span>
+        <a href="#methodSimpleTag" title="details" class="method-name">SimpleTag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">hash</span>&nbsp;<span class="var-name">$attributes</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddContent" title="details" class="method-name">addContent</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$content</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddTag" title="details" class="method-name">addTag</a>
+        (<span class="var-type"><a href="../../SimpleTest/WebTester/SimpleTag.html">SimpleTag</a></span>&nbsp;<span class="var-name">&$tag</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodexpectEndTag" title="details" class="method-name">expectEndTag</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetAttribute" title="details" class="method-name">getAttribute</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$label</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetChildElements" title="details" class="method-name">getChildElements</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetContent" title="details" class="method-name">getContent</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetTagName" title="details" class="method-name">getTagName</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetText" title="details" class="method-name">getText</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodisId" title="details" class="method-name">isId</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$id</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_setAttribute" title="details" class="method-name">_setAttribute</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$label</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodSimpleTag" id="methodSimpleTag"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor SimpleTag</strong> (line <span class="linenumber">33</span>)
+ </h4> 
+<h4><i>SimpleTag</i> <strong>SimpleTag(
+string
+$name, hash
+$attributes)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Starts with a named tag with attributes only.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Tag name.</li>
+			<li><strong>hash $attributes</strong>: Attribute names and                                string values. Note that                                the keys must have been                                converted to lower case.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodaddContent" id="methodaddContent"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addContent</strong> (line <span class="linenumber">54</span>)
+ </h4> 
+<h4><i>void</i> <strong>addContent(
+string
+$content)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleSelectionTag.html#methodaddContent">SimpleSelectionTag::addContent()</a></dt>
+		<dd>Text within the selection element is ignored.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/MultipleSelectionTag.html#methodaddContent">MultipleSelectionTag::addContent()</a></dt>
+		<dd>Text within the selection element is ignored.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Appends string content to the current content.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $content</strong>: Additional text.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddTag" id="methodaddTag"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addTag</strong> (line <span class="linenumber">63</span>)
+ </h4> 
+<h4><i>void</i> <strong>addTag(
+<a href="../../SimpleTest/WebTester/SimpleTag.html">SimpleTag</a>
+&$tag)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleSelectionTag.html#methodaddTag">SimpleSelectionTag::addTag()</a></dt>
+		<dd>Adds an option tag to a selection field.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/MultipleSelectionTag.html#methodaddTag">MultipleSelectionTag::addTag()</a></dt>
+		<dd>Adds an option tag to a selection field.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds an enclosed tag to the content.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../../SimpleTest/WebTester/SimpleTag.html">SimpleTag</a> $tag</strong>: New tag.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodexpectEndTag" id="methodexpectEndTag"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method expectEndTag</strong> (line <span class="linenumber">45</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>expectEndTag(
+)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleTextTag.html#methodexpectEndTag">SimpleTextTag::expectEndTag()</a></dt>
+		<dd>Tag contains no content.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleSubmitTag.html#methodexpectEndTag">SimpleSubmitTag::expectEndTag()</a></dt>
+		<dd>Tag contains no end element.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleImageSubmitTag.html#methodexpectEndTag">SimpleImageSubmitTag::expectEndTag()</a></dt>
+		<dd>Tag contains no end element.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleButtonTag.html#methodexpectEndTag">SimpleButtonTag::expectEndTag()</a></dt>
+		<dd>Check to see if the tag can have both start and     end tags with content in between.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleCheckboxTag.html#methodexpectEndTag">SimpleCheckboxTag::expectEndTag()</a></dt>
+		<dd>Tag contains no content.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleRadioButtonTag.html#methodexpectEndTag">SimpleRadioButtonTag::expectEndTag()</a></dt>
+		<dd>Tag contains no content.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/SimpleFrameTag.html#methodexpectEndTag">SimpleFrameTag::expectEndTag()</a></dt>
+		<dd>Tag contains no content.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Check to see if the tag can have both start and     end tags with content in between.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if content allowed.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetAttribute" id="methodgetAttribute"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getAttribute</strong> (line <span class="linenumber">90</span>)
+ </h4> 
+<h4><i>string</i> <strong>getAttribute(
+string
+$label)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for an attribute.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $label</strong>: Attribute name.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Attribute value.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetChildElements" id="methodgetChildElements"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getChildElements</strong> (line <span class="linenumber">80</span>)
+ </h4> 
+<h4><i>array</i> <strong>getChildElements(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>List oflegal child elements.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - List of element names.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetContent" id="methodgetContent"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getContent</strong> (line <span class="linenumber">116</span>)
+ </h4> 
+<h4><i>string</i> <strong>getContent(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for the whole content so far.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Content as big raw string.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetTagName" id="methodgetTagName"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getTagName</strong> (line <span class="linenumber">71</span>)
+ </h4> 
+<h4><i>string</i> <strong>getTagName(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for tag name.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Name of tag.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetText" id="methodgetText"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getText</strong> (line <span class="linenumber">127</span>)
+ </h4> 
+<h4><i>string</i> <strong>getText(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for content reduced to visible text. Acts     like a text mode browser, normalising space and     reducing images to their alt text.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Content as plain text.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisId" id="methodisId"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isId</strong> (line <span class="linenumber">137</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>isId(
+string
+$id)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Test to see if id attribute matches.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $id</strong>: ID to test against.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True on match.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method_setAttribute" id="method_setAttribute"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _setAttribute</strong> (line <span class="linenumber">107</span>)
+ </h4> 
+<h4><i>string</i> <strong>_setAttribute(
+string
+$label, mixed
+$value)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets an attribute.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $label</strong>: Attribute name.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - New attribute value.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:44 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

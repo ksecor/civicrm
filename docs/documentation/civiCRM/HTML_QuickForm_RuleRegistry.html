@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class HTML_QuickForm_RuleRegistry</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class HTML_QuickForm_RuleRegistry
+</h2> (line <span class="linenumber">27</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_HTML_QuickForm_RuleRegistry_php.html">/packages/HTML/QuickForm/RuleRegistry.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Registers rule objects and uses them for validation</h5>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">object</span>
+        <a href="#methodgetRule" title="details" class="method-name">&amp;getRule</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$ruleName</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetValidationScript" title="details" class="method-name">getValidationScript</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">&$element</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$elementName</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$ruleData</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodregisterRule" title="details" class="method-name">registerRule</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$ruleName</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$data1</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$data2</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">object Reference</span>
+        <a href="#methodsingleton" title="details" class="method-name">&amp;singleton</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodvalidate" title="details" class="method-name">validate</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$ruleName</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$values</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">null</span>], [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$multiple</span> = <span class="var-default">false</span>])
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodgetRule" id="methodgetRule"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getRule</strong> (line <span class="linenumber">110</span>)
+ </h4> 
+<h4><i>object</i> <strong>&amp;getRule(
+string
+$ruleName)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns a reference to the requested rule object</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $ruleName</strong>: Name of the requested rule</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetValidationScript" id="methodgetValidationScript"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getValidationScript</strong> (line <span class="linenumber">161</span>)
+ </h4> 
+<h4><i>string</i> <strong>getValidationScript(
+mixed
+&$element, string
+$elementName, array
+$ruleData)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the validation test in javascript code</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed &$element</strong>: Element(s) the rule applies to</li>
+			<li><strong>string $elementName</strong>: Element name, in case $element is not array</li>
+			<li><strong>array $ruleData</strong>: Rule data</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - JavaScript for the rule</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodregisterRule" id="methodregisterRule"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method registerRule</strong> (line <span class="linenumber">77</span>)
+ </h4> 
+<h4><i>void</i> <strong>registerRule(
+string
+$ruleName, string
+$type, string
+$data1, [string
+$data2 = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Registers a new validation rule</h5>
+<div class="desc"><p>In order to use a custom rule in your form, you need to register it  first. For regular expressions, one can directly use the 'regex' type  rule in addRule(), this is faster than registering the rule.</p><p>Functions and methods can be registered. Use the 'function' type.  When registering a method, specify the class name as second parameter.</p><p>You can also register an HTML_QuickForm_Rule subclass with its own  validate() method.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $ruleName</strong>: Name of validation rule</li>
+			<li><strong>string $type</strong>: Either: 'regex', 'function' or null</li>
+			<li><strong>string $data1</strong>: Name of function, regular expression or                                   HTML_QuickForm_Rule object class name</li>
+			<li><strong>string $data2</strong>: Object parent of above function or HTML_QuickForm_Rule file path</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsingleton" id="methodsingleton"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method singleton</strong> (line <span class="linenumber">47</span>)
+ </h4> 
+<h4><i>object Reference</i> <strong>&amp;singleton(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns a singleton of HTML_QuickForm_RuleRegistry</h5>
+<div class="desc"><p>Usually, only one RuleRegistry object is needed, this is the reason  why it is recommended to use this method to get the validation object.</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - to the HTML_QuickForm_RuleRegistry singleton</li>
+			<li><strong>static</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodvalidate" id="methodvalidate"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method validate</strong> (line <span class="linenumber">135</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>validate(
+string
+$ruleName, mixed
+$values, [mixed
+$options = null], [mixed
+$multiple = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Performs validation on the given values</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $ruleName</strong>: Name of the rule to be used</li>
+			<li><strong>mixed $values</strong>: Can be a scalar or an array of values                                       to be validated</li>
+			<li><strong>mixed $options</strong>: Options used by the rule</li>
+			<li><strong>mixed $multiple</strong>: Whether to validate an array of values altogether</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - true if no error found, int of valid values (when an array of values is given) or false if error</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:18 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class SimpleErrorQueue</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class SimpleErrorQueue
+</h2> (line <span class="linenumber">19</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_errors_php.html">/packages/SimpleTest/errors.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Singleton error queue used to record trapped     errors.</h5>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_queue" title="details" class="property"><strong>$_queue</strong></a>
+</div>
+<hr />
+<a name="var$_queue" id="var$_queue"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_queue</strong> (line <span class="linenumber">20</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">SimpleErrorQueue</span>
+        <a href="#methodSimpleErrorQueue" title="details" class="method-name">SimpleErrorQueue</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodadd" title="details" class="method-name">add</a>
+        (<span class="var-type">$severity</span>&nbsp;<span class="var-name">$severity</span>, <span class="var-type">$message</span>&nbsp;<span class="var-name">$message</span>, <span class="var-type">$filename</span>&nbsp;<span class="var-name">$filename</span>, <span class="var-type">$line</span>&nbsp;<span class="var-name">$line</span>, <span class="var-type">$super_globals</span>&nbsp;<span class="var-name">$super_globals</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodclear" title="details" class="method-name">clear</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">False</span>
+        <a href="#methodextract" title="details" class="method-name">extract</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">String</span>
+        <a href="#methodgetSeverityAsString" title="details" class="method-name">getSeverityAsString</a>
+        (<span class="var-type">$severity</span>&nbsp;<span class="var-name">$severity</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">Global</span>
+        <a href="#methodinstance" title="details" class="method-name">&amp;instance</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">True</span>
+        <a href="#methodisEmpty" title="details" class="method-name">isEmpty</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodSimpleErrorQueue" id="methodSimpleErrorQueue"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor SimpleErrorQueue</strong> (line <span class="linenumber">26</span>)
+ </h4> 
+<h4><i>SimpleErrorQueue</i> <strong>SimpleErrorQueue(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Starts with an empty queue.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodadd" id="methodadd"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method add</strong> (line <span class="linenumber">39</span>)
+ </h4> 
+<h4><i>void</i> <strong>add(
+$severity
+$severity, $message
+$message, $filename
+$filename, $line
+$line, $super_globals
+$super_globals)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Adds an error to the front of the queue.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$severity $severity</strong>: PHP error code.</li>
+			<li><strong>$message $message</strong>: Text of error.</li>
+			<li><strong>$filename $filename</strong>: File error occoured in.</li>
+			<li><strong>$line $line</strong>: Line number of error.</li>
+			<li><strong>$super_globals $super_globals</strong>: Hash of PHP super global arrays.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodclear" id="methodclear"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method clear</strong> (line <span class="linenumber">65</span>)
+ </h4> 
+<h4><i>void</i> <strong>clear(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Discards the contents of the error queue.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodextract" id="methodextract"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method extract</strong> (line <span class="linenumber">54</span>)
+ </h4> 
+<h4><i>False</i> <strong>extract(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Pulls the earliest error from the queue.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - if none, or a list of error                 information. Elements are: severity                 as the PHP error code, the error message,                 the file with the error, the line number                 and a list of PHP super global arrays.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetSeverityAsString" id="methodgetSeverityAsString"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getSeverityAsString</strong> (line <span class="linenumber">99</span>)
+ </h4> 
+<h4><i>String</i> <strong>getSeverityAsString(
+$severity
+$severity)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Converst an error code into it's string     representation.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$severity $severity</strong>: PHP integer error code.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - version of error code.</li>
+			<li><strong>static</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodinstance" id="methodinstance"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method instance</strong> (line <span class="linenumber">83</span>)
+ </h4> 
+<h4><i>Global</i> <strong>&amp;instance(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Global access to a single error queue.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - error queue object.</li>
+			<li><strong>static</strong> - </li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisEmpty" id="methodisEmpty"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isEmpty</strong> (line <span class="linenumber">73</span>)
+ </h4> 
+<h4><i>True</i> <strong>isEmpty(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests to see if the queue is empty.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - if empty.</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:02 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

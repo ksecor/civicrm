@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class HTML_QuickForm_Renderer_ITStatic</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class HTML_QuickForm_Renderer_ITStatic
+</h2> (line <span class="linenumber">34</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../civiCRM/HTML_QuickForm_Renderer.html">HTML_QuickForm_Renderer</a>
+   |
+   --HTML_QuickForm_Renderer_ITStatic</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_HTML_QuickForm_Renderer_ITStatic_php.html">/packages/HTML/QuickForm/Renderer/ITStatic.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>A static renderer for HTML_QuickForm compatible  with HTML_Template_IT and HTML_Template_Sigma.</h5>
+<div class="desc"><p>As opposed to the dynamic renderer, this renderer needs  every elements and labels in the form to be specified by  placeholders at the position you want them to be displayed.</p></div>
+<ul>
+		<li><strong>access:</strong> - public</li>
+		<li><strong>author:</strong> - Bertrand Mansion &lt;<a href="mailto:bmansion@mamasam.com">bmansion@mamasam.com</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$_duplicateElements" title="details" class="property"><strong>$_duplicateElements</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">int</span>
+    <a href="#var$_elementIndex" title="details" class="property"><strong>$_elementIndex</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_error" title="details" class="property"><strong>$_error</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$_errors" title="details" class="property"><strong>$_errors</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_formName" title="details" class="property"><strong>$_formName</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_hidden" title="details" class="property"><strong>$_hidden</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_inGroup" title="details" class="property"><strong>$_inGroup</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_required" title="details" class="property"><strong>$_required</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">bool</span>
+    <a href="#var$_showRequired" title="details" class="property"><strong>$_showRequired</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">object</span>
+    <a href="#var$_tpl" title="details" class="property"><strong>$_tpl</strong></a>
+</div>
+<hr />
+<a name="var$_duplicateElements" id="var$_duplicateElements"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_duplicateElements = array()</strong> (line <span class="linenumber">76</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>If elements have been added with the same name</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_elementIndex" id="var$_elementIndex"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_elementIndex =  0</strong> (line <span class="linenumber">70</span>)
+ </h4>
+<h4>Data type : int</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Index of the element in its group</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_error" id="var$_error"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_error =  '&lt;font color=&quot;red&quot;&gt;{error}&lt;/font&gt;&lt;br /&gt;{html}'</strong> (line <span class="linenumber">88</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>How to handle error messages in form validation</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_errors" id="var$_errors"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_errors = array()</strong> (line <span class="linenumber">52</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The errors that were not shown near concrete fields go here</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_formName" id="var$_formName"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_formName =  'form'</strong> (line <span class="linenumber">46</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Rendered form name</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_hidden" id="var$_hidden"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_hidden =  ''</strong> (line <span class="linenumber">94</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Collected HTML for hidden elements, if needed</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_inGroup" id="var$_inGroup"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_inGroup</strong> (line <span class="linenumber">64</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Which group are we currently parsing ?</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_required" id="var$_required"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_required =  '{label}&lt;font size=&quot;1&quot; color=&quot;red&quot;&gt;*&lt;/font&gt;'</strong> (line <span class="linenumber">82</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>How to handle the required tag for required fields</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_showRequired" id="var$_showRequired"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_showRequired =  false</strong> (line <span class="linenumber">58</span>)
+ </h4>
+<h4>Data type : bool</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Show the block with required note?</h5>
+<ul>
+	</ul>
+</div>
+<a name="var$_tpl" id="var$_tpl"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_tpl =  null</strong> (line <span class="linenumber">40</span>)
+ </h4>
+<h4>Data type : object</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>An HTML_Template_IT or some other API compatible Template instance</h5>
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">HTML_QuickForm_Renderer_ITStatic</span>
+        <a href="#methodHTML_QuickForm_Renderer_ITStatic" title="details" class="method-name">HTML_QuickForm_Renderer_ITStatic</a>
+        (<span class="var-type">object An</span>&nbsp;<span class="var-name">&$tpl</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodfinishForm" title="details" class="method-name">finishForm</a>
+        (<span class="var-type">object An</span>&nbsp;<span class="var-name">&$form</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodfinishGroup" title="details" class="method-name">finishGroup</a>
+        (<span class="var-type">object An</span>&nbsp;<span class="var-name">&$group</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrenderElement" title="details" class="method-name">renderElement</a>
+        (<span class="var-type">object An</span>&nbsp;<span class="var-name">&$element</span>, <span class="var-type">bool</span>&nbsp;<span class="var-name">$required</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$error</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrenderHeader" title="details" class="method-name">renderHeader</a>
+        (<span class="var-type">object An</span>&nbsp;<span class="var-name">&$header</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodrenderHidden" title="details" class="method-name">renderHidden</a>
+        (<span class="var-type">object An</span>&nbsp;<span class="var-name">&$element</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetErrorTemplate" title="details" class="method-name">setErrorTemplate</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$template</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetRequiredTemplate" title="details" class="method-name">setRequiredTemplate</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$template</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodstartForm" title="details" class="method-name">startForm</a>
+        (<span class="var-type">object An</span>&nbsp;<span class="var-name">&$form</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodstartGroup" title="details" class="method-name">startGroup</a>
+        (<span class="var-type">object An</span>&nbsp;<span class="var-name">&$group</span>, <span class="var-type">bool</span>&nbsp;<span class="var-name">$required</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$error</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_getTplBlock" title="details" class="method-name">_getTplBlock</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$block</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodHTML_QuickForm_Renderer_ITStatic" id="methodHTML_QuickForm_Renderer_ITStatic"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor HTML_QuickForm_Renderer_ITStatic</strong> (line <span class="linenumber">101</span>)
+ </h4> 
+<h4><i>HTML_QuickForm_Renderer_ITStatic</i> <strong>HTML_QuickForm_Renderer_ITStatic(
+object An
+&$tpl)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Constructor</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object An &$tpl</strong>: HTML_Template_IT or other compatible Template object to use</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodfinishForm" id="methodfinishForm"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method finishForm</strong> (line <span class="linenumber">133</span>)
+ </h4> 
+<h4><i>void</i> <strong>finishForm(
+object An
+&$form)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodfinishForm">HTML_QuickForm_Renderer::finishForm()</a> Called when visiting a form, after processing all form elements</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Called when visiting a form, after processing all form elements</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object An &$form</strong>: HTML_QuickForm object being visited</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodfinishGroup" id="methodfinishGroup"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method finishGroup</strong> (line <span class="linenumber">329</span>)
+ </h4> 
+<h4><i>void</i> <strong>finishGroup(
+object An
+&$group)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodfinishGroup">HTML_QuickForm_Renderer::finishGroup()</a> Called when visiting a group, after processing all group elements</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Called when visiting a group, after processing all group elements</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object An &$group</strong>: HTML_QuickForm_group object being visited</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrenderElement" id="methodrenderElement"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method renderElement</strong> (line <span class="linenumber">184</span>)
+ </h4> 
+<h4><i>void</i> <strong>renderElement(
+object An
+&$element, bool
+$required, string
+$error)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderElement">HTML_QuickForm_Renderer::renderElement()</a> Called when visiting an element</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Called when visiting an element</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object An &$element</strong>: HTML_QuickForm_element object being visited</li>
+			<li><strong>bool $required</strong>: Whether an element is required</li>
+			<li><strong>string $error</strong>: An error message associated with an element</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrenderHeader" id="methodrenderHeader"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method renderHeader</strong> (line <span class="linenumber">163</span>)
+ </h4> 
+<h4><i>void</i> <strong>renderHeader(
+object An
+&$header)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderHeader">HTML_QuickForm_Renderer::renderHeader()</a> Called when visiting a header element</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Called when visiting a header element</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object An &$header</strong>: HTML_QuickForm_header element being visited</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodrenderHidden" id="methodrenderHidden"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method renderHidden</strong> (line <span class="linenumber">258</span>)
+ </h4> 
+<h4><i>void</i> <strong>renderHidden(
+object An
+&$element)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderHidden">HTML_QuickForm_Renderer::renderHidden()</a> Called when visiting a hidden element</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Called when visiting a hidden element</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object An &$element</strong>: HTML_QuickForm_hidden object being visited</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetErrorTemplate" id="methodsetErrorTemplate"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setErrorTemplate</strong> (line <span class="linenumber">376</span>)
+ </h4> 
+<h4><i>void</i> <strong>setErrorTemplate(
+string
+$template)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the way elements with validation errors are rendered</h5>
+<div class="desc"><p>You can use {label} or {html} placeholders to let the renderer know where  where the element label or the element html are positionned according to the  error message. They will be replaced accordingly with the right value.  The error message will replace the {error} place holder.  For example:  &lt;font color=&quot;red&quot;&gt;{error}&lt;/font&gt;<br />{html}  will put the error message in red on top of the element html.</p><p>If you want all error messages to be output in the main error block, do not specify  {html} nor {label}.</p><p>Groups can have special layouts. With this kind of groups, the renderer will need  to know where to place the error message. In this case, use error blocks like:  &lt;!-- BEGIN form_group_error --&gt;{form_group_error}&lt;!-- END form_group_error --&gt;  where you want the error message to appear in the form.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $template</strong>: The element error template</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetRequiredTemplate" id="methodsetRequiredTemplate"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setRequiredTemplate</strong> (line <span class="linenumber">348</span>)
+ </h4> 
+<h4><i>void</i> <strong>setRequiredTemplate(
+string
+$template)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the way required elements are rendered</h5>
+<div class="desc"><p>You can use {label} or {html} placeholders to let the renderer know where  where the element label or the element html are positionned according to the  required tag. They will be replaced accordingly with the right value.  For example:  &lt;font color=&quot;red&quot;&gt;*&lt;/font&gt;{label}  will put a red star in front of the label if the element is required.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $template</strong>: The required element template</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodstartForm" id="methodstartForm"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method startForm</strong> (line <span class="linenumber">114</span>)
+ </h4> 
+<h4><i>void</i> <strong>startForm(
+object An
+&$form)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodstartForm">HTML_QuickForm_Renderer::startForm()</a> Called when visiting a form, before processing any form elements</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Called when visiting a form, before processing any form elements</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object An &$form</strong>: HTML_QuickForm object being visited</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodstartGroup" id="methodstartGroup"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method startGroup</strong> (line <span class="linenumber">278</span>)
+ </h4> 
+<h4><i>void</i> <strong>startGroup(
+object An
+&$group, bool
+$required, string
+$error)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodstartGroup">HTML_QuickForm_Renderer::startGroup()</a> Called when visiting a group, before processing any group elements</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Called when visiting a group, before processing any group elements</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>object An &$group</strong>: HTML_QuickForm_group object being visited</li>
+			<li><strong>bool $required</strong>: Whether a group is required</li>
+			<li><strong>string $error</strong>: An error message associated with a group</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method_getTplBlock" id="method_getTplBlock"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _getTplBlock</strong> (line <span class="linenumber">476</span>)
+ </h4> 
+<h4><i>string</i> <strong>_getTplBlock(
+string
+$block)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns the block's contents</h5>
+<div class="desc"><p>The method is needed because ITX and Sigma implement clearing  the block contents on get() a bit differently</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $block</strong>: Block name</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Block contents</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../civiCRM/HTML_QuickForm_Renderer.html">HTML_QuickForm_Renderer</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodHTML_QuickForm_Renderer">HTML_QuickForm_Renderer::HTML_QuickForm_Renderer()</a></strong> - Constructor
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodfinishForm">HTML_QuickForm_Renderer::finishForm()</a></strong> - Called when visiting a form, after processing all form elements
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodfinishGroup">HTML_QuickForm_Renderer::finishGroup()</a></strong> - Called when visiting a group, after processing all group elements
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderElement">HTML_QuickForm_Renderer::renderElement()</a></strong> - Called when visiting an element
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderHeader">HTML_QuickForm_Renderer::renderHeader()</a></strong> - Called when visiting a header element
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderHidden">HTML_QuickForm_Renderer::renderHidden()</a></strong> - Called when visiting a hidden element
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodrenderHtml">HTML_QuickForm_Renderer::renderHtml()</a></strong> - Called when visiting a raw HTML/text pseudo-element
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodstartForm">HTML_QuickForm_Renderer::startForm()</a></strong> - Called when visiting a form, before processing any form elements
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../civiCRM/HTML_QuickForm_Renderer.html#methodstartGroup">HTML_QuickForm_Renderer::startGroup()</a></strong> - Called when visiting a group, before processing any group elements
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:37 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

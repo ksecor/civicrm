@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class Pager_Jumping</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class Pager_Jumping
+</h2> (line <span class="linenumber">56</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../Pager/Pager_Common.html">Pager_Common</a>
+   |
+   --Pager_Jumping</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_Pager_Jumping_php.html">/packages/Pager/Jumping.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Pager_Jumping - Jumping Window Pager</h5>
+<div class="desc"><p>Handles paging a set of data. For usage see the example.php provided.</p></div>
+<ul>
+		<li><strong>version:</strong> - $Id: Jumping.php,v 1.5 2004/01/16 10:29:57 quipo Exp $</li>
+		<li><strong>author:</strong> - Richard Heyes &lt;<a href="mailto:richard@phpguru.org">richard@phpguru.org</a>&gt;,</li>
+		<li><strong>author:</strong> - Lorenzo Alberton &lt;<a href="mailto:l.alberton">at quipo.it l.alberton at quipo.it</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">Pager_Jumping</span>
+        <a href="#methodPager_Jumping" title="details" class="method-name">Pager_Jumping</a>
+        ([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">array()</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetLinks" title="details" class="method-name">getLinks</a>
+        ([<span class="var-type">integer</span>&nbsp;<span class="var-name">$pageID</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$next_html</span> = <span class="var-default">''</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodgetPageIdByOffset" title="details" class="method-name">getPageIdByOffset</a>
+        (<span class="var-type">$index</span>&nbsp;<span class="var-name">$index</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetPageRangeByPageId" title="details" class="method-name">getPageRangeByPageId</a>
+        ([<span class="var-type">integer</span>&nbsp;<span class="var-name">$pageid</span> = <span class="var-default">null</span>])
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodPager_Jumping" id="methodPager_Jumping"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor Pager_Jumping</strong> (line <span class="linenumber">68</span>)
+ </h4> 
+<h4><i>Pager_Jumping</i> <strong>Pager_Jumping(
+[mixed
+$options = array()])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Constructor</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $options</strong>: An associative array of option names                           and their values</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetLinks" id="methodgetLinks"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getLinks</strong> (line <span class="linenumber">163</span>)
+ </h4> 
+<h4><i>array</i> <strong>getLinks(
+[integer
+$pageID = null], [string
+$next_html = ''])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../Pager/Pager_Common.html#methodgetLinks">Pager_Common::getLinks()</a> Returns back/next/first/last and page links,  both as ordered and associative array.</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns back/next/first/last and page links,  both as ordered and associative array.</h5>
+<div class="desc"><p>NB: in original PEAR::Pager this method accepted two parameters,  $back_html and $next_html. Now the only parameter accepted is  an integer ($pageID), since the html text for prev/next links can  be set in the constructor. If a second parameter is provided, then  the method act as it previously did. This hack's only purpose is to  mantain backward compatibility.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $pageID</strong>: Optional pageID. If specified, links                 for that page are provided instead of current one.                 [ADDED IN NEW PAGER VERSION]</li>
+			<li><strong>string $next_html</strong>: HTML to put inside the next link                 [deprecated: use the constructor instead]</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Back/pages/next links</li>
+		</ul>
+</div>
+<a name="methodgetPageIdByOffset" id="methodgetPageIdByOffset"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPageIdByOffset</strong> (line <span class="linenumber">96</span>)
+ </h4> 
+<h4><i>int</i> <strong>getPageIdByOffset(
+$index
+$index)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../Pager/Pager_Common.html#methodgetPageIdByOffset">Pager_Common::getPageIdByOffset()</a> Returns pageID for given offset</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns pageID for given offset</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$index $index</strong>: Offset to get pageID for</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - PageID for given offset</li>
+		</ul>
+</div>
+<a name="methodgetPageRangeByPageId" id="methodgetPageRangeByPageId"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPageRangeByPageId</strong> (line <span class="linenumber">126</span>)
+ </h4> 
+<h4><i>array</i> <strong>getPageRangeByPageId(
+[integer
+$pageid = null])</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../Pager/Pager_Common.html#methodgetPageRangeByPageId">Pager_Common::getPageRangeByPageId()</a> parent method not documented</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Given a PageId, it returns the limits of the range of pages displayed.</h5>
+<div class="desc"><p>While getOffsetByPageId() returns the offset of the data within the  current page, this method returns the offsets of the page numbers interval.  E.g., if you have pageId=3 and delta=10, it will return (1, 10).  PageID of 8 would give you (1, 10) as well, because 1 &lt;= 8 &lt;= 10.  PageID of 11 would give you (11, 20).  If the method is called without parameter, pageID is set to currentPage#.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $pageid</strong>: PageID to get offsets for</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - First and last offsets</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../Pager/Pager_Common.html">Pager_Common</a></h4>
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Pager/Pager_Common.html#var$links">Pager_Common::$links</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Pager/Pager_Common.html#var$linkTags">Pager_Common::$linkTags</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Pager/Pager_Common.html#var$range">Pager_Common::$range</a></strong> - 
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../Pager/Pager_Common.html">Pager_Common</a></h4>
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methoderrorMessage">Pager_Common::errorMessage()</a></strong> - Return a textual error message for a PAGER error code
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetCurrentPageID">Pager_Common::getCurrentPageID()</a></strong> - Returns ID of current page
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetLinks">Pager_Common::getLinks()</a></strong> - Returns back/next/first/last and page links,  both as ordered and associative array.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetNextPageID">Pager_Common::getNextPageID()</a></strong> - Returns next page ID. If current page is last page  this function returns FALSE
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetOffsetByPageId">Pager_Common::getOffsetByPageId()</a></strong> - Returns offsets for given pageID. Eg, if you  pass it pageID one and your perPage limit is 10  it will return (1, 10). PageID of 2 would  give you (11, 20).
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetPageData">Pager_Common::getPageData()</a></strong> - Returns an array of current pages data
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetPageIdByOffset">Pager_Common::getPageIdByOffset()</a></strong> - Returns pageID for given offset
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetPageRangeByPageId">Pager_Common::getPageRangeByPageId()</a></strong> - 
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetPerPageSelectBox">Pager_Common::getPerPageSelectBox()</a></strong> - Returns a string with a XHTML SELECT menu,
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodgetPreviousPageID">Pager_Common::getPreviousPageID()</a></strong> - Returns previous page ID. If current page is first page  this function returns FALSE
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodisFirstPage">Pager_Common::isFirstPage()</a></strong> - Returns whether current page is first page
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodisLastPage">Pager_Common::isLastPage()</a></strong> - Returns whether current page is last page
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodisLastPageComplete">Pager_Common::isLastPageComplete()</a></strong> - Returns whether last page is complete
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodnumItems">Pager_Common::numItems()</a></strong> - Returns number of items
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Pager/Pager_Common.html#methodnumPages">Pager_Common::numPages()</a></strong> - Returns number of pages
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:37 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

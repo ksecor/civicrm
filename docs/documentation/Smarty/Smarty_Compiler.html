@@ -1,0 +1,1430 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class Smarty_Compiler</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class Smarty_Compiler
+</h2> (line <span class="linenumber">35</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../Smarty/Smarty.html">Smarty</a>
+   |
+   --Smarty_Compiler</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_Smarty_Smarty_Compiler_class_php.html">/packages/Smarty/Smarty_Compiler.class.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Template compiling class</h5>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">Smarty_Compiler</span>
+        <a href="#methodSmarty_Compiler" title="details" class="method-name">Smarty_Compiler</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_add_plugin" title="details" class="method-name">_add_plugin</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">boolean?</span>&nbsp;<span class="var-name">$delayed_loading</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_compile_arg_list" title="details" class="method-name">_compile_arg_list</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$attrs</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$cache_code</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#method_compile_block_tag" title="details" class="method-name">_compile_block_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_command</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$tag_modifier</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">&$output</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_capture_tag" title="details" class="method-name">_compile_capture_tag</a>
+        (<span class="var-type">boolean</span>&nbsp;<span class="var-name">$start</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span> = <span class="var-default">''</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#method_compile_compiler_tag" title="details" class="method-name">_compile_compiler_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_command</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">&$output</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_custom_tag" title="details" class="method-name">_compile_custom_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_command</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$tag_modifier</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$output</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">true</span>
+        <a href="#method_compile_file" title="details" class="method-name">_compile_file</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$resource_name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$source_content</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">&$compiled_content</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_foreach_start" title="details" class="method-name">_compile_foreach_start</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_if_tag" title="details" class="method-name">_compile_if_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$elseif</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_include_php_tag" title="details" class="method-name">_compile_include_php_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_include_tag" title="details" class="method-name">_compile_include_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_insert_tag" title="details" class="method-name">_compile_insert_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_plugin_call" title="details" class="method-name">_compile_plugin_call</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_registered_object_tag" title="details" class="method-name">_compile_registered_object_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_command</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$attrs</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$tag_modifier</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_section_start" title="details" class="method-name">_compile_section_start</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_smarty_ref" title="details" class="method-name">_compile_smarty_ref</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">&$indexes</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_compile_tag" title="details" class="method-name">_compile_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$template_tag</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_expand_quoted_text" title="details" class="method-name">_expand_quoted_text</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$var_expr</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_load_filters" title="details" class="method-name">_load_filters</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#method_parse_attrs" title="details" class="method-name">_parse_attrs</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$tag_args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_parse_conf_var" title="details" class="method-name">_parse_conf_var</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$conf_var_expr</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#method_parse_is_expr" title="details" class="method-name">_parse_is_expr</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$is_arg</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$tokens</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_parse_modifiers" title="details" class="method-name">_parse_modifiers</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">&$output</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$modifier_string</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_parse_parenth_args" title="details" class="method-name">_parse_parenth_args</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$parenth_args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_parse_section_prop" title="details" class="method-name">_parse_section_prop</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$section_prop_expr</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_parse_var" title="details" class="method-name">_parse_var</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$var_expr</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$output</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_parse_vars_props" title="details" class="method-name">_parse_vars_props</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">&$tokens</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_parse_var_props" title="details" class="method-name">_parse_var_props</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$val</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$tag_attrs</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_pop_cacheable_state" title="details" class="method-name">_pop_cacheable_state</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_pop_tag" title="details" class="method-name">_pop_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$close_tag</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_push_cacheable_state" title="details" class="method-name">_push_cacheable_state</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$type</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$name</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_push_tag" title="details" class="method-name">_push_tag</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$open_tag</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_quote_replace" title="details" class="method-name">_quote_replace</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$string</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_syntax_error" title="details" class="method-name">_syntax_error</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$error_msg</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$error_type</span> = <span class="var-default">E_USER_ERROR</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$file</span> = <span class="var-default">null</span>], [<span class="var-type">integer</span>&nbsp;<span class="var-name">$line</span> = <span class="var-default">null</span>])
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodSmarty_Compiler" id="methodSmarty_Compiler"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor Smarty_Compiler</strong> (line <span class="linenumber">81</span>)
+ </h4> 
+<h4><i>Smarty_Compiler</i> <strong>Smarty_Compiler(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The class constructor.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_add_plugin" id="method_add_plugin"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _add_plugin</strong> (line <span class="linenumber">1925</span>)
+ </h4> 
+<h4><i>void</i> <strong>_add_plugin(
+string
+$type, string
+$name, [boolean?
+$delayed_loading = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>add plugin</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $type</strong>: </li>
+			<li><strong>string $name</strong>: </li>
+			<li><strong>boolean? $delayed_loading</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_arg_list" id="method_compile_arg_list"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_arg_list</strong> (line <span class="linenumber">1375</span>)
+ </h4> 
+<h4><i>void</i> <strong>_compile_arg_list(
+mixed
+$type, mixed
+$name, mixed
+$attrs, mixed
+&$cache_code)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_block_tag" id="method_compile_block_tag"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_block_tag</strong> (line <span class="linenumber">648</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>_compile_block_tag(
+string
+$tag_command, string
+$tag_args, string
+$tag_modifier, string
+&$output)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>compile block function tag</h5>
+<div class="desc"><p>sets $output to compiled block function tag</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_command</strong>: </li>
+			<li><strong>string $tag_args</strong>: </li>
+			<li><strong>string $tag_modifier</strong>: </li>
+			<li><strong>string $output</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_capture_tag" id="method_compile_capture_tag"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_capture_tag</strong> (line <span class="linenumber">1191</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_capture_tag(
+boolean
+$start, [string
+$tag_args = ''])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Compile {capture} .. {/capture} tags</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>boolean $start</strong>: true if this is the {capture} tag</li>
+			<li><strong>string $tag_args</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_compiler_tag" id="method_compile_compiler_tag"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_compiler_tag</strong> (line <span class="linenumber">579</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>_compile_compiler_tag(
+string
+$tag_command, string
+$tag_args, string
+&$output)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>compile the custom compiler tag</h5>
+<div class="desc"><p>sets $output to the compiled custom compiler tag</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_command</strong>: </li>
+			<li><strong>string $tag_args</strong>: </li>
+			<li><strong>string $output</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_custom_tag" id="method_compile_custom_tag"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_custom_tag</strong> (line <span class="linenumber">738</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_custom_tag(
+string
+$tag_command, string
+$tag_args, string
+$tag_modifier, mixed
+&$output)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>compile custom function tag</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_command</strong>: </li>
+			<li><strong>string $tag_args</strong>: </li>
+			<li><strong>string $tag_modifier</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_file" id="method_compile_file"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_file</strong> (line <span class="linenumber">225</span>)
+ </h4> 
+<h4><i>true</i> <strong>_compile_file(
+string
+$resource_name, string
+$source_content, string
+&$compiled_content)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>compile a resource</h5>
+<div class="desc"><p>sets $compiled_content to the compiled source</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $resource_name</strong>: </li>
+			<li><strong>string $source_content</strong>: </li>
+			<li><strong>string $compiled_content</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_foreach_start" id="method_compile_foreach_start"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_foreach_start</strong> (line <span class="linenumber">1126</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_foreach_start(
+string
+$tag_args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Compile {foreach ...} tag.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_args</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_if_tag" id="method_compile_if_tag"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_if_tag</strong> (line <span class="linenumber">1226</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_if_tag(
+string
+$tag_args, [boolean
+$elseif = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Compile {if ...} tag</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_args</strong>: </li>
+			<li><strong>boolean $elseif</strong>: if true, uses elseif instead of if</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_include_php_tag" id="method_compile_include_php_tag"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_include_php_tag</strong> (line <span class="linenumber">989</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_include_php_tag(
+string
+$tag_args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Compile {include ...} tag</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_args</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_include_tag" id="method_compile_include_tag"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_include_tag</strong> (line <span class="linenumber">936</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_include_tag(
+string
+$tag_args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Compile {include ...} tag</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_args</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_insert_tag" id="method_compile_insert_tag"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_insert_tag</strong> (line <span class="linenumber">902</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_insert_tag(
+string
+$tag_args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Compile {insert ...} tag</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_args</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_plugin_call" id="method_compile_plugin_call"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_plugin_call</strong> (line <span class="linenumber">2068</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_plugin_call(
+string
+$type, string
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>compiles call to plugin of type $type with name $name</h5>
+<div class="desc"><p>returns a string containing the function-name or method call  without the paramter-list that would have follow to make the  call valid php-syntax</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $type</strong>: </li>
+			<li><strong>string $name</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_registered_object_tag" id="method_compile_registered_object_tag"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_registered_object_tag</strong> (line <span class="linenumber">810</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_registered_object_tag(
+string
+$tag_command, array
+$attrs, string
+$tag_modifier)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>compile a registered object tag</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_command</strong>: </li>
+			<li><strong>array $attrs</strong>: </li>
+			<li><strong>string $tag_modifier</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_section_start" id="method_compile_section_start"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_section_start</strong> (line <span class="linenumber">1021</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_section_start(
+string
+$tag_args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Compile {section ...} tag</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_args</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_smarty_ref" id="method_compile_smarty_ref"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_smarty_ref</strong> (line <span class="linenumber">1944</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_smarty_ref(
+string
+&$indexes)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Compiles references of type $smarty.foo</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $indexes</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_compile_tag" id="method_compile_tag"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _compile_tag</strong> (line <span class="linenumber">406</span>)
+ </h4> 
+<h4><i>string</i> <strong>_compile_tag(
+string
+$template_tag)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Compile a template tag</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $template_tag</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_expand_quoted_text" id="method_expand_quoted_text"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _expand_quoted_text</strong> (line <span class="linenumber">1632</span>)
+ </h4> 
+<h4><i>string</i> <strong>_expand_quoted_text(
+string
+$var_expr)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>expand quoted text with embedded variables</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $var_expr</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_load_filters" id="method_load_filters"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _load_filters</strong> (line <span class="linenumber">2092</span>)
+ </h4> 
+<h4><i>void</i> <strong>_load_filters(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>load pre- and post-filters</h5>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_parse_attrs" id="method_parse_attrs"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _parse_attrs</strong> (line <span class="linenumber">1476</span>)
+ </h4> 
+<h4><i>array</i> <strong>_parse_attrs(
+string
+$tag_args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Parse attribute string</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $tag_args</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_parse_conf_var" id="method_parse_conf_var"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _parse_conf_var</strong> (line <span class="linenumber">1810</span>)
+ </h4> 
+<h4><i>void</i> <strong>_parse_conf_var(
+string
+$conf_var_expr)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>parse configuration variable expression into PHP code</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $conf_var_expr</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_parse_is_expr" id="method_parse_is_expr"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _parse_is_expr</strong> (line <span class="linenumber">1415</span>)
+ </h4> 
+<h4><i>array</i> <strong>_parse_is_expr(
+string
+$is_arg, array
+$tokens)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Parse is expression</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $is_arg</strong>: </li>
+			<li><strong>array $tokens</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_parse_modifiers" id="method_parse_modifiers"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _parse_modifiers</strong> (line <span class="linenumber">1856</span>)
+ </h4> 
+<h4><i>void</i> <strong>_parse_modifiers(
+string
+&$output, string
+$modifier_string)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>parse modifier chain into PHP code</h5>
+<div class="desc"><p>sets $output to parsed modified chain</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $output</strong>: </li>
+			<li><strong>string $modifier_string</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_parse_parenth_args" id="method_parse_parenth_args"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _parse_parenth_args</strong> (line <span class="linenumber">1793</span>)
+ </h4> 
+<h4><i>string</i> <strong>_parse_parenth_args(
+string
+$parenth_args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>parse arguments in function call parenthesis</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $parenth_args</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_parse_section_prop" id="method_parse_section_prop"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _parse_section_prop</strong> (line <span class="linenumber">1831</span>)
+ </h4> 
+<h4><i>string</i> <strong>_parse_section_prop(
+string
+$section_prop_expr)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>parse section property expression into PHP code</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $section_prop_expr</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_parse_var" id="method_parse_var"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _parse_var</strong> (line <span class="linenumber">1658</span>)
+ </h4> 
+<h4><i>string</i> <strong>_parse_var(
+string
+$var_expr, string
+$output)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>parse variable expression into PHP code</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $var_expr</strong>: </li>
+			<li><strong>string $output</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_parse_vars_props" id="method_parse_vars_props"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _parse_vars_props</strong> (line <span class="linenumber">1557</span>)
+ </h4> 
+<h4><i>void</i> <strong>_parse_vars_props(
+array
+&$tokens)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>compile multiple variables and section properties tokens into  PHP code</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $tokens</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_parse_var_props" id="method_parse_var_props"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _parse_var_props</strong> (line <span class="linenumber">1572</span>)
+ </h4> 
+<h4><i>string</i> <strong>_parse_var_props(
+string
+$val, string
+$tag_attrs)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>compile single variable and section properties token into  PHP code</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $val</strong>: </li>
+			<li><strong>string $tag_attrs</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_pop_cacheable_state" id="method_pop_cacheable_state"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _pop_cacheable_state</strong> (line <span class="linenumber">2166</span>)
+ </h4> 
+<h4><i>string</i> <strong>_pop_cacheable_state(
+mixed
+$type, mixed
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>check if the compilation changes from non-cacheable to  cacheable state with the end of the current plugin return  php-code to reflect the transition.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_pop_tag" id="method_pop_tag"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _pop_tag</strong> (line <span class="linenumber">2191</span>)
+ </h4> 
+<h4><i>string</i> <strong>_pop_tag(
+string
+$close_tag)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>pop closing tag-name</h5>
+<div class="desc"><p>raise an error if this stack-top doesn't match with the closing tag</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $close_tag</strong>: the closing tag's name</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the opening tag's name</li>
+		</ul>
+</div>
+<a name="method_push_cacheable_state" id="method_push_cacheable_state"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _push_cacheable_state</strong> (line <span class="linenumber">2148</span>)
+ </h4> 
+<h4><i>string</i> <strong>_push_cacheable_state(
+mixed
+$type, mixed
+$name)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>check if the compilation changes from cacheable to  non-cacheable state with the beginning of the current  plugin. return php-code to reflect the transition.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_push_tag" id="method_push_tag"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _push_tag</strong> (line <span class="linenumber">2180</span>)
+ </h4> 
+<h4><i>void</i> <strong>_push_tag(
+string
+$open_tag)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>push opening tag-name, file-name and line-number on the tag-stack</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $open_tag</strong>: the opening tag's name</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_quote_replace" id="method_quote_replace"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _quote_replace</strong> (line <span class="linenumber">2123</span>)
+ </h4> 
+<h4><i>string</i> <strong>_quote_replace(
+string
+$string)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Quote subpattern references</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $string</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method_syntax_error" id="method_syntax_error"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _syntax_error</strong> (line <span class="linenumber">2136</span>)
+ </h4> 
+<h4><i>void</i> <strong>_syntax_error(
+string
+$error_msg, [integer
+$error_type = E_USER_ERROR], [string
+$file = null], [integer
+$line = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>display Smarty syntax error</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $error_msg</strong>: </li>
+			<li><strong>integer $error_type</strong>: </li>
+			<li><strong>string $file</strong>: </li>
+			<li><strong>integer $line</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../Smarty/Smarty.html">Smarty</a></h4>
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$autoload_filters">Smarty::$autoload_filters</a></strong> - This indicates which filters are automatically loaded into Smarty.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$cache_dir">Smarty::$cache_dir</a></strong> - The name of the directory for cache files.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$cache_handler_func">Smarty::$cache_handler_func</a></strong> - The function used for cache file handling. If not set, built-in caching is used.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$cache_lifetime">Smarty::$cache_lifetime</a></strong> - This is the number of seconds cached content will persist.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$cache_modified_check">Smarty::$cache_modified_check</a></strong> - Only used when $caching is enabled. If true, then If-Modified-Since headers  are respected with cached content, and appropriate HTTP headers are sent.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$caching">Smarty::$caching</a></strong> - This enables template caching.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$compiler_class">Smarty::$compiler_class</a></strong> - The class used for compiling templates.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$compiler_file">Smarty::$compiler_file</a></strong> - The file that contains the compiler class. This can a full  pathname, or relative to the php_include path.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$compile_check">Smarty::$compile_check</a></strong> - This tells Smarty whether to check for recompiling or not. Recompiling  does not need to happen unless a template or config file is changed.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$compile_dir">Smarty::$compile_dir</a></strong> - The directory where compiled templates are located.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$compile_id">Smarty::$compile_id</a></strong> - Set this if you want different sets of compiled files for the same  templates. This is useful for things like different languages.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$config_booleanize">Smarty::$config_booleanize</a></strong> - This tells whether or not to automatically booleanize config file variables.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$config_class">Smarty::$config_class</a></strong> - The class used to load config vars.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$config_dir">Smarty::$config_dir</a></strong> - The directory where config files are located.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$config_fix_newlines">Smarty::$config_fix_newlines</a></strong> - This tells whether or not automatically fix newlines in config files.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$config_overwrite">Smarty::$config_overwrite</a></strong> - This tells if config file vars of the same name overwrite each other or not.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$config_read_hidden">Smarty::$config_read_hidden</a></strong> - This tells whether hidden sections [.foobar] are readable from the  tempalates or not. Normally you would never allow this since that is  the point behind hidden sections: the application can access them, but  the templates cannot.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$debugging">Smarty::$debugging</a></strong> - If debugging is enabled, a debug console window will display  when the page loads (make sure your browser allows unrequested  popup windows)
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$debugging_ctrl">Smarty::$debugging_ctrl</a></strong> - This determines if debugging is enable-able from the browser.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$debug_tpl">Smarty::$debug_tpl</a></strong> - This is the path to the debug console template. If not set,  the default one will be used.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$default_modifiers">Smarty::$default_modifiers</a></strong> - This is a list of the modifiers to apply to all template variables.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$default_resource_type">Smarty::$default_resource_type</a></strong> - This is the resource type to be used when not specified
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$default_template_handler_func">Smarty::$default_template_handler_func</a></strong> - If a template cannot be found, this PHP function will be executed.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$error_reporting">Smarty::$error_reporting</a></strong> - When set, smarty does uses this value as error_reporting-level.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$force_compile">Smarty::$force_compile</a></strong> - This forces templates to compile every time. Useful for development  or debugging.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$left_delimiter">Smarty::$left_delimiter</a></strong> - The left delimiter used for the template tags.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$php_handling">Smarty::$php_handling</a></strong> - This determines how Smarty handles &quot;&lt;?php ... ?&gt;&quot; tags in templates.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$plugins_dir">Smarty::$plugins_dir</a></strong> - An array of directories searched for plugins.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$request_use_auto_globals">Smarty::$request_use_auto_globals</a></strong> - Indicates wether $HTTP_*_VARS[] (request_use_auto_globals=false)
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$request_vars_order">Smarty::$request_vars_order</a></strong> - The order in which request variables are registered, similar to  variables_order in php.ini E = Environment, G = GET, P = POST,  C = Cookies, S = Server
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$right_delimiter">Smarty::$right_delimiter</a></strong> - The right delimiter used for the template tags.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$secure_dir">Smarty::$secure_dir</a></strong> - This is the list of template directories that are considered secure. This  is used only if $security is enabled. One directory per array  element.  $template_dir is in this list implicitly.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$security">Smarty::$security</a></strong> - This enables template security. When enabled, many things are restricted
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$security_settings">Smarty::$security_settings</a></strong> - These are the security settings for Smarty. They are used only when  $security is enabled.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$template_dir">Smarty::$template_dir</a></strong> - The name of the directory where templates are located.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$trusted_dir">Smarty::$trusted_dir</a></strong> - This is an array of directories where trusted php scripts reside.
+	</h4> 
+		<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../Smarty/Smarty.html#var$use_sub_dirs">Smarty::$use_sub_dirs</a></strong> - This tells Smarty whether or not to use sub dirs in the cache/ and  templates_c/ directories. sub directories better organized, but  may not work well with PHP safe mode enabled.
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../Smarty/Smarty.html">Smarty</a></h4>
+				<h4>
+<img src="../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodSmarty">Smarty::Smarty()</a></strong> - The class constructor.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodappend">Smarty::append()</a></strong> - appends values to template variables
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodappend_by_ref">Smarty::append_by_ref()</a></strong> - appends values to template variables by reference
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodassign">Smarty::assign()</a></strong> - assigns values to template variables
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodassign_by_ref">Smarty::assign_by_ref()</a></strong> - assigns values to template variables by reference
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodclear_all_assign">Smarty::clear_all_assign()</a></strong> - clear all the assigned template variables.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodclear_all_cache">Smarty::clear_all_cache()</a></strong> - clear the entire contents of cache (all templates)
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodclear_assign">Smarty::clear_assign()</a></strong> - clear the given assigned template variable.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodclear_cache">Smarty::clear_cache()</a></strong> - clear cached content for the given template and cache id
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodclear_compiled_tpl">Smarty::clear_compiled_tpl()</a></strong> - clears compiled version of specified template resource,  or all compiled template files if one is not specified.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodclear_config">Smarty::clear_config()</a></strong> - clear configuration values
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodconfig_load">Smarty::config_load()</a></strong> - load configuration values
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methoddisplay">Smarty::display()</a></strong> - executes &amp; displays the template results
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodfetch">Smarty::fetch()</a></strong> - executes &amp; returns or displays the template results
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodget_config_vars">Smarty::get_config_vars()</a></strong> - Returns an array containing config variables
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodget_registered_object">Smarty::get_registered_object()</a></strong> - return a reference to a registered object
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodget_template_vars">Smarty::get_template_vars()</a></strong> - Returns an array containing template variables
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodis_cached">Smarty::is_cached()</a></strong> - test to see if valid cache exists for this template
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodload_filter">Smarty::load_filter()</a></strong> - load a filter of specified type and name
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodregister_block">Smarty::register_block()</a></strong> - Registers block function to be used in templates
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodregister_compiler_function">Smarty::register_compiler_function()</a></strong> - Registers compiler function
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodregister_function">Smarty::register_function()</a></strong> - Registers custom function to be used in templates
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodregister_modifier">Smarty::register_modifier()</a></strong> - Registers modifier to be used in templates
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodregister_object">Smarty::register_object()</a></strong> - Registers object to be used in templates
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodregister_outputfilter">Smarty::register_outputfilter()</a></strong> - Registers an output filter function to apply  to a template output
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodregister_postfilter">Smarty::register_postfilter()</a></strong> - Registers a postfilter function to apply  to a compiled template after compilation
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodregister_prefilter">Smarty::register_prefilter()</a></strong> - Registers a prefilter function to apply  to a template before compiling
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodregister_resource">Smarty::register_resource()</a></strong> - Registers a resource to fetch a template
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodtemplate_exists">Smarty::template_exists()</a></strong> - Checks whether requested template exists.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodtrigger_error">Smarty::trigger_error()</a></strong> - trigger Smarty error
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodunregister_block">Smarty::unregister_block()</a></strong> - Unregisters block function
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodunregister_compiler_function">Smarty::unregister_compiler_function()</a></strong> - Unregisters compiler function
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodunregister_function">Smarty::unregister_function()</a></strong> - Unregisters custom function
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodunregister_modifier">Smarty::unregister_modifier()</a></strong> - Unregisters modifier
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodunregister_object">Smarty::unregister_object()</a></strong> - Unregisters object
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodunregister_outputfilter">Smarty::unregister_outputfilter()</a></strong> - Unregisters an outputfilter function
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodunregister_postfilter">Smarty::unregister_postfilter()</a></strong> - Unregisters a postfilter function
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodunregister_prefilter">Smarty::unregister_prefilter()</a></strong> - Unregisters a prefilter function
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#methodunregister_resource">Smarty::unregister_resource()</a></strong> - Unregisters a resource
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_compile_resource">Smarty::_compile_resource()</a></strong> - compile the template
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_compile_source">Smarty::_compile_source()</a></strong> - compile the given source
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_dequote">Smarty::_dequote()</a></strong> - Remove starting and ending quotes from the string
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_eval">Smarty::_eval()</a></strong> - wrapper for eval() retaining $this
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_fetch_resource_info">Smarty::_fetch_resource_info()</a></strong> - fetch the template info. Gets timestamp, and source  if get_source is true
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_get_auto_filename">Smarty::_get_auto_filename()</a></strong> - get a concrete filename for automagically created content
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_get_auto_id">Smarty::_get_auto_id()</a></strong> - returns an auto_id for auto-file-functions
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_get_compile_path">Smarty::_get_compile_path()</a></strong> - Get the compile path for this resource
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_get_plugin_filepath">Smarty::_get_plugin_filepath()</a></strong> - get filepath of requested plugin
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_include">Smarty::_include()</a></strong> - wrapper for include() retaining $this
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_is_compiled">Smarty::_is_compiled()</a></strong> - test if resource needs compiling
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_parse_resource_name">Smarty::_parse_resource_name()</a></strong> - parse out the type and name from the resource
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_process_compiled_include_callback">Smarty::_process_compiled_include_callback()</a></strong> - callback function for preg_replace, to call a non-cacheable block
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_read_file">Smarty::_read_file()</a></strong> - read in a file from line $start for $lines.
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_run_mod_handler">Smarty::_run_mod_handler()</a></strong> - Handle modifiers
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_smarty_cache_attrs">Smarty::_smarty_cache_attrs()</a></strong> - get or set an array of cached attributes for function that is
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_smarty_include">Smarty::_smarty_include()</a></strong> - called for included templates
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_trigger_fatal_error">Smarty::_trigger_fatal_error()</a></strong> - trigger Smarty plugin error
+		</h4> 
+
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../Smarty/Smarty.html#method_unlink">Smarty::_unlink()</a></strong> - unlink a file, possibly using expiration time
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:32 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

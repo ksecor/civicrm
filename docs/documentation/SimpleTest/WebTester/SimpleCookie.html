@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class SimpleCookie</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class SimpleCookie
+</h2> (line <span class="linenumber">24</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_http_php.html">/packages/SimpleTest/http.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Cookie data holder. Cookie rules are full of pretty     arbitary stuff. I have used...</h5>
+<div class="desc"><p>http://wp.netscape.com/newsref/std/cookie_spec.html     http://www.cookiecentral.com/faq/</p></div>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_expiry" title="details" class="property"><strong>$_expiry</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_host" title="details" class="property"><strong>$_host</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_is_secure" title="details" class="property"><strong>$_is_secure</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_name" title="details" class="property"><strong>$_name</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_path" title="details" class="property"><strong>$_path</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_value" title="details" class="property"><strong>$_value</strong></a>
+</div>
+<hr />
+<a name="var$_expiry" id="var$_expiry"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_expiry</strong> (line <span class="linenumber">29</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_host" id="var$_host"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_host</strong> (line <span class="linenumber">25</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_is_secure" id="var$_is_secure"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_is_secure</strong> (line <span class="linenumber">30</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_name" id="var$_name"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_name</strong> (line <span class="linenumber">26</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_path" id="var$_path"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_path</strong> (line <span class="linenumber">28</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_value" id="var$_value"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_value</strong> (line <span class="linenumber">27</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">SimpleCookie</span>
+        <a href="#methodSimpleCookie" title="details" class="method-name">SimpleCookie</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$expiry</span> = <span class="var-default">false</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$is_secure</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodagePrematurely" title="details" class="method-name">agePrematurely</a>
+        (<span class="var-type">integer</span>&nbsp;<span class="var-name">$interval</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetExpiry" title="details" class="method-name">getExpiry</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetHost" title="details" class="method-name">getHost</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetName" title="details" class="method-name">getName</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetPath" title="details" class="method-name">getPath</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetValue" title="details" class="method-name">getValue</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodisExpired" title="details" class="method-name">isExpired</a>
+        (<span class="var-type">integer/string</span>&nbsp;<span class="var-name">$now</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodisSecure" title="details" class="method-name">isSecure</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodisValidHost" title="details" class="method-name">isValidHost</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodisValidPath" title="details" class="method-name">isValidPath</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodsetHost" title="details" class="method-name">setHost</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodSimpleCookie" id="methodSimpleCookie"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor SimpleCookie</strong> (line <span class="linenumber">40</span>)
+ </h4> 
+<h4><i>SimpleCookie</i> <strong>SimpleCookie(
+string
+$name, [string
+$value = false], [string
+$path = false], [string
+$expiry = false], [boolean
+$is_secure = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Constructor. Sets the stored values.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $name</strong>: Cookie key.</li>
+			<li><strong>string $value</strong>: Value of cookie.</li>
+			<li><strong>string $path</strong>: Cookie path if not host wide.</li>
+			<li><strong>string $expiry</strong>: Expiry date as string.</li>
+			<li><strong>boolean $is_secure</strong>: Currently ignored.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodagePrematurely" id="methodagePrematurely"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method agePrematurely</strong> (line <span class="linenumber">191</span>)
+ </h4> 
+<h4><i>void</i> <strong>agePrematurely(
+integer
+$interval)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Ages the cookie by the specified number of     seconds.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer $interval</strong>: In seconds.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>public</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetExpiry" id="methodgetExpiry"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getExpiry</strong> (line <span class="linenumber">157</span>)
+ </h4> 
+<h4><i>string</i> <strong>getExpiry(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for expiry.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Expiry string.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetHost" id="methodgetHost"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getHost</strong> (line <span class="linenumber">78</span>)
+ </h4> 
+<h4><i>string</i> <strong>getHost(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for the truncated host to which this     cookie applies.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Truncated hostname.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetName" id="methodgetName"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getName</strong> (line <span class="linenumber">114</span>)
+ </h4> 
+<h4><i>string</i> <strong>getName(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for name.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Cookie key.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetPath" id="methodgetPath"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getPath</strong> (line <span class="linenumber">133</span>)
+ </h4> 
+<h4><i>string</i> <strong>getPath(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for path.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Valid cookie path.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgetValue" id="methodgetValue"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getValue</strong> (line <span class="linenumber">124</span>)
+ </h4> 
+<h4><i>string</i> <strong>getValue(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for value. A deleted cookie will     have an empty string for this.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Cookie value.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisExpired" id="methodisExpired"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isExpired</strong> (line <span class="linenumber">175</span>)
+ </h4> 
+<h4><i>void</i> <strong>isExpired(
+integer/string
+$now)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Test to see if cookie is expired against     the cookie format time or timestamp.</h5>
+<div class="desc"><p>Will give true for a session cookie.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>integer/string $now</strong>: Time to test against. Result                                 will be false if this time                                 is later than the cookie expiry.                                 Can be either a timestamp integer                                 or a cookie format date.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisSecure" id="methodisSecure"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isSecure</strong> (line <span class="linenumber">202</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>isSecure(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for the secure flag.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if cookie needs SSL.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodisValidHost" id="methodisValidHost"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isValidHost</strong> (line <span class="linenumber">88</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>isValidHost(
+string
+$host)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Test for a cookie being valid for a host name.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $host</strong>: Host to test against.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if the cookie would be valid                            here.</li>
+		</ul>
+</div>
+<a name="methodisValidPath" id="methodisValidPath"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method isValidPath</strong> (line <span class="linenumber">145</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>isValidPath(
+string
+$path)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests a path to see if the cookie applies     there. The test path must be longer or     equal to the cookie path.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $path</strong>: Path to test against.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if cookie valid here.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodsetHost" id="methodsetHost"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setHost</strong> (line <span class="linenumber">64</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>setHost(
+string
+$host)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the host. The cookie rules determine</h5>
+<div class="desc"><p>that the first two parts are taken for     certain TLDs and three for others. If the     new host does not match these rules then the     call will fail.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $host</strong>: New hostname.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if hostname is valid.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:25 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

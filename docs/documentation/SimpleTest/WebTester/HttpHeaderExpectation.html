@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class HttpHeaderExpectation</title>
+  <link rel="stylesheet" href="../../media/stylesheet.css" />
+  <script src="../../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../../media/images/plus.gif";
+	imgMinus.src = "../../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class HttpHeaderExpectation
+</h2> (line <span class="linenumber">131</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../../SimpleTest/UnitTester/SimpleExpectation.html">SimpleExpectation</a>
+   |
+   --HttpHeaderExpectation</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_SimpleTest_web_tester_php.html">/packages/SimpleTest/web_tester.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Test for a specific HTTP header within a header block.</h5>
+<ul>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from HttpHeaderExpectation:</span>
+ 		<dl>
+	<dt><a href="../../SimpleTest/WebTester/HttpUnwantedHeaderExpectation.html">HttpUnwantedHeaderExpectation</a></dt>
+		<dd>Test for a specific HTTP header within a header block that     should not be found.</dd>
+	</dl>
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/HttpHeaderPatternExpectation.html">HttpHeaderPatternExpectation</a></dt>
+		<dd>Test for a specific HTTP header within a header block.</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_expected_header" title="details" class="property"><strong>$_expected_header</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">mixed</span>
+    <a href="#var$_expected_value" title="details" class="property"><strong>$_expected_value</strong></a>
+</div>
+<hr />
+<a name="var$_expected_header" id="var$_expected_header"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_expected_header</strong> (line <span class="linenumber">132</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$_expected_value" id="var$_expected_value"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_expected_value</strong> (line <span class="linenumber">133</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">HttpHeaderExpectation</span>
+        <a href="#methodHttpHeaderExpectation" title="details" class="method-name">HttpHeaderExpectation</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$header</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodtest" title="details" class="method-name">test</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$compare</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodtestMessage" title="details" class="method-name">testMessage</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$compare</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#method_findHeader" title="details" class="method-name">_findHeader</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$compare</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#method_getExpectation" title="details" class="method-name">_getExpectation</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#method_testHeaderValue" title="details" class="method-name">_testHeaderValue</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$expected</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodHttpHeaderExpectation" id="methodHttpHeaderExpectation"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor HttpHeaderExpectation</strong> (line <span class="linenumber">141</span>)
+ </h4> 
+<h4><i>HttpHeaderExpectation</i> <strong>HttpHeaderExpectation(
+string
+$header, [string
+$value = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets the field and value to compare against.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $header</strong>: Case insenstive trimmed header name.</li>
+			<li><strong>string $value</strong>: Optional value to compare. If not                             given then any value will match.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodtest" id="methodtest"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method test</strong> (line <span class="linenumber">173</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>test(
+mixed
+$compare)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/HttpUnwantedHeaderExpectation.html#methodtest">HttpUnwantedHeaderExpectation::test()</a></dt>
+		<dd>Tests that the unwanted header is not found.</dd>
+	</dl>
+	</p>
+
+<p><strong>Overrides :</strong> <a href="../../SimpleTest/UnitTester/SimpleExpectation.html#methodtest">SimpleExpectation::test()</a> Tests the expectation. True if correct.</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests the expectation. True if it matches     a string value or an array value in any order.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $compare</strong>: Raw header block to search.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if header present.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodtestMessage" id="methodtestMessage"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method testMessage</strong> (line <span class="linenumber">232</span>)
+ </h4> 
+<h4><i>string</i> <strong>testMessage(
+mixed
+$compare)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/HttpUnwantedHeaderExpectation.html#methodtestMessage">HttpUnwantedHeaderExpectation::testMessage()</a></dt>
+		<dd>Returns a human readable test message.</dd>
+	</dl>
+	</p>
+
+<p><strong>Overrides :</strong> <a href="../../SimpleTest/UnitTester/SimpleExpectation.html#methodtestMessage">SimpleExpectation::testMessage()</a> Returns a human readable test message.</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Returns a human readable test message.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $compare</strong>: Raw header block to search.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Description of success                                or failure.</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method_findHeader" id="method_findHeader"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _findHeader</strong> (line <span class="linenumber">184</span>)
+ </h4> 
+<h4><i>string</i> <strong>_findHeader(
+mixed
+$compare)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Searches the incoming result. Will extract the matching     line as text.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $compare</strong>: Raw header block to search.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Matching header line.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="method_getExpectation" id="method_getExpectation"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _getExpectation</strong> (line <span class="linenumber">151</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>_getExpectation(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Accessor for subclases.</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Expectation set in constructor.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<a name="method_testHeaderValue" id="method_testHeaderValue"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _testHeaderValue</strong> (line <span class="linenumber">218</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>_testHeaderValue(
+string
+$value, mixed
+$expected)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../../SimpleTest/WebTester/HttpHeaderPatternExpectation.html#method_testHeaderValue">HttpHeaderPatternExpectation::_testHeaderValue()</a></dt>
+		<dd>Tests the value part of the header.</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Tests the value part of the header.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $value</strong>: Value to test.</li>
+			<li><strong>mixed $expected</strong>: Value to test against.</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True if matched.</li>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleExpectation.html">SimpleExpectation</a></h4>
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleExpectation.html#var$_dumper">SimpleExpectation::$_dumper</a></strong> - 
+	</h4> 
+		<h4>
+<img src="../../media/images/PublicProperty.gif" border="0" /><strong class="property"> <a href="../../SimpleTest/UnitTester/SimpleExpectation.html#var$_message">SimpleExpectation::$_message</a></strong> - 
+	</h4> 
+		</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../../SimpleTest/UnitTester/SimpleExpectation.html">SimpleExpectation</a></h4>
+				<h4>
+<img src="../../media/images/Constructor.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleExpectation.html#methodSimpleExpectation">SimpleExpectation::SimpleExpectation()</a></strong> - Creates a dumper for displaying values and sets     the test message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleExpectation.html#methodoverlayMessage">SimpleExpectation::overlayMessage()</a></strong> - Overlays the generated message onto the stored user     message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleExpectation.html#methodtest">SimpleExpectation::test()</a></strong> - Tests the expectation. True if correct.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleExpectation.html#methodtestMessage">SimpleExpectation::testMessage()</a></strong> - Returns a human readable test message.
+		</h4> 
+
+				<h4>
+<img src="../../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../../SimpleTest/UnitTester/SimpleExpectation.html#method_getDumper">SimpleExpectation::_getDumper()</a></strong> - Accessor for the dumper.
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:22:02 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

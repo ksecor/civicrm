@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class CRM_GCD</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class CRM_GCD
+</h2> (line <span class="linenumber">63</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_sql_GenerateContactData_php.html">/sql/GenerateContactData.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="const-title">
+    <a href="#constADD_TO_DB" title="details" class="property"><strong>ADD_TO_DB</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constCHILD_OF" title="details" class="property"><strong>CHILD_OF</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constDATA_FILENAME" title="details" class="property"><strong>DATA_FILENAME</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constDEBUG_LEVEL" title="details" class="property"><strong>DEBUG_LEVEL</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constHEAD_OF_HOUSEHOLD" title="details" class="property"><strong>HEAD_OF_HOUSEHOLD</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constHOME" title="details" class="property"><strong>HOME</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constHOUSEHOLD_PERCENT" title="details" class="property"><strong>HOUSEHOLD_PERCENT</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constINDIVIDUAL_PERCENT" title="details" class="property"><strong>INDIVIDUAL_PERCENT</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constMAIN" title="details" class="property"><strong>MAIN</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constMEMBER_OF_HOUSEHOLD" title="details" class="property"><strong>MEMBER_OF_HOUSEHOLD</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constNUM_CONTACT" title="details" class="property"><strong>NUM_CONTACT</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constNUM_DOMAIN" title="details" class="property"><strong>NUM_DOMAIN</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constNUM_INDIVIDUAL_PER_HOUSEHOLD" title="details" class="property"><strong>NUM_INDIVIDUAL_PER_HOUSEHOLD</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constORGANIZATION_PERCENT" title="details" class="property"><strong>ORGANIZATION_PERCENT</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constOTHER" title="details" class="property"><strong>OTHER</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constSIBLING_OF" title="details" class="property"><strong>SIBLING_OF</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constSPOUSE_OF" title="details" class="property"><strong>SPOUSE_OF</strong></a>
+</div>
+<div class="const-title">
+    <a href="#constWORK" title="details" class="property"><strong>WORK</strong></a>
+</div>
+<hr />
+<a name="constADD_TO_DB" id="constADD_TO_DB"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">ADD_TO_DB = TRUE</strong> (line <span class="linenumber">93</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constCHILD_OF" id="constCHILD_OF"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">CHILD_OF =  1</strong> (line <span class="linenumber">80</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constDATA_FILENAME" id="constDATA_FILENAME"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">DATA_FILENAME = &quot;sample_data.xml&quot;</strong> (line <span class="linenumber">68</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>*****************************************************</h5>
+<div class="desc"><p>constants *****************************************************</p></div>
+<ul>
+	</ul>
+</div>
+<a name="constDEBUG_LEVEL" id="constDEBUG_LEVEL"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">DEBUG_LEVEL = 1</strong> (line <span class="linenumber">95</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constHEAD_OF_HOUSEHOLD" id="constHEAD_OF_HOUSEHOLD"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">HEAD_OF_HOUSEHOLD =  6</strong> (line <span class="linenumber">83</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constHOME" id="constHOME"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">HOME =  1</strong> (line <span class="linenumber">88</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constHOUSEHOLD_PERCENT" id="constHOUSEHOLD_PERCENT"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">HOUSEHOLD_PERCENT =  15</strong> (line <span class="linenumber">74</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constINDIVIDUAL_PERCENT" id="constINDIVIDUAL_PERCENT"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">INDIVIDUAL_PERCENT =  75</strong> (line <span class="linenumber">73</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constMAIN" id="constMAIN"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">MAIN =  3</strong> (line <span class="linenumber">90</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constMEMBER_OF_HOUSEHOLD" id="constMEMBER_OF_HOUSEHOLD"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">MEMBER_OF_HOUSEHOLD =  7</strong> (line <span class="linenumber">84</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constNUM_CONTACT" id="constNUM_CONTACT"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">NUM_CONTACT =  100</strong> (line <span class="linenumber">71</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constNUM_DOMAIN" id="constNUM_DOMAIN"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">NUM_DOMAIN =  10</strong> (line <span class="linenumber">70</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constNUM_INDIVIDUAL_PER_HOUSEHOLD" id="constNUM_INDIVIDUAL_PER_HOUSEHOLD"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">NUM_INDIVIDUAL_PER_HOUSEHOLD =  4</strong> (line <span class="linenumber">76</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constORGANIZATION_PERCENT" id="constORGANIZATION_PERCENT"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">ORGANIZATION_PERCENT =  10</strong> (line <span class="linenumber">75</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constOTHER" id="constOTHER"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">OTHER =  4</strong> (line <span class="linenumber">91</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constSIBLING_OF" id="constSIBLING_OF"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">SIBLING_OF =  3</strong> (line <span class="linenumber">82</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constSPOUSE_OF" id="constSPOUSE_OF"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">SPOUSE_OF =  2</strong> (line <span class="linenumber">81</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="constWORK" id="constWORK"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/Constant.gif" border="0" /> <strong class="property">WORK =  2</strong> (line <span class="linenumber">89</span>)
+ </h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddContact" title="details" class="method-name">addContact</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddDomain" title="details" class="method-name">addDomain</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddHousehold" title="details" class="method-name">addHousehold</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddIndividual" title="details" class="method-name">addIndividual</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddLocation" title="details" class="method-name">addLocation</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddOrganization" title="details" class="method-name">addOrganization</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodaddRelationship" title="details" class="method-name">addRelationship</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methoddebug_var" title="details" class="method-name">debug_var</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$variable_name</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">&$variable</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodgetContactType" title="details" class="method-name">getContactType</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$id</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">CRM_GCD</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodinitDB" title="details" class="method-name">initDB</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodinitDBData" title="details" class="method-name">initDBData</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodinitID" title="details" class="method-name">initID</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodparseDataFile" title="details" class="method-name">parseDataFile</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodprintID" title="details" class="method-name">printID</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodaddContact" id="methodaddContact"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addContact</strong> (line <span class="linenumber">505</span>)
+ </h4> 
+<h4><i>void</i> <strong>addContact(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>*****************************************************</h5>
+<div class="desc"><p>addContact()</p><p>This method adds data to the contact table</p><p>id - from $contact  domain_id (fkey into domain) (random - 1 to num_domain)  contact_type 'Individual' 'Household' 'Organization'  preferred_communication (random 1 to 3)</p><p>*****************************************************</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddDomain" id="methodaddDomain"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addDomain</strong> (line <span class="linenumber">475</span>)
+ </h4> 
+<h4><i>void</i> <strong>addDomain(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>*****************************************************</h5>
+<div class="desc"><p>addDomain()</p><p>This method adds NUM_DOMAIN domains and then adds NUM_REVISION  revisions for each domain with the latest revision being the last one..</p><p>*****************************************************</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddHousehold" id="methodaddHousehold"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addHousehold</strong> (line <span class="linenumber">601</span>)
+ </h4> 
+<h4><i>void</i> <strong>addHousehold(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>*****************************************************</h5>
+<div class="desc"><p>addHousehold()</p><p>This method adds data to the contact_household table</p><p>The following fields are generated and added.</p><p>contact_uuid - household_individual  contact_rid - latest one  household_name 'household $contact_uuid primary contact $primary_contact_uuid'  nick_name 'nick $contact_uuid'  primary_contact_uuid = $household_individual[$contact_uuid][0];</p><p>*****************************************************</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddIndividual" id="methodaddIndividual"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addIndividual</strong> (line <span class="linenumber">546</span>)
+ </h4> 
+<h4><i>void</i> <strong>addIndividual(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>*****************************************************</h5>
+<div class="desc"><p>addIndividual()</p><p>This method adds data to the contact_individual table</p><p>The following fields are generated and added.</p><p>contact_uuid - individual  contact_rid - latest one  first_name 'First Name $contact_uuid'  middle_name 'Middle Name $contact_uuid'  last_name 'Last Name $contact_uuid'  job_title 'Job Title $contact_uuid'  greeting_type - randomly select from the enum values  custom_greeting - &quot;custom greeting $contact_uuid'</p><p>*****************************************************</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddLocation" id="methodaddLocation"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addLocation</strong> (line <span class="linenumber">755</span>)
+ </h4> 
+<h4><i>void</i> <strong>addLocation(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>*****************************************************</h5>
+<div class="desc"><p>addLocation()</p><p>This method adds data to the location table</p><p>*****************************************************</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddOrganization" id="methodaddOrganization"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addOrganization</strong> (line <span class="linenumber">655</span>)
+ </h4> 
+<h4><i>void</i> <strong>addOrganization(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>*****************************************************</h5>
+<div class="desc"><p>addOrganization()</p><p>This method adds data to the contact_organization table</p><p>The following fields are generated and added.</p><p>contact_uuid - organization  contact_rid - latest one  organization_name 'organization $contact_uuid'  legal_name 'legal  $contact_uuid'  nick_name 'nick $contact_uuid'  sic_code 'sic $contact_uuid'  primary_contact_id - random individual contact uuid</p><p>*****************************************************</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodaddRelationship" id="methodaddRelationship"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method addRelationship</strong> (line <span class="linenumber">692</span>)
+ </h4> 
+<h4><i>void</i> <strong>addRelationship(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>*****************************************************</h5>
+<div class="desc"><p>addRelationship()</p><p>This method adds data to the contact_relationship table</p><p>it adds the following fields</p><p>*****************************************************</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddebug_var" id="methoddebug_var"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method debug_var</strong> (line <span class="linenumber">186</span>)
+ </h4> 
+<h4><i>void</i> <strong>debug_var(
+mixed
+$variable_name, mixed
+&$variable)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetContactType" id="methodgetContactType"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getContactType</strong> (line <span class="linenumber">386</span>)
+ </h4> 
+<h4><i>void</i> <strong>getContactType(
+mixed
+$id)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber">270</span>)
+ </h4> 
+<h4><i>CRM_GCD</i> <strong>__construct(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>*****************************************************</h5>
+<div class="desc"><p>Start of public functions</p><p>*****************************************************</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodinitDB" id="methodinitDB"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method initDB</strong> (line <span class="linenumber">397</span>)
+ </h4> 
+<h4><i>void</i> <strong>initDB(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodinitDBData" id="methodinitDBData"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method initDBData</strong> (line <span class="linenumber">363</span>)
+ </h4> 
+<h4><i>void</i> <strong>initDBData(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodinitID" id="methodinitID"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method initID</strong> (line <span class="linenumber">419</span>)
+ </h4> 
+<h4><i>void</i> <strong>initID(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>*****************************************************</h5>
+<div class="desc"><p>this function creates arrays for the following</p><p>domain id  contact id  contact_location id  contact_contact_location id  contact_email uuid  contact_phone_uuid  contact_instant_message uuid  contact_relationship uuid  contact_task uuid  contact_note uuid</p><p>*****************************************************</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodparseDataFile" id="methodparseDataFile"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method parseDataFile</strong> (line <span class="linenumber">290</span>)
+ </h4> 
+<h4><i>void</i> <strong>parseDataFile(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodprintID" id="methodprintID"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method printID</strong> (line <span class="linenumber">847</span>)
+ </h4> 
+<h4><i>void</i> <strong>printID(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:21 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class System</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class System
+</h2> (line <span class="linenumber">55</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_System_php.html">/packages/System.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>System offers cross plattform compatible system functions</h5>
+<div class="desc"><p>Static functions for different operations. Should work under  Unix and Windows. The names and usage has been taken from its respectively  GNU commands. The functions will return (bool) false on error and will  trigger the error with the PHP trigger_error() function (you can silence  the error by prefixing a '@' sign after the function call).</p><p>Documentation on this class you can find in:  http://pear.php.net/manual/</p><p>Example usage:  if (!@System::rm('-r file1 dir1')) {     print &quot;could not delete file1 or dir1&quot;;  }</p><p>In case you need to to pass file names with spaces,  pass the params as an array:</p><p>System::rm(array('-r', $file1, $dir1));</p></div>
+<ul>
+		<li><strong>see:</strong> - <a href="http://pear.php.net/manual/">http://pear.php.net/manual/</a></li>
+		<li><strong>access:</strong> - public</li>
+		<li><strong>version:</strong> - $Revision: 1.36 $</li>
+		<li><strong>author:</strong> - Tomas V.V.Cox &lt;<a href="mailto:cox@idecnet.com">cox@idecnet.com</a>&gt;</li>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodcat" title="details" class="method-name">&amp;cat</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodfind" title="details" class="method-name">find</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">bool</span>
+        <a href="#methodmkDir" title="details" class="method-name">mkDir</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodmktemp" title="details" class="method-name">mktemp</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodrm" title="details" class="method-name">rm</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$args</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodtmpdir" title="details" class="method-name">tmpdir</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">mixed</span>
+        <a href="#methodwhich" title="details" class="method-name">which</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$program</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$fallback</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#method_multipleToStruct" title="details" class="method-name">_multipleToStruct</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$files</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodcat" id="methodcat"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method cat</strong> (line <span class="linenumber">278</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>&amp;cat(
+string
+$args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Concatenate files</h5>
+<div class="desc"><p>Usage:  1) $var = System::cat('sample.txt test.txt');  2) System::cat('sample.txt test.txt &gt; final.txt');  3) System::cat('sample.txt test.txt &gt;&gt; final.txt');</p><p>Note: as the class use fopen, urls should work also (test that)</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $args</strong>: the arguments</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - true on success</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodfind" id="methodfind"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method find</strong> (line <span class="linenumber">486</span>)
+ </h4> 
+<h4><i>array</i> <strong>find(
+mixed
+$args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The &quot;find&quot; command</h5>
+<div class="desc"><p>Usage:</p><p>System::find($dir);  System::find(&quot;$dir -type d&quot;);  System::find(&quot;$dir -type f&quot;);  System::find(&quot;$dir -name *.php&quot;);  System::find(&quot;$dir -name *.php -name *.htm*&quot;);  System::find(&quot;$dir -maxdepth 1&quot;);</p><p>Params implmented:  $dir            -&gt; Start the search at this directory  -type d         -&gt; return only directories  -type f         -&gt; return only files  -maxdepth &lt;n&gt;   -&gt; max depth of recursion  -name &lt;pattern&gt; -&gt; search pattern (bash style). Multiple -name param allowed</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>mixed $args</strong>: Either array or string with the command line</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Array of found files</li>
+		</ul>
+</div>
+<a name="methodmkDir" id="methodmkDir"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method mkDir</strong> (line <span class="linenumber">218</span>)
+ </h4> 
+<h4><i>bool</i> <strong>mkDir(
+string
+$args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Make directories. Note that we use call_user_func('mkdir') to avoid  a problem with ZE2 calling System::mkDir instead of the native PHP func.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $args</strong>: the name of the director(y|ies) to create</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - True for success</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodmktemp" id="methodmktemp"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method mktemp</strong> (line <span class="linenumber">348</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>mktemp(
+[string
+$args = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Creates temporary files or directories. This function will remove  the created files when the scripts finish its execution.</h5>
+<div class="desc"><p>Usage:    1) $tempfile = System::mktemp(&quot;prefix&quot;);    2) $tempdir  = System::mktemp(&quot;-d prefix&quot;);    3) $tempfile = System::mktemp();    4) $tempfile = System::mktemp(&quot;-t /var/tmp prefix&quot;);</p><p>prefix -&gt; The string that will be prepended to the temp name            (defaults to &quot;tmp&quot;).  -d     -&gt; A temporary dir will be created instead of a file.  -t     -&gt; The target dir where the temporary (file|dir) will be created. If            this param is missing by default the env vars TMP on Windows or            TMPDIR in Unix will be used. If these vars are also missing            c:\windows\temp or /tmp will be used.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $args</strong>: The arguments</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - the full path of the created (file|dir) or false</li>
+			<li><strong>access</strong> - public</li>
+			<li><strong>see</strong> - <a href="../System/System.html#methodtmpdir">System::tmpdir()</a></li>
+		</ul>
+</div>
+<a name="methodrm" id="methodrm"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method rm</strong> (line <span class="linenumber">175</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>rm(
+string
+$args)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The rm command for removing files.</h5>
+<div class="desc"><p>Supports multiple files and dirs and also recursive deletes</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $args</strong>: the arguments for rm</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - PEAR_Error or true for success</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodtmpdir" id="methodtmpdir"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method tmpdir</strong> (line <span class="linenumber">407</span>)
+ </h4> 
+<h4><i>string</i> <strong>tmpdir(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get the path of the temporal directory set in the system  by looking in its environments variables.</h5>
+<div class="desc"><p>Note: php.ini-recommended removes the &quot;E&quot; from the variables_order setting,  making unavaible the $_ENV array, that s why we do tests with _ENV</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - The temporal directory on the system</li>
+		</ul>
+</div>
+<a name="methodwhich" id="methodwhich"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method which</strong> (line <span class="linenumber">434</span>)
+ </h4> 
+<h4><i>mixed</i> <strong>which(
+string
+$program, [mixed
+$fallback = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>The &quot;which&quot; command (show the full path of a command)</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $program</strong>: The command to search for</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - A string with the full path or false if not found</li>
+			<li><strong>author</strong> - Stig Bakken &lt;<a href="mailto:ssb@php.net">ssb@php.net</a>&gt;</li>
+		</ul>
+</div>
+<a name="method_multipleToStruct" id="method_multipleToStruct"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _multipleToStruct</strong> (line <span class="linenumber">152</span>)
+ </h4> 
+<h4><i>array</i> <strong>_multipleToStruct(
+array
+$files)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Creates a nested array representing the structure of a directory and files</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $files</strong>: Array listing files and dirs</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>see</strong> - System::_dirToStruct()</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:21:41 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class PEAR_ErrorStack</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class PEAR_ErrorStack
+</h2> (line <span class="linenumber">156</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_packages_PEAR_ErrorStack_php.html">/packages/PEAR/ErrorStack.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Error Stack Implementation</h5>
+<div class="desc"><p>Usage:  <pre><ol><code><pre><li> <font color="green">// global error stack</font></li>
+<li> <strong>$global_stack </strong>= <strong>&amp;</strong><a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodPEAR_ErrorStack">PEAR_ErrorStack</a><strong>::</strong><a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodsingleton">singleton</a><strong>(</strong><font color="#66cccc">'MyPackage'</font><strong>)</strong><strong>;</strong></li>
+<li> <font color="green">// local error stack</font></li>
+<li> <strong>$local_stack </strong>= new <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodPEAR_ErrorStack">PEAR_ErrorStack</a><strong>(</strong><font color="#66cccc">'MyPackage'</font><strong>)</strong><strong>;</strong></li>
+</pre></code></ol></pre></p></div>
+<ul>
+		<li><strong>license:</strong> - <a href="http://www.php.net/license/3_0.txt">PHP License</a></li>
+		<li><strong>copyright:</strong> - 2004 Gregory Beaver</li>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from PEAR_ErrorStack:</span>
+ 		<dl>
+	<dt><a href="../CRM/CRM_Error.html">CRM_Error</a></dt>
+		<dd>Error Stack Implementation</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">false|string|array</span>
+    <a href="#var$_contextCallback" title="details" class="property"><strong>$_contextCallback</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">false|string|array</span>
+    <a href="#var$_errorCallback" title="details" class="property"><strong>$_errorCallback</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">array</span>
+    <a href="#var$_errorMsgs" title="details" class="property"><strong>$_errorMsgs</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">false|<a href="../Log/Log.html">Log</a></span>
+    <a href="#var$_logger" title="details" class="property"><strong>$_logger</strong></a>
+</div>
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$_package" title="details" class="property"><strong>$_package</strong></a>
+</div>
+<hr />
+<a name="var$_contextCallback" id="var$_contextCallback"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_contextCallback =  false</strong> (line <span class="linenumber">209</span>)
+ </h4>
+<h4>Data type : false|string|array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>If set to a valid callback, this will be used to generate the error</h5>
+<div class="desc"><p>context for an error.  For PHP-related errors, this will be a file  and line number as retrieved from debug_backtrace(), but can be  customized for other purposes.  The error might actually be in a separate  configuration file, or in a database query.</p></div>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_errorCallback" id="var$_errorCallback"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_errorCallback = array()</strong> (line <span class="linenumber">221</span>)
+ </h4>
+<h4>Data type : false|string|array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>If set to a valid callback, this will be called every time an error  is pushed onto the stack.  The return value will be used to determine  whether to allow an error to be pushed or logged.</h5>
+<div class="desc"><p>The return value must be one an PEAR_ERRORSTACK_* constant</p></div>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+		<li><strong>see:</strong> - <a href="../PEAR_ErrorStack/_packages_PEAR_ErrorStack_php.html#definePEAR_ERRORSTACK_PUSHANDLOG">PEAR_ERRORSTACK_PUSHANDLOG</a>, <a href="../PEAR_ErrorStack/_packages_PEAR_ErrorStack_php.html#definePEAR_ERRORSTACK_PUSH">PEAR_ERRORSTACK_PUSH</a>, <a href="../PEAR_ErrorStack/_packages_PEAR_ErrorStack_php.html#definePEAR_ERRORSTACK_LOG">PEAR_ERRORSTACK_LOG</a></li>
+	</ul>
+</div>
+<a name="var$_errorMsgs" id="var$_errorMsgs"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_errorMsgs = array()</strong> (line <span class="linenumber">235</span>)
+ </h4>
+<h4>Data type : array</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Error messages - designed to be overridden</h5>
+<ul>
+		<li><strong>abstract:</strong> - </li>
+	</ul>
+</div>
+<a name="var$_logger" id="var$_logger"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_logger =  false</strong> (line <span class="linenumber">228</span>)
+ </h4>
+<h4>Data type : false|<a href="../Log/Log.html">Log</a></h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>PEAR::Log object for logging errors</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<a name="var$_package" id="var$_package"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$_package</strong> (line <span class="linenumber">182</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Package name this error stack represents</h5>
+<ul>
+		<li><strong>access:</strong> - protected</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+				
+    <div class="method-definition">
+            <span class="method-result">PEAR_ErrorStack</span>
+        <a href="#methodPEAR_ErrorStack" title="details" class="method-name">PEAR_ErrorStack</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$package</span>, [<span class="var-type">callback</span>&nbsp;<span class="var-name">$msgCallback</span> = <span class="var-default">false</span>], [<span class="var-type">callback</span>&nbsp;<span class="var-name">$contextCallback</span> = <span class="var-default">false</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$throwPEAR_Error</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetErrorMessage" title="details" class="method-name">getErrorMessage</a>
+        (<span class="var-type"><a href="../PEAR_ErrorStack/PEAR_ErrorStack.html">PEAR_ErrorStack</a></span>&nbsp;<span class="var-name">&$stack</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$err</span>, [<span class="var-type">string|false</span>&nbsp;<span class="var-name">$template</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodgetErrorMessageTemplate" title="details" class="method-name">getErrorMessageTemplate</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$code</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodgetErrors" title="details" class="method-name">getErrors</a>
+        ([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$purge</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array|false</span>
+        <a href="#methodgetFileLine" title="details" class="method-name">getFileLine</a>
+        (<span class="var-type">unused</span>&nbsp;<span class="var-name">$code</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$params</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$backtrace</span> = <span class="var-default">null</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array|string|false</span>
+        <a href="#methodgetMessageCallback" title="details" class="method-name">getMessageCallback</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodhasErrors" title="details" class="method-name">hasErrors</a>
+        ([<span class="var-type">string|array</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">false|array</span>
+        <a href="#methodpop" title="details" class="method-name">pop</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array|string|false</span>
+        <a href="#methodpopCallback" title="details" class="method-name">popCallback</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../civiCRM/PEAR_Error.html">PEAR_Error</a>|array|Exception</span>
+        <a href="#methodpush" title="details" class="method-name">push</a>
+        (<span class="var-type">int</span>&nbsp;<span class="var-name">$code</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">'error'</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$msg</span> = <span class="var-default">false</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$repackage</span> = <span class="var-default">false</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$backtrace</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodpushCallback" title="details" class="method-name">pushCallback</a>
+        (<span class="var-type">string|array</span>&nbsp;<span class="var-name">$cb</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../civiCRM/PEAR_Error.html">PEAR_Error</a></span>
+        <a href="#methodraiseError" title="details" class="method-name">raiseError</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetContextCallback" title="details" class="method-name">setContextCallback</a>
+        (<span class="var-type">array|string|null</span>&nbsp;<span class="var-name">$contextCallback</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetDefaultCallback" title="details" class="method-name">setDefaultCallback</a>
+        ([<span class="var-type">array|string</span>&nbsp;<span class="var-name">$callback</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$package</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetDefaultLogger" title="details" class="method-name">setDefaultLogger</a>
+        (<span class="var-type"><a href="../Log/Log.html">Log</a></span>&nbsp;<span class="var-name">&$log</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">string</span>
+        <a href="#methodsetErrorMessageTemplate" title="details" class="method-name">setErrorMessageTemplate</a>
+        (<span class="var-type">mixed</span>&nbsp;<span class="var-name">$template</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetLogger" title="details" class="method-name">setLogger</a>
+        (<span class="var-type"><a href="../Log/Log.html">Log</a></span>&nbsp;<span class="var-name">&$log</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodsetMessageCallback" title="details" class="method-name">setMessageCallback</a>
+        (<span class="var-type">array|string</span>&nbsp;<span class="var-name">$msgCallback</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../PEAR_ErrorStack/PEAR_ErrorStack.html">PEAR_ErrorStack</a></span>
+        <a href="#methodsingleton" title="details" class="method-name">&amp;singleton</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$package</span>, [<span class="var-type">callback</span>&nbsp;<span class="var-name">$msgCallback</span> = <span class="var-default">false</span>], [<span class="var-type">callback</span>&nbsp;<span class="var-name">$contextCallback</span> = <span class="var-default">false</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$throwPEAR_Error</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$stackClass</span> = <span class="var-default">'PEAR_ErrorStack'</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array</span>
+        <a href="#methodstaticGetErrors" title="details" class="method-name">staticGetErrors</a>
+        ([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$purge</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">false</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$merge</span> = <span class="var-default">false</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$sortfunc</span> = <span class="var-default">array('PEAR_ErrorStack', '_sortErrors')</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">boolean</span>
+        <a href="#methodstaticHasErrors" title="details" class="method-name">staticHasErrors</a>
+        ([<span class="var-type">string|false</span>&nbsp;<span class="var-name">$package</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">array|string|false</span>
+        <a href="#methodstaticPopCallback" title="details" class="method-name">staticPopCallback</a>
+        ()
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result"><a href="../civiCRM/PEAR_Error.html">PEAR_Error</a>|null|Exception</span>
+        <a href="#methodstaticPush" title="details" class="method-name">staticPush</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$package</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$code</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">'error'</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$msg</span> = <span class="var-default">false</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$repackage</span> = <span class="var-default">false</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$backtrace</span> = <span class="var-default">false</span>])
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodstaticPushCallback" title="details" class="method-name">staticPushCallback</a>
+        (<span class="var-type">string|array</span>&nbsp;<span class="var-name">$cb</span>)
+        </div>
+				
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#method_log" title="details" class="method-name">_log</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$err</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$levels</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodPEAR_ErrorStack" id="methodPEAR_ErrorStack"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor PEAR_ErrorStack</strong> (line <span class="linenumber">246</span>)
+ </h4> 
+<h4><i>PEAR_ErrorStack</i> <strong>PEAR_ErrorStack(
+string
+$package, [callback
+$msgCallback = false], [callback
+$contextCallback = false], [boolean
+$throwPEAR_Error = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set up a new error stack</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $package</strong>: name of the package this error stack represents</li>
+			<li><strong>callback $msgCallback</strong>: callback used for error message generation</li>
+			<li><strong>callback $contextCallback</strong>: callback used for context generation,                  defaults to <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodgetFileLine">getFileLine()</a></li>
+			<li><strong>boolean $throwPEAR_Error</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetErrorMessage" id="methodgetErrorMessage"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getErrorMessage</strong> (line <span class="linenumber">905</span>)
+ </h4> 
+<h4><i>string</i> <strong>getErrorMessage(
+<a href="../PEAR_ErrorStack/PEAR_ErrorStack.html">PEAR_ErrorStack</a>
+&$stack, array
+$err, [string|false
+$template = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Standard error message generation callback</h5>
+<div class="desc"><p>This method may also be called by a custom error message generator  to fill in template values from the params array, simply  set the third parameter to the error message template string to use</p><p>The special variable %__msg% is reserved: use it only to specify  where a message passed in by the user should be placed in the template,  like so:</p><p>Error message: %msg% - internal error</p><p>If the message passed like so:</p><p><pre><ol><code><pre><li> <strong>$stack</strong><strong>-&gt;</strong><a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodpush">push</a><strong>(</strong>ERROR_CODE<strong>, </strong><font color="#66cccc">'error'</font><strong>, </strong>array<strong>(</strong><strong>)</strong><strong>, </strong><font color="#66cccc">'server error 500'</font><strong>)</strong><strong>;</strong></li>
+</pre></code></ol></pre></p><p>The returned error message will be &quot;Error message: server error 500 -  internal error&quot;</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../PEAR_ErrorStack/PEAR_ErrorStack.html">PEAR_ErrorStack</a> &$stack</strong>: </li>
+			<li><strong>array $err</strong>: </li>
+			<li><strong>string|false $template</strong>: Pre-generated error message template</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetErrorMessageTemplate" id="methodgetErrorMessageTemplate"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getErrorMessageTemplate</strong> (line <span class="linenumber">939</span>)
+ </h4> 
+<h4><i>string</i> <strong>getErrorMessageTemplate(
+mixed
+$code)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Standard Error Message Template generator from code</h5>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetErrors" id="methodgetErrors"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getErrors</strong> (line <span class="linenumber">711</span>)
+ </h4> 
+<h4><i>array</i> <strong>getErrors(
+[boolean
+$purge = false], [string
+$level = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Retrieve all errors since last purge</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>boolean $purge</strong>: set in order to empty the error stack</li>
+			<li><strong>string $level</strong>: level name, to return only errors of a particular severity</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgetFileLine" id="methodgetFileLine"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getFileLine</strong> (line <span class="linenumber">830</span>)
+ </h4> 
+<h4><i>array|false</i> <strong>getFileLine(
+unused
+$code, integer
+$params, [array
+$backtrace = null])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Standard file/line number/function/class context callback</h5>
+<div class="desc"><p>This function uses a backtrace generated from <a href="http://www.php.net/debug_backtrace">http://www.php.net/debug_backtrace</a>  and so will not work at all in PHP &lt; 4.3.0.  The frame should  reference the frame that contains the source of the error.</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>unused $code</strong>: </li>
+			<li><strong>integer $params</strong>: backtrace frame.</li>
+			<li><strong>array $backtrace</strong>: Results of debug_backtrace()</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - either array('file' =&gt; file, 'line' =&gt; line,          'function' =&gt; function name, 'class' =&gt; class name) or          if this doesn't work, then false</li>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodgetMessageCallback" id="methodgetMessageCallback"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method getMessageCallback</strong> (line <span class="linenumber">360</span>)
+ </h4> 
+<h4><i>array|string|false</i> <strong>getMessageCallback(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get an error code =&gt; error message mapping callback</h5>
+<div class="desc"><p>This method returns the current callback that can be used to generate error  messages</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - Callback function/method or false if none</li>
+		</ul>
+</div>
+<a name="methodhasErrors" id="methodhasErrors"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method hasErrors</strong> (line <span class="linenumber">696</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>hasErrors(
+[string|array
+$level = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Determine whether there are any errors on the stack</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string|array $level</strong>: Level name.  Use to determine if any errors  of level (string), or levels (array) have been pushed</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodpop" id="methodpop"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method pop</strong> (line <span class="linenumber">685</span>)
+ </h4> 
+<h4><i>false|array</i> <strong>pop(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Pop an error off of the error stack</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>since</strong> - 0.4alpha it is no longer possible to specify a specific error  level to return - the last error pushed will be returned, instead</li>
+		</ul>
+</div>
+<a name="methodpopCallback" id="methodpopCallback"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method popCallback</strong> (line <span class="linenumber">430</span>)
+ </h4> 
+<h4><i>array|string|false</i> <strong>popCallback(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Remove a callback from the error callback stack</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>see</strong> - <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodpushCallback">PEAR_ErrorStack::pushCallback()</a></li>
+		</ul>
+</div>
+<a name="methodpush" id="methodpush"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method push</strong> (line <span class="linenumber">516</span>)
+ </h4> 
+<h4><i><a href="../civiCRM/PEAR_Error.html">PEAR_Error</a>|array|Exception</i> <strong>push(
+int
+$code, [string
+$level = 'error'], [array
+$params = array()], [string
+$msg = false], [array
+$repackage = false], [array
+$backtrace = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Add an error to the stack</h5>
+<div class="desc"><p>If the message generator exists, it is called with 2 parameters. <ul><li>the current Error Stack object</li><li>an array that is in the same format as an error.  Available indices
+    are 'code', 'package', 'time', 'params', 'level', and 'context'</li></ul>  Next, if the error should contain context information, this is  handled by the context grabbing method.  Finally, the error is pushed onto the proper error stack</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>int $code</strong>: Package-specific error code</li>
+			<li><strong>string $level</strong>: Error level.  This is NOT spell-checked</li>
+			<li><strong>array $params</strong>: associative array of error parameters</li>
+			<li><strong>string $msg</strong>: Error message, or a portion of it if the message                           is to be generated</li>
+			<li><strong>array $repackage</strong>: If this error re-packages an error pushed by                           another package, place the array returned from                           <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodpop">pop()</a> in this parameter</li>
+			<li><strong>array $backtrace</strong>: Protected parameter: use this to pass in the                           <a href="http://www.php.net/debug_backtrace">http://www.php.net/debug_backtrace</a> that should be used                           to find error context</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - <p>if compatibility mode is on, a PEAR_Error is also                           thrown.  If the class Exception exists, then one                           is returned to allow code like:  <pre><ol><code><pre><li> throw <strong>(</strong><strong>$stack</strong><strong>-&gt;</strong><a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodpush">push</a><strong>(</strong>MY_ERROR_CODE<strong>, </strong><font color="#66cccc">'error'</font><strong>, </strong>array<strong>(</strong><font color="#66cccc">'username' </font>=&gt; <font color="#66cccc">'grob'</font><strong>)))</strong><strong>;</strong></li>
+</pre></code></ol></pre></p><p>The errorData property of the exception class will be set to the array  that would normally be returned.  If a PEAR_Error is returned, the userinfo  property is set to the array</p><p>Otherwise, an array is returned in this format:  <pre><ol><code><pre><li> array<strong>(</strong></li>
+<li>    <font color="#66cccc">'code' </font>=&gt; <strong>$code</strong><strong>,</strong></li>
+<li>    <font color="#66cccc">'params' </font>=&gt; <strong>$params</strong><strong>,</strong></li>
+<li>    <font color="#66cccc">'package' </font>=&gt; <strong>$this</strong><strong>-&gt;</strong><a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#var$_package">_package</a><strong>,</strong></li>
+<li>    <font color="#66cccc">'level' </font>=&gt; <strong>$level</strong><strong>,</strong></li>
+<li>    <font color="#66cccc">'time' </font>=&gt; <a href="http://www.php.net/time">time</a><strong>(</strong><strong>)</strong><strong>,</strong></li>
+<li>    <font color="#66cccc">'context' </font>=&gt; <strong>$context</strong><strong>,</strong></li>
+<li>    <font color="#66cccc">'message' </font>=&gt; <strong>$msg</strong><strong>,</strong></li>
+<li> <font color="green">//['repackage' =&gt; $err] repackaged error array/Exception class</font></li>
+<li> <strong>)</strong><strong>;</strong></li>
+</pre></code></ol></pre></p></li>
+		</ul>
+</div>
+<a name="methodpushCallback" id="methodpushCallback"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method pushCallback</strong> (line <span class="linenumber">420</span>)
+ </h4> 
+<h4><i>void</i> <strong>pushCallback(
+string|array
+$cb)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set an error Callback  If set to a valid callback, this will be called every time an error  is pushed onto the stack.  The return value will be used to determine  whether to allow an error to be pushed or logged.</h5>
+<div class="desc"><p>The return value must be one of the ERRORSTACK_* constants.</p><p>This functionality can be used to emulate PEAR's pushErrorHandling, and  the PEAR_ERROR_CALLBACK mode, without affecting the integrity of  the error stack or logging</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string|array $cb</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>see</strong> - <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodpopCallback">PEAR_ErrorStack::popCallback()</a></li>
+			<li><strong>see</strong> - <a href="../PEAR_ErrorStack/_packages_PEAR_ErrorStack_php.html#definePEAR_ERRORSTACK_PUSHANDLOG">PEAR_ERRORSTACK_PUSHANDLOG</a>, <a href="../PEAR_ErrorStack/_packages_PEAR_ErrorStack_php.html#definePEAR_ERRORSTACK_PUSH">PEAR_ERRORSTACK_PUSH</a>, <a href="../PEAR_ErrorStack/_packages_PEAR_ErrorStack_php.html#definePEAR_ERRORSTACK_LOG">PEAR_ERRORSTACK_LOG</a></li>
+		</ul>
+</div>
+<a name="methodraiseError" id="methodraiseError"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method raiseError</strong> (line <span class="linenumber">972</span>)
+ </h4> 
+<h4><i><a href="../civiCRM/PEAR_Error.html">PEAR_Error</a></i> <strong>raiseError(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>emulate PEAR::raiseError()</h5>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodsetContextCallback" id="methodsetContextCallback"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setContextCallback</strong> (line <span class="linenumber">391</span>)
+ </h4> 
+<h4><i>void</i> <strong>setContextCallback(
+array|string|null
+$contextCallback)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set a callback that generates context information (location of error) for an error stack</h5>
+<div class="desc"><p>This method sets the callback that can be used to generate context  information for an error.  Passing in NULL will disable context generation  and remove the expensive call to debug_backtrace()</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array|string|null $contextCallback</strong>: Callback function/method</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodsetDefaultCallback" id="methodsetDefaultCallback"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setDefaultCallback</strong> (line <span class="linenumber">374</span>)
+ </h4> 
+<h4><i>void</i> <strong>setDefaultCallback(
+[array|string
+$callback = false], [string
+$package = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Sets a default callback to be used by all error stacks</h5>
+<div class="desc"><p>This method sets the callback that can be used to generate error  messages for a singleton</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array|string $callback</strong>: Callback function/method</li>
+			<li><strong>string $package</strong>: Package name, or false for all packages</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodsetDefaultLogger" id="methodsetDefaultLogger"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setDefaultLogger</strong> (line <span class="linenumber">313</span>)
+ </h4> 
+<h4><i>void</i> <strong>setDefaultLogger(
+<a href="../Log/Log.html">Log</a>
+&$log)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set up a PEAR::Log object for all error stacks that don't have one</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../Log/Log.html">Log</a> $log</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodsetErrorMessageTemplate" id="methodsetErrorMessageTemplate"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setErrorMessageTemplate</strong> (line <span class="linenumber">961</span>)
+ </h4> 
+<h4><i>string</i> <strong>setErrorMessageTemplate(
+mixed
+$template)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set the Error Message Template array</h5>
+<div class="desc"><p>The array format must be:  <pre> array(error code => 'message template',...)</pre></p><p>Error message parameters passed into <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodpush">push()</a> will be used as input  for the error message.  If the template is 'message %foo% was %bar%', and the  parameters are array('foo' =&gt; 'one', 'bar' =&gt; 'six'), the error message returned will  be 'message one was six'</p></div>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodsetLogger" id="methodsetLogger"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setLogger</strong> (line <span class="linenumber">326</span>)
+ </h4> 
+<h4><i>void</i> <strong>setLogger(
+<a href="../Log/Log.html">Log</a>
+&$log)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set up a PEAR::Log object for this error stack</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../Log/Log.html">Log</a> $log</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodsetMessageCallback" id="methodsetMessageCallback"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method setMessageCallback</strong> (line <span class="linenumber">342</span>)
+ </h4> 
+<h4><i>void</i> <strong>setMessageCallback(
+array|string
+$msgCallback)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set an error code =&gt; error message mapping callback</h5>
+<div class="desc"><p>This method sets the callback that can be used to generate error  messages for any instance</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array|string $msgCallback</strong>: Callback function/method</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodsingleton" id="methodsingleton"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method singleton</strong> (line <span class="linenumber">269</span>)
+ </h4> 
+<h4><i><a href="../PEAR_ErrorStack/PEAR_ErrorStack.html">PEAR_ErrorStack</a></i> <strong>&amp;singleton(
+string
+$package, [callback
+$msgCallback = false], [callback
+$contextCallback = false], [boolean
+$throwPEAR_Error = false], [string
+$stackClass = 'PEAR_ErrorStack'])</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../CRM/CRM_Error.html#methodsingleton">CRM_Error::singleton()</a></dt>
+		<dd>singleton function used to manage this object. This function is not  explicity declared static to be compatible with PEAR_ErrorStack</dd>
+	</dl>
+	</p>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Return a single error stack for this package.</h5>
+<div class="desc"><p>Note that all parameters are ignored if the stack for package $package  has already been instantiated</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $package</strong>: name of the package this error stack represents</li>
+			<li><strong>callback $msgCallback</strong>: callback used for error message generation</li>
+			<li><strong>callback $contextCallback</strong>: callback used for context generation,                  defaults to <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodgetFileLine">getFileLine()</a></li>
+			<li><strong>boolean $throwPEAR_Error</strong>: </li>
+			<li><strong>string $stackClass</strong>: class to instantiate</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodstaticGetErrors" id="methodstaticGetErrors"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method staticGetErrors</strong> (line <span class="linenumber">778</span>)
+ </h4> 
+<h4><i>array</i> <strong>staticGetErrors(
+[boolean
+$purge = false], [string
+$level = false], [boolean
+$merge = false], [array
+$sortfunc = array('PEAR_ErrorStack', '_sortErrors')])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Get a list of all errors since last purge, organized by package</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>boolean $purge</strong>: Set to purge the error stack of existing errors</li>
+			<li><strong>string $level</strong>: Set to a level name in order to retrieve only errors of a particular level</li>
+			<li><strong>boolean $merge</strong>: Set to return a flat array, not organized by package</li>
+			<li><strong>array $sortfunc</strong>: Function used to sort a merged array - default         sorts by time, and should be good for most cases</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+			<li><strong>since</strong> - PEAR 1.4.0dev BC break! $level is now in the place $merge used to be</li>
+		</ul>
+</div>
+<a name="methodstaticHasErrors" id="methodstaticHasErrors"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method staticHasErrors</strong> (line <span class="linenumber">751</span>)
+ </h4> 
+<h4><i>boolean</i> <strong>staticHasErrors(
+[string|false
+$package = false], [string
+$level = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Determine whether there are any errors on a single error stack, or on any error stack</h5>
+<div class="desc"><p>The optional parameter can be used to test the existence of any errors without the need of  singleton instantiation</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string|false $package</strong>: Package name to check for errors</li>
+			<li><strong>string $level</strong>: Level name to check for a particular severity</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodstaticPopCallback" id="methodstaticPopCallback"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method staticPopCallback</strong> (line <span class="linenumber">459</span>)
+ </h4> 
+<h4><i>array|string|false</i> <strong>staticPopCallback(
+)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Remove a temporary overriding error callback</h5>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+			<li><strong>see</strong> - <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodstaticPushCallback">PEAR_ErrorStack::staticPushCallback()</a></li>
+		</ul>
+</div>
+<a name="methodstaticPush" id="methodstaticPush"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method staticPush</strong> (line <span class="linenumber">629</span>)
+ </h4> 
+<h4><i><a href="../civiCRM/PEAR_Error.html">PEAR_Error</a>|null|Exception</i> <strong>staticPush(
+string
+$package, int
+$code, [string
+$level = 'error'], [array
+$params = array()], [string
+$msg = false], [array
+$repackage = false], [array
+$backtrace = false])</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Static version of push()</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $package</strong>: Package name this error belongs to</li>
+			<li><strong>int $code</strong>: Package-specific error code</li>
+			<li><strong>string $level</strong>: Error level.  This is NOT spell-checked</li>
+			<li><strong>array $params</strong>: associative array of error parameters</li>
+			<li><strong>string $msg</strong>: Error message, or a portion of it if the message                           is to be generated</li>
+			<li><strong>array $repackage</strong>: If this error re-packages an error pushed by                           another package, place the array returned from                           <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodpop">pop()</a> in this parameter</li>
+			<li><strong>array $backtrace</strong>: Protected parameter: use this to pass in the                           <a href="http://www.php.net/debug_backtrace">http://www.php.net/debug_backtrace</a> that should be used                           to find error context</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - if compatibility mode is on, a PEAR_Error is also                           thrown.  If the class Exception exists, then one                           is returned to allow code like:  <pre><ol><code><pre><li> throw <strong>(</strong><strong>$stack</strong><strong>-&gt;</strong><a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodpush">push</a><strong>(</strong>MY_ERROR_CODE<strong>, </strong><font color="#66cccc">'error'</font><strong>, </strong>array<strong>(</strong><font color="#66cccc">'username' </font>=&gt; <font color="#66cccc">'grob'</font><strong>)))</strong><strong>;</strong></li>
+</pre></code></ol></pre></li>
+			<li><strong>static</strong> - </li>
+		</ul>
+</div>
+<a name="methodstaticPushCallback" id="methodstaticPushCallback"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method staticPushCallback</strong> (line <span class="linenumber">448</span>)
+ </h4> 
+<h4><i>void</i> <strong>staticPushCallback(
+string|array
+$cb)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Set a temporary overriding error callback for every package error stack</h5>
+<div class="desc"><p>Use this to temporarily disable all existing callbacks (can be used  to emulate the @ operator, for instance)</p></div>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string|array $cb</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>static</strong> - </li>
+			<li><strong>see</strong> - <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodstaticPopCallback">PEAR_ErrorStack::staticPopCallback()</a>, <a href="../PEAR_ErrorStack/PEAR_ErrorStack.html#methodpushCallback">PEAR_ErrorStack::pushCallback()</a></li>
+			<li><strong>see</strong> - <a href="../PEAR_ErrorStack/_packages_PEAR_ErrorStack_php.html#definePEAR_ERRORSTACK_PUSHANDLOG">PEAR_ERRORSTACK_PUSHANDLOG</a>, <a href="../PEAR_ErrorStack/_packages_PEAR_ErrorStack_php.html#definePEAR_ERRORSTACK_PUSH">PEAR_ERRORSTACK_PUSH</a>, <a href="../PEAR_ErrorStack/_packages_PEAR_ErrorStack_php.html#definePEAR_ERRORSTACK_LOG">PEAR_ERRORSTACK_LOG</a></li>
+		</ul>
+</div>
+<a name="method_log" id="method_log"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method _log</strong> (line <span class="linenumber">649</span>)
+ </h4> 
+<h4><i>void</i> <strong>_log(
+array
+$err, array
+$levels)</strong></h4>
+
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Log an error using PEAR::Log</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $err</strong>: Error array</li>
+			<li><strong>array $levels</strong>: Error level =&gt; Log constant map</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - protected</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Thu, 31 Mar 2005 15:20:03 +0530 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+	</div>
+</body>
+</html>
