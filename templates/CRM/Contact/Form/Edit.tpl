@@ -172,15 +172,34 @@
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
+
+
  <div id = "notes[show]" class="show-section">
     {$notes.show}
  </div>
 
-
  <div id = "notes">
  <fieldset><legend>Contact Notes</legend>
     <div class="form-item">
+        {if $mode eq 1}
         {$form.note.html}
+        {else}
+	   <table border=0>
+	   {foreach from=$note item=note key=noteKey }
+	     <tr><td>{$note.note|truncate:150:"...":true}</td><td width="100">{$note.modified_date|date_format:"%B %e, %Y"}</td>
+	     {if $noteKey neq 0}
+	       <td width="90"><a href="#">View</a> | <a href="#">Edit</a></td> 
+	     {/if}
+	     </tr>  
+	   {/foreach}
+	   </table>
+
+
+	     <br><a href="#">New Note</a> 
+	      {if $noteKey neq 0 and $total_note gt 2 }
+	     | <a href="#">Browse all notes</a>
+	      {/if}
+        {/if}  
         <div class = "description">
           Record any descriptive comments about this contact.
           You may add an unlimited number of notes, and view or search on them at any time.
@@ -192,7 +211,10 @@
         {$notes.hide}
     </div>
  </fieldset>
- </div> <!-- End of "notes" div -->
+ </div>
+
+
+ <!-- End of "notes" div -->
  
  <div id="crm-submit-buttons">
     {$form.buttons.html}

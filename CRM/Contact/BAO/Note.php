@@ -108,20 +108,33 @@ class CRM_Contact_BAO_Note extends CRM_DAO_Note {
     static function getValues( &$params, &$values, &$ids ) {
         $note = new CRM_Contact_BAO_Note( );
         $note->copyValues( $params );
+        
+        // get the total count of notes
+        $lng_total_cnt = $note->count( );
 
-        // we first get the primary location due to the order by clause
+        // get only 2 recent notes
         $note->orderBy( 'id desc' );
-        $note->limit( 1 );
-        if( $note->find(true) ) {
-            $ids['node'] = $note->id;
+        $note->limit( 2 );
+        $note->find();
 
-            $note->storeValues( $values );
+        while ( $note->fetch() ) {
+            $values['note'][$note->id] = array();
+            $ids['note'][$note->id]    = array();
+            
+            $ids['note'][$note->id] = $note->id;
+            
+            $values['total_note'] = $lng_total_cnt;    
 
-            return $note;
+            $note->storeValues( $values['note'][$note->id] );
+            
         }
-        return null;
+        
+        if(!array_key_exists('note',$values)){
+            $values['note'][0]['note'] = 'There are no notes for this contact.';    
+        }
+        
+        return $note;
     }
-
 }
 
 ?>

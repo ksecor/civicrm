@@ -35,12 +35,8 @@
 
 Class CRM_Contact_Form_Note
 {
-
     static function buildNoteBlock(&$form) {
-        
         $form->add('textarea', 'note', 'Notes:', array('cols' => '82',));    
-        CRM_ShowHideBlocks::links( $form, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
-        
     }
 
 }

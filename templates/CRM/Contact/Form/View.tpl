@@ -129,8 +129,19 @@
  <p>
  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;">(-)</a> Contact Notes</legend>
     <div class="form-item">
-     {$note}  
-   {* (listing of most recent notes will go here)*}
+   <table border=0>
+   {foreach from=$note item=note key=noteKey }
+     <tr><td>{$note.note|truncate:150:"...":true}</td><td width="100">{$note.modified_date|date_format:"%B %e, %Y"}</td>
+     {if $noteKey neq 0}
+       <td width="90"><a href="#">View</a> | <a href="#">Edit</a></td> 
+     {/if}
+     </tr>  
+   {/foreach}
+   </table>
+     <br><a href="#">New Note</a> 
+      {if $noteKey neq 0 and $total_note gt 2 }
+     | <a href="#">Browse all notes</a>
+     {/if}
     </div>
  </fieldset>
  </p>

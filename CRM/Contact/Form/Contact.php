@@ -170,11 +170,15 @@ class CRM_Contact_Form_Contact extends CRM_Form
 
             CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, self::LOCATION_BLOCKS );
 
-            // get the note
+            // get the notes
+
             CRM_Contact_BAO_Note::getValues( $params, $defaults, $ids );
-            
+        
             if ( $this->_mode & self::MODE_UPDATE ) {
                 $this->set( 'ids', $ids );
+
+                // show notes
+                $this->assign( 'note',$defaults['note'] );
             }
             
             // also set contact_type, since this is used in showHide routines 
@@ -183,7 +187,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
         }
         
         $this->setShowHide( $defaults );
-        
+
         if ( $this->_mode & self::MODE_VIEW ) {
             CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
             $this->assign( $defaults );
@@ -286,9 +290,11 @@ class CRM_Contact_Form_Contact extends CRM_Form
         /* End of locations */
         
         // add note block
-        $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
-
-
+        if ($this->_mode == self::MODE_ADD) {
+            $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
+        }    
+        CRM_ShowHideBlocks::links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
+            
         /*        
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82', 'maxlength' => 255));    
         CRM_ShowHideBlocks::links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
