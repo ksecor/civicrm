@@ -101,10 +101,8 @@
  <table border="0" cellpadding="2" cellspacing="2" width="100%">
 	  <!--label><i><h1>Demographics</h1></i></label-->
 	 <tr>
-		 <td class="form-item"><label>{$form.gender.female.label}</label></td>
-		 <td class="form-item">{$form.gender.female.html}
-		 {$form.gender.male.html}
-		 {$form.gender.transgender.html}</td>
+		 <td class="form-item"><label>{$form.gender.label}</label></td>
+		 <td class="form-item">{$form.gender.html}</td>
 	 </tr>
 	 <tr>
 		 <td class="form-item"><label>{$form.birth_date.label}</label></td>

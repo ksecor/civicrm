@@ -482,13 +482,16 @@ class CRM_Contact_Form_Individual extends CRM_Form
         CRM_Contact_Form_Contact::buildCommunicationBlock($this);
 
         // radio button for gender
-        $this->addElement('radio', 'gender', 'Gender', 'Female', 'female',
-                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';",'checked' => null));
-        $this->addElement('radio', 'gender', 'Gender', 'Male', 'male', 
-                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
-        $this->addElement('radio', 'gender', 'Gender', 'Transgender','transgender', 
-                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
-        $this->addElement('checkbox', 'is_deceased', 'Contact is deceased', null, 
+        $genderOptions = array( );
+        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', 'Gender', 'Female', 'female',
+                                                         array('onclick' => "document.Individual.elements['mdyx'].value = 'true';",'checked' => null));
+        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', 'Gender', 'Male', 'male', 
+                                                         array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
+        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', 'Gender', 'Transgender','transgender', 
+                                                         array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
+        $this->addGroup( $genderOptions, 'gender', 'Gender' );
+        
+        $this->addElement('checkbox', 'is_deceased', null, 'Contact is deceased',
                           array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
         
         $this->addElement('date', 'birth_date', 'Date of birth', CRM_SelectValues::$date, 

@@ -44,10 +44,10 @@ class CRM_Contact_Form_Contact extends CRM_Form
     public static function buildCommunicationBlock($form)
     {
         // checkboxes for DO NOT phone, email, mail
-        $form->addElement('checkbox', 'do_not_phone', 'Privacy:', 'Do not call');
+        $form->addElement('checkbox', 'do_not_phone', null, 'Do not call');
         $form->addElement('checkbox', 'do_not_email', null, 'Do not contact by email');
-        $form->addElement('checkbox', 'do_not_mail', null, 'Do not contact by postal mail');
-        
+        $form->addElement('checkbox', 'do_not_mail' , null, 'Do not contact by postal mail');
+
         // preferred communication method 
         $form->add('select', 'preferred_communication_method', 'Prefers:', CRM_SelectValues::$pcm);
     }

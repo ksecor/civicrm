@@ -151,7 +151,7 @@ class CRM_Error extends PEAR_ErrorStack {
      * @see CRM_Error::debug()
      * @see CRM_Error::debug_log_message()
      */
-    static function debug_var($variable_name, &$variable, $log=true)
+   static function debug_var($variable_name, &$variable, $log=true)
     {
         // check if variable is set
         if(!isset($variable)) {
@@ -214,7 +214,7 @@ class CRM_Error extends PEAR_ErrorStack {
         $error =& self::singleton( );
         $out = "<p /><code>$message</code>";
         if ($log) {
-            echo $out;
+            // echo $out;
         }
         return $out;
     }
