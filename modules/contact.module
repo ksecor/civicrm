@@ -4,6 +4,7 @@ include_once 'config.inc.php';
 
 require_once 'CRM/Contacts/Contacts.php';
 require_once 'CRM/Contacts/Households.php';
+require_once 'CRM/Contacts/Organizations.php';
 require_once 'CRM/Utils.php';
 
 /**
@@ -116,11 +117,19 @@ function contact_menu($may_cache) {
                      );
 
     $items[] = array(
-                     'path'  => 'crm/contact/addhouse',
+                     'path'  => 'crm/contact/add_house',
                      'title' => t('Add Household'),
                      'type'   => MENU_NORMAL_ITEM,
                      'weight' => 3
                      );
+    
+    $items[] = array(
+                     'path'  => 'crm/contact/add_org',
+                     'title' => t('Add Organization'),
+                     'type'   => MENU_NORMAL_ITEM,
+                     'weight' => 4
+                     );
+
 
     $items[] = array(
                      'path'  => 'crm/contact/add/basic',
@@ -241,9 +250,15 @@ function contact_invoke( $operation ) {
   }
 
   // add household
-  if (arg(2) == 'addhouse') {
-    $content .= contact_addhouse();
+  if (arg(2) == 'add_house') {
+    $content .= contact_add_house();
   }
+
+  // add organisation
+  if (arg(2) == 'add_org') {
+    $content .= contact_add_org();
+  }
+
 
   // list
   if (arg(2) == 'list') {
@@ -300,12 +315,18 @@ function contact_add() {
 } // end of function contact_add
 
 
-
-function contact_addhouse() {
+function contact_add_house() {
   $contact = new CRM_Contacts_Households();
   $contact->run( CRM_Form::MODE_CREATE, 0 );
   return $contact->display();
-} // end of function contact_add
+} // end of function contact_add_house
+
+function contact_add_org() {
+  $contact = new CRM_Contacts_Organizations();
+  $contact->run( CRM_Form::MODE_CREATE, 0 );
+  return $contact->display();
+} // end of function contact_add_org
+
 
 /*******************************************************
  *
