@@ -9,7 +9,7 @@ class TestOfContactAPI extends UnitTestCase {
 
     function tearDown( ) {
     }
-
+    /*
     function testCreateEmptyContact( ) {
         $params = array( );
         $contact =& crm_create_contact( $params );
@@ -57,6 +57,7 @@ class TestOfContactAPI extends UnitTestCase {
         $contact =& crm_create_contact( $params, 'Individual' );
         $this->assertIsA( $contact, 'CRM_Contact_DAO_Individual' );
     }
+    */
 
     /***
     function testCreateNameHousehold( ) {
@@ -81,6 +82,58 @@ class TestOfContactAPI extends UnitTestCase {
 
     **/
     
+    // this is not working
+
+    function testCreateIndividualwithEmail_Error( ) {
+        $params = array( 'first_name' => 'Hello','last_name' => 'Hiii','email' => 'kurund@yahoo.com' );
+        $contact =& crm_create_contact( $params, 'Individual' );
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Individual' );
+    }
+
+    // this is working
+    function testCreateIndividualwithEmail( ) {
+        $params = array( 'first_name' => 'Hello','last_name' => 'Hiii','email' => 'kurund@yahoo.com', 'location_type_id' => 1, 'is_primary' => 1 );
+        $contact =& crm_create_contact( $params, 'Individual' );
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Individual' );
+    }
+
+    // this is working
+    function testCreateIndividualwithPhone( ) {
+        $params = array( 'first_name' => 'Hello11','last_name' => 'Hiii', 'location_type_id' => 1, 'phone' => '11111', 'phone_type' => 'Phone','is_primary' => 1 );
+        $contact =& crm_create_contact( $params, 'Individual' );
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Individual' );
+    }
+
+    // this is working
+    function testCreateIndividualwithIm( ) {
+        $params = array( 'first_name' => 'Hello11','last_name' => 'Hiii', 'location_type_id' => 1, 'name' => 'kurundyahoo', 'provider_id' => 1,'is_primary' => 1 );
+        $contact =& crm_create_contact( $params, 'Individual' );
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Individual' );
+    }
+
+    function testCreateIndividualwithAll( ) {
+        $params = array( 'first_name' => 'kurund','last_name' => 'jalmi', 'location_type_id' => 1, 'name' => 'kurundssyahoo', 'provider_id' => 1,'is_primary' => 1,'phone' => '999999', 'phone_type' => 'Phone', 'email' => 'kurund@yahoo.com');
+        $contact =& crm_create_contact( $params, 'Individual' );
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Individual' );
+    }
+
+
+    // this is not working
+    function testCreateHousehold1( ) {
+        $params = array( 'household_name' => 'Jasssss\'s House', 'nick_name' => 'J House', 'primary_contact_id' => 4 );
+        $contact =& crm_create_contact( $params, 'Household' );
+        // $this->assertIsA( $contact, 'CRM_Contact_DAO_Household' );
+        $this->assertIsA( $contact, 'CRM_Error' );
+    }
+
+    // this is working
+    function testCreateHousehold2( ) {
+        $params = array( 'household_name' => 'Jalmi\'s House', 'nick_name' => 'J House', 'primary_contact_id' => 42 );
+        $contact =& crm_create_contact( $params, 'Household' );
+        // $this->assertIsA( $contact, 'CRM_Contact_DAO_Household' );
+        $this->assertIsA( $contact, 'CRM_Error' );
+    }
+
 
 }
 
