@@ -143,7 +143,18 @@ function hide(block_id)
  * @return
  */
 
-function check()
+function check(formname,state)
 {
-    alert("hihihihihi");
+    var i;
+	
+    for (i = 1; i <= 5; i++ ) {
+	var r = 'chk[' + i +']';
+	if (state == 1) {
+	    formname.elements[r].checked = 'checked';
+	} else {
+	    formname.elements[r].checked = null;
+	}    
+
+    }
+    
 }
