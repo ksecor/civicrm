@@ -276,7 +276,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
     {
         switch ($this->_mode) {
         case self::MODE_ADD:
-            $this->_Add_postProcess();
+            $this->_addPostProcess();
             break;
         case self::MODE_VIEW:
             break;
@@ -287,7 +287,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         case self::MODE_SEARCH:
             break;            
         case self::MODE_ADD_MINI:
-            $this->_MiniAdd_postProcess();
+            $this->_miniAddPostProcess();
             break;            
         case self::MODE_SEARCH_MINI:
             break;            
@@ -486,7 +486,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      * This function does all the processing of the form for New Contact Individual.
      * @access private
      */
-    private function _Add_postProcess() 
+    private function _addPostProcess() 
     { 
 
         $str_error = ""; // error is recorded  if there are any errors while inserting in database         
@@ -508,6 +508,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $contact->query('BEGIN'); //begin the database transaction
         
         if (!$contact->insert()) {
+
+            CRM_Error::debug_log_message("breakpoint 10");
+            
             $str_error = mysql_error();
         }
         
@@ -543,6 +546,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $contact_individual->is_deceased = $this->exportValue('is_deceased');
                      
             if(!$contact_individual->insert()) {
+
+                CRM_Error::debug_log_message("breakpoint 20");
                 $str_error = mysql_error();
             }
         }
@@ -551,6 +556,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
         if(!strlen($str_error)){ //proceed if there are no errors  
             // create a object for inserting data in crm_location, crm_email, crm_im, crm_phone table 
             for ($lngi= 1; $lngi <= 3; $lngi++) {
+
+                CRM_Error::debug_var("lngi", $lngi);
+                            
                 //create a object of location class
                 $varname = "contact_location".$lngi;
                 $varname1 = "location".$lngi;
@@ -567,6 +575,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                         $$varname->location_type_id = $a_Location['location_type_id'];
                                  
                         if(!$$varname->insert()) {
+                            CRM_Error::debug_log_message("breakpoint 30");
                             $str_error = mysql_error();
                             break;
                         }
@@ -594,6 +603,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                             $$varaddress->timezone = $a_Location['timezone'];
                                      
                             if(!$$varaddress->insert()) {
+                                CRM_Error::debug_log_message("breakpoint 40");
                                 $str_error = mysql_error();
                                 break;
                             }
@@ -619,6 +629,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 $$var_email->email = $a_Location[$varemail];
                                          
                                 if(!$$var_email->insert()) {
+                                    CRM_Error::debug_log_message("breakpoint 50");
                                     $str_error = mysql_error();
                                     break;
                                 }    
@@ -650,6 +661,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                          
                                          
                                 if(!$$var_phone->insert()) {
+                                    CRM_Error::debug_log_message("breakpoint 60");
                                     $str_error = mysql_error();
                                     break;
                                 }    
@@ -678,6 +690,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 $$var_im->im_screenname = $a_Location[$var_screenname];
                                          
                                 if (!$$var_im->insert()) {
+                                    CRM_Error::debug_log_message("breakpoint 70");
                                     $str_error = mysql_error();
                                     break;
                                 }    
@@ -711,7 +724,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      *
      * @access private
      */
-    private function _MiniAdd_postProcess() 
+    private function _miniAddPostProcess() 
     { 
         
         $str_error = ""; // error is recorded  if there are any errors while inserting in database         

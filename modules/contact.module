@@ -31,10 +31,6 @@
  * $Id$
  *
  */
-
-
-//echo "including contact.module... <br />";
-
 include_once 'config.inc.php';
 
 require_once 'CRM/Action.php';
@@ -176,9 +172,6 @@ function contact_block($op='list', $delta='0')
  */
 function contact_menu($may_cache) 
 {
-
-    //    echo "contact.module - brk 20<br />";
-
     $items = array();
     
     // The $may_cache parameter is used to divide menu items into two parts. Those
@@ -440,7 +433,7 @@ function contact_load($queryArgs)
  *
  */
 
-function contact_add() 
+function contact_add()
 {
     $contact = new CRM_Contact_Wrapper();
     $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_ADD, 'crm/contact/add?reset=1', 0);
@@ -455,7 +448,7 @@ function contact_add()
  *
  */
 
-function contact_add_house() 
+function contact_add_house()
 {
     $contact = new CRM_Contact_Wrapper();
     $contact->run('CRM_Contact_Form_Household', 'Contact Household Page', CRM_Form::MODE_ADD, 'crm/contact/add?reset=1', 0);
@@ -470,7 +463,7 @@ function contact_add_house()
  *
  */
 
-function contact_add_org() 
+function contact_add_org()
 {
     $contact = new CRM_Contact_Wrapper();
     $contact->run('CRM_Contact_Form_Organization', 'Contact Organization Page', CRM_Form::MODE_ADD, 'crm/contact/add?reset=1', 0);

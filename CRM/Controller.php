@@ -102,6 +102,9 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         $this->_actionName = $this->getActionName();
         list($pageName, $action) = $this->_actionName;
 
+        // CRM_Error::debug_var("pageName", $pageName);
+        // CRM_Error::debug_var("action", $action);
+
         if ( $this->isModal( ) ) {
             if ( ! $this->isValid( $pageName ) ) {
                 $pageName = $this->findInvalid( );
@@ -213,6 +216,8 @@ class CRM_Controller extends HTML_QuickForm_Controller {
 
         $pages = $stateMachine->getPages( );
 
+        // CRM_Error::debug_var("pages", $pages);
+
         foreach ( $pages as $classPath ) {
             $className   = CRM_String::getClassName($classPath);
 
@@ -222,6 +227,9 @@ class CRM_Controller extends HTML_QuickForm_Controller {
             $pageNames[] = $className;
 
             CRM_Utils::import( $classPath );
+
+            // CRM_Error::debug_var("className", $className);
+
             $page = new $classPath( $className,
                                     $stateMachine->find( $classPath ),
                                     $mode );

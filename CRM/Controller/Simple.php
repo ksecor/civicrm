@@ -57,6 +57,8 @@ class CRM_Controller_Simple extends CRM_Controller {
 
         $params = array($path);
 
+
+        // CRM_Error::debug_var("params", $params);
         $this->_stateMachine->addSequentialStates($params, $mode);
 
         $this->addPages( $this->_stateMachine, $mode );

@@ -1628,3 +1628,20 @@ INSERT INTO crm_category( domain_id, name, description, parent_category_id )
     VALUES( 1, 'Company', 'For-profit organization.', NULL );
 INSERT INTO crm_category( domain_id, name, description, parent_category_id )
     VALUES( 1, 'Government Entity', 'Any governmental entity.', NULL );
+
+
+INSERT INTO crm_im_service(name) VALUES('Yahoo');
+INSERT INTO crm_im_service(name) VALUES('MSN');
+INSERT INTO crm_im_service(name) VALUES('AIM');
+INSERT INTO crm_im_service(name) VALUES('Jabber');
+INSERT INTO crm_im_service(name) VALUES('Indiatimes');
+
+INSERT INTO crm_phone_mobile_provider (name) VALUES ('Reliance Infocom');
+INSERT INTO crm_phone_mobile_provider (name) VALUES ('MTNL Garuda');
+INSERT INTO crm_phone_mobile_provider (name) VALUES ('MTNL Dolphin');
+INSERT INTO crm_phone_mobile_provider (name) VALUES ('Orange');
+INSERT INTO crm_phone_mobile_provider (name) VALUES ('BPL Mobile');
+INSERT INTO crm_phone_mobile_provider (name) VALUES ('Airtel');
+INSERT INTO crm_phone_mobile_provider (name) VALUES ('Tata Indicom');
+
+

@@ -119,6 +119,9 @@ class CRM_StateMachine {
      * @access public
      */
     function perform( &$page, $actionName, $type = 'Next' ) {
+
+        // CRM_Error::le_method();
+
         // save the form values and validation status to the session
         $page->isFormBuilt() or $page->buildForm();
 
@@ -132,19 +135,38 @@ class CRM_StateMachine {
         // if we are going to the next state
         // Modal form and page is invalid: don't go further
         if ($type == 'Next' && $page->controller->isModal() && !$data['valid'][$pageName]) {
+
+            // CRM_Error::debug_log_message("breakpoint 20");
+
             return $page->handle('display');
         }
 
         $state =& $this->_states[$pageName];
 
+        // CRM_Error::debug_var("pageName", $pageName);
+        // CRM_Error::debug_var("this->_states", $this->_states);
+        // CRM_Error::debug_var("state", $state);
+
+
         // dont know how or why we landed here so abort and display
         // current page
         if ( empty($state) ) {
+
+
+            // CRM_Error::debug_log_message("breakpoint 30");
+
             return $page->handle('display');
         }
+
+
+        // CRM_Error::debug_var("type", $type);
+
     
         // the page is valid, process it if we are jumping to the next state
         if ( $type == 'Next' ) {
+
+            // CRM_Error::debug_log_message("breakpoint 100");
+
             $page->postProcess( );
             $state->handleNextState( $page );
         } else {
@@ -165,6 +187,13 @@ class CRM_StateMachine {
      * @access public
      */
     function addState( $iname, $name, $type, $prev, $next ) {
+
+//         CRM_Error::debug_var("iname", $iname);
+//         CRM_Error::debug_var("name", $name);
+//         CRM_Error::debug_var("type", $type);
+//         CRM_Error::debug_var("prev", $prev);
+//         CRM_Error::debug_var("next", $next);
+
         $this->_states[$iname] =& new CRM_State( $iname, $name, $type, $prev, $next, $this );
     }
 
@@ -222,6 +251,8 @@ class CRM_StateMachine {
         $this->_pages =& $pages;
         $numPages = count( $pages );
         
+        // CRM_Error::debug_var("pages", $pages);
+
         for ( $i = 0; $i < $numPages ; $i++ ) {
             $iname = CRM_String::getClassName($pages[$i]);
 
@@ -233,6 +264,9 @@ class CRM_StateMachine {
             require_once($classPath);
             $name = eval( sprintf( "return %s::getDisplayName( );", $pages[$i] ) );
             if ( $numPages == 1 ) {
+
+                // CRM_Error::debug_log_message("Breakpoint 10");
+
                 $prev = $next = null;
                 $type = CRM_State::START | CRM_State::FINISH;
             } else if ( $i == 0 ) {

@@ -133,6 +133,24 @@ class CRM_Error extends PEAR_ErrorStack {
         return $out;
     }
 
+
+    /**
+     * Similar to the function debug. Only difference is 
+     * in the formatting of the output.
+     *
+     * @param  string variable name
+     * @param  mixed  reference to variables that we need a trace of
+     * @param  bool   should we log or return the output
+     *
+     * @return string the generated output
+     *
+     * @access public
+     *
+     * @static
+     *
+     * @see CRM_Error::debug()
+     * @see CRM_Error::debug_log_message()
+     */
     static function debug_var($variable_name, &$variable, $log=true)
     {
         // check if variable is set
@@ -150,19 +168,46 @@ class CRM_Error extends PEAR_ErrorStack {
     }
     
     
-    // print out a stack trace
-    static function debug_stacktrace($trace_level=0, $log = true ) {
+
+    /**
+     * output backtrace of the program.
+     *
+     * @param  int  max trace level.
+     * @param  bool   should we log or return the output
+     *
+     * @return string format of the backtrace
+     *
+     * @access public
+     *
+     * @static
+     */
+    static function debug_stacktrace($trace_level=0, $log=true) {
         $backtrace = debug_backtrace();
+
         if($trace_level) {
+            // since trace level is specified use it to slice the backtrace array.
             $num_element = count($backtrace);
             $backtrace = array_slice($backtrace, 0, ($num_element>$trace_level ? $trace_level : $num_element));
         }
 
         $out = print_r($backtrace, true);
-        $out = "<br />backtrace <br />$out";
+        $out = "<br />backtrace<br /><pre>$out</pre>";
         return self::debug_log_message($out);
     }
 
+
+    /**
+     * output backtrace of the program.
+     *
+     * @param  string message to be output
+     * @param  bool   should we log or return the output
+     *
+     * @return string format of the backtrace
+     *
+     * @access public
+     *
+     * @static
+     */
     static function debug_log_message($message="", $log=true)
     {
         $error = self::singleton( );
@@ -174,19 +219,37 @@ class CRM_Error extends PEAR_ErrorStack {
     }
 
 
-
-    // log enter method
+    /**
+     * log an entry into a method
+     *
+     * @param  none
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
     static function le_method()
     {
         $array1 = debug_backtrace();
-        //$string1 = "entering method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "()";
         $string1 = "entering method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "() in " . $array1[0]['file']; 
         self::debug_log_message($string1);
     }
 
 
 
-    // log leave method
+    /**
+     * log an exit out of a method
+     *
+     * @param  none
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
     function ll_method()
     {
         $array1 = debug_backtrace();
@@ -194,7 +257,18 @@ class CRM_Error extends PEAR_ErrorStack {
         self::debug_log_message($string1);
     }
 
-    // log enter function
+
+    /**
+     * log an entry into a function
+     *
+     * @param  none
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
     function le_function()
     {
         $array1 = debug_backtrace();
@@ -202,7 +276,18 @@ class CRM_Error extends PEAR_ErrorStack {
         self::debug_log_message($string1);
     }
 
-    // log leave function
+
+    /**
+     * log an exit out of a function
+     *
+     * @param  none
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
     function ll_function()
     {
         $array1 = debug_backtrace();
@@ -211,7 +296,17 @@ class CRM_Error extends PEAR_ErrorStack {
     }
 
 
-    // log enter file
+    /**
+     * log an entry into a file
+     *
+     * @param  none
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
     function le_file()
     {
         $array1 = debug_backtrace();
@@ -220,7 +315,17 @@ class CRM_Error extends PEAR_ErrorStack {
     }
 
 
-    // leave file
+    /**
+     * log an exit out of a file
+     *
+     * @param  none
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
     function ll_file()
     {
         $array1 = debug_backtrace();

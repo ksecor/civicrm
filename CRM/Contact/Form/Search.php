@@ -57,6 +57,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @access public
      */
     function __construct( $name, $state, $mode = self::MODE_NONE ) {
+
+        //        CRM_Error::debug_stacktrace(2);
+
         parent::__construct($name, $state, $mode);
     }
 
@@ -67,7 +70,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return void
      */
     function buildQuickForm( ) {
-        $this->add( 'select', 'contact_type', 'Contact Type', CRM_SelectValues::$contactType );
+
+        $this->add('select', 'contact_type', 'Contact Type', CRM_SelectValues::$contactType);
 
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'refresh',
@@ -109,11 +113,20 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @access protected
      * @return void
      */
-    function preProcess( ) {
+    function preProcess() {
+        
+        //        CRM_Error::le_method();
+
         $params = array( );
+
         $contact = new CRM_Contact_Selector_Individual($params);
-        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::TRANSFER );
+
+        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::TRANSFER);
+
         $selector->run();
+
+        //        CRM_Error::ll_method();
+
     }
 
     /**
@@ -124,15 +137,18 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return void
      */
     function postProcess( ) {
+
+        //        CRM_Error::le_method();
+
         $params = array( );
-        $contact_type = trim( $this->controller->exportValue( $this->_name, 'contact_type' ) );
+        $contact_type = trim($this->controller->exportValue($this->_name, 'contact_type'));
         if (!empty( $contact_type ))  {
             $params['contact_type'] = $contact_type;
         }
 
         $contact = new CRM_Contact_Selector_Individual($params);
-        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::SESSION );
-        $selector->run();
+        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::SESSION);
+       $selector->run();
     }
 
 }

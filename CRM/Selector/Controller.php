@@ -136,6 +136,10 @@ class CRM_Selector_Controller {
         $this->_action = $action;
         $this->_output = $output;
         
+
+        le_method();
+
+
         $params = array(
                         'total'   => $this->_object->getTotalCount($action),
                         'pageID'  => $this->_pageID
@@ -158,6 +162,8 @@ class CRM_Selector_Controller {
     /* ###### RUN FUNCTION */
 
     function run( ) {
+
+        le_method();
 
         //print $this->_pager->getPageID();
         $config  = CRM_Config::singleton ();

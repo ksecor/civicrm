@@ -58,7 +58,12 @@ class CRM_QuickForm_Action_Next extends CRM_QuickForm_Action {
      * @access public
      */
     function perform(&$page, $actionName) {
+
+        // CRM_Error::le_method();
+
         $this->_stateMachine->perform( $page, $actionName, 'Next' );
+
+        // CRM_Error::ll_method();
     }
 
 }

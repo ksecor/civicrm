@@ -161,7 +161,7 @@ class CRM_SelectValues {
                                ' '     => '-no preference-',
                                'Phone' => 'by phone', 
                                'Email' => 'by email', 
-                               'Post'  => 'by postal email',
+                               'Post'  => 'by postal mail',
                                );  
 
     /**
