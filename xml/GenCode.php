@@ -1,5 +1,7 @@
 <?php
 
+ini_set( 'include_path', ".:../packages" );
+
 require_once 'Smarty/Smarty.class.php';
 require_once 'PHP/Beautifier.php';
 
