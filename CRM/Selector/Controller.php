@@ -174,10 +174,10 @@ class CRM_Selector_Controller {
         $session = CRM_Session::singleton();
 
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action );
-        $rows          = $this->_object->getRows( $this->_action,
-                                                  $this->_pagerOffset,
-                                                  $this->_pagerRowCount,
-                                                  $this->_sort );
+        $rows          =& $this->_object->getRows( $this->_action,
+                                                   $this->_pagerOffset,
+                                                   $this->_pagerRowCount,
+                                                   $this->_sort );
         $rowsEmpty = count( $rows ) ? false : true;
 
         $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);

@@ -58,23 +58,33 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     {
         parent::__construct();
     }
-    
-    function getSearchRows($offset, $rowCount, $sort)
+
+    /**
+     * create and query the db for a simple contact search
+     *
+     * @param int      $action   the type of action links
+     * @param int      $offset   the offset for the query
+     * @param int      $rowCount the number of rows to return
+     *
+     * @return CRM_Contact_DAO_Contact 
+     * @access public
+     */
+    function basicSearchQuery($offset, $rowCount, $sort)
     {
         // we need to run the loop thru the num rows with offset in mind.
         $rows = array();
         $str_select = $str_from = $str_where = $str_order = $str_limit = '';
         
-        $str_select = "SELECT crm_contact.id as crm_contact_id,
-                              crm_contact.sort_name as crm_contact_sort_name,
-                              crm_address.street_address as crm_address_street_address,
-                              crm_address.city as crm_address_city,
-                              crm_address.postal_code as crm_address_postal_code,
-                              crm_state_province.abbreviation as crm_state_province_name,
-                              crm_country.name as crm_country_name,
-                              crm_email.email as crm_email_email,
-                              crm_phone.phone as crm_phone_phone,
-                              crm_contact.contact_type as crm_contact_contact_type";
+        $str_select = "SELECT crm_contact.id as contact_id,
+                              crm_contact.sort_name as sort_name,
+                              crm_address.street_address as street_address,
+                              crm_address.city as city,
+                              crm_address.postal_code as postal_code,
+                              crm_state_province.abbreviation as state,
+                              crm_country.name as country,
+                              crm_email.email as email,
+                              crm_phone.phone as phone,
+                              crm_contact.contact_type as contact_type";
 
         $str_from = " FROM crm_contact 
                         LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
@@ -109,41 +119,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // building the query string
         $query_string = $str_select.$str_from.$str_where.$str_order.$str_limit;
         $this->query($query_string);
-
-        while($this->fetch()) {
-            $row = array();
-            // $row['contact_id'] = $this->crm_contact_id;
-            $row['sort_name'] = $this->crm_contact_sort_name;
-            $row['street_address'] = $this->crm_address_street_address;
-            $row['city'] = $this->crm_address_city;
-            $row['state'] = $this->crm_state_province_name;
-            $row['postal_code'] = $this->crm_address_postal_code;
-            $row['country'] = $this->crm_country_name;
-            $row['email'] = $this->crm_email_email;
-            $row['phone'] = $this->crm_phone_phone;
-            
-            $row['edit']  = 'index.php?q=/crm/contact/edit&reset=1&cid='.$this->crm_contact_id;
-            $row['view']  = 'index.php?q=/crm/contact/view&reset=1&cid='.$this->crm_contact_id;
-            $str_type = "";
-
-            switch ($this->crm_contact_contact_type) {
-            case 'Individual' :
-                $str_type = '<img src="crm/i/contact_ind.png" alt="Individual">';
-                break;
-            case 'Household' :
-                $str_type = '<img src="crm/i/contact_house.png" alt="Household" height="16" width="16">';
-                break;
-            case 'Organization' :
-                $str_type = '<img src="crm/i/contact_org.gif" alt="Organization" height="16" width="18">';
-                break;
-                
-            }
-
-            $row['c_type'] = $str_type;
-            
-            $rows[] = $row;
-        }
-        return $rows;
+        return $this;
     }
     
 

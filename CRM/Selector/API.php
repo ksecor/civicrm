@@ -110,7 +110,7 @@ interface CRM_Selector_API {
      * @access public
      *
      */
-    function getRows( $action, $offset, $rowCount, $sort );
+    function &getRows( $action, $offset, $rowCount, $sort );
 
     /**
      * return the template (.tpl) filename

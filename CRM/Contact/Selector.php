@@ -75,33 +75,33 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                                        array('name' => ''),
                                        array(
                                              'name'      => 'Name',
-                                             'sort'      => 'crm_contact_sort_name',
+                                             'sort'      => 'sort_name',
                                              'direction' => CRM_Sort::ASCENDING,
                                              ),
                                        array('name' => 'Address'),
                                        array(
                                              'name'      => 'City',
-                                             'sort'      => 'crm_address_city',
+                                             'sort'      => 'city',
                                              'direction' => CRM_Sort::DONTCARE,
                                              ),
                                        array(
                                              'name'      => 'State',
-                                             'sort'      => 'crm_state_province_name',
+                                             'sort'      => 'state',
                                              'direction' => CRM_Sort::DONTCARE,
                                              ),
                                        array(
                                              'name'      => 'Postal',
-                                             'sort'      => 'crm_address_postal_code',
+                                             'sort'      => 'postal_code',
                                              'direction' => CRM_Sort::DONTCARE,
                                              ),
                                        array(
                                              'name'      => 'Country',
-                                             'sort'      => 'crm_country_name',
+                                             'sort'      => 'country',
                                              'direction' => CRM_Sort::DONTCARE,
                                              ),
                                        array(
                                              'name'      => 'Email',
-                                             'sort'      => 'crm_email_email',
+                                             'sort'      => 'email',
                                              'direction' => CRM_Sort::DONTCARE,
                                              ),
                                        array('name' => 'Phone'),
@@ -198,13 +198,54 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     /**
      * getter for all the database values to be displayed on the form while listing
      *
-     * @param 
-     * @return array 
+     * @param int      $action   the type of action links
+     * @param int      $offset   the offset for the query
+     * @param int      $rowCount the number of rows to return
+     * @param CRM_Sort $sort     the sort object
+     *
+     * @return array (reference)
      * @access public
      */
-    function getRows($action, $offset, $rowCount, $sort)
+    function &getRows($action, $offset, $rowCount, $sort)
     {
-        return $this->_contact->getSearchRows($offset, $rowCount, $sort);
+        $config = CRM_Config::singleton( );
+
+        $result = $this->_contact->basicSearchQuery( $offset, $rowCount, $sort );
+
+        $rows = array( );
+        while ( $result->fetch( ) ) {
+            $row = array( );
+
+            $row = array();
+
+            static $properties = array( 'contact_id', 'sort_name', 'street_address',
+                                        'city', 'state', 'country', 'postal_code',
+                                        'email', 'phone' );
+            foreach ( $properties as $property ) {
+                $row[$property] = $result->$property;
+            }
+
+            $row['edit']           = $config->httpBase . 'contact/edit&reset=1&cid=' . $result->contact_id;
+            $row['view']           = $config->httpBase . 'contact/view&reset=1&cid=' . $result->contact_id;
+
+            $contact_type = '<img src="' . $config->httpBase . 'i/contact_';
+            switch ($result->contact_type) {
+            case 'Individual' :
+                $contact_type .= 'ind.png" alt="Individual">';
+                break;
+            case 'Household' :
+                $contact_type .= 'house.png" alt="Household" height="16" width="16">';
+                break;
+            case 'Organization' :
+                $contact_type .= '_org.gif" alt="Organization" height="16" width="18">';
+                break;
+
+            }
+            $row['contact_type'] = $contact_type;
+
+            $rows[] = $row;
+        }
+        return $rows;
     }
     
 
