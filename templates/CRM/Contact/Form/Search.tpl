@@ -11,6 +11,7 @@
 </tr>
 </table>
 
+{*
 {include file="CRM/pager.tpl" location="top"}
 <table>
 <tr>
@@ -32,4 +33,5 @@
 {/foreach}
 </table>
 {include file="CRM/pager.tpl" location="bottom"}
+*}
 </form>
