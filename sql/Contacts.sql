@@ -824,11 +824,6 @@ CREATE TABLE crm_entity_category(
 	entity_id INT UNSIGNED NOT NULL COMMENT 'FK to the entity in the specified entity_table - e.g. value of crm_contact.id, crm_group.id...',
 	category_id INT UNSIGNED NOT NULL COMMENT 'FK to the category - crm_category.id',
 
-	name VARCHAR(255) NOT NULL COMMENT 'name/label for the category',
-	description VARCHAR(255) COMMENT 'Optional verbose description of the category',
-
-	parent_category_id INT DEFAULT 0 COMMENT 'OPTIONAL reference to crm_category.id of a parent category',
-
 	PRIMARY KEY(id),
 
 	FOREIGN KEY (category_id) REFERENCES crm_category(id) ON DELETE CASCADE
