@@ -302,18 +302,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
                 }
             }
             
-            /*   
-            for ($i = 1; $i <= 3; $i++) { 
-                $this->addGroupRule('location_'.$i, array('location[1][email][1][email]' => array( 
-                                                                                       array(t( 'Please enter valid email for location').$i.'.', 'email', null)),                                   'location[1][email][2][email]' => array( 
-                                                                                                                                                                                                                                            array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null)),
-                                                          'location[1][email][3][email]' => array( 
-                                                                                                  array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null))
-                                                          )
-                                    ); 
-            }
-            */
-
             break;
         case self::MODE_DELETE:
             break;            
@@ -480,15 +468,28 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $a_Values['contact_type'] = 'Individual';
         $contact = CRM_Contact_BAO_Contact::add( $a_Values );
         // need to check for error here and abort / rollback if error
-
+        
         $a_Values['contact_id'] = $contact->id;
         
         $individual = CRM_Contact_BAO_Individual::add( $a_Values );
         // need to check for error here and abort / rollback if error
 
         for ($locationId= 1; $locationId <= 3; $locationId++) { // start of for loop for location
-            $location = CRM_Contact_BAO_Individual::add( $a_Values, $a_Values['location'][$locationId] );
+            //  $location = CRM_Contact_BAO_Location::add( $a_Values, $a_Values['location'][$locationId] );
         }
+
+        $tempDB->query('COMMIT');
+
+        /*
+        if (strlen($str_error)) { //commit if there are no errors else rollback
+            $contact->query('ROLLBACK');
+            form_set_error('first_name', t($str_error));
+        } else {
+            $contact->query('COMMIT');
+            form_set_error('first_name', t('Contact Individual has been saved successfully.'));
+        }*/
+ 
+        /*
 
             //create a object of location class
             $varname = "contact_location".$lngi;
@@ -760,6 +761,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                     break;
                 }
             } //end of for loop for location
+        
         } 
         
         // check if there are any errors while inserting in database
@@ -771,7 +773,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $contact->query('COMMIT');
             form_set_error('first_name', t('Contact Individual has been saved successfully.'));
         }
-        
+        */
     }//end of function
 
 
@@ -880,7 +882,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
         }
         
     }// end of function
-
 }
+
+
     
 ?>
