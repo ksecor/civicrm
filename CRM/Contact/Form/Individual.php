@@ -49,9 +49,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
     /**
      * This is the constructor of the class.
      *
-     * This function calls the constructor for the parent class CRM_Form and implements a switch strategy to identify the mode type 
-     * of form to be displayed based on the values contained in the mode parameter.
-     *
      * @access public
      * @param string $name Contains name of the form.
      * @param string $state Used to access the current state of the form.
@@ -60,30 +57,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function __construct($name, $state, $mode = self::MODE_NONE) 
     {
-        
-        // CRM_Error::debug("name", $name);
-        // CRM_Error::debug("mode", $mode);
-        // CRM_Error::debug_stacktrace();
-        
-        if ($mode == self::MODE_ADD) {
-            $name = "Add";
-            // $name = "Individual";
-        } elseif ($mode == self::MODE_UPDATE) {
-            $name = "Update_Individual";
-        } elseif ($mode == self::MODE_DELETE) {
-            $name = "Delete_Individual";
-        } elseif ($mode == self::MODE_ADD_MINI) {
-            $name = "Mini_Individual";
-            // $name = "MiniAdd";
-        } elseif ($mode == self::MODE_SEARCH_MINI) {
-            $name = "MiniSearch";
-        } elseif ($mode == self::MODE_SEARCH) {
-            $name = "Search";
-        }
-
         parent::__construct($name, $state, $mode);
     }
     
+
     
     /**
      * In this function we build the Individual.php. All the quickform components are defined in this function.
@@ -100,6 +77,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function buildQuickForm( )
     {
+
 
         switch ($this->_mode) {
         case self::MODE_ADD:
@@ -191,7 +169,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function valid_date($value) 
     {
-        print_r($value);
+
         if (checkdate($value['M'], $value['d'], $value['Y'])) {
             return true;
         } else {
@@ -217,6 +195,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function addRules( ) 
     {
+
         
         $this->applyFilter('_ALL_', 'trim');
         
@@ -228,7 +207,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
         case self::MODE_ADD:
             $this->addRule('first_name', t(' First name is a required field.'), 'required', null, 'client');
             $this->addRule('last_name', t(' Last name is a required field.'), 'required', null, 'client');
+
             $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contact_Form_Individual');
+            $this->registerRule('check_date', 'callback', CRM_RULE::date(),'CRM_Contact_Form_Individual');
+
             // $this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
             
             for ($i = 1; $i <= 3; $i++) { 
@@ -290,7 +272,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
      * @access public
      * @return None
      */
-     function postProcess(){
+    function postProcess( ) 
+    {
         switch ($this->_mode) {
         case self::MODE_ADD:
             $this->_Add_postProcess();
@@ -310,7 +293,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
             break;            
         }    
     }
-    
     
     /**
      * This function provides the HTML form elements for the add operation of individual contact form.
@@ -369,7 +351,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->addElement('date', 'birth_date', 'Date of birth', CRM_SelectValues::$date, 
                           array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
 
-     /* Entering the compact location engine */ 
+        /* Entering the compact location engine */ 
 
         $location = CRM_Contact_Form_Location::buildLocationBlock($this, 3);
         for ($i = 1; $i < 4; $i++) {
@@ -400,8 +382,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
         $this->addElement('static', 'my_script', $java_script);
 
-        $this->addElement('static', 'form_freeze', $freeze_code);
-        
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'next',
                                                 'name'      => 'Save',
@@ -412,7 +392,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                                 'name'      => 'Cancel' ),
                                         )
                                   );
-        $this->setDefaultValues();
     }
 
        
@@ -509,6 +488,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     private function _Add_postProcess() 
     { 
+
         $str_error = ""; // error is recorded  if there are any errors while inserting in database         
         
         // create a object for inserting data in contact table 
