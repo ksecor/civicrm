@@ -383,17 +383,19 @@ CREATE TABLE crm_location(
 * Identifies the type of geo coding used and stores required
 * coordinate system information for crm_address
 * records. Multiple addresses will share a crm_geo_coord
-* record (which includes UTM Zones for UTM type geo coding).
+* record.
 *
 *******************************************************/
 DROP TABLE IF EXISTS crm_geo_coord;
 CREATE TABLE crm_geo_coord(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'geo coord id',
-    coord_type   ENUM('LATLONG', 'UTM') COMMENT 'system we using to encode the coordinates',
-    coord_utm_zone   VARCHAR(3) COMMENT 'UTM zone for the address geo-code values. This is expected to be a 1-2 digit zone plus an alpha latitude band: (1-60) + (C-X)',
-    coord_datum  VARCHAR(8) COMMENT 'DATUM is the underlying assumption of the shape of the earth being used, e.g. NAD27, WGS84',
-    coord_units ENUM('DEGREE', 'GRAD', 'RADIAN', 'FOOT', 'METER'),
+    coord_type ENUM('LATLONG', 'PROJECTED') COMMENT 'projected or unprojected coordinates - projected coordinates (e.g. UTM) may be treated as cartesian by some modules',
+-- UTM zone and datum is now encapsulated in coord_ogc_wkt_string
+    -- coord_utm_zone VARCHAR(3) COMMENT 'UTM zone for the address geo-code values. This is expected to be a 1-2 digit zone plus an alpha latitude band: (1-60) + (C-X)',
+    -- coord_datum VARCHAR(8) COMMENT 'DATUM is the underlying assumption of the shape of the earth being used, e.g. NAD27, WGS84',
+   coord_units ENUM('DEGREE', 'GRAD', 'RADIAN', 'FOOT', 'METER') COMMENT 'If the coord_type is LATLONG, indicate the unit of angular measure: DEGREE|GRAD|RADIAN; If the coord_type is PROJECTED, indicate unit of distance measure: FOOT|METER',
+   coord_ogc_wkt_string TEXT COMMENT 'Coordinate sys description in Open GIS Consortium WKT (well known text) format - see http://www.opengeospatial.org/docs/01-009.pdf; this is provided for the convenience of the user or third party modules',
 
  	PRIMARY KEY (id)
 
