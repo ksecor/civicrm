@@ -1,190 +1,177 @@
 <?php
 
-require_once 'CRM/Form.php';
+/**
+ +----------------------------------------------------------------------+
+ | CiviCRM version 1.0                                                  |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2005 Donald A. Lobo                                    |
+ +----------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                      |
+ |                                                                      |
+ | CiviCRM is free software; you can redistribute it and/or modify it   |
+ | under the terms of the Affero General Public License Version 1,      |
+ | March 2002.                                                          |
+ |                                                                      |
+ | CiviCRM is distributed in the hope that it will be useful, but       |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+ | See the Affero General Public License for more details at            |
+ | http://www.affero.org/oagpl.html                                     |
+ |                                                                      |
+ | A copy of the Affero General Public License has been been            |
+ | distributed along with this program (affero_gpl.txt)                 |
+ +----------------------------------------------------------------------+
+*/
 
 /**
- * This class is used for building ORG.php. This class also has the actions that should be done when form is processed.
+ *
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
+
+
+require_once 'CRM/Form.php';
+require_once 'CRM/SelectValues.php';
+require_once 'CRM/Contact/Form/Contact.php';
+require_once 'CRM/Contact/Form/Location.php';
+
+/**
+ * This class is used for building the Add Organization form. This class also has the actions that should be done when form is processed.
+ * 
+ * This class extends the variables and methods provided by the class CRM_Form which by default extends the HTML_QuickForm_SinglePage.
+ * @package CRM.  
  */
 class CRM_Contact_Form_Organization extends CRM_Form 
 {
     
     /**
      * This is the constructor of the class.
+     *
+     * This function calls the constructor for the parent class CRM_Form and implements a switch strategy to identify the mode type 
+     * of form to be displayed based on the values contained in the mode parameter.
+     *
+     * @access public
+     * @param string $name Contains name of the form.
+     * @param string $state Used to access the current state of the form.
+     * @param constant $mode Used to access the type of the form. Default value is MODE_NONE.
+     * @return None
      */
     function __construct($name, $state, $mode = self::MODE_NONE) 
     {
-        parent::__construct($name, $state, $mode);
+        
+        if ($mode == self::MODE_ADD) {
+            $name = "Add";
+            // $name = "Individual";
+        } elseif ($mode == self::MODE_ADD_MINI) {
+            $name = "Organization";
+            // $name = "MiniAdd";
+        } elseif ($mode == self::MODE_SEARCH_MINI) {
+            $name = "MiniSearch";
+        } elseif ($mode == self::MODE_SEARCH) {
+            $name = "Search";
+        }
 
+        parent::__construct($name, $state, $mode);
     }
     
+
+
     /**
-     * In this function we build the ORG.php. All the quickform componenets are defined in this function
+     * In this function we build the Organization.php. All the quickform components are defined in this function.
+     * 
+     * This function implements a switch strategy using the form public variable $mode to identify the type of mode rendered by the 
+     * form. The types of mode could be either Contact CREATE, VIEW, UPDATE, DELETE or SEARCH. 
+     * CREATE and SEARCH forms can be implemented in a mini format using mode MODE_ADD_MINI and MODE_SEARCH_MINI. 
+     * This function adds a default text element to the form whose value indicates the mode rendered by the form. It further calls the 
+     * corresponding function build<i>mode</i>Form() to provide dynamic HTML content and is passed to the renderer in an  array format.
+     * 
+     * @access public
+     * @return None
+     * @see _buildAddForm( ) 
      */
-    function buildQuickForm()
+    function buildQuickForm( )
     {
-
-     $pcm_select = array(
-                            ' '      => '-no preference-',
-                            'Phone'  => 'by phone', 
-                            'Email'  => 'by email', 
-                            'Postal' => 'by postal email',
-                            );
-
-       $context_select = array(
-                                1 => 'Home', 
-                                'Work', 
-                                'Play'
-                                );
-        
-        $im_select = array( 
-                           1 => 'Yahoo', 
-                           'MSN', 
-                           'AIM', 
-                           'Jabber',
-                           'Indiatimes'
-                           );
-        
-        $phone_select = array(
-                              'Phone' => 'Phone', 
-                              'Mobile' => 'Mobile', 
-                              'Fax' => 'Fax', 
-                              'Pager' => 'Pager'
-                              );
-        
-        
-        $state_select = array( 
-                              1004 => 'California', 
-                              1036 => 'Oregon', 
-                              1046 => 'Washington'
-                              );
-        
-        
-        $country_select = array( 
-                                1039 => 'Canada', 
-                                1101 => 'India', 
-                                1172 => 'Poland', 
-                                1128 => 'United States'
-                                );
-  
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next'  ,
-                                                'name'      => 'Save'  ,
-                                                'isDefault' => true     ),
-                                        array ( 'type'      => 'reset' ,
-                                                'name'      => 'Reset'  ),
-                                        array ( 'type'       => 'cancel',
-                                                'name'      => 'Cancel' ),
-                                       )
-                                 );
-
-        // organization_name
-        $this->addElement('text', 'organization_name', 'Organization Name:');
-
-        // legal_name
-        $this->addElement('text', 'legal_name', 'Legal Name:');
-
-        // nick_name
-        $this->addElement('text', 'nick_name', 'Nick Name:');
-
-        // primary_contact_id
-        $this->addElement('text', 'primary_contact_id', 'Primary Contact Id:');
-        
-        // sic_code
-        $this->addElement('text', 'sic_code', 'SIC Code:');
-
-   // checkboxes for DO NOT phone, email, mail
-        $this->addElement('checkbox', 'do_not_phone', 'Privacy:', 'Do not call');
-        $this->addElement('checkbox', 'do_not_email', null, 'Do not contact by email');
-        $this->addElement('checkbox', 'do_not_mail', null, 'Do not contact by postal mail');
-        
-        // preferred communication method 
-        $this->add('select','preferred_communication_method',"Preferred communication method:",$pcm_select);
-        
- 
-        $i = 0;
-        $loc1[$i++] = & $this->createElement('select', 'location_type_id', null, $context_select);
-        $loc1[$i++] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact', null);
-        $loc1[$i++] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
-        $loc1[$i++] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
-        $loc1[$i++] = & $this->createElement('select','phone_type_2', null, $phone_select);
-        $loc1[$i++] = & $this->createElement('text', 'phone_2', label_offset("Other Phone:",4+5), array('size' => '37px'));
-        $loc1[$i++] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
-        $loc1[$i++] = & $this->createElement('text', 'phone_3', label_offset("Other Phone:",4+5) , array('size' => '37px'));
-        $loc1[$i++] = & $this->createElement('text', 'email_1', "Email:", array('size' => '47px'));
-        $loc1[$i++] = & $this->createElement('text', 'email_2', label_offset("Other Email:",5+5), array('size' => '47px'));
-        $loc1[$i++] = & $this->createElement('text', 'email_3', label_offset("Other Email:",5+5), array('size' => '47px'));
-        $loc1[$i++] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
-        $loc1[$i++] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
-        $loc1[$i++] = & $this->createElement('select', 'im_service_id_2',  label_offset('Instant Message:',5), $im_select);
-        $loc1[$i++] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
-        $loc1[$i++] = & $this->createElement('select','im_service_id_3',  label_offset('Instant Message:',5), $im_select);
-        $loc1[$i++] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
-        $loc1[$i++] = & $this->createElement('text', 'street_address', 'Street Address:', array('size' => '47px'));
-        $loc1[$i++] = & $this->createElement('textarea', 'supplemental_address_1', 'Address:', array('cols' => '47'));
-        $loc1[$i++] = & $this->createElement('text', 'city', 'City:');
-        $loc1[$i++] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
-        $loc1[$i++] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
-        $loc1[$i++] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
-        
- 
-  
-            $this->addElement('link', 'exph02_1', null, 'phone0_2_1', '[+] another phone',
-                              array('onclick' => "show('phone0_2_1'); hide('expand_phone0_2_1'); show('expand_phone0_3_1'); return false;"));
-            $this->addElement('link', 'hideph02_1', null, 'phone0_2_1', '[-] hide phone',
-                              array('onclick' => "hide('phone0_2_1'); hide('expand_phone0_3_1'); show('expand_phone0_2_1');hide('phone0_3_1'); return false;"));
-            $this->addElement('link', 'exph03_1', null, 'phone0_3_1', '[+] another phone',
-                              array('onclick'=> "show('phone0_3_1'); hide('expand_phone0_3_1'); return false;"));
-            $this->addElement('link', 'hideph03_1', null, 'phone0_3_1', '[-] hide phone',
-                              array( 'onclick' => "hide('phone0_3_1'); show('expand_phone0_3_1'); return false;"));
-
-
-            $this->addElement('link', 'exem02_1', null, 'email0_2_1', '[+] another email',
-                              array('onclick' => "show('email0_2_1'); hide('expand_email0_2_1'); show('expand_email0_3_1'); return false;"));
-            $this->addElement('link','hideem02_1', null, 'email0_2_1', '[-] hide email',
-                              array('onclick' => "hide('email0_2_1'); hide('expand_email0_3_1'); show('expand_email0_2_1'); hide('email0_3_1'); return false;"));
-            $this->addElement('link', 'exem03_1', null, 'email0_3_1', '[+] another email',
-                              array('onclick' => "show('email0_3_1'); hide('expand_email0_3_1'); return false;"));
-            $this->addElement('link', 'hideem03_1', null, 'email0_3_1', '[-] hide email',
-                              array('onclick' => "hide('email0_3_1'); show('expand_email0_3_1'); return false;"));
-
-
-            $this->addElement('link', 'exim02_1', null, 'IM0_2_1','[+] another instant message',
-                              array('onclick' => "show('IM0_2_1'); hide('expand_IM0_2_1'); show('expand_IM0_3_1'); return false;"));
-            $this->addElement('link', 'hideim02_1', null, 'IM0_2_1', '[-] hide instant message',
-                              array('onclick' => "hide('IM0_2_1'); hide('expand_IM0_3_1'); show('expand_IM0_2_1'); hide('IM0_3_1'); return false;"));
-            $this->addElement('link', 'exim03_1', null, 'IM0_3_1', '[+] another instant message',
-                              array('onclick' => "show('IM0_3_1'); hide('expand_IM0_3_1'); return false;"));
-            $this->addElement('link', 'hideim03_1', null, 'IM0_3_1', '[-] hide instant message',
-                              array('onclick' => "hide('IM0_3_1'); show('expand_IM0_3_1'); return false;"));
-
-
-            $this->addGroup($loc1,'location');
-
-        /* End of locationas */
-        
-        
-        if ($this->validate() && ($this->_mode == self::MODE_VIEW || self::MODE_ADD)) {
-            //$this->freeze();    
+        switch ($this->_mode) {
+        case self::MODE_ADD:
+            $this->addElement('text', 'mode', self::MODE_ADD);
+            $this->_buildAddForm();
+            break;
+        case self::MODE_VIEW:
+            break;
+        case self::MODE_UPDATE:
+            break;
+        case self::MODE_DELETE:
+            break;            
+        case self::MODE_SEARCH:
+            $this->addElement('text', 'mode', self::MODE_SEARCH);
+            $this->_buildSearchForm();
+            break;            
+        case self::MODE_ADD_MINI:
+            $this->addElement('text', 'mode', self::MODE_ADD_MINI);
+            $this->_buildMiniAddForm();
+            break;            
+        case self::MODE_SEARCH_MINI:
+            $this->addElement('text', 'mode', self::MODE_SEARCH_MINI);
+            $this->_buildMiniSearchForm();
+            break;            
             
-        } else {
-            if ($this->_mode == self::MODE_VIEW || self::MODE_UPDATE) {
-                $this->setDefaultValues();
-            }
-        }
-    }//ENDING BUILD FORM 
-  
+        } // end of switch
+    }
+
+
     /**
-     * this function sets the default values to the specified form element
+     * This function sets the default values to the specified form element.
+     * 
+     * The function uses the $default array to load default values for element names provided as keys. It further calls the setDefaults 
+     * method of the HTML_QuickForm by passing to it the array. 
+     * This function differentiates between different mode types of the form by implementing the switch strategy based on the form mode 
+     * variable.
+     * 
+     * @access public
+     * @return None
      */
-    function setDefaultValues() 
+    function setDefaultValues( ) 
     {
         $defaults = array();
+
+        switch ($this->_mode) {
+        case self::MODE_ADD:
         $defaults['organization_name'] = 'CRM Organization';
         $this->setDefaults($defaults);
+        break;
+        case self::MODE_VIEW:
+            break;
+        case self::MODE_UPDATE:
+            break;
+        case self::MODE_DELETE:
+            break;            
+        case self::MODE_SEARCH:
+            break;            
+        case self::MODE_ADD_MINI:
+            break;            
+        case self::MODE_SEARCH_MINI:
+            
+            $defaults['sname'] = ' - full or partial name - ';
+            $this->setDefaults($defaults);
+            break;            
+        }
     }
-    
+
+
+
     /**
-     * this function is used to validate the contact, check if contact is present.
+     * This function is used to validate the contact.
+     * 
+     * The function implements a server side validation of the entered contact_id. This value must have an entry in the contact_id
+     * field of the crm_contact table for the validation to succed.
+     *
+     * @param string $value The value of the contact_id entered in the text field.
+     * @return Boolean value true or false depending on whether the contact_id is valid or invalid. 
+     * @see addRules( )     
      */
     function valid_contact($value) 
     {
@@ -196,12 +183,29 @@ class CRM_Contact_Form_Organization extends CRM_Form
         }    
     }
 
-    
+
+
     /**
-     * this function is used to add the rules for form
+     * This function is used to add the rules for form.
+     * 
+     * This function is used to add filters using applyFilter(), which filters the element value on being submitted. 
+     * Rules of validation for form elements are established using addRule() or addGroupRule() QuickForm methods. Validation can either
+     * be at the client by default javascript added by QuickForm, or at the server.  
+     * Any custom rule of validation is set here using the registerRule() method. In this file, the custom validation function for 
+     * contact_id is set by registering the rule check_contactid which calls the valid_contact function for date validation.
+     * This function differentiates between different mode types of the form by implementing the switch functionality based on the
+     * value of the class variable $mode.  
+     * 
+     * @return None
+     * @access public
+     * @see valid_date 
      */
-    function addRules() 
+    function addRules( ) 
     {
+        $this->applyFilter('_ALL_', 'trim');
+
+        switch ($this->_mode) {
+        case self::MODE_ADD:
         $this->applyFilter('organization_name', 'trim');
         $this->addRule('organization_name', t(' Organization name is a required feild.'), 'required', null, 'client');
         $this->addRule('primary_contact_id', t(' Contact id is a required feild.'), 'required', null, 'client');
@@ -217,19 +221,140 @@ class CRM_Contact_Form_Organization extends CRM_Form
                                                                         array(t( ' Please enter valid tertiary email for location' ), 'email', null, 'client'))
                                               )
                             ); 
+
+        break;
+        case self::MODE_VIEW:
+            break;
+        case self::MODE_UPDATE:
+            break;
+        case self::MODE_DELETE:
+            break;            
+        case self::MODE_SEARCH:
+            break;            
+        case self::MODE_ADD_MINI:
+            $this->addRule('organization_name', t(' First name is a required field.'), 'required', null, 'client');
+            $this->addRule('email', t(' Email Address is required field.'), 'required', null, 'client');
+            $this->addRule('email', t(' Enter valid email address.'), 'email', null, 'client');
+            break;            
+        case self::MODE_SEARCH_MINI:
+        }    
+        
     }
-    
-    
+
+       
+
+    /**
+     * This function provides the HTML form elements for the add operation of individual contact form.
+     * 
+     * This function is called by the buildQuickForm method, when the value of the $mode class variable is set to MODE_ADD
+     * The addElement and addGroup method of HTML_QuickForm is used to add HTML elements to the form which is referenced using the $this 
+     * form handle. Also the default values for the form elements are set in this function.
+     * 
+     * @access private
+     * @return None 
+     * @uses CRM_SelectValues Used to obtain static array content for setting select values for select element.
+     * @uses CRM_Contact_Form_Location::buildLocationBlock($this, 3) Used to obtain the HTML element for plugging the Location block. 
+     * @uses CRM_Contact_Form_Contact::buildCommunicationBlock($this) Used to obtain elements for plugging the Communication preferences.
+     * @see buildQuickForm()         
+     * @see _buildMiniAddForm()
+     * 
+     */
+    function _buildAddForm()
+    {
+
+        $form_name = $this->getName();
+
+        $this->addDefaultButtons( array(
+                                        array ( 'type'      => 'next'  ,
+                                                'name'      => 'Save'  ,
+                                                'isDefault' => true     ),
+                                        array ( 'type'      => 'reset' ,
+                                                'name'      => 'Reset'  ),
+                                        array ( 'type'       => 'cancel',
+                                                'name'      => 'Cancel' ),
+                                       )
+                                 );
+
+        // organization_name
+        $this->addElement('text', 'organization_name', 'Organization Name:', array('maxlength' => 64));
+
+        // legal_name
+        $this->addElement('text', 'legal_name', 'Legal Name:', array('maxlength' => 64));
+
+        // nick_name
+        $this->addElement('text', 'nick_name', 'Nick Name:', array('maxlength' => 64));
+
+        // primary_contact_id
+        $this->addElement('text', 'primary_contact_id', 'Primary Contact Id:', array('maxlength' => 10));
+        
+        // sic_code
+        $this->addElement('text', 'sic_code', 'SIC Code:', array('maxlength' => 8));
+ 
+        // Implementing the communication preferences block
+        CRM_Contact_Form_Contact::buildCommunicatioBlock($this);
+
+        // Implementing the location block :
+        $location = CRM_Contact_Form_Location::buildLocationBlock($this, 1);
+        $this->addGroup($location[1],'location');
+        /* End of locations */
+
+        $java_script = "<script type = \"text/javascript\">
+                        frm = document." . $form_name .";</script>";
+
+        $this->addElement('static', 'my_script', $java_script);
+
+        if ($this->validate() && ($this->_mode == self::MODE_VIEW || self::MODE_ADD)) {
+            //$this->freeze();    
+            
+        } else {
+            if ($this->_mode == self::MODE_VIEW || self::MODE_UPDATE) {
+                $this->setDefaultValues();
+            }
+        }
+ 
+    }//ENDING BUILD FORM 
+
+
+    /**
+     * This function provides the HTML form elements for the add operation of a mini organization contact form.
+     * 
+     * This function is called by the buildQuickForm method, when the value of the $mode class variable is set to MODE_ADD_MINI
+     * The addElement and addGroup method of HTML_QuickForm is used to add HTML elements to the form which is referenced using the $this 
+     * form handle. Also the default values for the form elements are set in this function.
+     * 
+     * @access private
+     * @return None
+     * @see buildQuickForm() 
+     * @see _buildMiniSearchForm()
+     * 
+     */  
+    private function _buildMiniAddForm() 
+    {
+        $this->setFormAction("crm/contact/qadd");
+        $this->addElement('text', 'organization_name', 'Organization Name: ');
+        $this->addElement('text', 'email', 'Email: ');
+        $this->addElement('text', 'phone', 'Phone: ');
+
+        $this->addDefaultButtons( array(
+                                        array ( 'type'      => 'next',
+                                                'name'      => 'Save',
+                                                'isDefault' =>  true )
+                                        )
+                                  );
+    }
+
+
+
     /**
      * this function is called when the form is submitted.
      */
-    function process() 
+    /* function process() 
     { 
         // print_r($_POST);
         // write your insert statements here
         // create a object for inserting data in contact table 
-        $contact = new CRM_Contact_DAO_Contact();
-
+        $contact = new CRM_Contacts_DAO_Contact();
+        
         $contact->domain_id = 1;
         $contact->contact_type = $_POST['contact_type'];
         $contact->sort_name = $_POST['sort_name'];
@@ -245,18 +370,21 @@ class CRM_Contact_Form_Organization extends CRM_Form
             // $contact->raiseError("Cannot insert","","continue");
         }
         
-        // create a object for inserting data in contact organization table 
-        $contact_organization = new CRM_Contact_DAO_Contact_Organization();
-        $contact_organization->contact_id = $contact->id;
-        $contact_organization->organization_name = $_POST['organization_name'];
-        $contact_organization->legal_name = $_POST['legal_name'];
-        $contact_organization->nick_name = $_POST['nick_name'];
-        $contact_organization->primary_contact_id = $_POST['primary_contact_id'];
-        $contact_organization->sic_code = $_POST['sic_code'];
-     
-        if(!$contact_organization->insert()) {
+        // create a object for inserting data in contact individual table 
+        $contact_household = new CRM_Contacts_DAO_Contact_Organization();
+        $contact_household->contact_id = $contact->id;
+        $contact_household->household_name = $_POST['household_name'];
+        $contact_household->nick_name = $_POST['nick_name'];
+        $contact_household->primary_contact_id = $_POST['primary_contact_id'];
+        $contact_household->phone_to_household = $_POST['phone_to_household'];
+        $contact_household->email_to_household = $_POST['email_to_household'];
+        $contact_household->postal_to_household = $_POST['postal_to_household'];
+        $contact_household->annual_income = $_POST['annual_income'];
+        
+        
+        if(!$contact_household->insert()) {
             $contact->delete($contact->id);
-            die ("Cannot insert data in contact organization table.");
+            die ("Cannot insert data in contact household table.");
         }
         
         // create a object for inserting data in contact location table 
@@ -265,7 +393,7 @@ class CRM_Contact_Form_Organization extends CRM_Form
         $varname1 = "location";
         
         // create a object of contact location
-        $$varname = new CRM_Contact_DAO_Contact_Location();
+        $$varname = new CRM_Contacts_DAO_Contact_Location();
         
         $$varname->contact_id = $contact->id;
         $$varname->context_id = $_POST[$varname1]['context_id'];
@@ -308,20 +436,13 @@ class CRM_Contact_Form_Organization extends CRM_Form
         if(!$$varname->insert()) {
             //	  echo mysql_error();
             $contact->delete($contact->id);
-            $contact_organization->delete( $contact_organization->id );
+            $contact_household->delete( $contact_household->id );
             die ( "Cannot insert data in contact location table." );
         }
         
     }// end of function
-    
+    */
+
 }
 
-function label_offset($str,$num)
-    {
-        $return_string = "";
-        for ($i = 0; $i < $num; $i++) {
-            $return_string = $return_string . " &nbsp;"; 
-        }
-        return $str . $return_string;
-    }
 ?>
