@@ -102,11 +102,9 @@ class CRM_Selector_Controller {
      * @var string
      */
     protected $_content;
-    protected $_form;
 
     function __construct($object, $pageID, $sortID, $action) {
         $this->_object = $object;
-        /**/$this->_form = $this->_object->buildForm('listing');
         $this->_pageID = $pageID ? $pageID : 1;
         $this->_sortID = $sortID;
         $this->_action = $action;
@@ -138,11 +136,10 @@ class CRM_Selector_Controller {
         $config = CRM_Config::singleton();
 
         $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        $template->clear_all_assign();
+        // $template->clear_all_assign();
 
         $template->assign('pager', $this->_pager->toArray() );
         $template->assign('sort', $this->_sort->toArray () );
-        /**/$template->assign('form', $this->_form ); 
         
         $template->assign('columnHeaders', 
                           $this->_object->getColumnHeaders( $this->_action ) );
@@ -157,7 +154,7 @@ class CRM_Selector_Controller {
         } else {
             $template->assign('rowsEmpty', true);
         }
-
+        
         $this->_content = $template->fetch( $this->_object->getTemplateFileName(), $config->templateDir );
     }
 

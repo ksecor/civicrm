@@ -229,6 +229,17 @@ class CRM_Form extends HTML_QuickForm_Page {
     }
 
     /**
+     * This virtual function is used to set the default values of
+     * various form elements
+     *
+     * access        public
+     * @return array reference to the array of default values
+     *
+     */
+    function setDefaultValues( ) {
+    }
+
+    /**
      * This is a virtual function that adds group and global rules to
      * the form. Keeping it distinct from the form to keep code small
      * and localized in the form building code
@@ -252,6 +263,9 @@ class CRM_Form extends HTML_QuickForm_Page {
         $this->preProcess();
 
         $this->buildQuickForm();
+
+        $defaults =& $this->setDefaultValues( );
+        $this->setDefaults( $defaults );
 
         $this->addRules();
     }

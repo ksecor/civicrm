@@ -68,7 +68,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return void
      */
     function buildQuickForm( ) {
-        $this->add( 'select', 'contact_type', 'Contact Type', $CRM_SelectValues::contactType );
+        $this->add( 'select', 'contact_type', 'Contact Type', CRM_SelectValues::$contactType );
 
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'next'  ,
@@ -88,10 +88,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * Set the default form values
      *
      * @access protected
-     * @return void
+     * @return array the default array reference
      */
-    function setDefaultValues( ) {
+    function &setDefaultValues( ) {
         $defaults = array( 'contact_type' => 'Individual' );
+        return $defaults;
     }
 
     /**
@@ -111,8 +112,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function preProcess( ) {
         $contact = new CRM_Contact_Individual_Selector();
-        $controller = new CRM_Selector_Controller( $contact , null, null, CRM_Action::VIEW );
-        $controller->run( );
+        $selector = new CRM_Selector_Controller( $contact , null, null, CRM_Action::VIEW );
+        $selector->run( );
     }
 
     /**

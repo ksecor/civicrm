@@ -106,7 +106,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $defaults['first_name'] = 'Dave';
             $defaults['last_name'] = 'Greenberg';
             $defaults['location1[email_1]'] = 'dgg@blackhole.net';
-            $this->setDefaults($defaults);
             break;
         case self::MODE_VIEW:
             break;
@@ -121,9 +120,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
         case self::MODE_SEARCH_MINI:
 
             $defaults['sname'] = ' - full or partial name - ';
-            $this->setDefaults($defaults);
             break;            
         }// end of switch
+
+        return $defaults;
     }// end of function
     
     /**
@@ -305,8 +305,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                                 'name'      => 'Cancel' ),
                                         )
                                   );
-        
-        $this->setDefaultValues();
         
     }
     

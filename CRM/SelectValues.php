@@ -114,8 +114,8 @@ class CRM_SelectValues {
                                            2 => 'Work',
                                            3 => 'Main',
                                            4 => 'Other'
-                                      );
-
+                                           );
+    
     /**
      * im protocols (fetch and cache from db based on locale)
      * @var array
@@ -170,10 +170,10 @@ class CRM_SelectValues {
      * @static
      */
     static public $contactType = array(
-                                       ' '     => '-no preference-',
-                                       'Individual' => 'Individual',
+                                       ' '            => '-no preference-',
+                                       'Individual'   => 'Individual',
+                                       'Household'    => 'Household'
                                        'Organization' => 'Organization',
-                                       'Household' => 'Household'
                                        );
     
 }

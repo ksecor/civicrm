@@ -132,7 +132,6 @@ class CRM_Contact_Individual_Selector extends CRM_Selector_Base implements CRM_S
     {
         static $order = array(
                               'crm_contact_id'                             => CRM_Sort::ASCENDING,                              
-                              'crm_contact_domain_id'                      => CRM_Sort::ASCENDING,                              
                               'crm_contact_sort_name'                      => CRM_Sort::DESCENDING,
                               'crm_contact_contact_type'                   => CRM_Sort::DESCENDING,
                               'crm_contact_preferred_communication_method' => CRM_Sort::DESCENDING,
@@ -154,11 +153,6 @@ class CRM_Contact_Individual_Selector extends CRM_Selector_Base implements CRM_S
                                       'name' => 'Contact ID',
                                       'sort' => 'crm_contact_id',
                                       ),
-                                array(
-                                      'name' => 'Domain ID',
-                                      'sort' => 'crm_contact_domain_id',
-                                      ),
-                                
                                 array(
                                       'name' => 'Name',
                                       'sort' => 'crm_contact_sort_name',
@@ -199,7 +193,6 @@ class CRM_Contact_Individual_Selector extends CRM_Selector_Base implements CRM_S
             $row = array();
             
             $row['contact_id']                     = $this->_contact->crm_contact_id;
-            $row['domain_id']                      = $this->_contact->crm_contact_domain_id;
             $row['sort_name']                      = $this->_contact->crm_contact_sort_name;
             $row['contact_type']                   = (strlen(trim($this->_contact->crm_contact_contact_type))) ? $this->_contact->crm_contact_contact_type : "-----";
             $row['preferred_communication_method'] = (strlen(trim($this->_contact->crm_contact_preferred_communication_method))) ? $this->_contact->crm_contact_preferred_communication_method : "-----";

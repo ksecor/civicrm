@@ -80,14 +80,20 @@ class CRM_Contact_Individual extends CRM_Base
      * An individual object will create a form for display.
      * forms are of different type and have different operations.
      *
-     * @param int mode mode of operation.
-     * @param int id id of the contact.
-     * @returns none.
+     * @param string $formName    name of the form processing this action
+     * @param string $formLabel   label for the above form
+     * @param int    $mode        mode of operation.
+     * @param string $userContext where should we go when done
+     * @param int    $id          id of the contact.
      *
+     * @returns none.
      * @access public
      */
-    function run($mode, $id = 0)
-    {
+    function run( $formName    = 'CRM_Contact_Form_Individual',
+                  $formLabel   = 'Contact Individual Page'    ,
+                  $mode        = CRM_Form::MODE_NONE,
+                  $userContext = 'crm/contact/add?reset=1',
+                  $id          = 0 ) {
         // CRM_Error::le_method();
 
         $session = CRM_Session::singleton();
@@ -96,9 +102,9 @@ class CRM_Contact_Individual extends CRM_Base
         // store the return url. Note that this is typically computed by the framework at runtime
         // based on multiple things (typically where the link was clicked from / http_referer
         // since we are just starting and figuring out navigation, we are hard coding it here
-        $session->pushUserContext( $config->httpBase . "crm/contact/add?reset=1" );
+        $session->pushUserContext( $config->httpBase . $userContext );
 
-        $this->_controller = new CRM_Controller_Simple('CRM_Contact_Form_Individual', 'Contact Individual Page', $mode);
+        $this->_controller = new CRM_Controller_Simple( $formName, $formLabel, $mode );
         $this->_controller->process();
         $this->_controller->run();
     }

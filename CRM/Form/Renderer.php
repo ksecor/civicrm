@@ -59,8 +59,8 @@ class CRM_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
             $el['html_labelled'] = $el['label_html'] . $el['html'];
         }
 
-        $el['required'] = $required ? theme('mark') : null;
-        $el['theme']    = theme( 'form_element', $element->getLabel(), $el['html'], null, $element->getName(), $req, $el['error'] );
+        // $el['required'] = $required ? theme('mark') : null;
+        // $el['theme']    = theme( 'form_element', $element->getLabel(), $el['html'], null, $element->getName(), $req, $el['error'] );
                        
         return $el;
     }
