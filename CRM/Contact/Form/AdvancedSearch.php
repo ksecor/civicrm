@@ -60,6 +60,13 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         parent::__construct($name, $state, $mode);
     }
 
+    public static $groups     = array(''  => '- any group -', 
+                                      1   => 'Group A',
+                                      2   => 'Group B' );
+    public static $categories = array(''  => '- any category -', 
+                                      1   => 'Category A',
+                                      2   => 'Category B' );
+
     /**
      * Build the form
      *
@@ -68,7 +75,40 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        $this->add('select', 'contact_type', 'Show me.... ', CRM_SelectValues::$contactType);
+        /*code for advanced search start*/
+        $contact_type = array( );
+        foreach (CRM_SelectValues::$contactType as $keys => $values) {
+            $contact_type[] = HTML_QuickForm::createElement('checkbox', $keys, null, $values);
+        }
+
+        /*$contact_typeA[] = HTML_QuickForm::createElement('checkbox', 'individual', null, 'Individual');
+        $contact_typeA[] = HTML_QuickForm::createElement('checkbox', 'household', null, 'Household');
+        $contact_typeA[] = HTML_QuickForm::createElement('checkbox', 'organization', null, 'Organization');*/
+
+        $this->addGroup($contact_type, 'contact_type', 'Show Me....', '<br />');
+
+        $group_id = array();
+        foreach (CRM_Contact_Form_AdvancedSearch::$groups as $keys => $values) {
+            $group_id[] = HTML_QuickForm::createElement('checkbox', $values, null, $values);
+        }
+        $this->addGroup($group_id, 'group_id', 'In Group (s)', '<br />');
+
+        $category_id = array();
+        foreach (CRM_Contact_Form_AdvancedSearch::$categories as $keys => $values) {
+            $category_id[] = HTML_QuickForm::createElement('checkbox', $values, null, $values);
+        }
+        $this->addGroup($category_id, 'category_id', 'In Categorie (s)', '<br />');
+
+        $this->add('text', 'last_name', 'Contact Name',
+                   CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->add('text', 'first_name', 'First Name',
+                   CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'first_name') );
+        
+        $this->add('text', 'street_name', 'Street Name:',
+                   CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
+        $this->add('text', 'city', 'City:',
+                   CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));        
+        /*code for advanced search end*/
     }
 
 
