@@ -47,13 +47,14 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      * pairs
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $ids            the array that holds all the db ids
      * @param array  $locationId     
      *
      * @return object CRM_Contact_BAO_Address object
      * @access public
      * @static
      */
-    static function add( &$params, $locationId ) {
+    static function add( &$params, &$ids, $locationId ) {
         if ( ! self::dataExists( $params, $locationId ) ) {
             return null;
         }
@@ -62,11 +63,10 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
         
         $address->location_id       = $params['location'][$locationId]['id'];
         $address->copyValues( $params['location'][$locationId]['address'] );
- 
-        // hack for now, should fix db soon
-        $address->geo_coord_id = 1;
-        $address->county_id    = 1;
 
+        $address->county_id = $address->geo_coord_id = 1;
+
+        $address->id = CRM_Array::value( 'address', $ids['location'][$locationId] );
         return $address->save( );
     }
 
@@ -102,12 +102,14 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      *
      * @param array $params        input parameters to find object
      * @param array $values        output values of the object
+     * @param array $ids           the array that holds all the db ids
+     * @param int   $blockCount    number of blocks to fetch
      *
      * @return void
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, $blockCount = 0 ) {
+    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
         $address = new CRM_Contact_BAO_Address( );
         $address->copyValues( $params );
 
@@ -118,6 +120,7 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
         
         // we first get the primary location due to the order by clause
         if ( $address->find( true ) ) {
+            $ids['address'] = $address->id;
             if ( $flatten ) {
                 $address->storeValues( $values );
             } else {

@@ -31,35 +31,22 @@
  *
  */
 
-
-
 require_once 'CRM/Contact/DAO/Contact.php';
-
 require_once 'CRM/Contact/DAO/Individual.php';
-
 require_once 'CRM/Contact/DAO/Location.php';
-
 require_once 'CRM/Contact/DAO/Address.php';
-
 require_once 'CRM/Contact/DAO/Phone.php';
-
 require_once 'CRM/Contact/DAO/IM.php';
-
 require_once 'CRM/Contact/DAO/Email.php';
 
 class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual 
 {
-    
-    protected $_contactDAO;
-    
     /**
      * This is a contructor of the class.
      */
     function __construct() 
     {
         parent::__construct();
-        
-        $this->_contactDAO = new CRM_Contact_DAO_Contact();
     }
     
     /**
@@ -70,12 +57,13 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
      * pairs
      *
      * @param array  $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids
      *
      * @return object CRM_Contact_BAO_Individual object
      * @access public
      * @static
      */
-    static function add( &$params ) {
+    static function add( &$params, &$ids ) {
         $individual = new CRM_Contact_BAO_Individual( );
 
         $individual->copyValues( $params );
@@ -90,10 +78,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
             $individual->birth_date = $date['Y'] . $date['M'] . $date['d'];
         }
 
-        $id = CRM_Array::value( 'individual_id', $params );
-        if ( $id ) {
-            $individual->id = $id;
-        }
+        $individual->id = CRM_Array::value( 'individual', $ids );
         return $individual->save( );
     }
 
@@ -103,25 +88,27 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
      *
      * @param array $params input parameters to find object
      * @param array $values output values of the object
+     * @param array $ids    the array that holds all the db ids
      *
      * @return CRM_Contact_BAO_Individual|null the found object or null
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values ) {
+    static function getValues( &$params, &$values, &$ids ) {
         $individual = new CRM_Contact_BAO_Individual( );
         
         $individual->copyValues( $params );
         if ( $individual->find(true) ) {
+            $ids['individual'] = $individual->id;
             $individual->storeValues( $values );
-        }
 
-        if ( isset( $individual->gender ) ) {
-            $values['gender'] = array( 'gender' => $individual->gender );
-        }
+            if ( isset( $individual->gender ) ) {
+                $values['gender'] = array( 'gender' => $individual->gender );
+            }
      
-        // i suspect we'll have to fix the birth_date values here
-        return $individual;
+            return $individual;
+        }
+        return null;
     }
         
 }

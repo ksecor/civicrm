@@ -144,15 +144,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * pairs
      *
      * @param array  $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids
      *
      * @return object CRM_Contact_BAO_Contact object
      * @access public
      * @static
      */
-    static function add( &$params ) {
+    static function add( &$params, &$ids ) {
         $contact = new CRM_Contact_BAO_Contact( );
-        
-        $contact->domain_id = 1;
         
         $contact->copyValues( $params );
 
@@ -165,10 +164,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             }
         }
 
-        $id = CRM_Array::value( 'contact_id', $params );
-        if ( $id ) {
-            $contact->id = $id;
-        }
+        $contact->domain_id = CRM_Array::value( 'domain' , $ids, 1 );
+        $contact->id        = CRM_Array::value( 'contact', $ids );
         return $contact->save( );
     }
 
@@ -178,29 +175,33 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      *
      * @param array $params input parameters to find object
      * @param array $values output values of the object
+     * @param array $ids    the array that holds all the db ids
      *
      * @return CRM_Contact_BAO_Contact|null the found object or null
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values ) {
+    static function getValues( &$params, &$values, &$ids ) {
         $contact = new CRM_Contact_BAO_Contact( );
 
         $contact->copyValues( $params );
         if ( $contact->find(true) ) {
+            $ids['contact'] = $contact->id;
+            $ids['domain' ] = $contact->domain_id;
+
             $contact->storeValues( $values );
-        }
 
-        $privacy = array( );
-        foreach ( self::$_commPrefs as $name ) {
-            if ( isset( $contact->$name ) ) {
-                $privacy[$name] = $contact->$name;
+            $privacy = array( );
+            foreach ( self::$_commPrefs as $name ) {
+                if ( isset( $contact->$name ) ) {
+                    $privacy[$name] = $contact->$name;
+                }
             }
+            if ( !empty($privacy) ) {
+                $values['privacy'] = $privacy;
+            }
+            return $contact;
         }
-        if ( !empty($privacy) ) {
-            $values['privacy'] = $privacy;
-        }
-
         return null;
     }
 

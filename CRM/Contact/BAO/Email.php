@@ -46,6 +46,7 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      * pairs
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $ids            the array that holds all the db ids
      * @param int    $locationId
      * @param int    $emailId
      *
@@ -53,7 +54,7 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      * @access public
      * @static
      */
-    static function add( &$params, $locationId, $emailId ) {
+    static function add( &$params, &$ids, $locationId, $emailId ) {
         if ( ! self::dataExists( $params, $locationId, $emailId ) ) {
             return null;
         }
@@ -62,6 +63,8 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
         $email->location_id        = $params['location'][$locationId]['id'];
         $email->email              = $params['location'][$locationId]['email'][$emailId]['email'];
         $email->is_primary         = CRM_Array::value( 'is_primary', $params['location'][$locationId]['email'][$emailId], false );
+
+        $email->id = CRM_Array::value( $emailId, $ids['location'][$locationId]['email'] );
         return $email->save( );
     }
 
@@ -87,15 +90,16 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      *
      * @param array $params        input parameters to find object
      * @param array $values        output values of the object
+     * @param array $ids           the array that holds all the db ids
      * @param int   $blockCount    number of blocks to fetch
      *
      * @return void
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, $blockCount = 0 ) {
+    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
         $email = new CRM_Contact_BAO_Email( );
-        CRM_Contact_BAO_Block::getValues( $email, 'email', $params, $values, $blockCount );
+        CRM_Contact_BAO_Block::getValues( $email, 'email', $params, $values, $ids, $blockCount );
     }
 }
 

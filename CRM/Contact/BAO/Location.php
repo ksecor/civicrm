@@ -48,13 +48,14 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * pairs
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $ids            the array that holds all the db ids
      * @param array  $locationId     
      *
      * @return object CRM_Contact_BAO_Location object
      * @access public
      * @static
      */
-    static function add( &$params, $locationId ) {
+    static function add( &$params, &$ids, $locationId ) {
         $dataExists = self::dataExists( $params, $locationId );
         if ( ! $dataExists ) {
             return null;
@@ -66,17 +67,17 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
         $location->is_primary       = CRM_Array::value( 'is_primary', $params['location'][$locationId] );
         $location->location_type_id = CRM_Array::value( 'location_type_id', $params['location'][$locationId] );
 
-        $location->id = CRM_Array::value( 'location_id', $params['location'][$locationId] );
+        $location->id = CRM_Array::value( 'id', $ids['location'][$locationId] );
         $location->save( );
 
         $params['location'][$locationId]['id'] = $location->id;
 
-        CRM_Contact_BAO_Address::add( $params, $locationId );
+        CRM_Contact_BAO_Address::add( $params, $ids, $locationId );
         
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
-            CRM_Contact_BAO_Phone::add( $params, $locationId, $i );
-            CRM_Contact_BAO_Email::add( $params, $locationId, $i );
-            CRM_Contact_BAO_IM::add   ( $params, $locationId, $i );
+            CRM_Contact_BAO_Phone::add( $params, $ids, $locationId, $i );
+            CRM_Contact_BAO_Email::add( $params, $ids, $locationId, $i );
+            CRM_Contact_BAO_IM::add   ( $params, $ids, $locationId, $i );
         }
         return $location;
     }
@@ -118,13 +119,14 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      *
      * @param array $params        input parameters to find object
      * @param array $values        output values of the object
+     * @param array $ids           the array that holds all the db ids
      * @param int   $locationCount number of locations to fetch
      *
      * @return void
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, $locationCount = 0 ) {
+    static function getValues( &$params, &$values, &$ids, $locationCount = 0 ) {
         $location = new CRM_Contact_BAO_Location( );
         $location->copyValues( $params );
 
@@ -134,6 +136,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
             $flatten       = true;
         } else {
             $values['location'] = array();
+            $ids['location']    = array();
         }
 
         // we first get the primary location due to the order by clause
@@ -143,12 +146,15 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
             if ($location->fetch()) {
                 $params['location_id'] = $location->id;
                 if ($flatten) {
+                    $ids['location'] = $location->id;
                     $location->storeValues( $values );
-                    self::getBlocks( $params, $values );
+                    self::getBlocks( $params, $values, $ids );
                 } else {
                     $values['location'][$i+1] = array();
+                    $ids['location'][$i+1]    = array();
+                    $ids['location'][$i+1]['id'] = $location->id;
                     $location->storeValues( $values['location'][$i+1] );
-                    self::getBlocks( $params, $values['location'][$i+1], CRM_Contact_Form_Location::BLOCKS );
+                    self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1], CRM_Contact_Form_Location::BLOCKS );
                 }
             }
         }
@@ -157,12 +163,12 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
     /**
      * simple helper function to dispatch getCall to lower comm blocks
      */
-    static function getBlocks( &$params, &$values, $blockCount = 0 ) {
-        CRM_Contact_BAO_Address::getValues( $params, $values, $blockCount );
+    static function getBlocks( &$params, &$values, &$ids, $blockCount = 0 ) {
+        CRM_Contact_BAO_Address::getValues( $params, $values, $ids, $blockCount );
 
-        CRM_Contact_BAO_Phone::getValues( $params, $values, $blockCount );
-        CRM_Contact_BAO_Email::getValues( $params, $values, $blockCount );
-        CRM_Contact_BAO_IM::getValues   ( $params, $values, $blockCount );
+        CRM_Contact_BAO_Phone::getValues( $params, $values, $ids, $blockCount );
+        CRM_Contact_BAO_Email::getValues( $params, $values, $ids, $blockCount );
+        CRM_Contact_BAO_IM::getValues   ( $params, $values, $ids, $blockCount );
     }
 
 }

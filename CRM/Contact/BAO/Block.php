@@ -43,13 +43,14 @@ class CRM_Contact_BAO_Block {
      * @param string $blockName     name of the above object
      * @param array  $params        input parameters to find object
      * @param array  $values        output values of the object
+     * @param array  $ids           the array that holds all the db ids
      * @param int    $blockCount    number of blocks to fetch
      *
      * @return void
      * @access public
      * @static
      */
-    static function getValues( $block, $blockName, &$params, &$values, $blockCount = 0 ) {
+    static function getValues( $block, $blockName, &$params, &$values, &$ids, $blockCount = 0 ) {
         $block->copyValues( $params );
 
         $flatten = false;
@@ -58,6 +59,7 @@ class CRM_Contact_BAO_Block {
             $flatten       = true;
         } else {
             $values[$blockName] = array();
+            $ids[$blockName]    = array();
         }
 
         // we first get the primary location due to the order by clause
@@ -67,9 +69,11 @@ class CRM_Contact_BAO_Block {
             if ($block->fetch()) {
                 if ( $flatten ) {
                     $block->storeValues( $values );
+                    $ids[$blockName] = $block->id;
                 } else {
                     $values[$blockName][$i+1] = array();
                     $block->storeValues( $values[$blockName][$i+1] );
+                    $ids[$blockName][$i+1] = $block->id;
                 }
             }
         }

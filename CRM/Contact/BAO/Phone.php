@@ -46,6 +46,7 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * pairs
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $ids            the array that holds all the db ids
      * @param int    $locationId
      * @param int    $phoneId
      *
@@ -53,7 +54,7 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * @access public
      * @static
      */
-    static function add( &$params, $locationId, $phoneId ) {
+    static function add( &$params, &$ids, $locationId, $phoneId ) {
         if ( ! self::dataExists( $params, $locationId, $phoneId ) ) {
             return null;
         }
@@ -64,6 +65,8 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
         $phone->phone_type         = $params['location'][$locationId]['phone'][$phoneId]['phone_type'];
         $phone->is_primary         = CRM_Array::value( 'is_primary', $params['location'][$locationId]['phone'][$phoneId], false );
         $phone->mobile_provider_id = CRM_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
+
+        $phone->id = CRM_Array::value( $phoneId, $ids['location'][$locationId]['phone'] );
         return $phone->save( );
     }
 
@@ -89,15 +92,16 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      *
      * @param array $params        input parameters to find object
      * @param array $values        output values of the object
+     * @param array $ids           the array that holds all the db ids
      * @param int   $blockCount    number of blocks to fetch
      *
      * @return void
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, $blockCount = 0 ) {
+    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
         $phone = new CRM_Contact_BAO_Phone( );
-        CRM_Contact_BAO_Block::getValues( $phone, 'phone', $params, $values, $blockCount );
+        CRM_Contact_BAO_Block::getValues( $phone, 'phone', $params, $values, $ids, $blockCount );
     }
 
 }

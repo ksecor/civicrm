@@ -46,6 +46,7 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      * pairs
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $ids            the array that holds all the db ids
      * @param int    $locationId
      * @param int    $imId
      *
@@ -53,7 +54,7 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      * @access public
      * @static
      */
-    static function add( &$params, $locationId, $imId ) {
+    static function add( &$params, &$ids, $locationId, $imId ) {
         if ( ! self::dataExists( $params, $locationId, $imId ) ) {
             return null;
         }
@@ -63,6 +64,8 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
         $im->name         = $params['location'][$locationId]['im'][$imId]['name'];
         $im->provider_id  = $params['location'][$locationId]['im'][$imId]['provider_id'];
         $im->is_primary   = CRM_Array::value( 'is_primary', $params['location'][$locationId]['im'][$imId], false );
+
+        $im->id = CRM_Array::value( $imId, $ids['location'][$locationId]['im'] );
         return $im->save( );
     }
 
@@ -89,15 +92,16 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      *
      * @param array $params        input parameters to find object
      * @param array $values        output values of the object
+     * @param array $ids           the array that holds all the db ids
      * @param int   $blockCount    number of blocks to fetch
      *
      * @return void
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, $blockCount = 0 ) {
+    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
         $im = new CRM_Contact_BAO_IM( );
-        CRM_Contact_BAO_Common::getBlockValues( $im, 'im', $params, $values, $blockCount );
+        CRM_Contact_BAO_Block::getValues( $im, 'im', $params, $values, $ids, $blockCount );
     }
 
 }

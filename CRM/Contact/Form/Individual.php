@@ -115,12 +115,17 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
             // get values from contact table
             $params['id'] = $params['contact_id'] = $_SESSION['id'];
-            CRM_Contact_BAO_Contact::getValues( $params, $defaults );
+            $ids = array();
+            CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
 
             unset($params['id']);
-            CRM_Contact_BAO_Individual::getValues( $params, $defaults );
+            CRM_Contact_BAO_Individual::getValues( $params, $defaults, $ids );
 
-            CRM_Contact_BAO_Location::getValues( $params, $defaults, self::LOCATION_BLOCKS );
+            CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, self::LOCATION_BLOCKS );
+
+            if ( $this->_mode & self::MODE_UPDATE ) {
+                $this->set( 'ids', $ids );
+            }
         }
 
         return $defaults;
@@ -337,24 +342,25 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
-        if ($this->_mode) {
-            $params['contact_id'] = $_SESSION['id'];
+        $ids = array( );
+        if ($this->_mode & self::MODE_UPDATE ) {
+            $ids = $this->get('ids');
         }    
 
         $tempDB = new CRM_Contact_DAO_Contact( );
         $tempDB->query('BEGIN');
 
         $params['contact_type'] = 'Individual';
-        $contact = CRM_Contact_BAO_Contact::add( $params );
+        $contact = CRM_Contact_BAO_Contact::add( $params, $ids );
         // need to check for error here and abort / rollback if error
         
         $params['contact_id'] = $contact->id;
         
-        $individual = CRM_Contact_BAO_Individual::add( $params );
+        $individual = CRM_Contact_BAO_Individual::add( $params, $ids );
         // need to check for error here and abort / rollback if error
 
         for ($locationId= 1; $locationId <= self::LOCATION_BLOCKS; $locationId++) { // start of for loop for location
-            $location = CRM_Contact_BAO_Location::add( $params, $locationId );
+            $location = CRM_Contact_BAO_Location::add( $params, $ids, $locationId );
         }
 
         $tempDB->query('COMMIT');
