@@ -23,7 +23,7 @@
 	{* $form.errors is set normally when the form is relayed from the server after processing *}
 
 	 {if count($form.errors) gt 0}
-     <div class="messages error"
+     <div class="messages error">
         Please correct the following errors in the form fields below:
         <ul id="errorList">
         {foreach from=$form.errors key=name item=errorMsg}

@@ -31,103 +31,72 @@
  *
  */
 
-
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Contact/DAO/Household.php';
+require_once 'CRM/Contact/DAO/Location.php';
+require_once 'CRM/Contact/DAO/Address.php';
+require_once 'CRM/Contact/DAO/Phone.php';
+require_once 'CRM/Contact/DAO/IM.php';
+require_once 'CRM/Contact/DAO/Email.php';
 
-class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household 
+class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
 {
-    
-    protected $_contactDAO;
-    
     /**
      * This is a contructor of the class.
      */
     function __construct() 
     {
         parent::__construct();
-        
-        $this->_contactDAO = new CRM_Contact_DAO_Contact();
     }
     
     /**
-     * This function sets the values in the form.
+     * takes an associative array and creates a contact object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * contact object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids
+     *
+     * @return object CRM_Contact_BAO_Household object
+     * @access public
+     * @static
      */
-    function setContactValues() 
-    {
+    static function add( &$params, &$ids ) {
+        $household = new CRM_Contact_BAO_Household( );
 
-        $dbFields  = $this->_contactDAO->dbFields();
+        $household->copyValues( $params );
 
-        foreach ($dbFields as $fieldName => $dontCare) {
-            $this->_contactDAO->$fieldName = isset($this->$fieldName) ? $this->$fieldName : null;
+        $household->id = CRM_Array::value( 'household', $ids );
+        return $household->save( );
+    }
+
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params input parameters to find object
+     * @param array $values output values of the object
+     * @param array $ids    the array that holds all the db ids
+     *
+     * @return CRM_Contact_BAO_Household|null the found object or null
+     * @access public
+     * @static
+     */
+    static function getValues( &$params, &$values, &$ids ) {
+        $household = new CRM_Contact_BAO_Household( );
+        
+        $household->copyValues( $params );
+        if ( $household->find(true) ) {
+            $ids['household'] = $household->id;
+            $household->storeValues( $values );
+
+            return $household;
         }
+        return null;
     }
-    
-    function fillContactValues() 
-    {
-        $dbFields  = $this->_contactDAO->dbFields();
-        $tableName = $this->_contactDAO->tableName();
         
-        foreach ($dbFields as $fieldName => $dontCare) {
-            $selectFieldName = $tableName . '_' . $fieldName;
-            $this->_contactDAO->$fieldName = isset($this->$selectFieldName) ? $this->$selectFieldName : null;
-        }
-    }
-    
-    function getContactValues() 
-    {
-        $dbFields  = $this->_contactDAO->dbFields();
-        
-        foreach ($dbFields as $fieldName => $dontCare) {
-            $this->$fieldName = $this->_contactDAO->$fieldName;
-        }
-    }
-    
-    function insertContact() 
-    {
-        $this->setContactValues();
-        
-        $this->_contactDAO->insert();
-        
-        /* above insertion triggers setting the contact_id */
-        $this->contact_id = $this->_contactDAO->id;
-    }
-    
-    function insert() 
-    {
-        /**
-         * first insert a contact record
-         **/
-        $this->insertContact();
-        
-        parent::insert();
-    }
-    
-    function find($get = false) 
-    {
-        
-        $this->setContactValues();
-        $this->joinAdd( $this->_contactDAO );
-        $this->selectAdd();
-        $this->selectAs( $this, '%s' );
-        $this->selectAs( $this->_contactDAO, $this->_contactDAO->getTableName() . '_%s' );
-        parent::find($get);
-        
-        if ($get) {
-            $this->fillContactValues();
-        }
-        
-    }
-    
-    function fetch() 
-    {
-        $result = parent::fetch();
-        if ($result) {
-            $this->fillContactValues();
-        }
-        return $result;
-    }
-    
 }
 
 ?>

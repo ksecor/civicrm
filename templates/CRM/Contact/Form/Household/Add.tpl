@@ -1,11 +1,11 @@
 {* This file provides the HTML for the big add contact form *}
-{* It provides the templating for Household Name block and Contact notes *}
+{* It provides the templating for Organization Name block and Contact notes *}
 {* The templating for Location and Communication preferences block has been plugged by including the Location.tpl file *}    
 
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
- {* Including the javascript source code from the HOUSE.js and Common.js files *}
- <script type="text/javascript" src="{$config->httpBase}js/HOUSE.js"></script>
+ {* Including the javascript source code from the Individual.js and Common.js files *}
+ <script type="text/javascript" src="{$config->httpBase}js/ORG.js"></script>
  <script type="text/javascript" src="{$config->httpBase}js/Common.js"></script>
 
 {* Including the custom javascript validations added by the HTML_QuickForm for all client validations in addRules *} 
@@ -23,30 +23,44 @@
 	{* $form.errors is set normally when the form is relayed from the server after processing *}
 
 	 {if count($form.errors) gt 0}
-	 <table width="100%" cellpadding="1" cellspacing="0" border="0" bgcolor="#ff9900"><tr><td>
-	 <table width="100%" cellpadding="10" cellspacing="0" border="0" bgcolor="#FFFFCC"><tr><td align="center">
-	 <span class="error" style="font-size: 13px;">Please correct the errors below.</span>
-	 </td></tr></table>
-	 </td></tr></table>
-	 </p>
-	 {/if}
+     <div class="messages error">
+        Please correct the following errors in the form fields below:
+        <ul id="errorList">
+        {foreach from=$form.errors key=name item=errorMsg}
+            <li>{$name} {$errorMsg}</li>
+        {/foreach}
+        </ul>
+    </div>
+    {/if}
 
  <div id="name">
- <fieldset>
-   <legend>Household</legend>
-   <div class="form-item">
-	<label>{$form.household_name.label} </label>
-	{$form.household_name.html}
-   </div>
-   <div class="form-item">
-	<label>{$form.nick_name.label}</label>
-	{$form.nick_name.html}
-   </div>
-   <div class="form-item">
-	<label>{$form.primary_contact_id.label}</label>
-	{$form.primary_contact_id.html}
-  </div>
-  </fieldset>
+ <fieldset><legend>Household</legend>
+    <!-- <div class="spacer"></div> -->
+
+    <div class="form-item">
+        <span class="labels"><label>{$form.household_name.label}</label></span>
+        <span class="fields">
+	    {$form.household_name.html}	
+        </span>
+    </div>
+
+    <div class="form-item">
+        <span class="labels"><label>{$form.nick_name.label}</label></span>
+        <span class="fields">
+	    {$form.nick_name.html}	
+        </span>
+    </div>
+
+    <div class="form-item">
+        <span class="labels"><label>{$form.primary_contact_id.label}</label></span>
+        <span class="fields">
+	    {$form.primary_contact_id.html}	
+        </span>
+    </div>
+
+    <!-- Spacer div forces fieldset to contain floated elements -->
+    <div class="spacer"></div>
+ </fieldset>
  </div>
  
 {* Plugging the Communication preferences block *} 
@@ -55,33 +69,28 @@
 {* Plugging the Location block *}
  {include file="CRM/Contact/Form/Location.tpl"}
 
- {******************************** END THE CORE DIV SECTION **************************************}
-
- </div> <!--end 'core' section of contact form -->
-
- <div id = "notes[show]" class="comment">
-    {$form.notes.show.html}
+ <div id = "notes[show]" class="show-section">
+    {$notes.show}
  </div>
 
  <div id = "notes">
  <fieldset><legend>Contact Notes</legend>
     <div class="form-item">
-        <label>
-        {* {$form.address_note.label} *}
         {$form.address_note.html}
-        </label>
         <div class = "description">
           Record any descriptive comments about this contact.
           You may add an unlimited number of notes, and view or search on them at any time.
         </div>
-    </div>    
-	<div id="notes[hide]" class="box">
-        {$form.notes.hide.html}
-        </div>
+    </div>
+    <!-- Spacer div contains floated elements -->
+    <div class="spacer"></div>
+	<div id="notes[hide]" class="hide-section">
+        {$notes.hide}
+    </div>
  </fieldset>
  </div> <!-- End of "notes" div -->
  
- <div id = "buttons" class="form-submit"> <!-- This class should get automated into form.buttons output -->
+ <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
 

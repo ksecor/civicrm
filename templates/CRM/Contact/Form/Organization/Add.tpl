@@ -23,39 +23,58 @@
 	{* $form.errors is set normally when the form is relayed from the server after processing *}
 
 	 {if count($form.errors) gt 0}
-	 <table width="100%" cellpadding="1" cellspacing="0" border="0" bgcolor="#ff9900"><tr><td>
-	 <table width="100%" cellpadding="10" cellspacing="0" border="0" bgcolor="#FFFFCC"><tr><td align="center">
-	 <span class="error" style="font-size: 13px;">Please correct the errors below.</span>
-	 </td></tr></table>
-	 </td></tr></table>
-	 </p>
-	 {/if}
+     <div class="messages error">
+        Please correct the following errors in the form fields below:
+        <ul id="errorList">
+        {foreach from=$form.errors key=name item=errorMsg}
+            <li>{$name} {$errorMsg}</li>
+        {/foreach}
+        </ul>
+    </div>
+    {/if}
 
  <div id="name">
- <fieldset>
-   <legend>Organization</legend>
-  <div class="form-item">
-    <label>{$form.organization_name.label}</label>
-    {$form.organization_name.html}
-  </div>
-  <div class="form-item">
-      <label>{$form.legal_name.label}</label>
-	{$form.legal_name.html}
-  </div>
-   <div class="form-item">
-     <label>{$form.nick_name.label}</label>
-        {$form.nick_name.html}
-   </div>
-   <div class="form-item">
-	<label>{$form.primary_contact_id.label}</label>
-	 {$form.primary_contact_id.html}
-   </div>
+ <fieldset><legend>Organization</legend>
+    <!-- <div class="spacer"></div> -->
     <div class="form-item">
-        <label>{$form.sic_code.label}</label>
-	{$form.sic_code.html}
-   </div>
+        <span class="labels"><label>{$form.organization_name.label}</label></span>
+        <span class="fields">
+	    {$form.organization_name.html}	
+        </span>
+    </div>
+    
+    <div class="form-item">
+        <span class="labels"><label>{$form.legal_name.label}</label></span>
+        <span class="fields">
+	    {$form.legal_name.html}	
+        </span>
+    </div>
 
-  </fieldset>
+    <div class="form-item">
+        <span class="labels"><label>{$form.nick_name.label}</label></span>
+        <span class="fields">
+	    {$form.nick_name.html}	
+        </span>
+    </div>
+
+    <div class="form-item">
+        <span class="labels"><label>{$form.primary_contact_id.label}</label></span>
+        <span class="fields">
+	    {$form.primary_contact_id.html}	
+        </span>
+    </div>
+
+    <div class="form-item">
+        <span class="labels"><label>{$form.sic_code.label}</label></span>
+        <span class="fields">
+	    {$form.sic_code.html}	
+        </span>
+    </div>
+
+
+    <!-- Spacer div forces fieldset to contain floated elements -->
+    <div class="spacer"></div>
+ </fieldset>
  </div>
  
 {* Plugging the Communication preferences block *} 
@@ -64,33 +83,28 @@
 {* Plugging the Location block *}
  {include file="CRM/Contact/Form/Location.tpl"}
 
- {******************************** END THE CORE DIV SECTION **************************************}
-
- </div> <!--end 'core' section of contact form -->
-
- <div id = "notes[show]" class="comment">
-    {$form.notes.show.html}
+ <div id = "notes[show]" class="show-section">
+    {$notes.show}
  </div>
 
  <div id = "notes">
  <fieldset><legend>Contact Notes</legend>
     <div class="form-item">
-        <label>
-        {* {$form.address_note.label} *}
         {$form.address_note.html}
-        </label>
         <div class = "description">
           Record any descriptive comments about this contact.
           You may add an unlimited number of notes, and view or search on them at any time.
         </div>
-    </div>    
-	<div id="notes[hide]" class="box">
-        {$form.notes.hide.html}
-        </div>
+    </div>
+    <!-- Spacer div contains floated elements -->
+    <div class="spacer"></div>
+	<div id="notes[hide]" class="hide-section">
+        {$notes.hide}
+    </div>
  </fieldset>
  </div> <!-- End of "notes" div -->
  
- <div id = "buttons" class="form-submit"> <!-- This class should get automated into form.buttons output -->
+ <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
 

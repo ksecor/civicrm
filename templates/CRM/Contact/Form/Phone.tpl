@@ -10,7 +10,7 @@
             <label>{$form.location.$index.phone.1.phone.label}</label>
         </span>
         <span class="fields">
-            {$form.location.$index.phone.1.phone_type_id.html}{$form.location.$index.phone.1.phone.html}
+            {$form.location.$index.phone.1.phone_type.html}{$form.location.$index.phone.1.phone.html}
         </span>
     </div>
     <!-- Spacer div contains floated elements -->
@@ -30,7 +30,7 @@
             <label>{$form.location.$index.phone.$innerIndex.phone.label}</label>
         </span>
         <span class="fields">
-            {$form.location.$index.phone.$innerIndex.phone_type_id.html}{$form.location.$index.phone.$innerIndex.phone.html}
+            {$form.location.$index.phone.$innerIndex.phone_type.html}{$form.location.$index.phone.$innerIndex.phone.html}
         </span>
         <!-- Spacer div contains floated elements -->
         <div class="spacer"></div>
