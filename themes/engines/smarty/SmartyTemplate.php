@@ -52,7 +52,7 @@ class SmartyTemplate extends Smarty {
     $this->use_sub_dirs = true;
     $this->caching      = true;
     $this->debugging    = false;
-    $this->plugins_dir  = array ( CRM_SMARTYDIR . 'plugins', '/Users/lobo/svn/crm/CRM/Smarty/plugins' );
+    $this->plugins_dir  = array ( CRM_SMARTYDIR . 'plugins', 'crm/CRM/Smarty/plugins' );
   }
 
   /**

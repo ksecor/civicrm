@@ -44,18 +44,14 @@
  * @return string        the new modified html string
  * @access public
  */
-function smarty_modifier_qfReplace( $string, $insert, $replace = null ) {
+function smarty_modifier_crmReplace( $string, $insert, $replace ) {
     static $endOfElement = '/>';
 
-    if ( $replace ) {
-        // if we know what attribute we need to replace
-        // we need to search and replace the string: $replace=XXX or $replace="XXX"
-        // with $replace=\"$insert\"
-        $pattern = '/' . $replace . '="([^"]+?)"/';
-        return preg_replace( $pattern, $replace . '="' . $insert . '"', $string );
-    } else {
-        return str_replace( $endOfElement, ' ' . $insert . $endOfElement, $string );
-    }
+    // if we know what attribute we need to replace
+    // we need to search and replace the string: $replace=XXX or $replace="XXX"
+    // with $replace=\"$insert\"
+    $pattern = '/' . $replace . '="([^"]+?)"/';
+    return preg_replace( $pattern, $replace . '="' . $insert . '"', $string );
 }
 
 ?>

@@ -120,9 +120,12 @@ class CRM_QuickForm_Action_Display extends CRM_QuickForm_Action {
 
         $this->_setRenderTemplates($page);
         $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        $template->clear_all_assign();
+        // $template->clear_all_assign();
         $template->assign_by_ref( 'config' , $config  );
         $template->assign_by_ref( 'session', $session );
+
+        // We could do something real smart out here and actually figure out the real tpl to call
+        // rather than go thru this indirection. TODO
         $template->assign( 'mode', $page->getMode( ) );
 
         $template->assign('form',  $page->toSmarty());

@@ -68,16 +68,30 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildQuickForm( ) {
         $this->add('select', 'contact_type', 'Contact Type', CRM_SelectValues::$contactType);
+        $this->add('text', 'sort_name', 'Name', 'rows=65');
+
+        $groups     = array(''  => '- any group -', 
+                            1   => 'Group A',
+                            2   => 'Group B' );
+        $categories = array(''  => '- any category -', 
+                            1   => 'Category A',
+                            2   => 'Category B' );
+        $this->add('select', 'group_id'   , 'Groups'    , $groups    );
+        $this->add('select', 'category_id', 'Categories', $categories);
+
+        $actions = array( '' => '- actions -',
+                          1  => 'Add Contacts to a Group',
+                          2  => 'Tag Contacts (assign category)',
+                          3  => 'Add to Household',
+                          4  => 'Delete',
+                          5  => 'Print',
+                          6  => 'Export' );
+        $this->add('select', 'action_id'   , 'Actions'    , $actions    );
+
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'refresh',
-                                                'name'      => 'Submit' ,
+                                                'name'      => 'Search' ,
                                                 'isDefault' => true     ),
-                                        array ( 'type'      => 'done'  ,
-                                                'name'      => 'Done'   ),
-                                        array ( 'type'      => 'reset' ,
-                                                'name'      => 'Reset'  ),
-                                        array ( 'type'      => 'cancel',
-                                                'name'      => 'Cancel' ),
                                         )
                                   );
     }

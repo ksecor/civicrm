@@ -236,7 +236,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         }
 
         // set all elements with values from the database.
-        $this->setDefaults($defaults);
+        return $defaults;
     }
     
     /**
