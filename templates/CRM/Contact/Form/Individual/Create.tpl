@@ -167,16 +167,17 @@
  </table>
  </div>
 
- <script type ="text/javascript">
- frm = this;
- </script>
+ <!--script type ="text/javascript">
+ frm = document.form.name;
+ </script-->
 
+ {$form.my_script.label}
  </form>
 
 
  {literal}
  <script type="text/javascript">
- on_load_execute("Create");
+ on_load_execute(frm.name);
  </script>
  {/literal}
 
@@ -184,7 +185,7 @@
  {if count($form.errors) gt 0}
  {literal}
  <script type="text/javascript">
- on_error_execute("Create");
+ on_error_execute(frm.name);
  </script>
  {/literal}
  {/if}
