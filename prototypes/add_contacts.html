@@ -4,38 +4,11 @@
   <title>Create Contact</title>
   <meta http-equiv="Content-Style-Type" content="text/css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<!-- base href="http://localhost/dgg/drupal/" -->
+<base href="http://localhost/dgg/prototypes/">
 <style type="text/css" media="all">@import "../drupal/misc/drupal.css";</style>
 <style type="text/css" media="all">@import "../drupal/themes/box_grey_smarty/style.css";</style>
-<script type="text/javascript">//<![CDATA[
-var sections = new Array('core', 'demographics', 'phone0_2', 'location2', 'phone2-2','notes');
-function init() {
-    show('core');
-    hide('phone0_2');
-	hide('demographics');
-	hide('location2');
-    hide('phone2-2');
-	hide('notes');
-    document.forms['add_contact'].elements['contact_title'].focus();
-}
-function show(section) {
-    for (var i = 0; i < sections.length; i++) {
-        if (sections[i] == section) {
-            document.getElementById(sections[i]).style.display = 'block';
-        }
-    }
-}
-function hide(section) {
-    for (var i = 0; i < sections.length; i++) {
-        if (sections[i] == section) {
-            document.getElementById(sections[i]).style.display = 'none';
-        }
-    }
-}
-//]]>
-</script>
 </head>
-<body onload="init();">
+<body onload="init('add_contact','contact_title');">
 <div id="header">
   	<form action="search" method="post">
 		<div id="search">
@@ -135,6 +108,34 @@ function hide(section) {
     </div>
 
 	<!-- start main content -->
+<script type="text/javascript">//<![CDATA[
+var sections = new Array('core', 'demographics', 'phone0_2', 'location2', 'phone2-2','notes');
+var showSections = new Array('core');
+function init(formName,fieldName) {
+    for (var i = 0; i < sections.length; i++) {
+        document.getElementById(sections[i]).style.display = 'none';
+    }
+    for (var i = 0; i < showSections.length; i++) {
+        document.getElementById(showSections[i]).style.display = 'block';
+    }
+    document.forms[formName].elements[fieldName].focus();
+}
+function show(section) {
+    for (var i = 0; i < sections.length; i++) {
+        if (sections[i] == section) {
+            document.getElementById(sections[i]).style.display = 'block';
+        }
+    }
+}
+function hide(section) {
+    for (var i = 0; i < sections.length; i++) {
+        if (sections[i] == section) {
+            document.getElementById(sections[i]).style.display = 'none';
+        }
+    }
+}
+//]]>
+</script>
     <table class="rmsPageTitle" width="100%">
         <tr><td><h3 class="content-title">Create Contact (Individual)</h3></td>
         <td align="right">
