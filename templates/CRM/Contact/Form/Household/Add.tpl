@@ -43,10 +43,10 @@
 		<td class="form-item"><label>{$form.primary_contact_id.label}</label></td>
 		<td>{$form.primary_contact_id.html}</td>
 	</tr>
-	<tr>
+	{*<tr>
 		<td class="form-item"><label>{$form.annual_income.label}</label></td>
 		<td>{$form.annual_income.html}</td>
-	</tr>
+	</tr>*}
 
 </table>
 </fieldset>
