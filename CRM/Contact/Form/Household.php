@@ -62,12 +62,6 @@ class CRM_Contact_Form_Household extends CRM_Form
      */
     function __construct($name, $state, $mode = self::MODE_NONE) 
     {
-        
-        if ($mode == self::MODE_ADD) {
-            $name = "Add";
-            // $name = "Individual";
-        }
-
         parent::__construct($name, $state, $mode);
     }
     
@@ -154,25 +148,6 @@ class CRM_Contact_Form_Household extends CRM_Form
         }    
     }
 
-    /**
-     * this function is used to validate the annual income.
-     *
-     * The function implements a server side validation of the income. This value must have an entry in the income
-     * field of the crm_contact table for the validation to succeed.
-     *
-     * @param string $value The value of the income entered in the text field.
-     * @return Boolean value true or false depending on whether the income is set or not. 
-     * @see addRules( )     
-     */
-    function valid_income($value) 
-    {
-        if ($value >= 0) {
-            return true;
-        } else {
-            return false;
-        }    
-    }
-    
     
     /**
      * This function is used to add the rules for form.
@@ -187,26 +162,20 @@ class CRM_Contact_Form_Household extends CRM_Form
      * 
      * @return None
      * @access public
-     * @see valid_date( ) 
+     * @see valid_contact( ) 
      */
     function addRules( ) 
     {
         $this->applyFilter('_ALL_', 'trim');
         
-        // rules for searching..
-        
-        // rules for quick add
-        
         switch ($this->_mode) {
         case self::MODE_ADD:
             $this->applyFilter('household_name', 'trim');
             $this->addRule('household_name', t(' Household name is a required feild.'), 'required', null, 'client');
+            $this->addRule('primary_contact_id', t('Primary contact id is a required feild.'), 'required', null, 'client');
             $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'numeric', null, 'client');
             $this->registerRule('check_contactid', 'callback', 'valid_contact','CRM_Contact_Form_Household');
             $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'check_contactid');
-            $this->addRule('annual_income', t(' Enter valid annual income.'), 'numeric', null, 'client');
-            $this->registerRule('check_income', 'callback', 'valid_income','CRM_Contact_Form_Household');
-            $this->addRule('annual_income', t(' Enter valid annual income.'), 'check_income');
             
             $this->addGroupRule('location', array('email_1' => array( 
                                                                      array(t( 'Please enter valid email for location'), 'email', null, 'client')),
@@ -224,12 +193,9 @@ class CRM_Contact_Form_Household extends CRM_Form
             break;
         case self::MODE_DELETE:
             break;            
-            
-        
         }
     }
-
-       
+           
     /**
      * This function provides the HTML form elements for the add operation of individual contact form.
      * 
@@ -270,8 +236,7 @@ class CRM_Contact_Form_Household extends CRM_Form
         // primary_contact_id
         $this->addElement('text', 'primary_contact_id', "Primary Contact Id:", array('maxlength' => 10));
         
-        // annual_income
-        $this->addElement('text', 'annual_income', "Annual Income:");
+        // $this->addElement('text', 'annual_income', "Annual Income:");
 
         // preferred communication method 
         CRM_Contact_Form_Contact::buildCommunicationBlock($this);
@@ -286,114 +251,247 @@ class CRM_Contact_Form_Household extends CRM_Form
 
         $this->addElement('static', 'my_script', $java_script);
 
-        if ($this->validate() && ($this->_mode == self::MODE_VIEW || self::MODE_ADD)) {
-            //$this->freeze();    
-            
-        } else {
-            if ($this->_mode == self::MODE_VIEW || self::MODE_UPDATE) {
-                $this->setDefaultValues();
-            }
-        }
+        //  $this->setDefaultValues();
+  
+  
     }//ENDING BUILD FORM 
 
 
+
     /**
-     * this function is called when the form is submitted.
+     * This function is used to call appropriate process function when a form is submitted.
+     * 
+     * The function implements a switch functionality to differentiate between different mode types of the form. It is based on the 
+     * value of the $mode form class variable. 
+     * @internal Possible mode options being MODE_ADD, MODE_VIEW, MODE_UPDATE, MODE_DELETE, MODE_ADD_MINI, MODE_SEARCH_MINI.
+     * The process works as follows:
+     * <code>
+     * switch ($this->_mode) {
+     *        case self::MODE_ADD:
+     *             $this->_Add_postProcess();
+     *             break;
+     *        case self::MODE_ADD_MINI:
+     *             $this->_MiniAdd_postProcess();
+     *             break; 
+     *        case ..
+     *        ..
+     *        ..
+     * }         
+     * </code>
+     * 
+     * @access public
+     * @return None
      */
-    /* function process() 
+     function postProcess(){
+
+        switch ($this->_mode) {
+        case self::MODE_ADD:
+            $this->_Add_postProcess();
+            break;
+        case self::MODE_VIEW:
+            break;
+        case self::MODE_UPDATE:
+            break;
+        case self::MODE_DELETE:
+            break;            
+        }    
+    }
+    
+
+    /**
+     * This function does all the processing of the form for New Contact Household.
+     * @access private
+     */
+    private function _Add_postProcess() 
     { 
-        // print_r($_POST);
-        // write your insert statements here
+        $str_error = ""; // error is recorded  if there are any errors while inserting in database         
+        
         // create a object for inserting data in contact table 
-        $contact = new CRM_Contacts_DAO_Contact();
+        $contact = new CRM_Contact_DAO_Contact();
         
         $contact->domain_id = 1;
-        $contact->contact_type = $_POST['contact_type'];
-        $contact->sort_name = $_POST['sort_name'];
-        $contact->source = $_POST['source'];
-        $contact->preferred_communication_method = $_POST['preferred_communication_method'];
-        $contact->do_not_phone = $_POST['do_not_phone'];
-        $contact->do_not_email = $_POST['do_not_email'];
-        $contact->do_not_mail = $_POST['do_not_mail'];
-        $contact->hash = $_POST['hash'];
+        // $contact->contact_type = $this->exportValue('contact_type');
+        $contact->contact_type = 'Household';
+        $contact->sort_name = $this->exportValue('household_name');
+        //$contact->source = $this->exportValue('source');
+        $contact->preferred_communication_method = $this->exportValue('preferred_communication_method');
+        $contact->do_not_phone = $this->exportValue('do_not_phone');
+        $contact->do_not_email = $this->exportValue('do_not_email');
+        $contact->do_not_mail = $this->exportValue('do_not_mail');
+        //$contact->hash = $this->exportValue('hash');
+        
+        $contact->query('BEGIN'); //begin the database transaction
         
         if (!$contact->insert()) {
-            die ("Cannot insert data in contact table.");
-            // $contact->raiseError("Cannot insert","","continue");
+            $str_error = mysql_error();
         }
         
-        // create a object for inserting data in contact individual table 
-        $contact_household = new CRM_Contacts_DAO_Contact_Household();
-        $contact_household->contact_id = $contact->id;
-        $contact_household->household_name = $_POST['household_name'];
-        $contact_household->nick_name = $_POST['nick_name'];
-        $contact_household->primary_contact_id = $_POST['primary_contact_id'];
-        $contact_household->phone_to_household = $_POST['phone_to_household'];
-        $contact_household->email_to_household = $_POST['email_to_household'];
-        $contact_household->postal_to_household = $_POST['postal_to_household'];
-        $contact_household->annual_income = $_POST['annual_income'];
+        if(!strlen($str_error)){ //proceed if there are no errors
+            // create a object for inserting data in contact household table 
+            $contact_household = new CRM_Contact_DAO_Contact_Household();
+
+            $contact_household->contact_id = $contact->id;
+            $contact_household->household_name = $this->exportValue('household_name');
+            $contact_household->nick_name = $this->exportValue('nick_name');
+            $contact_household->primary_contact_id = $this->exportValue('primary_contact_id');
+            
+            if(!$contact_household->insert()) {
+                $str_error = mysql_error();
+            }
+        }
+                 
+                 
+        if(!strlen($str_error)){ //proceed if there are no errors  
+            // create a object for inserting data in crm_location, crm_email, crm_im, crm_phone table 
+
+            //create a object of location class
+            $varname = "contact_location";
+            $varname1 = "location";
+                         
+            $a_Location =  $this->exportValue($varname1);
+                         
+            if (strlen(trim($a_Location['street_address'])) > 0  || strlen(trim($a_Location['email_1'])) > 0 || strlen(trim($a_Location['phone_1'])) > 0) {
+                             
+                if(!strlen($str_error)){ //proceed if there are no errors
+                    // create a object of crm location
+                    $$varname = new CRM_Contact_DAO_Location();
+                    $$varname->contact_id = $contact->id;
+                    $$varname->is_primary = $a_Location['is_primary'];
+                    $$varname->location_type_id = $a_Location['location_type_id'];
+                    
+                    if(!$$varname->insert()) {
+                        $str_error = mysql_error();
+                        break;
+                    }
+                }
+                
+                if(!strlen($str_error)){ //proceed if there are no errors
+                    if (strlen(trim($a_Location['street_address'])) > 0) {
+                        //create the object of crm address
+                        $varaddress = "contact_address".$lngi;
+                        $$varaddress = new CRM_Contact_DAO_Address();
+                        
+                        $$varaddress->location_id = $$varname->id;
+                        $$varaddress->street_address = $a_Location['street_address'];
+                        $$varaddress->supplemental_address_1 = $a_Location['supplemental_address_1'];
+                        $$varaddress->city = $a_Location['city'];
+                        // $$varaddress->county_id = $a_Location['county_id'];
+                        $$varaddress->county_id = 1;
+                        $$varaddress->state_province_id = $a_Location['state_province_id'];
+                        $$varaddress->postal_code = $a_Location['postal_code'];
+                        $$varaddress->usps_adc = $a_Location['usps_adc'];
+                        $$varaddress->country_id = $a_Location['country_id'];
+                        $$varaddress->geo_code1 = $a_Location['geo_code1'];
+                        $$varaddress->geo_code2 = $a_Location['geo_code2'];
+                        $$varaddress->address_note = $a_Location['address_note'];
+                        $$varaddress->timezone = $a_Location['timezone'];
+                        
+                        if(!$$varaddress->insert()) {
+                            $str_error = mysql_error();
+                            break;
+                        }
+                    }              
+                }
+                
+                
+                if(!strlen($str_error)){ //proceed if there are no errors
+                    //create the object of crm email
+                    for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
+                        $varemail = "email_".$lng_i;
+                        if (strlen(trim($a_Location[$varemail])) > 0) {
+                            $var_email = "contact_email".$lng_i;
+                            $$var_email = new CRM_Contact_DAO_Email();
+                            
+                            if($lng_i == 1) { //make first email entered primary
+                                $$var_email->is_primary = 1;
+                            } else {
+                                $$var_email->is_primary = 0;
+                            }
+                            
+                            $$var_email->location_id = $$varname->id;
+                            $$var_email->email = $a_Location[$varemail];
+                            
+                            if(!$$var_email->insert()) {
+                                $str_error = mysql_error();
+                                break;
+                            }    
+                        }  
+                    }
+                }
+                
+                if(!strlen($str_error)){ //proceed if there are no errors
+                    //create the object of crm phone
+                    for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
+                        $varphone = "phone_".$lng_i;
+                        $varphone_type = "phone_type_".$lng_i;
+                        $varmobile_prov_id = "mobile_provider_id_".$lng_i;
+                        if (strlen(trim($a_Location[$varphone])) > 0) {
+                            $var_phone = "contact_phone".$lng_i;
+                            $$var_phone = new CRM_Contact_DAO_Phone();
+                            
+                            if($lng_i == 1) { //make first phone entered primary
+                                $$var_phone->is_primary = 1;
+                            } else {
+                                $$var_phone->is_primary = 0;
+                            }
+                            
+                            $$var_phone->location_id = $$varname->id;
+                            $$var_phone->phone = $a_Location[$varphone];
+                            $$var_phone->phone_type = $a_Location[$varphone_type];
+                            // $$var_phone->mobile_provider_id = $a_Location[$varmobile_prov_id];
+                            $$var_phone->mobile_provider_id = 1;
+                            
+                            
+                            if(!$$var_phone->insert()) {
+                                $str_error = mysql_error();
+                                break;
+                            }    
+                        }  
+                    }
+                }
+                
+                
+                if(!strlen($str_error)){ //proceed if there are no errors
+                    //create the object of crm im
+                    for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
+                        $var_service = "im_service_id_".$lng_i;
+                        $var_screenname = "im_screenname_".$lng_i;
+                        if (strlen(trim($a_Location[$var_screenname])) > 0) {
+                            $var_im = "contact_im" . $lng_i;
+                            $$var_im = new CRM_Contact_DAO_IM();
+                            
+                            if ($lng_i == 1) { //make first im entered primary
+                                $$var_im->is_primary = 1;
+                            } else {
+                                $$var_im->is_primary = 0;
+                            }
+                            
+                            $$var_im->location_id = $$varname->id;
+                            $$var_im->im_service_id = $a_Location[$var_service];
+                            $$var_im->im_screenname = $a_Location[$var_screenname];
+                            
+                            if (!$$var_im->insert()) {
+                                $str_error = mysql_error();
+                                break;
+                            }    
+                        }  
+                    }
+                }  
+                
+            }// end of if block    
+            
+        } 
+        // check if there are any errors while inserting in database
         
-        
-        if(!$contact_household->insert()) {
-            $contact->delete($contact->id);
-            die ("Cannot insert data in contact household table.");
+        if(strlen($str_error)){ //commit if there are no errors else rollback
+            $contact->query('ROLLBACK');
+            form_set_error('household_name', t($str_error));
+        } else {
+            $contact->query('COMMIT');
+            form_set_error('household_name', t('Contact Household has been added successfully.'));
         }
         
-        // create a object for inserting data in contact location table 
-        
-        $varname = "contact_location";
-        $varname1 = "location";
-        
-        // create a object of contact location
-        $$varname = new CRM_Contacts_DAO_Contact_Location();
-        
-        $$varname->contact_id = $contact->id;
-        $$varname->context_id = $_POST[$varname1]['context_id'];
-        $$varname->is_primary = $_POST[$varname1]['is_primary'];
-        $$varname->street = $_POST[$varname1]['street'];
-        $$varname->supplemental_address = $_POST[$varname1]['supplemental_address'];
-        $$varname->address_note = $_POST[$varname1]['address_note'];
-        $$varname->city = $_POST[$varname1]['city'];
-        $$varname->county = $_POST[$varname1]['county'];
-        $$varname->state_province_id = $_POST[$varname1]['state_province_id'];
-        $$varname->postal_code = $_POST[$varname1]['postal_code'];
-        $$varname->usps_adc = $_POST[$varname1]['usps_adc'];
-        $$varname->country_id = $_POST[$varname1]['country_id'];
-        $$varname->geo_code1 = $_POST[$varname1]['geo_code1'];
-        $$varname->geo_code2 = $_POST[$varname1]['geo_code2'];
-        $$varname->address_note = $_POST[$varname1]['address_note'];
-        $$varname->email = $_POST[$varname1]['email'];
-        $$varname->email_secondary = $_POST[$varname1]['email_secondary'];
-        $$varname->email_tertiary = $_POST[$varname1]['email_tertiary'];    
-        $$varname->phone_1 = $_POST[$varname1]['phone_1'];
-        $$varname->phone_type_1 = $_POST[$varname1]['phone_type_1'];
-        //    $$varname->mobile_provider_id_1 = $_POST[$varname1]['mobile_provider_id_1'];
-        $$varname->mobile_provider_id_1 = 1;    
-        
-        $$varname->phone_2 = $_POST[$varname1]['phone_2'];
-        $$varname->phone_type_2 = $_POST[$varname1]['phone_type_2'];
-        //    $$varname->mobile_provider_id_2 = $_POST[$varname1]['mobile_provider_id_2'];
-        $$varname->mobile_provider_id_2 = 2;
-        
-        $$varname->phone_3 = $_POST[$varname1]['phone_3'];
-        $$varname->phone_type_3 = $_POST[$varname1]['phone_type_3'];
-        // $$varname->mobile_provider_id_3 = $_POST[$varname1]['mobile_provider_id_3'];
-        $$varname->mobile_provider_id_3 = 3;    
-        
-        $$varname->im_screenname_1 = $_POST[$varname1]['im_screenname_1'];
-        $$varname->im_service_id_1 = $_POST[$varname1]['im_service_id_1'];
-        $$varname->im_screenname_2 = $_POST[$varname1]['im_screenname_2'];
-        $$varname->im_service_id_2 = $_POST[$varname1]['im_service_id_2'];
-        
-        if(!$$varname->insert()) {
-            //	  echo mysql_error();
-            $contact->delete($contact->id);
-            $contact_household->delete( $contact_household->id );
-            die ( "Cannot insert data in contact location table." );
-        }
-        
-    }// end of function
-    */
+    }//end of function
 
 }
 
