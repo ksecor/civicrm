@@ -1428,6 +1428,7 @@ INSERT INTO crm_domain( name ) VALUES ( 'CRM Test Domain' );
 
 INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Home', 'Place of residence', 1 );
 INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Work', 'Work location', 1 );
+INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Main', 'Main office location', 0 );
 INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Other', 'Another location', 0 );
 
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
@@ -1439,6 +1440,6 @@ INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, c
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 1, 'Volunteer', 'Volunteer', 'Volunteer relationship.','Individual','Organization', 1 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Head of household', 'Head of household', 'Head of household.','Individual','Household', 1 );
+    VALUES( 1, 'Head of Household', 'Head of Household', 'Head of household.','Individual','Household', 1 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Household member', 'Household members', 'Household membership.','Individual','Household', 1 );
+    VALUES( 1, 'Household Member', 'Household Members', 'Household membership.','Individual','Household', 1 );
