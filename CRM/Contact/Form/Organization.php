@@ -370,7 +370,6 @@ class CRM_Contact_Form_Organization extends CRM_Form
                     
                     if(!$$varname->insert()) {
                         $str_error = mysql_error();
-                        break;
                     }
                 }
                 
@@ -397,7 +396,6 @@ class CRM_Contact_Form_Organization extends CRM_Form
                         
                         if(!$$varaddress->insert()) {
                             $str_error = mysql_error();
-                            break;
                         }
                     }              
                 }
