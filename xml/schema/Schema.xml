@@ -27,5 +27,6 @@
 <xi:include href="Phone.xml"            parse="xml" />
 <xi:include href="Email.xml"            parse="xml" />
 <xi:include href="IM.xml"               parse="xml" />
+<xi:include href="Relationship.xml"     parse="xml" />
 
 </database>
