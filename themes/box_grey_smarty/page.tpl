@@ -6,6 +6,10 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   {$head}
   {$styles}
+
+  <!-- Add our own specific styles etc for rms, need to figure out if rms is invoked -->
+  {include file="CRM/core/head.tpl"}  
+
 </head>
 <body 
 {php}

@@ -50,10 +50,12 @@ function smarty_templates($directory) {
 
   if (is_array($templates)) {
     foreach ($templates as $template) {
-      $extra[dirname($template->filename)] = file_scan_directory(dirname($template->filename), '.tpl$');
+      $templateDir = dirname($template->filename);
+      $extra[$templateDir] = file_scan_directory($templateDir, '.tpl$');
 
-      if (file_exists(dirname($template->filename) . '/SmartyTemplate.php')) {
-        $engine_code[dirname($template->filename) . '/SmartyTemplate.php'] = dirname($template->filename) . '/SmartyTemplate.php';
+      $smartyTemplate = $templateDir . '/SmartyTemplate.php';
+      if (file_exists($smartyTemplate)) {
+        $engine_code[$smartyTemplate] = $smartyTemplate;
       }
     }
   }
@@ -80,7 +82,8 @@ function smarty_features() {
 /**
  * Smarty specific theme settings
  *
- * Due to differences in the handling of primary and secondary links, these settings need to be seperately specified for smarty based themes.
+ * Due to differences in the handling of primary and secondary links,
+ * these settings need to be seperately specified for smarty based themes.
  * 
  * @returns 
  *   HTML code for the smarty engine specific form segment on theme configuration pages.
