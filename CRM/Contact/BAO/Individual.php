@@ -102,16 +102,6 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         /* above insertion triggers setting the contact_id */
         $this->contact_id = $this->_contactDAO->id;
     }
-    
-    function insert() 
-    {
-        /**
-         * first insert a contact record
-         **/
-        $this->insertContact();
-        
-        parent::insert();
-    }
 
     function count($countWhat = false,$whereAddOnly = false) {
         $this->setContactValues();
