@@ -310,9 +310,12 @@ class CRM_Contact_Form_Household extends CRM_Form
         $contact = new CRM_Contact_DAO_Contact();
         
         $contact->domain_id = 1;
-        // $contact->contact_type = $this->exportValue('contact_type');
         $contact->contact_type = 'Household';
+        // $contact->legal_id = '';
+        //$contact->external_id = '';
         $contact->sort_name = $this->exportValue('household_name');
+        //$contact->home_URL = '';
+        //$contact->image_URL = '';
         //$contact->source = $this->exportValue('source');
         $contact->preferred_communication_method = $this->exportValue('preferred_communication_method');
         $contact->do_not_phone = $this->exportValue('do_not_phone');
@@ -328,7 +331,7 @@ class CRM_Contact_Form_Household extends CRM_Form
         
         if(!strlen($str_error)){ //proceed if there are no errors
             // create a object for inserting data in contact household table 
-            $contact_household = new CRM_Contact_DAO_Contact_Household();
+            $contact_household = new CRM_Contact_DAO_Household();
 
             $contact_household->contact_id = $contact->id;
             $contact_household->household_name = $this->exportValue('household_name');
@@ -356,8 +359,8 @@ class CRM_Contact_Form_Household extends CRM_Form
                     // create a object of crm location
                     $$varname = new CRM_Contact_DAO_Location();
                     $$varname->contact_id = $contact->id;
-                    $$varname->is_primary = $a_Location['is_primary'];
                     $$varname->location_type_id = $a_Location['location_type_id'];
+                    $$varname->is_primary = $a_Location['is_primary'];
                     
                     if(!$$varname->insert()) {
                         $str_error = mysql_error();
@@ -367,23 +370,33 @@ class CRM_Contact_Form_Household extends CRM_Form
                 if(!strlen($str_error)){ //proceed if there are no errors
                     if (strlen(trim($a_Location['street_address'])) > 0) {
                         //create the object of crm address
-                        $varaddress = "contact_address".$lngi;
+                        $varaddress = "contact_address";
                         $$varaddress = new CRM_Contact_DAO_Address();
                         
                         $$varaddress->location_id = $$varname->id;
                         $$varaddress->street_address = $a_Location['street_address'];
+                        //$$varaddress->street_number = '';
+                        //$$varaddress->street_number_suffix = '';
+                        //$$varaddress->street_number_predirectional = '';
+                        //$$varaddress->street_name = '';
+                        //$$varaddress->street_type = '';
+                        //$$varaddress->street_number_postdirectional = '';
                         $$varaddress->supplemental_address_1 = $a_Location['supplemental_address_1'];
+                        //$$varaddress->supplemental_address_2 = '';
+                        //$$varaddress->supplemental_address_3 = '';
                         $$varaddress->city = $a_Location['city'];
                         // $$varaddress->county_id = $a_Location['county_id'];
                         $$varaddress->county_id = 1;
                         $$varaddress->state_province_id = $a_Location['state_province_id'];
                         $$varaddress->postal_code = $a_Location['postal_code'];
-                        $$varaddress->usps_adc = $a_Location['usps_adc'];
+                        //$$varaddress->postal_code_suffix = '';
+                        //$$varaddress->usps_adc = '';
                         $$varaddress->country_id = $a_Location['country_id'];
+                        $$varaddress->geo_coord_id = 1;                        
                         $$varaddress->geo_code1 = $a_Location['geo_code1'];
                         $$varaddress->geo_code2 = $a_Location['geo_code2'];
-                        $$varaddress->address_note = $a_Location['address_note'];
                         $$varaddress->timezone = $a_Location['timezone'];
+                        // $$varaddress->address_nite = '';
                         
                         if(!$$varaddress->insert()) {
                             $str_error = mysql_error();
@@ -400,14 +413,14 @@ class CRM_Contact_Form_Household extends CRM_Form
                             $var_email = "contact_email".$lng_i;
                             $$var_email = new CRM_Contact_DAO_Email();
                             
+                            $$var_email->location_id = $$varname->id;
+                            $$var_email->email = $a_Location[$varemail];
+                            
                             if($lng_i == 1) { //make first email entered primary
                                 $$var_email->is_primary = 1;
                             } else {
                                 $$var_email->is_primary = 0;
                             }
-                            
-                            $$var_email->location_id = $$varname->id;
-                            $$var_email->email = $a_Location[$varemail];
                             
                             if(!$$var_email->insert()) {
                                 $str_error = mysql_error();
@@ -426,6 +439,10 @@ class CRM_Contact_Form_Household extends CRM_Form
                         if (strlen(trim($a_Location[$varphone])) > 0) {
                             $var_phone = "contact_phone".$lng_i;
                             $$var_phone = new CRM_Contact_DAO_Phone();
+
+                            $$var_phone->location_id = $$varname->id;
+                            $$var_phone->phone = $a_Location[$varphone];
+                            $$var_phone->phone_type = $a_Location[$varphone_type];
                             
                             if($lng_i == 1) { //make first phone entered primary
                                 $$var_phone->is_primary = 1;
@@ -433,9 +450,6 @@ class CRM_Contact_Form_Household extends CRM_Form
                                 $$var_phone->is_primary = 0;
                             }
                             
-                            $$var_phone->location_id = $$varname->id;
-                            $$var_phone->phone = $a_Location[$varphone];
-                            $$var_phone->phone_type = $a_Location[$varphone_type];
                             // $$var_phone->mobile_provider_id = $a_Location[$varmobile_prov_id];
                             $$var_phone->mobile_provider_id = 1;
                             
@@ -458,15 +472,15 @@ class CRM_Contact_Form_Household extends CRM_Form
                             $var_im = "contact_im" . $lng_i;
                             $$var_im = new CRM_Contact_DAO_IM();
                             
+                            $$var_im->location_id = $$varname->id;
+                            $$var_im->im_service_id = $a_Location[$var_service];
+                            $$var_im->im_screenname = $a_Location[$var_screenname];
+
                             if ($lng_i == 1) { //make first im entered primary
                                 $$var_im->is_primary = 1;
                             } else {
                                 $$var_im->is_primary = 0;
                             }
-                            
-                            $$var_im->location_id = $$varname->id;
-                            $$var_im->im_service_id = $a_Location[$var_service];
-                            $$var_im->im_screenname = $a_Location[$var_screenname];
                             
                             if (!$$var_im->insert()) {
                                 $str_error = mysql_error();
