@@ -185,7 +185,14 @@ div.crm-pager a {
   padding: 5px;
   border-bottom: 2px solid #B0B0B0;
 }
+
 #crm-container .element-right {
   position: absolute;
-  right: 50px;
+  right: 35px;
+}
+
+#crm-container .float-right {
+  float: right;
+  margin-left: 8px;
+  width: auto;
 }

@@ -176,6 +176,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
 
          // view has a simpler block structure based on data
         if ( $this->_mode & self::MODE_VIEW ) {
+            $this->_showHide->addHide( 'commPrefs[show]' );
             if ( array_key_exists( 'location', $defaults ) ) {
                 $numLocations = count( $defaults['location'] );
                 $this->_showHide->addShow( 'location[1]' );
