@@ -4,13 +4,13 @@ require_once 'HTML/QuickForm/Action/Display.php';
 
 require_once 'CRM/Config.php';
 
-class CRM_Action_Display extends HTML_QuickForm_Action_Display {
+class CRM_QuickForm_Action_Display extends HTML_QuickForm_Action_Display {
   protected $_stateMachine;
 
   static $_requiredTemplate = null;
   static $_errorTemplate    = null;
     
-  function CRM_Action_Display( &$stateMachine ) {
+  function CRM_QuickForm_Action_Display( &$stateMachine ) {
     $this->_stateMachine =& $stateMachine;
   }
 

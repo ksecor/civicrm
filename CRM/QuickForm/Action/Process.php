@@ -1,9 +1,9 @@
 <?php
 
-class CRM_Action_Process extends HTML_QuickForm_Action {
+class CRM_QuickForm_Action_Process extends HTML_QuickForm_Action {
   protected $_stateMachine;
 
-  function CRM_Action_Process( &$stateMachine ) {
+  function CRM_QuickForm_Action_Process( &$stateMachine ) {
     $this->_stateMachine =& $stateMachine;
   }
   

@@ -1,9 +1,9 @@
 <?php
 
-class CRM_Action_Cancel extends HTML_QuickForm_Action {
+class CRM_QuickForm_Action_Cancel extends HTML_QuickForm_Action {
   protected $_stateMachine;
 
-  function CRM_Action_Cancel( &$stateMachine ) {
+  function CRM_QuickForm_Action_Cancel( &$stateMachine ) {
     $this->_stateMachine =& $stateMachine;
   }
   

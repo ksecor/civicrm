@@ -3,12 +3,12 @@
 
 require_once 'HTML/QuickForm/Action/Next.php';
 
-class CRM_Action_Upload extends HTML_QuickForm_Action {
+class CRM_QuickForm_Action_Upload extends HTML_QuickForm_Action {
   protected $_stateMachine;
   protected $_uploadNames;
   protected $_uploadDir   ;
 
-  function CRM_Action_Upload( &$stateMachine, $uploadDir, $uploadNames ) {
+  function CRM_QuickForm_Action_Upload( &$stateMachine, $uploadDir, $uploadNames ) {
     $this->_stateMachine =& $stateMachine;
     $this->_uploadDir    =  $uploadDir;
     $this->_uploadNames  =  $uploadNames;

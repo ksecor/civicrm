@@ -2,10 +2,10 @@
 
 require_once 'HTML/QuickForm/Action/Next.php';
 
-class CRM_Action_Next extends HTML_QuickForm_Action_Next {
+class CRM_QuickForm_Action_Next extends HTML_QuickForm_Action_Next {
   protected $_stateMachine;
 
-  function CRM_Action_Next( &$stateMachine ) {
+  function CRM_QuickForm_Action_Next( &$stateMachine ) {
     $this->_stateMachine =& $stateMachine;
   }
 

@@ -3,16 +3,16 @@
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Action/Direct.php';
 
-require_once 'CRM/Action/Back.php';
-require_once 'CRM/Action/Cancel.php';
-require_once 'CRM/Action/Display.php';
-require_once 'CRM/Action/Done.php';
-require_once 'CRM/Action/Jump.php';
-require_once 'CRM/Action/Next.php';
-require_once 'CRM/Action/Process.php';
-require_once 'CRM/Action/Refresh.php';
-require_once 'CRM/Action/Submit.php';
-require_once 'CRM/Action/Upload.php';
+require_once 'CRM/QuickForm/Action/Back.php';
+require_once 'CRM/QuickForm/Action/Cancel.php';
+require_once 'CRM/QuickForm/Action/Display.php';
+require_once 'CRM/QuickForm/Action/Done.php';
+require_once 'CRM/QuickForm/Action/Jump.php';
+require_once 'CRM/QuickForm/Action/Next.php';
+require_once 'CRM/QuickForm/Action/Process.php';
+require_once 'CRM/QuickForm/Action/Refresh.php';
+require_once 'CRM/QuickForm/Action/Submit.php';
+require_once 'CRM/QuickForm/Action/Upload.php';
 
 require_once 'CRM/StateMachine.php';
 require_once 'CRM/Request.php';
@@ -108,19 +108,19 @@ class CRM_Controller extends HTML_QuickForm_Controller {
    *
    */
   function addDefaultActions( $uploadDirectory = null, $uploadNames = null ) {
-    $this->addAction('display', new CRM_Action_Display($this->_stateMachine));
-    $this->addAction('next'   , new CRM_Action_Next   ($this->_stateMachine));
-    $this->addAction('back'   , new CRM_Action_Back   ($this->_stateMachine));
-    $this->addAction('process', new CRM_Action_Process($this->_stateMachine));
-    $this->addAction('cancel' , new CRM_Action_Cancel ($this->_stateMachine));
-    $this->addAction('refresh', new CRM_Action_Refresh($this->_stateMachine));
-    $this->addAction('done'   , new CRM_Action_Done   ($this->_stateMachine));
-    $this->addAction('jump'   , new CRM_Action_Jump   ($this->_stateMachine));
-    $this->addAction('submit' , new CRM_Action_Submit ($this->_stateMachine));
+    $this->addAction('display', new CRM_QuickForm_Action_Display($this->_stateMachine));
+    $this->addAction('next'   , new CRM_QuickForm_Action_Next   ($this->_stateMachine));
+    $this->addAction('back'   , new CRM_QuickForm_Action_Back   ($this->_stateMachine));
+    $this->addAction('process', new CRM_QuickForm_Action_Process($this->_stateMachine));
+    $this->addAction('cancel' , new CRM_QuickForm_Action_Cancel ($this->_stateMachine));
+    $this->addAction('refresh', new CRM_QuickForm_Action_Refresh($this->_stateMachine));
+    $this->addAction('done'   , new CRM_QuickForm_Action_Done   ($this->_stateMachine));
+    $this->addAction('jump'   , new CRM_QuickForm_Action_Jump   ($this->_stateMachine));
+    $this->addAction('submit' , new CRM_QuickForm_Action_Submit ($this->_stateMachine));
 
     if ( ! empty( $uploadDirectory ) ) {
-      $this->addAction('upload' , new CRM_Action_Upload ($this->_stateMachine,
-                                                         $uploadDirectory,
+      $this->addAction('upload' , new CRM_QuickForm_Action_Upload ($this->_stateMachine,
+                                                                   $uploadDirectory,
 							 $uploadNames));
     }
 

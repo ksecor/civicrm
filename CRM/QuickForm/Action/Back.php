@@ -7,10 +7,10 @@ require_once 'HTML/QuickForm/Action/Back.php';
  * The action for a 'next' button of wizard-type multipage form. 
  * 
  */
-class CRM_Action_Back extends HTML_QuickForm_Action_Back {
+class CRM_QuickForm_Action_Back extends HTML_QuickForm_Action_Back {
   protected $_stateMachine;
 
-  function CRM_Action_Back( &$stateMachine ) {
+  function CRM_QuickForm_Action_Back( &$stateMachine ) {
     $this->_stateMachine =& $stateMachine;
   }
 
