@@ -33,8 +33,9 @@
  */
 
 require_once 'CRM/Form.php';
-require_once 'CRM/Contact/Form/Contact.php';
 require_once 'CRM/SelectValues.php';
+require_once 'CRM/Contact/Form/Contact.php';
+
 require_once 'CRM/Contact/Form/Location.php';
 
 /**
@@ -454,6 +455,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
     private function _buildCreateForm() 
     {
         
+        $form_name = $this->getName();
+
         CRM_SelectValues::$date['maxYear'] = date('Y');
         
         // prefix
@@ -495,8 +498,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $location = CRM_Contact_Form_Location::blb($this, 3);
         for ($i = 1; $i < 4; $i++) {
             $this->addGroup($location[$i],'location'."{$i}");
-            $this->UpdateElementAttr(array($location[$i][0]), array('onchange' => "return validate_selected_locationid('Individual', {$i});"));
-            $this->UpdateElementAttr(array($location[$i][1]), array('onchange' => "location_is_primary_onclick('Individual', {$i});"));
+            $this->UpdateElementAttr(array($location[$i][0]), array('onchange' => "return validate_selected_locationid(\"$form_name\", {$i});"));
+            $this->UpdateElementAttr(array($location[$i][1]), array('onchange' => "location_is_primary_onclick(\"$form_name\", {$i});"));
         }
         /* End of locations */
 
