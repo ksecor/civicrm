@@ -109,7 +109,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->addRule('first_name', t(' First name is a required field.'), 'required', null, 'client');
         $this->addRule('last_name', t(' Last name is a required field.'), 'required', null, 'client');
         $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contact_Form_Individual');
-        //$this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
+        $this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
         
         for ($i = 1; $i <= 3; $i++) { 
             $this->addGroupRule('location'."{$i}", array('email_1' => array( 
@@ -131,18 +131,19 @@ class CRM_Contact_Form_Individual extends CRM_Form
     { 
         $str_error = ""; // error is recorded  if there are any errors while inserting in database         
         
+
         // create a object for inserting data in contact table 
         $contact = new CRM_Contact_DAO_Contact();
         
         $contact->domain_id = 1;
-        $contact->contact_type = $_POST['contact_type'];
-        $contact->sort_name = $_POST['first_name']." ".$_POST['last_name'];
-        $contact->source = $_POST['source'];
-        $contact->preferred_communication_method = $_POST['preferred_communication_method'];
-        $contact->do_not_phone = $_POST['do_not_phone'];
-        $contact->do_not_email = $_POST['do_not_email'];
-        $contact->do_not_mail = $_POST['do_not_mail'];
-        $contact->hash = $_POST['hash'];
+        $contact->contact_type = $this->exportValue('contact_type');
+        $contact->sort_name = $this->exportValue('first_name')." ".$this->exportValue('last_name');
+        $contact->source = $this->exportValue('source');
+        $contact->preferred_communication_method = $this->exportValue('preferred_communication_method');
+        $contact->do_not_phone = $this->exportValue('do_not_phone');
+        $contact->do_not_email = $this->exportValue('do_not_email');
+        $contact->do_not_mail = $this->exportValue('do_not_mail');
+        $contact->hash = $this->exportValue('hash');
 
         $contact->query('BEGIN'); //begin the database transaction
         
@@ -154,36 +155,39 @@ class CRM_Contact_Form_Individual extends CRM_Form
             // create a object for inserting data in contact individual table 
             $contact_individual = new CRM_Contact_DAO_Contact_Individual();
             $contact_individual->contact_id = $contact->id;
-            $contact_individual->first_name = $_POST['first_name'];
-            $contact_individual->middle_name = $_POST['middle_name'];
-            $contact_individual->last_name = $_POST['last_name'];
-            $contact_individual->prefix = $_POST['prefix'];
-            $contact_individual->suffix = $_POST['suffix'];
-            $contact_individual->job_title = $_POST['job_title'];
+            $contact_individual->first_name = $this->exportValue('first_name');
+            $contact_individual->middle_name = $this->exportValue('middle_name');
+            $contact_individual->last_name = $this->exportValue('last_name');
+            $contact_individual->prefix = $this->exportValue('prefix');
+            $contact_individual->suffix = $this->exportValue('suffix');
+            $contact_individual->job_title = $this->exportValue('job_title');
             
-            $contact_individual->greeting_type = $_POST['greeting_type'];
-            $contact_individual->custom_greeting = $_POST['custom_greeting'];
-            $contact_individual->gender = $_POST['gender'];
+            $contact_individual->greeting_type = $this->exportValue('greeting_type');
+            $contact_individual->custom_greeting = $this->exportValue('custom_greeting');
+            $contact_individual->gender = $this->exportValue('gender');
             
-            if ($_POST['birth_date']['d'] < 10) {
-                $day = "0".$_POST['birth_date']['d'];
+            $a_date = $this->exportValue('birth_date');
+
+            if ($a_date['d'] < 10) {
+                $day = "0".$a_date['d'];
             } else {
-                $day = $_POST['birth_date']['d'];
+                $day = $a_date['d'];
             }
             
-            if ($_POST['birth_date']['M'] < 10) {
-                $mnt = "0".$_POST['birth_date']['M'];
+            if ($a_date['M'] < 10) {
+                $mnt = "0".$a_date['M'];
             } else {
-                $mnt = $_POST['birth_date']['M'];
+                $mnt = $a_date['M'];
             }
             
-            $contact_individual->birth_date = $_POST['birth_date']['Y'].$mnt.$day;
-            $contact_individual->is_deceased = $_POST['is_deceased'];
+            $contact_individual->birth_date = $a_date['Y'].$mnt.$day;
+            $contact_individual->is_deceased = $this->exportValue('is_deceased');
             
             if(!$contact_individual->insert()) {
                 $str_error = mysql_error();
             }
         }
+        
         
         if(!strlen($str_error)){ //proceed if there are no errors  
             // create a object for inserting data in crm_location, crm_email, crm_im, crm_phone table 
@@ -191,42 +195,44 @@ class CRM_Contact_Form_Individual extends CRM_Form
                 //create a object of location class
                 $varname = "contact_location".$lngi;
                 $varname1 = "location".$lngi;
-                
-                if (strlen(trim($_POST[$varname1]['street_address'])) > 0  || strlen(trim($_POST[$varname1]['email_1'])) > 0 || strlen(trim($_POST[$varname1]['phone_1'])) > 0) {
+
+                   $a_Location =  $this->exportValue($varname1);
+
+                if (strlen(trim($a_Location['street_address'])) > 0  || strlen(trim($a_Location['email_1'])) > 0 || strlen(trim($a_Location['phone_1'])) > 0) {
                     
                     if(!strlen($str_error)){ //proceed if there are no errors
                         // create a object of crm location
                         $$varname = new CRM_Contact_DAO_Location();
                         $$varname->contact_id = $contact->id;
-                        $$varname->is_primary = $_POST[$varname1]['is_primary'];
-                        $$varname->location_type_id = $_POST[$varname1]['location_type_id'];
+                        $$varname->is_primary = $a_Location['is_primary'];
+                        $$varname->location_type_id = $a_Location['location_type_id'];
                         
                         if(!$$varname->insert()) {
                             $str_error = mysql_error();
                             break;
                         }
                     }
-                
+                    
                     if(!strlen($str_error)){ //proceed if there are no errors
-                        if (strlen(trim($_POST[$varname1]['street_address'])) > 0) {
+                        if (strlen(trim($a_Location['street_address'])) > 0) {
                             //create the object of crm address
                             $varaddress = "contact_address".$lngi;
                             $$varaddress = new CRM_Contact_DAO_Address();
                             
                             $$varaddress->location_id = $$varname->id;
-                            $$varaddress->street_address = $_POST[$varname1]['street_address'];
-                            $$varaddress->supplemental_address_1 = $_POST[$varname1]['supplemental_address_1'];
-                            $$varaddress->city = $_POST[$varname1]['city'];
-                            // $$varaddress->county_id = $_POST[$varname1]['county_id'];
+                            $$varaddress->street_address = $a_Location['street_address'];
+                            $$varaddress->supplemental_address_1 = $a_Location['supplemental_address_1'];
+                            $$varaddress->city = $a_Location['city'];
+                            // $$varaddress->county_id = $a_Location['county_id'];
                             $$varaddress->county_id = 1;
-                            $$varaddress->state_province_id = $_POST[$varname1]['state_province_id'];
-                            $$varaddress->postal_code = $_POST[$varname1]['postal_code'];
-                            $$varaddress->usps_adc = $_POST[$varname1]['usps_adc'];
-                            $$varaddress->country_id = $_POST[$varname1]['country_id'];
-                            $$varaddress->geo_code1 = $_POST[$varname1]['geo_code1'];
-                            $$varaddress->geo_code2 = $_POST[$varname1]['geo_code2'];
-                            $$varaddress->address_note = $_POST[$varname1]['address_note'];
-                            $$varaddress->timezone = $_POST[$varname1]['timezone'];
+                            $$varaddress->state_province_id = $a_Location['state_province_id'];
+                            $$varaddress->postal_code = $a_Location['postal_code'];
+                            $$varaddress->usps_adc = $a_Location['usps_adc'];
+                            $$varaddress->country_id = $a_Location['country_id'];
+                            $$varaddress->geo_code1 = $a_Location['geo_code1'];
+                            $$varaddress->geo_code2 = $a_Location['geo_code2'];
+                            $$varaddress->address_note = $a_Location['address_note'];
+                            $$varaddress->timezone = $a_Location['timezone'];
                             
                             if(!$$varaddress->insert()) {
                                 $str_error = mysql_error();
@@ -235,11 +241,12 @@ class CRM_Contact_Form_Individual extends CRM_Form
                         }              
                     }
                     
+                                      
                     if(!strlen($str_error)){ //proceed if there are no errors
                         //create the object of crm email
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
                             $varemail = "email_".$lng_i;
-                            if (strlen(trim($_POST[$varname1][$varemail])) > 0) {
+                            if (strlen(trim($a_Location[$varemail])) > 0) {
                                 $var_email = "contact_email".$lng_i;
                                 $$var_email = new CRM_Contact_DAO_Email();
                                 
@@ -250,7 +257,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 }
                             
                                 $$var_email->location_id = $$varname->id;
-                                $$var_email->email = $_POST[$varname1][$varemail];
+                                $$var_email->email = $a_Location[$varemail];
                                 
                                 if(!$$var_email->insert()) {
                                     $str_error = mysql_error();
@@ -260,13 +267,14 @@ class CRM_Contact_Form_Individual extends CRM_Form
                         }
                     }
 
+                    
                     if(!strlen($str_error)){ //proceed if there are no errors
                         //create the object of crm phone
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
                             $varphone = "phone_".$lng_i;
                             $varphone_type = "phone_type_".$lng_i;
                             $varmobile_prov_id = "mobile_provider_id_".$lng_i;
-                            if (strlen(trim($_POST[$varname1][$varphone])) > 0) {
+                            if (strlen(trim($a_Location[$varphone])) > 0) {
                                 $var_phone = "contact_phone".$lng_i;
                                 $$var_phone = new CRM_Contact_DAO_Phone();
                                 
@@ -277,9 +285,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 }
                                 
                                 $$var_phone->location_id = $$varname->id;
-                                $$var_phone->phone = $_POST[$varname1][$varphone];
-                                $$var_phone->phone_type = $_POST[$varname1][$varphone_type];
-                                // $$var_phone->mobile_provider_id = $_POST[$varname1][$varmobile_prov_id];
+                                $$var_phone->phone = $a_Location[$varphone];
+                                $$var_phone->phone_type = $a_Location[$varphone_type];
+                                // $$var_phone->mobile_provider_id = $a_Location[$varmobile_prov_id];
                                 $$var_phone->mobile_provider_id = 1;
                                 
                                 
@@ -290,13 +298,14 @@ class CRM_Contact_Form_Individual extends CRM_Form
                             }  
                         }
                     }
-                
+
+                      
                     if(!strlen($str_error)){ //proceed if there are no errors
                         //create the object of crm im
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
                             $var_service = "im_service_id_".$lng_i;
                             $var_screenname = "im_screenname_".$lng_i;
-                            if (strlen(trim($_POST[$varname1][$var_screenname])) > 0) {
+                            if (strlen(trim($a_Location[$var_screenname])) > 0) {
                                 $var_im = "contact_im" . $lng_i;
                                 $$var_im = new CRM_Contact_DAO_IM();
                                 
@@ -307,8 +316,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 }
                                 
                                 $$var_im->location_id = $$varname->id;
-                                $$var_im->im_service_id =$_POST[$varname1][$var_service];
-                                $$var_im->im_screenname =$_POST[$varname1][$var_screenname];
+                                $$var_im->im_service_id = $a_Location[$var_service];
+                                $$var_im->im_screenname = $a_Location[$var_screenname];
                                 
                                 if (!$$var_im->insert()) {
                                     $str_error = mysql_error();
@@ -324,7 +333,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                     break;
                 }
             } //end of for loop
-        }
+        } 
         // check if there are any errors while inserting in database
 
         if(strlen($str_error)){ //proceed if there are no errors
