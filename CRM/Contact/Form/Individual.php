@@ -38,7 +38,8 @@ require_once 'CRM/Contact/Form/Contact.php';
 require_once 'CRM/Contact/Form/Location.php';
 
 /**
- * This class is used for building CRUD.php. This class also has the actions that should be done when form is processed.
+ * This is the main class used for processing Individual.php.
+ * 
  */
 class CRM_Contact_Form_Individual extends CRM_Form 
 {
@@ -52,7 +53,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
     
     
     /**
-     * In this function we build the Individual.php. All the quickform componenets are defined in this function
+     * In this function based on mode we call the function to build the required  
+     * form.
      */
     function buildQuickForm()
     {
@@ -82,11 +84,12 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
         } // end of switch
           
-    }//ENDING BUILD FORM 
+    }// end of function
 
     
     /**
      * this function sets the default values to the specified form element
+     * based on the mode.
      */
     function setDefaultValues() 
     {
@@ -114,44 +117,44 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $defaults['sname'] = ' - full or partial name - ';
             $this->setDefaults($defaults);
             break;            
-        }
-    }
+        }// end of switch
+    }// end of function
     
     /**
-     * this function is used to validate the date
+     * this function is used for date validation
+     * @return true if date is correct else false
      */
     function valid_date($value) 
     {
+        // CRM_RULE::date($value);
+        // checkdate is php function used for date validation
         if(checkdate($value['M'], $value['d'], $value['Y'])) {
             return true;
         } else {
             return false;
         }
-    }
+
+    }// end of function
     
     /**
-     * this function is used to add the rules for form
+     * this function is used to add the rules based on the modes for the form.
      */
     function addRules() 
     {
-        
         $this->applyFilter('_ALL_', 'trim');
       
-        // rules for searching..
-        
-        // rules for quick add
-
         switch ($this->_mode) {
         case self::MODE_CREATE:
             $this->addRule('first_name', t(' First name is a required field.'), 'required', null, 'client');
             $this->addRule('last_name', t(' Last name is a required field.'), 'required', null, 'client');
             $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contact_Form_Individual');
+            //this->registerRule('check_date', 'callback', CRM_RULE::date(),'CRM_Contact_Form_Individual');
             $this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
             
             for ($i = 1; $i <= 3; $i++) { 
                 $this->addGroupRule('location'."{$i}", array('email_1' => array( 
                                                                                 array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),                                                 'email_2' => array( 
-                                                                                                                                                                                                                                    array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
+                                                                                                                                                                                                                                        array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
                                                              'email_3' => array( 
                                                                                 array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
                                                              )
@@ -180,11 +183,13 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $this->addRule('semail', t(' Enter valid Email Address.'), 'email', null, 'client');
         
             break;            
-        }    
+        }// end of switch    
 
-    }
+    }// end of function
     
-
+    /* This function is called when the form is submitted.
+     * Based on the mode this function call the other p[rivate functions
+     */
     function postProcess(){
         switch ($this->_mode) {
         case self::MODE_CREATE:
@@ -203,17 +208,169 @@ class CRM_Contact_Form_Individual extends CRM_Form
             break;            
         case self::MODE_SEARCH_MINI:
             break;            
-        }    
+        }//end of switch    
+    }// end of function
+    
+ 
+    /**
+     * This function is called to build form for New Contact Individual.
+     * @access private
+     */
+    private function _buildCreateForm() 
+    {
+        
+        $form_name = $this->getName();
+
+        CRM_SelectValues::$date['maxYear'] = date('Y');
+        
+        // prefix
+        $this->addElement('select', 'prefix', null, CRM_SelectValues::$prefixName);
+        
+        // first_name
+        $this->addElement('text', 'first_name', 'First / Last :', array('maxlength' => 64));
+        
+        // last_name
+        $this->addElement('text', 'last_name', null, array('maxlength' => 64));
+        
+        // suffix
+        $this->addElement('select', 'suffix', null, CRM_SelectValues::$suffixName);
+        
+        // greeting type
+        $this->addElement('select', 'greeting_type', 'Greeting type :', CRM_SelectValues::$greeting);
+        
+        // job title
+        $this->addElement('text', 'job_title', 'Job title :', array('maxlength' => 64));
+        
+        // add the communications block
+        //CRM_Contact_Form_Contact::bcb($this);
+        CRM_Contact_Form_Contact::buildCommunicationBlock($this);
+
+        // radio button for gender
+        $this->addElement('radio', 'gender', 'Gender', 'Female','female',
+                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';",'checked' => null));
+        $this->addElement('radio', 'gender', 'Gender', 'Male', 'male', 
+                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
+        $this->addElement('radio', 'gender', 'Gender', 'Transgender','transgender', 
+                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
+        $this->addElement('checkbox', 'is_deceased', 'Contact is deceased', null, 
+                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
+        
+        $this->addElement('date', 'birth_date', 'Date of birth', CRM_SelectValues::$date, 
+                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
+
+     /* Entering the compact location engine */ 
+
+        $location = CRM_Contact_Form_Location::blb($this, 3);
+        for ($i = 1; $i < 4; $i++) {
+            $this->addGroup($location[$i],'location'."{$i}");
+            $this->UpdateElementAttr(array($location[$i][0]), array('onchange' => "return validate_selected_locationid(\"$form_name\", {$i});"));
+            $this->UpdateElementAttr(array($location[$i][1]), array('onchange' => "location_is_primary_onclick(\"$form_name\", {$i});"));
+        }
+        /* End of locations */
+        
+        $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82', 'maxlength' => 255));    
+        
+        $this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',
+                          array('onclick' => "show('demographics'); hide('expand_demographics'); return false;"));
+        
+        $this->addElement('link', 'exnotes', null, 'notes', '[+] contact notes',
+                          array('onclick' => "show('notes'); hide('expand_notes'); return false;"));
+        
+        $this->addElement('link', 'hidedemo', null,'demographics', '[-] hide demographics',
+                          array('onclick' => "hide('demographics'); show('expand_demographics'); return false;"));
+        
+        $this->addElement('link', 'hidenotes', null, 'notes', '[-] hide contact notes',
+                          array('onclick' => "hide('notes'); show('expand_notes'); return false;"));
+        
+        $this->addElement('hidden', 'mdyx','false');
+
+        $java_script = "<script type = \"text/javascript\">
+                        frm = document." . $form_name .";</script>";
+        
+        $this->addElement('static', 'my_script', $java_script);
+        
+        $this->addDefaultButtons( array(
+                                        array ( 'type'      => 'next'  ,
+                                                'name'      => 'Save'  ,
+                                                'isDefault' => true     ),
+                                        array ( 'type'      => 'reset' ,
+                                                'name'      => 'Reset'  ),
+                                        array ( 'type'       => 'cancel',
+                                                'name'      => 'Cancel' ),
+                                        )
+                                  );
+        
+        $this->setDefaultValues();
+        
     }
     
     
     /**
-     * this function is called when the form is submitted.
+     * This function is called to build form for Qucik add Contact Individual.
+     * @access private
+     */
+    private function _buildMiniCreateForm() 
+    {
+        $this->setFormAction("crm/contact/qadd");
+        $this->addElement('text', 'firstname', 'First Name: ');
+        $this->addElement('text', 'lastname', 'Last Name: ');
+        $this->addElement('text', 'email', 'Email: ');
+        $this->addElement('text', 'phone', 'Phone: ');
+        
+        $this->addDefaultButtons( array(
+                                        array ( 'type'      => 'next'  ,
+                                                'name'      => 'Save'  ,
+                                                'isDefault' => true     )
+                                        )
+                                  );
+    }
+    
+    
+    /**
+     * This function is called to build form for searching Contact Individual.
+     * @access private
+     */
+    private function _buildSearchForm() 
+    {
+        $this->addElement('text', 'domain_id', 'Domain Id:', array('maxlength' => 10));
+        $this->addElement('text', 'sort_name', 'Name:  ', array('maxlength' => 64));
+        $this->addElement('select', 'contact_type', 'Contact type:', CRM_SelectValues::$contactType);
+        $this->addElement('select', 'preferred_communication_method', 'Prefers:', CRM_SelectValues::$pcm);
+        
+        $this->addDefaultButtons(array (
+                                        array (
+                                               'type'       => 'next', 
+                                               'name'       => 'Search',
+                                               'isDefault'  => true)));
+    }
+    
+    
+    /**
+     * This function is called to build form for Quick search of Contact Individual.
+     * @access private
+     */
+    private function _buildMiniSearchForm() 
+    {
+        $this->addElement('text', 'sname', 'Name: ');
+        $this->addElement('text', 'semail', 'Email: ');
+        $this->addElement('link','search','advsearch','crm/contact/search','>> Advanced Search');
+        
+        $this->addDefaultButtons( array (
+                                         array ('type'      =>  'submit', 
+                                                'name'      =>  'Search',
+                                                'isDefault' =>   true)));
+    }
+    
+
+    
+    /**
+     * This function does all the processing of the form for New Contact Individual.
+     * @access private
      */
     private function _Create_postProcess() 
     { 
         $str_error = ""; // error is recorded  if there are any errors while inserting in database         
-          
+        
         // create a object for inserting data in contact table 
         $contact = new CRM_Contact_DAO_Contact();
         
@@ -221,12 +378,12 @@ class CRM_Contact_Form_Individual extends CRM_Form
         // $contact->contact_type = $this->exportValue('contact_type');
         $contact->contact_type = 'Individual';
         $contact->sort_name = $this->exportValue('first_name')." ".$this->exportValue('last_name');
-        $contact->source = $this->exportValue('source');
+        //$contact->source = $this->exportValue('source');
         $contact->preferred_communication_method = $this->exportValue('preferred_communication_method');
         $contact->do_not_phone = $this->exportValue('do_not_phone');
         $contact->do_not_email = $this->exportValue('do_not_email');
         $contact->do_not_mail = $this->exportValue('do_not_mail');
-        $contact->hash = $this->exportValue('hash');
+        //$contact->hash = $this->exportValue('hash');
         
         $contact->query('BEGIN'); //begin the database transaction
         
@@ -239,12 +396,11 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $contact_individual = new CRM_Contact_DAO_Contact_Individual();
             $contact_individual->contact_id = $contact->id;
             $contact_individual->first_name = $this->exportValue('first_name');
-            $contact_individual->middle_name = $this->exportValue('middle_name');
+            //$contact_individual->middle_name = $this->exportValue('middle_name');
             $contact_individual->last_name = $this->exportValue('last_name');
             $contact_individual->prefix = $this->exportValue('prefix');
             $contact_individual->suffix = $this->exportValue('suffix');
             $contact_individual->job_title = $this->exportValue('job_title');
-            
             $contact_individual->greeting_type = $this->exportValue('greeting_type');
             $contact_individual->custom_greeting = $this->exportValue('custom_greeting');
             $contact_individual->gender = $this->exportValue('gender');
@@ -414,174 +570,28 @@ class CRM_Contact_Form_Individual extends CRM_Form
                 if(strlen($str_error)){ //proceed if there are no errors
                     break;
                 }
-            } //end of for loop
+            } //end of main for loop
         } 
         // check if there are any errors while inserting in database
                  
-        if(strlen($str_error)){ //proceed if there are no errors
+        if(strlen($str_error)){ //commit if there are no errors else rollback
             $contact->query('ROLLBACK');
             form_set_error('first_name', t($str_error));
         } else {
             $contact->query('COMMIT');
             form_set_error('first_name', t('Contact Individual has been added successfully.'));
         }
-                 
+        
     }//end of function
-         
-          
-         
+
+   
     /**
-     * 
-     *
-     */
-    private function _buildCreateForm() 
-    {
-        
-        $form_name = $this->getName();
-
-        CRM_SelectValues::$date['maxYear'] = date('Y');
-        
-        // prefix
-        $this->addElement('select', 'prefix', null, CRM_SelectValues::$prefixName);
-        
-        // first_name
-        $this->addElement('text', 'first_name', 'First / Last :', array('maxlength' => 64));
-        
-        // last_name
-        $this->addElement('text', 'last_name', null, array('maxlength' => 64));
-        
-        // suffix
-        $this->addElement('select', 'suffix', null, CRM_SelectValues::$suffixName);
-        
-        // greeting type
-        $this->addElement('select', 'greeting_type', 'Greeting type :', CRM_SelectValues::$greeting);
-        
-        // job title
-        $this->addElement('text', 'job_title', 'Job title :', array('maxlength' => 64));
-        
-        // add the communications block
-        //CRM_Contact_Form_Contact::bcb($this);
-        CRM_Contact_Form_Contact::buildCommunicationBlock($this);
-
-        // radio button for gender
-        $this->addElement('radio', 'gender', 'Gender', 'Female','female',
-                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';",'checked' => null));
-        $this->addElement('radio', 'gender', 'Gender', 'Male', 'male', 
-                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
-        $this->addElement('radio', 'gender', 'Gender', 'Transgender','transgender', 
-                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
-        $this->addElement('checkbox', 'is_deceased', 'Contact is deceased', null, 
-                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
-        
-        $this->addElement('date', 'birth_date', 'Date of birth', CRM_SelectValues::$date, 
-                          array('onclick' => "document.Individual.elements['mdyx'].value = 'true';"));
-
-     /* Entering the compact location engine */ 
-
-        $location = CRM_Contact_Form_Location::blb($this, 3);
-        for ($i = 1; $i < 4; $i++) {
-            $this->addGroup($location[$i],'location'."{$i}");
-            $this->UpdateElementAttr(array($location[$i][0]), array('onchange' => "return validate_selected_locationid(\"$form_name\", {$i});"));
-            $this->UpdateElementAttr(array($location[$i][1]), array('onchange' => "location_is_primary_onclick(\"$form_name\", {$i});"));
-        }
-        /* End of locations */
-
-        $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82', 'maxlength' => 255));    
-        
-        $this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',
-                          array('onclick' => "show('demographics'); hide('expand_demographics'); return false;"));
-        
-        $this->addElement('link', 'exnotes', null, 'notes', '[+] contact notes',
-                          array('onclick' => "show('notes'); hide('expand_notes'); return false;"));
-        
-        $this->addElement('link', 'hidedemo', null,'demographics', '[-] hide demographics',
-                          array('onclick' => "hide('demographics'); show('expand_demographics'); return false;"));
-        
-        $this->addElement('link', 'hidenotes', null, 'notes', '[-] hide contact notes',
-                          array('onclick' => "hide('notes'); show('expand_notes'); return false;"));
-        
-        $this->addElement('hidden', 'mdyx','false');
-
-        $java_script = "<script type = \"text/javascript\">
-                        frm = document." . $form_name .";</script>";
-
-        $this->addElement('static', 'my_script', $java_script);
-        
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next'  ,
-                                                'name'      => 'Save'  ,
-                                                'isDefault' => true     ),
-                                        array ( 'type'      => 'reset' ,
-                                                'name'      => 'Reset'  ),
-                                        array ( 'type'       => 'cancel',
-                                                'name'      => 'Cancel' ),
-                                        )
-                                  );
-       
-        $this->setDefaultValues();
-             
-    }
-
-         
-    /**
-     *  Quick add
-     */
-    private function _buildMiniCreateForm() 
-    {
-        $this->setFormAction("crm/contact/qadd");
-        $this->addElement('text', 'firstname', 'First Name: ');
-        $this->addElement('text', 'lastname', 'Last Name: ');
-        $this->addElement('text', 'email', 'Email: ');
-        $this->addElement('text', 'phone', 'Phone: ');
-
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next'  ,
-                                                'name'      => 'Save'  ,
-                                                'isDefault' => true     )
-                                        )
-                                  );
-    }
-         
-    /**
-     * Advanced Search
-     */
-    private function _buildSearchForm() 
-    {
-        $this->addElement('text', 'domain_id', 'Domain Id:', array('maxlength' => 10));
-        $this->addElement('text', 'sort_name', 'Name:  ', array('maxlength' => 64));
-        $this->addElement('select', 'contact_type', 'Contact type:', CRM_SelectValues::$contactType);
-        $this->addElement('select', 'preferred_communication_method', 'Prefers:', CRM_SelectValues::$pcm);
-        
-        $this->addDefaultButtons(array (
-                                        array (
-                                               'type'       => 'next', 
-                                               'name'       => 'Search',
-                                               'isDefault'  => true)));
-    }
-         
-    /**
-     * Quick Search
-     */
-    private function _buildMiniSearchForm() 
-    {
-        $this->addElement('text', 'sname', 'Name: ');
-        $this->addElement('text', 'semail', 'Email: ');
-        $this->addElement('link','search','advsearch','crm/contact/search','>> Advanced Search');
-        
-        $this->addDefaultButtons( array (
-                                         array ('type'      =>  'submit', 
-                                                'name'      =>  'Search',
-                                                'isDefault' =>   true)));
-    }
-         
-
-
-    /**
-     * this function is called when the form is submitted.
+     * This function does all the processing of the form for Quick add for Contact Individual.
+     * @access private
      */
     private function _MiniCreate_postProcess() 
     { 
-    
+        
         $str_error = ""; // error is recorded  if there are any errors while inserting in database         
         
         // create a object for inserting data in contact table 
@@ -609,8 +619,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
                 $str_error = mysql_error();
             }
         }
-                 
-                 
+        
+        
         if(!strlen($str_error)){ //proceed if there are no errors  
             
             if(!strlen($str_error)){ //proceed if there are no errors
@@ -665,10 +675,11 @@ class CRM_Contact_Form_Individual extends CRM_Form
                 
             }
             
-        } 
+        }// end of if
+ 
         // check if there are any errors while inserting in database
                  
-        if(strlen($str_error)){ //proceed if there are no errors
+        if(strlen($str_error)){ //commit if there are no errors else rollback
             $contact->query('ROLLBACK');
             form_set_error('first_name', t($str_error));
         } else {
@@ -676,10 +687,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
             form_set_error('first_name', t('Contact Individual has been added successfully.'));
         }
         
-    }
+    }// end of function
 
-
-         
+        
          
 }
     
