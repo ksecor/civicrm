@@ -1,0 +1,698 @@
+/* Global Navigation: Main Tab Style(s) */
+/* Defines the styles for the application tabs */
+/* ie: Home, Leads, Accounts, Contacts, Opportunities, etc... */
+
+.setupTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #336699;
+}
+
+.setupResource {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #CC0000;
+}
+
+.homeTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #ff9900;
+}
+
+A:link.homeTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #ff9900;
+}
+
+.leadsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #000000;
+   text-decoration: none;
+   background-color: #FF9900;
+}
+
+A:link.leadsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #000000;
+   text-decoration: none;
+   background-color: #FF9900;
+}
+
+.accountsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #003399;
+}
+
+A:link.accountsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #003399;
+}
+
+.contactsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #663399;
+}
+
+A:link.contactsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #663399;
+}
+
+.opportunitiesTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #000000;
+   text-decoration: none;
+   background-color: #FFCC00;
+}
+
+A:link.opportunitiesTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #000000;
+   text-decoration: none;
+   background-color: #FFCC00;
+}
+
+.forecastsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #0066CC;
+}
+
+A:link.forecastsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #0066CC;
+}
+
+.forecastsPrintTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #CCCCCC;
+   text-decoration: none;
+   background-color: #CCCCCC;
+}
+
+.casesTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #999966;
+}
+
+A:link.casesTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #999966;
+}
+
+
+.solutionsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #666633;
+}
+
+A:link.solutionsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #666633;
+}
+
+.campaignsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #CC9933;
+}
+
+A:link.campaignsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #CC9933;
+}
+
+.contractsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #006600;
+}
+
+A:link.contractsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #006600;
+}
+
+.ordersTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #197B30;
+}
+
+A:link.ordersTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #197B30;
+}
+
+.invoicesTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #669966;
+}
+
+A:link.invoicesTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #669966;
+}
+
+.reportsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #990000;
+}
+
+A:link.reportsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #990000;
+}
+
+.sysAdminTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #000000;
+}
+
+A:link.sysAdminTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #9900ee;
+}
+
+.documentsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #339999;
+}
+
+A:link.documentsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #339999;
+}
+
+.dashboardsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #660000;
+}
+
+A:link.dashboardsTab {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #660000;
+}
+
+.tabOn {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #669900;
+}
+
+A:link.tabOn {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #669900;
+}
+
+.tabOff {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #35a6ff;
+}
+
+A:link.tabOff {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+   background-color: #35a6ff;
+}
+
+
+/* Global Navigation: Sub-Navigation Style(s) */
+/* Defines the styles for the sub menu */
+/* ie: New Lead, New Account, New Contact, etc... */
+
+.subNavWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:link.subNavWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+.subNavBlack {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:link.subNavBlack {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+.subNavDelimiter {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+
+/* Global Navigation: Top Navigation Style(s) */
+/* Defines the styles for the top menu */
+/* ie: My Setup, Support Options, Contact Us, etc... */
+
+.topNav {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:link.topNav {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+
+/* Global Navigation: Footer Navigation Style(s) */
+/* Defines the styles for the page footer */
+/* ie: Copyright, Terms of Use, Privacy Statement, etc... */
+
+.footer {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #666666;
+   text-decoration: none;
+}
+
+A:link.footer {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #666666;
+   text-decoration: underline;
+}
+
+/* Global Navigation: Visited Tab Navigation Style(s) */
+/* Defines the state of the visited link for the application tabs */
+/* ie: Home, Leads, Accounts, Contacts, Opportunities, etc... */
+
+A:visited.homeTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.leadsTab {
+   color: #000000;
+   text-decoration: none;
+}
+
+A:visited.accountsTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.contactsTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.opportunitiesTab {
+   color: #000000;
+   text-decoration: none;
+}
+
+A:visited.forecastsTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.casesTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.solutionsTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.campaignsTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.contractsTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.ordersTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.invoicesTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.reportsTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.sysAdminTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.tabOn {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.tabOff {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.documentsTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.dashboardsTab {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+/* Global Navigation: Visited Sub-Navigation Style(s) */
+/* Defines the visited styles for the sub menu */
+/* ie: New Lead, New Account, New Contact, etc... */
+
+A:visited.subNavWhite {
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:visited.subNavBlack {
+   color: #000000;
+   text-decoration: none;
+}
+
+
+/* Global Navigation: Visited Top Navigation Style(s) */
+/* Defines the visited styles for the top menu */
+/* ie: My Setup, Support Options, Contact Us, etc... */
+
+A:visited.topNav {
+   color: #000000;
+   text-decoration: none;
+}
+
+
+/* Global Navigation: Footer Navigation Style(s) */
+/* Defines the visited styles for the page footer */
+/* ie: Copyright, Terms of Use, Privacy Statement, etc... */
+
+A:visited.footer {
+   color: #666666;
+   text-decoration: underline;
+}
+
+/* Global Navigation: Hover (Mouseover) Tab Navigation Style(s) */
+/* Defines the state of the mouseover link for the application tabs */
+/* ie: Home, Leads, Accounts, Contacts, Opportunities, etc... */
+
+A:hover.homeTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.leadsTab {
+   color: #000000;
+   text-decoration: underline;
+}
+
+A:hover.accountsTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.contactsTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.opportunitiesTab {
+   color: #000000;
+   text-decoration: underline;
+}
+
+A:hover.forecastsTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.casesTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.solutionsTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.campaignsTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.contractsTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.ordersTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.invoicesTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.reportsTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.sysAdminTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.tabOn {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.tabOff {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.documentsTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.dashboardsTab {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+/* Global Navigation: Hover (Mouseover) Sub Navigation Style(s) */
+/* Defines the state of the mouseover link for the sub navigation */
+/* ie: New Lead, New Account, New Contact, etc... */
+
+A:hover.subNavWhite {
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.subNavBlack {
+   color: #000000;
+   text-decoration: underline;
+}
+
+
+/* Global Navigation: Hover (Mouseover) Top Navigation Style(s) */
+/* Defines the state of the mouseover link for the top menu */
+/* ie: New Lead, New Account, New Contact, etc... */
+
+A:hover.topNav {
+   color: #000000;
+   text-decoration: underline;
+}
+
+
+/* Global Navigation: Footer Navigation Style(s) */
+/* Defines the hover styles for the page footer */
+/* ie: Copyright, Terms of Use, Privacy Statement, etc... */
+
+A:hover.footer {
+   color: #666666;
+   text-decoration: underline;
+}

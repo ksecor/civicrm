@@ -1,0 +1,967 @@
+/* NOTE: Please make sure you styles are cross browser compatiable for        */
+/* Microsoft IE 4 & up and Netscape Navigator 4 & up for both Window and      */
+/* Macintosh for the correct style sheet.  Not sure?, then please review from */
+/* the link below... http://webreview.com/style/css1/charts/mastergrid.shtml  */
+
+/* Global Body: Body Style(s) */
+/* Defines the styles for the applications body/content sections */
+/* ie: Text, Links, etc... */
+
+TD, UL, OL, LI {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+/* for forecast override table cells */
+.forecastOverride {
+   background-color: #FF0000;
+}
+
+/* for forecast override table cells */
+.forecastDefaultRollup {
+   background-color: #FF9999;
+}
+
+/* for forecast total row */
+.forecastTotalRow {
+   background-color: #99CCFF;
+}
+
+/* for forecast my adjustment row */
+.forecastAdjustmentRow {
+   background-color: #6699CC;
+}
+
+
+TEXTAREA {
+   font-family: 'Arial', 'Helvetica';
+   font-size: 9pt;
+}
+
+INPUT {
+   font-family: 'Arial', 'Helvetica';
+   font-size: 9pt;
+}
+
+INPUT.button { 
+    border-left: solid 1px #336699; 
+    border-top: solid 1px #336699; 
+    border-right: solid 1px #666666; 
+    border-bottom: solid 1px #666666; 
+    font-family: 'Arial', 'Helvetica'; 
+    font-weight: bold; 
+    font-size: 8pt; 
+    color: #FFFFFF; 
+    cursor: hand; 
+    background-color: #003366; 
+}
+
+
+
+SELECT {
+   font-family: 'Arial', 'Helvetica';
+   font-size: 9pt;
+}
+
+.roleHighlight {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #000000;
+   text-decoration: none;
+   background-color: #dddddd;
+}
+
+/* Body font bolded */
+.bodyBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:link.bodyBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+.bodyItalic {
+   font-family: 'Arial', 'Helvetica';
+   font-style: italic;
+   font-size: 9pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:link.bodyItalic {
+   font-family: 'Arial', 'Helvetica';
+   font-style: italic;
+   font-size: 9pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+.bodyBoldGrey {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #666666;
+   text-decoration: none;
+}
+
+A:link.bodyBoldGrey {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #666666;
+   text-decoration: none;
+}
+
+.bodyBoldBlue {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #0066CC;
+   text-decoration: none;
+}
+
+A:link.bodyBoldBlue {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #0066CC;
+   text-decoration: none;
+}
+
+/* Body font small */
+.bodySmall {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:link.bodySmall {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:link.bodySmallUnderline {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: underline;
+}
+
+
+/* Body font small bolded */
+.bodySmallBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:Link.bodySmallBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+/* Greyed out link */
+.greyedLink {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #666666;
+   text-decoration: none;
+}
+
+/* Body font super small */
+.bodySuperSmall {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 7pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:link.bodySuperSmall {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 7pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+/* Body font super small bold */
+.bodySuperSmallBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 7pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:link.bodySuperSmallBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 7pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+/* Body font grey */
+.greyBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #666666;
+}
+
+
+/* COLORS: WHITE */
+/* Body font - Note: The corispoding black font is defined in the TD style. */
+.bodyWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:link.bodyWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+
+/* Body font bolded */
+.bodyBoldWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:link.bodyBoldWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+.bodyBoldYellow {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #FFCC33;
+   text-decoration: none;
+}
+
+A:link.bodyBoldYellow {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #FFCC33;
+   text-decoration: none;
+}
+
+
+/* Body font bolded */
+.bodySmallWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:link.bodySmallWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+/* Body font bolded */
+.bodySmallBoldWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+A:link.bodySmallBoldWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+.bodySmallGrey {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #666666;
+   text-decoration: none;
+}
+
+A:link.bodySmallGrey {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #666666;
+   text-decoration: none;
+}
+
+.bodySmallBoldGrey {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #666666;
+   text-decoration: none;
+}
+
+A:link.bodySmallBoldGrey {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #666666;
+   text-decoration: none;
+}
+
+.bodySmallRed {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #FF0000;
+   text-decoration: none;
+}
+
+A:link.bodySmallRed {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #FF0000;
+   text-decoration: none;
+}
+
+/* Page Tile at the top of each main page */
+.pageTitle {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 11pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+
+/* Section (module) Tile at the top of each section */
+.moduleTitle {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 11pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+/* User message */
+/* NOTE: For error messages use "errorMsg" below */
+.userMsg {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #990000;
+}
+
+
+/* Global Body Fonts: Table Style(s) */
+/* Defines the styles for the applications tables */
+/* ie: Overview Pages, List Pages, Releasted Lists, etc... */
+
+
+/* Column Heading White */
+.columnHeadInactiveWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #FFFFFF;
+}
+
+.columnHeadActiveWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:link.columnHeadActiveWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #FFFFFF;
+   text-decoration: underline;
+}
+
+A:hover.columnHeadActiveWhite {
+   color: #FFFFFF;
+}
+
+
+/* Column Heading Black */
+.columnHeadInactiveBlack {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #000000;
+}
+
+.columnHeadActiveBlack {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #000000;
+   text-decoration: underline;
+}
+
+A:link.columnHeadActiveBlack {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #000000;
+   text-decoration: underline;
+}
+
+A:hover.columnHeadActiveBlack {
+   color: #000000;
+}
+
+/* Action links */
+.actionLink {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #000000;
+}
+
+A:link.actionLink {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #000000;
+}
+
+
+/* Global Body Fonts: Data Detail Style(s) */
+/* Defines the styles for the applications Data Detail */
+/* ie: Detail Pages, Edit Pages, etc... */
+A:hover.resource {
+   font-family: 'Arial', 'Helvetica';
+   font-size: 10pt;
+   text-decoration: underline;
+}
+
+A.resource {
+   font-family: 'Arial', 'Helvetica';
+   font-size: 10pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+.resourceField {
+   text-align: left;
+   line-height: 16px;
+   background-color: #EEEEEE;
+}
+
+
+A:hover.task {
+   font-family: 'Arial', 'Helvetica';
+   font-size: 10pt;
+   text-decoration: underline;
+}
+
+A.task {
+   font-family: 'Arial', 'Helvetica';
+   font-size: 10pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+.taskField {
+   text-align: left;
+   line-height: 16px;
+   background-color: #EEEEEE;
+}
+
+.setupNavtree {
+   background-color: #CCCCCC;
+}
+
+.setupSection {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:hover.setupSection {
+   font-family: 'Verdana', 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #000000;
+   text-decoration: underline;
+}
+
+.setupFolder {
+   font-size: 10pt;
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   text-decoration: none;
+   color: #666666;
+}
+
+.setupHighlightFolder {
+   font-size: 10pt;
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   text-decoration: none;
+   color: #FFFFFF;
+   background-color: #336699;
+}
+
+A:hover.setupHighlightFolder {
+   font-size: 10pt;
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   text-decoration: none;
+   color: #FFFFFF;
+   background-color: #336699;
+   text-decoration: underline;
+}
+
+A:hover.setupFolder {
+   font-size: 10pt;
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   color: #666666;
+   text-decoration: underline;
+}
+
+.setupLeaf {
+   font-size: 10pt;
+   font-family: 'Arial', 'Helvetica';
+   text-decoration: none;
+   color: #666666;
+}
+
+.setupHighlightLeaf {
+   font-size: 10pt;
+   font-family: 'Arial', 'Helvetica';
+   text-decoration: none;
+   color: #FFFFFF;
+   background-color: #336699;
+}
+
+A:hover.setupHighlightLeaf {
+   font-size: 10pt;
+   font-family: 'Arial', 'Helvetica';
+   text-decoration: none;
+   color: #FFFFFF;
+   background-color: #336699;
+   text-decoration: underline;
+}
+
+A:hover.setupLeaf {
+   font-size: 10pt;
+   font-family: 'Arial', 'Helvetica';
+   color: #666666;
+   text-decoration: underline;
+}
+
+/* Data Label Fonts & BGCOLOR */
+.dataLabel {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #000000;
+   text-align: right;
+   line-height: 16px;
+   background-color: #DDDDDD;
+}
+
+.dataSmallLabel {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #000000;
+   text-align: right;
+   line-height: 14px;
+   background-color: #DDDDDD;
+}
+
+/* Data field fonts & BGCOLOR */
+.dataField {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #000000;
+   text-align: left;
+   line-height: 16px;
+   background-color: #EEEEEE;
+}
+
+/* Required field for the '*' */
+.Required {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #990000;
+}
+
+/* Required field fonts & BGCOLOR */
+.requiredInput {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #FFFFFF;
+   text-align: right;
+   line-height: 16px;
+   background-color: #990000;
+}
+
+/* User error message */
+.errorMsg {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #990000;
+}
+
+
+/* Global Body Fonts: Calendar Style(s) */
+/* Defines the styles for the applications Calendar */
+/* ie: Small Home Cal, Large Cal, etc... */
+
+/* Calendar month title font */
+.calTitle {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #FFFFFF;
+   text-align: center;
+   text-decoration: none;
+}
+
+/* Calendar day of week font */
+.calDays {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #FFFFFF;
+   text-align: center;
+   text-decoration: none;
+}
+
+/* Active calendar day font */
+.calActive {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: underline;
+}
+
+/* Calendar inactive days (previous/next month) */
+.calInactive {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #999999;
+   text-decoration: underline;
+}
+
+/* Today */
+.calToday {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: underline;
+}
+
+/* Add Event */
+.calAddEvent {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 8pt;
+   color: #000000;
+   text-align: right;
+   text-decoration: underline;
+}
+
+/* Calendar Motif */
+.calMotif {
+   font-family: 'Arial', 'Helvetica';
+   color: #FFFFFF;
+   background-color: #003366;
+}
+
+/* Overdue Tasks */
+.overdueTask {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #990000;
+   text-decoration: none;
+}
+
+
+/* Global Body Fonts: Background & Line Style(s) */
+/* Defines the styles for the applications Horizonal Lines */
+
+.blackLine {
+   background-color: #000000;
+}
+
+.moduleLine {
+   background-color: #336699;
+}
+
+.tableDiv {
+   background-color: #666666;
+}
+
+
+/* Global Body Fonts: Wizard Style(s) */
+/* Defines the styles for the applications Wizards */
+
+.wizardTitle {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 13pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+.wizardTitleBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+.wizardTitleBoldWhite {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #FFFFFF;
+   text-decoration: none;
+}
+
+.wizardProgress {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 7pt;
+   color: #666666;
+   text-decoration: underline;
+}
+
+tr.d {
+   background-color: #eeeeee;
+}
+
+tr.l {
+   background-color: #ffffff;
+}
+
+.dashboardTitle {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 14pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+.dashboardNote {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 10pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+.dashboardComponentHeader {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 10pt;
+   color: #ffffff;
+   background-color: #990000;
+   text-decoration: none;
+}
+
+.dashboardComponentFooter {
+   font-family: 'Arial', 'Helvetica';
+   font-style: italic;
+   font-size: 9pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+.dashboardToolbar {
+   font-family: 'Arial', 'Helvetica';
+   font-size: 8pt;
+   color: #000000;
+   text-decoration: none;
+}
+
+A:hover.dash {
+   text-decoration: underline;
+}
+
+.dash {
+   text-decoration: none;
+}
+
+A:link.dash {
+   text-decoration: none;
+}
+
+/* New Features Stuff */
+
+INPUT.redButton { 
+    border-left: solid 1px #000000; 
+    border-top: solid 1px #000000; 
+    border-right: solid 1px #000000; 
+    border-bottom: solid 1px #000000; 
+    font-family: 'Arial', 'Helvetica'; 
+    font-weight: bold; 
+    font-size: 8pt; 
+    color: #FFFFFF; 
+    cursor: hand; 
+    background-color: #CC0000; 
+}
+
+INPUT.yellowButton { 
+    border-left: solid 1px #000000; 
+    border-top: solid 1px #000000; 
+    border-right: solid 1px #000000; 
+    border-bottom: solid 1px #000000; 
+    font-family: 'Arial', 'Helvetica'; 
+    font-weight: bold; 
+    font-size: 8pt; 
+    color: #FFFF00; 
+    cursor: hand; 
+    background-color: #003366;
+}
+
+INPUT.greyButton { 
+    border-left: solid 1px #999999; 
+    border-top: solid 1px #999999; 
+    border-right: solid 1px #999999; 
+    border-bottom: solid 1px #999999; 
+    font-family: 'Arial', 'Helvetica'; 
+    font-weight: bold; 
+    font-size: 8pt; 
+    color: #666666; 
+    cursor: hand; 
+    background-color: #CCCCCC; 
+}
+
+
+
+.red {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #CC0000;
+   text-decoration: none;
+}
+
+.redLink {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #CC0000;
+}
+
+A:link.redLink {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #CC0000;
+}
+
+.redNonBoldLink {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #CC0000;
+}
+
+A:link.redNonBoldLink {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: normal;
+   font-size: 9pt;
+   color: #CC0000;
+}
+
+/* Splash pages */
+.redTitleBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 9pt;
+   color: #CC0000;
+   text-decoration: none;
+}
+
+.redTitleBoldSmall {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 8pt;
+   color: #CC0000;
+   text-decoration: none;
+}
+
+.redLargeBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 12pt;
+   color: #CC0000;
+   text-decoration: none;
+}
+
+.redHugeBold {
+   font-family: 'Arial', 'Helvetica';
+   font-weight: bold;
+   font-size: 30pt;
+   color: #CC0000;
+   text-decoration: none;
+}

@@ -1,0 +1,133 @@
+Thread on Event Mod Development (response to draft spec from Zack Rosen 11/17/04)
+----------------------
+Here are some comments based on implementing and supporting an event tool for the past year at ACT.
+
+The biggest piece I see missing from Zack’s specs are in the admin side of things.  The event coordinator needs access to contact info for their signups, and an easy way to email them.  Ideally, there would be an event admin page which would allow you to send everyone a message, without seeing their email address -- see Dries contact module (http://drupal.org/node/13040).  We also pulled people’s phone numbers from their profiles, and allowed the event coordinator to call their attendees.  There also should be the ability for the coordinator to manually add people’s names/emails/phone numbers, so that a blast email goes to offline signups.  These offline signups should also affect the attendee count.
+
+The event creator should be able to promote attendees to the role of coordinator.  Coordinators would have access to the phone numbers for their signups, and have the ability to email them.
+
+Another critical feature is for people to signup for an event without becoming a member.  There was a strong sentiment at ACT that the requirement to create an account was a barrier which discouraged people from signing up.  People not logged in should be able to enter their contact info (email/name/phone?), to RSVP.  On the “Thanks for signing up page”, a prefilled form could entice the user to become a member.
+
+Another aspect of the RSVP is collecting user data on signup.  If you want to get really fancy, this could be customized on a per event basis.  The fields we used were the number of guests you would be bringing, and a general comments field where we encouraged people to offer transportation.  It would be handy for the event coordinator to be able to add custom fields -- a potluck may have a field which asks an attendee what food they will be bringing.
+
+The system should be flexible enough to accommodate different event types with different requirements.  The biggest use case is fundraising events like House parties, which might have fundraising goals, and have the option to require a contribution of x dollars to signup, or at least make the ask a part of the fundraising process.
+
+The event module should integrate with a forward to a friend module.  People should be able to forward an event listing to friends regardless of whether or not they’ve signed up to attend.  Once they’ve signed up, we found that displaying the actual forward to a friend form was more effective than merely displaying a link to do so.  Similarly, after the event creation, the coordinator should have a page where they invite their friends.  One of the great features of the tool we used is that you could track your invites, seeing open-rates and click-throughs. I’m not sure if there is any sort of address book module, but if so this should integrate with that.
+
+I hope that’s coherent enough to help, if not, Aaron or Zack feel free to bug me on AIM.
+
+---------------------------------------------------------------------
+To unsubscribe, e-mail: civicspace-dev-unsubscribe@civicspacelabs.org
+For additional commands, e-mail: civicspace-dev-help@civicspacelabs.org
+
+
+  ReplyReply to allForwardInvite ccorda to Gmail
+		
+		
+Dan Robinson 	
+to ccorda, civicspace-dev
+	 More options	 10:10am (4 hours ago)
+- Show quoted text -
+
+>
+> Here are some comments based on implementing and supporting an event
+> tool for the past year at ACT.
+> The biggest piece I see missing from Zack’s specs are in the admin
+> side of things.  The event coordinator needs access to contact info
+> for their signups, and an easy way to email them.  Ideally, there
+> would be an event admin page which would allow you to send everyone a
+> message, without seeing their email address -- see Dries contact
+> module (http://drupal.org/node/13040).  We also pulled people’s phone
+> numbers from their profiles, and allowed the event coordinator to call
+> their attendees.  There also should be the ability for the coordinator
+> to manually add people’s names/emails/phone numbers, so that a blast
+> email goes to offline signups.  These offline signups should also
+> affect the attendee count.
+
+And shouldn't all of this be configurable?  In other words I may have a
+policy to allow coordinators to contact their attendees or not.  I may
+want to do this through a "blind" or I might want to give the
+coordinator access directly to this information.  The reverse may be
+true in the case where a host(s) is entering in their own contacts.
+Many people may be unwilling to enter in their friends names if they
+don't feel the info is "private" - e-vite has a pretty good model for
+some of this.
+
+>
+> The event creator should be able to promote attendees to the role of
+> coordinator.  Coordinators would have access to the phone numbers for
+> their signups, and have the ability to email them.
+
+is there a difference between an event creator and an appointed coordinator?
+
+>
+> Another critical feature is for people to signup for an event without
+> becoming a member.  There was a strong sentiment at ACT that the
+> requirement to create an account was a barrier which discouraged
+> people from signing up.  People not logged in should be able to enter
+> their contact info (email/name/phone?), to RSVP.  On the “Thanks for
+> signing up page”, a prefilled form could entice the user to become a
+> member.
+
+or, once you have their email you could simply make them a member - for
+a minimal system all that is left is a password.  One option is to
+simply allow them to check off a box "make me a member" - or not.
+- Show quoted text -
+
+>
+> Another aspect of the RSVP is collecting user data on signup.  If you
+> want to get really fancy, this could be customized on a per event
+> basis.  The fields we used were the number of guests you would be
+> bringing, and a general comments field where we encouraged people to
+> offer transportation.  It would be handy for the event coordinator to
+> be able to add custom fields -- a potluck may have a field which asks
+> an attendee what food they will be bringing.
+>
+> The system should be flexible enough to accommodate different event
+> types with different requirements.  The biggest use case is
+> fundraising events like House parties, which might have fundraising
+> goals, and have the option to require a contribution of x dollars to
+> signup, or at least make the ask a part of the fundraising process.
+>
+> The event module should integrate with a forward to a friend module.
+> People should be able to forward an event listing to friends
+> regardless of whether or not they’ve signed up to attend.  Once
+> they’ve signed up, we found that displaying the actual forward to a
+> friend form was more effective than merely displaying a link to do
+> so.  Similarly, after the event creation, the coordinator should have
+> a page where they invite their friends.  One of the great features of
+> the tool we used is that you could track your invites, seeing
+> open-rates and click-throughs. I’m not sure if there is any sort of
+> address book module, but if so this should integrate with that.
+>
+> I hope that’s coherent enough to help, if not, Aaron or Zack feel free
+> to bug me on AIM.
+
+It seems like the "event module" is really a series of connected
+screens, work flows and data collection screens.  I may want to put them
+together in a seemingly arbitrary manner.  It would be nice to design
+this from the get-go.
+
+In AdvoKit we have the concept of autonomously functioning organizing
+nodes.  The idea was that a person could be given control of an advokit
+team and do with that team what they would - add new people, create
+tasks, intercommunicate etc.  They can even create sub-teams and assign
+organizers there as well.  We didn't take this as far as we wanted to in
+version 1.0, but we think the concept is important.  I think of it as
+"become an organzation of one" - If I'm given permission to organize
+events shouldn't I be given control of the whole lifecycle of the event
+and the participants?  If I have a houseparty and invite 80 people it
+would be great if CivicSpace could provide the tools so I could continue
+to organize these people over time.
+
+Of course there are a lot of nice-to-have features and I'm sure that the
+product will simply evolve over time (duh).  But it would be nice to
+capture some of the intent now and make sure that the decisions made now
+don't create roadblocks in the future.
+
+Also - wouldn't it be better to take conversations like this off the
+listserve and put them directly into the specification on the website?
+
+Regards,
+
+Dan

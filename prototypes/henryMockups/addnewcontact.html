@@ -1,0 +1,278 @@
+<html>
+
+<head>
+<title>Enterprise Mockup - Add New Contact Page</title>
+<link href="css/main.css" rel="stylesheet" type="text/css">
+<link href="css/core.css" rel="stylesheet" type="text/css">
+<link href="css/control-info.css" rel="stylesheet" type="text/css">
+<link href="css/control-files-list.css" rel="stylesheet" type="text/css">
+
+<style type="text/css">
+<!--
+body {font-family: Verdana, Geneva, arial, helvetica, sans serif;
+		font-size: small;
+		background-color:white}
+
+td.small {font-size: small}
+
+.highlighttab {border-left: solid #4d99e5; border-top: solid #4d99e5; border-right: solid #4d993f}
+-->
+</style>
+
+</head>
+
+<body>
+<table cellpadding=2 cellspacing=0 border=0 width="100%">
+<form action="searchresult.html">
+<tr>
+	<td>
+		<a href="http://www.groundspring.org" alt="Groundspring.org"><img src="images/home_logo.jpg" width=350 height=45 border=0></a>
+	</td>
+	<td align=right valign=middle class="medpoint">
+		<strong>Welcome, Dan</strong> | <a href="">Sign Out</a> | <a href="">Support</a> | <a href="">Help</a> | <input type="text" id="search" size="10"> <button type="submit">Search</button>
+	</td>
+</tr>
+</form>
+</table>
+
+<p>
+
+
+<!--Main table-->
+<table border=0 cellspacing=0 cellpadding=0 width="100%">
+<tr>
+<td align=right><small>Friday, April 23, 2004</small></td>
+</tr>
+<tr>
+<td bgcolor="#FFFFFF">
+
+<!--Nav bar-->
+<TABLE WIDTH="100%" CLASS="tabSpacer" CELLPADDING=0 CELLSPACING=0 BORDER=0>
+<TR>
+	<TD NOWRAP HEIGHT=23 ALIGN=CENTER VALIGN=MIDDLE class=tabOff><A HREF="index.html" class=tabOff>&nbsp;Home&nbsp;</A></TD>
+	<TD>
+		<TABLE CELLPADDING="0" CELLSPACING="0" CELLBORDER="0">
+			<TR>
+				<TD><IMG SRC="images/s.gif" WIDTH=1 HEIGHT=7></TD>
+			</TR>
+		</TABLE>
+	</TD>
+	<TD NOWRAP HEIGHT=23 ALIGN=CENTER VALIGN=MIDDLE class=homeTab><A HREF="contacts.html" class=homeTab>&nbsp;Contacts&nbsp;</A></TD>
+	<TD>
+		<TABLE CELLPADDING="0" CELLSPACING="0" CELLBORDER="0">
+			<TR>
+				<TD><IMG SRC="images/s.gif" WIDTH=1 HEIGHT=7></TD>
+			</TR>
+		</TABLE>
+	</TD>
+	<TD NOWRAP HEIGHT=23 ALIGN=CENTER VALIGN=MIDDLE class=tabOff><A HREF="reports.html" class=tabOff>&nbsp;Reports&nbsp;</A></TD>
+	<TD>
+		<TABLE CELLPADDING="0" CELLSPACING="0" CELLBORDER="0">
+			<TR>
+				<TD><IMG SRC="images/s.gif" WIDTH=1 HEIGHT=7></TD>
+			</TR>
+		</TABLE>
+	</TD>
+	<TD NOWRAP HEIGHT=23 ALIGN=CENTER VALIGN=MIDDLE class=tabOff><A HREF="email.html" class=tabOff>&nbsp;Email&nbsp;</A></TD>
+	<TD>
+		<TABLE CELLPADDING="0" CELLSPACING="0" CELLBORDER="0">
+			<TR>
+				<TD><IMG SRC="images/s.gif" WIDTH=1 HEIGHT=7></TD>
+			</TR>
+		</TABLE>
+	</TD>
+	<TD NOWRAP HEIGHT=23 ALIGN=CENTER VALIGN=MIDDLE class=tabOff><A HREF="admin.html" class=tabOff>&nbsp;Admin&nbsp;</A></TD>
+	<TD>
+		<TABLE CELLPADDING="0" CELLSPACING="0" CELLBORDER="0">
+			<TR>
+				<TD><IMG SRC="images/s.gif" WIDTH=1 HEIGHT=7></TD>
+			</TR>
+		</TABLE>
+	</TD>
+	<TD NOWRAP HEIGHT=23 ALIGN=CENTER VALIGN=MIDDLE class=tabOff><A HREF="io.html" class=tabOff>&nbsp;Import/Export&nbsp;</A></TD>
+	<TD>
+		<TABLE CELLPADDING="0" CELLSPACING="0" CELLBORDER="0">
+			<TR>
+				<TD><IMG SRC="images/s.gif" WIDTH=1 HEIGHT=7></TD>
+			</TR>
+		</TABLE>
+	</TD>
+	<TD NOWRAP HEIGHT=23 ALIGN=CENTER VALIGN=MIDDLE class=tabOff width="100%"></TD>	
+</TR>
+<TR>
+	<TD COLSPAN=2 class=tabOff><IMG SRC="images/s.gif" WIDTH=1 HEIGHT=1></TD>
+	<TD COLSPAN=2 class=homeTab><IMG SRC="images/s.gif" WIDTH=1 HEIGHT=1></TD>
+	<TD COLSPAN=9 BGCOLOR=#99CC00><IMG SRC="images/s.gif" WIDTH=1 HEIGHT=1></TD>
+</TR>
+</TABLE><!--/Navbar-->
+
+
+</td>
+</tr>
+
+<tr><!--NavTreeBar-->
+	<td height=25 class="homeTab">
+    	<table cellspacing=3 cellpadding=0 border=0>
+    		<tr>
+    			<td nowrap class="subNavWhite"><a href="index.html">Home</a> > <a href="contactsummary.html">Contacts</a> > Add New Contact</td>
+			</tr>
+		</table>
+</td>
+</tr><!--/NavTreeBar-->
+<tr>
+	<td>&nbsp;</td>
+</tr>
+<tr><!--Content-->
+	<td align=center valign=top>
+		<div class="box2" style="width: 90%;"><!--AddNewContact mod-->
+			<h2 align=left>Add New Contact</h2>
+			<table cellpadding=0 cellspacing=5 border=0 width=500 bgcolor="#f2f2f2" class="medpoint" align=center>
+			<tr>
+			<tr><td colspan=2><h3>Basic Information</h3></td></tr>
+			<tr><td>Account Number</td><td><input type="text" size="10"></td></tr>
+			<tr><td>Account Owner</td><td><input type="text" size="20"></td></tr>
+			<tr><td>Salutation</td><td>
+				<select name=salutation>
+					<option>Select</option>
+					<option>Miss.</option>
+					<option>Mr.</option>
+					<option>Mrs.</option>
+					<option>Ms.</option>
+					<option>Dr.</option>
+					<option>Sir</option></select>
+				</td></tr>
+			<tr><td>First Name</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Middle Name</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Last Name</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Suffix</td><td><input type="text" size="10"></td></tr>
+			<tr><td>Formal Salutation</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Informal Salutation</td><td><input type="text" size="30"></td></tr>
+			<tr><td colspan=2><hr size=1></td></tr>
+			
+			<tr><td colspan=2><h3>Home</h3></td></tr>
+			<tr><td>Address1</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Address2</td><td><input type="text" size="30"></td></tr>
+			<tr><td>City</td><td><input type="text" size="30"></td></tr>
+			<tr><td>State</td><td><input type="text" size="2"></td></tr>
+			<tr><td>Zip+4</td><td><input type="text" size="5">+<input type="text" size="4"></td></tr>
+			<tr><td>Country</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Voice</td><td><input type="text" size="10"></td></tr>
+			<tr><td>Fax</td><td><input type="text" size="10"></td></tr>
+			<tr><td colspan=2 align=center>Add another 
+				<select name=addressType>
+					<option>Voice</option>
+					<option>Mobile</option>
+					<option>Pager</option>
+					<option>Fax</option>
+					<option>Other</option></select>
+				Number [<a href="homeaddress.html">add</a>] {<--use javascript to add on menu select</td></tr>
+			<tr><td>Fax</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Email</td><td><input type="text" size="30"></td></tr>
+			<tr><td>MessengerID</td><td>
+				<select name=addressType>
+					<option>AIM</option>
+					<option>MSN Messenger</option>
+					<option>Yahoo! Messenger</option>
+					<option>Other</option> 
+			<input type="text" size="30"></td></tr>
+			<tr><td>Web site</td><td><input type="text" size="30"></td></tr>
+			<tr><td colspan=2><hr size=1></td></tr>
+			
+			<tr><td colspan=2><h3>Work</h3></td></tr>
+			<tr><td>Company</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Title</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Department</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Address1</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Address2</td><td><input type="text" size="30"></td></tr>
+			<tr><td>City</td><td><input type="text" size="30"></td></tr>
+			<tr><td>State</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Zip+4</td><td><input type="text" size="5">+<input type="text" size="4"></td></tr>
+			<tr><td>Country</td><td><input type="text" size="30"></td></tr>
+			<tr><td>Voice</td><td><input type="text" size="10"></td></tr>
+			<tr><td>Fax</td><td><input type="text" size="10"></td></tr>
+			<tr><td colspan=2 align=center>Add another 
+				<select name=addressType>
+					<option>Voice</option>
+					<option>Mobile</option>
+					<option>Pager</option>
+					<option>Fax</option>
+					<option>Other</option></select>
+				Number [<a href="homeaddress.html">add</a>] {<--use javascript to add on menu select</td></tr>
+			<tr><td>Email</td><td><input type="text" size="30"></td></tr>
+			<tr><td>MessengerID</td><td>
+				<select name=addressType>
+					<option>AIM</option>
+					<option>MSN Messenger</option>
+					<option>Yahoo! Messenger</option>
+					<option>Other</option> 
+			<input type="text" size="30"></td></tr>
+			<tr><td>Web site</td><td><input type="text" size="30"></td></tr>
+			<tr><td colspan=2><hr size=1></td></tr>
+			
+			<tr><td colspan=2><h3>Additional Addresses</h3></td></tr>
+			<tr><td colspan=2 align=center>Add another 
+				<select name=addressType>
+					<option>Select Type</option>
+					<option>Vacation</option>
+					<option>Other</option></select>
+				Address [<a href="homeaddress.html">add</a>] {<--use javascript to add on menu select</td></tr>
+			<tr><td colspan=2><hr size=1></td></tr>
+
+			<tr><td><h4>Select Primary Contact Info</h4></td>
+			<td> 
+				<select name=addressType>
+					<option>Select</option>
+					<option>Home</option>
+					<option>Work</option>
+					<option>Vacation</option>
+					<option>Other</option></select>
+			</td></tr>
+			<tr><td colspan=2><hr size=1></td></tr>
+
+			<tr><td colspan=2><h3>Additional Attributes</h3></td></tr>
+			<tr><td>Birthday (xx/xx/xx)</td><td><input type="text" size="2"> <input type="text" size="2"> <input type="text" size="4"></td></tr>
+			<tr><td>Barmitzvah</td><td><input type="text" size="2"> <input type="text" size="2"> <input type="text" size="4"></td></tr>
+			<tr><td>Anniversay</td><td><input type="text" size="2"> <input type="text" size="2"> <input type="text" size="4"></td></tr>
+			<tr><td>High School</td><td><input type="text" size="30"></td></tr>
+			<tr><td align=right>Graduated</td><td><input type="text" size="4"></td></tr>
+			<tr><td>Undergraduate School</td><td><input type="text" size="30"></td></tr>
+			<tr><td align=right>Degree</td><td><input type="text" size="4"></td></tr>
+			<tr><td align=right>Major</td><td><input type="text" size="20"></td></tr>
+			<tr><td align=right>Graduated</td><td><input type="text" size="4"></td></tr>
+			<tr><td>Graduate School</td><td><input type="text" size="30"></td></tr>
+			<tr><td align=right>Degree</td><td><input type="text" size="4"></td></tr>
+			<tr><td align=right>Graduated</td><td><input type="text" size="4"></td></tr>
+			<tr><td>Member</td><td><input type="checkbox"></td></tr>
+			<tr><td align=right><a href="editLevels.html">Level</a></td><td>
+				<select name=memberLevel>
+				<option>Select</option>
+				<option>Premier</option>
+				<option>Platinum</option>
+				<option>Gold</option>
+				<option>Silver</option>
+				<option>Regular</option>
+				<option>Prospective</option>
+				</select></td></tr>
+			<tr><td>Donor</td><td><input type="checkbox"></td></tr>
+			<tr><td>Board Member</td><td>
+				<select name=boardmember>
+				<option>Select</option>
+				<option>Current</option>
+				<option>Former</option>
+				<option>Prospective</option>
+				</select></td></tr>
+			<tr><td>Activist</td><td><input type="checkbox"></td></tr>
+			<tr><td>Volunteer</td><td><input type="checkbox"></td></tr>
+			<tr><td>Employee</td><td><input type="checkbox"></td></tr>
+			</tr>
+			</table>
+			
+			
+		</div><!--/AddNewContact mod-->
+	</td>
+</tr><!--/Content-->
+</table><!--/Main Table-->
+
+	
+</body>
+</html>
