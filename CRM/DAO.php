@@ -12,20 +12,16 @@ class CRM_DAO extends DB_DataObject {
    */
   const NULL_PROPERTY = 'NULL_PROPERTY';
 	
-  var $_original = null; //cache of what is currently in the db
-  var $_childError = null;
+  public $_original = null; //cache of what is currently in the db
+  public $_childError = null;
 	
-  var $_useUpdateCache = true;
-	
-  static $objectCount = array();
+  public $_useUpdateCache = true;
+
+  public $_links = null;
+
   private $fetched = false; // set to true when fetch is called.
 
   function __construct() {
-    if ( array_key_exists(get_class($this), self::$objectCount ) ) {
-      self::$objectCount[get_class($this)] = self::$objectCount[get_class($this)] + 1;
-    } else {
-      self::$objectCount[get_class($this)] = 1; 
-    }
   }
 	
   /**
@@ -118,7 +114,7 @@ class CRM_DAO extends DB_DataObject {
    *
    * @access protected
    */
-  function setupLinks() {
+  function setLinks() {
 		
     //when this wasn't here, _database wasn't getting set for some classes
     if (!@$this->_database) {
@@ -227,11 +223,11 @@ class CRM_DAO extends DB_DataObject {
   function joinAdd($obj = false, $joinType='INNER', $joinAs=false, $joinCol=false) {
 		
     //patch for the bugs in the way DB_DataObject uses links()
-    $this->setupLinks();
+    $this->setLinks();
         
     // joinAdd() should clear the joinAdd field as in the parent
     if ($obj) {
-      $obj->setupLinks();
+      $obj->setLinks();
     }
 		
     return parent::joinAdd($obj,$joinType,$joinAs,$joinCol);
@@ -239,13 +235,13 @@ class CRM_DAO extends DB_DataObject {
 	
   function getLinks($format = '_%s') {
     //patch for the bugs in the way DB_DataObject uses links()
-    $this->setupLinks();
+    $this->setLinks();
     return parent::getLinks($format);
   }
 	
   function getLink($row, $table = null, $link = false) {
     //patch for the bugs in the way DB_DataObject uses links()
-    $this->setupLinks();
+    $this->setLinks();
     return parent::getLink($row,$table,$link);
   }
 	
