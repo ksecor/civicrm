@@ -70,3 +70,5 @@ contact',
 	PRIMARY KEY (fgid)
 
 ) ENGINE=InnoDB COMMENT='Defines form fields and their attributes';
+
+
