@@ -36,7 +36,7 @@
 Class CRM_Contact_Form_Address
 {
 
-    static function bab(& $loc, $form, $locid, & $start) {
+    static function buildAddressBlock(& $loc, $form, $locid, & $start) {
         $j = $start;
 
         $loc[$locid][$j++] =  $form->createElement('text', 'street_address', 'Street Address:', array('size' => '47px', 'maxlength' => 96));
