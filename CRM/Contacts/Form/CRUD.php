@@ -386,31 +386,32 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         
     }
     
+  
+    
     /**
      * this function is called when the form is submitted.
      */
     function process() 
     { 
-        // print_r($_POST);
         // write your insert statements here
         // create a object for inserting data in contact table 
         $contact = new CRM_Contacts_DAO_Contact();
-    
+        
         $contact->domain_id = 1;
         $contact->contact_type = $_POST['contact_type'];
-        $contact->sort_name = $_POST['sort_name'];
+        $contact->sort_name = $_POST['first_name']." ".$_POST['last_name'];
         $contact->source = $_POST['source'];
         $contact->preferred_communication_method = $_POST['preferred_communication_method'];
         $contact->do_not_phone = $_POST['do_not_phone'];
         $contact->do_not_email = $_POST['do_not_email'];
         $contact->do_not_mail = $_POST['do_not_mail'];
         $contact->hash = $_POST['hash'];
-    
+        
         if (!$contact->insert()) {
             die ("Cannot insert data in contact table.");
             // $contact->raiseError("Cannot insert","","continue");
         }
-    
+        
         // create a object for inserting data in contact individual table 
         $contact_individual = new CRM_Contacts_DAO_Contact_Individual();
         $contact_individual->contact_id = $contact->id;
@@ -420,92 +421,175 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $contact_individual->prefix = $_POST['prefix'];
         $contact_individual->suffix = $_POST['suffix'];
         $contact_individual->job_title = $_POST['job_title'];
-    
+        
         $contact_individual->greeting_type = $_POST['greeting_type'];
         $contact_individual->custom_greeting = $_POST['custom_greeting'];
         $contact_individual->gender = $_POST['gender'];
-    
+        
         if ($_POST['birth_date']['d'] < 10) {
             $day = "0".$_POST['birth_date']['d'];
         } else {
             $day = $_POST['birth_date']['d'];
         }
-    
+        
         if ($_POST['birth_date']['M'] < 10) {
             $mnt = "0".$_POST['birth_date']['M'];
         } else {
             $mnt = $_POST['birth_date']['M'];
         }
-    
+        
         $contact_individual->birth_date = $_POST['birth_date']['Y'].$mnt.$day;
         $contact_individual->is_deceased = $_POST['is_deceased'];
-    
+        
         if(!$contact_individual->insert()) {
             $contact->delete($contact->id);
             die ("Cannot insert data in contact individual table.");
             //$contact->raiseError("Cannot insert data in contact individual table...");
         }
-    
-        // create a object for inserting data in contact location table 
-    
+        
+        // create a object for inserting data in crm_location, crm_email, crm_im, crm_phone table 
         for ($lngi= 1; $lngi <= 3; $lngi++) {
-            $varname = "contact_location" . $lngi;
-            $varname1 = "location" . $lngi;
-      
-            if (strlen(trim($_POST[$varname1]['street'])) > 0  || strlen(trim($_POST[$varname1]['email'])) > 0 || strlen(trim($_POST[$varname1]['phone_1'])) > 0) {
-	
-                // create a object of contact location
-                $$varname = new CRM_Contacts_DAO_Contact_Location();
-	
+            //create a object of location class
+            $varname = "contact_location".$lngi;
+            $varname1 = "location".$lngi;
+            
+            if (strlen(trim($_POST[$varname1]['street'])) > 0  || strlen(trim($_POST[$varname1]['email_1'])) > 0 || strlen(trim($_POST[$varname1]['phone_1'])) > 0) {
+                // create a object of crm location
+                $$varname = new CRM_Contacts_DAO_Location();
                 $$varname->contact_id = $contact->id;
-                $$varname->context_id = $_POST[$varname1]['context_id'];
                 $$varname->is_primary = $_POST[$varname1]['is_primary'];
-                $$varname->street = $_POST[$varname1]['street'];
-                $$varname->supplemental_address = $_POST[$varname1]['supplemental_address'];
-                $$varname->address_note = $_POST[$varname1]['address_note'];
-                $$varname->city = $_POST[$varname1]['city'];
-                $$varname->county = $_POST[$varname1]['county'];
-                $$varname->state_province_id = $_POST[$varname1]['state_province_id'];
-                $$varname->postal_code = $_POST[$varname1]['postal_code'];
-                $$varname->usps_adc = $_POST[$varname1]['usps_adc'];
-                $$varname->country_id = $_POST[$varname1]['country_id'];
-                $$varname->geo_code1 = $_POST[$varname1]['geo_code1'];
-                $$varname->geo_code2 = $_POST[$varname1]['geo_code2'];
-                $$varname->address_note = $_POST[$varname1]['address_note'];
-                $$varname->email = $_POST[$varname1]['email'];
-                $$varname->email_secondary = $_POST[$varname1]['email_secondary'];
-                $$varname->email_tertiary = $_POST[$varname1]['email_tertiary'];    
-                $$varname->phone_1 = $_POST[$varname1]['phone_1'];
-                $$varname->phone_type_1 = $_POST[$varname1]['phone_type_1'];
-                //    $$varname->mobile_provider_id_1 = $_POST[$varname1]['mobile_provider_id_1'];
-                $$varname->mobile_provider_id_1 = 1;    
-	
-                $$varname->phone_2 = $_POST[$varname1]['phone_2'];
-                $$varname->phone_type_2 = $_POST[$varname1]['phone_type_2'];
-                //    $$varname->mobile_provider_id_2 = $_POST[$varname1]['mobile_provider_id_2'];
-                $$varname->mobile_provider_id_2 = 2;
-	
-                $$varname->phone_3 = $_POST[$varname1]['phone_3'];
-                $$varname->phone_type_3 = $_POST[$varname1]['phone_type_3'];
-                // $$varname->mobile_provider_id_3 = $_POST[$varname1]['mobile_provider_id_3'];
-                $$varname->mobile_provider_id_3 = 3;    
-	
-                $$varname->im_screenname_1 = $_POST[$varname1]['im_screenname_1'];
-                $$varname->im_service_id_1 = $_POST[$varname1]['im_service_id_1'];
-                $$varname->im_screenname_2 = $_POST[$varname1]['im_screenname_2'];
-                $$varname->im_service_id_2 = $_POST[$varname1]['im_service_id_2'];
-      
+                //$$varname->location_type_id = $_POST[$varname1]['location_type_id'];
+                $$varname->location_type_id = $_POST[$varname1]['context_id'];;
+            
                 if(!$$varname->insert()) {
-                    //	  echo mysql_error();
+                    echo mysql_error();
                     $contact->delete($contact->id);
                     $contact_individual->delete( $contact_individual->id );
                     die ( "Cannot insert data in contact location table." );
                 }
-            }// end of if
-        }//end of for
-    }// end of function
+                
+                if (strlen(trim($_POST[$varname1]['street'])) > 0) {
+                    //create the object of crm address
+                    $varaddress = "contact_address".$lngi;
+                    $$varaddress = new CRM_Contacts_DAO_Address();
+                    
+                    $$varaddress->location_id = $$varname->id;
+                    $$varaddress->street = $_POST[$varname1]['street'];
+                    $$varaddress->supplemental_address = $_POST[$varname1]['supplemental_address'];
+                    $$varaddress->city = $_POST[$varname1]['city'];
+                    $$varaddress->county = $_POST[$varname1]['county'];
+                    $$varaddress->state_province_id = $_POST[$varname1]['state_province_id'];
+                    $$varaddress->postal_code = $_POST[$varname1]['postal_code'];
+                    $$varaddress->usps_adc = $_POST[$varname1]['usps_adc'];
+                    $$varaddress->country_id = $_POST[$varname1]['country_id'];
+                    $$varaddress->geo_code1 = $_POST[$varname1]['geo_code1'];
+                    $$varaddress->geo_code2 = $_POST[$varname1]['geo_code2'];
+                    $$varaddress->address_note = $_POST[$varname1]['address_note'];
+                    $$varaddress->timezone = $_POST[$varname1]['timezone'];
+                    
+                    if(!$$varaddress->insert()) {
+                        echo mysql_error();
+                        $contact->delete($contact->id);
+                        $contact_individual->delete( $contact_individual->id );
+                        die ( "Cannot insert data in contact address table." );
+                    }
+                }              
+                
+                //create the object of crm email
+                for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
+                    $varemail = "email_".$lng_i;
+                    if (strlen(trim($_POST[$varname1][$varemail])) > 0) {
+                        $var_email = "contact_email".$lng_i;
+                        $$var_email = new CRM_Contacts_DAO_Email();
+                        
+                        if($lng_i == 1) { //make first email entered primary
+                            $$var_email->is_primary = 1;
+                        } else {
+                            $$var_email->is_primary = 0;
+                        }
+                        
+                        $$var_email->location_id = $$varname->id;
+                        $$var_email->email = $_POST[$varname1][$varemail];
+                        
+                        if(!$$var_email->insert()) {
+                            //	  echo mysql_error();
+                            $contact->delete($contact->id);
+                            $contact_individual->delete($contact_individual->id);
+                            $$varaddress->delete($$varaddress->id);
+                            die ( "Cannot insert data in contact email table." );
+                        }    
+                    }  
+                }
+                
+                //create the object of crm phone
+                for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
+                    $varphone = "phone_".$lng_i;
+                    $varphone_type = "phone_type_".$lng_i;
+                    $varmobile_prov_id = "mobile_provider_id_".$lng_i;
+                    if (strlen(trim($_POST[$varname1][$varphone])) > 0) {
+                        $var_phone = "contact_phone".$lng_i;
+                        $$var_phone = new CRM_Contacts_DAO_Phone();
+                        
+                        if($lng_i == 1) { //make first phone entered primary
+                            $$var_phone->is_primary = 1;
+                        } else {
+                            $$var_phone->is_primary = 0;
+                        }
+                        
+                        $$var_phone->location_id = $$varname->id;
+                        $$var_phone->phone = $_POST[$varname1][$varphone];
+                        $$var_phone->phone_type = $_POST[$varname1][$varphone_type];
+                        //$$var_phone->mobile_provider_id = $_POST[$varname1][$varmobile_prov_id];
+                        $$var_phone->mobile_provider_id = 1;
+                        
+                        
+                        if(!$$var_phone->insert()) {
+                            echo mysql_error();
+                            $contact->delete($contact->id);
+                            $contact_individual->delete($contact_individual->id);
+                            // $$varaddress->delete($$varaddress->id);
+                            //$$var_email->delete($$var_email->id);
+                            die ( "Cannot insert data in contact phone table." );
+                        }    
+                    }  
+                }
+                
+            //create the object of crm im
+            
+                for ($lng_i= 1; $lng_i <= 3; $lng_i++) {
+                    $var_service = "im_service_id_".$lng_i;
+                    $var_screenname = "im_screenname_".$lng_i;
+                    if (strlen(trim($_POST[$varname1][$var_screenname])) > 0) {
+                        $var_im = "contact_im" . $lng_i;
+                        $$var_im = new CRM_Contacts_DAO_Im();
+                        
+                        if($lng_i == 1) { //make first im entered primary
+                            $$var_im->is_primary = 1;
+                        } else {
+                            $$var_im->is_primary = 0;
+                        }
+                        
+                        $$var_im->location_id = $$varname->id;
+                        $$var_im->im_service_id =$_POST[$varname1][$var_service];
+                        //$$var_im->im_service_id = 1;
+                        $$var_im->im_screenname =$_POST[$varname1][$var_screenname];
+                        
+                        if(!$$var_im->insert()) {
+                            //	  echo mysql_error();
+                            $contact->delete($contact->id);
+                            $contact_individual->delete($contact_individual->id);
+                            // $$varaddress->delete($$varaddress->id);
+                            //$$var_email->delete($$var_email->id);
+                            die ( "Cannot insert data in contact im table." );
+                        }    
+                    }  
+                }
+                
+            }// end of if block    
+            
+        } //end of for loop
+        
+    }//end of function
     
-  
 }
-
 ?>
