@@ -192,8 +192,22 @@ class CRM_Contact_Form_Contact extends CRM_Form
         // first do the defaults showing
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
                                                         self::LOCATION_BLOCKS );
-            
+
         if ( $this->_mode & self::MODE_UPDATE ) {
+            // is there any demographics data?
+            if ( CRM_Array::value( 'gender'     , $defaults ) ||
+                 CRM_Array::value( 'is_deceased', $defaults ) ||
+                 CRM_Array::value( 'birth_date' , $defaults ) ) {
+                $this->_showHide->addShow( 'demographics' );
+                $this->_showHide->addHide( 'demographics[show]' );
+            }
+
+            // is there any notes data?
+            if ( CRM_Array::value( 'notesCount', $defaults ) ) {
+                $this->_showHide->addShow( 'notes' );
+                $this->_showHide->addHide( 'notes[show]' );
+            }
+
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        CRM_Array::value( 'location', $defaults ),
                                                        self::LOCATION_BLOCKS );
@@ -316,7 +330,8 @@ class CRM_Contact_Form_Contact extends CRM_Form
         // make sure that at least one field is marked is_primary
         if ( array_key_exists( 'location', $fields ) && is_array( $fields['location'] ) ) {
             $locationKeys = array_keys( $fields['location']);
-            $isPrimary = false;
+            $isPrimary  = false;
+            $dataExists = false;
             foreach ( $locationKeys as $locationId ) {
                 if ( array_key_exists( 'is_primary', $fields['location'][$locationId] ) ) {
                     if ( $fields['location'][$locationId]['is_primary'] ) {
@@ -339,13 +354,14 @@ class CRM_Contact_Form_Contact extends CRM_Form
                     }
                 }
                 if ( self::locationDataExists( $fields['location'][$locationId] ) ) {
+                    $dataExists = true;
                     if ( ! CRM_Array::value( 'location_type_id', $fields['location'][$locationId] ) ) {
                         $errors["location[$locationId][location_type_id]"] = 'The Location Type should be set if there is any location information';
                     }
                 }
             }
 
-            if ( ! $isPrimary ) {
+            if ( $dataExists && ! $isPrimary ) {
                 $errors["location[1][is_primary]"] = "One location should be marked as primary.";
             }
         }

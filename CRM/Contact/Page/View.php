@@ -107,37 +107,41 @@ class CRM_Contact_Page_View extends CRM_Page {
     }
 
     function setShowHide( &$defaults ) {
-        $commPrefs = array();
-        $notes     = array();
-   
-        if ( $this->_mode == self::MODE_NOTE){
-            $notes  =    array('notes[show]' => 1 );
-        } else {
-            $commPrefs = array('commPrefs'   => 1);
-            $notes  =    array('notes'       => 1 );
-        }
+        $showHide = new CRM_ShowHideBlocks(array('commPrefs'       => 1,
+                                                 'notes[show]'     => 1 ),
+                                           array('notes'           => 1,
+                                                 'commPrefs[show]' => 1 ) ) ;
+        
 
-        $showHide = new CRM_ShowHideBlocks($commPrefs, $notes);
-
-        if ($this->_mode == self::MODE_NONE) {
-            if ( $defaults['contact_type'] == 'Individual' ) {
+        if ( $defaults['contact_type'] == 'Individual' ) {
+            // is there any demographics data?
+            if ( CRM_Array::value( 'gender'     , $defaults ) ||
+                 CRM_Array::value( 'is_deceased', $defaults ) ||
+                 CRM_Array::value( 'birth_date' , $defaults ) ) {
+                $showHide->addShow( 'demographics' );
+                $showHide->addHide( 'demographics[show]' );
+            } else {
                 $showHide->addShow( 'demographics[show]' );
                 $showHide->addHide( 'demographics' );
             }
+        }
 
+        // is there any notes data?
+        if ( CRM_Array::value( 'notesCount', $defaults ) ) {
+            $showHide->addShow( 'notes' );
+            $showHide->addHide( 'notes[show]' );
+        }
             
-            $showHide->addHide( 'commPrefs[show]' );
-            if ( array_key_exists( 'location', $defaults ) ) {
-                $numLocations = count( $defaults['location'] );
-                if ( $numLocations > 0 ) {
-                    $showHide->addShow( 'location[1]' );
-                    $showHide->addHide( 'location[1][show]' );
-                }
-                for ( $i = 1; $i < $numLocations; $i++ ) {
-                    $locationIndex = $i + 1;
-                    $showHide->addShow( "location[$locationIndex][show]" );
-                    $showHide->addHide( "location[$locationIndex]" );
-                }
+        if ( array_key_exists( 'location', $defaults ) ) {
+            $numLocations = count( $defaults['location'] );
+            if ( $numLocations > 0 ) {
+                $showHide->addShow( 'location[1]' );
+                $showHide->addHide( 'location[1][show]' );
+            }
+            for ( $i = 1; $i < $numLocations; $i++ ) {
+                $locationIndex = $i + 1;
+                $showHide->addShow( "location[$locationIndex][show]" );
+                $showHide->addHide( "location[$locationIndex]" );
             }
         }
 
