@@ -10,7 +10,7 @@ require_once 'CRM/Contact/DAO/Address.php';
 
 require_once 'CRM/Contact/DAO/Phone.php';
 
-require_once 'CRM/Contact/DAO/Im.php';
+require_once 'CRM/Contact/DAO/IM.php';
 
 require_once 'CRM/Contact/DAO/Email.php';
 
