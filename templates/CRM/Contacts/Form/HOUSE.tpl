@@ -350,20 +350,20 @@
 	 <tr>
 		<td></td>
 		 <td class="form-item">
-		 <label>{$form.$lid.street.label}</label>
+		 <label>{$form.$lid.street_address.label}</label>
 		</td>
 		 <td class="form-item">
-		 {$form.$lid.street.html}<!--br/-->
+		 {$form.$lid.street_address.html}<!--br/-->
 		 <div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
 		 </td>
 	 </tr>
 	 <tr>
 		<td></td>
 		 <td class="form-item">
-		 <label>{$form.$lid.supplemental_address.label}</label>
+		 <label>{$form.$lid.supplemental_address_1.label}</label>
 		</td>
 		 <td class="form-item">
-		 {$form.$lid.supplemental_address.html}<!--br/-->
+		 {$form.$lid.supplemental_address_1.html}<!--br/-->
 
 		 <div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
 		 </td>
