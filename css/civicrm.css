@@ -126,13 +126,10 @@ div.spacer {
   background-color: #B0B0B0;
   color: #FFFFFF;
   position: relative;
-  height: 15px;
+  height: 25px;
   margin-left: -1px;
-  margin-bottom: -11px;
   padding-top: 5px;
 }
-
-
 
 #crm-pager a {
   color: #FFFFFF;
@@ -143,9 +140,8 @@ div.spacer {
 } 
 
 .crm-pager-nav {
-  /*position: absolute;*/
   height: 25px;
-  padding-left: 150px;
+  padding: 100px;
 }
 
 #crm-container div.form-item .element-right {
