@@ -1,19 +1,32 @@
-{* smarty *}
+{* This file provides the HTML for the big add contact form *}
+{* It provides the templating for Name, Demographics and Contact notes *}
+{* The templating for Location and Communication preferences block has been plugged by including the Location.tpl file *}    
+
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
+
 
  {literal}
+ {* Including the javascript source code from the Individual.js file *}
   <script type="text/javascript" src="/js/Individual.js"></script>
  {/literal}
 
+{* Including the custom javascript validations added by the HTML_QuickForm for all client validations in addRules *} 
  {$form.javascript}
 
+{* $form.attributes serves as a place holder for all form attributes to be defined in the form tag *}
  <form {$form.attributes}>
 
-	 {$form.mdyx.html}
+ {$form.mdyx.html}
 
  <table border="0" width="100%" cellpadding="2" cellspacing="2">
  <tr><td>
+	{* $form.hidden serves as a place holder for all the hidden elements defined in the quick form*}
+
 	 {if $form.hidden}
 	 {$form.hidden}{/if}
+
+	{* This block checks if there are errors in the form and generates the HTML for display*}
+	{* $form.errors is set normally when the form is relayed from the server after processing *}
 
 	 {if count($form.errors) gt 0}
 	 <table width="100%" cellpadding="1" cellspacing="0" border="0" bgcolor="#ff9900"><tr><td>
@@ -27,8 +40,8 @@
 
 
  <div id="core">
-<tr><td>
- <!--label><i><h1>Name and Greeting</h1></i></label-->
+ <tr><td>
+
  <fieldset><legend>Name and Greeting</legend>
  <table border = "0" cellpadding="2" cellspacing="2" width="100%">
 	 <tr>
@@ -53,17 +66,18 @@
  </td></tr>
  
  <tr><td>
+{* Plugging the Communication preferences block *} 
  {include file="CRM/Contact/Form/Contact.tpl"}  
  </td></tr>
  
- {* STARTING UNIT gx3 LOCATION ENGINE *}
-
+{* Plugging the Location block *}
+{* @var locloop Total number of Location loops *}
+{* @var phoneloop Total number of phone loops *}
+{* @var phoneloop Total number of email loops *}
+{* @var phoneloop Total number of instant messenger loops *}
  {include file="CRM/Contact/Form/Location.tpl" locloop = 4 phoneloop = 4 emailloop = 4 imloop = 4} 
 
- {* ENDING UNIT gx3 LOCATION ENGINE *} 
-
- {******************************** ENDIND THE DIV SECTION **************************************}
- {******************************** ENDIND THE DIV SECTION **************************************}
+ {******************************** ENDIND THE CORE DIV SECTION **************************************}
 
  </div> <!--end 'core' section of contact form -->
 
@@ -92,7 +106,6 @@
 		 <td class="form-item">{$form.gender.female.html}
 		 {$form.gender.male.html}
 		 {$form.gender.transgender.html}</td>
-	 {*{html_radios options=$form.gender.values selected=$form.gender.selected separator="<br />"*}
 	 </tr>
 	 <tr>
 		 <td class="form-item"><label>{$form.birth_date.label}</label></td>
@@ -118,9 +131,7 @@
   
 
  {******************************** ENDIND THE DEMOGRAPHICS SECTION **************************************}
- {******************************** ENDIND THE DEMOGRAPHICS SECTION **************************************}
 
- 
 <tr><td> 
 <div id = "expand_notes">
 <table border="0" cellpadding="2" cellspacing="2">
@@ -166,12 +177,10 @@
  </table>
  </div>
 
+{* A critical javascript placeholder which provides the form object and name dynamically, The script is formed in the php file *}
  {$form.my_script.label}
+ </form>
 
-</form>
-
-
- 
  {literal}
  <script type="text/javascript">
  on_load_execute(frm.name);
@@ -183,3 +192,4 @@
  on_error_execute(frm.name);
  </script>
  {/literal}
+

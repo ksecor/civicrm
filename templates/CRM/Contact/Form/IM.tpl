@@ -1,3 +1,9 @@
+{* This file provides the plugin for the im block in the Location block *}
+ 
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
+{* @var $lid Contains the current location id in evaluation, and assigned in the Location.tpl file *}
+{* @var $width Contains the width setting for the first column in the table *} 
+
 <fieldset>
 <table border="0" cellpadding="2" cellspacing="2" width="100%"> 
 	<!----------- LOADING IM BLOCK ----------->	
@@ -14,6 +20,16 @@
 		 
 	 </tr>
 
+	{* The imt section provides the HTML for the im block *}
+	{* The section loops as many times as indicated by the variable $imloop to give as many im blocks *}
+
+	{* @var $imloop Gives the number of im loops to be displayed, assigned in the Location.tpl file*}
+	{* @var $smarty.section.imt.index Gives the current index on the section loop *}
+	{* @var $imindex Gives the current index on the section loop *}
+	{* @var $im_screenname Contains the name of the im text box *}
+	{* @var $im_service_id Contains the name of the im select box *}
+	{* @var $exim Contains the name of the im expansion link *}
+	{* @var $hideim Contains the name of the im hide link *}
 
 	{section name = imt start = 2 loop = $imloop}
 

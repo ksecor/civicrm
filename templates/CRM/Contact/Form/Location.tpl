@@ -1,20 +1,31 @@
+{* This file provides the templating for the Location block *}
+{* The phone, Email, Instant messenger and the Address blocks have been plugged in from external source files*}
 
-{* STARTING UNIT gx3 LOCATION ENGINE *}
-{* STARTING UNIT gx3 LOCATION ENGINE *}
+{* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
+{* @var $pid Contains the index of the location block under the locationt loop *}
 
-{assign var = "pid" value = ""}
+ {assign var = "pid" value = ""}
 
 
-{* ################# STARTING SECTION LOCATIONT ############### *}
-{* ################# STARTING SECTION LOCATIONT ############### *}
+{* The locationt section displays the location block *}
+{* The section loops as many times as indicated by the variable $locloop to give as many phone blocks *}
+
+{* @var $locloop Gives the number of location loops to be displayed, assigned in the Location.tpl file*}
+{* $index contains the current index of the locationt section *}
+{* $smarty.section.locationt.index contains the current index of the locationt section *}
+{* The section loops to display as many location blocks as contained in the $locloop variable *}
+{* @var $lid Contains the current location id in evaluation *}
+{* @var $width Contains the width setting for the first column in the table *} 
+{* @var $exloc Contains the name of the location expansion link *}
+{* @var $hideloc Contains the name of the location hide link *}
+
+ {section name = locationt start = 1 loop = $locloop}
+ {assign var = "index" value = "`$smarty.section.locationt.index`"}
  
-{section name = locationt start = 1 loop = $locloop}
-{assign var = "index" value = "`$smarty.section.locationt.index`"}
- 
-{if $locloop - 1  > 1} 
-{assign var = "pid" value = "`$smarty.section.locationt.index`"}
-{*$pid|truncate:$pid|count_characters:"`$smarty.section.locationt.index`"*}
-{/if}
+ {if $locloop - 1  > 1} 
+ {assign var = "pid" value = "`$smarty.section.locationt.index`"}
+
+ {/if}
 
  {assign var = "lid" value = "location`$pid`"}
 
@@ -68,7 +79,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td colspan = 2>
-			{* Plugging the Email block *}
+			{* Plugging the email block *}
 			{include file="CRM/Contact/Form/Email.tpl"}
 			</td>
 		</tr>
@@ -76,7 +87,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td colspan = 2>		
-			{* Plugging the Im block *}
+			{* Plugging the instant messenger block *}
 			{include file="CRM/Contact/Form/IM.tpl"}
 			</td>
 		</tr>
@@ -84,7 +95,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td colspan = 2>
-			{* Plugging the Address block *}
+			{* Plugging the address block *}
 			{include file="CRM/Contact/Form/Address.tpl"} 
 		 	</td>
 		</tr>
