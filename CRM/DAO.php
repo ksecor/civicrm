@@ -199,8 +199,8 @@ class CRM_DAO extends DB_DataObject {
    * @access public
    */
   function setProperty($name, $value) {
-    if ( $value == GS_DataObject::NULL_PROPERTY )
-      return true;//no error; ignore
+    if ( $value == CRM_DAO::NULL_PROPERTY )
+      return true; // no error; ignore
 	 		
     $nameLen = strlen($name);
 	 	
