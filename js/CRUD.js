@@ -1,9 +1,12 @@
 
 	/** 
+	*  Function USAGE:
 	*  This function executes when there is an error within a form element and the page is relayed from the server
-	*  with errors. The mechanism by which this function is fired is present within the template file where the 
-	*  condition for count of form errors is checked and if found greater than 0, the following function is called.
+	*  with errors.
 	*
+	*  MECHANISM:
+	*  The mechanism by which this function is fired is present within the template file where the condition for count 
+	*  of form errors is checked and if found greater than 0, the following function is called.
 	*  This function is loaded at the top of the template file and is called at the bottom according to the condition.
 	*  This function checks for data within different elements, within different blocks which are normally hidden on 
 	*  the first display. Thus it checks the values of these elements and determines if the block has to be displayed     	
@@ -13,80 +16,99 @@
 	function on_error_execute( ) 
 	{  
 
-	   var j = 1;	
-           var analyit = Array ("location2",
+	   var i,j,k;	
+           var location_name = new Array ("location2",
 		             	"location3"
 		         );
-	   var email_name_tail = Array ("_secondary",
+	   var email_name_tail = new Array ("_secondary",
 					"_tertiary"
 				       );
 
-	   for (k=0; k<2; k++) {
+	   /* Loop USAGE:
+	      This loop examines the values those elements within the location 1 block which are not displayed by default on 
+	      every form display. This is done to identify whether these blocks should be displayed which depends on presence 
+	      of values. A typical example is the ~phone_2~ block which is hidden for location1 on fresh display. 
 
-		//if (document.getElementsByName('location1[phone_'+String(k+2)+']').value != '') 
-		  if (document.CRUD.elements['location1[phone_'+String(k+2)+']'].value != '') {
-    	    	      document.getElementById('phone0_'+String(k+2)+'_'+String(j)).style.display = 'block'; 
-		      document.getElementById('expand_phone0_'+String(k+2)+'_'+String(j)).style.display = 'none';
- 		      if (k<1) {
-			document.getElementById('expand_phone0_'+String(k+3)+'_'+String(j)).style.display = 'block';
+	      MECHANISM:
+	      The document.forms['CRUD'] returns the CRUD form from within the forms collection of document. This reference 
+	      is used further to access its elements collection with element names and further values to access their values.
+	      If their values are set, the corresponding block within the template file containing its HTML code is programmed
+	      to be displayed. This is done by accessing the block based on its id value using getElementId.
+	   */
+  
+	   for (i=0; i<2; i++) {
+
+		  if (document.forms['CRUD'].elements['location1[phone_'+String(i+2)+']'].value != '') {
+    	    	      document.getElementById('phone0_'+String(i+2)+'_1').style.display = 'block'; 
+		      document.getElementById('expand_phone0_'+String(i+2)+'_1').style.display = 'none';
+ 		      if (i<1) {
+			document.getElementById('expand_phone0_'+String(i+3)+'_1').style.display = 'block';
 		    }
 		}
 
-		//if (document.getElementByName('location1[im_screenname_'+String(k+2)+']').value != '') 
-		  if (document.CRUD.elements['location1[im_screenname_'+String(k+2)+']'].value != '') {
-		    document.getElementById('IM0_'+String(k+2)+'_'+String(j)).style.display = 'block';
-	            document.getElementById('expand_IM0_'+String(k+2)+'_'+String(j)).style.display = 'none';
-		    if (k<1) {
-			document.getElementById('expand_IM0_'+String(k+3)+'_'+String(j)).style.display = 'block';
+		  if (document.forms['CRUD'].elements['location1[im_screenname_'+String(i+2)+']'].value != '') {
+		    document.getElementById('IM0_'+String(i+2)+'_1').style.display = 'block';
+	            document.getElementById('expand_IM0_'+String(i+2)+'_1').style.display = 'none';
+		    if (i<1) {
+			document.getElementById('expand_IM0_'+String(i+3)+'_1').style.display = 'block';
 		    }
 		}		        
              
-		//if (document.getElementByName('location1[email'+email_name_tail[k]+']').value != '') 
-		  if (document.CRUD.elements['location1[email'+email_name_tail[k]+']'].value != '') {
-		   document.getElementById('email0_'+String(k+2)+'_'+String(j)).style.display = 'block'; 
-		   document.getElementById('expand_email0_'+String(k+2)+'_'+String(j)).style.display = 'none';
+		  if (document.forms['CRUD'].elements['location1[email'+email_name_tail[i]+']'].value != '') {
+		   document.getElementById('email0_'+String(i+2)+'_1').style.display = 'block'; 
+		   document.getElementById('expand_email0_'+String(i+2)+'_1').style.display = 'none';
 		    if (k<1) {
-		      document.getElementById('expand_email0_'+String(k+3)+'_'+String(j)).style.display = 'block';
+		      document.getElementById('expand_email0_'+String(i+3)+'_1').style.display = 'block';
 		    }
 		}
 
 	  }
 	
-	   for (j = 0; j < analyit.length; j++) {
-		   for (i = 0; i < document.CRUD.length; i++) {
-			if (document.CRUD.elements[i].name.indexOf(analyit[j]) != -1) {
-			    if (document.CRUD.elements[i].type.indexOf("text")!= -1) {
-				if (document.CRUD.elements[i].value != '') { 
-			            document.getElementById(analyit[j]).style.display = 'block';
-				    if (j<1) {
-					document.getElementById('expand_loc'+String(j+3)).style.display = 'block';
+	   /* Loop USAGE:
+	      This loop behaves in the same way as the above loop, except that in this loop we iterate over the other two
+	      dynamically displayed location blocks using the location_name array. The elements within these blocks are 
+	      examined for their values to determine if these blocks and the sub-blocks containing these elements should be
+	      displayed.
+
+	      MECHANISM:
+	      the indexOf function used here checks for a location2[ or 3[ prefix to the elements name to identify if they 
+	      belong to these locations. Further their values are examined using the elements[].value collection attribute.
+	      If found to be set, their blocks are set up for display. The main location block is set for display given any 
+	      element within its domain is found with value using the getElementById[].style.display function. 
+	   */ 
+  
+	   for (i = 0; i < location_name.length; i++) {
+		   for (j = 0; j < document.forms['CRUD'].length; j++) {
+			if (document.forms['CRUD'].elements[j].name.indexOf(location_name[i]) != -1) {
+			    if (document.forms['CRUD'].elements[j].type.indexOf("text")!= -1) {
+				if (document.forms['CRUD'].elements[j].value != '') { 
+			            document.getElementById(location_name[i]).style.display = 'block';
+				    if (i<1) {
+					document.getElementById('expand_loc'+String(i+3)).style.display = 'block';
 				    }
 				    for (k=0; k<2; k++) {
 
-					//if (document.getElementByName(analyit[j]+'[phone_'+String(k+2)+']').value != '') {
-		  			  if (document.CRUD.elements[analyit[j]+'[phone_'+String(k+2)+']'].value != '') {
-					    document.getElementById('phone0_'+String(k+2)+'_'+String(j+2)).style.display = 'block';
-		    		            document.getElementById('expand_phone0_'+String(k+2)+'_'+String(j+2)).style.display = 'none';
+		  			  if (document.forms['CRUD'].elements[location_name[i]+'[phone_'+String(k+2)+']'].value != '') {
+					    document.getElementById('phone0_'+String(k+2)+'_'+String(i+2)).style.display = 'block';
+		    		            document.getElementById('expand_phone0_'+String(k+2)+'_'+String(i+2)).style.display = 'none';
  		    			    if (k<1) {
-					      document.getElementById('expand_phone0_'+String(k+3)+'_'+String(j+2)).style.display = 'block';
+					      document.getElementById('expand_phone0_'+String(k+3)+'_'+String(i+2)).style.display = 'block';
 		    		            }
 				        }
 				
-					//if (document.getElementByName(analyit[j]+'[im_screenname_'+String(k+2)+']').value != '') {
-		  			  if (document.CRUD.elements[analyit[j]+'[im_screenname_'+String(k+2)+']'].value != '') {
-					    document.getElementById('IM0_'+String(k+2)+'_'+String(j+2)).style.display = 'block';
-					    document.getElementById('expand_IM0_'+String(k+2)+'_'+String(j+2)).style.display = 'none';
+		  			  if (document.forms['CRUD'].elements[location_name[i]+'[im_screenname_'+String(k+2)+']'].value != '') {
+					    document.getElementById('IM0_'+String(k+2)+'_'+String(i+2)).style.display = 'block';
+					    document.getElementById('expand_IM0_'+String(k+2)+'_'+String(i+2)).style.display = 'none';
 					    if (k<1) {
-					      document.getElementById('expand_IM0_'+String(k+3)+'_'+String(j+2)).style.display = 'block';
+					      document.getElementById('expand_IM0_'+String(k+3)+'_'+String(i+2)).style.display = 'block';
 				            }
 					}		        
 
-					//if (document.getElementByName(analyit[j]+'[email'+email_mame_tail[k]+']').value != '') {
-		  			  if (document.CRUD.elements[analyit[j]+'[email'+email_name_tail[k]+']'].value != '') {
-		   			    document.getElementById('email0_'+String(k+2)+'_'+String(j+2)).style.display = 'block';
-		                            document.getElementById('expand_email0_'+String(k+2)+'_'+String(j+2)).style.display = 'none';
+		  			  if (document.forms['CRUD'].elements[location_name[i]+'[email'+email_name_tail[k]+']'].value != '') {
+		   			    document.getElementById('email0_'+String(k+2)+'_'+String(i+2)).style.display = 'block';
+		                            document.getElementById('expand_email0_'+String(k+2)+'_'+String(i+2)).style.display = 'none';
 		    			    if (k<1) {
-					      document.getElementById('expand_email0_'+String(k+3)+'_'+String(j+2)).style.display = 'block';						}
+					      document.getElementById('expand_email0_'+String(k+3)+'_'+String(i+2)).style.display = 'block';						}
 					}
 
 
@@ -101,12 +123,10 @@
 	    }
 
 
-		//if (document.getElementByName("address_note").value != '') {
 		  if (document.CRUD.elements["address_note"].value != '') {
 			document.getElementById("notes").style.display = 'block';
 		}
 
-	//	if (document.getElementByName('mdyx').value == "true") {
 		  if (document.CRUD.elements["mdyx"].value == 'true') {
 			document.getElementById("demographics").style.display = 'block';
 		}
@@ -116,53 +136,48 @@
 
 
 
-	/** 
-	* This function is called by default at the bottom of the template file when the page has finished loading the elements
-	* It hides certain blocks which are not to be displayed by default on a fresh load.   
-	*/
+	/* Function USAGE:
+	*  It hides certain blocks which are not to be displayed by default on a fresh load. 
+	*
+	*  MECHANISM:
+	*  This function is called by default at the bottom of the template file when the page has finished loading the elements. 
+       	*/
 
 	function on_load_execute( )
 	{
-			var sections = 
-			new Array( 'phone0_2_1', 	'phone0_3_1',
-				   'email0_2_1', 	'email0_3_1',
-				   'IM0_2_1','IM0_3_1', 'expand_phone0_3_1',
-				   'expand_email0_3_1', 'expand_IM0_3_1',
-				   'phone0_2_2', 	'phone0_3_2',
-				   'email0_2_2', 	'email0_3_2',
-				   'IM0_2_2','IM0_3_2', 'expand_phone0_3_2',
-				   'expand_email0_3_2', 'expand_IM0_3_2',
-				   'phone0_2_3', 	'phone0_3_3',
-				   'email0_2_3',	'email0_3_3',
-				   'IM0_2_3','IM0_3_3',	'expand_phone0_3_3',
-				   'expand_email0_3_3',	'expand_IM0_3_3',
-				   'notes','location2',	'demographics',
-				   'location3',		'expand_loc3' 
-				 );
+	    /* This array defines the various blocks present within the form template */
+	       var hide_blocks = 
+		    new Array( 'phone0_2_1', 	     'phone0_3_1',
+			       'email0_2_1', 	     'email0_3_1',
+			       'IM0_2_1','IM0_3_1',  'expand_phone0_3_1',
+			       'expand_email0_3_1',  'expand_IM0_3_1',
+			       'phone0_2_2', 	     'phone0_3_2',
+			       'email0_2_2', 	     'email0_3_2',
+			       'IM0_2_2','IM0_3_2',  'expand_phone0_3_2',
+			       'expand_email0_3_2',  'expand_IM0_3_2',
+			       'phone0_2_3', 	     'phone0_3_3',
+			       'email0_2_3',	     'email0_3_3',
+			       'IM0_2_3','IM0_3_3',  'expand_phone0_3_3',
+			       'expand_email0_3_3',  'expand_IM0_3_3',
+			       'notes','location2',  'demographics',
+			       'location3',	     'expand_loc3' 
+			      );
 
 
 			
 
+		/* This array stroes the blocks to be displayed */	
+		var show_blocks = new Array( "core" );
 
-		var showit = new Array( "core" );
-
-	        for ( var i = 0; i < showit.length; i++ ) {
-			document.getElementById(showit[i]).style.display = 'block';
+		/* This loop is used to display the blocks whose IDs are present within the show_blocks array */ 
+	        for ( var i = 0; i < show_blocks.length; i++ ) {
+			document.getElementById(show_blocks[i]).style.display = 'block';
 		}
 
-		for ( var i = 0; i < sections.length; i++ ) { 
-			document.getElementById(sections[i]).style.display = 'none';
+		/* This loop is used to hide the blocks whose IDs are present within the hide_blocks array */ 
+		for ( var i = 0; i < hide_blocks.length; i++ ) { 
+			document.getElementById(hide_blocks[i]).style.display = 'none';
 		}
-
-
-		/*for (i=0;i<document.CRUD.radios.lemgth;i++) {
-		     //if (document.CRUD.radios[i].value == 'female') {
-			document.write("llk");
-		     //}
-		}*/
-
-		 //document.getElementsByName['gender'].checked = 'checked';
-
 
 	}
 
