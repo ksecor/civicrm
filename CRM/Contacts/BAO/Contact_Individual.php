@@ -10,12 +10,14 @@ class CRM_Contacts_BAO_Contact_Individual extends CRM_Contacts_DAO_Contact_Indiv
   function __construct() {
     parent::__construct();
 
-    $this->_contactDAO = new CRM_Contacts_DAO_Contact();
+     $this->_contactDAO = new CRM_Contacts_DAO_Contact();
   }
 
   function setContactValues() {
+    //    log_message("============= add contact 9  =============");    
+    //echo "============= add contact 9  =============<br>";
     $dbFields  = $this->_contactDAO->dbFields();
-
+    //    print_r($dbFields);
     foreach ( $dbFields as $fieldName => $dontCare ) {
       $this->_contactDAO->$fieldName = isset($this->$fieldName) ? $this->$fieldName : null;
     }
@@ -58,16 +60,20 @@ class CRM_Contacts_BAO_Contact_Individual extends CRM_Contacts_DAO_Contact_Indiv
   }
 
   function find($get = false) {
+    //log_message("============= add contact 8  =============");    
+    //echo "============= add contact 8  =============<br>";
+    
     $this->setContactValues();
     $this->joinAdd( $this->_contactDAO );
     $this->selectAdd();
     $this->selectAs( $this, '%s' );
     $this->selectAs( $this->_contactDAO, $this->_contactDAO->getTableName() . '_%s' );
     parent::find($get);
-
+    
     if ( $get ) {
       $this->fillContactValues();
     }
+    
   }
 
   function fetch() {
