@@ -21,7 +21,6 @@ class CRM_Contacts_DAO_Contact_Action extends CRM_Contacts_DAO_ContactBase {
       $fields = array_merge(
 			    parent::dbFields(),
 			    array(
-				  'contact_id'           => array(self::TYPE_INT, self::NOT_NULL),
 				  'action_category'      => array(self::TYPE_ENUM),
 				  'callback'             => array(self::TYPE_STRING),
 				  'action_id'            => array(self::TYPE_INT, self::NOT_NULL),
