@@ -66,13 +66,6 @@ class CRM_Contact_Form_Household extends CRM_Form
         if ($mode == self::MODE_ADD) {
             $name = "Add";
             // $name = "Individual";
-        } elseif ($mode == self::MODE_ADD_MINI) {
-            $name = "Individual";
-            // $name = "MiniAdd";
-        } elseif ($mode == self::MODE_SEARCH_MINI) {
-            $name = "MiniSearch";
-        } elseif ($mode == self::MODE_SEARCH) {
-            $name = "Search";
         }
 
         parent::__construct($name, $state, $mode);
@@ -105,19 +98,6 @@ class CRM_Contact_Form_Household extends CRM_Form
             break;
         case self::MODE_DELETE:
             break;            
-        case self::MODE_SEARCH:
-            $this->addElement('text', 'mode', self::MODE_SEARCH);
-            $this->_buildSearchForm();
-            break;            
-        case self::MODE_ADD_MINI:
-            $this->addElement('text', 'mode', self::MODE_ADD_MINI);
-            $this->_buildMiniAddForm();
-            break;            
-        case self::MODE_SEARCH_MINI:
-            $this->addElement('text', 'mode', self::MODE_SEARCH_MINI);
-            $this->_buildMiniSearchForm();
-            break;            
-            
         } // end of switch
     }
 
@@ -139,25 +119,17 @@ class CRM_Contact_Form_Household extends CRM_Form
 
         switch ($this->_mode) {
         case self::MODE_ADD:
-        $defaults = array();
-        $defaults['household_name'] = 'CRM Family';
-        $this->setDefaults($defaults);
-        break;
+            $defaults = array();
+            $defaults['household_name'] = 'CRM Family';
+            $this->setDefaults($defaults);
+            break;
         case self::MODE_VIEW:
             break;
         case self::MODE_UPDATE:
             break;
         case self::MODE_DELETE:
             break;            
-        case self::MODE_SEARCH:
-            break;            
-        case self::MODE_ADD_MINI:
-            break;            
-        case self::MODE_SEARCH_MINI:
-            
-            $defaults['sname'] = ' - full or partial name - ';
-            $this->setDefaults($defaults);
-            break;            
+
         }
     }
 
@@ -227,42 +199,34 @@ class CRM_Contact_Form_Household extends CRM_Form
         
         switch ($this->_mode) {
         case self::MODE_ADD:
-        $this->applyFilter('household_name', 'trim');
-        $this->addRule('household_name', t(' Household name is a required feild.'), 'required', null, 'client');
-        $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'numeric', null, 'client');
-        $this->registerRule('check_contactid', 'callback', 'valid_contact','CRM_Contact_Form_Household');
-        $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'check_contactid');
-        $this->addRule('annual_income', t(' Enter valid annual income.'), 'numeric', null, 'client');
-        $this->registerRule('check_income', 'callback', 'valid_income','CRM_Contact_Form_Household');
-        $this->addRule('annual_income', t(' Enter valid annual income.'), 'check_income');
-        
-        $this->addGroupRule('location', array('email_1' => array( 
-                                                               array(t( 'Please enter valid email for location'), 'email', null, 'client')),
-                                              'email_2' => array( 
-                                                               array(t( ' Please enter valid secondary email for location'), 'email', null, 'client')),
-                                              'email_3' => array( 
-                                                               array(t( ' Please enter valid tertiary email for location' ), 'email', null, 'client'))
-                                              )
-                            );
-
-        break;
+            $this->applyFilter('household_name', 'trim');
+            $this->addRule('household_name', t(' Household name is a required feild.'), 'required', null, 'client');
+            $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'numeric', null, 'client');
+            $this->registerRule('check_contactid', 'callback', 'valid_contact','CRM_Contact_Form_Household');
+            $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'check_contactid');
+            $this->addRule('annual_income', t(' Enter valid annual income.'), 'numeric', null, 'client');
+            $this->registerRule('check_income', 'callback', 'valid_income','CRM_Contact_Form_Household');
+            $this->addRule('annual_income', t(' Enter valid annual income.'), 'check_income');
+            
+            $this->addGroupRule('location', array('email_1' => array( 
+                                                                     array(t( 'Please enter valid email for location'), 'email', null, 'client')),
+                                                  'email_2' => array( 
+                                                                     array(t( ' Please enter valid secondary email for location'), 'email', null, 'client')),
+                                                  'email_3' => array( 
+                                                                     array(t( ' Please enter valid tertiary email for location' ), 'email', null, 'client'))
+                                                  )
+                                );
+            
+            break;
         case self::MODE_VIEW:
             break;
         case self::MODE_UPDATE:
             break;
         case self::MODE_DELETE:
             break;            
-        case self::MODE_SEARCH:
-            break;            
-        case self::MODE_ADD_MINI:
-            $this->addRule('household_name', t(' First name is a required field.'), 'required', null, 'client');
-            $this->addRule('email', t(' Email Address is required field.'), 'required', null, 'client');
-            $this->addRule('email', t(' Enter valid email address.'), 'email', null, 'client');
-            break;            
-        case self::MODE_SEARCH_MINI:
-
-        }    
+            
         
+        }
     }
 
        
@@ -331,37 +295,6 @@ class CRM_Contact_Form_Household extends CRM_Form
             }
         }
     }//ENDING BUILD FORM 
-
-
-
-    /**
-     * This function provides the HTML form elements for the add operation of a mini household contact form.
-     * 
-     * This function is called by the buildQuickForm method, when the value of the $mode class variable is set to MODE_ADD_MINI
-     * The addElement and addGroup method of HTML_QuickForm is used to add HTML elements to the form which is referenced using the $this 
-     * form handle. Also the default values for the form elements are set in this function.
-     * 
-     * @access private
-     * @return None
-     * @see buildQuickForm() 
-     * @see _buildMiniSearchForm()
-     * 
-     */  
-    private function _buildMiniAddForm() 
-    {
-        $this->setFormAction("crm/contact/qadd");
-        $this->addElement('text', 'household_name', 'Household Name: ');
-        $this->addElement('text', 'email', 'Email: ');
-        $this->addElement('text', 'phone', 'Phone: ');
-
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next',
-                                                'name'      => 'Save',
-                                                'isDefault' =>  true )
-                                        )
-                                  );
-    }
-
 
 
     /**
