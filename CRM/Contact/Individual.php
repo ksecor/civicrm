@@ -88,6 +88,8 @@ class CRM_Contact_Individual extends CRM_Base
      */
     function run($mode, $id = 0)
     {
+        // CRM_Error::le_method();
+
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
 

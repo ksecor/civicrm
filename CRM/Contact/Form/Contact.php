@@ -41,8 +41,7 @@ require_once 'CRM/Form.php';
 class CRM_Contact_Form_Contact extends CRM_Form
 {
 
-    //public static function buildCommunicationBlock($form)
-    static function bcb($form)
+    static function buildCommunicationBlock($form)
     {
         // checkboxes for DO NOT phone, email, mail
         $form->addElement('checkbox', 'do_not_phone', 'Privacy:', 'Do not call');

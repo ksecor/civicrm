@@ -133,29 +133,100 @@ class CRM_Error extends PEAR_ErrorStack {
         return $out;
     }
 
+    static function debug_var($variable_name, &$variable, $log=true)
+    {
+        // check if variable is set
+        if(!isset($variable)) {
+            $out = "\$$variable_name is not set";
+        } else {
+            $out = print_r($variable, true);
+            $out = "\$$variable_name = $out";
+            // reset if it is an array
+            if(is_array($variable)) {
+                reset($variable);
+            }
+        }
+        return self::debug_log_message($out);
+    }
+    
+    
+    // print out a stack trace
     static function debug_stacktrace($trace_level=0, $log = true ) {
-        $error =& self::singleton( );
-
         $backtrace = debug_backtrace();
-
         if($trace_level) {
             $num_element = count($backtrace);
             $backtrace = array_slice($backtrace, 0, ($num_element>$trace_level ? $trace_level : $num_element));
         }
 
         $out = print_r($backtrace, true);
+        $out = "<br />backtrace <br />$out";
+        return self::debug_log_message($out);
+    }
 
-        $out = "<p>backtrace</p><p><pre>$out</pre></p><p></p>";
-        if ( $log ) {
+    static function debug_log_message($message="", $log=true)
+    {
+        $error = self::singleton( );
+        $out = "<br />$message";
+        if ($log) {
             echo $out;
         }
-
         return $out;
     }
 
 
 
+    // log enter method
+    static function le_method()
+    {
+        $array1 = debug_backtrace();
+        //$string1 = "entering method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "()";
+        $string1 = "entering method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "() in " . $array1[0]['file']; 
+        self::debug_log_message($string1);
+    }
 
+
+
+    // log leave method
+    function ll_method()
+    {
+        $array1 = debug_backtrace();
+        $string1 = "leaving  method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "() in " . $array1[0]['file']; 
+        self::debug_log_message($string1);
+    }
+
+    // log enter function
+    function le_function()
+    {
+        $array1 = debug_backtrace();
+        $string1 = "entering function " . $array1[1]['function'] . "() in " . basename($array1[0]['file']);
+        self::debug_log_message($string1);
+    }
+
+    // log leave function
+    function ll_function()
+    {
+        $array1 = debug_backtrace();
+        $string1 = "leaving  function " . $array1[1]['function'] . "() in " . basename($array1[0]['file']);
+        self::debug_log_message($string1);
+    }
+
+
+    // log enter file
+    function le_file()
+    {
+        $array1 = debug_backtrace();
+        $string1 .= "entering file " . $array1[0]['file'];
+        self::debug_log_message($string1);
+    }
+
+
+    // leave file
+    function ll_file()
+    {
+        $array1 = debug_backtrace();
+        $string1 = "leaving  file " . $array1[0]['file'];
+        self::debug_log_message($string1);  
+    }
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Error');

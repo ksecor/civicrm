@@ -35,7 +35,6 @@
 require_once 'CRM/Form.php';
 require_once 'CRM/SelectValues.php';
 require_once 'CRM/Contact/Form/Contact.php';
-
 require_once 'CRM/Contact/Form/Location.php';
 
 /**
@@ -48,24 +47,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function __construct($name, $state, $mode = self::MODE_NONE) 
     {
-        
-        // CRM_Error::debug("name", $name);
-        // CRM_Error::debug("mode", $mode);
-        // CRM_Error::debug_stacktrace();
-
-        if ($mode == self::MODE_CREATE){
-            $name = "Create";
-            // $name = "Individual";
-        } elseif ($mode == self::MODE_CREATE_MINI) {
-             $name = "Individual";
-            // $name = "MiniCreate";
-        } elseif ($mode == self::MODE_SEARCH_MINI) {
-            $name = "MiniSearch";
-        } elseif ($mode == self::MODE_SEARCH) {
-            $name = "Search";
-        }
-
-        parent::__construct($name, $state, $mode);
+        parent::__construct($name ."_" . $mode, $state, $mode);
     }
     
     
@@ -478,7 +460,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->addElement('text', 'job_title', 'Job title :', array('maxlength' => 64));
         
         // add the communications block
-        CRM_Contact_Form_Contact::bcb($this);
+        //CRM_Contact_Form_Contact::bcb($this);
+        CRM_Contact_Form_Contact::buildCommunicationBlock($this);
 
         // radio button for gender
         $this->addElement('radio', 'gender', 'Gender', 'Female','female',

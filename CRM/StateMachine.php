@@ -124,9 +124,11 @@ class CRM_StateMachine {
 
         $pageName =  $page->getAttribute('name');
         $data     =& $page->controller->container();
+
         $data['values'][$pageName] = $page->exportValues();
         $data['valid'][$pageName]  = $page->validate();
     
+
         // if we are going to the next state
         // Modal form and page is invalid: don't go further
         if ($type == 'Next' && $page->controller->isModal() && !$data['valid'][$pageName]) {
@@ -212,22 +214,25 @@ class CRM_StateMachine {
      * of the top level array describes a state. Each state description
      * includes the name, the display name and the class name
      *
+     * @param int $mode mode of form operation. this is used for creating the iname
+     *
      * @return void
      */
-    function addSequentialStates( &$pages ) {
+    function addSequentialStates(&$pages, $mode) {
         $this->_pages =& $pages;
         $numPages = count( $pages );
         
         for ( $i = 0; $i < $numPages ; $i++ ) {
-            $iname    = CRM_String::getClassName( $pages[$i] );
+            $iname = CRM_String::getClassName($pages[$i]);
+
+            // append the classname with the mode of the form. needed to
+            // have a consistent iname with form name
+            $iname .= "_$mode";
+
 
             $classPath = str_replace( '_', '/', $pages[$i] ) . '.php';
             require_once($classPath);
             $name = eval( sprintf( "return %s::getDisplayName( );", $pages[$i] ) );
-
-            // CRM_Error::debug("name", $name);
-            // CRM_Error::debug("this->_pages", &$this->_pages);
-            
             if ( $numPages == 1 ) {
                 $prev = $next = null;
                 $type = CRM_State::START | CRM_State::FINISH;
