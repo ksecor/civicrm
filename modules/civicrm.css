@@ -1,0 +1,10 @@
+/* $Id: civicrm.css,v 1.0 2005/03/18 dgg */
+
+/*
+** Form elements
+*/
+
+/* Tentative styling for 3 classes of text input fields. Need to test. dgg */
+#crm-container .form-text.small {width: 2em;}
+#crm-container .form-text.medium {width: 10em;}
+#crm-container .form-text.large {width: 20em;}
