@@ -2,7 +2,7 @@
 body, #search {
   color: #000;
   background: #fff;
-}
+  }
 a, a:link { color: #333; }
 a:visited { color: #777; }
 a:hover, a:focus { color: #03f; }
@@ -17,7 +17,7 @@ a:active { color: #606; }
 #secondary a:hover { color: #03f; }
 #primary a.active, #primary a.active:hover, #secondary a.active, #secondary a.active:hover { color: #ddd; }
 .sidebar .block a, .sidebar .block { color: #777; }
-.sidebar .block a:visited, .sidebar .block h2, .sidebar .block h3 { color: #999; }
+.sidebar .block a:visited, .sidebar .block h2, .sidebar .block h3 { color: #999;}
 .sidebar .block a:hover { color: #03f; }
 .sidebar .block {
   background: #fff;
@@ -60,7 +60,7 @@ form .form-item .title  {
   border-bottom: #ddd solid 1px;
   color: #777;
   background: transparent;
-}
+  }
 .form-radio, .form-checkbox {
   background: transparent;
   border: 0;
@@ -114,14 +114,9 @@ body {
   padding: 0;
   margin: 0;
 }
-h1 { font-size: 1.3em; }
-h2 { 
- font-size: 1.1em;
- background-color: #888888; 	
- color: #ffffff;
- border: 1px solid #000000;
-}
-h3 { font-size: 1em; font-weight: bold;}
+h1{ font-size: 1.3em; }
+h2{ font-size: 1.1em; }
+h3{ font-size: 1em; font-weight: bold;}
 h4, h5, h6 { font-size: 0.9em; font-weight: bold;}
 h1, h2, h3, h4, h5, h6 {
   font-family: Helvetica, Arial, Lucida, Verdana, sans-serif;
@@ -199,6 +194,7 @@ td.sidebar {
   padding: 0 5px 5px 5px;
 }
 .sidebar .block h2 {
+  /*color: #FFFFFF;*/ 
   padding: 3px 0 0 0;
   margin: 0;
   font-size: 1em;
@@ -472,15 +468,17 @@ br.clear {
   clear: both;
 }
 
+/******************************************************************************************************************/
 /* CRM-specific styles */
+/******************************************************************************************************************/
 #crm-quick-search, #crm-quick-create, #crm-shortcuts {
     background-color: #eee;
-    }
+    }    
     
 .rmsPageTitle {
     width: 100%;
-	border-bottom: 1px solid #aaaaaa;
-	}
+    border-bottom: 1px solid #aaaaaa;
+    }
     
 .rmsMenuTitle {
     border: 1px solid #000;
@@ -607,3 +605,9 @@ INPUT, SELECT, TEXTAREA
 	FONT-FAMILY: Arial;
 	FONT-SIZE: 9pt;
 }
+
+.crm_blocktitle { 
+  color: #FFFFFF;  
+  background-color: #89898F;
+  display: block;
+  }
