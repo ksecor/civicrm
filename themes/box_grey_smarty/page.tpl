@@ -60,8 +60,12 @@
 			</td>
 		{/if}
 				<td class="main-content" id="content-{$layout}">
+				{if $breadcrumb ne ''}
+				  <div> {$breadcrumb} </div>
+				{/if}
 				{if $title ne ''}
-					<h2 class="content-title">{$title}</h2>
+				   <div class="title_menu">{$title}</div>
+				   <hr size=1><br>	
 				{/if}
 				{if $tabs ne ''}
 					{$tabs}
@@ -78,7 +82,6 @@
 				{if $messages ne ''}
 					<div id="message">{$messages}</div>
 				{/if}
-				
 				<!-- start main content -->
 				{$content}
 				<!-- end main content -->
@@ -90,9 +93,6 @@
 		{/if}
 	</tr>
 </table>
-{if $breadcrumb ne ''}
-  {$breadcrumb}
-{/if}
 <div id="footer">
   {if $footer_message}
     <p>{$footer_message}</p>
