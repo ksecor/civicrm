@@ -1,0 +1,735 @@
+<?php
+
+$user_home = "/Users/lobo/svn/crm";
+
+$include_path = ini_get('include_path');
+$include_path .= ":$user_home";
+ini_set('include_path', $include_path);
+
+require_once 'WGM/Contacts/Contacts.php';
+require_once 'WGM/Utils.php';
+
+// $Id: contact.module,v 1.8 2004/09/30 18:18:09 JonBob Exp $
+
+/**
+ * @file
+ * This is an example outlining how a module can be used to display a
+ * custom page at a given URL.
+ */
+
+/**
+ * Implementation of hook_help().
+ *
+ * Throughout Drupal, hook_help() is used to display help text at the top of
+ * pages. Some other parts of Drupal pages get explanatory text from these hooks
+ * as well. We use it here to provide a description of the module on the
+ * module administration page. This example also illustrates how to add help
+ * text to the pages your module defines.
+ */
+function contact_help($section) {
+  switch ($section) {
+  case 'admin/modules#description':
+    // This description is shown in the listing at admin/modules.
+    return t('CRM module v0.1');
+  }
+}
+
+/**
+ * Implementation of hook_perm().
+ *
+ * Since the access to our new custom pages will be granted based on
+ * special permissions, we need to define what those permissions are here.
+ * This ensures that they are available to enable on the user role
+ * administration pages.
+ */
+function contact_perm() {
+  return array( 'view contact', 'edit contact', 'administer contact' );
+}
+
+/**
+ * Implementation of hook_menu().
+ *
+ * You must implement hook_menu() to emit items to place in the main menu.
+ * This is a required step for modules wishing to display their own pages,
+ * because the process of creating the links also tells Drupal what
+ * callback function to use for a given URL. The menu items returned
+ * here provide this information to the menu system.
+ *
+ * With the below menu definitions, URLs will be interpreted as follows:
+ *
+ * If the user accesses http://example.com/?q=foo, then the menu system
+ * will first look for a menu item with that path. In this case it will
+ * find a match, and execute contact_foo().
+ *
+ */
+function contact_menu($may_cache) {
+  $items = array();
+
+  // The $may_cache parameter is used to divide menu items into two parts. Those
+  // returned when $may_cache is true must be consistently applicable for the
+  // current user at all times; the others may change or be defined at only
+  // certain paths. Most modules will have excusively cacheable menu items.
+
+  if ($may_cache) {
+    // This is the minimum information you can provide for a menu item.
+    $items[] = array(
+		     'path'  => 'admin/contact',
+		     'title' => t('Contact'),
+		     'callback' => 'contact_admin_invoke',
+		     'access' => user_access('administer contact')
+		     );
+
+    $items[] = array(
+		     'path'  => 'admin/contact/configure',
+		     'title' => t('Configure Contact'),
+		     'type'   => MENU_DEFAULT_LOCAL_TASK
+		     );
+
+    $items[] = array(
+		     'path'  => 'admin/contact/settings',
+		     'title' => t('Contact Settings'),
+		     'type'   => MENU_LOCAL_TASK
+		     );
+
+    $items[] = array(
+		     'path'  => 'crm',
+		     'title' => t('Contact Management'),
+		     'callback' => 'contact_invoke',
+		     'access' => user_access('view contact'),
+		     'type'   => MENU_CALLBACK
+		     );
+
+    $items[] = array(
+		     'path'  => 'crm/contact',
+		     'title' => t('Contacts'),
+		     'access' => user_access('view contact'),
+		     'type'   => MENU_NORMAL_ITEM
+		     );
+
+    $items[] = array(
+		     'path'  => 'crm/contact/list',
+		     'title' => t('List Contacts'),
+		     'type'   => MENU_NORMAL_ITEM,
+		     'weight' => 0
+		     );
+
+    $items[] = array(
+		     'path'  => 'crm/contact/add',
+		     'title' => t('Add Contact'),
+		     'type'   => MENU_NORMAL_ITEM,
+		     'weight' => 1
+		     );
+
+    $items[] = array(
+		     'path'  => 'crm/contact/add/basic',
+		     'title' => t('Basic Information'),
+		     'type'   => MENU_DEFAULT_LOCAL_TASK
+		     );
+
+    $items[] = array(
+		     'path'  => 'crm/contact/add/rr',
+		     'title' => t('Relationships and Roles'),
+		     'type'   => MENU_LOCAL_TASK,
+		     'weight' => 1
+		     );
+
+    $items[] = array(
+		     'path'  => 'crm/contact/search',
+		     'title' => t('Search Contacts'),
+		     'type'   => MENU_NORMAL_ITEM,
+		     'weight' => 2
+		     );
+
+    $items[] = array(
+		     'path'  => 'crm/communicate',
+		     'title' => t('Communicate'),
+		     'access' => user_access('view contact'),
+		     'type'   => MENU_NORMAL_ITEM
+		     );
+  }
+  else {
+    if ( arg(0) == 'contact' && is_numeric( arg(1) ) ) {
+      $contact = contact_load( array( 'cid' => arg(1) ) );
+      if ( $contact->cid ) {
+	$items[] = array(
+			 'path'  => 'contact/' . arg(1),
+			 'title' => t('View Contact'),
+			 'type'   => MENU_CALLBACK
+			 );
+
+	$items[] = array(
+			 'path'  => 'contact/' . arg(1) . '/view',
+			 'title' => t('View Contact'),
+			 'type'   => MENU_DEFAULT_LOCAL_TASK
+			 );
+
+	$items[] = array(
+			 'path'  => 'contact/' . arg(1) . '/edit',
+			 'title' => t('Edit Contact'),
+			 'type'   => MENU_LOCAL_TASK
+			 );
+
+	$items[] = array(
+			 'path'  => 'contact/' . arg(1) . '/delete',
+			 'title' => t('Delete Contact'),
+			 'type'   => MENU_LOCAL_TASK
+			 );
+      }
+    }
+  }
+
+  return $items;
+}
+
+function contact_init() {
+  menu_rebuild();
+}
+
+/**
+ * Implementation of hook_validate().
+ * Experimenting w/ input validation models. Setting error for both top of page and inline displays.
+ * Will replace this w/ logic which loops on array of form field defs in next iteration.
+ */
+function contact_validate(&$contact) {
+  if (isset($contact['first_name']) && !strlen($contact['first_name'])) {
+    form_set_error('first_name', t('First Name is required.'));
+  }
+  if (!strlen($contact['first_name'])) {
+    $error['first_name'] = '<div class="error">';
+    $error['first_name'] .= t('First Name field can not be blank.');
+    $error['first_name'] .= '</div>';
+  }
+  if (isset($contact['last_name']) && !strlen($contact['last_name'])) {
+    form_set_error('last_name', t('Last Name is required.'));
+  }
+  if (!strlen($contact['last_name'])) {
+    $error['last_name'] = '<div class="error">';
+    $error['last_name'] .= t('Last Name field can not be blank.');
+    $error['last_name'] .= '</div>';
+  }
+  return $error;
+}
+
+/**
+ * Menu callback; dispacthes control to the appropriate operation handler
+ */
+function contact_admin_invoke( $operation ) {
+  $content = "the contact administrator invoked $operation";
+  print theme( 'page', $content );
+}
+
+function contact_invoke( $operation ) {
+
+  //  $content = "the contact module invoked " . arg(0) . arg(1) . arg(2) . arg(3);
+
+  $content = "";
+
+
+  // check for add
+  if (arg(2) == 'add' && (arg(3) == 'basic' || arg(3) == NULL )) {
+    $content .= cms2_add_contact();
+  }
+
+
+  // list
+  if (arg(2) == 'list') {
+    $content .= cms2_list_contact(arg(3));
+  }
+
+
+  // edit
+  if (arg(2) == 'edit') {
+    if(is_numeric(arg(3))) {
+      $content .= cms2_edit_contact(arg(3));
+    } else {
+      $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
+    }
+  }
+
+  // search
+  if (arg(2) == 'search') {
+    $content .= cms2_query_contact();
+  }
+
+
+  // delete
+  if (arg(2) == 'delete') {
+    if(is_numeric(arg(3))) {
+      $content .= cms2_delete_contact(arg(3));
+    } else {
+      $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
+    }
+  }
+
+  print theme( 'page', $content );
+
+} // end of function contact_invoke
+
+
+function contact_load( $queryArgs ) {
+  $content = "Loading: ";
+  $content .= print_r( $queryArgs, true );
+  print theme( 'page', $content );
+}
+
+
+
+function cms2_add_contact() {
+
+  $content = '';
+
+  //  $contact = new WGM_Contacts_Contacts();
+  //  $contact->run();
+  //  return $contact->display();
+
+  if(isset($_POST['add_contact_form_submit'])) {
+    // run 'example' validation routine
+    $error = contact_validate($_POST['edit']);
+    // check results
+    if (!form_get_errors()) {
+
+      // create the sql query
+      db_query("INSERT INTO {cms2_contact}
+            (first_name, last_name, address_line_1, address_line_2, city, state, zipcode, email, tel_home, tel_work, tel_cell) VALUES
+            ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+	    $_POST['edit']['first_name'], $_POST['edit']['last_name'], $_POST['edit']['address_line_1'], $_POST['edit']['address_line_2'],
+	    $_POST['edit']['city'], $_POST['edit']['state'], $_POST['edit']['zipcode'], $_POST['edit']['email'],
+            $_POST['edit']['tel_home'], $_POST['edit']['tel_work'], $_POST['edit']['tel_cell']);
+
+      // new contact has been added
+      $content .= "<hr>Added contact ". $_POST['edit']['first_name'] . " " . $_POST['edit']['last_name'] . "<br>Please add another one<hr>";
+    } else {
+      // Copy form inputs to edit array for redisplay.
+      $edit = $_POST['edit'];
+    }
+  } else {
+    $content .= "<hr>Please add a contact<hr>";
+    // Set defaults (will replace w/ loop on form field array)
+    $edit['first_name'] = '';
+    $edit['last_name'] = '';
+  }
+
+  // 'name' form group
+  $nameFields = form_textfield(t('First Name'), 'first_name',$edit['first_name'], 25, 25,$error['first_name'],'',TRUE);
+  $nameFields .= form_textfield('Last Name', 'last_name',$edit['last_name'], 25, 25,$error['last_name'],'',TRUE);
+  $form_elements = form_group('Name',$nameFields);
+
+  // add address info.
+  $form_elements .= form_textfield('Address Line 1', 'address_line_1', '', 50, 50);
+  $form_elements .= form_textfield('Address Line 2', 'address_line_2', '', 50, 50);
+  $form_elements .= form_textfield('City', 'city', '', 25, 25);
+  $form_elements .= form_textfield('State', 'state', '', 25, 25);
+  $form_elements .= form_textfield('Zipcode', 'zipcode', '', 25, 25);
+
+  $form_elements .= '<hr>';
+
+  $form_elements .= form_textfield('Email', 'email', '', 50, 50);
+  $form_elements .= form_textfield('Telephone No - Home', 'telephone_no_home', '', 50, 50);
+  $form_elements .= form_textfield('Telephone No - Work', 'telephone_no_work', '', 50, 50);
+  $form_elements .= form_textfield('Telephone No - Cellular', 'telephone_no_cellular', '', 50, 50);
+
+  $form_elements .= '<hr>';
+  $form_elements .= form_submit('Add Contact', 'add_contact_form_submit');
+
+  // add the form for adding a contact
+  $form = form($form_elements);
+
+  $content .= $form;
+
+  if(isset($_POST['add_contact_form_submit'])) {
+    $content .= "<hr>\$_POST['add_contact_form_submit'] is set.<hr>";
+  } else {
+    $content .= "<hr>\$_POST['add_contact_form_submit'] is not set.<hr>";
+  }
+
+  $content .= '<pre>' . print_r($_POST, TRUE) . '</pre>';
+
+  return $content;
+
+} // end of function cms2_add_contact
+
+
+
+
+
+
+/*******************************************************
+ *
+ * cms2_list_contact()
+ *
+ * lists all contacts from db.
+ *
+ *******************************************************/
+function cms2_list_contact($id=0) {
+
+
+  // check if the ID is 0
+  // if not then the user has asked for the listing of a specific id
+  // http://$drupal_home/?q=cms2/List/<id>
+
+  if(!$id) {
+
+    //id has default value of 0 so user has asked for listing of all contacts
+
+    // initializing content
+    $content = '';
+
+    // querying of contact has been requested
+    $content .= "<hr><h1>Listing all contacts</h1><hr>";
+
+    //fire query and get results
+    $result = db_query("SELECT * FROM {cms2_contact}");
+    $num_rows = db_num_rows($result);
+
+    $content .= "<hr>";
+    $content .= "<p>$num_rows Contact Found<p>Details are<br>";
+    $content .= "<table width=90% border=1 cellspacing=2 cellpadding=2><tr><td>ID</td><td>First Name</td><td>Last Name</td><td>Details</td></tr>";
+
+    $request_uri_list = request_uri();
+    $request_uri_edit = preg_replace("/list$/", "edit", $request_uri_list);
+    $request_uri_delete = preg_replace("/list$/", "delete", $request_uri_list);
+
+    /*
+    display the results of the listings in a table
+    with the format
+
+--------------------------------------------------------
+    ID  FirstName    LastName   Details
+--------------------------------------------------------
+
+    where the link to MoreDetails points
+    to the listing of the individual contact
+
+    */
+    while ($row = db_fetch_object($result)) {
+      $list_link = "$request_uri_list/$row->id";
+      $edit_link = "$request_uri_edit/$row->id";
+      $delete_link = "$request_uri_delete/$row->id";
+      $content .= "<tr><td>$row->id</td><td>$row->first_name</td><td>$row->last_name</td><td>
+                   <a href=$list_link>View</a> - <a href=$edit_link>Edit</a> - <a href=$delete_link>Delete</a>
+                   </td></tr>";
+    }
+
+    $content .= '</table><hr>';
+
+  } else {
+    //user has asked for details of a specific rowid
+    //get details of the row and display it
+
+    $result = db_query("SELECT * FROM {cms2_contact} WHERE id=%d", $id);
+
+    $num_row = db_num_rows($result);
+
+    if($num_row){
+      // id exists in the database display it.
+      // display in table format
+      // key value pair type
+
+      //get the row
+      $row = db_fetch_object($result);
+      $content .= "<hr>";
+      $content .= "ID = $row->id<br>";
+      $content .= "First Name = $row->first_name<br>";
+      $content .= "Last Name = $row->last_name<br>";
+      $content .= "Address Line 1 = $row->address_line_1<br>";
+      $content .= "Address Line 2 = $row->address_line_2<br>";
+      $content .= "City = $row->city<br>";
+      $content .= "State = $row->state<br>";
+      $content .= "Zipcode = $row->zipcode<br>";
+      $content .= "Email = $row->email<br>";
+      $content .= "Tel Home = $row->tel_home<br>";
+      $content .= "Tel Work = $row->tel_work<br>";
+      $content .= "Tel Cell = $row->tel_cell<br>";
+    } else {
+      // id does not exist in the database
+      $content .= "<p>The contact with ID $id does not exist!<p>";
+    }
+  }
+
+  // print the page now
+  // print theme('page', $content);
+
+  return $content;
+
+} // end of function cms2_list_contact
+
+
+
+
+
+
+
+
+
+/*******************************************************
+ *
+ * cms2_query_contact()
+ *
+ * queries contacts from db.
+ * the query string can use the "%" pattern recognition
+ * character of sql
+ *
+ *******************************************************/
+function cms2_query_contact() {
+
+  // initializing content
+  $content = '';
+
+  // debugging info
+  if(isset($_POST['query_contact_form_submit'])) {
+    $content .= "<hr>\$_POST['query_contact_form_submit'] is set.<hr>";
+  } else {
+    $content .= "<hr>\$_POST['query_contact_form_submit'] is not set.<hr>";
+  }
+  $content .= '<pre>' . print_r($_POST, TRUE) . '</pre>';
+
+  // check if the query form has been submitted
+  if(isset($_POST['query_contact_form_submit'])) {
+
+    // querying of contact has been requested
+    $content .= "<hr>Queried contact ". $_POST['edit']['first_name'] . " " . $_POST['edit']['last_name'] . "<hr>";
+
+    // form the query string's where clause
+    $where_clause = array();
+
+    // id
+    if(($_POST['edit']['id'])) {
+      array_push($where_clause, "id = {$_POST['edit']['id']}");
+    }
+
+
+    // use the field_array for the query string
+    foreach(array('first_name', 'last_name', 'address_line_1', 'address_line_2', 'city', 'state', 'zipcode', 'email', 'tel_home', 'tel_work', 'te_cell') as $field) {
+
+      if(($_POST['edit'][$field])) {
+	if(strpos($_POST['edit'][$field], "%") !== FALSE) {
+	  array_push($where_clause, "$field LIKE '{$_POST['edit'][$field]}'");
+	} else {
+	  array_push($where_clause, "$field = '{$_POST['edit'][$field]}'");
+	}
+      }
+    }
+
+    $content .= '<hr><pre>' . print_r($where_clause, TRUE) . '</pre><hr>';
+    $content .= "WHERE " . implode(" AND ", $where_clause) . "<p>";
+
+    $where_clause_string = "WHERE " . implode(" AND ", $where_clause);
+
+    //fire query and get results
+    $content .= "<p>query = SELECT * FROM {cms2_contact} $where_clause_string<p>";
+    $result = db_query("SELECT * FROM {cms2_contact} $where_clause_string");
+
+    $num_rows = db_num_rows($result);
+
+    $content .= "num rows = $num_rows";
+
+    if($num_rows > 0) {
+
+      $content .= "<hr>";
+      $content .= "<p>$num_rows Contact Found<p>Details are<br>";
+      $content .= "<table width=90% border=1 cellspacing=2 cellpadding=2><tr><td>ID</td><td>First Name</td><td>Last Name</td><td>Details</td></tr>";
+
+      $request_uri_search = request_uri();
+      $request_uri_list = preg_replace("/search$/", "list", $request_uri_search);
+      $request_uri_edit = preg_replace("/search$/", "edit", $request_uri_search);
+      $request_uri_delete = preg_replace("/search$/", "delete", $request_uri_search);
+
+    /*
+    display the results of the listings in a table
+    with the format
+
+--------------------------------------------------------
+    ID  FirstName    LastName   Details
+--------------------------------------------------------
+
+    where the link to MoreDetails points
+    to the listing of the individual contact
+
+    */
+
+    while ($row = db_fetch_object($result)) {
+      $list_link = "$request_uri_list/$row->id";
+      $edit_link = "$request_uri_edit/$row->id";
+      $delete_link = "$request_uri_delete/$row->id";
+      $content .= "<tr><td>$row->id</td><td>$row->first_name</td><td>$row->last_name</td><td>
+                   <a href=$list_link>View</a> - <a href=$edit_link>Edit</a> - <a href=$delete_link>Delete</a>
+                   </td></tr>";
+    }
+    $content .= '</table><hr>';
+    } else {
+      $content .= "<p>Contact with above details not found!<p>";
+    }
+  } else {
+
+    // display form for querying contacts
+    $content .= "<hr>Please enter fields on which you wish to select<hr>";
+    $form_elements = '';
+
+    // query on id field
+    $form_elements .= form_textfield('Contact ID', 'id', '', 25, 25);
+
+    // query on the name text field
+    $form_elements .= form_textfield('First Name', 'first_name', '', 25, 25);
+    $form_elements .= form_textfield('Last Name', 'last_name', '', 25, 25);
+
+    $form_elements .= '<hr>';
+
+    // query on address info.
+    $form_elements .= form_textfield('Address Line 1', 'address_line_1', '', 50, 50);
+    $form_elements .= form_textfield('Address Line 2', 'address_line_2', '', 50, 50);
+    $form_elements .= form_textfield('City', 'city', '', 25, 25);
+    $form_elements .= form_textfield('State', 'state', '', 25, 25);
+    $form_elements .= form_textfield('Zipcode', 'zipcode', '', 25, 25);
+
+    $form_elements .= '<hr>';
+
+    $form_elements .= form_textfield('Email', 'email', '', 50, 50);
+    $form_elements .= form_textfield('Telephone No - Home', 'tel_home', '', 50, 50);
+    $form_elements .= form_textfield('Telephone No - Work', 'tel_work', '', 50, 50);
+    $form_elements .= form_textfield('Telephone No - Cellular', 'tel_cell', '', 50, 50);
+
+    $form_elements .= '<hr>';
+
+    $form_elements .= form_submit('Query Contact', 'query_contact_form_submit');
+
+    // add the form for querying a contact
+    $form = form($form_elements);
+
+    $content .= $form;
+  }
+
+  return $content;
+
+} // end of function cms2_query_contact
+
+
+
+
+/*******************************************************
+ *
+ * cms2_edit_contact
+ *
+ *******************************************************/
+function cms2_edit_contact($id) {
+
+  // initialize the content to be displayed
+  $content = '';
+
+  // has the user finished editing ? check the submit value
+  if(isset($_POST['edit_contact_form_submit'])) {
+
+    // run 'example' validation routine
+    $error = contact_validate($_POST['edit']);
+
+    // check results
+    if (!form_get_errors()) {
+
+      // create the sql query
+      db_query("REPLACE INTO {cms2_contact}
+            (id, first_name, last_name, address_line_1, address_line_2, city, state, zipcode, email, tel_home, tel_work, tel_cell) VALUES
+            ('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+	    $_POST['edit']['contact_id'], $_POST['edit']['first_name'], $_POST['edit']['last_name'], $_POST['edit']['address_line_1'],
+	    $_POST['edit']['address_line_2'], $_POST['edit']['city'], $_POST['edit']['state'], $_POST['edit']['zipcode'],
+	    $_POST['edit']['email'], $_POST['edit']['tel_home'], $_POST['edit']['tel_work'], $_POST['edit']['tel_cell']);
+
+      // new contact has been added
+      $content .= "<hr>Edited contact ". $_POST['edit']['first_name'] . " " . $_POST['edit']['last_name'];
+
+    } else {
+      // there are errors.
+      // Copy form inputs to edit array for redisplay.
+      $edit = $_POST['edit'];
+
+    }
+
+  } else {
+
+    // form is not submitted and hence user has not performed the edit yet..
+
+    // check if id exists
+    $result = db_query("SELECT * FROM {cms2_contact} WHERE id=%d", $id);
+    $num_rows = db_num_rows($result);
+
+    if($num_rows){
+
+      // id exists.. get the row
+      $row = db_fetch_object($result);
+      // initialize form_elements
+      $form_elements = '';
+
+      // add the name text field
+      $form_elements .= form_textfield('ID', 'contact_id', $row->id, 25, 25, NULL, array('readonly' => 'true'));
+      $form_elements .= form_textfield('First Name', 'first_name', $row->first_name, 25, 25);
+      $form_elements .= form_textfield('Last Name', 'last_name', $row->last_name, 25, 25);
+
+      $form_elements .= '<hr>';
+
+      // add address info.
+      $form_elements .= form_textfield('Address Line 1', 'address_line_1', $row->address_line_1, 50, 50);
+      $form_elements .= form_textfield('Address Line 2', 'address_line_2', $row->address_line_2, 50, 50);
+      $form_elements .= form_textfield('City', 'city', $row->city, 25, 25);
+      $form_elements .= form_textfield('State', 'state', $row->state, 25, 25);
+      $form_elements .= form_textfield('Zipcode', 'zipcode', $row->zipcode, 25, 25);
+
+      $form_elements .= '<hr>';
+
+      // email and phone nos.
+      $form_elements .= form_textfield('Email', 'email', $row->email, 50, 50);
+      $form_elements .= form_textfield('Telephone No - Home', 'tel_home', $row->tel_home, 50, 50);
+      $form_elements .= form_textfield('Telephone No - Work', 'tel_work', $row->tel_work, 50, 50);
+      $form_elements .= form_textfield('Telephone No - Cellular', 'tel_cell', $row->tel_cell, 50, 50);
+
+      $form_elements .= '<hr>';
+
+      $form_elements .= form_submit('Edit Contact', 'edit_contact_form_submit');
+
+      // add the form for adding a contact
+      $form = form($form_elements);
+
+      $content .= $form;
+
+    } else {
+
+      // id is not present in db.
+      $content .= "<hr>Contact with id $id not present, please check the id before editing.<hr>";
+    }
+  }
+  return $content;
+} // end of function cms2_edit_contact
+
+
+
+
+
+
+
+
+
+/*******************************************************
+ *
+ * cms2_delete_contact()
+ *
+ * lists all contacts from db.
+ *
+ *******************************************************/
+function cms2_delete_contact($id) {
+
+  // initializing content
+  $content = '';
+
+  //fire query and get results
+  $result = db_query("DELETE FROM {cms2_contact} WHERE id = %d", $id);
+
+  if(db_affected_rows() != 1) {
+    $content .= "Error deleting contact with contact id $id";
+  } else {
+    $content .= "Successfully deleted contact with contact id $id";
+  }
+
+  return $content;
+
+} // end of function cms2_delete_contact
+
+
+
+?>
