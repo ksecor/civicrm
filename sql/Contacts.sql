@@ -6,7 +6,7 @@
 *    This script creates the schema for CRM module
 *    (contact relationship management system).
 *
-* Last rev: 11/23/2004
+* Last rev: 11/28/2004
 *******************************************************/
 
 /*******************************************************
@@ -82,9 +82,6 @@ CREATE TABLE crm_domain (
 
 	name VARCHAR(255) COMMENT 'domain/org name',
 
-	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added',
-
 	PRIMARY KEY (id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='define domains for multi-org installs, else all contacts belong to domain 1';
@@ -153,12 +150,8 @@ CREATE TABLE crm_contact (
     -- ? Is this needed?
     --	module VARCHAR(255) COMMENT 'which module is handling this type',
 
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
-
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE,
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id),
 
 	INDEX index_sort_name (sort_name(30))
 
@@ -196,7 +189,7 @@ CREATE TABLE crm_contact_individual(
 	-- core demographics fields (additional demographics to be defined by other modules)
 	gender ENUM('female','male','transgender'),
 	birth_date DATE,
-	deceased BOOLEAN NOT NULL DEFAULT 0,
+	is_deceased BOOLEAN NOT NULL DEFAULT 0,
 	
 	PRIMARY KEY (id),
 
@@ -250,9 +243,7 @@ CREATE TABLE crm_contact_household(
 
 	phone_to_household BOOL NOT NULL DEFAULT 0 COMMENT 'TRUE = Direct phone communications to household rather than indiviual household members.',
 	email_to_household BOOL NOT NULL DEFAULT 0 COMMENT 'TRUE = Direct email communications to household rather than indiviual household members.',
-	postal_to_household BOOL NOT NULL DEFAULT 0 COMMENT 'TRUE = Direct postal mail to household rather than indiviual household members.',
-
-	annual_income INT UNSIGNED, 
+	mail_to_household BOOL NOT NULL DEFAULT 0 COMMENT 'TRUE = Direct postal mail to household rather than indiviual household members.',
 
 	PRIMARY KEY (id),
 
@@ -338,36 +329,32 @@ CREATE TABLE crm_contact_location(
 	email_secondary VARCHAR(255) COMMENT 'additional email address for this location',
 
 	phone_1 VARCHAR(255) COMMENT 'phone number',
-	phone_stripped_1 VARCHAR(255) COMMENT 'phone number with all punctuation removed',
-	phone_type_1 ENUM('Phone', 'Mobile', 'Fax', 'Pager') COMMENT 'what type of telecom device is this',
+	phone_type_1 ENUM('Phone', 'Mobile', 'Fax', 'Pager') DEFAULT 'Phone' COMMENT 'what type of telecom device is this',
 	mobile_provider_id_1 INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
 
 	phone_2 VARCHAR(255) COMMENT 'phone number',
-	phone_stripped_2 VARCHAR(255) COMMENT 'phone number with all punctuation removed',
-	phone_type_2 ENUM('Phone', 'Mobile', 'Fax', 'Pager') COMMENT 'what type of telecom device is this',
+	phone_type_2 ENUM('Phone', 'Mobile', 'Fax', 'Pager') Default 'Mobile' COMMENT 'what type of telecom device is this',
 	mobile_provider_id_2 INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
 
 	phone_3 VARCHAR(255) COMMENT 'phone number',
-	phone_stripped_3 VARCHAR(255) COMMENT 'phone number with all punctuation removed',
-	phone_type_3 ENUM('Phone', 'Mobile', 'Fax', 'Pager') COMMENT 'what type of telecom device is this',
+	phone_type_3 ENUM('Phone', 'Mobile', 'Fax', 'Pager') DEFAULT 'Fax' COMMENT 'what type of telecom device is this',
 	mobile_provider_id_3 INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
 
-	im_screenname VARCHAR(255) COMMENT 'instant messenger screenname',
-	im_service_id INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
-
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
+	im_screenname_1 VARCHAR(255) COMMENT 'instant messenger screenname',
+	im_service_id_1 INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
+	im_screenname_2 VARCHAR(255) COMMENT 'instant messenger screenname',
+	im_service_id_2 INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
 
 	PRIMARY KEY (id),
 
 	FOREIGN KEY (context_id) REFERENCES crm_context(id),
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id),
 	FOREIGN KEY(state_province_id) REFERENCES crm_state_province(id),
 	FOREIGN KEY(country_id) REFERENCES crm_country(id),
 	FOREIGN KEY (mobile_provider_id_1) REFERENCES crm_phone_mobile_provider(id),
 	FOREIGN KEY (mobile_provider_id_2) REFERENCES crm_phone_mobile_provider(id),
 	FOREIGN KEY (mobile_provider_id_3) REFERENCES crm_phone_mobile_provider(id),
-	FOREIGN KEY (im_service_id) REFERENCES crm_im_service(id)
+	FOREIGN KEY (im_service_id_1) REFERENCES crm_im_service(id),
+	FOREIGN KEY (im_service_id_2) REFERENCES crm_im_service(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Contact address and communications info by context.';
 
@@ -395,13 +382,9 @@ CREATE TABLE crm_relationship_type(
 	direction ENUM('Unidirectional', 'Bidirectional') COMMENT 'relationship cardinality',
 	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact this relationship type is applicable to',
 
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
-
 	PRIMARY KEY(id),
 
-	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE,
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id)
+	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact relationship types';
 
@@ -422,15 +405,11 @@ CREATE TABLE crm_relationship(
 
 	relationship_type_id INT UNSIGNED NOT NULL COMMENT 'contact relationship type id',
 
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
-
 	PRIMARY KEY(id),
 
 	FOREIGN KEY(relationship_type_id) REFERENCES crm_relationship_type(id) ON DELETE CASCADE,
 	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
-	FOREIGN KEY(target_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id)
+	FOREIGN KEY(target_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact relationships';
 
@@ -456,14 +435,10 @@ CREATE TABLE crm_task(
 
 	description VARCHAR(255) COMMENT 'description of task',
 
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
-
 	PRIMARY KEY(id),
     
 	FOREIGN KEY(target_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
-	FOREIGN KEY(assigned_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id)
+	FOREIGN KEY(assigned_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='tasks related to a contact';
 
@@ -472,25 +447,23 @@ CREATE TABLE crm_task(
 *
 * crm_note
 *
+* Notes can be linked to any object in the application
+* (using the table_name column)
+*
 *******************************************************/
 DROP TABLE IF EXISTS crm_note;
 CREATE TABLE crm_note(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 
-	contact_id INT UNSIGNED NOT NULL COMMENT 'note is about this contact',
+    table_name VARCHAR(32)  NOT NULL DEFAULT 'crm_contact' COMMENT 'name of table where item being referenced is stored',
+    table_id   INT UNSIGNED NOT NULL COMMENT 'foreign key to the referenced item',
 
 	note TEXT COMMENT 'note or comment',
 
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
+	PRIMARY KEY(id)
 
-	PRIMARY KEY(id),
-
-	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id)
-
-) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='multiple notes/comments related to a contact';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='multiple notes/comments related to a contact or other entity';
 
 
 
@@ -585,13 +558,9 @@ CREATE TABLE crm_contact_list(
 	contact_id INT UNSIGNED NOT NULL,
 	list_id INT UNSIGNED NOT NULL,
 	
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
-
 	PRIMARY KEY(id),
 
-	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id)
+	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact email';
 
@@ -651,10 +620,6 @@ CREATE TABLE crm_validation(
 	functionName VARCHAR(255) COMMENT 'custom validation function name',
     description VARCHAR(255) COMMENT 'rule description (verbose)',
 
-	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
-
 	PRIMARY KEY (id),
 
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE
@@ -683,10 +648,6 @@ CREATE TABLE crm_ext_property_group(
 
 	extends ENUM('contact','contact_individual','contact_organization','contact_household') DEFAULT 'contact' COMMENT 'type of object this group extends (can add other options later e.g. contact_address, etc.)',
 	
-	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
-
 	PRIMARY KEY (id),
 
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE
@@ -722,10 +683,6 @@ CREATE TABLE crm_ext_property(
 	required BOOLEAN NULL DEFAULT 0 COMMENT 'is a value required for this property',
 	validation_id INT UNSIGNED COMMENT 'FK to validation_rule table',
 	
-	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
-
 	PRIMARY KEY (id),
 
 	FOREIGN KEY (group_id) REFERENCES crm_ext_property_group(id) ON DELETE CASCADE,
@@ -756,13 +713,9 @@ CREATE TABLE crm_ext_data(
 	date_data DATETIME COMMENT 'data for ext property data_type = date',
 	memo_data TEXT COMMENT 'data for ext property data_type = memo',
 
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
-
 	PRIMARY KEY(id),
 
 	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id),
 	FOREIGN KEY(ext_property_id) REFERENCES crm_ext_property(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='stores the data for extended properties';
@@ -791,12 +744,7 @@ CREATE TABLE crm_form(
 	help_pre	TEXT default '' COMMENT 'Description and/or help text to display before fields in group',
 	help_post	TEXT default '' COMMENT 'Description and/or help text to display after fields',
 
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
-
-	PRIMARY KEY (id),
-
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id)
+	PRIMARY KEY (id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Defines contact forms';
 
@@ -821,12 +769,9 @@ CREATE TABLE crm_form_group(
 	help_pre	TEXT default '' COMMENT 'Description and/or help text to display before fields in group',
 	help_post	TEXT default '' COMMENT 'Description and/or help text to display after fields',
 
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
+	is_active	BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this element in active use, or retained for legacy use ?',
 
-	PRIMARY KEY (id),
-
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id)
+	PRIMARY KEY (id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Defines form field groups';
 
@@ -865,9 +810,7 @@ CREATE TABLE crm_form_field(
 	help_pre	TEXT default '' COMMENT 'Description and/or help text to display before field control (and after label)',
 	help_post	TEXT default '' COMMENT 'Description and/or help text to display after field control',
 
-	is_deleted	BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
+	is_active	BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this element in active use, or retained for legacy use ?',
 
 	PRIMARY KEY (id),
 	INDEX index_property (property_id),
@@ -875,8 +818,7 @@ CREATE TABLE crm_form_field(
     -- No explicit FK to for property_id to contact_ext_property because we will eventually reference
     -- built-in properties too..
 
-	FOREIGN KEY (group_id) REFERENCES crm_form_group(id),
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id)
+	FOREIGN KEY (group_id) REFERENCES crm_form_group(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Defines form fields and their attributes';
 
@@ -899,15 +841,12 @@ CREATE TABLE crm_form_builder(
 
 	weight		INT NOT NULL COMMENT 'sets sort order for components belonging to a form.',
 
-	is_deleted	BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
+	is_active	BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this element in active use, or retained for legacy use ?',
 
 	PRIMARY KEY (id),
-	INDEX index_form (form_id),
+	INDEX index_form (form_id)
 
     -- No explicit FK to for component_id since it may key to form, field or group.
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Builds a form by defining its components';
 
@@ -933,14 +872,11 @@ CREATE TABLE crm_form_option(
 	weight			INT NOT NULL COMMENT 'sets sort order for options in a set',
 	is_default		BOOLEAN NOT NULL DEFAULT 0,
 
-	is_deleted	BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by INT UNSIGNED NOT NULL COMMENT 'contact id of person creating this revision',
+	is_active	BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this element in active use, or retained for legacy use ?',
 
 	PRIMARY KEY (id),
 
-	FOREIGN KEY (field_id) REFERENCES crm_form_field(id),
-	FOREIGN KEY (created_by) REFERENCES crm_contact(id)
+	FOREIGN KEY (field_id) REFERENCES crm_form_field(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='Defines form field options';
 		
