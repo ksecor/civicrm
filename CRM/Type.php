@@ -43,7 +43,8 @@ class CRM_Type {
         T_DATE      =  2048,
         T_EMAIL     =  4096,
         T_URL       =  8192,
-        T_CCNUM     = 16384;
+        T_CCNUM     = 16384,
+        T_FLOAT     = 32768;
 
     static $_regex = array(
                            self::T_INT    => '/^-?\d+$/',

@@ -495,9 +495,12 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $contact = new CRM_Contact_DAO_Contact();
         
         $contact->domain_id = 1;
-        // $contact->contact_type = $this->exportValue('contact_type');
         $contact->contact_type = 'Individual';
+        // $contact->legal_id = '';
+        //$contact->external_id = '';
         $contact->sort_name = $this->exportValue('first_name')." ".$this->exportValue('last_name');
+        //$contact->home_URL = '';
+        //$contact->image_URL = '';
         //$contact->source = $this->exportValue('source');
         $contact->preferred_communication_method = $this->exportValue('preferred_communication_method');
         $contact->do_not_phone = $this->exportValue('do_not_phone');
@@ -523,9 +526,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $contact_individual->last_name = $this->exportValue('last_name');
             $contact_individual->prefix = $this->exportValue('prefix');
             $contact_individual->suffix = $this->exportValue('suffix');
-            $contact_individual->job_title = $this->exportValue('job_title');
+            //$contact_individual->display_name = '';
             $contact_individual->greeting_type = $this->exportValue('greeting_type');
             $contact_individual->custom_greeting = $this->exportValue('custom_greeting');
+            $contact_individual->job_title = $this->exportValue('job_title');
             $contact_individual->gender = $this->exportValue('gender');
             
             $a_date = $this->exportValue('birth_date');
@@ -544,10 +548,11 @@ class CRM_Contact_Form_Individual extends CRM_Form
                      
             $contact_individual->birth_date = $a_date['Y'].$mnt.$day;
             $contact_individual->is_deceased = $this->exportValue('is_deceased');
+            //$contact_individual->phone_to_household_id = '';
+            //$contact_individual->email_to_household_id = '';
+            //$contact_individual->mail_to_household_id = '';
                      
             if(!$contact_individual->insert()) {
-
-                CRM_Error::debug_log_message("breakpoint 20");
                 $str_error = mysql_error();
             }
         }
@@ -571,8 +576,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
                         // create a object of crm location
                         $$varname = new CRM_Contact_DAO_Location();
                         $$varname->contact_id = $contact->id;
-                        $$varname->is_primary = $a_Location['is_primary'];
                         $$varname->location_type_id = $a_Location['location_type_id'];
+                        $$varname->is_primary = $a_Location['is_primary'];
+                        
                                  
                         if(!$$varname->insert()) {
                             CRM_Error::debug_log_message("breakpoint 30");
@@ -589,21 +595,31 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                      
                             $$varaddress->location_id = $$varname->id;
                             $$varaddress->street_address = $a_Location['street_address'];
+                            //$$varaddress->street_number = '';
+                            //$$varaddress->street_number_suffix = '';
+                            //$$varaddress->street_number_predirectional = '';
+                            //$$varaddress->street_name = '';
+                            //$$varaddress->street_type = '';
+                            //$$varaddress->street_number_postdirectional = '';
                             $$varaddress->supplemental_address_1 = $a_Location['supplemental_address_1'];
+                            //$$varaddress->supplemental_address_2 = '';
+                            //$$varaddress->supplemental_address_3 = '';
                             $$varaddress->city = $a_Location['city'];
                             // $$varaddress->county_id = $a_Location['county_id'];
                             $$varaddress->county_id = 1;
                             $$varaddress->state_province_id = $a_Location['state_province_id'];
                             $$varaddress->postal_code = $a_Location['postal_code'];
-                            $$varaddress->usps_adc = $a_Location['usps_adc'];
+                            //$$varaddress->postal_code_suffix = '';
+                            //$$varaddress->usps_adc = '';
                             $$varaddress->country_id = $a_Location['country_id'];
+                            $$varaddress->geo_coord_id = 1;
                             $$varaddress->geo_code1 = $a_Location['geo_code1'];
                             $$varaddress->geo_code2 = $a_Location['geo_code2'];
-                            $$varaddress->address_note = $a_Location['address_note'];
                             $$varaddress->timezone = $a_Location['timezone'];
+                            // $$varaddress->address_nite = '';
+
                                      
                             if(!$$varaddress->insert()) {
-                                //CRM_Error::debug_log_message("breakpoint 40");
                                 $str_error = mysql_error();
                                 break;
                             }
@@ -618,6 +634,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
                             if (strlen(trim($a_Location[$varemail])) > 0) {
                                 $var_email = "contact_email".$lng_i;
                                 $$var_email = new CRM_Contact_DAO_Email();
+                               
+                                $$var_email->location_id = $$varname->id;
+                                $$var_email->email = $a_Location[$varemail];
                                          
                                 if($lng_i == 1) { //make first email entered primary
                                     $$var_email->is_primary = 1;
@@ -625,8 +644,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                     $$var_email->is_primary = 0;
                                 }
                                          
-                                $$var_email->location_id = $$varname->id;
-                                $$var_email->email = $a_Location[$varemail];
                                          
                                 if(!$$var_email->insert()) {
                                     CRM_Error::debug_log_message("breakpoint 50");
@@ -646,16 +663,18 @@ class CRM_Contact_Form_Individual extends CRM_Form
                             if (strlen(trim($a_Location[$varphone])) > 0) {
                                 $var_phone = "contact_phone".$lng_i;
                                 $$var_phone = new CRM_Contact_DAO_Phone();
-                                         
+                      
+                                $$var_phone->location_id = $$varname->id;
+                                $$var_phone->phone = $a_Location[$varphone];
+                                $$var_phone->phone_type = $a_Location[$varphone_type];
+                                
                                 if($lng_i == 1) { //make first phone entered primary
                                     $$var_phone->is_primary = 1;
                                 } else {
                                     $$var_phone->is_primary = 0;
                                 }
-                                
-                                $$var_phone->location_id = $$varname->id;
-                                $$var_phone->phone = $a_Location[$varphone];
-                                $$var_phone->phone_type = $a_Location[$varphone_type];
+
+
                                 // $$var_phone->mobile_provider_id = $a_Location[$varmobile_prov_id];
                                 $$var_phone->mobile_provider_id = 1;
                                          
@@ -679,25 +698,24 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 $var_im = "contact_im" . $lng_i;
                                 $$var_im = new CRM_Contact_DAO_IM();
                                          
+                                $$var_im->location_id = $$varname->id;
+                                $$var_im->im_screenname = $a_Location[$var_screenname];
+                                $$var_im->im_provider_id = $a_Location[$var_service];
+                                
                                 if ($lng_i == 1) { //make first im entered primary
                                     $$var_im->is_primary = 1;
                                 } else {
                                     $$var_im->is_primary = 0;
-                                }
-                                         
-                                $$var_im->location_id = $$varname->id;
-                                $$var_im->im_service_id = $a_Location[$var_service];
-                                $$var_im->im_screenname = $a_Location[$var_screenname];
+                                }                               
                                          
                                 if (!$$var_im->insert()) {
-                                    CRM_Error::debug_log_message("breakpoint 70");
                                     $str_error = mysql_error();
                                     break;
                                 }    
                             }  
                         }
                     }  
-                             
+                    
                 }// end of if block    
                          
                 if(strlen($str_error)){ //proceed if there are no errors
@@ -706,7 +724,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
             } //end of main for loop
         } 
         // check if there are any errors while inserting in database
-                 
+        
         if(strlen($str_error)){ //commit if there are no errors else rollback
             $contact->query('ROLLBACK');
             form_set_error('first_name', t($str_error));
