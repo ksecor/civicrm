@@ -67,9 +67,14 @@ class CRM_Contacts_Form_HOUSE extends CRM_Form
                                 );
 
         
-        $this->addDefaultButtons(array(1 => array ('next', 'Save', true),
-                                       2 => array ('reset' , 'Reset', false),
-                                       3 => array ('cancel', 'Cancel', false)
+        $this->addDefaultButtons( array(
+                                        array ( 'type'      => 'next'  ,
+                                                'name'      => 'Save'  ,
+                                                'isDefault' => true     ),
+                                        array ( 'type'      => 'reset' ,
+                                                'name'      => 'Reset'  ),
+                                        array ( 'type'       => 'cancel',
+                                                'name'      => 'Cancel' ),
                                        )
                                  );
         
