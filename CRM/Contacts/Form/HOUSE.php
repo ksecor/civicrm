@@ -27,7 +27,7 @@ class CRM_Contacts_Form_HOUSE extends CRM_Form
                             ' '      => '-no preference-',
                             'Phone'  => 'by phone', 
                             'Email'  => 'by email', 
-                            'Postal' => 'by postal email',
+                            'Post' => 'by postal email',
                             );
 
        $context_select = array(
@@ -116,8 +116,8 @@ class CRM_Contacts_Form_HOUSE extends CRM_Form
         $loc1[$i++] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
         $loc1[$i++] = & $this->createElement('select','im_service_id_3',  label_offset('Instant Message:',5), $im_select);
         $loc1[$i++] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
-        $loc1[$i++] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
-        $loc1[$i++] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
+        $loc1[$i++] = & $this->createElement('text', 'street_address', 'Street Address:', array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('textarea', 'supplemental_address_1', 'Address:', array('cols' => '47'));
         $loc1[$i++] = & $this->createElement('text', 'city', 'City:');
         $loc1[$i++] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
         $loc1[$i++] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
