@@ -1,8 +1,8 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/ContactBase.php';
+require_once 'CRM/Contact/DAO/ContactBase.php';
 
-class CRM_Contacts_DAO_Contact_List extends CRM_Contacts_DAO_ContactBase {
+class CRM_Contact_DAO_Contact_List extends CRM_Contact_DAO_ContactBase {
 
   public $list_id;
 
@@ -35,6 +35,6 @@ class CRM_Contacts_DAO_Contact_List extends CRM_Contacts_DAO_ContactBase {
   } // end of method links()
 
 
-} // end of class CRM_Contacts_DAO_Contact_List
+} // end of class CRM_Contact_DAO_Contact_List
 
 ?>

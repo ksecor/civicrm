@@ -5,7 +5,7 @@ require_once 'CRM/Form.php';
 /**
  * This class is used for building QCADD.php. This class also has the actions that should be done when form is processed.
  */
-class CRM_Contacts_Form_QCADD extends CRM_Form 
+class CRM_Contact_Form_QCADD extends CRM_Form 
 {
     
     /**

@@ -133,6 +133,29 @@ class CRM_Error extends PEAR_ErrorStack {
         return $out;
     }
 
+    static function debug_stacktrace($trace_level=0, $log = true ) {
+        $error =& self::singleton( );
+
+        $backtrace = debug_backtrace();
+
+        if($trace_level) {
+            $num_element = count($backtrace);
+            $backtrace = array_slice($backtrace, 0, ($num_element>$trace_level ? $trace_level : $num_element));
+        }
+
+        $out = print_r($backtrace, true);
+
+        $out = "<p>backtrace</p><p><pre>$out</pre></p><p></p>";
+        if ( $log ) {
+            echo $out;
+        }
+
+        return $out;
+    }
+
+
+
+
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Error');

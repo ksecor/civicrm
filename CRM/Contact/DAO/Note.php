@@ -2,7 +2,7 @@
 
 require_once 'CRM/DAO/Base.php';
 
-class CRM_Contacts_DAO_Note extends CRM_DAO_Base {
+class CRM_Contact_DAO_Note extends CRM_DAO_Base {
   public $table_name;
   public $table_id;
   public $note;
@@ -26,6 +26,6 @@ class CRM_Contacts_DAO_Note extends CRM_DAO_Base {
     return $fields;
   } // end of method dbFields
 
-} // end of class CRM_Contacts_DAO_Note
+} // end of class CRM_Contact_DAO_Note
 
 ?>

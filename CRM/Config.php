@@ -90,7 +90,7 @@ class CRM_Config {
      * the factory class used to instantiate our DB objects
      * @var string
      */
-    public $DAOFactoryClass	  = 'CRM_Contacts_DAO_Factory';
+    public $DAOFactoryClass	  = 'CRM_Contact_DAO_Factory';
 
     /**
      * The handle to the log that we are using

@@ -5,7 +5,7 @@ require_once 'CRM/Form.php';
 /**
  * This class is used for building CRUD.php. This class also has the actions that should be done when form is processed.
  */
-class CRM_Contacts_Form_HOUSE extends CRM_Form 
+class CRM_Contact_Form_Household extends CRM_Form 
 {
     
     /**
@@ -184,7 +184,7 @@ class CRM_Contacts_Form_HOUSE extends CRM_Form
      */
     function valid_contact($value) 
     {
-        $contact = new CRM_Contacts_DAO_Contact();
+        $contact = new CRM_Contact_DAO_Contact();
         if ($contact->get('id', $value)) {
             return true;
         } else {
@@ -213,10 +213,10 @@ class CRM_Contacts_Form_HOUSE extends CRM_Form
         $this->applyFilter('household_name', 'trim');
         $this->addRule('household_name', t(' Household name is a required feild.'), 'required', null, 'client');
         $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'numeric', null, 'client');
-        $this->registerRule('check_contactid', 'callback', 'valid_contact','CRM_Contacts_Form_HOUSE');
+        $this->registerRule('check_contactid', 'callback', 'valid_contact','CRM_Contact_Form_Household');
         $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'check_contactid');
         $this->addRule('annual_income', t(' Enter valid annual income.'), 'numeric', null, 'client');
-        $this->registerRule('check_income', 'callback', 'valid_income','CRM_Contacts_Form_HOUSE');
+        $this->registerRule('check_income', 'callback', 'valid_income','CRM_Contact_Form_Household');
         $this->addRule('annual_income', t(' Enter valid annual income.'), 'check_income');
         
         $this->addGroupRule('location', array('email_1' => array( 

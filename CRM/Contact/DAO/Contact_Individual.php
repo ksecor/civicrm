@@ -1,11 +1,11 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/ContactBase.php';
+require_once 'CRM/Contact/DAO/ContactBase.php';
 
 /**
  * This is a dataobject class for Contact individual table.
  */
-class CRM_Contacts_DAO_Contact_Individual extends CRM_Contacts_DAO_ContactBase 
+class CRM_Contact_DAO_Contact_Individual extends CRM_Contact_DAO_ContactBase 
 {
 
   /**

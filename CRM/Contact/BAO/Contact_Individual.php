@@ -1,20 +1,20 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/Contact.php';
+require_once 'CRM/Contact/DAO/Contact.php';
 
-require_once 'CRM/Contacts/DAO/Contact_Individual.php';
+require_once 'CRM/Contact/DAO/Contact_Individual.php';
 
-require_once 'CRM/Contacts/DAO/Location.php';
+require_once 'CRM/Contact/DAO/Location.php';
 
-require_once 'CRM/Contacts/DAO/Address.php';
+require_once 'CRM/Contact/DAO/Address.php';
 
-require_once 'CRM/Contacts/DAO/Phone.php';
+require_once 'CRM/Contact/DAO/Phone.php';
 
-require_once 'CRM/Contacts/DAO/Im.php';
+require_once 'CRM/Contact/DAO/Im.php';
 
-require_once 'CRM/Contacts/DAO/Email.php';
+require_once 'CRM/Contact/DAO/Email.php';
 
-class CRM_Contacts_BAO_Contact_Individual extends CRM_Contacts_DAO_Contact_Individual 
+class CRM_Contact_BAO_Contact_Individual extends CRM_Contact_DAO_Contact_Individual 
 {
     
     protected $_contactDAO;
@@ -26,7 +26,7 @@ class CRM_Contacts_BAO_Contact_Individual extends CRM_Contacts_DAO_Contact_Indiv
     {
         parent::__construct();
         
-        $this->_contactDAO = new CRM_Contacts_DAO_Contact();
+        $this->_contactDAO = new CRM_Contact_DAO_Contact();
     }
     
     /**

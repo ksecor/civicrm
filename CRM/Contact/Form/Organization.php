@@ -5,7 +5,7 @@ require_once 'CRM/Form.php';
 /**
  * This class is used for building ORG.php. This class also has the actions that should be done when form is processed.
  */
-class CRM_Contacts_Form_ORG extends CRM_Form 
+class CRM_Contact_Form_Organization extends CRM_Form 
 {
     
     /**
@@ -188,7 +188,7 @@ class CRM_Contacts_Form_ORG extends CRM_Form
      */
     function valid_contact($value) 
     {
-        $contact = new CRM_Contacts_DAO_Contact();
+        $contact = new CRM_Contact_DAO_Contact();
         if ($contact->get('id', $value)) {
             return true;
         } else {
@@ -206,7 +206,7 @@ class CRM_Contacts_Form_ORG extends CRM_Form
         $this->addRule('organization_name', t(' Organization name is a required feild.'), 'required', null, 'client');
         $this->addRule('primary_contact_id', t(' Contact id is a required feild.'), 'required', null, 'client');
         $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'numeric', null, 'client');
-        $this->registerRule('check_contactid', 'callback', 'valid_contact','CRM_Contacts_Form_ORG');
+        $this->registerRule('check_contactid', 'callback', 'valid_contact','CRM_Contact_Form_Organization');
         $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'check_contactid');
         
         $this->addGroupRule('location', array('email_1' => array( 
@@ -228,7 +228,7 @@ class CRM_Contacts_Form_ORG extends CRM_Form
         // print_r($_POST);
         // write your insert statements here
         // create a object for inserting data in contact table 
-        $contact = new CRM_Contacts_DAO_Contact();
+        $contact = new CRM_Contact_DAO_Contact();
 
         $contact->domain_id = 1;
         $contact->contact_type = $_POST['contact_type'];
@@ -246,7 +246,7 @@ class CRM_Contacts_Form_ORG extends CRM_Form
         }
         
         // create a object for inserting data in contact organization table 
-        $contact_organization = new CRM_Contacts_DAO_Contact_Organization();
+        $contact_organization = new CRM_Contact_DAO_Contact_Organization();
         $contact_organization->contact_id = $contact->id;
         $contact_organization->organization_name = $_POST['organization_name'];
         $contact_organization->legal_name = $_POST['legal_name'];
@@ -265,7 +265,7 @@ class CRM_Contacts_Form_ORG extends CRM_Form
         $varname1 = "location";
         
         // create a object of contact location
-        $$varname = new CRM_Contacts_DAO_Contact_Location();
+        $$varname = new CRM_Contact_DAO_Contact_Location();
         
         $$varname->contact_id = $contact->id;
         $$varname->context_id = $_POST[$varname1]['context_id'];

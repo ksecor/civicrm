@@ -225,6 +225,9 @@ class CRM_StateMachine {
             require_once($classPath);
             $name = eval( sprintf( "return %s::getDisplayName( );", $pages[$i] ) );
 
+            // CRM_Error::debug("name", $name);
+            // CRM_Error::debug("this->_pages", &$this->_pages);
+            
             if ( $numPages == 1 ) {
                 $prev = $next = null;
                 $type = CRM_State::START | CRM_State::FINISH;

@@ -5,9 +5,9 @@ require_once 'CRM/Controller/Simple.php';
 
 require_once 'CRM/DAO/Domain.php';
 
-require_once 'CRM/Contacts/BAO/Contact_Organization.php';
+require_once 'CRM/Contact/BAO/Contact_Organization.php';
 
-class CRM_Contacts_Organizations extends CRM_Base {
+class CRM_Contact_Organization extends CRM_Base {
   
   protected $_controller;
 
@@ -24,34 +24,15 @@ class CRM_Contacts_Organizations extends CRM_Base {
     // since we are just starting and figuring out navigation, we are hard coding it here
     $session->pushUserContext( $config->httpBase . "crm/contact/add_org?reset=1" );
 
-    $this->_controller = new CRM_Controller_Simple( 'CRM_Contacts_Form_ORG', 'Contact ORG Page', $mode );
+    $this->_controller = new CRM_Controller_Simple( 'CRM_Contact_Form_Organization', 'Contact Organization Page', $mode );
 
     $this->_controller->process();
     $this->_controller->run();
+  }
 
-    /**
-    $contact    = new CRM_Contacts_BAO_Contact_Individual();
-
-    $contact->domain_id = 1;
-    $contact->find();
-    while ( $contact->fetch() ) {
-      // CRM_Utils::debug( 'contactInd', $contact );
+    function display() {
+        return $this->_controller->getContent();
     }
-
-    $contact = new CRM_Contacts_BAO_Contact_Individual();
-    $contact->contact_type = 'Individual';
-    $contact->sort_name    = 'Donald Lobo';
-    $contact->hash         = 9876543;
-    $contact->domain_id    = 1;
-    $contact->first_name   = 'Donald';
-    $contact->last_name    = 'Lobo';
-    $contact->insert();
-    **/
-  }
-
-  function display() {
-    return $this->_controller->getContent();
-  }
 
 }
 

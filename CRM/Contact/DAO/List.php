@@ -1,8 +1,8 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/DomainBase.php';
+require_once 'CRM/Contact/DAO/DomainBase.php';
 
-class CRM_Contacts_DAO_List extends CRM_Contacts_DAO_DomainBase {
+class CRM_Contact_DAO_List extends CRM_Contact_DAO_DomainBase {
 
   public $iname;
   public $name;
@@ -43,6 +43,6 @@ class CRM_Contacts_DAO_List extends CRM_Contacts_DAO_DomainBase {
   } // end of method links()
 
 
-} // end of class CRM_Contacts_DAO_List
+} // end of class CRM_Contact_DAO_List
 
 ?>

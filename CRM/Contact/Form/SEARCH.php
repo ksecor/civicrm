@@ -5,7 +5,7 @@ require_once 'CRM/Form.php';
 /**
  * This class is used for building QCADD.php. This class also has the actions that should be done when form is processed.
  */
-class CRM_Contacts_Form_SEARCH extends CRM_Form 
+class CRM_Contact_Form_SEARCH extends CRM_Form 
 {
     
     /**
@@ -56,7 +56,7 @@ class CRM_Contacts_Form_SEARCH extends CRM_Form
                                                'type'       => 'next', 
                                                'name'       => 'Search',
                                                'isDefault'  => true)));
-        $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contacts_Form_CRUD');
+        $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contact_Form_CRUD');
 
          if ($this->validate() && ($this->_mode == self::MODE_VIEW)) {
             $this->freeze();    

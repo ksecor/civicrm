@@ -2,7 +2,7 @@
 
 require_once 'CRM/DAO/Base.php';
 
-class CRM_Contacts_DAO_Relationship extends CRM_DAO_Base {
+class CRM_Contact_DAO_Relationship extends CRM_DAO_Base {
   public $contact_id;
   public $target_contact_id;
   public $relationship_type_id;
@@ -40,6 +40,6 @@ class CRM_Contacts_DAO_Relationship extends CRM_DAO_Base {
     return $links;
   } // end of method links()
 
-} // end of class CRM_Contacts_DAO_Relationship
+} // end of class CRM_Contact_DAO_Relationship
 
 ?>

@@ -1,8 +1,8 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/ContactBase.php';
+require_once 'CRM/Contact/DAO/ContactBase.php';
 
-class CRM_Contacts_DAO_Contact_Organization extends CRM_Contacts_DAO_ContactBase {
+class CRM_Contact_DAO_Contact_Organization extends CRM_Contact_DAO_ContactBase {
 
   /**
    * name and other related things for the organization

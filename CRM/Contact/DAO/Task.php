@@ -2,7 +2,7 @@
 
 require_once 'CRM/DAO/Base.php';
 
-class CRM_Contacts_DAO_Task extends CRM_DAO_Base {
+class CRM_Contact_DAO_Task extends CRM_DAO_Base {
     public $target_contact_id;
     public $assigned_contact_id;
     public $time_started;
@@ -44,6 +44,6 @@ class CRM_Contacts_DAO_Task extends CRM_DAO_Base {
 
 
 
-} // end of class CRM_Contacts_DAO_Task
+} // end of class CRM_Contact_DAO_Task
 
 ?>

@@ -1,11 +1,11 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/LocationBase.php';
+require_once 'CRM/Contact/DAO/LocationBase.php';
 
 /**
  * This is a dataobject class for crm_im table.
  */
-class CRM_Contacts_DAO_Im extends CRM_Contacts_DAO_LocationBase 
+class CRM_Contact_DAO_IM extends CRM_Contact_DAO_LocationBase 
 {
 
     /**
@@ -62,6 +62,6 @@ class CRM_Contacts_DAO_Im extends CRM_Contacts_DAO_LocationBase
         return $links;
     } // end of method links()
     
-} // end of class CRM_Contacts_DAO_Contact_Im
+} // end of class CRM_Contact_DAO_Contact_IM
 
 ?>

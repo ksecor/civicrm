@@ -2,7 +2,7 @@
 
 require_once 'CRM/DAO/Base.php';
 
-class CRM_Contacts_DAO_DomainBase extends CRM_DAO_Base {
+class CRM_Contact_DAO_DomainBase extends CRM_DAO_Base {
 
   /*
    * organization this record belong to

@@ -1,12 +1,12 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/Contact.php';
+require_once 'CRM/Contact/DAO/Contact.php';
 
-require_once 'CRM/Contacts/DAO/Contact_Household.php';
+require_once 'CRM/Contact/DAO/Contact_Household.php';
 
-require_once 'CRM/Contacts/DAO/Contact_Location.php';
+require_once 'CRM/Contact/DAO/Contact_Location.php';
 
-class CRM_Contacts_BAO_Contact_Household extends CRM_Contacts_DAO_Contact_Household 
+class CRM_Contact_BAO_Contact_Household extends CRM_Contact_DAO_Contact_Household 
 {
     
     protected $_contactDAO;
@@ -18,7 +18,7 @@ class CRM_Contacts_BAO_Contact_Household extends CRM_Contacts_DAO_Contact_Househ
     {
         parent::__construct();
         
-        $this->_contactDAO = new CRM_Contacts_DAO_Contact();
+        $this->_contactDAO = new CRM_Contact_DAO_Contact();
     }
     
     /**

@@ -1,8 +1,8 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/ContactBase.php';
+require_once 'CRM/Contact/DAO/ContactBase.php';
 
-class CRM_Contacts_DAO_Contact_Action extends CRM_Contacts_DAO_ContactBase {
+class CRM_Contact_DAO_Contact_Action extends CRM_Contact_DAO_ContactBase {
 
   public $action_category;
   public $callback;
@@ -32,6 +32,6 @@ class CRM_Contacts_DAO_Contact_Action extends CRM_Contacts_DAO_ContactBase {
     return $fields;
   } // end of method dbFields
 
-} // end of class CRM_Contacts_DAO_Contact_Action
+} // end of class CRM_Contact_DAO_Contact_Action
 
 ?>

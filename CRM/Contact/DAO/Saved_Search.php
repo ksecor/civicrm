@@ -1,8 +1,8 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/DomainBase.php';
+require_once 'CRM/Contact/DAO/DomainBase.php';
 
-class CRM_Contacts_DAO_Saved_Search extends CRM_Contacts_DAO_DomainBase {
+class CRM_Contact_DAO_Saved_Search extends CRM_Contact_DAO_DomainBase {
 
   public $name;
   public $description;
@@ -27,6 +27,6 @@ class CRM_Contacts_DAO_Saved_Search extends CRM_Contacts_DAO_DomainBase {
     return $fields;
   } // end of method dbFields
 
-} // end of class CRM_Contacts_DAO_Saved_Search
+} // end of class CRM_Contact_DAO_Saved_Search
 
 ?>

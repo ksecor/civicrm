@@ -25,7 +25,7 @@
 
 require_once 'CRM/String.php';
 
-class CRM_Reports_Excel {
+class CRM_Report_Excel {
   /**
    * Code copied from phpMyAdmin - Lobo
    *

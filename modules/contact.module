@@ -1,4 +1,39 @@
 <?php
+/**
+ +----------------------------------------------------------------------+
+ | CiviCRM version 1.0                                                  |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2005 Donald A. Lobo                                    |
+ +----------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                      |
+ |                                                                      |
+ | CiviCRM is free software; you can redistribute it and/or modify it   |
+ | under the terms of the Affero General Public License Version 1,      |
+ | March 2002.                                                          |
+ |                                                                      |
+ | CiviCRM is distributed in the hope that it will be useful, but       |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+ | See the Affero General Public License for more details at            |
+ | http://www.affero.org/oagpl.html                                     |
+ |                                                                      |
+ | A copy of the Affero General Public License has been been            |
+ | distributed along with this program (affero_gpl.txt)                 |
+ +----------------------------------------------------------------------+
+*/
+
+/**
+ * Drupal module file.
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
+
+
+//echo "including contact.module... <br />";
 
 include_once 'config.inc.php';
 
@@ -6,16 +41,20 @@ require_once 'CRM/Action.php';
 require_once 'CRM/Form.php';
 require_once 'CRM/Utils.php';
 
-require_once 'CRM/Contacts/Contacts.php';
-require_once 'CRM/Contacts/Contacts_Qadd.php';
-require_once 'CRM/Contacts/Contacts_Csearch.php';
-require_once 'CRM/Contacts/Contacts_Search.php';
-require_once 'CRM/Contacts/Households.php';
-require_once 'CRM/Contacts/Organizations.php';
-require_once 'CRM/Contacts/List_Contacts.php';
+require_once 'CRM/Contact/Individual.php';
+require_once 'CRM/Contact/Household.php';
+require_once 'CRM/Contact/Organization.php';
 
-require_once 'CRM/Contacts/Selector.php';
+require_once 'CRM/Contact/Contact_Qadd.php';
+require_once 'CRM/Contact/Contact_Csearch.php';
+require_once 'CRM/Contact/Contact_Search.php';
+require_once 'CRM/Contact/List_Contact.php';
+
+require_once 'CRM/Contact/Selector.php';
 require_once 'CRM/Selector/Controller.php';
+
+//echo "contact.module - done requiring ... <br />";
+
 
 /**
  * @file
@@ -60,19 +99,22 @@ function contact_perm()
 
 function contact_block($op='list', $delta='0')
 {
+
+    //    echo "contact.module - brk 10<br />";
+
     global $user;
     if ($user->uid) {
         $menu_arr = contact_menu(true);
         if ($op == 'list') {
             $block[0]['info'] = 'CRM Block';
-            $block[1]['info'] = 'CRM Qucik Add Contact Block';
+            $block[1]['info'] = 'CRM Quick Add Contact Block';
             $block[2]['info'] = 'CRM Search Block';
             return $block;
         } else {
             switch ($delta) {
             case 2:
                 //$content = "hey, do the search";
-                $contact_csearch = new CRM_Contacts_Contacts_Csearch();
+                $contact_csearch = new CRM_Contact_Contact_Csearch();
                 $contact_csearch->run(CRM_Form::MODE_CREATE, 0);
                 $content = $contact_csearch->getContent();
                 //$content = $contact_csearch->display();
@@ -81,7 +123,7 @@ function contact_block($op='list', $delta='0')
                 break;   
             case 1: 
                 //  $content = "Quick adding form";
-                $contact_qadd = new CRM_Contacts_Contacts_Qadd();
+                $contact_qadd = new CRM_Contact_Contact_Qadd();
                 $contact_qadd->run(CRM_Form::MODE_CREATE, 0);
                 $content = $contact_qadd->getContent();
                 //$content = $contact_qadd->display();
@@ -127,6 +169,9 @@ function contact_block($op='list', $delta='0')
  */
 function contact_menu($may_cache) 
 {
+
+    //    echo "contact.module - brk 20<br />";
+
     $items = array();
     
     // The $may_cache parameter is used to divide menu items into two parts. Those
@@ -165,14 +210,14 @@ function contact_menu($may_cache)
         
         $items[] = array(
                          'path'  => 'crm/contact',
-                         'title' => t('Contacts'),
+                         'title' => t('Contact'),
                          'access' => user_access('view contact'),
                          'type'   => MENU_NORMAL_ITEM
                          );
         
         $items[] = array(
                          'path'  => 'crm/contact/list',
-                         'title' => t('List Contacts'),
+                         'title' => t('List Contact'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 0
                          );
@@ -214,7 +259,7 @@ function contact_menu($may_cache)
         
         $items[] = array(
                          'path'  => 'crm/contact/search',
-                         'title' => t('Search Contacts'),
+                         'title' => t('Search Contact'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 2
                          );
@@ -259,12 +304,15 @@ function contact_menu($may_cache)
 
 function contact_init() 
 {
+
+    //    echo "contact.module - brk 30<br />";
+
     // menu_rebuild();
     
     $config = CRM_Config::singleton();
     CRM_DAO::init($config->dsn, $config->daoDebug);
     
-    $factoryClass = 'CRM_Contacts_DAO_Factory';
+    $factoryClass = 'CRM_Contact_DAO_Factory';
     CRM_Utils::import($factoryClass);
     
     CRM_DAO::setFactory(new $factoryClass());
@@ -377,7 +425,7 @@ function contact_load($queryArgs)
 
 function contact_add() 
 {
-    $contact = new CRM_Contacts_Contacts();
+    $contact = new CRM_Contact_Individual();
     $contact->run(CRM_Form::MODE_CREATE, 0);
     return $contact->getContent();
 } // end of function contact_add
@@ -385,14 +433,14 @@ function contact_add()
 
 function contact_add_house() 
 {
-    $contact = new CRM_Contacts_Households();
+    $contact = new CRM_Contact_Household();
     $contact->run(CRM_Form::MODE_CREATE, 0);
     return $contact->getContent();
 } // end of function contact_add_house
 
 function contact_add_org() 
 {
-    $contact = new CRM_Contacts_Organizations();
+    $contact = new CRM_Contact_Organization();
     $contact->run(CRM_Form::MODE_CREATE, 0);
     return $contact->getContent();
 } // end of function contact_add_org
@@ -407,20 +455,11 @@ function contact_add_org()
  *******************************************************/
 function contact_list($id=0) 
 {
-    $contact = new CRM_Contacts_Selector( );
-    $controller = new CRM_Selector_Controller( $contact, null, null, CRM_Action::VIEW );
-    $controller->run( );
-    return $controller->getContent();
-} // end of function contact_list
-
-/*
-function contact_list($id=0) 
-{
-    $contact = new CRM_Contacts_List_Contacts();
-    $contact->run(CRM_Form::MODE_CREATE, 0);
+    $contact = new CRM_Contact_Individual();
+    $contact->run(CRM_Form::MODE_VIEW, 0);
     return $contact->getContent();
 } // end of function contact_list
-*/
+
 
 /*******************************************************
  *
@@ -433,10 +472,9 @@ function contact_list($id=0)
  *******************************************************/
 function contact_query() 
 {
-    $contact = new CRM_Contacts_Contacts_Search();
-    $contact->run(CRM_Form::MODE_CREATE, 0);
+    $contact = new CRM_Contact_Individual();
+    $contact->run(CRM_Form::MODE_VIEW, 0);
     return $contact->getContent();
-    //return '';
 } // end of function contact_query
 
 /*******************************************************
@@ -446,7 +484,7 @@ function contact_query()
  *******************************************************/
 function contact_edit($id) 
 {
-    $contact = new CRM_Contacts_Contacts();
+    $contact = new CRM_Contact_Contact();
     $contact->run(CRM_Form::MODE_UPDATE, $id);
     return $contact->getContent();
 } // end of function contact_edit
@@ -461,7 +499,7 @@ function contact_view($id)
 {
     // echo "IN CONTACT VIEW: $id<p>";
     // flush();
-    $contact = new CRM_Contacts_Contacts();
+    $contact = new CRM_Contact_Contact();
     $contact->run(CRM_Form::MODE_VIEW, $id);
     return $contact->getContent();
 } // end of function contact_view
@@ -476,7 +514,7 @@ function contact_view($id)
  *******************************************************/
 function contact_delete($id) 
 {
-    $contact = new CRM_Contacts_Contacts();
+    $contact = new CRM_Contact_Contact();
     $contact->run(CRM_Form::MODE_DELETE, $id);
     return $contact->getContent();
 } // end of function contact_delete

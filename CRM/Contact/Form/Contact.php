@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
  +----------------------------------------------------------------------+
@@ -23,10 +23,7 @@
 */
 
 /**
- * We use QFC for both single page and multi page wizards. We want to make
- * creation of single page forms as easy and as seamless as possible. This
- * class is used to optimize and make single form pages a relatively trivial
- * process
+ *
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -35,38 +32,32 @@
  *
  */
 
-require_once 'CRM/Controller.php';
+require_once 'CRM/Form.php';
 
-class CRM_Controller_Simple extends CRM_Controller {
+/**
+ * The class which generates form components generic to all the contact types
+ */
+class CRM_Contact_Form_Contact extends CRM_Form
+{
 
-    /**
-     * constructor
-     *
-     * @param string path   the class Path of the form being implemented
-     * @param string name   the descriptive name for the page
-     * @param int    mode   the mode that the form will operate on
-     *
-     * @return object
-     * @access public
-     */
-    function __construct($path, $name, $mode) {
-        // by definition a single page is modal :)
-        parent::__construct( $name, true );
-
-        $this->_stateMachine = new CRM_StateMachine( $this );
-
-        $params = array( $path );
-
-        // CRM_Error::debug("params", &$params);
-
-        $this->_stateMachine->addSequentialStates( $params );
-
-        $this->addPages( $this->_stateMachine, $mode );
-
-        $this->addDefault( );
-
+    //public static function buildCommunicationBlock($form)
+    static function bcb($form)
+    {
+        $pcm_select = array(
+                            ' '      => '-no preference-',
+                            'Phone'  => 'by phone', 
+                            'Email'  => 'by email', 
+                            'Post' => 'by postal email',
+                            );
+        
+        // checkboxes for DO NOT phone, email, mail
+        $form->addElement('checkbox', 'do_not_phone', 'Privacy:', 'Do not call');
+        $form->addElement('checkbox', 'do_not_email', null, 'Do not contact by email');
+        $form->addElement('checkbox', 'do_not_mail', null, 'Do not contact by postal mail');
+        
+        // preferred communication method 
+        $form->add('select', 'preferred_communication_method', 'Prefers:', $pcm_select);
     }
-
 }
 
 ?>

@@ -41,7 +41,7 @@
 
 require_once 'CRM/Pager.php';
 require_once 'CRM/Sort.php';
-require_once 'CRM/Reports/Excel.php';
+require_once 'CRM/Report/Excel.php';
 
 class CRM_Selector_Controller {
 
@@ -177,7 +177,7 @@ class CRM_Selector_Controller {
          * Will do this once we figure out how we handle session data
          */
 
-        CRM_Reports_Excel::writeCSVFile( $fileName, $headers, $rows );
+        CRM_Report_Excel::writeCSVFile( $fileName, $headers, $rows );
 
         exit();
     }

@@ -2,7 +2,7 @@
 
 require_once 'CRM/DAO/Factory.php';
 
-class CRM_Contacts_DAO_Factory {
+class CRM_Contact_DAO_Factory {
 
   static $_classes = array (
                             'Contact'              => 'data',
@@ -21,8 +21,8 @@ class CRM_Contacts_DAO_Factory {
                             );
 
   static $_prefix = array(
-                          'business'  =>  'CRM/Contacts/BAO/',
-                          'data'      =>  'CRM/Contacts/DAO/',
+                          'business'  =>  'CRM/Contact/BAO/',
+                          'data'      =>  'CRM/Contact/DAO/',
                           );
     
     static $_suffix = '.php';
