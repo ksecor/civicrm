@@ -134,7 +134,7 @@ class CRM_StateMachine {
         }
 
         $state =& $this->_states[$pageName];
-    
+
         // dont know how or why we landed here so abort and display
         // current page
         if ( empty($state) ) {
@@ -223,7 +223,8 @@ class CRM_StateMachine {
 
             $classPath = str_replace( '_', '/', $pages[$i] ) . '.php';
             require_once($classPath);
-            $name = eval( sprintf( "return %s::getDisplayName( );", $pages[$i] ) );
+            // $name = eval( sprintf( "return %s::getDisplayName( );", $pages[$i] ) );
+            $name = $iname;
 
             if ( $numPages == 1 ) {
                 $prev = $next = null;

@@ -60,7 +60,7 @@ class CRM_QuickForm_Action_Cancel extends CRM_QuickForm_Action {
     function perform( &$page, $actionName ) {
         $this->_stateMachine->reset( );
 
-        $this->_stateMachine->popUserContext( );
+        $this->popUserContext( );
     }
 
 }

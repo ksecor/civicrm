@@ -120,14 +120,14 @@ class CRM_Error extends PEAR_ErrorStack {
      * @access public
      * @static
      */
-    function debug( $name, &$variable, $log = true ) {
+    static function debug( $name, &$variable, $log = true ) {
         $error =& self::singleton( );
 
         $out = print_r( $variable, true );
 
         $out = "<p>$name</p><p><pre>$out</pre></p><p></p>";
         if ( $log ) {
-            self::$_log->debug( $out );
+            echo $out;
         }
 
         return $out;

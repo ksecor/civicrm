@@ -260,7 +260,15 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                                 'name'      => 'Cancel' ),
                                         )
                                   );
+
         
+        $this->setDefaultValues();
+
+        if ($this->_mode == self::MODE_VIEW ) {
+            $this->freeze();
+        }
+
+        /**        
         $this->addRules();
         $this->setDefaultValues();
         
@@ -273,7 +281,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                 $this->freeze();    
             }
         }
-        
+        **/
           
     }//ENDING BUILD FORM 
     
@@ -314,15 +322,15 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contacts_Form_CRUD');
         //$this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
         
-         for ($i = 1; $i <= 3; $i++) { 
-             $this->addGroupRule('location'."{$i}", array('email_1' => array( 
-                                                                             array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),                                                 'email_2' => array( 
-                                                                                                                                                                                                                                     array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
-                                                          'email_3' => array( 
-                                                                             array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
-                                                          )
-                                 ); 
-         }
+        for ($i = 1; $i <= 3; $i++) { 
+            $this->addGroupRule('location'."{$i}", array('email_1' => array( 
+                                                                            array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),                                                 'email_2' => array( 
+                                                                                                                                                                                                                                    array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
+                                                         'email_3' => array( 
+                                                                            array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
+                                                         )
+                                ); 
+        }
          
     }
     
@@ -330,7 +338,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
     /**
      * this function is called when the form is submitted.
      */
-    function process() 
+    function postProcess() 
     { 
         $str_error = ""; // error is recorded  if there are any errors while inserting in database         
         
@@ -509,7 +517,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                     $$var_im->is_primary = 0;
                                 }
                                 
-				$$var_im->location_id = $$varname->id;
+                                $$var_im->location_id = $$varname->id;
                                 $$var_im->im_service_id =$_POST[$varname1][$var_service];
                                 $$var_im->im_screenname =$_POST[$varname1][$var_screenname];
                                 
@@ -536,20 +544,20 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         } else {
             $contact->query('COMMIT');
             form_set_error('first_name', t('Contact Individual has been added successfully.'));
-	    header("Location:".$PHP_SELF."?reset=1");
+            header("Location:".$PHP_SELF."?reset=1");
         }
         
     }//end of function
      
 }
 
-    function label_offset($str,$num)
-    {
-        $return_string = "";
-        for ($i = 0; $i < $num; $i++) {
-            $return_string = $return_string . " &nbsp;"; 
-        }
-        return $str . $return_string;
+function label_offset($str,$num)
+{
+    $return_string = "";
+    for ($i = 0; $i < $num; $i++) {
+        $return_string = $return_string . " &nbsp;"; 
     }
+    return $str . $return_string;
+}
 
 ?>
