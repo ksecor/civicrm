@@ -44,7 +44,8 @@ class CRM_Pager extends Pager_Sliding {
         ROWCOUNT         = 50,
         PAGE_ID          = 'crmPID',
         PAGE_ID_TOP      = 'crmPID',
-        PAGE_ID_BOTTOM   = 'crmPID_B';
+        PAGE_ID_BOTTOM   = 'crmPID_B',
+        PAGE_ROWCOUNT    = 'crmRowCount';
 
     /**
      * the output of the pager. This is a name/value array with various keys
@@ -81,7 +82,7 @@ class CRM_Pager extends Pager_Sliding {
 
         $this->Pager_Sliding( $params);
 
-        $links = $this->getLinks( );
+        // $links = $this->getLinks( );
 
         list( $offset, $limit ) = $this->getOffsetAndRowCount( );
         $start = $offset + 1;
@@ -98,17 +99,20 @@ class CRM_Pager extends Pager_Sliding {
         $params['status'] = str_replace( '%%StatusMessage%%', $statusMessage, $params['status'] );
 
         $this->_response = array(
-                               'first'        => $links['first'],
-                               'back'         => $links['back'] ,
-                               'next'         => $links['next'] ,
-                               'last'         => $links['last'] ,
-                               'currentPage'  => $this->getCurrentPageID(),
-                               'numPages'     => $this->numPages(),
-                               'csvString'    => $params['csvString'],
-                               'status'       => $params['status'],
-                               'buttonTop'    => $params['buttonTop'],
-                               'buttonBottom' => $params['buttonBottom'],
-                               );
+                                 'first'        => $this->_printFirstPage(),
+                                 'back'         => str_replace('&nbsp;', '', $this->_getBackLink()),
+                                 'next'         => str_replace('&nbsp;', '', $this->_getNextLink()),
+                                 'last'         => $this->_printLastPage(),
+                                 'currentPage'  => $this->getCurrentPageID(),
+                                 'numPages'     => $this->numPages(),
+                                 'csvString'    => $params['csvString'],
+                                 'status'       => $params['status'],
+                                 'buttonTop'    => $params['buttonTop'],
+                                 'buttonBottom' => $params['buttonBottom'],
+                                 'low'          => $this->getPerPageLink(25),
+                                 'medium'       => $this->getPerPageLink(50),
+                                 'high'         => $this->getPerPageLink(100),
+                                 );
 
 
         /**
@@ -147,7 +151,6 @@ class CRM_Pager extends Pager_Sliding {
         $params['delta']      = 1;
 
         $params['totalItems'] = $params['total'];
-        $params['perPage']    = $params['rowCount'];
         $params['append']     = true;
         $params['separator']  = '';
         $params['spacesBeforeSeparator'] = 1;
@@ -168,7 +171,8 @@ class CRM_Pager extends Pager_Sliding {
         $params['lastPageText']  = 'Last >> ';
         $params['lastPagePost']  = '';
 
-        $params['currentPage'] = $this->getPageID( $params['pageID'], $params );
+        $params['currentPage'] = $this->getPageID      ( $params['pageID'], $params );
+        $params['perPage']     = $this->getPageRowCount( $params['rowCount'] );
 
         return $params;
     }
@@ -182,7 +186,6 @@ class CRM_Pager extends Pager_Sliding {
      * @param int defaultPageId   current pageId
      *
      * @return int                new pageId to display to the user
-     *
      * @access public
      *
      */
@@ -200,6 +203,26 @@ class CRM_Pager extends Pager_Sliding {
         return $currentPage;
     }
 
+    /**
+     * Get the number of rows to display from either a GET / POST variable
+     *
+     * @param int $defaultPageRowCount the default value if not set
+     * 
+     * @return int                     the rowCount value to use
+     * @access public
+     *
+     */
+    function getPageRowCount( $defaultPageRowCount = self::ROWCOUNT ) {
+        // POST has higher priority than GET vars
+        if ( isset( $_POST[self::PAGE_ROWCOUNT] ) ) {
+            $rowCount = max ( (int ) @$_POST[self::PAGE_ROWCOUNT], 1 );
+        } else if ( isset( $_GET[self::PAGE_ROWCOUNT] ) ) {
+            $rowCount = max ( (int ) @$_GET[self::PAGE_ROWCOUNT], 1 );
+        } else {
+            $rowCount = $defaultPageRowCount;
+        }
+        return $rowCount;
+    }
 
     /**
      * Use the pager class to get the pageId and Offset
@@ -220,6 +243,26 @@ class CRM_Pager extends Pager_Sliding {
         $offset = ( $pageId - 1 ) * $this->_perPage;
 
         return array( $offset, $this->_perPage );
+    }
+
+    /**
+     * given a number create a link that will display the number of
+     * rows as specified by that link
+     *
+     * @param int $perPage the number of rows
+     *
+     * @return string      the link
+     * @access void
+     */
+    function getPerPageLink( $perPage ) {
+        $link = sprintf('<a href="%s" %s>%s</a>',
+                        ( $this->_append ? $this->_url . $this->getCurrentPageID() . '&' . self::PAGE_ROWCOUNT . '=' . $perPage :
+                          $this->_url . sprintf($this->_fileName, $this->getCurrentPageID()) . '&' . self::PAGE_ROWCOUNT . '=' . $perPage
+                          ),
+                        $this->_classString,
+                        $perPage )
+                  . $this->_spacesBefore . $this->_spacesAfter;
+        return $link;
     }
 
 }

@@ -181,9 +181,16 @@ class CRM_Sort {
             $this->_response[$name]['link'] = $this->_link . $this->sortIDValue( $index, $direction );
 
             if ( $current == $index ) {
-                $this->_response[ $name ]['direction' ] = ( $direction == CRM_Sort::ASCENDING ) ? '^' : 'v';
+                if ( $direction == CRM_Sort::ASCENDING ) {
+                    $this->_response[ $name ]['direction' ] = '^';
+                    $this->_response[ $name ]['class']      = "class=sort-ascending";
+                } else {
+                    $this->_response[ $name ]['direction' ] = 'v';
+                    $this->_response[ $name ]['class']      = "class=sort-descending";
+                }
             } else {
                 $this->_response[ $name ]['direction' ] = '';
+                $this->_response[ $name ]['class']      = "class=sort-none";
             }
         }
 

@@ -157,8 +157,6 @@ class CRM_Selector_Controller {
         $this->_output = $output;
         $this->_store  = $store;
 
-        CRM_Error::le_method();
-
         $params = array(
                         'total'   => $this->_object->getTotalCount($action),
                         'pageID'  => $this->_pageID
@@ -168,18 +166,20 @@ class CRM_Selector_Controller {
         /*
          * Set the default values of RowsPerPage
          */
-        // $params['rowCount'] = $params['rowCount'] ? $params['rowCount'] : CRM_Pager::ROWCOUNT;
-        // This is a hack to make it easier to debug
-        $params['rowCount'] = 5;
+        if ( ! isset( $params['rowCount'] ) ) {
+        }
+        $storeRowCount = $store->get( CRM_Pager::PAGE_ROWCOUNT );
+        if ( $storeRowCount ) {
+            $params['rowCount'] = $storeRowCount;
+        } else if ( ! isset( $params['rowCount'] ) ) {
+            $params['rowCount'] = CRM_Pager::ROWCOUNT;
+        }
 
         $this->_pager = new CRM_Pager( $params );
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
 
         $this->_sortOrder = $this->_object->getSortOrder($action);
         $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortID );
-
-        CRM_Error::ll_method();
-
     }
 
     function hasChanged( ) {
@@ -191,9 +191,6 @@ class CRM_Selector_Controller {
     }
 
     function run( ) {
-
-        CRM_Error::le_method();
-
         //print $this->_pager->getPageID();
         $config  = CRM_Config::singleton ();
         $session = CRM_Session::singleton();
@@ -221,26 +218,20 @@ class CRM_Selector_Controller {
                 $template->assign_by_ref( $property, $$property );
             }
 
-            CRM_Error::debug_log_message("breakpoint 20");
-
             $template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
             $this->_content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
         }
 
         if ( $this->_output & self::SESSION ) {
-
-            CRM_Error::debug_log_message("breakpoint 30");
-
             foreach ( self::$_properties as $property ) {
                 $this->_store->set( $property, $$property );
             }
         }
         
         // always store the current pageID and sortID
-        $this->_store->set( CRM_Pager::PAGE_ID, $this->_pager->getCurrentPageID( ) );
-        $this->_store->set( CRM_Sort::SORT_ID , $this->_sort->getCurrentSortID ( ) );
-
-        CRM_Error::ll_method();
+        $this->_store->set( CRM_Pager::PAGE_ID      , $this->_pager->getCurrentPageID( ) );
+        $this->_store->set( CRM_Sort::SORT_ID       , $this->_sort->getCurrentSortID ( ) );
+        $this->_store->set( CRM_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage            );
     }
     
     function moveFromSessionToTemplate( ) {

@@ -291,7 +291,13 @@ class CRM_Session {
 
         $this->createScope( self::USER_CONTEXT );
 
-        array_push( $this->_session[$this->_key][self::USER_CONTEXT], $userContext );
+        $topUC = array_pop( $this->_session[$this->_key][self::USER_CONTEXT] );
+        if ( $topUC != $userContext ) {
+            array_push( $this->_session[$this->_key][self::USER_CONTEXT], $topUC       );
+            array_push( $this->_session[$this->_key][self::USER_CONTEXT], $userContext );
+        } else {
+            array_push( $this->_session[$this->_key][self::USER_CONTEXT], $userContext );
+        }
     }
 
     /**

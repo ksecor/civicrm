@@ -54,7 +54,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      * @var int
      * @const
      */
-    const LOCATION_BLOCKS = 1;
+    const LOCATION_BLOCKS = 3;
     
     /**
      * This is the constructor of the class.
@@ -109,7 +109,22 @@ class CRM_Contact_Form_Individual extends CRM_Form
     {
         $defaults = array( );
         $params   = array( );
-        if ( $this->_mode & ( self::MODE_VIEW | self::MODE_UPDATE ) ) {
+        if ( $this->_mode & self::MODE_ADD ) {
+            if ( self::LOCATION_BLOCKS >= 1 ) {
+                // set the is_primary location for the first location
+                $defaults['location']    = array( );
+                
+                $locationTypeKeys = array_filter(array_keys( CRM_SelectValues::$locationType ), is_int );
+                sort( $locationTypeKeys );
+
+                // also set the location types for each location block
+                for ( $i = 0; $i < self::LOCATION_BLOCKS; $i++ ) {
+                    $defaults['location'][$i+1] = array( );
+                    $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
+                }
+                $defaults['location'][1]['is_primary'] = true;
+            }
+        } else if ( $this->_mode & ( self::MODE_VIEW | self::MODE_UPDATE ) ) {
             // get the id from the session that has to be modified
             // get the values for $_SESSION['id']
 
@@ -127,7 +142,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                 $this->set( 'ids', $ids );
             }
         }
-
+        
         return $defaults;
     }
     
