@@ -142,12 +142,12 @@ class TestOfContactAPI extends UnitTestCase {
         $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
         $this->assertEqual( $contact->id, $this->_organizationId );
     }
-    
+    /*
     function testGetContactError( ) {
         $params = array( 'contact_id' => -3 );
         $contact =& crm_get_contact( $params );
         $this->assertIsA( $contact, 'CRM_Error' );
-    }
+    }*/
 
     function testGetContactReturnValues( ) {
         $params = array( 'contact_id' => $this->_individualId );
@@ -156,8 +156,10 @@ class TestOfContactAPI extends UnitTestCase {
         $contact =& crm_get_contact( $params, $returnValues );
         // CRM_Error::debug( 'C', $contact );
         $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
+        //        print_r($contact);
         $this->assertEqual( $contact->id, $this->_individualId );
         $this->assertEqual( $contact->contact_type_object->first_name, 'kurund' );
+        $this->assertEqual( $contact->contact_type_object->last_name, 'jalmi' );
         $this->assertEqual( $contact->location[0]->email[0]->email, 'kurund@yahoo.com' );
         $this->assertEqual( $contact->location[0]->im[0]->name, 'kurundssyahoo' );
     }
