@@ -1,6 +1,6 @@
 <?php
 
-require_once 'CRM/Array.class.php';
+require_once 'CRM/Array.php';
 
 class CRM_DAO_Factory {
 

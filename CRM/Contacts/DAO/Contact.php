@@ -53,7 +53,7 @@ class CRM_Contacts_DAO_Contact extends CRM_Contacts_DAO_Base {
   function dbFields() {
     static $fields;
     if ( $fields === null ) {
-      $fields = arrray_merge(
+      $fields = array_merge(
                              parent::dbFields(),
                              array(
                                    'contact_type' => array( self::TYPE_ENUM, self::NOT_NULL ),

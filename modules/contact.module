@@ -177,6 +177,15 @@ function contact_menu($may_cache) {
 
 function contact_init() {
   menu_rebuild();
+
+  $config = CRM_Config::instance();
+  CRM_DAO::init( $config->dsn, $config->daoDebugLvl );
+
+  $factoryClass = 'CRM_Contacts_DAO_Factory';
+  CRM_Utils::import( $factoryClass );
+
+  CRM_DAO::setFactory( new $factoryClass() );
+
 }
 
 /**

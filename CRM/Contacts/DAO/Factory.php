@@ -1,6 +1,6 @@
 <?php
 
-require_once 'CRM/Array.class.php';
+require_once 'CRM/DAO/Factory.php';
 
 class CRM_Contacts_DAO_Factory {
 
@@ -34,7 +34,7 @@ class CRM_Contacts_DAO_Factory {
     static function &create ( $className ) {
       $type = CRM_Array::value( $className, self::$_classes );
       if ( ! $type ) {
-        CRM_Error::fatal( "class $className not found" );
+        return CRM_DAO_Factory::create( $className );
       }
 
       $file  = self::$_prefix[$type] . $className;

@@ -1242,5 +1242,11 @@ INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1069
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1070", "Yukon Territory", "YT", 1039);
 
 
+#
+# insert same data for context and domain
+#
+INSERT INTO crm_domain( name ) VALUES ( 'CRM Test Domain' );
 
-
+INSERT INTO crm_context( domain_id, name, description ) VALUES( 1, 'home', 'Place of Residence'  );
+INSERT INTO crm_context( domain_id, name, description ) VALUES( 1, 'work', 'Place of Business'   );
+INSERT INTO crm_context( domain_id, name, description ) VALUES( 1, 'play', 'Place of Recreation' );

@@ -6,10 +6,11 @@ class CRM_DAO_Base extends CRM_DAO {
 
   const
     TYPE_INT       =   1,
-    TYPE_STR       =   2,
+    TYPE_STRING    =   2,
+    TYPE_ENUM      =   2,
     TYPE_DATE      =   4,
     TYPE_TIME      =   8,
-    TYPE_BOOL      =  16,
+    TYPE_BOOLEAN   =  16,
     TYPE_TEXT      =  32,
     TYPE_BLOB      =  64,
     TYPE_TIMESTAMP = 256,
@@ -27,6 +28,8 @@ class CRM_DAO_Base extends CRM_DAO {
 
   function __construct() {
     $this->links();
+
+    $this->__table = $this->getTableName();
   }
 
   function links( ) {

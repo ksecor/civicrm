@@ -48,7 +48,7 @@ class CRM_Contacts_DAO_Contact_Household extends CRM_Contacts_DAO_ContactBase {
   function dbFields() {
     static $fields;
     if ( $fields === null ) {
-      $fields = arrray_merge(
+      $fields = array_merge(
                              parent::dbFields(),
                              array(
                                    'household_name'    => array( self::TYPE_STRING, null ),

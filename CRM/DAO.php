@@ -30,11 +30,11 @@ class CRM_DAO extends DB_DataObject {
    * @note should also handle setting factories?
    */
   function init($dsn, $debugLvl=0) {
-    $options = &PEAR::getStaticProperty('DB_DataObject','options');
-    $options = array(
-                     'database'         => $dsn,
-                     );
-      
+    $options =& PEAR::getStaticProperty('DB_DataObject','options');
+    $options =  array(
+                      'database'         => $dsn,
+                      );
+    
     if ($debugLvl) {
       DB_DataObject::DebugLevel($debugLvl);
     }
