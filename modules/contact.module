@@ -3,6 +3,7 @@
 include_once 'config.inc.php';
 
 require_once 'CRM/Contacts/Contacts.php';
+require_once 'CRM/Contacts/Households.php';
 require_once 'CRM/Utils.php';
 
 /**
@@ -112,6 +113,13 @@ function contact_menu($may_cache) {
                      'title' => t('Add Contact'),
                      'type'   => MENU_NORMAL_ITEM,
                      'weight' => 1
+                     );
+
+    $items[] = array(
+                     'path'  => 'crm/contact/addhouse',
+                     'title' => t('Add Household'),
+                     'type'   => MENU_NORMAL_ITEM,
+                     'weight' => 3
                      );
 
     $items[] = array(
@@ -232,6 +240,10 @@ function contact_invoke( $operation ) {
     $content .= contact_add();
   }
 
+  // add household
+  if (arg(2) == 'addhouse') {
+    $content .= contact_addhouse();
+  }
 
   // list
   if (arg(2) == 'list') {
@@ -283,6 +295,14 @@ function contact_load( $queryArgs ) {
 
 function contact_add() {
   $contact = new CRM_Contacts_Contacts();
+  $contact->run( CRM_Form::MODE_CREATE, 0 );
+  return $contact->display();
+} // end of function contact_add
+
+
+
+function contact_addhouse() {
+  $contact = new CRM_Contacts_Households();
   $contact->run( CRM_Form::MODE_CREATE, 0 );
   return $contact->display();
 } // end of function contact_add
