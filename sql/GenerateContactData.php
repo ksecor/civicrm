@@ -982,7 +982,7 @@ class CRM_GCD {
         $this->lee();
         
         $group = new CRM_Contact_DAO_Group();
-        $group_contact = new CRM_Contact_DAO_GroupContact();
+        $groupContact = new CRM_Contact_DAO_GroupContact();
         
         // add the 3 groups first
         $num_group = count($this->group);
@@ -997,31 +997,51 @@ class CRM_GCD {
 
         // 60 are for newsletter
         for ($i=0; $i<60; $i++) {
-            $group_contact->group_id = 1; // newsletter subscribers
-            $group_contact->contact_id = $this->_getRandomElement($this->individual);
-            $this->_insert($group_contact);
+            $groupContact->group_id = 1; // newsletter subscribers
+            $groupContact->contact_id = $this->_getRandomElement($this->individual);
+            $this->_setGroupContactStatus($groupContact);
+            $this->_insert($groupContact);
         }
 
         // 15 volunteers
         for ($i=0; $i<15; $i++) {
-            $group_contact->group_id = 2; // Volunteers
-            $group_contact->contact_id = $this->_getRandomElement($this->individual);
-            $this->_insert($group_contact);
+            $groupContact->group_id = 2; // Volunteers
+            $groupContact->contact_id = $this->_getRandomElement($this->individual);
+            $this->_setGroupContactStatus($groupContact);
+            $this->_insert($groupContact);
         }
 
         // 8 advisory board group
         for ($i=0; $i<8; $i++) {
-            $group_contact->group_id = 3; // advisory board group
-            $group_contact->contact_id = $this->_getRandomElement($this->individual);
-            $this->_insert($group_contact);
+            $groupContact->group_id = 3; // advisory board group
+            $groupContact->contact_id = $this->_getRandomElement($this->individual);
+            $this->_setGroupContactStatus($groupContact);
+            $this->_insert($groupContact);
         }
 
         $this->lel();
     }
 
 
+    private function _setGroupContactStatus($groupContact)
+    {
 
-
+        // clear existing fields for DAO
+        if ($groupContact->contact_id % 7) {
+            unset($groupContact->out_date);
+            unset($groupContact->out_method);
+            $groupContact->status = "In";
+            $groupContact->in_date = $this->_getRandomDate();
+            $groupContact->in_method = 'Admin';
+        } else {
+            unset($groupContact->in_date);
+            unset($groupContact->in_method);
+            $groupContact->status = "Out";
+            $groupContact->out_date = $this->_getRandomDate();
+            $groupContact->out_method = 'Admin';
+        }
+        return;
+    }
 
 
     /*******************************************************
