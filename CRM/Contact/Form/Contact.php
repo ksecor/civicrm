@@ -94,8 +94,17 @@ class CRM_Contact_Form_Contact extends CRM_Form
     }
 
     function preProcess( ) {
-        $this->_contactType = $_GET['c_type'];
-        $this->_contactId   = $this->get( 'contact_id'   );
+        $this->_contactId   = CRM_Array::value( 'cid', $_GET );
+        if ( $this->_contactId ) {
+            $contact = new CRM_Contact_DAO_Contact( );
+            $contact->id = $this->_contactId;
+            if ( ! $contact->find( true ) ) {
+                CRM_Error::fatal( "contact does not exist: $this->_contactId" );
+            }
+            $this->_contactType = $contact->contact_type;
+        } else {
+            $this->_contactType = $_GET['c_type'];
+        }
     }
 
     /**
@@ -180,8 +189,10 @@ class CRM_Contact_Form_Contact extends CRM_Form
             $this->_showHide->addHide( 'commPrefs[show]' );
             if ( array_key_exists( 'location', $defaults ) ) {
                 $numLocations = count( $defaults['location'] );
-                $this->_showHide->addShow( 'location[1]' );
-                $this->_showHide->addHide( 'location[1][show]' );
+                if ( $numLocations > 0 ) {
+                    $this->_showHide->addShow( 'location[1]' );
+                    $this->_showHide->addHide( 'location[1][show]' );
+                }
                 for ( $i = 1; $i < $numLocations; $i++ ) {
                     $locationIndex = $i + 1;
                     $this->_showHide->addShow( "location[$locationIndex][show]" );

@@ -14,7 +14,6 @@
 <xi:include href="MobileProvider.xml"   parse="xml" />
 <xi:include href="GeoCoord.xml"         parse="xml" />
 <xi:include href="IMProvider.xml"       parse="xml" />
-<xi:include href="Note.xml"             parse="xml" />
 <xi:include href="Category.xml"         parse="xml" />
 <xi:include href="RelationshipType.xml" parse="xml" />
 <xi:include href="LocationType.xml"     parse="xml" />
@@ -27,6 +26,7 @@
 <xi:include href="Phone.xml"            parse="xml" />
 <xi:include href="Email.xml"            parse="xml" />
 <xi:include href="IM.xml"               parse="xml" />
+<xi:include href="Note.xml"             parse="xml" />
 <xi:include href="Relationship.xml"     parse="xml" />
 <xi:include href="Group.xml"            parse="xml" />
 
