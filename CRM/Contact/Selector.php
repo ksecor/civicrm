@@ -146,7 +146,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     function getSortOrder($action) 
     {
         static $order = array(
-                              'crm_contact_id'        => CRM_Sort::ASCENDING,
+                              /*'crm_contact_id'        => CRM_Sort::ASCENDING,*/
                               'crm_contact_sort_name' => CRM_Sort::DESCENDING,
                               );
         return $order;
@@ -163,10 +163,11 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     {
         static $headers = array(
                                 array('name' => ''),
-                                array(
+                                array('name' => ''),
+                                /*array(
                                       'name' => 'Contact ID',
                                       'sort' => 'crm_contact_id',
-                                      ),
+                                      ),*/
                                 array(
                                       'name' => 'Name',
                                       'sort' => 'crm_contact_sort_name',
