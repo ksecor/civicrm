@@ -1,8 +1,14 @@
+
+
 <?php
 
 require_once 'CRM/Contacts/DAO/ContactBase.php';
 
-class CRM_Contacts_DAO_Contact_Individual extends CRM_Contacts_DAO_ContactBase {
+/**
+ * This is a dataobject class for Contact individual table.
+ */
+class CRM_Contacts_DAO_Contact_Individual extends CRM_Contacts_DAO_ContactBase 
+{
 
   /**
    * name and salutation of individual
@@ -35,27 +41,36 @@ class CRM_Contacts_DAO_Contact_Individual extends CRM_Contacts_DAO_ContactBase {
   public $birth_date;
   public $is_deceased;
 
-  function __construct() {
+  /**
+   * This the constructor of the class
+   */
+  function __construct() 
+  {
     parent::__construct();
   }
-
-  function dbFields() {
+  
+  /**
+   * This function is used to create the array of the feilds from Contact Individual table.
+   * @return array array contains the feilds of the table
+   */
+  function dbFields() 
+  {
     static $fields;
-    if ( $fields === null ) {
+    if ($fields === null) {
       $fields = array_merge(
-                             parent::dbFields(),
+			    parent::dbFields(),
                              array(
-                                   'first_name'   => array( self::TYPE_STRING, self::NOT_NULL ),
-                                   'last_name'    => array( self::TYPE_STRING, self::NOT_NULL ),
-                                   'middle_name'  => array( self::TYPE_STRING, self::NOT_NULL ),
-                                   'prefix'       => array( self::TYPE_STRING, self::NOT_NULL ),
-                                   'suffix'       => array( self::TYPE_STRING, self::NOT_NULL ),
-                                   'job_title'  => array( self::TYPE_STRING, self::NOT_NULL ),
-                                   'greeting_type'   => array( self::TYPE_ENUM, self::NOT_NULL ),
-                                   'custom_greeting' => array( self::TYPE_STRING, self::NOT_NULL ),
-                                   'gender'       => array( self::TYPE_ENUM, self::NOT_NULL ),
-                                   'birth_date'   => array( self::TYPE_DATE, self::NOT_NULL ),
-				   'is_deceased'  => array( self::TYPE_BOOLEAN, null )
+                                   'first_name'   => array(self::TYPE_STRING, self::NOT_NULL),
+                                   'last_name'    => array(self::TYPE_STRING, self::NOT_NULL),
+                                   'middle_name'  => array(self::TYPE_STRING, self::NOT_NULL),
+                                   'prefix'       => array(self::TYPE_STRING, self::NOT_NULL),
+                                   'suffix'       => array(self::TYPE_STRING, self::NOT_NULL),
+                                   'job_title'    => array(self::TYPE_STRING, self::NOT_NULL),
+                                   'greeting_type'   => array(self::TYPE_ENUM, self::NOT_NULL),
+                                   'custom_greeting' => array(self::TYPE_STRING, self::NOT_NULL),
+                                   'gender'       => array(self::TYPE_ENUM, self::NOT_NULL),
+                                   'birth_date'   => array(self::TYPE_DATE, self::NOT_NULL),
+				   'is_deceased'  => array(self::TYPE_BOOLEAN, null)
                                    )
                              );
     }
@@ -65,3 +80,4 @@ class CRM_Contacts_DAO_Contact_Individual extends CRM_Contacts_DAO_ContactBase {
 }
 
 ?>
+
