@@ -156,16 +156,29 @@ class CRM_Contact_Page_View extends CRM_Page {
         CRM_Error::debug_var("this->_contactId", $this->_contactId);
         
 
-        $eCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
+        $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
         
-        CRM_Error::debug_var("eCategory", $eCategory);
+        CRM_Error::debug_var("entityCategory", $entityCategory);
        
-        $this->assign('eCategory', $eCategory); 
+        $this->assign('entityCategory', $entityCategory); 
 
         // $array1 = CRM_Contact_BAO_EntityCategory::getValues($params);        
         // $this->assign($array1);         
 
         $category = CRM_SelectValues::getCategory();
+
+        foreach ($category as $categoryID => &$categoryDetail) {
+            //push($categoryDetail
+
+            CRM_Error::debug_var("categoryID", $categoryID);
+
+            //            $checked = in_array($entityCategory, $categoryID) ? " checked " : " ";
+            $checked = in_array($categoryID, $entityCategory) ? " checked " : " ";
+
+            CRM_Error::debug_var("checked", $checked);
+
+            $categoryDetail['checked'] = $checked;
+        }
 
         CRM_Error::debug_var('category', $category);
 
