@@ -54,58 +54,13 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                             'Postal' => 'by postal email',
                             );
         
-        $this->addDefaultButtons(array(1 => array ('next', 'Save', true),
-                                       2 => array ('reset' , 'Reset', false),
-                                       3 => array ('cancel', 'Cancel', false)
-                                       )
-                                 );
-        
-        // prefix
-        $this->addElement('select', 'prefix', null, $prefix_select);
-        
-        // first_name
-        $this->addElement('text', 'first_name', null, array('id'=>'firstname'));
-        
-        // last_name
-        $this->addElement('text', 'last_name', null, array('id'=>'lastname'));
-        
-        // suffix
-        $this->addElement('select', 'suffix', null, $suffix_select);
-        
-        // greeting type
-        $this->addElement('select', 'greeting_type', null, $greeting_select);
-        
-        // job title
-        $this->addElement('text', 'job_title', null);
-        
-        // checkboxes for DO NOT phone, email, mail
-        $this->addElement('checkbox', 'do_not_phone', null);
-        $this->addElement('checkbox', 'do_not_email', null);
-        $this->addElement('checkbox', 'do_not_mail', null);
-        
-        // preferred communication method 
-        $this->add('select','preferred_communication_method',null,$pcm_select);
-        
-        // radio button for gender
-        $this->addElement('radio', 'gender', 'femalex', 'Female','female',
-                          array('id'=>'fem', 'onclick' => "document.getElementById('mdy').value = 'click';"));
-        $this->addElement('radio', 'gender', 'malex', 'Male', 'male', 
-                          array('id'=>'male', 'onclick' => "document.getElementById('mdy').value = 'click';"));
-        $this->addElement('radio', 'gender', 'malex', 'Transgender','transgender', 
-                          array('id'=>'trans', 'onclick' => "document.getElementById('mdy').value = 'click';"));
-        
-        $this->addElement('checkbox', 'is_deceased', null, null, array('onclick' => "document.getElementById('mdy').value = 'click';"));
-        
-        $options = array(
+         $date_options = array(
                          'language'  => 'en',
                          'format'    => 'dMY',
                          'minYear'   => 1900,
                          'maxYear'   => date('Y'),
                          );  
-        
-        $this->addElement('date', 'birth_date', 'Choose date', $options, 
-                          array('onclick' => "document.getElementById('mdy').value = 'click';"));
-        
+
         $context_select = array(
                                 1 => 'Home', 
                                 'Work', 
@@ -141,83 +96,128 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                 1172 => 'Poland', 
                                 1128 => 'United States'
                                 );
+
+        // prefix
+        $this->addElement('select', 'prefix', null, $prefix_select);
         
-        /* Entering location cabin 1 */
+        // first_name
+        $this->addElement('text', 'first_name', 'First / Last :');
+        
+        // last_name
+        $this->addElement('text', 'last_name', null);
+        
+        // suffix
+        $this->addElement('select', 'suffix', null, $suffix_select);
+        
+        // greeting type
+        $this->addElement('select', 'greeting_type', 'Greeting type :', $greeting_select);
+        
+        // job title
+        $this->addElement('text', 'job_title', 'Job title :');
+        
+        // checkboxes for DO NOT phone, email, mail
+        $this->addElement('checkbox', 'do_not_phone', 'Privacy:', 'Do not call');
+        $this->addElement('checkbox', 'do_not_email', null, 'Do not contact by email');
+        $this->addElement('checkbox', 'do_not_mail', null, 'Do not contact by postal mail');
+        
+        // preferred communication method 
+        $this->add('select','preferred_communication_method', 'Prefers:',$pcm_select);
+        
+        // radio button for gender
+
+        $this->addElement('radio', 'gender', 'Gender', 'Female','female',
+                          array('onclick' => "document.CRUD.elements['mdyx'].value = 'true';",'checked' => null));
+        $this->addElement('radio', 'gender', 'Gender', 'Male', 'male', 
+                          array('onclick' => "document.CRUD.elements['mdyx'].value = 'true';"));
+        $this->addElement('radio', 'gender', 'Gender', 'Transgender','transgender', 
+                          array('onclick' => "document.CRUD.elements['mdyx'].value = 'true';"));
+        $this->addElement('checkbox', 'is_deceased', 'Contact is deceased', null, 
+                          array('onclick' => "document.CRUD.elements['mdyx'].value = 'true';"));
+        
+        $this->addElement('date', 'birth_date', 'Date of birth', $date_options, 
+                          array('onclick' => "document.CRUD.elements['mdyx'].value = 'true';"));
+        
+        
+        /* Entering location cabin 1 */ 
         $loc1[0] = & $this->createElement('select', 'context_id', null, $context_select);
-        $loc1[1] = & $this->createElement('checkbox', 'is_primary', null);
+        $loc1[1] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact');
         $loc1[2] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
-        $loc1[3] = & $this->createElement('text', 'phone_1', null, array('size' => '37px','id' => 'ph11'));
+        $loc1[3] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
         $loc1[4] = & $this->createElement('select','phone_type_2', null, $phone_select);
-        $loc1[5] = & $this->createElement('text', 'phone_2', null, array('size' => '37px','id' => 'ph21'));
+        $loc1[5] = & $this->createElement('text', 'phone_2', 'Other Phone:', array('size' => '37px'));
         $loc1[6] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
-        $loc1[7] = & $this->createElement('text', 'phone_3', null, array('size' => '37px','id' => 'ph31'));
-        $loc1[8] = & $this->createElement('text', 'email', null, array('size' => '47px','id' => 'em11'));
-        $loc1[9] = & $this->createElement('text', 'email_secondary', null, array('size' => '47px','id' => 'em21'));
-        $loc1[10] = & $this->createElement('text', 'email_tertiary', null, array('size' => '47px','id' => 'em31'));
-        $loc1[11] = & $this->createElement('select', 'im_service_id_1', null, $im_select);
-        $loc1[12] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px','id' => 'im11'));
-        $loc1[13] = & $this->createElement('select', 'im_service_id_2', null, $im_select);
-        $loc1[14] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px','id' => 'im21'));
-        $loc1[15] = & $this->createElement('select','im_service_id_3', null, $im_select);
-        $loc1[16] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px','id' => 'im31'));
-        $loc1[17] = & $this->createElement('text', 'street', null, array('size' => '47px'));
-        $loc1[18] = & $this->createElement('textarea', 'supplemental_address', null, array('cols' => '47'));
-        $loc1[19] = & $this->createElement('text', 'city', null);
-        $loc1[20] = & $this->createElement('text', 'postal_code', null);
-        $loc1[21] = & $this->createElement('select', 'state_province_id', null, $state_select);
-        $loc1[22] = & $this->createElement('select', 'country_id', null, $country_select);
+        $loc1[7] = & $this->createElement('text', 'phone_3',  'Other Phone:', array('size' => '37px'));
+        $loc1[8] = & $this->createElement('text', 'email', 'Email:', array('size' => '47px'));
+        $loc1[9] = & $this->createElement('text', 'email_secondary', 'Other Email:', array('size' => '47px'));
+        $loc1[10] = & $this->createElement('text', 'email_tertiary', 'Other Email:', array('size' => '47px'));
+        $loc1[11] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
+        $loc1[12] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
+        $loc1[13] = & $this->createElement('select', 'im_service_id_2',  'Instant Message:', $im_select);
+        $loc1[14] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
+        $loc1[15] = & $this->createElement('select','im_service_id_3',  'Instant Message:', $im_select);
+        $loc1[16] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
+        $loc1[17] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
+        $loc1[18] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
+        $loc1[19] = & $this->createElement('text', 'city', 'City:');
+        $loc1[20] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
+        $loc1[21] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
+        $loc1[22] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
         
         /* Entering location cabin 2 */
         $loc2[0] = & $this->createElement('select', 'context_id', null, $context_select);
-        $loc2[1] = & $this->createElement('checkbox', 'is_primary', null);
+        $loc2[1] = & $this->createElement('checkbox', 'is_primary', null, 'Primary location for this contact');
         $loc2[2] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
-        $loc2[3] = & $this->createElement('text', 'phone_1', null, array('size' => '37px','id' => 'ph12'));
+        $loc2[3] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
         $loc2[4] = & $this->createElement('select','phone_type_2', null, $phone_select);
-        $loc2[5] = & $this->createElement('text', 'phone_2', null, array('size' => '37px','id' => 'ph22'));
+        $loc2[5] = & $this->createElement('text', 'phone_2', 'Other Phone:', array('size' => '37px'));
         $loc2[6] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
-        $loc2[7] = & $this->createElement('text', 'phone_3', null, array('size' => '37px','id' => 'ph32'));
-        $loc2[8] = & $this->createElement('text', 'email', null, array('size' => '47px','id' => 'em12'));
-        $loc2[9] = & $this->createElement('text', 'email_secondary', null, array('size' => '47px','id' => 'em22'));
-        $loc2[10] = & $this->createElement('text', 'email_tertiary', null, array('size' => '47px','id' => 'em32'));
-        $loc2[11] = & $this->createElement('select', 'im_service_id_1', null, $im_select);
-        $loc2[12] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px','id' => 'im12'));
-        $loc2[13] = & $this->createElement('select', 'im_service_id_2', null, $im_select);
-        $loc2[14] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px','id' => 'im22'));
-        $loc2[15] = & $this->createElement('select','im_service_id_3', null, $im_select);
-        $loc2[16] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px','id' => 'im32'));
-        $loc2[17] = & $this->createElement('text', 'street', null, array('size' => '47px'));
-        $loc2[18] = & $this->createElement('textarea', 'supplemental_address', null, array('cols' => '47'));
-        $loc2[19] = & $this->createElement('text', 'city', null);
-        $loc2[20] = & $this->createElement('text', 'postal_code', null);
-        $loc2[21] = & $this->createElement('select', 'state_province_id', null, $state_select);
-        $loc2[22] = & $this->createElement('select', 'country_id', null, $country_select);
+        $loc2[7] = & $this->createElement('text', 'phone_3', 'Other Phone:', array('size' => '37px'));
+        $loc2[8] = & $this->createElement('text', 'email', 'Email:', array('size' => '47px'));
+        $loc2[9] = & $this->createElement('text', 'email_secondary', 'Other Email:', array('size' => '47px'));
+        $loc2[10] = & $this->createElement('text', 'email_tertiary', 'Other Email:', array('size' => '47px'));
+        $loc2[11] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
+        $loc2[12] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
+        $loc2[13] = & $this->createElement('select', 'im_service_id_2', 'Instant Message:', $im_select);
+        $loc2[14] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
+        $loc2[15] = & $this->createElement('select','im_service_id_3', 'Instant Message:', $im_select);
+        $loc2[16] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
+        $loc2[17] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
+        $loc2[18] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
+        $loc2[19] = & $this->createElement('text', 'city', 'City:');
+        $loc2[20] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
+        $loc2[21] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
+        $loc2[22] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
         
         /* Entering location cabin 3 */
         $loc3[0] = & $this->createElement('select', 'context_id', null, $context_select);
-        $loc3[1] = & $this->createElement('checkbox', 'is_primary', null);
+        $loc3[1] = & $this->createElement('checkbox', 'is_primary', null, 'Primary location for this contact');
         $loc3[2] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
-        $loc3[3] = & $this->createElement('text', 'phone_1', null, array('size' => '37px','id' => 'ph13'));
+        $loc3[3] = & $this->createElement('text', 'phone_1',  'Preferred Phone:', array('size' => '37px'));
         $loc3[4] = & $this->createElement('select','phone_type_2', null, $phone_select);
-        $loc3[5] = & $this->createElement('text', 'phone_2', null, array('size' => '37px','id' => 'ph23'));
+        $loc3[5] = & $this->createElement('text', 'phone_2', null, array('size' => '37px'));
         $loc3[6] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
-        $loc3[7] = & $this->createElement('text', 'phone_3', null, array('size' => '37px','id' => 'ph33'));
-        $loc3[8] = & $this->createElement('text', 'email', null, array('size' => '47px','id' => 'em13'));
-        $loc3[9] = & $this->createElement('text', 'email_secondary', null, array('size' => '47px','id' => 'em23'));
-        $loc3[10] = & $this->createElement('text', 'email_tertiary', null, array('size' => '47px','id' => 'em33'));
-        $loc3[11] = & $this->createElement('select', 'im_service_id_1', null, $im_select);
-        $loc3[12] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px','id' => 'im13'));
-        $loc3[13] = & $this->createElement('select', 'im_service_id_2', null, $im_select);
-        $loc3[14] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px','id' => 'im23'));
-        $loc3[15] = & $this->createElement('select','im_service_id_3', null, $im_select);
-        $loc3[16] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px','id' => 'im33'));
-        $loc3[17] = & $this->createElement('text', 'street', null, array('size' => '47px'));
-        $loc3[18] = & $this->createElement('textarea', 'supplemental_address', null, array('cols' => '47'));
-        $loc3[19] = & $this->createElement('text', 'city', null);
-        $loc3[20] = & $this->createElement('text', 'postal_code', null);
-        $loc3[21] = & $this->createElement('select', 'state_province_id', null, $state_select);
-        $loc3[22] = & $this->createElement('select', 'country_id', null, $country_select);
-    
-        for ($i = 1; $i <= 3; $i++) {    
+        $loc3[7] = & $this->createElement('text', 'phone_3', null, array('size' => '37px'));
+        $loc3[8] = & $this->createElement('text', 'email', 'Email:', array('size' => '47px'));
+        $loc3[9] = & $this->createElement('text', 'email_secondary', 'Other Email:', array('size' => '47px'));
+        $loc3[10] = & $this->createElement('text', 'email_tertiary', 'Other Email:', array('size' => '47px'));
+        $loc3[11] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
+        $loc3[12] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
+        $loc3[13] = & $this->createElement('select', 'im_service_id_2',  'Instant Message:', $im_select);
+        $loc3[14] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
+        $loc3[15] = & $this->createElement('select','im_service_id_3',  'Instant Message:', $im_select);
+        $loc3[16] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
+        $loc3[17] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
+        $loc3[18] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
+        $loc3[19] = & $this->createElement('text', 'city', 'City:');
+        $loc3[20] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
+        $loc3[21] = & $this->createElement('select', 'state_province_id',  'State / Province:', $state_select);
+        $loc3[22] = & $this->createElement('select', 'country_id', 'Country:' , $country_select);
+        
+        $this->addGroup($loc1,'location1');
+        $this->addGroup($loc2,'location2');
+        $this->addGroup($loc3,'location3');
+
+            for ($i = 1; $i <= 3; $i++) {    
             $this->addElement('link', 'exph02_'."{$i}", null, 'phone0_2_'."{$i}", '[+] another phone',
                               array('onclick' => "show('phone0_2_{$i}'); hide('expand_phone0_2_{$i}'); show('expand_phone0_3_{$i}'); return false;"));
             $this->addElement('link', 'hideph02_'."{$i}", null, 'phone0_2_'."{$i}", '[-] hide phone',
@@ -253,13 +253,10 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $this->addElement('link', 'hideloc3', null, 'location3', '[-] hide location',
                           array('onclick' => "hide('location3'); show('expand_loc3'); hide('expand_loc2');return false;"));
         
-        $this->addGroup($loc1,'location1');
-        $this->addGroup($loc2,'location2');
-        $this->addGroup($loc3,'location3');
-    
+
         /* End of locationas */
     
-        $this->add('textarea', 'address_note', null, array('cols' => '82', 'id' => 'addnote'));    
+        $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82'));    
 
         $this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',
                           array('onclick' => "show('demographics'); hide('expand_demographics'); return false;"));
@@ -272,17 +269,26 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
     
         $this->addElement('link', 'hidenotes', null, 'notes', '[-] hide contact notes',
                           array('onclick' => "hide('notes'); show('expand_notes'); return false;"));
-    
-        $this->addElement('hidden', 'mdyx', null, array('id' => 'mdy', 'value' => ''));
-    
-        if ($this->validate() && ($this->_mode == self::MODE_VIEW || self::MODE_CREATE)) {
-            //$this->freeze();    
+        
+        //$this->addElement('hidden', 'mdyx', null, array('value' => 'false'));
+         $this->addElement('hidden', 'mdyx','false');
+
+        $this->addDefaultButtons(array(1 => array ('next', 'Save', true),
+                                       2 => array ('reset' , 'Reset', false),
+                                       3 => array ('cancel', 'Cancel', false)
+                                       )
+                                 );
+        $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contacts_Form_CRUD');
+
+        if ($this->validate() && ($this->_mode == self::MODE_VIEW)) {
+            $this->freeze();    
       
         } else {
             if ($this->_mode == self::MODE_VIEW || self::MODE_UPDATE) {
                 $this->setDefaultValues();
             }
         }
+  
     }//ENDING BUILD FORM 
   
     /**
@@ -316,23 +322,23 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
     function addRules() 
     {
         $this->applyFilter('first_name', 'trim');
-        $this->addRule('first_name', t(' First name is a required feild.'), 'required', null, 'client');
+        $this->addRule('first_name', t(' First name is a required field.'), 'required', null, 'client');
         $this->applyFilter('last_name', 'trim');
-        $this->addRule('last_name', t(' Last name is a required feild.'), 'required', null, 'client');
-        $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contacts_Form_CRUD');
+        $this->addRule('last_name', t(' Last name is a required field.'), 'required', null, 'client');
+
         $this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
     
-        for ($i = 1; $i <= 3; $i++) { 
+               for ($i = 1; $i <= 3; $i++) { 
             $this->addGroupRule('location'."{$i}", array('email' => array( 
-                                                                          array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),
-                                                         'email_secondary' => array( 
-                                                                                    array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
-                                                         'email_tertiary' => array( 
-                                                                                   array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
+                                                   array(t( 'Please enter valid email for location').$i.'.', 'email', null, 'client')),
+                                                             'email_secondary' => array( 
+                                                   array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null, 'client')),
+                                                    'email_tertiary' => array( 
+                                                                              array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null, 'client'))
                                                          )
                                 ); 
         }
-        
+         
     }
     
     /**
