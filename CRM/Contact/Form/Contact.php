@@ -95,7 +95,27 @@ class CRM_Contact_Form_Contact extends CRM_Form
     }
 
     function preProcess( ) {
-        $this->_contactId   = CRM_Array::value( 'cid', $_GET );
+        if ( $this->_mode == self::MODE_ADD ) {
+            $this->_contactType = CRM_Array::value( 'c_type', $_REQUEST );
+            if ( ! $this->_contactType ) {
+                CRM_Error::fatal( 'Invalid contact type' );
+            }
+            $this->_contactId = null;
+            return;
+        } 
+
+        if ( $this->_mode == self::MODE_VIEW ) {
+            $this->_contactId   = CRM_Array::value( 'cid', $_REQUEST );
+        } else {
+            // this is update mode, first get the id from the session
+            // else get it from the REQUEST
+            $ids = $this->get('ids');
+            $this->_contactId = CRM_Array::value( 'contact', $ids );
+            if ( ! $this->_contactId ) {
+                $this->_contactId   = CRM_Array::value( 'cid', $_REQUEST );
+            }
+        }
+
         if ( $this->_contactId ) {
             $contact = new CRM_Contact_DAO_Contact( );
             $contact->id = $this->_contactId;
@@ -103,12 +123,10 @@ class CRM_Contact_Form_Contact extends CRM_Form
                 CRM_Error::fatal( "contact does not exist: $this->_contactId" );
             }
             $this->_contactType = $contact->contact_type;
-        } else {
-            $this->_contactType = CRM_Array::value( 'c_type', $_REQUEST );
-            if ( ! $this->_contactType ) {
-                CRM_Error::fatal( 'Invalid contact type' );
-            }
+            return;
         }
+
+        CRM_Error::fatal( "Could not get a contact_id and/or contact_type" );
     }
 
     /**

@@ -151,7 +151,7 @@ class CRM_Session {
      * @return void
      */
     function resetScope( $prefix ) {
-        if (! empty( $prefix ) ) {
+        if (empty( $prefix ) ) {
             return;
         }
 

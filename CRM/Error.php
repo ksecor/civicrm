@@ -157,6 +157,8 @@ class CRM_Error extends PEAR_ErrorStack {
         $vars = array( 'message' => $message,
                        'code'    => $code );
 
+        CRM_Error::debug( $code, $message );
+        CRM_Error::debug( 'BT', debug_backtrace( ) );
         theme( 'fatal_error', 'error.tpl', $vars );
 
         exit( CRM_Error::FATAL_ERROR );
