@@ -1,58 +1,23 @@
 {* smarty *}
-
-	{literal}
-	<script type="text/javascript">
-
-	function show(sectionx) {
-		document.getElementById(sectionx).style.display = 'block';
-	}
-
-	function hide(sectionx) {
-		document.getElementById(sectionx).style.display = 'none';
-	}
-
-	function mdyf() {
-		document.getElementById('mdy').value = 
-		document.getElementById('mmsel').value + "/" +
-		document.getElementById('ddsel').value + "/" +
-		document.getElementById('yysel').value ;
-	}
-
-	function checkdt() {
-	var mth = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
-	if ( mth[document.getElementById('mmsel').value - 1] < document.getElementById('ddsel').value ) {
-	  alert('Please enter a correct date'); return false;
-	}
-	else { return true;}
-	}
-
-	</script>
-	{/literal}
+{literal}
+<script type="text/javascript" src="/drupal/js/CRUD.js"></script>
+{/literal}
 
 
+{$form.javascript}
 
-
-<form {$form.attributes} 
-
-onsubmit = " return checkdt( );">  
+<form {$form.attributes}>
 
 	{$form.mdyx.html}
-
+	
 	{if $form.hidden}
 	{$form.hidden}{/if}
 
-	<script type = "text/javascript">
-		document.getElementById('mdy').value = "0";
-	        document.getElementById('mdy').style.display = 'none';
-	</script>
 
 	{if count($form.errors) gt 0}
 	<table width="100%" cellpadding="1" cellspacing="0" border="0" bgcolor="#ff9900"><tr><td>
 	<table width="100%" cellpadding="10" cellspacing="0" border="0" bgcolor="#FFFFCC"><tr><td align="center">
 	<span class="error" style="font-size: 13px;">Please correct the errors below.</span>
-	<script type="text/javascript">
-		document.getElementById('mdy').value = "error";
-	</script>
 	</td></tr></table>
 	</td></tr></table>
 	</p>
@@ -425,7 +390,7 @@ onsubmit = " return checkdt( );">
 	</tr>
 	{/if}
 </table>
-
+</br>
 {/section}
 
 
@@ -436,7 +401,7 @@ onsubmit = " return checkdt( );">
 
 </div> <!-- end 'core' section of contact form -->
 
-<br/>
+
 <div id = "expand_demographics">
 <table>
 	<tr>
@@ -459,7 +424,7 @@ onsubmit = " return checkdt( );">
 	</tr>
 	<tr>
 		<td class="form-item"><label>Date of Birth:</label></td>
-		<td class="form-item">{$form.dd.html}{$form.mm.html}{$form.yy.html}</td>
+		<td class="form-item">{$form.birth_date.html}</td>
 	</tr>
 	<tr>
 		<td class="form-item" colspan=2>{$form.is_deceased.html}<label> Contact is Deceased </label></td>
@@ -492,7 +457,10 @@ onsubmit = " return checkdt( );">
 </div>
 
 <br/>
+
+
 <div id = "notes">
+
 <table border="1" cellpadding="2" cellspacing="2">
 	<tr>
 		<td class="form-item"><label>Notes:</label></td>
@@ -510,6 +478,8 @@ onsubmit = " return checkdt( );">
 </table>
 </div>
 
+
+
 <br/>
 <div id = "buttons">
 <table cellpadding="2" cellspacing="2">
@@ -523,43 +493,17 @@ onsubmit = " return checkdt( );">
 
 </form>
 	
-	{literal}<script type="text/javascript">
-	 var sections = 
-	new Array('phone0_2_1','phone0_3_1','email0_2_1','email0_3_1','IM0_2_1','IM0_3_1','expand_phone0_3_1',
-		'expand_email0_3_1','expand_IM0_3_1',
-		'phone0_2_2','phone0_3_2','email0_2_2','email0_3_2','IM0_2_2','IM0_3_2','expand_phone0_3_2',
-		'expand_email0_3_2','expand_IM0_3_2',
-		'phone0_2_3','phone0_3_3','email0_2_3','email0_3_3','IM0_2_3','IM0_3_3','expand_phone0_3_3',
-		'expand_email0_3_3','expand_IM0_3_3',
-		 'notes','location2','demographics','location3','expand_loc3');
+{literal}
+<script type="text/javascript">
+on_load_execute();
+</script>
+{/literal}
 
+{if count($form.errors) gt 0}
+{literal}
+<script type="text/javascript">
+on_error_execute();
+</script>
+{/literal}
+{/if}
 
-	var showit = new Array("core");
- 	if (document.getElementById('mdy').value!= "error") {
-        for (var i = 0; i < showit.length; i++) {
-   		document.getElementById(showit[i]).style.display = 'block';
-	}
-
-	for (var i = 0; i < sections.length; i++) { 
- 	    document.getElementById(sections[i]).style.display = 'none';}
-	    document.getElementById('fem').checked = 'checked';
-	}
-
-	else {
-	 var sectionh = new Array(
-		'expand_email0_3_1','expand_IM0_3_1','expand_phone0_3_2',
-		'expand_email0_3_2','expand_IM0_3_2','expand_phone0_3_3',
-		'expand_email0_3_3','expand_IM0_3_3','expand_phone0_2_1',
-		'expand_email0_2_1','expand_IM0_2_1','expand_phone0_2_2',
-		'expand_email0_2_2','expand_IM0_2_2','expand_phone0_2_3',
-		'expand_email0_2_3','expand_IM0_2_3','expand_phone0_3_1',
-		'expand_loc3','expand_loc2');
-
-	 for (var i = 0; i < sectionh.length; i++) {
-	  document.getElementById(sectionh[i]).style.display = 'none';
-	 }
-	}
-	 mdyf();
-	 
-	
-	</script>{/literal}
