@@ -1,8 +1,8 @@
 <?php
 
-require_once 'CRM/Contacts/DAO/Base.php';
+require_once 'CRM/Contacts/DAO/DomainBase.php';
 
-class CRM_Contacts_DAO_Contact extends CRM_Contacts_DAO_Base {
+class CRM_Contacts_DAO_Contact extends CRM_Contacts_DAO_DomainBase {
 
   /**
    * what type of contact is this, avoids doing a lookup in multiple tables
