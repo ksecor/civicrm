@@ -12,9 +12,9 @@
 #crm-container input.four {width: 4em;}
 #crm-container input.eight {width: 8em;}
 #crm-container input.twelve {width: 12em;}
-#crm-container input.medium {width: 20em;}
-#crm-container input.big {width: 15em;} /*should be 30, but too big*/
-#crm-container input.huge {width: 45em;}
+#crm-container input.medium {width: 12em;}
+#crm-container input.big {width: 15em;}
+#crm-container input.huge {width: 30em;}
 
 /*
 ** Classes for form section show/hide links
@@ -68,6 +68,7 @@ div.spacer {
   text-align: left;
 } 
 
+/* Inline form field 'help' */
 #crm-container .description {
   padding: 5px 0px 5px;
   font-size: 0.9em;
@@ -75,23 +76,8 @@ div.spacer {
 }
 
 /* 
-** [group description comment here]
+** Styles for record browser table and pager bar
 */
-#crm-container a {
-  color: #000000;
-}
-
-#crm-container fieldset {
-  border: thin solid #000000;
-  -moz-border-radius: 10px 10px 10px 10px;
-}
-
-#crm-container legend {
-  font-family:   Lucida, Arial, Verdana, Helvetica, sans-serif;
-  font-size: 11pt;
-  color: #5A5A5A;
-} 
-
 #crm-container table {
   width: 100%;
 }
@@ -128,7 +114,7 @@ div.spacer {
   margin-left: 30px;
 }
 
-#crm-container #pager-position {
+#crm-pager {
   border: thin solid #000000;
   background-color: #B0B0B0;
   color: #FFFFFF;
@@ -139,15 +125,15 @@ div.spacer {
   padding-top: 5px;
 }
 
- #crm-container #pager-position a {
+#crm-pager a {
   color: #FFFFFF;
 }
 
-#crm-container a:hover, #crm-container #pager-position a:hover {
+#crm-container a:hover, #crm-pager a:hover {
   color: #0000FF;
 } 
 
-#crm-container span.pager {
+.crm-pager-nav {
   position: absolute;
   height: 25px;
   padding-left: 150px;

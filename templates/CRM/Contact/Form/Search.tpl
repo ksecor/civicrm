@@ -1,8 +1,8 @@
 <script type="text/javascript" src="{$config->httpBase}js/Common.js"></script>
 <form {$form.attributes}>
 {$form.hidden}
-<fieldset class="fieldset-property">
-<div id="crm-container" class="form-item">
+<fieldset>
+<div class="form-item">
  <div class="vertical-position">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
      <span class="horizontal-position">{$form.group_id.label}{$form.group_id.html}</span>
@@ -12,9 +12,13 @@
      </div>
  </div>
  <div class="vertical-position">
-     <span class="horizontal-position">{$form.sort_name.label}{$form.sort_name.html}</span><br />
+     <span class="horizontal-position">
+     {$form.sort_name.label}{$form.sort_name.html}
+     </span>
      <div class="description">
-        <label>Enter full or partial last name or organization name to further limit the contacts included below</label>	
+     <span class="horizontal-position">
+        Enter full or partial last name or organization name to further limit the contacts included below.
+     </span>
      </div>
  </div>
  
@@ -24,8 +28,8 @@
 </div>
 </fieldset>
 
-<fieldset class="fieldset-property">
- <div id="crm-container" class="form-item">
+<fieldset>
+ <div class="form-item">
      <div>
      <span class="horizontal-position">{$form.action_id.label}{$form.action_id.html}</span>
      <span class="button-property">{$form.go.html}</span>	

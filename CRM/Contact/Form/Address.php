@@ -42,10 +42,10 @@ class CRM_Contact_Form_Address
             $form->addElement('text', "location[$locationId][address][street_address]", 'Street Address:',
                               $attributes['street_address']);
         $location[$locationId]['address']['supplemental_address_1'] =
-            $form->addElement('text', "location[$locationId][address][supplemental_address_1]", 'Additional Address 1:',
+            $form->addElement('text', "location[$locationId][address][supplemental_address_1]", 'Addt\'l Address 1:',
                               $attributes['supplemental_address_1']);
         $location[$locationId]['address']['supplemental_address_2'] =
-            $form->addElement('text', "location[$locationId][address][supplemental_address_2]", 'Additional Address 2:',
+            $form->addElement('text', "location[$locationId][address][supplemental_address_2]", 'Addt\'l Address 2:',
                               $attributes['supplemental_address_2']);
 
         $location[$locationId]['address']['city']                   =

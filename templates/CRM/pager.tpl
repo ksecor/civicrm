@@ -3,8 +3,8 @@
 
 {if $pager->_response.numPages >= 1}
 
-<div id="pager-position" class="form-item">
-<span class="pager">{$pager->_response.first}&nbsp;
+<div id="crm-pager" class="form-item">
+<span class="crm-pager-nav">{$pager->_response.first}&nbsp;
 {$pager->_response.back}&nbsp;
 {$pager->_response.status}&nbsp;
 {$pager->_response.next}&nbsp;
