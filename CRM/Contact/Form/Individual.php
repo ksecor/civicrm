@@ -424,9 +424,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
         
         $location =& CRM_Contact_Form_Location::buildLocationBlock($this, 3, $showHideBlocks);
 
-        for ($i = 1; $i < 4; $i++) {
-            $this->updateElementAttr(array($location[$i]['is_primary']), array('onchange' => "location_is_primary_onclick(\"$form_name\", {$i});"));
-        }
         /* End of locations */
 
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82', 'maxlength' => 255));    
