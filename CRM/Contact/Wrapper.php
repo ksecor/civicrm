@@ -96,8 +96,6 @@ class CRM_Contact_Wrapper extends CRM_Base
         // store the return url. Note that this is typically computed by the framework at runtime
         // based on multiple things (typically where the link was clicked from / http_referer
         // since we are just starting and figuring out navigation, we are hard coding it here
-        
-        // CRM_Error::debug_var("config->httpBase", $config->httpBase);
         $session->pushUserContext( $config->httpBase . $userContext );
 
         $this->_controller = new CRM_Controller_Simple( $formName, $formLabel, $mode );

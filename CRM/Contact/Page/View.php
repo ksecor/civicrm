@@ -34,6 +34,18 @@
 require_once 'CRM/Page.php';
 
 class CRM_Contact_Page_View extends CRM_Page {
+
+    /**
+     * constants for various modes that the page can operate as
+     *
+     * @var const int
+     */
+    const
+        MODE_NONE                  =   0,
+        MODE_NOTE                  =   1,
+        MODE_GROUP                 =   2,
+        MODE_REL                   =   4;
+
     /**
      * the contact id of the contact being viewed
      * @int
@@ -55,17 +67,22 @@ class CRM_Contact_Page_View extends CRM_Page {
 
     function run( ) {
 
-        $this->_contactId = CRM_Array::value( 'cid', $_REQUEST );
-        if ( ! isset( $this->_contactId ) ) {
-            $this->_contactId = $this->get( 'contact_id' );
-        }
-        if ( ! isset( $this->_contactId ) ) {
-            CRM_Error::fatal( "Could not find a valid contact_id" );
+        $this->_contactId = CRM_Request::retrieve( 'cid', $this, true );
+
+        switch ( $this->_mode ) {
+        case self::MODE_NONE:
+            $this->runModeNone( );
+            break;
+
+        case self::MODE_NOTE:
+            CRM_Contact_Page_Note::run( $this );
+            break;
         }
 
-        // store the contact id
-        $this->set( 'contact_id', $this->_contactId );
+        return parent::run( );
+    }
 
+    function runModeNone( ) {
         $params   = array( );
         $defaults = array( );
         $ids      = array( );
@@ -77,34 +94,22 @@ class CRM_Contact_Page_View extends CRM_Page {
         $this->assign( $defaults );
 
         $this->setShowHide( $defaults );
-
-        return parent::run( );
     }
 
     function setShowHide( &$defaults ) {
-
-        $a_CommprefArray = array();
-        $a_noteArray = array();
+        $commPrefs = array();
+        $notes     = array();
    
-        if ($this->_mode == CRM_PAGE::VIEW_MODE_NONE){
-            $a_CommprefArray = array('commPrefs'       => 1);
-            $a_noteArray  =    array('notes'           => 1 );
+        if ( $this->_mode == self::MODE_NOTE){
+            $notes  =    array('notes[show]' => 1 );
+        } else {
+            $commPrefs = array('commPrefs'   => 1);
+            $notes  =    array('notes'       => 1 );
         }
 
-        if ( $this->_mode == CRM_PAGE::VIEW_MODE_NOTE){
-            $a_noteArray  =    array('notes[show]'           => 1 );
-        }
+        $showHide = new CRM_ShowHideBlocks($commPrefs, $notes);
 
-        /*
-        $showHide = new CRM_ShowHideBlocks( array('commPrefs'       => 1,
-                                                  'notes[show]'     => 1),
-                                            array('notes'           => 1 ) ) ;
-
-        */
-
-        $showHide = new CRM_ShowHideBlocks($a_CommprefArray, $a_noteArray);
-
-        if ($this->_mode == CRM_PAGE::VIEW_MODE_NONE){
+        if ($this->_mode == self::MODE_NONE) {
             if ( $defaults['contact_type'] == 'Individual' ) {
                 $showHide->addShow( 'demographics[show]' );
                 $showHide->addHide( 'demographics' );
@@ -127,6 +132,10 @@ class CRM_Contact_Page_View extends CRM_Page {
         }
 
         $showHide->addToTemplate( );
+    }
+
+    function getContactId( ) {
+        return $this->_contactId;
     }
 
 }

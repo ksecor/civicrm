@@ -12,31 +12,9 @@
  {$form.javascript}
 
 {* $form.attributes serves as a place holder for all form attributes to be defined in the form tag *}
- <form {$form.attributes}>
+<form {$form.attributes}>
 
-	{* $form.hidden serves as a place holder for all the hidden elements defined in the quick form*}
-
-	 {if $form.hidden}
-	   {$form.hidden}
-	 {/if}
-
-	{* This block checks if there are errors in the form and generates the HTML for display*}
-	{* $form.errors is set normally when the form is relayed from the server after processing *}
-
-	 {if count($form.errors) gt 0}
-     <div class="messages error">
-        Please correct the following errors in the form fields below:
-        <ul id="errorList">
-        {foreach from=$form.errors key=name item=error}
-	   {if is_array($error)}
-              <li>{$error.label} {$error.message}</li>
-           {else}
-              <li>{$error}</li>
-           {/if}
-        {/foreach}
-        </ul>
-    </div>
-    {/if}
+{include file="CRM/formCommon.tpl"}
 
 {if $contact_type eq 'Individual'}
  <div id="name">

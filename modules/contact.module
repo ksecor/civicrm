@@ -42,6 +42,7 @@ require_once 'CRM/Form.php';
 require_once 'CRM/Block.php';
 
 require_once 'CRM/Contact/Wrapper.php';
+require_once 'CRM/Contact/Page/View.php';
 require_once 'CRM/Selector/Controller.php';
 
 // only used for debugging purposes - remove in production system
@@ -354,13 +355,13 @@ function contact_invoke()
  
     // view contact
     if (arg(1)=='contact' && arg(2) == 'view' && arg(3) == '') {
-        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_NONE );
+        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Contact_Page_View::MODE_NONE );
         $content .= $view->run( );
     }
 
     // view contact notes
-    if (arg(2) == 'view' && arg(3) == 'notes') {
-        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_NOTE );
+    if (arg(2) == 'view' && arg(3) == 'note') {
+        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Contact_Page_View::MODE_NOTE );
         $content .= $view->run( );
     }
 

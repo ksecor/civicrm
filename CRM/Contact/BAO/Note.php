@@ -36,6 +36,16 @@ require_once 'CRM/DAO/Note.php';
 require_once 'CRM/Contact/BAO/Block.php';
 
 class CRM_Contact_BAO_Note extends CRM_DAO_Note {
+    
+    /**
+     * const the max number of notes we display at any given time
+     * @var int
+     */
+    const MAX_NOTES = 3;
+
+    /**
+     * class constructor
+     */
     function __construct( ) 
     {
         parent::__construct( );
@@ -65,8 +75,8 @@ class CRM_Contact_BAO_Note extends CRM_DAO_Note {
         $note = new CRM_Contact_BAO_Note( );
         
         $params['modified_date'] = date("Ymd");
-        $params['table_id'] = $params['contact_id'];
-        $params['table_name'] = 'crm_contact';
+        $params['table_id']      = $params['contact_id'];
+        $params['table_name']    = 'crm_contact';
 
         $note->copyValues( $params );
 
@@ -101,42 +111,45 @@ class CRM_Contact_BAO_Note extends CRM_DAO_Note {
      * @param array $params        input parameters to find object
      * @param array $values        output values of the object
      * @param array $ids           the array that holds all the db ids
+     * @param int   $numNotes      the maximum number of notes to return (0 if all)
      *
      * @return void
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids ) {
+    static function getValues( &$params, &$values, &$ids, $numNotes = self::MAX_NOTES ) {
         $note = new CRM_Contact_BAO_Note( );
        
-        //$note->copyValues( $params );
-        $note->table_id = $params['contact_id'] ;        
+        $note->table_id   = $params['contact_id'] ;        
+        $note->table_name = 'crm_contact';
 
         // get the total count of notes
-        $lng_total_cnt = $note->count( );
+        $values['notesCount'] = $note->count( );
 
         // get only 2 recent notes
-        $note->orderBy( 'id desc' );
-        $note->limit( 2 );
+        $note->orderBy( 'modified_date desc' );
+        $note->limit( $numNotes );
         $note->find();
 
+        $notes       = array( );
+        $ids['note'] = array( );
+        $count = 0;
         while ( $note->fetch() ) {
             $values['note'][$note->id] = array();
-            $ids['note'][$note->id]    = array();
+            $ids['note'][] = $note->id;
             
-            $ids['note'][$note->id] = $note->id;
-            
-            $values['total_note'] = $lng_total_cnt;    
-
             $note->storeValues( $values['note'][$note->id] );
-            
+
+            $notes[] = $note;
+
+            $count++;
+            // if we have collected the number of notes, exit loop
+            if ( $numNotes > 0 && $count >= $numNotes ) {
+                break;
+            }
         }
         
-        if(!array_key_exists('note',$values)){
-            $values['note'][0]['note'] = 'There are no notes for this contact.';    
-        }
-        
-        return $note;
+        return $notes;
     }
 }
 

@@ -122,9 +122,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $row['email'] = $this->crm_email_email;
             $row['phone'] = $this->crm_phone_phone;
             
-            $row['edit']  = 'index.php?q=/crm/contact/edit&cid='.$this->crm_contact_id;
-            $row['view']  = 'index.php?q=/crm/contact/view&cid='.$this->crm_contact_id;
+            $row['edit']  = 'index.php?q=/crm/contact/edit&reset=1&cid='.$this->crm_contact_id;
+            $row['view']  = 'index.php?q=/crm/contact/view&reset=1&cid='.$this->crm_contact_id;
             $str_type = "";
+
             switch ($this->crm_contact_contact_type) {
             case 'Individual' :
                 $str_type = '<img src="crm/i/contact_ind.png" alt="Individual">';

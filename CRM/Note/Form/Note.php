@@ -33,15 +33,7 @@
  */
 
 require_once 'CRM/Form.php';
-require_once 'CRM/SelectValues.php';
 
-/*
-require_once 'CRM/Contact/Form/Location.php';
-require_once 'CRM/Contact/Form/Individual.php';
-require_once 'CRM/Contact/Form/Household.php';
-require_once 'CRM/Contact/Form/Organization.php';
-require_once 'CRM/Contact/Form/Note.php';
-*/
 /**
  * This class generates form components generic to note
  * 
@@ -61,13 +53,6 @@ class CRM_Note_Form_Note extends CRM_Form
     protected $_contactId;
 
     /**
-     * what blocks should we show and hide.
-     *
-     * @var CRM_ShowHideBlocks
-     */
-    protected $_showHide;
-    
-    /**
      * class constructor
      *
      * @param string $name        Name of the form.
@@ -82,7 +67,6 @@ class CRM_Note_Form_Note extends CRM_Form
     }
 
     function preProcess( ) {
-     
     }
 
     /**
@@ -97,38 +81,10 @@ class CRM_Note_Form_Note extends CRM_Form
         $params   = array( );
 
         if ( $this->_mode & self::MODE_ADD ) {
-              
         } else {
-       
         }
         
-        $this->setShowHide( $defaults );
-
         return $defaults;
-    }
-
-    /**
-     * Fix what blocks to show/hide based on the default values set
-     *
-     * @param array @defaults the array of default values
-     *
-     * @return void
-     */
-    function setShowHide( &$defaults ) {
-       
-    }
-
-    /**
-     * This function is used to add the rules (mainly global rules) for form.
-     * All local rules are added near the element
-     *
-     * @return None
-     * @access public
-     * @see valid_date
-     */
-    function addRules( )
-    {
-       
     }
 
     /**
@@ -138,11 +94,9 @@ class CRM_Note_Form_Note extends CRM_Form
      * @access public
      */
     public function buildQuickForm( ) {
-        
         $this->add('textarea', 'note', 'Notes:', array('cols' => '82',));    
-
         $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next',
+                                        array ( 'type'      => 'refresh',
                                                 'name'      => 'Save',
                                                 'isDefault' => true   ),
                                         array ( 'type'      => 'reset',
@@ -151,13 +105,11 @@ class CRM_Note_Form_Note extends CRM_Form
                                                 'name'      => 'Cancel' ),
                                         )
                                   );
-
+        
     }
 
        
     /**
-     * This function does all the processing of the form for New Contact Individual.
-     * Depending upon the mode this function is used to insert or update the Individual
      *
      * @access public
      * @return None
@@ -166,7 +118,7 @@ class CRM_Note_Form_Note extends CRM_Form
     {
         // store the submitted values in an array
         $params = $this->exportValues();
-
+        
         // action is taken depending upon the mode
         $ids = array( );
         if ($this->_mode & self::MODE_UPDATE ) {
@@ -174,18 +126,16 @@ class CRM_Note_Form_Note extends CRM_Form
             // from the session
             $ids = $this->get('ids');
         }    
-
+        
         $config  = CRM_Config::singleton( );
         $session = CRM_Session::singleton( );
+        
+        // we need to add the note and modified date to the notes for contact id
 
         $returnUserContext = $config->httpBase . 'note/view?cid=' . $contact->id;
         $session->replaceUserContext( $returnUserContext );
     }//end of function
 
-  
-    static function formRule( &$fields, &$errors ) {
-    
-    }
 
 }
 
