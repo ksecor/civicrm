@@ -417,7 +417,7 @@ CREATE TABLE crm_relationship(
 
 /*******************************************************
 *
-* crm_action [1st draft]
+* crm_contact_action [1st draft]
 *
 * Summary / link records for past (and/or future?) actions
 * of various types. They link the contact to the detailed
@@ -431,8 +431,8 @@ CREATE TABLE crm_relationship(
 * class-specific details.
 *
 *******************************************************/
-DROP TABLE IF EXISTS crm_action;
-CREATE TABLE crm_action(
+DROP TABLE IF EXISTS crm_contact_action;
+CREATE TABLE crm_contact_action(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 
@@ -514,6 +514,11 @@ CREATE TABLE crm_note(
 	PRIMARY KEY(id)
     -- FULLTEXT (description)
 
+---
+--- yvb
+--- this would need manual constraint checking during insert/update/delete.
+---
+
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='multiple notes/comments related to a contact or other entity';
 
 
@@ -541,10 +546,15 @@ CREATE TABLE crm_saved_search (
 
 	name        VARCHAR(255) COMMENT 'search name (brief)',
 	description VARCHAR(255) COMMENT 'verbose description',
-    query       TEXT COMMENT 'SQL query for this search',
+        query       TEXT COMMENT 'SQL query for this search',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE
+
+---
+--- yvb
+--- we need to have at least name, query as not null. any takers for my suggestion.
+---
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='domain-level set of available saved searches';
 
