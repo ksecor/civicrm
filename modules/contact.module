@@ -3,6 +3,9 @@
 include_once 'config.inc.php';
 
 require_once 'CRM/Contacts/Contacts.php';
+require_once 'CRM/Contacts/Contacts_Qadd.php';
+require_once 'CRM/Contacts/Contacts_Csearch.php';
+require_once 'CRM/Contacts/Contacts_Search.php';
 require_once 'CRM/Contacts/Households.php';
 require_once 'CRM/Contacts/Organizations.php';
 require_once 'CRM/Form.php';
@@ -55,22 +58,43 @@ function contact_block($op='list', $delta='0')
     if ($user->uid) {
         $menu_arr = contact_menu(true);
         if ($op == 'list') {
-            $block[]['info'] = 'CRM Block';
+            $block[0]['info'] = 'CRM Block';
+            $block[1]['info'] = 'CRM Qucik Add Contact Block';
+            $block[2]['info'] = 'CRM Search Block';
             return $block;
         } else {
-            if (is_array($menu_arr)){
-                foreach ($menu_arr as $menu_key => $menu_value) {
-                    if ($menu_value['type']==MENU_NORMAL_ITEM) {
-                        $content.="<a href=".$menu_value['path'].">".$menu_value['title']."</a><br>";
+            switch ($delta) {
+            case 2:
+                //$content = "hey, do the search";
+                $contact_csearch = new CRM_Contacts_Contacts_Csearch();
+                $contact_csearch->run(CRM_Form::MODE_CREATE, 0);
+                $content = $contact_csearch->display();
+                $block['subject'] = "<span class='crm_blocktitle'>CRM Contact Search</span>";
+                $block['content'] = $content;
+                break;   
+            case 1: 
+                //  $content = "Quick adding form";
+                $contact_qadd = new CRM_Contacts_Contacts_Qadd();
+                $contact_qadd->run(CRM_Form::MODE_CREATE, 0);
+                $content = $contact_qadd->display();
+                $block['subject'] = "<span class='crm_blocktitle'>CRM Quick Add Contact</span>";
+                $block['content'] = $content;
+                break;   
+            case 0:
+                if (is_array($menu_arr)){
+                    foreach ($menu_arr as $menu_key => $menu_value) {
+                        if ($menu_value['type']==MENU_NORMAL_ITEM) {
+                            $content.="<a href=".$menu_value['path'].">".$menu_value['title']."</a><br>";
+                        }
                     }
+                } else {
+                    $content.="!!!";
                 }
-            } else {
-                $content.="!!!";
+                $block['subject'] = 'CRM';
+                $block['content'] = $content;
+                break;
             }
-            $block['subject'] = 'CRM';
-            $block['content'] = $content;
-            
-            return $block;
+                    return $block;
         }
     }
 }
@@ -387,7 +411,10 @@ function contact_list($id=0)
  *******************************************************/
 function contact_query() 
 {
-    return '';
+    $contact = new CRM_Contacts_Contacts_Search();
+    $contact->run(CRM_Form::MODE_CREATE, 0);
+    return $contact->display();
+    //return '';
 } // end of function contact_query
 
 /*******************************************************
