@@ -304,7 +304,7 @@
 		return true;
 	    }
 	    
-	    if (document.forms['CRUD'].elements['location'+String(locid)+'[street]'].value != '') {
+	    if (document.forms['CRUD'].elements['location'+String(locid)+'[street_address]'].value != '') {
 		return true;
 	    }
 	    return false;
