@@ -400,6 +400,25 @@ class CRM_Form extends HTML_QuickForm_Page {
         return $templateName;
     }
 
+    /**
+     * Error reporting mechanism
+     *
+     * @param string  $message Error Message
+     * @param int     $code    Error Code
+     * @param CRM_DAO $dao     A data access object on which we perform a rollback if non - empty
+     * @return void
+     * @access public
+     */
+    function error( $message, $code = null, $dao = null ) {
+        if ( $dao ) {
+            $dao->query( 'ROLLBACK' );
+        }
+
+        $error =& CRM_Error::singleton();
+        
+        $error->push( $code, $message );
+    }
+    
 }
 
 ?>

@@ -36,7 +36,7 @@ require_once 'CRM/Selector/API.php';
  * objects that requires contacts to be selectively listed (list / search)
  *
  */
-class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_API {
+class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API {
 
     static $_links = array(
                            CRM_Action::VIEW => array(

@@ -178,8 +178,8 @@ CREATE TABLE crm_contact (
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact',
 
 	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact',
-    legal_id VARCHAR(32) COMMENT 'May be used for SSN, EIN/TIN, Household ID (census) or other applicable unique legal/government ID.',
-    external_id VARCHAR(32) COMMENT 'Unique trusted external ID (generally from a legacy app/datasource). Particularly useful for deduping operations.',
+	legal_id VARCHAR(32) COMMENT 'May be used for SSN, EIN/TIN, Household ID (census) or other applicable unique legal/government ID.',
+	external_id VARCHAR(32) COMMENT 'Unique trusted external ID (generally from a legacy app/datasource). Particularly useful for deduping operations.',
 	sort_name VARCHAR(64) COMMENT 'name being cached for sorting purposes',
 
 	home_URL VARCHAR(128) COMMENT 'optional "home page" URL for this contact',
