@@ -1,16 +1,16 @@
 <?php
 
-if ( ! defined( 'WGM_SMARTYDIR' ) ) {
-  define( 'WGM_SMARTYDIR', ini_get( 'wgm.smartyDir' ) );
+if ( ! defined( 'CRM_SMARTYDIR' ) ) {
+  define( 'CRM_SMARTYDIR', ini_get( 'wgm.smartyDir' ) );
 }
 
-if ( ! defined( 'WGM_TEMPLATE_COMPILEDIR' ) ) {
-  define( 'WGM_TEMPLATE_COMPILEDIR', ini_get( 'wgm.compileDir' ) );
+if ( ! defined( 'CRM_TEMPLATE_COMPILEDIR' ) ) {
+  define( 'CRM_TEMPLATE_COMPILEDIR', ini_get( 'wgm.compileDir' ) );
 }
 
 
 // load Smarty library files
-require_once  WGM_SMARTYDIR . 'Smarty.class.php';
+require_once  CRM_SMARTYDIR . 'Smarty.class.php';
 
 /**
  * Copyright (c) 2004 Donald A. Lobo (lobo at yahoo dot com)
@@ -44,7 +44,7 @@ class SmartyTemplate extends Smarty {
    *
    * @return void
    */
-  function __construct($compileDir = null, $templateDir = WGM_TEMPLATE_COMPILEDIR) {
+  function __construct($compileDir = null, $templateDir = CRM_TEMPLATE_COMPILEDIR) {
     $this->Smarty();
 
     $this->template_dir = $compileDir;
@@ -60,7 +60,7 @@ class SmartyTemplate extends Smarty {
    * Method providing static instance of SmartTemplate, as
    * in Singleton pattern.
    */
-  static function instance($templateDir = null, $compileDir = WGM_TEMPLATE_COMPILEDIR) {
+  static function instance($templateDir = null, $compileDir = CRM_TEMPLATE_COMPILEDIR) {
     if ( self::$_instance === NULL ) {
       self::$_instance = new SmartyTemplate($compileDir, $templateDir);
     }

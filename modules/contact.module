@@ -2,8 +2,8 @@
 
 include_once 'config.inc.php';
 
-require_once 'WGM/Contacts/Contacts.php';
-require_once 'WGM/Utils.php';
+require_once 'CRM/Contacts/Contacts.php';
+require_once 'CRM/Utils.php';
 
 // $Id: contact.module,v 1.8 2004/09/30 18:18:09 JonBob Exp $
 
@@ -223,20 +223,20 @@ function contact_invoke( $operation ) {
 
   // check for add
   if (arg(2) == 'add' && (arg(3) == 'basic' || arg(3) == NULL )) {
-    $content .= cms2_add_contact();
+    $content .= contact_add();
   }
 
 
   // list
   if (arg(2) == 'list') {
-    $content .= cms2_list_contact(arg(3));
+    $content .= contact_list(arg(3));
   }
 
 
   // edit
   if (arg(2) == 'edit') {
     if(is_numeric(arg(3))) {
-      $content .= cms2_edit_contact(arg(3));
+      $content .= contact_edit(arg(3));
     } else {
       $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
     }
@@ -244,14 +244,14 @@ function contact_invoke( $operation ) {
 
   // search
   if (arg(2) == 'search') {
-    $content .= cms2_query_contact();
+    $content .= contact_query();
   }
 
 
   // delete
   if (arg(2) == 'delete') {
     if(is_numeric(arg(3))) {
-      $content .= cms2_delete_contact(arg(3));
+      $content .= contact_delete(arg(3));
     } else {
       $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
     }
@@ -270,11 +270,11 @@ function contact_load( $queryArgs ) {
 
 
 
-function cms2_add_contact() {
+function contact_add() {
 
   $content = '';
 
-  $contact = new WGM_Contacts_Contacts();
+  $contact = new CRM_Contacts_Contacts();
   $contact->run();
   return $contact->display();
 
@@ -342,7 +342,7 @@ function cms2_add_contact() {
 
   return $content;
 
-} // end of function cms2_add_contact
+} // end of function contact_add
 
 
 
@@ -351,12 +351,12 @@ function cms2_add_contact() {
 
 /*******************************************************
  *
- * cms2_list_contact()
+ * contacts_list()
  *
  * lists all contacts from db.
  *
  *******************************************************/
-function cms2_list_contact($id=0) {
+function contact_list($id=0) {
 
 
   // check if the ID is 0
@@ -447,7 +447,7 @@ function cms2_list_contact($id=0) {
 
   return $content;
 
-} // end of function cms2_list_contact
+} // end of function contact_list
 
 
 
@@ -459,14 +459,14 @@ function cms2_list_contact($id=0) {
 
 /*******************************************************
  *
- * cms2_query_contact()
+ * contact_query()
  *
  * queries contacts from db.
  * the query string can use the "%" pattern recognition
  * character of sql
  *
  *******************************************************/
-function cms2_query_contact() {
+function contact_query() {
 
   // initializing content
   $content = '';
@@ -596,17 +596,17 @@ function cms2_query_contact() {
 
   return $content;
 
-} // end of function cms2_query_contact
+} // end of function contact_query
 
 
 
 
 /*******************************************************
  *
- * cms2_edit_contact
+ * contact_edit
  *
  *******************************************************/
-function cms2_edit_contact($id) {
+function contact_edit($id) {
 
   // initialize the content to be displayed
   $content = '';
@@ -691,7 +691,7 @@ function cms2_edit_contact($id) {
     }
   }
   return $content;
-} // end of function cms2_edit_contact
+} // end of function contact_edit
 
 
 
@@ -703,12 +703,12 @@ function cms2_edit_contact($id) {
 
 /*******************************************************
  *
- * cms2_delete_contact()
+ * contact_delete()
  *
  * lists all contacts from db.
  *
  *******************************************************/
-function cms2_delete_contact($id) {
+function contact_delete($id) {
 
   // initializing content
   $content = '';
@@ -724,7 +724,7 @@ function cms2_delete_contact($id) {
 
   return $content;
 
-} // end of function cms2_delete_contact
+} // end of function contact_delete
 
 
 
