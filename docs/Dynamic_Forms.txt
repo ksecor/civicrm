@@ -76,3 +76,4 @@ CREATE TABLE flexinode_data (
   serialized_data mediumtext NOT NULL default '',
   PRIMARY KEY id (nid,field_id)
 ) TYPE=MyISAM;
+
