@@ -57,9 +57,9 @@
 		<table border="1" cellpadding="2" cellspacing="2" width="90%">
 			<tr>
 				<td class="form-item"><label>Privacy:</label></td>
-				<td class="form-item">{$form.do_not_phone.html} Do not call
-	                               		      {$form.do_not_email.html} Do not contact by email
-                                       		      {$form.do_not_mail.html} Do not contact by postal mail</td>
+				<td class="form-item">{$form.do_not_phone.html} 
+	                               		      {$form.do_not_email.html}
+                                       		      {$form.do_not_mail.html} </td>
 			</tr>
 			<tr>
 				<td class="form-item"><label>Prefers:</label></td>
