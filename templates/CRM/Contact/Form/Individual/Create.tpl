@@ -176,7 +176,7 @@
 
  {literal}
  <script type="text/javascript">
- on_load_execute(frm.name);
+ on_load_execute("Create");
  </script>
  {/literal}
 
@@ -184,7 +184,7 @@
  {if count($form.errors) gt 0}
  {literal}
  <script type="text/javascript">
- on_error_execute(frm.name);
+ on_error_execute("Create");
  </script>
  {/literal}
  {/if}
