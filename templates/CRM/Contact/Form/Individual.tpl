@@ -1,6 +1,6 @@
 {*$form.mode.label*}
 {if $form.mode.label eq 1}
-{include file="CRM/Contact/Form/Individual/Create.tpl"} 
+{include file="CRM/Contact/Form/Individual/Add.tpl"} 
 {/if}
 {if $form.mode.label eq 2}
 {include file="CRM/Contact/Form/Individual/View.tpl"} 
@@ -12,7 +12,7 @@
 {include file="CRM/Contact/Form/Individual/Delete.tpl"} 
 {/if}
 {if $form.mode.label eq 16}
-{include file="CRM/Contact/Form/Individual/CreateMini.tpl"} 
+{include file="CRM/Contact/Form/Individual/AddMini.tpl"} 
 {/if}
 {if $form.mode.label eq 32}
 {include file="CRM/Contact/Form/Individual/SearchMini.tpl"} 

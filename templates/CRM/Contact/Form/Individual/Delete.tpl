@@ -1,9 +1,8 @@
- {* smarty *}
+{* smarty *}
 
  {literal}
- <script type="text/javascript" src="/js/CRUD.js"></script>
+  <script type="text/javascript" src="/js/Individual.js"></script>
  {/literal}
-
 
  {$form.javascript}
 
@@ -23,7 +22,6 @@
 	 </td></tr></table>
 	 </td></tr></table>
 	 </p>
-
 	 {/if}
 </td></tr>
 
@@ -55,429 +53,12 @@
  </td></tr>
  
  <tr><td>
- <fieldset><legend>Communication Preferences</legend>
- <table cellpadding="2" cellspacing="2" width="100%">		
-	 <!--tr-->
-		 <!--td><label><i><h1>Communication Preferences</h1></i></label></td-->
-		 <!--td></td-->
-	 <!--/tr-->
-	 <tr>	
-		 <td>
-		 <table border="0" cellpadding="2" cellspacing="2" width="100%">
-			 <tr>
-				 <td class="form-item"><label>{$form.do_not_phone.label}</label></td>
-				 <td>{$form.do_not_phone.html}{$form.do_not_phone.text} 
-						       {$form.do_not_email.html}{$form.do_not_email.text}
-						       {$form.do_not_mail.html}{$form.do_not_mail.text}
-				 </td>
-			 </tr>
-			 <tr>
-				 <td class="form-item"><label>{$form.preferred_communication_method.label}</label></td>
-				 <td class="form-item">{$form.preferred_communication_method.html}
-				 <div class="description">Preferred method of communicating with this individual</div></td>
-			 </tr>
-		 </table>
-		 </td>
-	</tr> 
- </table>
- </fieldset>
+ {include file="CRM/Contact/Form/Contact.tpl"}  
  </td></tr>
  
- <!--label><i><h1>Location</h1></i></label-->
- <!--tr><td-->
- <!--fieldset><legend>Location</legend-->
-
  {* STARTING UNIT gx3 LOCATION ENGINE *}
 
- {section name = locationt start = 1 loop = 4}
- {assign var = "lid" value = "location`$smarty.section.locationt.index`"}
- {assign var = "pid" value = `$smarty.section.locationt.index`}
- {assign var = "exloc" value = "exloc`$smarty.section.locationt.index`"} 
- {assign var = "hideloc" value = "hideloc`$smarty.section.locationt.index`"} 
-
- {assign var = "exph02" value = "exph02_`$smarty.section.locationt.index`"} 
- {assign var = "exem02" value = "exem02_`$smarty.section.locationt.index`"} 
- {assign var = "exim02" value = "exim02_`$smarty.section.locationt.index`"}
- {assign var = "hideph02" value = "hideph02_`$smarty.section.locationt.index`"}
- {assign var = "hideem02" value = "hideem02_`$smarty.section.locationt.index`"} 
- {assign var = "hideim02" value = "hideim02_`$smarty.section.locationt.index`"}
-
- {assign var = "exph03" value = "exph03_`$smarty.section.locationt.index`"} 
- {assign var = "exem03" value = "exem03_`$smarty.section.locationt.index`"}
- {assign var = "exim03" value = "exim03_`$smarty.section.locationt.index`"}
- {assign var = "hideph03" value = "hideph03_`$smarty.section.locationt.index`"} 
- {assign var = "hideem03" value = "hideem03_`$smarty.section.locationt.index`"}
- {assign var = "hideim03" value = "hideim03_`$smarty.section.locationt.index`"}
-
- 
-
- <tr><td>
- {if $pid > 1}
- <table id = "expand_loc{$pid}" border="0" cellpadding="2" cellspacing="2" width="100%">
-	 <tr>
-		 <td>
-		 {$form.$exloc.html}
-		 </td>
-	 <tr>
- </table>
- {/if}
- </td></tr>
-
-
- <tr><td>
- <table id = "location{$pid}" border="0" cellpadding="2" cellspacing="2" width="100%">
-
-<!--fieldset><legend>Location</legend--><!--tr-->
-<!--td colspan = "2" class = "form-item">Location{$pid}:</td--> <!--/tr-->
-
-	<tr><td>
-	<fieldset><legend>Location{$pid}</legend>
-
-	<table border="0" cellpadding="2" cellspacing="2" width="100%">
-
-	<tr>		
-		 <td class="form-item">
-		 {$form.$lid.location_type_id.html}
-		</td>
-		<td></td><td></td>
-	</tr>
-	<tr>
-		 <td></td>		
-		 <td colspan=2 class="form-item">	
-		 {$form.$lid.is_primary.html}{$form.$lid.is_primary.label}
-		 </td>
-	 </tr>
-
-	 <!-- LOADING PHONE BLOCK -->
-	 <tr>
-		<td>&nbsp;</td>	
-		 <td class="form-item">
-		 <label>{$form.$lid.phone_1.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.phone_type_1.html}{$form.$lid.phone_1.html}
-		 </td>
-
-	 </tr>
-
-	 <tr><!-- Second phone block.-->
-		<td></td>
-		 <td colspan = "2">
-			 <table id="expand_phone_{$pid}_2">
-			 <tr>
-				 <td>
-				 {$form.$exph02.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td> 
-		
-	 </tr>
-
-	 <tr>
-		<td></td>
-		 <td colspan = "2">	
-
-		 <table id="phone_{$pid}_2">
-			 <tr>
-				 <td class="form-item">
-				 <label>{$form.$lid.phone_2.label}</label>
-				 </td>
-				 <td class="form-item">
-				 {$form.$lid.phone_type_2.html}{$form.$lid.phone_2.html}
-				 </td>
-			 </tr>	
-
-			 <tr>
-				 <td colspan="2">
-				 {$form.$hideph02.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td> 
-		
-	 </tr>
-
-	 <tr><!-- Third phone block.-->
-		<td></td>
-		 <td colspan = "2">
-		 <table id="expand_phone_{$pid}_3">
-			 <tr>	<td>
-				 {$form.$exph03.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td>
-		
-	 </tr>
-	 <tr>
-		<td></td>
-		 <td colspan = "2">
-		 <table id="phone_{$pid}_3">
-			 <tr>
-				 <td class="form-item">
-				 <label>{$form.$lid.phone_3.label}</label></td>
-				 <td class="form-item">
-				 {$form.$lid.phone_type_3.html}{$form.$lid.phone_3.html}
-				 </td>
-			 </tr>
-
-			 <tr>
-				 <td colspan="2">
-				 {$form.$hideph03.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td> 
-	 </tr>
-
-
-
- <!-- LOADING EMAIL BLOCK -->
-
-	 <tr>
-		<td></td>
-		 <td class="form-item">
-			 <label>{$form.$lid.email_1.label}</label>
-		 </td>
-		 <td class = "form-item">
-			 {$form.$lid.email_1.html}
-		 </td>
-		
-	 </tr>
-	 <tr><!-- email 2.-->
-		<td></td>
-		 <td colspan = "2">
-		 <table id="expand_email_{$pid}_2" >
-			 <tr>
-				 <td>
-				 {$form.$exem02.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td>
-	 </tr>
-
-	 <tr>
-		<td></td>
-		 <td colspan = "2">
-		 <table id="email_{$pid}_2">
-			 <tr>
-				 <td class="form-item">
-				 <label>{$form.$lid.email_2.label}</label>
-				 </td>
-				 <td class = "form-item">
-				 {$form.$lid.email_2.html}
-				 </td>
-		 </tr>
-		 <tr>
-
-			 <td>
-			 {$form.$hideem02.html}
-			 </td>
-		 </tr>
-		 </table>
-		 </td>
-	 </tr>
-	 <tr><!-- email 3.-->
-
-		<td></td>
-		 <td colspan = "2">
-		 <table id="expand_email_{$pid}_3" >
-			 <tr>
-				 <td>
-				 {$form.$exem03.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td> 
-	 </tr>
-	 <tr>
-		<td></td>
-		 <td colspan = "2">
-		 <table id="email_{$pid}_3">
-			 <tr>
-				 <td class="form-item">
-				 <label>{$form.$lid.email_3.label}</label>
-				 </td>
-				 <td class = "form-item">
-				 {$form.$lid.email_3.html}
-				 </td>
-			 </tr>	
-
-			 <tr>
-				 <td colspan="2">
-				 {$form.$hideem03.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td>
-	 </tr>
-	 <tr><!-- LOADING IM BLOCK -->
-
-		<td></td>
-		 <td class="form-item">
-		 <label>{$form.$lid.im_service_id_1.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.im_service_id_1.html}{$form.$lid.im_screenname_1.html}
-		 <div class="description">Select IM service and enter screen-name / user id.</div>
-		 </td>
-		 
-	 </tr>
-	 <tr><!-- IM 2.-->
-
-		<td></td>
-		 <td colspan = "2">
-			 <table id="expand_IM_{$pid}_2">
-			 <tr>
-				 <td>
-				 {$form.$exim02.html}
-				 </td>
-			 </tr>
-			 </table>
-		 </td>
-	 </tr>
-	 <tr>
-		<td></td>
-		 <td colspan = "2">
-		 <table id="IM_{$pid}_2">
-			 <tr>
-				 <td class="form-item">
-				 <label>{$form.$lid.im_service_id_2.label}</label></td>
-				 <td class="form-item">
-				 {$form.$lid.im_service_id_2.html}{$form.$lid.im_screenname_2.html}
-				 <div class="description">Select IM service and enter screen-name / user id.</div></td>
-			 </tr>
-			 <tr>
-				 <td colspan="2">
-				 {$form.$hideim02.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td>
-	 </tr>
-	 <tr><!-- IM 3.-->
-
-		<td></td>
-		 <td colspan = "2">
-		 <table id="expand_IM_{$pid}_3" >
-			 <tr>	
-				 <td>
-				 {$form.$exim03.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td> 
-	 </tr>
-	 <tr>
-		<td></td>
-		 <td colspan = "2">	
-		 <table id="IM_{$pid}_3">
-			 <tr>
-				 <td class="form-item">
-				 <label>{$form.$lid.im_service_id_3.label}</label></td>
-				 <td class="form-item">
-				 {$form.$lid.im_service_id_3.html}{$form.$lid.im_screenname_3.html}
-				 <div class="description">Select IM service and enter screen-name / user id.</div>
-				 </td>
-			 </tr>
-			 <tr>
-				 <td colspan="2">
-				 {$form.$hideim03.html}
-				 </td>
-			 </tr>
-		 </table>
-		 </td>
-	 </tr>
-	 <tr>
-		<td></td>
-		 <td class="form-item">
-		 <label>{$form.$lid.street_address.label}</label>
-		</td>
-		 <td class="form-item">
-		 {$form.$lid.street_address.html}<!--br/-->
-		 <div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
-		 </td>
-	 </tr>
-	 <tr>
-		<td></td>
-		 <td class="form-item">
-		 <label>{$form.$lid.supplemental_address_1.label}</label>
-		</td>
-		 <td class="form-item">
-		 {$form.$lid.supplemental_address_1.html}<!--br/-->
-
-		 <div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
-		 </td>
-	 </tr>
-	 <tr>
-		<td></td>
-		 <td class="form-item">
-		 <label>{$form.$lid.city.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.city.html}<!--br/-->
-		 </td>
-	 </tr>
-	 <tr>
-		<td></td>
-		 <td class="form-item">
-		 <label>{$form.$lid.state_province_id.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.state_province_id.html}
-		 </td>
-	 </tr>
-	 <tr>
-		<td></td>
-		 <td class="form-item">
-		 <label>{$form.$lid.postal_code.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.postal_code.html}<!--br/-->
-		 </td>
-	 </tr>
-	 <tr>
-		<td></td>
-		 <td class="form-item">
-		 <label>{$form.$lid.country_id.label}</label>
-		 </td>
-		 <td class="form-item">
-		 {$form.$lid.country_id.html}
-		 </td>
-	 </tr>
-
-	 </td>
-	 </tr>
-
-	 <tr>
-		<td></td>
-		<td colspan = "2">
-		{if $pid > 1 }
- 		<table id = "expand_loc{$pid}" border="0" cellpadding="2" cellspacing="2" width="100%">	
-		<tr>
-		 	<td colspan = "2">
-			 {$form.$hideloc.html}
-		 	</td>
-		</tr>
-		</table> 
-		{/if}
-		</td>
-		
-	 </tr>
-
-</table>
-</fieldset>
-</td></tr>
-</table>
-</td></tr>
-{/section}
-
-<!--/td></tr-->
-<!--/table-->
-<!--/fieldset-->
-<!--/td></tr-->
+ {include file="CRM/Contact/Form/Location.tpl" locloop = 4 phoneloop = 4 emailloop = 4 imloop = 4} 
 
  {* ENDING UNIT gx3 LOCATION ENGINE *} 
 
@@ -575,35 +156,31 @@
  </td></tr>
 </table>
 
-
-
  <div id = "buttons">
  <table cellpadding="2" cellspacing="2" width="100%">
  <tr>
 	 <td class="form-item">
 	 {$form.buttons.html}
 	 </td>
-
  </tr>
  </table>
  </div>
 
- </form>
+ {$form.my_script.label}
+
+</form>
 
 
+ 
  {literal}
  <script type="text/javascript">
- on_load_execute();
+ on_load_execute(frm.name);
  </script>
  {/literal}
 
-
- {if count($form.errors) gt 0}
  {literal}
  <script type="text/javascript">
- on_error_execute();
+ on_error_execute(frm.name);
  </script>
  {/literal}
- {/if}
-
 
