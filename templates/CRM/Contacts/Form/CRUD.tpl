@@ -1,6 +1,5 @@
 {* smarty *}
-<html>
-<head>
+
 	{literal}
 	<script type="text/javascript">
 
@@ -22,7 +21,7 @@
 	function checkdt() {
 	var mth = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
 	if ( mth[document.getElementById('mmsel').value - 1] < document.getElementById('ddsel').value ) {
-	  alert('Wrong date'); return false;
+	  alert('Please enter a correct date'); return false;
 	}
 	else { return true;}
 	}
@@ -31,8 +30,8 @@
 	{/literal}
 
 
-</head>
-<body>
+
+
 <form {$form.attributes} 
 
 onsubmit = " return checkdt( );">  
@@ -564,6 +563,3 @@ onsubmit = " return checkdt( );">
 	 
 	
 	</script>{/literal}
-
-   </body>
-</html>
