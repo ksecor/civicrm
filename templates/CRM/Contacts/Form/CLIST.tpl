@@ -33,7 +33,7 @@
 
 <td>
     
-    {$form.pager.label}
+    	{$form.pager.label}
 </td>
 <td>
 	{$form.page_no.label}
@@ -92,6 +92,35 @@
 {/section}
 </table>
 
+<table id = "pagecrumb" width = "90%">
+	<tr><td>&nbsp;</td></tr>
+	<tr>
+		<td>	{$form.show_25.label}
+			{$form.show_25.html}
+			{$form.show_50.label}
+			{$form.show_50.html}
+			{$form.show_100.label}
+			{$form.show_100.html}
+			{$form.show_all.label}
+			{$form.show_all.html}
+
+		</td>
+		<td align = "right">
+			{$form.action_select.label}
+			{$form.action_select.html}
+			{$form.do_action.html}
+		</td>
+	</tr>
+		<td colspan = "2" align = "right">
+			{$form.select_all.label}
+			{$form.select_all.html}
+			{$form.select_none.label}
+			{$form.select_none.html}		
+		</td>
+	<tr>
+
+	</tr>
+</table>
 
 
 </form>
