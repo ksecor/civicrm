@@ -1,5 +1,5 @@
 <form action="crm/contact/add" method="post">
-<table border="0" cellpadding="2" cellspacing="2">
+<table border="0" cellpadding="2" cellspacing="2" id="crm-quick-create">
 <tr>
 <td>First Name:</td><td><input type="text" name="firstname"></td>
 </tr>
