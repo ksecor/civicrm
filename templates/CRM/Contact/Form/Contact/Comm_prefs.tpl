@@ -5,9 +5,7 @@
 <fieldset><legend>Communication Preferences</legend>
 <div class="form-item">
     <label>Privacy:</label>
-    {$form.do_not_phone.html}
-    {$form.do_not_email.html}
-    {$form.do_not_mail.html}
+    {$form.privacy.html}
 </div>
 
 <div class="form-item">

@@ -110,9 +110,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
             $contact->get("id",$lng_contact_id);
 
             $defaults['preferred_communication_method'] = $contact->preferred_communication_method;
-            $defaults['do_not_phone'] = $contact->do_not_phone;
-            $defaults['do_not_email'] = $contact->do_not_email;
-            $defaults['do_not_mail'] = $contact->do_not_mail;
+            $defaults['privacy[do_not_phone]'] = $contact->do_not_phone;
+            $defaults['privacy[do_not_email]'] = $contact->do_not_email;
+            $defaults['privacy[do_not_mail]'] = $contact->do_not_mail;
             
             // get the values from individual table
             $contact_individual = new CRM_Contact_DAO_Individual;
@@ -530,9 +530,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
         //$contact->image_URL = '';
         //$contact->source = $this->exportValue('source');
         $contact->preferred_communication_method = $this->exportValue('preferred_communication_method');
-        $contact->do_not_phone = (strlen($this->exportValue('do_not_phone'))) ? $this->exportValue('do_not_phone') : 0 ;
-        $contact->do_not_email = (strlen($this->exportValue('do_not_email'))) ? $this->exportValue('do_not_email') : 0 ;
-        $contact->do_not_mail = (strlen($this->exportValue('do_not_mail'))) ? $this->exportValue('do_not_mail') : 0 ;
+        $a_privacy = $this->exportValue('privacy');
+        $contact->do_not_phone = (strlen($a_privacy['do_not_phone'])) ? $a_privacy['do_not_phone'] : 0 ;
+        $contact->do_not_email = (strlen($a_privacy['do_not_email'])) ? $a_privacy['do_not_email'] : 0 ;
+        $contact->do_not_mail = (strlen($a_privacy['do_not_mail'])) ? $a_privacy['do_not_mail'] : 0 ;
         //$contact->hash = $this->exportValue('hash');
         
         $contact->query('BEGIN'); //begin the database transaction

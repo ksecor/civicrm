@@ -81,18 +81,11 @@ class CRM_Contact_Form_Household extends CRM_Form
      */
     function buildQuickForm( )
     {
-        switch ($this->_mode) {
-        case self::MODE_ADD:
-            $this->addElement('text', 'mode', self::MODE_ADD);
-            $this->_buildAddForm();
-            break;
-        case self::MODE_VIEW:
-            break;
-        case self::MODE_UPDATE:
-            break;
-        case self::MODE_DELETE:
-            break;            
-        } // end of switch
+        $this->_buildAddForm();
+
+        if ($this->_mode == self::MODE_VIEW) {
+            $this->freeze();
+        }
     }
 
 
@@ -173,9 +166,9 @@ class CRM_Contact_Form_Household extends CRM_Form
             $this->applyFilter('household_name', 'trim');
             $this->addRule('household_name', t(' Household name is a required feild.'), 'required', null, 'client');
             $this->addRule('primary_contact_id', t('Primary contact id is a required feild.'), 'required', null, 'client');
-            $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'numeric', null, 'client');
+            $this->addRule('primary_contact_id', t('Enter valid contact id.'), 'numeric', null, 'client');
             $this->registerRule('check_contactid', 'callback', 'valid_contact','CRM_Contact_Form_Household');
-            $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'check_contactid');
+            $this->addRule('primary_contact_id', t('Enter valid contact id.'), 'check_contactid');
             
             $this->addGroupRule('location', array('email_1' => array( 
                                                                      array(t( 'Please enter valid email for location'), 'email', null, 'client')),
@@ -242,20 +235,19 @@ class CRM_Contact_Form_Household extends CRM_Form
         CRM_Contact_Form_Contact::buildCommunicationBlock($this);
 
         // Implementing the location block :
+
         $location = CRM_Contact_Form_Location::buildLocationBlock($this, 1);
-        $this->addGroup($location[1],'location');
+        //$this->addGroup($location[1],'location');
+
+        $this->addGroup($location[1],'location1');
+
         /* End of locations */
 
         $java_script = "<script type = \"text/javascript\">
                         frm = document." . $form_name .";</script>";
 
-        $this->addElement('static', 'my_script', $java_script);
-
-        //  $this->setDefaultValues();
-  
-  
-    }//ENDING BUILD FORM 
-
+        
+     }//ENDING BUILD FORM 
 
 
     /**
@@ -318,9 +310,16 @@ class CRM_Contact_Form_Household extends CRM_Form
         //$contact->image_URL = '';
         //$contact->source = $this->exportValue('source');
         $contact->preferred_communication_method = $this->exportValue('preferred_communication_method');
+        /*
         $contact->do_not_phone = $this->exportValue('do_not_phone');
         $contact->do_not_email = $this->exportValue('do_not_email');
         $contact->do_not_mail = $this->exportValue('do_not_mail');
+        */
+        $a_privacy = $this->exportValue('privacy');
+        $contact->do_not_phone = (strlen($a_privacy['do_not_phone'])) ? $a_privacy['do_not_phone'] : 0 ;
+        $contact->do_not_email = (strlen($a_privacy['do_not_email'])) ? $a_privacy['do_not_email'] : 0 ;
+        $contact->do_not_mail = (strlen($a_privacy['do_not_mail'])) ? $a_privacy['do_not_mail'] : 0 ;
+
         //$contact->hash = $this->exportValue('hash');
         
         $contact->query('BEGIN'); //begin the database transaction
@@ -349,7 +348,7 @@ class CRM_Contact_Form_Household extends CRM_Form
 
             //create a object of location class
             $varname = "contact_location";
-            $varname1 = "location";
+            $varname1 = "location1";
                          
             $a_Location =  $this->exportValue($varname1);
                          
