@@ -34,10 +34,7 @@ class CRM_Contact_BAO_Contact_Individual extends CRM_Contact_DAO_Contact_Individ
      */
     function setContactValues() 
     {
-        //    log_message("============= add contact 9  =============");    
-        //echo "============= add contact 9  =============<br>";
         $dbFields  = $this->_contactDAO->dbFields();
-        //    print_r($dbFields);
         foreach ($dbFields as $fieldName => $dontCare) {
             $this->_contactDAO->$fieldName = isset($this->$fieldName) ? $this->$fieldName : null;
         }
@@ -91,9 +88,6 @@ class CRM_Contact_BAO_Contact_Individual extends CRM_Contact_DAO_Contact_Individ
 
     function find($get = false) 
     {
-        //log_message("============= add contact 8  =============");    
-        //echo "============= add contact 8  =============<br>";
-        
         $this->setContactValues();
         $this->joinAdd( );
         $this->whereAdd( );
