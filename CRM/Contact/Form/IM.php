@@ -36,7 +36,7 @@
 class CRM_Contact_Form_IM
 {
 
-    static function bib(& $loc, $form, $locid, & $start, $count) {
+    static function buildImBlock(& $loc, $form, $locid, & $start, $count) {
         $j = $start;
         
         for ($i = 1; $i <= $count; $i++) {
