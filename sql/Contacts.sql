@@ -299,11 +299,12 @@ CREATE TABLE crm_im_service (
 
 /*******************************************************
 *
-* crm_contact_location
+* crm_location
 * 
-* Stores address, phone info, email, im for each contact
+* Parent record for address, phone info, email, im for each contact
 * by 'location_type' - e.g. Home, Work, etc. Contacts may
-* have 1 -> n contact_location records.
+* have 1 -> n crm_location records, but may only have one
+* record for each location type.
 *
 *******************************************************/
 DROP TABLE IF EXISTS crm_location;
@@ -373,11 +374,13 @@ CREATE TABLE crm_address(
 DROP TABLE IF EXISTS crm_email;
 CREATE TABLE crm_email(
 
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'address id',
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'email id',
 
-    location_id INT UNSIGNED NOT NULL COMMENT 'which location does this address belong to',
+    location_id INT UNSIGNED NOT NULL COMMENT 'which location does this email belong to',
 
-    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary address for the contact / location',
+	email VARCHAR(255) COMMENT 'email address',
+
+    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary email for the contact / location',
 
 	PRIMARY KEY (id),
     FOREIGN KEY (location_id)  REFERENCES crm_location(id)
@@ -396,15 +399,15 @@ CREATE TABLE crm_email(
 DROP TABLE IF EXISTS crm_phone;
 CREATE TABLE crm_phone(
 
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'address id',
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'phone id',
 
-    location_id INT UNSIGNED NOT NULL COMMENT 'which location does this address belong to',
+    location_id INT UNSIGNED NOT NULL COMMENT 'which location does this phone number belong to',
 
-	phone VARCHAR(255) COMMENT 'primary phone number',
+	phone VARCHAR(255) COMMENT 'complete phone number',
 	phone_type ENUM('Phone', 'Mobile', 'Fax', 'Pager') DEFAULT 'Phone' COMMENT 'what type of telecom device is this',
 	mobile_provider_id INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
 
-    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary address for the contact / location',
+    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary phone number for the contact / location',
 
 	PRIMARY KEY (id),
     FOREIGN KEY (location_id)  REFERENCES crm_location(id),
@@ -424,14 +427,14 @@ CREATE TABLE crm_phone(
 DROP TABLE IF EXISTS crm_im;
 CREATE TABLE crm_im(
 
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'address id',
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'im id',
 
-    location_id INT UNSIGNED NOT NULL COMMENT 'which location does this address belong to',
+    location_id INT UNSIGNED NOT NULL COMMENT 'which location does this IM identifier belong to',
 
 	im_screenname VARCHAR(255) COMMENT 'instant messenger screenname',
 	im_service_id INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
 
-    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary address for the contact / location',
+    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary IM for the contact / location',
 
 	PRIMARY KEY (id),
     FOREIGN KEY (location_id)  REFERENCES crm_location(id),
@@ -462,7 +465,7 @@ CREATE TABLE crm_relationship_type(
 	direction ENUM('Unidirectional', 'Bidirectional') COMMENT 'relationship cardinality',
 	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact this relationship type is applicable to',
 
-    is_reserved BOOLEAN DEFAULT 0 COMMENT 'is this relationship type a system created location type that cannot be deleted by the user',
+    is_reserved BOOLEAN DEFAULT 0 COMMENT 'is this relationship type a system created type that cannot be deleted by the user',
 
 	PRIMARY KEY(id),
 
