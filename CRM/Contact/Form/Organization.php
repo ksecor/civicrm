@@ -66,13 +66,6 @@ class CRM_Contact_Form_Organization extends CRM_Form
         if ($mode == self::MODE_ADD) {
             $name = "Add";
             // $name = "Individual";
-        } elseif ($mode == self::MODE_ADD_MINI) {
-            $name = "Organization";
-            // $name = "MiniAdd";
-        } elseif ($mode == self::MODE_SEARCH_MINI) {
-            $name = "MiniSearch";
-        } elseif ($mode == self::MODE_SEARCH) {
-            $name = "Search";
         }
 
         parent::__construct($name, $state, $mode);
@@ -106,19 +99,7 @@ class CRM_Contact_Form_Organization extends CRM_Form
             break;
         case self::MODE_DELETE:
             break;            
-        case self::MODE_SEARCH:
-            $this->addElement('text', 'mode', self::MODE_SEARCH);
-            $this->_buildSearchForm();
-            break;            
-        case self::MODE_ADD_MINI:
-            $this->addElement('text', 'mode', self::MODE_ADD_MINI);
-            $this->_buildMiniAddForm();
-            break;            
-        case self::MODE_SEARCH_MINI:
-            $this->addElement('text', 'mode', self::MODE_SEARCH_MINI);
-            $this->_buildMiniSearchForm();
-            break;            
-            
+
         } // end of switch
     }
 
@@ -148,15 +129,6 @@ class CRM_Contact_Form_Organization extends CRM_Form
         case self::MODE_UPDATE:
             break;
         case self::MODE_DELETE:
-            break;            
-        case self::MODE_SEARCH:
-            break;            
-        case self::MODE_ADD_MINI:
-            break;            
-        case self::MODE_SEARCH_MINI:
-            
-            $defaults['sname'] = ' - full or partial name - ';
-            $this->setDefaults($defaults);
             break;            
         }
     }
@@ -229,14 +201,6 @@ class CRM_Contact_Form_Organization extends CRM_Form
             break;
         case self::MODE_DELETE:
             break;            
-        case self::MODE_SEARCH:
-            break;            
-        case self::MODE_ADD_MINI:
-            $this->addRule('organization_name', t(' First name is a required field.'), 'required', null, 'client');
-            $this->addRule('email', t(' Email Address is required field.'), 'required', null, 'client');
-            $this->addRule('email', t(' Enter valid email address.'), 'email', null, 'client');
-            break;            
-        case self::MODE_SEARCH_MINI:
         }    
         
     }
@@ -313,36 +277,6 @@ class CRM_Contact_Form_Organization extends CRM_Form
         }
  
     }//ENDING BUILD FORM 
-
-
-    /**
-     * This function provides the HTML form elements for the add operation of a mini organization contact form.
-     * 
-     * This function is called by the buildQuickForm method, when the value of the $mode class variable is set to MODE_ADD_MINI
-     * The addElement and addGroup method of HTML_QuickForm is used to add HTML elements to the form which is referenced using the $this 
-     * form handle. Also the default values for the form elements are set in this function.
-     * 
-     * @access private
-     * @return None
-     * @see buildQuickForm() 
-     * @see _buildMiniSearchForm()
-     * 
-     */  
-    private function _buildMiniAddForm() 
-    {
-        $this->setFormAction("crm/contact/qadd");
-        $this->addElement('text', 'organization_name', 'Organization Name: ');
-        $this->addElement('text', 'email', 'Email: ');
-        $this->addElement('text', 'phone', 'Phone: ');
-
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next',
-                                                'name'      => 'Save',
-                                                'isDefault' =>  true )
-                                        )
-                                  );
-    }
-
 
 
     /**
