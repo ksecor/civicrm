@@ -26,13 +26,13 @@
        <key>id</key>
   </foreignKey>
   <field>
-       <name>im_screenname</name>
+       <name>name</name>
        <type>varchar</type>
        <length>64</length>
        <comment>IM screen name</comment>
   </field>
   <field>
-      <name>im_provider_id</name>
+      <name>provider_id</name>
       <type>int unsigned</type>
       <comment>Which IM Provider does this screen name belong to.</comment>
   </field>

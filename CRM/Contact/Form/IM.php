@@ -37,15 +37,25 @@ class CRM_Contact_Form_IM
 {
 
     static function buildIMBlock($form, &$location, $locationId, $count, $showHideBlocks) {
-        $showHideBlocks->addShow("location[$locationId][im][2][show]");
+        if ($count > 1) {
+            $showHideBlocks->addShow("location[$locationId][im][2][show]");
+        }
 
         for ($i = 1; $i <= $count; $i++) {
             $label = 'Instant Message:';
 
             $showHideBlocks->linksForArray( $form, $i, $count, "location[$locationId][im]", '[+] another Instant Message', '[-] hide Instant Message');
 
-            $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select', "location[$locationId][im][$i][service_id]", $label, CRM_SelectValues::$im   );
-            $location[$locationId]['im'][$i]['screenname'] = $form->addElement('text', "location[$locationId][im][$i][screenname]", null, array('size' => '37px', 'maxlength' => 64 ));
+            $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select',
+                                                                               "location[$locationId][im][$i][provider_id]",
+                                                                               $label,
+                                                                               CRM_SelectValues::$im   );
+
+            $attributes =& $form->getFormAttributes('CRM_Contact_DAO_IM');
+            $location[$locationId]['im'][$i]['name'] = $form->addElement('text',
+                                                                         "location[$locationId][im][$i][name]",
+                                                                         null,
+                                                                         $attributes['name']);
 
             if ( $i != 1 ) {
                 $showHideBlocks->addHide("location[$locationId][im][$i]");

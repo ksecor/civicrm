@@ -132,29 +132,6 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         return $result;
     }
 
-    static function &getAttributes( ) {
-        static $attrs;
-        if ( ! isset( $attrs ) ) {
-            $fields =& self::fields( );
-            foreach ( $fields as $name => $field ) {
-                if ( $field['type'] == CRM_Type::T_STRING ) {
-                    $maxLength = CRM_Array::value( 'maxlength', $field );
-                    $size      = CRM_Array::value( 'size'     , $field );
-                    if ( $maxLength || $size ) {
-                        $attrs[$name] = array( );
-                        if ( $maxLength ) {
-                            $attrs[$name]['maxlength'] = $maxLength;
-                        }
-                        if ( $size ) {
-                            $attrs[$name]['size'] = $size;
-                        }
-                    }
-                }
-            }
-        }
-        return $attrs;
-    }
-
     /**
      * takes an associative array and creates a contact object
      *

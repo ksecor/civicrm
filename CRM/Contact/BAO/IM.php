@@ -59,10 +59,10 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
         }
 
         $im = new CRM_Contact_DAO_IM();
-        $im->location_id     = $params['location'][$locationId]['id'];
-        $im->im_screenname   = $params['location'][$locationId]['im'][$imId]['im_screenname'];
-        $im->im_provider_id  = $params['location'][$locationId]['im'][$imId]['im_provider_id'];
-        $im->is_primary      = CRM_Array::value( 'is_primary', $params['location'][$locationId]['im'][$imId], false );
+        $im->location_id  = $params['location'][$locationId]['id'];
+        $im->name         = $params['location'][$locationId]['im'][$imId]['name'];
+        $im->provider_id  = $params['location'][$locationId]['im'][$imId]['provider_id'];
+        $im->is_primary   = CRM_Array::value( 'is_primary', $params['location'][$locationId]['im'][$imId], false );
         return $im->save( );
     }
 
@@ -84,8 +84,8 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
             return false;
         }
 
-        if ( ! empty( $params['location'][$locationId]['im'][$imId]['im_screenname'] ) &&
-             ! empty( $params['location'][$locationId]['im'][$imId]['im_provider_id'] ) ) {
+        if ( ! empty( $params['location'][$locationId]['im'][$imId]['name'] ) &&
+             ! empty( $params['location'][$locationId]['im'][$imId]['provider_id'] ) ) {
             return true;
         }
 

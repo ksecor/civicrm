@@ -49,6 +49,14 @@ require_once 'CRM/Contact/Form/Location.php';
 class CRM_Contact_Form_Individual extends CRM_Form 
 {
     /**
+     * how many locationBlocks should we display?
+     *
+     * @var int
+     * @const
+     */
+    const LOCATION_BLOCKS = 1;
+    
+    /**
      * This is the constructor of the class.
      *
      * @access public
@@ -342,17 +350,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function postProcess( ) 
     {
-        switch ($this->_mode) {
-        case self::MODE_ADD:
-        case self::MODE_UPDATE:
+        if ( $this->_mode == MODE_ADD ||
+             $this->_mode == MODE_UPDATE ) {
             $this->_addPostProcess();
-            break;
-        case self::MODE_VIEW:
-            break;
-        case self::MODE_DELETE:
-            break;            
-        case self::MODE_SEARCH:
-            break;            
         }    
     }
     
@@ -374,18 +374,16 @@ class CRM_Contact_Form_Individual extends CRM_Form
     private function _buildAddForm( ) 
     {
         
-        $form_name = $this->getName();
-        
         // prefix
         $this->addElement('select', 'prefix', null, CRM_SelectValues::$prefixName);
 
-        $individualAttrs =& CRM_Contact_BAO_Individual::getAttributes( );
+        $attributes =& $this->getFormAttributes('CRM_Contact_DAO_Individual');
 
         // first_name
-        $this->add('text', 'first_name', 'First Name', $individualAttrs['first_name'], true );
+        $this->add('text', 'first_name', 'First Name', $attributes['first_name'], true );
         
         // last_name
-        $this->add('text', 'last_name', 'Last Name', $individualAttrs['last_name'], true ); 
+        $this->add('text', 'last_name', 'Last Name', $attributes['last_name'], true ); 
         
         // suffix
         $this->addElement('select', 'suffix', null, CRM_SelectValues::$suffixName);
@@ -394,7 +392,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->addElement('select', 'greeting_type', 'Greeting type :', CRM_SelectValues::$greeting);
         
         // job title
-        $this->addElement('text', 'job_title', 'Job title :', $individualAttrs['job_title'] );
+        $this->addElement('text', 'job_title', 'Job title :', $attributes['job_title'] );
         
         // add the communications block
         CRM_Contact_Form_Contact::buildCommunicationBlock($this);
@@ -416,7 +414,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                                   array('notes'        => 1,
                                                         'demographics' => 1,) );
         
-        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, 1, $showHideBlocks);
+        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, self::LOCATION_BLOCKS, $showHideBlocks);
 
         /* End of locations */
 
@@ -474,7 +472,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $individual = CRM_Contact_BAO_Individual::add( $a_Values );
         // need to check for error here and abort / rollback if error
 
-        for ($locationId= 1; $locationId <= 1; $locationId++) { // start of for loop for location
+        for ($locationId= 1; $locationId <= self::LOCATION_BLOCKS; $locationId++) { // start of for loop for location
             $location = CRM_Contact_BAO_Location::add( $a_Values, $locationId );
         }
 

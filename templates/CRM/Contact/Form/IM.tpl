@@ -7,13 +7,13 @@
 <fieldset>
 	<!----------- Display Primary IM BLOCK ----------->	
     <div class="form-item">
-        {$form.location.$index.im.1.service_id.label}
-        {$form.location.$index.im.1.service_id.html}
-        {$form.location.$index.im.1.screenname.html}
+        {$form.location.$index.im.1.provider_id.label}
+        {$form.location.$index.im.1.provider_id.html}
+        {$form.location.$index.im.1.name.html}
         <div class="description">Select IM service and enter screen-name / user id.</div>
     </div>
 
-    {section name = innerLoop start = 2 loop = 4}
+    {section name = innerLoop start = 2 loop = $blockCount}
        {assign var=innerIndex value=$smarty.section.innerLoop.index}
 
     <!-- Link to EXPAND Additional IM block -->
@@ -23,8 +23,8 @@
 
     <!-- Display Additional IM block fields -->
     <div id="location[{$index}][im][{$innerIndex}]" class="form-item">
-        {$form.location.$index.im.$innerIndex.service_id.label}
-        {$form.location.$index.im.$innerIndex.service_id.html}{$form.location.$index.im.$innerIndex.screenname.html}
+        {$form.location.$index.im.$innerIndex.provider_id.label}
+        {$form.location.$index.im.$innerIndex.provider_id.html}{$form.location.$index.im.$innerIndex.name.html}
 
         <!-- Link to hide this IM block -->
        <div id="location[{$index}][im][{$innerIndex}][hide]" class="box">

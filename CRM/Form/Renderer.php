@@ -59,8 +59,6 @@ class CRM_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
      * @return array
      */
     function _elementToArray(&$element, $required, $error) {
-        // return parent::_elementToArray($element, $required, $error);
-
         self::updateAttributes($element, $required, $error);
 
         $el = parent::_elementToArray($element, $required, $error);

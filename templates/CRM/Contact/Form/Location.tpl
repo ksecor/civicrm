@@ -14,7 +14,7 @@
 {* $index contains the current index of the locationt section *}
 {* The section loops to display as many location blocks as contained in the $locloop variable *}
 
- {section name = locationLoop start = 1 loop = $form.count.html}
+ {section name = locationLoop start = 1 loop = $locationCount}
  {assign var=index value=$smarty.section.locationLoop.index}
 
  <div id="location[{$index}][show]" class="comment">

@@ -280,9 +280,9 @@ class CRM_Form extends HTML_QuickForm_Page {
         $prevnext = array( );
         foreach ( $params as $button ) {
             if ( $button['type'] === 'reset' ) {
-                $prevnext[] =& $this->createElement( $button['type'], null, $button['name'] );
+                $prevnext[] =& $this->createElement( $button['type'], 'reset', $button['name'], array( 'class' => 'form-submit' ) );
             } else {
-                $prevnext[] =& $this->createElement( 'submit', $this->getButtonName($button['type']), $button['name'] );
+                $prevnext[] =& $this->createElement( 'submit', $this->getButtonName($button['type']), $button['name'],  array( 'class' => 'form-submit' ) );
             }
             if ( CRM_Array::value( 'isDefault', $button ) ) {
                 $this->setDefaultAction( $button['type'] );
@@ -461,6 +461,40 @@ class CRM_Form extends HTML_QuickForm_Page {
         return $this->_mode;
     }
 
+    /**
+     * Given a class name, get the form attributes for the elements
+     * of this class.
+     *
+     * @param string $class name of the class
+     *
+     * @return array (reference ) attribute associative array
+     * @access public
+     */
+    function &getFormAttributes( $class ) {
+        $object = new $class( );
+        return $object->getFormAttributes( );
+
+    }
+
+    /**
+     * assign value to name in template
+     *
+     * @param string $name  name  of variable
+     * @param string $value value of varaible
+     *
+     * @return void
+     * @access public
+     */
+    function assign( $name, $value ) {
+        static $template = null;
+
+        if ( ! isset( $template ) ) {
+            $config  = CRM_Config::singleton ();
+            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        }
+
+        $template->assign($name, $value);
+    }
 }
 
 ?>

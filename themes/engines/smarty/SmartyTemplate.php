@@ -49,6 +49,7 @@ class SmartyTemplate extends Smarty {
 
     $this->template_dir = $compileDir;
     $this->compile_dir  = $templateDir;
+    $this->cache_dir    = $compileDir . '/cache/';
     $this->use_sub_dirs = true;
     $this->caching      = true;
     $this->debugging    = false;

@@ -51,6 +51,14 @@ abstract class CRM_DAO extends DB_DataObject {
     static $_factory = null;
 
     /**
+     * cache the various form attributes for the various DAO's
+     * caching is done on demand
+     *
+     * @var array
+     * @static
+     */
+    static $_attributes = array( );
+    /**
      * Class constructor
      *
      * @return object
@@ -250,6 +258,37 @@ abstract class CRM_DAO extends DB_DataObject {
                 $this->$name = $params[$name];
             }
         }
+    }
+
+    /**
+     * Get the size and maxLength attributes for all text fields
+     *
+     * @return array assoc array of name => attribute pairs
+     * @access public
+     */
+    function &getFormAttributes( ) {
+        $tableName = $this->getTableName( );
+        if ( ! array_key_exists( $tableName, self::$_attributes ) ) {
+            self::$_attributes[$tableName] = array( );
+
+            $fields =& $this->fields( );
+            foreach ( $fields as $name => &$field ) {
+                if ( $field['type'] == CRM_Type::T_STRING ) {
+                    $maxLength = CRM_Array::value( 'maxlength', $field );
+                    $size      = CRM_Array::value( 'size'     , $field );
+                    if ( $maxLength || $size ) {
+                        self::$_attributes[$tableName][$name] = array( );
+                        if ( $maxLength ) {
+                            self::$_attributes[$tableName][$name]['maxlength'] = $maxLength;
+                        }
+                        if ( $size ) {
+                            self::$_attributes[$tableName][$name]['size'] = $size;
+                        }
+                    }
+                }
+            }
+        }
+        return self::$_attributes[$tableName];
     }
 
 }

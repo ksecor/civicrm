@@ -11,7 +11,7 @@
         {$form.location.$index.email.1.email.html}
     </div>
 
-    {section name = innerLoop start = 2 loop = 4}
+    {section name = innerLoop start = 2 loop = $blockCount}
        {assign var=innerIndex value=$smarty.section.innerLoop.index}
 
        <!-- Link to EXPAND additional email block.-->

@@ -10,7 +10,7 @@
         {$form.location.$index.phone.1.phone_type_id.html}{$form.location.$index.phone.1.phone.html}
     </div>
 
-    {section name = innerLoop start = 2 loop = 4}
+    {section name = innerLoop start = 2 loop = $blockCount}
        {assign var=innerIndex value=$smarty.section.innerLoop.index}
 
     <!-- Link to expand additional phone block.-->
