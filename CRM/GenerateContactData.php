@@ -76,10 +76,10 @@ class CRM_GCD{
   /*******************************************************
    * constants
    *******************************************************/
-  const NUM_DOMAIN = 1000;
+  const NUM_DOMAIN = 100;
   const NUM_REVISION_PER_DOMAIN = 5;
 
-  const NUM_CONTACT = 100000;
+  const NUM_CONTACT = 1000;
   const NUM_REVISION_PER_CONTACT = 5;
 
   const INDIVIDUAL_PERCENT = 75;
@@ -87,7 +87,7 @@ class CRM_GCD{
   const ORGANIZATION_PERCENT = 10;
   const NUM_INDIVIDUAL_PER_HOUSEHOLD = 4;
 
-  const NUM_RELATIONSHIP_TYPE = 1000;
+  const NUM_RELATIONSHIP_TYPE = 100;
 
   const DB_NAME='wgm';
   const DB_USERNAME='nobody';
@@ -95,6 +95,7 @@ class CRM_GCD{
   const DB_HOSTNAME='localhost';
 
   const ADD_TO_DB=TRUE;
+  const DEBUG_LEVEL=1;
 
   /*********************************
    * private members
@@ -106,7 +107,6 @@ class CRM_GCD{
   private $relationship_type_array = array(1=>'parent', 'child', 'sibling', 'household member');
   private $relationship_direction_array = array(1=>'Unidirectional', 'Bidirectional');
   private $contact_type_array = array(1=>'individual', 'household', 'organization');
-
 
 
   // store domain id's
@@ -317,8 +317,8 @@ class CRM_GCD{
 $query_string = <<<QS
 INSERT INTO contact_domain (uuid, rid, latest_rev, name, created_by) values (0, 1, 1, 'superdomain', 0)
 QS;
-    echo("\n$query_string\n");
 
+    (self::DEBUG_LEVEL) and print("\n$query_string\n");
     (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die("Query failed: $query_string " . mysql_error()));
 
 
@@ -326,7 +326,7 @@ QS;
 $query_string = <<<QS
 INSERT INTO contact(uuid, rid, latest_rev, domain_uuid, created_by) values (0, 1, 1, 0, 0)
 QS;
-    echo("\n$query_string\n");
+    (self::DEBUG_LEVEL) and print("\n$query_string\n");
     (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die("Query failed: $query_string " . mysql_error()));
 
 
@@ -335,28 +335,28 @@ $query_string = <<<QS
 INSERT INTO contact_relationship_types(domain_uuid, name, description, direction, contact_type, created_by) 
 values (0, '{$this->relationship_type_array[1]}', 'is parent of relationship', '{$this->relationship_direction_array[1]}', '{$this->contact_type_array[1]}', 0)
 QS;
-    echo("\n$query_string\n");
+    (self::DEBUG_LEVEL) and print("\n$query_string\n");
     (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die("Query failed: $query_string " . mysql_error()));
 
 $query_string = <<<QS
 INSERT INTO contact_relationship_types(domain_uuid, name, description, direction, contact_type, created_by) 
 values (0, '{$this->relationship_type_array[2]}', 'is child of relationship', '{$this->relationship_direction_array[1]}', '{$this->contact_type_array[1]}', 0)
 QS;
-    echo("\n$query_string\n");
+    (self::DEBUG_LEVEL) and print("\n$query_string\n");
     (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die("Query failed: $query_string " . mysql_error()));
 
 $query_string = <<<QS
 INSERT INTO contact_relationship_types(domain_uuid, name, description, direction, contact_type, created_by) 
 values (0, '{$this->relationship_type_array[3]}', 'is sibling of relationship', '{$this->relationship_direction_array[2]}', '{$this->contact_type_array[1]}', 0)
 QS;
-    echo("\n$query_string\n");
+    (self::DEBUG_LEVEL) and print("\n$query_string\n");
     (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die("Query failed: $query_string " . mysql_error()));
 
 $query_string = <<<QS
 INSERT INTO contact_relationship_types(domain_uuid, name, description, direction, contact_type, created_by) 
 values (0, '{$this->relationship_type_array[4]}', 'is household member of relationship', '{$this->relationship_direction_array[1]}', '{$this->contact_type_array[1]}', 0)
 QS;
-    echo("\n$query_string\n");
+    (self::DEBUG_LEVEL) and print("\n$query_string\n");
     (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die("Query failed: $query_string " . mysql_error()));
 
     $this->lel();
@@ -398,8 +398,7 @@ $query_string = <<<QS
 INSERT INTO contact_domain (uuid, rid, latest_rev, name, created_by) values ($uuid, $rid, $latest_rev, '$domain_name', $created_by)
 QS;
 
-         echo("\n$query_string\n");
-
+         (self::DEBUG_LEVEL) and print("\n$query_string\n");
 	 (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die("Query failed: $query_string " . mysql_error()));
 
       } // end of revision loop
@@ -427,7 +426,7 @@ QS;
 $query_string = <<<QS
 INSERT INTO contact_context (domain_uuid, name, description) values ($uuid, '$context', '$description')
 QS;
-	echo("\n$query_string\n");
+        (self::DEBUG_LEVEL) and print("\n$query_string\n");
 	(self::ADD_TO_DB) and ($result = mysql_query($query_string) or die("Query failed: $query_string " . mysql_error()));
       }
     } // end of loop - domain
@@ -494,7 +493,7 @@ INSERT INTO contact(uuid, rid, latest_rev, domain_uuid, contact_type, sort_name,
 values ($uuid, $rid, $latest_rev, $domain_uuid, '$contact_type', '$sort_name', '$source', '$pcm', $created_by)
 QS;
 
-	  echo("\n$query_string\n");
+          (self::DEBUG_LEVEL) and print("\n$query_string\n");
 	  (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die("Query failed: $query_string " . mysql_error()));
 	} // end of loop revision
       } // end of loop - domain
@@ -545,8 +544,7 @@ INSERT INTO contact_individual(contact_uuid, contact_rid, first_name, middle_nam
 values ($contact_uuid, $contact_rid, '$first_name', '$middle_name', '$last_name', '$job_title', '$greeting_type', '$custom_greeting')
 QS;
 
-      echo("\n$query_string\n");
-
+      (self::DEBUG_LEVEL) and print("\n$query_string\n");
       (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error()));
 
     } // end of loop - individual_array
@@ -588,8 +586,7 @@ INSERT INTO contact_household(contact_uuid, contact_rid, household_name, nick_na
 values ($contact_uuid, $contact_rid, '$household_name', '$nick_name', $primary_contact_uuid)
 QS;
 
-      echo("\n$query_string\n");
-
+      (self::DEBUG_LEVEL) and print("\n$query_string\n");
       (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error()));
 
     } // end of loop - household_array
@@ -635,8 +632,7 @@ INSERT INTO contact_organization(contact_uuid, contact_rid, organization_name, l
 values ($contact_uuid, $contact_rid, '$organization_name', '$legal_name', '$nick_name', '$sic_code', $primary_contact_uuid)
 QS;
 
-      echo("\n$query_string\n");
-
+      (self::DEBUG_LEVEL) and print("\n$query_string\n");
       (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error()));
 
     } // end of loop - organization_array
@@ -692,7 +688,7 @@ INSERT INTO contact_relationship_types(domain_uuid, name, description, direction
 values ($domain_uuid, '$name', '$description', '$direction', '$contact_type', $created_by)
 QS;
 
-      echo("\n$query_string\n");
+      (self::DEBUG_LEVEL) and print("\n$query_string\n");
       (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error()));
 
     } // end of for loop
@@ -700,6 +696,63 @@ QS;
     $this->lel();
 
   } // end of method addContactRelationshipTypes
+
+
+
+  /*******************************************************
+   *
+   * addContactRelationship()
+   *
+   * This method adds data to the contact_relationship table
+   *
+   * it adds the following fields
+   *
+   * uuid - linear
+   * rid - 1
+   * latest_rev - 1
+   * contact_uuid
+   * target_contact_uuid
+   * relationship_type_id
+   * created_by - 0
+   *
+   *******************************************************/
+  public function addContactRelationship() {
+
+    $this->lee();
+    $uuid = 1;
+    $created_by = 0;
+    $rid = 1;
+    $latest_rev = 1;
+
+    // get the relationship type id from db
+$query_string = <<<QS
+SELECT id FROM contact_relationship_types WHERE name='{$this->relationship_type_array[4]}'
+QS;
+    (self::DEBUG_LEVEL) and print("\n$query_string\n");
+    //    (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error()));
+    $result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error());
+
+    mysql_num_rows($result) or die("Relationship ID does not exist for {$this->relationship_type_array[4]}");
+
+    $row = mysql_fetch_assoc($result);
+    $relationship_type_id = $row['id'];
+
+    // foreach household, add the relationship of 'is household member of' for all member
+    foreach($this->household_individual_array as $target_contact_uuid => $individual_uuid_array) {
+      foreach($individual_uuid_array as $contact_uuid) {
+
+$query_string = <<<QS
+INSERT INTO contact_relationship(uuid, rid, latest_rev, contact_uuid, target_contact_uuid, relationship_type_id, created_by) 
+VALUES($uuid, $rid, $latest_rev, $contact_uuid, $target_contact_uuid, $relationship_type_id, $created_by)
+QS;
+        (self::DEBUG_LEVEL) and print("\n$query_string\n");
+        (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error()));
+	$uuid++;
+      } // end of household member loop
+    } // end of the household loop
+
+    $this->lel();
+  } // end of method addContactRelationship
 
 
 
@@ -776,7 +829,6 @@ $obj1 = new CRM_GCD();
 
 $obj1->initID();
 $obj1->printID();
-
 $obj1->initDB();
 $obj1->addMetaData();
 $obj1->addContactDomain();
@@ -786,6 +838,7 @@ $obj1->addContactIndividual();
 $obj1->addContactHousehold();
 $obj1->addContactOrganization();
 $obj1->addContactRelationshipTypes();
+$obj1->addContactRelationship();
 
 $obj1->closeDB();
 
