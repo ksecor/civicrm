@@ -5,75 +5,15 @@
 ** module in relation to the data object max size.
 */
 
-/*
-** Tentative styling for classes of text input fields. Need to test. dgg
-*/
+/* Tentative styling for classes of text input fields. Need to test. dgg */
 #crm-container input.two {width: 2em;}
 #crm-container input.four {width: 4em;}
 #crm-container input.eight {width: 8em;}
 #crm-container input.twelve {width: 12em;}
 #crm-container input.medium {width: 20em;}
-#crm-container input.big {width: 15em;} /*should be 30, but too big*/
+#crm-container input.big {width: 20em;}
 #crm-container input.huge {width: 45em;}
 
-/*
-** Classes for form section show/hide links
-*/
-#crm-container .show-section {
-  border: 1px solid #abc;
-  background-color: #eee;
-  padding: .5em;
-  margin-bottom: 1em;
-}
-
-#crm-container .hide-section {
-  border: 1px solid #abc;
-  padding: .5em;
-  margin-bottom: 1em;
-}
-
-/*
-** CRM form field layout classes (from www.realworldstyle.com)
-*/
-div.spacer {
-  clear: both;
-  height: 5px;
-  }
-
-#crm-container div.form-item {
-  clear: both;
-  padding-bottom: 5px;
-}
-
-/* Use this rule for Box-Grey or other themes with very large default label fonts... */
-/*
-#crm-container div.form-item {
-  font-size: 0.90em;
-}
-*/
-
-#crm-container div.form-item span.labels {
-  float: left;
-  width: 20%;
-  text-align: left;
-}
-
-#crm-container div.form-item span.fields {
-  float: right;
-  width: 80%;
-  text-align: left;
-} 
-
-#crm-container div.description {
-  float: right;
-  width: 80%;
-  text-align: left;
-  padding-bottom: 5px;
-}
-
-/* 
-** [group description comment here]
-*/
 #crm-container tr.search-columnheader {
   background-color: #CCCCCC;
   color: #000000;
@@ -108,6 +48,9 @@ div.spacer {
   color: #FFFFFF;
   position: relative;
   height: 25px;
+  margin-bottom: -10px;
+  margin-top: -11px;
+  margin-left: -1px;
 }
 
 #crm-container span.pager {
@@ -126,6 +69,8 @@ div.spacer {
 }
 
 #crm-container fieldset.fieldset-property {
+  position: relative;
   border: thin solid #000000;
+  padding-bottom: -10px;
   -moz-border-radius: 10px 10px 10px 10px;
 }
