@@ -10,20 +10,36 @@ class CRM_Contacts_DAO_Address extends CRM_Contacts_DAO_LocationBase
     /**
      * @var string
      */
-    public $street;
-    public $supplemental_address;
+    public $street_address;
+    public $street_number;
+    public $street_number_suffix;
+    public $street_predirectional;
+    public $street_name;
+    public $street_type;
+    public $street_postdirectional;
+    public $street_unit;
+    public $street_unit_number;
+    public $supplemental_address_1;
+    public $supplemental_address_2;
+    public $supplemental_address_3;
+
     public $city;
     public $county;
     
     public $state_province_id;
     public $postal_code;
+    public $postal_code_suffix;
     public $usps_adc;
     public $country_id;
     
+    public $geo_type;
     public $geo_code1;
     public $geo_code2;
-    public $address_note;
+    public $geo_zone;
+    public $geo_datum;
     public $timezone;
+    public $address_note;
+    
     
     /**
      * This the constructor of the class
@@ -45,17 +61,30 @@ class CRM_Contacts_DAO_Address extends CRM_Contacts_DAO_LocationBase
             $fields = array_merge(
                                   parent::dbFields(),
                                   array(
-                                        'street'               => array(CRM_Type::T_STRING),
-                                        'supplemental_address' => array(CRM_Type::T_TEXT),
-                                        'city'                 => array(CRM_Type::T_STRING),
-                                        'county'               => array(CRM_Type::T_STRING),
-                                        'state_province_id'    => array(CRM_Type::T_INT),
-                                        'postal_code'          => array(CRM_Type::T_STRING),
-                                        'usps_adc'             => array(CRM_Type::T_STRING),
-                                        'country_id'           => array(CRM_Type::T_INT),
-                                        'geo_code_1'           => array(CRM_Type::T_STRING),
-                                        'geo_code_2'           => array(CRM_Type::T_STRING),
-                                        'address_note'         => array(CRM_Type::T_STRING),
+                                        'street_address'          => array(CRM_Type::T_STRING),
+                                        'street_number'           => array(CRM_Type::T_INT),
+                                        'street_number_suffix'    => array(CRM_Type::T_STRING),
+                                        'street_predirectional'   => array(CRM_Type::T_STRING),
+                                        'street_name'             => array(CRM_Type::T_STRING),
+                                        'street_type'             => array(CRM_Type::T_STRING),
+                                        'street_postdirectional'  => array(CRM_Type::T_STRING),
+                                        'street_unit'             => array(CRM_Type::T_STRING),
+                                        'street_unit_number'      => array(CRM_Type::T_INT),
+                                        'supplemental_address _1' => array(CRM_Type::T_TEXT),
+                                        'supplemental_address _2' => array(CRM_Type::T_TEXT),
+                                        'supplemental_address _3' => array(CRM_Type::T_TEXT),
+                                        'city'                    => array(CRM_Type::T_STRING),
+                                        'county'                  => array(CRM_Type::T_STRING),
+                                        'state_province_id'       => array(CRM_Type::T_INT),
+                                        'postal_code'             => array(CRM_Type::T_STRING),
+                                        'postal_code_suffix'      => array(CRM_Type::T_STRING),
+                                        'usps_adc'                => array(CRM_Type::T_STRING),
+                                        'country_id'              => array(CRM_Type::T_INT),
+                                        'geo_zone'                => array(CRM_Type::T_STRING),
+                                        'geo_code_1'              => array(CRM_Type::T_STRING),
+                                        'geo_code_2'              => array(CRM_Type::T_STRING),
+                                        'geo_datum'               => array(CRM_Type::T_STRING),
+                                        'address_note'            => array(CRM_Type::T_STRING),
                                         'timezone'                => array(CRM_Type::T_STRING)
                                         ) // end of array
                                   );
