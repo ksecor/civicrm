@@ -205,8 +205,6 @@ function on_load_execute(formname)
 		   'location3',	        'expand_loc3' 
 		   );
     
-    document.forms[formname].elements['location1[is_primary]'].checked = 'checked' ;     
-    
     
     /* This array stores the blocks to be displayed */	
     var show_blocks = new Array( "core" );

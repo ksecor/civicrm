@@ -38,14 +38,15 @@
  * the form element
  *
  * @param string $string       the html to be tweaked with
- * @param string $insert       the value to insert at the end of the html form
+ * @param string $attribute    the attribute to insert
+ * @param string $value        the new attribute value
  * @param string $insertBefore the string before which we want this tag inserted
  *
  * @return string        the new modified html string
  * @access public
  */
-function smarty_modifier_crmInsert( $string, $insert, $insertBefore = '/>' ) {
-    return str_replace( $insertBefore, ' ' . $insert . $insertBefore, $string );
+function smarty_modifier_crmInsert( $string, $attribute, $value, $insertBefore = '/>' ) {
+    return str_replace( $insertBefore, ' ' . $attribute . '="' . $value . '"' . $insertBefore, $string );
 }
 
 ?>

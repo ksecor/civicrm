@@ -36,9 +36,9 @@
  <div id="core">
  <fieldset><legend>Name and Greeting</legend>
      <div class="form-item">
-        {$form.first_name.label_html}
+        <label>First/Last:</label>
         {$form.prefix.html}
-        {$form.first_name.html}
+        {$form.first_name.html|crmInsert:size:15}
         {$form.last_name.html}
         {$form.suffix.html}
      </div>

@@ -37,21 +37,21 @@
  * no replacement is mentioned the value is inserted at the end of
  * the form element
  *
- * @param string $string   the html to be tweaked with
- * @param string $insert   the value to insert
- * @param string $replace  the attribute to modify
+ * @param string $string    the html to be tweaked with
+ * @param string $attribute the attribute to modify
+ * @param string $value     the new attribute value
  *
  * @return string        the new modified html string
  * @access public
  */
-function smarty_modifier_crmReplace( $string, $insert, $replace ) {
+function smarty_modifier_crmReplace( $string, $attribute, $value ) {
     static $endOfElement = '/>';
 
     // if we know what attribute we need to replace
-    // we need to search and replace the string: $replace=XXX or $replace="XXX"
-    // with $replace=\"$insert\"
-    $pattern = '/' . $replace . '="([^"]+?)"/';
-    return preg_replace( $pattern, $replace . '="' . $insert . '"', $string );
+    // we need to search and replace the string: $attribute=XXX or $attribute="XXX"
+    // with $attribute=\"$value\"
+    $pattern = '/' . $attribute . '="([^"]+?)"/';
+    return preg_replace( $pattern, $attribute . '="' . $value . '"', $string );
 }
 
 ?>

@@ -1,4 +1,4 @@
 {if $error}
-   <span class="crm-error">{$error}</span><br/>
+   <span class="error">{$error}</span><br/>
 {/if}
 {$html}
