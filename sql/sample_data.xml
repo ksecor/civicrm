@@ -95,6 +95,18 @@
     <supplemental_address_1>bandra</supplemental_address_1>
   </supplemental_addresses_1>
 
+  <cities>
+    <city>Mumbai</city>
+    <city>Delhi</city>
+    <city>Kolkata</city>
+    <city>Chennai</city>
+    <city>Bangalore</city>
+    <city>Hyderabad</city>
+    <city>Jaipur</city>
+    <city>Pune</city>
+    <city>Goa</city>
+  </cities>
+
   <address_directions>
     <address_direction>N</address_direction>
     <address_direction>W</address_direction>

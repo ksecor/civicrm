@@ -126,6 +126,9 @@ class CRM_GCD {
     private $last_name = array();
     private $street_name = array();
     private $supplemental_address_1 = array();
+    private $city = array();
+    private $state = array();
+    private $country = array();
     private $address_direction = array();
     private $street_type = array();
     private $email_domain = array();
@@ -311,6 +314,11 @@ class CRM_GCD {
             $this->supplemental_address_1[] = trim($supplemental_address_1);
         }
 
+        //  cities
+        foreach ($sample_data->cities->city as $city) {
+            $this->city[] = trim($city);
+        }
+
         //  address directions
         foreach ($sample_data->address_directions->address_direction as $address_direction) {
             $this->address_direction[] = trim($address_direction);
@@ -347,6 +355,31 @@ class CRM_GCD {
         }
 
         $this->lel();
+    }
+
+
+    // this function initializes the arrays for state, country by using
+    // the tables crm_state_province and crm_country
+    public function initDBData()
+    {
+
+        $state = new CRM_DAO_StateProvince();
+        $state->selectAdd('id');
+        $state->find();
+        while($state->fetch()) {
+            $this->state[] = $state->id;
+        }
+
+        $country = new CRM_DAO_Country();
+        $country->selectAdd('id');
+        $country->find();
+        while($country->fetch()) {
+            $this->country[] = $country->id;
+        }
+        
+        //print_r($this->state);
+        //print_r($this->country);
+
     }
 
 
@@ -466,7 +499,6 @@ class CRM_GCD {
      * id - from $contact
      * domain_id (fkey into domain) (random - 1 to num_domain)
      * contact_type 'Individual' 'Household' 'Organization'
-     * sort_name (Name + id)
      * preferred_communication (random 1 to 3)
      *
      *******************************************************/
@@ -483,9 +515,6 @@ class CRM_GCD {
             $contact->do_not_phone = mt_rand(0, 1);
             $contact->do_not_email = mt_rand(0, 1);
             $contact->do_not_post = mt_rand(0, 1);
-            $contact->hash = crc32($contact->sort_name);
-            
-            // choose randomly from phone, email and snail mail
             $contact->preferred_communication_method = $this->_getRandomElement($this->preferred_communication_method);
 
             $this->_insert($contact);
@@ -544,6 +573,7 @@ class CRM_GCD {
             // also update the sort name for the contact id.
             $contact->id = $individual->contact_id;
             $contact->sort_name = $individual->last_name . ', ' . $individual->first_name;
+            $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
         }
         
@@ -595,6 +625,7 @@ class CRM_GCD {
             // need to update the sort name for the main contact table
             $contact->id = $household->contact_id;
             $contact->sort_name = $household->household_name;
+            $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
         }
 
@@ -639,6 +670,7 @@ class CRM_GCD {
             // need to update the sort name for the main contact table
             $contact->id = $organization->contact_id;
             $contact->sort_name = $organization->organization_name;
+            $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
         }
 
@@ -768,11 +800,11 @@ class CRM_GCD {
             $address->street_address = $address->street_number_predirectional . " " . $address->street_number .  $address->street_number_suffix .  " " . $address->street_name .  " " . $address->street_type . " " . $address->street_number_postdirectional;
 
             $address->supplemental_address_1 = ucwords($this->_getRandomElement($this->supplemental_address_1));
-            $address->city = "Mumbai";
+            $address->city = ucwords($this->_getRandomElement($this->city));
             $address->county_id = 1;
-            $address->state_province_id = 1004;
+            $address->state_province_id = $this->_getRandomElement($this->state);
             $address->postal_code = mt_rand(400001, 499999);
-            $address->country_id = 1228;
+            $address->country_id = $this->_getRandomElement($this->country);
             $address->geo_coord_id = 1;
 
             $this->_insert($address);
@@ -781,8 +813,12 @@ class CRM_GCD {
             $contact = new CRM_Contact_DAO_Contact();
             $contact->id = $location->contact_id;
             $contact->find(true);
+
+            // get the sort name of the contact
             $sort_name = $contact->sort_name;
             $sort_name = strtolower(str_replace(" ", "", $sort_name));
+            $sort_name = strtolower(str_replace(",", "_", $sort_name));
+            $sort_name = strtolower(str_replace("'s", "_", $sort_name));
 
             // add 3 email for each location
             for ($email_id=1; $email_id<=3; $email_id++) {
@@ -807,7 +843,6 @@ class CRM_GCD {
 
         $this->lel();
     }
-
 
     public function printID() {
 
@@ -873,6 +908,7 @@ $obj1 = new CRM_GCD();
 $obj1->parseDataFile();
 $obj1->initID();
 $obj1->initDB();
+$obj1->initDBData();
 $obj1->printID();
 $obj1->addDomain();
 $obj1->addContact();
