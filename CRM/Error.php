@@ -250,7 +250,7 @@ class CRM_Error extends PEAR_ErrorStack {
 
 
     /**
-     * output backtrace of the program.
+     * display the error message on terminal
      *
      * @param  string message to be output
      * @param  bool   should we log or return the output
@@ -266,7 +266,7 @@ class CRM_Error extends PEAR_ErrorStack {
         $error =& self::singleton( );
         $out = "<p /><code>$message</code>";
         if ($log) {
-            // echo $out;
+            echo $out;
         }
         return $out;
     }

@@ -46,8 +46,9 @@ require_once 'CRM/Contact/Wrapper.php';
 require_once 'CRM/Selector/Controller.php';
 require_once 'CRM/Contact/Selector/Individual.php';
 
-require_once 'CRM/Contact/BAO/Household.php';
-require_once 'CRM/Contact/BAO/Organization.php';
+// only used for debugging purposes - remove in production system
+require_once 'CRM/Error.php';
+
 
 /**
  * Provides a link to the CSS stylesheet associated with this module.
@@ -138,7 +139,7 @@ function contact_block($op='list', $delta='0')
                         }
                         //shortcut for add contact for contact Search.
                         if ($menu_value['path'] == "crm/contact/search") {
-                            $content.="<a href=".$menu_value['path'].">".$menu_value['title']."</a><br>";
+                            $content.="<a href=".$menu_value['path']."?reset=1>".$menu_value['title']."</a><br>";
                         }
                         //shortcut for add contact for Listing thecontact.                        
                         if ($menu_value['path'] == "crm/contact/list") {
@@ -509,9 +510,17 @@ function contact_list($id=0)
  */
 function contact_query() 
 {
+    
+    CRM_Error::le_function();
+    
     $contact = new CRM_Contact_Wrapper();
     $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/search?reset=1', 0);
+
+    CRM_Error::ll_function();
+
     return $contact->getContent();
+
+
 } // end of function contact_query
 
 

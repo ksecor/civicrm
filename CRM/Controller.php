@@ -97,7 +97,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      */
     function run( ) {
 
-        CRM_Error::ll_method();
+        // CRM_Error::ll_method();
 
 
         // the names of the action and page should be saved
@@ -121,7 +121,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         // to the appropriate place
         $this->_pages[$pageName]->handle($action);
 
-        CRM_Error::ll_method();
+        // CRM_Error::ll_method();
 
         return $pageName;
     }

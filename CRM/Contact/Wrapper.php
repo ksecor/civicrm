@@ -87,7 +87,7 @@ class CRM_Contact_Wrapper extends CRM_Base
     function run($formName    = 'CRM_Contact_Form_Individual',
                  $formLabel   = 'Contact Individual Page'    ,
                  $mode        = CRM_Form::MODE_NONE,
-                 $userContext = 'crm/contact/add?reset=1',
+                 $userContext = 'contact/add?reset=1',
                  $data        = null ) {
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
@@ -96,6 +96,8 @@ class CRM_Contact_Wrapper extends CRM_Base
         // store the return url. Note that this is typically computed by the framework at runtime
         // based on multiple things (typically where the link was clicked from / http_referer
         // since we are just starting and figuring out navigation, we are hard coding it here
+        
+        // CRM_Error::debug_var("config->httpBase", $config->httpBase);
         $session->pushUserContext( $config->httpBase . $userContext );
 
         $this->_controller = new CRM_Controller_Simple( $formName, $formLabel, $mode );

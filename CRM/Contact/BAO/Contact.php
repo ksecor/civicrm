@@ -269,7 +269,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
             foreach ( $locations as $index => &$location ) {
-                self::lookupValue( $location, 'location_type', CRM_SelectValues::$locationType, $reverse );
+                // self::lookupValue( $location, 'location_type', CRM_SelectValues::$locationType, $reverse );
+                self::lookupValue( $location, 'location_type', CRM_SelectValues::getLocationType(), $reverse );
                 if ( array_key_exists( 'address', $location ) ) {
                     self::lookupValue( $location['address'], 'state_province', CRM_SelectValues::$stateProvince, $reverse );
                     self::lookupValue( $location['address'], 'country'       , CRM_SelectValues::$country      , $reverse );

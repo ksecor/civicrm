@@ -41,7 +41,7 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $prefixName = array(
+    public static $prefixName = array(
                                       ''    => '-title-',
                                       'Mrs' => 'Mrs.',
                                       'Ms'  => 'Ms.',
@@ -55,7 +55,7 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $suffixName = array(
+    public static $suffixName = array(
                                       ''    => '-suffix-',
                                       'Jr'  => 'Jr.',
                                       'Sr'  => 'Sr.',
@@ -68,7 +68,7 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $greeting   = array(
+    public static $greeting   = array(
                                       'Formal'    => 'default - Dear [first] [last]',
                                       'Informal'  => 'Dear [first]',
                                       'Honorific' => 'Dear [title] [last]',
@@ -82,7 +82,7 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $date       = array(
+    public static $date       = array(
                                       'language'  => 'en',
                                       'format'    => 'dMY',
                                       'minYear'   => 1950,
@@ -97,7 +97,7 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $phoneType = array(
+    public static $phoneType = array(
                                       ''       => '-select-',
                                       'Phone'  => 'Phone',
                                       'Mobile' => 'Mobile',
@@ -114,20 +114,20 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $locationType    = array(
-                                          '' => '-select-',
-                                           1 => 'Home',
-                                           2 => 'Work',
-                                           3 => 'Main',
-                                           4 => 'Other'
-                                           );
+    public static $locationType = array(
+                                        '' => '-select-',
+                                        1 => 'Home',
+                                        2 => 'Work',
+                                        3 => 'Main',
+                                        4 => 'Other'
+                                        );
     
     /**
      * im protocols (fetch and cache from db based on locale)
      * @var array
      * @static
      */
-    static public $imProvider = array(
+    public static $imProvider = array(
                                       '' => '-select-',
                                       1 => 'Yahoo',
                                       2 => 'MSN',
@@ -141,7 +141,7 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $stateProvince = array(
+    public static $stateProvince = array(
                                          ''   => '-select-',
                                          1004 => 'California',
                                          1036 => 'Oregon',
@@ -153,7 +153,7 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $country    = array(
+    public static $country    = array(
                                       ''   => '-select-',
                                       1039 => 'Canada',
                                       1101 => 'India',
@@ -166,7 +166,7 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $county = array(
+    public static $county = array(
                                   ''   => '-select-',
                                   1001 => 'San Francisco',
                                   );
@@ -176,7 +176,7 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $pcm = array(
+    public static $pcm = array(
                                ''     => '-no preference-',
                                'Phone' => 'Phone', 
                                'Email' => 'Email', 
@@ -188,13 +188,70 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    static public $contactType = array(
+    public static $contactType = array(
                                        ''            => '-all contacts-',
                                        'Individual'   => 'Individuals',
                                        'Household'    => 'Households',
                                        'Organization' => 'Organizations',
                                        );
     
+
+
+
+    /**
+     * Get all the location types from database.
+     *
+     * This method uses the <b>location DAO</b> to get all the
+     * location types. It pushes them into an array and
+     * and returns the array reference.
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @param none
+     * @return array - array reference of all location types.
+     *
+     */
+    public static function &getLocationType()
+    {
+        $location_type_array = array('' => '-select-');
+        $location_type_dao = new CRM_Contact_DAO_LocationType();
+        $location_type_dao->selectAdd('id, name');
+        $location_type_dao->find();
+        while($location_type_dao->fetch()) {
+            $location_type_array[$location_type_dao->id] = "$location_type_dao->name";
+        }
+        return $location_type_array;
+    }
+
+
+    /**
+     * Get all the IM Providers from database.
+     *
+     * This method uses the <b>IM Provider DAO</b> to get all the
+     * IM Providers. It pushes them into an array and
+     * and returns the array reference.
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @param none
+     * @return array - array reference of all IM providers.
+     *
+     */
+    public static function &getIMProvider()
+    {
+        $im_provider_array = array('' => '-select-');
+        $im_provider_dao = new CRM_DAO_IMProvider();
+        $im_provider_dao->selectAdd('id, name');
+        $im_provider_dao->find();
+        while($im_provider_dao->fetch()) {
+            $im_provider_array[$im_provider_dao->id] = "$im_provider_dao->name";
+        }
+        return $im_provider_array;
+    }
 }
 
 /**
@@ -202,6 +259,5 @@ class CRM_SelectValues {
  * the current year
  */
 CRM_SelectValues::$date['maxYear'] = date('Y');
-
 
 ?>
