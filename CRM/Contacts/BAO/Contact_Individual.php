@@ -4,7 +4,15 @@ require_once 'CRM/Contacts/DAO/Contact.php';
 
 require_once 'CRM/Contacts/DAO/Contact_Individual.php';
 
-require_once 'CRM/Contacts/DAO/Contact_Location.php';
+require_once 'CRM/Contacts/DAO/Location.php';
+
+require_once 'CRM/Contacts/DAO/Address.php';
+
+require_once 'CRM/Contacts/DAO/Phone.php';
+
+require_once 'CRM/Contacts/DAO/Im.php';
+
+require_once 'CRM/Contacts/DAO/Email.php';
 
 class CRM_Contacts_BAO_Contact_Individual extends CRM_Contacts_DAO_Contact_Individual 
 {
