@@ -185,8 +185,7 @@ class CRM_Sort {
     }
   
     function parseURLString( $defaultSortOrder ) {
-        $request = CRM_App::getRequest( );
-        $url = $request->getVar( CRM_Sort::SORT_ID );
+        $url = $_GET[CRM_Sort::SORT_ID];
 
         if ( empty( $url ) ) {
             $url = $defaultSortOrder;

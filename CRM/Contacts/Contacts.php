@@ -49,7 +49,7 @@ class CRM_Contacts_Contacts extends CRM_Base {
     **/
   }
 
-  function display() {
+  function getContent() {
     return $this->_controller->getContent();
   }
 

@@ -96,6 +96,13 @@ class CRM_Selector_Controller {
     /* the objectAction for the WebObject */
     private $_action;
 
+    /**
+     * This caches the content for the display system
+     *
+     * @var string
+     */
+    protected $_content;
+
     function __construct($object, $pageID, $sortID, $action) {
         $this->_object = $object;
         
@@ -123,24 +130,30 @@ class CRM_Selector_Controller {
         $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortId );
     }
 
-    function setResponseData($response) {
-        $response->setVar('pager', $this->_pager->toArray() );
-        $response->setVar('sort' , $this->_sort->getLinks() );
+    function run( ) {
+        $config = CRM_Config::singleton();
+
+        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        $template->clear_all_assign();
+
+        $template->assign('pager', $this->_pager->toArray() );
+        $template->assign('sort' , $this->_sort->getLinks() );
         
-        $response->setVar('columnHeaders', 
+        $template->assign('columnHeaders', 
                           $this->_object->getColumnHeaders( $this->_action ) );
-            
+        
         $rows =    $this->_object->getRows( $this->_action, 
                                             $this->_pagerOffset,
                                             $this->_pagerRowCount,
                                             $this->_sort );
         if ( count( $rows ) ) {
-            $response->setVar('rowsEmpty', false);
-            $response->setVar('rows'     , $rows);
+            $template->assign('rowsEmpty', false);
+            $template->assign('rows'     , $rows);
         } else {
-            $response->setVar('rowsEmpty', true);
+            $template->assign('rowsEmpty', true);
         }
 
+        $this->_content = $template->fetch( $this->_object->getTemplateFileName(), $config->templateDir );
     }
 
     function getPager() {
@@ -165,6 +178,27 @@ class CRM_Selector_Controller {
         CRM_Reports_Excel::writeCSVFile( $fileName, $headers, $rows );
 
         exit();
+    }
+
+    /**
+     * setter for content
+     *
+     * @param string
+     * @return void
+     * @access public
+     */
+    function setContent(&$content) {
+        $this->_content =& $content;
+    }
+
+    /**
+     * getter for content
+     *
+     * @return void
+     * @access public
+     */
+    function &getContent() {
+        return $this->_content;
     }
 
 

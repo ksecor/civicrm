@@ -1,6 +1,6 @@
 <?php
 
-require_once 'CRM/String.class.php';
+require_once 'CRM/String.php';
 
 class CRM_Reports_Excel {
   /**

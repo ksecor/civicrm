@@ -2,14 +2,19 @@
 
 include_once 'config.inc.php';
 
+require_once 'CRM/Action.php';
+require_once 'CRM/Form.php';
+require_once 'CRM/Utils.php';
+
 require_once 'CRM/Contacts/Contacts.php';
 require_once 'CRM/Contacts/Contacts_Qadd.php';
 require_once 'CRM/Contacts/Contacts_Csearch.php';
 require_once 'CRM/Contacts/Contacts_Search.php';
 require_once 'CRM/Contacts/Households.php';
 require_once 'CRM/Contacts/Organizations.php';
-require_once 'CRM/Form.php';
-require_once 'CRM/Utils.php';
+
+require_once 'CRM/Contacts/Selector.php';
+require_once 'CRM/Selector/Controller.php';
 
 /**
  * @file
@@ -68,7 +73,7 @@ function contact_block($op='list', $delta='0')
                 //$content = "hey, do the search";
                 $contact_csearch = new CRM_Contacts_Contacts_Csearch();
                 $contact_csearch->run(CRM_Form::MODE_CREATE, 0);
-                $content = $contact_csearch->display();
+                $content = $contact_csearch->getContent();
                 $block['subject'] = "<span class='crm_blocktitle'>CRM Contact Search</span>";
                 $block['content'] = $content;
                 break;   
@@ -76,7 +81,7 @@ function contact_block($op='list', $delta='0')
                 //  $content = "Quick adding form";
                 $contact_qadd = new CRM_Contacts_Contacts_Qadd();
                 $contact_qadd->run(CRM_Form::MODE_CREATE, 0);
-                $content = $contact_qadd->display();
+                $content = $contact_qadd->getContent();
                 $block['subject'] = "<span class='crm_blocktitle'>CRM Quick Add Contact</span>";
                 $block['content'] = $content;
                 break;   
@@ -371,7 +376,7 @@ function contact_add()
 {
     $contact = new CRM_Contacts_Contacts();
     $contact->run(CRM_Form::MODE_CREATE, 0);
-    return $contact->display();
+    return $contact->getContent();
 } // end of function contact_add
 
 
@@ -379,14 +384,14 @@ function contact_add_house()
 {
     $contact = new CRM_Contacts_Households();
     $contact->run(CRM_Form::MODE_CREATE, 0);
-    return $contact->display();
+    return $contact->getContent();
 } // end of function contact_add_house
 
 function contact_add_org() 
 {
     $contact = new CRM_Contacts_Organizations();
     $contact->run(CRM_Form::MODE_CREATE, 0);
-    return $contact->display();
+    return $contact->getContent();
 } // end of function contact_add_org
 
 
@@ -399,9 +404,10 @@ function contact_add_org()
  *******************************************************/
 function contact_list($id=0) 
 {
-	$contact = new CRM_Contacts_Page_List( );
-    $contact->run( );
-    return $contact->display( );
+	$contact = new CRM_Contacts_Selector( );
+    $controller = new CRM_Selector_Controller( $contact, null, null, CRM_Action::VIEW );
+    $controller->run( );
+    return $controller->getContent();
 } // end of function contact_list
 
 /*******************************************************
@@ -417,7 +423,7 @@ function contact_query()
 {
     $contact = new CRM_Contacts_Contacts_Search();
     $contact->run(CRM_Form::MODE_CREATE, 0);
-    return $contact->display();
+    return $contact->getContent();
     //return '';
 } // end of function contact_query
 
@@ -430,7 +436,7 @@ function contact_edit($id)
 {
     $contact = new CRM_Contacts_Contacts();
     $contact->run(CRM_Form::MODE_UPDATE, $id);
-    return $contact->display();
+    return $contact->getContent();
 } // end of function contact_edit
 
 
@@ -445,7 +451,7 @@ function contact_view($id)
     // flush();
     $contact = new CRM_Contacts_Contacts();
     $contact->run(CRM_Form::MODE_VIEW, $id);
-    return $contact->display();
+    return $contact->getContent();
 } // end of function contact_view
 
 
@@ -460,7 +466,7 @@ function contact_delete($id)
 {
     $contact = new CRM_Contacts_Contacts();
     $contact->run(CRM_Form::MODE_DELETE, $id);
-    return $contact->display();
+    return $contact->getContent();
 } // end of function contact_delete
 
 

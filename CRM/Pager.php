@@ -56,7 +56,7 @@ class CRM_Pager extends Pager_Sliding {
 
         $links = $this->getLinks( );
 
-        list( $offset, $limit ) = $this->getOffsetAndLimit( );
+        list( $offset, $limit ) = $this->getOffsetAndRowCount( );
         $start = $offset + 1;
         $end   = $offset + $limit;
         if ( $end > $total ) {

@@ -23,8 +23,8 @@
 */
 
 
-require 'CRM/Rule.php';
-require 'Validate.php';
+require_once 'CRM/Rule.php';
+require_once 'Validate.php';
 
 class CRM_Type {
     const
