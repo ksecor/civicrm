@@ -112,6 +112,7 @@ class CRM_Note_Form_Note extends CRM_Form
      * @access public
      */
     public function buildQuickForm( ) {
+
         $note = $this->add('textarea', 'note', 'Notes', array('rows' => 4, 'cols' => '82',));    
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'next',

@@ -75,6 +75,8 @@ class CRM_Contact_Page_View extends CRM_Page {
             $this->runModeNone( );
         } else if ( $this->_mode == self::MODE_NOTE ) {
             CRM_Contact_Page_Note::run( $this );
+        } else if ( $this->_mode == self::MODE_REL ) {
+            CRM_Contact_Page_Relationship::run( $this );
         } else if ( $this->_mode == self::MODE_TAGS ) {
             $this->runModeTags( );
         } 
@@ -184,6 +186,13 @@ class CRM_Contact_Page_View extends CRM_Page {
             $showHide->addShow( 'notes' );
             $showHide->addHide( 'notes[show]' );
         }
+
+        // is there any relationships data?
+        if ( CRM_Array::value( 'relationshipsCount', $defaults ) ) {
+            $showHide->addShow( 'relationships' );
+            $showHide->addHide( 'relationships[show]' );
+        }
+
             
         if ( array_key_exists( 'location', $defaults ) ) {
             $numLocations = count( $defaults['location'] );

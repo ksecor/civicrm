@@ -91,16 +91,44 @@
   </div>
  {/if}
 
-<div id="relationships" class="data-group form-item">
-  <span class="float-right">
-    <a href="#">Create relationship(s)...</a>
-  </span>
-  <a href="#"><label>Relationships</label></a>
-  <span class="horizontal-position">
-   (no active relationships for this contact)
-  </span>
-  <br />
-  <div class="spacer"></div>
+<div id="relationships[show]" class="data-group form-item">
+  <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;">(+)</a> <label>Relationship</label><br />
+</div>
+<div id="relationships">
+ <p>
+ <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;">(-)</a>Relationship</legend>
+    <div class="form-item">
+       <table>
+	<tr><td>Relationship</td><td>Contact</td><td>Email</td><td>Phone</td><td>City</td><td>State/Prov</td><td>&nbsp;</td></tr>
+       {foreach from=$relationship item=rel}
+         <tr>
+            <td>
+                {$rel.relation|truncate:80:"...":true}
+                {* Include '(more)' link to view entire note if it has been truncated *}
+                {*assign var="noteSize" value=$note.note|count_characters:true}
+                {if $noteSize GT 80*}
+                    <!--a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=view">(more)</a-->
+                {*/if*}
+            </td>
+	    <td>{$rel.name}</td>
+	    <td>{$rel.email}</td>
+	    <td>{$rel.phone}</td>
+	    <td>{$rel.city}</td>
+	    <td>{$rel.state}</td>
+            <td><a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=edit">Edit</a></td> 
+         </tr>  
+       {/foreach}
+       </table>
+       <br />
+       <div class="action-link">
+       <a href="{$config->httpBase}contact/view/rel&op=add">Create Relationship</a>
+        {if $relationshipsCount gt 3 }
+         | <a href="{$config->httpBase}contact/view/rel&op=browse">Browse all Relationships...</a>
+        {/if}
+        </div>
+    </div>
+ </fieldset>
+ </p>
 </div>
 
 <div id="groups" class="data-group form-item">

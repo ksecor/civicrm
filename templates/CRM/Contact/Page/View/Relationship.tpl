@@ -1,29 +1,42 @@
 <div id="name" class="data-group form-item">
     <p>
-        <label>{$displayName}</label>
+	<label>{$displayName}</label>
     </p>
 </div>
 
-<div id="relationships" class="data-group form-item">
-  <span class="float-right">
-    <a href="#">Create relationship(s)...</a>
-  </span>
-  <a href="#"><label>Relationships</label></a>
-  <span class="horizontal-position">
-   (no active relationships for this contact)
-  </span>
-  <br />
-  <div class="spacer"></div>
-</div>
+{if $op eq 'view'}
+    <p>
+    <fieldset><legend>View Relationship</legend>
+    <div class="form-item">
 
-<div id="groups" class="data-group form-item">
-  <span class="float-right">
-   <a href="#">Add this contact to one or more groups...</a>
-  </span>
-  <a href="#"><label>Groups</label></a>
-  <span class="horizontal-position">
-   (this contact does not belong to any groups)
-  </span>
-  <br />
-  <div class="spacer"></div>
+    </div>
+    </fieldset>
+    </p>
+{elseif $op eq 'add' or $op eq 'edit'}
+    {include file="CRM/Relationship/Form/Relationship.tpl"}	
+{/if}
+
+<div id="relationships">
+ <p>
+    <div class="form-item">
+       <table>
+	<tr class="columnheader"><td>Relationship</td><td>Contact</td><td>Email</td><td>Phone</td><td>City</td><td>State/Prov</td><td>&nbsp;</td></tr>
+       {foreach from=$relationship item=rel}
+        <tr>
+          <td> {$rel.relation}</td>
+	 <td>{$rel.name}</td>
+	 <td>{$rel.email}</td>
+	 <td>{$rel.phone}</td>
+	 <td>{$rel.city}</td>
+	 <td>{$rel.state}</td>
+         <td><a href="{$config->httpBase}contact/view/rel&cid={$contactId}&rid={$rel.id}&op=view">View</a> | <a href="{$config->httpBase}contact/view/rel&cid={$contactId}&rid={$rel.id}&op=edit">Edit</a></td>
+         </tr>
+       {/foreach}
+       </table>
+       <br />
+       <div class="action-link">
+         <a href="{$config->httpBase}contact/view/rel&cid={$contactId}&op=add">Create Relationship</a>
+       </div>
+    </div>
+ </p>
 </div>
