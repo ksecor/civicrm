@@ -39,7 +39,7 @@ class TestOfUpdateContactAPI extends UnitTestCase {
     }
     
     function testUpdateContactIndividual( ) {
-        $params = array( 'contact_id' => $this->_individualId, 'location_type' => 'Main', 'im_name' => 'kurundssyahoo', 'im_provider' => 'AIM','phone' => '999999', 'phone_type' => 'Phone', 'email' => 'kurund@yahoo.com');
+        $params = array( 'contact_id' => $this->_individual->id, 'location_type' => 'Main', 'im_name' => 'kurundssyahoo', 'im_provider' => 'AIM','phone' => '999999', 'phone_type' => 'Phone', 'email' => 'kurund@yahoo.com');
         $contact = $this->_individual;
         $contact = crm_update_contact( $contact, $params );
         $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
@@ -50,7 +50,7 @@ class TestOfUpdateContactAPI extends UnitTestCase {
     }
     
     function testUpdateContactHousehold( ) {
-        $params = array( 'contact_id' => $this->_houseHoldId, 'nick_name' => 'J House', 'email' => 'household@yahoo.com', 'location_type' => 'Main'  );
+        $params = array( 'contact_id' => $this->_houseHold->id, 'nick_name' => 'J House', 'email' => 'household@yahoo.com', 'location_type' => 'Main'  );
         $contact = $this->_houseHold;
         $contact = crm_update_contact( $contact, $params );
         $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
@@ -58,7 +58,7 @@ class TestOfUpdateContactAPI extends UnitTestCase {
     }
 
     function testUpdateContactOrganization( ) {
-        $params = array( 'contact_id' => $this->_organizationId, 'nick_name' => 'J House', 'email' => 'organization@yahoo.com', 'location_type' => 'Main'  );
+        $params = array( 'contact_id' => $this->_organization->id, 'nick_name' => 'J House', 'email' => 'organization@yahoo.com', 'location_type' => 'Main'  );
         $contact = $this->_organization;
         $contact = crm_update_contact( $contact, $params );
         $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
@@ -75,25 +75,24 @@ class TestOfUpdateContactAPI extends UnitTestCase {
     
     function testUpdateLocationTypeIndividual()
     {
-        $params = array('contact_id' => $this->_individualId, 'location_type' => 'Home', 'is_primary' => '1');
+        $params = array('contact_id' => $this->_individual->id, 'location_type' => 'Home', 'is_primary' => '1');
         $contact = $this->_individual;
         $contact = crm_update_contact($contact, $params);
       
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
     }
-    /******  
+
     function testUpdateHouseholdNameError()
     {
-        $params = array('contact_id' => $this->_houseHoldId, 'household_name' => '', 'location_type' => 'Home');
+        $params = array('contact_id' => $this->_houseHold->id, 'household_name' => '', 'location_type' => 'Home');
         $contact = $this->_houseHold;
         $contact = crm_update_contact($contact, $params);
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
     }
-    ******/
         
     function testUpdateEmailIndividualError()
     {
-        $params = array('contact_id' => $this->_individualId, 'location_type' => 'Home', 'email' => 'manishzope.aaa.aaa');
+        $params = array('contact_id' => $this->_individual->id, 'location_type' => 'Home', 'email' => 'manishzope.aaa.aaa');
         $contact = $this->_individual;
         $contact = crm_update_contact($contact, $params);
         $this->assertIsA($contact, 'CRM_Error');
