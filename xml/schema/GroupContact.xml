@@ -57,4 +57,22 @@
       <type>date</type>
       <comment>when was contact status for this group set to Out</comment>
   </field>
+  <field>
+       <name>pending_method</name>
+       <type>enum</type>
+       <values>Admin, Email, Web, API</values>
+       <comment>Interface by which contact was set to status = Pending</comment>
+  </field>
+  <field>
+       <name>in_method</name>
+       <type>enum</type>
+       <values>Admin, Email, Web, API</values>
+       <comment>Interface by which contact was set to status = In</comment>
+  </field>
+  <field>
+       <name>out_method</name>
+       <type>enum</type>
+       <values>Admin, Email, Web, API</values>
+       <comment>Interface by which contact was set to status = Out</comment>
+  </field>
 </table>
