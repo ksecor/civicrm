@@ -48,6 +48,7 @@
  * @return none 
  */
 
+
 function on_error_execute(formname) 
 {  
 
@@ -185,6 +186,45 @@ function on_error_execute(formname)
  * @param formname Name of the form.
  * @return none 
  */
+function on_load_init_blocks(showBlocks, hideBlocks)
+{   
+    /* This loop is used to display the blocks whose IDs are present within the showBlocks array */ 
+    for ( var i = 0; i < showBlocks.length; i++ ) {
+        var myElement = document.getElementById(showBlocks[i]);
+        if (myElement != null) {
+            myElement.style.display = 'block';
+        } else {
+            alert('showBlocks array item not in .tpl = ' + showBlocks[i]);
+        }
+    }
+    
+    /* This loop is used to hide the blocks whose IDs are present within the hideBlocks array */ 
+    for ( var i = 0; i < hideBlocks.length; i++ ) { 
+        var myElement = document.getElementById(hideBlocks[i]);
+        if (myElement != null) {
+            myElement.style.display = 'none';
+        } else {
+            alert('showBlocks array item not in .tpl = ' + hideBlocks[i]);
+        }
+    }
+    
+    /*
+    document.forms[formname].elements['location[1][location_type_id]'].options[0].selected = "true";
+    document.forms[formname].elements['location[1][location_type_id]'].label = '0';
+    document.forms[formname].elements['location[2][location_type_id]'].options[1].selected = "true";
+    document.forms[formname].elements['location[2][location_type_id]'].label = '1';
+    document.forms[formname].elements['location[3][location_type_id]'].options[2].selected = "true";
+    document.forms[formname].elements['location[3][location_type_id]'].label = '2';
+    */
+}
+
+/* var i
+    for (i=0; i<hide_blocks.length; i++) {
+        alert(hide_blocks[i]);
+    }
+    return;
+}*/
+
 function on_load_execute(formname)
 {
     /* This array defines the various blocks to be hidden within the form template */
@@ -242,7 +282,13 @@ function on_load_execute(formname)
  */
 function show(block_id) 
 {
-    document.getElementById(block_id).style.display = 'block';
+    var myElement = document.getElementById(block_id);
+    if (myElement != null) {
+        myElement.style.display = 'block';
+    } else {
+        alert('Request to show() function failed. Element id undefined = '+ block_id);
+    }
+//    document.getElementById(block_id).style.display = 'block';
 }
 
 
@@ -259,7 +305,14 @@ function show(block_id)
  */
 function hide(block_id) 
 {
-    document.getElementById(block_id).style.display = 'none';
+    var myElement = document.getElementById(block_id);
+    if (myElement != null) {
+        myElement.style.display = 'none';
+    } else {
+        alert('Request to hide() function failed. Element id undefined = ' + block_id);
+    }
+    
+//    document.getElementById(block_id).style.display = 'none';
 }
 
 

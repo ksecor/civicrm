@@ -19,7 +19,7 @@
        </div>
 
     <!-- Additional phone block.-->
-    <div id="phone_{$index}_{$phindex}" class="form-item">
+    <div id="location[{$index}][phone][{$innerIndex}]" class="form-item">
         <label>{$form.location.$index.phone.$innerIndex.phone.label}</label>
         {$form.location.$index.phone.$innerIndex.phone_type_id.html}{$form.location.$index.phone.$innerIndex.phone.html}
 

@@ -22,7 +22,7 @@
        </div>
 
     <!-- Display Additional IM block fields -->
-    <div id="IM.{$index}_{$imindex}" class="form-item">
+    <div id="location[{$index}][im][{$innerIndex}]" class="form-item">
         {$form.location.$index.im.$innerIndex.service_id.label}
         {$form.location.$index.im.$innerIndex.service_id.html}{$form.location.$index.im.$innerIndex.screenname.html}
 

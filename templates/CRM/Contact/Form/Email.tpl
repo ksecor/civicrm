@@ -20,7 +20,7 @@
        </div>
 
          <!-- Additional email block.-->
-	<div id="email_{$index}_{$emindex}" class="form-item">
+	<div id="location[{$index}][email][{$innerIndex}]" class="form-item">
         {$form.location.$index.email.$innerIndex.email.label}
         {$form.location.$index.email.$innerIndex.email.html}
 

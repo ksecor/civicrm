@@ -2,6 +2,7 @@
  
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
+<div id="commPrefs">
 <fieldset><legend>Communication Preferences</legend>
 <div class="form-item">
     <label>Privacy:</label>
@@ -16,3 +17,4 @@
     <div class="description">Preferred method of communicating with this individual</div>
 </div>
 </fieldset>
+</div>

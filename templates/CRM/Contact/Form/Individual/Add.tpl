@@ -1,4 +1,3 @@
-{debug}
 {* This file provides the HTML for the big add contact form *}
 {* It provides the templating for Name, Demographics and Contact notes *}
 {* The templating for Location and Communication preferences block has been plugged by including the Location.tpl file *}    
@@ -32,7 +31,7 @@
 	 </p>
 	 {/if}
 
- <div id="core">
+ <div id="name">
  <fieldset><legend>Name and Greeting</legend>
      <div class="form-item">
         <label>First/Last:</label>
@@ -52,6 +51,7 @@
     {$form.job_title.html}
     </div>
  </fieldset>
+ </div>
  
 {* Plugging the Communication preferences block *} 
  {include file="CRM/Contact/Form/Contact/Comm_prefs.tpl"}
@@ -122,11 +122,12 @@
 
 
 {* Calling the on_load_execute function in the javascript included through the Individual.js source file *} 
- {literal}
  <script type="text/javascript">
- on_load_execute(frm.name);
+ // on_load_execute(frm.name);
+    var showBlocks = new Array({$showBlocks});
+    var hideBlocks = new Array({$hideBlocks});
+    on_load_init_blocks( showBlocks, hideBlocks );
  </script>
- {/literal}
 
 {* Calling the on_error_execute function in the javascript included through the Individual.js source file *}  
 {* This function is invoked if there are errors when the form is relayed from the server *}
