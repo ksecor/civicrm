@@ -326,6 +326,14 @@ function crm_invoke()
     if (arg(1) == 'import') {
         $content = fetch_tpl( 'Import/ImportStart.tpl');
     }
+
+
+    //  add notes
+    if (arg(1)=='note' && arg(2) == 'add') {
+        $content .= note_form( CRM_Form::MODE_ADD );
+    }
+    
+
     
     print theme('page', $content);
 }
@@ -335,18 +343,17 @@ function contact_invoke()
     $content = "";
 
     //  add contact
-    if (arg(2) == 'add') {
+    if (arg(1)=='contact' && arg(2) == 'add') {
         $content .= contact_form( CRM_Form::MODE_ADD );
     }
-    
 
     // edit contact
-    if (arg(2) == 'edit') {
+    if (arg(1)=='contact' && arg(2) == 'edit') {
         $content .= contact_form( CRM_Form::MODE_UPDATE );
     }
  
     // view contact
-    if (arg(2) == 'view' && arg(3) == '') {
+    if (arg(1)=='contact' && arg(2) == 'view' && arg(3) == '') {
         $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_NONE );
         $content .= $view->run( );
     }
@@ -370,7 +377,6 @@ function contact_invoke()
     }
 
 
-
     // search
     if (arg(2) == 'search') {
         $content .= contact_query();
@@ -389,7 +395,7 @@ function contact_invoke()
             $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
         }
     }
-    
+
     print theme('page', $content);
     
 } // end of function contact_invoke
@@ -409,6 +415,18 @@ function contact_form( $mode )
     $contact = new CRM_Contact_Wrapper();
     $contact->run('CRM_Contact_Form_Contact', 'Contact Page', $mode, 'contact/add?reset=1', NULL);
     return $contact->getContent();
+}
+
+/**
+ * This function is used to load form for add/edit note
+ *
+ * @return this returns the form and or display content
+ */
+function note_form( $mode )
+{
+    $note = new CRM_Contact_Wrapper();
+    $note->run('CRM_Note_Form_Note', 'Note Page', $mode, 'note/add?reset=1', NULL);
+    return $note->getContent();
 }
 
 /**

@@ -145,7 +145,8 @@
      </tr>  
    {/foreach}
    </table>
-     <br><a href="#">New Note</a> 
+     <br><!--a href="#">New Note</a--> 
+     <input type="button" name="add_note" value="Add Note" onClick="location.href='{$config->httpBase}note/add?cid={$contact_id}';">
       {if $noteKey neq 0 and $total_note gt 2 }
      | <a href="#">Browse all notes</a>
      {/if}
