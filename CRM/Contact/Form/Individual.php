@@ -279,35 +279,41 @@ class CRM_Contact_Form_Individual extends CRM_Form
      */
     function addRules( ) 
     {
-
         
         $this->applyFilter('_ALL_', 'trim');
-        
-        // rules for searching..
-        
-        // rules for quick add
-        
+
         switch ($this->_mode) {
         case self::MODE_ADD:
+        case self::MODE_UPDATE:
+            // print_r($_POST);
             $this->registerRule('check_date', 'callback', 'valid_date','CRM_Contact_Form_Individual');
-            $this->registerRule('check_date', 'callback', CRM_RULE::date(),'CRM_Contact_Form_Individual');
+            // $this->registerRule('check_date', 'callback', CRM_RULE::date(),'CRM_Contact_Form_Individual');
 
-            // $this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
+            $this->addRule('birth_date', t(' Select a valid date.'), 'check_date');
             
-            for ($i = 1; $i <= 3; $i++) { 
-                $this->addGroupRule('location'."{$i}", array('email_1' => array( 
-                                                                                array(t( 'Please enter valid email for location').$i.'.', 'email', null)),                                             'email_2' => array( 
-                                                                                                                                                                                                                          array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null)),
-                                                             'email_3' => array( 
-                                                                                array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null))
-                                                             )
-                                    ); 
+            for ($lng_i = 1; $lng_i <= 3; $lng_i++) { 
+                for ($lng_j = 1; $lng_j <= 3; $lng_j++) { 
+                    $str_message = "Please enter valid email ".$lng_j." for primary location";
+                    if ($lng_i > 1) {
+                        $str_message = "Please enter valid email ".$lng_j." for additional location ".($lng_i-1);
+                    }
+                    
+                    $this->addRule('location['.$lng_i.'][email]['.$lng_j.'][email]', $str_message, 'email', null, 'client');                
+                }
             }
             
-            break;
-        case self::MODE_VIEW:
-            break;
-        case self::MODE_UPDATE:
+            /*   
+            for ($i = 1; $i <= 3; $i++) { 
+                $this->addGroupRule('location_'.$i, array('location[1][email][1][email]' => array( 
+                                                                                       array(t( 'Please enter valid email for location').$i.'.', 'email', null)),                                   'location[1][email][2][email]' => array( 
+                                                                                                                                                                                                                                            array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null)),
+                                                          'location[1][email][3][email]' => array( 
+                                                                                                  array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null))
+                                                          )
+                                    ); 
+            }
+            */
+
             break;
         case self::MODE_DELETE:
             break;            
@@ -350,12 +356,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
     {
         switch ($this->_mode) {
         case self::MODE_ADD:
+        case self::MODE_UPDATE:
             $this->_addPostProcess();
             break;
         case self::MODE_VIEW:
-            break;
-        case self::MODE_UPDATE:
-            $this->_addPostProcess();
             break;
         case self::MODE_DELETE:
             break;            
@@ -433,16 +437,19 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $showHideBlocks->links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
         $showHideBlocks->addToTemplate( );
 
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next',
-                                                'name'      => 'Save',
-                                                'isDefault' => true   ),
-                                        array ( 'type'      => 'reset',
-                                                'name'      => 'Reset'),
-                                        array ( 'type'       => 'cancel',
-                                                'name'      => 'Cancel' ),
-                                        )
-                                  );
+        if ($this->_mode != self::MODE_VIEW) {
+
+            $this->addDefaultButtons( array(
+                                            array ( 'type'      => 'next',
+                                                    'name'      => 'Save',
+                                                    'isDefault' => true   ),
+                                            array ( 'type'      => 'reset',
+                                                    'name'      => 'Reset'),
+                                            array ( 'type'       => 'cancel',
+                                                    'name'      => 'Cancel' ),
+                                            )
+                                      );
+        }
     }
 
        
@@ -484,7 +491,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
     { 
         $lng_contact_id = 0; // variable for crm_contact 'id'
         $str_error = ""; // error is recorded  if there are any errors while inserting in database
-        //print_r($_POST);        
+
         // action is taken depending upon the mode
         switch ($this->_mode) {
         case self::MODE_UPDATE:
@@ -522,13 +529,15 @@ class CRM_Contact_Form_Individual extends CRM_Form
             // update the contact $lng_contact_id
             $contact->id = $lng_contact_id;
             if(!$contact->update()) $str_error = mysql_error();
+            
         } else {
             // insert new contact
-           if (!$contact->insert())  $str_error = mysql_error();
+            if (!$contact->insert())  $str_error = mysql_error();
         }
         
+        
         if (!strlen($str_error)) { //proceed if there are no errors
-
+            
             // create a object for contact individual table 
             $contact_individual = new CRM_Contact_DAO_Individual();
             $contact_individual->contact_id = $contact->id;
@@ -589,19 +598,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
                     $lng_location++;
                 }
             }
-            // print_r($_POST['location'][1]['phone']);
             
             for ($lngi= 1; $lngi <= 3; $lngi++) { // start of for loop for location
                 //create a object of location class
                 $varname = "contact_location".$lngi;
-
-                // print_r($_POST);                
-
-                // build an array with the values posted for location 
-                // $a_Location =  $this->exportValues($varname1);
-                
-                // print_r($a_Location);
-                // print_r($a_Values['location'][$lngi]);
 
                 if (strlen(trim($a_Values['location'][$lngi]['address']['street_address'])) > 0  || strlen(trim($a_Values['location'][$lngi]['email'][1]['email'])) > 0 || strlen(trim($a_Values['location'][$lngi]['phone'][1]['phone'])) > 0) {  // check for valid location entry
                     if (!strlen($str_error)) { //proceed if there are no errors
@@ -624,8 +624,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
                             $$varname->whereAdd('id = '.$a_location_array[$lngi]);
                             if(!$$varname->update(DB_DATAOBJECT_WHEREADD_ONLY)) $str_error = mysql_error();
                             
-                            // $$varname->reset();
-                            //$$varname->get("contact_id",$lng_contact_id);
                             $lng_location_id = $a_location_array[$lngi];
                             $$varname->id = $a_location_array[$lngi];
                         } else {
@@ -715,10 +713,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 $lng_email++;
                             }
                         }
-                        // my_print_r($a_email);
 
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) { // start of for email
-                            // if (strlen(trim($a_Location[$varemail])) > 0) { // check for valid email entry
+
                             if (strlen(trim($a_Values['location'][$lngi]['email'][$lng_i]['email'])) > 0) { // check for valid email entry
                                 //create the object of crm email
                                 $var_email = "contact_email".$lng_i;
@@ -733,11 +730,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                     $$var_email->is_primary = 0;
                                 }
                                      
-                                //if ($lng_contact_id) {
-
                                 if (strlen($a_email[$lng_i])) {
                                     // update the crm_email for $lng_contact_id and id ($a_email[$lng_i])
-                                    //$$var_email->whereAdd('location_id = '.$lng_location_id);
+
                                     $$var_email->whereAdd('id = '.$a_email[$lng_i]);
                                     
                                     if(!$$var_email->update(DB_DATAOBJECT_WHEREADD_ONLY)) {
@@ -773,11 +768,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 $lng_phone++;
                             }
                         }                          
-                        // my_print_r($a_phone);
 
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) { // start of phone for loop
 
-                            //if (strlen(trim($a_Location[$varphone])) > 0) { //check for valid phone entry
                             if (strlen(trim($a_Values['location'][$lngi]['phone'][$lng_i]['phone'])) > 0) { //check for valid phone entry
                                 //create the object of crm phone
                                 $var_phone = "contact_phone".$lng_i;
@@ -795,10 +788,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 
                                 $$var_phone->mobile_provider_id = 1;
                                 
-                                //if ($lng_contact_id) {
                                 if (strlen($a_phone[$lng_i])) {
                                     // update the crm_phone for $lng_location_id and phone id ($a_phone[$lng_i])
-                                    //$$var_phone->whereAdd('location_id = '.$lng_location_id);
                                     $$var_phone->whereAdd('id = '.$a_phone[$lng_i]);
                                     
                                     if(!$$var_phone->update(DB_DATAOBJECT_WHEREADD_ONLY)) {
@@ -835,11 +826,9 @@ class CRM_Contact_Form_Individual extends CRM_Form
                             }
                         }
 
-                        // my_print_r($a_im);
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) { // start of im for loop
                            
                             if (strlen(trim($a_Values['location'][$lngi]['im'][$lng_i]['screenname'])) > 0) { //check for valid im entry
-                                // if (strlen(trim($a_Location[$var_screenname])) > 0) { // check for valid im entry
                                 //create the object of crm im
                                 $var_im = "contact_im" . $lng_i;
                                 $$var_im = new CRM_Contact_DAO_IM();
@@ -858,7 +847,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 if (strlen($a_im[$lng_i])) {
                                     // update the crm_im for $lng_location_id and im id ($a_im[$lng_i])
                                     
-                                    //$$var_im->whereAdd('location_id = '.$lng_location_id);
                                     $$var_im->whereAdd('id = '.$a_im[$lng_i]);
                                     
                                     if(!$$var_im->update(DB_DATAOBJECT_WHEREADD_ONLY)) {
