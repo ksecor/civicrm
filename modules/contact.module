@@ -491,8 +491,10 @@ function contact_add_org()
 
 function contact_list($id=0) 
 {
-    $contact = new CRM_Contact_Selector_Individual();
-    $controller = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW);
+    $my_arr=array('contact_type' => 'Individual');
+
+    $contact = new CRM_Contact_Selector_Individual($my_arr);
+    $controller = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Action::VIEW, CRM_Selector_Controller::TEMPLATE);
     $controller->run( );
     return $controller->getContent();   
 } // end of function contact_list
