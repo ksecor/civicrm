@@ -1057,10 +1057,12 @@ class CRM_GCD {
         
         $note = new CRM_DAO_Note();
         $note->table_name = 'crm_contact';
-        $note->table_id = 1;
+        // $note->table_id = 1;
+        $note->contact_id = 1;
 
         for ($i=0; $i<self::NUM_CONTACT; $i++) {
-            $note->contact_id = $this->contact[$i];
+            // $note->contact_id = $this->contact[$i];
+            $note->table_id = $this->contact[$i];
             if ($this->contact[$i] % 5) {
                 $this->_insertNote($note);
             }
