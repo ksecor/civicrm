@@ -6,7 +6,6 @@
 *    This script creates the schema for CRM module
 *    (contact relationship management system).
 *
-* Last rev: 12/2/2004
 *******************************************************/
 
 /*******************************************************
@@ -131,6 +130,10 @@ CREATE TABLE crm_contact (
 
 	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact',
 	sort_name VARCHAR(255) COMMENT 'name being cached for sorting purposes',
+
+    home_URL VARCHAR(255) COMMENT 'optional "home page" URL for this contact',
+    image_URL VARCHAR(255) COMMENT 'optional URL for preferred image (photo, logo, etc.) to display for this contact',
+    
 	source VARCHAR(255) COMMENT 'where domain_id contact come from, e.g. import, donate module insert...',
 
     -- contact-level communication permissions and preferences
@@ -176,7 +179,8 @@ CREATE TABLE crm_contact_individual(
 
 	prefix VARCHAR(64) COMMENT 'prefix',
 	suffix VARCHAR(64) COMMENT 'suffix',
-	job_title VARCHAR(255) COMMENT 'optional job title for contact',
+
+    display_name VARCHAR(255) COMMENT 'formatted name representing preferred format for display/print/other output',
 
     -- greeting_type constants:
 	-- Formal: Prefix + first_name + last_name
@@ -185,6 +189,8 @@ CREATE TABLE crm_contact_individual(
 	-- Custom: greeting is stored in custom_greeting column
 	greeting_type ENUM('Formal', 'Informal', 'Honorific', 'Custom') COMMENT 'preferred greeting format',
 	custom_greeting VARCHAR(255) COMMENT 'custom greeting message',
+
+	job_title VARCHAR(255) COMMENT 'optional job title for contact',
 
 	-- core demographics fields (additional demographics to be defined by other modules)
 	gender ENUM('female','male','transgender'),
@@ -321,25 +327,25 @@ CREATE TABLE crm_contact_location(
 	country_id INT UNSIGNED COMMENT 'index to crm_country table',
 	geo_code1 VARCHAR(64) COMMENT 'latitude or UTM (Universal Transverse Mercator Grid)',
 	geo_code2 VARCHAR(64) COMMENT 'longitude or UTM (Universal Transverse Mercator Grid)',
-	
+	timezone VARCHAR(10) COMMENT 'timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6"',
 	address_note VARCHAR(255) COMMENT 'optional misc info (e.g. delivery instructions) for this address',
 
 	email VARCHAR(255) COMMENT 'primary email address for this location. is_primary row marks preferred email when contact has multiple locations.',
 	email_secondary VARCHAR(255) COMMENT 'additional email address for this location',
 
-	phone_1 VARCHAR(255) COMMENT 'phone number',
+	phone_1 VARCHAR(255) COMMENT 'primary phone number',
 	phone_type_1 ENUM('Phone', 'Mobile', 'Fax', 'Pager') DEFAULT 'Phone' COMMENT 'what type of telecom device is this',
 	mobile_provider_id_1 INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
 
-	phone_2 VARCHAR(255) COMMENT 'phone number',
+	phone_2 VARCHAR(255) COMMENT 'additional phone number',
 	phone_type_2 ENUM('Phone', 'Mobile', 'Fax', 'Pager') Default 'Mobile' COMMENT 'what type of telecom device is this',
 	mobile_provider_id_2 INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
 
-	phone_3 VARCHAR(255) COMMENT 'phone number',
+	phone_3 VARCHAR(255) COMMENT 'additional phone number',
 	phone_type_3 ENUM('Phone', 'Mobile', 'Fax', 'Pager') DEFAULT 'Fax' COMMENT 'what type of telecom device is this',
 	mobile_provider_id_3 INT UNSIGNED COMMENT 'optional mobile provider id. Denormalized-not worth another table for 1 byte col.',
 
-	im_screenname_1 VARCHAR(255) COMMENT 'instant messenger screenname',
+	im_screenname_1 VARCHAR(255) COMMENT 'primary instant messenger screenname',
 	im_service_id_1 INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
 	im_screenname_2 VARCHAR(255) COMMENT 'instant messenger screenname',
 	im_service_id_2 INT UNSIGNED COMMENT 'FK to crm_im_service - IM service id',
@@ -530,7 +536,7 @@ CREATE TABLE crm_note(
 * crm_saved_search
 *
 * Saved searches are persistent queries which are
-* used to aggregate contacts into 'dynamic' lists for
+* used to aggregate contacts into 'dynamic' groups for
 * a variety of purposes.
 *
 * NOTE: This draft associates saved searches w/ a domain
@@ -538,7 +544,7 @@ CREATE TABLE crm_note(
 * may want to also support linking saved searches to
 * particular users or groups of users.
 *  
-* be able to turn off dynamic queries, cache dynamic queries
+* Should be able to turn off dynamic queries, cache dynamic queries
 * have invalidate dates etc
 *
 *******************************************************/
@@ -562,39 +568,42 @@ CREATE TABLE crm_saved_search (
 
 /*******************************************************
 *
-* crm_list
+* crm_group
 * 
 * [first draft of list/grouping approach]
-* Two types of lists are supported:
+* Two types of groups are supported:
 *	- static : an arbitrary set of contacts, membership
 *		in the list if not driven by any property of the
 *		contact
 *	- query : membership is controlled by a matches to
 *		a saved search (query of contact properties)
 *
-* A static list may be created from the results of
+* A static group may be created from the results of
 * a saved search.
 *
-* We may determine that additional list attributes
+* We may determine that additional group attributes
 * should be defined in this table and represented in
-* the contact_list join table.
+* the contact_group join table.
 *
-*	EX: A 'Board Member' list may need time-bound
+*	EX: A 'Board Member' group may need time-bound
 *		attributes (e.g. start and end dates).
 *******************************************************/
-DROP TABLE IF EXISTS crm_list;
-CREATE TABLE crm_list (
+DROP TABLE IF EXISTS crm_group;
+CREATE TABLE crm_group (
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'role_type id',
 
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this role_type',
 
-	iname		VARCHAR(255) NOT NULL COMMENT 'internal list name (constructed from display/friendly name)',
+	iname		VARCHAR(255) NOT NULL COMMENT 'internal group name (constructed from display/friendly name)',
 	name		VARCHAR(255) COMMENT 'display name (user-defined friendly name)',
-	description VARCHAR(255) COMMENT 'list description (verbose)',
+	description VARCHAR(255) COMMENT 'group description (verbose)',
 
-	list_type	ENUM('static','query') NOT NULL COMMENT 'static list membership is defined via crm_contact_list',
-	saved_search_id	INT UNSIGNED COMMENT 'FK to saved_searches table for type=query. We may also store the FK here for static lists created via saved search.',
+	group_type	ENUM('static','query') NOT NULL COMMENT 'static group membership is defined via crm_contact_group',
+	saved_search_id	INT UNSIGNED COMMENT 'FK to saved_searches table for type=query. We may also store the FK here for static groups created via saved search.',
+
+	source		VARCHAR(255) COMMENT 'module or process which created this group',
+	category	VARCHAR(255) COMMENT 'user-defined category, use comma-delimited list for multiple categories. This column may be used as a hook for permissioning queries.',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE,
@@ -606,23 +615,30 @@ CREATE TABLE crm_list (
 
 /*******************************************************
 *
-* crm_contact_list
+* crm_group_contact
 *
-* Join table sets membership for 'static' lists.
+* Join table sets membership for 'static' groups. Also
+* used to store 'opt-out' entries for 'query' type groups
+* (status = 'OUT').
 *
 *******************************************************/
-DROP TABLE IF EXISTS crm_contact_list;
-CREATE TABLE crm_contact_list(
+DROP TABLE IF EXISTS crm_group_contact;
+CREATE TABLE crm_group_contact(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 
+	group_id INT UNSIGNED NOT NULL,
 	contact_id INT UNSIGNED NOT NULL,
-	list_id INT UNSIGNED NOT NULL,
 	
+	status ENUM('Pending','In','Out') COMMENT 'status of contact relative to membership in group',
+	pending_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "Pending"',
+	in_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "In"',
+	out_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "Out"'
+    
 	PRIMARY KEY(id),
 
-	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
-	FOREIGN KEY(list_id) REFERENCES crm_list(id) ON DELETE CASCADE
+	FOREIGN KEY(group_id) REFERENCES crm_group(id) ON DELETE CASCADE,
+	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact email';
 
