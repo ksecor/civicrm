@@ -139,7 +139,7 @@ CREATE TABLE crm_contact (
 	source VARCHAR(255) COMMENT 'where domain_id contact come from, e.g. import, donate module insert...',
 
     -- contact-level communication permissions and preferences
-	preferred_communication_method ENUM('Phone', 'Email', 'Postal Mail') COMMENT 'what is the preferred mode of communication',
+	preferred_communication_method ENUM('Phone', 'Email', 'Post') COMMENT 'what is the preferred mode of communication',
 	do_not_phone     BOOLEAN DEFAULT 0,
 	do_not_email     BOOLEAN DEFAULT 0,
 	do_not_mail      BOOLEAN DEFAULT 0,
@@ -198,7 +198,11 @@ CREATE TABLE crm_contact_individual(
 	gender ENUM('female','male','transgender'),
 	birth_date DATE,
 	is_deceased BOOLEAN NOT NULL DEFAULT 0,
-	
+
+	phone_to_household_id INT COMMENT 'OPTIONAL FK to crm_contact_household record. If NOT NULL, direct phone communications to household rather than individual location.',
+	email_to_household_id INT COMMENT 'OPTIONAL FK to crm_contact_household record. If NOT NULL, direct email communications to household rather than individual location.',
+	mail_to_household_id INT COMMENT 'OPTIONAL FK to crm_contact_household record. If NOT NULL, direct postal mail to household rather than individual location.',
+
 	PRIMARY KEY (id),
     -- FULLTEXT (first_name, last_name ),
 
@@ -222,7 +226,9 @@ CREATE TABLE crm_contact_organization(
 	organization_name VARCHAR(255) NOT NULL,
 	legal_name VARCHAR(255),
 	nick_name VARCHAR(255),
+    legal_identifier VARCHAR(32) COMMENT 'EIN or other applicable unique legal identifier for this organization',
 	sic_code VARCHAR(64),
+
 	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this org',
 
 	PRIMARY KEY (id),
@@ -247,13 +253,11 @@ CREATE TABLE crm_contact_household(
 
 	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id FK',
 
-	household_name VARCHAR(255) NOT NULL COMMENT 'actual surname, e.g. Smith',
+	household_name VARCHAR(255) NOT NULL COMMENT 'Formal display/identifying name for Household. May be actual family surname, or collection of surnames for non-family households',
 	nick_name VARCHAR(255) COMMENT 'e.g. The Smiths',
-	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this household',
+    legal_identifier VARCHAR(32) COMMENT 'Census Household ID, or other applicable unique identifier for this household',
 
-	phone_to_household BOOL NOT NULL DEFAULT 0 COMMENT 'TRUE = Direct phone communications to household rather than indiviual household members.',
-	email_to_household BOOL NOT NULL DEFAULT 0 COMMENT 'TRUE = Direct email communications to household rather than indiviual household members.',
-	mail_to_household BOOL NOT NULL DEFAULT 0 COMMENT 'TRUE = Direct postal mail to household rather than indiviual household members.',
+	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this household',
 
 	PRIMARY KEY (id),
     -- FULLTEXT (household_name, nick_name),
@@ -341,8 +345,19 @@ CREATE TABLE crm_address(
 
     location_id INT UNSIGNED NOT NULL COMMENT 'which location does this address belong to',
 
-	street VARCHAR(255) COMMENT 'e.g. address line 1 - should include all physical delivery info including street, street number, apt #, suite, etc.',
-	supplemental_address TEXT COMMENT 'e.g. address line 2 - multi-line storage for supplemental address info, e.g. c/o, department name, building name, etc.',
+-- EITHER a concatenated street_address OR a set of street components (street_number, street_prefix, etc.) should be populated (depending on available source data).
+	street_address VARCHAR(255) COMMENT 'Concatenation of all routable street address components (prefix, street number, street name, suffix, unit number OR P.O. Box. Apps should be able to determine physical location with this data (for mapping, mail delivery, etc.)',
+
+-- Street address components
+	street_number VARCHAR(255) COMMENT 'Address number on the street, e.g. For 112 Main St, the street_number = 112',
+	street_prefix VARCHAR(255) COMMENT 'Directional or other prefix, e.g. SE Main St, SE is the prefix',
+	street_name VARCHAR(255) COMMENT 'Actual street name, including St, Dr, Rd, Ave...treet, e.g. For 112 Main St, the street_name = Main St',
+	street_suffix VARCHAR(255) COMMENT 'Directional or other suffix, e.g. Main St S, S is the suffix',
+	street_unit VARCHAR(255) COMMENT 'Secondary unit designator, e.g. Apt 3 or Unit # 14, or Bldg 1200',
+
+	supplemental_address_1 VARCHAR(255) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
+	supplemental_address_2 VARCHAR(255) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
+	supplemental_address_3 VARCHAR(255) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
 
 	city VARCHAR(255) COMMENT 'city',
 	county VARCHAR(255),
@@ -479,7 +494,7 @@ CREATE TABLE crm_relationship_type(
 	contact_type_a ENUM('Individual','Organization','Household') COMMENT 'if defined, contact_a in a relationship of this type must be a specific contact_type',
 	contact_type_b ENUM('Individual','Organization','Household') COMMENT 'if defined, contact_b in a relationship of this type must be a specific contact_type',
 
-    is_reserved BOOLEAN DEFAULT 0 COMMENT 'is this relationship type a system created type that cannot be deleted by the user',
+    is_reserved BOOLEAN DEFAULT 0 COMMENT 'TRUE = system created type that cannot be deleted',
 
 	PRIMARY KEY(id),
 
@@ -510,6 +525,8 @@ CREATE TABLE crm_contact_relationship(
 
     start_date DATETIME COMMENT 'Optional start date for this relationship',
     end_date DATETIME COMMENT 'Optional end date for this relationship',
+    is_active BOOLEAN DEFAULT 1 COMMENT 'set to false when relationship becomes inactive - manually or due to end_date expiration',
+
     PRIMARY KEY(id),
 
 	FOREIGN KEY(relationship_type_id) REFERENCES crm_relationship_type(id) ON DELETE CASCADE,
@@ -543,27 +560,35 @@ CREATE TABLE crm_contact_action(
 
 	contact_id INT UNSIGNED NOT NULL COMMENT 'action is related to this contact id',
 
+-- Module and callback may be modified to FKeys to proposed crm_external_modules/callbacks tables.
     module VARCHAR(255) COMMENT 'Display name of module which registered this action.',
-    category VARCHAR(255) COMMENT 'Module-provided display string for grouping/classifying actions, e.g. Email Sent, Letter Sent, Donation Pledge, etc',
     callback VARCHAR(255) COMMENT 'Function to call to get details for this action',
 	action_id INT UNSIGNED NOT NULL COMMENT 'FK to details item - passed to callback',
-
-	action_date DATETIME DEFAULT 0 COMMENT 'when was this action recorded',
--- Do we need to store action_recorded and action_occurred dates separately?   
-
 	action_summary VARCHAR(255) COMMENT 'brief description of action for summary display - as populated by registering module',
 
+-- Need to determine if best/expected practice is to update the action record inline as status changes
+-- OR to insert a new record with the same action_id (FK to registering module)
+    action_completed BOOLEAN DEFAULT 1 COMMENT 'allows us to separate OPEN from COMPLETED actions',
+
+-- For simple cases the insert, start, and end dates will be the same
+	insert_date DATETIME DEFAULT 0 COMMENT 'when was this action recorded',
+	start_date DATETIME DEFAULT 0 COMMENT 'when was this action started',
+	end_date DATETIME DEFAULT 0 COMMENT 'when was this action completed',
+
+    relationship_id INT COMMENT 'OPTIONAL FK to crm_relationship.id. Which relationship (of this contact) potentially triggered this action, i.e. he donated because he was a Board Member of Org X / Employee of Org Y',
+    group_id INT COMMENT 'OPTIONAL FK to crm_group.id. Was this part of a group communication that triggered this action?',
+
 -- Other possible columns for this table:
+    -- action_stage VARCHAR to record a 'stage/state', e.g. Pledged, Delivered, Acknowledged, Lost... )
     -- action_type ENUM('Human_Inbound','System') COMMENT 'Differentiates human-to-human actions/interactions from automatic/system actions
     -- action_direction ENUM('Inbound','Outbound') COMMENT 'Was action initiated by the contact (inbound), or by an org user (outbound)',
     -- Consider adding a quantity bucket to quick summarization across actions of the same category (esp. donations)
     -- Are future 'scheduled' actions are recorded in this table, or only things which have happened?
-    -- action_status BOOLEAN (e.g. completed T/F), and/or action_stage VARCHAR to record a 'stage/state', e.g. Pledged, Delivered, Acknowledged, Lost... )
     -- other possible foreign key relationships (potentially null)
-    -- relationship_id int COMMENT 'which relationship (of this contact) potentially triggered this action, i.e. he donated because he was a Board Member of Org X / Employee of Org Y'
-    -- group_id int COMMENT 'was this part of a group communication that triggered this action, if so whats the group id'
     -- action_key VARCHAR(255) COMMENT 'a keycode that actions can use to share data across multiple actions. An example usage could be correlating all actions to a specific campaign'
     -- acton_data VARCHAR(255) COMMENT 'data that accompanies the above key. The key could group like minded items together, the data could give more specifics / details for further subgrouping'
+    -- Category concept now implemented via crm_entity_category table.
+    -- category VARCHAR(255) COMMENT 'Module-provided display string for grouping/classifying actions, e.g. Email Sent, Letter Sent, Donation Pledge, etc',
 
 	PRIMARY KEY(id),  
 	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
@@ -706,7 +731,8 @@ CREATE TABLE crm_group (
 	saved_search_id	INT UNSIGNED COMMENT 'FK to saved_searches table for type=query. We may also store the FK here for static groups created via saved search.',
 
 	source		VARCHAR(255) COMMENT 'module or process which created this group',
-	category	VARCHAR(255) COMMENT 'user-defined category, use comma-delimited list for multiple categories. This column may be used as a hook for permissioning queries.',
+    -- Category concept now implemented via crm_entity_category table.
+	-- category	VARCHAR(255) COMMENT 'user-defined category, use comma-delimited list for multiple categories. This column may be used as a hook for permissioning queries.',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE,
@@ -744,6 +770,70 @@ CREATE TABLE crm_group_contact(
 	FOREIGN KEY (contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact email';
+
+
+/*******************************************************
+*
+* crm_category
+* Provides support for flat or hierarchical classification
+* of various types of entities (contacts, groups, actions...)
+*
+* Entities are assigned to one or more categories via
+* crm_entity_category join table.
+*
+* NOTE: This implementation does not allow segmentation
+* of categories as to which entities they may be used
+* with. We will evaluate this capability and add if needed.
+* 
+*******************************************************/
+DROP TABLE IF EXISTS crm_category;
+CREATE TABLE crm_category(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'category id',
+
+	domain_id INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this category',
+
+	name VARCHAR(255) NOT NULL COMMENT 'name/label for the category',
+	description VARCHAR(255) COMMENT 'Optional verbose description of the category',
+
+	parent_category_id INT COMMENT 'OPTIONAL reference to crm_category.id of a parent category. NULL for top-level categories.',
+
+	PRIMARY KEY(id),
+
+	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='entity categories (for contacts, groups, actions)';
+
+
+/*******************************************************
+*
+* crm_entity_category
+* Assign entities (Contacts, Groups, Actions...) to 
+* categories.
+*
+* entity_table is physical tablename for entity being
+* assigned.
+* 
+*******************************************************/
+DROP TABLE IF EXISTS crm_entity_category;
+CREATE TABLE crm_entity_category(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'entity_category id',
+
+	entity_table VARCHAR(255) NOT NULL COMMENT 'physical tablename for entity being assigned, e.g. crm_contact',
+	entity_id INT UNSIGNED NOT NULL COMMENT 'FK to the entity in the specified entity_table - e.g. value of crm_contact.id, crm_group.id...',
+	category_id INT UNSIGNED NOT NULL COMMENT 'FK to the category - crm_category.id',
+
+	name VARCHAR(255) NOT NULL COMMENT 'name/label for the category',
+	description VARCHAR(255) COMMENT 'Optional verbose description of the category',
+
+	parent_category_id INT DEFAULT 0 COMMENT 'OPTIONAL reference to crm_category.id of a parent category',
+
+	PRIMARY KEY(id),
+
+	FOREIGN KEY (category_id) REFERENCES crm_category(id) ON DELETE CASCADE
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='joins entities to categories';
 
 
 
@@ -1441,6 +1531,8 @@ INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUE
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 1, 'Child', 'Parent', 'Parent/child relationship.', 'Individual', 'Individual', 1 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 1, 'Spouse', 'Spouse', 'Spousal relationship.', 'Individual', 'Individual', 1 );
+INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 1, 'Sibling','Sibling', 'Sibling relationship.','Individual','Individual', 1 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 1, 'Employee', 'Employer', 'Employment relationship.','Individual','Organization', 1 );
@@ -1450,3 +1542,10 @@ INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, c
     VALUES( 1, 'Head of Household', 'Head of Household', 'Head of household.','Individual','Household', 1 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 1, 'Household Member', 'Household Members', 'Household membership.','Individual','Household', 1 );
+
+INSERT INTO crm_category( domain_id, name, description, parent_category_id )
+    VALUES( 1, 'Non-profit', 'Any not-for-profit organization.', NULL );
+INSERT INTO crm_category( domain_id, name, description, parent_category_id )
+    VALUES( 1, 'Company', 'For-profit organization.', NULL );
+INSERT INTO crm_category( domain_id, name, description, parent_category_id )
+    VALUES( 1, 'Government Entity', 'Any governmental entity.', NULL );
