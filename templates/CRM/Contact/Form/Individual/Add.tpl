@@ -35,23 +35,36 @@
 
  <div id="name">
  <fieldset><legend>Name and Greeting</legend>
-     <div class="form-item">
-        <label>First/Last:</label>
-        {$form.prefix.html}
-        {$form.first_name.html}
-        {$form.last_name.html}
-        {$form.suffix.html}
-     </div>
-
+    <!-- <div class="spacer"></div> -->
     <div class="form-item">
+        <span class="labels"><label>First/Last:</label></span>
+        <span class="fields">
+            {$form.prefix.html}
+            {$form.first_name.html}
+            {$form.last_name.html}
+            {$form.suffix.html}
+        </span>
+    </div>
+    
+    <div class="form-item">
+        <span class="labels">
         {$form.greeting_type.label}
+        </span>
+        <span class="fields">
         {$form.greeting_type.html}
+        </span>
     </div>
 
     <div class="form-item">
-    {$form.job_title.label}
-    {$form.job_title.html}
+        <span class="labels">
+        {$form.job_title.label}
+        </span>
+        <span class="fields">
+        {$form.job_title.html}
+        </span>
     </div>
+    <!-- Spacer div forces fieldset to contain floated elements -->
+    <div class="spacer"></div>
  </fieldset>
  </div>
  
@@ -61,30 +74,33 @@
 {* Plugging the Location block *}
  {include file="CRM/Contact/Form/Location.tpl"}
 
- {******************************** END THE CORE DIV SECTION **************************************}
-
- </div> <!--end 'core' section of contact form -->
-
-
- <div id = "demographics[show]" class="comment">
+ <div id = "demographics[show]" class="show-section">
     {$demographics.show}
  </div>
 
  <div id="demographics">
  <fieldset><legend>Demographics</legend>
     <div class="form-item">
+        <span class="labels">
         {$form.gender.label}
+        </span>
+        <span class="fields">
         {$form.gender.html}
+        </span>
     </div>
 	<div class="form-item">
+        <span class="labels">
         {$form.birth_date.label}
+        </span>
+        <span class="fields">
 		{$form.birth_date.html}
+        </span>
     </div>
 	<div class="form-item">
         {$form.is_deceased.html}
         {$form.is_deceased.label}
     </div>
-    <div id="demographics[hide]" class="box">
+    <div id="demographics[hide]" class="hide-section">
         {$demographics.hide}
     </div>
  </fieldset>
@@ -93,7 +109,7 @@
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
- <div id = "notes[show]" class="comment">
+ <div id = "notes[show]" class="show-section">
     {$notes.show}
  </div>
 
@@ -106,9 +122,9 @@
           You may add an unlimited number of notes, and view or search on them at any time.
         </div>
     </div>    
-	<div id="notes[hide]" class="box">
+	<div id="notes[hide]" class="hide-section">
         {$notes.hide}
-        </div>
+    </div>
  </fieldset>
  </div> <!-- End of "notes" div -->
  
