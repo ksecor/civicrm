@@ -5,8 +5,7 @@ require_once 'CRM/Controller/SinglePage.php';
 
 require_once 'CRM/DAO/Domain.php';
 
-require_once 'CRM/Contacts/DAO/Contact.php';
-require_once 'CRM/Contacts/DAO/Contact_Individual.php';
+require_once 'CRM/Contacts/BAO/Contact_Individual.php';
 
 class CRM_Contacts_Contacts extends CRM_Base {
   
@@ -22,38 +21,24 @@ class CRM_Contacts_Contacts extends CRM_Base {
     $this->_controller->process();
     $this->_controller->run();
 
-    $contactInd = new CRM_Contacts_DAO_Contact_Individual();
-    $contact    = new CRM_Contacts_DAO_Contact();
-    $domain     = new CRM_DAO_Domain();
+    $contact    = new CRM_Contacts_BAO_Contact_Individual();
 
-    $domain->id = 1;
-    $contact->joinAdd( $domain );
-    $contactInd->joinAdd( $contact );
-
-    $contactInd->selectAdd();
-    $contactInd->selectAdd('crm_contact.*');
-    $contactInd->selectAdd('crm_contact_individual.*');
-      
-    $contactInd->find();
-    while ( $contactInd->fetch() ) {
-      CRM_Utils::debug( 'contact', $contactInd );
+    $contact->domain_id = 1;
+    $contact->find();
+    while ( $contact->fetch() ) {
+      CRM_Utils::debug( 'contactInd', $contact );
     }
 
     /**
-    $contact               = new CRM_Contacts_DAO_Contact();
+    $contact = new CRM_Contacts_BAO_Contact_Individual();
     $contact->contact_type = 'Individual';
     $contact->sort_name    = 'Donald Lobo';
     $contact->hash         = 9876543;
     $contact->domain_id    = 1;
+    $contact->first_name   = 'Donald';
+    $contact->last_name    = 'Lobo';
     $contact->insert();
-
-    $contactInd = new CRM_Contacts_DAO_Contact_Individual();
-    $contactInd->first_name = 'Donald';
-    $contactInd->last_name  = 'Lobo';
-    $contactInd->contact_id = $contact->id;
-    $contactInd->insert();
     **/
-
   }
 
   function display() {

@@ -5,8 +5,6 @@ include_once 'config.inc.php';
 require_once 'CRM/Contacts/Contacts.php';
 require_once 'CRM/Utils.php';
 
-// $Id: contact.module,v 1.8 2004/09/30 18:18:09 JonBob Exp $
-
 /**
  * @file
  * This is an example outlining how a module can be used to display a

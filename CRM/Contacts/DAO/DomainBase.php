@@ -31,8 +31,6 @@ class CRM_Contacts_DAO_DomainBase extends CRM_DAO_Base {
                             parent::dbFields(),
                             array(
                                   'domain_id'    => array( self::TYPE_INT, self::NOT_NULL ),
-                                  'created'      => array( self::TYPE_TIMESTAMP, null ),
-                                  'created_by'   => array( self::TYPE_INT, self::NOT_NULL ),
                                   )
                             );
     }
