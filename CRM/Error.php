@@ -35,6 +35,8 @@
 
 require_once 'PEAR/ErrorStack.php';
 
+require_once 'CRM/Config.php';
+
 class CRM_Error extends PEAR_ErrorStack {
 
     /**
@@ -42,7 +44,7 @@ class CRM_Error extends PEAR_ErrorStack {
      * @var const
      */
     const
-    FATAL_ERROR = 2;
+        FATAL_ERROR = 2;
 
     /**
      * We only need one instance of this object. So we use the singleton
@@ -51,6 +53,13 @@ class CRM_Error extends PEAR_ErrorStack {
      * @static
      */
     private static $_singleton = null;
+
+    /**
+     * The logger object for this application
+     * @var object
+     * @static
+     */
+    private static $_log       = null;
 
     /**
      * singleton function used to manage this object. This function is not
@@ -74,6 +83,9 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function __construct( $name = 'CRM' ) {
         parent::__construct( $name );
+
+        $log =& CRM_Config::getLog();
+        $this->setLogger( $log );
     }
 
     /**
@@ -94,6 +106,31 @@ class CRM_Error extends PEAR_ErrorStack {
         theme( 'fatal_error', 'error.tpl', $vars );
 
         exit( CRM_Error::FATAL_ERROR );
+    }
+
+    /**
+     * outputs pre-formatted debug information. Flushes the buffers
+     * so we can interrupt a potential POST/redirect
+     *
+     * @param  string name of debug section
+     * @param  mixed  reference to variables that we need a trace of
+     * @param  bool   should we log or return the output
+     *
+     * @return string the generated output
+     * @access public
+     * @static
+     */
+    function debug( $name, &$variable, $log = true ) {
+        $error =& self::singleton( );
+
+        $out = print_r( $variable, true );
+
+        $out = "<p>$name</p><p><pre>$out</pre></p><p></p>";
+        if ( $log ) {
+            self::$_log->debug( $out );
+        }
+
+        return $out;
     }
 
 }

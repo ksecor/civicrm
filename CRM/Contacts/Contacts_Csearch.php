@@ -34,7 +34,7 @@ class CRM_Contacts_Contacts_Csearch extends CRM_Base {
         $contact->domain_id = 1;
         $contact->find();
         while ( $contact->fetch() ) {
-            // CRM_Log::debug( 'contactInd', $contact );
+            // CRM_Error::debug( 'contactInd', $contact );
         }
         
         $contact = new CRM_Contacts_BAO_Contact_Individual();

@@ -37,12 +37,20 @@ require_once 'Pager/Sliding.php';
 
 class CRM_Pager extends Pager_Sliding {
 
-    const ROWCOUNT = 50;
+    /**
+     * constants for static parameters of the pager
+     */
+    const
+        ROWCOUNT         = 50,
+        PAGE_ID          = 'crmPID',
+        PAGE_ID_BOTTOM   = 'crmPID_B';
 
-    const PAGE_ID          = 'crmPageId';
-    const PAGE_ID_BOTTOM   = 'crmPageId_bottom';
-  
-    private $_values;  // array of caculated Pager values;
+    /**
+     * the output of the pager. This is a name/value array with various keys
+     * that an application could use to display the pager
+     * @var array
+     */
+    private $_response;  // array of caculated Pager values;
   
     /**  
      * The pager constructor. Takes a few values, and then assigns a lot of defaults
@@ -88,7 +96,7 @@ class CRM_Pager extends Pager_Sliding {
         }
         $params['status'] = str_replace( '%%StatusMessage%%', $statusMessage, $params['status'] );
 
-        $this->_values = array(
+        $this->_response = array(
                                'first'        => $links['first'],
                                'back'         => $links['back'] ,
                                'next'         => $links['next'] ,
@@ -109,8 +117,8 @@ class CRM_Pager extends Pager_Sliding {
          * page variable, but a different form element for one at the bottom
          *
          */
-        $this->_values['titleTop']    = 'Page <input size=2 maxlength=3 name="' . CRM_Pager::PAGE_ID . '" type="text" value="' . $this->_values['currentPage'] . '" /> of ' . $this->_values['numPages'];
-        $this->_values['titleBottom']    = 'Page <input size=2 maxlength=3 name="' . CRM_Pager::PAGE_ID_BOTTOM . '" type="text" value="' . $this->_values['currentPage'] . '" /> of ' . $this->_values['numPages'];
+        $this->_response['titleTop']    = 'Page <input size=2 maxlength=3 name="' . CRM_Pager::PAGE_ID . '" type="text" value="' . $this->_response['currentPage'] . '" /> of ' . $this->_response['numPages'];
+        $this->_response['titleBottom']    = 'Page <input size=2 maxlength=3 name="' . CRM_Pager::PAGE_ID_BOTTOM . '" type="text" value="' . $this->_response['currentPage'] . '" /> of ' . $this->_response['numPages'];
 
     }
 
@@ -128,7 +136,7 @@ class CRM_Pager extends Pager_Sliding {
      *
      */
     function toArray() {
-        return $this->_values;
+        return $this->_response;
     }
 
     /**

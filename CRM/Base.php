@@ -35,7 +35,6 @@
  */
 
 require_once 'CRM/Error.php';
-require_once 'CRM/Log.php';
 
 class CRM_Base {
 

@@ -75,7 +75,7 @@ interface CRM_Selector_API {
     
     /**
      * returns the column headers as an array of tuples:
-     * (label, sortLink)
+     * (name, sortName (key to the sort array))
      *
      * @param string action the action being performed
      *
@@ -126,7 +126,7 @@ interface CRM_Selector_API {
 
     /**
      * returns the column headers as an array of tuples:
-     * (label, sortLink)
+     * (name, sortName (key to the sort array))
      * This is specifically for Export (typically exports have
      * a whole lot more detailed information than normal
      * html reports. Since export could be in various formats

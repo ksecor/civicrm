@@ -86,16 +86,16 @@ class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_AP
     function getColumnHeaders( $action ) {
         static $headers = array(
                                 array(
-                                      'label' => 'Contact Id',
-                                      'sort'  =>'id',
+                                      'name' => 'Contact Id',
+                                      'sort' =>'id',
                                       ),
                                 array(
-                                      'label' => 'First Name',
-                                      'sort'  => 'first_name',
+                                      'name' => 'First Name',
+                                      'sort' => 'first_name',
                                       ),
                                 array(
-                                      'label' => 'Last Name',
-                                      'sort'  => 'last_name',
+                                      'name' => 'Last Name',
+                                      'sort' => 'last_name',
                                       ),
                                 );
         return $headers;

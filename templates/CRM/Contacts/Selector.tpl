@@ -6,9 +6,9 @@
 <th>
 {if $header.sort}
 {assign var='key' value=$header.sort}
-<a href={$sort.$key.link}>{$header.label}</a>&nbsp;{$sort.$key.direction}
+<a href={$sort.$key.link}>{$header.name}</a>&nbsp;{$sort.$key.direction}
 {else}
-{$header.label}
+{$header.name}
 {/if}
 </th>
 {/foreach}

@@ -22,15 +22,26 @@
  +----------------------------------------------------------------------+
 */
 
+/**
+ *
+ * Base class to provide generic sort functionality
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
+
 
 class CRM_Sort {
 
     const
-    ASCENDING  = 1,
+        ASCENDING  = 1,
         DESCENDING = 2,
         DONTCARE   = 4,
 
-        SORT_ID    = 'crmSortId';
+        SORT_ID    = 'crmSID';
 
 
 
@@ -74,7 +85,7 @@ class CRM_Sort {
     function CRM_Sort( $vars, $defaultSortOrder = null ) {
         $this->_vars      = array( );
         $this->_order     = array( );
-        $this->_links	  = array();
+        $this->_response	  = array();
 
         $count = 1;
 
@@ -208,11 +219,11 @@ class CRM_Sort {
     }
 
     function initLinks( ) {
-        $this->_links = array( );
+        $this->_response = array( );
 
         $current = $this->_current;
         foreach ( $this->_vars as $name => $item ) {
-            $this->_links[$name] = array();
+            $this->_response[$name] = array();
 
             $prevDirection = $item['direction'];
 
@@ -222,12 +233,12 @@ class CRM_Sort {
             $this->_current = $item['order'];
             $this->_vars[$name]['direction'] = $newDirection;
 
-            $this->_links[$name]['link'] = $this->_url . $this->formURLString( );
+            $this->_response[$name]['link'] = $this->_url . $this->formURLString( );
 
             if ( $current == $item['order'] ) {
-                $this->_links[ $name ]['direction' ] = ( $prevDirection == CRM_Sort::ASCENDING ) ? '^' : 'v';
+                $this->_response[ $name ]['direction' ] = ( $prevDirection == CRM_Sort::ASCENDING ) ? '^' : 'v';
             } else {
-                $this->_links[ $name ]['direction' ] = '';
+                $this->_response[ $name ]['direction' ] = '';
             }
 
             $this->_vars[$name]['direction'] = $prevDirection;
@@ -236,8 +247,8 @@ class CRM_Sort {
 
     }
 
-    function getLinks() {
-        return $this->_links;
+    function toArray() {
+        return $this->_response;
     }
 
 }

@@ -36,6 +36,7 @@
  *
  */
 
+require_once 'Log.php';
 require_once 'CRM/DAO.php';
 
 class CRM_Config {
@@ -90,6 +91,12 @@ class CRM_Config {
      * @var string
      */
     public $DAOFactoryClass	  = 'CRM_Contacts_DAO_Factory';
+
+    /**
+     * The handle to the log that we are using
+     * @var object
+     */
+    private static $_log = null;
 
     /**
      * We only need one instance of this object. So we use the singleton
@@ -168,6 +175,9 @@ class CRM_Config {
      */
     function init() {
         $this->initDAO();
+
+        // also initialize the logger
+        self::$_log =& Log::singleton( 'display' );
     }
 
     /**
@@ -185,6 +195,14 @@ class CRM_Config {
         $factoryClass = $this->DAOFactoryClass;
         CRM_Utils::import($factoryClass);
         CRM_DAO::setFactory(new $factoryClass());
+    }
+
+    static function &getLog() {
+        if ( ! isset( self::$_log ) ) {
+            self::$_log =& Log::singleton( 'display' );
+        }
+
+        return self::$_log;
     }
 
 } // end CRM_Config

@@ -138,7 +138,7 @@ class CRM_Selector_Controller {
         $template->clear_all_assign();
 
         $template->assign('pager', $this->_pager->toArray() );
-        $template->assign('sort' , $this->_sort->getLinks() );
+        $template->assign('sort' , $this->_sort->toArray () );
         
         $template->assign('columnHeaders', 
                           $this->_object->getColumnHeaders( $this->_action ) );

@@ -275,7 +275,7 @@ class CRM_Form extends HTML_QuickForm_Page {
             } else {
                 $prevnext[] =& $this->createElement( 'submit', $this->getButtonName($button['type']), $button['name'] );
             }
-            if ( CRM_Array::value( 'default', $button ) ) {
+            if ( CRM_Array::value( 'isDefault', $button ) ) {
                 $this->setDefaultAction( $button['type'] );
             }
        
