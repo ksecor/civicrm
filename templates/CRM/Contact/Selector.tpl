@@ -1,4 +1,4 @@
-  {include file="CRM/pager.tpl" location="top"}
+{include file="CRM/pager.tpl" location="top"}
 
 <table>
   <tr class="columnheader">
@@ -33,4 +33,4 @@
 
 </table>
 
-  {include file="CRM/pager.tpl" location="bottom"}
+{include file="CRM/pager.tpl" location="bottom"}

@@ -336,6 +336,36 @@ class CRM_Session {
     function debug( ) {
         CRM_Error::debug( 'CRM Session', $this->_session[$this->_key] );
     }
+
+    /**
+     * stores a status message, resets status if asked to
+     *
+     * @param $reset boolean should we reset the status variable?
+     *
+     * @return string        the status message if any
+     */
+    function getStatus( $reset = false ) {
+        $status = null;
+        if ( array_key_exists( 'status', $this->_session[$this->_key] ) ) {
+            $status = $this->_session[$this->_key]['status'];
+            if ( $reset ) {
+                unset( $this->_session[$this->_key]['status'] );
+            }
+        }
+        return $status;
+    }
+
+    /**
+     * stores the status message in the session
+     *
+     * @param $status string the status message
+     *
+     * @return void
+     */
+    function setStatus( $status ) {
+        $this->_session[$this->_key]['status'] = $status;
+    }
+
 }
 
 ?>

@@ -414,7 +414,7 @@ function contact_load($queryArgs)
 function contact_form( $mode )
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Contact', 'Contact Page', $mode, 'contact/add?reset=1', NULL);
+    $contact->run('CRM_Contact_Form_Contact', 'Contact Page', $mode, 'contact/search?reset=1', NULL);
     return $contact->getContent();
 }
 
@@ -426,7 +426,7 @@ function contact_form( $mode )
 function note_form( $mode )
 {
     $note = new CRM_Contact_Wrapper();
-    $note->run('CRM_Note_Form_Note', 'Note Page', $mode, 'note/add?reset=1', NULL);
+    $note->run('CRM_Note_Form_Note', 'Note Page', $mode, 'note/search?reset=1', NULL);
     return $note->getContent();
 }
 
