@@ -1,14 +1,9 @@
 {*debug*}
 <div class="form-item">
 
-<div>
-  <span>
   {include file="CRM/pager.tpl" location="top"}
-  </span>
-</div>
 
 <div>
-<span>
   <table>
   <tr class="columnheader">
   {foreach from=$columnHeaders item=header}
@@ -35,12 +30,11 @@
     <td valign="top">{$row.street_address}</td>
     <td valign="top">{$row.city}</td>
     <td valign="top">{$row.state}</td>
-    <td valign="top" width="30"><a href={$row.edit}>Edit</a>&nbsp; <a href={$row.view}>View</a></td>
+    <td valign="top" width="30"><a href="{$row.edit}">Edit</a>&nbsp; <a href="{$row.view}">View</a></td>
   </tr>
   {/foreach}
 
  </table>
-</span>
 </div>
 
 <div>

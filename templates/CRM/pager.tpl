@@ -11,7 +11,8 @@
   {$pager->_response.back}&nbsp;
   {$pager->_response.status}&nbsp;
   {$pager->_response.next}&nbsp;
-  {$pager->_response.last}&nbsp;</span>
+  {$pager->_response.last}&nbsp;
+  </span>
   {if $location eq 'top'}
     <span class="element-right">{$pager->_response.titleTop}&nbsp;<input name="{$pager->_response.buttonTop}" value="Go" type="submit"/></span>
   {else}

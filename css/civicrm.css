@@ -91,6 +91,7 @@ div.spacer {
 
 #crm-container th {
   padding-top: 8px;
+  border-bottom: 1px solid #000;
 }
 
 #crm-container tr.columnheader {
