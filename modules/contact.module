@@ -42,6 +42,7 @@ require_once 'CRM/Form.php';
 require_once 'CRM/Block.php';
 
 require_once 'CRM/Contact/Wrapper.php';
+require_once 'CRM/Selector/Controller.php';
 
 // only used for debugging purposes - remove in production system
 require_once 'CRM/Error.php';
