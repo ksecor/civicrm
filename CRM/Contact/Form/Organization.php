@@ -339,7 +339,6 @@ class CRM_Contact_Form_Organization extends CRM_Form
             $contact_organization->contact_id = $contact->id;
             $contact_organization->organization_name = $this->exportValue('organization_name');
             $contact_organization->legal_name = $this->exportValue('legal_name');
-            $contact_organization->legal_identifier = $this->exportValue('legal_identifier');
             $contact_organization->nick_name = $this->exportValue('nick_name');
             $contact_organization->sic_code = $this->exportValue('sic_code');
             $contact_organization->primary_contact_id = $this->exportValue('primary_contact_id');

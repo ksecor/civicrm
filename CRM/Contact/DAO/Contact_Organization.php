@@ -11,7 +11,6 @@ class CRM_Contact_DAO_Contact_Organization extends CRM_Contact_DAO_ContactBase
      */
     public $organization_name;
     public $legal_name;
-    public $legal_identifier;
     public $nick_name;
     public $sic_code;
     
@@ -44,7 +43,6 @@ class CRM_Contact_DAO_Contact_Organization extends CRM_Contact_DAO_ContactBase
                                   parent::dbFields(),
                              array(
                                    'organization_name'  => array(CRM_Type::T_STRING, self::NOT_NULL),
-                                   'legal_identifier'   => array(CRM_Type::T_STRING, null),
                                    'legal_name'         => array(CRM_Type::T_STRING, null),
                                    'nick_name'          => array(CRM_Type::T_STRING, null), 
                                    'sic_code'           => array(CRM_Type::T_STRING, null),
