@@ -122,22 +122,18 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $row['email'] = $this->crm_email_email;
             $row['phone'] = $this->crm_phone_phone;
             
+            $row['edit']  = 'index.php?q=/crm/contact/edit&cid='.$this->crm_contact_id;
+            $row['view']  = 'index.php?q=/crm/contact/view&cid='.$this->crm_contact_id;
             $str_type = "";
             switch ($this->crm_contact_contact_type) {
             case 'Individual' :
                 $str_type = '(I)';
-                $row['edit']  = 'index.php?q=/crm/contact/edit/'.$this->crm_contact_id;
-                $row['view']  = 'index.php?q=/crm/contact/view/'.$this->crm_contact_id;
                 break;
             case 'Household' :
                 $str_type = '(H)';
-                $row['edit']  = 'index.php?q=/crm/contact/edit_house/'.$this->crm_contact_id;
-                $row['view']  = 'index.php?q=/crm/contact/view_house/'.$this->crm_contact_id;
                 break;
             case 'Organization' :
                 $str_type = '(O)';
-                $row['edit']  = 'index.php?q=/crm/contact/edit_org/'.$this->crm_contact_id;
-                $row['view']  = 'index.php?q=/crm/contact/view_org/'.$this->crm_contact_id;
                 break;
                 
             }

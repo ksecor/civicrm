@@ -174,12 +174,12 @@ class CRM_Sort {
             $name = $item['name'];
             $this->_response[$name] = array();
 
-            $direction = ( $item['direction'] == CRM_Sort::ASCENDING ) ? CRM_Sort::DESCENDING : CRM_Sort::ASCENDING;
+            $newDirection = ( $item['direction'] == CRM_Sort::ASCENDING ) ? CRM_Sort::DESCENDING : CRM_Sort::ASCENDING;
 
             
 
             if ( $current == $index ) {
-                if ( $direction == CRM_Sort::ASCENDING ) {
+                if ( $item['direction'] == CRM_Sort::ASCENDING ) {
                     $class = 'sort-ascending';
                 } else {
                     $class = 'sort-descending';
@@ -188,7 +188,7 @@ class CRM_Sort {
                 $class     = 'sort-none';
             }
 
-            $this->_response[$name]['link'] = '<a href="' . $this->_link . $this->sortIDValue( $index, $direction ) . '" class=' . $class . '>' . $item['title'] . '</a>';
+            $this->_response[$name]['link'] = '<a href="' . $this->_link . $this->sortIDValue( $index, $newDirection ) . '" class=' . $class . '>' . $item['title'] . '</a>';
         }
     }
 

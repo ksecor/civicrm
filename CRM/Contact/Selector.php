@@ -76,7 +76,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                                        array(
                                              'name'      => 'Name',
                                              'sort'      => 'crm_contact_sort_name',
-                                             'direction' => CRM_Sort::DESCENDING,
+                                             'direction' => CRM_Sort::ASCENDING,
                                              ),
                                        array('name' => 'Address'),
                                        array(
@@ -85,7 +85,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                                              'direction' => CRM_Sort::DONTCARE,
                                              ),
                                        array(
-                                             'name'      => 'State/Prov',
+                                             'name'      => 'State',
                                              'sort'      => 'crm_state_province_name',
                                              'direction' => CRM_Sort::DONTCARE,
                                              ),
@@ -97,7 +97,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                                              ),
                                        array('name' => 'Email'),
                                        array('name' => 'Phone'),
-                                       array('name' => 'Operate'),
+                                       array('name' => ''),
                                        );
     
     /**

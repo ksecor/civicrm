@@ -6,7 +6,7 @@
 
 <div id="name" class="data-group form-item">
     <span class="float-right">
-        <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{$config->httpBase}contact/edit/{$contact_id}';">
+        <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{$config->httpBase}contact/edit?cid={$contact_id}';">
     </span>
     <p>
     {if $contact_type eq 'Individual'}
@@ -135,7 +135,7 @@
 
 <div id="edit-link" class="form-item">
   <span class="float-right">
-   <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{$config->httpBase}contact/edit/{$contact_id}';">
+   <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{$config->httpBase}contact/edit?cid={$contact_id}';">
   </span>
 </div> 
 
