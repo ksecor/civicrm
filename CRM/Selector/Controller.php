@@ -166,8 +166,6 @@ class CRM_Selector_Controller {
         /*
          * Set the default values of RowsPerPage
          */
-        if ( ! isset( $params['rowCount'] ) ) {
-        }
         $storeRowCount = $store->get( CRM_Pager::PAGE_ROWCOUNT );
         if ( $storeRowCount ) {
             $params['rowCount'] = $storeRowCount;

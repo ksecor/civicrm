@@ -383,7 +383,7 @@ function contact_invoke($operation)
 
     // add organisation
     if (arg(2) == 'add_org') {
-        $content .= contact_form_org(array( 'contact_type' => 'Organization' ), CRM_Form::MODE_ADD );
+        $content .= contact_form(array( 'contact_type' => 'Organization' ), CRM_Form::MODE_ADD );
     }
 
     // list
