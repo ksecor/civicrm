@@ -1,6 +1,6 @@
 {* smarty *}
 {literal}
-<script type="text/javascript" src="/drupal/js/CRUD.js"></script>
+<script type="text/javascript" src="/js/CRUD.js"></script>
 {/literal}
 
 
@@ -98,7 +98,7 @@
 {assign var = "hideem03" value = "hideem03_`$smarty.section.locationt.index`"}
 {assign var = "hideim03" value = "hideim03_`$smarty.section.locationt.index`"}
 
-<br/>
+<br />
 {if $pid > 1}
 <table id = "expand_loc{$pid}" border="0" cellpadding="2" cellspacing="2">
 	<tr>
@@ -107,6 +107,8 @@
 		</td>
 	<tr>
 </table>
+
+<br />
 {/if}
 
 
@@ -390,7 +392,7 @@
 	</tr>
 	{/if}
 </table>
-</br>
+<br />
 {/section}
 
 
@@ -408,7 +410,7 @@
 		<td>
 		{$form.exdemo.html}
 		</td>
-	<tr>
+	</tr>
 </table>
 </div>
 
