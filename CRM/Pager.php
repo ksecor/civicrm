@@ -40,17 +40,12 @@ class CRM_Pager extends Pager_Sliding {
      * @access public
      *
      */
-    function __construct( $total,
-                          $currentPage = 1,
-                          $status      = null,
-                          $csvString   = '',
-                          $perPage     = CRM_Pager::ROWCOUNT ) {
-
-        if( $status === null ) {
-            $status = "Contacts %%statusMessage%%";
+    function __construct( $params ) {
+        if( $params['status'] === null ) {
+            $params['status'] = "Contacts %%statusMessage%%";
         }
 
-        $params =& $this->getDefaultParams( $total, $perPage, $currentPage );
+        $this->initialize( $params );
 
         $this->Pager_Sliding( $params);
 
@@ -115,20 +110,15 @@ class CRM_Pager extends Pager_Sliding {
      * helper function to assign remaining pager options as good default
      * values
      *
-     * @param int     total        the total count of items to be displayed
-     * @param int     perPage      the number of items displayed per page
-     * @param int     defaultCurrentPage  the current page number, default to 1
-     *
-     * @return array               the set of options needed to initialize the parent
+     * @param array   $params      the set of options needed to initialize the parent
      *                             constructor
      *
      * @access public
+     * @return void
      *
      */
-    function &getDefaultParams( &$total, $perPage, $defaultCurrentPage = 1 ) {
+    function initialize( &$params ) {
         $config = CRM_Config::singleton( );
-
-        $params = array( );
 
         /* set the mode for the pager to Sliding */
         $params['mode']       = 'Sliding';
@@ -139,8 +129,8 @@ class CRM_Pager extends Pager_Sliding {
         /* set this to a small value, since we dont use this functionality */
         $params['delta']      = 1;
 
-        $params['totalItems'] = $total;
-        $params['perPage']    = $perPage;
+        $params['totalItems'] = $params['total'];
+        $params['perPage']    = $params['rowCount'];
         $params['append']     = true;
         $params['separator']  = '';
         $params['spacesBeforeSeparator'] = 1;

@@ -111,15 +111,16 @@ class CRM_Selector_Controller {
         $this->_action = $action;
         
         $params = array(
-                        'totalCount' => $this->_object->getTotalCount($action),
-                        'pageID'     => $this->_pageId
+                        'total'   => $this->_object->getTotalCount($action),
+                        'pageID'  => $this->_pageId
                         );
         $this->_object->getPagerParams($action, $params);
 
         /*
          * Set the default values of RowsPerPage
          */
-        $params{'rowCount'} = $params{'rowCount'} ? $params{'rowCount'} : CRM_Pager::ROWCOUNT;
+        // $params['rowCount'] = $params['rowCount'] ? $params['rowCount'] : CRM_Pager::ROWCOUNT;
+        $params['rowCount'] = 2;
         
         $this->_pager = new CRM_Pager( $params );
         

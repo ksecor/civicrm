@@ -60,6 +60,10 @@ class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_AP
     function getColumnHeaders( $action ) {
         static $headers = array(
                                 array(
+                                      'label' => 'Contact Id',
+                                      'sort'  => null
+                                      ),
+                                array(
                                       'label' => 'First Name',
                                       'sort'  => 'Individual_first_name',
                                       ),
@@ -81,6 +85,7 @@ class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_AP
 
     function getRows( $action, $offset, $rowCount, $sort ) {
         $rows = array();
+        $this->_contact->limit( $offset, $rowCount );
         $this->_contact->find();
         while ( $this->_contact->fetch( ) ) {
             $row = array();
@@ -90,7 +95,6 @@ class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_AP
 
             $rows[] = $row;
         }
-
         return $rows;
     }
 

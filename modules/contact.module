@@ -259,7 +259,7 @@ function contact_menu($may_cache)
 
 function contact_init() 
 {
-    menu_rebuild();
+    // menu_rebuild();
     
     $config = CRM_Config::singleton();
     CRM_DAO::init($config->dsn, $config->daoDebug);
@@ -405,23 +405,23 @@ function contact_add_org()
  * lists all contacts from db.
  *
  *******************************************************/
-/*function contact_list($id=0) 
+function contact_list($id=0) 
 {
-	$contact = new CRM_Contacts_Selector( );
+    $contact = new CRM_Contacts_Selector( );
     $controller = new CRM_Selector_Controller( $contact, null, null, CRM_Action::VIEW );
     $controller->run( );
     return $controller->getContent();
 } // end of function contact_list
-*/
 
+/*
 function contact_list($id=0) 
 {
     $contact = new CRM_Contacts_List_Contacts();
     $contact->run(CRM_Form::MODE_CREATE, 0);
-    //return $contact->display();
     return $contact->getContent();
-    //return '';
 } // end of function contact_list
+*/
+
 /*******************************************************
  *
  * contact_query()
