@@ -170,7 +170,7 @@ class CRM_Selector_Controller {
          */
         // $params['rowCount'] = $params['rowCount'] ? $params['rowCount'] : CRM_Pager::ROWCOUNT;
         // This is a hack to make it easier to debug
-        $params['rowCount'] = 1;
+        $params['rowCount'] = 5;
 
         $this->_pager = new CRM_Pager( $params );
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();

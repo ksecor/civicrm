@@ -187,12 +187,13 @@ class CRM_Pager extends Pager_Sliding {
      *
      */
     function getPageID( $defaultPageId = 1, &$params ) {
-        if ( isset( $_GET[ CRM_Pager::PAGE_ID ] ) ) {
-            $currentPage = max( (int ) @$_GET[ CRM_Pager::PAGE_ID ], 1 );
-        } else if ( isset( $_POST[ $params['buttonTop'] ] ) && isset( $_POST[ CRM_Pager::PAGE_ID ] ) ) {
+        // POST has higher priority than GET vars
+        if ( isset( $_POST[ $params['buttonTop'] ] ) && isset( $_POST[ CRM_Pager::PAGE_ID ] ) ) {
             $currentPage = max( (int ) @$_POST[ CRM_Pager::PAGE_ID ], 1 );
         } else if ( isset( $_POST[ $params['buttonBottom'] ] ) && isset( $_POST[ CRM_Pager::PAGE_ID_BOTTOM ] ) ) {
             $currentPage = max( (int ) @$_POST[ CRM_Pager::PAGE_ID_BOTTOM ], 1 );
+        } else if ( isset( $_GET[ CRM_Pager::PAGE_ID ] ) ) {
+            $currentPage = max( (int ) @$_GET[ CRM_Pager::PAGE_ID ], 1 );
         } else {
             $currentPage = $defaultPageId;
         }

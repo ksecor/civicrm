@@ -1,4 +1,3 @@
-{debug}
 {if $pager and $pager->_response}
 
 {if $pager->_response.numPages >= 1}
