@@ -36,7 +36,7 @@
      <div class="form-item">
         <label>First/Last:</label>
         {$form.prefix.html}
-        {$form.first_name.html|crmInsert:size:15}
+        {$form.first_name.html}
         {$form.last_name.html}
         {$form.suffix.html}
      </div>

@@ -320,17 +320,31 @@ function append( &$str, $delim, $name ) {
     }
 }
 
-function getSize( $len ) {
-    if ( $len <= 16 ) {
-        return $len;
-    } else if ( $len <=32 ) {
-        return 20;
-    } else if ( $len <= 64 ) {
-        return 30;
-    } else if ( $len <= 96 ) {
-        return 40;
+/**
+ * four
+ * eight
+ * twelve
+ * sixteen
+ * medium (20)
+ * big (30)
+ * huge (45)
+ */
+
+function getSize( $maxLength ) {
+    if ( $maxLength <= 2 ) {
+        return 'CRM_Form::TWO';
+    } else if ( $maxLength <= 4 ) {
+        return 'CRM_Form::FOUR';
+    } else if ( $maxLength <= 8 ) {
+        return 'CRM_Form::EIGHT';
+    } else if ( $maxLength <= 16 ) {
+        return 'CRM_Form::TWELVE';
+    } else if ( $maxLength <= 32 ) {
+        return 'CRM_Form::MEDIUM';
+    } else if ( $maxLength <= 64 ) {
+        return 'CRM_Form::BIG';
     } else {
-        return 50;
+        return 'CRM_Form::HUGE';
     }
 }
 

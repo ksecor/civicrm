@@ -141,25 +141,6 @@ class HTML_QuickForm_input extends HTML_QuickForm_element
      */
     function toHtml()
     {
-        // fix the attributes array here, just before we generate the HTML
-        // this avoids potential constructor dependency etc
-
-        // lets create an id for all input elements, so we can generate nice label tags
-        // to make it nice and clean, we'll just use the elementName if it is non null
-        if (!$this->getAttribute('id')) {
-            $name = $this->getAttribute('name');
-            if ($name) {
-                $this->updateAttributes(array('id' => $name ));
-            } else {
-                $this->_generateId( );
-            }
-        }
-
-        // lets add the "class" attribute
-        if (!$this->getAttribute('class')) {
-            $this->updateAttributes(array('class' => 'form-' . $this->_type));
-        }
-        
         if ($this->_flagFrozen) {
             return $this->getFrozenHtml();
         } else {
