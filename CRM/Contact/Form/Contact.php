@@ -141,9 +141,13 @@ class CRM_Contact_Form_Contact extends CRM_Form
             if ( $this->_mode & self::MODE_UPDATE ) {
                 $this->set( 'ids', $ids );
             }
+
+            // also set contact_type, since this is used in showHide routines 
+            // to decide whether to display certain blocks (demographics)
+            $this->_contactType = CRM_Array::value( 'contact_type', $defaults );
         }
         
-        $this->setShowHideBlocks( $defaults );
+        $this->setShowHide( $defaults );
         
         if ( $this->_mode & self::MODE_VIEW ) {
             CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
@@ -160,23 +164,38 @@ class CRM_Contact_Form_Contact extends CRM_Form
      *
      * @return void
      */
-    function setShowHideBlocks( &$defaults ) {
-        $this->_showHide = new CRM_ShowHideBlocks( array('name'              => 1,
-                                                         'commPrefs'         => 1,),
+    function setShowHide( &$defaults ) {
+        $this->_showHide = new CRM_ShowHideBlocks( array('commPrefs'         => 1,
+                                                         'notes[show]'       => 1),
                                                    array('notes'        => 1 ) ) ;
 
         if ( $this->_contactType == 'Individual' ) {
+            $this->_showHide->addShow( 'demographics[show]' );
             $this->_showHide->addHide( 'demographics' );
         }
 
-        // first do the defaults showing
-        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
-                                                        self::LOCATION_BLOCKS );
-        
-        if ( ! ( $this->_mode & self::MODE_ADD ) ) {
-            CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
-                                                       CRM_Array::value( 'location', $defaults ),
-                                                       self::LOCATION_BLOCKS );
+         // view has a simpler block structure based on data
+        if ( $this->_mode & self::MODE_VIEW ) {
+            if ( array_key_exists( 'location', $defaults ) ) {
+                $numLocations = count( $defaults['location'] );
+                $this->_showHide->addShow( 'location[1]' );
+                $this->_showHide->addHide( 'location[1][show]' );
+                for ( $i = 1; $i < $numLocations; $i++ ) {
+                    $locationIndex = $i + 1;
+                    $this->_showHide->addShow( "location[$locationIndex][show]" );
+                    $this->_showHide->addHide( "location[$locationIndex]" );
+                }
+            }
+        } else {
+            // first do the defaults showing
+            CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
+                                                            self::LOCATION_BLOCKS );
+            
+            if ( $this->_mode & self::MODE_UPDATE ) {
+                CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
+                                                           CRM_Array::value( 'location', $defaults ),
+                                                           self::LOCATION_BLOCKS );
+            }
         }
         
         $this->_showHide->addToTemplate( );
