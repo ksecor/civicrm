@@ -52,7 +52,7 @@ class CRM_State {
       } else if ( $this->_stateMachine->isValidStateName($backName )) { 
         $back =& $page->controller->getPage( $backName ); 
       } else { 
-        CRM_Error::fatal( '', 'GS-STM-8001', 'Fatal Error in back branch of code' ); 
+        CRM_Error::fatal( '', 'CRM-STM-8001', 'Fatal Error in back branch of code' ); 
       } 
       $back->handle('jump'); 
     } else { 
@@ -77,7 +77,7 @@ class CRM_State {
       } else if ( $this->_stateMachine->isValidStateName($nextName )) { 
         $next =& $page->controller->getPage( $nextName ); 
       } else { 
-        CRM_Error::fatal( '', 'GS-STM-8002', 'Fatal Error in next branch of code' ); 
+        CRM_Error::fatal( '', 'CRM-STM-8002', 'Fatal Error in next branch of code' ); 
       } 
       $next->handle('jump'); 
     } else { 
@@ -100,7 +100,7 @@ class CRM_State {
       } else if ( $this->_stateMachine->isValidStateName($nextName )) { 
         return $this->_stateMachine->find( $this->_next );
       } else { 
-        CRM_Error::fatal( '', 'GS-STM-8003', 'Fatal Error in next branch of code' ); 
+        CRM_Error::fatal( '', 'CRM-STM-8003', 'Fatal Error in next branch of code' ); 
       } 
       return $next;
     } else { 

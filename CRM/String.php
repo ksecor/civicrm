@@ -237,8 +237,8 @@ class CRM_String {
    * eliminates them if necessary. Ignores seperator charaters within
    * quotes
    *
-   * @author Michal Mach <michal@groundspring.org>
-   * @author Donald Lobo <lobo@groundspring.org>
+   * @author Michal Mach
+   * @author Donald Lobo
    *
    * @access public
    *

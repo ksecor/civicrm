@@ -1,7 +1,10 @@
 <?php
 
 require_once 'Log.php';
+
 require_once 'CRM/Validate.php';
+require_once 'CRM/Pager.php';
+require_once 'CRM/Sort.php';
 
 class CRM_Utils {
  
@@ -24,7 +27,7 @@ class CRM_Utils {
     }
   }
 
-  function log($content, $logfile = "/var/log/gs/gs.log") {
+  function log($content, $logfile = "/var/log/crm/crm.log") {
     $conf = array('mode' => 0666, 'timeFormat' => '%X %x');
     $log  = &Log::singleton('file', $logfile, 'Apply', $conf, LOG_INFO);
     
@@ -89,11 +92,13 @@ class CRM_Utils {
 
   }
 
-  // a gs url typically has a few additional things which make exact matching
+  // a url typically has a few additional things which make exact matching
   // not worth it.
   // currently these are: pageId, sortID, and id
   static function canonicalURL( $url ) {
-    $deleteParams = array( 'pageID', 'sortID' );
+    $deleteParams = array( CRM_Pager::PAGE_ID,
+                           CRM_Pager::PAGE_ID_BOTTOM,
+                           CRM_Sort::SORT_ID );
 
     foreach ( $deleteParams as $param ) {
       $url = preg_replace( "/\&$param=\d+/", '', $url );
@@ -119,22 +124,12 @@ class CRM_Utils {
   }
 
   /**
-   *
    * clean a dynamic classname, or method of non word characters
    */
   static function safe_identifier($str) {
     return preg_replace('/\W/', '', $str);
   }
 
-
-  // a division function that returns 0 on divide by 0.
-  static function gsDiv($a, $b) {
-    if ($b <> 0) {
-      return $a / $b;
-    }
-    return 0;
-  }
-  
 }
 
 ?>

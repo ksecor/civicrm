@@ -266,7 +266,7 @@ class CRM_Form extends HTML_QuickForm_Page {
   }
 
   function getDisplayName( ) {
-    return t('(Display Name is not Set)');
+    return '(Display Name is not Set)';
   }
 	
   function getFormAction() {

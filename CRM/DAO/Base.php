@@ -71,7 +71,9 @@ class CRM_DAO_Base extends CRM_DAO {
       $tableName = 'crm' . substr( $tableName, 3 );
       return $tableName;
     }
+
     return null;
+
   }
 
 }

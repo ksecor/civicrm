@@ -15,7 +15,6 @@ require_once 'CRM/QuickForm/Action/Submit.php';
 require_once 'CRM/QuickForm/Action/Upload.php';
 
 require_once 'CRM/StateMachine.php';
-require_once 'CRM/Request.php';
 
 class CRM_Controller extends HTML_QuickForm_Controller {
   protected $_stateMachine;
@@ -34,6 +33,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
    * @param boolean whether controller is modal
    *
    * @access public
+   *   
    * @return void
    *
    */
@@ -119,11 +119,12 @@ class CRM_Controller extends HTML_QuickForm_Controller {
     $this->addAction('submit' , new CRM_QuickForm_Action_Submit ($this->_stateMachine));
 
     if ( ! empty( $uploadDirectory ) ) {
-      $this->addAction('upload' , new CRM_QuickForm_Action_Upload ($this->_stateMachine,
-                                                                   $uploadDirectory,
-							 $uploadNames));
+      $this->addAction('upload' ,
+                       new CRM_QuickForm_Action_Upload ($this->_stateMachine,
+                                                        $uploadDirectory,
+                                                        $uploadNames));
     }
-
+    
   }
 
   function getStateMachine( ) {

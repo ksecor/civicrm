@@ -12,8 +12,6 @@ class CRM_Config {
   public $smartyDir           = '/opt/local/lib/php/Smarty/';
   public $templateDir		  = './templates';
   public $templateCompileDir  = './templates_c';
-  public $smtpServer          = 'outbound2.groundspring.org';
-  public $extendedIncludePath = null;
   public $mainMenu            = 'http://localhost/drupal/';
   public $httpBase            = "http://localhost/drupal/";
   public $DAOFactoryClass	  = 'CRM_BAO_Factory';
@@ -50,14 +48,6 @@ class CRM_Config {
 
     if (defined('CRM_TEMPLATE_COMPILEDIR')) {
       $this->templateCompileDir = CRM_TEMPLATE_COMPILEDIR;
-    }
-
-    if (defined('CRM_EXTENDED_INCLUDEPATH')) {
-      $this->extendedIncludePath = CRM_EXTENDED_INCLUDEPATH;
-    }
-        
-    if ( defined( 'CRM_SMTPSERVER' ) ) {
-      $this->smtpServer = CRM_SMTPSERVER;
     }
 
     if ( defined( 'CRM_MAINMENU' ) ) {
