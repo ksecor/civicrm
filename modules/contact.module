@@ -570,9 +570,7 @@ function contact_delete($id)
  */
 
 function contact_miniadd(){
-
     $contact = new CRM_Contact_Wrapper();
-    //    $contact->run(CRM_Form::MODE_ADD_MINI, 0);
     $contact->run('CRM_Contact_Form_Individual', 'Contact Individual Page', CRM_Form::MODE_ADD_MINI, 'crm/contact/add?reset=1', 0);
     return $contact->getContent();
     
@@ -588,8 +586,7 @@ function contact_miniadd(){
 
 function contact_qsearch(){
     $contact = new CRM_Contact_Wrapper();
-    //    $contact->run(CRM_Form::MODE_SEARCH_MINI, 0);
-    $contact->run('CRM_Contact_Form_Search', 'Contact Search Page', CRM_Form::MODE_SEARCH_MINI, 'crm/contact/search', 0);
+    $contact->run('CRM_Contact_Form_Search', 'Contact Search Page', CRM_Form::MODE_SEARCH_MINI, 'crm/contact/search?reset=1', 0);
     return $contact->getContent();
 }
 
