@@ -63,6 +63,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // we need to run the loop thru the num rows with offset in mind.
         $rows = array();
         $str_select = $str_from = $str_where = $str_order = $str_limit = '';
+        
         /*   
         $str_select = "SELECT crm_contact.id as crm_contact_id, crm_contact.sort_name as crm_contact_sort_name,
                               crm_address.street_address as crm_address_street_address, crm_address.city as crm_address_city,
@@ -73,49 +74,76 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $str_select = "SELECT crm_contact.id AS crm_contact_id, crm_contact.sort_name AS crm_contact_sort_name,
 
                           IFNULL( crm_address.street_address, (SELECT crm_address.street_address 
-                          FROM crm_household
-                          LEFT OUTER JOIN crm_location ON ( crm_household.contact_id = crm_location.contact_id
+                          FROM crm_contact
+                          LEFT OUTER JOIN crm_location ON ( crm_contact.id = crm_location.contact_id
                                                             AND crm_location.is_primary =1 )
                           LEFT OUTER JOIN crm_address ON ( crm_location.id = crm_address.location_id )
-                          WHERE  crm_household.primary_contact_id = crm_contact.id )
+ 
+                          WHERE  crm_contact.id = (SELECT IFNULL(contact_id_b,crm_contact_id) AS crm_contact_id
+                                                                    FROM crm_relationship
+                                                                    WHERE crm_relationship.contact_id_a =crm_contact_id
+                                                                    AND ( crm_relationship.relationship_type_id =6 OR crm_relationship.relationship_type_id =7)
+                                                                     )
+                                                            )                                                                
                            ) AS crm_address_street_address,
 
                           IFNULL( crm_address.city, (SELECT crm_address.city
-                          FROM crm_household
-                          LEFT OUTER JOIN crm_location ON ( crm_household.contact_id = crm_location.contact_id
+                          FROM crm_contact
+                          LEFT OUTER JOIN crm_location ON ( crm_contact.id = crm_location.contact_id
                                                             AND crm_location.is_primary =1 )
                           LEFT OUTER JOIN crm_address ON ( crm_location.id = crm_address.location_id )
-                          WHERE  crm_household.primary_contact_id = crm_contact.id )
+
+                          WHERE  crm_contact.id = (SELECT IFNULL(contact_id_b,crm_contact_id) AS crm_contact_id
+                                                                    FROM crm_relationship
+                                                                    WHERE crm_relationship.contact_id_a =crm_contact_id
+                                                                    AND ( crm_relationship.relationship_type_id =6 OR crm_relationship.relationship_type_id =7)
+                                                                     )
+                                                            )             
                           ) AS crm_address_city, 
 
                           IFNULL( crm_state_province.name, (SELECT crm_state_province.name
-                          FROM crm_household
-                          LEFT OUTER JOIN crm_location ON ( crm_household.contact_id = crm_location.contact_id
+                          FROM crm_contact
+                          LEFT OUTER JOIN crm_location ON ( crm_contact.id = crm_location.contact_id
                                                             AND crm_location.is_primary =1 )
                           LEFT OUTER JOIN crm_address ON ( crm_location.id = crm_address.location_id )
                           LEFT OUTER JOIN crm_state_province ON ( crm_address.state_province_id = crm_state_province.id )
-                          WHERE  crm_household.primary_contact_id = crm_contact.id )
+                          WHERE  crm_contact.id = (SELECT IFNULL(contact_id_b,crm_contact_id) AS crm_contact_id
+                                                                    FROM crm_relationship
+                                                                    WHERE crm_relationship.contact_id_a =crm_contact_id
+                                                                    AND ( crm_relationship.relationship_type_id =6 OR crm_relationship.relationship_type_id =7)
+                                                                     )
+                                                            )
                           ) AS crm_state_province_name, 
 
-                          IFNULL( crm_email.email, (SELECT crm_email.email AS crm_email_email
-                          FROM crm_household
-                          LEFT OUTER JOIN crm_location ON ( crm_household.contact_id = crm_location.contact_id
+
+                          IFNULL( crm_email.email, (SELECT crm_email.email
+                          FROM crm_contact
+                          LEFT OUTER JOIN crm_location ON ( crm_contact.id = crm_location.contact_id
                                                             AND crm_location.is_primary =1 )
                           LEFT OUTER JOIN crm_email ON ( crm_location.id = crm_email.location_id
                                                          AND crm_email.is_primary =1 )
-                          WHERE  crm_household.primary_contact_id = crm_contact.id )
-                          ) AS crm_email_email, 
+                          WHERE  crm_contact.id = (SELECT IFNULL(contact_id_b,crm_contact_id) AS crm_contact_id
+                                                                    FROM crm_relationship
+                                                                    WHERE crm_relationship.contact_id_a =crm_contact_id
+                                                                    AND ( crm_relationship.relationship_type_id =6 OR crm_relationship.relationship_type_id =7)
+                                                                     )
+                                                                    )
+                          ) AS crm_email_email,
 
                           IFNULL( crm_phone.phone, (SELECT crm_phone.phone
-                          FROM crm_household
-                          LEFT OUTER JOIN crm_location ON ( crm_household.contact_id = crm_location.contact_id
+                          FROM crm_contact
+                          LEFT OUTER JOIN crm_location ON ( crm_contact.id = crm_location.contact_id
                                                             AND crm_location.is_primary =1 )
-                          LEFT OUTER JOIN crm_address ON ( crm_location.id = crm_address.location_id )
                           LEFT OUTER JOIN crm_phone ON ( crm_location.id = crm_phone.location_id
                                                          AND crm_phone.is_primary =1 )
-                          WHERE  crm_household.primary_contact_id = crm_contact.id )
+                          WHERE  crm_contact.id = (SELECT IFNULL(contact_id_b,crm_contact_id) AS crm_contact_id
+                                                                    FROM crm_relationship
+                                                                    WHERE crm_relationship.contact_id_a =crm_contact_id
+                                                                    AND ( crm_relationship.relationship_type_id =6 OR crm_relationship.relationship_type_id =7)
+                                                                     )
+                                                                    )
                           ) AS crm_phone_phone,
-                          
+
                           crm_contact.contact_type AS crm_contact_contact_type";
 
         $str_from = " FROM crm_contact 
@@ -160,7 +188,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $row['phone'] = $this->crm_phone_phone;
             $row['street_address'] = $this->crm_address_street_address;
             $row['city'] = $this->crm_address_city;
-            $row['state'] = $this->state_province_name;
+            $row['state'] = $this->crm_state_province_name;
             
             switch ($this->crm_contact_contact_type) {
             case 'Individual' :
