@@ -4,7 +4,7 @@
  * This class generates data for the schema located in Contact.sql
  *
  * each public method generates data for the concerned table.
- * so for exampe addContactDomain method generates and adds
+ * so for example the addContactDomain method generates and adds
  * data to the contact_domain table
  *
  * Data generation is a bit tricky since the data generated
@@ -71,13 +71,9 @@
  *******************************************************/
 
 
-$user_home = "/home/yvb/svn/crm";
-$include_path = ini_get('include_path');
-$include_path = ".:$user_home:$user_home/packages:$include_path";
-ini_set('include_path', $include_path);
-define('CRM_DSN', 'mysql://crm:Mt!Everest@localhost/crm');
-
-require_once 'CRM/Contact/DAO/Contact.php';
+require_once 'config.inc.php';
+require_once 'CRM/Config.php';
+require_once 'CRM/DAO/Domain.php';
 
 class CRM_GCD {
 
@@ -92,14 +88,13 @@ class CRM_GCD {
     const ORGANIZATION_PERCENT = 10;
     const NUM_INDIVIDUAL_PER_HOUSEHOLD = 4;
     
-    //const ADD_TO_DB=TRUE;
-    const ADD_TO_DB=FALSE;
+    const ADD_TO_DB=TRUE;
+    // const ADD_TO_DB=FALSE;
     const DEBUG_LEVEL=1;
     
     /*********************************
      * private members
      *********************************/
-    private $db_handle;
     
     // enum's from database
     private $preferred_communication_array = array(1=>'Phone', 'Email', 'Post');
@@ -237,7 +232,10 @@ class CRM_GCD {
 
 
 
-
+    public function initDB()
+    {
+        $config = CRM_Config::singleton();
+    }
 
 
     /*******************************************************
@@ -315,10 +313,11 @@ class CRM_GCD {
     {
 
         $this->lee();
+
         foreach ($this->domain_array as $id) {
             if ($id == 1) continue;
 
-            $domain = new CRM_DAO_Domain();
+            $domain = new CRM_Contact_DAO_Domain();
 
             // domain name is pretty simple. it is "Domain $id"
             $domain->id = $id;
@@ -329,7 +328,7 @@ class CRM_GCD {
             if (self::ADD_TO_DB) {
                 $result = $domain->insert();
                 if (DB::isError($result)) {
-                    die($db->getMessage());
+                    die($result->getMessage());
                 }
             }
         } // end of domain id loop
@@ -646,15 +645,6 @@ QS;
 
 
 
-    public function closeDB(){
-        $this->lee();
-        mysql_close($this->db_handle);
-        $this->lel();
-    }
-
-
-
-
     public function printID() {
 
         $this->lee();
@@ -717,18 +707,17 @@ echo("Starting on " . date("F dS h:i:s A") . "\n");
 $obj1 = new CRM_GCD();
 
 $obj1->initID();
-$obj1->printID();
+$obj1->initDB();
+//$obj1->printID();
 $obj1->addContactDomain();
-$obj1->addContactContact();
-$obj1->addContactIndividual();
-$obj1->addContactHousehold();
-$obj1->addContactOrganization();
-$obj1->addContactRelationshipTypes();
-$obj1->addContactRelationship();
+// $obj1->addContactContact();
+// $obj1->addContactIndividual();
+// $obj1->addContactHousehold();
+// $obj1->addContactOrganization();
+// $obj1->addContactRelationshipTypes();
+// $obj1->addContactRelationship();
 
-$obj1->closeDB();
 
 echo("Ending on " . date("F dS h:i:s A") . "\n");
 
 ?>
-
