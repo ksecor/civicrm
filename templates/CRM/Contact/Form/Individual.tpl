@@ -1,7 +1,7 @@
  {* smarty *}
 
  {literal}
- <script type="text/javascript" src="/js/CRUD.js"></script>
+ <script type="text/javascript" src="/js/Individual.js"></script>
  {/literal}
 
 
@@ -139,10 +139,10 @@
 		 <td class="form-item">
 		 {$form.$lid.location_type_id.html}
 		</td>
-		<td></td><td></td>
+		<td>&nbsp;</td><td>&nbsp;</td>
 	</tr>
 	<tr>
-		 <td></td>		
+		 <td>&nbsp;</td>		
 		 <td colspan=2 class="form-item">	
 		 {$form.$lid.is_primary.html}{$form.$lid.is_primary.label}
 		 </td>
@@ -161,7 +161,7 @@
 	 </tr>
 
 	 <tr><!-- Second phone block.-->
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">
 			 <table id="expand_phone_{$pid}_2">
 			 <tr>
@@ -175,7 +175,7 @@
 	 </tr>
 
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">	
 
 		 <table id="phone_{$pid}_2">
@@ -199,7 +199,7 @@
 	 </tr>
 
 	 <tr><!-- Third phone block.-->
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">
 		 <table id="expand_phone_{$pid}_3">
 			 <tr>	<td>
@@ -211,7 +211,7 @@
 		
 	 </tr>
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">
 		 <table id="phone_{$pid}_3">
 			 <tr>
@@ -236,7 +236,7 @@
  <!-- LOADING EMAIL BLOCK -->
 
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td class="form-item">
 			 <label>{$form.$lid.email_1.label}</label>
 		 </td>
@@ -246,7 +246,7 @@
 		
 	 </tr>
 	 <tr><!-- email 2.-->
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">
 		 <table id="expand_email_{$pid}_2" >
 			 <tr>
@@ -259,7 +259,7 @@
 	 </tr>
 
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">
 		 <table id="email_{$pid}_2">
 			 <tr>
@@ -281,7 +281,7 @@
 	 </tr>
 	 <tr><!-- email 3.-->
 
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">
 		 <table id="expand_email_{$pid}_3" >
 			 <tr>
@@ -293,7 +293,7 @@
 		 </td> 
 	 </tr>
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">
 		 <table id="email_{$pid}_3">
 			 <tr>
@@ -315,7 +315,7 @@
 	 </tr>
 	 <tr><!-- LOADING IM BLOCK -->
 
-		<td></td>
+		<td>&nbsp;</td>
 		 <td class="form-item">
 		 <label>{$form.$lid.im_service_id_1.label}</label>
 		 </td>
@@ -327,7 +327,7 @@
 	 </tr>
 	 <tr><!-- IM 2.-->
 
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">
 			 <table id="expand_IM_{$pid}_2">
 			 <tr>
@@ -339,7 +339,7 @@
 		 </td>
 	 </tr>
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">
 		 <table id="IM_{$pid}_2">
 			 <tr>
@@ -359,7 +359,7 @@
 	 </tr>
 	 <tr><!-- IM 3.-->
 
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">
 		 <table id="expand_IM_{$pid}_3" >
 			 <tr>	
@@ -371,7 +371,7 @@
 		 </td> 
 	 </tr>
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td colspan = "2">	
 		 <table id="IM_{$pid}_3">
 			 <tr>
@@ -391,7 +391,7 @@
 		 </td>
 	 </tr>
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td class="form-item">
 		 <label>{$form.$lid.street_address.label}</label>
 		</td>
@@ -401,7 +401,7 @@
 		 </td>
 	 </tr>
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td class="form-item">
 		 <label>{$form.$lid.supplemental_address_1.label}</label>
 		</td>
@@ -412,7 +412,7 @@
 		 </td>
 	 </tr>
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td class="form-item">
 		 <label>{$form.$lid.city.label}</label>
 		 </td>
@@ -421,7 +421,7 @@
 		 </td>
 	 </tr>
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td class="form-item">
 		 <label>{$form.$lid.state_province_id.label}</label>
 		 </td>
@@ -430,7 +430,7 @@
 		 </td>
 	 </tr>
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td class="form-item">
 		 <label>{$form.$lid.postal_code.label}</label>
 		 </td>
@@ -439,7 +439,7 @@
 		 </td>
 	 </tr>
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		 <td class="form-item">
 		 <label>{$form.$lid.country_id.label}</label>
 		 </td>
@@ -452,7 +452,7 @@
 	 </tr>
 
 	 <tr>
-		<td></td>
+		<td>&nbsp;</td>
 		<td colspan = "2">
 		{if $pid > 1 }
  		<table id = "expand_loc{$pid}" border="0" cellpadding="2" cellspacing="2" width="100%">	
@@ -593,7 +593,7 @@
 
  {literal}
  <script type="text/javascript">
- on_load_execute();
+ on_load_execute('Individual');
  </script>
  {/literal}
 
@@ -601,7 +601,7 @@
  {if count($form.errors) gt 0}
  {literal}
  <script type="text/javascript">
- on_error_execute();
+ on_error_execute('Individual');
  </script>
  {/literal}
  {/if}
