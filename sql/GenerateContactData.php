@@ -39,7 +39,7 @@
  *
  * Contact Organization = 0.9*NUM_CONTACT to NUM_CONTACT
  *
- * Contact Addresses = 15% for Households, 10% for Organizations, (75-(15*4))% for Individuals.
+ * Contact Location = 15% for Households, 10% for Organizations, (75-(15*4))% for Individuals.
  *                     (Assumption is that each household contains 4 individuals)
  *
  *******************************************************/
@@ -73,10 +73,21 @@ class CRM_GCD {
     const HOUSEHOLD_PERCENT = 15;
     const ORGANIZATION_PERCENT = 10;
     const NUM_INDIVIDUAL_PER_HOUSEHOLD = 4;
+
+
+    // relationship types from the table crm_relationship_type
+    const CHILD_OF            = 1;
+    const SPOUSE_OF           = 2;
+    const SIBLING_OF          = 3;
+    const HEAD_OF_HOUSEHOLD   = 6;
+    const MEMBER_OF_HOUSEHOLD = 7;
+
     
     const ADD_TO_DB=TRUE;
     // const ADD_TO_DB=FALSE;
     const DEBUG_LEVEL=1;
+
+
     
     /*********************************
      * private members
@@ -93,7 +104,6 @@ class CRM_GCD {
     private $prefix_array = array(1=>'Mr', 'Mrs', 'Ms', 'Dr');
     private $suffix_array = array(1=>'Jr', 'Sr');
 
-
     // store domain id's
     private $domain_array = array();
 
@@ -107,11 +117,11 @@ class CRM_GCD {
     private $strict_individual_array = array();
     private $household_individual_array = array();
     
-    // stores address id's
-    private $address_array = array();
-    private $strict_individual_address_array = array();
-    private $household_address_array = array();
-    private $organization_address_array = array();
+    // stores location id's
+    private $location_array = array();
+    private $strict_individual_location_array = array();
+    private $household_location_array = array();
+    private $organization_location_array = array();
     
     // private vars
     private $num_individual = 0;
@@ -119,10 +129,10 @@ class CRM_GCD {
     private $num_organization = 0;
     private $num_strict_individual = 0;
 
-    private $num_address = 0;
-    private $num_strict_individual_address = 0;
-    private $num_household_address = 0;
-    private $num_organization_address = 0;
+    private $num_location = 0;
+    private $num_strict_individual_location = 0;
+    private $num_household_location = 0;
+    private $num_organization_location = 0;
 
 
 
@@ -132,14 +142,16 @@ class CRM_GCD {
    *********************************/
 
   // log entry for "entering" a function
-  private function lee() {
-    $array1 = debug_backtrace();
-    $string1 = "\n\nentering " . $array1[1]['class'] . "::" . $array1[1]['function'] . "()\n";
-    echo($string1);
-  }
+    private function lee()
+    {
+        $array1 = debug_backtrace();
+        $string1 = "\n\nentering " . $array1[1]['class'] . "::" . $array1[1]['function'] . "()\n";
+        echo($string1);
+    }
 
     // log entry for "leaving" a function
-    private function lel() {
+    private function lel()
+    {
         $array1 = debug_backtrace();
         $string1 = "leaving  " . $array1[1]['class'] . "::" . $array1[1]['function'] . "()\n";
         echo($string1);
@@ -163,7 +175,8 @@ class CRM_GCD {
 
 
     // get a randomly generated string
-    private function getRandomString($size=32) {
+    private function getRandomString($size=32)
+    {
         mt_srand();
         $string = "";
 
@@ -198,7 +211,8 @@ class CRM_GCD {
      *
      *******************************************************/
     // constructor
-    function __construct() {
+    function __construct()
+    {
         $this->lee();
         // seed the random to get sequence of users.
         mt_srand(1);
@@ -209,11 +223,11 @@ class CRM_GCD {
         $this->num_organization = self::ORGANIZATION_PERCENT * self::NUM_CONTACT / 100;
         $this->num_strict_individual = $this->num_individual - ($this->num_household * self::NUM_INDIVIDUAL_PER_HOUSEHOLD);
 
-        $this->num_strict_individual_address = $this->num_strict_individual;
-        $this->num_household_address = $this->num_household;
-        $this->num_organization_address = $this->num_organization;
+        $this->num_strict_individual_location = $this->num_strict_individual;
+        $this->num_household_location = $this->num_household;
+        $this->num_organization_location = $this->num_organization;
 
-        $this->num_address = $this->num_strict_individual_address + $this->num_household_address + $this->num_organization_address;
+        $this->num_location = $this->num_strict_individual_location + $this->num_household_location + $this->num_organization_location;
 
 
         $this->debug_var("this", $this);
@@ -245,8 +259,8 @@ class CRM_GCD {
      *
      * domain id
      * contact id
-     * contact_address id
-     * contact_contact_address id
+     * contact_location id
+     * contact_contact_location id
      * contact_email uuid
      * contact_phone_uuid
      * contact_instant_message uuid
@@ -255,7 +269,8 @@ class CRM_GCD {
      * contact_note uuid
      *
      *******************************************************/
-    public function initID() {
+    public function initID()
+    {
 
         $this->lee();
 
@@ -270,38 +285,31 @@ class CRM_GCD {
 
         // get the individual, household  and organizaton contacts
         $offset = 0;
-        //$this->individual_array = array_slice($this->contact_array, $offset, $this->num_individual, true);
         $this->individual_array = array_slice($this->contact_array, $offset, $this->num_individual);
         $offset += $this->num_individual;
-        //$this->household_array = array_slice($this->contact_array, $offset, $this->num_household, true);
         $this->household_array = array_slice($this->contact_array, $offset, $this->num_household);
         $offset += $this->num_household;
-        //$this->organization_array = array_slice($this->contact_array, $offset, $this->num_organization, true);
         $this->organization_array = array_slice($this->contact_array, $offset, $this->num_organization);
 
         // get the strict individual contacts (i.e individual contacts not belonging to any household)
-        //$this->strict_individual_array = array_slice($this->individual_array, 0, $this->num_strict_individual, true);
         $this->strict_individual_array = array_slice($this->individual_array, 0, $this->num_strict_individual);
-
+        
         // get the household to individual mapping array
         $this->household_individual_array = array_diff($this->individual_array, $this->strict_individual_array);
         $this->household_individual_array = array_chunk($this->household_individual_array, self::NUM_INDIVIDUAL_PER_HOUSEHOLD);
         $this->household_individual_array = array_combine($this->household_array, $this->household_individual_array);
 
 
-        // contact address generation
-        $this->address_array = range(1, $this->num_address);
-        shuffle($this->address_array);
+        // contact location generation
+        $this->location_array = range(1, $this->num_location);
+        shuffle($this->location_array);
 
         $offset = 0;
-        //$this->strict_individual_address_array = array_slice($this->address_array, $offset, $this->num_strict_individual_address, true);
-        $this->strict_individual_address_array = array_slice($this->address_array, $offset, $this->num_strict_individual_address);
-        $offset += $this->num_strict_individual_address;
-        //$this->household_address_array = array_slice($this->address_array, $offset, $this->num_household_address, true);
-        $this->household_address_array = array_slice($this->address_array, $offset, $this->num_household_address);
-        $offset += $this->num_household_address;
-        //$this->organization_address_array = array_slice($this->address_array, $offset, $this->num_organization_address, true);
-        $this->organization_address_array = array_slice($this->address_array, $offset, $this->num_organization_address);
+        $this->strict_individual_location_array = array_slice($this->location_array, $offset, $this->num_strict_individual_location);
+        $offset += $this->num_strict_individual_location;
+        $this->household_location_array = array_slice($this->location_array, $offset, $this->num_household_location);
+        $offset += $this->num_household_location;
+        $this->organization_location_array = array_slice($this->location_array, $offset, $this->num_organization_location);
 
         $this->lel();
 
@@ -311,19 +319,18 @@ class CRM_GCD {
 
     /*******************************************************
      *
-     * addContactDomain()
+     * addDomain()
      *
      * This method adds NUM_DOMAIN domains and then adds NUM_REVISION
      * revisions for each domain with the latest revision being the last one..
      *
      *******************************************************/
-    public function addContactDomain()
+    public function addDomain()
     {
 
         $this->lee();
 
         for ($id=2; $id<=self::NUM_DOMAIN; $id++) {
-            //for($id=2; $id<=2; $id++) {
             $domain = new CRM_Contact_DAO_Domain();
             // domain name is pretty simple. it is "Domain $id"
             $domain->name = "Domain $id";
@@ -340,11 +347,11 @@ class CRM_GCD {
 
         $this->lel();
 
-    } // end of method addContactDomain
+    } // end of method addDomain
 
     /*******************************************************
      *
-     * addContactContact()
+     * addContact()
      *
      * This method adds data to the contact table
      *
@@ -355,7 +362,7 @@ class CRM_GCD {
      * preferred_communication (random 1 to 3)
      *
      *******************************************************/
-    public function addContactContact()
+    public function addContact()
     {
         $this->lee();
 
@@ -392,12 +399,12 @@ class CRM_GCD {
         
         $this->lel();
 
-    } // end of method addContactContact
+    } // end of method addContact
 
 
     /*******************************************************
      *
-     * addContactIndividual()
+     * addIndividual()
      *
      * This method adds data to the contact_individual table
      *
@@ -413,13 +420,12 @@ class CRM_GCD {
      * custom_greeting - "custom greeting $contact_uuid'
      *
      *******************************************************/
-    public function addContactIndividual()
+    public function addIndividual()
     {
 
         $this->lee();
 
         for ($id=1; $id<=$this->num_individual; $id++) {
-        //for ($id=1; $id<=1; $id++) {
             $individual = new CRM_Contact_DAO_Individual();
             $individual->contact_id = $this->individual_array[($id-1)];
             $individual->first_name = "First Name $id";
@@ -435,17 +441,11 @@ class CRM_GCD {
             //$individual->birth_date = date("Y-m-d", mt_rand(0, time()));
             // there's some bug or irrational logic in DB_DataObject hence the above iso format does not work
             $individual->birth_date = date("Ymd", mt_rand(0, time()));
-            // $individual->birth_date = "" . date("Y-m-d", mt_rand(0, time())) . "" ;
-            // $individual->birth_date = date("Y-m-d");
-
-            // var_dump($individual->birth_date);
-
             $individual->is_deceased = mt_rand(0, 1);
             // $individual->phone_to_household_id = mt_rand(0, 1);
             // $individual->email_to_household_id = mt_rand(0, 1);
             // $individual->mail_to_household_id = mt_rand(0, 1);
             
-
             if (self::ADD_TO_DB) {
                 if (!$individual->insert()) {
                     echo mysql_error() . "\n";
@@ -457,14 +457,14 @@ class CRM_GCD {
         
         $this->lel();
         
-    } // end of method addContactIndividual
+    } // end of method addIndividual
 
 
 
 
     /*******************************************************
      *
-     * addContactHousehold()
+     * addHousehold()
      *
      * This method adds data to the contact_household table
      *
@@ -477,7 +477,8 @@ class CRM_GCD {
      * primary_contact_uuid = $household_individual[$contact_uuid][0];
      *
      *******************************************************/
-    public function addContactHousehold() {
+    public function addHousehold()
+    {
 
         $this->lee();
 
@@ -486,10 +487,8 @@ class CRM_GCD {
         for ($id=1; $id<=$this->num_household; $id++) {
             $household = new CRM_Contact_DAO_Household();
             $household->contact_id = $this->household_array[($id-1)];
-            // $household->contact_id = 1;
             $household->household_name = "Household Name $id";
             $household->nick_name = "Nick Name $id";
-            //$household->primary_contact_id = 1;
             $household->primary_contact_id = $this->household_individual_array[$household->contact_id][0];
             if (self::ADD_TO_DB) {
                 if (!$household->insert()) {
@@ -500,14 +499,14 @@ class CRM_GCD {
         }
 
         $this->lel();
-    } // end of method addContactHousehold
+    } // end of method addHousehold
 
 
 
 
     /*******************************************************
      *
-     * addContactOrganization()
+     * addOrganization()
      *
      * This method adds data to the contact_organization table
      *
@@ -522,10 +521,11 @@ class CRM_GCD {
      * primary_contact_id - random individual contact uuid
      *
      *******************************************************/
-    public function addContactOrganization() {
+    public function addOrganization()
+    {
 
         $this->lee();
-
+        
         for ($id=1; $id<=$this->num_organization; $id++) {
             $organization = new CRM_Contact_DAO_Organization();
             $organization->contact_id = $this->organization_array[($id-1)];
@@ -533,7 +533,6 @@ class CRM_GCD {
             $organization->legal_name = "Legal Name $id";
             $organization->nick_name = "Nick Name $id";
             $organization->sic_code = "Sic Code $id";
-            //$organization->primary_contact_id = 1;
             $organization->primary_contact_id = $this->strict_individual_array[mt_rand(0,$this->num_strict_individual)];
 
             if (self::ADD_TO_DB) {
@@ -546,120 +545,132 @@ class CRM_GCD {
 
         $this->lel();
 
-    } // end of method addContactOrganization
+    } // end of method addOrganization
 
 
 
     /*******************************************************
      *
-     * addContactRelationshipTypes()
-     *
-     * This method adds data to the contact_relationship_types table
-     *
-     * it adds the following fields
-     *
-     * domain_uuid - random generation
-     * name - 'relationship $domain_uuid'
-     * description - 'description $domain_uuid'
-     * direction - random
-     * contact_type - random
-     * created_by - superuser
-     *
-     *******************************************************/
-    public function addContactRelationshipTypes() {
-
-        $this->lee();
-
-        for($i=0; $i<self::NUM_RELATIONSHIP_TYPE; $i++) {
-
-            // domain_uuid
-            $domain_uuid = mt_rand(1, self::NUM_DOMAIN);
-
-            // name
-            $name = "relationship $domain_uuid";
-
-            // description
-            $description = "descrption $domain_uuid";
-
-            // direction
-            $direction = $this->relationship_direction_array[mt_rand(1, count($this->relationship_direction_array))];
-
-            // contact_type
-            $contact_type = $this->contact_type_array[mt_rand(1, count($this->contact_type_array))];
-
-            // created by superuser
-            $created_by=0;
-
-$query_string = <<<QS
-INSERT INTO contact_relationship_types(domain_uuid, name, description, direction, contact_type, created_by) 
-values ($domain_uuid, '$name', '$description', '$direction', '$contact_type', $created_by)
-QS;
-
-            (self::DEBUG_LEVEL) and print("\n$query_string\n");
-            (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error()));
-
-        } // end of for loop
-
-        $this->lel();
-
-    } // end of method addContactRelationshipTypes
-
-
-
-    /*******************************************************
-     *
-     * addContactRelationship()
+     * addRelationship()
      *
      * This method adds data to the contact_relationship table
      *
      * it adds the following fields
      *
-     * uuid - linear
-     * rid - 1
-     * latest_rev - 1
-     * contact_uuid
-     * target_contact_uuid
-     * relationship_type_id
-     * created_by - 0
-     *
      *******************************************************/
-    public function addContactRelationship() {
+    public function addRelationship()
+    {
 
         $this->lee();
-        $uuid = 1;
-        $created_by = 0;
-        $rid = 1;
-        $latest_rev = 1;
 
-        // get the relationship type id from db
-$query_string = <<<QS
-SELECT id FROM contact_relationship_types WHERE name='{$this->relationship_type_array[4]}'
-QS;
-        (self::DEBUG_LEVEL) and print("\n$query_string\n");
-        //    (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error()));
-        $result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error());
+        $relationship = new CRM_Contact_DAO_Relationship();
 
-        mysql_num_rows($result) or die("Relationship ID does not exist for {$this->relationship_type_array[4]}");
+        foreach ($this->household_individual_array as $household_id => $household_member) {
+            // add child_of relationship
+            // 2 for each child
+            $relationship->relationship_type_id = self::CHILD_OF;
 
-        $row = mysql_fetch_assoc($result);
-        $relationship_type_id = $row['id'];
+            $relationship->contact_id_a = $household_member[2];
+            $relationship->contact_id_b = $household_member[0];
+            if (self::ADD_TO_DB) {
+                if (!$relationship->insert()) {
+                    echo mysql_error() . "\n";
+                    exit(1);
+                }
+            }
+            $relationship->contact_id_a = $household_member[3];
+            $relationship->contact_id_b = $household_member[0];
+            if (self::ADD_TO_DB) {
+                if (!$relationship->insert()) {
+                    echo mysql_error() . "\n";
+                    exit(1);
+                }
+            }
+            $relationship->contact_id_a = $household_member[2];
+            $relationship->contact_id_b = $household_member[1];
+            if (self::ADD_TO_DB) {
+                if (!$relationship->insert()) {
+                    echo mysql_error() . "\n";
+                    exit(1);
+                }
+            }
+            $relationship->contact_id_a = $household_member[3];
+            $relationship->contact_id_b = $household_member[1];
+            if (self::ADD_TO_DB) {
+                if (!$relationship->insert()) {
+                    echo mysql_error() . "\n";
+                    exit(1);
+                }
+            }
+            
+            // add spouse_of relationship
+            // 1 for both the spouses
+            $relationship->relationship_type_id = self::SPOUSE_OF;
+            $relationship->contact_id_a = $household_member[1];
+            $relationship->contact_id_b = $household_member[0];
+            if (self::ADD_TO_DB) {
+                if (!$relationship->insert()) {
+                    echo mysql_error() . "\n";
+                    exit(1);
+                }
+            }
 
-        // foreach household, add the relationship of 'is household member of' for all member
-        foreach($this->household_individual_array as $target_contact_uuid => $individual_uuid_array) {
-            foreach($individual_uuid_array as $contact_uuid) {
 
-$query_string = <<<QS
-INSERT INTO contact_relationship(uuid, rid, latest_rev, contact_uuid, target_contact_uuid, relationship_type_id, created_by) 
-VALUES($uuid, $rid, $latest_rev, $contact_uuid, $target_contact_uuid, $relationship_type_id, $created_by)
-QS;
-                (self::DEBUG_LEVEL) and print("\n$query_string\n");
-                (self::ADD_TO_DB) and ($result = mysql_query($query_string) or die('Query failed: $query_string ' . mysql_error()));
-                $uuid++;
-            } // end of household member loop
-        } // end of the household loop
+            
+            // add sibling_of relationship
+            // 1 for both the siblings
+            $relationship->relationship_type_id = self::SIBLING_OF;
+            $relationship->contact_id_a = $household_member[3];
+            $relationship->contact_id_b = $household_member[2];
+            if (self::ADD_TO_DB) {
+                if (!$relationship->insert()) {
+                    echo mysql_error() . "\n";
+                    exit(1);
+                }
+            }
 
+
+
+            // add head_of_household relationship
+            // 1 for head of house
+            $relationship->relationship_type_id = self::HEAD_OF_HOUSEHOLD;
+            $relationship->contact_id_a = $household_member[0];
+            $relationship->contact_id_b = $household_id;
+            if (self::ADD_TO_DB) {
+                if (!$relationship->insert()) {
+                    echo mysql_error() . "\n";
+                    exit(1);
+                }
+            }
+
+
+            // add member_of_household relationship
+            // 3 for all other members
+            $relationship->relationship_type_id = self::MEMBER_OF_HOUSEHOLD;
+            $relationship->contact_id_a = $household_member[1];
+            if (self::ADD_TO_DB) {
+                if (!$relationship->insert()) {
+                    echo mysql_error() . "\n";
+                    exit(1);
+                }
+            }
+            $relationship->contact_id_a = $household_member[2];
+            if (self::ADD_TO_DB) {
+                if (!$relationship->insert()) {
+                    echo mysql_error() . "\n";
+                    exit(1);
+                }
+            }
+            $relationship->contact_id_a = $household_member[3];
+            if (self::ADD_TO_DB) {
+                if (!$relationship->insert()) {
+                    echo mysql_error() . "\n";
+                    exit(1);
+                }
+            }
+        }
         $this->lel();
-    } // end of method addContactRelationship
+    } // end of method addRelationship
 
 
 
@@ -696,20 +707,20 @@ QS;
         print_r($this->household_individual_array);
         echo("\n");
 
-        echo("\n*******************************************************\naddress_array\n");
-        print_r($this->address_array);
+        echo("\n*******************************************************\nlocation_array\n");
+        print_r($this->location_array);
         echo("\n");
 
-        echo("\n*******************************************************\nstrict_individual_address_array\n");
-        print_r($this->strict_individual_address_array);
+        echo("\n*******************************************************\nstrict_individual_location_array\n");
+        print_r($this->strict_individual_location_array);
         echo("\n");
 
-        echo("\n*******************************************************\nhousehold_address_array\n");
-        print_r($this->household_address_array);
+        echo("\n*******************************************************\nhousehold_location_array\n");
+        print_r($this->household_location_array);
         echo("\n");
 
-        echo("\n*******************************************************\norganization_address_array\n");
-        print_r($this->organization_address_array);
+        echo("\n*******************************************************\norganization_location_array\n");
+        print_r($this->organization_location_array);
         echo("\n");
 
         $this->lel();
@@ -728,14 +739,13 @@ $obj1 = new CRM_GCD();
 $obj1->initID();
 $obj1->initDB();
 $obj1->printID();
-$obj1->addContactDomain();
-$obj1->addContactContact();
-$obj1->addContactIndividual();
-$obj1->addContactHousehold();
-$obj1->addContactOrganization();
-// $obj1->addContactRelationshipTypes();
-// $obj1->addContactRelationship();
-
+$obj1->addDomain();
+$obj1->addContact();
+$obj1->addIndividual();
+$obj1->addHousehold();
+$obj1->addOrganization();
+$obj1->addRelationship();
+//$obj1->addLocation();
 
 echo("Ending on " . date("F dS h:i:s A") . "\n");
 
