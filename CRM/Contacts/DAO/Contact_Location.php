@@ -22,6 +22,7 @@ class CRM_Contacts_DAO_Contact_Location extends CRM_Contacts_DAO_ContactBase {
 
   public $email;
   public $email_secondary;
+  public $email_tertiary;
 
   public $phone_1;
   public $phone_type_1;
@@ -39,6 +40,7 @@ class CRM_Contacts_DAO_Contact_Location extends CRM_Contacts_DAO_ContactBase {
   public $im_service_id_1;
   public $im_screenname_2;
   public $im_service_id_2;
+
 
   function __construct() {
     parent::__construct();
@@ -65,6 +67,7 @@ class CRM_Contacts_DAO_Contact_Location extends CRM_Contacts_DAO_ContactBase {
 				  'address_note'         => array(self::TYPE_STRING),
 				  'email'                => array(self::TYPE_STRING),
 				  'email_secondary'      => array(self::TYPE_STRING),
+				  'email_tertiary'       => array(self::TYPE_STRING),
 
 				  'phone_1'              => array(self::TYPE_STRING),
 				  'phone_type_1'         => array(self::TYPE_ENUM),
