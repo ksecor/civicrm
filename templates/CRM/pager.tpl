@@ -2,20 +2,18 @@
 
 {if $pager->_response.numPages >= 1}
 
-<table>
-<tr>
-<td>{$pager->_response.first}&nbsp;</td>
-<td>{$pager->_response.back}&nbsp;</td>
-<td>{$pager->_response.status}&nbsp;</td>
-<td>{$pager->_response.next}&nbsp;</td>
-<td>{$pager->_response.last}&nbsp;</td>
+<div>
+<span>{$pager->_response.first}&nbsp;
+{$pager->_response.back}&nbsp;
+{$pager->_response.status}&nbsp;
+{$pager->_response.next}&nbsp;
+{$pager->_response.last}&nbsp;</span>
 {if $location eq 'top'}
-<td>{$pager->_response.titleTop}&nbsp;<input name="{$pager->_response.buttonTop}" value="Go!" type="submit"/></td>
+<span>{$pager->_response.titleTop}&nbsp;<input name="{$pager->_response.buttonTop}" value="Go!" type="submit"/></span>
 {else}
-<td>{$pager->_response.titleBottom}&nbsp;<input name="{$pager->_response.buttonBottom}" value="Go!" type="submit"/></td>
+<span>{$pager->_response.titleBottom}&nbsp;<input name="{$pager->_response.buttonBottom}" value="Go!" type="submit"/></span>
 {/if}
-</tr>
-</table>
+</div>
 
 {/if} {* numPages > 1 *}
 

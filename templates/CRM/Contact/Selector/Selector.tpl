@@ -1,19 +1,22 @@
-{debug}
-<form action="index.php?q=crm/contact/list" method="post" name="list" id="list">
+{*debug*}
+
+<div>
 {include file="CRM/pager.tpl" location="top"}
-<table>
-<tr>
-{foreach from=$columnHeaders item=header}
-<th>
-{if $header.sort}
-{assign var='key' value=$header.sort}
-<a href={$sort->_response.$key.link}>{$header.name}</a>&nbsp;{$sort->_response.$key.direction}
-{else}
-{$header.name}
-{/if}
-</th>
-{/foreach}
-</tr>
+</div>
+
+<table border="0">
+ <tr>
+   {foreach from=$columnHeaders item=header}
+   <th>
+     {if $header.sort}
+     {assign var='key' value=$header.sort}
+   <a href={$sort->_response.$key.link}>{$header.name}</a>&nbsp;{$sort->_response.$key.direction}
+   {else}
+   {$header.name}
+   {/if}
+   </th>
+ {/foreach}
+ </tr>
 
 {foreach from=$rows item=row}
 <tr>
@@ -28,5 +31,7 @@
 </tr>
 {/foreach}
 </table>
+
+<div>
 {include file="CRM/pager.tpl" location="bottom"}
-</form>
+</div>

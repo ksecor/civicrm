@@ -1,18 +1,31 @@
+{debug}
 <form {$form.attributes}>
-
 {$form.hidden}
+<fieldset>
+<div>
+ <div>
+     <span>{$form.contact_type.label}{$form.contact_type.html}
+     {$form.group_id.label}{$form.group_id.html}
+     {$form.category_id.label}{$form.category_id.html}</span>
+ </div>
+ <div>
+     <span>{$form.sort_name.label}{$form.sort_name.html}</span>
+ </div>
+ <div>    
+     <label>Enter full or partial last name or organization name to further limit the contacts included below</label>	
+ </div>
+ <div float="left">
+     <span>{$form.buttons.html}</span>
+     <span>{$form.adv_search.html}</span>
+ </div>
+</div>
+</fieldset>
 
-<table>
-<tr><td>{$form.contact_type.label}</td><td>{$form.contact_type.html}</td></tr>
-<tr><td>{$form.sort_name.label}</td><td>{$form.sort_name.html}</td></tr>
-<tr><td>{$form.group_id.label}</td><td>{$form.group_id.html}</td></tr>
-<tr><td>{$form.category_id.label}</td><td>{$form.category_id.html}</td></tr>
-<tr><td>{$form.action_id.label}</td><td>{$form.action_id.html}</td></tr>
-<tr>
-<td colspan=2 align="right">{$form.buttons.html}</td>
-</tr>
-</table>
-
-{include file="CRM/Contact/Selector/Selector.tpl"}
+<fieldset>
+ <div>
+     {$form.action_id.label}{$form.action_id.html}{$form.go.html}	
+     {include file="CRM/Contact/Selector/Selector.tpl"}
+ </div>
+</fieldset>
 
 </form>
