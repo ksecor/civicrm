@@ -1171,6 +1171,12 @@ class DB_DataObject extends DB_DataObject_Overload
                     ) . ' ';
                 continue;
             }
+
+            if ($v & DB_DATAOBJECT_TXT) {
+                $settings .= "$kSql = ". $DB->quote($this->$k) . ' ';
+                continue;
+            }
+
             if (is_numeric($this->$k)) {
                 $settings .= "$kSql = {$this->$k} ";
                 continue;
