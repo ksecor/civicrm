@@ -42,7 +42,7 @@ class CRM_SelectValues {
      * @static
      */
     static public $prefixName = array(
-                                      ' '    => '-title-',
+                                      ''    => '-title-',
                                       'Mrs' => 'Mrs.',
                                       'Ms'  => 'Ms.',
                                       'Mr'  => 'Mr.',
@@ -56,7 +56,7 @@ class CRM_SelectValues {
      * @static
      */
     static public $suffixName = array(
-                                      ' '    => '-suffix-',
+                                      ''    => '-suffix-',
                                       'Jr'  => 'Jr.',
                                       'Sr'  => 'Sr.',
                                       '||'   =>'||',
@@ -95,6 +95,7 @@ class CRM_SelectValues {
      * @static
      */
     static public $phone      = array(
+                                      ''       => '-select-'
                                       'Phone'  => 'Phone',
                                       'Mobile' => 'Mobile',
                                       'Fax'    => 'Fax',
@@ -111,6 +112,7 @@ class CRM_SelectValues {
      * @static
      */
     static public $locationType    = array(
+                                          '' => '-select-'
                                            1 => 'Home',
                                            2 => 'Work',
                                            3 => 'Main',
@@ -123,6 +125,7 @@ class CRM_SelectValues {
      * @static
      */
     static public $im         = array(
+                                     '' => '-select-'
                                       1 => 'Yahoo',
                                       2 => 'MSN',
                                       3 => 'AIM',
@@ -136,6 +139,7 @@ class CRM_SelectValues {
      * @static
      */
     static public $state      = array(
+                                      ''   => '-select-'
                                       1004 => 'California',
                                       1036 => 'Oregon',
                                       1046 => 'Washington'
@@ -147,6 +151,7 @@ class CRM_SelectValues {
      * @static
      */
     static public $country    = array(
+                                      ''   => '-select-'
                                       1039 => 'Canada',
                                       1101 => 'India',
                                       1172 => 'Poland',
@@ -159,10 +164,10 @@ class CRM_SelectValues {
      * @static
      */
     static public $pcm = array(
-                               ' '     => '-no preference-',
-                               'Phone' => 'by phone', 
-                               'Email' => 'by email', 
-                               'Post'  => 'by postal mail',
+                               ''     => '-no preference-',
+                               'Phone' => 'Phone', 
+                               'Email' => 'Email', 
+                               'Post'  => 'Postal Mail',
                                );  
 
     /**
@@ -171,7 +176,7 @@ class CRM_SelectValues {
      * @static
      */
     static public $contactType = array(
-                                       ' '            => '-no preference-',
+                                       ''            => '-any contact type-',
                                        'Individual'   => 'Individual',
                                        'Household'    => 'Household',
                                        'Organization' => 'Organization',

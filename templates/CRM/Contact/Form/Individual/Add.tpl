@@ -121,7 +121,9 @@
           Record any descriptive comments about this contact.
           You may add an unlimited number of notes, and view or search on them at any time.
         </div>
-    </div>    
+    </div>
+    <!-- Spacer div contains floated elements -->
+    <div class="spacer"></div>
 	<div id="notes[hide]" class="hide-section">
         {$notes.hide}
     </div>

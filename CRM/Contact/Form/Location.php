@@ -41,12 +41,13 @@ require_once 'CRM/Contact/Form/Address.php';
 class CRM_Contact_Form_Location extends CRM_Form
 {
     /**
-     * how many communicationBlocks should we display?
+     * BLOCKS constant determines max number of Phone, Email and IM blocks to offer
+     * within the Location section.
      *
      * @var int
      * @const
      */
-    const BLOCKS = 1;
+    const BLOCKS = 2;
     
     static function &buildLocationBlock($form, $count, $showHideBlocks) 
     {

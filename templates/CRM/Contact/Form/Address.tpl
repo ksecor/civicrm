@@ -1,8 +1,7 @@
-{* This file provides the plugin for the address block in the Location block *}
- 
+{* This file provides the plugin for the Address block in the Location block *}
+
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
-{* @var $lid Contains the current location id in evaluation, and assigned in the Location.tpl file *}
-{* @var $width Contains the width setting for the first column in the table *} 
+{* @var location.$index Contains the current location id, and assigned in the Location.tpl file *}
  
 <fieldset>
 <div class="form-item">
@@ -11,8 +10,8 @@
     </span>
     <span class="fields">
     {$form.location.$index.address.street_address.html}
-    </span>
     <div class="description">Street number, street name, apartment/unit/suite - OR P.O. box</div>
+    </span>
 </div>
 
 <div class="form-item">
@@ -21,8 +20,8 @@
     </span>
     <span class="fields">
     {$form.location.$index.address.supplemental_address_1.html}
-    </span>
     <div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
+    </span>
 </div>
 
 <div class="form-item">
@@ -31,8 +30,8 @@
     </span>
     <span class="fields">
     {$form.location.$index.address.supplemental_address_2.html}
-    </span>
     <div class="description">Supplemental address info, e.g. c/o, department name, building name, etc.</div>
+    </span>
 </div>
 
 <div class="form-item">

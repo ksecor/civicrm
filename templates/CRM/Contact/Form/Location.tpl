@@ -2,22 +2,13 @@
 {* The phone, Email, Instant messenger and the Address blocks have been plugged in from external source files*}
 
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
-{* @var $pid Contains the index of the location block under the locationt loop *}
-
- {assign var = "pid" value = ""}
-
-
-{* The locationt section displays the location block *}
-{* The section loops as many times as indicated by the variable $locloop to give as many phone blocks *}
-
-{* @var $locloop Gives the number of location loops to be displayed, assigned in the Location.tpl file*}
-{* $index contains the current index of the locationt section *}
-{* The section loops to display as many location blocks as contained in the $locloop variable *}
+{* @var $locationCount contains the max number of locations to be displayed, assigned in the Location.php file*}
+{* @var $index contains the current index of the location section *}
 
  {section name = locationLoop start = 1 loop = $locationCount}
  {assign var=index value=$smarty.section.locationLoop.index}
 
- <div id="location[{$index}][show]" class="comment">
+ <div id="location[{$index}][show]" class="show-section">
     {$form.location.$index.show.html}
  </div>
 
@@ -59,7 +50,7 @@
     <div>
 
   {if $index != 1}
-  <div id="location[{$index}][hide]" class="comment">
+  <div id="location[{$index}][hide]" class="hide-section">
     {$form.location.$index.hide.html}
   </div>
   {/if}

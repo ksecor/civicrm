@@ -142,7 +142,7 @@ function hide(block_id)
  * @param 
  * @return
  */
-
+// <prefix>
 function check(formname,state)
 {
     var i;
