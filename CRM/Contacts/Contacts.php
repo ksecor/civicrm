@@ -26,7 +26,7 @@ class CRM_Contacts_Contacts extends CRM_Base {
     $contact->domain_id = 1;
     $contact->find();
     while ( $contact->fetch() ) {
-      CRM_Utils::debug( 'contactInd', $contact );
+      // CRM_Utils::debug( 'contactInd', $contact );
     }
 
     /**
