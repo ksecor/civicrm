@@ -5,12 +5,6 @@ require_once 'CRM/Type.php';
 
 class CRM_DAO_Base extends CRM_DAO {
 
-  const
-    NOT_NULL       =   1,
-    IS_NULL        =   2,
-
-    DB_DAO_NOTNULL = 128;
-
   /*
    * auto incremented id
    * @var int
@@ -18,9 +12,9 @@ class CRM_DAO_Base extends CRM_DAO {
   public $id;
 
   function __construct() {
-    $this->links();
-
     $this->__table = $this->getTableName();
+
+    parent::__construct( );
   }
 
   function links( ) {

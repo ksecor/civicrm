@@ -254,7 +254,7 @@ function contact_init()
     menu_rebuild();
     
     $config = CRM_Config::singleton();
-    CRM_DAO::init($config->dsn, $config->daoDebugLvl);
+    CRM_DAO::init($config->dsn, $config->daoDebug);
     
     $factoryClass = 'CRM_Contacts_DAO_Factory';
     CRM_Utils::import($factoryClass);

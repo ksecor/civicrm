@@ -50,7 +50,7 @@ class CRM_Config {
      * the debug level for DB_DataObject
      * @var int
      */
-    public $daoDebugLvl		  = 0;
+    public $daoDebug		  = 0;
 
     /**
      * the directory where Smarty is installed
@@ -127,8 +127,8 @@ class CRM_Config {
             $this->dsn = CRM_DSN;
         }
 
-        if (defined('CRM_DAO_DEBUG_LVL') ) {
-            $this->daoDebugLvl = CRM_DAO_DEBUG_LVL;
+        if (defined('CRM_DAO_DEBUG') ) {
+            $this->daoDebug = CRM_DAO_DEBUG;
         }
 
         if (defined('CRM_DAO_FACTORY_CLASS') ) {
@@ -179,7 +179,7 @@ class CRM_Config {
     function initDAO() {
         CRM_DAO::init(
                       $this->dsn, 
-                      $this->daoDebugLvl
+                      $this->daoDebug
                       );
 
         $factoryClass = $this->DAOFactoryClass;
