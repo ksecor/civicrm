@@ -35,7 +35,7 @@
 Class CRM_Contact_Form_Email 
 {
 
-    static function beb(& $loc, $form, $locid, & $start, $count) {
+    static function buildEmailBlock(& $loc, $form, $locid, & $start, $count) {
         $j = $start;
         
         for ($i = 1; $i <= $count; $i++) {
