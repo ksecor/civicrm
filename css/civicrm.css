@@ -113,19 +113,19 @@ div.spacer {
 #crm-container a.sort-ascending:before {
    content: url(sort-asc.png);
    margin-right: 5px;
-   vertical-align: center;
+   vertical-align: middle;
 }
 
 #crm-container a.sort-descending:before {
    content: url(sort-desc.png);
    margin-right: 5px;
-   vertical-align: center;
+   vertical-align: middle;
 }
 
 #crm-container a.sort-none:before {
    content: url(sort-none.png);
    margin-right: 5px;
-   vertical-align: center;
+   vertical-align: middle;
 }
 
 #crm-container div.vertical-position {
@@ -167,5 +167,3 @@ div.spacer {
   position: absolute;
   right: 50px;
 }
-
-

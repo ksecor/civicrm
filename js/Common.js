@@ -136,13 +136,42 @@ function hide(block_id)
 
 /**
  *
- * function for checking and unchecking of check boxes
+ * Function for checking ALL or unchecking ALL check boxes in a resultset page.
  *
  * @access public
- * @param 
+ * @param fldPrefix - common string which precedes unique checkbox ID and identifies field as
+ *                    belonging to the resultset's checkbox collection
+ * @param action - 'select' = set all to checked; 'deselect' = set all to unchecked
+ * @param form - name of form that checkboxes are part of
+ * Sample usage: onClick="javascript:changeCheckboxValues('chk_', 'select', myForm );"
+ *
  * @return
  */
-// <prefix>
+function changeCheckboxVals(fldPrefix, action, form) {
+    for( i=0; i < form.elements.length; i++) {
+        fpLen = fldPrefix.length;
+        if (form.elements[i].type == 'checkbox' && form.elements[i].name.slice(0,fpLen) == fldPrefix ) {
+            element = form.elements[i];
+            if (action == 'deselect') {
+                element.checked = false; 
+            } else {
+                element.checked = true;
+            }
+        }
+    }
+}
+
+function countSelectedCheckboxes(fldPrefix, form) {
+    fieldCount = 0;
+    for( i=0; i < form.elements.length; i++) {
+        fpLen = fldPrefix.length;
+        if (form.elements[i].type == 'checkbox' && form.elements[i].name.slice(0,fpLen) == fldPrefix && form.elements[i].checked == true) {
+            fieldCount++;
+        }
+    }
+    return fieldCount;
+}
+
 function check(formname,state)
 {
     var i;

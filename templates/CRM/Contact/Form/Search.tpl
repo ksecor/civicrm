@@ -33,7 +33,7 @@
      <div>
      <span class="horizontal-position">{$form.action_id.label}{$form.action_id.html}</span>
      {$form.go.html}	
-     <span class="element-right">Select: {$form.select_all.html} | {$form.select_none.html}<span>
+     <span class="element-right">Select: {$form.select_all.html} | {$form.select_none.html}</span>
      </div>
      {include file="CRM/Contact/Selector/Selector.tpl"}
  </div>

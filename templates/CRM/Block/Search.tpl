@@ -6,16 +6,16 @@
             <option>-all contacts-</option>
             <option>Individuals</option>
             <option>Organizations</option>
-            <option>Households</options>
+            <option>Households</option>
         </select>
     </div>
     <div class="form-item">
         <!-- <label for="quick_search">Name:</label> -->
-        <input type="text" name="sort_name" class="form-text required" value="-full or partial-" onFocus="clearFldVal(this);">
+        <input type="text" name="sort_name" class="form-text required" value="-full or partial-" onFocus="clearFldVal(this);" />
     </div>
 
     <div class="form-item">
-        <input type="submit" value="search" class="form-submit">
+        <input type="submit" value="search" class="form-submit" />
     </div>
     </form>
     
