@@ -58,6 +58,7 @@ abstract class CRM_DAO extends DB_DataObject {
      */
     function __construct() {
         $this->initialize( );
+        $this->__table = $this->getTableName();
     }
 	
     /**
