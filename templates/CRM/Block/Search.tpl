@@ -1,4 +1,4 @@
-<div id="crm-quick-search">
+<div id="crm-quick-search" class="block-crm">
     <frameset>
     <form action="crm/contact/search" method="post">
     <div class="form-item">
