@@ -1,5 +1,3 @@
-
-
 <?php
 
 require_once 'CRM/Contacts/DAO/ContactBase.php';
@@ -80,4 +78,3 @@ class CRM_Contacts_DAO_Contact_Individual extends CRM_Contacts_DAO_ContactBase
 }
 
 ?>
-
