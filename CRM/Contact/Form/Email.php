@@ -35,16 +35,24 @@
 class CRM_Contact_Form_Email 
 {
 
-    static function buildEmailBlock($form, &$location, $locationId, $count) {
+    static function buildEmailBlock($form, &$location, $locationId, $count, $showHideBlocks) {
+        if ( $locationId == 1 ) {
+            $showHideBlocks->addShow("location[$locationId][email][2][show]");
+        }
+
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Email:' : 'Other Email:';
 
-            CRM_Contact_Form_Contact::createHideShowLinks( $form, $i, $count, "location[$locationId][email]", '[+] another email', '[-] hide email');
+            $showHideBlocks->linksForArray( $form, $i, $count, "location[$locationId][email]", '[+] another email', '[-] hide email');
             
             $location[$locationId]['email'][$i]['email'] = $form->addElement('text', "location[$locationId][email][$i][email]", $label, array('size' => '37px', 'maxlength' => 64));
-        }
-        $start += $count;
 
+            if ( $i != 1 ) {
+                $showHideBlocks->addHide("location[$locationId][email][$i]");
+                $showHideBlocks->addHide("location[$locationId][email][$i][show]");
+            }
+
+        }
     }
 }
 

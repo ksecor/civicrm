@@ -64,8 +64,8 @@
  </div> <!--end 'core' section of contact form -->
 
 
- <div id = "expand_demographics" class="comment">
-    {$form.exdemo.html}
+ <div id = "demographics[show]" class="comment">
+    {$form.demographics.show.html}
  </div>
 
  <div id="demographics">
@@ -81,8 +81,8 @@
 	<div class="form-item">
         {$form.is_deceased.html} {$form.is_deceased.label}
     </div>
-    <div class="box">
-        {$form.hidedemo.html}
+    <div id="demographics[hide]" class="box">
+        {$form.demographics.hide.html}
     </div>
  </fieldset>
  </div>
@@ -90,8 +90,8 @@
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
- <div id = "expand_notes" class="comment">
-    {$form.exnotes.html}
+ <div id = "notes[show]" class="comment">
+    {$form.notes.show.html}
  </div>
 
  <div id = "notes">
@@ -106,9 +106,9 @@
           You may add an unlimited number of notes, and view or search on them at any time.
         </div>
     </div>    
-	<div class="box">
-        {$form.hidenotes.html}
-    <div>
+	<div id="notes[hide]" class="box">
+        {$form.unotes.hide.html}
+        </div>
  </fieldset>
  </div> <!-- End of "notes" div -->
  
@@ -116,45 +116,10 @@
     {$form.buttons.html}
  </div>
 
-{* A critical javascript placeholder which provides the form object and name dynamically, The script is formed in the php file *}
- {$form.my_script.label}
- </form>
-
-
-{* Calling the on_load_execute function in the javascript included through the Individual.js source file *} 
  <script type="text/javascript">
- // on_load_execute(frm.name);
     var showBlocks = new Array({$showBlocks});
     var hideBlocks = new Array({$hideBlocks});
+
+{* hide and display the appropriate blocks as directed by the php code *}
     on_load_init_blocks( showBlocks, hideBlocks );
  </script>
-
-{* Calling the on_error_execute function in the javascript included through the Individual.js source file *}  
-{* This function is invoked if there are errors when the form is relayed from the server *}
-{if count($form.errors) gt 0}
- {literal}
- <script type="text/javascript">
- on_error_execute(frm.name);
- </script>
- {/literal}
- {/if}
-
-
-
- {*{if count($form.errors) gt 0}
- {literal}
- <script type="text/javascript">
- document.forms[frm.name].elements['display_set_fields'].label = "true";
- </script>
- {/literal}
- {/if}
- 
- {literal}
- <script type="text/javascript">
- on_load_execute(frm.name);
- if (document.forms[frm.name].elements['display_set_fields'].label == "true") {
- on_error_execute(frm.name);
- }
- </script>
- {/literal}
-*}

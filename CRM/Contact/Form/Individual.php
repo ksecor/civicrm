@@ -34,7 +34,7 @@
 
 require_once 'CRM/Form.php';
 require_once 'CRM/SelectValues.php';
-require_once 'CRM/Contact/HideShowLinks.php';
+require_once 'CRM/ShowHideBlocks.php';
 
 require_once 'CRM/Contact/Form/Contact.php';
 
@@ -321,7 +321,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
     }
 
     function preProcess( ) {
-        $hs = new CRM_Contact_HideShowLinks( );
     }
 
     /**
@@ -422,32 +421,24 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->addElement('date', 'birth_date', 'Date of birth', CRM_SelectValues::$date);
 
         /* Entering the compact location engine */ 
-
-        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, 3);
+        $showHideBlocks = new CRM_ShowHideBlocks( array('name'              => 1,
+                                                        'commPrefs'         => 1,),
+                                                  array('notes'        => 1,
+                                                        'demographics' => 1,) );
+        
+        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, 3, $showHideBlocks);
 
         for ($i = 1; $i < 4; $i++) {
-            $this->UpdateElementAttr(array($location[$i]['is_primary']), array('onchange' => "location_is_primary_onclick(\"$form_name\", {$i});"));
+            $this->updateElementAttr(array($location[$i]['is_primary']), array('onchange' => "location_is_primary_onclick(\"$form_name\", {$i});"));
         }
         /* End of locations */
 
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82', 'maxlength' => 255));    
         
-        $this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',
-                          array('onclick' => "show('demographics'); hide('expand_demographics'); return false;"));
-        
-        $this->addElement('link', 'exnotes', null, 'notes', '[+] contact notes',
-                          array('onclick' => "show('notes'); hide('expand_notes'); return false;"));
-        
-        $this->addElement('link', 'hidedemo', null,'demographics', '[-] hide demographics',
-                          array('onclick' => "hide('demographics'); show('expand_demographics'); return false;"));
-        
-        $this->addElement('link', 'hidenotes', null, 'notes', '[-] hide contact notes',
-                          array('onclick' => "hide('notes'); show('expand_notes'); return false;"));
-        
-        $java_script = "<script type = \"text/javascript\">
-                        frm = document." . $form_name ."; frm_name = '" . $form_name ."'; </script>";
 
-        $this->addElement('static', 'my_script', $java_script);
+        $showHideBlocks->links( $this, 'demographics', '[+] show demographics' , '[-] hide demographics'  );
+        $showHideBlocks->links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
+        $showHideBlocks->addToTemplate( );
 
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'next',

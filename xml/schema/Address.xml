@@ -175,7 +175,7 @@
        <comment>Timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6".</comment>
   </field>
   <field>
-       <name>address_nite</name>
+       <name>address_note</name>
        <type>varchar</type>
        <length>255</length>
        <comment>Optional misc info (e.g. delivery instructions) for this address.</comment>

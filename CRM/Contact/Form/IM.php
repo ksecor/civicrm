@@ -36,14 +36,24 @@
 class CRM_Contact_Form_IM
 {
 
-    static function buildImBlock($form, &$location, $locationId, $count) {
+    static function buildIMBlock($form, &$location, $locationId, $count, $showHideBlocks) {
+        if ( $locationId == 1 ) {
+            $showHideBlocks->addShow("location[$locationId][im][2][show]");
+        }
+
         for ($i = 1; $i <= $count; $i++) {
             $label = 'Instant Message:';
 
-            CRM_Contact_Form_Contact::createHideShowLinks( $form, $i, $count, "location[$locationId][im]", '[+] another Instant Message', '[-] hide Instant Message');
- 
+            $showHideBlocks->linksForArray( $form, $i, $count, "location[$locationId][im]", '[+] another Instant Message', '[-] hide Instant Message');
+
             $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select', "location[$locationId][im][$i][service_id]", $label, CRM_SelectValues::$im   );
             $location[$locationId]['im'][$i]['screenname'] = $form->addElement('text', "location[$locationId][im][$i][screenname]", null, array('size' => '37px', 'maxlength' => 64 ));
+
+            if ( $i != 1 ) {
+                $showHideBlocks->addHide("location[$locationId][im][$i]");
+                $showHideBlocks->addHide("location[$locationId][im][$i][show]");
+            }
+
         }
     }
 

@@ -40,23 +40,27 @@ require_once 'CRM/Contact/Form/Address.php';
 
 class CRM_Contact_Form_Location extends CRM_Form
 {
-
-    static function &buildLocationBlock($form, $count) 
+    static function &buildLocationBlock($form, $count, $showHideBlocks) 
     {
         $location = array();
 
+        $showHideBlocks->addShow( 'location[1]' );
+        $showHideBlocks->addShow( 'location[2][show]' );
+        
         for ($locationId = 1; $locationId <= $count; $locationId++) {    
-
             $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_SelectValues::$locationType);
             $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", 'Primary location for this contact', null);
 
-            CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, 3); 
-            CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, 3); 
-            CRM_Contact_Form_IM::buildImBlock($form, $location, $locationId, 3); 
-            CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
+            $showHideBlocks->addHide( "location[$locationId]" );
+            $showHideBlocks->addHide( "location[$locationId][show]" );
 
+            CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, 3, $showHideBlocks); 
+            CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, 3, $showHideBlocks); 
+            CRM_Contact_Form_IM::buildImBlock($form, $location, $locationId, 3, $showHideBlocks); 
+            CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId, $showHideBlocks);
 
-            CRM_Contact_Form_Contact::createHideShowLinks( $form, $locationId, $count, "location", '[+] another location', '[-] hide location');
+            $showHideBlocks->linksForArray( $form, $locationId, $count, "location", '[+] another location', '[-] hide location');
+
         }
         return $location;
     }

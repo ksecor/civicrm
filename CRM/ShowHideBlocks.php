@@ -31,51 +31,32 @@
  *
  */
 
-class CRM_Contact_HideShowLinks {
-    protected $_hide;
+class CRM_ShowHideBlocks {
 
     protected $_show;
 
+    protected $_hide;
+
     protected $_hideString;
+
     protected $_showString;
 
-    static $_commMethods = array( 'phone', 'email', 'im' );
-    static $_hideShow    = array( 'hide' , 'show' );
-
-    function __construct( ) {
-        $this->_show = array(
-                             'name'              => 1,
-                             'commPrefs'         => 1,
-                             'location[1]'       => 1,
-                             'location[2][show]' => 1,
-                             );
-        $this->_hide = array(
-                             'notes'            => 1,
-                             'demographics'     => 1,
-                             );
-        foreach ( self::$_commMethods as $item ) {
-            $this->_show["location[1][$item][2][show]"] = 1; 
+    function __construct( $show = null, $hide = null ) {
+        if ( ! empty( $show ) ) {
+            $this->_show = $show;
+        } else {
+            $this->_show = array( );
         }
 
-        for ( $i = 1; $i < 4; $i++ ) {
-            $this->addHide( "location[$i]" );
-
-            $this->addHide( "location[$i][show]" );
-            foreach ( self::$_commMethods as $item ) {
-                for ($j = 2; $j < 4; $j++) {
-                    $this->addHide( "location[$i][$item][$j]" );
-                    $this->addHide( "location[$i][$item][$j][show]" );
-                }
-            }
+        if ( ! empty( $hide ) ) {
+            $this->_hide = $hide;
+        } else {
+            $this->_hide = array( );
         }
 
-        $this->join( );
-        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        $template->assign_by_ref( 'hideBlocks', $this->_hideString );
-        $template->assign_by_ref( 'showBlocks', $this->_showString );
     }
 
-    function join( ) {
+    function addToTemplate( ) {
         $this->_hideString = '';
 
         $first = true;
@@ -95,12 +76,45 @@ class CRM_Contact_HideShowLinks {
             $this->_showString .= "'$s'";
             $first = false;
         }
+
+        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        $template->assign_by_ref( 'hideBlocks', $this->_hideString );
+        $template->assign_by_ref( 'showBlocks', $this->_showString );
+    }
+
+    function addShow( $name ) {
+        $this->_show[$name] = 1;
     }
 
     function addHide( $name ) {
         if ( ! array_key_exists( $name, $this->_show ) ) {
             $this->_hide[$name] = 1;
         }
+    }
+
+    function links( $form, $prefix, $showLinkText, $hideLinkText ) {
+        $showCode = "show('${prefix}'); hide('${prefix}[show]'); return false;";
+        $hideCode = "hide('${prefix}'); show('${prefix}[show]'); return false;";
+
+        $form->addElement('link', "${prefix}[show]", null, "#${prefix}", $showLinkText,
+                          array( 'onclick' => "$showCode" ));
+        $form->addElement('link', "${prefix}[hide]", null, "#${prefix}", $hideLinkText,
+                          array('onclick' => "$hideCode" ));
+    }
+
+    function linksForArray( $form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText ) {
+        if ( $index == $maxIndex ) {
+            $showCode = $hideCode = "return false;";
+        } else {
+            $next = $index + 1;
+            $showCode = "show('${prefix}[${next}][show]'); return false;";
+            $hideCode = "hide('${prefix}[${next}][show]'); return false;";
+        }
+
+        $form->addElement('link', "${prefix}[${index}][show]", null, "#${prefix}[${index}]", $showLinkText,
+                          array( 'onclick' => "hide('${prefix}[${index}][show]'); show('${prefix}[${index}]');" . $showCode));
+        $form->addElement('link', "${prefix}[${index}][hide]", null, "#${prefix}[${index}]", $hideLinkText,
+                          array('onclick' => "hide('${prefix}[${index}]'); show('${prefix}[${index}][show]');" . $hideCode));
     }
 
 }

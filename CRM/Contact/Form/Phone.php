@@ -36,14 +36,23 @@
 Class CRM_Contact_Form_Phone 
 {
 
-    static function buildPhoneBlock($form, &$location, $locationId, $count) {
+    static function buildPhoneBlock($form, &$location, $locationId, $count, $showHideBlocks) {
+        if ( $locationId == 1 ) {
+            $showHideBlocks->addShow("location[$locationId][phone][2][show]");
+        }
+
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Preferred Phone:' : 'Other Phone:';
 
-            CRM_Contact_Form_Contact::createHideShowLinks( $form, $i, $count, "location[$locationId][phone]", '[+] another phone', '[-] hide phone');
+            $showHideBlocks->linksForArray( $form, $i, $count, "location[$locationId][phone]", '[+] another phone', '[-] hide phone');
             
             $location[$locationId]['phone'][$i]['phone_type_id'] = $form->addElement('select', "location[$locationId][phone][$i][phone_type_id]", null, CRM_SelectValues::$phone);
             $location[$locationId]['phone'][$i]['phone']      = $form->addElement('text', "location[$locationId][phone][$i][phone]", $label, array('size' => '37px', 'maxlength' => 16));
+
+            if ( $i != 1 ) {
+                $showHideBlocks->addHide("location[$locationId][phone][$i]");
+                $showHideBlocks->addHide("location[$locationId][phone][$i][show]");
+            }
         }
     }
 
