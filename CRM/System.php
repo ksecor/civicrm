@@ -35,7 +35,7 @@ class CRM_System {
 
     /**
      * Compose a new url string from the current url string
-     * Used by all the frameowrk components, specifically,
+     * Used by all the framework components, specifically,
      * pager, sort and qfc
      *
      * @param string $urlVar the url variable being considered (i.e. crmPageID, crmSortID etc)
@@ -47,6 +47,7 @@ class CRM_System {
         $file = basename( $_SERVER['PHP_SELF'] );
         $path = str_replace( '\\' , '/' , dirname( $_SERVER['PHP_SELF'] ) );
         $link = $path . '/' . $file . self::getLinksUrl( $urlVar );
+        return $link;
     }
 
     /**
@@ -56,12 +57,12 @@ class CRM_System {
      *
      * This function is copied mostly verbatim from Pager.php (_getLinksUrl)
      *
-     * @param string $urlVar the url variable being considered (i.e. crmPageID, crmSortID etc)
-     *
+     * @param string  $urlVar       the url variable being considered (i.e. crmPageID, crmSortID etc)
+     * @param boolean $includeReset should we include the reset var (generally this variable should be skipped)
      * @return string
      * @access public
      */
-    static function getLinksUrl( $urlVar ) {
+    static function getLinksUrl( $urlVar, $includeReset = false ) {
         // Sort out query string to prevent messy urls
         $querystring = array();
         $qs          = array();
@@ -91,7 +92,7 @@ class CRM_System {
         }
 
         foreach ($qs as $name => $value) {
-            if ( $name != 'reset' ) {
+            if ( $name != 'reset' || $includeReset ) {
                 $querystring[] = $name . '=' . $value;
             }
         }

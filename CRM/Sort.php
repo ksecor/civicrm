@@ -111,23 +111,21 @@ class CRM_Sort {
      * @access public
      *
      */
-    function __construct( $vars, $defaultSortOrder = null ) {
+    function __construct( &$vars, $defaultSortOrder = null ) {
         $this->_vars      = array( );
         $this->_response  = array();
 
-        $count = 1;
-
-        foreach ( $vars as $name => $value ) {
-            $this->_vars[$count] = array(
-                                        'name'      => $name ,
-                                        'direction' => $value,
-                                        );
-            $count++;
+        foreach ( $vars as $weight => &$value ) {
+            $this->_vars[$weight] = array(
+                                          'name'      => $value['sort'],
+                                          'direction' => $value['direction'],
+                                          'title'     => $value['name'],
+                                          );
         }
     
         $this->_currentSortID  = 1;
         $this->_urlVar         = CRM_Sort::SORT_ID;
-        $this->_link           = CRM_System::getLinksUrl( $this->_urlVar );
+        $this->_link           = CRM_System::makeUrl( $this->_urlVar );
 
         $this->initialize( $defaultSortOrder );
     }
@@ -178,22 +176,20 @@ class CRM_Sort {
 
             $direction = ( $item['direction'] == CRM_Sort::ASCENDING ) ? CRM_Sort::DESCENDING : CRM_Sort::ASCENDING;
 
-            $this->_response[$name]['link'] = $this->_link . $this->sortIDValue( $index, $direction );
+            
 
             if ( $current == $index ) {
                 if ( $direction == CRM_Sort::ASCENDING ) {
-                    $this->_response[ $name ]['direction' ] = '^';
-                    $this->_response[ $name ]['class']      = "class=sort-ascending";
+                    $class = 'sort-ascending';
                 } else {
-                    $this->_response[ $name ]['direction' ] = 'v';
-                    $this->_response[ $name ]['class']      = "class=sort-descending";
+                    $class = 'sort-descending';
                 }
             } else {
-                $this->_response[ $name ]['direction' ] = '';
-                $this->_response[ $name ]['class']      = "class=sort-none";
+                $class     = 'sort-none';
             }
-        }
 
+            $this->_response[$name]['link'] = '<a href="' . $this->_link . $this->sortIDValue( $index, $direction ) . '" class=' . $class . '>' . $item['title'] . '</a>';
+        }
     }
 
     /**

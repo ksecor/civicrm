@@ -38,6 +38,13 @@
 class CRM_Selector_Base {
 
     /**
+     * the sort order which is computed from the columnHeaders
+     *
+     * @var array
+     */
+    static $_order;
+
+    /**
      * This function gets the attribute for the action that
      * it matches.
      *
@@ -112,6 +119,38 @@ class CRM_Selector_Base {
         $prev = array_pop( $names );
         return ucfirst( $prev ) . '_' . ucfirst( $last );
     }//end of function
+
+    /**
+     * getter for the sorting direction for the fields which will be displayed on the form.
+     *
+     * @param string action the action being performed
+     *
+     * @return array the elements that can be sorted along with their properties
+     * @access public
+     */
+    function &getSortOrder( $action ) {
+        $columnHeaders =& $this->getColumnHeaders( );
+        if ( ! isset( self::$_order ) ) {
+            self::$_order = array( );
+            $start  = 2;
+            $firstElementNotFound = true;
+            foreach ( $columnHeaders as &$header ) {
+                if ( array_key_exists( 'sort', $header ) ) {
+                    if ( $firstElementNotFound && $header['direction'] != CRM_Sort::DONTCARE ) {
+                        self::$_order[1] =& $header;
+                        $firstElementNotFound = false;
+                    } else {
+                        self::$_order[$start++] =& $header;
+                    }
+                }
+            }
+            if ( $firstElementNotFound ) {
+                CRM_Error::fatal( "Could not find a valid sort directional element" );
+            }
+        }
+        return self::$_order;
+    }
+
 }
 
 ?>

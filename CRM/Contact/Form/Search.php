@@ -162,7 +162,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
         }
 
         $selector   = new CRM_Contact_Selector($params);
-        $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, CRM_Selector_Controller::TEMPLATE, $this);
+        $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
         $controller->run();
 
     }

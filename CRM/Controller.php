@@ -78,7 +78,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
 
         // if the request has a reset value, initialize the controller session
         if ( $_GET['reset'] ) {
-            $this->container( true );
+            $this->reset( );
         }
 
     }
@@ -96,18 +96,11 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      *
      */
     function run( ) {
-
-        // CRM_Error::ll_method();
-
-
         // the names of the action and page should be saved
         // note that this is split into two, because some versions of
         // php 5.x core dump on the triple assignment :)
         $this->_actionName = $this->getActionName();
         list($pageName, $action) = $this->_actionName;
-
-        // CRM_Error::debug_var("pageName", $pageName);
-        // CRM_Error::debug_var("action", $action);
 
         if ( $this->isModal( ) ) {
             if ( ! $this->isValid( $pageName ) ) {
@@ -120,8 +113,6 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         // e.g. if action is a valid JUMP, u basically do a redirect
         // to the appropriate place
         $this->_pages[$pageName]->handle($action);
-
-        // CRM_Error::ll_method();
 
         return $pageName;
     }
@@ -204,7 +195,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
             $stateName   = CRM_String::getClassName($classPath);
 
             // append the mode to the stateName
-            $stateName .= "_$mode";
+            // $stateName .= "_$mode";
 
             $page = new $classPath( $stateName,
                                     $stateMachine->find( $classPath ),
@@ -258,6 +249,8 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      */
     function reset( ) {
         $this->container( true );
+        $session = CRM_Session::singleton( );
+        $session->resetScope( $this->_name );
     }
 
     /**

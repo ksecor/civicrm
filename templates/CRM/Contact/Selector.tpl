@@ -5,11 +5,10 @@
   {foreach from=$columnHeaders item=header}
     <th>
     {if $header.sort}
-    {assign var='key' value=$header.sort}
-    <a href={$sort->_response.$key.link} {$sort->_response.$key.class}>{$header.name}</a>
-    <!-- This char indicator (^), is replaced by class styling in css... &nbsp;{$sort->_response.$key.direction} -->
+      {assign var='key' value=$header.sort}
+      {$sort->_response.$key.link}
     {else}
-    {$header.name}
+      {$header.name}
     {/if}
     </th>
   {/foreach}

@@ -19,7 +19,7 @@
 <input type="hidden" name="location[1][location_type_id]" value="1" />
 <input type="hidden" name="location[1][is_primary]"       value="1" />
 
-<div class="form-item"><input type="submit" name="_qf_Contact_1_next" value="Save" class="form-submit" /></div>
+<div class="form-item"><input type="submit" name="_qf_Contact_next" value="Save" class="form-submit" /></div>
 
 </form>
 </div>

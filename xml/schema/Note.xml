@@ -32,4 +32,20 @@
        <type>text</type>
        <comment>Note and/or Comment.</comment>
   </field>
+  <<field>
+       <name>contact_id/name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID creator</comment>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>crm_contact</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>modified_date</name>
+       <type>date</type>
+       <comment>When was this note last modified/edited</comment>
+  </field>
 </table>

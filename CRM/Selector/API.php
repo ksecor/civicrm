@@ -66,12 +66,11 @@ interface CRM_Selector_API {
      *
      * @param string action the action being performed
      *  
-     * @return string the sort order
-     *
+     * @return array the elements that can be sorted along with their properties
      * @access public
      *
      */
-    function getSortOrder( $action );
+    function &getSortOrder( $action );
     
     /**
      * returns the column headers as an array of tuples:
@@ -84,7 +83,7 @@ interface CRM_Selector_API {
      * @access public
      *
      */
-    function getColumnHeaders( $action );
+    function &getColumnHeaders( $action );
     
     /**
      * returns the number of rows for this action

@@ -69,6 +69,37 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                                                      'menuName' => 'Edit Contact Details'
                                                      ),
                            );
+
+        static $_columnHeaders = array(
+                                       array('name' => ''),
+                                       array('name' => ''),
+                                       array(
+                                             'name'      => 'Name',
+                                             'sort'      => 'crm_contact_sort_name',
+                                             'direction' => CRM_Sort::DESCENDING,
+                                             ),
+                                       array('name' => 'Address'),
+                                       array(
+                                             'name'      => 'City',
+                                             'sort'      => 'crm_address_city',
+                                             'direction' => CRM_Sort::DONTCARE,
+                                             ),
+                                       array(
+                                             'name'      => 'State/Prov',
+                                             'sort'      => 'crm_state_province_name',
+                                             'direction' => CRM_Sort::DONTCARE,
+                                             ),
+                                       array('name' => 'Postal'),
+                                       array(
+                                             'name'      => 'Country',
+                                             'sort'      => 'crm_country_name',
+                                             'direction' => CRM_Sort::DONTCARE,
+                                             ),
+                                       array('name' => 'Email'),
+                                       array('name' => 'Phone'),
+                                       array('name' => 'Operate'),
+                                       );
+    
     /**
      * This caches the content for the display system.
      *
@@ -131,58 +162,15 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     }//end of function
 
     /**
-     * getter for the sorting direction for the fields which will be displayed on the form. 
-     *
-     * @param 
-     * @return array 
-     * @access public
-     */    
-    function getSortOrder($action) 
-    {
-        static $order = array(
-                              'crm_contact_sort_name'   => CRM_Sort::DESCENDING,
-                              'crm_address_city'        => CRM_Sort::DONTCARE,
-                              'crm_state_province_name' => CRM_Sort::DONTCARE,
-                              'crm_country_name'        => CRM_Sort::DONTCARE,
-                              );
-        return $order;
-    }//end of function
-
-    /**
      * getter for headers for each column of the displayed form.
      *
      * @param 
-     * @return array 
+     * @return array (reference)
      * @access public
      */
-    function getColumnHeaders($action) 
+    function &getColumnHeaders($action) 
     {
-        static $headers = array(
-                                array('name' => ''),
-                                array('name' => ''),
-                                array(
-                                      'name' => 'Name',
-                                      'sort' => 'crm_contact_sort_name',
-                                      ),
-                                array('name' => 'Address'),
-                                array(
-                                      'name' => 'City',
-                                      'sort' => 'crm_address_city',
-                                      ),
-                                array(
-                                      'name' => 'State/Prov',
-                                      'sort' => 'crm_state_province_name',
-                                      ),
-                                array('name' => 'Postal'),
-                                array(
-                                      'name' => 'Ctry',
-                                      'sort' => 'crm_country_name',
-                                      ),
-                                array('name' => 'Email'),
-                                array('name' => 'Phone'),
-                                array('name' => 'Operate'),
-                                );
-        return $headers;
+        return self::$_columnHeaders;
     }
 
 

@@ -229,7 +229,7 @@ class CRM_StateMachine {
 
             // append the classname with the mode of the form. needed to
             // have a consistent iname with form name
-            $iname .= "_$mode";
+            // $iname .= "_$mode";
 
             $classPath = str_replace( '_', '/', $pages[$i] ) . '.php';
             require_once($classPath);

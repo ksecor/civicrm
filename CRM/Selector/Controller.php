@@ -46,17 +46,6 @@ require_once 'CRM/Report/Excel.php';
 class CRM_Selector_Controller {
 
     /**
-     * constants to determine if we should store
-     * the output in the session or template
-     * @var int
-     */
-    const
-        SESSION   = 1,
-        TEMPLATE  = 2,
-        BOTH      = 3, // this is primarily done for ease of use
-        TRANSFER  = 4; // move the values from the session to the template
-
-    /**
      * a CRM Object that implements CRM_Selector_api
      * @var object
      */
@@ -115,13 +104,6 @@ class CRM_Selector_Controller {
     protected $_content;
 
     /**
-     * Output target, session, template or both?
-     *
-     * @var int
-     */
-    protected $_output;
-
-    /**
      * Array of properties that the controller dumps into the output object
      *
      * @var array
@@ -143,18 +125,16 @@ class CRM_Selector_Controller {
      * @param int               $pageID  default pageID
      * @param int               $sortID  default sortID
      * @param int               $action  the actions to potentially support
-     * @param int               $output  what should we do with our results
      * @param CRM_Page|CRM_Form $store   place in session to store some values
      *
      * @return Object
      * @access public
      */
-    function __construct($object, $pageID, $sortID, $action, $output = self::TEMPLATE, $store = null) {
+    function __construct($object, $pageID, $sortID, $action, $store = null) {
         $this->_object = $object;
         $this->_pageID = $pageID ? $pageID : 1;
-        $this->_sortID = $sortID ? $sortID : 1;
+        $this->_sortID = $sortID ? $sortID : null;
         $this->_action = $action;
-        $this->_output = $output;
         $this->_store  = $store;
 
         $params = array(
@@ -176,8 +156,8 @@ class CRM_Selector_Controller {
         $this->_pager = new CRM_Pager( $params );
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
 
-        $this->_sortOrder = $this->_object->getSortOrder($action);
-        $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortID );
+        $this->_sortOrder =& $this->_object->getSortOrder($action);
+        $this->_sort      =  new CRM_Sort( $this->_sortOrder, $this->_sortID );
     }
 
     function hasChanged( ) {
@@ -193,62 +173,32 @@ class CRM_Selector_Controller {
         $config  = CRM_Config::singleton ();
         $session = CRM_Session::singleton();
 
-        if ( $this->_output & self::TRANSFER ) {
-            $this->moveFromSessionToTemplate( );
-            return;
-        }
-
-        $columnHeaders = $this->_object->getColumnHeaders( $this->_action );
+        $columnHeaders =& $this->_object->getColumnHeaders( $this->_action );
         $rows          = $this->_object->getRows( $this->_action,
                                                   $this->_pagerOffset,
                                                   $this->_pagerRowCount,
                                                   $this->_sort );
         $rowsEmpty = count( $rows ) ? false : true;
 
-        if ( $this->_output & self::TEMPLATE ) {
-            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-            $template->assign_by_ref( 'config' , $config  );
-            $template->assign_by_ref( 'session', $session );
-            $template->assign_by_ref( 'pager'  , $this->_pager   );
-            $template->assign_by_ref( 'sort'   , $this->_sort    );
-
-            foreach ( self::$_properties as $property ) {
-                $template->assign_by_ref( $property, $$property );
-            }
-
-            $template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
-            $this->_content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
-        }
-
-        if ( $this->_output & self::SESSION ) {
-            foreach ( self::$_properties as $property ) {
-                $this->_store->set( $property, $$property );
-            }
-        }
+        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        $template->assign_by_ref( 'config' , $config  );
+        $template->assign_by_ref( 'session', $session );
+        $template->assign_by_ref( 'pager'  , $this->_pager   );
+        $template->assign_by_ref( 'sort'   , $this->_sort    );
         
+        $template->assign_by_ref( 'columnHeaders', $columnHeaders );
+        $template->assign_by_ref( 'rows'         , $rows          );
+        $template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
+        
+        $template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
+        $this->_content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
+    
         // always store the current pageID and sortID
         $this->_store->set( CRM_Pager::PAGE_ID      , $this->_pager->getCurrentPageID( ) );
         $this->_store->set( CRM_Sort::SORT_ID       , $this->_sort->getCurrentSortID ( ) );
         $this->_store->set( CRM_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage            );
     }
     
-    function moveFromSessionToTemplate( ) {
-        $config  = CRM_Config::singleton ();
-        $session = CRM_Session::singleton();
-
-        $prefix = $this->_object->getModuleName( $this->_action );
-        
-        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        $template->assign_by_ref( 'config' , $config  );
-        $template->assign_by_ref( 'session', $session );
-
-        foreach ( self::$_properties as $property ) {
-            $template->assign_by_ref( $property,
-                                      $session->get( $property, $prefix ) );
-        }
-
-    }
-
     function getPager() {
         return $this->_pager;
     }

@@ -101,7 +101,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $str_where .= " LOWER(crm_contact.sort_name) like '%".strtolower($this->sort_name)."%'";
             }   
         }
-        
+
         $str_order = " ORDER BY " . $sort->orderBy(); 
         $str_limit = " LIMIT $offset, $rowCount ";
 

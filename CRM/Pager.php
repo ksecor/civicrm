@@ -82,8 +82,6 @@ class CRM_Pager extends Pager_Sliding {
 
         $this->Pager_Sliding( $params);
 
-        // $links = $this->getLinks( );
-
         list( $offset, $limit ) = $this->getOffsetAndRowCount( );
         $start = $offset + 1;
         $end   = $offset + $limit;
@@ -255,10 +253,9 @@ class CRM_Pager extends Pager_Sliding {
      * @access void
      */
     function getPerPageLink( $perPage ) {
+        $href = CRM_System::makeURL( self::PAGE_ROWCOUNT ) . $perPage;
         $link = sprintf('<a href="%s" %s>%s</a>',
-                        ( $this->_append ? $this->_url . $this->getCurrentPageID() . '&' . self::PAGE_ROWCOUNT . '=' . $perPage :
-                          $this->_url . sprintf($this->_fileName, $this->getCurrentPageID()) . '&' . self::PAGE_ROWCOUNT . '=' . $perPage
-                          ),
+                        $href,
                         $this->_classString,
                         $perPage )
                   . $this->_spacesBefore . $this->_spacesAfter;
