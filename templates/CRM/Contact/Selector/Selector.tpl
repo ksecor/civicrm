@@ -1,10 +1,8 @@
 {*debug*}
-<div class="form-item">
 
   {include file="CRM/pager.tpl" location="top"}
 
-<div>
-  <table>
+<table>
   <tr class="columnheader">
   {foreach from=$columnHeaders item=header}
     <th>
@@ -34,13 +32,7 @@
   </tr>
   {/foreach}
 
- </table>
-</div>
+</table>
 
-<div>
-  <span>
   {include file="CRM/pager.tpl" location="bottom"}
-  </span>
-</div>
 
-</div>

@@ -7,6 +7,3 @@
 {elseif $mode eq 2}
     {include file="CRM/Contact/Form/Individual/View.tpl"} 
 {/if}
-
-
-
