@@ -1,3 +1,39 @@
+Data is generated at random for the tables in the crm database.
+
+The list below are enums from the database (except the last 2).
+private $preferred_communication_method = array('Phone', 'Email', 'Post');
+private $greeting_type = array('Formal', 'Informal', 'Honorific', 'Custom', 'Other');
+private $contact_type = array('Individual', 'Household', 'Organization');
+private $gender = array('Female', 'Male', 'Transgender');    
+private $phone_type = array('Phone', 'Mobile', 'Fax', 'Pager');    
+
+// almost enums
+private $prefix = array('Mr', 'Mrs', 'Ms', 'Dr');
+private $suffix = array('Jr', 'Sr');
+
+
+
+The entities below are used for generating names, emails, phones and addresses
+for Individual, household and organization. They are stored in the xml file
+sample_data.xml so please feel free to add names, lastnames to it.
+
+// store names, firstnames, street 1, street2
+private $first_name = array();
+private $last_name = array();
+private $street_name = array();
+private $supplemental_address_1 = array();
+private $address_direction = array();
+private $street_type = array();
+private $email_domain = array();
+private $email_tld = array();
+private $organization_name = array();
+private $organization_field = array();
+private $organization_type = array();
+
+
+
+
+
 Here is some of the sample data id's which are generated.
 
 Domain ID's

@@ -65,6 +65,18 @@
     <street_name>Pedder</street_name>
   </street_names>
 
+  <street_types>
+    <street_type>Rd</street_type>
+    <street_type>Road</street_type>
+    <street_type>St</street_type>
+    <street_type>Street</street_type>
+    <street_type>Marg</street_type>
+    <street_type>Drive</street_type>
+    <street_type>Dr</street_type>
+    <street_type>Gully</street_type>
+    <street_type>Path</street_type>
+  </street_types>
+
   <supplemental_addresses_1>
     <supplemental_address_1>Andheri</supplemental_address_1>
     <supplemental_address_1>chakala</supplemental_address_1>
@@ -94,18 +106,6 @@
     <address_direction>SE</address_direction>
   </address_directions>
 
-  <street_types>
-    <street_type>Rd</street_type>
-    <street_type>Road</street_type>
-    <street_type>St</street_type>
-    <street_type>Street</street_type>
-    <street_type>Marg</street_type>
-    <street_type>Drive</street_type>
-    <street_type>Dr</street_type>
-    <street_type>Gully</street_type>
-    <street_type>Path</street_type>
-  </street_types>
-
   <email_domains>
     <email_domain>yahoo</email_domain>
     <email_domain>gmail</email_domain>
@@ -134,5 +134,44 @@
     <email_tld>edu.in</email_tld>
     <email_tld>net.in</email_tld>
   </email_tlds>
+
+  <organization_names>
+    <organization_name>Web Access</organization_name>
+    <organization_name>Ocean Access</organization_name>
+    <organization_name>Direct Access</organization_name>
+    <organization_name>Reliance</organization_name>
+    <organization_name>Tata Sons</organization_name>
+    <organization_name>Bajaj Brothers</organization_name>
+    <organization_name>Hero Honda</organization_name>
+    <organization_name>Onjus</organization_name>
+    <organization_name>JayPee Group</organization_name>
+    <organization_name>Parle Sons</organization_name>
+    <organization_name>MBT</organization_name>
+  </organization_names>
+
+  <organization_fields>
+    <organization_field>Software</organization_field>
+    <organization_field>Agro</organization_field>
+    <organization_field>Jewellery</organization_field>
+    <organization_field>Electronics</organization_field>
+    <organization_field>Motors</organization_field>
+    <organization_field>Steel</organization_field>
+    <organization_field>Petrochemical</organization_field>
+    <organization_field>Construction</organization_field>
+    <organization_field>Heavy Engineering</organization_field>
+    <organization_field>Device Driver</organization_field>
+    <organization_field>Advertising</organization_field>
+    <organization_field>Hospital</organization_field>
+  </organization_fields>
+
+  <organization_types>
+    <organization_type>Prop.</organization_type>
+    <organization_type>Partnersip</organization_type>
+    <organization_type>Pvt. Ltd.</organization_type>
+    <organization_type>Ltd.</organization_type>
+    <organization_type>PSU</organization_type>
+    <organization_type>MNC</organization_type>
+    <organization_type>NGO</organization_type>
+  </organization_types>
 
 </sample_data>

@@ -130,7 +130,9 @@ class CRM_GCD {
     private $street_type = array();
     private $email_domain = array();
     private $email_tld = array();
-
+    private $organization_name = array();
+    private $organization_field = array();
+    private $organization_type = array();
 
     // stores the strict individual id and household id to individual id mapping
     private $strict_individual = array();
@@ -213,24 +215,19 @@ class CRM_GCD {
             $string .= $random_char;
         }
         return $string;
-    } // end of _getRandomString
-
+    }
 
 
     private function _getRandomChar()
     {
-
         return chr(mt_rand(65, 90));
     }        
 
-    // get a randomly generated string
     private function getRandomBoolean()
     {
         return mt_rand(0,1);
 
-    } // end of getRandomBoolean
-
-
+    }
 
     private function _getRandomElement(&$array1)
     {
@@ -292,42 +289,34 @@ class CRM_GCD {
 
         $this->lee();
         
-        // $this->sample_data = simplexml_load_file(self::DATA_FILENAME);
         $sample_data = simplexml_load_file(self::DATA_FILENAME);
 
-        // get the first names
+        // first names
         foreach ($sample_data->first_names->first_name as $first_name) {
-            //echo "adding $first_name \n";
-            // $this->first_name[] = $first_name;
             $this->first_name[] = trim($first_name);
         }
 
-        // get the last names
+        // last names
         foreach ($sample_data->last_names->last_name as $last_name) {
-            // $this->last_name[] = $last_name;
             $this->last_name[] = trim($last_name);
         }
 
-
-        // get the street names
+        //  street names
         foreach ($sample_data->street_names->street_name as $street_name) {
-            //$this->street_name[] = $street_name;
             $this->street_name[] = trim($street_name);
         }
 
-
-        // get the street supplemental address 1
+        //  supplemental address 1
         foreach ($sample_data->supplemental_addresses_1->supplemental_address_1 as $supplemental_address_1) {
-            //$this->supplemental_address_1[] = $supplemental_address_1;
             $this->supplemental_address_1[] = trim($supplemental_address_1);
         }
 
-        // get the address directions
+        //  address directions
         foreach ($sample_data->address_directions->address_direction as $address_direction) {
             $this->address_direction[] = trim($address_direction);
         }
 
-        // get the street types
+        // street types
         foreach ($sample_data->street_types->street_type as $street_type) {
             $this->street_type[] = trim($street_type);
         }
@@ -337,27 +326,25 @@ class CRM_GCD {
             $this->email_domain[] = trim($email_domain);
         }
 
-        // get the street types
+        // email top level domain
         foreach ($sample_data->email_tlds->email_tld as $email_tld) {
             $this->email_tld[] = trim($email_tld);
         }
 
+        // organization name
+        foreach ($sample_data->organization_names->organization_name as $organization_name) {
+            $this->organization_name[] = trim($organization_name);
+        }
 
-//         print_r($this->first_name);
-//         print_r($this->last_name);
-//         print_r($this->street_name);
-//         print_r($this->supplemental_address_1);
+        // organization field
+        foreach ($sample_data->organization_fields->organization_field as $organization_field) {
+            $this->organization_field[] = trim($organization_field);
+        }
 
-         var_dump($this->first_name);
-         var_dump($this->last_name);
-         var_dump($this->street_name);
-         var_dump($this->supplemental_address_1);
-
-         var_dump($this->address_direction);
-         var_dump($this->street_type);
-         var_dump($this->email_domain);
-         var_dump($this->email_tld);
-
+        // organization type
+        foreach ($sample_data->organization_types->organization_type as $organization_type) {
+            $this->organization_type[] = trim($organization_type);
+        }
 
         $this->lel();
     }
@@ -493,14 +480,6 @@ class CRM_GCD {
         for ($id=1; $id<=self::NUM_CONTACT; $id++) {
             $contact->domain_id = mt_rand(1, self::NUM_DOMAIN);            
             $contact->contact_type = $this->getContactType($id);
-            // brain dead generation :(
-            $contact->legal_id = "Legal $id"; 
-            $contact->external_id = "External $id";
-            $contact->sort_name = "Sort Name $id";
-            $contact->home_URL = "http://www.$id.com/";
-            $contact->home_URL = "http://www.$id.com/logo.png";
-            $contact->source = "Source $id";
-            
             $contact->do_not_phone = mt_rand(0, 1);
             $contact->do_not_email = mt_rand(0, 1);
             $contact->do_not_post = mt_rand(0, 1);
@@ -552,10 +531,7 @@ class CRM_GCD {
             $individual->suffix = $this->_getRandomElement($this->suffix);
             $individual->display_name = "$individual->first_name $individual->middle_name $individual->last_name";
             $individual->greeting_type = $this->_getRandomElement($this->greeting_type);
-            $individual->custom_greeting = "Custom Greeting $id";
-            $individual->job_title = "Job Title $id";
             $individual->gender = $this->_getRandomElement($this->gender);
-
             //$individual->birth_date = date("Y-m-d", mt_rand(0, time()));
             // there's some bug or irrational logic in DB_DataObject hence the above iso format does not work
             $individual->birth_date = date("Ymd", mt_rand(0, time()));
@@ -568,7 +544,6 @@ class CRM_GCD {
             // also update the sort name for the contact id.
             $contact->id = $individual->contact_id;
             $contact->sort_name = $individual->display_name;
-
             $this->_update($contact);
         }
         
@@ -599,13 +574,28 @@ class CRM_GCD {
         $this->lee();
 
         $household = new CRM_Contact_DAO_Household();
+        $contact = new CRM_Contact_DAO_Contact();
         
         for ($id=1; $id<=$this->num_household; $id++) {
             $household->contact_id = $this->household[($id-1)];
-            $household->household_name = "Household Name $id";
-            $household->nick_name = "Nick Name $id";
             $household->primary_contact_id = $this->household_individual[$household->contact_id][0];
+
+            // get the last name of the primary contact id
+            $individual = new CRM_Contact_DAO_Individual();
+            $individual->contact_id = $household->primary_contact_id;
+            $individual->find(true);
+            $first_name = $individual->first_name;
+            $last_name = $individual->last_name;
+
+            // need to name the household and nick name appropriately
+            $household->household_name = "$first_name $last_name" . "'s home";
+            $household->nick_name = "$last_name" . "'s home";
             $this->_insert($household);
+
+            // need to update the sort name for the main contact table
+            $contact->id = $household->contact_id;
+            $contact->sort_name = $household->household_name;
+            $this->_update($contact);
         }
 
         $this->lel();
@@ -637,15 +627,19 @@ class CRM_GCD {
         $this->lee();
 
         $organization = new CRM_Contact_DAO_Organization();
-       
+        $contact = new CRM_Contact_DAO_Contact();       
+
         for ($id=1; $id<=$this->num_organization; $id++) {
             $organization->contact_id = $this->organization[($id-1)];
-            $organization->organization_name = "Organization Name $id";
-            $organization->legal_name = "Legal Name $id";
-            $organization->nick_name = "Nick Name $id";
-            $organization->sic_code = "Sic Code $id";
+            $name = $this->_getRandomElement($this->organization_name) . " " . $this->_getRandomElement($this->organization_field) . " " . $this->_getRandomElement($this->organization_type);
+            $organization->organization_name = $name;
             $organization->primary_contact_id = $this->_getRandomElement($this->strict_individual);
             $this->_insert($organization);
+
+            // need to update the sort name for the main contact table
+            $contact->id = $organization->contact_id;
+            $contact->sort_name = $organization->organization_name;
+            $this->_update($contact);
         }
 
         $this->lel();
@@ -731,7 +725,6 @@ class CRM_GCD {
 
         $this->lee();
 
-
         $location = new CRM_Contact_DAO_Location();
         $address = new CRM_Contact_DAO_Address();
         $email = new CRM_Contact_DAO_Email();
@@ -753,15 +746,11 @@ class CRM_GCD {
             } else if ($index < ($this->num_strict_individual+$this->num_household)) {
                 // belongs to household 
                 $location->location_type_id = self::MAIN;
-                $index1 = $index - $this->num_strict_individual;
-                $contact_id = $this->household[$index1];
                 $location->contact_id = $this->household[$index-$this->num_strict_individual];
 
             } else {
                 // belongs to organization
                 $location->location_type_id = self::MAIN;
-                $index1 = $index - $this->num_strict_individual - $this->num_household;
-                $contact_id = $this->organization[$index1];
                 $location->contact_id = $this->organization[$index-$this->num_strict_individual-$this->num_household];
             }
 
@@ -772,13 +761,13 @@ class CRM_GCD {
             $address->street_number = mt_rand(1, 1000);
             $address->street_number_suffix = ucfirst($this->_getRandomChar());
             $address->street_number_predirectional = $this->_getRandomElement($this->address_direction);
-            $address->street_name = $this->_getRandomElement($this->street_name);
+            $address->street_name = ucwords($this->_getRandomElement($this->street_name));
             $address->street_type = $this->_getRandomElement($this->street_type);
             $address->street_number_postdirectional = $this->_getRandomElement($this->address_direction);
 
             $address->street_address = $address->street_number_predirectional . " " . $address->street_number .  $address->street_number_suffix .  " " . $address->street_name .  " " . $address->street_type . " " . $address->street_number_postdirectional;
 
-            $address->supplemental_address_1 = $this->_getRandomElement($this->supplemental_address_1);
+            $address->supplemental_address_1 = ucwords($this->_getRandomElement($this->supplemental_address_1));
             $address->city = "Mumbai";
             $address->county_id = 1;
             $address->state_province_id = 1004;
@@ -788,11 +777,9 @@ class CRM_GCD {
 
             $this->_insert($address);
 
-            // need a new object here otherwise the find will use values of the previous
-            // results.
+            // need a new object here otherwise the find will use values of the previous results.
             $contact = new CRM_Contact_DAO_Contact();
             $contact->id = $location->contact_id;
-
             $contact->find(true);
             $sort_name = $contact->sort_name;
             $sort_name = strtolower(str_replace(" ", "", $sort_name));
@@ -807,6 +794,7 @@ class CRM_GCD {
                 $email->email = $sort_name . "@" . $email_domain . "." . $tld;
                 $this->_insert($email);
             }
+
             // add 3 phones for each location
             for ($phone_id=1; $phone_id<=3; $phone_id++) {
                 ($phone_id == 1) ? $phone->is_primary = 1:$phone->is_primary=0;
@@ -819,8 +807,6 @@ class CRM_GCD {
 
         $this->lel();
     }
-
-
 
 
     public function printID() {
