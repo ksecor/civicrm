@@ -29,7 +29,7 @@ class CRM_Contacts_Form_CLIST extends CRM_Form
                                  'Top Donors', 
                                  'Active Volunteers',
                                  );
-        $action_action = array(
+        $action_select = array(
                                '~For selected records~',
                                'Delete',
                                'Print',
@@ -52,14 +52,7 @@ class CRM_Contacts_Form_CLIST extends CRM_Form
         
         /* Page top links */
         $this->addElement('link', 'export', null, 'linkheader', 'Export');
-        /* $this->addElement('link', 'first', null, 'linkheader', '<< First &nbsp;&nbsp;');
-        $this->addElement('link', 'previous', null, 'linkheader', '< Previous');
-        $this->addElement('link', 'page_serial', null, 'linkheader', '&nbsp;&nbsp;&nbsp; (1-25 of 233) &nbsp;&nbsp;&nbsp;');
-        $this->addElement('link', 'next', null, 'linkheader', '> Next &nbsp;&nbsp');
-        $this->addElement('link', 'previouspage', null, 'linkheader', '&raquo;&nbsp;Previous &nbsp');
-        */
 
-        
         /* Table header links */
         $this->addElement('link', 'name', null, 'datagrid', 'Name');
         $this->addElement('link', 'email', null, 'datagrid', 'Email');
@@ -73,73 +66,20 @@ class CRM_Contacts_Form_CLIST extends CRM_Form
         $this->addElement('link', 'show_50', '|', 'pagecrumb', '50');
         $this->addElement('link', 'show_100', '|', 'pagecrumb', '100');
         $this->addElement('link', 'show_all', '|', 'pagecrumb', 'All');
-        $this->addElement('link', 'select_all', '|', 'pagecrumb', 'All');
+        $this->addElement('link', 'select_all', 'Select:', 'pagecrumb', 'All');
         $this->addElement('link', 'select_none', '|', 'pagecrumb', 'None');
         
         /* Implementing the record generating mortar CODE UNDER REVISION*/
       
-        // start of code added by manish  
+
         $pager_list = new CRM_Contacts_List_Contacts();
-         
         $arr = $pager_list->list_contact();
-        //print_r($arr);
-
         $rows_per_page = count($arr[1]);
-
         $this->addElement('text', 'pager', $arr[0]);
         $lng_row_count = count($arr[1]);
         $this->addElement('text', 'row_no', $lng_row_count);
         
-        // end of code added by manish
-        
-        /* for ($i = 0; $i < $rows_per_page; $i++) {
-            $records[$i]['name'] = "name" . "{$i}";
-            $records[$i]['email'] = "email" . "{$i}";
-            $records[$i]['phone'] = "phone" . "{$i}";
-            $records[$i]['address'] = "address" . "{$i}";
-            $records[$i]['city'] = "city" . "{$i}";
-            $records[$i]['state_prov'] = "SP" . "{$i}"; 
-        }
-        
-        for ($i = 0; $i < $rows_per_page; $i++) {
-            $records[$i]['name'] = $arr[1][$i][0];
-            $records[$i]['email'] = $arr[1][$i][1]; 
-            $records[$i]['phone'] = $arr[1][$i][2];
-            $records[$i]['address'] = $arr[1][$i][3];
-            $records[$i]['city'] = $arr[1][$i][4];
-            $records[$i]['state_prov'] = $arr[1][$i][5];
-        } 
-*/
-        /*for ($i = 0; $i < $rows_per_page; $i++) {
-           $record_group[$i][0] =& $this->createElement('link','name_'."{$i}", null, "datagrid", $records[$i]['name']);
-           $record_group[$i][1] =& $this->createElement('link','email_'."{$i}" ,null, "datagrid", $records[$i]['email']);
-           $record_group[$i][2] =& $this->createElement('link','phone_'."{$i}", null, "datagrid", $records[$i]['phone']);
-           $record_group[$i][3] =& $this->createElement('link','address_'."{$i}", null, "datagrid", $records[$i]['address']);
-           $record_group[$i][4] =& $this->createElement('link','city_'."{$i}", null, "datagrid", $records[$i]['city']);
-           $record_group[$i][5] =& $this->createElement('link','state_province_'."{$i}", null, "datagrid", $records[$i]['state_prov']);
-           $record_group[$i][6] =& $this->createElement('checkbox','checkrecord_'."{$i}", null, null);
-       }
-        
-        for ($i = 0; $i < $rows_per_page; $i++) {
-            $name_link_group[$i] =& $this->createElement('link','name_'."{$i}", null, "datagrid", $arr[$i]['name']);
-            $email_link_group[$i] =& $this->createElement('link','email_'."{$i}" ,null, "datagrid", $records[$i]['email']);
-            $phone_link_group[$i] =& $this->createElement('link','phone_'."{$i}", null, "datagrid", $records[$i]['phone']);
-            $address_link_group[$i] =& $this->createElement('link','address_'."{$i}", null, "datagrid", $records[$i]['address']);
-            //$city_link_group[$i] =& $this->createElement('link','city_'."{$i}", null, "datagrid", $records[$i]['city']);
-            //$state_link_group[$i] =& $this->createElement('link','state_province_'."{$i}", null, "datagrid", $records[$i]['state_prov']);
-            
-            $city_link_group[$i] =& $this->createElement('static','city_'."{$i}", null,$records[$i]['city']);
-            $state_link_group[$i] =& $this->createElement('static','state_province_'."{$i}", null,$records[$i]['state_prov']);
-            
-            $checkbox_group[$i] =& $this->createElement('checkbox','checkrecord_'."{$i}", null, null);
-        }*/
 
-
-        //        for ($i = 0; $i <= $rows_per_page; $i++) {
-        
-        // print_r($arr[1]);
-
-        // start of code added by manish
         $i = 0;
         foreach ($arr[1] as $key_arr => $value_arr) {
             
@@ -160,9 +100,6 @@ class CRM_Contacts_Form_CLIST extends CRM_Form
             $i++;
         }
 
-        // end of code added by manish
-            //}
-        
         $this->addGroup($name_link_group,'name_link_group');
         $this->addGroup($email_link_group,'email_link_group');
         $this->addGroup($phone_link_group,'phone_link_group');
@@ -171,10 +108,7 @@ class CRM_Contacts_Form_CLIST extends CRM_Form
         $this->addGroup($state_link_group,'state_link_group');
         $this->addGroup($checkbox_group,'checkbox_group');
         
-        /* $this->_elements[] =& $records;
-       $this->_elementIndex['records_list'] = end(array_keys($this->_elements));
-        */
-        
+
         /* End of mortar */
         
         /************************************   End of all DHTML elements ******************************/
