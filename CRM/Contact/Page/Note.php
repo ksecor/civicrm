@@ -86,14 +86,14 @@ class CRM_Contact_Page_Note {
         $page->assign( 'notes', $values );
     }
 
-    static function edit( ) {
-    }
-
-    static function add( ) {
-        $session = CRM_Session::singleton();
-        $config  = CRM_Config::singleton();
-
-        $controller = new CRM_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', CRM_Form::MODE_ADD );
+    static function edit( $page, $mode, $noteId = null ) {
+        $controller = new CRM_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', $mode );
+        
+        $controller->reset( );
+        $controller->set( 'tableName', 'crm_contact' );
+        $controller->set( 'tableId'  , $page->getContactId( ) );
+        $controller->set( 'noteId'   , $noteId );
+ 
         $controller->process( );
         $controller->run( );
     }
@@ -108,13 +108,16 @@ class CRM_Contact_Page_Note {
         case 'view':
             $noteId = $_GET['nid'];
             self::view( $page, $noteId );
+            break;
 
         case 'edit':
             $noteId = $_GET['nid'];
-            self::edit( $page, $noteId );
+            self::edit( $page, CRM_Form::MODE_UPDATE, $noteId );
+            break;
 
         case 'add':
-            self::add( $page );
+            self::edit( $page, CRM_Form::MODE_ADD );
+            break;
         }
 
         self::browse( $page );

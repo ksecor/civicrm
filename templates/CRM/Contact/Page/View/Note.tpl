@@ -41,7 +41,7 @@
    {/foreach}
    </table>
      <br><!--a href="#">New Note</a-->
-     <input type="button" name="add_note" value="New Note" onClick="location.href='{$config->httpBase}contact/view/note&nid={$note.id}&op=add';">
+     <input type="button" name="add_note" value="New Note" onClick="location.href='{$config->httpBase}contact/view/note&op=add';">
     </div>
  </p>
 </div>

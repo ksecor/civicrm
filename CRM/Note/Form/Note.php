@@ -44,13 +44,26 @@ require_once 'CRM/Form.php';
  */
 class CRM_Note_Form_Note extends CRM_Form
 {
+    /**
+     * The table name, used when editing/creating a note
+     *
+     * @var string
+     */
+    protected $_tableName;
 
     /**
-     * The contact id, used when editing the form
+     * The table id, used when editing/creating a note
      *
      * @var int
      */
-    protected $_contactId;
+    protected $_tableId;
+    
+    /**
+     * The note id, used when editing the note
+     *
+     * @var int
+     */
+    protected $_noteId;
 
     /**
      * class constructor
@@ -67,6 +80,9 @@ class CRM_Note_Form_Note extends CRM_Form
     }
 
     function preProcess( ) {
+        $this->_tableName = $this->get( 'tableName' );
+        $this->_tableId   = $this->get( 'tableId'   );
+        $this->_noteId    = $this->get( 'noteId'    );
     }
 
     /**
@@ -80,10 +96,12 @@ class CRM_Note_Form_Note extends CRM_Form
         $defaults = array( );
         $params   = array( );
 
-        if ( $this->_mode & self::MODE_ADD ) {
-        } else {
+        if ( $this->_mode & self::MODE_UPDATE ) {
+            if ( isset( $this->_noteId ) ) {
+                $defaults['note'] = CRM_BAO_Note::getNoteText( $this->_noteId );
+            }
         }
-        
+
         return $defaults;
     }
 
@@ -94,7 +112,9 @@ class CRM_Note_Form_Note extends CRM_Form
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->add('textarea', 'note', 'Notes:', array('cols' => '82',));    
+        $note = $this->add('textarea', 'note', 'Notes', array('rows' => 4, 'cols' => '82',));    
+        $note->setValue( '' );
+
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'refresh',
                                                 'name'      => 'Save',
@@ -118,22 +138,20 @@ class CRM_Note_Form_Note extends CRM_Form
     {
         // store the submitted values in an array
         $params = $this->exportValues();
-        
-        // action is taken depending upon the mode
-        $ids = array( );
-        if ($this->_mode & self::MODE_UPDATE ) {
-            // if update get all the valid database ids
-            // from the session
-            $ids = $this->get('ids');
-        }    
-        
-        $config  = CRM_Config::singleton( );
-        $session = CRM_Session::singleton( );
-        
-        // we need to add the note and modified date to the notes for contact id
 
-        $returnUserContext = $config->httpBase . 'note/view?cid=' . $contact->id;
-        $session->replaceUserContext( $returnUserContext );
+        // action is taken depending upon the mode
+        $note                = new CRM_DAO_Note( );
+        $note->note          = $params['note'];
+        $note->contact_id    = 1;
+        $note->modified_date = date("Ymd");
+
+        if ($this->_mode & self::MODE_UPDATE ) {
+            $note->id = $this->_noteId;
+        } else {
+            $note->table_name = $this->_tableName;
+            $note->table_id   = $this->_tableId;
+        }
+        $note->save( );
     }//end of function
 
 

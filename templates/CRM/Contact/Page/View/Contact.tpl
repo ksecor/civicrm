@@ -131,9 +131,9 @@
    {/foreach}
    </table>
      <br><!--a href="#">New Note</a--> 
-     <input type="button" name="add_note" value="New Note" onClick="location.href='{$config->httpBase}contact/view/note&nid={$note.id}&op=create';">
+     <input type="button" name="add_note" value="New Note" onClick="location.href='{$config->httpBase}contact/view/note&op=add';">
       {if $notesCount gt 3 }
-     | <a href="$config->httpBase}contact/view/note&nid={$note.id}&op=browse">Browse all notes</a>
+     | <a href="{$config->httpBase}contact/view/note&op=browse">Browse all notes</a>
      {/if}
     </div>
  </fieldset>
