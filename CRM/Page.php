@@ -61,18 +61,6 @@ class CRM_Page {
 
 
     /**
-     * constants for various modes that the page can operate as
-     *
-     * @var const int
-     */
-    const
-        VIEW_MODE_NONE                  =   0,
-        VIEW_MODE_NOTE                  =   1,
-        VIEW_MODE_GROUP                 =   2,
-        VIEW_MODE_REL                   =   4,
-        VIEW_MODE_TAG                   =   8;
-
-    /**
      * class constructor
      *
      * @param string $name  name of the page
