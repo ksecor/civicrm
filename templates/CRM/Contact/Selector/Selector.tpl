@@ -24,7 +24,7 @@
 <td>{$row.street_address}</td>
 <td>{$row.city}</td>
 <td>{$row.state}</td>
-<td><a href={$row.edit}>Edit</a></td>
+<td><a href={$row.edit}>Edit</a>&nbsp; <a href={$row.view}>View</a></td>
 </tr>
 {/foreach}
 </table>

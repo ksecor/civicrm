@@ -66,7 +66,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // we need to run the loop thru the num rows with offset in mind.
         $rows = array();
-
+        /*
         $query_string = <<<QS
             SELECT crm_contact.id as crm_contact_id, crm_contact.sort_name as crm_contact_sort_name,
             crm_address.street_address as crm_address_street_address, crm_address.city as crm_address_city,
@@ -82,6 +82,22 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             crm.location.is_primary = TRUE AND
             crm.email.pri
             QS;
+        */
+
+        $query_string = "
+            SELECT distinct(crm_contact.id) as crm_contact_id, crm_contact.sort_name as crm_contact_sort_name,
+            crm_address.street_address as crm_address_street_address, crm_address.city as crm_address_city,
+            crm_state_province.name as crm_state_province_name,
+            crm_email.email as crm_email_email,
+            crm_phone.phone as crm_phone_phone
+            FROM crm_contact 
+                 left outer join crm_location on (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                 left outer join crm_address on (crm_location.id = crm_address.location_id )
+                 left outer join crm_phone on (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+                 left outer join crm_email on (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                 left outer join  crm_state_province on (crm_address.state_province_id = crm_state_province.id)
+            ";
+
 
         $query_string .= " ORDER BY " . $sort->orderBy(); 
         $query_string .= " LIMIT $offset, $rowCount ";
@@ -101,6 +117,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $row['city'] = $this->crm_address_city;
                 $row['state'] = $this->crm_state_province_name;
                 $row['edit']  = 'index.php?q=/crm/contact/edit/'.$this->crm_contact_id;
+                $row['view']  = 'index.php?q=/crm/contact/view/'.$this->crm_contact_id;
                 $rows[] = $row;
                 CRM_Error::debug_var("row", $row);
             }
