@@ -68,7 +68,7 @@ CREATE TABLE crm_country (
 	idd_prefix   VARCHAR(4) COMMENT 'international direct dialing prefix from within the country TO another country',
 	ndd_prefix   VARCHAR(4) COMMENT 'access prefix to call within a country to a different area',
 
-    PRIMARY KEY(id)
+	PRIMARY KEY(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 
@@ -149,7 +149,7 @@ CREATE TABLE crm_location_type (
 	name        VARCHAR(64) COMMENT 'location_type name (typically brief)',
 	description VARCHAR(255) COMMENT 'location_type description (a more verbose description)',
 
-    is_reserved BOOLEAN DEFAULT 0 COMMENT 'is this location type a system created location that cannot be deleted by the user',
+	is_reserved BOOLEAN DEFAULT 0 COMMENT 'is this location type a system created location that cannot be deleted by the user',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE
@@ -180,27 +180,27 @@ CREATE TABLE crm_contact (
 	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact',
 	sort_name VARCHAR(64) COMMENT 'name being cached for sorting purposes',
 
-    home_URL VARCHAR(128) COMMENT 'optional "home page" URL for this contact',
-    image_URL VARCHAR(128) COMMENT 'optional URL for preferred image (photo, logo, etc.) to display for this contact',
+	home_URL VARCHAR(128) COMMENT 'optional "home page" URL for this contact',
+	image_URL VARCHAR(128) COMMENT 'optional URL for preferred image (photo, logo, etc.) to display for this contact',
     
 	source VARCHAR(255) COMMENT 'where domain_id contact come from, e.g. import, donate module insert...',
 
-    -- contact-level communication permissions and preferences
+	-- contact-level communication permissions and preferences
 	preferred_communication_method ENUM('Phone', 'Email', 'Post') COMMENT 'what is the preferred mode of communication',
 	do_not_phone     BOOLEAN DEFAULT 0,
 	do_not_email     BOOLEAN DEFAULT 0,
 	do_not_mail      BOOLEAN DEFAULT 0,
 
-    -- the hash col gives us a unique random post/get param handle for the record that isn't easily reverse engineered
-    -- since it is random. So we can use sequential ids (hence they can be guessed), but use the hash as a checksum to
-    -- prevent the reverse engineering. the hash is generated during contact creation time
-    hash INT UNSIGNED NOT NULL COMMENT 'key for validating requests related to this contact',
+	-- the hash col gives us a unique random post/get param handle for the record that isn't easily reverse engineered
+	-- since it is random. So we can use sequential ids (hence they can be guessed), but use the hash as a checksum to
+	-- prevent the reverse engineering. the hash is generated during contact creation time
+	hash INT UNSIGNED NOT NULL COMMENT 'key for validating requests related to this contact',
 
-    --  Need to flesh out approach for linking module actions to contact. Commented out for now. dgg
-    --	caid_latest INT UNSIGNED COMMENT 'latest contact action id',
+	--  Need to flesh out approach for linking module actions to contact. Commented out for now. dgg
+	--  caid_latest INT UNSIGNED COMMENT 'latest contact action id',
 
-    -- ? Is this needed?
-    --	module VARCHAR(255) COMMENT 'which module is handling this type',
+	-- ? Is this needed?
+	-- module VARCHAR(255) COMMENT 'which module is handling this type',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE,
@@ -229,9 +229,9 @@ CREATE TABLE crm_contact_individual(
 	prefix VARCHAR(8) COMMENT 'prefix',
 	suffix VARCHAR(8) COMMENT 'suffix',
 
-    display_name VARCHAR(128) COMMENT 'formatted name representing preferred format for display/print/other output',
+	display_name VARCHAR(128) COMMENT 'formatted name representing preferred format for display/print/other output',
 
-    -- greeting_type constants:
+	-- greeting_type constants:
 	-- Formal: Prefix + first_name + last_name
 	-- Informal: first_name
 	-- Honorific: prefix + ?? (not sure how this is supposed to work - check w/ Bob Schmitt)
@@ -251,7 +251,7 @@ CREATE TABLE crm_contact_individual(
 	mail_to_household_id INT COMMENT 'OPTIONAL FK to crm_contact_household record. If NOT NULL, direct postal mail to household rather than individual location.',
 
 	PRIMARY KEY (id),
-    -- FULLTEXT (first_name, last_name ),
+	-- FULLTEXT (first_name, last_name ),
 
 	FOREIGN KEY (contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
 
@@ -273,13 +273,13 @@ CREATE TABLE crm_contact_organization(
 	organization_name VARCHAR(64) NOT NULL,
 	legal_name VARCHAR(64),
 	nick_name VARCHAR(64),
-    legal_identifier VARCHAR(32) COMMENT 'EIN or other applicable unique legal identifier for this organization',
+	legal_identifier VARCHAR(32) COMMENT 'EIN or other applicable unique legal identifier for this organization',
 	sic_code VARCHAR(8),
 
 	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this org',
 
 	PRIMARY KEY (id),
-    -- FULLTEXT (organization_name, legal_name, nick_name),
+	-- FULLTEXT (organization_name, legal_name, nick_name),
 
 	FOREIGN KEY (contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
 	FOREIGN KEY (primary_contact_id) REFERENCES crm_contact(id)
@@ -441,8 +441,8 @@ CREATE TABLE crm_address(
 	state_province_id INT UNSIGNED COMMENT 'Optional FK to crm_state_province table',
 
 	postal_code VARCHAR(12) COMMENT 'Store both US (zip5) AND international postal codes. App is responsible for country/region appropriate validation.',
-    postal_code_suffix VARCHAR(12) COMMENT 'Store the suffix, like the +4 part in the USPS system.',
-    -- US Postal Svc bulk mail address code (ADC = Area Distribution Center)
+        postal_code_suffix VARCHAR(12) COMMENT 'Store the suffix, like the +4 part in the USPS system.',
+        -- US Postal Svc bulk mail address code (ADC = Area Distribution Center)
 	usps_adc VARCHAR(32),
 
 	country_id INT UNSIGNED COMMENT 'Optional FKey to crm_country table',

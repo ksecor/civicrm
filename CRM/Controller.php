@@ -209,15 +209,13 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      *
      */
     function addPages( $stateMachine, $mode = CRM_Form::MODE_NONE ) {
-        $stateNames = array( );
+        $pageNames = array( );
 
-        if ( ! $states ) {
-            $states = $stateMachine->getStatesDescription( );
-        }
+        $pages = $stateMachine->getPages( );
 
-        foreach ( $states as $classPath ) {
-            $className  = CRM_String::getClassName( $classPath );
-            $stateNames[] = $className;
+        foreach ( $pages as $classPath ) {
+            $className   = CRM_String::getClassName( $classPath );
+            $pageNames[] = $className;
 
             CRM_Utils::import( $classPath );
 
@@ -227,7 +225,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
             $this->addPage( $page );
         }
 
-        $this->addDirect( $stateNames );
+        $this->addDirect( $pageNames );
 
     }
 

@@ -58,7 +58,7 @@ class CRM_QuickForm_Action_Back extends CRM_QuickForm_Action {
      * @access public
      */
     function perform(&$page, $actionName) {
-        $this->_stateMachine->getBackState( $page, $actionName );
+        $this->_stateMachine->perform( $page, $actionName, 'Back' );
     }
 
 }

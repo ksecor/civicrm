@@ -399,7 +399,9 @@ function contact_add_org()
  *******************************************************/
 function contact_list($id=0) 
 {
-    return '';
+	$contact = new CRM_Contacts_Page_List( );
+    $contact->run( );
+    return $contact->display( );
 } // end of function contact_list
 
 /*******************************************************
