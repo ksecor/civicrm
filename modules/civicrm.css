@@ -4,7 +4,11 @@
 ** Form elements
 */
 
-/* Tentative styling for 3 classes of text input fields. Need to test. dgg */
-#crm-container .form-text.small {width: 2em;}
-#crm-container .form-text.medium {width: 10em;}
-#crm-container .form-text.large {width: 20em;}
+/* Tentative styling for classes of text input fields. Need to test. dgg */
+#crm-container .form-text .two {width: 2em;}
+#crm-container .form-text .four {width: 4em;}
+#crm-container .form-text .eight {width: 8em;}
+#crm-container .form-text .twelve {width: 12em;}
+#crm-container .form-text .medium {width: 20em;}
+#crm-container .form-text .big {width: 30em;}
+#crm-container .form-text .huge {width: 45em;}
