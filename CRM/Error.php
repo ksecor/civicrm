@@ -249,27 +249,6 @@ class CRM_Error extends PEAR_ErrorStack {
     }
 
 
-    /**
-     * display the error message on terminal
-     *
-     * @param  string message to be output
-     * @param  bool   should we log or return the output
-     *
-     * @return string format of the backtrace
-     *
-     * @access public
-     *
-     * @static
-     */
-    static function debug_log_message($message="", $log=true)
-    {
-        $error =& self::singleton( );
-        $out = "<p /><code>$message</code>";
-        if ($log) {
-            echo $out;
-        }
-        return $out;
-    }
 
 
     /**
@@ -385,6 +364,31 @@ class CRM_Error extends PEAR_ErrorStack {
         $string1 = "leaving  file " . $array1[0]['file'];
         self::debug_log_message($string1);  
     }
+
+
+    /**
+     * display the error message on terminal
+     *
+     * @param  string message to be output
+     * @param  bool   should we log or return the output
+     *
+     * @return string format of the backtrace
+     *
+     * @access public
+     *
+     * @static
+     */
+    static function debug_log_message($message="", $log=true)
+    {
+        $error =& self::singleton( );
+        $out = "<p /><code>$message</code>";
+        if ($log) {
+            // echo $out;
+        }
+        return $out;
+    }
+
+
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Error');
