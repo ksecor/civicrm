@@ -12,6 +12,7 @@ require_once 'CRM/Contacts/Contacts_Csearch.php';
 require_once 'CRM/Contacts/Contacts_Search.php';
 require_once 'CRM/Contacts/Households.php';
 require_once 'CRM/Contacts/Organizations.php';
+require_once 'CRM/Contacts/List_Contacts.php';
 
 require_once 'CRM/Contacts/Selector.php';
 require_once 'CRM/Selector/Controller.php';
@@ -74,6 +75,7 @@ function contact_block($op='list', $delta='0')
                 $contact_csearch = new CRM_Contacts_Contacts_Csearch();
                 $contact_csearch->run(CRM_Form::MODE_CREATE, 0);
                 $content = $contact_csearch->getContent();
+                //$content = $contact_csearch->display();
                 $block['subject'] = "<span class='crm_blocktitle'>CRM Contact Search</span>";
                 $block['content'] = $content;
                 break;   
@@ -82,6 +84,7 @@ function contact_block($op='list', $delta='0')
                 $contact_qadd = new CRM_Contacts_Contacts_Qadd();
                 $contact_qadd->run(CRM_Form::MODE_CREATE, 0);
                 $content = $contact_qadd->getContent();
+                //$content = $contact_qadd->display();
                 $block['subject'] = "<span class='crm_blocktitle'>CRM Quick Add Contact</span>";
                 $block['content'] = $content;
                 break;   
@@ -402,14 +405,23 @@ function contact_add_org()
  * lists all contacts from db.
  *
  *******************************************************/
-function contact_list($id=0) 
+/*function contact_list($id=0) 
 {
 	$contact = new CRM_Contacts_Selector( );
     $controller = new CRM_Selector_Controller( $contact, null, null, CRM_Action::VIEW );
     $controller->run( );
     return $controller->getContent();
 } // end of function contact_list
+*/
 
+function contact_list($id=0) 
+{
+    $contact = new CRM_Contacts_List_Contacts();
+    $contact->run(CRM_Form::MODE_CREATE, 0);
+    //return $contact->display();
+    return $contact->getContent();
+    //return '';
+} // end of function contact_list
 /*******************************************************
  *
  * contact_query()
