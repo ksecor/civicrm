@@ -3,6 +3,7 @@ body, #search {
   color: #000;
   background: #fff;
 }
+a .marker { color: #f00; }
 a, a:link { color: #333; }
 a:visited { color: #777; }
 a:hover, a:focus { color: #03f; }
@@ -553,17 +554,6 @@ br.clear {
     padding-bottom: 2px;
     padding-top: 2px;
     whitespace: nowrap
-}
-
-#crm-select-list {
-  vertical-align: bottom;
-  margin: 0;
-  padding: 0;
-}
-
-#crm-list-action {
-    padding: 5px;
-    width: 100%;
 }
 
 .rmsSubLink {

@@ -1,0 +1,9 @@
+/* $Id: print/style.css,v 1.0.0.0 2004-11-23 9:17:50 PM Exp $ */
+/* Democratica Print Styles */
+
+#branding, #navigation, .sidebar {
+  display: none;
+}
+img:after {
+  content: attr(alt)
+}

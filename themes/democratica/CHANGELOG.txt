@@ -1,0 +1,68 @@
+CHANGELOG
+=========
+0.8_delta
+* drupal.css bugs
+** removed clear:both on #aggregator .news-item
+
+0.8_echo
+* removed 7px padding-right on #sidebar-left to account for column-drop
+* added error, status and help icons and improved colors
+* removed error background image from input.error
+* added .watchdog .active styles
+* added nifty image alt text print style
+* got rid of link on previews
+* fixed missing calendar backgound images
+* the calendars WILL NOT WORK IN THE LEFT SIDEBAR. Sorry, but the're
+  just not enough space.
+
+0.8_foxtrot
+* fixed invalid duplicate of site_name id
+* fixed invalid "skip to content" link attributes output by l()
+* tidied up label:hovers with outline and background instead of 
+  underline in main content; also middle aligned label::inputs
+* removed johnkerry.com h2 lowercase style
+* unbolded breadcrumbs and added hover underline
+* fixed width of user login inputs; no one told me that #name
+  and #pass had been renamed to #edit-name and #edit-pass!
+* did what I could to fix up input formats but the html is
+  atrocious, so any real improvements will have to wait
+* changed layout.css .clearing style to have font-size: 0; 
+  instead of visibility: hidden;
+* fixed IE JavaScript warning bug
+* added node.tpl.php to try and fix column overlaps: added overflow setting to .content
+* changed overall width to 94% for 3 column designs; 2 column layouts are at 80%
+* Added min-width trick for IE 
+* Added styles for #.watchdog-httpd in #tracker
+
+0.8_golf (the IE bugfix release)
+* Fixed IE min-width trick (svn from 12/12 caused IE crash!)
+* fixed #sidebar-left border (bad alignment in IE)
+* added some junk to fix up the user menu in IE
+* moved search location to sidebars (what it was doing floating up there I may never know...)
+* removed original worthless min-width lteIE6 styles in page.tpl.php, incidently 
+  fixing jibberish characters that appeared above web page
+* Since IE doesn't support :focus well, I removed the red BG from required form fields (IE only)
+* Removed .comment .title formatting... not sure how or why it turned green!
+* More drupal.css fixes.
+* Fixed problem with background: none; on input format list by tossing the background image 
+  offscreen (hey! it works.)
+* Fixed weird background coloring on fieldset legends
+* Fix for exploding textareas (flpanque.net/2003/Articles/iecsstextarea and
+  intertwingly.net/stories/2003/05/25/1432a.html); had to set page-title height
+  for IE to prevent them from disappearing.
+* Removed page-title underlines
+* Big changes to colors and comment formatting (including hovers)
+* Fixed excessive nav-primary height in IE
+* Fixed IE bug of not showing aggregator page content 
+* Fixed a bunch of formatting issues on the profile page
+* Fixed a bunch of peekaboo bugs with * {zoom: 1;} (see )
+
+0.8_hector
+* Destroyed drupal.css. YAY!!!
+* Added a new semantic local task menu system (not active yet)
+* Added word_split function for long text in sidebars
+* Fixed 98% content dropping issues (some exist in IE due to font-size problems)
+* Removed my nasty tracker background images
+* Reformed modules.css file -- pulled in drupal.css styles and gutted fonts
+* Created custom aggregator output & fixed wonky styles
+* Fixed output of empty secondary nav 

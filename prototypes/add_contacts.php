@@ -4,8 +4,12 @@
   <title>Add Contact</title>
   <meta http-equiv="Content-Style-Type" content="text/css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<style type="text/css" media="all">@import "misc/drupal.css";</style>
-<style type="text/css" media="all">@import "themes/box_grey_smarty/style.css";</style>
+<link rel="stylesheet" href="misc/drupal.css" type="text/css" />
+<link rel="stylesheet" href="themes/box_grey_smarty/style.css" type="text/css" />
+
+<!-- <style type="text/css" media="all">@import "misc/drupal.css";</style>
+<style type="text/css" media="all">@import "themes/box_grey_smarty/style.css";</style> -->
+
 </head>
 <!-- init function sets display properties for form sections -->
 <body onload="init('add_contact','contact_title');">
@@ -98,7 +102,7 @@ function hide(section) {
 //]]>
 </script>
     <table class="rmsPageTitle" width="100%">
-        <tr><td><h3 class="content-title">Add Contact (Individual)</h3></td>
+        <tr><td><h3 class="content-title">Add Person</h3></td>
         <td align="right">
             <span class="rmsSubLink"><a href="">&raquo; Add Contact Organization</a> &nbsp; &raquo; <a href="">Add Household</a></span> &nbsp; &nbsp;
             <a href="" title="Help"><img src="i/help.png" align="absmiddle" alt="Help">&nbsp;Help</a>
@@ -114,8 +118,7 @@ function hide(section) {
 	
 	<!-- start main content -->
 	<form action="add_contacts.html" method="post" name="add_contact">
-	<input type="submit" name="add_contact" value="save" class="form-submit">
-	<input type="button" name="cancel" value="cancel" class="form-submit"><br/>
+	<a href="list_contacts.php" class="marker">Cancel and go back</a><br/>
 
 	<div id="core">
 	<fieldset><legend>Name and Greeting</legend>
@@ -244,7 +247,7 @@ function hide(section) {
 			<input type="text" maxlength="255" class="form-text" name="edit[0][email][0]" size="35" value="" />
 		</td>
 	</tr>
-	<tr><td></td><td colspan=2 class="form-item"><a href="">[+] another email</a></td></tr>
+	<tr><td></td><td colspan=2><a href="">[+] another email</a></td></tr>
 
 	<tr>
 		<td></td>
@@ -257,7 +260,7 @@ function hide(section) {
 			<div class="description">Select IM service and enter screen-name / user id.</div>
 		</td>
 	</tr>
-	<tr><td></td><td colspan=2 class="form-item"><a href="">[+] another instant message id</a></td></tr>
+	<tr><td></td><td colspan=2><a href="">[+] another instant message id</a></td></tr>
 
 	<tr>
 		<td></td>
@@ -320,10 +323,11 @@ function hide(section) {
 	</fieldset>
 	</div> <!-- end 'core' section of contact form -->
 
-	<div id="location2">
+    <input type="submit" name="add_contact" value="create this contact" class="form-submit">
+
+    <div id="location2">
 	<fieldset><legend>Location</legend>
 	<table border="0" cellpadding="2" cellspacing="2"><tbody>
-
 	<tr>
 		<td class="form-item">
 			<select name="edit[1][context]"><option>Home</option><option selected>Work</option><option>Other</option></select> &nbsp;
@@ -530,8 +534,9 @@ function hide(section) {
 	</div>
 	
 	<div class="form-item">
-	<input type="submit" name="add_contact" value="save" class="form-submit">
-	<input type="button" name="cancel" value="cancel" class="form-submit"><br/>
+	<input type="submit" name="add_contact" value="create this contact" class="form-submit">
+	<!-- <input type="button" name="cancel" value="cancel" class="form-submit"> -->
+    <br/>
 	</div>
 	</form>
     

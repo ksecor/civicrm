@@ -1,0 +1,189 @@
+/* $Id: basics.css,v 0.8.0.3 2/16/05 9:36:22 AM Exp $ */
+/* Democratica Basic Styles */
+
+/*<group=HTML>*/
+
+body {
+  color: #333;
+  background-color: #fff;
+}
+/*
+** HTML elements
+*/
+hr {
+  height: 1px;
+  border: 1px solid gray;
+}
+img {
+  border: 0;
+}
+table {
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  padding-right: 1em;
+  border-bottom: 3px solid #ccc;
+  white-space: nowrap;
+}
+p {
+  padding: 0;
+  margin: 0;
+}
+p, #content ul li {
+  margin-bottom: 0.8em;
+} 
+hr {
+  border: 1px dotted #004D81;
+}
+pre {
+  background-color: #efefef;
+  padding: 0.75em 1.5em;
+  border: 1px solid #ddd;
+  width: 90%;
+  overflow: scroll;
+}
+img { 
+  border: 0; 
+}
+blockquote {
+  border: 0 #ddd dashed;
+  border-width: 1px 0;
+  margin: 0.5em 1.0em;
+  padding: 0.3em;
+}
+h3 { 
+  padding-bottom: 0.2em; 
+  margin-bottom: 0; 
+}
+        
+      /*</group>*/
+/*<group=Typography>*/
+
+body {
+  font: 76% verdana, sans-serif;
+  _font-size: 100%;
+}
+/*<group=Typefaces>*/
+code, .form-text, textarea {
+  font-family: 'andale mono', 'Courier New', Monaco, monospace;
+}
+#branding {
+  font-family: georgia, times, serif;
+}
+
+/*</group>*/
+/*<group=Font Weight, Style & Decoration>*/
+#main-content fieldset .form-item label.option, #main-content .watchdog-error td a, .form-item label, #main-content .node .links, #help:before, .page-title {
+  font-weight: normal;
+}
+h3, h4, h5, h6, #site-name, #site-slogan, #mission, #main-content h2.page-title, #main-content legend, #main-content .comment .title, .comment-folded .subject, legend, input[type="submit"], .comment .new, .comment-folded .new, .item-list .title, #sidebar-right .block .more-link, #main-content .links .read-more, .error, #main-content .watchdog-error td, #main-content .form-item label.option, .node h2.page-title, .poll .text, .poll-title, .book .title, div#forum table .name, div#forum a, div#forum table .navigation {
+  font-weight: bold;     
+}
+#help:before {
+  font-style: normal;
+}
+blockquote, #sidebar-right .block h2, .description, #help, #main-content .links .read-more, #aggregator .news-item-source {
+  font-style: italic;
+}
+#notices a, .item-list .icon a, .item-list .icon a:hover, a:hover, .content a:hover, .content a, :link, .sidebar label:hover, #main-content table label:hover, #current a, .menu a.active, #breadcrumbs a:hover, #main-content .node h2.page-title a:hover, #main-content .links a:hover {
+  text-decoration: underline;  
+}
+#site-name, #site-name a, #branding a, #breadcrumbs a, #navigation #nav-primary a, .menu a, #navigation #nav-primary a:link, #navigation #nav-primary a:visited, #main-content label:hover, #main-content .node h2.page-title a, #main-content .links a, .comment .title a, .comment-folded .subject a, ul.primary li a:hover, #local-tasks ul.primary a, #local-tasks ul.primary span, #local-tasks ul.primary li a.current {
+  text-decoration: none;
+}
+
+/*</group>*/
+/*<group=Font Colors>*/
+#main-content h2, #pager a, :before {
+  color: #004D81;
+}
+a, .content a, :link, #navigation #nav-primary a, .menu a {
+  color: #065285;
+}
+:visited, .path a, .path a:visited {
+  color: #10598A;
+}
+#main-content .box h2, .comment .title a, .comment-folded .subject a  {
+  color: #3579B2;
+}
+label:hover {
+  color: #039;
+}
+a:hover, .content a:hover, #current a, .menu a.active, #navigation #nav-primary a:hover, #navigation #nav-primary a:hover {
+  color: #C20508;
+}
+.marker, .error, #main-content .watchdog-error td, #main-content .watchdog-error td a, #content-title, .page-title, #main-content .watchdog-httpd td, #main-content .links a:hover {
+  color: #BE0101;
+}
+#site-slogan { 
+  color: #efefef;
+}  
+.item-list .icon {
+  color: #aaa;
+}
+label:hover, .form-item label, .description, #help, #local-tasks ul.primary a, #local-tasks ul.primary span, #local-tasks ul.primary li a.current  {
+  color: #333; 
+}
+#pager :visited, .comment-reply .comment-new .author, #help:before, #main-content #breadcrumbs ul:before {
+  color: #666;
+  }
+#main-content .node .info, #main-content .node small, #main-content .comment .author {
+  color: #979797;
+}
+#main-content .node small a, #main-content .links a, #main-content .comment .author a {
+  color: #be734d;
+}
+#main-content .node small a:hover, , #main-content .comment .author a:hover {
+  color: #720101;
+}
+span.credit {
+  color: #999;
+}
+#site-name, #site-name a, #branding a, #mission, #notices, #notices a {
+  color: #fff;
+}
+.comment-reply .comment-new a, .node-add .node a, .node-add #main-content .node h2, .node-edit .node a, .node-edit #main-content .node h2, .item-list .icon a, .item-list .icon a:hover {
+  color: #000;
+}
+.comment-folded .new, .comment .new {
+  color: #fc0;
+}
+#main-content #breadcrumbs {
+  color: #6b0;
+}
+.ok {
+  color: #080;
+}
+
+/*</group>*/
+/*<group=Font Sizes>*/
+
+#site-name, .page-title {
+  font-size: 2.0em;
+}
+#content-title, #main-content .node h2.page-title, h1, #main-content .comment .title, div#forum table .name { 
+  font-size: 1.2em; 
+}
+h2, pre, code, #site-slogan {
+  font-size: 1.1em;
+}
+h3, .sidebar .block h2, #main-content .box h2, .item-list .title, #main-content #breadcrumb, .comment-folded .subject, button.form-submit, form .page-title, fieldset legend, input, textarea {
+  font-size: 1.0em;
+}
+h4, h5, h6, #search .form-text, #breadcrumbs, #help, #main-content .node .info, .sidebar .block .content, #sidebar-left h2, .sidebar .block-search .form-submit, #main-nav a, #main-content td, #main-content th, .form-item label, .comment select, #notices, #pager, #sidebar-left .item-list, #tabs .secondary, .tips, #local-tasks ul.primary a, #local-tasks ul.primary span, #local-tasks ul.primary li a.current, #aggregator .news-item-source, #forum .description, #forum .navigation {
+  font-size: 0.9em;
+}
+.node .links, .description, .comment .links, .comment .new, .comment .author, span.credit, .comment-folded .new, .box select, .more-help-link, div#forum table .topics, div#forum table .posts, div#forum table .last-reply, div#forum table .created, div#forum table .replies {
+  font-size: 0.8em;
+}
+.sidebar .block-user, body.admin-modules table, body.admin-block table, body.admin-user table, body.admin-logs table {
+  _font-size: 11px;
+}
+body.admin-aggregator table, body.admin-user table, body.admin-comment table, body.admin-filters table, body.admin table, #notices, #pager {
+  _font-size: 10px;
+}
+
+
+/*</group>*/
+  /*</group>*/ 

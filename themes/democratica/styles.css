@@ -1,0 +1,924 @@
+/* $Id: styles.css,v 0.8.0.3 hector 2/16/05 4:09:53 PM cmessina Exp $ */
+/* Democratica Visual Styles */
+
+/*<group=Site Specific Information>*/
+
+#branding {
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #1395D2;
+  background: url(images/bg_branding.png) repeat-x top left;
+}
+#branding a:hover {  
+  background-color: transparent; 
+}
+#site-name {
+  margin: 4px 0 0 4px;
+  padding-top: 1.0em;
+}
+#logo  {
+  padding: 1.0em 0 4px;
+}
+#site-slogan { 
+  clear: right;
+  float: right;
+  margin: -1.5em 0 0 0;
+  padding: 0 8px 2px 0;
+}
+#site-slogan span {
+  margin:0;
+  padding: 6px 6px 2px 170px;
+}
+#mission {
+  vertical-align: middle;
+  padding: 1.0em;
+  padding-right: 120px; /* makes room for bg graphic */
+  margin: 0 0 1.0em 0;
+  min-height: 30px;
+  border: 1px solid #466A8D;
+  border-right-color: #5D8CBA;
+  border-bottom-color: #5D8CBA;
+  background: #69C url(images/bg_mission.png) top right no-repeat;
+  _background-image: url(images/bg_mission_ie.png) !important;
+}  
+  /*</group>*/
+/*<group=Navigation>*/
+/*<group=Drupal Tabs>*/
+ul.primary {
+  border-collapse: collapse;
+  padding: 0 0 0 1em;
+  white-space: nowrap;
+  list-style: none;
+  margin: 0 5px 1.0em;
+  height: auto; 
+  line-height: normal;
+  border-bottom: 1px solid #bbb;
+}
+ul.primary li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+ul.primary li a {
+  background-color: #ddd;
+  border-color: #bbb;
+  border-width: 1px;
+  border-style: solid solid none solid;
+  -moz-border-radius-topleft: 0.3em;
+  -moz-border-radius-topright: 0.3em;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  margin-right: 0.5em;
+  padding: 0em 1em;
+  text-decoration: none;
+}
+ul.primary li.active a {
+  background-color: #fff;
+  border: 1px solid #bbb;
+  border-bottom: #fff 1px solid;
+}
+ul.primary li a:hover {
+  background-color: #eee;
+  border-color: #ccc;
+  border-bottom-color: #eee;
+}
+ul.secondary {
+/*  border-bottom: 1px solid #bbb; */
+  padding: 0.5em 1em 0.5em 1em;
+  margin: 5px;
+}
+ul.secondary li {
+  display: inline;
+  padding: 0 1em;
+  border-right: 1px solid #ccc;
+}
+ul.secondary a {
+  padding: 0;
+  text-decoration: none;
+}
+ul.secondary a.active {
+  border-bottom: 4px solid #999;
+}
+
+/*</group>*/
+/*<group=Primary Navigation>*/
+
+#navigation #nav-primary, #navigation #nav-secondary {
+  margin: 0;
+  margin-top: 12px;
+  padding: 0;
+}
+#navigation #nav-primary ul {
+  list-style-type: none; 
+}
+#navigation #nav-primary li {
+  list-style: none; 
+}
+#navigation li {
+  padding: 0;
+  margin: 0 0 2px 6px;
+}
+#navigation #nav-primary a {
+  border-bottom: 1px solid #bbb;
+}
+body.layout-right #navigation #nav-primary a {
+  border-bottom-color: #f0f5fa;
+}
+#navigation a {
+  padding: 1px 0;
+  _height: 0; /* fixes double height in IE */
+}
+#navigation a, .menu a {
+  display: block;
+}
+/*</group>*/
+
+/*<group=Secondary Navigation>*/
+#navigation ul#nav-secondary {
+  margin-left: 1.0em;
+  list-style: outside !important;
+  list-style-type: square !important; 
+}
+#navigation ul#nav-secondary li {
+  list-style: outside !important;
+  list-style-type: square !important; 
+}
+/*</group>*/
+/*<group=Breadcrumbs>*/
+
+#main-content #breadcrumbs {
+  padding: 0.5em 0;
+  margin: 0;
+  _height: 0;
+}
+#main-content #breadcrumbs ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#main-content #breadcrumbs li {
+  display: inline;
+  _padding-left: 1.0em; 
+  _margin-left: 0.5em; 
+}
+#main-content #breadcrumbs li.first {
+  background: none; 
+  padding-left: 0; 
+  margin-left: 0; 
+}
+/*</group>*/
+  /*</group>*/
+/*<group=Notices>*/
+
+#notices a:hover {
+  background-color: transparent;
+}  
+  /*</group>*/
+/*<group=Search>*/
+
+#search {
+  padding-bottom: 1.0em;
+}
+#search .form-text, #search .form-submit {
+  margin: 0;
+}
+#search .form-text {
+  margin-right: 1.0em;
+}
+  /*</group>*/
+/*<group=Messages>*/
+.message {
+  padding: 0;
+  margin: 0.5em 1.25em;
+}
+form #message {
+  background-image: none; 
+}
+.description, #help, .messages  {
+  padding: 0.75em;
+  margin: 1.0em 0;
+  line-height: 1.4em;
+  border-width: 2px 0;
+  border-style: solid;
+  _height: 0;
+}
+.messages ul {
+  padding: 0;
+  margin: 0;
+}
+/*<group=Status>*/
+.status {
+  background: url(images/bg_message.png) repeat;
+  border: 2px solid #80FF00;
+}  
+#main-content .status ul li {
+  background: url(images/icon_status_sm.png) 0 4px no-repeat; 
+  padding-left: 15px; 
+  list-style: none; 
+  line-height: 1.5em;
+  padding-bottom: 0.25em;
+}
+/*</group>*/
+/*<group=Description>*/
+.description {
+  border-width: 1px 0;
+  border-style: dotted;
+  border-color: #999;
+}
+.description:before {
+  content: url(images/icon_description.png);
+  vertical-align: middle;
+  padding-right: 4px;
+}
+/*</group>*/
+/*<group=Help>*/
+
+#help { 
+  cursor: help;
+  background: url(images/bg_help.png) repeat;
+  border-color: #fc0;
+}
+#help:before {
+  content: url(images/icon_help.png);
+  vertical-align: middle;
+  padding-right: 4px;
+}
+/*</group>*/
+/*<group=Error>*/
+.error, .form-item input.error {
+  border-color: #BE0101;
+}    
+.error {
+  background: url(images/bg_error.png) repeat;
+}
+td .error {
+  background-image: none;
+}
+.error:before {
+  content: url(images/icon_error.png);
+  vertical-align: middle;
+}
+td .error:before {
+  padding-right: 4px;
+}
+
+.form-item input.error {
+  background-image: none;
+}    
+/*</group>*/
+#message .item-list, .item-list h3 {
+  margin-top: 0; 
+}
+/*</group>*/  
+
+/*<group=Main Content>*/
+h1.page-title {
+  margin-top: 0.25em;
+  border-bottom: 1px solid #BE0101;
+  _height: 0; /* this fixes the disappearing titles with the exploding textarea fix */
+}
+#content-title, .node .page-title {
+  padding-bottom: 5px;
+  margin-bottom: 1.0em;
+  border-bottom: 1px dotted #be734d;
+  _height: 0; /* this fixes the disappearing titles with the exploding textarea fix */
+  position: relative;
+}
+#body-content {
+/*
+  _overflow: auto;
+  _width: expression( ( documentElement.clientWidth < 760 ) ? "300px" : "auto" ); */ /* IE min-width hack */
+}
+#main-content {
+  padding: 0;
+  margin: 0;
+}
+#main-content h2 {
+  padding: 0;
+  padding-bottom: 0.25em;
+  margin: 0.25em 0;
+  border-bottom: 1px solid #3579B2;
+}
+#main-content h2 a {
+  border-bottom: none;
+  display: block;
+}
+#main-content .node {
+  margin: 0;
+  margin-bottom: 1.0em;
+}
+#main-content .node .content, .comment .content, .comment, .comment-folded {
+  padding: 0.5em;
+  margin: 0.5em 0;
+  line-height: 1.5em;
+/*  overflow: auto;*/
+}
+#main-content .node .content {
+  padding: 5px 0;
+  margin: 0;
+}
+#main-content .node .info {
+  margin: 1.0em 0;
+  margin-top: 0;
+}
+
+/*<group=Profile Styles>*/
+.profile {
+  _position: relative;
+  _height: 1%;
+}
+.picture {
+  _position: relative;
+  _height: 1%;
+}
+.picture img {
+  padding: 2px;
+  border: 1px solid #ebebeb;
+  background-color: #fff;
+}
+.profile .picture {
+  margin: 0 0 1em 1em;
+}
+/*</group>*/
+
+/*<group=Book Styles>*/
+.node-add #main-content .node .book .nav, .node-edit #main-content .node .book .nav {
+  display: none;
+}  
+/*</group>*/
+
+/*<group=Post Links>*/
+
+#main-content .node .links, #main-content .comment .links {
+  padding: 2px 10px 0;
+  margin: 0 0 0.5em 0;
+  border-top: 1px dotted #3579B2;
+  text-align: right;
+}
+#main-content .links {
+  margin-bottom: -0.01em;
+  clear: none;
+  _height: 0;
+}
+#main-content .links .read-more {
+  background: transparent;
+}
+/*</group>*/
+/*<group=Box Formatting>*/
+
+#main-content .box {
+  background-color: #EDF3F9; 
+  border: 1px solid #CFE4F3;
+  padding: 0;
+  margin: 0 0 2.0em 0;
+}
+#main-content .box h2 {
+  margin: 0 0 0.5em 0;
+  background-color: #CFE4F3;
+  border-bottom: 1px dotted #3579B2;
+}
+#main-content .box .content, #main-content .box h2 {
+  padding: 0.5em;
+}
+/*</group>*/
+
+/*<group=Comment Formatting>*/
+.comment {
+  border: 2px solid #fff;
+}
+.comment:hover {
+  background-color: #ffe;
+  border: 2px solid #fec;
+}
+/*</group>*/  
+
+
+/*<group=Comments & Book Previews>*/ 
+#main-content .comment .content {
+  padding: 0;
+}
+/** Borrowed from 37 Signals **/ 
+.comment-reply #main-content .comment-new .content, .node-add #main-content .node .content, .node-edit #main-content .node .content {
+  padding: 0 10px 5px;
+  _height: 0;
+}
+.comment-folded .new, .comment .new {
+  float: right;
+  margin: 5px 5px 0 0;
+}
+.comment-reply .comment-new, .node-add #main-content .node, .node-edit #main-content .node {
+  padding: 0;
+  padding-bottom: 5px;
+  border: 2px solid #ef9c00;
+  margin: 0 0 1.0em 0;
+  background-color: #ffc;
+}
+.comment-reply .comment-new .title, .node-add #main-content .node h2, .node-edit #main-content .node h2 {
+  background-color: #ff6;
+  border-bottom: 1px solid #000;
+}
+.comment-reply .comment-new .author, .node-add #main-content .node .info, .node-edit #main-content .node .info  {
+  background-color: #ffc;
+  padding: 0 10px;
+}
+.comment .author, span.credit, .node-add #main-content .node .info, .node-edit #main-content .node .info {
+  padding-bottom: 0.5em;
+}
+.comment-reply #main-content .comment-new .links, .node-add #main-content .node .links, .node-edit #main-content .node .links {
+  display: none;
+}
+.comment-reply .comment-new .title, .comment-folded .subject, .node-add #main-content .node h2, .node-edit #main-content .node h2 {
+  margin: 0;
+  padding: 5px 10px;
+  border: none;
+}
+/*</group>*/
+
+/*</group>*/ 
+/*<group=Sidebar>*/
+/*<group=General Styles>*/
+
+.sidebar {
+  padding: 0;
+  margin: 0;  
+}
+.sidebar table, .sidebar th, .sidebar td {
+  border: 0;
+}
+.sidebar .block h2 {
+  padding: 5px;
+  margin: 0;
+  margin-top: 1.0em;
+  color: #3579B2;
+}
+.sidebar .block {
+  margin-left: 0;
+  padding: 0;
+}
+.sidebar .block ul {
+  margin: 0;
+  padding: 0 0 0.25em 0.5em;
+}
+.sidebar .block .content {
+  padding: 0;
+  margin: 0 6px;
+  /** delta: remove clear:both; **/
+}
+.xml-icon {
+  text-align: right;
+  margin-top: 0.5em;
+}
+.sidebar .block .content .xml-icon {
+  text-align: center;
+}
+.sidebar .block input.form-text, .sidebar .block-search input.form-password {
+  width: 125px;
+}
+.sidebar .block-search input.form-text {
+  width: 100px;
+  padding: 1px;
+  margin-right: 5px;
+}
+.sidebar .block-search button.form-submit { 
+  width: 60px;
+}
+/*</group>*/
+/*<group=Right Sidebar>*/
+
+#sidebar-right {
+  padding-top: 6px; 
+  _height: 0;
+}
+#sidebar-right .block {
+  width: 247px;
+  background: repeat-y left top url(images/sidebar_box_bg.png);
+  padding: 0;
+  margin: 0;
+  margin-left: 16px;
+}
+#sidebar-right .block h2 {
+  background: no-repeat top left url(images/sidebar_box_top.png);  
+  padding: 0.8em 1.0em 0.5em 1.0em;
+  margin: 0;
+}
+#sidebar-right .block .content {
+  background: no-repeat bottom url(images/sidebar_box_bottom.png);  
+  margin: 0;
+  padding: 0 1.0em 12px 1.0em;
+}
+#sidebar-right .block .more-link {
+  text-align: right;
+}
+#sidebar-right .block .more-link a {
+  background: url(images/bullet_triangle.png) 1px 4px no-repeat; 
+  padding-left: 9px; 
+}
+/*</group>*/
+/*<group=Sidebar Left>*/
+#sidebar-left .block h2 {
+  color:  #004D81;
+  padding: 0;
+  margin: 1.5em 0 0 0.5em;
+}
+   
+/*</group>*/
+/*<group=Block User>*/
+
+/*  Block User */  
+.block-user .menu li.expanded, .block-user .menu li.leaf, .block-user .menu li.collapsed {
+  list-style-type: none;
+  list-style-image: none;
+}
+.block-user .menu {
+  margin-bottom: 1.0em;
+  background-color: #f1f1f1;
+}
+.block-user .menu, .block-user .menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.block-user .menu ul {
+  padding: 0.3em 0;
+  border-left: 1px solid #D0D9D9;
+  border-bottom: 1px solid #D0D9D9;
+  margin-top: 0.2em;
+  _margin-left: -0.5em;
+  _width: 140px;
+  _overflow: hidden;
+}
+.block-user .menu ul ul {
+  margin-top: 0.3em;
+}
+.block-user .menu li {
+  display: block;
+  padding: 0.1em 0 0.1em 10px;
+  margin: 0;
+}  
+.block-user .menu li.expanded {
+  background: url(images/icons_expanded.png) 0px 3px no-repeat;
+}
+.block-user .menu li.leaf {
+  background: url(images/icons_leaf.png) 0px 3px no-repeat;
+}
+.block-user .menu li.collapsed {
+  background: url(images/icons_collapsed.png) 0px 3px no-repeat;
+}
+.block-user .menu li.expanded:hover {
+  background-position: -400px 3px ;
+}
+.block-user .menu li.leaf:hover {
+  background-position: -400px 3px;
+}
+.block-user .menu li.collapsed:hover {
+  background-position: -400px 3px;
+}
+.block-user .menu li a {
+  display: block;
+  padding: 0;
+  padding-left: 10px;
+  margin: 0;
+  text-decoration: none;  
+}
+.block-user .menu li a.active {
+  font-weight: bold;
+}
+.block-user .menu li a:hover {
+  text-decoration: underline;
+}
+/*</group>*/
+  
+  /*</group>*/
+/*<group=Tables>*/
+
+#main-content table {
+  width: 93%;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 1.0em;  
+}
+.admin #main-content table tr td {
+  padding: 2px 4px;
+}
+#main-content tr td, #tracker td {
+  border: solid #BDCEE1;
+  border-width: 0 1px 1px 0;
+  padding: 4px 8px;
+  margin: 0;  
+  vertical-align: top;
+}
+#main-content th {
+  padding: 4px;
+  border: 0;
+  border-bottom: 1px solid #BDCEE1;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #fff;
+}
+/*<group=Logs>*/
+.admin-logs tr.light td.active {
+  background-color: #E0E0E0;
+}
+.admin-logs tr.dark td.active {
+  background-color: #D9D9D9;
+}
+/*</group>*/
+/*<group=Tracker>*/
+#tracker td.replies {
+  text-align: center;
+}
+
+#tracker table {
+  width: 99%;
+  border-collapse: collapse;
+}
+#tracker tr.dark td, tr.dark td {
+  background-color: #e7e7e7; 
+}
+#tracker tr.light td, tr.light td {
+  background-color: #efefef; 
+}
+#tracker td ul {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+/*</group>*/
+  /*</group>*/
+
+/*<group=Forms>*/
+/*<group=Fieldsets>*/
+fieldset {
+  border-style: solid;
+  border-color: #999;
+  border-width: 0 1px 1px 0;
+  background-color: #f7f7f7;
+  margin-bottom: 1em;
+  padding: 1.0em 0.5em;
+  _padding-top: 0;
+}
+fieldset:focus {
+  background-color: #efefef;
+}
+legend {
+  padding-left: 2px;
+  padding-right: 2px;
+  border: none;
+}
+form {
+  margin: 0;
+  padding: 0;
+}
+#body-content form {
+  _width: 99%;
+}
+#node-form, .comment-reply form {
+  _width: 93%; /* causes page-titles in IE to disappear but fixes exploding textareas */
+}
+/*</group>*/
+/*<group=Inputs & Buttons>*/
+input.page-title {
+  margin: 0; 
+}
+input.required, textarea.required {
+  background-color: #F1DFDE;  
+  _background-color: #fff;
+}
+input.required:focus, textarea.required:focus {
+  background-color: #fff;  
+}
+select {
+  background-color: #fff;
+  color: inherit;
+  margin: 0 5px;
+}
+#main-content input:focus, #main-content textarea:focus {
+  border-color: #7EADD9;
+}
+#main-content form .form-text,
+#main-content form textarea,
+#main-content .node-form textarea,
+#main-content textarea#edit-trackback_urls {
+  width: 93%;
+}
+#main-content form input[name="recipient"] {
+  width: 93%;
+}
+
+.form-radio, .form-checkbox {
+  background-color: transparent;
+  border: 0;  
+}
+button.form-submit {
+  border: solid 1px #ddd;
+  margin: 0;
+  padding: 0;
+}
+   
+/*</group>*/
+
+/*<group=Labels>*/
+label input {
+  vertical-align: middle;
+}
+label:hover, .form-item label {
+  cursor: pointer;
+}
+#main-content label:hover {
+  background-color: #ffc;
+  border-color: #fc0;
+  border-style: solid;
+  border-width: 1px 0;
+  padding: 2px 0;
+}
+#main-content table .form-item label:hover {
+  background-color: transparent;
+  border-style: none;
+}
+  /*</group>*/
+form {
+  padding: 0;
+  margin: 0;
+}
+.form-item {
+  margin-bottom: 1.0em;
+}
+h3.form-title {
+  text-align: left;
+}
+/*<group=User Login Block>*/
+.user-login-block .form-item label {
+  margin: 0;
+  padding: 0;
+}
+#sidebar-left .user-login-block #edit-name, #sidebar-left .user-login-block #edit-pass {
+  width: 130px;
+  margin: 0; 
+}
+#sidebar-right .user-login-block #edit-name, #sidebar-right .user-login-block #edit-pass {
+  width: 220px;
+  margin: 0; 
+} 
+.user-login-block .form-item {
+  margin: 0;
+  margin-bottom: 0.8em;
+  padding: 0;
+  text-align: left; 
+}
+/*</group>*/
+
+  /*</group>*/
+
+/*<group=Lists>*/
+li.leaf {
+  list-style-type: none;
+}
+#body-content ul {
+  padding: 0; 
+  margin: 0; 
+}
+#main-content #breadcrumbs ul li, #body-content ul li, .block-blog ul li {
+  background: url(images/bullet_triangle.png) 1px 4px no-repeat; 
+  padding-left: 9px; 
+  list-style: none; 
+  line-height: 1.4em;
+  padding-bottom: 0.25em;
+}
+/*<group=Input Formats>*/
+#main-content ul.tips li {
+  background-position: -1000em;
+  padding: 0;
+  margin-left: 2.25em;
+}  
+/*</group>*/
+/*<group=Filter Tips>*/
+
+ul.filter-tips-short {
+  line-height: 1.0em;
+  margin: 0;
+  padding: 0;
+}
+.filter-tips-short li, .more-tips {  
+  margin: 0;
+  padding: 0;
+}
+/*</group>*/
+/*<group=Item Lists>*/
+
+.item-list {
+  margin: 0 0 0.5em 0;
+}
+.item-list .icon {
+  padding-left: 0.25em;
+}
+.item-list .icon img, .item-list .title {
+  border: 0;
+}
+.item-list ul {
+  list-style: none;
+  margin: 0.3em 0 0.5em 0;
+  padding: 0
+}
+.item-list ul > ul {
+  margin: 0;
+  padding: 0
+}
+.item-list ul.sub-list {
+  list-style: none;
+  margin: 0 0 0.75em 25px;
+  padding: 0
+}
+.item-list ul li {
+  margin: 0 0 0.25em 1.0em;
+  padding: 0 0 0 15px;
+  line-height: 1.3em;
+  list-style: none;
+}
+.sidebar .item-list ul li {
+  margin: 0 0 0.25em 2px;
+  list-style: none;
+}
+/*</group>*/
+  
+  /*</group>*/
+/*<group=Salvaged Drupal.css Styles>*/
+/*<group=Permissions>*/
+
+#permissions td.module {
+  font-weight: bold;
+}
+#permissions td.permission {
+  padding-left: 2em;
+}
+/*</group>*/
+/*<group=Watchdog>*/
+tr.watchdog-user {
+  background-color: #EFEAC9;
+  border: 0;
+}
+tr.watchdog-user .active {
+  background-color: #eed;
+}
+tr.watchdog-special {
+  background-color: #C9DCEF;
+  border: 0;
+}
+tr.watchdog-special .active {
+  background-color: #cce;
+}
+tr.watchdog-warning {
+  background-color: #fda;
+}
+tr.watchdog-warning .active {
+  background-color: #ec9;
+}
+tr.watchdog-httpd {
+  background-color: #ffe0e0;
+  border-width: 1px 0;
+  border-color: #f99;
+}
+tr.watchdog-httpd .active {
+  background-color: #cec;
+}
+tr.watchdog-error {
+  background-color: #ffe0e0;
+  border-width: 1px 0;
+  border-color: #be0101;
+}
+tr.watchdog-error .active {
+  background-color: #eeb9b9;
+}
+/*</group>*/
+
+th.active img {
+  display: inline;
+}
+tr.dark, tr.light {
+  background-color: #eee;
+  border-bottom: 1px solid #ccc;
+}
+tr.dark, tr.light {
+  padding: 0.1em 0.6em;
+}
+td.active {
+  background-color: #ddd;
+}
+img.screenshot {
+  border: 1px solid #808080;
+  display: block;
+  margin: 2px;
+}
+.more-help-link {
+  text-align: right;
+}
+.path {
+  padding-bottom: 0.7em;
+}
+.container-inline div {
+  display: inline;
+}
+.container-inline .form-submit {
+  margin: 0;
+}
+  
+/*</group>*/

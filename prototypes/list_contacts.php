@@ -3,8 +3,12 @@
 <head>  
   <title>Contacts</title><meta http-equiv="Content-Style-Type" content="text/css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<style type="text/css" media="all">@import "misc/drupal.css";</style>
-<style type="text/css" media="all">@import "themes/box_grey_smarty/style.css";</style>
+<link rel="stylesheet" href="misc/drupal.css" type="text/css" />
+<link rel="stylesheet" href="themes/box_grey_smarty/style.css" type="text/css" />
+
+<!-- <style type="text/css" media="all">@import "misc/drupal.css";</style>
+<style type="text/css" media="all">@import "themes/box_grey_smarty/style.css";</style> -->
+
 </head>
 <body>
 
@@ -51,7 +55,7 @@ include_once 'crm_sideblocks.tpl';
 
 <td class="main-content" id="content-left">
     <!-- breadcrumb bar -->
-	<div class="breadcrumb"><a href="http://localhost/dgg/drupal">Home</a> &raquo; <a href="http://localhost/dgg/prototypes" title="">Relationship Management</a> &raquo; Contacts</div>
+	<div class="breadcrumb"><a href="http://localhost/dgg/drupal">Home</a> &raquo; <a href="http://localhost/dgg/prototypes" title="">CRM</a> &raquo; Contacts</div>
 
     <!-- recently viewed items bar -->
     <div class="rmsListNav">
