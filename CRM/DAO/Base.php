@@ -56,11 +56,14 @@ class CRM_DAO_Base extends CRM_DAO {
      */
     function &fields()
     {   
-        return null;
+        //return null;
+        return array();
     }
 
     function table() {
+
         $fields =& $this->fields();
+
         $table = array();
         foreach ( $fields as $name => $value ) {
             $table[$name] = $value['type'];
