@@ -12,29 +12,41 @@
 
 	function on_error_execute( ) 
 	{  
+
 	   var j = 1;	
            var analyit = Array ("location2",
-		             "location3"
+		             	"location3"
 		         );
-	
+	   var email_name_tail = Array ("_secondary",
+					"_tertiary"
+				       );
+
 	   for (k=0; k<2; k++) {
-		if (document.getElementById('ph'+String(k+2)+String(j)).value != '') {
-		    document.getElementById('phone0_'+String(k+2)+'_'+String(j)).style.display = 'block'; 					                document.getElementById('expand_phone0_'+String(k+2)+'_'+String(j)).style.display = 'none';
- 		    if (k<1) {
+
+		//if (document.getElementsByName('location1[phone_'+String(k+2)+']').value != '') 
+		  if (document.CRUD.elements['location1[phone_'+String(k+2)+']'].value != '') {
+    	    	      document.getElementById('phone0_'+String(k+2)+'_'+String(j)).style.display = 'block'; 
+		      document.getElementById('expand_phone0_'+String(k+2)+'_'+String(j)).style.display = 'none';
+ 		      if (k<1) {
 			document.getElementById('expand_phone0_'+String(k+3)+'_'+String(j)).style.display = 'block';
 		    }
 		}
 
-		if (document.getElementById('im'+String(k+2)+String(j)).value != '') {
-		    document.getElementById('IM0_'+String(k+2)+'_'+String(j)).style.display = 'block'; 				                                document.getElementById('expand_IM0_'+String(k+2)+'_'+String(j)).style.display = 'none';
+		//if (document.getElementByName('location1[im_screenname_'+String(k+2)+']').value != '') 
+		  if (document.CRUD.elements['location1[im_screenname_'+String(k+2)+']'].value != '') {
+		    document.getElementById('IM0_'+String(k+2)+'_'+String(j)).style.display = 'block';
+	            document.getElementById('expand_IM0_'+String(k+2)+'_'+String(j)).style.display = 'none';
 		    if (k<1) {
 			document.getElementById('expand_IM0_'+String(k+3)+'_'+String(j)).style.display = 'block';
 		    }
-		}		                        
-		if (document.getElementById('em'+String(k+2)+String(j)).value != '') {
-		    document.getElementById('email0_'+String(k+2)+'_'+String(j)).style.display = 'block'; 				                        document.getElementById('expand_email0_'+String(k+2)+'_'+String(j)).style.display = 'none';
+		}		        
+             
+		//if (document.getElementByName('location1[email'+email_name_tail[k]+']').value != '') 
+		  if (document.CRUD.elements['location1[email'+email_name_tail[k]+']'].value != '') {
+		   document.getElementById('email0_'+String(k+2)+'_'+String(j)).style.display = 'block'; 
+		   document.getElementById('expand_email0_'+String(k+2)+'_'+String(j)).style.display = 'none';
 		    if (k<1) {
-			document.getElementById('expand_email0_'+String(k+3)+'_'+String(j)).style.display = 'block';
+		      document.getElementById('expand_email0_'+String(k+3)+'_'+String(j)).style.display = 'block';
 		    }
 		}
 
@@ -43,32 +55,41 @@
 	   for (j = 0; j < analyit.length; j++) {
 		   for (i = 0; i < document.CRUD.length; i++) {
 			if (document.CRUD.elements[i].name.indexOf(analyit[j]) != -1) {
-			    if (document.CRUD.elements[i].type.indexOf("text")!= -1){
-				if (document.CRUD.elements[i].value != ''){
+			    if (document.CRUD.elements[i].type.indexOf("text")!= -1) {
+				if (document.CRUD.elements[i].value != '') { 
 			            document.getElementById(analyit[j]).style.display = 'block';
 				    if (j<1) {
 					document.getElementById('expand_loc'+String(j+3)).style.display = 'block';
 				    }
 				    for (k=0; k<2; k++) {
-				         if (document.getElementById('ph'+String(k+2)+String(j+2)).value != '') {
-					     document.getElementById('phone0_'+String(k+2)+'_'+String(j+2)).style.display = 'block'; 					                 document.getElementById('expand_phone0_'+String(k+2)+'_'+String(j+2)).style.display = 'none';
-			 		    if (k<1) {
-						document.getElementById('expand_phone0_'+String(k+3)+'_'+String(j+2)).style.display = 'block';                   		    	        }			                         
-					  }
 
-				         if (document.getElementById('im'+String(k+2)+String(j+2)).value != '') {
-					     document.getElementById('IM0_'+String(k+2)+'_'+String(j+2)).style.display = 'block'; 				                 	 document.getElementById('expand_IM0_'+String(k+2)+'_'+String(j+2)).style.display = 'none';
-		    			     if (k<1) {
-						document.getElementById('expand_IM0_'+String(k+3)+'_'+String(j+2)).style.display = 'block';
-		    			     }			                         
-					 }
+					//if (document.getElementByName(analyit[j]+'[phone_'+String(k+2)+']').value != '') {
+		  			  if (document.CRUD.elements[analyit[j]+'[phone_'+String(k+2)+']'].value != '') {
+					    document.getElementById('phone0_'+String(k+2)+'_'+String(j+2)).style.display = 'block';
+		    		            document.getElementById('expand_phone0_'+String(k+2)+'_'+String(j+2)).style.display = 'none';
+ 		    			    if (k<1) {
+					      document.getElementById('expand_phone0_'+String(k+3)+'_'+String(j+2)).style.display = 'block';
+		    		            }
+				        }
+				
+					//if (document.getElementByName(analyit[j]+'[im_screenname_'+String(k+2)+']').value != '') {
+		  			  if (document.CRUD.elements[analyit[j]+'[im_screenname_'+String(k+2)+']'].value != '') {
+					    document.getElementById('IM0_'+String(k+2)+'_'+String(j+2)).style.display = 'block';
+					    document.getElementById('expand_IM0_'+String(k+2)+'_'+String(j+2)).style.display = 'none';
+					    if (k<1) {
+					      document.getElementById('expand_IM0_'+String(k+3)+'_'+String(j+2)).style.display = 'block';
+				            }
+					}		        
 
-				         if (document.getElementById('em'+String(k+2)+String(j+2)).value != '') {
-		   			     document.getElementById('email0_'+String(k+2)+'_'+String(j+2)).style.display = 'block'; 				                         document.getElementById('expand_email0_'+String(k+2)+'_'+String(j+2)).style.display = 'none';			                             if (k<1) {
-						document.getElementById('expand_email0_'+String(k+3)+'_'+String(j+2)).style.display = 'block';
-		    			     }			                         
-					 }             	
-						
+					//if (document.getElementByName(analyit[j]+'[email'+email_mame_tail[k]+']').value != '') {
+		  			  if (document.CRUD.elements[analyit[j]+'[email'+email_name_tail[k]+']'].value != '') {
+		   			    document.getElementById('email0_'+String(k+2)+'_'+String(j+2)).style.display = 'block';
+		                            document.getElementById('expand_email0_'+String(k+2)+'_'+String(j+2)).style.display = 'none';
+		    			    if (k<1) {
+					      document.getElementById('expand_email0_'+String(k+3)+'_'+String(j+2)).style.display = 'block';						}
+					}
+
+
 
 				     }
 			             break;
@@ -80,13 +101,16 @@
 	    }
 
 
-		if (document.getElementById("addnote").value != '') {
+		//if (document.getElementByName("address_note").value != '') {
+		  if (document.CRUD.elements["address_note"].value != '') {
 			document.getElementById("notes").style.display = 'block';
 		}
 
-		if (document.getElementById('mdy').value == "click") {
+	//	if (document.getElementByName('mdyx').value == "true") {
+		  if (document.CRUD.elements["mdyx"].value == 'true') {
 			document.getElementById("demographics").style.display = 'block';
 		}
+
 
 	}
 
@@ -117,6 +141,9 @@
 				 );
 
 
+			
+
+
 		var showit = new Array( "core" );
 
 	        for ( var i = 0; i < showit.length; i++ ) {
@@ -127,7 +154,16 @@
 			document.getElementById(sections[i]).style.display = 'none';
 		}
 
-		document.getElementById('fem').checked = 'checked';
+
+		/*for (i=0;i<document.CRUD.radios.lemgth;i++) {
+		     //if (document.CRUD.radios[i].value == 'female') {
+			document.write("llk");
+		     //}
+		}*/
+
+		 //document.getElementsByName['gender'].checked = 'checked';
+
+
 	}
 
 	/** This function is used to display a block. It is usually called by various links which handle requests to display
@@ -182,12 +218,12 @@
 
 		er = 0;
 
-		if (trim(document.getElementById('firstname').value) == '') {
+		if (trim(document.getElementByMame('first_name').value) == '') {
 			alert( 'Please enter the first name' );
 			er = 1;
 		}
 	
-		if (document.getElementById('lastname').value == '') {
+		if (document.getElementByName('last_name').value == '') {
 			alert( 'Please enter the last name' );
 			er = 1;
 		}
