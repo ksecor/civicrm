@@ -1,6 +1,5 @@
 <?php
 
-require_once 'Validate.php';
 require_once 'HTML/QuickForm/Rule/Email.php';
 
 class CRM_Rule {
