@@ -9,6 +9,10 @@
 *
 *******************************************************/
 
+DROP DATABASE IF EXISTS wgm;
+CREATE DATABASE wgm DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+use wgm;
+
 /*******************************************************
 *
 * CREATE DATABASE XXX DEFAULT CHARACTER SET utf8 COLLATION utf8_bin
@@ -77,7 +81,7 @@ CREATE TABLE contact_domain (
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto incremented id',
 
-    uuid INT UNSIGNED NOT NULL COMMENT 'domain id',
+        uuid INT UNSIGNED NOT NULL COMMENT 'domain id',
 	rid INT UNSIGNED NOT NULL COMMENT 'domain revision id',
 	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
@@ -85,7 +89,7 @@ CREATE TABLE contact_domain (
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
     UNIQUE INDEX index_uuidrid(uuid, rid)
@@ -105,10 +109,10 @@ CREATE TABLE contact_context (
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'context id',
 
-	domain_uuid  CHAR(32) NOT NULL COMMENT 'which organization/domain owns this context',
+	domain_uuid  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this context',
 
 	name        VARCHAR(255) COMMENT 'context name (typically brief)',
-    description VARCHAR(255) COMMENT 'context description (a more verbose description)',
+        description VARCHAR(255) COMMENT 'context description (a more verbose description)',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_uuid) REFERENCES contact_domain(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -130,7 +134,7 @@ CREATE TABLE contact (
 	rid INT UNSIGNED NOT NULL COMMENT 'contact revision id',
 	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	domain_uuid  CHAR(32) NOT NULL COMMENT 'which organization/domain owns this contact',
+	domain_uuid  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact',
 
 	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact',
 	sort_name VARCHAR(255) COMMENT 'name being cached for sorting purposes',
@@ -156,7 +160,7 @@ CREATE TABLE contact (
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was added',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
     UNIQUE INDEX index_uuidrid   (uuid, rid),
@@ -200,9 +204,9 @@ CREATE TABLE contact_individual(
 	custom_greeting VARCHAR(255) COMMENT 'custom greeting message',
 
 	PRIMARY KEY (id),
-	UNIQUE INDEX index_uuidrid (contact_uuid, contact_rid)
+	UNIQUE INDEX index_uuidrid (contact_uuid, contact_rid),
 
-	FOREIGN KEY (contact_uuid, contact_rid) REFERENCES contact(uuid, rid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (contact_uuid, contact_rid) REFERENCES contact(uuid, rid) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=individual';
 
@@ -280,7 +284,7 @@ CREATE TABLE contact_address(
 	rid INT UNSIGNED NOT NULL COMMENT 'contact_address revision id',
 	latest_rev BOOLEAN NOT NULL DEFAULT 1 COMMENT 'is this record the latest revision',
 
-	domain_uuid  CHAR(32) NOT NULL COMMENT 'which organization/domain owns this contact_address',
+	domain_uuid  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact_address',
 
 	line1 VARCHAR(255) COMMENT 'address line 1',
 	line2 VARCHAR(255) COMMENT 'address line 2',
@@ -306,7 +310,7 @@ CREATE TABLE contact_address(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
@@ -341,7 +345,7 @@ CREATE TABLE contact_contact_address(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
@@ -377,7 +381,7 @@ CREATE TABLE contact_email(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
@@ -436,7 +440,7 @@ CREATE TABLE contact_phone(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
@@ -474,7 +478,7 @@ CREATE TABLE contact_instant_message(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
@@ -512,7 +516,7 @@ CREATE TABLE contact_relationship_types(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY(id),
 	INDEX index_domain (domain_uuid),
@@ -545,7 +549,7 @@ CREATE TABLE contact_relationship(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
@@ -588,7 +592,7 @@ CREATE TABLE contact_task(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
@@ -621,7 +625,7 @@ CREATE TABLE contact_note(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
@@ -675,20 +679,20 @@ CREATE TABLE contact_validation(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'validation rule id',
 
-	domain_uuid  CHAR(32) NOT NULL COMMENT 'which organization/domain contains this entry',
+	domain_uuid  INT UNSIGNED NOT NULL COMMENT 'which organization/domain contains this entry',
 
 	type	ENUM('Email','Money','URL','Phone Number','Money','Positive Number','Alpha-only',
-				'Range','Comparison','RegEx-Match','RegEx-No Match)
+				'Range','Comparison','RegEx-Match','RegEx-No Match')
 			COMMENT 'list of rule built-in rule types. custom types may be added to ENUM via directory scan.',
 	parameters VARCHAR(255)
 			COMMENT 'optional value(s) passed to validation function, e.g.
-			a regular expression, min and max for Range, operator + number for Comparison type, etc.'
-	function VARCHAR(255) COMMENT 'custom validation function name',
+			a regular expression, min and max for Range, operator + number for Comparison type, etc.',
+	functionName VARCHAR(255) COMMENT 'custom validation function name',
     description VARCHAR(255) COMMENT 'rule description (verbose)',
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_uuid) REFERENCES contact_domain(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -710,7 +714,7 @@ CREATE TABLE contact_ext_property(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'extended property id',
 
-	domain_uuid  CHAR(32) NOT NULL COMMENT 'which organization/domain contains this ext property',
+	domain_uuid  INT UNSIGNED NOT NULL COMMENT 'which organization/domain contains this ext property',
 
 	iname VARCHAR(255) COMMENT 'variable name/programmatic handle for this property',
 	name  VARCHAR(255) COMMENT 'friendly name',
@@ -723,11 +727,11 @@ CREATE TABLE contact_ext_property(
 	
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_uuid) REFERENCES contact_domain(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (validation_id) REFERENCES validation_rule(id),
+	FOREIGN KEY (validation_id) REFERENCES contact_validation(id),
 	INDEX index_domain (domain_uuid)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='stores the data for extended properties';
@@ -761,16 +765,16 @@ CREATE TABLE contact_ext_data(
 
 	is_deleted BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY(id),
     UNIQUE INDEX index_uuidrid (uuid, rid),
 	INDEX index_contact(contact_uuid),
 
 	FOREIGN KEY(contact_uuid) REFERENCES contact(uuid) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (created_by) REFERENCES contact(uuid)
+	FOREIGN KEY (created_by) REFERENCES contact(uuid),
 
-	FOREIGN KEY(ext_property_id) REFERENCES contact_ext_property(id),
+	FOREIGN KEY(ext_property_id) REFERENCES contact_ext_property(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='stores the data for extended properties';
 
@@ -799,7 +803,7 @@ CREATE TABLE contact_form(
 
 	is_deleted	BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
 
@@ -830,7 +834,7 @@ CREATE TABLE contact_form_group(
 
 	is_deleted	BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
 
@@ -851,9 +855,9 @@ CREATE TABLE contact_form_field(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 	property_type ENUM('built-in','extended'),
-	property_id INT UNSIGNED NOT NULL 'FK to contact_ext_property (when property_type = extended)',
+	property_id INT UNSIGNED NOT NULL COMMENT 'FK to contact_ext_property (when property_type = extended)',
 
-	field_name	VARCHAR(255) NOT NULL default '' COMMENT 'variable name assigned to HTML form element'
+	field_name	VARCHAR(255) NOT NULL default '' COMMENT 'variable name assigned to HTML form element',
 	label		VARCHAR(255) default '' COMMENT 'field label for display',
 
 	field_type	ENUM('text','textarea','select','radio','checkbox','select_date','select_state_province','select_country')
@@ -876,7 +880,7 @@ CREATE TABLE contact_form_field(
 
 	is_deleted	BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
 	INDEX index_property (property_id),
@@ -900,7 +904,7 @@ DROP TABLE IF EXISTS contact_form_builder;
 CREATE TABLE contact_form_builder(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
-	form_id INT UNSIGNED NOT NULL 'FK to contact_form',
+	form_id INT UNSIGNED NOT NULL COMMENT 'FK to contact_form',
 
 	component_type	ENUM('form_field','form_group','form') COMMENT 'type of item we are adding to form', 
 -- Should we consider allowing Drupal content types like blocks to be included here too?
@@ -910,7 +914,7 @@ CREATE TABLE contact_form_builder(
 
 	is_deleted	BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
 	INDEX index_form (form_id),
@@ -944,7 +948,7 @@ CREATE TABLE contact_form_option(
 
 	is_deleted	BOOLEAN NOT NULL DEFAULT 0 COMMENT 'is this entry deleted ?',
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'time it was created',
-	created_by CHAR(32) NOT NULL COMMENT 'contact uuid of person creating this revision',
+	created_by INT UNSIGNED NOT NULL COMMENT 'contact uuid of person creating this revision',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (field_id) REFERENCES contact_form_field(id),
