@@ -81,32 +81,51 @@ div.spacer {
   width: 100%;
 }
 
-#crm.container th {
-  padding: 0.4em;
+#crm-container tr {
+  font-size: .95em;
 }
 
-#crm-container tr {
-  font-size: 8pt;
+#crm-container td {
+  padding: 4px;
+}
+
+#crm-container th {
+  padding-top: 8px;
 }
 
 #crm-container tr.columnheader {
   background-color: #CCCCCC;
   color: #000000;
-  border: thin solid #000000;
+  border: 1px solid #000000;
 }
 
-#crm-container tr.columnheader a:before {
-   content: url(arrow.png);
-}
 
 #crm-container tr.odd-row {
-  border: thin solid #000000;
+  border: 1px solid #000000;
   background-color: #FAFAF8;
 }
 
 #crm-container tr.even-row {
-  border: thin solid #000000;
+  border: 1px solid #000000;
   background-color: #EAEAEA;
+}
+
+#crm-container a.sort-ascending:before {
+   content: url(sort-asc.png);
+   margin-right: 5px;
+   vertical-align: center;
+}
+
+#crm-container a.sort-descending:before {
+   content: url(sort-desc.png);
+   margin-right: 5px;
+   vertical-align: center;
+}
+
+#crm-container a.sort-none:before {
+   content: url(sort-none.png);
+   margin-right: 5px;
+   vertical-align: center;
 }
 
 #crm-container div.vertical-position {
@@ -147,10 +166,6 @@ div.spacer {
 #crm-container div.form-item .element-right {
   position: absolute;
   right: 50px;
-}
-
-#crm-container .button-property {
-  background-color: #EAEAEA;
 }
 
 

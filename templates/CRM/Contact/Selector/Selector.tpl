@@ -9,13 +9,14 @@
 
 <div>
 <span>
-  <table border="0" cellspacing="4" cellpadding="4">
+  <table>
   <tr class="columnheader">
   {foreach from=$columnHeaders item=header}
     <th>
     {if $header.sort}
     {assign var='key' value=$header.sort}
-    <a href={$sort->_response.$key.link} {$sort->_response.$key.class}>{$header.name}</a>&nbsp;{$sort->_response.$key.direction}
+    <a href={$sort->_response.$key.link} {$sort->_response.$key.class}>{$header.name}</a>
+    <!-- This char indicator (^), is replaced by class styling in css... &nbsp;{$sort->_response.$key.direction} -->
     {else}
     {$header.name}
     {/if}

@@ -13,9 +13,9 @@
   {$pager->_response.next}&nbsp;
   {$pager->_response.last}&nbsp;</span>
   {if $location eq 'top'}
-    <span class="element-right">{$pager->_response.titleTop}&nbsp;<input name="{$pager->_response.buttonTop}" value="Go!" type="submit" class="two"/></span>
+    <span class="element-right">{$pager->_response.titleTop}&nbsp;<input name="{$pager->_response.buttonTop}" value="Go" type="submit"/></span>
   {else}
-    <span class="element-right">{$pager->_response.titleBottom}&nbsp;<input name="{$pager->_response.buttonBottom}" value="Go!" type="submit" class="two"/></span>
+    <span class="element-right">{$pager->_response.titleBottom}&nbsp;<input name="{$pager->_response.buttonBottom}" value="Go" type="submit"/></span>
   {/if}
 </div>
 

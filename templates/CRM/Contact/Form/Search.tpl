@@ -8,7 +8,7 @@
      <span class="horizontal-position">{$form.group_id.label}{$form.group_id.html}</span>
      <span class="element-right">{$form.category_id.label}{$form.category_id.html}</span>
      <div class="element-right">
-         <span class="button-property">{$form.buttons.html}</span>
+         {$form.buttons.html}
      </div>
  </div>
  <div class="vertical-position">
@@ -32,7 +32,7 @@
  <div class="form-item">
      <div>
      <span class="horizontal-position">{$form.action_id.label}{$form.action_id.html}</span>
-     <span class="button-property">{$form.go.html}</span>	
+     {$form.go.html}	
      <span class="element-right">Select: {$form.select_all.html} | {$form.select_none.html}<span>
      </div>
      {include file="CRM/Contact/Selector/Selector.tpl"}
