@@ -1,5 +1,3 @@
-
-
 <?php
 
 require_once 'CRM/Form.php';
@@ -459,4 +457,3 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
 }
 
 ?>
-
