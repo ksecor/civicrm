@@ -6,7 +6,7 @@
 {elseif $mode eq 2}
 {include file="CRM/Contact/Form/Individual/View.tpl"} 
 {elseif $mode eq 4}
-{include file="CRM/Contact/Form/Individual/Update.tpl"} 
+{include file="CRM/Contact/Form/Individual/Add.tpl"} 
 {/if}
 
 

@@ -156,6 +156,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                while ($$varaddress->fetch()) {
                    $a_Location[$contact_location->id]['street_address'] = $$varaddress->street_address;
                    $a_Location[$contact_location->id]['supplemental_address_1'] = $$varaddress->supplemental_address_1;
+                   $a_Location[$contact_location->id]['supplemental_address_2'] = $$varaddress->supplemental_address_2;
                    $a_Location[$contact_location->id]['city'] = $$varaddress->city;
                    $a_Location[$contact_location->id]['state_province_id'] = $$varaddress->state_province_id;
                    $a_Location[$contact_location->id]['postal_code'] = $$varaddress->postal_code;
@@ -171,7 +172,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
                $lng_email = 1;
                while ($$var_email->fetch()) {
-                   $a_Location[$contact_location->id]['email_'.$lng_email] = $$var_email->email;
+                   $a_Location[$contact_location->id]['email'][$lng_email] = $$var_email->email;
                    $lng_email++;
                }
                
@@ -184,8 +185,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
                $lng_phone = 1;
                while ($$var_phone->fetch()) {
-                   $a_Location[$contact_location->id]['phone_'.$lng_phone] = $$var_phone->phone;
-                   $a_Location[$contact_location->id]['phone_type_'.$lng_phone] = $$var_phone->phone_type;
+                   $a_Location[$contact_location->id]['phone'][$lng_phone] = $$var_phone->phone;
+                   $a_Location[$contact_location->id]['phone_type'][$lng_phone] = $$var_phone->phone_type;
                    $lng_phone++;
                }
 
@@ -198,8 +199,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
                $lng_im = 1;
                while ($$var_im->fetch()) {
-                   $a_Location[$contact_location->id]['im_service_id_'.$lng_im] = $$var_im->im_provider_id;
-                   $a_Location[$contact_location->id]['im_screenname_'.$lng_im] = $$var_im->im_screenname;
+                   $a_Location[$contact_location->id]['im_service_id'][$lng_im] = $$var_im->im_provider_id;
+                   $a_Location[$contact_location->id]['im_screenname'][$lng_im] = $$var_im->im_screenname;
                    $lng_im++;
                }
 
@@ -209,29 +210,25 @@ class CRM_Contact_Form_Individual extends CRM_Form
             if (is_array($a_Location)) { 
                 $lng_count = 1;
                 foreach ($a_Location as $lng_key => $var_value) {
-                    $defaults['location'.$lng_count.'[location_type_id]'] = $var_value['location_type_id'];
-                    $defaults['location'.$lng_count.'[is_primary]'] = $var_value['is_primary'];
-                    $defaults['location'.$lng_count.'[street_address]'] = $var_value['street_address'];
-                    $defaults['location'.$lng_count.'[supplemental_address_1]'] = $var_value['supplemental_address_1'];
-                    $defaults['location'.$lng_count.'[city]'] = $var_value['city'];
-                    $defaults['location'.$lng_count.'[state_province_id]'] = $var_value['state_province_id'];
-                    $defaults['location'.$lng_count.'[postal_code]'] = $var_value['postal_code'];
-                    $defaults['location'.$lng_count.'[country_id]'] = $var_value['country_id'];
-                    $defaults['location'.$lng_count.'[email_1]'] = $var_value['email_1'];
-                    $defaults['location'.$lng_count.'[email_2]'] = $var_value['email_2'];
-                    $defaults['location'.$lng_count.'[email_3]'] = $var_value['email_3'];
-                    $defaults['location'.$lng_count.'[phone_1]'] = $var_value['phone_1'];
-                    $defaults['location'.$lng_count.'[phone_type_1]'] = $var_value['phone_type_1'];
-                    $defaults['location'.$lng_count.'[phone_2]'] = $var_value['phone_2'];
-                    $defaults['location'.$lng_count.'[phone_type_2]'] = $var_value['phone_type_2'];
-                    $defaults['location'.$lng_count.'[phone_3]'] = $var_value['phone_3'];
-                    $defaults['location'.$lng_count.'[phone_type_3]'] = $var_value['phone_type_3'];
-                    $defaults['location'.$lng_count.'[im_service_id_1]'] = $var_value['im_service_id_1'];
-                    $defaults['location'.$lng_count.'[im_screenname_1]'] = $var_value['im_screenname_1'];
-                    $defaults['location'.$lng_count.'[im_service_id_2]'] = $var_value['im_service_id_2'];
-                    $defaults['location'.$lng_count.'[im_screenname_2]'] = $var_value['im_screenname_2'];
-                    $defaults['location'.$lng_count.'[im_service_id_3]'] = $var_value['im_service_id_3'];
-                    $defaults['location'.$lng_count.'[im_screenname_3]'] = $var_value['im_screenname_3'];
+                    $defaults['location'][$lng_count]['location_type_id'] = $var_value['location_type_id'];
+                    $defaults['location'][$lng_count]['is_primary'] = $var_value['is_primary'];
+
+                    $defaults['location'][$lng_count]['address']['street_address'] = $var_value['street_address'];
+                    $defaults['location'][$lng_count]['address']['supplemental_address_1'] = $var_value['supplemental_address_1'];
+                    $defaults['location'][$lng_count]['address']['supplemental_address_2'] = $var_value['supplemental_address_2'];
+                    $defaults['location'][$lng_count]['address']['city'] = $var_value['city'];
+                    $defaults['location'][$lng_count]['address']['state_province_id'] = $var_value['state_province_id'];
+                    $defaults['location'][$lng_count]['address']['postal_code'] = $var_value['postal_code'];
+                    $defaults['location'][$lng_count]['address']['country_id'] = $var_value['country_id'];
+                    
+                    for ($lng_i = 1; $lng_i <=3; $lng_i++) {
+                        $defaults['location'][$lng_count]['email'][$lng_i]['email'] = $var_value['email'][$lng_i];
+                        $defaults['location'][$lng_count]['phone'][$lng_i]['phone'] = $var_value['phone'][$lng_i];
+                        $defaults['location'][$lng_count]['phone'][$lng_i]['phone_type_id'] = $var_value['phone_type'][$lng_i];
+                        $defaults['location'][$lng_count]['im'][$lng_i]['service_id'] = $var_value['im_service_id'][$lng_i];
+                        $defaults['location'][$lng_count]['im'][$lng_i]['screenname'] = $var_value['im_screenname'][$lng_i];
+                    }
+
                     $lng_count++ ;
                 }
             }
@@ -299,8 +296,8 @@ class CRM_Contact_Form_Individual extends CRM_Form
             
             for ($i = 1; $i <= 3; $i++) { 
                 $this->addGroupRule('location'."{$i}", array('email_1' => array( 
-                                                                                array(t( 'Please enter valid email for location').$i.'.', 'email', null)),                                                 'email_2' => array( 
-                                                                                                                                                                                                                                        array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null)),
+                                                                                array(t( 'Please enter valid email for location').$i.'.', 'email', null)),                                             'email_2' => array( 
+                                                                                                                                                                                                                          array(t( ' Please enter valid secondary email for location').$i.'.', 'email', null)),
                                                              'email_3' => array( 
                                                                                 array(t( ' Please enter valid tertiary email for location' ).$i.'.', 'email', null))
                                                              )
@@ -386,7 +383,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
     {
         
         $form_name = $this->getName();
-
         
         // prefix
         $this->addElement('select', 'prefix', null, CRM_SelectValues::$prefixName);
@@ -491,7 +487,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
     { 
         $lng_contact_id = 0; // variable for crm_contact 'id'
         $str_error = ""; // error is recorded  if there are any errors while inserting in database
-        // print_r($_POST);        
+        //print_r($_POST);        
         // action is taken depending upon the mode
         switch ($this->_mode) {
         case self::MODE_UPDATE:
@@ -501,6 +497,10 @@ class CRM_Contact_Form_Individual extends CRM_Form
             break;
         }    
         
+        // store the submitted values in an array
+        $a_Values = $this->exportValues();
+        // print_r($a_Values);
+            
         // create a object for inserting data in contact table 
         $contact = new CRM_Contact_DAO_Contact();
         
@@ -508,12 +508,12 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $contact->contact_type = 'Individual';
         // $contact->legal_id = '';
         //$contact->external_id = '';
-        $contact->sort_name = $this->exportValue('first_name')." ".$this->exportValue('last_name');
+        $contact->sort_name = $a_Values['first_name']." ".$a_Values['last_name'];
         //$contact->home_URL = '';
         //$contact->image_URL = '';
-        //$contact->source = $this->exportValue('source');
-        $contact->preferred_communication_method = $this->exportValue('preferred_communication_method');
-        $a_privacy = $this->exportValue('privacy');
+        //$contact->source = '';
+        $contact->preferred_communication_method = $a_Values['preferred_communication_method'];
+        $a_privacy = $a_Values['privacy'];
         $contact->do_not_phone = (strlen($a_privacy['do_not_phone'])) ? $a_privacy['do_not_phone'] : 0 ;
         $contact->do_not_email = (strlen($a_privacy['do_not_email'])) ? $a_privacy['do_not_email'] : 0 ;
         $contact->do_not_mail = (strlen($a_privacy['do_not_mail'])) ? $a_privacy['do_not_mail'] : 0 ;
@@ -531,22 +531,23 @@ class CRM_Contact_Form_Individual extends CRM_Form
         }
         
         if (!strlen($str_error)) { //proceed if there are no errors
+
             // create a object for contact individual table 
             $contact_individual = new CRM_Contact_DAO_Individual();
             $contact_individual->contact_id = $contact->id;
-            $contact_individual->first_name = $this->exportValue('first_name');
-            //$contact_individual->middle_name = $this->exportValue('middle_name');
-            $contact_individual->last_name = $this->exportValue('last_name');
-            $contact_individual->prefix = $this->exportValue('prefix');
-            $contact_individual->suffix = $this->exportValue('suffix');
+            $contact_individual->first_name = $a_Values['first_name'];
+            //$contact_individual->middle_name = '';
+            $contact_individual->last_name = $a_Values['last_name'];
+            $contact_individual->prefix = $a_Values['prefix'];
+            $contact_individual->suffix = $a_Values['suffix'];
             //$contact_individual->display_name = '';
-            $contact_individual->greeting_type = $this->exportValue('greeting_type');
-            $contact_individual->custom_greeting = $this->exportValue('custom_greeting');
-            $contact_individual->job_title = $this->exportValue('job_title');
-            $a_gender = $this->exportValue('gender');
+            $contact_individual->greeting_type = $a_Values['greeting_type'];
+            $contact_individual->custom_greeting = $a_Values['custom_greeting'];
+            $contact_individual->job_title = $a_Values['job_title'];
+            $a_gender = $a_Values['gender'];
             $contact_individual->gender = $a_gender['gender'];
             
-            $a_date = $this->exportValue('birth_date');
+            $a_date = $a_Values['birth_date'];
             
             if ($a_date['d'] < 10) {
                 $day = "0".$a_date['d'];
@@ -561,7 +562,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
             }
                      
             $contact_individual->birth_date = $a_date['Y'].$mnt.$day;
-            $contact_individual->is_deceased = $this->exportValue('is_deceased');
+            $contact_individual->is_deceased = $a_Values['is_deceased'];
             //$contact_individual->phone_to_household_id = '';
             //$contact_individual->email_to_household_id = '';
             //$contact_individual->mail_to_household_id = '';
@@ -591,23 +592,27 @@ class CRM_Contact_Form_Individual extends CRM_Form
                     $lng_location++;
                 }
             }
+            // print_r($_POST['location'][1]['phone']);
             
             for ($lngi= 1; $lngi <= 3; $lngi++) { // start of for loop for location
                 //create a object of location class
                 $varname = "contact_location".$lngi;
-                $varname1 = "location".$lngi;
-                
+
+                // print_r($_POST);                
+
                 // build an array with the values posted for location 
-                $a_Location =  $this->exportValue($varname1);
+                // $a_Location =  $this->exportValues($varname1);
                 
-                if (strlen(trim($a_Location['street_address'])) > 0  || strlen(trim($a_Location['email_1'])) > 0 || strlen(trim($a_Location['phone_1'])) > 0) {  // check for valid location entry
-                    
+                // print_r($a_Location);
+                // print_r($a_Values['location'][$lngi]);
+
+                if (strlen(trim($a_Values['location'][$lngi]['address']['street_address'])) > 0  || strlen(trim($a_Values['location'][$lngi]['email'][1]['email'])) > 0 || strlen(trim($a_Values['location'][$lngi]['phone'][1]['phone'])) > 0) {  // check for valid location entry
                     if (!strlen($str_error)) { //proceed if there are no errors
                         // create a object of crm location
                         $$varname = new CRM_Contact_DAO_Location();
                         $$varname->contact_id = $contact->id;
-                        $$varname->location_type_id = $a_Location['location_type_id'];
-                        $$varname->is_primary = $a_Location['is_primary'];
+                        $$varname->location_type_id = $a_Values['location'][$lngi]['location_type_id'];
+                        $$varname->is_primary = $a_Values['location'][$lngi]['is_primary'];
  
                         if (strlen($a_location_array[$lngi])) {
                             // update the crm_location for $lng_contact_id
@@ -630,34 +635,34 @@ class CRM_Contact_Form_Individual extends CRM_Form
                     }
                              
                     if (!strlen($str_error)) { //proceed if there are no errors
-                        if (strlen(trim($a_Location['street_address'])) > 0) { // check for valid address entry
+                        if (strlen(trim($a_Values['location'][$lngi]['address']['street_address'])) > 0) { // check for valid address entry
                             //create the object of crm address
                             $varaddress = "contact_address".$lngi;
                             $$varaddress = new CRM_Contact_DAO_Address();
                                      
                             $$varaddress->location_id = $$varname->id;
-                            $$varaddress->street_address = $a_Location['street_address'];
+                            $$varaddress->street_address = $a_Values['location'][$lngi]['address']['street_address'];
                             //$$varaddress->street_number = '';
                             //$$varaddress->street_number_suffix = '';
                             //$$varaddress->street_number_predirectional = '';
                             //$$varaddress->street_name = '';
                             //$$varaddress->street_type = '';
                             //$$varaddress->street_number_postdirectional = '';
-                            $$varaddress->supplemental_address_1 = $a_Location['supplemental_address_1'];
-                            //$$varaddress->supplemental_address_2 = '';
+                            $$varaddress->supplemental_address_1 = $a_Values['location'][$lngi]['address']['supplemental_address_1'];
+                            $$varaddress->supplemental_address_2 = $a_Values['location'][$lngi]['address']['supplemental_address_2'];
                             //$$varaddress->supplemental_address_3 = '';
-                            $$varaddress->city = $a_Location['city'];
+                            $$varaddress->city = $a_Values['location'][$lngi]['address']['city'];
                             // $$varaddress->county_id = $a_Location['county_id'];
                             $$varaddress->county_id = 1;
-                            $$varaddress->state_province_id = $a_Location['state_province_id'];
-                            $$varaddress->postal_code = $a_Location['postal_code'];
+                            $$varaddress->state_province_id = $a_Values['location'][$lngi]['address']['state_province_id'];
+                            $$varaddress->postal_code = $a_Values['location'][$lngi]['address']['postal_code'];
                             //$$varaddress->postal_code_suffix = '';
                             //$$varaddress->usps_adc = '';
-                            $$varaddress->country_id = $a_Location['country_id'];
+                            $$varaddress->country_id = $a_Values['location'][$lngi]['address']['country_id'];
                             $$varaddress->geo_coord_id = 1;
-                            $$varaddress->geo_code1 = $a_Location['geo_code1'];
-                            $$varaddress->geo_code2 = $a_Location['geo_code2'];
-                            $$varaddress->timezone = $a_Location['timezone'];
+                            $$varaddress->geo_code1 = $a_Values['location'][$lngi]['address']['geo_code1'];
+                            $$varaddress->geo_code2 = $a_Values['location'][$lngi]['address']['geo_code2'];
+                            $$varaddress->timezone = $a_Values['location'][$lngi]['address']['timezone'];
                             // $$varaddress->address_nite = '';
 
                             // if ($lng_contact_id) {
@@ -709,14 +714,14 @@ class CRM_Contact_Form_Individual extends CRM_Form
                         // my_print_r($a_email);
 
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) { // start of for email
-                            $varemail = "email_".$lng_i;
-                            if (strlen(trim($a_Location[$varemail])) > 0) { // check for valid email entry
+                            // if (strlen(trim($a_Location[$varemail])) > 0) { // check for valid email entry
+                            if (strlen(trim($a_Values['location'][$lngi]['email'][$lng_i]['email'])) > 0) { // check for valid email entry
                                 //create the object of crm email
                                 $var_email = "contact_email".$lng_i;
                                 $$var_email = new CRM_Contact_DAO_Email();
                                
                                 $$var_email->location_id = $$varname->id;
-                                $$var_email->email = $a_Location[$varemail];
+                                $$var_email->email = $a_Values['location'][$lngi]['email'][$lng_i]['email'];
                                          
                                 if($lng_i == 1) { //make first email entered primary
                                     $$var_email->is_primary = 1;
@@ -767,17 +772,16 @@ class CRM_Contact_Form_Individual extends CRM_Form
                         // my_print_r($a_phone);
 
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) { // start of phone for loop
-                            $varphone = "phone_".$lng_i;
-                            $varphone_type = "phone_type_".$lng_i;
-                            $varmobile_prov_id = "mobile_provider_id_".$lng_i;
-                            if (strlen(trim($a_Location[$varphone])) > 0) { //check for valid phone entry
+
+                            //if (strlen(trim($a_Location[$varphone])) > 0) { //check for valid phone entry
+                            if (strlen(trim($a_Values['location'][$lngi]['phone'][$lng_i]['phone'])) > 0) { //check for valid phone entry
                                 //create the object of crm phone
                                 $var_phone = "contact_phone".$lng_i;
                                 $$var_phone = new CRM_Contact_DAO_Phone();
                       
                                 $$var_phone->location_id = $$varname->id;
-                                $$var_phone->phone = $a_Location[$varphone];
-                                $$var_phone->phone_type = $a_Location[$varphone_type];
+                                $$var_phone->phone = $a_Values['location'][$lngi]['phone'][$lng_i]['phone'];
+                                $$var_phone->phone_type = $a_Values['location'][$lngi]['phone'][$lng_i]['phone_type_id'];
                                 
                                 if ($lng_i == 1) { //make first phone entered primary
                                     $$var_phone->is_primary = 1;
@@ -785,13 +789,12 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                     $$var_phone->is_primary = 0;
                                 }
                                 
-                                // $$var_phone->mobile_provider_id = $a_Location[$varmobile_prov_id];
                                 $$var_phone->mobile_provider_id = 1;
                                 
                                 //if ($lng_contact_id) {
                                 if (strlen($a_phone[$lng_i])) {
                                     // update the crm_phone for $lng_location_id and phone id ($a_phone[$lng_i])
-                                    $$var_phone->whereAdd('location_id = '.$lng_location_id);
+                                    //$$var_phone->whereAdd('location_id = '.$lng_location_id);
                                     $$var_phone->whereAdd('id = '.$a_phone[$lng_i]);
                                     
                                     if(!$$var_phone->update(DB_DATAOBJECT_WHEREADD_ONLY)) {
@@ -830,16 +833,16 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
                         // my_print_r($a_im);
                         for ($lng_i= 1; $lng_i <= 3; $lng_i++) { // start of im for loop
-                            $var_service = "im_service_id_".$lng_i;
-                            $var_screenname = "im_screenname_".$lng_i;
-                            if (strlen(trim($a_Location[$var_screenname])) > 0) { // check for valid im entry
+                           
+                            if (strlen(trim($a_Values['location'][$lngi]['im'][$lng_i]['screenname'])) > 0) { //check for valid im entry
+                                // if (strlen(trim($a_Location[$var_screenname])) > 0) { // check for valid im entry
                                 //create the object of crm im
                                 $var_im = "contact_im" . $lng_i;
                                 $$var_im = new CRM_Contact_DAO_IM();
                                          
                                 $$var_im->location_id = $$varname->id;
-                                $$var_im->im_screenname = $a_Location[$var_screenname];
-                                $$var_im->im_provider_id = $a_Location[$var_service];
+                                $$var_im->im_screenname = $a_Values['location'][$lngi]['im'][$lng_i]['screenname'];
+                                $$var_im->im_provider_id = $a_Values['location'][$lngi]['im'][$lng_i]['service_id'];
                                 
                                 if ($lng_i == 1) { //make first im entered primary
                                     $$var_im->is_primary = 1;
@@ -851,7 +854,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                                 if (strlen($a_im[$lng_i])) {
                                     // update the crm_im for $lng_location_id and im id ($a_im[$lng_i])
                                     
-                                    $$var_im->whereAdd('location_id = '.$lng_location_id);
+                                    //$$var_im->whereAdd('location_id = '.$lng_location_id);
                                     $$var_im->whereAdd('id = '.$a_im[$lng_i]);
                                     
                                     if(!$$var_im->update(DB_DATAOBJECT_WHEREADD_ONLY)) {

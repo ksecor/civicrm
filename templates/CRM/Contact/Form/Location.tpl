@@ -41,12 +41,13 @@
     
     <div class="form-item">
         <!-- Location type drop-down (e.g. Home, Work...) -->
-        {$form.$location.$index.location_type_id.html}
+        {$form.location.$index.location_type_id.html}
         
         {if $index > 1}
             <!-- Checkbox for "make this the primary location" -->
-            {$form.$location.$index.is_primary.html} Make this the primary location {*$form.$location.$index.is_primary.label*}
+            {$form.location.$index.is_primary.html} Make this the primary location {*$form.location.$index.is_primary.label*}
         {/if}
+
     </div>
 
     <div>
