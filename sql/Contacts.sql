@@ -589,6 +589,11 @@ CREATE TABLE crm_list (
 
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this role_type',
 
+---
+--- yvb
+--- we need to have at least iname, name as not null. any takers for the suggestion.
+---
+
 	iname		VARCHAR(255) COMMENT 'internal list name (constructed from display/friendly name)',
 	name		VARCHAR(255) COMMENT 'display name (user-defined friendly name)',
 	description VARCHAR(255) COMMENT 'list description (verbose)',
@@ -622,6 +627,13 @@ CREATE TABLE crm_contact_list(
 	PRIMARY KEY(id),
 
 	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
+---
+--- yvb
+---
+--- i think we need another fkey here too.
+---
+--- FOREIGN KEY(list_id) REFERENCES crm_list(id) ON DELETE CASCADE
+
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact email';
 
