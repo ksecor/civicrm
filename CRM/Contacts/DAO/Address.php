@@ -18,13 +18,13 @@ class CRM_Contacts_DAO_Address extends CRM_Contacts_DAO_LocationBase
     public $street_type;
     public $street_postdirectional;
     public $street_unit;
-    public $street_unit_number;
+    public $street_unit_sort;
     public $supplemental_address_1;
     public $supplemental_address_2;
     public $supplemental_address_3;
-
+    
     public $city;
-    public $county;
+    public $county_id;
     
     public $state_province_id;
     public $postal_code;
@@ -32,11 +32,10 @@ class CRM_Contacts_DAO_Address extends CRM_Contacts_DAO_LocationBase
     public $usps_adc;
     public $country_id;
     
-    public $geo_type;
+    public $geo_coord_id;
     public $geo_code1;
     public $geo_code2;
-    public $geo_zone;
-    public $geo_datum;
+    
     public $timezone;
     public $address_note;
     
@@ -69,21 +68,20 @@ class CRM_Contacts_DAO_Address extends CRM_Contacts_DAO_LocationBase
                                         'street_type'             => array(CRM_Type::T_STRING),
                                         'street_postdirectional'  => array(CRM_Type::T_STRING),
                                         'street_unit'             => array(CRM_Type::T_STRING),
-                                        'street_unit_number'      => array(CRM_Type::T_INT),
+                                        'street_unit_sort'        => array(CRM_Type::T_INT),
                                         'supplemental_address _1' => array(CRM_Type::T_TEXT),
                                         'supplemental_address _2' => array(CRM_Type::T_TEXT),
                                         'supplemental_address _3' => array(CRM_Type::T_TEXT),
                                         'city'                    => array(CRM_Type::T_STRING),
-                                        'county'                  => array(CRM_Type::T_STRING),
+                                        'county_id'               => array(CRM_Type::T_INT),
                                         'state_province_id'       => array(CRM_Type::T_INT),
                                         'postal_code'             => array(CRM_Type::T_STRING),
                                         'postal_code_suffix'      => array(CRM_Type::T_STRING),
                                         'usps_adc'                => array(CRM_Type::T_STRING),
                                         'country_id'              => array(CRM_Type::T_INT),
-                                        'geo_zone'                => array(CRM_Type::T_STRING),
+                                        'geo_coord_id'            => array(CRM_Type::T_INT),
                                         'geo_code_1'              => array(CRM_Type::T_STRING),
                                         'geo_code_2'              => array(CRM_Type::T_STRING),
-                                        'geo_datum'               => array(CRM_Type::T_STRING),
                                         'address_note'            => array(CRM_Type::T_STRING),
                                         'timezone'                => array(CRM_Type::T_STRING)
                                         ) // end of array
@@ -98,12 +96,14 @@ class CRM_Contacts_DAO_Address extends CRM_Contacts_DAO_LocationBase
             $links = array_merge(parent::links(),
                                  array(
                                        'state_province_id'    => 'crm_state_province:id',
-                                       'country_id'           => 'crm_country:id'
+                                       'country_id'           => 'crm_country:id',
+                                       'county_id'            => 'crm_county:id',
+                                       'geo_coord_id'         => 'crm_geo_coord:id'
                                        )
                                  );
         }
         return $links;
     } // end of method links()
-
+    
 } // end of class CRM_Contacts_DAO_Contact_Address
 ?>
