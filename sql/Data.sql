@@ -381,3 +381,4 @@ INSERT INTO crm_mobile_provider (name) VALUES ('Tata Indicom');
 
 
 INSERT INTO crm_county (id, name, state_province_id) VALUES (1, 'San Mateo', 1004);
+INSERT INTO crm_geo_coord (id, coord_type, coord_units, coord_ogc_wkt_string) VALUES (1, 'LatLong', 'Degree', 31);
