@@ -64,7 +64,7 @@
 * commented out.
 *
 *******************************************************/
-DROP TABLE IF EXISTS users;
+/* DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users (
   uid int(10) unsigned NOT NULL default '0',
   name varchar(60) NOT NULL default '',
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS users (
   UNIQUE KEY name (name),
   KEY `changed` (`changed`)
 ) ENGINE=InnoDB;
-
+*/
 
 /*******************************************************
 *
