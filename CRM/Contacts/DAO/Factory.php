@@ -12,6 +12,7 @@ class CRM_Contacts_DAO_Factory {
 			      'Contact_Location'     => 'data',
 			      'Relationship_Type'    => 'data',
 			      'Relationship'         => 'data',
+			      'Contact_Action'       => 'data',
                              );
 
     static $_prefix = array(
