@@ -267,14 +267,17 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 // self::lookupValue( $location, 'location_type', CRM_SelectValues::$locationType, $reverse );
                 self::lookupValue( $location, 'location_type', CRM_SelectValues::getLocationType(), $reverse );
                 if ( array_key_exists( 'address', $location ) ) {
-                    self::lookupValue( $location['address'], 'state_province', CRM_SelectValues::$stateProvince, $reverse );
-                    self::lookupValue( $location['address'], 'country'       , CRM_SelectValues::$country      , $reverse );
+                    // self::lookupValue( $location['address'], 'state_province', CRM_SelectValues::$stateProvince, $reverse );
+                    self::lookupValue( $location['address'], 'state_province', CRM_SelectValues::getStateProvince(), $reverse );
+                    // self::lookupValue( $location['address'], 'country'       , CRM_SelectValues::$country      , $reverse );
+                    self::lookupValue( $location['address'], 'country'       , CRM_SelectValues::getCountry()      , $reverse );
                     self::lookupValue( $location['address'], 'county'        , CRM_SelectValues::$county       , $reverse );
                 }
                 if ( array_key_exists( 'im', $location ) ) {
                     $ims =& $location['im'];
                     foreach ( $ims as $innerIndex => &$im ) {
-                        self::lookupValue( $im, 'provider', CRM_SelectValues::$imProvider , $reverse );
+                        // self::lookupValue( $im, 'provider', CRM_SelectValues::$imProvider , $reverse );
+                        self::lookupValue( $im, 'provider', CRM_SelectValues::getIMProvider(), $reverse );
                     }
                 }
             }

@@ -56,9 +56,11 @@ class CRM_Contact_Form_Address
                               $attributes['postal_code']);
         $location[$locationId]['address']['state_province_id']      =
             $form->addElement('select', "location[$locationId][address][state_province_id]", 'State / Province:',
-                              CRM_SelectValues::$stateProvince);
+                              //CRM_SelectValues::$stateProvince);
+                              CRM_SelectValues::getStateProvince());
         $location[$locationId]['address']['country_id']             =
-            $form->addElement('select', "location[$locationId][address][country_id]", 'Country:', CRM_SelectValues::$country);
+            //$form->addElement('select', "location[$locationId][address][country_id]", 'Country:', CRM_SelectValues::$country);
+            $form->addElement('select', "location[$locationId][address][country_id]", 'Country:', CRM_SelectValues::getCountry());
     }
 
 }

@@ -114,52 +114,28 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    public static $locationType = array(
-                                        '' => '-select-',
-                                        1 => 'Home',
-                                        2 => 'Work',
-                                        3 => 'Main',
-                                        4 => 'Other'
-                                        );
+    public static $locationType;
     
     /**
      * im protocols (fetch and cache from db based on locale)
      * @var array
      * @static
      */
-    public static $imProvider = array(
-                                      '' => '-select-',
-                                      1 => 'Yahoo',
-                                      2 => 'MSN',
-                                      3 => 'AIM',
-                                      4 => 'Jabber',
-                                      5 => 'Indiatimes'
-                                      );
+    public static $imProvider;
 
     /**
      * states array (fetch and cache from generic db, based on locale)
      * @var array
      * @static
      */
-    public static $stateProvince = array(
-                                         ''   => '-select-',
-                                         1004 => 'California',
-                                         1036 => 'Oregon',
-                                         1046 => 'Washington'
-                                         );
+    public static $stateProvince;
 
     /**
      * country array (fetch and cache from generic db, based on locale)
      * @var array
      * @static
      */
-    public static $country    = array(
-                                      ''   => '-select-',
-                                      1039 => 'Canada',
-                                      1101 => 'India',
-                                      1172 => 'Poland',
-                                      1228 => 'United States'
-                                      );
+    public static $country;
 
     /**
      * list of counties
@@ -201,9 +177,11 @@ class CRM_SelectValues {
     /**
      * Get all the location types from database.
      *
-     * This method uses the <b>location DAO</b> to get all the
-     * location types. It pushes them into an array and
-     * and returns the array reference.
+     * The static array locationType is returned, and if it's
+     * called the first time, the <b>location DAO</b> is used 
+     * to get all the location types.
+     *
+     *
      * Note: any database errors will be trapped by the DAO.
      *
      * @access public
@@ -215,23 +193,28 @@ class CRM_SelectValues {
      */
     public static function &getLocationType()
     {
-        $location_type_array = array('' => '-select-');
-        $location_type_dao = new CRM_Contact_DAO_LocationType();
-        $location_type_dao->selectAdd('id, name');
-        $location_type_dao->find();
-        while($location_type_dao->fetch()) {
-            $location_type_array[$location_type_dao->id] = "$location_type_dao->name";
+        CRM_Error::le_method();
+        if(!isset(self::$locationType)) {
+            CRM_Error::debug_log_message("locationType is not set");
+            self::$locationType = array('' => '-select-');
+            $location_type_dao = new CRM_Contact_DAO_LocationType();
+            $location_type_dao->selectAdd('id, name');
+            $location_type_dao->find();
+            while($location_type_dao->fetch()) {
+                self::$locationType[$location_type_dao->id] = "$location_type_dao->name";
+            }
         }
-        return $location_type_array;
+        return self::$locationType;
     }
 
 
     /**
      * Get all the IM Providers from database.
      *
-     * This method uses the <b>IM Provider DAO</b> to get all the
-     * IM Providers. It pushes them into an array and
-     * and returns the array reference.
+     * The static array imProvider is returned, and if it's
+     * called the first time, the <b>IM DAO</b> is used 
+     * to get all the IM Providers.
+     *
      * Note: any database errors will be trapped by the DAO.
      *
      * @access public
@@ -243,15 +226,85 @@ class CRM_SelectValues {
      */
     public static function &getIMProvider()
     {
-        $im_provider_array = array('' => '-select-');
-        $im_provider_dao = new CRM_DAO_IMProvider();
-        $im_provider_dao->selectAdd('id, name');
-        $im_provider_dao->find();
-        while($im_provider_dao->fetch()) {
-            $im_provider_array[$im_provider_dao->id] = "$im_provider_dao->name";
+        CRM_Error::le_method();
+        if (!isset(self::$imProvider)) {
+            CRM_Error::debug_log_message("imProvider is not set");
+            self::$imProvider = array('' => '-select-');
+            $im_provider_dao = new CRM_DAO_IMProvider();
+            $im_provider_dao->selectAdd('id, name');
+            $im_provider_dao->find();
+            while($im_provider_dao->fetch()) {
+                self::$imProvider[$im_provider_dao->id] = "$im_provider_dao->name";
+            }
         }
-        return $im_provider_array;
+        return self::$imProvider;
     }
+
+    /**
+     * Get all the State/Province from database.
+     *
+     * The static array stateProvince is returned, and if it's
+     * called the first time, the <b>State Province DAO</b> is used 
+     * to get all the States.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @param none
+     * @return array - array reference of all IM providers.
+     *
+     */
+    public static function &getStateProvince()
+    {
+        CRM_Error::le_method();
+        if (!isset(self::$stateProvince)) {
+            CRM_Error::debug_log_message("stateProvince is not set");
+            self::$stateProvince = array('' => '-select-');
+            $state_province_dao = new CRM_DAO_StateProvince();
+            $state_province_dao->selectAdd('id, name');
+            $state_province_dao->find();
+            while($state_province_dao->fetch()) {
+                self::$stateProvince[$state_province_dao->id] = "$state_province_dao->name";
+            }
+        }
+        return self::$stateProvince;
+    }
+
+
+    /**
+     * Get all the countries from database.
+     *
+     * The static array country is returned, and if it's
+     * called the first time, the <b>Country DAO</b> is used 
+     * to get all the countries.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @param none
+     * @return array - array reference of all countries.
+     *
+     */
+    public static function &getCountry()
+    {
+        CRM_Error::le_method();
+        if (!isset(self::$country)) {
+            CRM_Error::debug_log_message("country is not set");
+            self::$country = array('' => '-select-');
+            $country_dao = new CRM_DAO_Country();
+            $country_dao->selectAdd('id, name');
+            $country_dao->find();
+            while($country_dao->fetch()) {
+                self::$country[$country_dao->id] = "$country_dao->name";
+            }
+        }
+        return self::$country;
+    }
+
 }
 
 /**
