@@ -318,6 +318,8 @@ CREATE TABLE crm_location(
 	is_primary BOOLEAN NOT NULL DEFAULT 0 COMMENT 'primary contact location for this contact (allow 1 primary location per contact)',
 
 	PRIMARY KEY (id),
+    UNIQUE INDEX index_contact_location_type (contact_id,location_type_id),
+	FOREIGN KEY (contact_id) REFERENCES crm_contact(id),
 	FOREIGN KEY (location_type_id) REFERENCES crm_location_type(id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='All contact information is keyed to location';
@@ -328,8 +330,9 @@ CREATE TABLE crm_location(
 * crm_address
 *
 * stores the physical street / mailing address. This format
-* should be capable of storing ALL international addresses
+* should be capable of storing ALL international addresses.
 *
+* Only one crm_address is permitted per location.
 *******************************************************/
 DROP TABLE IF EXISTS crm_address;
 CREATE TABLE crm_address(
@@ -355,9 +358,8 @@ CREATE TABLE crm_address(
 	timezone VARCHAR(10) COMMENT 'timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6"',
 	address_note VARCHAR(255) COMMENT 'optional misc info (e.g. delivery instructions) for this address',
 
-    is_primary   BOOLEAN DEFAULT 0 COMMENT 'is this the primary address for the contact / location',
-
-	PRIMARY KEY (id),
+ 	PRIMARY KEY (id),
+    UNIQUE INDEX index_location (location_id),
     FOREIGN KEY (location_id)  REFERENCES crm_location(id),
 	FOREIGN KEY (state_province_id)    REFERENCES crm_state_province(id),
 	FOREIGN KEY (country_id)           REFERENCES crm_country(id)
@@ -447,9 +449,19 @@ CREATE TABLE crm_im(
 *
 * crm_relationship_type
 *
-* Several default types (e.g. parent, child, sibling, household member...
-* are included by default). Admins will be able to add
-* types (for a domain).
+* Several reserved types (e.g. parent/child, sibling,
+* household member, employer/employee...) are included.
+* 
+* Relationship types s/b structured with contact_a as the
+* 'subject/child' contact and contact_b as the 'object/parent'
+* contact (e.g. Individual A is Employee of Org B).
+*
+* The name (or label) for the relationship between A and B
+* (name_a_b_ is always defined. A name for the B to A
+* relationship should also be defined if it has meaning and
+* utility in identifying and searching for relationships.
+* 
+* Admins will be able to add types (for a domain).
 * 
 *******************************************************/
 DROP TABLE IF EXISTS crm_relationship_type;
@@ -459,11 +471,13 @@ CREATE TABLE crm_relationship_type(
 
 	domain_id INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this type',
 
-	name VARCHAR(255) COMMENT 'name of the relationship',
+	name_a_b VARCHAR(255) NOT NULL COMMENT 'name/label for relationship of contact_a to contact_b',
+	name_b_a VARCHAR(255) COMMENT 'Optional name/label for relationship of contact_b to contact_a',
+
 	description VARCHAR(255) COMMENT 'description of the relationship',
 
-	direction ENUM('Unidirectional', 'Bidirectional') COMMENT 'relationship cardinality',
-	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact this relationship type is applicable to',
+	contact_type_a ENUM('Individual','Organization','Household') COMMENT 'if defined, contact_a in a relationship of this type must be a specific contact_type',
+	contact_type_b ENUM('Individual','Organization','Household') COMMENT 'if defined, contact_b in a relationship of this type must be a specific contact_type',
 
     is_reserved BOOLEAN DEFAULT 0 COMMENT 'is this relationship type a system created type that cannot be deleted by the user',
 
@@ -479,22 +493,28 @@ CREATE TABLE crm_relationship_type(
 *
 * crm_contact_relationship
 *
+* Defines relationships between two contact entities
+* Used to model both 'roles' (e.g. "board member") as
+* well as 'relationships' (e.g. "parent/child")
+*
 *******************************************************/
 DROP TABLE IF EXISTS crm_contact_relationship;
 CREATE TABLE crm_contact_relationship(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'contact relationship id',
 
-	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id',
-	target_contact_id INT UNSIGNED NOT NULL COMMENT 'target contact id',
+	contact_id_a INT UNSIGNED NOT NULL COMMENT 'contact id for source/meta contact (e.g. parent in child/parent or employer in employee/employer)',
+	contact_id_b INT UNSIGNED NOT NULL COMMENT 'contact id for subject/child contact in relationship (e.g. child in child/parent, employee in employee/employer)',
 
 	relationship_type_id INT UNSIGNED NOT NULL COMMENT 'contact relationship type id',
 
-	PRIMARY KEY(id),
+    start_date DATETIME COMMENT 'Optional start date for this relationship',
+    end_date DATETIME COMMENT 'Optional end date for this relationship',
+    PRIMARY KEY(id),
 
 	FOREIGN KEY(relationship_type_id) REFERENCES crm_relationship_type(id) ON DELETE CASCADE,
-	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
-	FOREIGN KEY(target_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
+	FOREIGN KEY(contact_id_a) REFERENCES crm_contact(id) ON DELETE CASCADE,
+	FOREIGN KEY(contact_id_b) REFERENCES crm_contact(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact relationships';
 
@@ -502,7 +522,7 @@ CREATE TABLE crm_contact_relationship(
 
 /*******************************************************
 *
-* crm_contact_action [1st draft]
+* crm_contact_action
 *
 * Summary / link records for past (and/or future?) actions
 * of various types. They link the contact to the detailed
@@ -1402,10 +1422,23 @@ INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1070
 
 
 #
-# insert same data for location_type and domain
+# insert some data for domain, reserved location_types, and reserved relationship_types
 #
 INSERT INTO crm_domain( name ) VALUES ( 'CRM Test Domain' );
 
-INSERT INTO crm_location_type( domain_id, name, description ) VALUES( 1, 'home', 'Place of Residence'  );
-INSERT INTO crm_location_type( domain_id, name, description ) VALUES( 1, 'work', 'Place of Business'   );
-INSERT INTO crm_location_type( domain_id, name, description ) VALUES( 1, 'play', 'Place of Recreation' );
+INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Home', 'Place of residence', 1 );
+INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Work', 'Work location', 1 );
+INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Other', 'Another location', 0 );
+
+INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 1, 'Child', 'Parent', 'Parent/child relationship.', 'Individual', 'Individual', 1 );
+INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 1, 'Sibling','Sibling', 'Sibling relationship.','Individual','Individual', 1 );
+INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 1, 'Employee', 'Employer', 'Employment relationship.','Individual','Organization', 1 );
+INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 1, 'Volunteer', 'Volunteer', 'Volunteer relationship.','Individual','Organization', 1 );
+INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 1, 'Head of household', 'Head of household', 'Head of household.','Individual','Household', 1 );
+INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
+    VALUES( 1, 'Household member', 'Household members', 'Household membership.','Individual','Household', 1 );
