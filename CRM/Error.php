@@ -37,6 +37,7 @@
 require_once 'PEAR/ErrorStack.php';
 require_once 'CRM/Config.php';
 require_once 'themes/engines/smarty/SmartyTemplate.php';
+require_once 'Log.php';
 
 class CRM_Error extends PEAR_ErrorStack {
 
@@ -70,7 +71,7 @@ class CRM_Error extends PEAR_ErrorStack {
      * @static
      */
     private static $_log       = null;
-
+    
     /**
      * singleton function used to manage this object. This function is not
      * explicity declared static to be compatible with PEAR_ErrorStack
@@ -380,8 +381,8 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     static function debug_log_message($message="", $log=true)
     {
-        $file_log = Log::singleton('file', '/tmp/CRM.LOG');
-        $file_log->log("$message\n");
+        // $file_log = Log::singleton('file', '/tmp/CRM.LOG');
+        // $file_log->log("$message\n");
         $error =& self::singleton( );
         $out = "<p /><code>$message</code>";
         if ($log) {
