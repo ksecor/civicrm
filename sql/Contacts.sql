@@ -372,17 +372,22 @@ CREATE TABLE crm_address(
 	street_address VARCHAR(96) COMMENT 'Concatenation of all routable street address components (prefix, street number, street name, suffix, unit number OR P.O. Box. Apps should be able to determine physical location with this data (for mapping, mail delivery, etc.)',
 
 -- Street address components
-	street_number VARCHAR(8) COMMENT 'Address number on the street, e.g. For 112 Main St, the street_number = 112',
-	street_prefix VARCHAR(8) COMMENT 'Directional or other prefix, e.g. SE Main St, SE is the prefix',
-	street_name VARCHAR(64) COMMENT 'Actual street name, including St, Dr, Rd, Ave...treet, e.g. For 112 Main St, the street_name = Main St',
-	street_suffix VARCHAR(8) COMMENT 'Directional or other suffix, e.g. Main St S, S is the suffix',
+	street_number INT COMMENT 'Numeric portion of address number on the street, e.g. For 112A Main St, the street_number = 112',
+	street_number_suffix VARCHAR(8) COMMENT 'Non-numeric portion of address number on the street, e.g. For 112A Main St, the street_number_suffix = A',
+	street_predirectional VARCHAR(8) COMMENT 'Directional prefix, e.g. SE Main St, SE is the prefix',
+	street_name VARCHAR(64) COMMENT 'Actual street name, excluding St, Dr, Rd, Ave, e.g. For 112 Main St, the street_name = Main',
+	street_type VARCHAR(8) COMMENT 'St, Rd, Dr, etc.',
+	street_postdirectional VARCHAR(8) COMMENT 'Directional suffix, e.g. Main St S, S is the suffix',
 	street_unit VARCHAR(8) COMMENT 'Secondary unit designator, e.g. Apt 3 or Unit # 14, or Bldg 1200',
+	street_unit_number INT COMMENT 'Numeric portion of secondary unit designator for sorting, e.g. for Apt 18C, value is 18',
 
 	supplemental_address_1 VARCHAR(96) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
 	supplemental_address_2 VARCHAR(96) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
 	supplemental_address_3 VARCHAR(96) COMMENT 'Supplemental address info, e.g. c/o, organization name, department name, building name, etc.',
 
-	city VARCHAR(64) COMMENT 'city',
+	city VARCHAR(64) COMMENT 'city, town, village...',
+
+-- Should rename county to something more internationally used and make it a lookup.
 	county VARCHAR(64),
 	state_province_id INT UNSIGNED NOT NULL COMMENT 'FK to crm_state_province table',
 
@@ -392,8 +397,8 @@ CREATE TABLE crm_address(
 	usps_adc VARCHAR(32),
 
 	country_id INT UNSIGNED COMMENT 'index to crm_country table',
-	geo_code_1 VARCHAR(16) COMMENT 'latitude or UTM (Universal Transverse Mercator Grid)',
-	geo_code_2 VARCHAR(16) COMMENT 'longitude or UTM (Universal Transverse Mercator Grid)',
+	geo_code_1 FLOAT COMMENT 'latitude or UTM (Universal Transverse Mercator Grid)',
+	geo_code_2 FLOAT COMMENT 'longitude or UTM (Universal Transverse Mercator Grid)',
 	timezone VARCHAR(8) COMMENT 'timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6"',
 	address_note VARCHAR(255) COMMENT 'optional misc info (e.g. delivery instructions) for this address',
 
@@ -1001,7 +1006,7 @@ CREATE TABLE crm_ext_data(
     -- Data is stored in one of these 'buckets' depending on property type.
     -- ? Should we have separate storage bucket for BOOLEANS ? dgg
 	int_data INT COMMENT 'stores data for ext property data_type = integer. This col supports signed integers.',
-	float_data INT COMMENT 'stores data for ext property data_type = float and money.',
+	float_data FLOAT COMMENT 'stores data for ext property data_type = float and money.',
 	char_data VARCHAR(255) COMMENT 'data for ext property data_type = text',
 	date_data DATETIME COMMENT 'data for ext property data_type = date',
 	memo_data TEXT COMMENT 'data for ext property data_type = memo',
