@@ -254,32 +254,55 @@ abstract class CRM_DAO extends DB_DataObject {
 
     /**
      * Get the size and maxLength attributes for this text field
-     * from the DAO objecy
+     * (or for all text fields) in the DAO object.
      *
      * @param string $class     name of DAO class
-     * @param string $fieldName field that i'm interested in
+     * @param string $fieldName field that i'm interested in or null if 
+     *                          you want the attributes for all DAO text fields
      *
      * @return array assoc array of name => attribute pairs
      * @access public
      * @static
      */
-    function getAttribute( $class, $fieldName ) {
+    function getAttribute( $class, $fieldName = null) {
         eval('$fields =& ' . $class . '::fields( );');
-        $field = CRM_Array::value( $fieldName, $fields );
-        if ( $field && $field['type'] == CRM_Type::T_STRING ) {
-            $maxLength  = CRM_Array::value( 'maxlength', $field );
-            $size       = CRM_Array::value( 'size'     , $field );
-            if ( $maxLength || $size ) {
-                $attributes = array( );
-                if ( $maxLength ) {
-                    $attributes['maxlength'] = $maxLength;
+        if ( $fieldName != null ) {
+            $field = CRM_Array::value( $fieldName, $fields );
+            if ( $field && $field['type'] == CRM_Type::T_STRING ) {
+                $maxLength  = CRM_Array::value( 'maxlength', $field );
+                $size       = CRM_Array::value( 'size'     , $field );
+                if ( $maxLength || $size ) {
+                    $attributes = array( );
+                    if ( $maxLength ) {
+                        $attributes['maxlength'] = $maxLength;
+                    }
+                    if ( $size ) {
+                        $attributes['size'] = $size;
+                    }
+                    return $attributes;
                 }
-                if ( $size ) {
-                    $attributes['size'] = $size;
+            }
+        } else {
+            $attributes = array( );
+            foreach ($fields as $name => &$field) {
+                if ( $field && $field['type'] == CRM_Type::T_STRING ) {
+                    $maxLength  = CRM_Array::value( 'maxlength', $field );
+                    $size       = CRM_Array::value( 'size'     , $field );
+                    if ( $maxLength || $size ) {
+                        if ( $maxLength ) {
+                            $attributes[$name]['maxlength'] = $maxLength;
+                        }
+                        if ( $size ) {
+                            $attributes[$name]['size'] = $size;
+                        }
+                    }
                 }
+            }
+            if ( !empty($attributes)) {
                 return $attributes;
             }
         }
+
         return null;
     }
 

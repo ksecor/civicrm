@@ -37,16 +37,23 @@ class CRM_Contact_Form_Address
 {
 
     static function buildAddressBlock($form, &$location, $locationId, $showHideBlocks) {
+        $attributes = CRM_DAO::getAttribute('CRM_Contact_DAO_Address');
         $location[$locationId]['address']['street_address']         =
-            $form->addElement('text', "location[$locationId][address][street_address]", 'Street Address:', array('size' => '47px', 'maxlength' => 96));
+            $form->addElement('text', "location[$locationId][address][street_address]", 'Street Address:',
+                              $attributes['street_address']);
         $location[$locationId]['address']['supplemental_address_1'] =
-            $form->addElement('text', "location[$locationId][address][supplemental_address_1]", 'Additional Address 1:', array('cols' => '47', 'maxlength' => 96));
+            $form->addElement('text', "location[$locationId][address][supplemental_address_1]", 'Additional Address 1:',
+                              $attributes['supplemental_address_1']);
         $location[$locationId]['address']['supplemental_address_2'] =
-            $form->addElement('text', "location[$locationId][address][supplemental_address_2]", 'Additional Address 2:', array('cols' => '47', 'maxlength' => 96));
+            $form->addElement('text', "location[$locationId][address][supplemental_address_2]", 'Additional Address 2:',
+                              $attributes['supplemental_address_2']);
+
         $location[$locationId]['address']['city']                   =
-            $form->addElement('text', "location[$locationId][address][city]", 'City:', array('maxlength' => 64));
+            $form->addElement('text', "location[$locationId][address][city]", 'City:',
+                              $attributes['city']);
         $location[$locationId]['address']['postal_code']            =
-            $form->addElement('text', "location[$locationId][address][postal_code]", 'Zip / Postal Code:', array('maxlength' => 12));
+            $form->addElement('text', "location[$locationId][address][postal_code]", 'Zip / Postal Code:',
+                              $attributes['postal_code']);
         $location[$locationId]['address']['state_province_id']      =
             $form->addElement('select', "location[$locationId][address][state_province_id]", 'State / Province:', CRM_SelectValues::$state);
         $location[$locationId]['address']['country_id']             =
