@@ -97,29 +97,30 @@ class CRM_Contacts_Form_ORG extends CRM_Form
         $this->add('select','preferred_communication_method',"Preferred communication method:",$pcm_select);
         
  
-        $loc1[0] = & $this->createElement('select', 'context_id', null, $context_select);
-        $loc1[1] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact');
-        $loc1[2] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
-        $loc1[3] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
-        $loc1[4] = & $this->createElement('select','phone_type_2', null, $phone_select);
-        $loc1[5] = & $this->createElement('text', 'phone_2', 'Other Phone:', array('size' => '37px'));
-        $loc1[6] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
-        $loc1[7] = & $this->createElement('text', 'phone_3',  'Other Phone:', array('size' => '37px'));
-        $loc1[8] = & $this->createElement('text', 'email', 'Email:', array('size' => '47px'));
-        $loc1[9] = & $this->createElement('text', 'email_secondary', 'Other Email:', array('size' => '47px'));
-        $loc1[10] = & $this->createElement('text', 'email_tertiary', 'Other Email:', array('size' => '47px'));
-        $loc1[11] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
-        $loc1[12] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
-        $loc1[13] = & $this->createElement('select', 'im_service_id_2',  'Instant Message:', $im_select);
-        $loc1[14] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
-        $loc1[15] = & $this->createElement('select','im_service_id_3',  'Instant Message:', $im_select);
-        $loc1[16] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
-        $loc1[17] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
-        $loc1[18] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
-        $loc1[19] = & $this->createElement('text', 'city', 'City:');
-        $loc1[20] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
-        $loc1[21] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
-        $loc1[22] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
+        $i = 0;
+        $loc1[$i++] = & $this->createElement('select', 'location_type_id', null, $context_select);
+        $loc1[$i++] = & $this->createElement('checkbox', 'is_primary', 'Primary location for this contact', null);
+        $loc1[$i++] = & $this->createElement('select', 'phone_type_1', null, $phone_select);
+        $loc1[$i++] = & $this->createElement('text', 'phone_1', 'Preferred Phone:', array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('select','phone_type_2', null, $phone_select);
+        $loc1[$i++] = & $this->createElement('text', 'phone_2', label_offset("Other Phone:",4+5), array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('select', 'phone_type_3', null, $phone_select);
+        $loc1[$i++] = & $this->createElement('text', 'phone_3', label_offset("Other Phone:",4+5) , array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('text', 'email_1', "Email:", array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('text', 'email_2', label_offset("Other Email:",5+5), array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('text', 'email_3', label_offset("Other Email:",5+5), array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('select', 'im_service_id_1', 'Instant Message:', $im_select);
+        $loc1[$i++] = & $this->createElement('text', 'im_screenname_1', null, array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('select', 'im_service_id_2',  label_offset('Instant Message:',5), $im_select);
+        $loc1[$i++] = & $this->createElement('text', 'im_screenname_2', null,array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('select','im_service_id_3',  label_offset('Instant Message:',5), $im_select);
+        $loc1[$i++] = & $this->createElement('text', 'im_screenname_3', null, array('size' => '37px'));
+        $loc1[$i++] = & $this->createElement('text', 'street', 'Street Address:', array('size' => '47px'));
+        $loc1[$i++] = & $this->createElement('textarea', 'supplemental_address', 'Address:', array('cols' => '47'));
+        $loc1[$i++] = & $this->createElement('text', 'city', 'City:');
+        $loc1[$i++] = & $this->createElement('text', 'postal_code', 'Zip / Postal Code:');
+        $loc1[$i++] = & $this->createElement('select', 'state_province_id', 'State / Province:', $state_select);
+        $loc1[$i++] = & $this->createElement('select', 'country_id', 'Country:', $country_select);
         
  
   
@@ -204,11 +205,11 @@ class CRM_Contacts_Form_ORG extends CRM_Form
         $this->registerRule('check_contactid', 'callback', 'valid_contact','CRM_Contacts_Form_ORG');
         $this->addRule('primary_contact_id', t(' Enter valid contact id.'), 'check_contactid');
         
-        $this->addGroupRule('location', array('email' => array( 
+        $this->addGroupRule('location', array('email_1' => array( 
                                                                array(t( 'Please enter valid email for location'), 'email', null, 'client')),
-                                              'email_secondary' => array( 
+                                              'email_2' => array( 
                                                                          array(t( ' Please enter valid secondary email for location'), 'email', null, 'client')),
-                                              'email_tertiary' => array( 
+                                              'email_3' => array( 
                                                                         array(t( ' Please enter valid tertiary email for location' ), 'email', null, 'client'))
                                               )
                             ); 
@@ -311,4 +312,12 @@ class CRM_Contacts_Form_ORG extends CRM_Form
     
 }
 
+function label_offset($str,$num)
+    {
+        $return_string = "";
+        for ($i = 0; $i < $num; $i++) {
+            $return_string = $return_string . " &nbsp;"; 
+        }
+        return $str . $return_string;
+    }
 ?>
