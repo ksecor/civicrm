@@ -45,6 +45,7 @@ class CRM_Contact_Page_View extends CRM_Page {
         MODE_NOTE                  =   1,
         MODE_GROUP                 =   2,
         MODE_REL                   =   4;
+        MODE_TAGS                  =   8;
 
     /**
      * the contact id of the contact being viewed
@@ -74,7 +75,9 @@ class CRM_Contact_Page_View extends CRM_Page {
             $this->runModeNone( );
         } else if ( $this->_mode == self::MODE_NOTE ) {
             CRM_Contact_Page_Note::run( $this );
-        }
+        } else if ( $this->_mode == self::MODE_TAGS ) {
+            $this->runModeNone( );
+        } 
 
         return parent::run( );
     }
@@ -130,6 +133,24 @@ class CRM_Contact_Page_View extends CRM_Page {
         $this->set( 'displayName', $displayName );
 
         $this->setShowHide( $defaults );
+    }
+
+    function runModeTags()
+    {
+        $params   = array();
+        $defaults = array();
+        $ids      = array();
+
+        $params['id'] = $params['contact_id'] = $this->_contactId;
+        $contact = CRM_Contact_BAO_EntityCategory::retrieve($params, $defaults, $ids);
+        $this->assign($defaults);
+        
+        $eCategory = CRM_Contact_BAO_EntityCategory::getValues($params);        
+               
+        $category = CRM_SelectValues::getCategory();
+        $this->assign($category);
+                
+        $this->setShowHide($defaults);
     }
 
     function setShowHide( &$defaults ) {

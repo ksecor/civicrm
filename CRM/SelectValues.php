@@ -343,7 +343,7 @@ class CRM_SelectValues {
         if (!isset(self::$category)) {
             CRM_Error::debug_log_message("category is not set");
             self::$category = array();
-            $category_dao = new CRM_DAO_Contact_Category();
+            $category_dao = new CRM_Contact_DAO_Category();
             $category_dao->selectAdd('id, name, parent_id');
             $category_dao->find();
             while($category_dao->fetch()) {

@@ -88,7 +88,6 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         $this->addGroup($contact_type, 'contact_type', 'Show Me....', '<br />');
 
         $group_id = array();
-
         foreach (CRM_SelectValues::$group as $key => $value) {
             $group_id[] = HTML_QuickForm::createElement('checkbox', $value, null, $value);
         }

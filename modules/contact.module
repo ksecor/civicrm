@@ -78,7 +78,7 @@ function contact_help($section)
     switch ($section) {
     case 'admin/modules#description':
         // This description is shown in the listing at admin/modules.
-        return t('CiviCRM module v0.1');
+        return t('CRM module v0.1');
     }
 }
 
@@ -126,16 +126,16 @@ function contact_block($op='list', $delta='0')
             case 0:
                 //Case 0 builds the content of shortcuts block.
                 $content .= "<div id='crm-shortcuts'>";
-                static $shortCuts = array( array( 'path'  => 'crm/contact/addI/',
+                static $shortCuts = array( array( 'path'  => 'crm/contact/add',
                                                   'qs'    => '&c_type=Individual&reset=1',
                                                   'title' => 'New Individual' ), 
-                                           array( 'path'  => 'crm/contact/addO/',
+                                           array( 'path'  => 'crm/contact/add',
                                                   'qs'    => '&c_type=Organization&reset=1',
                                                   'title' => 'New Organization' ),
-                                           array( 'path'  => 'crm/contact/addH/',
+                                           array( 'path'  => 'crm/contact/add',
                                                   'qs'    => '&c_type=Household&reset=1',
                                                   'title' => 'New Household' ),
-                                           array( 'path'  => 'crm/group/add/',
+                                           array( 'path'  => 'crm/groups/add/',
                                                   'qs'    => '&reset=1',
                                                   'title' => 'New Group' ));
                                                   
@@ -207,59 +207,31 @@ function contact_menu($may_cache)
                          'type'   => MENU_IS_ROOT | MENU_VISIBLE_IN_TREE | MENU_CALLBACK,
                          'pid'    => 0,
                          );
-  
-
+        
         $items[] = array(
                          'path'  => 'crm/contact',
                          'title' => t('Contact'),
                          'callback' => 'contact_invoke',
                          'access' => user_access('view contact'),
-                         'type'   => 0
+                         'type'   => MENU_CALLBACK
                          );
-                         
+
         $items[] = array(
-                         'path'   => 'crm/contact/search',
-                         'qs'     => '&reset=1',
-                         'title'  => t('Browse Contacts'),
+                         'path'  => 'crm/contact/search',
+                         'title' => t('Browse Contacts'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 0
                          );
         
        $items[] = array(
-                         'path'  => 'crm/contact/addI',
-                         'qs'     => '&reset=1',
-                         'title' => t('New Individual'),
-                         'type'   => MENU_CALLBACK,
-                         'weight' => 1
-                         );    
-        
-       $items[] = array(
-                         'path'  => 'crm/contact/addH',
-                         'qs'     => '&reset=1',
-                         'title' => t('New Household'),
-                         'type'   => MENU_CALLBACK,
-                         'weight' => 1
-                         );    
-        
-       $items[] = array(
-                         'path'  => 'crm/contact/addO',
-                         'qs'     => '&reset=1',
-                         'title' => t('New Organization'),
-                         'type'   => MENU_CALLBACK,
-                         'weight' => 1
-                         );    
-        
-       $items[] = array(
-                         'path'  => 'crm/contact/edit',
-                         'qs'     => '&reset=1',
-                         'title' => t('Edit Contact'),
+                         'path'  => 'crm/contact/add',
+                         'title' => t('Add Contact'),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );    
         
         $items[] = array(
                          'path'  => 'crm/contact/view',
-                         'qs'     => '&reset=1',
                          'title' => t('View Contact'),
                          'type'   => MENU_CALLBACK
                          );
@@ -272,30 +244,35 @@ function contact_menu($may_cache)
                         );
 
         $items[] = array(
-                         'path'  => 'crm/contact/view/rel',
+                         'path'  => 'crm/contact/view/rels',
                          'title' => t('Relationships'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
         
         $items[] = array(
-                         'path'  => 'crm/contact/view/note',
+                         'path'  => 'crm/contact/view/notes',
                          'title' => t('Notes'),
                          'type'   => MENU_LOCAL_TASK,
-                         'weight' => 2
+                         'weight' => 3
                          );
 
-
         $items[] = array(
-                         'path'  => 'crm/contact/view/group',
+                         'path'  => 'crm/contact/view/groups',
                          'title' => t('Groups'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
                          );
         
         $items[] = array(
-                         'path'  => 'crm/group',
-                         'qs'     => '&reset=1',
+                         'path'  => 'crm/contact/view/tags',
+                         'title' => t('Tags'),
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => 4
+                         );
+
+        $items[] = array(
+                         'path'  => 'crm/groups',
                          'title' => t('Manage Groups'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 1
@@ -303,7 +280,6 @@ function contact_menu($may_cache)
         
         $items[] = array(
                          'path'  => 'crm/import',
-                         'qs'     => '&reset=1',
                          'title' => t('Import Contacts'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 2
@@ -314,7 +290,8 @@ function contact_menu($may_cache)
    return $items;
 }
 
-function contact_init() {
+function contact_init() 
+{
     // menu_rebuild();
     $config = CRM_Config::singleton();
     CRM_DAO::init($config->dsn, $config->daoDebug);
@@ -342,14 +319,8 @@ function contact_admin_invoke()
 
 function crm_invoke()
 {
-    // default to Browse Contacts for base crm path until we have more functionality
-    if (arg(1) == NULL) {
-        drupal_goto('crm/contact/search');
-//        $content .= contact_query();     
-    }
-    
     //  manage groups
-    if (arg(1) == 'group') {
+    if (arg(1) == 'groups') {
         if(arg(2) == 'edit' OR arg(2) == 'add') {
             $content = fetch_tpl( 'Groups/Form/Edit.tpl');
         } else {
@@ -379,7 +350,7 @@ function contact_invoke()
     $content = "";
 
     //  add contact
-    if (arg(1)=='contact' && substr(arg(2),0,3) == 'add') {
+    if (arg(1)=='contact' && arg(2) == 'add') {
         $content .= contact_form( CRM_Form::MODE_ADD );
     }
 
@@ -401,17 +372,22 @@ function contact_invoke()
     }
 
     // view contact relationships
-    if (arg(2) == 'view' && arg(3) == 'rel') {
+    if (arg(2) == 'view' && arg(3) == 'rels') {
         $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_REL );
         $content .= $view->run( );
     }
 
     // view contact groups
-    if (arg(2) == 'view' && arg(3) == 'group') {
+    if (arg(2) == 'view' && arg(3) == 'groups') {
         $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_GROUP );
         $content .= $view->run( );
     }
 
+    // view contact tags
+    if (arg(2) == 'view' && arg(3) == 'tags') {
+        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Page::VIEW_MODE_TAG   );
+        $content .= $view->run( );
+    }
 
     // search
     if (arg(2) == 'search') {
@@ -449,7 +425,7 @@ function contact_load($queryArgs)
 function contact_form( $mode )
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Contact', 'Contact Page', $mode, 'contact/search/&reset=1', NULL);
+    $contact->run('CRM_Contact_Form_Contact', 'Contact Page', $mode, 'contact/add?reset=1', NULL);
     return $contact->getContent();
 }
 
@@ -461,7 +437,7 @@ function contact_form( $mode )
 function note_form( $mode )
 {
     $note = new CRM_Contact_Wrapper();
-    $note->run('CRM_Note_Form_Note', 'Note Page', $mode, 'note/add/&reset=1', NULL);
+    $note->run('CRM_Note_Form_Note', 'Note Page', $mode, 'note/add?reset=1', NULL);
     return $note->getContent();
 }
 
@@ -501,7 +477,7 @@ function contact_assign( $var, $value = null) {
 function contact_query() 
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/search/&reset=1', 0);
+    $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/search?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_query
 
@@ -518,7 +494,7 @@ function contact_query()
 function contact_advanced_search() 
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_AdvancedSearch', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/advanced_search/7reset=1', 0);
+    $contact->run('CRM_Contact_Form_AdvancedSearch', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/advanced_search?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_query
 
