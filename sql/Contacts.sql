@@ -444,9 +444,8 @@ CREATE TABLE crm_contact_action(
 
 	contact_id INT UNSIGNED NOT NULL COMMENT 'action is related to this contact id',
 
--- Action_category may need to become an FK to Action_Category table which can be populated by add-on modules as needed.
--- This list of categories is rough draft - may need more or less granularity ??
-    action_category ENUM('Email_Sent','Email_Read','Letter_Sent','Donation_Pledge','Donation','Event_Registration','Event_Attendance'),
+    module VARCHAR(255) COMMENT 'Display name of module which registered this action.',
+    category VARCHAR(255) COMMENT 'Module-provided display string for grouping/classifying actions, e.g. Email Sent, Letter Sent, Donation Pledge, etc',
     callback VARCHAR(255) COMMENT 'Function to call to get details for this action',
 	action_id INT UNSIGNED NOT NULL COMMENT 'FK to details item - passed to callback',
 
@@ -633,12 +632,12 @@ CREATE TABLE crm_group_contact(
 	status ENUM('Pending','In','Out') COMMENT 'status of contact relative to membership in group',
 	pending_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "Pending"',
 	in_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "In"',
-	out_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "Out"'
+	out_date DATETIME DEFAULT 0 COMMENT 'when was contact status for this group set to "Out"',
     
 	PRIMARY KEY(id),
 
-	FOREIGN KEY(group_id) REFERENCES crm_group(id) ON DELETE CASCADE,
-	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
+	FOREIGN KEY (group_id) REFERENCES crm_group(id) ON DELETE CASCADE,
+	FOREIGN KEY (contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact email';
 
