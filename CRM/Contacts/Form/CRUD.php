@@ -218,30 +218,30 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $this->addGroup($loc3,'location3');
 
             for ($i = 1; $i <= 3; $i++) {    
-            $this->addElement('link', 'exph02_'."{$i}", null, 'phone0_2_'."{$i}", '[+] another phone',
-                              array('onclick' => "show('phone0_2_{$i}'); hide('expand_phone0_2_{$i}'); show('expand_phone0_3_{$i}'); return false;"));
-            $this->addElement('link', 'hideph02_'."{$i}", null, 'phone0_2_'."{$i}", '[-] hide phone',
-                              array('onclick' => "hide('phone0_2_{$i}'); hide('expand_phone0_3_{$i}'); show('expand_phone0_2_{$i}');hide('phone0_3_{$i}'); return false;"));
-            $this->addElement('link', 'exph03_'."{$i}", null, 'phone0_3_'."{$i}", '[+] another phone',
-                              array('onclick'=> "show('phone0_3_{$i}'); hide('expand_phone0_3_{$i}'); return false;"));
-            $this->addElement('link', 'hideph03_'."{$i}", null, 'phone0_3_'."{$i}", '[-] hide phone',
-                              array( 'onclick' => "hide('phone0_3_{$i}'); show('expand_phone0_3_{$i}'); return false;"));
-            $this->addElement('link', 'exem02_'."{$i}", null, 'email0_2_'."{$i}", '[+] another email',
-                              array('onclick' => "show('email0_2_{$i}'); hide('expand_email0_2_{$i}'); show('expand_email0_3_{$i}'); return false;"));
-            $this->addElement('link','hideem02_'."{$i}", null, 'email0_2_'."{$i}", '[-] hide email',
-                              array('onclick' => "hide('email0_2_{$i}'); hide('expand_email0_3_{$i}'); show('expand_email0_2_{$i}'); hide('email0_3_{$i}'); return false;"));
-            $this->addElement('link', 'exem03_'."{$i}", null, 'email0_3_'."{$i}", '[+] another email',
-                              array('onclick' => "show('email0_3_{$i}'); hide('expand_email0_3_{$i}'); return false;"));
-            $this->addElement('link', 'hideem03_'."{$i}", null, 'email0_3_'."{$i}", '[-] hide email',
-                              array('onclick' => "hide('email0_3_{$i}'); show('expand_email0_3_{$i}'); return false;"));
-            $this->addElement('link', 'exim02_'."{$i}", null, 'IM0_2_'."{$i}",'[+] another instant message',
-                              array('onclick' => "show('IM0_2_{$i}'); hide('expand_IM0_2_{$i}'); show('expand_IM0_3_{$i}'); return false;"));
-            $this->addElement('link', 'hideim02_'."{$i}", null, 'IM0_2_'."{$i}", '[-] hide instant message',
-                              array('onclick' => "hide('IM0_2_{$i}'); hide('expand_IM0_3_{$i}'); show('expand_IM0_2_{$i}'); hide('IM0_3_{$i}'); return false;"));
-            $this->addElement('link', 'exim03_'."{$i}", null, 'IM0_3_'."{$i}", '[+] another instant message',
-                              array('onclick' => "show('IM0_3_{$i}'); hide('expand_IM0_3_{$i}'); return false;"));
-            $this->addElement('link', 'hideim03_'."{$i}", null, 'IM0_3_'."{$i}", '[-] hide instant message',
-                              array('onclick' => "hide('IM0_3_{$i}'); show('expand_IM0_3_{$i}'); return false;"));
+            $this->addElement('link', 'exph02_'."{$i}", null, 'phone_'."{$i}".'_2', '[+] another phone',
+                              array('onclick' => "show('phone_{$i}_2'); hide('expand_phone_{$i}_2'); show('expand_phone_{$i}_3'); return false;"));
+            $this->addElement('link', 'hideph02_'."{$i}", null, 'phone_'."{$i}".'_2', '[-] hide phone',
+                              array('onclick' => "hide('phone_{$i}_2'); hide('expand_phone_{$i}_3'); show('expand_phone_{$i}_2');hide('phone_{$i}_3'); return false;"));
+            $this->addElement('link', 'exph03_'."{$i}", null, 'phone_'."{$i}".'_3', '[+] another phone',
+                              array('onclick'=> "show('phone_{$i}_3'); hide('expand_phone_{$i}_3'); return false;"));
+            $this->addElement('link', 'hideph03_'."{$i}", null, 'phone_'."{$i}".'_3', '[-] hide phone',
+                              array( 'onclick' => "hide('phone_{$i}_3'); show('expand_phone_{$i}_3'); return false;"));
+            $this->addElement('link', 'exem02_'."{$i}", null, 'email_'."{$i}".'_2', '[+] another email',
+                              array('onclick' => "show('email_{$i}_2'); hide('expand_email_{$i}_2'); show('expand_email_{$i}_3'); return false;"));
+            $this->addElement('link','hideem02_'."{$i}", null, 'email_'."{$i}".'_2', '[-] hide email',
+                              array('onclick' => "hide('email_{$i}_2'); hide('expand_email_{$i}_3'); show('expand_email_{$i}_2'); hide('email_{$i}_3'); return false;"));
+            $this->addElement('link', 'exem03_'."{$i}", null, 'email_'."{$i}".'_3', '[+] another email',
+                              array('onclick' => "show('email_{$i}_3'); hide('expand_email_{$i}_3'); return false;"));
+            $this->addElement('link', 'hideem03_'."{$i}", null, 'email_'."{$i}".'_3', '[-] hide email',
+                              array('onclick' => "hide('email_{$i}_3'); show('expand_email_{$i}_3'); return false;"));
+            $this->addElement('link', 'exim02_'."{$i}", null, 'IM_'."{$i}".'_2','[+] another instant message',
+                              array('onclick' => "show('IM_{$i}_2'); hide('expand_IM_{$i}_2'); show('expand_IM_{$i}_3'); return false;"));
+            $this->addElement('link', 'hideim02_'."{$i}", null, 'IM_'."{$i}".'_2', '[-] hide instant message',
+                              array('onclick' => "hide('IM_{$i}_2'); hide('expand_IM_{$i}_3'); show('expand_IM_{$i}_2'); hide('IM_{$i}_3'); return false;"));
+            $this->addElement('link', 'exim03_'."{$i}", null, 'IM_'."{$i}".'_3', '[+] another instant message',
+                              array('onclick' => "show('IM_{$i}_3'); hide('expand_IM_{$i}_3'); return false;"));
+            $this->addElement('link', 'hideim03_'."{$i}", null, 'IM_'."{$i}".'_3', '[-] hide instant message',
+                              array('onclick' => "hide('IM_{$i}_3'); show('expand_IM_{$i}_3'); return false;"));
         }
         
         $this->addElement('link', 'exloc2', null, 'location2', '[+] another location',
@@ -258,9 +258,11 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
     
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82'));    
 
-        $this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',
-                          array('onclick' => "show('demographics'); hide('expand_demographics'); return false;"));
+        //$this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',
+        //                array('onclick' => "show('demographics'); hide('expand_demographics'); return false;"));
     
+        $this->addElement('link', 'exdemo', null, 'demographics', '[+] show demographics',array('id'=>'exdemo'));
+
         $this->addElement('link', 'exnotes', null, 'notes', '[+] contact notes',
                           array('onclick' => "show('notes'); hide('expand_notes'); return false;"));
     
@@ -270,8 +272,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
         $this->addElement('link', 'hidenotes', null, 'notes', '[-] hide contact notes',
                           array('onclick' => "hide('notes'); show('expand_notes'); return false;"));
         
-        //$this->addElement('hidden', 'mdyx', null, array('value' => 'false'));
-         $this->addElement('hidden', 'mdyx','false');
+        $this->addElement('hidden', 'mdyx','false');
 
         $this->addDefaultButtons(array(1 => array ('next', 'Save', true),
                                        2 => array ('reset' , 'Reset', false),
