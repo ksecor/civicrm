@@ -6,7 +6,7 @@
 *    This script creates the schema for CRM module
 *    (contact relationship management system).
 *
-* Last rev: 11/30/2004
+* Last rev: 12/2/2004
 *******************************************************/
 
 /*******************************************************
@@ -392,11 +392,11 @@ CREATE TABLE crm_relationship_type(
 
 /*******************************************************
 *
-* crm_relationship
+* crm_contact_relationship
 *
 *******************************************************/
-DROP TABLE IF EXISTS crm_relationship;
-CREATE TABLE crm_relationship(
+DROP TABLE IF EXISTS crm_contact_relationship;
+CREATE TABLE crm_contact_relationship(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'contact relationship id',
 
@@ -467,27 +467,31 @@ CREATE TABLE crm_contact_action(
 *
 * crm_task
 *
+* Tasks are assigned by a contact, to another contact
+* (may be self-assignment) - and may be 'about' a
+* target contact (e.g. call Dana Donor), or 'free-floating'
+* (e.g. clean the bathroom).
+*
 *******************************************************/
 DROP TABLE IF EXISTS crm_task;
 CREATE TABLE crm_task(
 
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 
-    -- This struct implies that all tasks have a target contact. What about 'mailings'
-    -- which target groups. How does this relate to other types of org tasks (e.g. "compose newsletter"...)?
-	target_contact_id INT UNSIGNED NOT NULL COMMENT 'target contact id for task',
-	assigned_contact_id INT UNSIGNED NOT NULL COMMENT 'task assigned to which contact',
+	assigned_by_contact_id INT UNSIGNED NOT NULL COMMENT 'task assigned by which contact (may be same as assigned_to)',
+	assigned_to_contact_id INT UNSIGNED NOT NULL COMMENT 'task assigned to which contact',
+	target_contact_id INT UNSIGNED NOT NULL COMMENT 'optional target contact id for task',
 
-	time_started DATETIME DEFAULT 0 COMMENT 'when was task started',
-	time_completed DATETIME DEFAULT 0 COMMENT 'when was task completed',
+	scheduled DATETIME DEFAULT 0 COMMENT 'when is task scheduled for',
+	status ENUM('Open', 'Pending', 'Completed', 'Cancelled', 'Reassigned'),
 
 	description VARCHAR(255) COMMENT 'description of task',
 
 	PRIMARY KEY(id),
     -- FULLTEXT (description),
     
-	FOREIGN KEY(target_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
-	FOREIGN KEY(assigned_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
+	FOREIGN KEY(assigned_by_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
+	FOREIGN KEY(assigned_to_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='tasks related to a contact';
 
@@ -508,16 +512,12 @@ CREATE TABLE crm_note(
 
     table_name VARCHAR(32)  NOT NULL DEFAULT 'crm_contact' COMMENT 'name of table where item being referenced is stored',
     table_id   INT UNSIGNED NOT NULL COMMENT 'foreign key to the referenced item',
+-- this would need manual constraint checking during insert/update/delete.
 
 	note TEXT COMMENT 'note or comment',
 
 	PRIMARY KEY(id)
     -- FULLTEXT (description)
-
----
---- yvb
---- this would need manual constraint checking during insert/update/delete.
----
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='multiple notes/comments related to a contact or other entity';
 
@@ -544,17 +544,12 @@ CREATE TABLE crm_saved_search (
 
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this saved_search',
 
-	name        VARCHAR(255) COMMENT 'search name (brief)',
+	name        VARCHAR(255) NOT NULL COMMENT 'search name (brief)',
 	description VARCHAR(255) COMMENT 'verbose description',
-        query       TEXT COMMENT 'SQL query for this search',
+    query       TEXT NOT NULL COMMENT 'SQL query for this search',
 
 	PRIMARY KEY (id),
 	FOREIGN KEY (domain_id) REFERENCES crm_domain(id) ON DELETE CASCADE
-
----
---- yvb
---- we need to have at least name, query as not null. any takers for my suggestion.
----
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='domain-level set of available saved searches';
 
@@ -589,12 +584,7 @@ CREATE TABLE crm_list (
 
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this role_type',
 
----
---- yvb
---- we need to have at least iname, name as not null. any takers for the suggestion.
----
-
-	iname		VARCHAR(255) COMMENT 'internal list name (constructed from display/friendly name)',
+	iname		VARCHAR(255) NOT NULL COMMENT 'internal list name (constructed from display/friendly name)',
 	name		VARCHAR(255) COMMENT 'display name (user-defined friendly name)',
 	description VARCHAR(255) COMMENT 'list description (verbose)',
 
@@ -626,14 +616,8 @@ CREATE TABLE crm_contact_list(
 	
 	PRIMARY KEY(id),
 
-	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
----
---- yvb
----
---- i think we need another fkey here too.
----
---- FOREIGN KEY(list_id) REFERENCES crm_list(id) ON DELETE CASCADE
-
+	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE,
+	FOREIGN KEY(list_id) REFERENCES crm_list(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='contact email';
 
