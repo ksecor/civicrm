@@ -186,4 +186,10 @@
     <organization_type>NGO</organization_type>
   </organization_types>
 
+  <groups>
+    <group>Newsletter Subscribers</group>
+    <group>Summer Program Volunteers</group>
+    <group>Advisory Board</group>
+  </groups>
+
 </sample_data>

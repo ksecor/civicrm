@@ -15,9 +15,8 @@
  * a field in the referened table, the field in the referenced
  * table is always generated linearly.
  *
- *******************************************************/
-
-/*******************************************************
+ *
+ *
  *
  * Some numbers
  *
@@ -91,7 +90,7 @@ class CRM_GCD {
     const OTHER           = 4;
     
     const ADD_TO_DB=TRUE;
-    // const ADD_TO_DB=FALSE;
+    //const ADD_TO_DB=FALSE;
     const DEBUG_LEVEL=1;
 
 
@@ -136,7 +135,8 @@ class CRM_GCD {
     private $organization_name = array();
     private $organization_field = array();
     private $organization_type = array();
-
+    private $group = array();
+    
     // stores the strict individual id and household id to individual id mapping
     private $strict_individual = array();
     private $household_individual = array();
@@ -354,6 +354,11 @@ class CRM_GCD {
             $this->organization_type[] = trim($organization_type);
         }
 
+        // group
+        foreach ($sample_data->groups->group as $group) {
+            $this->group[] = trim($group);
+        }
+
         $this->lel();
     }
 
@@ -510,7 +515,7 @@ class CRM_GCD {
         $contact = new CRM_Contact_DAO_Contact();
 
         for ($id=1; $id<=self::NUM_CONTACT; $id++) {
-            $contact->domain_id = mt_rand(1, self::NUM_DOMAIN);            
+            $contact->domain_id = $this->_getRandomElement($this->domain);
             $contact->contact_type = $this->getContactType($id);
             $contact->do_not_phone = mt_rand(0, 1);
             $contact->do_not_email = mt_rand(0, 1);
@@ -844,6 +849,99 @@ class CRM_GCD {
         $this->lel();
     }
 
+
+
+    /*******************************************************
+     *
+     * addCategoryEntity()
+     *
+     * This method populates the crm_entity_category table
+     *
+     *******************************************************/
+    public function addEntityCategory()
+    {
+        $this->lee();
+        
+        $entity_category = new CRM_Contact_DAO_EntityCategory();
+        
+        // add categories 1,2,3 for Organizations.
+        for ($i=0; $i<$this->num_organization; $i+=2) {
+            $org_id = $this->organization[$i];
+            echo "org_id = $org_id\n";
+            $entity_category->entity_table = 'crm_contact';
+            $entity_category->entity_id = $this->organization[$i];
+            $entity_category->category_id = mt_rand(1, 3);
+            $this->_insert($entity_category);
+        }
+
+        // add categories 4,5 for Individuals.        
+        for ($i=0; $i<$this->num_individual; $i+=2) {
+            $ind_id = $this->individual[$i];
+            echo "ind_id = $ind_id\n";            
+            $entity_category->entity_table = 'crm_contact';
+            $entity_category->entity_id = $this->individual[$i];
+            if(($entity_category->entity_id)%3) {
+                $entity_category->category_id = mt_rand(4, 5);
+                $this->_insert($entity_category);
+            } else {
+                // some of the individuals are in both categories (4 and 5).
+                $entity_category->category_id = 4;
+                $this->_insert($entity_category);                
+                $entity_category->category_id = 5;
+                $this->_insert($entity_category);                
+            }
+        }
+        
+        $this->lel();
+    }
+
+    /*******************************************************
+     *
+     * addGroup()
+     *
+     * This method populates the crm_entity_category table
+     *
+     *******************************************************/
+    public function addGroup()
+    {
+        $this->lee();
+        
+        $group = new CRM_Contact_DAO_Group();
+        $group_contact = new CRM_Contact_DAO_GroupContact();
+        
+        // add the 3 groups first
+        $num_group = count($this->group);
+
+        for ($i=0; $i<$num_group; $i++) {
+            $group->domain_id = $this->_getRandomElement($this->domain);
+            $group->name = $this->group[$i];
+            $group->type = 'static';
+            $this->_insert($group);
+        }
+
+
+        for ($i=0; $i<60; $i++) {
+            $group_contact->group_id = 1; // newsletter subscribers
+            $group_contact->contact_id = $this->_getRandomElement($this->individual);
+            $this->_insert($group_contact);
+        }
+
+        for ($i=0; $i<15; $i++) {
+            $group_contact->group_id = 2; // Volunteers
+            $group_contact->contact_id = $this->_getRandomElement($this->individual);
+            $this->_insert($group_contact);
+        }
+
+        for ($i=0; $i<8; $i++) {
+            $group_contact->group_id = 3; // advisory board group
+            $group_contact->contact_id = $this->_getRandomElement($this->individual);
+            $this->_insert($group_contact);
+        }
+
+
+        $this->lel();
+    }
+
     public function printID() {
 
         $this->lee();
@@ -917,6 +1015,8 @@ $obj1->addHousehold();
 $obj1->addOrganization();
 $obj1->addRelationship();
 $obj1->addLocation();
+$obj1->addEntityCategory();
+$obj1->addGroup();
 
 echo("Ending on " . date("F dS h:i:s A") . "\n");
 
