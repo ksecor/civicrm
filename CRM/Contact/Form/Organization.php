@@ -337,7 +337,7 @@ class CRM_Contact_Form_Organization extends CRM_Form
         
         if(!strlen($str_error)){ //proceed if there are no errors
             // create a object for inserting data in contact organization table 
-            $contact_organization = new CRM_Contact_DAO_Contact_Organization();
+            $contact_organization = new CRM_Contact_DAO_Organization();
 
             $contact_organization->contact_id = $contact->id;
             $contact_organization->organization_name = $this->exportValue('organization_name');
