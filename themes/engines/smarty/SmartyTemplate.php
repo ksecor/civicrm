@@ -8,7 +8,6 @@ if ( ! defined( 'CRM_TEMPLATE_COMPILEDIR' ) ) {
   define( 'CRM_TEMPLATE_COMPILEDIR', ini_get( 'wgm.compileDir' ) );
 }
 
-
 // load Smarty library files
 require_once  CRM_SMARTYDIR . 'Smarty.class.php';
 

@@ -28,12 +28,15 @@ class CRM_Contacts_Form_CRUD extends CRM_Form {
                                      3 => array( 'cancel' , 'Cancel'  , false ) ) );
 
     if ( $this->_mode == self::MODE_VIEW || self::MODE_UPDATE ) {
-      $this->setDefaults();
+      $this->setDefaultValues();
+      if ( $this->_mode == self::MODE_VIEW ) {
+        $this->freeze();
+      }
     }
 
   }
 
-  function setDefaults() {
+  function setDefaultValues() {
     $defaults = array();
 
     $defaults['first_name'] = 'Dave';

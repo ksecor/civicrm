@@ -11,8 +11,7 @@ class CRM_Contacts_Contacts extends CRM_Base {
     parent::__construct();
   }
 
-  function run() {
-    $mode = CRM_Form::MODE_VIEW;
+  function run( $mode, $id = 0 ) {
     $this->_controller = new CRM_Controller_SinglePage( 'CRM_Contacts_Form_CRUD', 'Contact CRUD Page', $mode );
 
     $this->_controller->process();
