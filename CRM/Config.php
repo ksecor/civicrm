@@ -14,7 +14,8 @@ class CRM_Config {
   public $templateCompileDir  = './templates_c';
   public $smtpServer          = 'outbound2.groundspring.org';
   public $extendedIncludePath = null;
-  public $mainMenu            = 'http://localhost/lobo/drupal/';
+  public $mainMenu            = 'http://localhost/drupal/';
+  public $httpBase            = "http://localhost/drupal/";
   public $DAOFactoryClass	  = 'CRM_BAO_Factory';
 
   private static $_instance = null;
@@ -61,6 +62,10 @@ class CRM_Config {
 
     if ( defined( 'CRM_MAINMENU' ) ) {
       $this->mainMenu = CRM_MAINMENU;
+    }
+
+    if ( defined( 'CRM_HTTPBASE' ) ) {
+      $this->httpBase = CRM_HTTPBASE;
     }
 
   }

@@ -16,9 +16,13 @@ class CRM_Contacts_Contacts extends CRM_Base {
   }
 
   function run( $mode, $id = 0 ) {
-    // store the return url
-    $returnUrl = "/lobo/drupal/crm/contact/add?reset=1";
     $session = CRM_Session::instance();
+    $config  = CRM_Config::instance();
+
+    // store the return url. Note that this is typically computed by the framework at runtime
+    // based on multiple things (typically where the link was clicked from / http_referer
+    // since we are just starting and figuring out navigation, we are hard coding it here
+    $returnUrl = $config->httpBase . "crm/contact/add?reset=1";
     $session->pushReturnUrl( $returnUrl );
 
     $this->_controller = new CRM_Controller_SinglePage( 'CRM_Contacts_Form_CRUD', 'Contact CRUD Page', $mode );
