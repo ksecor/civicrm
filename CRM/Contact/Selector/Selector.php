@@ -91,7 +91,6 @@ class CRM_Contact_Selector_Selector extends CRM_Selector_Base implements CRM_Sel
 
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
-        // $this->_contact->domain_id = 1;
 
         CRM_Error::debug_var("params", $params);
         
@@ -137,13 +136,6 @@ class CRM_Contact_Selector_Selector extends CRM_Selector_Base implements CRM_Sel
         static $order = array(
                               'crm_contact_id'                             => CRM_Sort::ASCENDING,
                               'crm_contact_sort_name'                      => CRM_Sort::DESCENDING,
-                              'crm_contact_contact_type'                   => CRM_Sort::DESCENDING,
-                              'crm_contact_preferred_communication_method' => CRM_Sort::DESCENDING,
-                              //'id'                             => CRM_Sort::ASCENDING,
-                              //'sort_name'                      => CRM_Sort::DESCENDING,
-                              //'contact_type'                   => CRM_Sort::DESCENDING,
-                              //'preferred_communication_method' => CRM_Sort::DESCENDING,
-                              // 'crm_contact_email'                          => CRM_Sort::DESCENDING,
                               );
         return $order;
     }//end of function
@@ -161,31 +153,17 @@ class CRM_Contact_Selector_Selector extends CRM_Selector_Base implements CRM_Sel
                                 array(
                                       'name' => 'Contact ID',
                                       'sort' => 'crm_contact_id',
-                                      //'sort' => 'id',
                                       ),
                                 array(
                                       'name' => 'Name',
                                       'sort' => 'crm_contact_sort_name',
-                                      //'sort' => 'sort_name',
                                       ),
-                                array(
-                                      'name' => 'Contact',
-                                      'sort' => 'crm_contact_contact_type',
-                                      //'sort' => 'contact_type',
-                                      ),
-                                array(
-                                      'name' => 'Communication Method',
-                                      'sort' => 'crm_contact_preferred_communication_method',
-                                      //'sort' => 'preferred_communication_method',
-                                      ),
-                                 array(
-                                       'name' => 'Email',
-                                       'sort' => 'crm_contact_email',
-                                       ),
-                                 array(
-                                       'name' => '&nbsp;',
-                                       'sort' => '',
-                                       ),
+				array('name' => 'Email'),
+				array('name' => 'Phone'),
+				array('name' => 'Address'),
+				array('name' => 'City'),
+				array('name' => 'State'),
+				array('name' => 'Operate'),
                                 );
         return $headers;
     }//end of function
@@ -207,25 +185,26 @@ class CRM_Contact_Selector_Selector extends CRM_Selector_Base implements CRM_Sel
     function getRows($action, $offset, $rowCount, $sort) 
     {
 
-        CRM_Error::le_method();
+      return $this->_contact->getSearchRows($offset, $rowCount, $sort);
 
-        $rows = array();
+      CRM_Error::le_method();
 
-        $this->_contact->limit($offset, $rowCount);
-        $this->_contact->orderBy($sort->orderBy());
-        $this->_contact->find();
+      $rows = array();
 
-        // CRM_Error::debug_var("this->_contact", $this->_contact);
+      $this->_contact->limit($offset, $rowCount);
+      $this->_contact->orderBy($sort->orderBy());
+      $this->_contact->find();
 
+      // CRM_Error::debug_var("this->_contact", $this->_contact);
+      
         CRM_Error::debug_log_message("breakpoint 10");
-
 
         // print_r($this->_contact);
         while ($this->_contact->fetch()) {
 
             CRM_Error::debug_log_message("breakpoint 20");
             
-            //              print_r($this->_contact);
+            // print_r($this->_contact);
             $row = array();
             $row['contact_id']                     = $this->_contact->crm_contact_id;
             $row['sort_name']                      = $this->_contact->crm_contact_sort_name;
