@@ -11,10 +11,10 @@
     <div class="block" id="crm-shortcuts">
         <div class="rmsMenuTitle">Shortcuts</div>
         <ul compact="compact">
-        <li><a href="list_contacts.html">List Contacts</a>
-        <li>Add Contact
-        <li>Manage Groups
-        <li><a href="import_contacts.html">Import Contacts</a>
+        <li><a href="list_contacts.php">List Contacts</a>
+        <li><a href="add_contacts.php">Add Contact</a>
+        <li><a href="crm_groups.php">Manage Groups
+        <li><a href="import_contacts.php">Import Contacts</a>
         </ul>
     </div><br/>
     
