@@ -54,7 +54,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
      * @var int
      * @const
      */
-    const LOCATION_BLOCKS = 1;
+    const LOCATION_BLOCKS = 2;
 
     /**
      * what blocks should we show and hide. This is constructed partially by

@@ -171,19 +171,3 @@ function countSelectedCheckboxes(fldPrefix, form) {
     }
     return fieldCount;
 }
-
-function check(formname,state)
-{
-    var i;
-	
-    for (i = 1; i <= 5; i++ ) {
-	var r = 'chk[' + i +']';
-	if (state == 1) {
-	    formname.elements[r].checked = 'checked';
-	} else {
-	    formname.elements[r].checked = null;
-	}    
-
-    }
-    
-}

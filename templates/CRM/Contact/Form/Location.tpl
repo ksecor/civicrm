@@ -8,9 +8,11 @@
  {section name = locationLoop start = 1 loop = $locationCount}
  {assign var=index value=$smarty.section.locationLoop.index}
 
+{if $index > 1}
  <div id="location[{$index}][show]" class="show-section">
     {$form.location.$index.show.html}
  </div>
+{/if}
 
 <div id="location[{$index}]">
 	<fieldset>
