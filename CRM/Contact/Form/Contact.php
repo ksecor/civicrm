@@ -41,25 +41,7 @@ require_once 'CRM/SelectValues.php';
  */
 class CRM_Contact_Form_Contact extends CRM_Form
 {
-
-
-    function __construct($name, $state, $mode = self::MODE_NONE) 
-    {
-        parent::__construct($name, $state, $mode);
-    }
-
-    function buildQuickForm( )
-    {
-        switch ($this->_mode) {
-        case self::MODE_SEARCH:
-            $this->addElement('text', 'mode', self::MODE_SEARCH);
-            $this->_buildSearchForm();
-            break;            
-        } // end of switch
-        
-    }
-
-    static function buildCommunicationBlock($form)
+    public static function buildCommunicationBlock($form)
     {
         // checkboxes for DO NOT phone, email, mail
         $form->addElement('checkbox', 'do_not_phone', 'Privacy:', 'Do not call');
@@ -69,32 +51,5 @@ class CRM_Contact_Form_Contact extends CRM_Form
         // preferred communication method 
         $form->add('select', 'preferred_communication_method', 'Prefers:', CRM_SelectValues::$pcm);
     }
-
-
-
-    function postProcess() {
-        CRM_Error::le_method();
-
-        CRM_Error::ll_method();
-    }
-
-
-    private function _buildSearchForm()
-    {
-        $this->add('select', 'contact_type', 'Contact Type', CRM_SelectValues::$contactType);
-        $this->addDefaultButtons(array(
-                                        array ( 'type'      => 'refresh',
-                                                'name'      => 'Submit' ,
-                                                'isDefault' => true     ),
-                                        array ( 'type'      => 'done'  ,
-                                                'name'      => 'Done'   ),
-                                        array ( 'type'      => 'reset' ,
-                                                'name'      => 'Reset'  ),
-                                        array ( 'type'       => 'cancel',
-                                                'name'      => 'Cancel' ),
-                                        )
-                                  );
-    }
 }
-
 ?>
