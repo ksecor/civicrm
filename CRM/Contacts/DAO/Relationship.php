@@ -27,8 +27,6 @@ class CRM_Contacts_DAO_Relationship extends CRM_DAO_Base {
   } // end of method dbFields
 
 
-
-
   function links() {
     static $links;
     if ( $links === null ) {
@@ -42,7 +40,6 @@ class CRM_Contacts_DAO_Relationship extends CRM_DAO_Base {
     return $links;
   } // end of method links()
 
-
-} // end of class CRM_Contacts_DAO_Relationship_Types
+} // end of class CRM_Contacts_DAO_Relationship
 
 ?>
