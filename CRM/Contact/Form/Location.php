@@ -54,7 +54,7 @@ class CRM_Contact_Form_Location extends CRM_Form
 
             $j = 0;
 
-            $loc[$i][$j++] =  $form->createElement('select', 'location_type_id', null, CRM_SelectValues::$context);
+            $loc[$i][$j++] =  $form->createElement('select', 'location_type_id', null, CRM_SelectValues::$locationType);
             $loc[$i][$j++] =  $form->createElement('checkbox', 'is_primary', 'Primary location for this contact', null);
 
             CRM_Contact_Form_Phone::bpb($loc, $form, $i, $j, 3); 

@@ -558,7 +558,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
     {
         $this->addElement('text', 'domain_id', 'Domain Id:', array('maxlength' => 10));
         $this->addElement('text', 'sort_name', 'Name:  ', array('maxlength' => 64));
-        $this->addElement('select', 'contact_type', 'Contact type:', CRM_SelectValues::$contactid);
+        $this->addElement('select', 'contact_type', 'Contact type:', CRM_SelectValues::$contactType);
         $this->addElement('select', 'preferred_communication_method', 'Prefers:', CRM_SelectValues::$pcm);
         
         $this->addDefaultButtons(array (

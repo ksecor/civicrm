@@ -151,6 +151,29 @@ class CRM_SelectValues {
                                       1172 => 'Poland',
                                       1128 => 'United States'
                                       );
+
+    /**
+     * preferred communication method
+     * @var array
+     * @static
+     */
+    static public $pcm = array(
+                               ' '     => '-no preference-',
+                               'Phone' => 'by phone', 
+                               'Email' => 'by email', 
+                               'Post'  => 'by postal email',
+                               );  
+
+    /**
+     * various pre defined contact super types
+     * @var array
+     * @static
+     */
+    static public $contactType = array(
+                                       'Individual' => 'Individual',
+                                       'Organization' => 'Organization',
+                                       'Household' => 'Household'
+                                       );
     
 }
 

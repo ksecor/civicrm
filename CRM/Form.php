@@ -94,7 +94,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      * @var const int
      */
     const
-    MODE_NONE                  = 0,
+        MODE_NONE                  = 0,
         MODE_CREATE                = 1,
         MODE_VIEW                  = 2,
         MODE_UPDATE                = 4,
