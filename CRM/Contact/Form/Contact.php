@@ -165,9 +165,9 @@ class CRM_Contact_Form_Contact extends CRM_Form
      * @return void
      */
     function setShowHide( &$defaults ) {
-        $this->_showHide = new CRM_ShowHideBlocks( array('commPrefs'         => 1,
-                                                         'notes[show]'       => 1),
-                                                   array('notes'        => 1 ) ) ;
+        $this->_showHide = new CRM_ShowHideBlocks( array('commPrefs'       => 1,
+                                                         'notes[show]'     => 1),
+                                                   array('notes'           => 1 ) ) ;
 
         if ( $this->_contactType == 'Individual' ) {
             $this->_showHide->addShow( 'demographics[show]' );

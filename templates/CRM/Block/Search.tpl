@@ -15,7 +15,7 @@
     </div>
 
     <div class="form-item">
-        <input type="submit" value="search" class="form-submit" />
+        <input type="submit" name="_qf_Search_16_refresh" value="Search" class="form-submit" />
     </div>
     </form>
     
