@@ -36,9 +36,7 @@ class CRM_Contact_Form_Email
 {
 
     static function buildEmailBlock($form, &$location, $locationId, $count, $showHideBlocks) {
-        if ( $locationId == 1 ) {
-            $showHideBlocks->addShow("location[$locationId][email][2][show]");
-        }
+        $showHideBlocks->addShow("location[$locationId][email][2][show]");
 
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Email:' : 'Other Email:';

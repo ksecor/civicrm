@@ -37,9 +37,7 @@ class CRM_Contact_Form_IM
 {
 
     static function buildIMBlock($form, &$location, $locationId, $count, $showHideBlocks) {
-        if ( $locationId == 1 ) {
-            $showHideBlocks->addShow("location[$locationId][im][2][show]");
-        }
+        $showHideBlocks->addShow("location[$locationId][im][2][show]");
 
         for ($i = 1; $i <= $count; $i++) {
             $label = 'Instant Message:';

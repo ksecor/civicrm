@@ -37,9 +37,7 @@ Class CRM_Contact_Form_Phone
 {
 
     static function buildPhoneBlock($form, &$location, $locationId, $count, $showHideBlocks) {
-        if ( $locationId == 1 ) {
-            $showHideBlocks->addShow("location[$locationId][phone][2][show]");
-        }
+        $showHideBlocks->addShow("location[$locationId][phone][2][show]");
 
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Preferred Phone:' : 'Other Phone:';

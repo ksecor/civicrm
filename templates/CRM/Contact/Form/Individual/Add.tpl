@@ -1,4 +1,3 @@
-{debug}
 {* This file provides the HTML for the big add contact form *}
 {* It provides the templating for Name, Demographics and Contact notes *}
 {* The templating for Location and Communication preferences block has been plugged by including the Location.tpl file *}    

@@ -108,7 +108,7 @@ class CRM_ShowHideBlocks {
         } else {
             $next = $index + 1;
             $showCode = "show('${prefix}[${next}][show]'); return false;";
-            $hideCode = "hide('${prefix}[${next}][show]'); return false;";
+            $hideCode = "hide('${prefix}[${next}][show]'); hide('${prefix}[${next}]'); return false;";
         }
 
         $form->addElement('link', "${prefix}[${index}][show]", null, "#${prefix}[${index}]", $showLinkText,
