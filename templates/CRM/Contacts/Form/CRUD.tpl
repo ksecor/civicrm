@@ -134,7 +134,7 @@
 	 <table border="0" cellpadding="2" cellspacing="2" width="100%">
 	 <tr>	
 		 <td class="form-item">
-		 {$form.$lid.context_id.html}</td>
+		 {$form.$lid.location_type_id.html}</td>
 		 <td colspan=2 class="form-item">	
 		 {$form.$lid.is_primary.html}{$form.$lid.is_primary.label}
 		 </td>
@@ -225,10 +225,10 @@
 
 	 <tr>
 		 <td class="form-item">
-			 <label>{$form.$lid.email.label}</label>
+			 <label>{$form.$lid.email_1.label}</label>
 		 </td>
 		 <td class = "form-item">
-			 {$form.$lid.email.html}
+			 {$form.$lid.email_1.html}
 		 </td>
 	 </tr>
 	 <tr><!-- email 2.-->
@@ -248,10 +248,10 @@
 		 <table id="email_{$pid}_2">
 			 <tr>
 				 <td class="form-item">
-				 <label>{$form.$lid.email_secondary.label}</label>
+				 <label>{$form.$lid.email_2.label}</label>
 				 </td>
 				 <td class = "form-item">
-				 {$form.$lid.email_secondary.html}
+				 {$form.$lid.email_2.html}
 				 </td>
 		 </tr>
 		 <tr>
@@ -279,10 +279,10 @@
 		 <table id="email_{$pid}_3">
 			 <tr>
 				 <td class="form-item">
-				 <label>{$form.$lid.email_tertiary.label}</label>
+				 <label>{$form.$lid.email_3.label}</label>
 				 </td>
 				 <td class = "form-item">
-				 {$form.$lid.email_tertiary.html}
+				 {$form.$lid.email_3.html}
 				 </td>
 			 </tr>	
 
