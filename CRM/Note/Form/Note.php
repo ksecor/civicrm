@@ -113,10 +113,8 @@ class CRM_Note_Form_Note extends CRM_Form
      */
     public function buildQuickForm( ) {
         $note = $this->add('textarea', 'note', 'Notes', array('rows' => 4, 'cols' => '82',));    
-        $note->setValue( '' );
-
         $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'refresh',
+                                        array ( 'type'      => 'next',
                                                 'name'      => 'Save',
                                                 'isDefault' => true   ),
                                         array ( 'type'      => 'reset',
@@ -152,6 +150,12 @@ class CRM_Note_Form_Note extends CRM_Form
             $note->table_id   = $this->_tableId;
         }
         $note->save( );
+
+        $config  = CRM_Config::singleton ( );
+        $session = CRM_Session::singleton( );
+
+        $returnUserContext = $config->httpBase . 'contact/view/note&op=browse';
+        $session->pushUserContext( $returnUserContext );
     }//end of function
 
 

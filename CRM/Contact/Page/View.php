@@ -68,6 +68,8 @@ class CRM_Contact_Page_View extends CRM_Page {
     function run( ) {
 
         $this->_contactId = CRM_Request::retrieve( 'cid', $this, true );
+        
+        $this->assign( 'displayName', $this->get( 'displayName' ) );
 
         switch ( $this->_mode ) {
         case self::MODE_NONE:
@@ -91,7 +93,15 @@ class CRM_Contact_Page_View extends CRM_Page {
         $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
+        
+        // fix the display name for various types and store in session
+        if ( $defaults['contact_type'] == 'Individual' ) {
+            $displayName = $defaults['prefix'] . ' ' . $defaults['display_name'] . ' ' . $defaults['suffix'];
+        } else {
+            $displayName = $defaults['sort_name'];
+        }
         $this->assign( $defaults );
+        $this->set( 'displayName', $displayName );
 
         $this->setShowHide( $defaults );
     }

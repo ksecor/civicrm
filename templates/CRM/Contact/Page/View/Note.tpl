@@ -1,12 +1,6 @@
 <div id="name" class="data-group form-item">
     <p>
-    {if $contact_type eq 'Individual'}
-        <label>{$prefix} {$display_name} {$suffix}</label>
-    {elseif $contact_type eq 'Organization'}
-        <label>{$sort_name}</label>
-    {elseif $contact_type eq 'Household'}
-        <label>{$sort_name}</label>
-    {/if}
+	<label>{$displayName}</label>
     </p>
 </div>
 

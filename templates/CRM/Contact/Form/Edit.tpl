@@ -8,9 +8,6 @@
  <script type="text/javascript" src="{$config->httpBase}js/Individual.js"></script>
  <script type="text/javascript" src="{$config->httpBase}js/Common.js"></script>
 
-{* Including the custom javascript validations added by the HTML_QuickForm for all client validations in addRules *} 
- {$form.javascript}
-
 {* $form.attributes serves as a place holder for all form attributes to be defined in the form tag *}
 <form {$form.attributes}>
 
