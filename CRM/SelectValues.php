@@ -43,9 +43,9 @@ class CRM_SelectValues {
      */
     static public $prefixName = array(
                                       ' '    => '-title-',
-                                      'Mrs.' => 'Mrs.',
-                                      'Ms.'  => 'Ms.',
-                                      'Mr.'  => 'Mr.',
+                                      'Mrs' => 'Mrs.',
+                                      'Ms'  => 'Ms.',
+                                      'Mr'  => 'Mr.',
                                       'Dr'   => 'Dr.',
                                       'none' => '(none)',
                                       );
@@ -57,8 +57,8 @@ class CRM_SelectValues {
      */
     static public $suffixName = array(
                                       ' '    => '-suffix-',
-                                      'Jr.'  => 'Jr.',
-                                      'Sr.'  => 'Sr.',
+                                      'Jr'  => 'Jr.',
+                                      'Sr'  => 'Sr.',
                                       '||'   =>'||',
                                       'none' => '(none)',
                                       );
