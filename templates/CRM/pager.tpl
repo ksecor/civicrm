@@ -1,9 +1,9 @@
-<div id="crm-container" class="form-item">
+<div id="crm-container">
 {if $pager and $pager->_response}
 
 {if $pager->_response.numPages >= 1}
 
-<div id="pager-position">
+<div id="pager-position" class="form-item">
 <span class="pager">{$pager->_response.first}&nbsp;
 {$pager->_response.back}&nbsp;
 {$pager->_response.status}&nbsp;
@@ -19,4 +19,5 @@
 {/if} {* numPages > 1 *}
 
 {/if} {* pager *}
+
 </div>

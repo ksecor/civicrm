@@ -3,17 +3,17 @@
 {include file="CRM/pager.tpl" location="top"}
 
 <div id="crm-container" class="form-item">
-<table border="0" cellspacing="4" cellpadding="4" width="100%">
+<table border="0" cellspacing="4" cellpadding="4">
  <tr class="columnheader">
    {foreach from=$columnHeaders item=header}
-   <td>
+   <th>
      {if $header.sort}
      {assign var='key' value=$header.sort}
    <a href={$sort->_response.$key.link}>{$header.name}</a>&nbsp;{$sort->_response.$key.direction}
    {else}
    {$header.name}
    {/if}
-   </td>
+   </th>
  {/foreach}
  </tr>
 

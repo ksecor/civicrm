@@ -27,7 +27,7 @@
 <fieldset class="fieldset-property">
  <div id="crm-container" class="form-item">
      <div>
-     <span>{$form.action_id.label}{$form.action_id.html}</span>
+     <span class="horizontal-position">{$form.action_id.label}{$form.action_id.html}</span>
      <span class="button-property">{$form.go.html}</span>	
      <span class="element-right">Select: {$form.select_all.html} | {$form.select_none.html}<span>
      </div>
