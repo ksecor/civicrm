@@ -122,6 +122,7 @@
             {$form.sic_code.html}
         </span>
     </div>
+</fieldset>
 {/if}
 
 {* Plugging the Communication preferences block *} 
@@ -130,6 +131,7 @@
 {* Plugging the Location block *}
  {include file="CRM/Contact/Form/Location.tpl"}
 
+{if $contact_type eq 'Individual'}
  <div id = "demographics[show]" class="show-section">
     {$demographics.show}
  </div>
@@ -161,13 +163,14 @@
     </div>
  </fieldset>
  </div>
-  
+{/if}  
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
  <div id = "notes[show]" class="show-section">
     {$notes.show}
  </div>
+
 
  <div id = "notes">
  <fieldset><legend>Contact Notes</legend>
