@@ -155,7 +155,7 @@ class CRM_SelectValues {
                                       1039 => 'Canada',
                                       1101 => 'India',
                                       1172 => 'Poland',
-                                      1128 => 'United States'
+                                      1228 => 'United States'
                                       );
 
     /**

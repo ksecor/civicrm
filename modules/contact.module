@@ -394,7 +394,7 @@ function contact_invoke($operation)
     // edit individual
     if (arg(2) == 'edit') {
         if(is_numeric(arg(3))) {
-            $content .= contact_form(array( 'contact_type' => 'Individual' , 'id' => arg(3) ), CRM_Form::MODE_UPDATE );
+            $content .= contact_form(array( 'contact_type' => 'Individual' , 'contact_id' => arg(3) ), CRM_Form::MODE_UPDATE );
         } else {
             $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
         }
@@ -403,7 +403,7 @@ function contact_invoke($operation)
     // edit household 
     if (arg(2) == 'edit_house') {
         if(is_numeric(arg(3))) {
-            $content .= contact_form(array( 'contact_type' => 'Household' , 'id' => arg(3) ), CRM_Form::MODE_UPDATE );
+            $content .= contact_form(array( 'contact_type' => 'Household' , 'contact_id' => arg(3) ), CRM_Form::MODE_UPDATE );
         } else {
             $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
         }
@@ -412,7 +412,7 @@ function contact_invoke($operation)
     // edit organization 
     if (arg(2) == 'edit_org') {
         if(is_numeric(arg(3))) {
-            $content .= contact_form(array( 'contact_type' => 'Organization' , 'id' => arg(3) ), CRM_Form::MODE_UPDATE );
+            $content .= contact_form(array( 'contact_type' => 'Organization' , 'contact_id' => arg(3) ), CRM_Form::MODE_UPDATE );
         } else {
             $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
         }
@@ -422,7 +422,7 @@ function contact_invoke($operation)
     // view individual
     if (arg(2) == 'view') {
         if(is_numeric(arg(3))) {
-            $content .= contact_form(array( 'contact_type' => 'Individual' , 'id' => arg(3) ), CRM_Form::MODE_VIEW );
+            $content .= contact_form(array( 'contact_type' => 'Individual' , 'contact_id' => arg(3) ), CRM_Form::MODE_VIEW );
         } else {
             $content .= 'Please select a valid contact id to view - ' . arg(3) . ' is not a valid contact id';
         }
@@ -431,7 +431,7 @@ function contact_invoke($operation)
     // view household
     if (arg(2) == 'view_house') {
         if(is_numeric(arg(3))) {
-            $content .= contact_form(array( 'contact_type' => 'Household' , 'id' => arg(3) ), CRM_Form::MODE_VIEW );
+            $content .= contact_form(array( 'contact_type' => 'Household' , 'contact_id' => arg(3) ), CRM_Form::MODE_VIEW );
         } else {
             $content .= 'Please select a valid contact id to view - ' . arg(3) . ' is not a valid contact id';
         }
@@ -440,7 +440,7 @@ function contact_invoke($operation)
     // view organization
     if (arg(2) == 'view_org') {
         if(is_numeric(arg(3))) {
-            $content .= contact_form(array( 'contact_type' => 'Organization' , 'id' => arg(3) ), CRM_Form::MODE_VIEW );
+            $content .= contact_form(array( 'contact_type' => 'Organization' , 'contact_id' => arg(3) ), CRM_Form::MODE_VIEW );
         } else {
             $content .= 'Please select a valid contact id to view - ' . arg(3) . ' is not a valid contact id';
         }
