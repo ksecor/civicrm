@@ -48,9 +48,9 @@
 
 
 
-<table border=1 cellpadding=1 cellspacing=0 id = "datagrid" width = "100%">
-<tr bgcolor=#000000>
-<td class="form-item">{$form.name.html}</td>
+<table border=0 cellpadding=3 cellspacing=3 id = "datagrid" width = "100%" border-color="#000000">
+<tr class="contact_listtable">
+<td >{$form.name.html}</td>
 <td>{$form.email.html}</td>
 <td>{$form.phone.html}</td>
 <td>{$form.address.html}</td>
@@ -60,7 +60,7 @@
 </tr>
 
 
-{assign var = "bgc" value =  "white"}
+{assign var = "bgc" value =  "#EAEAEA"}
 
 {section name = listing start = 0 loop = $form.row_no.label }
 
@@ -73,10 +73,10 @@
 {assign var = "state_province_link" value = "state_province_`$smarty.section.listing.index`"}
 {assign var = "checkbox"  value = "checkrecord_`$smarty.section.listing.index`"}
 
-{if $bgc eq "white"}
-{assign var = "bgc" value  =  "silver"}
+{if $bgc eq "#EAEAEA"}
+{assign var = "bgc" value  =  "#FAFAF8"}
 {else}
-{assign var = "bgc" value  = "white"}
+{assign var = "bgc" value  = "#EAEAEA"}
 {/if}
 
 <tr bgcolor = {$bgc}>
