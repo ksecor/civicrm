@@ -1,4 +1,3 @@
-
 	/** 
 	*  Function USAGE:
 	*  This function executes when there is an error within a form element and the page is relayed from the server
@@ -13,12 +12,12 @@
 	*  which is based on the presence of values within a block.  
 	*/
 
-	function on_error_execute( ) 
+	function on_error_execute(formname) 
 	{  
 	   var j = 1;	
 	
       	   var email_name_tail = Array ("_secondary",
-					"_tertiary"
+										"_tertiary"
 				       );
 
 	   /* Loop USAGE:
@@ -27,7 +26,7 @@
 	      of values. A typical example is the ~phone_2~ block which is hidden for location1 on fresh display. 
 
 	      MECHANISM:
-	      The document.forms['HOUSE'] returns the HOUSE form from within the forms collection of document. This reference 
+	      The document.forms[formname] returns the add House form from within the forms collection of document. This reference 
 	      is used further to access its elements collection with element names and further values to access their values.
 	      If their values are set, the corresponding block within the template file containing its HTML code is programmed
 	      to be displayed. This is done by accessing the block based on its id value using getElementId.
@@ -36,29 +35,29 @@
 	   for (i=0; i<2; i++) {
 
 		//if (document.getElementsByName('location[phone_'+String(i+2)+']').value != '') 
-		  if (document.forms['HOUSE'].elements['location[phone_'+String(i+2)+']'].value != '') {
-    	    	      document.getElementById('phone0_'+String(i+2)+'_'+String(j)).style.display = 'block'; 
-		      document.getElementById('expand_phone0_'+String(i+2)+'_'+String(j)).style.display = 'none';
+		  if (document.forms[formname].elements['location[phone_'+String(i+2)+']'].value != '') {
+    	      document.getElementById('phone_'+String(i+2)+'_'+String(j)).style.display = 'block'; 
+		      document.getElementById('expand_phone_'+String(i+2)+'_'+String(j)).style.display = 'none';
  		      if (i<1) {
-			document.getElementById('expand_phone0_'+String(i+3)+'_'+String(j)).style.display = 'block';
+			document.getElementById('expand_phone_'+String(i+3)+'_'+String(j)).style.display = 'block';
 		    }
 		}
 
 		//if (document.getElementByName('location[im_screenname_'+String(i+2)+']').value != '') 
-		  if (document.forms['HOUSE'].elements['location[im_screenname_'+String(i+2)+']'].value != '') {
-		    document.getElementById('IM0_'+String(i+2)+'_'+String(j)).style.display = 'block';
-	            document.getElementById('expand_IM0_'+String(i+2)+'_'+String(j)).style.display = 'none';
+		  if (document.forms[formname].elements['location[im_screenname_'+String(i+2)+']'].value != '') {
+		    document.getElementById('IM_'+String(i+2)+'_'+String(j)).style.display = 'block';
+	            document.getElementById('expand_IM_'+String(i+2)+'_'+String(j)).style.display = 'none';
 		    if (i<1) {
-			document.getElementById('expand_IM0_'+String(i+3)+'_'+String(j)).style.display = 'block';
+			document.getElementById('expand_IM_'+String(i+3)+'_'+String(j)).style.display = 'block';
 		    }
 		}		        
              
 		//if (document.getElementByName('location[email'+email_name_tail[i]+']').value != '') 
-		  if (document.forms['HOUSE'].elements['location[email'+email_name_tail[i]+']'].value != '') {
-		   document.getElementById('email0_'+String(i+2)+'_'+String(j)).style.display = 'block'; 
-		   document.getElementById('expand_email0_'+String(i+2)+'_'+String(j)).style.display = 'none';
+		  if (document.forms[formname].elements['location[email'+email_name_tail[i]+']'].value != '') {
+		   document.getElementById('email_'+String(i+2)+'_'+String(j)).style.display = 'block'; 
+		   document.getElementById('expand_email_'+String(i+2)+'_'+String(j)).style.display = 'none';
 		    if (i<1) {
-		      document.getElementById('expand_email0_'+String(i+3)+'_'+String(j)).style.display = 'block';
+		      document.getElementById('expand_email_'+String(i+3)+'_'+String(j)).style.display = 'block';
 		    }
 		}
 
@@ -80,10 +79,10 @@
 	{  
 	    /* This array defines the various blocks to be hidden within the form template */
 	        var hide_blocks = 
-		    new Array( 'phone0_2_1', 	    'phone0_3_1',
-			       'email0_2_1', 	    'email0_3_1',
-			       'IM0_2_1','IM0_3_1', 'expand_phone0_3_1',
-			       'expand_email0_3_1', 'expand_IM0_3_1'
+		    new Array( 'phone_1_2', 	  'phone_1_3',
+					   'email_1_2', 	  'email_1_3',
+					   'IM_1_2','IM_1_3', 'expand_phone_1_3',
+					   'expand_email_1_3','expand_IM_1_3'
 			     );
 
 	   /* This array stores the blocks to be displayed */
