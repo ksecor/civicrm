@@ -468,6 +468,11 @@ br.clear {
 }
 
 /* CRM-specific styles */
+.crmPageTitle {
+    width: 100%;
+	border-bottom: 1px solid #aaaaaa;
+	}
+    
 .crmMenuTitle {
     border: 1px solid #000;
     padding: 2px;

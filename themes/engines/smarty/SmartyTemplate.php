@@ -1,11 +1,11 @@
 <?php
 
 if ( ! defined( 'CRM_SMARTYDIR' ) ) {
-  define( 'CRM_SMARTYDIR', ini_get( 'wgm.smartyDir' ) );
+  define( 'CRM_SMARTYDIR', '/opt/local/lib/php/Smarty/' );
 }
 
 if ( ! defined( 'CRM_TEMPLATE_COMPILEDIR' ) ) {
-  define( 'CRM_TEMPLATE_COMPILEDIR', ini_get( 'wgm.compileDir' ) );
+  define( 'CRM_TEMPLATE_COMPILEDIR', '/Users/dgg/svn/crm/templates_c/' );
 }
 
 // load Smarty library files

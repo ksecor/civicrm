@@ -1,0 +1,460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>  
+  <title>Add Person</title><meta http-equiv="Content-Style-Type" content="text/css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- base href="http://localhost/dgg/drupal/" -->
+<style type="text/css" media="all">@import "../drupal/misc/drupal.css";</style>
+<style type="text/css" media="all">@import "../drupal/themes/box_grey_smarty/style.css";</style>
+<script type="text/javascript">//<![CDATA[
+var sections = new Array('core', 'demographics', 'location2','notes');
+function init() {
+    show('core');
+	hide('demographics');
+	hide('location2');
+	hide('notes');
+    document.forms['add_contact'].elements['contact_title'].focus();
+}
+function show(section) {
+    for (var i = 0; i < sections.length; i++) {
+        if (sections[i] == section) {
+            document.getElementById(sections[i]).style.display = 'block';
+//			linkDev = section + '_link';
+//           document.getElementById(linkDev).style.display = 'block';			
+        }
+    }
+}
+function hide(section) {
+    for (var i = 0; i < sections.length; i++) {
+        if (sections[i] == section) {
+            document.getElementById(sections[i]).style.display = 'none';
+        }
+    }
+}
+//]]>
+</script>
+</head>
+<body onload="init();">
+<div id="header">
+  	<form action="search" method="post">
+		<div id="search">
+			<input class="form-text" size="15" value="" name="keys" type="text"><input class="form-submit" value="search" type="submit">
+		</div>
+	</form>
+        <a href="" title="Index Page"><img src="i/logo.png" alt="Logo"></a>
+        <h1 id="site-name"><a href="" title="Index Page">drupal</a></h1>
+      <br class="clear">
+</div>
+<div id="top-nav">
+  	
+      <ul id="primary">
+          <li><a href="" title="Return to the main page.">home</a></li>
+          <li><a href="http://localhost/dgg/drupal/blog" title="Read the latest blog entries.">blogs</a></li>
+          <li><a href="http://localhost/dgg/drupal/poll" title="View the list of polls on this site.">polls</a></li>
+          <li><a href="http://localhost/dgg/drupal/search" title="Search for older content.">search</a></li>
+        </ul>
+  </div>
+<table id="content">
+	<tbody><tr>
+	<td class="sidebar" id="sidebar-left">
+	<div class="block block-block" id="block-block-1">
+  <h2>Welcome</h2>
+  <div class="content">Welcome dgg, good to have you back!</div>
+</div><div class="block block-block" id="block-block-2">
+  <h2>Restaurant Guide</h2>
+  <div class="content"><ul compact="compact">
+<a href="http://localhost/dgg/drupal/flexinode/table/1"><li>List Restaurants</li></a><a href="http://localhost/dgg/drupal/flexinode/search/1"><li>Search</li></a><a href="http://localhost/dgg/drupal/node/add/flexinode-1"><li>Add a Restaurant</li></a></ul></div>
+</div><div class="block block-blog" id="block-blog-0">
+  <h2>Recent blog posts</h2>
+  <div class="content"><div class="item-list"><ul><li><a href="http://localhost/dgg/drupal/node/1">Election Day Dreams</a></li></ul></div><div class="more-link"><a href="http://localhost/dgg/drupal/blog" title="Read the latest blog entries.">more</a></div></div>
+</div><div class="block block-taxonomy" id="block-taxonomy-0">
+  <h2>Categories</h2>
+  <div class="content"><div class="item-list"><ul><li><a href="http://localhost/dgg/drupal/taxonomy/term/1">US Election (2)</a><br>2 weeks 3 days ago</li></ul></div></div>
+</div><div class="block block-user" id="block-user-1">
+  <h2>dgg</h2>
+  <div class="content"><div class="menu">
+<ul>
+<li class="expanded"><a href="http://localhost/dgg/drupal/crm" title="">Contact Management</a>
+<ul>
+<li class="expanded"><a href="http://localhost/dgg/drupal/crm/contact" title="List, edit and add contacts">Contacts</a>
+<ul>
+<li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/list" class="active">List Contacts</a></li>
+<li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/add">Add Contact</a></li>
+<li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/search">Search Contacts</a></li>
+
+</ul>
+</li>
+<li class="leaf"><a href="http://localhost/dgg/drupal/crm/communicate" title="">Communicate</a></li>
+
+</ul>
+</li>
+<li class="collapsed"><a href="http://localhost/dgg/drupal/blog" title="view blogs here">blogs</a></li>
+<li class="collapsed"><a href="http://localhost/dgg/drupal/node" title="">content</a></li>
+<li class="collapsed"><a href="http://localhost/dgg/drupal/search" title="">search</a></li>
+<li class="leaf"><a href="http://localhost/dgg/drupal/user/1">my account</a></li>
+<li class="leaf"><a href="http://localhost/dgg/drupal/profile" title="">user list</a></li>
+<li class="collapsed"><a href="http://localhost/dgg/drupal/admin">administer</a></li>
+<li class="leaf"><a href="http://localhost/dgg/drupal/logout">log out</a></li>
+
+</ul>
+</div></div>
+</div>
+</td> <!-- End of sidebar cell -->
+
+<td class="main-content" id="content-left">
+	<div class="breadcrumb"><a href="">Home</a> &raquo; <a href="http://localhost/dgg/drupal/crm" title="">Contact Management</a> &raquo; <a href="http://localhost/dgg/drupal/crm/contact" title="add contact">Add Contact</a></div>
+	<h3 class="content-title">Contacts: Add a Person</h3>
+	<ul class="tabs primary">
+	<li class="active"><a href="admin/block" class="active">Contact Details</a></li>
+	<li><a href="">Roles and Relationships</a></li>
+	<li><a href="">Voter Info [ext]</a></li>
+	</ul>
+	
+	<!-- start main content -->
+	<form action="add_contacts.html" method="post" name="add_contact">
+	<input type="submit" name="add_contact" value="save" class="form-submit">
+	<input type="button" name="cancel" value="cancel" class="form-submit"><br/>
+	<div id="core">
+	<fieldset><legend>Name and Greeting</legend>
+	<table border="0" cellpadding="2" cellspacing="2" width="90%"><tbody>
+
+	<tr>
+		<td class="form-item">
+			<label>First / Last:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[title]" id="contact_title"><option>-title-</option><option>Ms.</option><option>Mrs.</option><option>Mr.</option><option>Dr.</option><option>(none)</option></select>
+			<input type="text" maxlength="64" class="form-text" name="edit[first_name]" size="25" value="" />
+			<input type="text" maxlength="64" class="form-text" name="edit[last_name]" size="25" value="" />
+			<select name="edit[suffix]"><option>-suffix-</option><option>Jr.</option><option>Sr.</option><option>II</option><option>(none)</option></select>
+		</td>
+	</tr>
+	<tr>
+		<td class="form-item">
+			<label>Greeting:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[greeting]"><option>default - 'Dear [first] [last]'</option><option>informal - 'Dear [first]'</option><option>formal - 'Dear [title] [last]'</option></select>
+		</td>
+	</tr>
+	</tbody></table>
+	</fieldset>
+
+	<fieldset><legend>Communication Preferences</legend>
+	<table border="0" cellpadding="2" cellspacing="2" width="90%"><tbody>
+	<tr>
+		<td class="form-item">
+			<label>Privacy:</label>
+		</td>
+		<td class="form-item">
+			<input type="checkbox" class="form-checkbox" value="edit[no_email]"> Do not call
+			<input type="checkbox" class="form-checkbox" value="edit[no_email]"> Do not contact by email
+			<input type="checkbox" class="form-checkbox" value="edit[no_email]"> Do not contact by postal mail
+		</td>
+	</tr>
+	<tr>
+		<td class="form-item">
+			<label>Prefers:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[pref_comm]"><option>-no preference-</option><option>by email</option><option>by phone</option><option>by postal mail</option></select>
+			<div class="description">Preferred method of communicating with this individual</div>
+		</td>
+	</tr>
+
+	</tbody></table>
+	</fieldset>
+
+	<fieldset><legend>Location</legend>
+	<table border="0" cellpadding="2" cellspacing="2" width="90%"><tbody>
+
+	<tr>
+		<td class="form-item">
+			<select name="edit[context]"><option>Home</option><option>Work</option><option>Other</option></select>
+		</td><td colspan=3></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Phone:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[title]" class="form-select"><option>---</option><option>mobile</option><option>fax</option><option>pager</option></select>
+			<input type="text" maxlength="64" class="form-text" name="edit[phone1]" size="25" value="" />
+		</td>
+			
+		</td>
+		<td class="form-item">
+			<input type="checkbox" class="form-checkbox" value="edit[preferred-phone]"> Preferred Phone
+		</td>
+	</tr>
+	<tr><td></td><td colspan=2 class="form-item"><a href="">[+] another phone</a></td></tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Email:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="64" class="form-text" name="edit[1][phone][0]" size="25" value="" />
+		</td>
+		<td class="form-item">
+			<input type="checkbox" class="form-checkbox" value="edit[preferred-phone]"> Preferred Email
+		</td>
+	</tr>
+	<tr><td></td><td colspan=2 class="form-item"><a href="">[+] another email</a></td></tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Address Line 1:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="64" class="form-text" name="edit[1][address1]" size="25" value="" /><br/>
+			<div class="description">Street address, P.O. box, company name, c/o</div>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Address Line 2:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="64" class="form-text" name="edit[address2]" size="25" value="" /><br/>
+			<div class="description">Apartment, suite, unit, building, floor, etc.</div>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>City:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="64" class="form-text" name="edit[city]" size="25" value="" /><br/>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>State / Province:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[title]"><option>-none-</option><option>California</option><option>Oregon</option><option>Washington</option><option>-Canadian Provinces-</option><option>British Columbia</option></select>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Zip / Postal Code:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="64" class="form-text" name="edit[postal_code]" size="15" value="" /><br/>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Country:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[title]"><option>-select-</option><option>Canada</option><option>India</option><option>Poland</option><option>United States</option></select>
+		</td>
+	</tr>
+
+	</tbody></table>
+	</fieldset>
+	</div> <!-- end 'core' section of contact form -->
+	
+	<div id="location2">
+	<fieldset><legend>Location</legend>
+	<table border="0" cellpadding="2" cellspacing="2" width="90%"><tbody>
+
+	<tr>
+		<td class="form-item">
+			<select name="edit[context]"><option>Home</option><option selected>Work</option><option>Other</option></select>
+		</td><td colspan=3></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Phone:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[title]" class="form-select"><option>---</option><option>mobile</option><option>fax</option><option>pager</option></select>
+			<input type="text" maxlength="64" class="form-text" name="edit[phone1]" size="25" value="" /><br>
+			<a href="">[+] another phone</a>
+		</td>
+		<td class="form-item">
+			<input type="checkbox" class="form-checkbox" value="edit[preferred-phone]"> Preferred Phone
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Email:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="64" class="form-text" name="edit[phone1]" size="25" value="" /><br/>
+			<a href="">[+] another email</a>
+		</td>
+		<td class="form-item">
+			<input type="checkbox" class="form-checkbox" value="edit[preferred-phone]"> Preferred Email
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Address Line 1:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="64" class="form-text" name="edit[address1]" size="25" value="" /><br/>
+			<div class="description">Street address, P.O. box, company name, c/o</div>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Address Line 2:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="64" class="form-text" name="edit[address2]" size="25" value="" /><br/>
+			<div class="description">Apartment, suite, unit, building, floor, etc.</div>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>City:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="64" class="form-text" name="edit[city]" size="25" value="" /><br/>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>State / Province:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[title]"><option>-none-</option><option>California</option><option>Oregon</option><option>Washington</option><option>-Canadian Provinces-</option><option>British Columbia</option></select>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Zip / Postal Code:</label>
+		</td>
+		<td class="form-item">
+			<input type="text" maxlength="64" class="form-text" name="edit[postal_code]" size="15" value="" /><br/>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="form-item">
+			<label>Country:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[title]"><option>-select-</option><option>Canada</option><option>India</option><option>Poland</option><option>United States</option></select>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			<a tabindex="20" onclick="hide('location2'); return false;" onkeypress="hide('location2'); return false;" href="#location2">[-] hide location...</a><br/><br/>
+		</td>
+	</tr>
+	</tbody></table>
+	</fieldset>
+	</div> <!-- end location2 div -->
+
+	<div id="location2_link">
+	<a tabindex="20" onclick="show('location2'); return false;" onkeypress="show('location2'); return false;" href="#location2">[+] another location...</a><br/><br/>
+	</div>
+	
+
+	<div id="demographics">
+	<fieldset><legend>Demographics</legend>
+	<table border="0" cellpadding="2" cellspacing="2" width="90%"><tbody>
+	<tr>
+		<td class="form-item">
+			<label>Gender:</label>
+		</td>
+		<td class="form-item">
+			<input type="radio" class="form-radio" name="edit[gender]" value="F"> Female
+			<input type="radio" class="form-radio" name="edit[gender]" value="M"> Male
+			<input type="radio" class="form-radio" name="edit[gender]" value="T"> Transgender
+		</td>
+	</tr>
+	<tr>
+		<td class="form-item">
+			<label>Date of Birth:</label>
+		</td>
+		<td class="form-item">
+			<select name="edit[dob_day]"><option>-day-</option><option>01</option><option>02</option><option>03</option></select>
+			<select name="edit[dob_day]"><option>-month-</option><option>Jan</option><option>Feb</option><option>Mar</option></select>
+			<select name="edit[dob_day]"><option>-year-</option><option>1950</option><option>1951</option><option>1952</option></select>
+		</td>
+	</tr>
+	<tr>
+		<td class="form-item">
+			<label>[ other demo flds ]:</label>
+		</td>
+		<td class="form-item">... go here ...
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			<a tabindex="20" onclick="hide('demographics'); return false;" onkeypress="hide('demographics'); return false;" href="#demographics">[-] hide demographics...</a><br/><br/>
+		</td>
+	</tr>
+
+	</tbody></table>
+	</fieldset>
+	</div> <!-- end demographics div -->
+
+	<div id="demographics_link">
+	<a tabindex="20" onclick="show('demographics'); return false;" onkeypress="show('demographics'); return false;" href="#demographics">[+] demographics (gender, date of birth, education)</a><br/><br/>
+	</div>
+
+	<div id="notes">
+	<fieldset><legend>Contact Notes</legend>
+	<table border="0" cellpadding="2" cellspacing="2" width="90%"><tbody>
+	<tr>
+		<td class="form-item">
+			<label>Notes:</label>
+		</td>
+		<td> &nbsp; </td>
+		<td class="form-item">
+			<textarea class="form-textarea" name="edit[notes1]" rows="3" cols="70"></textarea><br/>
+			<div class="description">Record any descriptive comments about this contact. You may add an unlimited number of notes, and view or search on them at any time.</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=3>
+			<a tabindex="20" onclick="hide('notes'); return false;" onkeypress="hide('notes'); return false;" href="#notes">[-] hide notes...</a>
+		</td>
+	</tr>
+
+	</tbody></table>
+	</fieldset>
+	</div> <!-- end notes div -->
+
+	<div id="notes_link">
+	<a tabindex="20" onclick="show('notes'); return false;" onkeypress="show('notes'); return false;" href="#notes">[+] contact notes</a>
+	</div>
+	
+	<div class="form-item"
+	<input type="submit" name="add_contact" value="save" class="form-submit">
+	<input type="button" name="cancel" value="cancel" class="form-submit"><br/>
+	</div>
+	</form>
+	<!-- end content -->
+
+<!-- end main content -->
+</td><!-- mainContent -->		
+</tr>
+</tbody></table>
+
+<div id="footer">
+      <p>Dave's Drupal Sandbox on Patagonia</p>
+  Validate <a href="http://validator.w3.org/check/referer">XHTML</a> or <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
+</div><!-- footer -->	
+ 
+</body></html>

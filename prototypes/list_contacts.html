@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>  
+  <title>Contacts</title><meta http-equiv="Content-Style-Type" content="text/css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- base href="http://localhost/dgg/drupal/" -->
+<style type="text/css" media="all">@import "../drupal/misc/drupal.css";</style>
+<style type="text/css" media="all">@import "../drupal/themes/box_grey_smarty/style.css";</style>
+</head>
+<body>
+<div id="header">
+  	<form action="search" method="post">
+		<div id="search">
+			<input class="form-text" size="15" value="" name="keys" type="text"><input class="form-submit" value="search" type="submit">
+		</div>
+	</form>
+        <a href="" title="Index Page"><img src="i/logo.png" alt="Logo"></a>
+        <h1 id="site-name"><a href="" title="Index Page">drupal</a></h1>
+      <br class="clear">
+</div>
+<div id="top-nav">
+  	
+      <ul id="primary">
+          <li><a href="" title="Return to the main page.">home</a></li>
+          <li><a href="http://localhost/dgg/drupal/blog" title="Read the latest blog entries.">blogs</a></li>
+          <li><a href="http://localhost/dgg/drupal/poll" title="View the list of polls on this site.">polls</a></li>
+          <li><a href="http://localhost/dgg/drupal/search" title="Search for older content.">search</a></li>
+        </ul>
+  </div>
+<table id="content">
+	<tbody><tr>
+	<td class="sidebar" id="sidebar-left">
+
+    <!-- Quick Search box for CRM pages-->
+    <div class="block" id="crm-search-block">
+        <div class="crmMenuTitle">Search by Name</div>
+        <form name="quick_search_form" action="list_contacts.html" method="post">
+        <input type="text" class="form-text" name="contact_search_string" size="15" value="-find a contact-" onClick="contact_search_string.value = '';"/><br/>
+        <input type="submit" name="contact_search" value="search" class="form-submit"><br/>
+        <a href="">&raquo; Advanced Search</a>
+    </div><br/>
+    
+    <!-- Shortcut Menu box for CRM pages-->
+    <div class="block" id="crm-shortcut-menu">
+        <div class="crmMenuTitle">Shortcuts</div>
+        <ul compact="compact">
+        <li>List Contacts
+        <li>Create A Contact
+        <li>Manage Groups
+        <li>Import
+        <li>Export
+        </ul>
+    </div><br/>
+    
+    <!-- Quick Create Contact box -->
+    <div class="block" id="crm-quick-create">
+        <div class="crmMenuTitle">New Contact</div>
+        <form name="crm_quick_create_form" action="list_contacts.html" method="post">
+        <label>First Name:</label><br/>
+        <input type="text" class="form-text" name="contact_first_name" size="15" value="" /><br/>
+        <label>Last Name:</label><br/>
+        <input type="text" class="form-text" name="contact_last_name" size="15" value="" /><br/>
+        <label>Phone:</label><br/>
+        <input type="text" class="form-text" name="contact_phone" size="15" value="" /><br/>
+        <label>Email:</label><br/>
+        <input type="text" class="form-text" name="contact_email" size="15" value="" /><br/>
+        <input type="submit" name="contact_create" value="save" class="form-submit"><br/>
+    </div><br/>
+    
+    <div class="block block-user" id="block-user-1">
+        <h2>Site Menu</h2>
+        <div class="content"><div class="menu">
+        <ul>
+        <li class="expanded"><a href="http://localhost/dgg/drupal/crm" title="">Contact Management</a>
+        <ul>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact" title="List, edit and add contacts">Contacts</a>
+        <!-- <ul>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/list" class="active">List Contacts</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/add">Add Contact</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/crm/contact/search">Search Contacts</a></li>
+        </ul> -->
+        </li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/crm/communicate" title="">Communicate</a></li>
+
+        </ul>
+        </li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/blog" title="view blogs here">blogs</a></li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/node" title="">content</a></li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/search" title="">search</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/user/1">my account</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/profile" title="">user list</a></li>
+        <li class="collapsed"><a href="http://localhost/dgg/drupal/admin">administer</a></li>
+        <li class="leaf"><a href="http://localhost/dgg/drupal/logout">log out</a></li>
+
+        </ul>
+    </div></div></div>
+</td> <!-- End of sidebar cell -->
+
+<td class="main-content" id="content-left">
+    <!-- breadcrumb bar -->
+	<div class="breadcrumb"><a href="">Home</a> &raquo; <a href="http://localhost/dgg/drupal/crm" title="">Contact Management</a> &raquo; <a href="" title="list contacts">Contacts</a></div>
+
+    <!-- recently viewed items bar -->
+    <div class="listNav">
+        <span>Recently Viewed:</span> 
+        <a href=""><img src="i/contacts.png" align="absmiddle">&nbsp;Janet Ball</a> &nbsp;&nbsp;
+        <a href=""><img src="i/contacts.png" align="absmiddle">&nbsp;Darsha</a>
+    </div>
+
+	<!-- start main content -->
+    <table class="crmPageTitle" width="100%">
+        <tr><td><h3 class="content-title">Contacts</h3></td>
+        <td align="right"><a href="" title="Help"><img src="i/help.png" align="absmiddle" alt="Help">&nbsp;Help</a></td></tr>
+    </table>
+        
+	<table><tbody><tr id="crm-frame">
+    <td> <!-- Begin cell for contact list -->
+
+    <!-- Form to choose a list to display. -->
+    <div id="select-contact-list">
+	<form action="list_contacts.html" method="post" name="select-contact-list">
+    <div class="form-item">
+    <label>List: <label>
+    <select name="view_list" class="form-select">
+        <option value="">-all contacts-</option><option value="5">Board Members</option><option value="3">Top Donors</option><option value="4">Active Volunteers</option>
+    </select>
+	<input type="submit" name="change_list_view" value="go">
+    </div></div>
+    
+	<div id="contact_list">
+	<table class="listNav" width="100%"><tbody>
+    <tr>
+        <td><a href="" title="Go to first record">&lt;&lt;&nbsp;first&nbsp;&nbsp;
+            <a href="" title="Go to previous record">&lt;&nbsp;previous
+            &nbsp; &nbsp; &nbsp; (1-25 of 233) &nbsp; &nbsp; &nbsp;
+            <a href="" title="Go to next record">&gt;&nbsp;next&nbsp;&nbsp;
+            <a href="" title="Go to previous record">&raquo;&nbsp;previous
+        </td>
+        <td class="form-item" align="right">
+            <form name="crmPager" action="post" action="list_contacts.html">
+            <span>Page <input class="form-text" type="text" name="page_number" size="1" value="1"> of 9</span>
+            <input type="submit" name="goToPage" value="go">&nbsp;
+            </form>
+        </td>
+    </tr>
+    </tbody></table>
+    
+	<form action="list_contacts.html" method="post" name="crmListForm">
+    <table class="listContacts" width="100%"><tbody>
+    <tr><th><a href="list_contacts.html" title="Sort by Name"><img src="i/arrow.png" align="absmiddle">&nbsp;Name</a></th>
+        <th><a href="list_contacts.html" title="Sort by Email"><img src="i/arrow.png" align="absmiddle">&nbsp;Email</a></th>
+        <th><a href="list_contacts.html" title="Sort by Phone"><img src="i/arrow.png" align="absmiddle">&nbsp;Phone</a></th>
+        <th><a href="list_contacts.html" title="Sort by Address"><img src="i/arrow.png" align="absmiddle">&nbsp;Address</a></th>
+        <th><a href="list_contacts.html" title="Sort by City"><img src="i/arrow.png" align="absmiddle">&nbsp;City</th>
+        <th><a href="list_contacts.html" title="Sort by State"><img src="i/arrow.png" align="absmiddle">&nbsp;State/Prov</th>
+        <th></th>
+    </tr>
+    <tr class="odd">
+        <td><a href="edit_contact.html" title="View this contact.">Ball, Janet</a></td>
+        <td><a href="" title="Send email to this contact.">janet.ball@yahoo.com</a></td>
+        <td><a href="" title="Log a call to this phone number.">415-423-0951</a></td>
+        <td><a href="" title="Send a letter to this contact">12 Page St., Apt 3</td>
+        <td>San Francisco</td>
+        <td>CA</td>
+        <td><input type="hidden" name="edit[status][1]" value="0" />
+        <div class="form-item">
+        <input type="checkbox" class="form-checkbox" name="edit[status][1]" id="edit-status[1]" value="1" />
+        </div>
+        </td>
+    </tr>
+    <tr class="even">
+        <td><a href="edit_contact.html" title="View this contact.">Clarkson, Paula</a></td>
+        <td><a href="" title="Send email to this contact.">pclarkson@hotmail.com</td>
+        <td><a href="" title="Log a call to this phone number.">415-423-0951</a></td>
+        <td><a href="" title="Send a letter to this contact">12 Riverview St.</td>
+        <td>Sacramento</td>
+        <td>CA</td>
+        <td><input type="hidden" name="edit[status][1]" value="0" />
+        <div class="form-item">
+        <input type="checkbox" class="form-checkbox" name="edit[status][1]" id="edit-status[1]" value="1" />
+        </div>
+        </td>
+    </tr>
+    <tr class="odd">
+        <td><a href="edit_contact.html" title="View this contact.">Ball, Janet</a></td>
+        <td><a href="" title="Send email to this contact.">janet.ball@yahoo.com</td>
+        <td><a href="" title="Log a call to this phone number.">415-423-0951</a></td>
+        <td><a href="" title="Send a letter to this contact">12 Page St., Apt 3</td>
+        <td>San Francisco</td>
+        <td>CA</td>
+        <td><input type="hidden" name="edit[status][1]" value="0" />
+        <div class="form-item">
+        <input type="checkbox" class="form-checkbox" name="edit[status][1]" id="edit-status[1]" value="1" />
+        </div>
+        </td>
+    </tr>
+    <tr class="even">
+        <td><a href="edit_contact.html" title="View this contact.">Clarkson, Paula</a></td>
+        <td><a href="" title="Send email to this contact.">pclarkson@hotmail.com</td>
+        <td><a href="" title="Log a call to this phone number.">415-423-0951</a></td>
+        <td><a href="" title="Send a letter to this contact">12 Riverview St.</td>
+        <td>Sacramento</td>
+        <td>CA</td>
+        <td><input type="hidden" name="edit[status][1]" value="0" />
+        <div class="form-item">
+        <input type="checkbox" class="form-checkbox" name="edit[status][1]" id="edit-status[1]" value="1" />
+        </div>
+        </td>
+    </tr>
+    <tr class="odd">
+        <td><a href="edit_contact.html" title="View this contact.">Ball, Janet</a></td>
+        <td><a href="" title="Send email to this contact.">janet.ball@yahoo.com</td>
+        <td><a href="" title="Log a call to this phone number.">415-423-0951</a></td>
+        <td><a href="" title="Send a letter to this contact">12 Page St., Apt 3</td>
+        <td>San Francisco</td>
+        <td>CA</td>
+        <td><input type="hidden" name="edit[status][1]" value="0" />
+        <div class="form-item">
+        <input type="checkbox" class="form-checkbox" name="edit[status][1]" id="edit-status[1]" value="1" />
+        </div>
+        </td>
+    </tr>
+    <tr class="even">
+        <td><a href="edit_contact.html" title="View this contact.">Clarkson, Paula</a></td>
+        <td><a href="" title="Send email to this contact.">pclarkson@hotmail.com</td>
+        <td><a href="" title="Log a call to this phone number.">415-423-0951</a></td>
+        <td><a href="" title="Send a letter to this contact">12 Riverview St.</td>
+        <td>Sacramento</td>
+        <td>CA</td>
+        <td><input type="hidden" name="edit[status][1]" value="0" />
+        <div class="form-item">
+        <input type="checkbox" class="form-checkbox" name="edit[status][1]" id="edit-status[1]" value="1" />
+        </div>
+        </td>
+    </tr>
+    <tr class="odd">
+        <td><a href="edit_contact.html" title="View this contact.">Ball, Janet</a></td>
+        <td><a href="" title="Send email to this contact.">janet.ball@yahoo.com</td>
+        <td><a href="" title="Log a call to this phone number.">415-423-0951</a></td>
+        <td><a href="" title="Send a letter to this contact">12 Page St., Apt 3</td>
+        <td>San Francisco</td>
+        <td>CA</td>
+        <td><input type="hidden" name="edit[status][1]" value="0" />
+        <div class="form-item">
+        <input type="checkbox" class="form-checkbox" name="edit[status][1]" id="edit-status[1]" value="1" />
+        </div>
+        </td>
+    </tr>
+    <tr class="even">
+        <td><a href="edit_contact.html" title="View this contact.">Clarkson, Paula</a></td>
+        <td><a href="" title="Send email to this contact.">pclarkson@hotmail.com</td>
+        <td><a href="" title="Log a call to this phone number.">415-423-0951</a></td>
+        <td><a href="" title="Send a letter to this contact">12 Riverview St.</td>
+        <td>Sacramento</td>
+        <td>CA</td>
+        <td><input type="hidden" name="edit[status][1]" value="0" />
+        <div class="form-item">
+        <input type="checkbox" class="form-checkbox" name="edit[status][1]" id="edit-status[1]" value="1" />
+        </div>
+        </td>
+    </tr>
+	</table>
+	</form>
+    
+    <!-- Rows per page.  -->
+    <table id="crm-list-action"><tbody><tr valign="top">
+	<td class="crmSubLink">
+    <label>Rows per page:</label>
+    25 &nbsp; | &nbsp; <a href="">50</a> &nbsp; | &nbsp; <a href="">100</a> &nbsp; | &nbsp; <a href="">All</a>
+	</td>
+
+    <!-- Action select. -->
+	<td class="form-item" align="right">
+	<form action="list_contacts.html" method="post" name="crmActionForm">
+    <label>Action:</label>
+    <select name="crm_action" class="form-select">
+        <option value="">-for selected records-</option><option value="del">Delete</option><option value="print">Print</option><option value="Export">Export</option><option value="addToGroup">Add to a Group</option>
+    </select>
+	<input type="submit" name="do_action" value="go">
+    <div class="crmSubLink">Select: <a href="">All</a> &nbsp; | &nbsp; <a href="">None</a></div>
+    </form>
+	</td>
+    </tr></tbody></table>
+    
+    </td> <!-- End cell for contact list -->
+    
+    <!-- Begin cell for wizard menus -->
+    <!-- <td class="crmWizardMenu"></td> -->
+    <!-- End cell for wizard menus. -->
+    
+    </tr></tbody>
+    </table>
+	<!-- end content -->
+
+<!-- end main content -->
+</td><!-- mainContent -->		
+</tr>
+</tbody></table>
+
+<div id="footer">
+      <p>Dave's Drupal Sandbox on Patagonia</p>
+  Validate <a href="http://validator.w3.org/check/referer">XHTML</a> or <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
+</div><!-- footer -->	
+ 
+</body></html>
