@@ -123,18 +123,29 @@
  <p>
  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;">(-)</a> Contact Notes</legend>
     <div class="form-item">
-   <table border=0>
-   {foreach from=$note item=note}
-     <tr><td>{$note.note|truncate:150:"...":true}</td><td width="100">{$note.modified_date|date_format:"%B %e, %Y"}</td>
-     <td width="90"><a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=view">View</a> | <a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=edit">Edit</a></td> 
-     </tr>  
-   {/foreach}
-   </table>
-     <br><!--a href="#">New Note</a--> 
-     <input type="button" name="add_note" value="New Note" onClick="location.href='{$config->httpBase}contact/view/note&op=add';">
-      {if $notesCount gt 3 }
-     | <a href="{$config->httpBase}contact/view/note&op=browse">Browse all notes</a>
-     {/if}
+       <table>
+       {foreach from=$note item=note}
+         <tr>
+            <td>
+                {$note.note|truncate:80:"...":true}
+                {* Include '(more)' link to view entire note if it has been truncated *}
+                {assign var="noteSize" value=$note.note|count_characters:true}
+                {if $noteSize GT 80}
+                    <a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=view">(more)</a>
+                {/if}
+            </td>
+            <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
+            <td><a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=edit">Edit</a></td> 
+         </tr>  
+       {/foreach}
+       </table>
+       <br />
+       <div class="action-link">
+       <a href="{$config->httpBase}contact/view/note&op=add">New Note</a>
+        {if $notesCount gt 3 }
+         | <a href="{$config->httpBase}contact/view/note&op=browse">Browse all notes...</a>
+        {/if}
+        </div>
     </div>
  </fieldset>
  </p>

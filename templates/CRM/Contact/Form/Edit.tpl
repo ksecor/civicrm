@@ -156,32 +156,35 @@
  <div id = "notes">
  <fieldset><legend>Contact Notes</legend>
     <div class="form-item">
-        {if $mode eq 1}
-        {$form.note.html}
+        {if $mode eq 1} {* Add Contact - show New Note form *}
+            {$form.note.html}
         {else}
-	   <table border=0>
-	   {foreach from=$note item=note key=noteKey }
-	     <tr><td>{$note.note|truncate:150:"...":true}</td><td width="100">{$note.modified_date|date_format:"%B %e, %Y"}</td>
-	     {if $noteKey neq 0}
-	       <td width="90"><a href="#">View</a> | <a href="#">Edit</a></td> 
-	     {/if}
-	     </tr>  
-	   {/foreach}
-	   </table>
-
-
-	     <br><a href="#">New Note</a> 
-	      {if $noteKey neq 0 and $total_note gt 2 }
-	     | <a href="#">Browse all notes</a>
-	      {/if}
-        {/if}  
-        <div class = "description">
-          Record any descriptive comments about this contact.
-          You may add an unlimited number of notes, and view or search on them at any time.
+       <table>
+       {foreach from=$note item=note}
+         <tr>
+            <td>
+                {$note.note|truncate:80:"...":true}
+                {* Include '(more)' link to view entire note if it has been truncated *}
+                {assign var="noteSize" value=$note.note|count_characters:true}
+                {if $noteSize GT 80}
+                    <a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=view">(more)</a>
+                {/if}
+            </td>
+            <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
+            <td><a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=edit">Edit</a></td> 
+         </tr>  
+       {/foreach}
+       </table>
+       <br />
+       <div class="action-link">
+       <a href="{$config->httpBase}contact/view/note&op=add">New Note</a>
+        {if $notesCount gt 3 }
+         | <a href="{$config->httpBase}contact/view/note&op=browse">Browse all notes...</a>
+        {/if}
         </div>
+        {/if}  
     </div>
     <!-- Spacer div contains floated elements -->
-    <div class="spacer"></div>
 	<div id="notes[hide]" class="hide-section">
         {$notes.hide}
     </div>

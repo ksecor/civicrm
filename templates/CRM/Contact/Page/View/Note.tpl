@@ -5,37 +5,52 @@
 </div>
 
 {if $op eq 'view'}
-<fieldset>
-<div class="form-item">
-{$note.modified_date|date_format:"%B %e, %Y"}
-{$note.note}
-</div>
-</fieldset>
+    <p>
+    <fieldset><legend>View Note</legend>
+    <div class="form-item">
+        <label>Date:</label> {$note.modified_date|date_format:"%B %e, %Y"}
+        <p>{$note.note}</p>
+    </div>
+    </fieldset>
+    </p>
 {elseif $op eq 'add' or $op eq 'edit'}
-<form {$form.attributes}>
-<fieldset>
-<div class="form-item">
-{$form.note.label} {$form.note.html}
-<br/>
-{$form.buttons.html}
-</div>
-</fieldset>
-</form>
+    <form {$form.attributes}>
+    <p>
+    <fieldset><legend>{if $op eq 'add'}New{else}Edit{/if} Note</legend>
+    <div class="form-item">
+        {$form.note.html}
+        <br/>
+        {$form.buttons.html}
+    </div>
+    </fieldset>
+    </p>
+    </form>
 {/if}
 
 <div id="notes">
  <p>
     <div class="form-item">
-   <table border=0>
-   {foreach from=$notes item=note}
-     <tr class="{cycle values="odd-row,even-row"}">
-       <td>{$note.note|truncate:150:"...":true}</td><td width="100">{$note.modified_date|date_format:"%B %e, %Y"}</td>
-       <td width="90"><a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=view">View</a> | <a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=edit">Edit</a></td>
-     </tr>
-   {/foreach}
-   </table>
-     <br><!--a href="#">New Note</a-->
-     <input type="button" name="add_note" value="New Note" onClick="location.href='{$config->httpBase}contact/view/note&op=add';">
+       <table>
+       <tr class="columnheader"><th>Note Listings</th><th>Date</th><th></th></tr>
+       {foreach from=$notes item=note}
+         <tr class="{cycle values="odd-row,even-row"}">
+            <td>
+                {$note.note|truncate:80:"...":true}
+                {* Include '(more)' link to view entire note if it has been truncated *}
+                {assign var="noteSize" value=$note.note|count_characters:true}
+                {if $noteSize GT 80}
+                    <a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=view">(more)</a>
+                {/if}
+            </td>
+            <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
+            <td><a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=view">View</a> | <a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=edit">Edit</a></td>
+         </tr>
+       {/foreach}
+       </table>
+       <br />
+       <div class="action-link">
+         <a href="{$config->httpBase}contact/view/note&op=add">New Note</a>
+       </div>
     </div>
  </p>
 </div>

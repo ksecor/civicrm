@@ -12,7 +12,7 @@
 
 {if $session->getStatus(false)}
 <div class="message status">
-  {$session->getStatus(true)}
+  <img src="crm/i/inform.gif" alt="status"> &nbsp; {$session->getStatus(true)}
 </div>
 {/if}
 

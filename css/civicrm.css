@@ -45,9 +45,10 @@ div.spacer {
   }
 
 div.status {
+  margin: 1em 0em 1em;
   background-color: #ffff99;
-  padding: .5em;
-  border: 1px solid #000;
+  padding: .9em;
+  border: 1px solid #abc;
 }
 
 #crm-container div.form-item {
@@ -116,7 +117,7 @@ div.status {
 }
 
 #crm-container th {
-  padding-top: 8px;
+  padding: 8px 4px 4px 4px;
   border-bottom: 1px solid #000;
 }
 
