@@ -250,14 +250,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // invoke the add operator on the contact_type class
         eval( '$contact->contact_type_object = CRM_Contact_BAO_' . $params['contact_type'] . '::add( $params, $ids );' );
 
-        $locations = array( );
+        $location = array( );
         for ($locationId= 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-            $locations[] = CRM_Contact_BAO_Location::add( $params, $ids, $locationId );
+            $location[$locationId] = CRM_Contact_BAO_Location::add( $params, $ids, $locationId );
         }
-        $contact->locations = $locations;
+        $contact->location = $location;
 
         // add notes
-        CRM_Contact_BAO_Note::add( $params, $ids );
+        $contact->note = CRM_Contact_BAO_Note::add( $params, $ids );
 
         CRM_DAO::transaction( 'COMMIT' );
 

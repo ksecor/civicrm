@@ -78,10 +78,14 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
         // the rule is the first entered value is the primary object
         $isPrimaryPhone = $isPrimaryEmail = $isPrimaryIM = true;
 
+        $location->phone = array( );
+        $location->email = array( );
+        $location->im    = array( );
+
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
-            CRM_Contact_BAO_Phone::add( $params, $ids, $locationId, $i, $isPrimaryPhone );
-            CRM_Contact_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
-            CRM_Contact_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIM    );
+            $location->phone[$i] = CRM_Contact_BAO_Phone::add( $params, $ids, $locationId, $i, $isPrimaryPhone );
+            $location->email[$i] = CRM_Contact_BAO_Email::add( $params, $ids, $locationId, $i, $isPrimaryEmail );
+            $location->im   [$i] = CRM_Contact_BAO_IM::add   ( $params, $ids, $locationId, $i, $isPrimaryIM    );
         }
         return $location;
     }
@@ -162,7 +166,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
                     self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1],
                                      CRM_Contact_Form_Location::BLOCKS, $location );
                 }
-                $locations[] = $location;
+                $locations[$i + 1] = $location;
             }
         }
         return $locations;

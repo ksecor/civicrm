@@ -77,7 +77,7 @@ class CRM_Contact_BAO_Block {
                     $block->storeValues( $values[$blockName][$i+1] );
                     $ids[$blockName][$i+1] = $block->id;
                 }
-                $blocks[] = $block;
+                $blocks[$i + 1] = $block;
             }
         }
         return $blocks;
