@@ -6,7 +6,7 @@
 *    This script creates the schema for CRM module
 *    (contact relationship management system).
 *
-* Last rev: 11/28/2004
+* Last rev: 11/30/2004
 *******************************************************/
 
 /*******************************************************
@@ -421,6 +421,54 @@ CREATE TABLE crm_relationship(
 
 /*******************************************************
 *
+* crm_action [1st draft]
+*
+* Summary / link records for past (and/or future?) actions
+* of various types. They link the contact to the detailed
+* record for various types of classes, including communication
+* interactions (email, letter, phone call, meeting),
+* donations, click-throughs, event registration and
+* attendance, etc.
+*
+* The Contact module can display/sort these actions
+* and provide links to sub-module screens which handle
+* class-specific details.
+*
+*******************************************************/
+DROP TABLE IF EXISTS crm_action;
+CREATE TABLE crm_action(
+
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
+
+	contact_id INT UNSIGNED NOT NULL COMMENT 'action is related to this contact id',
+
+-- Action_category may need to become an FK to Action_Category table which can be populated by add-on modules as needed.
+-- This list of categories is rough draft - may need more or less granularity ??
+    action_category ENUM('Email_Sent','Email_Read','Letter_Sent','Donation_Pledge','Donation','Event_Registration','Event_Attendance'),
+    callback VARCHAR(255) COMMENT 'Function to call to get details for this action',
+	action_id INT UNSIGNED NOT NULL COMMENT 'FK to details item - passed to callback',
+
+	action_date DATETIME DEFAULT 0 COMMENT 'when was this action recorded',
+-- Do we need to store action_recorded and action_occurred dates separately?   
+
+	action_summary VARCHAR(255) COMMENT 'brief description of action for summary display - as populated by registering module',
+
+-- Other possible columns for this table:
+    -- action_type ENUM('Human_Inbound','System') COMMENT 'Differentiates human-to-human actions/interactions from automatic/system actions
+    -- action_direction ENUM('Inbound','Outbound') COMMENT 'Was action initiated by the contact (inbound), or by an org user (outbound)',
+    -- Consider adding a quantity bucket to quick summarization across actions of the same category (esp. donations)
+    -- Are future 'scheduled' actions are recorded in this table, or only things which have happened?
+    -- action_status BOOLEAN (e.g. completed T/F), and/or action_stage VARCHAR to record a 'stage/state', e.g. Pledged, Delivered, Acknowledged, Lost... )
+
+	PRIMARY KEY(id),  
+	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
+
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='tasks related to a contact';
+
+
+
+/*******************************************************
+*
 * crm_task
 *
 *******************************************************/
@@ -446,6 +494,7 @@ CREATE TABLE crm_task(
 	FOREIGN KEY(assigned_contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='tasks related to a contact';
+
 
 
 /*******************************************************
@@ -688,6 +737,9 @@ CREATE TABLE crm_ext_property(
 
 	required BOOLEAN NULL DEFAULT 0 COMMENT 'is a value required for this property',
 	validation_id INT UNSIGNED COMMENT 'FK to validation_rule table',
+
+-- Assume all ext_property.max_instances will be 1 for now (until we figure out use cases that require multiple instances).
+    max_instances INT UNSIGNED NOT NULL DEFAULT 1 COMMENT 'How many instances of this property may the parent object have.',
 	
 	PRIMARY KEY (id),
 
