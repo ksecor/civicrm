@@ -5,9 +5,9 @@ require_once 'CRM/Controller/Simple.php';
 
 require_once 'CRM/DAO/Domain.php';
 
-require_once 'CRM/Contacts/BAO/Contact_Individual.php';
+require_once 'CRM/Contact/BAO/Contact_Individual.php';
 
-class CRM_Contacts_Contacts_Qadd extends CRM_Base {
+class CRM_Contact_Contact_Search extends CRM_Base {
   
   protected $_controller;
 
@@ -23,13 +23,13 @@ class CRM_Contacts_Contacts_Qadd extends CRM_Base {
         // store the return url. Note that this is typically computed by the framework at runtime
         // based on multiple things (typically where the link was clicked from / http_referer
         // since we are just starting and figuring out navigation, we are hard coding it here
-        $session->pushUserContext( $config->httpBase . "crm/contact/add?reset=1" );
-        $this->_controller = new CRM_Controller_Simple('CRM_Contacts_Form_QCADD', 'Contact QCADD Page', $mode);
+        $session->pushUserContext( $config->httpBase . "crm/contact/search?reset=1" );
+        $this->_controller = new CRM_Controller_Simple('CRM_Contact_Form_SEARCH', 'Contact SEARCH Page', $mode);
         $this->_controller->process();
         $this->_controller->run();
         
         /**
-        $contact    = new CRM_Contacts_BAO_Contact_Individual();
+        $contact    = new CRM_Contact_BAO_Contact_Individual();
         
         $contact->domain_id = 1;
         $contact->find();
@@ -37,7 +37,7 @@ class CRM_Contacts_Contacts_Qadd extends CRM_Base {
             // CRM_Error::debug( 'contactInd', $contact );
         }
         
-        $contact = new CRM_Contacts_BAO_Contact_Individual();
+        $contact = new CRM_Contact_BAO_Contact_Individual();
         $contact->contact_type = 'Individual';
         $contact->sort_name    = 'Donald Lobo';
         $contact->hash         = 9876543;

@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
  +----------------------------------------------------------------------+
@@ -41,7 +41,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
 {
 
     //public static function buildCommunicationBlock($form)
-    static function bcb($form)
+    static function bcb(&$form)
     {
         $pcm_select = array(
                             ' '      => '-no preference-',

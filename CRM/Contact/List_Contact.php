@@ -3,10 +3,10 @@
 require_once 'CRM/Base.php';
 require_once 'CRM/Controller/Simple.php';
 require_once 'CRM/DAO/Domain.php';
-require_once 'CRM/Contacts/BAO/Contact_Individual.php';
-require_once 'CRM/Contacts/Contacts_Datagrid.php'; 
+require_once 'CRM/Contact/BAO/Contact_Individual.php';
+require_once 'CRM/Contact/Contact_Datagrid.php'; 
 
-class CRM_Contacts_List_Contacts extends CRM_Base 
+class CRM_Contact_List_Contact extends CRM_Base 
 {
     
     protected $_controller;
@@ -27,13 +27,13 @@ class CRM_Contacts_List_Contacts extends CRM_Base
         // since we are just starting and figuring out navigation, we are hard coding it here
         $session->pushUserContext( $config->httpBase . "crm/contact/list?reset=1" );
         
-        $this->_controller = new CRM_Controller_Simple( 'CRM_Contacts_Form_CLIST', 'Contact CLIST Page', $mode );
+        $this->_controller = new CRM_Controller_Simple( 'CRM_Contact_Form_CLIST', 'Contact CLIST Page', $mode );
         
         $this->_controller->process();
         $this->_controller->run();
 
         /**
-    $contact    = new CRM_Contacts_BAO_Contact_Individual();
+    $contact    = new CRM_Contact_BAO_Contact_Individual();
 
     $contact->domain_id = 1;
     $contact->find();
@@ -41,7 +41,7 @@ class CRM_Contacts_List_Contacts extends CRM_Base
     // CRM_Error::debug( 'contactInd', $contact );
     }
 
-    $contact = new CRM_Contacts_BAO_Contact_Individual();
+    $contact = new CRM_Contact_BAO_Contact_Individual();
     $contact->contact_type = 'Individual';
     $contact->sort_name    = 'Donald Lobo';
     $contact->hash         = 9876543;
@@ -54,7 +54,7 @@ class CRM_Contacts_List_Contacts extends CRM_Base
     
     function list_contact()
     {
-        $_contact_individual = new CRM_Contacts_DAO_Contact_Individual();
+        $_contact_individual = new CRM_Contact_DAO_Contact_Individual();
         $_contact_pager = new CRM_Paging();
         $a_pager_arr = $_contact_pager->f_Paging($_contact_individual); 
         $_current_pagevalue =  $a_pager_arr[1];

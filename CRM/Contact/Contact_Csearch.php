@@ -5,9 +5,9 @@ require_once 'CRM/Controller/Simple.php';
 
 require_once 'CRM/DAO/Domain.php';
 
-require_once 'CRM/Contacts/BAO/Contact_Individual.php';
+require_once 'CRM/Contact/BAO/Contact_Individual.php';
 
-class CRM_Contacts_Contacts_Csearch extends CRM_Base {
+class CRM_Contact_Contact_Csearch extends CRM_Base {
   
   protected $_controller;
 
