@@ -756,7 +756,7 @@ CREATE TABLE crm_ext_property(
 	name  VARCHAR(255) COMMENT 'friendly name',
     description VARCHAR(255) COMMENT 'property description (verbose)',
 
-	data_type ENUM('char','int','float','memo','date','boolean') COMMENT 'controls location of data storage in extended_data table',
+	data_type ENUM('string','int','float','money','text','date','boolean') COMMENT 'controls location of data storage in extended_data table',
 
 	required BOOLEAN NULL DEFAULT 0 COMMENT 'is a value required for this property',
 	validation_id INT UNSIGNED COMMENT 'FK to validation_rule table',
