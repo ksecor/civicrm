@@ -512,8 +512,13 @@ function contact_list($id=0)
  */
 function contact_query() 
 {
+
+    // CRM_Error::le_function();
+
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_NONE, 'crm/contact/list?reset=1', 0);
+    // $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_NONE, 'crm/contact/list?reset=1', 0);
+    $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_NONE, 'crm/contact/search?reset=1', 0);
+    // $contact->run('CRM_Contact_Form_Contact', 'Search Contact', CRM_Form::MODE_SEARCH, 'crm/contact/search?reset=1', 0);
     return $contact->getContent();
 } // end of function contact_query
 

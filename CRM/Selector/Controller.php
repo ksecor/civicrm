@@ -137,8 +137,7 @@ class CRM_Selector_Controller {
         $this->_output = $output;
         
 
-        le_method();
-
+        CRM_Error::le_method();
 
         $params = array(
                         'total'   => $this->_object->getTotalCount($action),
@@ -159,17 +158,19 @@ class CRM_Selector_Controller {
         $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortID );
     }
 
-    /* ###### RUN FUNCTION */
 
     function run( ) {
 
-        le_method();
+        CRM_Error::le_method();
 
         //print $this->_pager->getPageID();
         $config  = CRM_Config::singleton ();
         $session = CRM_Session::singleton();
 
         if ( $this->_output & self::TRANSFER ) {
+            
+            CRM_Error::debug_log_message("breakpoint 10");
+
             $this->moveFromSessionToTemplate( );
             return;
         }
@@ -191,15 +192,23 @@ class CRM_Selector_Controller {
             foreach ( self::$_properties as $property ) {
                 $template->assign_by_ref( $property, $$property );
             }
+
+            CRM_Error::debug_log_message("breakpoint 20");
+
             $this->_content = $template->fetch( $this->_object->getTemplateFileName(), $config->templateDir );
         }
 
         if ( $this->_output & self::SESSION ) {
+
+            CRM_Error::debug_log_message("breakpoint 30");
+
             $prefix = $this->_object->getModuleName( $this->_action );
             foreach ( self::$_properties as $property ) {
                 $session->set( $property, $$property, $prefix );
             }
         }
+
+        CRM_Error::ll_method();
     }
 
     function moveFromSessionToTemplate( ) {

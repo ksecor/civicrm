@@ -85,6 +85,8 @@ class CRM_Contact_Selector_Individual extends CRM_Selector_Base implements CRM_S
      * @access public
      */
     function __construct( &$params ) {
+        
+        CRM_Error::le_method();
 
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact_Individual();

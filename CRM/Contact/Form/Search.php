@@ -115,17 +115,15 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function preProcess() {
         
-        //        CRM_Error::le_method();
+        CRM_Error::le_method();
 
         $params = array( );
 
         $contact = new CRM_Contact_Selector_Individual($params);
-
         $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::TRANSFER);
-
         $selector->run();
 
-        //        CRM_Error::ll_method();
+        CRM_Error::ll_method();
 
     }
 
@@ -136,9 +134,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @access protected
      * @return void
      */
-    function postProcess( ) {
+    function postProcess( )
+    {
 
-        //        CRM_Error::le_method();
+        CRM_Error::le_method();
 
         $params = array( );
         $contact_type = trim($this->controller->exportValue($this->_name, 'contact_type'));
@@ -147,9 +146,13 @@ class CRM_Contact_Form_Search extends CRM_Form {
         }
 
         $contact = new CRM_Contact_Selector_Individual($params);
-        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::SESSION);
-       $selector->run();
+        // $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::SESSION);
+        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::BOTH);
+        $selector->run();
+
+        CRM_Error::ll_method();
     }
+
 
 }
 

@@ -1645,3 +1645,4 @@ INSERT INTO crm_phone_mobile_provider (name) VALUES ('Airtel');
 INSERT INTO crm_phone_mobile_provider (name) VALUES ('Tata Indicom');
 
 
+INSERT INTO crm_county (id, name, state_province_id) VALUES (1, 'San Mateo', 1004);

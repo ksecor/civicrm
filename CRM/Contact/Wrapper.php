@@ -95,6 +95,11 @@ class CRM_Contact_Wrapper extends CRM_Base
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
 
+
+        CRM_Error::le_method();
+        CRM_Error::debug_var("userContext", $userContext);
+
+
         // store the return url. Note that this is typically computed by the framework at runtime
         // based on multiple things (typically where the link was clicked from / http_referer
         // since we are just starting and figuring out navigation, we are hard coding it here

@@ -557,7 +557,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
             // create a object for inserting data in crm_location, crm_email, crm_im, crm_phone table 
             for ($lngi= 1; $lngi <= 3; $lngi++) {
 
-                CRM_Error::debug_var("lngi", $lngi);
+                // CRM_Error::debug_var("lngi", $lngi);
                             
                 //create a object of location class
                 $varname = "contact_location".$lngi;
@@ -603,7 +603,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
                             $$varaddress->timezone = $a_Location['timezone'];
                                      
                             if(!$$varaddress->insert()) {
-                                CRM_Error::debug_log_message("breakpoint 40");
+                                //CRM_Error::debug_log_message("breakpoint 40");
                                 $str_error = mysql_error();
                                 break;
                             }

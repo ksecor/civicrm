@@ -210,10 +210,10 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     static function debug_log_message($message="", $log=true)
     {
-        $error = self::singleton( );
+        $error =& self::singleton( );
         $out = "<br />$message";
         if ($log) {
-            echo $out;
+            //echo $out;
         }
         return $out;
     }
