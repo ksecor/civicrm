@@ -22,7 +22,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     
     function find($get = false) 
     {
-        $this->selectAdd();
+        $this->joinAdd( $this->_contactDAO );
         $this->selectAs($this, '%s');
         $this->selectAs($this->_contactDAO, $this->_contactDAO->getTableName() . '_%s');
         parent::find($get);

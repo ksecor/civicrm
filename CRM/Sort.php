@@ -36,11 +36,22 @@
 
 class CRM_Sort {
 
+    /**
+     * constants to determine what direction each variable
+     * is to be sorted
+     *
+     * @var int
+     */
     const
         ASCENDING  = 1,
         DESCENDING = 2,
         DONTCARE   = 4,
 
+        /**
+         * the name for the sort GET/POST param
+         *
+         * @var string
+         */
         SORT_ID    = 'crmSID';
 
 
@@ -52,23 +63,54 @@ class CRM_Sort {
     protected $_name;
 
     /**
-     * array of properties that we could potentially sort on
+     * array of variables that influence the query
+     *
      * @var array
      */
     protected $_vars;
 
     /**
-     * the order of elements mapping
+     * the basename of the file being invoked. Note that most
+     * of this stuff has been copied from the PEAR Pager Code.
      *
+     * @var string
      */
-    protected $_order;
-
     protected $_fileName;
+
+    /**
+     * the dirname of the file being invoked
+     *
+     * @var string
+     */
     protected $_path;
+
+    /**
+     * the newly formulate url
+     *
+     * @var string
+     */
     protected $_url;
+
+    /**
+     * what's the name of the sort variable in a REQUEST
+     *
+     * @var string
+     */
     protected $_urlVar;
 
-    protected $_current;
+    /**
+     * What variable are we currently sorting on
+     *
+     * @var string
+     */
+    protected $_currentSortID;
+
+    /**
+     * The output generated for the current form
+     *
+     * @var array
+     */
+    public $_response;
 
     /**
      * The constructor takes an assoc array
@@ -85,7 +127,7 @@ class CRM_Sort {
     function CRM_Sort( $vars, $defaultSortOrder = null ) {
         $this->_vars      = array( );
         $this->_order     = array( );
-        $this->_response	  = array();
+        $this->_response  = array();
 
         $count = 1;
 
@@ -101,7 +143,7 @@ class CRM_Sort {
             $count++;
         }
     
-        $this->_current  = 1;
+        $this->_currentSortID  = 1;
 
         $this->_urlVar   = CRM_Sort::SORT_ID;
 
@@ -159,10 +201,10 @@ class CRM_Sort {
 
     function orderBy( ) {
         // get the current one first
-        $sql = $this->getSingleClause( $this->_current );
+        $sql = $this->getSingleClause( $this->_currentSortID );
 
         for ( $i = 1; $i <= count( $this->_order ); $i++ ) {
-            if ( $i != $this->_current ) {
+            if ( $i != $this->_currentSortID ) {
                 $name = $this->_order[$i];
                 $sql .= " $name asc,";
             }
@@ -174,9 +216,9 @@ class CRM_Sort {
     function formURLString( ) {
         $url   = '';
 
-        $name = $this->_order[$this->_current];
+        $name = $this->_order[$this->_currentSortID];
 
-        $url  = $this->_current;
+        $url  = $this->_currentSortID;
         $dir  = $this->_vars[$name]['direction'];
         if ( $dir == CRM_Sort::ASCENDING || $dir == CRM_SORT::DONTCARE ) {
             $url .= "_u";
@@ -188,7 +230,7 @@ class CRM_Sort {
     }
   
     function getDirection() {
-        $name = $this->_order[$this->_current];
+        $name = $this->_order[$this->_currentSortID];
         $dir  = $this->_vars[$name]['direction'];
         return $dir;
     }
@@ -213,15 +255,15 @@ class CRM_Sort {
             $direction = CRM_Sort::DONTCARE;
         }
 
-        $this->_current = $current;
-        $name = $this->_order[$this->_current];
+        $this->_currentSortID = $current;
+        $name = $this->_order[$this->_currentSortID];
         $this->_vars[$name]['direction'] = $direction;
     }
 
     function initLinks( ) {
         $this->_response = array( );
 
-        $current = $this->_current;
+        $current = $this->_currentSortID;
         foreach ( $this->_vars as $name => $item ) {
             $this->_response[$name] = array();
 
@@ -230,7 +272,7 @@ class CRM_Sort {
             $newDirection = ( $prevDirection == CRM_Sort::DESCENDING || $prevDirection == CRM_Sort::DONTCARE ) ?
                 CRM_Sort::ASCENDING : CRM_Sort::DESCENDING;
 
-            $this->_current = $item['order'];
+            $this->_currentSortID = $item['order'];
             $this->_vars[$name]['direction'] = $newDirection;
 
             $this->_response[$name]['link'] = $this->_url . $this->formURLString( );
@@ -242,13 +284,19 @@ class CRM_Sort {
             }
 
             $this->_vars[$name]['direction'] = $prevDirection;
-            $this->_current = $current;
+            $this->_currentSortID = $current;
         }
 
     }
 
-    function toArray() {
-        return $this->_response;
+    /**
+     * getter for currentSortID
+     *
+     * @return int
+     * @acccess public
+     */
+    function getCurrentSortID( ) {
+        return $this->_currentSortID;
     }
 
 }

@@ -50,7 +50,7 @@ class CRM_Pager extends Pager_Sliding {
      * that an application could use to display the pager
      * @var array
      */
-    private $_response;  // array of caculated Pager values;
+    public $_response;  // array of caculated Pager values;
   
     /**  
      * The pager constructor. Takes a few values, and then assigns a lot of defaults
@@ -122,22 +122,6 @@ class CRM_Pager extends Pager_Sliding {
 
     }
 
-
-    /*
-     * This function return an array of name, value pairs for insertion
-     * into a template engine like Smarty
-     * 
-     * @param void
-     *
-     * @return array associative array of name value pairs
-     *               some of the values have html embedded within them
-     *
-     * @access public
-     *
-     */
-    function toArray() {
-        return $this->_response;
-    }
 
     /**
      * helper function to assign remaining pager options as good default

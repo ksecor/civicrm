@@ -127,15 +127,35 @@ class CRM_Selector_Controller {
      * @var array
      * @static
      */
-    static $_properties = array( 'pager', 'sort', 'columnHeaders', 'rows', 'rowsEmpty' );
+    static $_properties = array( 'columnHeaders', 'rows', 'rowsEmpty' );
 
-    function __construct($object, $pageID, $sortID, $action, $output = self::TEMPLATE) {
+    /**
+     * The storage object (typically a form or a page)
+     *
+     * @var Object
+     */
+    protected $_store;
+
+    /**
+     * Class constructor
+     *
+     * @param CRM_Selector_API $object  an object that implements the selector API
+     * @param int               $pageID  default pageID
+     * @param int               $sortID  default sortID
+     * @param int               $action  the actions to potentially support
+     * @param int               $output  what should we do with our results
+     * @param CRM_Page|CRM_Form $store   place in session to store some values
+     *
+     * @return Object
+     * @access public
+     */
+    function __construct($object, $pageID, $sortID, $action, $output = self::TEMPLATE, $store = null) {
         $this->_object = $object;
         $this->_pageID = $pageID ? $pageID : 1;
-        $this->_sortID = $sortID;
+        $this->_sortID = $sortID ? $sortID : 1;
         $this->_action = $action;
         $this->_output = $output;
-        
+        $this->_store  = $store;
 
         CRM_Error::le_method();
 
@@ -150,14 +170,22 @@ class CRM_Selector_Controller {
          */
         // $params['rowCount'] = $params['rowCount'] ? $params['rowCount'] : CRM_Pager::ROWCOUNT;
         // This is a hack to make it easier to debug
-        $params['rowCount'] = 5;
+        $params['rowCount'] = 1;
+
         $this->_pager = new CRM_Pager( $params );
-        list($this->_pagerOffset, $this->_pagerRowCount) =
-        $this->_pager->getOffsetAndRowCount();
+        list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
+
         $this->_sortOrder = $this->_object->getSortOrder($action);
         $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortID );
     }
 
+    function hasChanged( ) {
+        if ( $this->_store->get( CRM_Pager::PAGE_ID ) != $this->_pager->getCurrentPageID( ) ||
+             $this->_store->get( CRM_Sort::SORT_ID  ) != $this->_sort->getCurrentSortID ( ) ) {
+            return true;
+        }
+        return false;
+    }
 
     function run( ) {
 
@@ -168,15 +196,10 @@ class CRM_Selector_Controller {
         $session = CRM_Session::singleton();
 
         if ( $this->_output & self::TRANSFER ) {
-            
-            CRM_Error::debug_log_message("breakpoint 10");
-
             $this->moveFromSessionToTemplate( );
             return;
         }
 
-        $pager         = $this->_pager->toArray();
-        $sort          = $this->_sort->toArray ();
         $columnHeaders = $this->_object->getColumnHeaders( $this->_action );
         $rows          = $this->_object->getRows( $this->_action,
                                                   $this->_pagerOffset,
@@ -188,6 +211,8 @@ class CRM_Selector_Controller {
             $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
             $template->assign_by_ref( 'config' , $config  );
             $template->assign_by_ref( 'session', $session );
+            $template->assign_by_ref( 'pager'  , $this->_pager   );
+            $template->assign_by_ref( 'sort'   , $this->_sort    );
 
             foreach ( self::$_properties as $property ) {
                 $template->assign_by_ref( $property, $$property );
@@ -202,15 +227,18 @@ class CRM_Selector_Controller {
 
             CRM_Error::debug_log_message("breakpoint 30");
 
-            $prefix = $this->_object->getModuleName( $this->_action );
             foreach ( self::$_properties as $property ) {
-                $session->set( $property, $$property, $prefix );
+                $this->_store->set( $property, $$property );
             }
         }
+        
+        // always store the current pageID and sortID
+        $this->_store->set( CRM_Pager::PAGE_ID, $this->_pager->getCurrentPageID( ) );
+        $this->_store->set( CRM_Sort::SORT_ID , $this->_sort->getCurrentSortID ( ) );
 
         CRM_Error::ll_method();
     }
-
+    
     function moveFromSessionToTemplate( ) {
         $config  = CRM_Config::singleton ();
         $session = CRM_Session::singleton();

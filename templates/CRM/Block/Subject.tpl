@@ -1,0 +1,1 @@
+<span class='crm_blocktitle'>{$subject}</span>

@@ -6,7 +6,7 @@
 <th>
 {if $header.sort}
 {assign var='key' value=$header.sort}
-<a href={$sort.$key.link}>{$header.name}</a>&nbsp;{$sort.$key.direction}
+<a href={$sort->_response.$key.link}>{$header.name}</a>&nbsp;{$sort->_response.$key.direction}
 {else}
 {$header.name}
 {/if}

@@ -169,9 +169,11 @@ class CRM_Session {
      * is supported but we need to verify this
      *
      * @access public
-     * @param  string name  : name  of the variable
-     * @param  mixed  value : value of the variable
-     * @param  string  a string to prefix the keys in the session with
+     *
+     * @param  string $name    name  of the variable
+     * @param  mixed  $value   value of the variable
+     * @param  string $prefix  a string to prefix the keys in the session with
+     *
      * @return void
      *
      */

@@ -1,18 +1,19 @@
-{if $pager}
+{debug}
+{if $pager and $pager->_response}
 
-{if $pager.numPages >= 1}
+{if $pager->_response.numPages >= 1}
 
 <table>
 <tr>
-<td>{$pager.first}&nbsp;</td>
-<td>{$pager.back}&nbsp;</td>
-<td>{$pager.status}&nbsp;</td>
-<td>{$pager.next}&nbsp;</td>
-<td>{$pager.last}&nbsp;</td>
+<td>{$pager->_response.first}&nbsp;</td>
+<td>{$pager->_response.back}&nbsp;</td>
+<td>{$pager->_response.status}&nbsp;</td>
+<td>{$pager->_response.next}&nbsp;</td>
+<td>{$pager->_response.last}&nbsp;</td>
 {if $location eq 'top'}
-<td>{$pager.titleTop}&nbsp;<input name="{$pager.buttonTop}" value="Go!" type="submit"/></td>
+<td>{$pager->_response.titleTop}&nbsp;<input name="{$pager->_response.buttonTop}" value="Go!" type="submit"/></td>
 {else}
-<td>{$pager.titleBottom}&nbsp;<input name="{$pager.buttonBottom}" value="Go!" type="submit"/></td>
+<td>{$pager->_response.titleBottom}&nbsp;<input name="{$pager->_response.buttonBottom}" value="Go!" type="submit"/></td>
 {/if}
 </tr>
 </table>

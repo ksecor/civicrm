@@ -320,6 +320,36 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         return $this->_content;
     }
 
+
+    /**
+     * Store the variable with the value in the form scope
+     *
+     * @param  string name  : name  of the variable
+     * @param  mixed  value : value of the variable
+     *
+     * @access public
+     * @return void
+     *
+     */
+    function set( $name, $value ) {
+        $session = CRM_Session::singleton( );
+        $session->set( $name, $value, $this->_name );
+    }
+
+    /**
+     * Get the variable from the form scope
+     *
+     * @param  string name  : name  of the variable
+     *
+     * @access public
+     * @return mixed
+     *
+     */
+    function get( $name ) {
+        $session = CRM_Session::singleton( );
+        return $session->get( $name, $this->_name );
+    }
+
 }
 
 ?>

@@ -432,7 +432,35 @@ class CRM_Form extends HTML_QuickForm_Page {
         
         $error->push( $code, $message );
     }
-    
+  
+    /**
+     * Store the variable with the value in the form scope
+     *
+     * @param  string name  : name  of the variable
+     * @param  mixed  value : value of the variable
+     *
+     * @access public
+     * @return void
+     *
+     */
+    function set( $name, $value ) {
+        $this->controller->set( $name, $value );
+    }
+
+    /**
+     * Get the variable from the form scope
+     *
+     * @param  string name  : name  of the variable
+     *
+     * @access public
+     * @return mixed
+     *
+     */
+    function get( $name ) {
+        return $this->controller->get( $name );
+    }
+
+
 }
 
 ?>
