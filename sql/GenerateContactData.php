@@ -136,6 +136,7 @@ class CRM_GCD {
     private $organization_field = array();
     private $organization_type = array();
     private $group = array();
+    private $note = array();
     
     // stores the strict individual id and household id to individual id mapping
     private $strict_individual = array();
@@ -237,6 +238,58 @@ class CRM_GCD {
         return $array1[mt_rand(1, count($array1))-1];
     }
 
+
+    /**
+     * Generate a random date. 
+     *
+     *   If both $startDate and $endDate are defined generate
+     *   date between them.
+     *
+     *   If only startDate is specified then date generated is
+     *   between startDate + 1 year.
+     *
+     *   if only endDate is specified then date generated is
+     *   between endDate - 1 year.
+     *
+     *   if none are specified - date is between today - 1year 
+     *   and today
+     *
+     * @param  int $startDate Start Date in Unix timestamp
+     * @param  int $endDate   End Date in Unix timestamp
+     * @access private
+     * @return string randomly generated date in the format "Ymd"
+     *
+     */
+    private function _getRandomDate($startDate=0, $endDate=0)
+    {
+        
+        // number of seconds per year
+        $numSecond = 31536000;
+        $dateFormat = "Ymd";
+        $today = time();
+
+        // both are defined
+        if ($startDate && $endDate) {
+            return date($dateFormat, mt_rand($startDate, $endDate));
+        }
+
+        // only startDate is defined
+        if ($startDate) {
+            // $nextYear = mktime(0, 0, 0, date("m", $startDate),   date("d", $startDate),   date("Y")+1);
+            return date($dateFormat, mt_rand($startDate, $startDate+$numSecond));
+        }
+
+        // only endDate is defined
+        if ($startDate) {
+            return date($dateFormat, mt_rand($endDate-$numSecond, $endDate));
+        }        
+        
+        // none are defined
+        return date($dateFormat, mt_rand($today-$numSecond, $today));
+    }
+
+
+
     // insert data into db's
     private function _insert($dao)
     {
@@ -259,6 +312,23 @@ class CRM_GCD {
         }
     }
 
+
+    /**
+     * Insert a note 
+     *
+     *   Helper function which randomly populates "note" and 
+     *   "date_modified" and inserts it.
+     *
+     * @param  CRM_DAO_Note DAO object for Note
+     * @access private
+     * @return none
+     *
+     */
+    private function _insertNote($note) {
+        $note->note = $this->_getRandomElement($this->note);
+        $note->modified_date = $this->_getRandomDate();                
+        $this->_insert($note);        
+    }
 
 
     /*******************************************************
@@ -357,6 +427,11 @@ class CRM_GCD {
         // group
         foreach ($sample_data->groups->group as $group) {
             $this->group[] = trim($group);
+        }
+
+        // group
+        foreach ($sample_data->notes->note as $note) {
+            $this->note[] = trim($note);
         }
 
         $this->lel();
@@ -867,7 +942,7 @@ class CRM_GCD {
         // add categories 1,2,3 for Organizations.
         for ($i=0; $i<$this->num_organization; $i+=2) {
             $org_id = $this->organization[$i];
-            echo "org_id = $org_id\n";
+            // echo "org_id = $org_id\n";
             $entity_category->entity_table = 'crm_contact';
             $entity_category->entity_id = $this->organization[$i];
             $entity_category->category_id = mt_rand(1, 3);
@@ -877,7 +952,7 @@ class CRM_GCD {
         // add categories 4,5 for Individuals.        
         for ($i=0; $i<$this->num_individual; $i+=2) {
             $ind_id = $this->individual[$i];
-            echo "ind_id = $ind_id\n";            
+            // echo "ind_id = $ind_id\n";            
             $entity_category->entity_table = 'crm_contact';
             $entity_category->entity_id = $this->individual[$i];
             if(($entity_category->entity_id)%3) {
@@ -920,27 +995,66 @@ class CRM_GCD {
         }
 
 
+        // 60 are for newsletter
         for ($i=0; $i<60; $i++) {
             $group_contact->group_id = 1; // newsletter subscribers
             $group_contact->contact_id = $this->_getRandomElement($this->individual);
             $this->_insert($group_contact);
         }
 
+        // 15 volunteers
         for ($i=0; $i<15; $i++) {
             $group_contact->group_id = 2; // Volunteers
             $group_contact->contact_id = $this->_getRandomElement($this->individual);
             $this->_insert($group_contact);
         }
 
+        // 8 advisory board group
         for ($i=0; $i<8; $i++) {
             $group_contact->group_id = 3; // advisory board group
             $group_contact->contact_id = $this->_getRandomElement($this->individual);
             $this->_insert($group_contact);
         }
 
-
         $this->lel();
     }
+
+
+
+
+
+
+    /*******************************************************
+     *
+     * addNote()
+     *
+     * This method populates the crm_note table
+     *
+     *******************************************************/
+    public function addNote()
+    {
+        $this->lee();
+        
+        $note = new CRM_DAO_Note();
+        $note->table_name = 'crm_contact';
+        $note->table_id = 1;
+
+        for ($i=0; $i<self::NUM_CONTACT; $i++) {
+            $note->contact_id = $this->contact[$i];
+            if ($this->contact[$i] % 5) {
+                $this->_insertNote($note);
+            }
+            if ($this->contact[$i] % 3) {
+                $this->_insertNote($note);
+            }            
+            if ($this->contact[$i] % 2) {
+                $this->_insertNote($note);
+            }            
+        }
+        $this->lel();
+    }
+
+
 
     public function printID() {
 
@@ -1017,6 +1131,7 @@ $obj1->addRelationship();
 $obj1->addLocation();
 $obj1->addEntityCategory();
 $obj1->addGroup();
+$obj1->addNote();
 
 echo("Ending on " . date("F dS h:i:s A") . "\n");
 
