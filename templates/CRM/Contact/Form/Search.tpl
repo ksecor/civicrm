@@ -1,7 +1,7 @@
 <form {$form.attributes}>
 {$form.hidden}
 <fieldset class="fieldset-property">
-<div id="crm-container">
+<div id="crm-container" class="form-item">
  <div class="verticle-position">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
      <span class="horizontal-position">{$form.group_id.label}{$form.group_id.html}</span>
@@ -21,7 +21,7 @@
 </fieldset>
 
 <fieldset class="fieldset-property">
- <div id="crm-container">
+ <div id="crm-container" class="form-item">
      <span>{$form.action_id.label}{$form.action_id.html}</span><span class="button-property">{$form.go.html}</span>	
      {include file="CRM/Contact/Selector/Selector.tpl"}
  </div>

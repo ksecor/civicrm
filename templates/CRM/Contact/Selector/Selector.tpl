@@ -2,7 +2,7 @@
 
 {include file="CRM/pager.tpl" location="top"}
 
-<div id="crm-container">
+<div id="crm-container" class="form-item">
 <table border="0" cellspacing="4" cellpadding="4" width="100%">
  <tr class="search-columnheader">
    {foreach from=$columnHeaders item=header}

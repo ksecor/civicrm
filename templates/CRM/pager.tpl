@@ -1,4 +1,4 @@
-<div id="crm-container">
+<div id="crm-container" class="form-item">
 {if $pager and $pager->_response}
 
 {if $pager->_response.numPages >= 1}
