@@ -8,7 +8,10 @@ class CRM_Contacts_DAO_Factory {
                               'Contact'              => 'data',
                               'Contact_Household'    => 'data',
                               'Contact_Individual'   => 'data',
-                              'Contact_Organization' => 'data'
+                              'Contact_Organization' => 'data',
+			      'Contact_Location'     => 'data',
+			      'Relationship_Type'    => 'data',
+			      'Relationship'         => 'data',
                              );
 
     static $_prefix = array(
