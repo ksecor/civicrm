@@ -40,128 +40,128 @@ require_once 'CRM/Array.class.php';
 
 class CRM_Action {
 
-  /**
-   * Different possible actions are defined here
-   *
-   * @var const
-   *
-   * @access public
-   */
-  const
+    /**
+     * Different possible actions are defined here
+     *
+     * @var const
+     *
+     * @access public
+     */
+    const
     CREATE        =     1,
-    VIEW          =     2,
-    UPDATE        =     4,
-    DELETE        =     8,
-    EXPORT        =    16;
+        VIEW          =     2,
+        UPDATE        =     4,
+        DELETE        =     8,
+        EXPORT        =    16;
   
-  /**
-   * map the action names to the relevant constant. We perform
-   * bit manipulation operations so we can perform multiple
-   * actions on the same object if needed
-   *
-   * @var array  _names  tupe of variable name to action constant
-   *
-   * @access private
-   * @static
-   *
-   */
-  static $_names = array(
-                         'create'        => CRM_Action::CREATE,
-                         'view'          => CRM_Action::VIEW  ,
-                         'update'        => CRM_Action::UPDATE,
-                         'delete'        => CRM_Action::DELETE,
-                         'export'        => CRM_Action::EXPORT,
-                         );
+    /**
+     * map the action names to the relevant constant. We perform
+     * bit manipulation operations so we can perform multiple
+     * actions on the same object if needed
+     *
+     * @var array  _names  tupe of variable name to action constant
+     *
+     * @access private
+     * @static
+     *
+     */
+    static $_names = array(
+                           'create'        => CRM_Action::CREATE,
+                           'view'          => CRM_Action::VIEW  ,
+                           'update'        => CRM_Action::UPDATE,
+                           'delete'        => CRM_Action::DELETE,
+                           'export'        => CRM_Action::EXPORT,
+                           );
 
-  /**
-   *
-   * returns the actions to be performed for the page being 
-   * processed. Uses the $_GET super global directly. Should
-   * we be using a Request Object instead? This seems fine since
-   * we actually do exact mapping in a fixed pre determined array
-   * ($_names)
-   *
-   * @param string kwd     the name of the GET parameter
-   * @param string default the default action for this page is none exists
-   *
-   * @return int the action mask corresponding to the GET param
-   * @access public
-   * @static
-   *
-   */
-  static function get( $kwd = 'action', $default = null ) {
-    $urlVar = CRM_Array::value( $kwd, $_GET );
-    if ( ! isset( $urlVar ) ) {
-      $urlVar = $default;
-    }
+    /**
+     *
+     * returns the actions to be performed for the page being 
+     * processed. Uses the $_GET super global directly. Should
+     * we be using a Request Object instead? This seems fine since
+     * we actually do exact mapping in a fixed pre determined array
+     * ($_names)
+     *
+     * @param string kwd     the name of the GET parameter
+     * @param string default the default action for this page is none exists
+     *
+     * @return int the action mask corresponding to the GET param
+     * @access public
+     * @static
+     *
+     */
+    static function get( $kwd = 'action', $default = null ) {
+        $urlVar = CRM_Array::value( $kwd, $_GET );
+        if ( ! isset( $urlVar ) ) {
+            $urlVar = $default;
+        }
     
-    $action = 0;
-    if ( $urlVar ) {
-      $items = explode( '|', $urlVar );
-      $action = CRM_Action::map( $items );
+        $action = 0;
+        if ( $urlVar ) {
+            $items = explode( '|', $urlVar );
+            $action = CRM_Action::map( $items );
+        }
+        return $action;
     }
-    return $action;
-  }
 
-  /**
-   * Given a string or an array of strings, determine the bitmask
-   * for this set of actions
-   *
-   * @param mixed either a single string or an array of strings
-   *
-   * @return int the action mask corresponding to the input args
-   * @access public
-   * @static
-   *
-   */
-  static function map( $item ) {
-    $mask = 0;
+    /**
+     * Given a string or an array of strings, determine the bitmask
+     * for this set of actions
+     *
+     * @param mixed either a single string or an array of strings
+     *
+     * @return int the action mask corresponding to the input args
+     * @access public
+     * @static
+     *
+     */
+    static function map( $item ) {
+        $mask = 0;
 
-    if ( is_array( $item ) ) {
-      foreach ( $item as $it ) {
-        $mask |= CRM_Action::mapItem( $it );
-      }
-      return $mask;
-    } else {
-      return CRM_Action::mapItem( $item );
+        if ( is_array( $item ) ) {
+            foreach ( $item as $it ) {
+                $mask |= CRM_Action::mapItem( $it );
+            }
+            return $mask;
+        } else {
+            return CRM_Action::mapItem( $item );
+        }
     }
-  }
 
-  /**
-   * Given a string determine the bitmask for this specific string
-   *
-   * @param string the input action to process
-   *
-   * @return int the action mask corresponding to the input string
-   * @access public
-   * @static
-   *
-   */
-  static function mapItem( $item ) {
-    $mask = CRM_Array::value( trim( $item ), CRM_Action::$_names );
-    return $mask ? $mask : 0;
-  }
-
-  /**
-   *
-   * Given an action mask, find the corresponding description
-   *
-   * @param int the action mask
-   *
-   * @return string the corresponding action description
-   * @access public
-   * @static
-   *
-   */
-  static function description( $mask ) {
-    static $_description;
-    if ( ! isset( $description ) ) {
-      $description = array_flip( CRM_Action::$_names );
+    /**
+     * Given a string determine the bitmask for this specific string
+     *
+     * @param string the input action to process
+     *
+     * @return int the action mask corresponding to the input string
+     * @access public
+     * @static
+     *
+     */
+    static function mapItem( $item ) {
+        $mask = CRM_Array::value( trim( $item ), CRM_Action::$_names );
+        return $mask ? $mask : 0;
     }
-    
-    $desc = CRM_Array::value( $mask, $description );
-    return $desc ? $desc : 'NO DESCRIPTION SET';
-  }
+
+    /**
+     *
+     * Given an action mask, find the corresponding description
+     *
+     * @param int the action mask
+     *
+     * @return string the corresponding action description
+     * @access public
+     * @static
+     *
+     */
+    static function description( $mask ) {
+        static $_description;
+        if ( ! isset( $description ) ) {
+            $description = array_flip( CRM_Action::$_names );
+        }
+        
+        $desc = CRM_Array::value( $mask, $description );
+        return $desc ? $desc : 'NO DESCRIPTION SET';
+    }
 
 }
 

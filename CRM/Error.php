@@ -37,65 +37,66 @@ require_once 'PEAR/ErrorStack.php';
 
 class CRM_Error extends PEAR_ErrorStack {
 
-  /**
-   * status code of various types of errors
-   * @var const
-   */
-  const
+    /**
+     * status code of various types of errors
+     * @var const
+     */
+    const
     FATAL_ERROR = 2;
 
-  /**
-   * We only need one instance of this object. So we use the singleton
-   * pattern and cache the instance in this variable
-   * @var object
-   * @static
-   */
-  private static $_instance = null;
+    /**
+     * We only need one instance of this object. So we use the singleton
+     * pattern and cache the instance in this variable
+     * @var object
+     * @static
+     */
+    private static $_instance = null;
 
-  /**
-   * singleton function used to manage this object
-   *  
-   * @param string the key in which to record session / log information
-   *
-   * @return object
-   * @static
-   *
-   */
-  static function instance( $key = 'CRM' ) {
-    if (self::$_instance === null ) {
-      self::$_instance = new CRM_Error( $key );
+    /**
+     * singleton function used to manage this object
+     *  
+     * @param string the key in which to record session / log information
+     *
+     * @return object
+     * @static
+     *
+     */
+    static function instance( $key = 'CRM' ) {
+        if (self::$_instance === null ) {
+            self::$_instance = new CRM_Error( $key );
+        }
+        return self::$_instance;
     }
-    return self::$_instance;
-  }
   
-  /**
-   * construcor
-   */
-  function __construct( $name = 'CRM' ) {
-    parent::__construct( $name );
-  }
+    /**
+     * construcor
+     */
+    function __construct( $name = 'CRM' ) {
+        parent::__construct( $name );
+    }
 
-  /**
-   * display an error page with an error message describing what happened
-   *
-   * @param string message  the error message
-   * @param string code     the error code if any
-   * @param string email    the email address to notify of this situation
-   *
-   * @return void
-   * @static
-   * @acess public
-   */
-  static function fatal($message, $code = null, $email = null) {
-    $vars = array( 'message' => $message,
-                   'code'    => $code );
+    /**
+     * display an error page with an error message describing what happened
+     *
+     * @param string message  the error message
+     * @param string code     the error code if any
+     * @param string email    the email address to notify of this situation
+     *
+     * @return void
+     * @static
+     * @acess public
+     */
+    static function fatal($message, $code = null, $email = null) {
+        $vars = array( 'message' => $message,
+                       'code'    => $code );
 
-    theme( 'fatal_error', 'error.tpl', $vars );
+        theme( 'fatal_error', 'error.tpl', $vars );
 
-    exit( CRM_Error::FATAL_ERROR );
-  }
+        exit( CRM_Error::FATAL_ERROR );
+    }
 
-  PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Error');
 }
+
+PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Error');
 
 ?>

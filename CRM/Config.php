@@ -40,152 +40,152 @@ require_once 'CRM/DAO.php';
 
 class CRM_Config {
 
-  /**
-   * the dsn of the database connection
-   * @var string
-   */
-  public $dsn;
+    /**
+     * the dsn of the database connection
+     * @var string
+     */
+    public $dsn;
 
-  /**
-   * the debug level for DB_DataObject
-   * @var int
-   */
-  public $daoDebugLvl		  = 0;
+    /**
+     * the debug level for DB_DataObject
+     * @var int
+     */
+    public $daoDebugLvl		  = 0;
 
-  /**
-   * the directory where Smarty is installed
-   * @var string
-   */
-  public $smartyDir           = '/opt/local/lib/php/Smarty/';
+    /**
+     * the directory where Smarty is installed
+     * @var string
+     */
+    public $smartyDir           = '/opt/local/lib/php/Smarty/';
 
-  /**
-   * the root directory of our template tree
-   * @var string
-   */
-  public $templateDir		  = './templates';
+    /**
+     * the root directory of our template tree
+     * @var string
+     */
+    public $templateDir		  = './templates';
 
-  /**
-   * The root directory where Smarty should store
-   * compiled files
-   * @var string
-   */
-  public $templateCompileDir  = './templates_c';
+    /**
+     * The root directory where Smarty should store
+     * compiled files
+     * @var string
+     */
+    public $templateCompileDir  = './templates_c';
 
-  /**
-   * The root url of our application. Used when we don't
-   * know where to redirect the application flow
-   * @var string
-   */
-  public $mainMenu            = 'http://localhost/drupal/';
+    /**
+     * The root url of our application. Used when we don't
+     * know where to redirect the application flow
+     * @var string
+     */
+    public $mainMenu            = 'http://localhost/drupal/';
 
-  /**
-   * The httpBase of our application. Used when we want to compose
-   * absolute url's
-   * @var string
-   */
-  public $httpBase            = "http://localhost/drupal/";
+    /**
+     * The httpBase of our application. Used when we want to compose
+     * absolute url's
+     * @var string
+     */
+    public $httpBase            = "http://localhost/drupal/";
 
-  /**
-   * the factory class used to instantiate our DB objects
-   * @var string
-   */
-  public $DAOFactoryClass	  = 'CRM_Contacts_DAO_Factory';
+    /**
+     * the factory class used to instantiate our DB objects
+     * @var string
+     */
+    public $DAOFactoryClass	  = 'CRM_Contacts_DAO_Factory';
 
-  /**
-   * We only need one instance of this object. So we use the singleton
-   * pattern and cache the instance in this variable
-   * @var object
-   * @static
-   */
-  private static $_instance = null;
+    /**
+     * We only need one instance of this object. So we use the singleton
+     * pattern and cache the instance in this variable
+     * @var object
+     * @static
+     */
+    private static $_instance = null;
 
-  /**
-   * singleton function used to manage this object
-   *
-   * @param string the key in which to record session / log information
-   *
-   * @return object
-   * @static
-   *
-   */
-  static function instance($key = 'crm') {
-    if (self::$_instance === null ) {
-      self::$_instance = new CRM_Config($key);
-    }
-    return self::$_instance;
-  }
-
-  /**
-   * The constructor. Basically redefines the class variables if
-   * it finds a constant definition for that class variable
-   *
-   * @return object
-   * @access private
-   */
-  function __construct() {
-    if (defined('CRM_DSN')) {
-      $this->dsn = CRM_DSN;
+    /**
+     * singleton function used to manage this object
+     *
+     * @param string the key in which to record session / log information
+     *
+     * @return object
+     * @static
+     *
+     */
+    static function instance($key = 'crm') {
+        if (self::$_instance === null ) {
+            self::$_instance = new CRM_Config($key);
+        }
+        return self::$_instance;
     }
 
-    if (defined('CRM_DAO_DEBUG_LVL') ) {
-      $this->daoDebugLvl = CRM_DAO_DEBUG_LVL;
+    /**
+     * The constructor. Basically redefines the class variables if
+     * it finds a constant definition for that class variable
+     *
+     * @return object
+     * @access private
+     */
+    function __construct() {
+        if (defined('CRM_DSN')) {
+            $this->dsn = CRM_DSN;
+        }
+
+        if (defined('CRM_DAO_DEBUG_LVL') ) {
+            $this->daoDebugLvl = CRM_DAO_DEBUG_LVL;
+        }
+
+        if (defined('CRM_DAO_FACTORY_CLASS') ) {
+            $this->DAOFactoryClass = CRM_DAO_FACTORY_CLASS;
+        }
+
+        if (defined('CRM_SMARTYDIR')) {
+            $this->smartyDir = CRM_SMARTYDIR;
+        }
+
+        if (defined('CRM_TEMPLATEDIR')) {
+            $this->templateDir = CRM_TEMPLATEDIR;
+        }
+
+        if (defined('CRM_TEMPLATE_COMPILEDIR')) {
+            $this->templateCompileDir = CRM_TEMPLATE_COMPILEDIR;
+        }
+
+        if ( defined( 'CRM_MAINMENU' ) ) {
+            $this->mainMenu = CRM_MAINMENU;
+        }
+
+        if ( defined( 'CRM_HTTPBASE' ) ) {
+            $this->httpBase = CRM_HTTPBASE;
+        }
+
+        // initialize the framework
+        $this->init();
     }
 
-    if (defined('CRM_DAO_FACTORY_CLASS') ) {
-      $this->DAOFactoryClass = CRM_DAO_FACTORY_CLASS;
+    /**
+     * initializes the entire application. Currently we only need to initialize
+     * the dataobject framework
+     *
+     * @return void
+     * @access public
+     */
+    function init() {
+        $this->initDAO();
     }
 
-    if (defined('CRM_SMARTYDIR')) {
-      $this->smartyDir = CRM_SMARTYDIR;
+    /**
+     * initialize the DataObject framework
+     *
+     * @ereturn void
+     * @access private
+     */
+    function initDAO() {
+        CRM_DAO::init(
+                      $this->dsn, 
+                      $this->daoDebugLvl
+                      );
+
+        $factoryClass = $this->DAOFactoryClass;
+        CRM_Utils::import($factoryClass);
+        CRM_DAO::setFactory(new $factoryClass());
     }
-
-    if (defined('CRM_TEMPLATEDIR')) {
-      $this->templateDir = CRM_TEMPLATEDIR;
-    }
-
-    if (defined('CRM_TEMPLATE_COMPILEDIR')) {
-      $this->templateCompileDir = CRM_TEMPLATE_COMPILEDIR;
-    }
-
-    if ( defined( 'CRM_MAINMENU' ) ) {
-      $this->mainMenu = CRM_MAINMENU;
-    }
-
-    if ( defined( 'CRM_HTTPBASE' ) ) {
-      $this->httpBase = CRM_HTTPBASE;
-    }
-
-    // initialize the framework
-    $this->init();
-  }
-
-  /**
-   * initializes the entire application. Currently we only need to initialize
-   * the dataobject framework
-   *
-   * @return void
-   * @access public
-   */
-  function init() {
-    $this->initDAO();
-  }
-
-  /**
-   * initialize the DataObject framework
-   *
-   * @ereturn void
-   * @access private
-   */
-  function initDAO() {
-    CRM_DAO::init(
-                  $this->dsn, 
-                  $this->daoDebugLvl
-                  );
-
-    $factoryClass = $this->DAOFactoryClass;
-    CRM_Utils::import($factoryClass);
-    CRM_DAO::setFactory(new $factoryClass());
-  }
 
 } // end CRM_Config
 

@@ -1,4 +1,27 @@
 <?php
+/**
+ +----------------------------------------------------------------------+
+ | CiviCRM version 1.0                                                  |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2005 Donald A. Lobo                                    |
+ +----------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                      |
+ |                                                                      |
+ | CiviCRM is free software; you can redistribute it and/or modify it   |
+ | under the terms of the Affero General Public License Version 1,      |
+ | March 2002.                                                          |
+ |                                                                      |
+ | CiviCRM is distributed in the hope that it will be useful, but       |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+ | See the Affero General Public License for more details at            |
+ | http://www.affero.org/oagpl.html                                     |
+ |                                                                      |
+ | A copy of the Affero General Public License has been been            |
+ | distributed along with this program (affero_gpl.txt)                 |
+ +----------------------------------------------------------------------+
+*/
+
 
 /**
  *
@@ -9,6 +32,11 @@
  * us to automate the export process. To use this class, the object has to
  * implement the Selector/Api.interface.php class
  *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
  */
 
 require_once 'CRM/Pager.php';
@@ -17,101 +45,127 @@ require_once 'CRM/Reports/Excel.php';
 
 class CRM_Selector_Controller {
 
-  /* a CRM Object that implements CRM_Selector_API */
-  private $_object;
+    /**
+     * a CRM Object that implements CRM_Selector_api
+     * @var object
+     */
+    private $_object;
     
-  /* the CRM_Sort object */
-  private $_sort;
-
-  /* the current column to sort on */
-  private $_sortId;
-
-  /* the sortOrder array */
-  private $_sortOrder;
-
-  /* the CRM_Pager object */
-  private $_pager;
-
-  /* the pageId */
-  private $_pageId;
-    
-  /* offset and rowCount */
-  private $_pagerOffset;
-  private $_pagerRowCount;
-
-  /* the objectAction for the WebObject */
-  private $_action;
-
-  function __construct($object, $pageID, $sortID, $action) {
-    $this->_object = $object;
-        
-    $this->_pageId = $pageID;
-    $this->_sortId = $sortID;
-    $this->_action = $action;
-        
-    $params = array(
-                    'totalCount' => $this->_object->getTotalCount($action),
-                    'pageID'     => $this->_pageId
-                    );
-    $this->_object->getPagerParams($action, $params);
+    /*
+     * the CRM_Sort object
+     * @var object
+     */
+    private $_sort;
 
     /*
-     * Set the default values of RowsPerPage
+     * the current column to sort on
+     * @var int
      */
-    $params{'rowCount'} = $params{'rowCount'} ? $params{'rowCount'} : CRM_Pager::ROWCOUNT;
+    private $_sortId;
+
+    /*
+     * the sortOrder array
+     * @var array
+     */
+    private $_sortOrder;
+
+    /*
+     * the CRM_Pager object
+     * @var object
+     */
+    private $_pager;
+
+    /*
+     * the pageId
+     * @var int
+     */
+    private $_pageId;
     
-    $this->_pager = new CRM_Pager( $params );
-        
-    list($this->_pagerOffset, $this->_pagerRowCount) =
-      $this->_pager->getOffsetAndRowCount();
-
-    $this->_sortOrder = $this->_object->getSortOrder($action);
-    $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortId );
-  }
-
-  function setResponseData($response) {
-    $response->setVar('pager', $this->_pager->toArray() );
-    $response->setVar('sort' , $this->_sort->getLinks() );
-        
-    $response->setVar('columnHeaders', 
-                      $this->_object->getColumnHeaders( $this->_action ) );
-            
-    $rows =    $this->_object->getRows( $this->_action, 
-                                        $this->_pagerOffset,
-                                        $this->_pagerRowCount,
-                                        $this->_sort );
-    if ( count( $rows ) ) {
-      $response->setVar('rowsEmpty', false);
-      $response->setVar('rows'     , $rows);
-    } else {
-      $response->setVar('rowsEmpty', true);
-    }
-
-  }
-
-  function getPager() {
-    return $this->_pager;
-  }
-
-  function getSort() {
-    return $this->_sort;
-  }
-    
-  function export() {
-    $fileName = $this->_object->getExportFileName     ( $this->_action );
-    $headers  = $this->_object->getExportColumnHeaders( $this->_action );
-    $rows     = $this->_object->getExportRows         ( $this->_action );
+    /*
+     * offset
+     * @var int
+     */
+    private $_pagerOffset;
 
     /**
-     * At this point we need to remove the 'action' export from the session
-     * Else this might result in an infinite loop
-     * Will do this once we figure out how we handle session data
+     * number of rows to return
+     * @var int
      */
+    private $_pagerRowCount;
 
-    CRM_Reports_Excel::writeCSVFile( $fileName, $headers, $rows );
+    /* the objectAction for the WebObject */
+    private $_action;
 
-    exit();
-  }
+    function __construct($object, $pageID, $sortID, $action) {
+        $this->_object = $object;
+        
+        $this->_pageId = $pageID;
+        $this->_sortId = $sortID;
+        $this->_action = $action;
+        
+        $params = array(
+                        'totalCount' => $this->_object->getTotalCount($action),
+                        'pageID'     => $this->_pageId
+                        );
+        $this->_object->getPagerParams($action, $params);
+
+        /*
+         * Set the default values of RowsPerPage
+         */
+        $params{'rowCount'} = $params{'rowCount'} ? $params{'rowCount'} : CRM_Pager::ROWCOUNT;
+    
+        $this->_pager = new CRM_Pager( $params );
+        
+        list($this->_pagerOffset, $this->_pagerRowCount) =
+            $this->_pager->getOffsetAndRowCount();
+
+        $this->_sortOrder = $this->_object->getSortOrder($action);
+        $this->_sort = new CRM_Sort( $this->_sortOrder, $this->_sortId );
+    }
+
+    function setResponseData($response) {
+        $response->setVar('pager', $this->_pager->toArray() );
+        $response->setVar('sort' , $this->_sort->getLinks() );
+        
+        $response->setVar('columnHeaders', 
+                          $this->_object->getColumnHeaders( $this->_action ) );
+            
+        $rows =    $this->_object->getRows( $this->_action, 
+                                            $this->_pagerOffset,
+                                            $this->_pagerRowCount,
+                                            $this->_sort );
+        if ( count( $rows ) ) {
+            $response->setVar('rowsEmpty', false);
+            $response->setVar('rows'     , $rows);
+        } else {
+            $response->setVar('rowsEmpty', true);
+        }
+
+    }
+
+    function getPager() {
+        return $this->_pager;
+    }
+
+    function getSort() {
+        return $this->_sort;
+    }
+    
+    function export() {
+        $fileName = $this->_object->getExportFileName     ( $this->_action );
+        $headers  = $this->_object->getExportColumnHeaders( $this->_action );
+        $rows     = $this->_object->getExportRows         ( $this->_action );
+
+        /**
+         * At this point we need to remove the 'action' export from the session
+         * Else this might result in an infinite loop
+         * Will do this once we figure out how we handle session data
+         */
+
+        CRM_Reports_Excel::writeCSVFile( $fileName, $headers, $rows );
+
+        exit();
+    }
 
 
 }

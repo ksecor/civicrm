@@ -1,7 +1,7 @@
 <?php
 
 require_once 'CRM/Base.php';
-require_once 'CRM/Controller/SinglePage.php';
+require_once 'CRM/Controller/Simple.php';
 
 require_once 'CRM/DAO/Domain.php';
 
@@ -25,7 +25,7 @@ class CRM_Contacts_Households extends CRM_Base {
     $returnUrl = $config->httpBase . "crm/contact/addhouse?reset=1";
     $session->pushReturnUrl( $returnUrl );
 
-    $this->_controller = new CRM_Controller_SinglePage( 'CRM_Contacts_Form_HOUSE', 'Contact HOUSE Page', $mode );
+    $this->_controller = new CRM_Controller_Simple( 'CRM_Contacts_Form_HOUSE', 'Contact HOUSE Page', $mode );
 
     $this->_controller->process();
     $this->_controller->run();

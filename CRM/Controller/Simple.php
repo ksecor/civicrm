@@ -37,33 +37,33 @@
 
 require_once 'CRM/Controller.php';
 
-class CRM_Controller_SinglePage extends CRM_Controller {
+class CRM_Controller_Simple extends CRM_Controller {
 
-  /**
-   * constructor
-   *
-   * @param string path   the class Path of the form being implemented
-   * @param string name   the descriptive name for the page
-   * @param int    mode   the mode that the form will operate on
-   *
-   * @return object
-   * @access public
-   */
-  function __construct( $path, $name, $mode ) {
-    // by definition a single page is modal :)
-    parent::__construct( $name, true );
+    /**
+     * constructor
+     *
+     * @param string path   the class Path of the form being implemented
+     * @param string name   the descriptive name for the page
+     * @param int    mode   the mode that the form will operate on
+     *
+     * @return object
+     * @access public
+     */
+    function __construct( $path, $name, $mode ) {
+        // by definition a single page is modal :)
+        parent::__construct( $name, true );
 
-    $this->_stateMachine = new CRM_StateMachine( $this );
+        $this->_stateMachine = new CRM_StateMachine( $this );
 
-    $params = array( $path );
+        $params = array( $path );
 
-    $this->_stateMachine->addSequentialStates( $params );
+        $this->_stateMachine->addSequentialStates( $params );
 
-    $this->addPages( $this->_stateMachine, $mode );
+        $this->addPages( $this->_stateMachine, $mode );
 
-    $this->addDefault( );
+        $this->addDefault( );
 
-  }
+    }
 
 }
 

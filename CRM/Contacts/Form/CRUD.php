@@ -325,7 +325,7 @@ class CRM_Contacts_Form_CRUD extends CRM_Form
                                                 'isDefault' => true     ),
                                         array ( 'type'      => 'reset' ,
                                                 'name'      => 'Reset'  ),
-                                        array ( type'       => 'cancel',
+                                        array ( 'type'       => 'cancel',
                                                 'name'      => 'Cancel' ),
                                        )
                                  );
