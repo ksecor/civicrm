@@ -178,6 +178,8 @@ CREATE TABLE crm_contact (
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact',
 
 	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact',
+    legal_id VARCHAR(32) COMMENT 'May be used for SSN, EIN/TIN, Household ID (census) or other applicable unique legal/government ID.',
+    external_id VARCHAR(32) COMMENT 'Unique trusted external ID (generally from a legacy app/datasource). Particularly useful for deduping operations.',
 	sort_name VARCHAR(64) COMMENT 'name being cached for sorting purposes',
 
 	home_URL VARCHAR(128) COMMENT 'optional "home page" URL for this contact',
@@ -273,7 +275,10 @@ CREATE TABLE crm_contact_organization(
 	organization_name VARCHAR(64) NOT NULL,
 	legal_name VARCHAR(64),
 	nick_name VARCHAR(64),
+<<<<<<< .mine
+=======
 	legal_identifier VARCHAR(32) COMMENT 'EIN or other applicable unique legal identifier for this organization',
+>>>>>>> .r279
 	sic_code VARCHAR(8),
 
 	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this org',
@@ -302,7 +307,6 @@ CREATE TABLE crm_contact_household(
 
 	household_name VARCHAR(128) NOT NULL COMMENT 'Formal display/identifying name for Household. May be actual family surname, or collection of surnames for non-family households',
 	nick_name VARCHAR(128) COMMENT 'e.g. The Smiths',
-    legal_identifier VARCHAR(32) COMMENT 'Census Household ID, or other applicable unique identifier for this household',
 
 	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this household',
 
