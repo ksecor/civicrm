@@ -162,6 +162,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     function getColumnHeaders($action) 
     {
         static $headers = array(
+                                array('name' => ''),
                                 array(
                                       'name' => 'Contact ID',
                                       'sort' => 'crm_contact_id',

@@ -13,3 +13,59 @@
 #crm-container input.medium {width: 20em;}
 #crm-container input.big {width: 20em;}
 #crm-container input.huge {width: 45em;}
+
+#crm-container tr.search-columnheader {
+  background-color: #CCCCCC;
+  color: #000000;
+  border: thin solid #000000;
+}
+
+#crm-container tr.odd-row {
+  border: thin solid #000000;
+  background-color: #FAFAF8;
+}
+
+#crm-container tr.even-row {
+  border: thin solid #000000;
+  background-color: #EAEAEA;
+}
+
+#crm-container div.verticle-position {
+  position: relative;
+  top: 10px;
+  width: 100%;
+  height: 35px;
+}
+
+#crm-container span.horizontal-position {
+  margin-right: 40px;
+  margin-left: 5px;
+}
+
+#crm-container #pager-position {
+  border: thin solid #000000;
+  background-color: #B0B0B0;
+  color: #FFFFFF;
+  position: relative;
+  height: 25px;
+}
+
+#crm-container span.pager {
+  position: absolute;
+  height: 25px;
+  padding-left: 150px;
+}
+
+#crm-container .element-right {
+  position: absolute;
+  right: 50px;
+}
+
+#crm-container .button-property {
+  background-color: #EAEAEA;
+}
+
+#crm-container fieldset.fieldset-property {
+  border: thin solid #000000;
+  -moz-border-radius: 10px 10px 10px 10px;
+}

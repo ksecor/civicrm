@@ -1,37 +1,37 @@
 {*debug*}
 
-<div>
 {include file="CRM/pager.tpl" location="top"}
-</div>
 
-<table border="0">
- <tr>
+<div id="crm-container">
+<table border="0" cellspacing="4" cellpadding="4" width="100%">
+ <tr class="search-columnheader">
    {foreach from=$columnHeaders item=header}
-   <th>
+   <td>
      {if $header.sort}
      {assign var='key' value=$header.sort}
    <a href={$sort->_response.$key.link}>{$header.name}</a>&nbsp;{$sort->_response.$key.direction}
    {else}
    {$header.name}
    {/if}
-   </th>
+   </td>
  {/foreach}
  </tr>
 
 {foreach from=$rows item=row}
-<tr>
-<td>{$row.contact_id}</td>
-<td>{$row.sort_name}</td>
-<td>{$row.email}</td>
-<td>{$row.phone}</td>
-<td>{$row.street_address}</td>
-<td>{$row.city}</td>
-<td>{$row.state}</td>
-<td><a href={$row.edit}>Edit</a>&nbsp; <a href={$row.view}>View</a></td>
+<tr class="{cycle values="odd-row,even-row"}">
+<td><input type=checkbox name=chk[{$row.contact_id}] value={$row.contact_id}></td>
+<td valign="top" align="center">{$row.contact_id}</td>
+<td valign="top">{$row.sort_name}</td>
+<td valign="top">{$row.email}</td>
+<td valign="top">{$row.phone}</td>
+<td valign="top">{$row.street_address}</td>
+<td valign="top">{$row.city}</td>
+<td valign="top">{$row.state}</td>
+<td valign="top"><a href={$row.edit}>Edit</a>&nbsp; <a href={$row.view}>View</a></td>
 </tr>
 {/foreach}
 </table>
-
-<div>
-{include file="CRM/pager.tpl" location="bottom"}
 </div>
+
+{include file="CRM/pager.tpl" location="bottom"}
+
