@@ -36,7 +36,8 @@ require_once 'CRM/Pager.php';
 require_once 'CRM/Selector/Base.php';
 require_once 'CRM/Selector/API.php';
 require_once 'CRM/Form.php';
-require_once 'CRM/Contact/Individual.php';
+
+require_once 'CRM/Contact/BAO/Contact_Individual.php';
 
 
 /**

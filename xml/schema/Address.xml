@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <name>crm_address</name>
+  <comment>Stores the physical street / mailing address. This format should be capable of storing ALL international addresses.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Address ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>location_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Location does this address belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>location_id</name>
+       <table>crm_location</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>street_address</name>
+       <type>varchar</type>
+       <length>96</length>
+       <comment>Concatenation of all routable street address components (prefix, street number, street name, suffix, unit number OR P.O. Box. Apps should be able to determine physical location with this data (for mapping, mail delivery, etc.).</comment>
+  </field>
+  <field>
+       <name>street_number</name>
+       <type>int</type>
+       <comment>Numeric portion of address number on the street, e.g. For 112A Main St, the street_number = 112.</comment>
+  </field>
+  <field>
+       <name>street_number_suffix</name>
+       <type>varchar</type>
+       <length>8</length>
+       <comment>Non-numeric portion of address number on the street, e.g. For 112A Main St, the street_number_suffix = A</comment>
+  </field>
+  <field>
+       <name>street_number_predirectional</name>
+       <type>varchar</type>
+       <length>8</length>
+       <comment>Directional prefix, e.g. SE Main St, SE is the prefix.</comment>
+  </field>
+  <field>
+       <name>street_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Actual street name, excluding St, Dr, Rd, Ave, e.g. For 112 Main St, the street_name = Main.</comment>
+  </field>
+  <field>
+       <name>street_type</name>
+       <type>varchar</type>
+       <length>8</length>
+       <comment>St, Rd, Dr, etc.</comment>
+  </field>
+  <field>
+       <name>street_number_postdirectional</name>
+       <type>varchar</type>
+       <length>8</length>
+       <comment>Directional prefix, e.g. Main St S, S is the suffix.</comment>
+  </field>
+  <field>
+       <name>street_unit</name>
+       <type>varchar</type>
+       <length>16</length>
+       <comment>Secondary unit designator, e.g. Apt 3 or Unit # 14, or Bldg 1200</comment>
+  </field>
+  <field>
+       <name>supplemental_address_1</name>
+       <type>varchar</type>
+       <length>96</length>
+       <comment>Supplemental Address Information, Line 1</comment>
+  </field>
+  <field>
+       <name>supplemental_address_2</name>
+       <type>varchar</type>
+       <length>96</length>
+       <comment>Supplemental Address Information, Line 2</comment>
+  </field>
+  <field>
+       <name>supplemental_address_3</name>
+       <type>varchar</type>
+       <length>96</length>
+       <comment>Supplemental Address Information, Line 3</comment>
+  </field>
+  <field>
+       <name>city</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>City, Town or Village Name.</comment>
+  </field>
+  <field>
+      <name>county_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which County does this address belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>county_id</name>
+       <table>crm_county</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>state_province_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which State_Province does this address belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>state_province_id</name>
+       <table>crm_state_province</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>postal_code</name>
+       <type>varchar</type>
+       <length>12</length>
+       <comment>Store both US (zip5) AND international postal codes. App is responsible for country/region appropriate validation.</comment>
+  </field>
+  <field>
+       <name>postal_code_suffix</name>
+       <type>varchar</type>
+       <length>12</length>
+       <comment>Store the suffix, like the +4 part in the USPS system.</comment>
+  </field>
+  <field>
+       <name>usps_adc</name>
+       <type>varchar</type>
+       <length>32</length>
+       <comment>USPS Bulk mailing code.</comment>
+  </field>
+  <field>
+      <name>country_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Country does this address belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>country_id</name>
+       <table>crm_country</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>geo_coord_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Geo_Coord does this address belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>geo_coord_id</name>
+       <table>crm_geo_coord</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>geo_code_1</name>
+       <type>float</type>
+       <comment>Latitude or UTM (Universal Transverse Mercator Grid) Northing.</comment>
+  </field>
+  <field>
+       <name>geo_code_2</name>
+       <type>float</type>
+       <comment>Longitude or UTM (Universal Transverse Mercator Grid) Easting.</comment>
+  </field>
+  <field>
+       <name>timezone</name>
+       <type>varchar</type>
+       <length>8</length>
+       <comment>Timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6".</comment>
+  </field>
+  <field>
+       <name>address_nite</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Optional misc info (e.g. delivery instructions) for this address.</comment>
+  </field>
+</table>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <name>crm_im_provider</name>
+  <comment>IM Provider catalogue.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>IM Provider ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+       <name>name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Name of IM Provider.</comment>
+  </field>
+</table>

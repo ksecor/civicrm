@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <name>crm_individual</name>
+  <comment>Define individual specific properties</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Individual ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>crm_contact</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>first_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>First Name.</comment>
+       <fulltext/>
+  </field>
+  <field>
+       <name>middle_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Middle Name.</comment>
+  </field>
+  <field>
+       <name>last_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Last Name.</comment>
+       <fulltext/>
+  </field>
+  <field>
+       <name>prefix</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Prefix to Name.</comment>
+  </field>
+  <field>
+       <name>suffix</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Suffix to Name.</comment>
+  </field>
+  <field>
+       <name>display_name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Formatted name representing preferred format for display/print/other output.</comment>
+  </field>
+  <field>
+       <name>greeting_type</name>
+       <type>enum</type>
+       <values>Formal, Informal, Honorific, Custom, Other</values>
+       <comment>Preferred greeting format.</comment>
+  </field>
+  <field>
+       <name>custom_greeting</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Custom greeting message.</comment>
+  </field>
+  <field>
+       <name>job_title</name>
+       <type>varchar</type>
+       <length>64</length>
+  </field>
+  <field>
+       <name>gender</name>
+       <type>enum</type>
+       <values>Female, Male, Transgender</values>
+  </field>
+  <field>
+       <name>birth_date</name>
+       <type>date</type>
+  </field>
+  <field>
+       <name>is_deceased</name>
+       <type>boolean</type>
+       <default>false</default>
+  </field>
+  <field>
+      <name>phone_to_household_id</name>
+      <type>int unsigned</type>
+      <comment>OPTIONAL FK to crm_contact_household record. If NOT NULL, direct phone communications to household rather than individual location.</comment>
+  </field>
+  <foreignKey>
+       <name>phone_to_household_id</name>
+       <table>crm_household</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>email_to_household_id</name>
+      <type>int unsigned</type>
+      <comment>OPTIONAL FK to crm_contact_household record. If NOT NULL, direct phone communications to household rather than individual location.</comment>
+  </field>
+  <foreignKey>
+       <name>email_to_household_id</name>
+       <table>crm_household</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>mail_to_household_id</name>
+      <type>int unsigned</type>
+      <comment>OPTIONAL FK to crm_contact_household record. If NOT NULL, direct mail communications to household rather than individual location.</comment>
+  </field>
+  <foreignKey>
+       <name>mail_to_household_id</name>
+       <table>crm_household</table>
+       <key>id</key>
+  </foreignKey>
+</table>

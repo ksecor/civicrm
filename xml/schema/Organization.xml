@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <name>crm_organization</name>
+  <comment>Define organization specific properties</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Organization ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>crm_contact</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>organization_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Organization Name.</comment>
+       <fulltext/>
+  </field>
+  <field>
+       <name>legal_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Legal Name.</comment>
+       <fulltext/>
+  </field>
+  <field>
+       <name>nick_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Nick Name.</comment>
+       <fulltext/>
+  </field>
+  <field>
+       <name>sic_code</name>
+       <type>varchar</type>
+       <length>8</length>
+       <comment>Standard Industry Classification Code.</comment>
+  </field>
+  <field>
+      <name>primary_contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Optional FK to Primary Contact for this organization.</comment>
+  </field>
+  <foreignKey>
+       <name>primary_contact_id</name>
+       <table>crm_contact</table>
+       <key>id</key>
+  </foreignKey>
+</table>

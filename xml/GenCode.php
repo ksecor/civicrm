@@ -7,7 +7,12 @@ $smarty = new Smarty( );
 $smarty->template_dir = './templates';
 $smarty->compile_dir  = '/tmp/templates_c';
 
-$file = 'Schema.xml';
+$file = 'schema/Schema.xml';
+
+$codePath    = "./gen/";
+$sqlCodePath = $codePath . "sql/";
+$phpCodePath = $codePath . "php/";
+
 echo "Parsing input file $file\n";
 $dbXML =& parseInput( $file );
 // print_r( $dbXML );
@@ -25,7 +30,7 @@ $smarty->assign_by_ref( 'tables'  , $tables   );
 
 echo "Generating sql file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
-$fd = fopen( "./gen/sql/Contacts.sql", "w" );
+$fd = fopen( $sqlCodePath . "Contacts.sql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
@@ -47,8 +52,7 @@ foreach ( array_keys( $tables ) as $name ) {
 
     $oToken->setInputString( $php );
     
-    $path     = "./gen/php/";
-    $oToken->setOutputFile( $path . $tables[$name]['fileName'] );
+    $oToken->setOutputFile( $phpCodePath . $tables[$name]['fileName'] );
     $oToken->process(); // required
     
     $oToken->save( );
