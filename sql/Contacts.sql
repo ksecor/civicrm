@@ -559,6 +559,11 @@ CREATE TABLE crm_contact_action(
     -- Consider adding a quantity bucket to quick summarization across actions of the same category (esp. donations)
     -- Are future 'scheduled' actions are recorded in this table, or only things which have happened?
     -- action_status BOOLEAN (e.g. completed T/F), and/or action_stage VARCHAR to record a 'stage/state', e.g. Pledged, Delivered, Acknowledged, Lost... )
+    -- other possible foreign key relationships (potentially null)
+    -- relationship_id int COMMENT 'which relationship (of this contact) potentially triggered this action, i.e. he donated because he was a Board Member of Org X / Employee of Org Y'
+    -- group_id int COMMENT 'was this part of a group communication that triggered this action, if so whats the group id'
+    -- action_key VARCHAR(255) COMMENT 'a keycode that actions can use to share data across multiple actions. An example usage could be correlating all actions to a specific campaign'
+    -- acton_data VARCHAR(255) COMMENT 'data that accompanies the above key. The key could group like minded items together, the data could give more specifics / details for further subgrouping'
 
 	PRIMARY KEY(id),  
 	FOREIGN KEY(contact_id) REFERENCES crm_contact(id) ON DELETE CASCADE
@@ -1397,28 +1402,30 @@ INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1047
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1048", "Wisconsin", "WI", 1228);
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1049", "Wyoming", "WY", 1228);
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1050", "District of Columbia", "DC", 1228);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1051", "APO", "XX", 1228);
+
 -- American Territories
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1051", "APO", "XX", 1228);
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1052", "American Samoa", "AS", 1228);
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1053", "Guam", "GU", 1228);
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1054", "Marshall Islands", "MH", 1228);
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1055", "Northern Mariana Islands", "MP", 1228);
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1056", "Puerto Rico", "PR", 1228);
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1057", "Virgin Islands", "VI", 1228);
+
 -- Canadian Provinces
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1058", "Alberta", "AB", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1059", "British Columbia", "BC", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1060", "Manitoba", "MB", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1061", "New Brunswick", "NB", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1062", "Newfoundland", "NL", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1063", "Northwest Territories", "NT", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1064", "Nova Scotia", "NS", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1065", "Nunavut", "NU", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1066", "Ontario", "ON", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1067", "Prince Edward Island", "PE", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1068", "Quebec", "QC", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1069", "Saskatchewan", "SK", 1039);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1070", "Yukon Territory", "YT", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1100", "Alberta", "AB", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1101", "British Columbia", "BC", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1102", "Manitoba", "MB", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1103", "New Brunswick", "NB", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1104", "Newfoundland", "NL", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1105", "Northwest Territories", "NT", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1106", "Nova Scotia", "NS", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1107", "Nunavut", "NU", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1108", "Ontario", "ON", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1109", "Prince Edward Island", "PE", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1110", "Quebec", "QC", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1111", "Saskatchewan", "SK", 1039);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1112", "Yukon Territory", "YT", 1039);
 
 
 #
