@@ -114,6 +114,9 @@ class CRM_System {
  * @access public
  */
 function __autoload( $class ) {
+    if ( substr( $class, 0, 4 ) != 'CRM_' ) {
+        return;
+    }
     $classPath = str_replace( '_', '/', $class ) . '.php';
     require_once($classPath);
 }

@@ -31,9 +31,9 @@
  *
  */
 
-require_once 'CRM/DAO/Base.php';
+require_once 'CRM/DAO.php';
 
-class {$table.className} extends CRM_DAO_Base {ldelim}
+class {$table.className} extends CRM_DAO {ldelim}
 
      /**
       * static instance to hold the table name
@@ -46,10 +46,18 @@ class {$table.className} extends CRM_DAO_Base {ldelim}
      /**
       * static instance to hold the field values
       *
-      * @var string
+      * @var array
       * @static
       */
       static $_fields;
+
+     /**
+      * static instance to hold the FK relationships
+      *
+      * @var string
+      * @static
+      */
+      static $_links;
 
 
 {foreach from=$table.fields item=field}
@@ -82,15 +90,14 @@ class {$table.className} extends CRM_DAO_Base {ldelim}
      * @return array
      */
     function &links( ) {ldelim}
-        static $links;
-        if ( !isset( $links ) ) {ldelim}
-	     $links = array(
+        if ( ! isset( self::$_links ) ) {ldelim}
+	     self::$_links = array(
 {foreach from=$table.foreignKey item=foreign}
-                            '{$foreign.name}' => '{$foreign.table}:{$foreign.key}',
+                                   '{$foreign.name}' => '{$foreign.table}:{$foreign.key}',
 {/foreach}
-                     );
+                             );
         {rdelim}
-        return $links;
+        return self::$_links;
     {rdelim}
 {/if} {* table.foreignKey *}
 
@@ -104,18 +111,18 @@ class {$table.className} extends CRM_DAO_Base {ldelim}
           if ( ! isset( self::$_fields ) ) {ldelim}
                self::$_fields = array (
 {foreach from=$table.fields item=field}
-                                            '{$field.name}' => array( 'type'     => {$field.crmType},
+                                            '{$field.name}' => array( 'type'      => {$field.crmType},
 {if $field.required}
-					                              'required' => {$field.required},
+					                              'required'  => {$field.required},
 {/if} {* field.required *}
 {if $field.length}
-								      'length'   => {$field.length},
+								      'maxlength' => {$field.length},
 {/if} {* field.length *}
 {if $field.size}
-								      'size'   => {$field.size},
+								      'size'      => {$field.size},
 {/if} {* field.size *}
 {if $field.import}
-								      'import'   => {$field.import},
+								      'import'    => {$field.import},
 {/if} {* field.import *}
                                                                     ), 
 {/foreach} {* table.fields *}

@@ -36,7 +36,7 @@
 require_once 'PEAR.php';
 require_once 'DB/DataObject.php';
 
-class CRM_DAO extends DB_DataObject {
+abstract class CRM_DAO extends DB_DataObject {
 
     const
         NOT_NULL       =   1,
@@ -181,6 +181,42 @@ class CRM_DAO extends DB_DataObject {
             $keys = array('id', true);
         }
         return $keys;
+    }
+
+    /**
+     * returns list of FK relationships
+     *
+     * @access public
+     * @return array
+     */
+    function links( ) {
+        return null;
+    }
+
+
+    /**
+     * returns all the column names of this table
+     *
+     * @access public
+     * @return array
+     */
+    abstract function &fields( );
+
+    function table() {
+        $fields =& $this->fields();
+
+        $table = array();
+        foreach ( $fields as $name => $value ) {
+            $table[$name] = $value['type'];
+            if ( $value['required'] ) {
+                $table[$name] += self::DB_DAO_NOTNULL;
+            }
+        }
+
+        // set the links
+        $this->links();
+
+        return $table;
     }
 
 }

@@ -29,8 +29,8 @@
     * $Id$
     *
     */
-    require_once 'CRM/DAO/Base.php';
-    class CRM_Contact_DAO_Email extends CRM_DAO_Base {
+    require_once 'CRM/DAO.php';
+    class CRM_Contact_DAO_Email extends CRM_DAO {
 
         /**
         * static instance to hold the table name
@@ -42,10 +42,17 @@
         /**
         * static instance to hold the field values
         *
-        * @var string
+        * @var array
         * @static
         */
         static $_fields;
+        /**
+        * static instance to hold the FK relationships
+        *
+        * @var string
+        * @static
+        */
+        static $_links;
         /**
         * Unique Email ID
         *
@@ -92,13 +99,12 @@
         */
         function &links() 
         {
-            static $links;
-            if (!isset($links)) {
-                $links = array(
+            if (!isset(self::$_links)) {
+                self::$_links = array(
                     'location_id'=>'crm_location:id',
                 );
             }
-            return $links;
+            return self::$_links;
         }
         /**
         * returns all the column names of this table
@@ -109,7 +115,7 @@
         function &fields() 
         {
             if (!isset(self::$_fields)) {
-                self::$_fields = array_merge(parent::fields() , array(
+                self::$_fields = array(
                     'id'=>array(
                         'type'=>CRM_Type::T_INT,
                         'required'=>true,
@@ -120,12 +126,13 @@
                     ) ,
                     'email'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>64,
+                        'maxlength'=>64,
+                        'size'=>30,
                     ) ,
                     'is_primary'=>array(
                         'type'=>CRM_Type::T_BOOLEAN,
                     ) ,
-                ));
+                );
             }
             return self::$_fields;
         }

@@ -29,8 +29,8 @@
     * $Id$
     *
     */
-    require_once 'CRM/DAO/Base.php';
-    class CRM_Contact_DAO_StateProvince extends CRM_DAO_Base {
+    require_once 'CRM/DAO.php';
+    class CRM_DAO_StateProvince extends CRM_DAO {
 
         /**
         * static instance to hold the table name
@@ -42,10 +42,17 @@
         /**
         * static instance to hold the field values
         *
-        * @var string
+        * @var array
         * @static
         */
         static $_fields;
+        /**
+        * static instance to hold the FK relationships
+        *
+        * @var string
+        * @static
+        */
+        static $_links;
         /**
         * State / Province ID
         *
@@ -92,13 +99,12 @@
         */
         function &links() 
         {
-            static $links;
-            if (!isset($links)) {
-                $links = array(
+            if (!isset(self::$_links)) {
+                self::$_links = array(
                     'country_id'=>'crm_country:id',
                 );
             }
-            return $links;
+            return self::$_links;
         }
         /**
         * returns all the column names of this table
@@ -109,24 +115,26 @@
         function &fields() 
         {
             if (!isset(self::$_fields)) {
-                self::$_fields = array_merge(parent::fields() , array(
+                self::$_fields = array(
                     'id'=>array(
                         'type'=>CRM_Type::T_INT,
                         'required'=>true,
                     ) ,
                     'name'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>64,
+                        'maxlength'=>64,
+                        'size'=>30,
                     ) ,
                     'abbreviation'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>4,
+                        'maxlength'=>4,
+                        'size'=>4,
                     ) ,
                     'country_id'=>array(
                         'type'=>CRM_Type::T_INT,
                         'required'=>true,
                     ) ,
-                ));
+                );
             }
             return self::$_fields;
         }

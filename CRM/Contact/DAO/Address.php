@@ -29,8 +29,8 @@
     * $Id$
     *
     */
-    require_once 'CRM/DAO/Base.php';
-    class CRM_Contact_DAO_Address extends CRM_DAO_Base {
+    require_once 'CRM/DAO.php';
+    class CRM_Contact_DAO_Address extends CRM_DAO {
 
         /**
         * static instance to hold the table name
@@ -42,10 +42,17 @@
         /**
         * static instance to hold the field values
         *
-        * @var string
+        * @var array
         * @static
         */
         static $_fields;
+        /**
+        * static instance to hold the FK relationships
+        *
+        * @var string
+        * @static
+        */
+        static $_links;
         /**
         * Unique Address ID
         *
@@ -219,7 +226,7 @@
         *
         * @var string
         */
-        public $address_nite;
+        public $address_note;
 
         /**
         * class constructor
@@ -239,9 +246,8 @@
         */
         function &links() 
         {
-            static $links;
-            if (!isset($links)) {
-                $links = array(
+            if (!isset(self::$_links)) {
+                self::$_links = array(
                     'location_id'=>'crm_location:id',
                     'county_id'=>'crm_county:id',
                     'state_province_id'=>'crm_state_province:id',
@@ -249,7 +255,7 @@
                     'geo_coord_id'=>'crm_geo_coord:id',
                 );
             }
-            return $links;
+            return self::$_links;
         }
         /**
         * returns all the column names of this table
@@ -260,7 +266,7 @@
         function &fields() 
         {
             if (!isset(self::$_fields)) {
-                self::$_fields = array_merge(parent::fields() , array(
+                self::$_fields = array(
                     'id'=>array(
                         'type'=>CRM_Type::T_INT,
                         'required'=>true,
@@ -271,50 +277,61 @@
                     ) ,
                     'street_address'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>96,
+                        'maxlength'=>96,
+                        'size'=>40,
                     ) ,
                     'street_number'=>array(
                         'type'=>CRM_Type::T_INT,
                     ) ,
                     'street_number_suffix'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>8,
+                        'maxlength'=>8,
+                        'size'=>8,
                     ) ,
                     'street_number_predirectional'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>8,
+                        'maxlength'=>8,
+                        'size'=>8,
                     ) ,
                     'street_name'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>64,
+                        'maxlength'=>64,
+                        'size'=>30,
                     ) ,
                     'street_type'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>8,
+                        'maxlength'=>8,
+                        'size'=>8,
                     ) ,
                     'street_number_postdirectional'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>8,
+                        'maxlength'=>8,
+                        'size'=>8,
                     ) ,
                     'street_unit'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>16,
+                        'maxlength'=>16,
+                        'size'=>16,
                     ) ,
                     'supplemental_address_1'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>96,
+                        'maxlength'=>96,
+                        'size'=>40,
                     ) ,
                     'supplemental_address_2'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>96,
+                        'maxlength'=>96,
+                        'size'=>40,
                     ) ,
                     'supplemental_address_3'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>96,
+                        'maxlength'=>96,
+                        'size'=>40,
                     ) ,
                     'city'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>64,
+                        'maxlength'=>64,
+                        'size'=>30,
                     ) ,
                     'county_id'=>array(
                         'type'=>CRM_Type::T_INT,
@@ -326,15 +343,18 @@
                     ) ,
                     'postal_code'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>12,
+                        'maxlength'=>12,
+                        'size'=>12,
                     ) ,
                     'postal_code_suffix'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>12,
+                        'maxlength'=>12,
+                        'size'=>12,
                     ) ,
                     'usps_adc'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>32,
+                        'maxlength'=>32,
+                        'size'=>20,
                     ) ,
                     'country_id'=>array(
                         'type'=>CRM_Type::T_INT,
@@ -352,13 +372,15 @@
                     ) ,
                     'timezone'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>8,
+                        'maxlength'=>8,
+                        'size'=>8,
                     ) ,
-                    'address_nite'=>array(
+                    'address_note'=>array(
                         'type'=>CRM_Type::T_STRING,
-                        'length'=>255,
+                        'maxlength'=>255,
+                        'size'=>50,
                     ) ,
-                ));
+                );
             }
             return self::$_fields;
         }

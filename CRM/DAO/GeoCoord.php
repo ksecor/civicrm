@@ -29,8 +29,8 @@
     * $Id$
     *
     */
-    require_once 'CRM/DAO/Base.php';
-    class CRM_Contact_DAO_GeoCoord extends CRM_DAO_Base {
+    require_once 'CRM/DAO.php';
+    class CRM_DAO_GeoCoord extends CRM_DAO {
 
         /**
         * static instance to hold the table name
@@ -42,10 +42,17 @@
         /**
         * static instance to hold the field values
         *
-        * @var string
+        * @var array
         * @static
         */
         static $_fields;
+        /**
+        * static instance to hold the FK relationships
+        *
+        * @var string
+        * @static
+        */
+        static $_links;
         /**
         * Geo Coord ID
         *
@@ -93,7 +100,7 @@
         function &fields() 
         {
             if (!isset(self::$_fields)) {
-                self::$_fields = array_merge(parent::fields() , array(
+                self::$_fields = array(
                     'id'=>array(
                         'type'=>CRM_Type::T_INT,
                         'required'=>true,
@@ -107,7 +114,7 @@
                     'coord_ogc_wkt_string'=>array(
                         'type'=>CRM_Type::T_TEXT,
                     ) ,
-                ));
+                );
             }
             return self::$_fields;
         }

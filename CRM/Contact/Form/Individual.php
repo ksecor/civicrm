@@ -390,12 +390,14 @@ class CRM_Contact_Form_Individual extends CRM_Form
         
         // prefix
         $this->addElement('select', 'prefix', null, CRM_SelectValues::$prefixName);
-        
+
+        $individualAttrs =& CRM_Contact_BAO_Individual::getAttributes( );
+
         // first_name
-        $this->addElement('text', 'first_name', 'First / Last :', array('maxlength' => 64));
+        $this->addElement('text', 'first_name', 'First Name', $individualAttrs['first_name'] );
         
         // last_name
-        $this->addElement('text', 'last_name', null, array('maxlength' => 64));
+        $this->addElement('text', 'last_name', 'Last Name', $individualAttrs['last_name'] ); 
         
         // suffix
         $this->addElement('select', 'suffix', null, CRM_SelectValues::$suffixName);
@@ -404,7 +406,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $this->addElement('select', 'greeting_type', 'Greeting type :', CRM_SelectValues::$greeting);
         
         // job title
-        $this->addElement('text', 'job_title', 'Job title :', array('maxlength' => 64));
+        $this->addElement('text', 'job_title', 'Job title :', $individualAttrs['job_title'] );
         
         // add the communications block
         CRM_Contact_Form_Contact::buildCommunicationBlock($this);
@@ -453,35 +455,6 @@ class CRM_Contact_Form_Individual extends CRM_Form
     }
 
        
-    /**
-     * This function provides the HTML form elements for an advanced search operation of an individual.
-     * 
-     * This function is called by the buildQuickForm method, when the value of the $mode class variable is set to MODE_SEARCH
-     * The addElement and addGroup method of HTML_QuickForm is used to add HTML elements to the form which is referenced using the $this 
-     * form handle. Also the default values for the form elements are set in this function.
-     * 
-     * @access private
-     * @return None
-     * @see buildQuickForm() 
-     * @see _buildAddForm()
-     * 
-     */  
-    private function _buildSearchForm() 
-    {
-        $this->addElement('text', 'domain_id', 'Domain Id:', array('maxlength' => 10));
-        $this->addElement('text', 'sort_name', 'Name:  ', array('maxlength' => 64));
-        $this->addElement('select', 'contact_type', 'Contact type:', CRM_SelectValues::$contactType);
-        $this->addElement('select', 'preferred_communication_method', 'Prefers:', CRM_SelectValues::$pcm);
-        
-        $this->addDefaultButtons(array (
-                                        array (
-                                               'type'       => 'next', 
-                                               'name'       => 'Search',
-                                               'isDefault'  =>  true )
-                                        )
-                                 );
-    }
-         
     /**
      * This function does all the processing of the form for New Contact Individual.
      * Depending upon the mode this function is used to insert or update the Individual

@@ -21,8 +21,8 @@ $file = 'schema/Schema.xml';
 
 $codePath    = "./gen/";
 $sqlCodePath = $codePath . "sql/";
-// $phpCodePath = '../';
-$phpCodePath = $codePath . "php/";
+$phpCodePath = '../';
+// $phpCodePath = $codePath . "php/";
 
 echo "Parsing input file $file\n";
 $dbXML =& parseInput( $file );
