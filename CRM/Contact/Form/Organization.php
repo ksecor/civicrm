@@ -255,7 +255,7 @@ class CRM_Contact_Form_Organization extends CRM_Form
         $this->addElement('text', 'sic_code', 'SIC Code:', array('maxlength' => 8));
  
         // Implementing the communication preferences block
-        CRM_Contact_Form_Contact::buildCommunicatioBlock($this);
+        CRM_Contact_Form_Contact::buildCommunicationBlock($this);
 
         // Implementing the location block :
         $location = CRM_Contact_Form_Location::buildLocationBlock($this, 1);
