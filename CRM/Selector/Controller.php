@@ -223,7 +223,8 @@ class CRM_Selector_Controller {
 
             CRM_Error::debug_log_message("breakpoint 20");
 
-            $this->_content = $template->fetch( $this->_object->getTemplateFileName(), $config->templateDir );
+            $template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
+            $this->_content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
         }
 
         if ( $this->_output & self::SESSION ) {

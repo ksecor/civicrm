@@ -1,4 +1,3 @@
-{debug}
 <form {$form.attributes}>
 {$form.hidden}
 <fieldset>

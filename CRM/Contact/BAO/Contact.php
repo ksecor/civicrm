@@ -106,8 +106,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         $this->query($query_string);
         */
+
+        $this->selectAdd( );
         
         $location_DAO->joinAdd($email_DAO, "LEFT");
+        
         //$location_DAO->whereAdd($email_DAO->location_id = $location_DAO->id );
         //$location_DAO->whereAdd($email_DAO->getTableName().'.id = '.$location_DAO->getTableName().'.id' );
 
@@ -126,7 +129,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         //$location_DAO->whereAdd($location_DAO->getTableName().'.contact_id = '.$location_DAO->getTableName().'.id AND '.$location_DAO->getTableName().'.is_primary = 1' );
         //$location_DAO->whereAdd($location_DAO->getTableName().'.is_primary = 1' );
+
         $this->selectAs($this,'crm_contact_%s');
+        $this->selectAs($email_DAO, 'crm_email_%s' );
+        $this->selectAs($phone_DAO, 'crm_phone_%s' );
+        $this->selectAs($address_DAO, 'crm_address_%s' );
+        $this->selectAs($location_DAO, 'crm_location_%s' );
+        $this->selectAdd('distinct ' . $this->selectAdd());
+
         $this->orderBy($sort->orderBy());
         $this->limit($offset, $rowCount);
         
@@ -138,10 +148,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $row = array();
                 $row['contact_id'] = $this->crm_contact_id;
                 $row['sort_name'] = $this->crm_contact_sort_name;
-                $row['email'] = $this->email;
-                $row['phone'] = $this->phone;
-                $row['street_address'] = $this->street_address;
-                $row['city'] = $this->city;
+                $row['email'] = $this->crm_email_email;
+                $row['phone'] = $this->crm_phone_phone;
+                $row['street_address'] = $this->crm_address_street_address;
+                $row['city'] = $this->crm_address_city;
                 $row['state'] = $this->state_province_name;
                 $row['edit']  = 'index.php?q=/crm/contact/edit/'.$this->crm_contact_id;
                 $row['view']  = 'index.php?q=/crm/contact/view/'.$this->crm_contact_id;

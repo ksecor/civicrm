@@ -126,10 +126,10 @@ class CRM_QuickForm_Action_Display extends CRM_QuickForm_Action {
 
         // We could do something real smart out here and actually figure out the real tpl to call
         // rather than go thru this indirection. TODO
-        $template->assign( 'mode', $page->getMode( ) );
-
+        $template->assign( 'mode'   , $page->getMode( ) );
+        $template->assign( 'tplFile', $page->getTemplateFileName() ); 
         $template->assign('form',  $page->toSmarty());
-        $content = $template->fetch( $page->getTemplateFileName(), $config->templateDir );
+        $content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
         $this->_stateMachine->setContent($content);
         return;
     }
