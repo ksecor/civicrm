@@ -6,7 +6,7 @@ dst=.
 rsyncOptions="-avC --exclude=svn"
 rsync="rsync $rsyncOptions"
 
-for code in PEAR DB HTML Log Smarty Validate Pager PHP Archive System Console; do
+for code in PEAR DB HTML Log Smarty Validate Pager PHP Archive System Console XML PhpDocumentor; do
   echo $code
   [ -a $src/$code.php ] && $rsync $src/$code.php $dst
   [ -d $src/$code ] && $rsync $src/$code $dst
