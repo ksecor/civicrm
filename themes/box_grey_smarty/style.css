@@ -115,7 +115,12 @@ body {
   margin: 0;
 }
 h1 { font-size: 1.3em; }
-h2 { font-size: 1.1em; }
+h2 { 
+ font-size: 1.1em;
+ background-color: #888888; 	
+ color: #ffffff;
+ border: 1px solid #000000;
+}
 h3 { font-size: 1em; font-weight: bold;}
 h4, h5, h6 { font-size: 0.9em; font-weight: bold;}
 h1, h2, h3, h4, h5, h6 {
@@ -569,4 +574,36 @@ br.clear {
 .rmsSubLink {
     padding: 5px 0 0 0;
     font-size: 11px;
+}
+
+div.title_menu {
+  font-weight: bold;
+  font-size: 18px;
+  font-family: Arial,Helvetica, Lucida, Verdana, sans-serif;
+  color: #000000;
+}
+
+hr {
+border: 0;
+color: #c0c0c0;
+background-color: #043;
+height: 1px;
+width: 100%;
+text-align: left;
+}
+
+INPUT, SELECT, TEXTAREA
+{
+	font-size : x-small;
+	BORDER-BOTTOM-COLOR: #111111;
+	BORDER-BOTTOM-WIDTH: 1px;
+	BORDER-LEFT-COLOR: #111111;
+	BORDER-LEFT-WIDTH: 1px;
+	BORDER-RIGHT-COLOR: #111111;
+	BORDER-RIGHT-WIDTH: 1px;
+	BORDER-TOP-COLOR: #111111;
+	BORDER-TOP-WIDTH: 1px;
+	COLOR: #111111;
+	FONT-FAMILY: Arial;
+	FONT-SIZE: 9pt;
 }
