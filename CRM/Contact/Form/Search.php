@@ -155,19 +155,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
     }
 
     function _searchPreProcess() {
-        
-        //        CRM_Error::le_method();
-
-        $params = array( );
-
-        //$contact = new CRM_Contact_Selector_Individual($params);
-        $contact = new CRM_Contact_Selector_Selector($params);
-        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::TRANSFER);
-
-        $selector->run();
-
-        //        CRM_Error::ll_method();
-
     }
 
     /**
@@ -178,19 +165,15 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return void
      */
     function _searchPostProcess( ) {
-
-        //        CRM_Error::le_method();
-
         $params = array( );
         $contact_type = trim($this->controller->exportValue($this->_name, 'contact_type'));
         if (!empty( $contact_type ))  {
             $params['contact_type'] = $contact_type;
         }
 
-        // $contact = new CRM_Contact_Selector_Individual($params);
-        $contact = new CRM_Contact_Selector_Selector($params);
-        $selector = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::SESSION);
-        $selector->run();
+        $selector   = new CRM_Contact_Selector_Selector($params);
+        $controller = new CRM_Selector_Controller($contact , null, null, CRM_Action::VIEW, CRM_Selector_Controller::TEMPLATE);
+        $controller->run();
     }
 
 }

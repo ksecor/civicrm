@@ -5,9 +5,17 @@ ini_set( 'include_path', ".:../packages" );
 require_once 'Smarty/Smarty.class.php';
 require_once 'PHP/Beautifier.php';
 
+function createDir( $dir, $perm = 0755 ) {
+    if ( ! is_dir( $dir ) ) {
+        mkdir( $dir, $perm, true );
+    }
+}
+
 $smarty = new Smarty( );
 $smarty->template_dir = './templates';
 $smarty->compile_dir  = '/tmp/templates_c';
+
+createDir( $smarty->compile_dir );
 
 $file = 'schema/Schema.xml';
 
@@ -32,6 +40,7 @@ $smarty->assign_by_ref( 'tables'  , $tables   );
 
 echo "Generating sql file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
+createDir( $sqlCodePath );
 $fd = fopen( $sqlCodePath . "Contacts.sql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
@@ -60,9 +69,7 @@ foreach ( array_keys( $tables ) as $name ) {
     }
 
     $directory = $phpCodePath . $tables[$name]['base'];
-    if ( ! is_dir( $directory ) ) {
-        mkdir( $directory, 0777, true );
-    }
+    createDir( $directory );
     $beautifier->setOutputFile( $directory . $tables[$name]['fileName'] );
     $beautifier->process(); // required
     
