@@ -2,6 +2,8 @@
 
 require_once 'HTML/QuickForm/Action/Display.php';
 
+require_once 'WGM/Config.php';
+
 class WGM_Action_Display extends HTML_QuickForm_Action_Display {
   protected $_stateMachine;
 
@@ -10,8 +12,10 @@ class WGM_Action_Display extends HTML_QuickForm_Action_Display {
   }
 
   function _renderForm($page) {
+    $config = WGM_Config::instance();
+
     $this->_setRenderTemplates($page);
-    $template = SmartyTemplate::instance();
+    $template = SmartyTemplate::instance($config->templateDir, $config->templateCompileDir);
     $template->clear_all_assign();
     $template->assign('form',  $page->toSmarty());
     $content = $template->fetch( $page->getTemplateFileName() );

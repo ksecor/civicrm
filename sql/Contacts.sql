@@ -196,8 +196,8 @@ CREATE TABLE contact (
 
 	domain_id  INT UNSIGNED NOT NULL COMMENT 'which organization/domain owns this contact',
 
-	contact_type ENUM('Individual','Organization','Family') COMMENT 'type of contact',
-	sort_name VARCHAR(255) COMMENT 'name for sorting purposes',
+	contact_type ENUM('Individual','Organization','Household') COMMENT 'type of contact',
+	sort_name VARCHAR(255) COMMENT 'name being cached for sorting purposes',
 	source VARCHAR(255) COMMENT 'where domain_id contact come from, e.g. import, donate module insert...',
 
     -- contact-level communication permissions and preferences
@@ -242,10 +242,9 @@ CREATE TABLE contact_individual(
 
 	id  INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id (i.e. contact_individual record id-not FK)',
 
--- contact_id+rid = contact.id+contact.rid gets a revision row for a contact with type=individual
--- revision to contact_individual values forces revisioning of parent contact record
-
-	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id FK',
+    -- contact_cid+rid = contact.cid+contact.rid gets a revision row for a contact with type=individual
+    -- revision to contact_individual values forces revisioning of parent contact record
+	contact_cid INT UNSIGNED NOT NULL COMMENT 'contact cid FK',
 	revision_id INT UNSIGNED NOT NULL COMMENT 'contact revision id FK',
 
 	first_name VARCHAR(255) NOT NULL COMMENT 'first name',
@@ -256,7 +255,7 @@ CREATE TABLE contact_individual(
 	suffix VARCHAR(64) COMMENT 'suffix',
 	job_title VARCHAR(255) COMMENT 'optional job title for contact',
 
--- greeting_type constants:
+    -- greeting_type constants:
 	-- Formal: Prefix + first_name + last_name
 	-- Informal: first_name
 	-- Honorific: prefix + ?? (not sure how this is supposed to work - check w/ Bob Schmitt)
@@ -264,10 +263,10 @@ CREATE TABLE contact_individual(
 	greeting_type ENUM('Formal', 'Informal', 'Honorific', 'Custom') COMMENT 'preferred greeting format',
 	custom_greeting VARCHAR(255) COMMENT 'custom greeting message',
 
-	PRIMARY KEY (id, contact_id, revision_id),
+	PRIMARY KEY (id),
 
-	FOREIGN KEY (contact_id, revision_id) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE
---	INDEX contact_individual (contact_id, revision_id)
+	FOREIGN KEY (contact_cid, revision_id) REFERENCES contact(cid, rid) ON DELETE CASCADE ON UPDATE CASCADE,
+	INDEX index_individual (contact_cid, revision_id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=individual';
 
@@ -282,54 +281,53 @@ CREATE TABLE contact_organization(
 
 	id  INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 
--- contact_id+rid = contact.id+contact.rid gets a revision row for a contact with type=organization
--- revision to contact_organization values forces revisioning of parent contact record
-
-	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id FK',
+    -- contact_cid+rid = contact.cid+contact.rid gets a revision row for a contact with type=organizaton
+    -- revision to contact_individual values forces revisioning of parent contact record
+	contact_cid INT UNSIGNED NOT NULL COMMENT 'contact cid FK',
 	revision_id INT UNSIGNED NOT NULL COMMENT 'contact revision id FK',
 
 	organization_name VARCHAR(255) NOT NULL,
 	legal_name VARCHAR(255),
 	nick_name VARCHAR(255),
 	sic_code VARCHAR(64),
-	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this org',
+	primary_contact_cid INT UNSIGNED COMMENT 'optional FK to primary contact for this org',
 
-	PRIMARY KEY (id, contact_id, revision_id),
+	PRIMARY KEY (id),
 
-	FOREIGN KEY (contact_id, revision_id) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (primary_contact_id) REFERENCES contact(id)
---	INDEX contact_organization (contact_id, rid)
+	FOREIGN KEY (contact_cid, revision_id) REFERENCES contact(cid, rid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (primary_contact_cid) REFERENCES contact(cid),
+	INDEX index_organization (contact_cid, revision_id)
 
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=organization';
 
 
 /*******************************************************
 *
-* contact_family
+* contact_household
 *
 *******************************************************/
-DROP TABLE IF EXISTS contact_family;
-CREATE TABLE contact_family(
+DROP TABLE IF EXISTS contact_household;
+CREATE TABLE contact_household(
 
 	id  INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'table record id',
 
--- contact_id+rid = contact.id+contact.rid gets a revision row for a contact with type=family
+-- contact_id+rid = contact.id+contact.rid gets a revision row for a contact with type=household
 -- revision to contact_organization values forces revisioning of parent contact record
 
 	contact_id INT UNSIGNED NOT NULL COMMENT 'contact id FK',
 	revision_id INT UNSIGNED NOT NULL COMMENT 'contact revision id FK',
 
-	family_name VARCHAR(255) NOT NULL COMMENT 'actual surname, e.g. Smith',
+	household_name VARCHAR(255) NOT NULL COMMENT 'actual surname, e.g. Smith',
 	nick_name VARCHAR(255) COMMENT 'e.g. The Smiths',
-	primary_contact_id INT UNSIGNED COMMENT 'optional FK to primary contact for this family',
+	primary_contact_cid INT UNSIGNED COMMENT 'optional FK to primary contact for this household',
 
-	PRIMARY KEY (id, contact_id, revision_id),
+	PRIMARY KEY (id),
 
-	FOREIGN KEY (contact_id, revision_id) REFERENCES contact(id, rid) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (primary_contact_id) REFERENCES contact(id)
---	INDEX contact_family (contact_id, revision_id)
+	FOREIGN KEY (contact_cid, revision_id) REFERENCES contact(cid, rid) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (primary_contact_cid) REFERENCES contact(cid)
+	INDEX index_household (contact_cid, revision_id)
 
-) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=family';
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin COMMENT='extends contact for type=household';
 
 
 /*******************************************************
@@ -352,10 +350,11 @@ CREATE TABLE contact_address(
 	county VARCHAR(255),
 	state_province_id INT UNSIGNED NOT NULL COMMENT 'FK to contact_state_province table',
 
--- Is it useful to store US and non-US postal codes separately?
+    -- Is it useful to store US and non-US postal codes separately?
 	zip5 INT UNSIGNED COMMENT 'zipcode - 5 digit',
 	zip4 INT UNSIGNED COMMENT 'zipcode +4 segment',
--- US Postal Svc bulk mail address code
+
+    -- US Postal Svc bulk mail address code
 	usps_adc VARCHAR(64),
 
 	postal_code VARCHAR(255) COMMENT 'other types of postal codes - non us',

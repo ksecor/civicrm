@@ -47,8 +47,6 @@ class SmartyTemplate extends Smarty {
   function __construct($compileDir = null, $templateDir = WGM_TEMPLATE_COMPILEDIR) {
     $this->Smarty();
 
-    $config = WGM_Config::instance();
-
     $this->template_dir = $compileDir;
     $this->compile_dir  = $templateDir;
     $this->use_sub_dirs = true;
@@ -111,9 +109,6 @@ class SmartyTemplate extends Smarty {
   function fetch($file, $templateDir = null, $cache_id = null, $compile_id = null) {
     if ( $templateDir !== null ) {
       $this->template_dir = $templateDir;
-    } else {
-      $config = WGM_Config::instance();
-      $this->template_dir = $config->templateDir;
     }
     return parent::fetch( $file );              // Return the contents
   }
