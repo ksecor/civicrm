@@ -293,6 +293,12 @@ function contact_menu($may_cache)
 function contact_init() 
 {
     // menu_rebuild();
+
+    // Over-ride default breadcrumb for now since we want "Contact Mgmt" to link to contact browser and don't know how else to do it.
+    $crm_top_breadcrumb = array('<a href="">Home</a>',
+                                '<a href="crm/contact/search?reset=1">Contact Management</a>');
+    drupal_set_breadcrumb($crm_top_breadcrumb);
+
     $config = CRM_Config::singleton();
     CRM_DAO::init($config->dsn, $config->daoDebug);
     
