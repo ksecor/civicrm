@@ -144,7 +144,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
         }
 
         // we first get the primary location due to the order by clause
-        $location->orderBy( 'is_primary asc' );
+        $location->orderBy( 'is_primary desc' );
         $location->find( );
         for ($i = 0; $i < $locationCount; $i++) {
             if ($location->fetch()) {

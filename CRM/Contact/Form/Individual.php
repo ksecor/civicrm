@@ -323,7 +323,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
     static function formRule( &$fields ) {
         $errors = array( );
         
-        $emails = array( );
+        $primaryEmail = null;
 
         // make sure that at least one field is marked is_primary
         if ( array_key_exists( 'location', $fields ) && is_array( $fields['location'] ) ) {
@@ -340,10 +340,12 @@ class CRM_Contact_Form_Individual extends CRM_Form
 
                     // only harvest email from the primary locations
                     if ( array_key_exists( 'email', $fields['location'][$locationId] ) &&
-                         is_array( $fields['location'][$locationId]['email'] ) ) {
+                         is_array( $fields['location'][$locationId]['email'] )         &&
+                         empty( $primaryEmail ) ) {
                         foreach ( $fields['location'][$locationId]['email'] as $idx => &$email ) {
                             if ( array_key_exists( 'email', $email ) ) {
-                                $emails[] = $email['email'];
+                                $primaryEmail = $email['email'];
+                                break;
                             }
                         }
                     }
@@ -359,7 +361,7 @@ class CRM_Contact_Form_Individual extends CRM_Form
         // make sure that firstName and lastName or a primary email is set
         if ( ! array_key_exists( 'first_name', $fields ) &&
              ! array_key_exists( 'last_name' , $fields ) ||
-             empty( $emails ) ) {
+             empty( $primaryEmail ) ) {
             $errors['first_name'] = "First Name and Last Name OR an email in the Primary Location should be set.";
         }
         

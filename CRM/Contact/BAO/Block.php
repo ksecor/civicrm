@@ -63,7 +63,7 @@ class CRM_Contact_BAO_Block {
         }
 
         // we first get the primary location due to the order by clause
-        $block->orderBy( 'is_primary asc' );
+        $block->orderBy( 'is_primary desc' );
         $block->find( );
         for ($i = 0; $i < $blockCount; $i++) {
             if ($block->fetch()) {
