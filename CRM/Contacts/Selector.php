@@ -35,7 +35,7 @@ class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_AP
     function __construct() {
         $this->_contact = new CRM_Contacts_BAO_Contact_Individual();
     
-        $contact->domain_id = 1;
+        $this->_contact->domain_id = 1;
     }
 
     function &getLinks() {
@@ -76,12 +76,28 @@ class CRM_Contacts_Selector extends CRM_Selector_Base implements CRM_Selector_AP
     }
 
     function getTotalCount( $action ) {
+        return $this->_contact->count();
     }
 
     function getRows( $action, $offset, $rowCount, $sort ) {
+        $rows = array();
+        $this->_contact->find();
+        while ( $this->_contact->fetch( ) ) {
+            $row = array();
+            $row['contact_id'] = $this->_contact->contact_id;
+            $row['first_name'] = $this->_contact->first_name;
+            $row['last_name']  = $this->_contact->last_name;
+
+            $rows[] = $row;
+        }
+
+        return $rows;
     }
 
     function getTemplateFileName( $action ) {
+        $className    = get_class( $this );
+        $templateName = str_replace( '_', '/', $className ) . '.tpl';
+        return $templateName;
     }
 
     function getExportColumnHeaders( $action, $type = 'csv' ) {

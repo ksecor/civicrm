@@ -120,7 +120,7 @@ class CRM_Selector_Controller {
          * Set the default values of RowsPerPage
          */
         $params{'rowCount'} = $params{'rowCount'} ? $params{'rowCount'} : CRM_Pager::ROWCOUNT;
-    
+        
         $this->_pager = new CRM_Pager( $params );
         
         list($this->_pagerOffset, $this->_pagerRowCount) =
