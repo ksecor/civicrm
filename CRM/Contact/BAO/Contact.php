@@ -179,34 +179,41 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         return parent::fetch();
     }
 
-    static function add( &$params, $contactId = null ) {
+    /**
+     * takes an associative array and creates a contact object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * contact object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params (reference ) an assoc array of name/value pairs
+     *
+     * @return object CRM_Contact_BAO_Contact object
+     * @access public
+     * @static
+     */
+    static function add( &$params ) {
         $contact = new CRM_Contact_BAO_Contact( );
         
         $contact->domain_id = 1;
         
-        static $properties = array( 'contact_type', 'legal_id', 'external_id',
-                                    'home_URL', 'image_URL', 'source', 'preferred_communication_method',
-                                    'privacy', 'hash' );
-        foreach ( $properties as $property ) {
-            $contact->$property = CRM_Array::value( $property, $params );
-        }
-        foreach ( $properties as $property ) {
-            $contact->$property = CRM_Array::value( $property, $params );
-        }
+        $contact->copyValues( $params );
 
-        $contact->sort_name = $a_Values['first_name']." ".$a_Values['last_name'];
+        $contact->sort_name = CRM_Array::value( 'first_name', $params, '' ) . ' ' . CRM_Array::value( 'last_name', $params, '' );
 
-        $privacy = $params['privacy'];
+        $privacy = CRM_Array::value( 'privacy', $params );
         static $commPrefs = array( 'do_not_phone', 'do_not_email', 'do_not_mail' );
-        foreach ( $commPrefs as $property ) {
-            $contact->$property = CRM_Array::value( $property, $privacy, false );
+        foreach ( $commPrefs as $name ) {
+            if ( array_key_exists( $name, $privacy ) ) {
+                $contact->$name = $privacy[$name];
+            }
         }
 
         $id = CRM_Array::value( 'contact_id', $params );
         if ( $id ) {
             $contact->id = $id;
         }
-        $contact->save( );
+        return $contact->save( );
     }
 
 }

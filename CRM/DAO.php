@@ -230,6 +230,24 @@ abstract class CRM_DAO extends DB_DataObject {
                 CRM_Error::addError( );
             }
         }
+        return $this;
+    }
+
+    /**
+     * Given an associative array of name/value pairs, extract all the values
+     * that belong to this object and initialize the object with said values
+     *
+     * @param array $params (reference ) associative array of name/value pairs
+     *
+     * @return void
+     */
+    function copyValues( &$params ) {
+        $fields =& $this->fields( );
+        foreach ( $fields as $name => &$value ) {
+            if ( array_key_exists( $name, $params ) ) {
+                $this->$name = $params[$name];
+            }
+        }
     }
 
 }

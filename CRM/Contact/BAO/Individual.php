@@ -165,6 +165,41 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         return $attrs;
     }
 
+    /**
+     * takes an associative array and creates a contact object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * contact object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params (reference ) an assoc array of name/value pairs
+     *
+     * @return object CRM_Contact_BAO_Individual object
+     * @access public
+     * @static
+     */
+    static function add( &$params ) {
+        $individual = new CRM_Contact_BAO_Individual( );
+
+        $individual->copyValues( $params );
+
+        // fix gender and date
+        $individual->gender = $params['gender']['gender'];
+
+        $date = CRM_Array::value( 'birth_date', $params );
+        if ( $date ) {
+            $date['M'] = ( $date['M'] < 10 ) ? '0' . $date['M'] : $date['M'];
+            $date['d'] = ( $date['d'] < 10 ) ? '0' . $date['d'] : $date['d'];
+            $individual->birth_date = $date['Y'] . $date['M'] . $date['d'];
+        }
+
+        $id = CRM_Array::value( 'individual_id', $params );
+        if ( $id ) {
+            $individual->id = $id;
+        }
+        return $individual->save( );
+    }
+    
 }
 
 ?>

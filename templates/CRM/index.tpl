@@ -2,10 +2,10 @@
 {debug}
 {/if}
 {if $smarty.get.sessionReset}
-{session->reset()}
+{$session->reset()}
 {/if}
 {if $smarty.get.sessionDebug}
-{session->debug()}
+{$session->debug()}
 {/if}
 <div id="crm-container">
 {include file=$tplFile}

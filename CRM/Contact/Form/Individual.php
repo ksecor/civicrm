@@ -465,112 +465,33 @@ class CRM_Contact_Form_Individual extends CRM_Form
         $lng_contact_id = 0; // variable for crm_contact 'id'
         $str_error = ""; // error is recorded  if there are any errors while inserting in database
 
+        // store the submitted values in an array
+        $a_Values = $this->exportValues();
+
         // action is taken depending upon the mode
         if ($this->_mode) {
             $lng_contact_id = $_SESSION['id'];
+            $a_Values['contact_id'] = $_SESSION['id'];
         }    
+
+        $tempDB = new CRM_Contact_DAO_Contact( );
+        $tempDB->query('BEGIN');
+
+        $a_Values['contact_type'] = 'Individual';
+        $contact = CRM_Contact_BAO_Contact::add( $a_Values );
+        // need to check for error here and abort / rollback if error
+
+        $a_Values['contact_id'] = $contact->id;
         
-        // store the submitted values in an array
-        $a_Values = $this->exportValues();
-        // print_r($a_Values);
-            
-        // create a object for inserting data in contact table 
-        $contact = new CRM_Contact_DAO_Contact();
-        
-        $contact->domain_id = 1;
-        $contact->contact_type = 'Individual';
-        // $contact->legal_id = '';
-        //$contact->external_id = '';
-        $contact->sort_name = $a_Values['first_name']." ".$a_Values['last_name'];
-        //$contact->home_URL = '';
-        //$contact->image_URL = '';
-        //$contact->source = '';
-        $contact->preferred_communication_method = $a_Values['preferred_communication_method'];
-        $a_privacy = $a_Values['privacy'];
-        $contact->do_not_phone = (strlen($a_privacy['do_not_phone'])) ? $a_privacy['do_not_phone'] : 0 ;
-        $contact->do_not_email = (strlen($a_privacy['do_not_email'])) ? $a_privacy['do_not_email'] : 0 ;
-        $contact->do_not_mail = (strlen($a_privacy['do_not_mail'])) ? $a_privacy['do_not_mail'] : 0 ;
-        //$contact->hash = $this->exportValue('hash');
-        
-        $contact->query('BEGIN'); //begin the database transaction
-       
-        if ($lng_contact_id) {
-            // update the contact $lng_contact_id
-            $contact->id = $lng_contact_id;
-            if(!$contact->update()) $str_error = mysql_error();
-            
-        } else {
-            // insert new contact
-            if (!$contact->insert())  $str_error = mysql_error();
+        $individual = CRM_Contact_BAO_Individual::add( $a_Values );
+        // need to check for error here and abort / rollback if error
+
+        for ($locationId= 1; $locationId <= 3; $locationId++) { // start of for loop for location
+            $location = CRM_Contact_BAO_Individual::add( $a_Values, $a_Values['location'][$locationId] );
         }
-        
-        
-        if (!strlen($str_error)) { //proceed if there are no errors
-            
-            // create a object for contact individual table 
-            $contact_individual = new CRM_Contact_DAO_Individual();
-            $contact_individual->contact_id = $contact->id;
-            $contact_individual->first_name = $a_Values['first_name'];
-            //$contact_individual->middle_name = '';
-            $contact_individual->last_name = $a_Values['last_name'];
-            $contact_individual->prefix = $a_Values['prefix'];
-            $contact_individual->suffix = $a_Values['suffix'];
-            //$contact_individual->display_name = '';
-            $contact_individual->greeting_type = $a_Values['greeting_type'];
-            $contact_individual->custom_greeting = $a_Values['custom_greeting'];
-            $contact_individual->job_title = $a_Values['job_title'];
-            $a_gender = $a_Values['gender'];
-            $contact_individual->gender = $a_gender['gender'];
-            
-            $a_date = $a_Values['birth_date'];
-            
-            if ($a_date['d'] < 10) {
-                $day = "0".$a_date['d'];
-            } else {
-                $day = $a_date['d'];
-            }
-                     
-            if ($a_date['M'] < 10) {
-                $mnt = "0".$a_date['M'];
-            } else {
-                $mnt = $a_date['M'];
-            }
-                     
-            $contact_individual->birth_date = $a_date['Y'].$mnt.$day;
-            $contact_individual->is_deceased = $a_Values['is_deceased'];
-            //$contact_individual->phone_to_household_id = '';
-            //$contact_individual->email_to_household_id = '';
-            //$contact_individual->mail_to_household_id = '';
- 
-            if ($lng_contact_id) {
-                // update the crm_individual for $lng_contact_id
-                $contact_individual->whereAdd('contact_id = '.$lng_contact_id);
-                if(!$contact_individual->update(DB_DATAOBJECT_WHEREADD_ONLY)) $str_error = mysql_error();
-            } else {
-                // insert in crm_individual
-                if (!$contact_individual->insert()) $str_error = mysql_error();                
-            }
-        }
-                 
-        if (!strlen($str_error)) { //proceed if there are no errors  
-            if ($lng_contact_id) {
-                // get the existing locations for $lng_contact_id
-                $contact_location = new CRM_Contact_DAO_Location();
-                $contact_location->get();
-                $contact_location->contact_id = $lng_contact_id;
-                $contact_location->find();
-                
-                $lng_location = 1;
-                while ($contact_location->fetch()) {
-                    // build the array with locations id as value 
-                    $a_location_array[$lng_location] = $contact_location->id;
-                    $lng_location++;
-                }
-            }
-            
-            for ($lngi= 1; $lngi <= 3; $lngi++) { // start of for loop for location
-                //create a object of location class
-                $varname = "contact_location".$lngi;
+
+            //create a object of location class
+            $varname = "contact_location".$lngi;
 
                 if (strlen(trim($a_Values['location'][$lngi]['address']['street_address'])) > 0  || strlen(trim($a_Values['location'][$lngi]['email'][1]['email'])) > 0 || strlen(trim($a_Values['location'][$lngi]['phone'][1]['phone'])) > 0) {  // check for valid location entry
                     if (!strlen($str_error)) { //proceed if there are no errors
