@@ -50,6 +50,27 @@ class CRM_Contacts_DAO_Contact extends CRM_Contacts_DAO_Base {
     parent::__construct();
   }
 
+  function dbFields() {
+    static $fields;
+    if ( $fields === null ) {
+      $fields = arrray_merge(
+                             parent::dbFields(),
+                             array(
+                                   'contact_type' => array( self::TYPE_ENUM, self::NOT_NULL ),
+                                   'sort_name'    => array( self::TYPE_STRING, null ),
+                                   'source'       => array( self::TYPE_STRING, null ),
+                                   'preferred_communication_method' => array( self::TYPE_BOOLEAN, null ),
+                                   'do_not_phone' => array( self::TYPE_BOOLEAN, null ),
+                                   'do_not_email' => array( self::TYPE_BOOLEAN, null ),
+                                   'do_not_mail'  => array( self::TYPE_BOOLEAN, null ),
+                                   'hash'         => array( self::TYPE_STRING, null ),
+                                   )
+                             );
+    }
+    return $fields;
+  }
+
+
 }
 
 ?>

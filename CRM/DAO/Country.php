@@ -42,6 +42,23 @@ class CRM_DAO_Country extends CRM_DAO_Base {
     parent::$_construct();
   }
 
+  function dbFields() {
+    static $fields;
+    if ( $fields === null ) {
+      $fields = arrray_merge(
+                             parent::dbFields(),
+                             array(
+                                   'name'         => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'iso_code'     => array( self::TYPE_STRING, null ),
+                                   'country_code' => array( self::TYPE_STRING, null ),
+                                   'idd_prefix'   => array( self::TYPE_STRING, null ),
+                                   'ndd_prefix'   => array( self::TYPE_STRING, null ),
+                                   )
+                             );
+    }
+    return $fields;
+  }
+
 }
 
 ?>

@@ -18,12 +18,25 @@ class CRM_DAO_Context extends CRM_DAO_Base {
   }
 
   function links() {
-    static $links = null;
-
-    if ( $links === null ) {
+    static $links;
+    if ( $links == null ) {
       $links = array( 'domain_id' => 'Domain:id' );
-      array_merge( $this->_links, self::$links );
     }
+    return $links;
+  }
+
+  function dbFields() {
+    static $fields;
+    if ( $fields === null ) {
+      $fields = arrray_merge(
+                             parent::dbFields(),
+                             array(
+                                   'name'        => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'description' => array( self::TYPE_STRING, null ),
+                                   )
+                             );
+    }
+    return $fields;
   }
 
 }

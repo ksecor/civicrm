@@ -26,6 +26,21 @@ class CRM_DAO_Domain extends CRM_DAO_Base {
   function __construct() {
   }
 
+  function dbFields() {
+    static $fields;
+    if ( $fields === null ) {
+      $fields = arrray_merge(
+                             parent::dbFields(),
+                             array(
+                                   'name'        => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'is_deleted'  => array( self::TYPE_BOOLEAN, null ),
+                                   'created'     => array( self::TYPE_TIMESTAMP, self::NOT_NULL ),
+                                   )
+                             );
+    }
+    return $fields;
+  }
+
 }
 
 ?>

@@ -14,13 +14,7 @@ class CRM_Contacts_DAO_ContactBase extends CRM_DAO_Base {
    * FK link to uuid in contact table
    * @var int
    */
-  public $contact_uuid;
-
-  /*
-   * FK link to rid in contact table
-   * @var int
-   */
-  public $contact_rid;
+  public $contact_id;
 
   function __construct() {
     parent::__construct();
@@ -30,15 +24,28 @@ class CRM_Contacts_DAO_ContactBase extends CRM_DAO_Base {
     static $links = null;
 
     if ( $links === null ) {
-      $links = array( 'contact_uuid' => 'Contact:uuid',
-                      'contact_rid'  => 'Contact:rid' );
-      array_merge( $this->_links, $links );
+      $links = array( 'contact_id' => 'Contact:id',
+                      'domain_id'  => 'Domain:id' );
     }
-
-    parent::links();
+    return $links;
   }
+
+
+  function dbFields() {
+    static $fields;
+    if ( $fields === null ) {
+      $fields = array_merge(
+                             parent::dbFields(),
+                             array(
+                                   'domain_id'    => array( self::TYPE_INT, self::NOT_NULL ),
+                                   'contact_id'   => array( self::TYPE_INT, self::NOT_NULL ),
+                                   )
+                             );
+    }
+    return $fields;
+  }
+
 
 }
 
-?>
 ?>

@@ -33,15 +33,34 @@ class CRM_Contacts_DAO_ContactIndividual extends CRM_Contacts_DAO_ContactBase {
    */
   public $gender;
   public $birth_date;
-  public $race;
-  public $marital_status;
-  public $occupation;
-  public $annual_income;
   public $is_deceased;
 
   function __construct() {
     parent::__construct();
   }
+
+  function dbFields() {
+    static $fields;
+    if ( $fields === null ) {
+      $fields = arrray_merge(
+                             parent::dbFields(),
+                             array(
+                                   'first_name'   => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'last_name'    => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'middle_name'  => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'prefix'       => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'suffix'       => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'job_title  '  => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'greeting_type'   => array( self::TYPE_ENUM, self::NOT_NULL ),
+                                   'custom_greeting' => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'gender'       => array( self::TYPE_ENUM, self::NOT_NULL ),
+                                   'birth_date'   => array( self::TYPE_DATE, self::NOT_NULL ),
+                                   )
+                             );
+    }
+    return $fields;
+  }
+
 
 }
 

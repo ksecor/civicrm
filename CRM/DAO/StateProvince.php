@@ -26,18 +26,34 @@ class CRM_DAO_StateProvince extends CRM_Base {
    */
   public $country_id;
 
+  static $_links;
+
   function __construct() {
     parent::__construct();
   }
 
   function links() {
-    static $links = null;
-
+    static $links;
     if ( $links === null ) {
       $links = array( 'country_id' => 'Country:id' );
-      array_merge( $this->_links, self::$links );
     }
+    return $links;
+  }
 
+  
+  function dbFields() {
+    static $fields;
+    if ( $fields === null ) {
+      $fields = arrray_merge(
+                             parent::dbFields(),
+                             array(
+                                   'name'         => array( self::TYPE_STRING, self::NOT_NULL ),
+                                   'abbreviation' => array( self::TYPE_BOOLEAN, null ),
+                                   'country_id'   => array( self::TYPE_TIMESTAMP, self::NOT_NULL ),
+                                   )
+                             );
+    }
+    return $fields;
   }
 
 }
