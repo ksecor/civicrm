@@ -102,9 +102,7 @@ class {$table.className} extends CRM_DAO_Base {ldelim}
        */
       function &fields( ) {ldelim}
           if ( ! isset( self::$_fields ) ) {ldelim}
-               self::$_fields = array_merge(
-                       	              parent::fields( ),
-                                     array (
+               self::$_fields = array (
 {foreach from=$table.fields item=field}
                                             '{$field.name}' => array( 'type'     => {$field.crmType},
 {if $field.required}
@@ -113,13 +111,15 @@ class {$table.className} extends CRM_DAO_Base {ldelim}
 {if $field.length}
 								      'length'   => {$field.length},
 {/if} {* field.length *}
+{if $field.size}
+								      'size'   => {$field.size},
+{/if} {* field.size *}
 {if $field.import}
 								      'import'   => {$field.import},
 {/if} {* field.import *}
                                                                     ), 
 {/foreach} {* table.fields *}
-                                           )
-                                    );
+                                      );
           {rdelim}
           return self::$_fields;   
       {rdelim}

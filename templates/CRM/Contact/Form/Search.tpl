@@ -9,7 +9,7 @@
 <tr><td>{$form.category_id.label}</td><td>{$form.category_id.html}</td></tr>
 <tr><td>{$form.action_id.label}</td><td>{$form.action_id.html}</td></tr>
 <tr>
-<td colspan=2 align="right">{$form.buttons.html|qfReplace:test:class}</td>
+<td colspan=2 align="right">{$form.buttons.html}</td>
 </tr>
 </table>
 

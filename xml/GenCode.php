@@ -21,7 +21,8 @@ $file = 'schema/Schema.xml';
 
 $codePath    = "./gen/";
 $sqlCodePath = $codePath . "sql/";
-$phpCodePath = '../';
+// $phpCodePath = '../';
+$phpCodePath = $codePath . "php/";
 
 echo "Parsing input file $file\n";
 $dbXML =& parseInput( $file );
@@ -125,10 +126,13 @@ function &getTables( &$dbXML, &$database ) {
 
 function getTable( $tableXML, &$database, &$tables ) {
     $name  = trim($tableXML->name );
+    $base  = value( 'base', $tableXML ) . '/DAO/';
+    $pre   = str_replace( '/', '_', $base );
+    $class = convertName( $name, true, $pre, '' );
     $table = array( 'name'       => $name,
-                    'base'       => value( 'base', $tableXML ) . '/DAO/',
+                    'base'       => $base,
                     'fileName'   => convertName( $name, true, '', '.php' ),
-                    'className'  => convertName( $name, true, 'CRM_Contact_DAO_', '' ),
+                    'className'  => $class,
                     'attributes' => trim($database['tableAttributes']),
                     'comment'    => value( 'comment', $tableXML ) );
     
@@ -173,6 +177,7 @@ function getField( &$fieldXML, &$fields ) {
         $field['phpType'] = 'string';
         $field['crmType'] = 'CRM_Type::T_STRING';
         $field['length' ] = $fieldXML->length;
+        $field['size'   ] = getSize($field['length']);
         break;
 
     case 'char':
@@ -180,6 +185,7 @@ function getField( &$fieldXML, &$fields ) {
         $field['phpType'] = 'string';
         $field['crmType'] = 'CRM_Type::T_STRING';
         $field['length' ] = $fieldXML->length;
+        $field['size'   ] = getSize($field['length']);
         break;
 
     case 'enum':
@@ -311,6 +317,20 @@ function append( &$str, $delim, $name ) {
         } else {
             $str .= $delim . $name;
         }
+    }
+}
+
+function getSize( $len ) {
+    if ( $len <= 16 ) {
+        return $len;
+    } else if ( $len <=32 ) {
+        return 20;
+    } else if ( $len <= 64 ) {
+        return 30;
+    } else if ( $len <= 96 ) {
+        return 40;
+    } else {
+        return 50;
     }
 }
 

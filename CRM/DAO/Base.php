@@ -38,12 +38,6 @@ require_once 'CRM/Type.php';
 
 class CRM_DAO_Base extends CRM_DAO {
 
-    /*
-     * auto incremented id
-     * @var int
-     */
-    public $id;
-
     function __construct() {
         $this->__table = $this->getTableName();
 
@@ -54,8 +48,15 @@ class CRM_DAO_Base extends CRM_DAO {
         return null;
     }
 
-    function fields() {
-        return array( 'id' => array( CRM_Type::T_STRING, self::NOT_NULL ) );
+    /**
+     * returns all the column names of this table
+     *
+     * @access public
+     * @return array
+     */
+    function &fields()
+    {   
+        return null;
     }
 
     function table() {
