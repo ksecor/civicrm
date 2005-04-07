@@ -14,7 +14,7 @@
      {$form.sort_name.label}{$form.sort_name.html}
      </span>
      <span class="element-right">{$form.buttons.html}</span>
-     <div class="description">
+     <div class="description font-italic">
         <span class="horizontal-position">
         Enter full or partial last name or organization name to further limit the contacts included below.
         </span>

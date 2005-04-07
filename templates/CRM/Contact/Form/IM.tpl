@@ -13,7 +13,7 @@
         <span class="fields">
             {$form.location.$index.im.1.provider_id.html}
             {$form.location.$index.im.1.name.html}
-            <div class="description">Select IM service provider, and enter screen-name / user id.</div>
+            <div class="description font-italic">Select IM service provider, and enter screen-name / user id.</div>
         </span>
     </div>
     <!-- Spacer div contains floated elements -->

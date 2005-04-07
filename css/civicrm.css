@@ -240,3 +240,22 @@ div.crm-pager a {
   float: right;
   width: 50%;
 }
+
+/*
+** style for showing three borders coloured
+** and one border lightly coloured 
+*/
+
+#crm-container .top-light-coloured {
+  border-bottom: 2.5px solid #4C4C4C;
+  border-left: 2.5px solid #4C4C4C;
+  border-right: 2.5px solid #4C4C4C; 
+  border-top: 0.5px solid #B0B0B0;	
+}
+
+#crm-container .bottom-light-coloured {
+  border-top: 2.5px solid #4C4C4C;
+  border-left: 2.5px solid #4C4C4C;
+  border-right: 2.5px solid #4C4C4C; 
+  border-bottom: 0.5px solid #B0B0B0;
+}

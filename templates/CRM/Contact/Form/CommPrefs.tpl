@@ -20,7 +20,7 @@
     <span class="fields">
     {$form.preferred_communication_method.html}
     </label>
-    <div class="description">Select the preferred method of communicating with this contact.</div>
+    <div class="description font-italic">Select the preferred method of communicating with this contact.</div>
     </span>
 </div>
 <!-- Spacer div forces fieldset to contain floated elements -->

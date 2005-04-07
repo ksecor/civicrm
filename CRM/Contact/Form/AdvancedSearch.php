@@ -117,7 +117,13 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
 
         // add text box for postal code
         $this->addElement('text', 'postal_code', 'Postal Code', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
-        $this->addElement('text', 'postal_code_low', 'From', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
+        $this->addElement('text', 'postal_code_low', 'Postal Code Range From', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
+        // $this->addElement('text', 'postal_code_low', 'Postal Code Range From', );
+
+        $pc_attribute = CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code');
+
+        print_r("pc_attribute", $pc_attribute);
+
         $this->addElement('text', 'postal_code_high', 'To', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
 
         // checkboxes for location type
@@ -129,7 +135,7 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         foreach ($locationType as $locationTypeID => $locationTypeName) {
             $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
         }
-        $this->addGroup($cb_location_type, 'cb_location_type', 'Include these locations', '<br />');
+        $this->addGroup($cb_location_type, 'cb_location_type', 'Include these locations', '&nbsp;');
 
         // checkbox for primary location only
         $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
