@@ -4,14 +4,28 @@
     </p>
 </div>
 
-<div id="groups" class="data-group form-item">
+<div id="groupContact">
+ <p>
+    <div class="form-item">
+    {if $groupCount > 0 }  	
+       <table>
+       <tr class="columnheader"><th>Group Listings</th><th>In Date</th><th>Out Date</th><th></th></tr>
+       {foreach from=$groupContact item=row}
+         <tr class="{cycle values="odd-row,even-row"}">
+            <td> {$row.name}</td>
+            <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
+            <td>{$row.out_date|date_format:"%B %e, %Y"}</td>
+	    <td><a href="#">View</a></td>   
+         </tr>
+       {/foreach}
+       </table>
+     {else}
+      This contact does not belong to any groups.
+     {/if}
+    </div>
+ </p>
   <span class="float-right">
    <a href="#">Add this contact to one or more groups...</a>
   </span>
-  <a href="#"><label>Groups</label></a>
-  <span class="horizontal-position">
-   (this contact does not belong to any groups)
-  </span>
-  <br />
-  <div class="spacer"></div>
+
 </div>

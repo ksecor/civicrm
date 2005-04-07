@@ -79,7 +79,10 @@ class CRM_Contact_Page_View extends CRM_Page {
             CRM_Contact_Page_Relationship::run( $this );
         } else if ( $this->_mode == self::MODE_TAGS ) {
             $this->runModeTags( );
+        } else if ( $this->_mode == self::MODE_GROUP ) {
+            CRM_Contact_Page_GroupContact::run( $this );
         } 
+
         return parent::run( );
     }
 

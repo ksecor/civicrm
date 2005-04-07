@@ -133,11 +133,15 @@
 
 <div id="groups" class="data-group form-item">
   <span class="float-right">
-   <a href="#">Add this contact to one or more groups...</a>
+	<a href="{$config->httpBase}contact/view/group&op=browse">View Groups</a>
   </span>
-  <a href="#"><label>Groups</label></a>
+  <label>Groups</label>
   <span class="horizontal-position">
-   (this contact does not belong to any groups)
+   {if $groupCount > 0}
+     This contact is member of {$groupCount} Group(s).
+   {else}
+     This contact does not belong to any groups.
+   {/if}
   </span>
   <br />
   <div class="spacer"></div>
