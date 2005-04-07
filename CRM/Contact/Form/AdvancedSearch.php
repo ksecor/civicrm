@@ -35,7 +35,7 @@
  * Files required
  */
 require_once 'CRM/Form.php';
-require_once 'CRM/SelectValues.php';
+require_once 'CRM/PseudoConstant.php';
 require_once 'CRM/Selector/Controller.php';
 require_once 'CRM/Contact/Selector.php';
 
@@ -70,20 +70,16 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
     {
         // add checkboxes for contact type
         $cb_contact_type = array( );
-        foreach (CRM_SelectValues::$contactType as $key => $value) {
+        foreach (CRM_PseudoConstant::$contactType as $key => $value) {
             CRM_Error::debug_var("key", $key);
             CRM_Error::debug_var("value", $value);
-            // skip if key = ''
-            if ($key == '') {
-                continue;
-            }
             $cb_contact_type[] = HTML_QuickForm::createElement('checkbox', $key, null, $value);
         }
         $this->addGroup($cb_contact_type, 'cb_contact_type', 'Show Me....', '<br />');
         
         // checkboxes for groups
         $cb_group = array();
-        $group = CRM_SelectValues::getGroup();
+        $group = CRM_PseudoConstant::getGroup();
         foreach ($group as $groupID => $groupName) {
             $cb_group[] = HTML_QuickForm::createElement('checkbox', $groupID, null, $groupName);
         }
@@ -91,7 +87,7 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
 
         // checkboxes for categories
         $cb_category = array();
-        $category = CRM_SelectValues::getCategory();
+        $category = CRM_PseudoConstant::getCategory();
         foreach ($category as $categoryID => $categoryDetail) {
             $cb_category[] = HTML_QuickForm::createElement('checkbox', $categoryID, null, $categoryDetail['name']);
         }
@@ -105,21 +101,18 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
 
 
         // select for state province
-        $stateProvince = CRM_SelectValues::getStateProvince();
-        // bad hack.. needs to be fixed ASAP.
-        array_shift($stateProvince);
-        $firstElement = array('' => ' - any state/province - ');
-        $stateProvince = array_merge($firstElement, $stateProvince);
-        // CRM_Error::debug_var("stateProvince", $stateProvince);
+        $stateProvince = CRM_PseudoConstant::getStateProvince();
+        //$firstElement = array('' => ' - any state/province - ');
+        //$stateProvince = array_merge($firstElement, $stateProvince);
+        //$stateProvince[''] = ' - any state/province - ';
+        $stateProvince = array('' => ' - any state/province - ') + $stateProvince;
         $this->addElement('select', 'state_province', 'State/Province', $stateProvince);
 
-
         // select for country
-        $country = CRM_SelectValues::getCountry();
-        // bad hack.. needs to be fixed ASAP.
-        array_shift($country);
-        $firstElement = array('' => ' - any country - ');
-        $country = array_merge($firstElement, $country);
+        $country = CRM_PseudoConstant::getCountry();
+        //$firstElement = array('' => ' - any country - ');
+        //$country = array_merge($firstElement, $country)
+        $country = array('' => ' - any country - ') + $country;
         $this->addElement('select', 'country', 'Country', $country);
 
         // add text box for postal code
@@ -129,9 +122,7 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
 
         // checkboxes for location type
         $cb_location_type = array();
-        $locationType = CRM_SelectValues::getLocationType();
-        // hacks... bad hacsk..
-        //array_shift($locationType);
+        $locationType = CRM_PseudoConstant::getLocationType();
         CRM_Error::debug_var("locationType", $locationType);
         $locationType[''] = 'Any Locations';
         CRM_Error::debug_var("locationType", $locationType);
