@@ -211,18 +211,18 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
             CRM_Error::debug_log_message("reset != 1");
             CRM_Error::debug_var("post vars", $_POST);
 
-//             $contact_type = trim($this->controller->exportValue($this->_name, 'contact_type'));
-//             $sort_name = trim($this->controller->exportValue($this->_name, 'sort_name'));
-//             if (!empty( $contact_type ))  {
-//                 $params['contact_type'] = $contact_type;
-//             }
-//             if (!empty( $sort_name ))  {
-//                 $params['sort_name'] = $sort_name;
-//             }
+            $contact_type = trim($this->controller->exportValue($this->_name, 'contact_type'));
+            $sort_name = trim($this->controller->exportValue($this->_name, 'sort_name'));
+             if (!empty( $contact_type ))  {
+                 $params['contact_type'] = $contact_type;
+             }
+             if (!empty( $sort_name ))  {
+                 $params['sort_name'] = $sort_name;
+             }
 
-//             $selector   = new CRM_Contact_Selector($params);
-//             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
-//             $controller->run();
+             $selector   = new CRM_Contact_Selector($params);
+             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
+             $controller->run();
         } else {
             CRM_Error::debug_log_message("reset = 1");            
         }
