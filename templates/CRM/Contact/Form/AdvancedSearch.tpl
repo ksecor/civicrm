@@ -7,18 +7,18 @@
 	<div>
 	
 		<span class="float-col1">
-		<span>{$form.contact_type.label}</span>
-		<span class="fields">{$form.contact_type.html}</span>
+		<span>{$form.cb_contact_type.label}</span>
+		<span class="fields">{$form.cb_contact_type.html}</span>
 		</span>
 	  
 		<span class="float-col2">
-		<span>{$form.group_id.label}</span>
-		<span class="fields">{$form.group_id.html}</span>
+		<span>{$form.cb_group.label}</span>
+		<span class="fields">{$form.cb_group.html}</span>
 		</span>
 	 
 		<span class="float-col3">
-		<span>{$form.category_id.label}</sapn>
-		<span class="fields">{$form.category_id.html}</span>
+		<span>{$form.cb_category.label}</sapn>
+		<span class="fields">{$form.cb_category.html}</span>
 		</span>
 	 
 	</div>

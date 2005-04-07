@@ -68,9 +68,8 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        /*code for advanced search start*/
-        $contact_type = array( );
-
+        // add checkboxes for contact type
+        $cb_contact_type = array( );
         foreach (CRM_SelectValues::$contactType as $key => $value) {
             CRM_Error::debug_var("key", $key);
             CRM_Error::debug_var("value", $value);
@@ -78,40 +77,34 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
             if ($key == '') {
                 continue;
             }
-            $contact_type[] = HTML_QuickForm::createElement('checkbox', $key, null, $value);
+            $cb_contact_type[] = HTML_QuickForm::createElement('checkbox', $key, null, $value);
         }
-
-        $this->addGroup($contact_type, 'contact_type', 'Show Me....', '<br />');
-
-        $group_id = array();
+        $this->addGroup($cb_contact_type, 'cb_contact_type', 'Show Me....', '<br />');
+        
+        // checkboxes for groups
+        $cb_group = array();
         $group = CRM_SelectValues::getGroup();
         foreach ($group as $groupID => $groupName) {
-            $group_id[] = HTML_QuickForm::createElement('checkbox', $groupName, null, $groupName);
+            $cb_group[] = HTML_QuickForm::createElement('checkbox', $groupID, null, $groupName);
         }
-        $this->addGroup($group_id, 'group_id', 'In Group (s)', '<br />');
+        $this->addGroup($cb_group, 'cb_group', 'In Group (s)', '<br />');
 
-
-
-        // add categories
-        $category_id = array();
+        // checkboxes for categories
+        $cb_category = array();
         $category = CRM_SelectValues::getCategory();
         foreach ($category as $categoryID => $categoryDetail) {
-            $category_id[] = HTML_QuickForm::createElement('checkbox', $categoryDetail['name'], null, $categoryDetail['name']);
+            $cb_category[] = HTML_QuickForm::createElement('checkbox', $categoryID, null, $categoryDetail['name']);
         }
+        $this->addGroup($cb_category, 'cb_category', 'In Categorie (s)', '<br />');
 
-        $this->addGroup($category_id, 'category_id', 'In Categorie (s)', '<br />');
-
+        // add text boxes for last name, first name, street name, city
         $this->add('text', 'last_name', 'Contact Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         $this->add('text', 'first_name', 'First Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'first_name') );
         $this->add('text', 'street_name', 'Street Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
         $this->add('text', 'city', 'City:',CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
-
-
-
-
-
-        /*code for advanced search end*/
     }
+
+
 
 
     /**
@@ -125,6 +118,8 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         return $defaults;
     }
 
+
+
     /**
      * Add local and global form rules
      *
@@ -133,6 +128,9 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
      */
     function addRules( ) {
     }
+
+
+
 
     function preProcess( ) {
 
@@ -150,6 +148,9 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         }
 
     }
+
+
+
 
     function postProcess() 
     {

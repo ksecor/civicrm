@@ -153,6 +153,14 @@ class CRM_SelectValues {
     
 
     /**
+     * relationshipType array (fetch and cache from generic db)
+     * @var array
+     * @static
+     */
+    public static $relationshipType;
+
+
+    /**
      * list of counties
      * @var array
      * @static
