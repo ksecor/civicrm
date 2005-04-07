@@ -162,10 +162,13 @@ class CRM_Contact_Page_View extends CRM_Page {
     }
 
     function setShowHide( &$defaults ) {
+
         $showHide = new CRM_ShowHideBlocks(array('commPrefs'       => 1,
-                                                 'notes[show]'     => 1 ),
+                                                 'notes[show]'     => 1,
+                                                 'relationships[show]'     => 1 ),
                                            array('notes'           => 1,
-                                                 'commPrefs[show]' => 1 ) ) ;
+                                                 'commPrefs[show]' => 1,
+                                                 'relationships[show]'     => 1 ) ) ;
         
 
         if ( $defaults['contact_type'] == 'Individual' ) {

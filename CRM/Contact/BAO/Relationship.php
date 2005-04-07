@@ -133,7 +133,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         }
 
         // get the total count of relationships
-        $values['relationshipsCount'] = $count;
+        if ($count > 0) $values['relationshipsCount'] = $count;
 
         //   print_r($relationships);
         return $relationships;
