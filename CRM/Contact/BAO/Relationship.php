@@ -51,56 +51,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         parent::__construct( );
     }
 
-    /**
-     * takes an associative array and creates a relationship object
-     *
-     * the function extract all the params it needs to initialize the create a
-     * relationship object. the params array could contain additional unused name/value
-     * pairs
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     *
-     * @return object CRM_Contact_BAO_Relationship object
-     * @access public
-     * @static
-     */
-    static function add( &$params ) 
-    {
-
-        $dataExists = self::dataExists( $params );
-        if ( ! $dataExists ) {
-            return null;
-        }
-
-        /*        
-        $relationship = new CRM_Contact_BAO_Relationship( );
-
-        $params['modified_date'] = date("Ymd");
-        $params['table_id']      = $params['contact_id'];
-        $params['table_name']    = 'crm_contact';
-
-        $relationship->copyValues( $params );
-
-        $relationship->contact_id = 1;
-        $relationship->save( );
-        */
-        return $relationship;
-    }
-
-    /**
-     * Check if there is data to create the object
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     *
-     * @return boolean
-     * @access public
-     * @static
-     */
-    static function dataExists( &$params ) 
-    {
-        return true;
-     }
-
+   
     /**
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array

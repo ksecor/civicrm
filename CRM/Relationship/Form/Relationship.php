@@ -38,10 +38,25 @@ require_once 'CRM/Form.php';
 /**
  * This class generates form components for relationship
  * 
- *
  */
 class CRM_Relationship_Form_Relationship extends CRM_Form
 {
+
+    /**
+     * The relationship id, used when editing the relationship
+     *
+     * @var int
+     */
+    protected $_relationshipId;
+    
+    /**
+     * The contact id, used when add/edit relationship
+     *
+     * @var int
+     */
+    protected $_contactId;
+    
+
     /**
      * class constructor
      *
@@ -52,12 +67,15 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
      * @return CRM_Relationship_Form_Relationship
      * @access public
      */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
+    function __construct($name, $state, $mode = self::MODE_NONE) 
+    {
         parent::__construct($name, $state, $mode);
     }
-
-    function preProcess( ) {
-
+    
+    function preProcess( ) 
+    {
+        $this->_contactId   = $this->get('contactId');
+        $this->_relationshipId    = $this->get('relationshipId');
     }
 
     /**
@@ -67,16 +85,37 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
      * @access public
      * @return None
      */
-    function setDefaultValues( ) {
+    function setDefaultValues( ) 
+    {
         $defaults = array( );
         $params   = array( );
 
         if ( $this->_mode & self::MODE_UPDATE ) {
-
+            $relationship = new CRM_Contact_DAO_Relationship( );
+            $relationship->id = $this->_relationshipId;
+            if ($relationship->find(true)) {
+                $defaults['relationship_type_id'] = $relationship->relationship_type_id;
+                $defaults['start_date'] = $relationship->start_date;
+                $defaults['end_date'] = $relationship->end_date;
+            }
         }
-
+      
         return $defaults;
     }
+
+
+    /**
+     * This function is used to add the rules for form.
+     *
+     * @return None
+     * @access public
+     */
+    function addRules( )
+    {
+        $this->addRule('start_date', 'Select a valid start date.', 'qfDate' );
+        $this->addRule('end_date', 'Select a valid end date.', 'qfDate' );
+    }
+
 
     /**
      * Function to actually build the form
@@ -84,15 +123,25 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
 
+        $this->addElement('select', "relationship_type_id", '', CRM_SelectValues::getRelationshipType());
+        
+        $this->addElement('select', "contact_type", '', CRM_SelectValues::$contactType);
+        
+        $this->addElement('text', "name" );
+        
+        $this->addElement('submit','search', 'Search');
+
+        $this->addElement('date', 'start_date', 'Starting:', CRM_SelectValues::$date);
+        
+        $this->addElement('date', 'end_date', 'Ending:', CRM_SelectValues::$date);
 
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'next',
-                                                'name'      => 'Save',
+                                                'name'      => 'Save Relationship',
                                                 'isDefault' => true   ),
-                                        array ( 'type'      => 'reset',
-                                                'name'      => 'Reset'),
                                         array ( 'type'       => 'cancel',
                                                 'name'      => 'Cancel' ),
                                         )
@@ -108,31 +157,49 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
      */
     public function postProcess() 
     {
-        /*
+        
         // store the submitted values in an array
         $params = $this->exportValues();
 
-        // action is taken depending upon the mode
-        $note                = new CRM_DAO_Relationship( );
-        $note->note          = $params['note'];
-        $note->contact_id    = 1;
-        $note->modified_date = date("Ymd");
+        // create relationship object
+        $relationship                = new CRM_Contact_DAO_Relationship( );
+        $relationship->contact_id_a  = $this->_contactId;
+        $relationship->contact_id_b  = 1;
+        $relationship->relationship_type_id = $params['relationship_type_id'];
 
-        if ($this->_mode & self::MODE_UPDATE ) {
-            $note->id = $this->_noteId;
-        } else {
-            $note->table_name = $this->_tableName;
-            $note->table_id   = $this->_tableId;
+        $sdate = CRM_Array::value( 'start_date', $params );
+        $relationship->start_date = null;
+        if ( $sdate              &&
+             !empty($sdate['M']) &&
+             !empty($sdate['d']) &&
+             !empty($sdate['Y']) ) {
+            $sdate['M'] = ( $sdate['M'] < 10 ) ? '0' . $sdate['M'] : $sdate['M'];
+            $sdate['d'] = ( $sdate['d'] < 10 ) ? '0' . $sdate['d'] : $sdate['d'];
+            $relationship->start_date = $sdate['Y'] . $sdate['M'] . $sdate['d'];
         }
 
-        $note->save( );
+        $edate = CRM_Array::value( 'end_date', $params );
+        $relationship->end_date = null;
+        if ( $edate              &&
+             !empty($edate['M']) &&
+             !empty($edate['d']) &&
+             !empty($edate['Y']) ) {
+            $edate['M'] = ( $edate['M'] < 10 ) ? '0' . $edate['M'] : $edate['M'];
+            $edate['d'] = ( $edate['d'] < 10 ) ? '0' . $edate['d'] : $edate['d'];
+            $relationship->end_date = $edate['Y'] . $edate['M'] . $edate['d'];
+        }
+
+        if ($this->_mode & self::MODE_UPDATE ) {
+            $relationship->id = $this->_relationshipId;
+        } 
+
+        $relationship->save( );
 
         $session = CRM_Session::singleton( );
 
         $session->setStatus( "Your Relationship has been saved." );
-        */
-    }//end of function
 
+    }//end of function
 
 }
 

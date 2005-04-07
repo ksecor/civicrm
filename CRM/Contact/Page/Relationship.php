@@ -41,34 +41,26 @@ class CRM_Contact_Page_Relationship {
     function __construct( ) {
     }
 
-    static function view( $page, $noteId ) {
+    static function view( $page, $relationshipId ) {
         $relationship = new CRM_Contact_DAO_Relationship( );
+
+        /*
         $relationship->id = $relationshipId;
         if ( $relationship->find( true ) ) {
             $values = array( );
             $relationship->storeValues( $values );
+        
             $page->assign( 'relationship', $values );
         }
+        */
+        self::browse( $page, $relationshipId );
         
+        $relationshipId = 0;
         self::browse( $page );
     }
 
-    static function browse( $page ) {
-        /*
-        $relationship = new CRM_Contact_DAO_Relationship( );
-        //  $relationship->table_name = 'crm_contact';
-        // $relationship->table_id   = $page->getContactId( );
-
-        // $relationship->orderBy( 'modified_date desc' );
-
-        $values = array( );
-        $relationship->find( );
-        while ( $relationship->fetch( ) ) {
-            $values[$relationship->id] = array( );
-            $relationship->storeValues( $values[$relationship->id] );
-        }
-        */
-
+    static function browse( $page, $relationshipId = 0 ) {
+     
         $relationship = new CRM_Contact_DAO_Relationship( );
         
         $contactId = $page->getContactId( );
@@ -107,6 +99,10 @@ class CRM_Contact_Page_Relationship {
                          AND (crm_relationship.contact_id_a = crm_contact.id
                             OR crm_relationship.contact_id_b = crm_contact.id)";
 
+        if ($relationshipId > 0) {
+            $str_where .= " AND crm_relationship.id = ".$relationshipId;
+        }
+
         $str_order = " GROUP BY crm_relationship.id ";
         $str_limit = "  ";
 
@@ -129,8 +125,13 @@ class CRM_Contact_Page_Relationship {
             $relationship->storeValues( $values[$relationship->crm_relationship_id] );
           
         }
-
-        $page->assign( 'relationship', $values );
+        if ($relationshipId > 0) {
+            
+            $page->assign( 'relationship_name', $relationship->name_b );
+            $page->assign( 'relationship_contact_name', $relationship->sort_name );
+        } else {
+            $page->assign( 'relationship', $values );
+        }
     }
 
     static function edit( $page, $mode, $relationshipId = null ) {
@@ -139,12 +140,10 @@ class CRM_Contact_Page_Relationship {
         // set the userContext stack
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
-        $session->pushUserContext( $config->httpBase . 'contact/view/relationship&op=browse' );
-
+        $session->pushUserContext( $config->httpBase . 'contact/view/rel&op=browse' );
 
         $controller->reset( );
-        $controller->set( 'tableName', 'crm_contact' );
-        $controller->set( 'tableId'  , $page->getContactId( ) );
+        $controller->set( 'contactId'  , $page->getContactId( ) );
         $controller->set( 'relationshipId'   , $relationshipId );
  
         $controller->process( );

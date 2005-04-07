@@ -8,7 +8,8 @@
     <p>
     <fieldset><legend>View Relationship</legend>
     <div class="form-item">
-
+    <b>Relationship : {$relationship_name}<br>
+    Contact : {$relationship_contact_name}</b>
     </div>
     </fieldset>
     </p>
