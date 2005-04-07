@@ -1,3 +1,4 @@
+{debug}
 <form {$form.attributes}>
 {$form.hidden}
 
@@ -42,9 +43,29 @@
 	<span class="horizontal-position">{$form.city.label}{$form.city.html}</span>
 	</div>
 
-	<div>
-	<span></span>
-	</div>
+<p>{$form.state_province.label}
+<p>{$form.state_province.html}
+
+<p>{$form.country.label}
+<p>{$form.country.html}
+
+<p>{$form.postal_code.label}
+<p>{$form.postal_code.html}
+<p>{$form.postal_code_low.label}
+<p>{$form.postal_code_low.html}
+<p>{$form.postal_code_high.label}
+<p>{$form.postal_code_high.html}
+
+<p>{$form.cb_location_type.label}
+<p>{$form.cb_location_type.html}
+
+<p>{$form.cb_primary_location.label}
+<p>{$form.cb_primary_location.html}
+
+<p>{$form.submit.label}
+<p>{$form.submit.html}
+
+
 </div>
 </fieldset>
 </form>

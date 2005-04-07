@@ -97,11 +97,55 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         }
         $this->addGroup($cb_category, 'cb_category', 'In Categorie (s)', '<br />');
 
-        // add text boxes for last name, first name, street name, city
-        $this->add('text', 'last_name', 'Contact Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-        $this->add('text', 'first_name', 'First Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'first_name') );
-        $this->add('text', 'street_name', 'Street Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
-        $this->add('text', 'city', 'City:',CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
+        // add text box for last name, first name, street name, city
+        $this->addElement('text', 'last_name', 'Contact Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->addElement('text', 'first_name', 'First Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'first_name') );
+        $this->addElement('text', 'street_name', 'Street Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
+        $this->addElement('text', 'city', 'City:',CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
+
+
+        // select for state province
+        $stateProvince = CRM_SelectValues::getStateProvince();
+        // bad hack.. needs to be fixed ASAP.
+        array_shift($stateProvince);
+        $firstElement = array('' => ' - any state/province - ');
+        $stateProvince = array_merge($firstElement, $stateProvince);
+        // CRM_Error::debug_var("stateProvince", $stateProvince);
+        $this->addElement('select', 'state_province', 'State/Province', $stateProvince);
+
+
+        // select for country
+        $country = CRM_SelectValues::getCountry();
+        // bad hack.. needs to be fixed ASAP.
+        array_shift($country);
+        $firstElement = array('' => ' - any country - ');
+        $country = array_merge($firstElement, $country);
+        $this->addElement('select', 'country', 'Country', $country);
+
+        // add text box for postal code
+        $this->addElement('text', 'postal_code', 'Postal Code', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
+        $this->addElement('text', 'postal_code_low', 'From', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
+        $this->addElement('text', 'postal_code_high', 'To', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
+
+        // checkboxes for location type
+        $cb_location_type = array();
+        $locationType = CRM_SelectValues::getLocationType();
+        // hacks... bad hacsk..
+        //array_shift($locationType);
+        CRM_Error::debug_var("locationType", $locationType);
+        $locationType[''] = 'Any Locations';
+        CRM_Error::debug_var("locationType", $locationType);
+        foreach ($locationType as $locationTypeID => $locationTypeName) {
+            $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
+        }
+        $this->addGroup($cb_location_type, 'cb_location_type', 'Include these locations', '<br />');
+
+
+        // checkbox for primary location only
+        $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
+        
+        // submit button
+        $this->addElement('submit', 'submit', 'Search');
     }
 
 
