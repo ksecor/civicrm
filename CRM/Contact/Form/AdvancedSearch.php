@@ -37,7 +37,7 @@
 require_once 'CRM/Form.php';
 require_once 'CRM/PseudoConstant.php';
 require_once 'CRM/Selector/Controller.php';
-require_once 'CRM/Contact/Selector.php';
+require_once 'CRM/Contact/AdvancedSelector.php';
 
 /**
  * Advanced Search form for which provides more options
@@ -71,8 +71,6 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         // add checkboxes for contact type
         $cb_contact_type = array( );
         foreach (CRM_PseudoConstant::$contactType as $key => $value) {
-            CRM_Error::debug_var("key", $key);
-            CRM_Error::debug_var("value", $value);
             $cb_contact_type[] = HTML_QuickForm::createElement('checkbox', $key, null, $value);
         }
         $this->addGroup($cb_contact_type, 'cb_contact_type', 'Show Me....', '<br />');
@@ -102,36 +100,23 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
 
         // select for state province
         $stateProvince = CRM_PseudoConstant::getStateProvince();
-        //$firstElement = array('' => ' - any state/province - ');
-        //$stateProvince = array_merge($firstElement, $stateProvince);
-        //$stateProvince[''] = ' - any state/province - ';
         $stateProvince = array('' => ' - any state/province - ') + $stateProvince;
         $this->addElement('select', 'state_province', 'State/Province', $stateProvince);
 
         // select for country
         $country = CRM_PseudoConstant::getCountry();
-        //$firstElement = array('' => ' - any country - ');
-        //$country = array_merge($firstElement, $country)
         $country = array('' => ' - any country - ') + $country;
         $this->addElement('select', 'country', 'Country', $country);
 
         // add text box for postal code
         $this->addElement('text', 'postal_code', 'Postal Code', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
         $this->addElement('text', 'postal_code_low', 'Postal Code Range From', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
-        // $this->addElement('text', 'postal_code_low', 'Postal Code Range From', );
-
-        $pc_attribute = CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code');
-
-        print_r("pc_attribute", $pc_attribute);
-
         $this->addElement('text', 'postal_code_high', 'To', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
 
         // checkboxes for location type
         $cb_location_type = array();
         $locationType = CRM_PseudoConstant::getLocationType();
-        CRM_Error::debug_var("locationType", $locationType);
         $locationType[''] = 'Any Locations';
-        CRM_Error::debug_var("locationType", $locationType);
         foreach ($locationType as $locationTypeID => $locationTypeName) {
             $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
         }
@@ -140,19 +125,8 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         // checkbox for primary location only
         $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
         
-        // submit button
-        // $this->addElement('submit', 'submit_button', 'Search');
-        // $this->addElement('submit', $this->getButtonName('submit'), 'Send');
-        // set the default button
-        /* $this->addDefaultButtons(array(
-                                       array ('type'      => 'submit',
-                                              'name'      => 'submit_button' ,
-                                              'label'     => 'Search'
-                                              )
-                                       )        
-                                 ); */
         $this->addDefaultButtons(array(
-                                       array ( 'type'      => 'next',
+                                       array ( 'type'      => 'refresh',
                                                'name'      => 'Search',
                                                'isDefault' => true   ),
                                        array ( 'type'      => 'reset',
@@ -207,28 +181,21 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
     }
 
 
-
-
     function postProcess() 
     {
         CRM_ERROR::le_method();
         $params = array( );
         if($_GET['reset'] != 1) {
             CRM_Error::debug_log_message("reset != 1");
-            CRM_Error::debug_var("post vars", $_POST);
+            // CRM_Error::debug_var("post vars", $_POST);
 
-            $contact_type = trim($this->controller->exportValue($this->_name, 'contact_type'));
-            $sort_name = trim($this->controller->exportValue($this->_name, 'sort_name'));
-             if (!empty( $contact_type ))  {
-                 $params['contact_type'] = $contact_type;
-             }
-             if (!empty( $sort_name ))  {
-                 $params['sort_name'] = $sort_name;
-             }
+            $formValues = $this->controller->exportValues($this->_name);
 
-             $selector   = new CRM_Contact_Selector($params);
-             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
-             $controller->run();
+            CRM_Error::debug_var("formValues", $formValues);
+
+            $selector   = new CRM_Contact_AdvancedSelector($formValues);
+            $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
+            $controller->run();
         } else {
             CRM_Error::debug_log_message("reset = 1");            
         }

@@ -121,7 +121,7 @@
 
 	<p>	
 	<div>
-	<span class="float-right">{$form.submit.label}{$form.submit.html}</span>
+	<span class="float-right">{$form.buttons.html}</span>
 	</div>
 	</p>
 </div>

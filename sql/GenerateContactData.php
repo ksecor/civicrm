@@ -998,7 +998,7 @@ class CRM_GCD {
         // 60 are for newsletter
         for ($i=0; $i<60; $i++) {
             $groupContact->group_id = 1; // newsletter subscribers
-            $groupContact->contact_id = $this->_getRandomElement($this->individual);
+            $groupContact->contact_id = $this->individual[$i];
             $this->_setGroupContactStatus($groupContact);
             $this->_insert($groupContact);
         }
@@ -1006,7 +1006,7 @@ class CRM_GCD {
         // 15 volunteers
         for ($i=0; $i<15; $i++) {
             $groupContact->group_id = 2; // Volunteers
-            $groupContact->contact_id = $this->_getRandomElement($this->individual);
+            $groupContact->contact_id = $this->individual[$i+60];
             $this->_setGroupContactStatus($groupContact);
             $this->_insert($groupContact);
         }
@@ -1014,11 +1014,10 @@ class CRM_GCD {
         // 8 advisory board group
         for ($i=0; $i<8; $i++) {
             $groupContact->group_id = 3; // advisory board group
-            $groupContact->contact_id = $this->_getRandomElement($this->individual);
+            $groupContact->contact_id = $this->individual[$i*7];
             $this->_setGroupContactStatus($groupContact);
             $this->_insert($groupContact);
         }
-
         $this->lel();
     }
 

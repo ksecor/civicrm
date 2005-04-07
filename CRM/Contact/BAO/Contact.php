@@ -124,6 +124,97 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     
 
 
+
+    /**
+     * create and query the db for an advanced contact search
+     *
+     * @param array    $formValues array of reference of the form values submitted
+     * @param int      $action   the type of action links
+     * @param int      $offset   the offset for the query
+     * @param int      $rowCount the number of rows to return
+     *
+     * @return CRM_Contact_DAO_Contact 
+     * @access public
+     */
+    function advancedSearchQuery(&$formValues, $offset, $rowCount, $sort)
+    {
+        // we need to run the loop thru the num rows with offset in mind.
+        $rows = array();
+        $str_select = $str_from = $str_where = $str_order = $str_limit = '';
+        
+        // check for contact type restriction
+        if (isset($formValues['cb_contact_type'])) {
+            for ($formValues['cb_contact_type']  as $k => $v) {
+                $str_where .= " WHERE  contact_type = '" . $k . "' "; 
+            }            
+        }
+        
+        // check for group restriction
+        if (isset($formValues['cb_group'])) {
+            for ($formValues['cb_group']  as $k => $v) {
+                $str_where = " WHERE  group_id = $k "; 
+            }
+        }
+
+        // check for category restriction
+        if (isset($formValues['cb_category'])) {
+            for ($formValues['cb_category'] as $k => $v) {
+                $str_where = " WHERE  category_id = $k "; 
+            }
+        }
+
+
+        $str_select = "SELECT crm_contact.id as contact_id,
+                              crm_contact.sort_name as sort_name,
+                              crm_address.street_address as street_address,
+                              crm_address.city as city,
+                              crm_address.postal_code as postal_code,
+                              crm_state_province.abbreviation as state,
+                              crm_country.name as country,
+                              crm_email.email as email,
+                              crm_phone.phone as phone,
+                              crm_contact.contact_type as contact_type";
+
+        $str_from = " FROM crm_contact 
+                        LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                        LEFT JOIN crm_address ON (crm_location.id = crm_address.location_id )
+                        LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+                        LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                        LEFT JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
+                        LEFT JOIN crm_country ON (crm_address.country_id = crm_country.id)";
+
+        // add where clause if any condition exists..
+        if (strlen($this->contact_type) || strlen(trim($this->sort_name))){
+            $str_where = " WHERE ";
+        }
+
+        // adding contact_type in where
+        if (strlen($this->contact_type)) {
+            $str_where .= " crm_contact.contact_type ='".$this->contact_type."'";
+        }
+
+        // adding sort_name
+        if (strlen(trim($this->sort_name))) {
+            if (strlen($this->contact_type)) { // check if contact_type is present..
+                $str_where .= " AND LOWER(crm_contact.sort_name) like '%".strtolower($this->sort_name)."%'";
+            } else {
+                $str_where .= " LOWER(crm_contact.sort_name) like '%".strtolower($this->sort_name)."%'";
+            }   
+        }
+
+        $str_order = " ORDER BY " . $sort->orderBy(); 
+        $str_limit = " LIMIT $offset, $rowCount ";
+
+        // building the query string
+        $query_string = $str_select.$str_from.$str_where.$str_order.$str_limit;
+        $this->query($query_string);
+        return $this;
+    }
+
+
+
+
+
     /**
      * takes an associative array and creates a contact object
      *
