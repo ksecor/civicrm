@@ -90,10 +90,18 @@ div.status {
   margin: 5px 0px 5px 0px;
 } 
 
+/*
+** Styles for formating of text
+*/
+
 /* Inline form field 'help' */
 #crm-container .description {
   padding: 5px 0px 5px;
   font-size: 0.9em;
+}
+
+#crm-container .font-italic {
+  font-style: italic
 }
 
 /* 
@@ -156,7 +164,7 @@ div.status {
    vertical-align: middle;
 }
 
-#crm-container span.horizontal-position {
+#crm-container .horizontal-position {
   margin-right: 30px;
   margin-left: 30px;
 }
@@ -203,19 +211,32 @@ div.crm-pager a {
 /*
 **Styles for Advanced Search Page
 */
-
-#crm-container .float-col1 {
+/* following classes used to generate three column structure using <div> and <span> */
+#crm-container .three-col1 {
   float: left;
   width: 30%;
   margin-left: 5%;	  	 
 } 
 
-#crm-container .float-col2 {
+#crm-container .three-col2 {
   float: left;
   width: 30%;		
 }
 
-#crm-container .float-col3 {
+#crm-container .three-col3 {
   float: right;
   width: 35%;
+}
+
+/* following classes used to generate two column structure using <div> and <span> */
+
+#crm-container .two-col1 {
+  float: left;
+  width: 49%;
+  padding-left: 1%;
+}
+
+#crm-container .two-col2 {
+  float: right;
+  width: 50%;
 }

@@ -1,27 +1,64 @@
 {* this template is used for adding relationships  *}
+<form {$form.attributes}>
+<div class="form-item">
+<fieldset><legend>{if $op eq 'add'}New{else}Edit{/if} Relationship(s)</legend>
+	<div class="data-group">
+      	<span><label>{$displayName} is {$form.relationship_type_id.html} of </label></span>
+	</div>
+	
+	<div>
+	<span class="description">
+	Use 'Search' to narrow down list of contacts. Then mark the contact(s) and click 'Create Relationship'	
+	</span>
 
-    <form {$form.attributes}>
-    <p>
-    <fieldset><legend>{if $op eq 'add'}New{else}Edit{/if} Relationship(s)</legend>
-    <div class="form-item">
-       <b>{$displayName} is {$form.relationship_type_id.html} of </b>
-    </div><hr>
-    <div class="form-item">
-      Use 'Search' to narrow down list of contacts. Then mark the contact(s) and click 'Create Relationship'	
-    </div>
-    <div class="form-item">
-      Search: {$form.contact_type.html} <br><br>
-              {$form.name.html} {$form.search.html} 
-    </div>
-        <br/>
-    <fieldset>
-     display search result..
+	<p>
+	<div class="horizontal-position">
+	<span class="two-col1">
+	<span class="labels"><label>Search:</label></span>
+	<span class="fields">{$form.contact_type.html}</span> 
+	</span>
+	<div class="spacer"></div>
+	</div>
+      	
+	<div class="horizontal-position">
+	<span class="two-col1">
+        <span class="fields">{$form.name.html}</span>
+	</span>
+	<span class="two-col2">
+	<span>{$form.search.html}</span>
+	</span> 
+	<div class="spacer"></div>
+	</div>
+	</p>
+
+	<div>
+    	<fieldset>
+     	display search result..
+    	</fieldset>
+	</div>
+	  
+	<div class="horizontal-position">
+	<span class="two-col1">
+	<span class="labels">{$form.start_date.label}</span>
+	<span class="fields">{$form.start_date.html}</span>
+	</span>
+	<div class="spacer"></div>
+	</div>
+
+	<div class="horizontal-position">
+	<span class="two-col1">
+	<span class="labels">{$form.end_date.label}</span>
+	<span class="fields">{$form.end_date.html}</span>
+	</span>      
+	<div class="spacer"></div>
+	</div>
+	
+	<div class="horizontal-position">
+	<span class="two-col1">
+        <span class="fields">{$form.buttons.html}</span>
+	</span>
+	<div class="spacer"></div>
+	</div>
     </fieldset>
-    <div class="form-item">
-	  {$form.start_date.label}{$form.start_date.html}<br>
-	  {$form.end_date.label}{$form.end_date.html}      
-    </div>
-        {$form.buttons.html}
-    </fieldset>
-    </p>
-    </form>
+</div>
+</form>
