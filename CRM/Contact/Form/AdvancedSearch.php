@@ -131,15 +131,31 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         }
         $this->addGroup($cb_location_type, 'cb_location_type', 'Include these locations', '<br />');
 
-
         // checkbox for primary location only
         $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
         
         // submit button
-        $this->addElement('submit', 'submit', 'Search');
+        // $this->addElement('submit', 'submit_button', 'Search');
+        // $this->addElement('submit', $this->getButtonName('submit'), 'Send');
+        // set the default button
+        /* $this->addDefaultButtons(array(
+                                       array ('type'      => 'submit',
+                                              'name'      => 'submit_button' ,
+                                              'label'     => 'Search'
+                                              )
+                                       )        
+                                 ); */
+        $this->addDefaultButtons(array(
+                                       array ( 'type'      => 'next',
+                                               'name'      => 'Search',
+                                               'isDefault' => true   ),
+                                       array ( 'type'      => 'reset',
+                                               'name'      => 'Reset'),
+                                       )
+                                 );
+
+
     }
-
-
 
 
     /**
@@ -189,8 +205,29 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
 
     function postProcess() 
     {
-    }
+        CRM_ERROR::le_method();
+        $params = array( );
+        if($_GET['reset'] != 1) {
+            CRM_Error::debug_log_message("reset != 1");
+            CRM_Error::debug_var("post vars", $_POST);
 
+//             $contact_type = trim($this->controller->exportValue($this->_name, 'contact_type'));
+//             $sort_name = trim($this->controller->exportValue($this->_name, 'sort_name'));
+//             if (!empty( $contact_type ))  {
+//                 $params['contact_type'] = $contact_type;
+//             }
+//             if (!empty( $sort_name ))  {
+//                 $params['sort_name'] = $sort_name;
+//             }
+
+//             $selector   = new CRM_Contact_Selector($params);
+//             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
+//             $controller->run();
+        } else {
+            CRM_Error::debug_log_message("reset = 1");            
+        }
+        CRM_ERROR::ll_method();
+    }
 }
 
 ?>

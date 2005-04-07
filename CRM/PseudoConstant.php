@@ -323,6 +323,7 @@ class CRM_PseudoConstant {
      */
     public static function &getCategory()
     {
+        CRM_Error::le_method();
         if (!isset(self::$category)) {
             CRM_Error::debug_log_message("category is not set");
             self::$category = array();
