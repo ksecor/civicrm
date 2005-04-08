@@ -45,7 +45,7 @@ class CRM_Contact_Page_View extends CRM_Page {
         MODE_NOTE                  =   1,
         MODE_GROUP                 =   2,
         MODE_REL                   =   4,
-        MODE_TAGS                  =   8;
+        MODE_TAG                   =   8;
 
     /**
      * the contact id of the contact being viewed
@@ -77,8 +77,8 @@ class CRM_Contact_Page_View extends CRM_Page {
             CRM_Contact_Page_Note::run( $this );
         } else if ( $this->_mode == self::MODE_REL ) {
             CRM_Contact_Page_Relationship::run( $this );
-        } else if ( $this->_mode == self::MODE_TAGS ) {
-            $this->runModeTags( );
+        } else if ( $this->_mode == self::MODE_TAG ) {
+            $this->runModeTag( );
         } else if ( $this->_mode == self::MODE_GROUP ) {
             CRM_Contact_Page_GroupContact::run( $this );
         } 
@@ -139,7 +139,7 @@ class CRM_Contact_Page_View extends CRM_Page {
         $this->setShowHide( $defaults );
     }
 
-    function runModeTags()
+    function runModeTag()
     {
         $contactParam   = array();
         $defaults = array();

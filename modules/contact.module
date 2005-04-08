@@ -230,6 +230,13 @@ function contact_menu($may_cache)
                          'weight' => 1
                          );    
         
+       $items[] = array(
+                         'path'  => 'crm/contact/edit',
+                         'title' => t('Edit Contact'),
+                         'type'   => MENU_CALLBACK,
+                         'weight' => 1
+                         );    
+        
         $items[] = array(
                          'path'  => 'crm/contact/view',
                          'title' => t('View Contact'),
@@ -265,14 +272,14 @@ function contact_menu($may_cache)
                          );
         
         $items[] = array(
-                         'path'  => 'crm/contact/view/tags',
+                         'path'  => 'crm/contact/view/tag',
                          'title' => t('Tags'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 4
                          );
 
         $items[] = array(
-                         'path'  => 'crm/groups',
+                         'path'  => 'crm/group',
                          'title' => t('Manage Groups'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 1
@@ -292,7 +299,7 @@ function contact_menu($may_cache)
 
 function contact_init() 
 {
-    // menu_rebuild();
+    menu_rebuild();
 
     // Over-ride default breadcrumb for now since we want "Contact Mgmt" to link to contact browser and don't know how else to do it.
     $crm_top_breadcrumb = array('<a href="">Home</a>',
@@ -326,12 +333,12 @@ function contact_admin_invoke()
 function crm_invoke()
 {
     //  manage groups
-    if (arg(1) == 'groups') {
+    if (arg(1) == 'group') {
         if(arg(2) == 'edit' OR arg(2) == 'add') {
-            $content = fetch_tpl( 'Groups/Form/Edit.tpl');
+            $content = fetch_tpl( 'Group/Form/Edit.tpl');
         } else {
             contact_assign( 'name','dave');
-            $content = fetch_tpl( 'Groups/Groups.tpl');
+            $content = fetch_tpl( 'Group/Groups.tpl');
         }
     }
 
@@ -383,8 +390,8 @@ function contact_invoke()
     }
 
     // view contact tags
-    if (arg(2) == 'view' && arg(3) == 'tags') {
-        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Contact_Page_View::MODE_TAGS  );
+    if (arg(2) == 'view' && arg(3) == 'tag') {
+        $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Contact_Page_View::MODE_TAG  );
         $content .= $view->run( );
     }
 
@@ -424,7 +431,7 @@ function contact_load($queryArgs)
 function contact_form( $mode )
 {
     $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Contact', 'Contact Page', $mode, 'contact/add?reset=1', NULL);
+    $contact->run('CRM_Contact_Form_Edit', 'Contact Page', $mode, 'contact/add?reset=1', NULL);
     return $contact->getContent();
 }
 
