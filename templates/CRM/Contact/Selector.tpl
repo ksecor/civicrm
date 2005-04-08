@@ -1,5 +1,6 @@
 {include file="CRM/pager.tpl" location="top"}
 
+{strip}
 <table>
   <tr class="columnheader">
   {foreach from=$columnHeaders item=header}
@@ -30,7 +31,7 @@
     <td><a href="{$row.view}">View</a><br><a href="{$row.edit}">Edit</a></td>
   </tr>
   {/foreach}
-
 </table>
+{/strip}
 
 {include file="CRM/pager.tpl" location="bottom"}

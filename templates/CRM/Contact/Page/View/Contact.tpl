@@ -61,9 +61,11 @@
   <a href="#" onClick="hide('commPrefs'); show('commPrefs[show]'); return false;">(-)</a> <label>Communications Preferences</label><br />
   <div class="col1">
     <label>Privacy:</label>
+    <span class="font-red">
     {foreach from=$privacy item=privacy_val key=privacy_label}
       {if $privacy_val eq 1}{$privacy_label|replace:"_":" "|upper} &nbsp; {/if}
     {/foreach}
+    </span>
   </div>
   <div class="col2">
     <label>Prefers:</label> {$preferred_communication_method}
@@ -98,27 +100,37 @@
  <p>
  <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;">(-)</a>Relationship</legend>
     <div class="form-item">
-       <table>
-	<tr><td>Relationship</td><td>Contact</td><td>Email</td><td>Phone</td><td>City</td><td>State/Prov</td><td>&nbsp;</td></tr>
-       {foreach from=$relationship item=rel}
-         <tr>
-            <td>
+        {strip}
+	<table>
+	<tr class="columnheader">
+		<th>Relationship</th>
+		<th>Contact</th>
+		<th>Email</th>
+		<th>Phone</th>
+		<th>City</th>
+		<th>State/Prov</th>
+		<th>&nbsp;</th>
+	</tr>
+       	{foreach from=$relationship item=rel}
+        <tr class="{cycle values="odd-row,even-row"}">
+            	<td>
                 {$rel.relation|truncate:80:"...":true}
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {*assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80*}
                     <!--a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=view">(more)</a-->
                 {*/if*}
-            </td>
-	    <td>{$rel.name}</td>
-	    <td>{$rel.email}</td>
-	    <td>{$rel.phone}</td>
-	    <td>{$rel.city}</td>
-	    <td>{$rel.state}</td>
-            <td><a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=edit">Edit</a></td> 
-         </tr>  
-       {/foreach}
-       </table>
+            	</td>
+	    	<td>{$rel.name}</td>
+	    	<td>{$rel.email}</td>
+	    	<td>{$rel.phone}</td>
+	    	<td>{$rel.city}</td>
+	    	<td>{$rel.state}</td>
+            	<td><a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=edit">Edit</a></td> 
+      	</tr>  
+       	{/foreach}
+       	</table>
+	{/strip}
        <br />
        <div class="action-link">
        <a href="{$config->httpBase}contact/view/rel&op=add">Create Relationship</a>
@@ -129,6 +141,7 @@
     </div>
  </fieldset>
  </p>
+ <div class="data-group"></div>	
 </div>
 
 <div id="groups" class="data-group form-item">
@@ -155,9 +168,15 @@
  <p>
  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;">(-)</a> Contact Notes</legend>
     <div class="form-item">
+       {strip}
        <table>
+       <tr class="columnheader">
+	<th>Note Listings</th>
+	<th>Date</th>
+	<th></th>
+       </tr>
        {foreach from=$note item=note}
-         <tr>
+       <tr class="{cycle values="odd-row,even-row"}">
             <td>
                 {$note.note|truncate:80:"...":true}
                 {* Include '(more)' link to view entire note if it has been truncated *}
@@ -168,9 +187,10 @@
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
             <td><a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=edit">Edit</a></td> 
-         </tr>  
+       </tr>  
        {/foreach}
        </table>
+       {/strip}
        <br />
        <div class="action-link">
        <a href="{$config->httpBase}contact/view/note&op=add">New Note</a>
@@ -181,6 +201,7 @@
     </div>
  </fieldset>
  </p>
+ <div class="data-group"></div>
 </div>
 
 <div id="edit-link" class="form-item">

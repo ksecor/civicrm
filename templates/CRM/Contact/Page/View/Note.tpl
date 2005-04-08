@@ -30,8 +30,13 @@
 <div id="notes">
  <p>
     <div class="form-item">
+       {strip}
        <table>
-       <tr class="columnheader"><th>Note Listings</th><th>Date</th><th></th></tr>
+       <tr class="columnheader">
+	<th>Note Listings</th>
+	<th>Date</th>
+	<th></th>
+       </tr>
        {foreach from=$notes item=note}
          <tr class="{cycle values="odd-row,even-row"}">
             <td>
@@ -47,6 +52,7 @@
          </tr>
        {/foreach}
        </table>
+       {/strip}
        <br />
        <div class="action-link">
          <a href="{$config->httpBase}contact/view/note&cid={$contactId}&op=add">New Note</a>
