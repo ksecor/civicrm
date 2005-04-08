@@ -48,7 +48,7 @@ class CRM_Import_Controller extends CRM_Controller {
 
         // add all the actions
         $config = CRM_Config::singleton( );
-        $this->addDefault( $config->httpBase . 'upload', null );
+        $this->addActions( $config->httpBase . 'upload' );
     }
 
 }

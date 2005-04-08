@@ -36,7 +36,7 @@ require_once 'CRM/Form.php';
 /**
  * This class summarizes the import results
  */
-class CRM_Import_Form_Preview extends CRM_Form {
+class CRM_Import_Form_Summary extends CRM_Form {
 
     /**
      * class constructor

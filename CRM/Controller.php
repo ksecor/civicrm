@@ -199,10 +199,10 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         foreach ( $pages as $classPath ) {
             $stateName   = CRM_String::getClassName($classPath);
 
-            $page = new $classPath( $stateName,
-                                    $stateMachine->find( $classPath ),
-                                    $mode );
-            $this->addPage( $page );
+            $$stateName = new $classPath( $stateName,
+                                          $stateMachine->find( $classPath ),
+                                          $mode );
+            $this->addPage( $$stateName );
             $this->addAction( $stateName, new HTML_QuickForm_Action_Direct( ) );
         }
     }
@@ -333,9 +333,9 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         $wizard['steps'] = array( );
 
         $count           = 0;
-        foreach ( $this->_pages as $name => &$page ) {
+        foreach ( $this->_pages as $name => $page ) {
             $count++;
-            $wizard['steps'][] = array( 'name'  => $page->getName ( ),
+            $wizard['steps'][] = array( 'name'  => $name,
                                         'title' => $page->getTitle( ),
                                         'link'  => $page->getLink ( ) );
 
@@ -349,6 +349,26 @@ class CRM_Controller extends HTML_QuickForm_Controller {
 
         $this->assign( 'wizard', $wizard );
         return $wizard;
+    }
+
+    /**
+     * assign value to name in template
+     *
+     * @param array|string $name  name  of variable
+     * @param mixed $value value of varaible
+     *
+     * @return void
+     * @access public
+     */
+    function assign( $var, $value = null) {
+        static $template = null;
+
+        if ( ! isset( $template ) ) {
+            $config  = CRM_Config::singleton ();
+            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        }
+
+        $template->assign($var, $value);
     }
 
 }

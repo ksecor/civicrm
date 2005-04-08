@@ -35,30 +35,22 @@ require_once 'CRM/StateMachine.php';
 
 class CRM_Import_StateMachine extends CRM_StateMachine {
 
-    static $_pages = array(
-                           'CRM_Import_Form_UploadFile',
-                           'CRM_Import_Form_MapField',
-                           'CRM_Import_Form_Preview',
-                           'CRM_Import_Form_Summary'
-                           );
-
     /**
      * class constructor
      */
     function __construct( $controller, $mode = CRM_Form::MODE_NONE ) {
         parent::__construct( $controller, $mode );
-
-        $this->addSequentialPages( self::$_pages, $mode );
-    }
-
-    function wizardHeader( ) {
-        $header = array( );
-        foreach ( self::$_pages as &$page ) {
-            $info = array( 'name' => '
-        }
+        
+        $this->_pages = array(
+                              'CRM_Import_Form_UploadFile',
+                              'CRM_Import_Form_MapField',
+                              'CRM_Import_Form_Preview',
+                              'CRM_Import_Form_Summary'
+                              );
+        
+        $this->addSequentialPages( $this->_pages, $mode );
     }
 
 }
 
 ?>
-
