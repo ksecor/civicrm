@@ -8,13 +8,14 @@
 /*
 ** Tentative styling for classes of text input fields. Need to test. dgg
 */
-#crm-container input.two {width: 2em;}
-#crm-container input.four {width: 4em;}
-#crm-container input.eight {width: 8em;}
-#crm-container input.twelve {width: 12em;}
-#crm-container input.medium {width: 12em;}
-#crm-container input.big {width: 15em;}
-#crm-container input.huge {width: 30em;}
+#crm-container .two {width: 2em;}
+#crm-container .four {width: 4em;}
+#crm-container .six {width: 6em;}
+#crm-container .eight {width: 8em;}
+#crm-container .twelve {width: 12em;}
+#crm-container .medium {width: 12em;}
+#crm-container .big {width: 15em;}
+#crm-container .huge {width: 30em;}
 
 /*
 ** Classes for form section show/hide links
@@ -100,10 +101,17 @@ div.status {
   font-size: 0.9em;
 }
 
-#crm-container .font-italic {
+.font-italic {
   font-style: italic
 }
 
+.font-size12pt {
+  font-size: 1.2em;
+}
+
+.font-red {
+  color: #FF0105;	
+}
 /* 
 ** Styles for record browser table and pager bar
 */
@@ -136,12 +144,12 @@ div.status {
 }
 
 
-#crm-container tr.odd-row {
+#crm-container .odd-row {
   border: 1px solid #000000;
   background-color: #FAFAF8;
 }
 
-#crm-container tr.even-row {
+#crm-container .even-row {
   border: 1px solid #000000;
   background-color: #EAEAEA;
 }
@@ -214,18 +222,18 @@ div.crm-pager a {
 /* following classes used to generate three column structure using <div> and <span> */
 #crm-container .three-col1 {
   float: left;
-  width: 30%;
-  margin-left: 5%;	  	 
+  width: 32%;
+  padding-left: 1%;
 } 
 
 #crm-container .three-col2 {
   float: left;
-  width: 30%;		
+  width: 33%;		
 }
 
 #crm-container .three-col3 {
   float: right;
-  width: 35%;
+  width: 34%;
 }
 
 /* following classes used to generate two column structure using <div> and <span> */
@@ -243,19 +251,32 @@ div.crm-pager a {
 
 /*
 ** style for showing three borders coloured
-** and one border lightly coloured 
+** and one border lightly coloured (like the page for advanced search) 
 */
 
 #crm-container .top-light-coloured {
-  border-bottom: 2.5px solid #4C4C4C;
-  border-left: 2.5px solid #4C4C4C;
-  border-right: 2.5px solid #4C4C4C; 
-  border-top: 0.5px solid #B0B0B0;	
+  border-bottom: 2px solid #4C4C4C;
+  border-left: 2px solid #4C4C4C;
+  border-right: 2px solid #4C4C4C; 
+  border-top: 0.1px solid #B0B0B0;	
 }
 
 #crm-container .bottom-light-coloured {
-  border-top: 2.5px solid #4C4C4C;
-  border-left: 2.5px solid #4C4C4C;
-  border-right: 2.5px solid #4C4C4C; 
-  border-bottom: 0.5px solid #B0B0B0;
+  border-top: 2px solid #4C4C4C;
+  border-left: 2px solid #4C4C4C;
+  border-right: 2px solid #4C4C4C; 
+  border-bottom: 0.1px solid #B0B0B0;
+}
+
+/*
+** overflowing for elements (e.g. Advanced Search page)
+**
+*/
+
+#crm-container .listing-box{
+  width: 15em;
+  height: 9em;	
+  overflow: scroll;
+  border-top: 1px solid #B0B0B0;
+  border-left: 1px solid #B0B0B0;
 }
