@@ -91,14 +91,22 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
         $params   = array( );
 
         if ( $this->_mode & self::MODE_UPDATE ) {
+            
             $relationship = new CRM_Contact_DAO_Relationship( );
+
             $relationship->id = $this->_relationshipId;
             if ($relationship->find(true)) {
                 $defaults['relationship_type_id'] = $relationship->relationship_type_id;
                 $defaults['start_date'] = $relationship->start_date;
                 $defaults['end_date'] = $relationship->end_date;
+
+                $contact = new CRM_Contact_DAO_Contact( );
+                $contact->id = $relationship->contact_id_b;
+                if ($contact->find(true)) {
+                    $this->assign('sort_name', $contact->sort_name);                
+                }
             }
-        }
+         }
       
         return $defaults;
     }
@@ -130,13 +138,27 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
         
         $this->addElement('select', "contact_type", '', CRM_SelectValues::$contactType);
         
-        $this->addElement('text', "name" );
-        
-        $this->addElement('submit','search', 'Search');
+        $this->addElement('text', 'name' );
+        $this->addElement('hidden', 'csearch','0' );
+
+        // $this->addElement('submit','search', 'Search', array("onclick" => "contact/view/rel&op=search"));
 
         $this->addElement('date', 'start_date', 'Starting:', CRM_SelectValues::$date);
         
         $this->addElement('date', 'end_date', 'Ending:', CRM_SelectValues::$date);
+
+        $arraySearch = array();
+        $params = array();
+        $arraySearch = $this->exportValues();
+        
+        if ($this->_mode != self::MODE_UPDATE ) {
+            if ($arraySearch['csearch'] == 0 ){
+                $params['name'] = $arraySearch['name'];
+                $params['contact_type'] = $arraySearch['contact_type'];
+            
+                $this->getContactList($this, $params);
+            }
+        }
 
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'next',
@@ -157,49 +179,86 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
      */
     public function postProcess() 
     {
-        
         // store the submitted values in an array
         $params = $this->exportValues();
 
-        // create relationship object
-        $relationship                = new CRM_Contact_DAO_Relationship( );
-        $relationship->contact_id_a  = $this->_contactId;
-        $relationship->contact_id_b  = 1;
-        $relationship->relationship_type_id = $params['relationship_type_id'];
-
-        $sdate = CRM_Array::value( 'start_date', $params );
-        $relationship->start_date = null;
-        if ( $sdate              &&
-             !empty($sdate['M']) &&
-             !empty($sdate['d']) &&
-             !empty($sdate['Y']) ) {
-            $sdate['M'] = ( $sdate['M'] < 10 ) ? '0' . $sdate['M'] : $sdate['M'];
-            $sdate['d'] = ( $sdate['d'] < 10 ) ? '0' . $sdate['d'] : $sdate['d'];
-            $relationship->start_date = $sdate['Y'] . $sdate['M'] . $sdate['d'];
-        }
-
-        $edate = CRM_Array::value( 'end_date', $params );
-        $relationship->end_date = null;
-        if ( $edate              &&
-             !empty($edate['M']) &&
-             !empty($edate['d']) &&
-             !empty($edate['Y']) ) {
-            $edate['M'] = ( $edate['M'] < 10 ) ? '0' . $edate['M'] : $edate['M'];
-            $edate['d'] = ( $edate['d'] < 10 ) ? '0' . $edate['d'] : $edate['d'];
-            $relationship->end_date = $edate['Y'] . $edate['M'] . $edate['d'];
-        }
-
+        // action is taken depending upon the mode
+        $ids = array( );
+        $ids['contact'] = $this->_contactId;
         if ($this->_mode & self::MODE_UPDATE ) {
-            $relationship->id = $this->_relationshipId;
-        } 
+            $ids['relationship'] = $this->_relationshipId;
+        }    
 
-        $relationship->save( );
+        $relationship = CRM_Contact_BAO_Relationship::create( $params, $ids );
 
         $session = CRM_Session::singleton( );
-
-        $session->setStatus( "Your Relationship has been saved." );
+        if ($relationship->id) {
+            $session->setStatus( 'Your relationship record has been saved' );
+        }
 
     }//end of function
+
+
+    /**
+     * This function is to get the result of the search for contact in relationship form
+     *
+     * param  array $params  This contains elements for search criteria
+     *
+     * @access public
+     * @return None
+     *
+     */
+    function getContactList($this, &$params) {
+        
+        $contact = new CRM_Contact_BAO_Contact( );
+        
+        $lngResultCount = 0;
+        
+        //max records that will be listed
+        $maxResultCount = 50;
+      
+        $contact->whereAdd( " crm_contact.sort_name like '%".$params['name']."%'");
+        if (strlen($params['contact_type'])) {
+            $contact->contact_type = $params['contact_type'];
+        }
+        $lngResultCount = $contact->count();
+
+        
+        if ($lngResultCount > $maxResultCount) {
+            $this->assign('noResult', 'Please enter appropriate search criteria.');
+        } else {
+            $config = CRM_Config::singleton( );
+            $contact->find(true);
+            while($contact->fetch()) {
+                
+                $values[$contact->id]['id'] = $contact->id;
+                $values[$contact->id]['name'] = $contact->sort_name;
+
+                $contact_type = '<img src="' . $config->httpBase . 'i/contact_';
+                switch ($contact->contact_type ) {
+                case 'Individual' :
+                    $contact_type .= 'ind.png" alt="Individual">';
+                    break;
+                case 'Household' :
+                    $contact_type .= 'house.png" alt="Household" height="16" width="16">';
+                    break;
+                case 'Organization' :
+                    $contact_type .= 'org.gif" alt="Organization" height="16" width="18">';
+                    break;
+                    
+                }
+                $values[$contact->id]['type'] = $contact_type;
+                
+                $contact_chk[$contact->id] = $this->createElement('checkbox', $contact->id, null,'');                
+            }
+            
+            $this->addGroup($contact_chk, 'contact_check');
+            if ($lngResultCount == 0) $this->assign('noContacts',' No results were found.');
+            $this->assign('contacts', $values);
+        }
+        
+    }
+
 
 }
 

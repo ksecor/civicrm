@@ -97,6 +97,7 @@ class CRM_Contact_Page_GroupContact {
     }
 
     static function edit( $page, $mode, $groupId = null ) {
+        /*
         $controller = new CRM_Controller_Simple( 'CRM_Group_Form_GroupContact', 'Contact GroupContacts', $mode );
 
         // set the userContext stack
@@ -112,6 +113,7 @@ class CRM_Contact_Page_GroupContact {
  
         $controller->process( );
         $controller->run( );
+        */
     }
 
     static function run( $page ) {

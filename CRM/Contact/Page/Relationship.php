@@ -140,7 +140,7 @@ class CRM_Contact_Page_Relationship {
         // set the userContext stack
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
-        $session->pushUserContext( $config->httpBase . 'contact/view/rel&op=browse' );
+        $session->pushUserContext( $config->httpBase . 'contact/view/rel?op=browse' );
 
         $controller->reset( );
         $controller->set( 'contactId'  , $page->getContactId( ) );
@@ -151,6 +151,7 @@ class CRM_Contact_Page_Relationship {
     }
 
     static function run( $page ) {
+        
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
 
@@ -175,7 +176,6 @@ class CRM_Contact_Page_Relationship {
 
         self::browse( $page );
     }
-
 }
 
 ?>

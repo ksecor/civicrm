@@ -138,6 +138,107 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         //   print_r($relationships);
         return $relationships;
     }
+
+
+  /**
+   * takes an associative array and creates a relationship object 
+   *
+   *
+   * @param array $params (reference ) an assoc array of name/value pairs
+   * @param array $ids    the array that holds all the db ids
+   *
+   * @return object CRM_Contact_BAO_Relationship object 
+   * @access public
+   * @static
+   */
+    static function create( &$params, &$ids ) {
+      
+        $dataExists = self::dataExists( $params );
+        if ( ! $dataExists ) {
+            return null;
+        }
+        
+        CRM_DAO::transaction( 'BEGIN' );
+        
+        foreach ( $params['contact_check'] as $lng_key => $value) {
+            $relationship = self::add( $params, $ids, $lng_key );
+        }
+        
+        CRM_DAO::transaction( 'COMMIT' );
+
+        return $relationship;
+    }
+
+
+    /**
+     * takes an associative array and creates a note object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * note object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param integer $lngContactId  this is contact id for adding relationship
+     * @param array $ids    the array that holds all the db ids  
+     * 
+     * @return object CRM_Contact_BAO_Relationship 
+     * @access public
+     * @static
+     */
+    static function add( &$params, &$ids, $lngContactId ) 
+    {
+        // create relationship object
+        $relationship                = new CRM_Contact_BAO_Relationship( );
+        $relationship->contact_id_a  = CRM_Array::value( 'contact', $ids );;
+        $relationship->contact_id_b  = $lngContactId;
+        $relationship->relationship_type_id = CRM_Array::value( 'relationship_type_id', $params );
+        
+        $sdate = CRM_Array::value( 'start_date', $params );
+        $relationship->start_date = null;
+        if ( $sdate              &&
+             !empty($sdate['M']) &&
+             !empty($sdate['d']) &&
+             !empty($sdate['Y']) ) {
+            $sdate['M'] = ( $sdate['M'] < 10 ) ? '0' . $sdate['M'] : $sdate['M'];
+            $sdate['d'] = ( $sdate['d'] < 10 ) ? '0' . $sdate['d'] : $sdate['d'];
+            $relationship->start_date = $sdate['Y'] . $sdate['M'] . $sdate['d'];
+        }
+
+        $edate = CRM_Array::value( 'end_date', $params );
+        $relationship->end_date = null;
+        if ( $edate              &&
+             !empty($edate['M']) &&
+             !empty($edate['d']) &&
+             !empty($edate['Y']) ) {
+            $edate['M'] = ( $edate['M'] < 10 ) ? '0' . $edate['M'] : $edate['M'];
+            $edate['d'] = ( $edate['d'] < 10 ) ? '0' . $edate['d'] : $edate['d'];
+            $relationship->end_date = $edate['Y'] . $edate['M'] . $edate['d'];
+        }
+        
+        $relationship->id = CRM_Array::value( 'relationship', $ids );
+        return  $relationship->save( );
+
+    }
+
+    /**
+     * Check if there is data to create the object
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     *
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function dataExists( &$params ) 
+    {
+        // return if no data present
+        if ( ! is_array( $params['contact_check']) ) {
+            return false;
+        } 
+        return true;
+     }
+
+
 }
 
 ?>

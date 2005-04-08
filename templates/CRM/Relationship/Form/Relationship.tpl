@@ -3,14 +3,14 @@
 <div class="form-item">
 <fieldset><legend>{if $op eq 'add'}New{else}Edit{/if} Relationship(s)</legend>
 	<div class="data-group">
-      	<span><label>{$displayName} is {$form.relationship_type_id.html} of </label></span>
+      	<span><label>{$displayName} is {$form.relationship_type_id.html} of {$sort_name}</label></span>
 	</div>
-	
 	<div>
 	<span class="description">
 	Use 'Search' to narrow down list of contacts. Then mark the contact(s) and click 'Create Relationship'	
 	</span>
 
+	{if $op eq 'add'}
 	<p>
 	<div class="horizontal-position">
 	<span class="two-col1">
@@ -19,24 +19,40 @@
 	</span>
 	<div class="spacer"></div>
 	</div>
-      	
+
 	<div class="horizontal-position">
 	<span class="two-col1">
         <span class="fields">{$form.name.html}</span>
 	</span>
 	<span class="two-col2">
-	<span>{$form.search.html}</span>
+	<span>{*$form.search.html*}
+	  <!--input type="hidden" name="csearch" value="0"-->
+          <input type="button" name='search' value="Search" onClick="'{$form.formName}.csearch.value=1';{$form.formName}.submit();">
+        </span>
 	</span> 
 	<div class="spacer"></div>
 	</div>
 	</p>
 
-	<div>
-    	<fieldset>
-     	display search result..
-    	</fieldset>
-	</div>
-	  
+
+	  <div class="form-item">
+    	  <fieldset>
+	  {if ($noResult) }
+   	     {$noResult}
+          {else}
+	     {if ($contacts) }
+	       {foreach from=$contacts item="row"}
+ 	       {$form.contact_check[$row.id].html}
+                &nbsp;{$row.type} &nbsp;{$row.name} <br>
+	       {/foreach}
+             {else}
+	        {$noContacts}
+             {/if}
+          {/if}
+    	  </fieldset>
+	  </div>
+	{/if}
+
 	<div class="horizontal-position">
 	<span class="two-col1">
 	<span class="labels">{$form.start_date.label}</span>
