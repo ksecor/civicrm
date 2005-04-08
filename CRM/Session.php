@@ -118,10 +118,14 @@ class CRM_Session {
      * @access public
      * @return void
      */
-    function reset() {
-        // to make certain we clear it, firs initialize it to empty
-        $this->_session[$this->_key] = array();
-        unset( $this->_session[$this->_key] );
+    function reset( $all = 1) {
+        if ( $all != 1 ) {
+            // to make certain we clear it, firs initialize it to empty
+            $this->_session[$this->_key] = array();
+            unset( $this->_session[$this->_key] );
+        } else {
+            $this->_session = array( );
+        }
 
         return;
     }
@@ -331,10 +335,13 @@ class CRM_Session {
 
     /**
      * dumps the session to the log
-     *
      */
-    function debug( ) {
-        CRM_Error::debug( 'CRM Session', $this->_session[$this->_key] );
+    function debug( $all = 1 ) {
+        if ( $all != 1) {
+            CRM_Error::debug( 'CRM Session', $this->_session );
+        } else {
+            CRM_Error::debug( 'CRM Session', $this->_session[$this->_key] );
+        }
     }
 
     /**

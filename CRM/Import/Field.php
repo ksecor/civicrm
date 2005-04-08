@@ -35,36 +35,36 @@ class CRM_Import_Field {
     /**
      * name of the field
      */
-    protected $_name;
+    public $_name;
 
     /**
      * title of the field to be used in display
      */
-    protected $_title;
+    public $_title;
 
     /**
      * type of field
      * @var enum
      */
-    protected $_type;
+    public $_type;
 
     /**
      * is this field required
      * @var boolean
      */
-    protected $_required;
+    public $_required;
 
     /**
      * data to be carried for use by a derived class
      * @var object
      */
-    protected $_payload;
+    public $_payload;
 
     /**
      * value of this field
      * @var object
      */
-    protected $_value;
+    public $_value;
 
     function __construct( $name, $title, $type = CRM_Type::T_INT, $required = false, $payload = null, $active = false ) {
         $this->_name      = $name;

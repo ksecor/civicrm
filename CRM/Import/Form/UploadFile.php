@@ -60,28 +60,28 @@ class CRM_Import_Form_UploadFile extends CRM_Form {
 
         $this->addElement( 'checkbox', 'skipColumnHeader', 'Does the file have a column header row?' );
 
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'upload',
-                                                'name'      => 'Continue',
-                                                'isDefault' => true   ),
-                                        array ( 'type'      => 'reset',
-                                                'name'      => 'Reset'),
-                                        array ( 'type'      => 'cancel',
-                                                'name'      => 'Cancel' ),
-                                        )
-                                  );
+        $this->addButtons( array(
+                                 array ( 'type'      => 'upload',
+                                         'name'      => 'Continue',
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'reset',
+                                         'name'      => 'Reset'),
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => 'Cancel' ),
+                                 )
+                           );
     }
 
     /**
      * Process the uploaded file
      */
     public function postProcess( ) {
-        $fileName  = $this->exportValue( 'uploadFile' );
+        $fileName  = $this->controller->exportValue( $this->_name, 'uploadFile' );
         $seperator = ',';
 
         $parser = new CRM_Import_Parser_Contact( );
         $parser->setMaxLinesToProcess( 5 );
-        $parser->import( $fileName, $seperator );
+        $parser->import( $fileName, $seperator, true );
 
         // add all the necessary variables to the form
         $parser->set( $this );

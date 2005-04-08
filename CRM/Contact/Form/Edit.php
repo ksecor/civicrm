@@ -263,16 +263,16 @@ class CRM_Contact_Form_Edit extends CRM_Form
         $this->add('textarea', 'address_note', 'Notes:', array('cols' => '82', 'maxlength' => 255));    
         CRM_ShowHideBlocks::links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
         */
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next',
-                                                'name'      => 'Save',
-                                                'isDefault' => true   ),
-                                        array ( 'type'      => 'reset',
-                                                'name'      => 'Reset'),
-                                        array ( 'type'       => 'cancel',
-                                                'name'      => 'Cancel' ),
-                                        )
-                                  );
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => 'Save',
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'reset',
+                                         'name'      => 'Reset'),
+                                 array ( 'type'       => 'cancel',
+                                         'name'      => 'Cancel' ),
+                                 )
+                           );
 
     }
 

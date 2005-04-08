@@ -5,7 +5,7 @@
 {$session->reset()}
 {/if}
 {if $smarty.get.sessionDebug}
-{$session->debug()}
+{$session->debug($smarty.get.sessionDebug)}
 {/if}
 <div id="crm-container">
 <script type="text/javascript" src="{$config->httpBase}js/Common.js"></script>

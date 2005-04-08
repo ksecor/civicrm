@@ -270,7 +270,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      * @access public
      *
      */
-    function addDefaultButtons( $params ) {
+    function addButtons( $params ) {
     
         $prevnext = array( );
         foreach ( $params as $button ) {

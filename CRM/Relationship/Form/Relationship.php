@@ -160,14 +160,14 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
             }
         }
 
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next',
-                                                'name'      => 'Save Relationship',
-                                                'isDefault' => true   ),
-                                        array ( 'type'       => 'cancel',
-                                                'name'      => 'Cancel' ),
-                                        )
-                                  );
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => 'Save Relationship',
+                                         'isDefault' => true   ),
+                                 array ( 'type'       => 'cancel',
+                                         'name'      => 'Cancel' ),
+                                 )
+                           );
         
     }
 

@@ -37,11 +37,42 @@ require_once 'CRM/Form.php';
  * This class gets the name of the file to upload
  */
 class CRM_Import_Form_MapField extends CRM_Form {
+
+    /**
+     * cache of preview data values
+     *
+     * @var array
+     */
+    protected $_dataValues;
+
+    /**
+     * mapper fields
+     *
+     * @var array
+     */
+    protected $_mapperFields;
+
+    /**
+     * number of columns in import file
+     *
+     * @var int
+     */
+    protected $_columnCount;
+
     /**
      * class constructor
      */
     function __construct($name, $state, $mode = self::MODE_NONE) {
         parent::__construct($name, $state, $mode);
+    }
+
+    public function preProcess( ) {
+        $this->_mapperFields = $this->get( 'fields' );
+
+        $this->_columnCount = $this->get( 'columnCount' );
+        $this->assign( 'columnCount' , $this->_columnCount );
+        $this->assign( 'dataValues'  , $this->get( 'dataValues' ) );
+        $this->assign( 'rowDisplayCount', 2 );
     }
 
     /**
@@ -51,18 +82,27 @@ class CRM_Import_Form_MapField extends CRM_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'next',
-                                                'name'      => 'Continue',
-                                                'isDefault' => true   ),
-                                        array ( 'type'      => 'back',
-                                                'name'      => 'Previous' ),
-                                        array ( 'type'      => 'reset',
-                                                'name'      => 'Reset'),
-                                        array ( 'type'      => 'cancel',
-                                                'name'      => 'Cancel' ),
-                                        )
-                                  );
+        $this->_defaults = array( );
+        $mapperKeys      = array_keys( $this->_mapperFields );
+
+        for ( $i = 0; $i < $this->_columnCount; $i++ ) {
+            $this->add( 'select', "mapper[$i]", "Mapper for Field $i", $this->_mapperFields );
+            $this->_defaults["mapper[$i]"] = $mapperKeys[$i];
+        }
+        $this->setDefaults( $this->_defaults );
+
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => 'Continue',
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'back',
+                                         'name'      => 'Previous' ),
+                                 array ( 'type'      => 'reset',
+                                         'name'      => 'Reset'),
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => 'Cancel' ),
+                                 )
+                           );
     }
 
     /**

@@ -124,16 +124,20 @@ abstract class CRM_Import_Parser {
      */
     protected $_maxLinesToProcess;
 
-    function __construct() {
-        $this->_fields       = array();
-        $this->_activeFields = array();
+    /**
+     * cache of preview rows
+     *
+     * @var array
+     */
+    protected $_rows;
 
+    function __construct() {
         $this->_maxLinesToProcess = 0;
     }
 
     abstract function init();
 
-    function import( $fileName, $seperator = ',' ) {
+    function import( $fileName, $seperator = ',', $preview = false ) {
         $this->init();
 
         $this->_seperator = ',';
@@ -149,8 +153,12 @@ abstract class CRM_Import_Parser {
         $this->_warnings = array();
 
         $this->_fileSize = number_format( filesize( $fileName ) / 1024.0, 2 );
-
-        $this->_activeFieldCount = count( $this->_activeFields );
+        
+        if ( ! $preview ) {
+            $this->_activeFieldCount = count( $this->_activeFields );
+        } else {
+            $this->_rows = array( );
+        }
 
         while ( ! feof( $fd ) ) {
             $fields = fgetcsv( $fd, 8192, $seperator );
@@ -164,6 +172,10 @@ abstract class CRM_Import_Parser {
             // note that a line could be valid but still produce a warning
             if ( $returnCode & self::VALID ) {
                 $this->_validCount++;
+                if ( $preview ) {
+                    $this->_rows[]           = $fields;
+                    $this->_activeFieldCount = max( $this->_activeFieldCount, count( $fields ) );
+                }
             }
 
             if ( $returnCode & self::WARNING ) {
@@ -225,14 +237,13 @@ abstract class CRM_Import_Parser {
     function getSelectValues() {
         $values = array();
         foreach ( $this->_fields as $field ) {
-            $values[$field->iname] = $field->name;
+            $values[$field->_name] = $field->_title;
         }
         return $values;
     }
 
     function addField( $name, $title, $type = CRM_Type::T_INT, $required = false, $payload = null, $active = false ) {
-        $field = new CRM_Import_Field($name, $title, $type, $required, $payload, $active);
-        $this->_fields[] =& $field;
+        $this->_fields[] = new CRM_Import_Field($name, $title, $type, $required, $payload, $active);
     }
 
     /**
@@ -256,10 +267,17 @@ abstract class CRM_Import_Parser {
      * @access public
      */
     function set( $store ) {
-        $store->set( 'fileSize'  , $this->_fileSize   );
-        $store->set( 'lineCount' , $this->_lineCount  );
-        $store->set( 'seperator' , $this->_seperator  );
+        $store->set( 'fileSize'   , $this->_fileSize          );
+        $store->set( 'lineCount'  , $this->_lineCount         );
+        $store->set( 'seperator'  , $this->_seperator         );
+        $store->set( 'fields'     , $this->getSelectValues( ) );
+        $store->set( 'columnCount', $this->_activeFieldCount  );
+
+        if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
+            $store->set( 'dataValues', $this->_rows );
+        }
     }
+
 }
 
 ?>

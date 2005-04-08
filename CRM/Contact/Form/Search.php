@@ -97,12 +97,12 @@ class CRM_Contact_Form_Search extends CRM_Form {
         // $this->addElement('link', 'select_none', null, '#', 'None', array('onclick' => 'check(); return false;'));
 
 
-        $this->addDefaultButtons( array(
-                                        array ( 'type'      => 'refresh',
-                                                'name'      => 'Search' ,
-                                                'isDefault' => true     )
-                                        )        
-                                  );
+        $this->addButtons( array(
+                                 array ( 'type'      => 'refresh',
+                                         'name'      => 'Search' ,
+                                         'isDefault' => true     )
+                                 )        
+                           );
         
         /*
          * added one extra button, this is needed as per the design of the action form

@@ -125,14 +125,14 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         // checkbox for primary location only
         $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
         
-        $this->addDefaultButtons(array(
-                                       array ( 'type'      => 'refresh',
-                                               'name'      => 'Search',
-                                               'isDefault' => true   ),
-                                       array ( 'type'      => 'reset',
-                                               'name'      => 'Reset'),
-                                       )
-                                 );
+        $this->addButtons(array(
+                                array ( 'type'      => 'refresh',
+                                        'name'      => 'Search',
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'reset',
+                                        'name'      => 'Reset'),
+                                )
+                          );
 
 
     }
