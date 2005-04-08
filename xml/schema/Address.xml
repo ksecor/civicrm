@@ -29,6 +29,7 @@
        <name>street_address</name>
        <type>varchar</type>
        <length>96</length>
+       <import>true</import>
        <comment>Concatenation of all routable street address components (prefix, street number, street name, suffix, unit number OR P.O. Box. Apps should be able to determine physical location with this data (for mapping, mail delivery, etc.).</comment>
   </field>
   <field>
@@ -76,12 +77,14 @@
        <name>supplemental_address_1</name>
        <type>varchar</type>
        <length>96</length>
+       <import>true</import>
        <comment>Supplemental Address Information, Line 1</comment>
   </field>
   <field>
        <name>supplemental_address_2</name>
        <type>varchar</type>
        <length>96</length>
+       <import>true</import>
        <comment>Supplemental Address Information, Line 2</comment>
   </field>
   <field>
@@ -94,6 +97,7 @@
        <name>city</name>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>City, Town or Village Name.</comment>
   </field>
   <field>
@@ -105,21 +109,25 @@
        <name>county_id</name>
        <table>crm_county</table>
        <key>id</key>
+       <import>true</import>
   </foreignKey>
   <field>
       <name>state_province_id</name>
       <type>int unsigned</type>
       <comment>Which State_Province does this address belong to.</comment>
+       <import>true</import>
   </field>
   <foreignKey>
        <name>state_province_id</name>
        <table>crm_state_province</table>
        <key>id</key>
+       <import>true</import>
   </foreignKey>
   <field>
        <name>postal_code</name>
        <type>varchar</type>
        <length>12</length>
+       <import>true</import>
        <comment>Store both US (zip5) AND international postal codes. App is responsible for country/region appropriate validation.</comment>
   </field>
   <field>
@@ -143,6 +151,7 @@
        <name>country_id</name>
        <table>crm_country</table>
        <key>id</key>
+       <import>true</import>
   </foreignKey>
   <field>
       <name>geo_coord_id</name>
@@ -171,7 +180,7 @@
        <comment>Timezone expressed as a UTC offset - e.g. United States CST would be written as "UTC-6".</comment>
   </field>
   <field>
-       <name>address_note</name>
+       <name>note</name>
        <type>varchar</type>
        <length>255</length>
        <comment>Optional misc info (e.g. delivery instructions) for this address.</comment>

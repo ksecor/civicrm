@@ -16,8 +16,10 @@
   </primaryKey>
   <field>
        <name>name</name>
+       <title>IM Provider Name</title>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>Name of IM Provider.</comment>
   </field>
 </table>

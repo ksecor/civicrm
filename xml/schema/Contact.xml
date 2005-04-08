@@ -35,12 +35,14 @@
        <name>legal_identifier</name>
        <type>varchar</type>
        <length>32</length>
+       <import>true</import>
        <comment>May be used for SSN, EIN/TIN, Household ID (census) or other applicable unique legal/government ID.</comment>
   </field>
   <field>
        <name>external_identifier</name>
        <type>varchar</type>
        <length>32</length>
+       <import>true</import>
        <comment>Unique trusted external ID (generally from a legacy app/datasource). Particularly useful for deduping operations.</comment>
   </field>
   <field>

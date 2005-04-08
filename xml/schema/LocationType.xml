@@ -26,8 +26,10 @@
   </foreignKey>
   <field>
        <name>name</name>
+       <title>Location Type</title>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>Location Type Name.</comment>
   </field>
   <field>

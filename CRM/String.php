@@ -148,6 +148,24 @@ class CRM_String {
         }
     }
 
+    /**
+     * determine if the string is composed only of ascii characters
+     *
+     * @param string $str input string
+     *
+     * @return boolean    true if string is ascii
+     * @access public
+     * @static
+     */
+    static function isAscii( $str ) {
+        $str = preg_replace( '/\s+/', '', $str ); // eliminate all white space from the string
+
+        if ( preg_match( '/[\x00-\x20]/', $str ) || // low ascii characters
+             preg_match( '/[\x7F-\xFF]/', $str ) ) {   // high ascii characters
+            return false;
+        }
+        return true;
+    }
 }
 
 ?>

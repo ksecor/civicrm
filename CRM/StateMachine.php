@@ -78,8 +78,9 @@ class CRM_StateMachine {
      * @return object
      * @access public
      */
-    function __construct( &$controller ) {
+    function __construct( &$controller, $mode = CRM_Form::MODE_NONE ) {
         $this->_controller =& $controller;
+        $this->_mode       = $mode;
 
         $this->_states = array( );
     }
@@ -155,8 +156,8 @@ class CRM_StateMachine {
     /**
      * helper function to add a State to the state machine
      *
-     * @param string $iname the internal name
-     * @param string $name  the display name
+     * @param string $name  the internal name
+     * @param string $title the display name
      * @param int    $type  the type of state (START|FINISH|SIMPLE)
      * @param object $prev  the previous page if any
      * @param object $next  the next page if any
@@ -164,8 +165,8 @@ class CRM_StateMachine {
      * @return void
      * @access public
      */
-    function addState( $iname, $name, $type, $prev, $next ) {
-        $this->_states[$iname] =& new CRM_State( $iname, $name, $type, $prev, $next, $this );
+    function addState( $name, $title, $type, $prev, $next ) {
+        $this->_states[$name] =& new CRM_State( $name, $title, $type, $prev, $next, $this );
     }
 
     /**
@@ -214,30 +215,21 @@ class CRM_StateMachine {
      * of the top level array describes a state. Each state description
      * includes the name, the display name and the class name
      *
-     * @param int $mode mode of form operation. this is used for creating the iname
+     * @param int $mode mode of form operation.
      *
      * @return void
      */
-    function addSequentialStates(&$pages, $mode) {
+    function addSequentialPages(&$pages, $mode) {
         $this->_pages =& $pages;
         $numPages = count( $pages );
         
-        // CRM_Error::debug_var("pages", $pages);
-
         for ( $i = 0; $i < $numPages ; $i++ ) {
-            $iname = CRM_String::getClassName($pages[$i]);
-
-            // append the classname with the mode of the form. needed to
-            // have a consistent iname with form name
-            // $iname .= "_$mode";
+            $name = CRM_String::getClassName($pages[$i]);
 
             $classPath = str_replace( '_', '/', $pages[$i] ) . '.php';
             require_once($classPath);
-            $name = eval( sprintf( "return %s::getDisplayName( );", $pages[$i] ) );
+            $title = eval( sprintf( "return %s::getTitle( );", $pages[$i] ) );
             if ( $numPages == 1 ) {
-
-                // CRM_Error::debug_log_message("Breakpoint 10");
-
                 $prev = $next = null;
                 $type = CRM_State::START | CRM_State::FINISH;
             } else if ( $i == 0 ) {
@@ -257,7 +249,7 @@ class CRM_StateMachine {
                 $type = CRM_State::SIMPLE;
             }
       
-            $this->addState( $iname, $name, $type, $prev, $next );
+            $this->addState( $name, $title, $type, $prev, $next );
         }
     }
 

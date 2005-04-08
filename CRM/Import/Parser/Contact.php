@@ -23,10 +23,6 @@
 */
 
 /**
- * We use QFC for both single page and multi page wizards. We want to make
- * creation of single page forms as easy and as seamless as possible. This
- * class is used to optimize and make single form pages a relatively trivial
- * process
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -35,32 +31,48 @@
  *
  */
 
-require_once 'CRM/Controller.php';
+require_once 'CRM/Import/Parser.php';
 
-class CRM_Controller_Simple extends CRM_Controller {
+/**
+ * class to parse contact csv files
+ */
+class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
     /**
-     * constructor
-     *
-     * @param string path   the class Path of the form being implemented
-     * @param string name   the descriptive name for the page
-     * @param int    mode   the mode that the form will operate on
-     *
-     * @return object
-     * @access public
+     * The fields that can be imported
      */
-    function __construct($path, $name, $mode) {
-        // by definition a single page is modal :)
-        parent::__construct( $name, true );
+    static $_fields;
 
-        $this->_stateMachine = new CRM_StateMachine( $this );
+    function init( ) {
+        self::fields( );
+        foreach ( self::$_fields as $name => &$field ) {
+            $this->addField( $field['name'], $field['title'], $field['type'] );
+        }
+    }
 
-        $params = array($path);
+    function process( &$fields ) {
+    }
 
-        $this->_stateMachine->addSequentialPages($params, $mode);
+    function fini( ) {
+    }
 
-        $this->addPages( $this->_stateMachine, $mode );
-        $this->addActions( );
+    static function fields( ) {
+        if ( ! isset( self::$_fields ) ) {
+            self::$_fields = array( );
+            self::$_fields = array_merge(self::$_fields,
+                                         CRM_Contact_DAO_Contact::import( ) );
+            self::$_fields = array_merge(self::$_fields,
+                                         CRM_Contact_DAO_Individual::import( ) );
+            self::$_fields = array_merge(self::$_fields,
+                                         CRM_Contact_DAO_Location::import( ) );
+            self::$_fields = array_merge(self::$_fields,
+                                         CRM_Contact_DAO_Phone::import( ) );
+            self::$_fields = array_merge(self::$_fields,
+                                         CRM_Contact_DAO_Email::import( ) );
+            self::$_fields = array_merge(self::$_fields,
+                                         CRM_Contact_DAO_IM::import( ) );
+        }
+        return self::$_fields;
     }
 }
 

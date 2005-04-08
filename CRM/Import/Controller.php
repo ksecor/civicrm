@@ -23,10 +23,6 @@
 */
 
 /**
- * We use QFC for both single page and multi page wizards. We want to make
- * creation of single page forms as easy and as seamless as possible. This
- * class is used to optimize and make single form pages a relatively trivial
- * process
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -37,31 +33,25 @@
 
 require_once 'CRM/Controller.php';
 
-class CRM_Controller_Simple extends CRM_Controller {
+class CRM_Import_Controller extends CRM_Controller {
 
     /**
-     * constructor
-     *
-     * @param string path   the class Path of the form being implemented
-     * @param string name   the descriptive name for the page
-     * @param int    mode   the mode that the form will operate on
-     *
-     * @return object
-     * @access public
+     * class constructor
      */
-    function __construct($path, $name, $mode) {
-        // by definition a single page is modal :)
-        parent::__construct( $name, true );
+    function __construct( $name, $mode = CRM_Form::MODE_NONE, $modal = true ) {
+        parent::__construct( $name, $modal );
 
-        $this->_stateMachine = new CRM_StateMachine( $this );
+        $this->_stateMachine = new CRM_Import_StateMachine( $this, $mode );
 
-        $params = array($path);
-
-        $this->_stateMachine->addSequentialPages($params, $mode);
-
+        // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $mode );
-        $this->addActions( );
+
+        // add all the actions
+        $config = CRM_Config::singleton( );
+        $this->addDefault( $config->httpBase . 'upload', null );
     }
+
 }
 
 ?>
+

@@ -59,6 +59,14 @@ class {$table.className} extends CRM_DAO {ldelim}
       */
       static $_links;
 
+     /**
+      * static instance to hold the values that can
+      * be imported / apu
+      *
+      * @var array
+      * @static
+      */
+      static $_import;
 
 {foreach from=$table.fields item=field}
     /**
@@ -111,7 +119,11 @@ class {$table.className} extends CRM_DAO {ldelim}
           if ( ! isset( self::$_fields ) ) {ldelim}
                self::$_fields = array (
 {foreach from=$table.fields item=field}
-                                            '{$field.name}' => array( 'type'      => {$field.crmType},
+                                            '{$field.name}' => array( 
+                                                                      'type'      => {$field.crmType},
+{if $field.title}
+                                                                      'title'     => '{$field.title}',
+{/if}
 {if $field.required}
 					                              'required'  => {$field.required},
 {/if} {* field.required *}
@@ -140,6 +152,36 @@ class {$table.className} extends CRM_DAO {ldelim}
       function getTableName( ) {ldelim}
           return self::$_tableName;
       {rdelim}
+
+      /**
+       * returns the list of fields that can be imported
+       *
+       * @access public
+       * return array
+       */
+       function &import( ) {ldelim}
+          if ( ! isset( self::$_import ) ) {ldelim}
+               self::$_import = array ( );
+               $fields =& self::fields( );
+               foreach ( $fields as $name => &$field ) {ldelim}
+                 if ( CRM_Array::value( 'import', $field ) ) {ldelim}
+                   self::$_import[$name] =& $field;
+                 {rdelim}
+               {rdelim}
+               {if $table.foreignKey}
+                  {foreach from=$table.foreignKey item=foreign}
+                     {if $foreign.import}
+                        self::$_import = array_merge( self::$_import,
+						      {$foreign.className}::import( ) );
+                     {/if}
+                  {/foreach}
+               {/if}
+                
+          {rdelim}
+          return self::$_import;
+      {rdelim}
+
+
 {rdelim}
 
 ?>

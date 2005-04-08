@@ -57,56 +57,54 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     static $_links = array(
                            CRM_Action::VIEW => array(
-                                                     'name'     => 'View Contact',
-                                                     'link'     => '/crm/contact?action=view&id=%%id%%',
-                                                     'linkName' => 'View Contact',
-                                                     'menuName' => 'View Contact Details'
+                                                     'name'  => 'View',
+                                                     'link'  => 'contact/view&id=%%id%%',
+                                                     'title' => 'View Contact',
                                                      ),
                            CRM_Action::EDIT => array(
-                                                     'name'     => 'Edit Contact',
-                                                     'link'     => '/crm/contact?action=edit&id=%%id%%',
-                                                     'linkName' => 'Edit Contact',
-                                                     'menuName' => 'Edit Contact Details'
+                                                     'name'  => 'Edit',
+                                                     'link'  => 'contact/edit&id=%%id%%',
+                                                     'title' => 'Edit Contact',
                                                      ),
                            );
 
-        static $_columnHeaders = array(
-                                       array('name' => ''),
-                                       array('name' => ''),
-                                       array(
-                                             'name'      => 'Name',
-                                             'sort'      => 'sort_name',
-                                             'direction' => CRM_Sort::ASCENDING,
-                                             ),
-                                       array('name' => 'Address'),
-                                       array(
-                                             'name'      => 'City',
-                                             'sort'      => 'city',
-                                             'direction' => CRM_Sort::DONTCARE,
-                                             ),
-                                       array(
-                                             'name'      => 'State',
-                                             'sort'      => 'state',
-                                             'direction' => CRM_Sort::DONTCARE,
-                                             ),
-                                       array(
-                                             'name'      => 'Postal',
-                                             'sort'      => 'postal_code',
-                                             'direction' => CRM_Sort::DONTCARE,
-                                             ),
-                                       array(
-                                             'name'      => 'Country',
-                                             'sort'      => 'country',
-                                             'direction' => CRM_Sort::DONTCARE,
-                                             ),
-                                       array(
-                                             'name'      => 'Email',
-                                             'sort'      => 'email',
-                                             'direction' => CRM_Sort::DONTCARE,
-                                             ),
-                                       array('name' => 'Phone'),
-                                       array('name' => ''),
-                                       );
+    static $_columnHeaders = array(
+                                   array('name' => ''),
+                                   array('name' => ''),
+                                   array(
+                                         'name'      => 'Name',
+                                         'sort'      => 'sort_name',
+                                         'direction' => CRM_Sort::ASCENDING,
+                                         ),
+                                   array('name' => 'Address'),
+                                   array(
+                                         'name'      => 'City',
+                                         'sort'      => 'city',
+                                         'direction' => CRM_Sort::DONTCARE,
+                                         ),
+                                   array(
+                                         'name'      => 'State',
+                                         'sort'      => 'state',
+                                         'direction' => CRM_Sort::DONTCARE,
+                                         ),
+                                   array(
+                                         'name'      => 'Postal',
+                                         'sort'      => 'postal_code',
+                                         'direction' => CRM_Sort::DONTCARE,
+                                         ),
+                                   array(
+                                         'name'      => 'Country',
+                                         'sort'      => 'country',
+                                         'direction' => CRM_Sort::DONTCARE,
+                                         ),
+                                   array(
+                                         'name'      => 'Email',
+                                         'sort'      => 'email',
+                                         'direction' => CRM_Sort::DONTCARE,
+                                         ),
+                                   array('name' => 'Phone'),
+                                   array('name' => ''),
+                                   );
     
     /**
      * This caches the content for the display system.
@@ -214,8 +212,6 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
         $rows = array( );
         while ( $result->fetch( ) ) {
-            $row = array( );
-
             $row = array();
 
             static $properties = array( 'contact_id', 'sort_name', 'street_address',

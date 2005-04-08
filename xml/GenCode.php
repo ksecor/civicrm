@@ -19,10 +19,8 @@ createDir( $smarty->compile_dir );
 
 $file = 'schema/Schema.xml';
 
-$codePath    = "./gen/";
 $sqlCodePath = '../sql/';
 $phpCodePath = '../';
-// $phpCodePath = $codePath . "php/";
 
 echo "Parsing input file $file\n";
 $dbXML =& parseInput( $file );
@@ -31,6 +29,8 @@ $dbXML =& parseInput( $file );
 echo "Extracting database information\n";
 $database =& getDatabase( $dbXML );
 // print_r( $database );
+
+$classNames = array( );
 
 echo "Extracting table information\n";
 $tables   =& getTables( $dbXML, $database );
@@ -125,14 +125,17 @@ function &getTables( &$dbXML, &$database ) {
 }
 
 function getTable( $tableXML, &$database, &$tables ) {
+    global $classNames;
+
     $name  = trim((string ) $tableXML->name );
     $base  = value( 'base', $tableXML ) . '/DAO/';
     $pre   = str_replace( '/', '_', $base );
-    $class = convertName( $name, true, $pre, '' );
+    $classNames[$name]  = convertName( $name, true, $pre, '' );
+
     $table = array( 'name'       => $name,
                     'base'       => $base,
                     'fileName'   => convertName( $name, true, '', '.php' ),
-                    'className'  => $class,
+                    'className'  => $classNames[$name],
                     'attributes' => trim($database['tableAttributes']),
                     'comment'    => value( 'comment', $tableXML ) );
     
@@ -223,8 +226,33 @@ function getField( &$fieldXML, &$fields ) {
     $field['required'] = value( 'required', $fieldXML );
     $field['comment' ] = value( 'comment' , $fieldXML );
     $field['default' ] = value( 'default' , $fieldXML );
+    $field['import'  ] = value( 'import'  , $fieldXML );
+    $field['title'   ] = value( 'title'   , $fieldXML );
+    if ( ! $field['title'] ) {
+        $field['title'] = composeTitle( $name );
+    }
 
     $fields[$name] =& $field;
+}
+
+function composeTitle( $name ) {
+    $names = explode( '_', strtolower($name) );
+    $title = '';
+    for ( $i = 0; $i < count($names); $i++ ) {
+        if ( $names[$i] === 'id' || $names[$i] === 'is' ) {
+            // id's do not get titles
+            return null;
+        }
+
+        if ( $names[$i] === 'im' ) {
+            $names[$i] = 'IM';
+        } else {
+            $names[$i] = ucfirst( trim($names[$i]) );
+        }
+
+        $title = $title . ' ' . $names[$i];
+    }
+    return trim($title);
 }
 
 function getPrimaryKey( &$primaryXML, &$fields, &$table ) {
@@ -270,9 +298,13 @@ function getForeignKey( &$foreignXML, &$fields, &$foreignKeys ) {
     }
 
     /** need to check for existence of table and key **/
+    global $classNames;
+    $table = trim( value( 'table' , $foreignXML ) );
     $foreignKey = array( 'name'       => $name,
-                         'table'      => trim( value( 'table' , $foreignXML ) ),
+                         'table'      => $table,
                          'key'        => trim( value( 'key'   , $foreignXML ) ),
+                         'import'     => value( 'import', $foreignXML, false ),
+                         'className'  => $classNames[$table],
                          'attributes' => trim( value( 'attributes', $foreignXML, 'ON DELETE CASCADE' ) ),
                          );
     $foreignKeys[$name] =& $foreignKey;

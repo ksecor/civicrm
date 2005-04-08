@@ -14,7 +14,6 @@ class TestOfDemoAPI extends UnitTestCase {
     function tearDown( ) {
     }
 
-
     function testCreateIndividual( ) {
         echo "Creating an Individual Contact Record ...<br/>\n";
         flush( );

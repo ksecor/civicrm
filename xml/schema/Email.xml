@@ -29,6 +29,7 @@
        <name>email</name>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>Email address</comment>
   </field>
   <field>

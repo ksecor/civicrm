@@ -124,18 +124,6 @@ interface CRM_Selector_API {
     function getTemplateFileName( $action );
 
     /**
-     * return the "module" name. This name will be used to prefix
-     * the variables in the session scope
-     *
-     *@param string $action the action being performed
-     *
-     * @return string
-     * @access public
-     *
-     */
-    function getModuleName( $action );
-
-    /**
      * returns the column headers as an array of tuples:
      * (name, sortName (key to the sort array))
      * This is specifically for Export (typically exports have

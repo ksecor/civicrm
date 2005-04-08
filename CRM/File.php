@@ -23,10 +23,6 @@
 */
 
 /**
- * We use QFC for both single page and multi page wizards. We want to make
- * creation of single page forms as easy and as seamless as possible. This
- * class is used to optimize and make single form pages a relatively trivial
- * process
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -35,33 +31,69 @@
  *
  */
 
-require_once 'CRM/Controller.php';
-
-class CRM_Controller_Simple extends CRM_Controller {
+/**
+ * class to provide simple static functions for file objects
+ */
+class CRM_File {
 
     /**
-     * constructor
+     * Given a file name, determine if the file contents make it an ascii file
      *
-     * @param string path   the class Path of the form being implemented
-     * @param string name   the descriptive name for the page
-     * @param int    mode   the mode that the form will operate on
+     * @param string $name name of file
      *
-     * @return object
+     * @return boolean     true if file is ascii
      * @access public
      */
-    function __construct($path, $name, $mode) {
-        // by definition a single page is modal :)
-        parent::__construct( $name, true );
+    static function isAscii( $name ) {
+        $fd = fopen( $name, "r" );
+        if ( ! $fd ) {
+            return false;
+        }
 
-        $this->_stateMachine = new CRM_StateMachine( $this );
+        $ascii = true;
+        $lineCount = 0;
+        while ( ! feof( $fd ) & $lineCount <= 5 ) {
+            $lineCount++;
+            $line = fgets( $fd, 8192 );
+            if ( ! CRM_String::isAscii( $line ) ) {
+                $ascii = false;
+                break;
+            }
+        }
 
-        $params = array($path);
-
-        $this->_stateMachine->addSequentialPages($params, $mode);
-
-        $this->addPages( $this->_stateMachine, $mode );
-        $this->addActions( );
+        fclose( $fd );
+        return $ascii;
     }
+
+    /**
+     * Given a file name, determine if the file contents make it an html file
+     *
+     * @param string $name name of file
+     *
+     * @return boolean     true if file is html
+     * @access public
+     */
+    static function isHtml( $name ) {
+        $fd = fopen( $name, "r" );
+        if ( ! $fd ) {
+            return false;
+        }
+
+        $html = false;
+        $lineCount = 0;
+        while ( ! feof( $fd ) & $lineCount <= 5 ) {
+            $lineCount++;
+            $line = fgets( $fd, 8192 );
+            if ( ! CRM_String::isHtml( $line ) ) {
+                $html = true;
+                break;
+            }
+        }
+
+        fclose( $fd );
+        return $html;
+    }
+
 }
 
 ?>

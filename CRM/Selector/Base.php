@@ -42,14 +42,14 @@ class CRM_Selector_Base {
      *
      * @var array
      */
-    static $_order;
+    protected $_order;
 
     /**
      * This function gets the attribute for the action that
      * it matches.
      *
      * @param string  match      the action to match against
-     * @param string  attribute  the attribute to return ( name, link, linkName, menuName )
+     * @param string  attribute  the attribute to return ( name, link, title )
      *
      * @return string            the attribute that matches the action if any
      *
@@ -57,9 +57,9 @@ class CRM_Selector_Base {
      *
      */
     function getActionAttribute( $match, $attribute = 'name' ) {
-        $links = $this->getLinks();
+        $links =& $this->getLinks();
 
-        foreach ( $link as $action => $item ) {
+        foreach ( $link as $action => &$item ) {
             if ( $match & $action ) {
                 return $item[$attribute];
             }
@@ -73,16 +73,12 @@ class CRM_Selector_Base {
      * inherited class must redefine this function
      *
      * links is an array of associative arrays. Each element of the array
-     * has 4 fields
+     * has 3 fields
      *
      * name    : the name of the link
      * link    : the URI to be used for this link, along with any strings that will
      *           be replaced dynamically
-     * linkName: (same as name??)
-     * menuName: Sometimes the linkName and menuName differ. The linkName could be
-     *           "Edit Contact", while the menuName would be the more descriptive
-     *           "Edit Contact Details"
-     *
+     * title   : A more descriptive name, typically used in breadcrumbs / navigation
      */
     function &getLinks() {
         return null;
@@ -102,25 +98,6 @@ class CRM_Selector_Base {
     }//end of function
 
     /**
-     * compose the module name from the class name
-     *
-     * @param string $action the action being performed
-     *
-     * @return string module name
-     * @access public
-     */
-    function getModuleName($action)
-    {
-        $names = explode( '_', get_class($this) );
-
-        // we compose the module name from the last two tokens
-        // we use two tokens to prevent name conflicts
-        $last = array_pop( $names );
-        $prev = array_pop( $names );
-        return ucfirst( $prev ) . '_' . ucfirst( $last );
-    }//end of function
-
-    /**
      * getter for the sorting direction for the fields which will be displayed on the form.
      *
      * @param string action the action being performed
@@ -130,17 +107,17 @@ class CRM_Selector_Base {
      */
     function &getSortOrder( $action ) {
         $columnHeaders =& $this->getColumnHeaders( );
-        if ( ! isset( self::$_order ) ) {
-            self::$_order = array( );
+        if ( ! isset( $this->_order ) ) {
+            $this->_order = array( );
             $start  = 2;
             $firstElementNotFound = true;
             foreach ( $columnHeaders as &$header ) {
                 if ( array_key_exists( 'sort', $header ) ) {
                     if ( $firstElementNotFound && $header['direction'] != CRM_Sort::DONTCARE ) {
-                        self::$_order[1] =& $header;
+                        $this->_order[1] =& $header;
                         $firstElementNotFound = false;
                     } else {
-                        self::$_order[$start++] =& $header;
+                        $this->_order[$start++] =& $header;
                     }
                 }
             }
@@ -148,7 +125,7 @@ class CRM_Selector_Base {
                 CRM_Error::fatal( "Could not find a valid sort directional element" );
             }
         }
-        return self::$_order;
+        return $this->_order;
     }
 
 }

@@ -344,7 +344,9 @@ function crm_invoke()
 
     //  import wizard
     if (arg(1) == 'import') {
-        $content = fetch_tpl( 'Import/ImportStart.tpl');
+	$controller = new CRM_Import_Controller( 'Import Contacts' );
+	$controller->run( );
+	$content = $controller->getContent( );	
     }
 
   

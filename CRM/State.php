@@ -38,16 +38,16 @@
 class CRM_State {
 
     /**
-     * Internal state name
-     * @var string
-     */
-    protected $_iname;
-
-    /**
-     * Display name for state
+     * state name
      * @var string
      */
     protected $_name;
+
+    /**
+     * title for state
+     * @var string
+     */
+    protected $_title;
 
     /**
      * this is a combination "OR" of the STATE_* constants defined below
@@ -97,12 +97,12 @@ class CRM_State {
      * @return object
      * @access public
      */
-    function __construct( $iname, $name, $type, $back, $next, $stateMachine ) {
-        $this->_iName       = $iname;
-        $this->_name        = $name;
-        $this->_type        = $type;
-        $this->_back        = $back;
-        $this->_next        = $next;
+    function __construct( $name, $title, $type, $back, $next, $stateMachine ) {
+        $this->_name  = $name;
+        $this->_title = $title;
+        $this->_type  = $type;
+        $this->_back  = $back;
+        $this->_next  = $next;
     
         $this->_stateMachine = $stateMachine;
     }
@@ -184,6 +184,27 @@ class CRM_State {
     }
 
     /**
+     * getter for title
+     *
+     * @return string
+     * @access public
+     */
+    function getTitle( ) {
+        return $this->_title;
+    }
+
+    /**
+     * setter for title
+     *
+     * @param string
+     * @return void
+     * @access public
+     */
+    function setTitle( $title ) {
+        $this->_title = $title;
+    }
+
+    /**
      * getter for name
      *
      * @return string
@@ -202,27 +223,6 @@ class CRM_State {
      */
     function setName( $name ) {
         $this->_name = $name;
-    }
-
-    /**
-     * getter for iname
-     *
-     * @return string
-     * @access public
-     */
-    function getIName( ) {
-        return $this->_iname;
-    }
-
-    /**
-     * setter for iname
-     *
-     * @param string
-     * @return void
-     * @access public
-     */
-    function setIName( $iname ) {
-        $this->_iname = $iname;
     }
 
     /**

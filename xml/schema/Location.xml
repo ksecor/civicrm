@@ -35,6 +35,7 @@
        <name>location_type_id</name>
        <table>crm_location_type</table>
        <key>id</key>
+       <import>true</import>
   </foreignKey>
   <index>
        <name>index_contact_location_type</name>

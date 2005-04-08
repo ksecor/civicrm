@@ -23,10 +23,6 @@
 */
 
 /**
- * We use QFC for both single page and multi page wizards. We want to make
- * creation of single page forms as easy and as seamless as possible. This
- * class is used to optimize and make single form pages a relatively trivial
- * process
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -35,33 +31,34 @@
  *
  */
 
-require_once 'CRM/Controller.php';
+require_once 'CRM/StateMachine.php';
 
-class CRM_Controller_Simple extends CRM_Controller {
+class CRM_Import_StateMachine extends CRM_StateMachine {
+
+    static $_pages = array(
+                           'CRM_Import_Form_UploadFile',
+                           'CRM_Import_Form_MapField',
+                           'CRM_Import_Form_Preview',
+                           'CRM_Import_Form_Summary'
+                           );
 
     /**
-     * constructor
-     *
-     * @param string path   the class Path of the form being implemented
-     * @param string name   the descriptive name for the page
-     * @param int    mode   the mode that the form will operate on
-     *
-     * @return object
-     * @access public
+     * class constructor
      */
-    function __construct($path, $name, $mode) {
-        // by definition a single page is modal :)
-        parent::__construct( $name, true );
+    function __construct( $controller, $mode = CRM_Form::MODE_NONE ) {
+        parent::__construct( $controller, $mode );
 
-        $this->_stateMachine = new CRM_StateMachine( $this );
-
-        $params = array($path);
-
-        $this->_stateMachine->addSequentialPages($params, $mode);
-
-        $this->addPages( $this->_stateMachine, $mode );
-        $this->addActions( );
+        $this->addSequentialPages( self::$_pages, $mode );
     }
+
+    function wizardHeader( ) {
+        $header = array( );
+        foreach ( self::$_pages as &$page ) {
+            $info = array( 'name' => '
+        }
+    }
+
 }
 
 ?>
+

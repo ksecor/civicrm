@@ -136,7 +136,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      *
      */
     function registerRules( ) {
-        static $rules = array( 'name', 'variable', 'phone', 'query', 'url', 'date', 'qfDate' );
+        static $rules = array( 'name', 'variable', 'phone', 'query', 'url', 'date', 'qfDate', 'asciiFile', 'htmlFile' );
 
         foreach ( $rules as $rule ) {
             $this->registerRule( $rule, 'callback', $rule, 'CRM_Rule' );
@@ -318,6 +318,26 @@ class CRM_Form extends HTML_QuickForm_Page {
     }
 
     /**
+     * getter function for title. Should be over-ridden by derived class
+     *
+     * @return string
+     * @access public
+     */     
+    function getTitle( ) {
+        return 'ERROR: Title is not Set';
+    }
+	
+    /**
+     * getter function for link.
+     *
+     * @return string
+     * @access public
+     */     
+    function getLink( ) {
+        return '';
+    }
+	
+    /**
      * boolean function to determine if this is a one form page
      *
      * @return boolean
@@ -327,16 +347,6 @@ class CRM_Form extends HTML_QuickForm_Page {
         return $this->_state->getType( ) & ( CRM_State::START | CRM_State::FINISH );
     }
 
-    /**
-     * getter function for DisplayName. Should be over-ridden by derived class
-     *
-     * @return string
-     * @access public
-     */     
-    function getDisplayName( ) {
-        return 'ERROR: Display Name is not Set';
-    }
-	
     /**
      * getter function for Form Action
      *

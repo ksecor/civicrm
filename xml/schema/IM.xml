@@ -27,8 +27,10 @@
   </foreignKey>
   <field>
        <name>name</name>
+       <title>IM Screen Name</title>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>IM screen name</comment>
   </field>
   <field>
@@ -41,6 +43,7 @@
        <name>provider_id</name>
        <table>crm_im_provider</table>
        <key>id</key>
+       <import>true</import>
   </foreignKey>
   <field>
        <name>is_primary</name>

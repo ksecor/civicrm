@@ -29,8 +29,9 @@
        <name>first_name</name>
        <type>varchar</type>
        <length>64</length>
-       <comment>First Name.</comment>
+       <import>true</import>
        <fulltext/>
+       <comment>First Name.</comment>
   </field>
   <field>
        <name>middle_name</name>
@@ -42,6 +43,7 @@
        <name>last_name</name>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>Last Name.</comment>
        <fulltext/>
   </field>
@@ -49,12 +51,14 @@
        <name>prefix</name>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>Prefix to Name.</comment>
   </field>
   <field>
        <name>suffix</name>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>Suffix to Name.</comment>
   </field>
   <field>

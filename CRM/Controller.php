@@ -112,6 +112,11 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         // note that based on action, control might not come back!!
         // e.g. if action is a valid JUMP, u basically do a redirect
         // to the appropriate place
+        
+        // if we are displaying the page, set the wizard
+        if ( $action == 'display' ) {
+            $this->wizardHeader( $pageName );
+        }
         $this->_pages[$pageName]->handle($action);
 
         return $pageName;
@@ -128,7 +133,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      * @return void
      *
      */
-    function addDefault( $uploadDirectory = null, $uploadNames = null ) {
+    function addActions( $uploadDirectory = null, $uploadNames = null ) {
         static $names = array(
                               'display'   => 'CRM_QuickForm_Action_Display',
                               'next'      => 'CRM_QuickForm_Action_Next'   ,
@@ -141,7 +146,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
                               'submit'    => 'CRM_QuickForm_Action_Submit' ,
                               );
 
-        foreach ( $names as $name => $classPath ) {
+        foreach ( $names as $name => &$classPath ) {
             $this->addAction( $name, new $classPath( $this->_stateMachine ) );
         }
     
@@ -193,9 +198,6 @@ class CRM_Controller extends HTML_QuickForm_Controller {
 
         foreach ( $pages as $classPath ) {
             $stateName   = CRM_String::getClassName($classPath);
-
-            // append the mode to the stateName
-            // $stateName .= "_$mode";
 
             $page = new $classPath( $stateName,
                                     $stateMachine->find( $classPath ),
@@ -316,6 +318,37 @@ class CRM_Controller extends HTML_QuickForm_Controller {
     function get( $name ) {
         $session = CRM_Session::singleton( );
         return $session->get( $name, $this->_name );
+    }
+
+    /**
+     * Create the header for the wizard from the list of pages
+     * Store the created header in smarty
+     *
+     * @param string $currentPageName name of the page being displayed
+     * @return array
+     * @access public
+     */
+    function wizardHeader( $currentPageName ) {
+        $wizard          = array( );
+        $wizard['steps'] = array( );
+
+        $count           = 0;
+        foreach ( $this->_pages as $name => &$page ) {
+            $count++;
+            $wizard['steps'][] = array( 'name'  => $page->getName ( ),
+                                        'title' => $page->getTitle( ),
+                                        'link'  => $page->getLink ( ) );
+
+            if ( $name == $currentPageName ) {
+                $wizard['currentStepNumber'] = $count;
+                $wizard['currentStepTitle']  = $page->getTitle( );
+            }
+        }
+
+        $wizard['stepCount']         = $count;
+
+        $this->assign( 'wizard', $wizard );
+        return $wizard;
     }
 
 }
