@@ -49,7 +49,7 @@ require_once 'CRM/Contact/Form/Note.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
  */
-class CRM_Contact_Form_Contact extends CRM_Form
+class CRM_Contact_Form_Edit extends CRM_Form
 {
     /**
      * how many locationBlocks should we display?
@@ -87,7 +87,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
      * @param string $state       The state object associated with this form
      * @param int     $mode       The mode of the form
      *
-     * @return CRM_Contact_Form_Contact
+     * @return CRM_Contact_Form_Edit
      * @access public
      */
     function __construct($name, $state, $mode = self::MODE_NONE) {
@@ -246,7 +246,7 @@ class CRM_Contact_Form_Contact extends CRM_Form
         eval( 'CRM_Contact_Form_' . $this->_contactType . '::buildQuickForm( $this );' );
         
         // add the communications block
-        CRM_Contact_Form_Contact::buildCommunicationBlock($this);
+        self::buildCommunicationBlock($this);
 
         /* Entering the compact location engine */ 
         $location =& CRM_Contact_Form_Location::buildLocationBlock($this, self::LOCATION_BLOCKS, $this->_showHideBlocks);
