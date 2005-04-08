@@ -61,7 +61,7 @@ class CRM_Contact_Form_Household {
     static function formRule( &$fields ) {
         $errors = array( );
         
-        $primaryEmail = CRM_Contact_Form_Contact::formRule( $fields, $errors );
+        $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
 
         return empty( $errors ) ? true : $errors;
     }

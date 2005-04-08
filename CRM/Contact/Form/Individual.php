@@ -88,7 +88,7 @@ class CRM_Contact_Form_Individual {
     static function formRule( &$fields ) {
         $errors = array( );
         
-        $primaryEmail = CRM_Contact_Form_Contact::formRule( $fields, $errors );
+        $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
 
         // make sure that firstName and lastName or a primary email is set
         if (! ( (CRM_Array::value( 'first_name', $fields ) && 

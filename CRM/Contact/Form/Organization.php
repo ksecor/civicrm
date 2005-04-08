@@ -68,7 +68,7 @@ class CRM_Contact_Form_Organization extends CRM_Form
     static function formRule( &$fields ) {
         $errors = array( );
         
-        $primaryEmail = CRM_Contact_Form_Contact::formRule( $fields, $errors );
+        $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
         
         // add code to make sure that the uniqueness criteria is satisfied
         return empty( $errors ) ? true : $errors;
