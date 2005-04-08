@@ -1,4 +1,3 @@
-<script type="text/javascript" src="{$config->httpBase}js/Common.js"></script>
 <form {$form.attributes}>
 {$form.hidden}
 

@@ -338,7 +338,7 @@ function crm_invoke()
             $content = fetch_tpl( 'Group/Form/Edit.tpl');
         } else {
             contact_assign( 'name','dave');
-            $content = fetch_tpl( 'Group/Groups.tpl');
+            $content = fetch_tpl( 'Group/Group.tpl');
         }
     }
 
