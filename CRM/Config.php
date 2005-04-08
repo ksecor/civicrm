@@ -94,6 +94,11 @@ class CRM_Config {
     public $DAOFactoryClass	  = 'CRM_Contact_DAO_Factory';
 
     /**
+     * The directory to store uploaded files
+     */
+    public $uploadDir         = './upload/';
+
+    /**
      * The handle to the log that we are using
      * @var object
      */
@@ -161,6 +166,10 @@ class CRM_Config {
 
         if ( defined( 'CRM_HTTPBASE' ) ) {
             $this->httpBase = CRM_HTTPBASE;
+        }
+
+        if ( defined( 'CRM_UPLOAD_DIR' ) ) {
+            $this->uploadDir = CRM_UPLOAD_DIR;
         }
 
         // initialize the framework

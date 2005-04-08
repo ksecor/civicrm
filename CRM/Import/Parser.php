@@ -28,7 +28,7 @@ require_once 'CRM/Type.php';
 
 require_once 'CRM/Import/Field.php';
 
-class CRM_Import_Parser {
+abstract class CRM_Import_Parser {
 
     const
         MAX_ERRORS   = 25,
@@ -125,8 +125,6 @@ class CRM_Import_Parser {
     protected $_maxLinesToProcess;
 
     function __construct() {
-        parent::__construct();
-
         $this->_fields       = array();
         $this->_activeFields = array();
 
@@ -200,7 +198,7 @@ class CRM_Import_Parser {
         return $this->fini();
     }
 
-    abstract function process( $line );
+    abstract function process( &$fields );
 
     abstract function fini();
 

@@ -38,14 +38,9 @@ require_once 'CRM/Import/Parser.php';
  */
 class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
-    /**
-     * The fields that can be imported
-     */
-    static $_fields;
-
     function init( ) {
-        self::fields( );
-        foreach ( self::$_fields as $name => &$field ) {
+        $fields =& $this->fields( );
+        foreach ( $fields as $name => &$field ) {
             $this->addField( $field['name'], $field['title'], $field['type'] );
         }
     }
@@ -56,23 +51,23 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     function fini( ) {
     }
 
-    static function fields( ) {
-        if ( ! isset( self::$_fields ) ) {
-            self::$_fields = array( );
-            self::$_fields = array_merge(self::$_fields,
+    function &fields( ) {
+        if ( ! isset( $this->_fields ) ) {
+            $this->_fields = array( );
+            $this->_fields = array_merge($this->_fields,
                                          CRM_Contact_DAO_Contact::import( ) );
-            self::$_fields = array_merge(self::$_fields,
+            $this->_fields = array_merge($this->_fields,
                                          CRM_Contact_DAO_Individual::import( ) );
-            self::$_fields = array_merge(self::$_fields,
+            $this->_fields = array_merge($this->_fields,
                                          CRM_Contact_DAO_Location::import( ) );
-            self::$_fields = array_merge(self::$_fields,
+            $this->_fields = array_merge($this->_fields,
                                          CRM_Contact_DAO_Phone::import( ) );
-            self::$_fields = array_merge(self::$_fields,
+            $this->_fields = array_merge($this->_fields,
                                          CRM_Contact_DAO_Email::import( ) );
-            self::$_fields = array_merge(self::$_fields,
+            $this->_fields = array_merge($this->_fields,
                                          CRM_Contact_DAO_IM::import( ) );
         }
-        return self::$_fields;
+        return $this->_fields;
     }
 }
 

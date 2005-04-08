@@ -52,11 +52,12 @@ class CRM_QuickForm_Action_Upload extends CRM_QuickForm_Action {
      * class constructor
      *
      * @param object $stateMachine reference to state machine object
-     *
+     * @param string $uploadDir    directory to store the uploaded files
+     * @param array  $uploadNames  element names of the various uploadable files
      * @return object
      * @access public
      */
-    function __construct( &$stateMachine ) {
+    function __construct( &$stateMachine, $uploadDir, $uploadNames ) {
         parent::__construct( $stateMachine );
 
         $this->_uploadDir    =  $uploadDir;
@@ -78,7 +79,6 @@ class CRM_QuickForm_Action_Upload extends CRM_QuickForm_Action {
         if ( empty( $uploadName ) ) {
             return;
         }
-
         // get the element containing the upload
         $element =& $page->getElement( $uploadName );
         if ( 'file' == $element->getType( ) ) {
@@ -117,20 +117,19 @@ class CRM_QuickForm_Action_Upload extends CRM_QuickForm_Action {
         if (!$data['valid'][$pageName]) { 
             return $page->handle('display'); 
         } 
-        
-        foreach ($name as $uploadNames) {
+
+        foreach ($this->_uploadNames as $name) {
             $this->upload( $page, $data, $pageName, $name );
         }
         
-        // redirect to next page
-        $state = $this->_stateMachine->_states[$pageName];
+        $state =& $this->_stateMachine->getState( $pageName );
         if ( empty($state) ) {
             return $page->handle('display');
         }
         
         // the page is valid, process it before we jump to the next state
         $page->postProcess( );
-        
+
         $state->handleNextState( $page );
     }
 

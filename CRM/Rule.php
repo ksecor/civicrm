@@ -146,7 +146,7 @@ class CRM_Rule {
     static function asciiFile( $elementValue ) {
         if ((isset($elementValue['error']) && $elementValue['error'] == 0) ||
             (!empty($elementValue['tmp_name']) && $elementValue['tmp_name'] != 'none')) {
-            return CRM_File::isAsciiFile($elementValue['tmp_name']);
+            return CRM_File::isAscii($elementValue['tmp_name']);
         }
         return false;
     }

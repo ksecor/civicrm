@@ -122,14 +122,14 @@ class CRM_StateMachine {
     function perform( &$page, $actionName, $type = 'Next' ) {
         // save the form values and validation status to the session
         $page->isFormBuilt() or $page->buildForm();
-
+        
         $pageName =  $page->getAttribute('name');
         $data     =& $page->controller->container();
-
+        
         $data['values'][$pageName] = $page->exportValues();
-        $data['valid'][$pageName]  = $page->validate();
-    
-
+        $data['valid'][$opageName]  = $page->validate();
+        
+        
         // if we are going to the next state
         // Modal form and page is invalid: don't go further
         if ($type == 'Next' && $page->controller->isModal() && !$data['valid'][$pageName]) {
@@ -193,6 +193,18 @@ class CRM_StateMachine {
      */
     function getStates() {
         return $this->_states;
+    }
+
+    /**
+     * return the state object corresponding to the name
+     *
+     * @param string $name name of page
+     *
+     * @return CRM_State state object matching the name
+     * @access public
+     */
+    function &getState( $name ) {
+        return $this->_states[$name];
     }
 
     /**

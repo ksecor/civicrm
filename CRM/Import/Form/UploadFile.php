@@ -58,7 +58,7 @@ class CRM_Import_Form_UploadFile extends CRM_Form {
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'uploadFile', 'Input file must be either CSV or XML format', 'asciiFile' );
 
-        $this->addElement( 'checkbox', 'columnHeader', 'Does the file have a column header' );
+        $this->addElement( 'checkbox', 'skipColumnHeader', 'Does the file have a column header row?' );
 
         $this->addDefaultButtons( array(
                                         array ( 'type'      => 'upload',
@@ -76,10 +76,10 @@ class CRM_Import_Form_UploadFile extends CRM_Form {
      * Process the uploaded file
      */
     public function postProcess( ) {
-        $fileName  = $this->exportValue( 'fileName' );
+        $fileName  = $this->exportValue( 'uploadFile' );
         $seperator = ',';
 
-        $parser = new CRM_Import_Contact( );
+        $parser = new CRM_Import_Parser_Contact( );
         $parser->setMaxLinesToProcess( 5 );
         $parser->import( $fileName, $seperator );
 
@@ -94,7 +94,7 @@ class CRM_Import_Form_UploadFile extends CRM_Form {
      * @access public
      */
     public function getTitle( ) {
-        return 'Upload File';
+        return 'Upload Data';
     }
 
 }
