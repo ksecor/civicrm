@@ -141,28 +141,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // we need to run the loop thru the num rows with offset in mind.
         $rows = array();
         $str_select = $str_from = $str_where = $str_order = $str_limit = '';
-        
-        // check for contact type restriction
-        if (isset($formValues['cb_contact_type'])) {
-            for ($formValues['cb_contact_type']  as $k => $v) {
-                $str_where .= " WHERE  contact_type = '" . $k . "' "; 
-            }            
-        }
-        
-        // check for group restriction
-        if (isset($formValues['cb_group'])) {
-            for ($formValues['cb_group']  as $k => $v) {
-                $str_where = " WHERE  group_id = $k "; 
-            }
-        }
 
-        // check for category restriction
-        if (isset($formValues['cb_category'])) {
-            for ($formValues['cb_category'] as $k => $v) {
-                $str_where = " WHERE  category_id = $k "; 
-            }
-        }
-
+        CRM_Error::debug_var("formValues", $formValues);        
 
         $str_select = "SELECT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
@@ -183,31 +163,49 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                         LEFT JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
                         LEFT JOIN crm_country ON (crm_address.country_id = crm_country.id)";
 
-        // add where clause if any condition exists..
-        if (strlen($this->contact_type) || strlen(trim($this->sort_name))){
-            $str_where = " WHERE ";
+
+        
+        // check for contact type restriction
+        if (isset($formValues['cb_contact_type'])) {
+            CRM_Error::debug_log_message("breakpoint 10");
+            foreach ($formValues['cb_contact_type']  as $k => $v) {
+                // $str_where .= " AND  contact_type = '" . $k . "' "; 
+            }            
+        }
+        
+        // check for group restriction
+        if (isset($formValues['cb_group'])) {
+            foreach ($formValues['cb_group']  as $k => $v) {
+                $str_where .= " AND  group_id = $k "; 
+            }
+            $str_from .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
         }
 
-        // adding contact_type in where
-        if (strlen($this->contact_type)) {
-            $str_where .= " crm_contact.contact_type ='".$this->contact_type."'";
+        // check for category restriction
+        if (isset($formValues['cb_category'])) {
+            foreach ($formValues['cb_category'] as $k => $v) {
+                $str_where .= " AND  category_id = $k "; 
+            }
+            $str_from .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
         }
 
-        // adding sort_name
-        if (strlen(trim($this->sort_name))) {
-            if (strlen($this->contact_type)) { // check if contact_type is present..
-                $str_where .= " AND LOWER(crm_contact.sort_name) like '%".strtolower($this->sort_name)."%'";
-            } else {
-                $str_where .= " LOWER(crm_contact.sort_name) like '%".strtolower($this->sort_name)."%'";
-            }   
-        }
+        CRM_Error::debug_var("str_where", $str_where);
+        $str_where = preg_replace("/AND/", "WHERE", $str_where, 1);
+        CRM_Error::debug_var("str_where", $str_where);
+
+        // skip the following for now
+        // last_name, first_name, street_name, city, state_province, country, postal_code, postal_code_low, postal_code_high
 
         $str_order = " ORDER BY " . $sort->orderBy(); 
         $str_limit = " LIMIT $offset, $rowCount ";
 
         // building the query string
         $query_string = $str_select.$str_from.$str_where.$str_order.$str_limit;
+
+        CRM_Error::debug_var("query_string", $query_string);
+
         $this->query($query_string);
+
         return $this;
     }
 
@@ -269,10 +267,19 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @static
      */
     static function getValues( &$params, &$values, &$ids ) {
+
+        CRM_Error::le_method();
+
+        CRM_Error::debug_var("params", $params);
+
         $contact = new CRM_Contact_BAO_Contact( );
 
         $contact->copyValues( $params );
+
         if ( $contact->find(true) ) {
+
+            CRM_Error::debug_log_message("found contact");
+
             $ids['contact'] = $contact->id;
             $ids['domain' ] = $contact->domain_id;
 

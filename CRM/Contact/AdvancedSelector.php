@@ -119,14 +119,14 @@ class CRM_Contact_AdvancedSelector extends CRM_Selector_Base implements CRM_Sele
      * formValues is the array returned by exportValues called on
      * the HTML_QuickForm_Controller for that page.
      *
-     * @var array reference
+     * @var array
      */
     protected $_formValues;
 
     /**
      * Class constructor
      *
-     * @param array $formValues (reference) array of parameters for query
+     * @param array $formValues array of parameters for query
      *
      * @return CRM_Contact_AdvancedSelector
      * @access public
@@ -137,8 +137,11 @@ class CRM_Contact_AdvancedSelector extends CRM_Selector_Base implements CRM_Sele
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
 
+        CRM_Error::debug_var("formValues", $formValues);
+
         // lets store the formvalues for now
         $this->_formValues = $formValues;
+
         
     }//end of constructor
 
@@ -217,7 +220,7 @@ class CRM_Contact_AdvancedSelector extends CRM_Selector_Base implements CRM_Sele
     function &getRows($action, $offset, $rowCount, $sort)
     {
         $config = CRM_Config::singleton( );
-        $result = $this->_contact->advancedSearchQuery($_formValues, $offset, $rowCount, $sort);
+        $result = $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort);
 
         $rows = array( );
         while ($result->fetch()) {
