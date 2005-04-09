@@ -10,34 +10,8 @@
  {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
  {include file="CRM/WizardHeader.tpl}
  
- <div id="map-field">
- <fieldset><legend>Match Your Data to Contact Fields</legend>
-    <table>
-        <tr class="columnheader">
-            <th>Map to CRM Field</th>
-            {section name=rows loop=$rowDisplayCount}
-            <th>Your Data (row {$smarty.section.rows.iteration})</th>
-            {/section}
-        </tr>
-        
-        {*Loop on columns parsed from the import data rows*}
-        {section name=cols loop=$columnCount}
-            {assign var="i" value=$smarty.section.cols.index}
-            <tr>
-                <td class="form-item">
-                    {$form.mapper[$i].html}
-                </td>
-                
-                {section name=rows loop=$rowDisplayCount}
-                    {assign var="j" value=$smarty.section.rows.index}
-                    <td>{$dataValues[$j][$i]}</td>
-                {/section}
-            </tr>
-        {/section}
-                
-    </table>
- </fieldset>
- </div>
+ {* Table for mapping data to CRM fields *}
+ {include file="CRM/Import/Form/MapTable.tpl}
 
  <div id="crm-submit-buttons">
     {$form.buttons.html}
