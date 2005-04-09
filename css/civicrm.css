@@ -1,8 +1,8 @@
 /* $Id: civicrm.css,v 1.0 2005/03/18 dgg */
 
-#crm-container div {
+/*#crm-container div {
     margin: 10px;
-}
+}*/
 
 /*
 ** Size text input fields in crm-container by class. Classes are assigned by the
@@ -233,18 +233,18 @@ div.crm-pager a {
 /* following classes used to generate three column structure using <div> and <span> */
 #crm-container .three-col1 {
   float: left;
-  width: 32%;
+  width: 30%;
   padding-left: 1%;
 } 
 
 #crm-container .three-col2 {
   float: left;
-  width: 33%;		
+  width: 31%;		
 }
 
 #crm-container .three-col3 {
   float: right;
-  width: 34%;
+  width: 32%;
 }
 
 /* following classes used to generate two column structure using <div> and <span> */
@@ -297,10 +297,10 @@ div.crm-pager a {
 */
 
 #crm-container .top-light-coloured {
-  border-bottom: 2px solid #4C4C4C;
+  border-top: 0.1px solid #B0B0B0;
   border-left: 2px solid #4C4C4C;
   border-right: 2px solid #4C4C4C; 
-  border-top: 0.1px solid #B0B0B0;	
+  border-bottom: 2px solid #4C4C4C;  
 }
 
 #crm-container .bottom-light-coloured {
@@ -317,8 +317,7 @@ div.crm-pager a {
 
 #crm-container .listing-box{
   width: 15em;
-  height: 9em;	
-  overflow: scroll;
-  border-top: 1px solid #B0B0B0;
-  border-left: 1px solid #B0B0B0;
+  height: 7em;	
+  overflow: auto;
+  border: 1px solid #B0B0B0;
 }
