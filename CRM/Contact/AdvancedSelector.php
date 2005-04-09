@@ -220,6 +220,9 @@ class CRM_Contact_AdvancedSelector extends CRM_Selector_Base implements CRM_Sele
     function &getRows($action, $offset, $rowCount, $sort)
     {
         $config = CRM_Config::singleton( );
+        
+        // note the formvalues were given by CRM_Contact_Form_AdvancedSearch to us 
+        // and contain the search criteria (parameters)
         $result = $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort);
 
         $rows = array( );

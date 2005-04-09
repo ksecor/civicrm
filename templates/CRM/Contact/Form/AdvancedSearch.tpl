@@ -147,4 +147,10 @@
 </div>
 <div class="spacer"></div>
 </div>
+
+     <p>
+       {include file="CRM/Contact/Selector.tpl"}
+     </p>
+
+
 </form>

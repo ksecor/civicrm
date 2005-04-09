@@ -97,7 +97,6 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         $this->addElement('text', 'street_name', 'Street Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
         $this->addElement('text', 'city', 'City:',CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
 
-
         // select for state province
         $stateProvince = CRM_PseudoConstant::getStateProvince();
         $stateProvince = array('' => ' - any state/province - ') + $stateProvince;
@@ -124,7 +123,8 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
 
         // checkbox for primary location only
         $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
-        
+
+        // add the buttons
         $this->addButtons(array(
                                 array ( 'type'      => 'refresh',
                                         'name'      => 'Search',
@@ -133,8 +133,6 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
                                         'name'      => 'Reset'),
                                 )
                           );
-
-
     }
 
 
@@ -148,7 +146,7 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         $defaults = array( );
         return $defaults;
     }
-
+    
 
 
     /**
@@ -177,10 +175,27 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
             $this->postProcess( );
         }
-
     }
 
 
+    /**
+     *
+     * Do all the form processing.
+     * The processing consists of 
+     *
+     * 1 - check for if the form is built / diplayed with the reset option
+     *     (this normally happens when the user clicks on external links
+     *      to the advanced search form example http::/localhost/drupal/crm/contact/advanced_search?reset=1
+     *
+     * 2 - If not entered first time. It stores all submitted form values.
+     *     submitted values will contain the users search criteria for 
+     *         - type of contact, group membership, categorization, address details.
+     *
+     * 3 - create a Selector (CRM_Contact_AdvancedSelector) and gives it the submitted values
+     *     
+     * 4 - create the selector controller and run it.
+     *
+     */
     function postProcess() 
     {
         CRM_ERROR::le_method();
@@ -188,11 +203,8 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         if($_GET['reset'] != 1) {
             CRM_Error::debug_log_message("reset != 1");
             // CRM_Error::debug_var("post vars", $_POST);
-
             $formValues = $this->controller->exportValues($this->_name);
-
             CRM_Error::debug_var("formValues", $formValues);
-
             $selector   = new CRM_Contact_AdvancedSelector($formValues);
             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
             $controller->run();

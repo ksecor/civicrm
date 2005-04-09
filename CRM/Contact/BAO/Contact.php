@@ -71,8 +71,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     function basicSearchQuery($offset, $rowCount, $sort)
     {
-        // we need to run the loop thru the num rows with offset in mind.
-        $rows = array();
         $str_select = $str_from = $str_where = $str_order = $str_limit = '';
         
         $str_select = "SELECT crm_contact.id as contact_id,
@@ -138,9 +136,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     function advancedSearchQuery(&$formValues, $offset, $rowCount, $sort)
     {
-        // we need to run the loop thru the num rows with offset in mind.
-        $rows = array();
         $str_select = $str_from = $str_where = $str_order = $str_limit = '';
+
+        // stores all the "AND" clauses
+        $andArray = array();
 
         CRM_Error::debug_var("formValues", $formValues);        
 
@@ -156,51 +155,120 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                               crm_contact.contact_type as contact_type";
 
         $str_from = " FROM crm_contact 
-                        LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-                        LEFT JOIN crm_address ON (crm_location.id = crm_address.location_id )
+                        LEFT JOIN crm_location ON crm_contact.id = crm_location.contact_id
+                        LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
                         LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
                         LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                        LEFT JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
-                        LEFT JOIN crm_country ON (crm_address.country_id = crm_country.id)";
+                        LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
+                        LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
 
 
-        
+
+        /*
+         * sample formValues for query 
+         *
+         * Get me all contacts of type individual or organization who are members of group 1 "Newsletter Subscribers"
+         * and are categorized as "Non Profit" (catid 1) or "Volunteer" (catid 5) 
+
+        $formValues = Array
+            (
+             [cb_contact_type] => Array
+             (
+              [Individual] => 1
+              [Organization] => 1
+              )
+             
+             [cb_group] => Array
+             (
+              [1] => 1
+              )
+             
+             [cb_category] => Array
+             (
+              [1] => 1
+              [5] => 1
+              )
+             
+             [last_name] => 
+             [first_name] => 
+             [street_name] => 
+             [city] => 
+             [state_province] => 
+             [country] => 
+             [postal_code] => 
+             [postal_code_low] => 
+             [postal_code_high] => 
+             )
+
+        */
+
+
+
         // check for contact type restriction
-        if (isset($formValues['cb_contact_type'])) {
-            CRM_Error::debug_log_message("breakpoint 10");
+        if ($formValues['cb_contact_type']) {
+            $andArray['contact_type'] = "(contact_type IN (";
             foreach ($formValues['cb_contact_type']  as $k => $v) {
-                // $str_where .= " AND  contact_type = '" . $k . "' "; 
+                $andArray['contact_type'] .= "'$k',"; 
             }            
+            // replace the last comma with the parentheses.
+            $andArray['contact_type'] = rtrim($andArray['contact_type'], ",");
+            $andArray['contact_type'] .= "))";
         }
         
         // check for group restriction
-        if (isset($formValues['cb_group'])) {
+        if ($formValues['cb_group']) {
+            $andArray['group'] = "(group_id IN (";
             foreach ($formValues['cb_group']  as $k => $v) {
-                $str_where .= " AND  group_id = $k "; 
+                // going with the OR case for this version
+                // i.e. it'll select all contacts who are members of group 1 OR group 2
+                // if we want all contacts who are members of group 1 AND group 2 then'll
+                // we'll have to use self joins
+                $andArray['group'] .= "$k,"; 
             }
+            $andArray['group'] = rtrim($andArray['group'], ",");
+            $andArray['group'] .= "))";
             $str_from .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
         }
 
         // check for category restriction
-        if (isset($formValues['cb_category'])) {
+        if ($formValues['cb_category']) {
+            $andArray['category'] .= "(category_id IN (";
             foreach ($formValues['cb_category'] as $k => $v) {
-                $str_where .= " AND  category_id = $k "; 
+                $andArray['category'] .= "$k,"; 
             }
+            $andArray['category'] = rtrim($andArray['category'], ",");
+            $andArray['category'] .= "))"; 
             $str_from .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
         }
 
-        CRM_Error::debug_var("str_where", $str_where);
-        $str_where = preg_replace("/AND/", "WHERE", $str_where, 1);
-        CRM_Error::debug_var("str_where", $str_where);
+
+        // check for last name, as of now only working with sort name
+        if ($formValues['last_name']) {
+            CRM_Error::debug_var("last_name", $formValues['last_name']);
+            $andArray['last_name'] = " crm_contact.sort_name LIKE '%". $formValues['last_name'] ."%'";
+        }
+
+        // street_name
+        if ($formValues['street_name']) {
+            $andArray['street_name'] = " crm_address.street_name LIKE '%". $formValues['street_name'] ."%'";
+        }
+
+
+        foreach ($andArray as $v) {
+            $str_where .= " AND $v ";
+        }
+
 
         // skip the following for now
         // last_name, first_name, street_name, city, state_province, country, postal_code, postal_code_low, postal_code_high
+
+        $str_where = preg_replace("/AND|OR/", "WHERE", $str_where, 1);
 
         $str_order = " ORDER BY " . $sort->orderBy(); 
         $str_limit = " LIMIT $offset, $rowCount ";
 
         // building the query string
-        $query_string = $str_select.$str_from.$str_where.$str_order.$str_limit;
+        $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
 
         CRM_Error::debug_var("query_string", $query_string);
 
