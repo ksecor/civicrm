@@ -1,12 +1,12 @@
 /* $Id: civicrm.css,v 1.0 2005/03/18 dgg */
 
+#crm-container div {
+    margin: 10px;
+}
+
 /*
 ** Size text input fields in crm-container by class. Classes are assigned by the
 ** module in relation to the data object max size.
-*/
-
-/*
-** Tentative styling for classes of text input fields. Need to test. dgg
 */
 #crm-container .two {width: 2em;}
 #crm-container .four {width: 4em;}
@@ -113,10 +113,14 @@ div.status {
   color: #FF0105;	
 }
 /* 
-** Styles for record browser table and pager bar
+** Styles for record browser tables and pager bar
 */
 #crm-container table {
   width: 100%;
+}
+
+#crm-container #map-field table {
+    width: auto;
 }
 
 #crm-container tr {
@@ -132,17 +136,24 @@ div.status {
   white-space: nowrap;
 }
 
-#crm-container th {
-  padding: 8px 4px 4px 4px;
-  border-bottom: 1px solid #000;
-}
-
 #crm-container tr.columnheader {
   background-color: #CCCCCC;
   color: #000000;
   border: 1px solid #000000;
 }
 
+#crm-container th {
+  padding: 8px 4px 4px 4px;
+  border-bottom: 1px solid #000;
+}
+
+#crm-container #map-field th {
+    border-right: 1px solid #000;
+}
+
+#crm-container #map-field td {
+    padding: 10px 10px 4px 10px;
+}
 
 #crm-container .odd-row {
   border: 1px solid #000000;
@@ -247,6 +258,37 @@ div.crm-pager a {
 #crm-container .two-col2 {
   float: right;
   width: 50%;
+}
+
+/* Styles for Wizard Progress Bars */
+#crm-container ul.wizard-bar {
+  border-collapse: collapse;
+  padding: 0em 0em 0em 1em;
+  white-space: nowrap;
+  list-style: none;
+  margin: 10px 0px 20px;
+  height: auto;
+  width: 65%;
+  line-height: normal;
+  border-top: 3px solid #000;
+}
+#crm-container ul.wizard-bar li {
+  display: inline;
+  background-color: #ddd;
+  border: 1px solid #bbb;
+  height: auto;
+  margin-right: 2em;
+  padding: 0em 1em;
+  text-decoration: none;
+}
+#crm-container ul.wizard-bar li.current-step {
+  background-color: #fff;
+  border-color: #000;
+  font-weight: bold;
+}
+#crm-container ul.wizard-bar li.past-step {
+  background-color: #eee;
+  color: #aaa;
 }
 
 /*
