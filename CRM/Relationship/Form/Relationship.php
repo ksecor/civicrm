@@ -134,7 +134,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
     public function buildQuickForm( ) 
     {
 
-        $this->addElement('select', "relationship_type_id", '', CRM_SelectValues::getRelationshipType());
+        $this->addElement('select', "relationship_type_id", '', CRM_SelectValues::getRelationshipType($this));
         
         $this->addElement('select', "contact_type", '', CRM_SelectValues::$contactType);
         
@@ -150,9 +150,9 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
         $arraySearch = array();
         $params = array();
         $arraySearch = $this->exportValues();
-        
+ 
         if ($this->_mode != self::MODE_UPDATE ) {
-            if ($arraySearch['csearch'] == 0 ){
+            if (strlen($arraySearch['name'])) {
                 $params['name'] = $arraySearch['name'];
                 $params['contact_type'] = $arraySearch['contact_type'];
             

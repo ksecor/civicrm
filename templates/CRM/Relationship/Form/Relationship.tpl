@@ -25,8 +25,7 @@
         <span class="fields">{$form.name.html}</span>
 	</span>
 	<span class="two-col2">
-	<span>{*$form.search.html*}
-	  <!--input type="hidden" name="csearch" value="0"-->
+	<span>
           <input type="button" name='search' value="Search" onClick="'{$form.formName}.csearch.value=1';{$form.formName}.submit();">
         </span>
 	</span> 
@@ -34,11 +33,10 @@
 	</div>
 	</p>
 
-
 	  <div class="form-item">
     	  <fieldset>
 	  {if ($noResult) }
-   	     {$noResult}
+	     <div class="message status">{$noResult}</div>
           {else}
 	     {if ($contacts) }
 	       {foreach from=$contacts item="row"}
@@ -46,7 +44,9 @@
                 &nbsp;{$row.type} &nbsp;{$row.name} <br>
 	       {/foreach}
              {else}
-	        {$noContacts}
+		{if $noContacts}
+	     	<div class="message status"> {$noContacts} </div>
+                {/if}
              {/if}
           {/if}
     	  </fieldset>

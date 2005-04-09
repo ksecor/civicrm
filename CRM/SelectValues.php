@@ -416,22 +416,48 @@ class CRM_SelectValues {
      * @return array - array reference of all relationship types.
      *
      */
-    public static function &getRelationshipType()
+    public static function &getRelationshipType($relationship)
     {
         CRM_Error::le_method();
+        $contact = new CRM_Contact_BAO_Contact();
+        $contact->id = $relationship->get('contactId');
+        $contact->find(true);
+
         if (!isset(self::$relationshipType)) {
             CRM_Error::debug_log_message("relationshipType is not set");
             self::$relationshipType = array();
             $relationshipTypeDAO = new CRM_Contact_DAO_RelationshipType();
-            $relationshipTypeDAO->selectAdd('id, description');
+            $relationshipTypeDAO->selectAdd('id, name_b_a, name_a_b');
+            $relationshipTypeDAO->is_active = 1;
+            
             $relationshipTypeDAO->find();
             while($relationshipTypeDAO->fetch()) {
-                self::$relationshipType[$relationshipTypeDAO->id] = "$relationshipTypeDAO->description";
+                if ($relationshipTypeDAO->contact_type_a == $contact->contact_type) {
+                    if ( is_array($relationshipType)){
+                        if (!in_array($relationshipTypeDAO->name_a_b, $relationshipTypeDAO)) {
+                            self::$relationshipType[$relationshipTypeDAO->id] = "$relationshipTypeDAO->name_a_b";
+                        }
+                    } else {
+                        self::$relationshipType[$relationshipTypeDAO->id] = "$relationshipTypeDAO->name_a_b";
+                    }
+                }
+                
+                if ($relationshipTypeDAO->contact_type_b == $contact->contact_type) {
+                    if ( is_array($relationshipType)){
+                        if (!in_array($relationshipTypeDAO->name_b_a, $relationshipTypeDAO)) {
+                            self::$relationshipType[$relationshipTypeDAO->id] = "$relationshipTypeDAO->name_b_a";
+                        }
+                    } else {
+                        self::$relationshipType[$relationshipTypeDAO->id] = "$relationshipTypeDAO->name_b_a";
+                    }
+                }
+
             }
         }
+        
         return self::$relationshipType;
     }
-
+    
 }
 
 /**

@@ -101,6 +101,7 @@
  <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;">(-)</a>Relationship</legend>
     <div class="form-item">
         {strip}
+	{if $relationship }
 	<table>
 	<tr class="columnheader">
 		<th>Relationship</th>
@@ -115,12 +116,7 @@
         <tr class="{cycle values="odd-row,even-row"}">
             	<td>
                 {$rel.relation|truncate:80:"...":true}
-                {* Include '(more)' link to view entire note if it has been truncated *}
-                {*assign var="noteSize" value=$note.note|count_characters:true}
-                {if $noteSize GT 80*}
-                    <!--a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=view">(more)</a-->
-                {*/if*}
-            	</td>
+               	</td>
 	    	<td>{$rel.name}</td>
 	    	<td>{$rel.email}</td>
 	    	<td>{$rel.phone}</td>
@@ -130,6 +126,9 @@
       	</tr>  
        	{/foreach}
        	</table>
+	{else}
+	<div class="message status">There are no Relationships entered for this contact.</div>
+	{/if}
 	{/strip}
        <br />
        <div class="action-link">

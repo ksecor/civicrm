@@ -34,6 +34,7 @@
        	</div>
 		
         {strip}
+	{if $relationship}
 	<p>
 	<table>
 	<tr class="columnheader">
@@ -58,6 +59,9 @@
        	{/foreach}
        	</table>
        	</p>
+	{else}
+	<div class="message status">There are no Relationships entered for this contact.</div>
+	{/if}
 	{/strip}	
        
 	<p>
