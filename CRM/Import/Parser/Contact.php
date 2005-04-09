@@ -57,7 +57,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             $this->addField( $name, $field['title'], $field['type'] );
         }
         $this->setActiveFields( $this->_mapperKeys );
-        
+
         $this->_emailIndex = -1;
         $index             = 0 ;
         foreach ( $this->_mapperKeys as $key ) {

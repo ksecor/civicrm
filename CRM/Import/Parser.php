@@ -250,10 +250,10 @@ abstract class CRM_Import_Parser {
      * @return void
      * @access public
      */
-    function setActiveField( $fieldKeys ) {
+    function setActiveFields( $fieldKeys ) {
         $this->_activeFieldCount = count( $fieldKeys );
         foreach ( $fieldKeys as $key ) {
-            $this->_activeField[] =& $this->_fields[$key];
+            $this->_activeFields[] =& $this->_fields[$key];
         }
     }
 

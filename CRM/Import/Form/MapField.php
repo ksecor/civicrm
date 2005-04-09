@@ -118,6 +118,9 @@ class CRM_Import_Form_MapField extends CRM_Form {
      * @access public
      */
     public function postProcess( ) {
+        $fileName  = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
+        $seperator = ',';
+
         $mapperKeys = array( );
         $mapper     = array( );
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
@@ -127,7 +130,7 @@ class CRM_Import_Form_MapField extends CRM_Form {
 
         $this->set( "mapper"    , $mapper     );
 
-        $parser = new CRM_Import_Parser_Contact( );
+        $parser = new CRM_Import_Parser_Contact( $mapperKeys );
         $parser->import( $fileName, $seperator, CRM_Import_Parser::MODE_SUMMARY );
 
         // add all the necessary variables to the form
