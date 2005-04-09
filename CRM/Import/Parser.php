@@ -36,7 +36,16 @@ abstract class CRM_Import_Parser {
         VALID        =  1,
         WARNING      =  2,
         ERROR        =  4,
-        STOP         =  8;
+        DUPLICATE    =  8,
+        STOP         = 16;
+
+    /**
+     * various parser modes
+     */
+    const
+        MODE_PREVIEW = 1,
+        MODE_SUMMARY = 2,
+        MODE_IMPORT  = 4;
 
     protected $_fileName;
 
@@ -61,6 +70,11 @@ abstract class CRM_Import_Parser {
     protected $_lineCount;
 
     /**
+     * total number of non empty lines
+     */
+    protected $_totalCount;
+
+    /**
      * running total number of valid lines
      */
     protected $_validCount;
@@ -69,6 +83,11 @@ abstract class CRM_Import_Parser {
      * running total number of errors
      */
     protected $_errorCount;
+
+    /**
+     * total number of duplicate lines
+     */
+    protected $_duplicateCount;
 
     /**
      * maximum number of errors to store
@@ -137,7 +156,7 @@ abstract class CRM_Import_Parser {
 
     abstract function init();
 
-    function import( $fileName, $seperator = ',', $preview = false ) {
+    function import( $fileName, $seperator = ',', $mode = self::MODE_PREVIEW ) {
         $this->init();
 
         $this->_seperator = ',';
@@ -147,34 +166,38 @@ abstract class CRM_Import_Parser {
             return false;
         }
 
-        $this->_lineCount = $this->_warningCount = $this->_errorCount = $this->_validCount = 0;
+        $this->_lineCount  = $this->_warningCount   = 0;
+        $this->_errorCount = $this->_validCount     = 0;
+        $this->_totalCount = $this->_duplicateCount = 0;
     
         $this->_errors   = array();
         $this->_warnings = array();
 
         $this->_fileSize = number_format( filesize( $fileName ) / 1024.0, 2 );
         
-        if ( ! $preview ) {
-            $this->_activeFieldCount = count( $this->_activeFields );
-        } else {
+        if ( $preview == self::MODE_PREVIEW ) {
             $this->_rows = array( );
+        } else {
+            $this->_activeFieldCount = count( $this->_activeFields );
         }
 
         while ( ! feof( $fd ) ) {
-            $fields = fgetcsv( $fd, 8192, $seperator );
+            $values = fgetcsv( $fd, 8192, $seperator );
             $this->_lineCount++;
-            if ( ! $fields || empty( $fields ) ) {
+            if ( ! $values || empty( $values ) ) {
                 continue;
             }
 
-            $returnCode = $this->process( $fields );
+            $this->_totalCount++;
+
+            $returnCode = $this->process( $values, $mode );
 
             // note that a line could be valid but still produce a warning
             if ( $returnCode & self::VALID ) {
                 $this->_validCount++;
-                if ( $preview ) {
-                    $this->_rows[]           = $fields;
-                    $this->_activeFieldCount = max( $this->_activeFieldCount, count( $fields ) );
+                if ( $mode == self::MODE_PREVIEW ) {
+                    $this->_rows[]           = $values;
+                    $this->_activeFieldCount = max( $this->_activeFieldCount, count( $values ) );
                 }
             }
 
@@ -190,6 +213,10 @@ abstract class CRM_Import_Parser {
                 if ( $this->_errorCount < $this->_maxErrorCount ) {
                     $this->_errorCount[] = $line;
                 }
+            } 
+
+            if ( $returnCode & self::DUPLICATE ) {
+                $this->_duplicateCount++;
             } 
 
             // we give the derived class a way of aborting the process
@@ -210,11 +237,27 @@ abstract class CRM_Import_Parser {
         return $this->fini();
     }
 
-    abstract function process( &$fields );
+    abstract function process( &$values, $mode );
 
     abstract function fini();
 
-    function setActiveFields( $elements ) {
+    /**
+     * Given a list of the importable field keys that the user has selected
+     * set the active fields array to this list
+     *
+     * @param array mapped array of values
+     *
+     * @return void
+     * @access public
+     */
+    function setActiveField( $fieldKeys ) {
+        $this->_activeFieldCount = count( $fieldKeys );
+        foreach ( $fieldKeys as $key ) {
+            $this->_activeField[] =& $this->_fields[$key];
+        }
+    }
+
+    function setActiveFieldValues( $elements ) {
         for ( $j = 0; $j < count( $elements ); $j++ ) {
             $this->_activeFields[$j]->setValue( $elements[$j] );
         }
@@ -236,14 +279,14 @@ abstract class CRM_Import_Parser {
 
     function getSelectValues() {
         $values = array();
-        foreach ( $this->_fields as $field ) {
-            $values[$field->_name] = $field->_title;
+        foreach ( $this->_fields as $name => &$field ) {
+            $values[$name] = $field->_title;
         }
         return $values;
     }
 
     function addField( $name, $title, $type = CRM_Type::T_INT, $required = false, $payload = null, $active = false ) {
-        $this->_fields[] = new CRM_Import_Field($name, $title, $type, $required, $payload, $active);
+        $this->_fields[$name] = new CRM_Import_Field($name, $title, $type, $required, $payload, $active);
     }
 
     /**
@@ -272,6 +315,11 @@ abstract class CRM_Import_Parser {
         $store->set( 'seperator'  , $this->_seperator         );
         $store->set( 'fields'     , $this->getSelectValues( ) );
         $store->set( 'columnCount', $this->_activeFieldCount  );
+
+        $store->set( 'totalRowCount'    , $this->_totalCount     );
+        $store->set( 'validRowCount'    , $this->_validCount     );
+        $store->set( 'invalidRowCount'  , $this->_errorCount     );
+        $store->set( 'duplicateRowCount', $this->_duplicateCount );
 
         if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
             $store->set( 'dataValues', $this->_rows );

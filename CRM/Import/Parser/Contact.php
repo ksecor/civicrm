@@ -39,14 +39,57 @@ require_once 'CRM/Import/Parser.php';
 class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     static $_importableFields;
 
+    protected $_mapperKeys;
+    
+    protected $_emailIndex;
+
+    protected $_allEmails;
+    /**
+     * class constructor
+     */
+    function __construct( &$mapperKeys ) {
+        $this->_mapperKeys =& $mapperKeys;
+    }
+
     function init( ) {
         $fields =& self::importableFields( );
         foreach ( $fields as $name => &$field ) {
             $this->addField( $name, $field['title'], $field['type'] );
         }
+        $this->setActiveFields( $this->_mapperKeys );
+        
+        $this->_emailIndex = -1;
+        $index             = 0 ;
+        foreach ( $this->_mapperKeys as $key ) {
+            if ( $key == 'email' ) {
+                $this->_emailIndex = $index;
+                $this->_allEmails  = array( );
+                break;
+            }
+            $index++;
+        }
     }
 
-    function process( &$fields ) {
+    function process( &$values, $mode ) {
+        if ( $mode == self::MODE_PREVIEW ) {
+            return self::VALID;
+        }
+
+        $response = $this->setActiveFieldValues( $values );
+        if ( $response != self::VALID ) {
+            return $response;
+        }
+
+        if ( $this->_emailIndex >= 0 ) {
+            $email = CRM_Array::value( $values, $this->_emailIndex );
+            if ( $email ) {
+                if ( CRM_Array::value( $email, $this->_allEmails ) ) {
+                    return self::DUPLICATE;
+                }
+                $this->_allEmails[$email] = 1;
+            }
+        }
+
         return self::VALID;
     }
 
@@ -57,17 +100,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         if ( ! isset( self::$_importableFields ) ) {
             self::$_importableFields = array( );
             self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Contact::import( ) );
-            self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Individual::import( ) );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Location::import( ) );
+            self::$_importableFields = array_merge(self::$_importableFields,
+                                                   CRM_Contact_DAO_Address::import( ) );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Phone::import( ) );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Email::import( ) );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_IM::import( ) );
+            self::$_importableFields = array_merge(self::$_importableFields,
+                                                   CRM_Contact_DAO_Contact::import( ) );
         }
         return self::$_importableFields;
     }

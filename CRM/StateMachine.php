@@ -127,7 +127,7 @@ class CRM_StateMachine {
         $data     =& $page->controller->container();
         
         $data['values'][$pageName] = $page->exportValues();
-        $data['valid'][$opageName]  = $page->validate();
+        $data['valid'][$pageName]  = $page->validate();
         
         
         // if we are going to the next state

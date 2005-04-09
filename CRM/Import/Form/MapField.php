@@ -66,6 +66,12 @@ class CRM_Import_Form_MapField extends CRM_Form {
         parent::__construct($name, $state, $mode);
     }
 
+    /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
     public function preProcess( ) {
         $this->_mapperFields = $this->get( 'fields' );
 
@@ -103,6 +109,29 @@ class CRM_Import_Form_MapField extends CRM_Form {
                                          'name'      => 'Cancel' ),
                                  )
                            );
+    }
+
+    /**
+     * Process the mapped fields
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcess( ) {
+        $mapperKeys = array( );
+        $mapper     = array( );
+        $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
+        for ( $i = 0; $i < $this->_columnCount; $i++ ) {
+            $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i]];
+        }
+
+        $this->set( "mapper"    , $mapper     );
+
+        $parser = new CRM_Import_Parser_Contact( );
+        $parser->import( $fileName, $seperator, CRM_Import_Parser::MODE_SUMMARY );
+
+        // add all the necessary variables to the form
+        $parser->set( $this );
     }
 
     /**

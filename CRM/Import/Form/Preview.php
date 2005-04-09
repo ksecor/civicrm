@@ -47,6 +47,34 @@ class CRM_Import_Form_Preview extends CRM_Form {
     }
 
     /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess( ) {
+        $this->_mapperFields = $this->get( 'fields' );
+        $this->_columnCount  = $this->get( 'columnCount' );
+        
+        $this->assign( 'rowDisplayCount', 2 );
+
+        $properties = array( 'mapper', 'dataValues', 'columnCount',
+                             'totalRowCount', 'validRowCount', 'invalidRowCount', 'duplicateRowCount' );
+        foreach ( $properties as $property ) {
+            $this->assign( $property, $this->get( $property ) );
+        }
+    }
+
+    /**
+     * Function to actually build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) {
+    }
+
+    /**
      * Return a descriptive name for the page, used in wizard header
      *
      * @return string
