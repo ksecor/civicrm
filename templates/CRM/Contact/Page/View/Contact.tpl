@@ -127,7 +127,10 @@
        	{/foreach}
        	</table>
 	{else}
-	<div class="message status">There are no Relationships entered for this contact.</div>
+	<div class="message status">
+	<img src="crm/i/Inform.gif" alt="status"> &nbsp;
+	There are no Relationships entered for this contact.
+	</div>
 	{/if}
 	{/strip}
        <br />
@@ -152,7 +155,10 @@
    {if $groupCount > 0}
      This contact is member of {$groupCount} Group(s).
    {else}
-     This contact does not belong to any groups.
+     <div class="message status">
+     <img src="crm/i/Inform.gif" alt="status"> &nbsp;	
+      This contact does not belong to any groups.
+     </div>
    {/if}
   </span>
   <br />

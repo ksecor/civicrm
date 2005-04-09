@@ -20,7 +20,10 @@
        {/foreach}
        </table>
      {else}
+     <div class="message status">	
+     <img src="crm/i/Inform.gif" alt="status"> &nbsp;
       This contact does not belong to any groups.
+     </div>	
      {/if}
     </div>
  </p>

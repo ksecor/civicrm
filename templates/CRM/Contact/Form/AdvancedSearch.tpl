@@ -1,4 +1,3 @@
-{debug}
 <form {$form.attributes}>
 {$form.hidden}
 <div class="bottom-light-coloured">
@@ -13,11 +12,11 @@
 		<span>{$form.cb_group.label}</span>
 		<div class="listing-box">
 		{foreach from=$form.cb_group item="cb_group_val" key="cb_group_key"}
-		<div {cycle values="odd-row,even-row"}>
+		<span {cycle values="odd-row,even-row"}>
 			{if $cb_group_val.type eq checkbox}
-			<div>{$cb_group_val.html}<br /></div>
+			<span>{$cb_group_val.html}<br /></span>
 			{/if}
-		</div>	
+		</span>	
 		{/foreach}
 		<!--span><p class="listing-box">{$form.cb_group.html}</p></span-->
 		</div>
@@ -26,13 +25,13 @@
 		<div class="three-col3">
 		<span>{$form.cb_category.label}</sapn>
 		<div class="listing-box">
-		<div {cycle values="odd-row,even-row"}>
+		<span {cycle values="odd-row,even-row"}>
 			{foreach from=$form.cb_category item="cb_category_val" key="cb_category_key"}
 			{if $cb_category_val.type eq checkbox}
 			<span>{$cb_category_val.html}<br /></span>
 			{/if}
 			{/foreach}
-		</div>
+		</span>
 		<!--span><p class="listing-box">{$form.cb_category.html}</p></span-->
 		</div>
 		</div>
@@ -146,11 +145,30 @@
 	</p>
 </div>
 <div class="spacer"></div>
+
+{if $rowsEmpty}
+
+    {* No matches for search criteria *}
+    <div class="messages status">
+        <img src="crm/i/Inform.gif" alt="status"> &nbsp;
+        No matches were found for your browse criteria.
+        <ul>
+        <li>check your spelling
+        <li>try a different spelling or use fewer letters</li>
+        <li>if you are searching within a Group or Category, try 'any group' or 'any category'</li>
+        <li>add a <a href="crm/contact/addI?c_type=Individual&reset=1">New Individual</a>,
+        <a href="crm/contact/addO?c_type=Organization&reset=1">Organization</a> or
+        <a href="crm/contact/addH?c_type=Household&reset=1">Household</a></li>
+        </ul>
+    </div>
+
+{else}
+<div>
+	<p>
+	{include file="CRM/Contact/Selector.tpl"}
+	</p>
 </div>
-
-     <p>
-       {include file="CRM/Contact/Selector.tpl"}
-     </p>
-
-
+<div class="spacer"></div>
+{/if}
+</div>
 </form>

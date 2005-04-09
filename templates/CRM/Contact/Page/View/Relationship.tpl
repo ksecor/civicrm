@@ -1,8 +1,6 @@
 <!--div id="name" class="data-group form-item">
  	<label>{$displayName}</label>
 </div-->
-
-
 {if $op eq 'view'}
 <div class="form-item">
 	<fieldset><legend>View Relationship</legend>
@@ -60,7 +58,10 @@
        	</table>
        	</p>
 	{else}
-	<div class="message status">There are no Relationships entered for this contact.</div>
+	<div class="status">
+	<img src="crm/i/Inform.gif" alt="status"> &nbsp;
+	There are no Relationships entered for this contact.
+	</div>
 	{/if}
 	{/strip}	
        
