@@ -152,7 +152,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
         $arraySearch = $this->exportValues();
  
         if ($this->_mode != self::MODE_UPDATE ) {
-            if (strlen($arraySearch['name'])) {
+            if (strlen(trim($arraySearch['name']))) {
                 $params['name'] = $arraySearch['name'];
                 $params['contact_type'] = $arraySearch['contact_type'];
             
@@ -217,7 +217,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
         //max records that will be listed
         $maxResultCount = 50;
       
-        $contact->whereAdd( " crm_contact.sort_name like '%".$params['name']."%'");
+        $contact->whereAdd( " crm_contact.sort_name like '%".addslashes($params['name'])."%'");
         if (strlen($params['contact_type'])) {
             $contact->contact_type = $params['contact_type'];
         }
@@ -227,10 +227,11 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
         if ($lngResultCount > $maxResultCount) {
             $this->assign('noResult', 'Please enter appropriate search criteria.');
         } else {
+
             $config = CRM_Config::singleton( );
-            $contact->find(true);
+            $contact->find();
             while($contact->fetch()) {
-                
+
                 $values[$contact->id]['id'] = $contact->id;
                 $values[$contact->id]['name'] = $contact->sort_name;
 
@@ -254,6 +255,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
             
             $this->addGroup($contact_chk, 'contact_check');
             if ($lngResultCount == 0) $this->assign('noContacts',' No results were found.');
+
             $this->assign('contacts', $values);
         }
         

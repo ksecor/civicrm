@@ -105,9 +105,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // adding sort_name
         if (strlen(trim($this->sort_name))) {
             if (strlen($this->contact_type)) { // check if contact_type is present..
-                $str_where .= " AND LOWER(crm_contact.sort_name) like '%".strtolower($this->sort_name)."%'";
+                $str_where .= " AND LOWER(crm_contact.sort_name) like '%".strtolower(addslashes($this->sort_name))."%'";
             } else {
-                $str_where .= " LOWER(crm_contact.sort_name) like '%".strtolower($this->sort_name)."%'";
+                $str_where .= " LOWER(crm_contact.sort_name) like '%".strtolower(addslashes($this->sort_name))."%'";
             }   
         }
 
@@ -245,12 +245,12 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // check for last name, as of now only working with sort name
         if ($formValues['last_name']) {
             CRM_Error::debug_var("last_name", $formValues['last_name']);
-            $andArray['last_name'] = " crm_contact.sort_name LIKE '%". $formValues['last_name'] ."%'";
+            $andArray['last_name'] = " crm_contact.sort_name LIKE '%".addslashes($formValues['last_name']) ."%'";
         }
 
         // street_name
         if ($formValues['street_name']) {
-            $andArray['street_name'] = " crm_address.street_name LIKE '%". $formValues['street_name'] ."%'";
+            $andArray['street_name'] = " crm_address.street_name LIKE '%". addslashes($formValues['street_name']) ."%'";
         }
 
 
