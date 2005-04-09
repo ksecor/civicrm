@@ -49,7 +49,7 @@
        	{foreach from=$relationship item=rel}
         <tr class="{cycle values="odd-row,even-row"}">
           	<td> {$rel.relation}</td>
-	 	<td>{$rel.name}</td>
+	    	<td><a href="{$config->httpBase}contact/view&reset=1&cid={$rel.cid}">{$rel.name}</a></td>
 	 	<td>{$rel.email}</td>
 	 	<td>{$rel.phone}</td>
 	 	<td>{$rel.city}</td>

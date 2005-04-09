@@ -117,7 +117,7 @@
             	<td>
                 {$rel.relation|truncate:80:"...":true}
                	</td>
-	    	<td>{$rel.name}</td>
+	    	<td><a href="{$config->httpBase}contact/view&reset=1&cid={$rel.cid}">{$rel.name}</a></td>
 	    	<td>{$rel.email}</td>
 	    	<td>{$rel.phone}</td>
 	    	<td>{$rel.city}</td>
@@ -133,7 +133,7 @@
        <br />
        <div class="action-link">
        <a href="{$config->httpBase}contact/view/rel&op=add">Create Relationship</a>
-        {if $relationshipsCount gt 3 }
+        {if $relationshipsCount gt 10 }
          | <a href="{$config->httpBase}contact/view/rel&op=browse">Browse all Relationships...</a>
         {/if}
         </div>

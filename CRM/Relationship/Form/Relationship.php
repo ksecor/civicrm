@@ -217,7 +217,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
         //max records that will be listed
         $maxResultCount = 50;
       
-        $contact->whereAdd( " crm_contact.sort_name like '%".addslashes($params['name'])."%'");
+        $contact->whereAdd( " LOWER(crm_contact.sort_name) like '%".addslashes(strtolower($params['name']))."%'");
         if (strlen($params['contact_type'])) {
             $contact->contact_type = $params['contact_type'];
         }

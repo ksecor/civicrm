@@ -41,7 +41,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * const the max number of relationships we display at any given time
      * @var int
      */
-    const MAX_RELATIONSHIPS = 3;
+    const MAX_RELATIONSHIPS = 10;
 
     /**
      * class constructor
@@ -79,6 +79,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                               crm_country.name as country,
                               crm_email.email as email,
                               crm_phone.phone as phone,
+                              crm_contact.id as crm_contact_id,
                               crm_contact.contact_type as contact_type,
                               crm_relationship.contact_id_b as contact_id_b,
                               crm_relationship.contact_id_a as contact_id_a,
@@ -97,12 +98,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         // add where clause 
         $str_where = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
-                         AND (crm_relationship.contact_id_a = ". $params['contact_id']." 
-                            OR crm_relationship.contact_id_b = ".$params['contact_id'].") 
-                         AND (crm_relationship.contact_id_a = crm_contact.id
-                            OR crm_relationship.contact_id_b = crm_contact.id)";
+                         AND crm_relationship.contact_id_b = ".$params['contact_id']." 
+                         AND crm_relationship.contact_id_a = crm_contact.id";
 
-        $str_order = " GROUP BY crm_relationship.id ";
+
+        $str_order = " ORDER BY crm_contact.id ";
         $str_limit = " LIMIT 0, $numRelationships ";
 
         // building the query string
@@ -119,6 +119,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             $ids['relationship'][] = $relationship->crm_relationship_id;
             
             $values['relationship'][$relationship->crm_relationship_id]['id'] = $relationship->crm_relationship_id;
+            $values['relationship'][$relationship->crm_relationship_id]['cid'] = $relationship->crm_contact_id;
             $values['relationship'][$relationship->crm_relationship_id]['relation'] = $relationship->name_b;
             $values['relationship'][$relationship->crm_relationship_id]['name'] = $relationship->sort_name;
             $values['relationship'][$relationship->crm_relationship_id]['email'] = $relationship->email;
@@ -189,8 +190,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     {
         // create relationship object
         $relationship                = new CRM_Contact_BAO_Relationship( );
-        $relationship->contact_id_a  = CRM_Array::value( 'contact', $ids );;
-        $relationship->contact_id_b  = $lngContactId;
+        $relationship->contact_id_b  = CRM_Array::value( 'contact', $ids );;
+        $relationship->contact_id_a  = $lngContactId;
         $relationship->relationship_type_id = CRM_Array::value( 'relationship_type_id', $params );
         
         $sdate = CRM_Array::value( 'start_date', $params );

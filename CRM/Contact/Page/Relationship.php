@@ -76,6 +76,7 @@ class CRM_Contact_Page_Relationship {
                               crm_country.name as country,
                               crm_email.email as email,
                               crm_phone.phone as phone,
+                              crm_contact.id as crm_contact_id,
                               crm_contact.contact_type as contact_type,
                               crm_relationship.contact_id_b as contact_id_b,
                               crm_relationship.contact_id_a as contact_id_a,
@@ -94,10 +95,8 @@ class CRM_Contact_Page_Relationship {
 
         // add where clause 
         $str_where = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
-                         AND (crm_relationship.contact_id_a = ".$contactId." 
-                            OR crm_relationship.contact_id_b = ".$contactId.") 
-                         AND (crm_relationship.contact_id_a = crm_contact.id
-                            OR crm_relationship.contact_id_b = crm_contact.id)";
+                         AND crm_relationship.contact_id_b = ".$contactId." 
+                         AND crm_relationship.contact_id_a = crm_contact.id";
 
         if ($relationshipId > 0) {
             $str_where .= " AND crm_relationship.id = ".$relationshipId;
@@ -115,6 +114,7 @@ class CRM_Contact_Page_Relationship {
         while ( $relationship->fetch() ) {
             
             $values[$relationship->crm_relationship_id]['id'] = $relationship->crm_relationship_id;
+            $values[$relationship->crm_relationship_id]['cid'] = $relationship->crm_contact_id;
             $values[$relationship->crm_relationship_id]['relation'] = $relationship->name_b;
             $values[$relationship->crm_relationship_id]['name'] = $relationship->sort_name;
             $values[$relationship->crm_relationship_id]['email'] = $relationship->email;
