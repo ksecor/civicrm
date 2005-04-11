@@ -11,13 +11,11 @@
 		<div class="three-col2">
 		<span>{$form.cb_group.label}</span>
 		<div class="listing-box">
-		{foreach from=$form.cb_group item="cb_group_val" key="cb_group_key"}
-		<span {cycle values="odd-row,even-row"}>
+			{foreach from=$form.cb_group item="cb_group_val" key="cb_group_key"}
 			{if $cb_group_val.type eq checkbox}
-			<span>{$cb_group_val.html}<br /></span>
+			<div class="{cycle values="odd-row,even-row"}">{$cb_group_val.html}</div>
 			{/if}
-		</span>	
-		{/foreach}
+			{/foreach}
 		<!--span><p class="listing-box">{$form.cb_group.html}</p></span-->
 		</div>
 		</div>
@@ -25,13 +23,11 @@
 		<div class="three-col3">
 		<span>{$form.cb_category.label}</sapn>
 		<div class="listing-box">
-		<span {cycle values="odd-row,even-row"}>
 			{foreach from=$form.cb_category item="cb_category_val" key="cb_category_key"}
 			{if $cb_category_val.type eq checkbox}
-			<span>{$cb_category_val.html}<br /></span>
+			<div class="{cycle values="odd-row,even-row"}">{$cb_category_val.html}</div>
 			{/if}
 			{/foreach}
-		</span>
 		<!--span><p class="listing-box">{$form.cb_category.html}</p></span-->
 		</div>
 		</div>
