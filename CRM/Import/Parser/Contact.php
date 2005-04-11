@@ -110,7 +110,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Email::import( ) );
             self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_IM::import( ) );
+                                                   CRM_Contact_DAO_IM::import( true ) );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Contact::import( ) );
         }

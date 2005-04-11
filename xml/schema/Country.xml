@@ -15,8 +15,10 @@
   </primaryKey>
   <field>
        <name>name</name>
+       <title>Country</title>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>Country Name</comment>
   </field>
   <field>

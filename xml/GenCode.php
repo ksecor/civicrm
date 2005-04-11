@@ -135,6 +135,7 @@ function getTable( $tableXML, &$database, &$tables ) {
     $table = array( 'name'       => $name,
                     'base'       => $base,
                     'fileName'   => convertName( $name, true, '', '.php' ),
+                    'objectName' => convertName( $name, true ),
                     'className'  => $classNames[$name],
                     'attributes' => trim($database['tableAttributes']),
                     'comment'    => value( 'comment', $tableXML ) );

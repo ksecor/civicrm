@@ -159,20 +159,24 @@ class {$table.className} extends CRM_DAO {ldelim}
        * @access public
        * return array
        */
-       function &import( ) {ldelim}
+       function &import( $prefix = false ) {ldelim}
           if ( ! isset( self::$_import ) ) {ldelim}
                self::$_import = array ( );
                $fields =& self::fields( );
                foreach ( $fields as $name => &$field ) {ldelim}
                  if ( CRM_Array::value( 'import', $field ) ) {ldelim}
-                   self::$_import[$name] =& $field;
+                   if ( $prefix ) {ldelim}
+                     self::$_import['{$table.objectName}.' . $name] =& $field;
+                   {rdelim} else {ldelim}
+                     self::$_import[$name] =& $field;
+                   {rdelim}
                  {rdelim}
                {rdelim}
                {if $table.foreignKey}
                   {foreach from=$table.foreignKey item=foreign}
                      {if $foreign.import}
                         self::$_import = array_merge( self::$_import,
-						      {$foreign.className}::import( ) );
+						      {$foreign.className}::import( true ) );
                      {/if}
                   {/foreach}
                {/if}
@@ -180,7 +184,6 @@ class {$table.className} extends CRM_DAO {ldelim}
           {rdelim}
           return self::$_import;
       {rdelim}
-
 
 {rdelim}
 

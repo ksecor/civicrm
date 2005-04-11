@@ -109,13 +109,11 @@
        <name>county_id</name>
        <table>crm_county</table>
        <key>id</key>
-       <import>true</import>
   </foreignKey>
   <field>
       <name>state_province_id</name>
       <type>int unsigned</type>
       <comment>Which State_Province does this address belong to.</comment>
-       <import>true</import>
   </field>
   <foreignKey>
        <name>state_province_id</name>

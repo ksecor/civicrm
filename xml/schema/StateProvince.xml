@@ -15,14 +15,18 @@
   </primaryKey>
   <field>
        <name>name</name>
+       <title>State</title>
        <type>varchar</type>
        <length>64</length>
+       <import>true</import>
        <comment>Name of State / Province</comment>
   </field>
   <field>
        <name>abbreviation</name>
+       <title>State Abbreviation</title>
        <type>varchar</type>
        <length>4</length>
+       <import>true</import>
        <comment>2-4 Character Abbreviation of State / Province</comment>
   </field>
   <field>
