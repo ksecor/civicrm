@@ -99,7 +99,6 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
                 $defaults['relationship_type_id'] = $relationship->relationship_type_id;
                 $defaults['start_date'] = $relationship->start_date;
                 $defaults['end_date'] = $relationship->end_date;
-
                 
                 $cId = $_GET['cntid'];
 
@@ -113,7 +112,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
       
         return $defaults;
     }
-
+    
 
     /**
      * This function is used to add the rules for form.
@@ -136,9 +135,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
      */
     public function buildQuickForm( ) 
     {
-        
-        
-        $this->addElement('select', "relationship_type_id", '', CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId));
+        $this->addElement('select', "relationship_type_id", '', CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $_GET['c']));
         
         $this->addElement('select', "contact_type", '', CRM_SelectValues::$contactType);
         

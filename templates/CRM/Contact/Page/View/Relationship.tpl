@@ -45,6 +45,12 @@
 		<th>&nbsp;</th>
 	</tr>
        	{foreach from=$relationship item=rel}
+          {if $rel.contact_a > 0 }
+	    {assign var = "c" value = "b_a" }
+	  {/if}   
+	  {if $rel.contact_b > 0}
+	    {assign var = "c" value = "a_b" }
+	  {/if}
         <tr class="{cycle values="odd-row,even-row"}">
           	<td> {$rel.relation}</td>
 	    	<td><a href="{$config->httpBase}contact/view&reset=1&cid={$rel.cid}">{$rel.name}</a></td>
@@ -52,7 +58,7 @@
 	 	<td>{$rel.phone}</td>
 	 	<td>{$rel.city}</td>
 	 	<td>{$rel.state}</td>
-         	<td><a href="{$config->httpBase}contact/view/rel&cntid={$rel.cid}&rid={$rel.id}&op=view">View</a> | <a href="{$config->httpBase}contact/view/rel&cntid={$rel.cid}&rid={$rel.id}&op=edit">Edit</a></td>
+         	<td><a href="{$config->httpBase}contact/view/rel&cntid={$rel.cid}&rid={$rel.id}&op=view&c={$c}">View</a> | <a href="{$config->httpBase}contact/view/rel&cntid={$rel.cid}&rid={$rel.id}&op=edit&c={$c}">Edit</a></td>
 	</tr>
        	{/foreach}
        	</table>

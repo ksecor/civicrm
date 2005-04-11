@@ -62,9 +62,9 @@ class CRM_Contact_Page_Relationship {
     static function browse( $page, $relationshipId = 0 ) {
      
         $relationship = new CRM_Contact_DAO_Relationship( );
-        
+     
         $contactId = $page->getContactId( );
-
+        
         $str_select1 = $str_from1 = $str_where1 = $str_select2 = $str_from2 = $str_where2 = $str_order = $str_limit = '';
         
         $str_select1 = "( SELECT crm_relationship.id as crm_relationship_id,
@@ -159,6 +159,20 @@ class CRM_Contact_Page_Relationship {
             $values[$relationship->crm_relationship_id]['city'] = $relationship->city;
             $values[$relationship->crm_relationship_id]['state'] = $relationship->state;
 
+            if ($relationship->contact_type == 'Individual') { 
+                if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
+                    $values[$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
+                } else {
+                    $values[$relationship->crm_relationship_id]['contact_a'] = 0;
+                }
+                if ($relationship->crm_contact_id == $relationship->contact_id_b ) {
+                    $values[$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
+                } else {
+                    $values[$relationship->crm_relationship_id]['contact_b'] = 0;
+                }
+            }
+
+
             $relationship->storeValues( $values[$relationship->crm_relationship_id] );
           
         }
@@ -188,7 +202,7 @@ class CRM_Contact_Page_Relationship {
     }
 
     static function run( $page ) {
-        
+
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
 
@@ -210,7 +224,7 @@ class CRM_Contact_Page_Relationship {
             self::edit( $page, CRM_Form::MODE_ADD );
             break;
         }
-
+      
         self::browse( $page );
     }
 }

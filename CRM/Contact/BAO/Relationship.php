@@ -67,7 +67,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function getValues( &$params, &$values, &$ids, $numRelationships = self::MAX_RELATIONSHIPS ) {
         $relationship = new CRM_Contact_BAO_Relationship( );
-        
+
         $str_select1 = $str_from1 = $str_where1 = $str_select2 = $str_from2 = $str_where2 = $str_order = $str_limit = '';
         
         $str_select1 = "( SELECT crm_relationship.id as crm_relationship_id,
@@ -156,9 +156,21 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             $values['relationship'][$relationship->crm_relationship_id]['phone'] = $relationship->phone;
             $values['relationship'][$relationship->crm_relationship_id]['city'] = $relationship->city;
             $values['relationship'][$relationship->crm_relationship_id]['state'] = $relationship->state;
-            
+           
+            if ($relationship->contact_type == 'Individual') { 
+                if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
+                    $values['relationship'][$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
+                } else {
+                    $values['relationship'][$relationship->crm_relationship_id]['contact_a'] = 0;
+                }
+                if ($relationship->crm_contact_id == $relationship->contact_id_b ) {
+                    $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
+                } else {
+                    $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = 0;
+                }
+            }
             $relationship->storeValues( $values['relationship'][$relationship->crm_relationship_id] );
-            
+
             $relationships = $relationship;
             $count++;
         }
@@ -272,15 +284,17 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     /**
      * Function to get get list of relationship type based on the contact type.
      *
-     * @param int contact_id this is the contact id of the current contact.
-
+     * @param int contactId this is the contact id of the current contact.
+     * $param string $strContact it's  values are 'a or b' if value is 'a' then selected contact is the value of contac_id_a 
+     *               for the relationship and if value is 'b' then selected contact is the value of contac_id_b for the relationship
+     *
      * @access public
      * @static
      *
      * @return array - array reference of all relationship types with context to current contact.
      *
      */
-    function getContactRelationshipType($contactId)
+    function getContactRelationshipType($contactId,$strContact = '')
     {
         $aRelationshipType = array();
         $relationshipType = array();
@@ -292,28 +306,26 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $contact->find(true);
 
         foreach ($aRelationshipType as $lng_key => $var_value) {
+
             if ($var_value['contact_type_a'] == $contact->contact_type) {
                 if (!in_array($var_value['name_a_b'], $relationshipType)) {
-                    if ($var_value['contact_type_a'] == $var_value['contact_type_b'] && $var_value['name_a_b'] != $var_value['name_b_a']) {
-                        $relationshipType[$lng_key] = $var_value['name_a_b']." / ".$var_value['name_b_a'];
-                    } else {
+                    if ($strContact == 'a_b' || $strContact == '') {
                         $relationshipType[$lng_key] = $var_value['name_a_b'];
                     }
                 }
-            }
+            } 
             
             if ($var_value['contact_type_b'] == $contact->contact_type) {
                 if (!in_array($var_value['name_b_a'], $relationshipType)) {
-                    if ($var_value['contact_type_a'] != $var_value['contact_type_b']) {
+                    if ($strContact == 'b_a' || $strContact == '') {
                         $relationshipType[$lng_key] = $var_value['name_b_a'];
                     }
                 }
             }
+            
         }
-        
         return $relationshipType;
     }
-    
 }
 
 ?>
