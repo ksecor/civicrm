@@ -136,8 +136,9 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
      */
     public function buildQuickForm( ) 
     {
-
-        $this->addElement('select', "relationship_type_id", '', CRM_SelectValues::getRelationshipType($this));
+        
+        
+        $this->addElement('select', "relationship_type_id", '', CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId));
         
         $this->addElement('select', "contact_type", '', CRM_SelectValues::$contactType);
         

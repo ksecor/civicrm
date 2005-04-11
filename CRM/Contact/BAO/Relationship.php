@@ -269,7 +269,51 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         return true;
      }
 
+    /**
+     * Function to get get list of relationship type based on the contact type.
+     *
+     * @param int contact_id this is the contact id of the current contact.
 
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all relationship types with context to current contact.
+     *
+     */
+    function getContactRelationshipType($contactId)
+    {
+        $aRelationshipType = array();
+        $relationshipType = array();
+        $aRelationshipType = CRM_PseudoConstant::getRelationshipType();
+        
+        $contact = new CRM_Contact_BAO_Contact();
+        
+        $contact->id = $contactId;
+        $contact->find(true);
+
+        foreach ($aRelationshipType as $lng_key => $var_value) {
+            if ($var_value['contact_type_a'] == $contact->contact_type) {
+                if (!in_array($var_value['name_a_b'], $relationshipType)) {
+                    if ($var_value['contact_type_a'] == $var_value['contact_type_b'] && $var_value['name_a_b'] != $var_value['name_b_a']) {
+                        $relationshipType[$lng_key] = $var_value['name_a_b']." / ".$var_value['name_b_a'];
+                    } else {
+                        $relationshipType[$lng_key] = $var_value['name_a_b'];
+                    }
+                }
+            }
+            
+            if ($var_value['contact_type_b'] == $contact->contact_type) {
+                if (!in_array($var_value['name_b_a'], $relationshipType)) {
+                    if ($var_value['contact_type_a'] != $var_value['contact_type_b']) {
+                        $relationshipType[$lng_key] = $var_value['name_b_a'];
+                    }
+                }
+            }
+        }
+        
+        return $relationshipType;
+    }
+    
 }
 
 ?>

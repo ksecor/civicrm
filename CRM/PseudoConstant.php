@@ -408,7 +408,7 @@ class CRM_PseudoConstant {
 
             $relationshipTypeDAO->selectAdd();
             // $relationshipTypeDAO->selectAdd('id, description');
-            $relationshipTypeDAO->selectAdd('id', 'name_a_b', 'name_b_a', 'contact_type_a', 'contact_type_b');
+            $relationshipTypeDAO->selectAdd('id, name_a_b, name_b_a, contact_type_a, contact_type_b');
             $relationshipTypeDAO->is_active = 1;
             $relationshipTypeDAO->find();
             while($relationshipTypeDAO->fetch()) {
@@ -422,7 +422,7 @@ class CRM_PseudoConstant {
         }
 
         CRM_Error::debug_var('relationshipType', self::$relationshipType);
-
+       
         return self::$relationshipType;
     }
 
