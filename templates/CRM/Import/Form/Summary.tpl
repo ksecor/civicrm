@@ -43,35 +43,33 @@
  </div>
     
  {* Summary of Import Results (record counts) *}
- <div id="result-counts">
-    <div class="form-item odd-row">
-        <span class="labels">Total Rows</span>
-        <span class="fields">{$totalRowCount} - Total number of rows in the import file.</span>
-    </div>
-    <div class="form-item odd-row">
-        <span class="labels">Invalid Rows Skipped</span>
-        <span class="fields">
-            {$invalidRowCount} - Total number of rows with invalid data.
-            These rows were not imported.
-            <p>{$downloadErrorRecords}</p>
-        </span>
-    </div>
-    <div class="form-item odd-row">
-        <span class="labels">Duplicate Rows Skipped</span>
-        <span class="fields">
-            {$duplicateRowCount} - Total number of rows with duplicate email addresses.
-            These rows were not imported.
-            <p>{$downloadDuplicateRecords}</p>
-        </span>
-    </div>
-    <div class="form-item even-row">
-        <span class="labels">New Contact Records</span>
-        <span class="fields">{$validRowCount} - Total number of rows which were imported successfully.</span>
-    </div>
+ <table id="summary-counts" class="report>
+    <tr><td class="label">Total Rows</td>
+        <td class="data">{$totalRowCount}</td>
+        <td class="explanation">Total rows (contact records) in uploaded file.</td>
+    </tr>
 
- </div>
+    <tr><td class="label">Invalid Rows (skipped)</td>
+        <td class="data">{$invalidRowCount}</td>
+        <td class="explanation">Rows with invalid data (NOT imported).
+            <p>{$downloadErrorRecords}</p>
+        </td>
+    </tr>
+    
+    <tr><td class="label">Duplicate Rows (skipped)</td>
+        <td class="data">{$duplicateRowCount}</td>
+        <td class="explanation">Rows with duplicate email addresses (NOT imported).
+            <p>{$downloadDuplicateRecords}</p>
+        </td>
+    </tr>
+
+    <tr><td class="label">Records Imported</td>
+        <td class="data">{$validRowCount}</td>
+        <td class="explanation">Rows imported successfully.</td>
+    </tr>
+ </table>
  
-  <div id="crm-submit-buttons">
+ <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
 </form>

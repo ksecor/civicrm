@@ -1,7 +1,7 @@
 {* Import Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
 
  <div id="map-field">
-    <h4>Match Import Data to CiviCRM Contact Fields</h4>
+    <h4>Import Data -> CiviCRM Contact Fields</h4>
     <table>
         <tr class="columnheader">
             
@@ -19,15 +19,15 @@
                          
                 {section name=rows loop=$rowDisplayCount}
                     {assign var="j" value=$smarty.section.rows.index}
-                    <td class="{cycle values="odd-row,even-row"}">{$dataValues[$j][$i]}</td>
+                    <td class="odd-row">{$dataValues[$j][$i]}</td>
                 {/section}
 
-                <td class="form-item odd-row">
-                    {* Provide mapper <select> field for 'Map Fields', and mapper value for 'Preview' *}
-                    {if $wizard.currentStepTitle == 'Match Fields'}
-                        {$form.mapper[$i].html}
-                    {else}
+                {* Display mapper <select> field for 'Map Fields', and mapper value for 'Preview' *}
+                <td class="form-item even-row{if $wizard.currentStepTitle == 'Preview'} labels{/if}">
+                    {if $wizard.currentStepTitle == 'Preview'}
                         {$mapper[$i]}
+                    {else}
+                        {$form.mapper[$i].html}
                     {/if}
                 </td>
 

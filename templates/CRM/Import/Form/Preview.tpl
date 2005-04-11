@@ -39,38 +39,40 @@
  </div>
     
  {* Summary Preview (record counts) *}
- <div id="preview-counts">
-    <div class="form-item odd-row">
-        <span class="labels">Total Rows</span>
-        <span class="fields">{$totalRowCount} - Total number of rows (contact data records) in this import file.</span>
-    </div>
-    <div class="form-item even-row">
-        <span class="labels">Rows with Errors</span>
-        <span class="fields">
-            {$invalidRowCount} - Total number of rows with invalid email address or phone formatting.
+ <table id="preview-counts" class="report">
+    <tr><td class="label">Total Rows</td>
+        <td class="data">{$totalRowCount}</td>
+        <td class="explanation">Total rows (contact records) in uploaded file.</td>
+    </tr>
+    
+    <tr><td class="label">Rows with Errors</td>
+        <td class="data">{$invalidRowCount}</td>
+        <td class="explanation">Rows with invalid email or phone formatting.
             These rows will be skipped (not imported).
             <p>{$downloadErrorRecords}</p>
-        </span>
-    </div>
-    <div class="form-item odd-row">
-        <span class="labels">Duplicate Rows</span>
-        <span class="fields">
-            {$duplicateRowCount} - Total number of rows with duplicate email addresses within this file.
+        </td>
+    </tr>
+    
+    <tr><td class="label">Duplicate Rows</td>
+        <td class="data">{$duplicateRowCount}</td>
+        <td class="explanation">Rows with duplicate emails within this file.
             These rows will be skipped (not imported).
             <p>{$downloadDuplicateRecords}</p>
-        </span>
-    </div>
-    <div class="form-item even-row">
-        <span class="labels">Valid Rows</span>
-        <span class="fields">{$validRowCount} - Total number of rows without formatting errors.</span>
-    </div>
+        </td>
+    </tr>
 
- </div>
+    <tr><td class="label">Valid Rows</td>
+        <td class="data">{$validRowCount}</td>
+        <td class="explanation">Total rows to be imported.</td>
+    </tr>
+ </table>
+ <br /> 
 
  {* Table for mapping preview *}
  {include file="CRM/Import/Form/MapTable.tpl}
+ <br />
  
-  <div id="crm-submit-buttons">
+ <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
 </form>
