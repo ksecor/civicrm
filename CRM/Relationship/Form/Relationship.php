@@ -100,8 +100,11 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
                 $defaults['start_date'] = $relationship->start_date;
                 $defaults['end_date'] = $relationship->end_date;
 
+                
+                $cId = $_GET['cntid'];
+
                 $contact = new CRM_Contact_DAO_Contact( );
-                $contact->id = $relationship->contact_id_b;
+                $contact->id = $cId;
                 if ($contact->find(true)) {
                     $this->assign('sort_name', $contact->sort_name);                
                 }

@@ -1,6 +1,6 @@
-<!--div id="name" class="data-group form-item">
+<div id="name" class="data-group form-item">
  	<label>{$displayName}</label>
-</div-->
+</div>
 {if $op eq 'view'}
 <div class="form-item">
 	<fieldset><legend>View Relationship</legend>
@@ -52,7 +52,7 @@
 	 	<td>{$rel.phone}</td>
 	 	<td>{$rel.city}</td>
 	 	<td>{$rel.state}</td>
-         	<td><a href="{$config->httpBase}contact/view/rel&cid={$contactId}&rid={$rel.id}&op=view">View</a> | <a href="{$config->httpBase}contact/view/rel&cid={$contactId}&rid={$rel.id}&op=edit">Edit</a></td>
+         	<td><a href="{$config->httpBase}contact/view/rel&cntid={$rel.cid}&rid={$rel.id}&op=view">View</a> | <a href="{$config->httpBase}contact/view/rel&cntid={$rel.cid}&rid={$rel.id}&op=edit">Edit</a></td>
 	</tr>
        	{/foreach}
        	</table>

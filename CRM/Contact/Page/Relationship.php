@@ -64,10 +64,10 @@ class CRM_Contact_Page_Relationship {
         $relationship = new CRM_Contact_DAO_Relationship( );
         
         $contactId = $page->getContactId( );
+
+        $str_select1 = $str_from1 = $str_where1 = $str_select2 = $str_from2 = $str_where2 = $str_order = $str_limit = '';
         
-        $str_select = $str_from = $str_where = $str_order = $str_limit = '';
-        
-        $str_select = "SELECT crm_relationship.id as crm_relationship_id,
+        $str_select1 = "( SELECT crm_relationship.id as crm_relationship_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
@@ -80,33 +80,70 @@ class CRM_Contact_Page_Relationship {
                               crm_contact.contact_type as contact_type,
                               crm_relationship.contact_id_b as contact_id_b,
                               crm_relationship.contact_id_a as contact_id_a,
-                              crm_relationship_type.name_a_b as name_a,
-                              crm_relationship_type.name_b_a as name_b";
+                              crm_relationship_type.name_b_a as relation";
 
-        $str_from = " FROM crm_contact 
+        $str_from1 = " FROM crm_contact 
                         LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
                         LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
                         LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
                         LEFT OUTER JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
                         LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
                         LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id),
-                      crm_relationship,crm_relationship_type
+                        crm_relationship,crm_relationship_type
                        ";
 
         // add where clause 
-        $str_where = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
+        $str_where1 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
                          AND crm_relationship.contact_id_b = ".$contactId." 
-                         AND crm_relationship.contact_id_a = crm_contact.id";
+                         AND crm_relationship.contact_id_a = crm_contact.id  ";
 
         if ($relationshipId > 0) {
-            $str_where .= " AND crm_relationship.id = ".$relationshipId;
+            $str_where1 .= " AND crm_relationship.id = ".$relationshipId;
         }
 
-        $str_order = " GROUP BY crm_relationship.id ";
-        $str_limit = "  ";
+        $str_where1 .= ") UNION ";
+
+        $str_select2 = "(SELECT crm_relationship.id as crm_relationship_id,
+                              crm_contact.sort_name as sort_name,
+                              crm_address.street_address as street_address,
+                              crm_address.city as city,
+                              crm_address.postal_code as postal_code,
+                              crm_state_province.abbreviation as state,
+                              crm_country.name as country,
+                              crm_email.email as email,
+                              crm_phone.phone as phone,
+                              crm_contact.id as crm_contact_id,
+                              crm_contact.contact_type as contact_type,
+                              crm_relationship.contact_id_b as contact_id_b,
+                              crm_relationship.contact_id_a as contact_id_a,
+                              crm_relationship_type.name_a_b as relation";
+
+        $str_from2 = " FROM crm_contact 
+                        LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                        LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
+                        LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+                        LEFT OUTER JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                        LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
+                        LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id),
+                      crm_relationship,crm_relationship_type ";
+
+        // add where clause 
+        $str_where2 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
+                         AND crm_relationship.contact_id_a = ".$contactId." 
+                         AND crm_relationship.contact_id_b = crm_contact.id";
+
+        if ($relationshipId > 0) {
+            $str_where2 .= " AND crm_relationship.id = ".$relationshipId;
+        }
+
+        $str_where2 .= ")";
+
+
+        //$str_order = " GROUP BY crm_relationship.id ";
+        //$str_limit = "  ";
 
         // building the query string
-        $query_string = $str_select.$str_from.$str_where.$str_order.$str_limit;
+        $query_string = $str_select1.$str_from1.$str_where1.$str_select2.$str_from2.$str_where2;
         $relationship->query($query_string);
         
         $ids[] = array( );
@@ -115,7 +152,7 @@ class CRM_Contact_Page_Relationship {
             
             $values[$relationship->crm_relationship_id]['id'] = $relationship->crm_relationship_id;
             $values[$relationship->crm_relationship_id]['cid'] = $relationship->crm_contact_id;
-            $values[$relationship->crm_relationship_id]['relation'] = $relationship->name_b;
+            $values[$relationship->crm_relationship_id]['relation'] = $relationship->relation;
             $values[$relationship->crm_relationship_id]['name'] = $relationship->sort_name;
             $values[$relationship->crm_relationship_id]['email'] = $relationship->email;
             $values[$relationship->crm_relationship_id]['phone'] = $relationship->phone;
@@ -127,7 +164,7 @@ class CRM_Contact_Page_Relationship {
         }
         if ($relationshipId > 0) {
             
-            $page->assign( 'relationship_name', $relationship->name_b );
+            $page->assign( 'relationship_name', $relationship->relation );
             $page->assign( 'relationship_contact_name', $relationship->sort_name );
         } else {
             $page->assign( 'relationship', $values );
