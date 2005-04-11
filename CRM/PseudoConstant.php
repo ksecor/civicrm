@@ -196,9 +196,10 @@ class CRM_PseudoConstant {
     public static function &getLocationType()
     {
         CRM_Error::le_method();
-        if(!isset(self::$locationType)) {
+        if(!self::$locationType) {
             CRM_Error::debug_log_message("locationType is not set");
             $location_type_dao = new CRM_Contact_DAO_LocationType();
+            $location_type_dao->selectAdd();
             $location_type_dao->selectAdd('id, name');
             $location_type_dao->find();
             while($location_type_dao->fetch()) {
@@ -228,9 +229,10 @@ class CRM_PseudoConstant {
     public static function &getIMProvider()
     {
         CRM_Error::le_method();
-        if (!isset(self::$imProvider)) {
+        if (!self::$imProvider) {
             CRM_Error::debug_log_message("imProvider is not set");
             $im_provider_dao = new CRM_DAO_IMProvider();
+            $im_provider_dao->selectAdd();
             $im_provider_dao->selectAdd('id, name');
             $im_provider_dao->find();
             while($im_provider_dao->fetch()) {
@@ -259,9 +261,10 @@ class CRM_PseudoConstant {
     public static function &getStateProvince()
     {
         CRM_Error::le_method();
-        if (!isset(self::$stateProvince)) {
+        if (!self::$stateProvince) {
             CRM_Error::debug_log_message("stateProvince is not set");
             $state_province_dao = new CRM_DAO_StateProvince();
+            $state_province_dao->selectAdd();
             $state_province_dao->selectAdd('id, name');
             $state_province_dao->find();
             while($state_province_dao->fetch()) {
@@ -291,9 +294,10 @@ class CRM_PseudoConstant {
     public static function &getCountry()
     {
         CRM_Error::le_method();
-        if (!isset(self::$country)) {
+        if (!self::$country) {
             CRM_Error::debug_log_message("country is not set");
             $country_dao = new CRM_DAO_Country();
+            $country_dao->selectAdd();
             $country_dao->selectAdd('id, name');
             $country_dao->find();
             while($country_dao->fetch()) {
@@ -324,10 +328,11 @@ class CRM_PseudoConstant {
     public static function &getCategory()
     {
         CRM_Error::le_method();
-        if (!isset(self::$category)) {
+        if (!self::$category) {
             CRM_Error::debug_log_message("category is not set");
             self::$category = array();
             $category_dao = new CRM_Contact_DAO_Category();
+            $category_dao->selectAdd();
             $category_dao->selectAdd('id, name, parent_id');
             $category_dao->find();
             while($category_dao->fetch()) {
@@ -360,10 +365,11 @@ class CRM_PseudoConstant {
     public static function &getGroup()
     {
         CRM_Error::le_method();
-        if (!isset(self::$group)) {
+        if (!self::$group) {
             CRM_Error::debug_log_message("group is not set");
             self::$group = array();
             $group_dao = new CRM_Contact_DAO_Group();
+            $group_dao->selectAdd();
             $group_dao->selectAdd('id, name');
             $group_dao->find();
             while($group_dao->fetch()) {
@@ -395,16 +401,28 @@ class CRM_PseudoConstant {
     public static function &getRelationshipType()
     {
         CRM_Error::le_method();
-        if (!isset(self::$relationshipType)) {
+        if (!self::$relationshipType) {
             CRM_Error::debug_log_message("relationshipType is not set");
             self::$relationshipType = array();
             $relationshipTypeDAO = new CRM_Contact_DAO_RelationshipType();
-            $relationshipTypeDAO->selectAdd('id, description');
+
+            $relationshipTypeDAO->selectAdd();
+            // $relationshipTypeDAO->selectAdd('id, description');
+            $relationshipTypeDAO->selectAdd('id', 'name_a_b', 'name_b_a', 'contact_type_a', 'contact_type_b');
+            $relationshipTypeDAO->is_active = 1;
             $relationshipTypeDAO->find();
             while($relationshipTypeDAO->fetch()) {
-                self::$relationshipType[$relationshipTypeDAO->id] = "$relationshipTypeDAO->description";
+                self::$relationshipType[$relationshipTypeDAO->id] = array(
+                                                                          'name_a_b'       => "$relationshipTypeDAO->name_a_b",
+                                                                          'name_b_a'       => "$relationshipTypeDAO->name_b_a",
+                                                                          'contact_type_a' => "$relationshipTypeDAO->contact_type_a",
+                                                                          'contact_type_b' => "$relationshipTypeDAO->contact_type_b",
+                                                                         );
             }
         }
+
+        CRM_Error::debug_var('relationshipType', self::$relationshipType);
+
         return self::$relationshipType;
     }
 
