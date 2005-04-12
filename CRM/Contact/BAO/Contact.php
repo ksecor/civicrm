@@ -203,7 +203,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         */
 
 
-
         // check for contact type restriction
         if ($formValues['cb_contact_type']) {
             $andArray['contact_type'] = "(contact_type IN (";
@@ -254,15 +253,108 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
 
 
+        // city_name
+        if ($formValues['city']) {
+            $andArray['city'] = " crm_address.city LIKE '%". addslashes($formValues['city']) ."%'";
+        }
+
+
+        // state
+        if ($formValues['state_province']) {
+            $andArray['state_province'] = " crm_address.state_province_id = " . $formValues['state_province'];
+        }
+
+        // country
+        if ($formValues['country']) {
+            $andArray['country'] = " crm_address.country_id = " . $formValues['country'];
+        }
+
+
+        // postal code processing
+        if ($formValues['postal_code'] || $formValues['postal_code_low'] || $formValues['postal_code_high']) {
+
+            // we need to do postal code processing
+            $pcORArray = array();
+            $pcANDArray = array();
+            $pcORString = "";
+            $pcANDString = "";
+
+            if ($formValues['postal_code']) {
+                CRM_Error::debug_log_message("postal_code not null");
+                $pcORArray[] = "crm_address.postal_code = " . $formValues['postal_code'];
+            }
+            if ($formValues['postal_code_low']) {
+                CRM_Error::debug_log_message("postal_code_low not null");
+                $pcANDArray[] = "crm_address.postal_code >= " . $formValues['postal_code_low'];
+            }
+            if ($formValues['postal_code_high']) {
+                CRM_Error::debug_log_message("postal_code_high not null");
+                $pcANDArray[] = "crm_address.postal_code <= " . $formValues['postal_code_high'];
+            }            
+
+            CRM_Error::debug_var("pcORArray", $pcORArray);
+            CRM_Error::debug_var("pcANDArray", $pcANDArray);
+          
+            // add the next element to the OR Array
+            foreach ($pcANDArray as $v) {
+                $pcANDString .= " AND ($v) ";
+            }
+
+            CRM_Error::debug_var("pcANDString", $pcANDString);
+            $pcANDString = preg_replace("/AND/", "", $pcANDString, 1);
+            CRM_Error::debug_var("pcANDString", $pcANDString);
+
+            if ($pcANDString) {
+                $pcORArray[] = $pcANDString;
+            }
+
+            CRM_Error::debug_var("pcORArray", $pcORArray);
+            // add the next element to the OR Array
+            foreach ($pcORArray as $v) {
+                $pcORString .= " OR ($v) ";
+            }
+
+            CRM_Error::debug_var("pcORString", $pcORString);
+            $pcORString = preg_replace("/OR/", "", $pcORString, 1);
+            CRM_Error::debug_var("pcORString", $pcORString);
+
+            $andArray['postal_code'] = $pcORString;
+        }
+
+
+        // processing for location type
+        // check if any locations checked
+        if ($formValues['cb_location_type']['any']) {
+            CRM_Error::debug_log_message("any locations true");
+            // we need to do postal code processing
+            $ltORArray = array();
+            $pcORString = "";
+            // foreach ();
+            // $andArray['location_type'] = $pcORString;
+        } else {
+            CRM_Error::debug_log_message("any locations not true");
+        }
+
+
+
+        // processing for primary location
+
+
+
+
+        // final AND ing of the entire query.
         foreach ($andArray as $v) {
-            $str_where .= " AND $v ";
+            $str_where .= " AND ($v) ";
         }
 
 
         // skip the following for now
         // last_name, first_name, street_name, city, state_province, country, postal_code, postal_code_low, postal_code_high
-
         $str_where = preg_replace("/AND|OR/", "WHERE", $str_where, 1);
+
+
+
+
 
         $str_order = " ORDER BY " . $sort->orderBy(); 
         $str_limit = " LIMIT $offset, $rowCount ";

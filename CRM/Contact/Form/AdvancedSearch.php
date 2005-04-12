@@ -80,18 +80,14 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         $group = CRM_PseudoConstant::getGroup();
         foreach ($group as $groupID => $groupName) {
             $this->addElement('checkbox', "cb_group[$groupID]", null, $groupName);
-            //$cb_group[] = HTML_QuickForm::createElement('checkbox', $groupID, null, $groupName);
         }
-        // $this->addGroup($cb_group, 'cb_group', 'In Group (s)', '<br />');
 
         // checkboxes for categories
         $cb_category = array();
         $category = CRM_PseudoConstant::getCategory();
         foreach ($category as $categoryID => $categoryDetail) {
             $cb_category[] = $this->addElement('checkbox', "cb_category[$categoryID]", null, $categoryDetail['name']);
-            //$cb_category[] = HTML_QuickForm::createElement('checkbox', $categoryID, null, $categoryDetail['name']);
         }
-        // $this->addGroup($cb_category, 'cb_category', 'In Categorie (s)', '<br />');
 
         // add text box for last name, first name, street name, city
         $this->addElement('text', 'last_name', 'Contact Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
@@ -117,7 +113,9 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         // checkboxes for location type
         $cb_location_type = array();
         $locationType = CRM_PseudoConstant::getLocationType();
-        $locationType[''] = 'Any Locations';
+        //$locationType[''] = 'Any Locations';
+        //$locationType['any'] = 'Any Locations';
+        $locationType['any'] = 'Any Locations';
         foreach ($locationType as $locationTypeID => $locationTypeName) {
             $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
         }
