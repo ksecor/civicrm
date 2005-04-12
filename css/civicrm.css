@@ -107,7 +107,7 @@ div.status {
   font-weight: bold;
 }
 
-.font-italic, {
+.font-italic {
   font-style: italic
 }
 
@@ -166,12 +166,12 @@ div.status {
 }
 
 #crm-container .odd-row {
-  border: 1px solid #000000;
+  border: 0.5px solid #000000;
   background-color: #FAFAF8;
 }
 
 #crm-container .even-row {
-  border: 1px solid #000000;
+  border: 0.5px solid #000000;
   background-color: #EAEAEA;
 }
 
@@ -327,7 +327,7 @@ div.crm-pager a {
 
 #crm-container .listing-box{
   width: 15em;
-  height: 7em;	
+  height: 8em;	
   overflow: auto;
-  border: 1px solid #B0B0B0;
+  /*border: 1px solid #B0B0B0;*/
 }
