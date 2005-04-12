@@ -1,4 +1,3 @@
-{debug}
 {include file="CRM/pager.tpl" location="top"}
 
 {strip}

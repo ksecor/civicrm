@@ -1,4 +1,3 @@
-{debug}
 <div id="name" class="data-group form-item">
     <p>
 	<label>{$displayName}</label>
