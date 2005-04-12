@@ -159,18 +159,22 @@ class CRM_Contact_Page_Relationship {
             $values[$relationship->crm_relationship_id]['city'] = $relationship->city;
             $values[$relationship->crm_relationship_id]['state'] = $relationship->state;
 
-            if ($relationship->contact_type == 'Individual') { 
+            // if ($relationship->contact_type == 'Individual') { 
                 if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
                     $values[$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
+                    $values[$relationship->crm_relationship_id]['contact_b'] = 0;
                 } else {
+                    $values[$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
                     $values[$relationship->crm_relationship_id]['contact_a'] = 0;
                 }
+                /*
                 if ($relationship->crm_contact_id == $relationship->contact_id_b ) {
                     $values[$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
                 } else {
                     $values[$relationship->crm_relationship_id]['contact_b'] = 0;
                 }
-            }
+                */
+                //}
 
 
             $relationship->storeValues( $values[$relationship->crm_relationship_id] );

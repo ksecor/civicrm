@@ -95,8 +95,16 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
             $relationship = new CRM_Contact_DAO_Relationship( );
 
             $relationship->id = $this->_relationshipId;
+
             if ($relationship->find(true)) {
-                $defaults['relationship_type_id'] = $relationship->relationship_type_id;
+                if (strlen(trim($_GET['c']))) {
+                    $lngRelationshipType = $relationship->relationship_type_id."_".$_GET['c'];
+                } else {
+                    $lngRelationshipType = $relationship->relationship_type_id;
+                }
+                
+                $defaults['relationship_type_id'] = $lngRelationshipType;
+
                 $defaults['start_date'] = $relationship->start_date;
                 $defaults['end_date'] = $relationship->end_date;
                 
@@ -109,7 +117,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
                 }
             }
          }
-      
+        //  print_r($defaults);
         return $defaults;
     }
     
@@ -180,6 +188,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
      */
     public function postProcess() 
     {
+
         // store the submitted values in an array
         $params = $this->exportValues();
 

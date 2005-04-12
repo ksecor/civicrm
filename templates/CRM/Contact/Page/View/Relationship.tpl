@@ -44,11 +44,12 @@
 		<th>State/Prov</th>
 		<th>&nbsp;</th>
 	</tr>
-       	{foreach from=$relationship item=rel}
+
+      	{foreach from=$relationship item=rel}
+	  {assign var = "c" value = "" }
           {if $rel.contact_a > 0 }
 	    {assign var = "c" value = "b_a" }
-	  {/if}   
-	  {if $rel.contact_b > 0}
+	  {else}
 	    {assign var = "c" value = "a_b" }
 	  {/if}
         <tr class="{cycle values="odd-row,even-row"}">
