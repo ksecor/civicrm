@@ -26,8 +26,7 @@
 {* END Browse Criteria section *}
 
 {if $rowsEmpty}
-
-    {* No matches for search criteria *}
+    {* No matches for submitted search request.*}
     <div class="messages status">
         <img src="crm/i/Inform.gif" alt="status"> &nbsp;
         No matches were found for your browse criteria.
@@ -40,10 +39,10 @@
         <a href="crm/contact/addH?c_type=Household&reset=1">Household</a></li>
         </ul>
     </div>
+{/if}
 
-{else}
-
-    {* Begin Actions/Results section *}
+{if $rows}
+    {* Some matches for search request. Begin Actions/Results section *}
     <fieldset>
      <div class="form-item">
        <span class="horizontal-position">

@@ -126,17 +126,17 @@ function contact_block($op='list', $delta='0')
             case 0:
                 //Case 0 builds the content of shortcuts block.
                 $content .= "<div id='crm-shortcuts'>";
-                static $shortCuts = array( array( 'path'  => 'crm/contact/add',
-                                                  'qs'    => '&c_type=Individual&reset=1',
+                static $shortCuts = array( array( 'path'  => 'crm/contact/addI',
+                                                  'qs'    => '?c_type=Individual&reset=1',
                                                   'title' => 'New Individual' ), 
-                                           array( 'path'  => 'crm/contact/add',
-                                                  'qs'    => '&c_type=Organization&reset=1',
+                                           array( 'path'  => 'crm/contact/addO',
+                                                  'qs'    => '?c_type=Organization&reset=1',
                                                   'title' => 'New Organization' ),
-                                           array( 'path'  => 'crm/contact/add',
-                                                  'qs'    => '&c_type=Household&reset=1',
+                                           array( 'path'  => 'crm/contact/addH',
+                                                  'qs'    => '?c_type=Household&reset=1',
                                                   'title' => 'New Household' ),
                                            array( 'path'  => 'crm/groups/add/',
-                                                  'qs'    => '&reset=1',
+                                                  'qs'    => '?reset=1',
                                                   'title' => 'New Group' ));
                                                   
                 foreach ( $shortCuts as &$short ) {
@@ -219,13 +219,31 @@ function contact_menu($may_cache)
         $items[] = array(
                          'path'  => 'crm/contact/search',
                          'title' => t('Browse Contacts'),
+                         'qs'    => '?reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 0
                          );
         
        $items[] = array(
-                         'path'  => 'crm/contact/add',
-                         'title' => t('Add Contact'),
+                         'path'  => 'crm/contact/addI',
+                         'title' => t('New Individual'),
+                         'qs'    => '?reset=1',
+                         'type'  => MENU_CALLBACK,
+                         'weight' => 1
+                         );    
+        
+       $items[] = array(
+                         'path'  => 'crm/contact/addO',
+                         'title' => t('New Organization'),
+                         'qs'     => '?reset=1',
+                         'type'   => MENU_CALLBACK,
+                         'weight' => 1
+                         );    
+        
+       $items[] = array(
+                         'path'  => 'crm/contact/addH',
+                         'title' => t('New Household'),
+                         'qs'     => '?reset=1',
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );    
@@ -358,7 +376,7 @@ function contact_invoke()
     $content = "";
 
     //  add contact
-    if (arg(1)=='contact' && arg(2) == 'add') {
+    if (arg(1)=='contact' && substr(arg(2),0,3) == 'add') {
         $content .= contact_form( CRM_Form::MODE_ADD );
     }
 
