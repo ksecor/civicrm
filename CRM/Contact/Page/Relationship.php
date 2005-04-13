@@ -44,15 +44,6 @@ class CRM_Contact_Page_Relationship {
     static function view( $page, $relationshipId ) {
         $relationship = new CRM_Contact_DAO_Relationship( );
 
-        /*
-        $relationship->id = $relationshipId;
-        if ( $relationship->find( true ) ) {
-            $values = array( );
-            $relationship->storeValues( $values );
-        
-            $page->assign( 'relationship', $values );
-        }
-        */
         self::browse( $page, $relationshipId );
         
         $relationshipId = 0;
@@ -159,29 +150,18 @@ class CRM_Contact_Page_Relationship {
             $values[$relationship->crm_relationship_id]['city'] = $relationship->city;
             $values[$relationship->crm_relationship_id]['state'] = $relationship->state;
 
-            // if ($relationship->contact_type == 'Individual') { 
-                if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
-                    $values[$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
-                    $values[$relationship->crm_relationship_id]['contact_b'] = 0;
-                } else {
-                    $values[$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
-                    $values[$relationship->crm_relationship_id]['contact_a'] = 0;
-                }
-                /*
-                if ($relationship->crm_contact_id == $relationship->contact_id_b ) {
-                    $values[$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
-                } else {
-                    $values[$relationship->crm_relationship_id]['contact_b'] = 0;
-                }
-                */
-                //}
-
-
-            $relationship->storeValues( $values[$relationship->crm_relationship_id] );
-          
-        }
-        if ($relationshipId > 0) {
+            if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
+                $values[$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
+                $values[$relationship->crm_relationship_id]['contact_b'] = 0;
+            } else {
+                $values[$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
+                $values[$relationship->crm_relationship_id]['contact_a'] = 0;
+            }
             
+            $relationship->storeValues( $values[$relationship->crm_relationship_id] );
+        }
+
+        if ($relationshipId > 0) {
             $page->assign( 'relationship_name', $relationship->relation );
             $page->assign( 'relationship_contact_name', $relationship->sort_name );
         } else {
@@ -190,6 +170,7 @@ class CRM_Contact_Page_Relationship {
     }
 
     static function edit( $page, $mode, $relationshipId = null ) {
+
         $controller = new CRM_Controller_Simple( 'CRM_Relationship_Form_Relationship', 'Contact Relationships', $mode );
 
         // set the userContext stack
@@ -197,10 +178,22 @@ class CRM_Contact_Page_Relationship {
         $config  = CRM_Config::singleton();
         $session->pushUserContext( $config->httpBase . 'contact/view/rel?op=browse' );
 
+        if ( !$relationshipId ) {
+            $relationshipId = $controller->get( 'relationshipId' );
+        }
+
+        // rtype is the variable that tells type of realationship (a_b or b_a)
+        if ( !$_GET['rtype'] ) {
+            $rtype = $controller->get( 'rtype' );
+        } else {
+            $rtype = $_GET['rtype'];
+        }
+
         $controller->reset( );
         $controller->set( 'contactId'  , $page->getContactId( ) );
         $controller->set( 'relationshipId'   , $relationshipId );
- 
+        $controller->set( 'rtype' , $rtype);
+                
         $controller->process( );
         $controller->run( );
     }
@@ -228,7 +221,7 @@ class CRM_Contact_Page_Relationship {
             self::edit( $page, CRM_Form::MODE_ADD );
             break;
         }
-      
+     
         self::browse( $page );
     }
 }

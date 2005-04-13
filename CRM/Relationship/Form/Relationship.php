@@ -76,6 +76,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
     {
         $this->_contactId   = $this->get('contactId');
         $this->_relationshipId    = $this->get('relationshipId');
+        $this->_rtype    = $this->get('rtype');
     }
 
     /**
@@ -91,24 +92,25 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
         $params   = array( );
 
         if ( $this->_mode & self::MODE_UPDATE ) {
-            
+
+            $session = CRM_Session::singleton( );
+
             $relationship = new CRM_Contact_DAO_Relationship( );
 
             $relationship->id = $this->_relationshipId;
 
             if ($relationship->find(true)) {
-                if (strlen(trim($_GET['c']))) {
-                    $lngRelationshipType = $relationship->relationship_type_id."_".$_GET['c'];
-                } else {
-                    $lngRelationshipType = $relationship->relationship_type_id;
-                }
                 
-                $defaults['relationship_type_id'] = $lngRelationshipType;
+                $defaults['relationship_type_id'] = $relationship->relationship_type_id."_".$this->_rtype;
 
                 $defaults['start_date'] = $relationship->start_date;
                 $defaults['end_date'] = $relationship->end_date;
-                
-                $cId = $_GET['cntid'];
+
+                $a_temp = explode('_', $this->_rtype);
+
+                $str_contact = 'contact_id_'.$a_temp[1];
+
+                $cId = $relationship->$str_contact;
 
                 $contact = new CRM_Contact_DAO_Contact( );
                 $contact->id = $cId;
@@ -143,14 +145,13 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
      */
     public function buildQuickForm( ) 
     {
-        $this->addElement('select', "relationship_type_id", '', CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $_GET['c']));
+        $this->addElement('select', "relationship_type_id", '', CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $this->_rtype));
         
         $this->addElement('select', "contact_type", '', CRM_SelectValues::$contactType);
         
         $this->addElement('text', 'name' );
-        $this->addElement('hidden', 'csearch','0' );
 
-        // $this->addElement('submit','search', 'Search', array("onclick" => "contact/view/rel&op=search"));
+        $this->addElement('hidden', 'csearch','0' );
 
         $this->addElement('date', 'start_date', 'Starting:', CRM_SelectValues::$date);
         

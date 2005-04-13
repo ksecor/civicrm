@@ -77,12 +77,15 @@ class CRM_Contact_Page_Note {
         $config  = CRM_Config::singleton();
         $session->pushUserContext( $config->httpBase . 'contact/view/note&op=browse' );
 
+        if (!$noteId) {
+            $noteId = $controller->get( 'noteId' );
+        }
 
         $controller->reset( );
         $controller->set( 'tableName', 'crm_contact' );
         $controller->set( 'tableId'  , $page->getContactId( ) );
         $controller->set( 'noteId'   , $noteId );
- 
+
         $controller->process( );
         $controller->run( );
     }

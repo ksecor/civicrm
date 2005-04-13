@@ -159,15 +159,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
            
             if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
                 $values['relationship'][$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
+                $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = 0;
             } else {
+                $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
                 $values['relationship'][$relationship->crm_relationship_id]['contact_a'] = 0;
             }
-            if ($relationship->crm_contact_id == $relationship->contact_id_b ) {
-                $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
-            } else {
-                $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = 0;
-            }
-
+            
             $relationship->storeValues( $values['relationship'][$relationship->crm_relationship_id] );
 
             $relationships = $relationship;
