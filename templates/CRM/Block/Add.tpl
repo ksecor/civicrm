@@ -1,5 +1,5 @@
 <div id="crm-quick-create">
-<form action="crm/contact/add" method="post">
+<form action="{$postURL}" method="post">
 
 <div class="form-item">
     <label for="firstname">First Name:</label></br>
@@ -20,7 +20,7 @@
 <input type="hidden" name="location[1][is_primary]"       value="1" />
 <input type="hidden" name="c_type"                        value="Individual" />
 
-<div class="form-item"><input type="submit" name="_qf_Contact_next" value="Save" class="form-submit" /></div>
+<div class="form-item"><input type="submit" name="_qf_Edit_next" value="Save" class="form-submit" /></div>
 
 </form>
 </div>

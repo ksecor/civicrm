@@ -271,9 +271,12 @@ abstract class CRM_Import_Parser {
         $valid = self::VALID;
         for ( $j = 0; $j < $this->_activeFieldCount; $j++ ) {
             if ( $this->_activeFields[$j]->validate() ) {
+                // no need to do any more validation
                 $valid = self::ERROR;
+                break;
             }
         }
+        CRM_Error::debug( $valid, $elements );
         return $valid;
     }
 

@@ -50,19 +50,19 @@ class CRM_Block {
      * template file names for the above blocks
      */
     static $_properties = array(
-                                self::MENU   => array( 'template' => 'Menu.tpl',
-                                                       'info'     => 'CRM Shortcuts',
-                                                       'subject'  => 'CRM Shortcuts',
-                                                       'active'   => true ),
-                                self::ADD    => array( 'template' => 'Add.tpl',
-                                                       'info'     => 'CRM Quick Add Individual',
-                                                       'subject'  => 'New Individual',
-                                                       'active'   => true ),
-                                self::SEARCH => array( 'template' => 'Search.tpl',
-                                                       'info'     => 'Search Contacts',
-                                                       'subject'  => 'CRM Contact Search',
-                                                       'active'   => true  ),
-                                );
+                                   self::MENU   => array( 'template' => 'Menu.tpl',
+                                                          'info'     => 'CRM Shortcuts',
+                                                          'subject'  => 'CRM Shortcuts',
+                                                          'active'   => true ),
+                                   self::ADD    => array( 'template' => 'Add.tpl',
+                                                          'info'     => 'CRM Quick Add Individual',
+                                                          'subject'  => 'New Individual',
+                                                          'active'   => true ),
+                                   self::SEARCH => array( 'template' => 'Search.tpl',
+                                                          'info'     => 'Search Contacts',
+                                                          'subject'  => 'CRM Contact Search',
+                                                          'active'   => true ),
+                                   );
 
                                                     
     /**
@@ -89,6 +89,21 @@ class CRM_Block {
     }
 
     /**
+     * set the post action values for the block.
+     *
+     * php is lame and u cannot call functions from static initializers
+     * hence this hack
+     *
+     * @return void
+     * @access private
+     */
+    private function setPostURL( ) {
+        self::$_properties[self::MENU  ]['postURL'] = '';
+        self::$_properties[self::ADD   ]['postURL'] = CRM_System::url( 'civicrm/contact/add' );
+        self::$_properties[self::SEARCH]['postURL'] = CRM_System::url( 'civicrm/contact/search' );
+    }
+
+    /**
      * Given an id creates a subject/content array
      *
      * @param int $id id of the block
@@ -102,8 +117,10 @@ class CRM_Block {
             return null;
         }
 
-        $block['subject'] = self::fetch( $id, 'Subject.tpl', array( 'subject' => self::$_properties[$id]['subject'] ) );
-        $block['content'] = self::fetch( $id, self::$_properties[$id]['template'] );
+        $block['subject'] = self::fetch( $id, 'Subject.tpl',
+                                         array( 'subject' => self::$_properties[$id]['subject'] ) );
+        $block['content'] = self::fetch( $id, self::$_properties[$id]['template'],
+                                         array( 'postURL' => self::$_properties[$id]['postURL'] ) );
 
         return $block;
     }

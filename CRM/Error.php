@@ -101,17 +101,17 @@ class CRM_Error extends PEAR_ErrorStack {
 
 
     /**
-     *
      * create the main callback method. this method centralizes error processing.
      *
      * the errors we expect are from the pear modules DB, DB_DataObject
      * which currently use PEAR::raiseError to notify of error messages.
      *
      * @param object PEAR_Error
-     * @returns none
      *
+     * @return void
+     * @access public
      */
-    public static function callback($pear_error)
+    public static function handle($pear_error)
     {
         // setup smarty with config, session and template location.
         $config  = CRM_Config::singleton();
@@ -137,7 +137,7 @@ class CRM_Error extends PEAR_ErrorStack {
         $content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
         CRM_Error::debug( 'error', $error );
 
-        print theme('page', $content);
+        return CRM_System::theme( 'page', $content );
         exit(1);
     }
 
@@ -159,7 +159,7 @@ class CRM_Error extends PEAR_ErrorStack {
 
         CRM_Error::debug( $code, $message );
         CRM_Error::debug( 'BT', debug_backtrace( ) );
-        theme( 'fatal_error', 'error.tpl', $vars );
+        CRM_System::theme( 'fatal_error', 'error.tpl', $vars );
 
         exit( CRM_Error::FATAL_ERROR );
     }

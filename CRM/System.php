@@ -44,15 +44,12 @@ class CRM_System {
      * @access public
      */
     static function makeURL( $urlVar ) {
-        $file = basename( $_SERVER['PHP_SELF'] );
-        $path = str_replace( '\\' , '/' , dirname( $_SERVER['PHP_SELF'] ) );
-        $link = $path . '/' . $file . self::getLinksUrl( $urlVar );
-        return $link;
+         return self::url( $_GET['q'], self::getLinksUrl( $urlVar ) );
     }
 
     /**
      * get the query string and clean it up. Strip some variables that should not
-     * be propagated, specically variable like 'reset'. Also string any side-affect
+     * be propagated, specically variable like 'reset'. Also strip any side-affect
      * actions (i.e. export)
      *
      * This function is copied mostly verbatim from Pager.php (_getLinksUrl)
@@ -100,7 +97,81 @@ class CRM_System {
         $querystring = array_merge($querystring, array_unique($arrays));
         $querystring = array_map('htmlentities', $querystring);
 
-        return '?' . implode('&amp;', $querystring) . (!empty($querystring) ? '&amp;' : '') . $urlVar .'=';
+        return implode('&amp;', $querystring) . (! empty($querystring) ? '&amp;' : '') . $urlVar .'=';
+    }
+
+    /**
+     * if we are using a theming system, invoke theme, else just print the
+     * content
+     *
+     * @param string $type    name of theme object/file
+     * @param string $content the content that will be themed
+     * @param array  $args    the args for the themeing function if any
+     * 
+     * @return void           prints content on stdout
+     * @access public
+     */
+    function theme( $type, &$content, $args = null ) {
+        if ( function_exists( 'theme' ) ) {
+            print theme( $type, $content, $args );
+        } else {
+            print $content;
+        }
+    }
+
+    /**
+     * Generate an internal CiviCRM URL (copied from DRUPAL/includes/common.inc#url)
+     *
+     * @param $path     string   The path being linked to, such as "civicrm/add"
+     * @param $query    string   A query string to append to the link.
+     * @param $absolute boolean  Whether to force the output to be an absolute link (beginning with http:).
+     *                           Useful for links that will be displayed outside the site, such as in an
+     *                           RSS feed.
+     * @param $fragment string   A fragment identifier (named anchor) to append to the link.
+     *
+     * @return string            an HTML string containing a link to the given path.
+     * @access public
+     *
+     */
+    function url($path = null, $query = null, $absolute = false, $fragment = null ) {
+        $config        = CRM_Config::singleton( );
+        static $script = 'index.php';
+
+        if (isset($fragment)) {
+            $fragment = '#'. $fragment;
+        }
+
+        $base = ($absolute ? $config->httpBase : '');
+
+        if (! $config->cleanURL ) {
+            if ( isset( $path ) ) {
+                if ( isset( $query ) ) {
+                    return $base . $script .'?q='. $path .'&amp;'. $query . $fragment;
+                } else {
+                    return $base . $script .'?q='. $path . $fragment;
+                }
+            } else {
+                if ( isset( $query ) ) {
+                    return $base . $script .'?'. $query . $fragment;
+                } else {
+                    return $base . $fragment;
+                }
+            }
+        } else {
+            if ( isset( $path ) ) {
+                if ( isset( $query ) ) {
+                    return $base . $path .'?'. $query . $fragment;
+                } else {
+                    return $base . $path . $fragment;
+                }
+            } else {
+                if ( isset( $query ) ) {
+                    return $base . $script .'?'. $query . $fragment;
+                } else {
+                    return $base . $fragment;
+                }
+            }
+        }
     }
 
 }

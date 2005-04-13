@@ -44,6 +44,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     protected $_emailIndex;
 
     protected $_allEmails;
+
     /**
      * class constructor
      */
@@ -51,6 +52,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         $this->_mapperKeys =& $mapperKeys;
     }
 
+    /**
+     * the initializer code, called before the processing
+     *
+     * @return void
+     * @access public
+     */
     function init( ) {
         $fields =& self::importableFields( );
         foreach ( $fields as $name => &$field ) {
@@ -71,10 +78,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     }
 
     function process( &$values, $mode ) {
-        if ( $mode == self::MODE_PREVIEW ) {
+        switch ( $mode ) {
+        case self::MODE_PREVIEW:
             return self::VALID;
-        }
 
+        case self::MODE_SUMMARY:
+            return summary( $values, $mode );
+
+        default:
+            return SELF::VALID;
+        }
+    }
+
+    function summary( &$values, $mode ) {
         $response = $this->setActiveFieldValues( $values );
         if ( $response != self::VALID ) {
             return $response;
@@ -93,9 +109,25 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         return self::VALID;
     }
 
+    /**
+     * the initializer code, called before the processing
+     *
+     * @return void
+     * @access public
+     */
     function fini( ) {
     }
 
+    /**
+     * combine all the importable fields from the lower levels object
+     *
+     * The ordering is important, since currently we do not have a weight
+     * scheme. Adding weight is super important and should be done in the
+     * next week or so, before this can be called complete.
+     *
+     * @return array array of importable Fields
+     * @access public
+     */
     function &importableFields( ) {
         if ( ! isset( self::$_importableFields ) ) {
             self::$_importableFields = array( );

@@ -39,7 +39,7 @@
 require_once 'CRM/Base.php';
 require_once 'CRM/Controller/Simple.php';
 
-class CRM_Contact_Wrapper extends CRM_Base
+class CRM_Wrapper 
 {
     /**
      * Simple Controller
@@ -63,17 +63,13 @@ class CRM_Contact_Wrapper extends CRM_Base
      */
     function __construct()
     {
-        parent::__construct();
     }
 
     /**
      * Run.
      *
      * The heart of the callback processing is done by this method.
-     * A contact object will create a form for display.
      * forms are of different type and have different operations.
-     *
-     * Please Note: The default wrapper will work on an "Individual" contact.
      *
      * @param string $formName    name of the form processing this action
      * @param string $formLabel   label for the above form
@@ -84,11 +80,7 @@ class CRM_Contact_Wrapper extends CRM_Base
      * @returns none.
      * @access public
      */
-    function run($formName    = 'CRM_Contact_Form_Individual',
-                 $formLabel   = 'Contact Individual Page'    ,
-                 $mode        = CRM_Form::MODE_NONE,
-                 $userContext = 'contact/add?reset=1',
-                 $data        = null ) {
+    function run($formName, $formLabel, $mode, $userContext = null, $data = null ) {
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
 
@@ -96,7 +88,9 @@ class CRM_Contact_Wrapper extends CRM_Base
         // store the return url. Note that this is typically computed by the framework at runtime
         // based on multiple things (typically where the link was clicked from / http_referer
         // since we are just starting and figuring out navigation, we are hard coding it here
-        $session->pushUserContext( $config->httpBase . $userContext );
+        if ( $userContext ) {
+            $session->pushUserContext( $userContext );
+        }
 
         $this->_controller = new CRM_Controller_Simple( $formName, $formLabel, $mode );
         if ( $data ) {

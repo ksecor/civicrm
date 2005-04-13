@@ -170,7 +170,7 @@ class CRM_Page {
      */
     function getTemplateFileName() {
         $className    = get_class( $this );
-        $templateName = str_replace( '_', '/', $className ) . '.tpl';
+        $templateName = str_replace( '_', DIRECTORY_SEPARATOR, $className ) . '.tpl';
         return $templateName;
     }
 }

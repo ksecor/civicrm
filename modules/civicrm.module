@@ -40,8 +40,8 @@ require_once 'PEAR.php';
 require_once 'CRM/Action.php';
 require_once 'CRM/Form.php';
 require_once 'CRM/Block.php';
+require_once 'CRM/Wrapper.php';
 
-require_once 'CRM/Contact/Wrapper.php';
 require_once 'CRM/Contact/Page/View.php';
 require_once 'CRM/Selector/Controller.php';
 
@@ -54,7 +54,7 @@ require_once 'CRM/Error.php';
  *
  * @return a &lt;style&gt; tag that indicates what file browsers should import
  */
-function crm_html_head() {
+function civicrm_html_head() {
   return '<style type="text/css">@import url(crm/css/civicrm.css);</style>';
 }
 
@@ -73,12 +73,12 @@ function crm_html_head() {
  * module administration page. This example also illustrates how to add help
  * text to the pages your module defines.
  */
-function contact_help($section)
+function civicrm_help($section)
 {
     switch ($section) {
     case 'admin/modules#description':
         // This description is shown in the listing at admin/modules.
-        return t('CRM module v0.1');
+        return t('CiviCRM module v0.1');
     }
 }
 
@@ -90,7 +90,7 @@ function contact_help($section)
  * This ensures that they are available to enable on the user role
  * administration pages.
  */
-function contact_perm() 
+function civicrm_perm() 
 {
     return array('view contact', 'edit contact', 'administer contact');
 }
@@ -101,13 +101,13 @@ function contact_perm()
  * generates the contents of the blocks themselves.
  */
 
-function contact_block($op='list', $delta='0')
+function civicrm_block($op='list', $delta='0')
 {
    
     // The $op parameter determines what piece of information is being requested.
     global $user;
     if ($user->uid) {
-        $menu_arr = contact_menu(true);
+        $menu_arr = civicrm_menu(true);
         if ($op == 'list') {
             return CRM_Block::getInfo( );
         } else {
@@ -126,21 +126,21 @@ function contact_block($op='list', $delta='0')
             case 0:
                 //Case 0 builds the content of shortcuts block.
                 $content .= "<div id='crm-shortcuts'>";
-                static $shortCuts = array( array( 'path'  => 'crm/contact/addI',
-                                                  'qs'    => '?c_type=Individual&reset=1',
+                static $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
+                                                  'qs'    => 'c_type=Individual&reset=1',
                                                   'title' => 'New Individual' ), 
-                                           array( 'path'  => 'crm/contact/addO',
-                                                  'qs'    => '?c_type=Organization&reset=1',
+                                           array( 'path'  => 'civicrm/contact/addO',
+                                                  'qs'    => 'c_type=Organization&reset=1',
                                                   'title' => 'New Organization' ),
-                                           array( 'path'  => 'crm/contact/addH',
-                                                  'qs'    => '?c_type=Household&reset=1',
+                                           array( 'path'  => 'civicrm/contact/addH',
+                                                  'qs'    => 'c_type=Household&reset=1',
                                                   'title' => 'New Household' ),
-                                           array( 'path'  => 'crm/groups/add/',
-                                                  'qs'    => '?reset=1',
+                                           array( 'path'  => 'civicrm/groups/add',
+                                                  'qs'    => 'reset=1',
                                                   'title' => 'New Group' ));
                                                   
                 foreach ( $shortCuts as &$short ) {
-                    $content .= '<a href="' . $short['path'] . $short['qs'] . '">' . $short['title'] . '</a><br>';
+                    $content .= '<a href="' . CRM_System::url( $short['path'], $short['qs'] ) . '">' . $short['title'] . '</a><br>';
                 }
 
                 $content .= "</div>";
@@ -166,10 +166,10 @@ function contact_block($op='list', $delta='0')
  *
  * If the user accesses http://example.com/?q=foo, then the menu system
  * will first look for a menu item with that path. In this case it will
- * find a match, and execute contact_foo().
+ * find a match, and execute civicrm_foo().
  *
  */
-function contact_menu($may_cache) 
+function civicrm_menu($may_cache) 
 {
     $items = array();
     
@@ -183,7 +183,7 @@ function contact_menu($may_cache)
         $items[] = array(
                          'path'  => 'admin/contact',
                          'title' => t('Contact'),
-                         'callback' => 'contact_admin_invoke',
+                         'callback' => 'civicrm_admin_invoke',
                          'access' => user_access('administer contact')
                          );
         
@@ -200,111 +200,111 @@ function contact_menu($may_cache)
                          );
         
         $items[] = array(
-                         'path'  => 'crm',
+                         'path'  => 'civicrm',
                          'title' => t('Contact Management'),
-                         'callback' => 'crm_invoke',
+                         'callback' => 'civicrm_invoke',
                          'access' => user_access('view contact'),
                          'type'   => MENU_IS_ROOT | MENU_VISIBLE_IN_TREE | MENU_CALLBACK,
                          'pid'    => 0,
                          );
         
         $items[] = array(
-                         'path'  => 'crm/contact',
+                         'path'  => 'civicrm/contact',
                          'title' => t('Contact'),
-                         'callback' => 'contact_invoke',
+                         'callback' => 'civicrm_contact_invoke',
                          'access' => user_access('view contact'),
                          'type'   => MENU_CALLBACK
                          );
 
         $items[] = array(
-                         'path'  => 'crm/contact/search',
+                         'path'  => 'civicrm/contact/search',
                          'title' => t('Browse Contacts'),
-                         'qs'    => '?reset=1',
+                         'qs'    => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 0
                          );
         
        $items[] = array(
-                         'path'  => 'crm/contact/addI',
+                         'path'  => 'civicrm/contact/addI',
                          'title' => t('New Individual'),
-                         'qs'    => '?reset=1',
+                         'qs'    => 'reset=1',
                          'type'  => MENU_CALLBACK,
                          'weight' => 1
                          );    
         
        $items[] = array(
-                         'path'  => 'crm/contact/addO',
+                         'path'  => 'civicrm/contact/addO',
                          'title' => t('New Organization'),
-                         'qs'     => '?reset=1',
+                         'qs'     => 'reset=1',
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );    
         
        $items[] = array(
-                         'path'  => 'crm/contact/addH',
+                         'path'  => 'civicrm/contact/addH',
                          'title' => t('New Household'),
-                         'qs'     => '?reset=1',
+                         'qs'     => 'reset=1',
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );    
         
        $items[] = array(
-                         'path'  => 'crm/contact/edit',
+                         'path'  => 'civicrm/contact/edit',
                          'title' => t('Edit Contact'),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );    
         
         $items[] = array(
-                         'path'  => 'crm/contact/view',
+                         'path'  => 'civicrm/contact/view',
                          'title' => t('View Contact'),
                          'type'   => MENU_CALLBACK
                          );
 
          $items[] = array(
-                         'path'  => 'crm/contact/view/basic',
+                         'path'  => 'civicrm/contact/view/basic',
                          'title' => t('Contact Info'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => 0
                         );
 
         $items[] = array(
-                         'path'  => 'crm/contact/view/rel',
+                         'path'  => 'civicrm/contact/view/rel',
                          'title' => t('Relationships'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
         
         $items[] = array(
-                         'path'  => 'crm/contact/view/note',
+                         'path'  => 'civicrm/contact/view/note',
                          'title' => t('Notes'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 3
                          );
 
         $items[] = array(
-                         'path'  => 'crm/contact/view/group',
+                         'path'  => 'civicrm/contact/view/group',
                          'title' => t('Groups'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
                          );
         
         $items[] = array(
-                         'path'  => 'crm/contact/view/tag',
+                         'path'  => 'civicrm/contact/view/tag',
                          'title' => t('Tags'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 4
                          );
 
         $items[] = array(
-                         'path'  => 'crm/group',
+                         'path'  => 'civicrm/group',
                          'title' => t('Manage Groups'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 1
                          );
         
         $items[] = array(
-                         'path'  => 'crm/import',
+                         'path'  => 'civicrm/import',
                          'title' => t('Import Contacts'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 2
@@ -315,13 +315,13 @@ function contact_menu($may_cache)
    return $items;
 }
 
-function contact_init() 
+function civicrm_init() 
 {
     menu_rebuild();
 
     // Over-ride default breadcrumb for now since we want "Contact Mgmt" to link to contact browser and don't know how else to do it.
     $crm_top_breadcrumb = array('<a href="">Home</a>',
-                                '<a href="crm/contact/search?reset=1">Contact Management</a>');
+                                '<a href="' . CRM_System::url( 'civicrm/contact/search', 'reset=1' ) . '">Contact Management</a>');
     drupal_set_breadcrumb($crm_top_breadcrumb);
 
     $config = CRM_Config::singleton();
@@ -332,30 +332,30 @@ function contact_init()
     CRM_DAO::setFactory(new $factoryClass());
 
     // Add module-specific stylesheet to page header
-    drupal_set_html_head(crm_html_head());
+    drupal_set_html_head(civicrm_html_head());
 
     // set error handling
-    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Error', 'callback'));
+    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Error', 'handle'));
 }
 
 
 /**
  * Menu callbacks; dispatches control to the appropriate handler
  */
-function contact_admin_invoke() 
+function civicrm_admin_invoke() 
 {
     $content = "the contact administrator invoked $operation";
     print theme('page', $content);
 }
 
-function crm_invoke()
+function civicrm_invoke()
 {
     //  manage groups
     if (arg(1) == 'group') {
         if(arg(2) == 'edit' OR arg(2) == 'add') {
             $content = fetch_tpl( 'Group/Form/Edit.tpl');
         } else {
-            contact_assign( 'name','dave');
+            civicrm_assign( 'name','dave');
             $content = fetch_tpl( 'Group/Group.tpl');
         }
     }
@@ -371,18 +371,18 @@ function crm_invoke()
     print theme('page', $content);
 }
 
-function contact_invoke() 
+function civicrm_contact_invoke() 
 {
     $content = "";
 
     //  add contact
     if (arg(1)=='contact' && substr(arg(2),0,3) == 'add') {
-        $content .= contact_form( CRM_Form::MODE_ADD );
+        $content .= civicrm_form( CRM_Form::MODE_ADD );
     }
 
     // edit contact
     if (arg(1)=='contact' && arg(2) == 'edit') {
-        $content .= contact_form( CRM_Form::MODE_UPDATE );
+        $content .= civicrm_form( CRM_Form::MODE_UPDATE );
     }
  
     // view contact
@@ -417,18 +417,18 @@ function contact_invoke()
 
     // search
     if (arg(2) == 'search') {
-        $content .= contact_query();
+        $content .= civicrm_query();
     }
         
     // advanced search
     if (arg(2) == 'advanced_search') {
-        $content .= contact_advanced_search();
+        $content .= civicrm_advanced_search();
     }
 
     // delete
     if (arg(2) == 'delete') {
         if(is_numeric(arg(3))) {
-            $content .= contact_delete(arg(3));
+            $content .= civicrm_delete(arg(3));
         } else {
             $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
         }
@@ -436,10 +436,10 @@ function contact_invoke()
 
     print theme('page', $content);
     
-} // end of function contact_invoke
+} // end of function civicrm_invoke
 
 
-function contact_load($queryArgs) 
+function civicrm_load($queryArgs) 
 {
 }
 
@@ -448,11 +448,12 @@ function contact_load($queryArgs)
  *
  * @return this returns the form and or display content
  */
-function contact_form( $mode )
+function civicrm_form( $mode )
 {
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Edit', 'Contact Page', $mode, 'contact/add?reset=1', NULL);
-    return $contact->getContent();
+    $wrapper = new CRM_Wrapper();
+    $wrapper->run('CRM_Contact_Form_Edit', 'Contact Page', $mode,
+                  CRM_System::url( 'civicrm/contact/add', 'reset=1' ) );
+    return $wrapper->getContent();
 }
 
 
@@ -460,7 +461,7 @@ function contact_form( $mode )
  * Temporary function to load static templates for prototyping
  */
 function fetch_tpl( $tpl ) {
-    $baseDir = 'CRM/';
+    $baseDir = 'CRM' . DIRECTORY_SEPARATOR;
     
     $fileName = $baseDir . $tpl;
     
@@ -470,7 +471,7 @@ function fetch_tpl( $tpl ) {
 
 }
 
-function contact_assign( $var, $value = null) {
+function civicrm_assign( $var, $value = null) {
         static $template = null;
 
         if ( ! isset( $template ) ) {
@@ -489,12 +490,13 @@ function contact_assign( $var, $value = null) {
  *
  * @return this returns the display content
  */
-function contact_query() 
+function civicrm_query() 
 {
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/search?reset=1', 0);
-    return $contact->getContent();
-} // end of function contact_query
+    $wrapper = new CRM_Wrapper();
+    $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH,
+                  CRM_System::url( 'civicrm/contact/search', 'reset=1' ) );
+    return $wrapper->getContent();
+} // end of function civicrm_query
 
 
 /**
@@ -506,27 +508,25 @@ function contact_query()
  *
  * @return this returns the display content
  */
-function contact_advanced_search() 
+function civicrm_advanced_search() 
 {
-    $contact = new CRM_Contact_Wrapper();
-    $contact->run('CRM_Contact_Form_AdvancedSearch', 'Search Contacts', CRM_Form::MODE_SEARCH, 'contact/advanced_search?reset=1', 0);
-    return $contact->getContent();
-} // end of function contact_query
+    $wrapper = new CRM_Wrapper();
+    $wrapper->run('CRM_Contact_Form_AdvancedSearch', 'Search Contacts', CRM_Form::MODE_SEARCH,
+                  CRM_System::url( 'civicrm/contact/advanced_search', 'reset=1' ) );
+    return $wrapper->getContent();
+} // end of function civicrm_query
 
 
 
 /**
  *
- * contact_delete()
+ * civicrm_delete()
  *
  * lists all contacts from db.
  *
  */
-function contact_delete($id) 
+function civicrm_delete($id) 
 {
-    $contact = new CRM_Contact_Contact();
-    $contact->run(CRM_Form::MODE_DELETE, $id);
-    return $contact->getContent();
-} // end of function contact_delete
+} // end of function civicrm_delete
 
 ?>

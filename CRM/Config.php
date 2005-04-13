@@ -99,6 +99,12 @@ class CRM_Config {
     public $uploadDir         = './upload/';
 
     /**
+     * Are we generating clean url's and using mod_rewrite
+     * @var string
+     */
+    public $cleanURL = false;
+
+    /**
      * The handle to the log that we are using
      * @var object
      */
@@ -170,6 +176,10 @@ class CRM_Config {
 
         if ( defined( 'CRM_UPLOAD_DIR' ) ) {
             $this->uploadDir = CRM_UPLOAD_DIR;
+        }
+
+        if ( defined( 'CRM_CLEANURL' ) ) {
+            $this->cleanURL = CRM_CLEANURL;
         }
 
         // initialize the framework

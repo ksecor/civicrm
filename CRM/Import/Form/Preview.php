@@ -72,6 +72,18 @@ class CRM_Import_Form_Preview extends CRM_Form {
      * @access public
      */
     public function buildQuickForm( ) {
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => 'Continue',
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'back',
+                                         'name'      => 'Previous' ),
+                                 array ( 'type'      => 'reset',
+                                         'name'      => 'Reset'),
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => 'Cancel' ),
+                                 )
+                           );
     }
 
     /**

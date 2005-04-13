@@ -1,6 +1,6 @@
 <div id="crm-quick-search" class="block-crm">
     <frameset>
-    <form action="crm/contact/search" method="post">
+    <form action="{$postURL}" method="post">
     <div class="form-item">
         <select name="contact_type" size="1" class="form-select">
             <option>-all contacts-</option>
