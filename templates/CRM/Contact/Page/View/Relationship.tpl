@@ -5,7 +5,7 @@
 <div class="form-item">
 	<fieldset><legend>View Relationship</legend>
 
-    	<div>
+    <div>
 	<span class="horizontal-position">
 	<span class="labels"><label>Relationship :</label></span> 
 	<span class="fields">{$relationship_name}</span>
@@ -27,12 +27,12 @@
 
 <div id="relationships">
 <div class="form-item">
-	<div>
-        <a href="{$config->httpBase}contact/view/rel&cid={$contactId}&op=add">Create Relationship</a>
-       	</div>
-		
-        {strip}
+    {strip}
 	{if $relationship}
+	<div>
+        <a href="{$config->httpBase}contact/view/rel&cid={$contactId}&op=add">New Relationship</a>
+    </div>
+		
 	<p>
 	<table>
 	<tr class="columnheader">
@@ -45,9 +45,9 @@
 		<th>&nbsp;</th>
 	</tr>
 
-      	{foreach from=$relationship item=rel}
+    {foreach from=$relationship item=rel}
 	  {assign var = "rtype" value = "" }
-          {if $rel.contact_b > 0 }
+      {if $rel.contact_b > 0 }
 	    {assign var = "rtype" value = "b_a" }
 	  {else}
 	    {assign var = "rtype" value = "a_b" }
@@ -64,19 +64,19 @@
        	{/foreach}
        	</table>
        	</p>
-	{else}
+	{elseif $op EQ 'browse'}
 	<div class="status">
-	<img src="crm/i/Inform.gif" alt="status"> &nbsp;
-	There are no Relationships entered for this contact.
+        <img src="crm/i/Inform.gif" alt="status"> &nbsp;
+        There are no Relationships entered for this contact.
 	</div>
+	<p>
+       	<div>
+        <a href="{$config->httpBase}contact/view/rel&cid={$contactId}&op=add">New Relationship</a>
+       	</div>
+	</p>
 	{/if}
 	{/strip}	
        
-	<p>
-       	<div>
-        <a href="{$config->httpBase}contact/view/rel&cid={$contactId}&op=add">Create Relationship</a>
-       	</div>
-	</p>
 
 </div>
 </div>

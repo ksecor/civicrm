@@ -144,7 +144,7 @@ function civicrm_block($op='list', $delta='0')
                 }
 
                 $content .= "</div>";
-                $block['subject'] = "<span class='crm_blocktitle'>CRM Shortcuts</span>";
+                $block['subject'] = "<span class='crm_blocktitle'>CiviCRM Shortcuts</span>";
                 $block['content'] = $content;
                 break;
             }
@@ -201,7 +201,7 @@ function civicrm_menu($may_cache)
         
         $items[] = array(
                          'path'  => 'civicrm',
-                         'title' => t('Contact Management'),
+                         'title' => t('CiviCRM'),
                          'callback' => 'civicrm_invoke',
                          'access' => user_access('view contact'),
                          'type'   => MENU_IS_ROOT | MENU_VISIBLE_IN_TREE | MENU_CALLBACK,

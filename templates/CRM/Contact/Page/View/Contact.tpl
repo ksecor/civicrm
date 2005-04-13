@@ -94,55 +94,55 @@
  {/if}
 
 <div id="relationships[show]" class="data-group form-item">
-  <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;">(+)</a> <label>Relationship</label><br />
+  <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;">(+)</a> <label>Relationships</label><br />
 </div>
 <div id="relationships">
  <p>
- <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;">(-)</a>Relationship</legend>
+ <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;">(-)</a> Relationships</legend>
     <div class="form-item">
-        {strip}
-	{if $relationship }
-	<table>
-	<tr class="columnheader">
-		<th>Relationship</th>
-		<th>Contact</th>
-		<th>Email</th>
-		<th>Phone</th>
-		<th>City</th>
-		<th>State/Prov</th>
-		<th>&nbsp;</th>
-	</tr>
+    {strip}
+	{if $relationship}
+        <table>
+        <tr class="columnheader">
+            <th>Relationship</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>State/Prov</th>
+            <th>&nbsp;</th>
+        </tr>
 
-       	{foreach from=$relationship item=rel}
-	  {assign var = "rtype" value = "" }
-          {if $rel.contact_b > 0 }
-	    {assign var = "rtype" value = "b_a" }
-	  {else}	  
-	    {assign var = "rtype" value = "a_b" }
-	  {/if}
-        <tr class="{cycle values="odd-row,even-row"}">
-            	<td>
-                {$rel.relation|truncate:80:"...":true}
-               	</td>
-	    	<td><a href="{$config->httpBase}contact/view&reset=1&cid={$rel.cid}">{$rel.name}</a></td>
-	    	<td>{$rel.email}</td>
-	    	<td>{$rel.phone}</td>
-	    	<td>{$rel.city}</td>
-	    	<td>{$rel.state}</td>
-            	<td><a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=edit&rtype={$rtype}">Edit</a></td> 
-      	</tr>  
-       	{/foreach}
-       	</table>
+        {foreach from=$relationship item=rel}
+          {assign var = "rtype" value = "" }
+              {if $rel.contact_b > 0 }
+            {assign var = "rtype" value = "b_a" }
+          {else}	  
+            {assign var = "rtype" value = "a_b" }
+          {/if}
+            <tr class="{cycle values="odd-row,even-row"}">
+                    <td>
+                    {$rel.relation|truncate:80:"...":true}
+                    </td>
+                <td><a href="{$config->httpBase}contact/view&reset=1&cid={$rel.cid}">{$rel.name}</a></td>
+                <td>{$rel.email}</td>
+                <td>{$rel.phone}</td>
+                <td>{$rel.city}</td>
+                <td>{$rel.state}</td>
+                    <td><a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=edit&rtype={$rtype}">Edit</a></td> 
+            </tr>  
+        {/foreach}
+        </table>
 	{else}
-	<div class="message status">
-	<img src="crm/i/Inform.gif" alt="status"> &nbsp;
-	There are no Relationships entered for this contact.
-	</div>
+        <div class="message status">
+        <img src="crm/i/Inform.gif" alt="status"> &nbsp;
+        There are no Relationships entered for this contact. You can <a href="{$config->httpBase}contact/view/rel&op=add">add one</a>.
+        </div>
 	{/if}
 	{/strip}
        <br />
        <div class="action-link">
-       <a href="{$config->httpBase}contact/view/rel&op=add">Create Relationship</a>
+       <a href="{$config->httpBase}contact/view/rel&op=add">New Relationship</a>
         {if $relationshipsCount gt 10 }
          | <a href="{$config->httpBase}contact/view/rel&op=browse">Browse all Relationships...</a>
         {/if}
@@ -151,7 +151,7 @@
  </fieldset>
  </p>
  <div class="data-group"></div>	
-</div>
+ </div>
 
 <div id="groups" class="data-group form-item">
   <span class="float-right">

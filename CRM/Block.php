@@ -51,16 +51,16 @@ class CRM_Block {
      */
     static $_properties = array(
                                    self::MENU   => array( 'template' => 'Menu.tpl',
-                                                          'info'     => 'CRM Shortcuts',
-                                                          'subject'  => 'CRM Shortcuts',
+                                                          'info'     => 'CiviCRM Shortcuts',
+                                                          'subject'  => 'CiviCRM Shortcuts',
                                                           'active'   => true ),
                                    self::ADD    => array( 'template' => 'Add.tpl',
-                                                          'info'     => 'CRM Quick Add Individual',
+                                                          'info'     => 'CiviCRM Quick Add',
                                                           'subject'  => 'New Individual',
                                                           'active'   => true ),
                                    self::SEARCH => array( 'template' => 'Search.tpl',
-                                                          'info'     => 'Search Contacts',
-                                                          'subject'  => 'CRM Contact Search',
+                                                          'info'     => 'CiviCRM Search',
+                                                          'subject'  => 'Contact Search',
                                                           'active'   => true ),
                                    );
 
