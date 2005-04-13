@@ -14,6 +14,7 @@
 	  <div class="form-item">
     	  <fieldset>
 	    <table>
+		<tr><td><b>Not a member of</b></td><td></td><td><b>Member of</b></td></tr>
               <tr>
                 <td>{$form.allgroups.html} </td>
                 <td>
