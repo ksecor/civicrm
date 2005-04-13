@@ -97,23 +97,22 @@ class CRM_Contact_Page_GroupContact {
     }
 
     static function edit( $page, $mode, $groupId = null ) {
-        /*
-        $controller = new CRM_Controller_Simple( 'CRM_Group_Form_GroupContact', 'Contact GroupContacts', $mode );
+
+        $controller = new CRM_Controller_Simple( 'CRM_GroupContact_Form_GroupContact', 'Contact GroupContacts', $mode );
 
         // set the userContext stack
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
         $session->pushUserContext( $config->httpBase . 'contact/view/group&op=browse' );
 
-
         $controller->reset( );
-        $controller->set( 'tableName', 'crm_contact' );
-        $controller->set( 'tableId'  , $page->getContactId( ) );
+
+        $controller->set( 'contactId'  , $page->getContactId( ) );
         $controller->set( 'groupId'   , $groupId );
  
         $controller->process( );
         $controller->run( );
-        */
+
     }
 
     static function run( $page ) {
@@ -125,12 +124,12 @@ class CRM_Contact_Page_GroupContact {
 
         switch ( $op ) {
         case 'view':
-            $groupId = $_GET['nid'];
+            $groupId = $_GET['gcid'];
             self::view( $page, $groupId );
             break;
 
         case 'edit':
-            $groupId = $_GET['nid'];
+            $groupId = $_GET['gcid'];
             self::edit( $page, CRM_Form::MODE_UPDATE, $groupId );
             break;
 
