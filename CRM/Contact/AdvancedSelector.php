@@ -202,7 +202,36 @@ class CRM_Contact_AdvancedSelector extends CRM_Selector_Base implements CRM_Sele
      */
     function getTotalCount($action)
     {
-        return $this->_contact->count();
+
+        $count=0;
+        // return $this->_contact->count();
+        // need to do only counting hence TRUE as the last paremeter.
+
+        // $contactBAO = $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
+        // $result = $contactBAO-_DB_resultid;
+        //$resultobj = $contactBAO->getDatabaseResult();
+        //$v1 = $resultobj->fetchRow();
+        //$result
+        //$resultRow = $result->fetch();
+        //$count = $resultRow[0];
+
+        $v1 = $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
+        $v2 = $v1->getDatabaseResult();
+        $v3 = $v2->fetchRow();
+        $count = $v3[0];
+
+        // CRM_Error::debug_var("contactBAO", $contactBAO);
+        // CRM_Error::debug_var("result", $result);
+        // CRM_Error::debug_var("resultRow", $resultRow);
+
+        CRM_Error::debug_var("v1", $v1);
+        CRM_Error::debug_var("v2", $v2);
+        CRM_Error::debug_var("v2res", $v2->result);
+        CRM_Error::debug_var("v3", $v3);
+        CRM_Error::debug_var("count", $count);
+
+        return $count;
+        
     }//end of function
 
 

@@ -62,18 +62,22 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     /**
      * create and query the db for a simple contact search
      *
-     * @param int      $action   the type of action links
-     * @param int      $offset   the offset for the query
-     * @param int      $rowCount the number of rows to return
+     * @param int      $action    the type of action links
+     * @param int      $offset    the offset for the query
+     * @param int      $rowCount  the number of rows to return
+     * @param boolean  $count     is this query used for counting the rows only ?
      *
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function basicSearchQuery($offset, $rowCount, $sort)
+    function basicSearchQuery($offset, $rowCount, $sort, $count=FALSE)
     {
         $str_select = $str_from = $str_where = $str_order = $str_limit = '';
         
-        $str_select = "SELECT crm_contact.id as contact_id,
+        if ($count) {
+            $str_select = "SELECT count(crm_contact.id) "; 
+        } else {
+            $str_select = "SELECT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
@@ -83,6 +87,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                               crm_email.email as email,
                               crm_phone.phone as phone,
                               crm_contact.contact_type as contact_type";
+        }
 
         $str_from = " FROM crm_contact 
                         LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
@@ -111,11 +116,13 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             }   
         }
 
-        $str_order = " ORDER BY " . $sort->orderBy(); 
-        $str_limit = " LIMIT $offset, $rowCount ";
+        if(!$count) {
+            $str_order = " ORDER BY " . $sort->orderBy(); 
+            $str_limit = " LIMIT $offset, $rowCount ";
+        }
 
         // building the query string
-        $query_string = $str_select.$str_from.$str_where.$str_order.$str_limit;
+        $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
         $this->query($query_string);
         return $this;
     }
@@ -130,11 +137,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @param int      $action   the type of action links
      * @param int      $offset   the offset for the query
      * @param int      $rowCount the number of rows to return
-     *
+     * @param boolean  $count    is this a count only query ?
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function advancedSearchQuery(&$formValues, $offset, $rowCount, $sort)
+    function advancedSearchQuery(&$formValues, $offset, $rowCount, $sort, $count=FALSE)
     {
         $str_select = $str_from = $str_where = $str_order = $str_limit = '';
 
@@ -143,7 +150,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         CRM_Error::debug_var("formValues", $formValues);        
 
-        $str_select = "SELECT crm_contact.id as contact_id,
+        if($count) {
+            $str_select = "SELECT count(crm_contact.id) ";
+        } else {
+            $str_select = "SELECT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
@@ -153,6 +163,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                               crm_email.email as email,
                               crm_phone.phone as phone,
                               crm_contact.contact_type as contact_type";
+        }
 
         $str_from = " FROM crm_contact 
                         LEFT JOIN crm_location ON crm_contact.id = crm_location.contact_id
@@ -334,9 +345,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // last_name, first_name, street_name, city, state_province, country, postal_code, postal_code_low, postal_code_high
         $str_where = preg_replace("/AND|OR/", "WHERE", $str_where, 1);
 
-
-        $str_order = " ORDER BY " . $sort->orderBy(); 
-        $str_limit = " LIMIT $offset, $rowCount ";
+        if(!$count) {
+            $str_order = " ORDER BY " . $sort->orderBy(); 
+            $str_limit = " LIMIT $offset, $rowCount ";
+        }
 
         // building the query string
         $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
