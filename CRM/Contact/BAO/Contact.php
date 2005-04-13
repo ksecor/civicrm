@@ -162,8 +162,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                         LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
                         LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
 
-
-
         /*
          * sample formValues for query 
          *
@@ -243,19 +241,18 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // check for last name, as of now only working with sort name
         if ($formValues['last_name']) {
-            CRM_Error::debug_var("last_name", $formValues['last_name']);
-            $andArray['last_name'] = " crm_contact.sort_name LIKE '%".addslashes($formValues['last_name']) ."%'";
+            $andArray['last_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['last_name'])) ."%'";
         }
 
         // street_name
         if ($formValues['street_name']) {
-            $andArray['street_name'] = " crm_address.street_name LIKE '%". addslashes($formValues['street_name']) ."%'";
+            $andArray['street_name'] = " LOWER(crm_address.street_name) LIKE '%". strtolower(addslashes($formValues['street_name'])) ."%'";
         }
 
 
         // city_name
         if ($formValues['city']) {
-            $andArray['city'] = " crm_address.city LIKE '%". addslashes($formValues['city']) ."%'";
+            $andArray['city'] = " LOWER(crm_address.city) LIKE '%". strtolower(addslashes($formValues['city'])) ."%'";
         }
 
 
@@ -280,50 +277,37 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $pcANDString = "";
 
             if ($formValues['postal_code']) {
-                CRM_Error::debug_log_message("postal_code not null");
                 $pcORArray[] = "crm_address.postal_code = " . $formValues['postal_code'];
             }
             if ($formValues['postal_code_low']) {
-                CRM_Error::debug_log_message("postal_code_low not null");
                 $pcANDArray[] = "crm_address.postal_code >= " . $formValues['postal_code_low'];
             }
             if ($formValues['postal_code_high']) {
-                CRM_Error::debug_log_message("postal_code_high not null");
                 $pcANDArray[] = "crm_address.postal_code <= " . $formValues['postal_code_high'];
             }            
 
-            CRM_Error::debug_var("pcORArray", $pcORArray);
-            CRM_Error::debug_var("pcANDArray", $pcANDArray);
-          
             // add the next element to the OR Array
             foreach ($pcANDArray as $v) {
                 $pcANDString .= " AND ($v) ";
             }
 
-            CRM_Error::debug_var("pcANDString", $pcANDString);
             $pcANDString = preg_replace("/AND/", "", $pcANDString, 1);
-            CRM_Error::debug_var("pcANDString", $pcANDString);
 
             if ($pcANDString) {
                 $pcORArray[] = $pcANDString;
             }
 
-            CRM_Error::debug_var("pcORArray", $pcORArray);
             // add the next element to the OR Array
             foreach ($pcORArray as $v) {
                 $pcORString .= " OR ($v) ";
             }
 
-            CRM_Error::debug_var("pcORString", $pcORString);
             $pcORString = preg_replace("/OR/", "", $pcORString, 1);
-            CRM_Error::debug_var("pcORString", $pcORString);
-
             $andArray['postal_code'] = $pcORString;
         }
 
 
-        // processing for location type
-        // check if any locations checked
+        // processing for location type - check if any locations checked
         if ($formValues['cb_location_type']['any']) {
             CRM_Error::debug_log_message("any locations true");
             // we need to do postal code processing
@@ -340,8 +324,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // processing for primary location
 
 
-
-
         // final AND ing of the entire query.
         foreach ($andArray as $v) {
             $str_where .= " AND ($v) ";
@@ -351,9 +333,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // skip the following for now
         // last_name, first_name, street_name, city, state_province, country, postal_code, postal_code_low, postal_code_high
         $str_where = preg_replace("/AND|OR/", "WHERE", $str_where, 1);
-
-
-
 
 
         $str_order = " ORDER BY " . $sort->orderBy(); 

@@ -195,15 +195,13 @@ class CRM_PseudoConstant {
      */
     public static function &getLocationType()
     {
-        CRM_Error::le_method();
         if(!self::$locationType) {
-            CRM_Error::debug_log_message("locationType is not set");
-            $location_type_dao = new CRM_Contact_DAO_LocationType();
-            $location_type_dao->selectAdd();
-            $location_type_dao->selectAdd('id, name');
-            $location_type_dao->find();
-            while($location_type_dao->fetch()) {
-                self::$locationType[$location_type_dao->id] = "$location_type_dao->name";
+            $locationTypeDAO = new CRM_Contact_DAO_LocationType();
+            $locationTypeDAO->selectAdd();
+            $locationTypeDAO->selectAdd('id, name');
+            $locationTypeDAO->find();
+            while($locationTypeDAO->fetch()) {
+                self::$locationType[$locationTypeDAO->id] = "$locationTypeDAO->name";
             }
         }
         return self::$locationType;
@@ -228,15 +226,13 @@ class CRM_PseudoConstant {
      */
     public static function &getIMProvider()
     {
-        CRM_Error::le_method();
         if (!self::$imProvider) {
-            CRM_Error::debug_log_message("imProvider is not set");
-            $im_provider_dao = new CRM_DAO_IMProvider();
-            $im_provider_dao->selectAdd();
-            $im_provider_dao->selectAdd('id, name');
-            $im_provider_dao->find();
-            while($im_provider_dao->fetch()) {
-                self::$imProvider[$im_provider_dao->id] = "$im_provider_dao->name";
+            $imProviderDAO = new CRM_DAO_IMProvider();
+            $imProviderDAO->selectAdd();
+            $imProviderDAO->selectAdd('id, name');
+            $imProviderDAO->find();
+            while($imProviderDAO->fetch()) {
+                self::$imProvider[$imProviderDAO->id] = "$imProviderDAO->name";
             }
         }
         return self::$imProvider;
@@ -260,15 +256,13 @@ class CRM_PseudoConstant {
      */
     public static function &getStateProvince()
     {
-        CRM_Error::le_method();
         if (!self::$stateProvince) {
-            CRM_Error::debug_log_message("stateProvince is not set");
-            $state_province_dao = new CRM_DAO_StateProvince();
-            $state_province_dao->selectAdd();
-            $state_province_dao->selectAdd('id, name');
-            $state_province_dao->find();
-            while($state_province_dao->fetch()) {
-                self::$stateProvince[$state_province_dao->id] = "$state_province_dao->name";
+            $stateProvinceDAO = new CRM_DAO_StateProvince();
+            $stateProvinceDAO->selectAdd();
+            $stateProvinceDAO->selectAdd('id, name');
+            $stateProvinceDAO->find();
+            while($stateProvinceDAO->fetch()) {
+                self::$stateProvince[$stateProvinceDAO->id] = "$stateProvinceDAO->name";
             }
         }
         return self::$stateProvince;
@@ -293,15 +287,13 @@ class CRM_PseudoConstant {
      */
     public static function &getCountry()
     {
-        CRM_Error::le_method();
         if (!self::$country) {
-            CRM_Error::debug_log_message("country is not set");
-            $country_dao = new CRM_DAO_Country();
-            $country_dao->selectAdd();
-            $country_dao->selectAdd('id, name');
-            $country_dao->find();
-            while($country_dao->fetch()) {
-                self::$country[$country_dao->id] = "$country_dao->name";
+            $countryDAO = new CRM_DAO_Country();
+            $countryDAO->selectAdd();
+            $countryDAO->selectAdd('id, name');
+            $countryDAO->find();
+            while($countryDAO->fetch()) {
+                self::$country[$countryDAO->id] = "$countryDAO->name";
             }
         }
         return self::$country;
@@ -327,18 +319,16 @@ class CRM_PseudoConstant {
      */
     public static function &getCategory()
     {
-        CRM_Error::le_method();
         if (!self::$category) {
-            CRM_Error::debug_log_message("category is not set");
             self::$category = array();
-            $category_dao = new CRM_Contact_DAO_Category();
-            $category_dao->selectAdd();
-            $category_dao->selectAdd('id, name, parent_id');
-            $category_dao->find();
-            while($category_dao->fetch()) {
-                self::$category[$category_dao->id] = array(
-                                                           'name' => "$category_dao->name",
-                                                           'parent_id' => $category_dao->parent_id,
+            $categoryDAO = new CRM_Contact_DAO_Category();
+            $categoryDAO->selectAdd();
+            $categoryDAO->selectAdd('id, name, parent_id');
+            $categoryDAO->find();
+            while($categoryDAO->fetch()) {
+                self::$category[$categoryDAO->id] = array(
+                                                           'name' => "$categoryDAO->name",
+                                                           'parent_id' => $categoryDAO->parent_id,
                                                            );
             }
         }
@@ -364,16 +354,14 @@ class CRM_PseudoConstant {
      */
     public static function &getGroup()
     {
-        CRM_Error::le_method();
         if (!self::$group) {
-            CRM_Error::debug_log_message("group is not set");
             self::$group = array();
-            $group_dao = new CRM_Contact_DAO_Group();
-            $group_dao->selectAdd();
-            $group_dao->selectAdd('id, name');
-            $group_dao->find();
-            while($group_dao->fetch()) {
-                self::$group[$group_dao->id] = "$group_dao->name";
+            $groupDAO = new CRM_Contact_DAO_Group();
+            $groupDAO->selectAdd();
+            $groupDAO->selectAdd('id, name');
+            $groupDAO->find();
+            while($groupDAO->fetch()) {
+                self::$group[$groupDAO->id] = "$groupDAO->name";
             }
         }
         return self::$group;
@@ -400,14 +388,10 @@ class CRM_PseudoConstant {
      */
     public static function &getRelationshipType()
     {
-        CRM_Error::le_method();
         if (!self::$relationshipType) {
-            CRM_Error::debug_log_message("relationshipType is not set");
             self::$relationshipType = array();
             $relationshipTypeDAO = new CRM_Contact_DAO_RelationshipType();
-
             $relationshipTypeDAO->selectAdd();
-            // $relationshipTypeDAO->selectAdd('id, description');
             $relationshipTypeDAO->selectAdd('id, name_a_b, name_b_a, contact_type_a, contact_type_b');
             $relationshipTypeDAO->is_active = 1;
             $relationshipTypeDAO->find();
@@ -420,12 +404,7 @@ class CRM_PseudoConstant {
                                                                          );
             }
         }
-
-        CRM_Error::debug_var('relationshipType', self::$relationshipType);
-       
         return self::$relationshipType;
     }
-
 }
-
 ?>
