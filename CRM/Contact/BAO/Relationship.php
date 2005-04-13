@@ -319,7 +319,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @return array - array reference of all relationship types with context to current contact.
      *
      */
-    function getContactRelationshipType($contactId,$strContact = '')
+    function getContactRelationshipType($contactId,$strContact = 'b_a')
     {
         $aRelationshipType = array();
         $relationshipType = array();
@@ -330,30 +330,33 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $contact->id = $contactId;
         $contact->find(true);
 
+        $lngCheck = 0;
         foreach ($aRelationshipType as $lng_key => $var_value) {
             // there is a special relationship (Parent/Child) where we have to show both the name_a_b and name_b_a
             // in the select box. that why for relationship type id 1 we have added small tweak while building return array 
             
             if ($var_value['contact_type_a'] == $contact->contact_type) {
                 if ($lng_key == 1) { // this is if relationship type id is 1
-                    $relationshipType[$lng_key."_a_b"] = $var_value['name_a_b'];
-                    $relationshipType[$lng_key."_b_a"] = $var_value['name_b_a'];
+                    $relationshipType[$lng_key.'_b_a'] = $var_value['name_a_b'];
+                    $relationshipType[$lng_key.'_a_b'] = $var_value['name_b_a'];
+                    $lngCheck ++;
                 } else if (!in_array($var_value['name_a_b'], $relationshipType)) {
-                    $relationshipType[$lng_key."_a_b"] = $var_value['name_a_b'];
+                    $relationshipType[$lng_key.'_'.$strContact] = $var_value['name_a_b'];
                 }
             } 
-                
+            
             if ($var_value['contact_type_b'] == $contact->contact_type) {
-                if ($lng_key == 1) { // this is if relationship type id is 1
-                    $relationshipType[$lng_key."_a_b"] = $var_value['name_a_b'];
-                    $relationshipType[$lng_key."_b_a"] = $var_value['name_b_a'];
-                } else  if (!in_array($var_value['name_b_a'], $relationshipType)) {
-                    $relationshipType[$lng_key."_b_a"] = $var_value['name_b_a'];
+                if (!$lngCheck) { // this is if relationship type id is 1
+                    $relationshipType[$lng_key.'_b_a'] = $var_value['name_a_b'];
+                    $relationshipType[$lng_key.'_a_b'] = $var_value['name_b_a'];
+                } else if (!in_array($var_value['name_b_a'], $relationshipType)) {
+                    $relationshipType[$lng_key.'_'.$strContact] = $var_value['name_b_a'];
                 }
             }
             
         }
 
+        //print_r($relationshipType);
         return $relationshipType;
     }
 }

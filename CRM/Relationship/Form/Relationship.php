@@ -100,7 +100,6 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
             $relationship->id = $this->_relationshipId;
 
             if ($relationship->find(true)) {
-                
                 $defaults['relationship_type_id'] = $relationship->relationship_type_id."_".$this->_rtype;
 
                 $defaults['start_date'] = $relationship->start_date;
@@ -108,7 +107,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
 
                 $a_temp = explode('_', $this->_rtype);
 
-                $str_contact = 'contact_id_'.$a_temp[1];
+                $str_contact = 'contact_id_'.$a_temp[0];
 
                 $cId = $relationship->$str_contact;
 

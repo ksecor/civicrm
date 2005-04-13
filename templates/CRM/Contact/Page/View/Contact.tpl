@@ -115,7 +115,7 @@
 
        	{foreach from=$relationship item=rel}
 	  {assign var = "rtype" value = "" }
-          {if $rel.contact_a > 0 }
+          {if $rel.contact_b > 0 }
 	    {assign var = "rtype" value = "b_a" }
 	  {else}	  
 	    {assign var = "rtype" value = "a_b" }
