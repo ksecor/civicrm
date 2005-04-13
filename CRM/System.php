@@ -133,7 +133,7 @@ class CRM_System {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = false, $fragment = null ) {
+    function url($path = null, $query = null, $absolute = true, $fragment = null ) {
         $config        = CRM_Config::singleton( );
         static $script = 'index.php';
 

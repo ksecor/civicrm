@@ -112,6 +112,7 @@ class CRM_Block {
      * @access public
      */
     static function getContent( $id ) {
+        self::setPostURL( );
         $block = array( );
         if ( ! self::$_properties[$id]['active'] ) {
             return null;

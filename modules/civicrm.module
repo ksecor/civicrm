@@ -358,17 +358,20 @@ function civicrm_invoke()
             civicrm_assign( 'name','dave');
             $content = fetch_tpl( 'Group/Group.tpl');
         }
+        print theme('page', $content);
+        return;
     }
 
     //  import wizard
     if (arg(1) == 'import') {
-	$controller = new CRM_Import_Controller( 'Import Contacts' );
-	$controller->run( );
-	$content = $controller->getContent( );	
+        $controller = new CRM_Import_Controller( 'Import Contacts' );
+        $controller->run( );
+        $content = $controller->getContent( );	
+        print theme('page', $content);
+        return;
     }
-
   
-    print theme('page', $content);
+    drupal_goto( 'civicrm/contact/search', 'reset=1' );
 }
 
 function civicrm_contact_invoke() 
