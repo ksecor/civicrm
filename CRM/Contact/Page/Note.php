@@ -75,7 +75,7 @@ class CRM_Contact_Page_Note {
         // set the userContext stack
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
-        $session->pushUserContext( $config->httpBase . 'contact/view/note&op=browse' );
+        $session->pushUserContext( $config->httpBase . 'civicrm/contact/view/note&op=browse' );
 
         if (!$noteId) {
             $noteId = $controller->get( 'noteId' );

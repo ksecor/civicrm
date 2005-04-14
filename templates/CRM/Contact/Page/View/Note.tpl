@@ -5,6 +5,7 @@
 </div>
 
 {if $op eq 'view'}
+{if $notes}
     <p>
     <fieldset><legend>View Note</legend>
     <div class="form-item">
@@ -13,6 +14,7 @@
     </div>
     </fieldset>
     </p>
+{/if}
 {elseif $op eq 'add' or $op eq 'edit'}
     <form {$form.attributes}>
     <p>
@@ -27,6 +29,7 @@
     </form>
 {/if}
 
+{if $notes}
 <div id="notes">
  <p>
     <div class="form-item">
@@ -55,10 +58,18 @@
        {/foreach}
        </table>
        {/strip}
-       <br />
+
+       <!--br />
        <div class="action-link">
     	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&op=add"}">New Note</a>
-       </div>
+       </div-->
     </div>
  </p>
 </div>
+
+{else}
+   <div class="message status">
+   <img src="crm/i/Inform.gif" alt="status"> &nbsp;
+   There are no notes entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/note' q='op=add'}">add one</a>.
+   </div>
+{/if}

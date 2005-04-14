@@ -176,7 +176,7 @@ class CRM_Contact_Page_Relationship {
         // set the userContext stack
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
-        $session->pushUserContext( $config->httpBase . 'contact/view/rel?op=browse' );
+        $session->pushUserContext( $config->httpBase . 'civicrm/contact/view/rel?op=browse' );
 
         if ( !$relationshipId ) {
             $relationshipId = $controller->get( 'relationshipId' );

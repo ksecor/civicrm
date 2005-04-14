@@ -42,6 +42,7 @@ class CRM_Contact_Page_GroupContact {
     }
 
     static function view( $page, $groupId ) {
+        /*
         $groupContact = new CRM_Contact_DAO_GroupContact( );
         $groupContact->id = $groupContactId;
         if ( $groupContact->find( true ) ) {
@@ -51,6 +52,7 @@ class CRM_Contact_Page_GroupContact {
         }
         
         self::browse( $page );
+        */
     }
 
     static function browse( $page ) {
@@ -76,7 +78,7 @@ class CRM_Contact_Page_GroupContact {
         // set the userContext stack
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
-        $session->pushUserContext( $config->httpBase . 'contact/view/group&op=browse' );
+        $session->pushUserContext( $config->httpBase . 'civicrm/contact/view/group&op=browse' );
 
         $controller->reset( );
 
@@ -92,6 +94,17 @@ class CRM_Contact_Page_GroupContact {
 
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
+
+        $op = CRM_Request::retrieve( 'op', $page, false, 'browse' );
+        $page->assign( 'op', $op );
+
+        if ( $op == 'del' ) {
+            $groupContactId = $_GET['gcid'];
+            $status = $_GET['st'];
+            if (is_numeric($groupContactId) && strlen(trim($status))) {
+                self::delete( $groupContactId,$status );
+            }
+        }
 
         self::edit( $page, CRM_Form::MODE_ADD );
         self::browse( $page );
@@ -110,7 +123,7 @@ class CRM_Contact_Page_GroupContact {
     function getContactGroup( $lngContactId, $status = null ) {
         $groupContact = new CRM_Contact_DAO_GroupContact( );
      
-        $strSelect = "SELECT crm_group.id as crm_group_id, crm_group.name as crm_group_name,
+        $strSelect = "SELECT crm_group_contact.id as crm_group_contact_id, crm_group.name as crm_group_name,
                              crm_group_contact.in_date as in_date, crm_group_contact.out_date as out_date,
                              crm_group_contact.pending_date as pending_date, crm_group_contact.status as status,
                              crm_group_contact.pending_method as pending_method, crm_group_contact.in_method as in_method,
@@ -132,7 +145,7 @@ class CRM_Contact_Page_GroupContact {
         $count = 0;
         while ( $groupContact->fetch() ) {
             
-            $values[$groupContact->crm_group_id]['id'] = $groupContact->crm_group_id;
+            $values[$groupContact->crm_group_id]['id'] = $groupContact->crm_group_contact_id;
             $values[$groupContact->crm_group_id]['name'] = $groupContact->crm_group_name;
             $values[$groupContact->crm_group_id]['in_date'] = $groupContact->in_date;
             $values[$groupContact->crm_group_id]['out_date'] = $groupContact->out_date;
@@ -149,6 +162,39 @@ class CRM_Contact_Page_GroupContact {
         return $values;
     }
 
+    /*
+     * function to remove/ rejoin the group
+     *
+     * @param int $lngGroupContactId id of crm_group_contact
+     * @param string $status this is the status that should be updated.
+     *
+     */
+
+    static function delete ($lngGroupContactId, $status ) {
+        $groupContact = new CRM_Contact_DAO_GroupContact( );
+        
+        switch ($status) {
+        case 'i' :
+            $groupContact->status = 'In';
+            $groupContact->in_date = date('Ymd');
+            $groupContact->in_method = 'Admin';
+            break;
+        case 'p' :
+            $groupContact->status = 'Pending';
+            $groupContact->pending_date = date('Ymd');
+            break;
+        case 'o' :
+            $groupContact->status = 'Out';
+            $groupContact->out_date = date('Ymd');
+            $groupContact->out_method = 'Admin';
+            break;
+        }
+        
+        $groupContact->id = $lngGroupContactId;
+
+        $groupContact->save();
+
+    }
 }
 
 ?>

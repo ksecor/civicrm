@@ -118,14 +118,20 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
         $aGroup = $aGroupContact = array ();
         // get the list of all the groups
         $aGroup = $this->getGroupList();
-        
+
         // get the list of groups for the contact
         $aGroupContact = $this->getGroupList(true);
         
-        
-        $aGrouplist = array_diff ($aGroup,$aGroupContact);
+        if (is_array($aGroupContact)) {
+            $aGrouplist = array_diff ($aGroup,$aGroupContact);
+        } else {
+            $aGrouplist = $aGroup;
+        }
+
         $aGrouplist[0] = "- select group -" ;
-        
+
+        asort($aGrouplist);
+
         if (count($aGrouplist) > 1) {
             $this->addElement('select', 'allgroups', 'Add to another group:', $aGrouplist );
             $this->addElement('checkbox', 'antichk', 'Anti-spam \'disclaimer\' (tbd)');
@@ -186,14 +192,15 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
         $str_select = $str_from = $str_where = '';
         
         $str_select = "SELECT crm_group.id, crm_group.name ";
-        $str_from = " FROM crm_group";
-        $str_from .= " ,crm_group_contact ";
+        $str_from = " FROM crm_group, crm_group_contact ";
+        $str_where = " WHERE crm_group.group_type='static'";
         if ($lngStatus) {
-            $str_where = "WHERE crm_group.id = crm_group_contact.group_id 
+            $str_where .= " AND crm_group.id = crm_group_contact.group_id 
                        AND crm_group_contact.contact_id = ".$this->_contactId;
         }
-        
-        $str_sql = $str_select.$str_from.$str_where;
+
+        $str_orderby = " ORDER BY crm_group.name";
+        $str_sql = $str_select.$str_from.$str_where.$str_orderby;
 
         $group->query($str_sql);
 

@@ -1,8 +1,10 @@
 <div id="name" class="data-group form-item">
  	<label>{$displayName}</label>
 </div>
-{if $op eq 'view'}
-<div class="form-item">
+
+  {if $op eq 'view'}
+  {if $relationship}
+  <div class="form-item">
 	<fieldset><legend>View Relationship</legend>
 
     <div>
@@ -20,11 +22,12 @@
 	<div class="spacer"></div>
 	</fieldset>
 </div>    
+{/if}
 {elseif $op eq 'add' or $op eq 'edit'}
 {include file="CRM/Relationship/Form/Relationship.tpl"}	
 {/if}
 
-
+{if $relationship}
 <div id="relationships">
 <div class="form-item">
     {strip}
@@ -79,5 +82,11 @@
 	{/if}
 	{/strip}	
        
-</div>
-</div>
+  </div>
+  </div>
+{else}
+   <div class="message status">
+   <img src="crm/i/Inform.gif" alt="status"> &nbsp;
+   There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q='op=add'}">add one</a>.
+  </div>
+{/if}

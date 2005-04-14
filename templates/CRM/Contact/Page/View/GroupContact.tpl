@@ -4,13 +4,11 @@
 
 <div id="groupContact">
 
-  {if $groupCount > 0 }  	
- 	{if $groupIn }
+  	{if $groupIn }
         
 	<div class="form-item">
         <div class="font-size12pt label">Current Group Memberships</div> 
 	<div><label>{$displayName} is currently a member of these groups:</label></div>
-	
 	
 	<div>
 	{strip}
@@ -28,7 +26,7 @@
 	    	<td></td>	
 	    	<td>Added (by {$row.in_method})</td> 
             	<td>{$row.in_date|date_format:"%B %e, %Y"}</td>
-	    	<td><a href="#">[ Remove ]</a></td>   
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&op=del&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.name}?');">[ Remove ]</a></td> 
 	</tr>
      	{/foreach}
         </table>
@@ -37,14 +35,13 @@
 	</div>
 	{/if}
 	
-{include file="CRM/GroupContact/Form/GroupContact.tpl"}	
+	{include file="CRM/GroupContact/Form/GroupContact.tpl"}	
 
        	{if $groupPending }
 	<div class="form-item">
         <div class="font-size12pt label">Pending  Memberships </div> 
 	<div><label>Membership in these group(s) is pending confirmation by this contact:</label></div>
 		
-
 	<div>
 	{strip}
 	<table>
@@ -61,7 +58,8 @@
 	    	<td></td>	
 	    	<td>Pending (by {$row.pending_method})</td> 
             	<td>{$row.pending_date|date_format:"%B %e, %Y"}</td>
-	    	<td><a href="#">[ Remove ]</a></td>   
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&op=del&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.name}?');">[ Remove ]</a></td> 
+
     	</tr>
      	{/foreach}
 	</table>
@@ -79,8 +77,7 @@
 	<div class="form-item">
         <div class="font-size12pt label font-red">Past Memberships</div> 
 	<div class="label font-red">{$displayName} is no longer a member of these groups:</div>
-		
-
+	
 	<div>
         {strip}
 	<table>
@@ -97,7 +94,8 @@
 	    	<td></td>	
 	    	<td>Removed (by {$row.out_method})</td> 
             	<td>{$row.out_date|date_format:"%B %e, %Y"}</td>
-	    	<td><a href="#">[ Rejoin Group ]</a></td>   
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&op=del&st=i"}" onclick ="return confirm('Are you sure you want to add {$displayName} back into {$row.name}?');">[ Rejoin Group ]</a></td>
+
     	</tr>
      	{/foreach}
    	</table>
@@ -105,10 +103,9 @@
 	</div>
 	</div>
 	{/if}
-	
-  {else}
+ {if $groupCount eq 0 }  		
   <div class="form-item message status">	
-  <img src="crm/i/Inform.gif" alt="status"> &nbsp; This contact does not belong to any groups.
+  <img src="crm/i/Inform.gif" alt="status"> &nbsp; No current group membership.
   </div>	
   {/if}
   
