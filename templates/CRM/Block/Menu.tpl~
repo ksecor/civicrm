@@ -1,7 +1,0 @@
-{debug}
-<div id='crm-shortcuts'>
-{foreach from=$menu item=menuItem}
-  <a href="{$menuItem.url}">{$menuItem.title}</a><br>
-{/foreach}
-</div>
-{/debug}
