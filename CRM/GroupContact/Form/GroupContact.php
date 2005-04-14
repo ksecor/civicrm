@@ -108,7 +108,7 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
 
 
     /**
-     * Function to actually build the form
+     * Function to build the form
      *
      * @return None
      * @access public
@@ -122,25 +122,21 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
         // get the list of groups for the contact
         $aGroupContact = $this->getGroupList(true);
         
+        
         $aGrouplist = array_diff ($aGroup,$aGroupContact);
+        $aGrouplist[0] = "- select group -" ;
         
-        $this->addElement('select', 'allgroups', '', $aGrouplist, array("size" => "5", "multiple"));
-
-        $this->addElement('select', 'contactgroups', '', $aGroupContact, array("size" => "5", "multiple"));
-        
-        $this->addElement ('button','add', 'Add >>', array("onclick" => "addRemoveSelect('".$this->getName()."');"));
-
-        $this->addElement ('button','remove', '<< Remove', array("onclick" => "addRemoveSelect('".$this->getName()."',true);"));
-
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => 'Save Groups',
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
-                                 )
-                           );
-
+        if (count($aGrouplist) > 1) {
+            $this->addElement('select', 'allgroups', 'Add to another group:', $aGrouplist );
+            $this->addElement('checkbox', 'antichk', 'Anti-spam \'disclaimer\' (tbd)');
+            
+            $this->addButtons( array(
+                                     array ( 'type'      => 'next',
+                                             'name'      => 'Add',
+                                             'isDefault' => true   ),
+                                     )
+                               );
+        }
     }
 
        
@@ -187,12 +183,6 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
         
         $group = new CRM_Contact_DAO_Group( );
 
-        /*
-        $group->whereAdd( " LOWER(crm_contact.sort_name) like '%".addslashes(strtolower($params['name']))."%'");
-        if (strlen($params['contact_type'])) {
-            $contact->contact_type = $params['contact_type'];
-        }
-        */
         $str_select = $str_from = $str_where = '';
         
         $str_select = "SELECT crm_group.id, crm_group.name ";

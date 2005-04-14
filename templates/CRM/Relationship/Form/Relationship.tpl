@@ -26,7 +26,7 @@
         </span>
         <span class="two-col2">
         <span>
-              <input type="button" name='search' value="Search" onClick="'{$form.formName}.csearch.value=1';{$form.formName}.submit();">
+              <input type="button" name='search' value="Search" onClick="{$form.formName}.submit();">
             </span>
         </span> 
         <div class="spacer"></div>

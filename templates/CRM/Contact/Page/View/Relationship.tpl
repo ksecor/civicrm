@@ -30,9 +30,8 @@
     {strip}
 	{if $relationship}
 	<div>
-        <a href="{$config->httpBase}contact/view/rel&cid={$contactId}&op=add">New Relationship</a>
-    </div>
-		
+    	 <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&op=add"}">New Relationship</a>
+       </div>
 	<p>
 	<table>
 	<tr class="columnheader">
@@ -54,12 +53,14 @@
 	  {/if}
         <tr class="{cycle values="odd-row,even-row"}">
           	<td> {$rel.relation}</td>
-	    	<td><a href="{$config->httpBase}contact/view&reset=1&cid={$rel.cid}">{$rel.name}</a></td>
+	    	<td> <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
 	 	<td>{$rel.email}</td>
 	 	<td>{$rel.phone}</td>
 	 	<td>{$rel.city}</td>
 	 	<td>{$rel.state}</td>
-         	<td><a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=view&rtype={$rtype}">View</a> | <a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=edit&rtype={$rtype}">Edit</a></td>
+         	<td><!--a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=view&rtype={$rtype}">View</a> | <a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=edit&rtype={$rtype}">Edit</a-->
+		   <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&op=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&op=edit&rtype=$rtype"}">Edit</a>
+		</td>
 	</tr>
        	{/foreach}
        	</table>
@@ -71,12 +72,12 @@
 	</div>
 	<p>
        	<div>
+	<a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&op=add"}">New Relationship</a>
         <a href="{$config->httpBase}contact/view/rel&cid={$contactId}&op=add">New Relationship</a>
        	</div>
 	</p>
 	{/if}
 	{/strip}	
        
-
 </div>
 </div>
