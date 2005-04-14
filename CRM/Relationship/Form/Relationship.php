@@ -245,7 +245,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
                 $values[$contact->id]['id'] = $contact->id;
                 $values[$contact->id]['name'] = $contact->sort_name;
 
-                $contact_type = '<img src="' . $config->httpBase . 'i/contact_';
+                $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($contact->contact_type ) {
                 case 'Individual' :
                     $contact_type .= 'ind.png" alt="Individual">';

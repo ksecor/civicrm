@@ -1,7 +1,7 @@
 {* this template is used for managing groups *}
 
  {* Including the javascript from the GroupContact.js file *}
- <script type="text/javascript" src="{$config->httpBase}js/GroupContact.js"></script>
+ <script type="text/javascript" src="{$config->resourceBase}js/GroupContact.js"></script>
 
 <form {$form.attributes}>
 <div class="form-item">

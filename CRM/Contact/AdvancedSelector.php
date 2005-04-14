@@ -270,7 +270,7 @@ class CRM_Contact_AdvancedSelector extends CRM_Selector_Base implements CRM_Sele
             $row['edit']           = $config->httpBase . 'contact/edit&reset=1&cid=' . $result->contact_id;
             $row['view']           = $config->httpBase . 'contact/view&reset=1&cid=' . $result->contact_id;
 
-            $contact_type = '<img src="' . $config->httpBase . 'i/contact_';
+            $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($result->contact_type) {
             case 'Individual' :
                 $contact_type .= 'ind.png" alt="Individual">';

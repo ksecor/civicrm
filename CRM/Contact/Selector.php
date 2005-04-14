@@ -224,7 +224,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
             $row['edit'] = CRM_System::url( 'civicrm/contact/edit', 'reset=1&cid=' . $result->contact_id );
             $row['view'] = CRM_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $result->contact_id );
 
-            $contact_type = '<img src="' . $config->httpBase . 'i/contact_';
+            $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($result->contact_type) {
             case 'Individual' :
                 $contact_type .= 'ind.png" alt="Individual">';
