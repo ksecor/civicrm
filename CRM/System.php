@@ -174,6 +174,22 @@ class CRM_System {
         }
     }
 
+    /**
+     * this function is called from a template to compose a url
+     *
+     * @param array $params list of parameters
+     * 
+     * @return string url
+     * @access public
+     */
+    function surl( $params ) {
+        CRM_Error::debug( 'surl', $params );
+        return url( CRM_Array::value( 'p', $params ),
+                    CRM_Array::value( 'q', $params ),
+                    CRM_Array::value( 'a', $params, true ),
+                    CRM_Array::value( 'f', $params ) );
+    }
+
 }
 
 /**

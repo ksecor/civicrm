@@ -96,7 +96,7 @@ class CRM_Contact_Form_Edit extends CRM_Form
 
     function preProcess( ) {
         if ( $this->_mode == self::MODE_ADD ) {
-            $this->_contactType = CRM_Request::retrieve( 'c_type', $this, true );
+            $this->_contactType = CRM_Request::retrieve( 'c_type', $this, true, null, 'REQUEST' );
             $this->_contactId = null;
         } else {
             // this is update mode, first get the id from the session

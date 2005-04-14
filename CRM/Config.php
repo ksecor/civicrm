@@ -88,6 +88,13 @@ class CRM_Config {
     public $httpBase            = "http://localhost/drupal/";
 
     /**
+     * The resourceBase of our application. Used when we want to compose
+     * url's for things like js/images/css
+     * @var string
+     */
+    public $resourceBase        = "http://localhost/drupal/crm/";
+
+    /**
      * the factory class used to instantiate our DB objects
      * @var string
      */
@@ -172,6 +179,10 @@ class CRM_Config {
 
         if ( defined( 'CRM_HTTPBASE' ) ) {
             $this->httpBase = CRM_HTTPBASE;
+        }
+
+        if ( defined( 'CRM_RESOURCEBASE' ) ) {
+            $this->resourceBase = CRM_RESOURCEBASE;
         }
 
         if ( defined( 'CRM_UPLOAD_DIR' ) ) {
