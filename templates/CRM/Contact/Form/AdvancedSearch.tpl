@@ -1,4 +1,3 @@
-{debug}
 <form {$form.attributes}>
 {$form.hidden}
 <div class="bottom-light-coloured">
@@ -130,18 +129,37 @@
 	</div>
 	
 	</p>
+	
+<fieldset><legend>Save Search</legend>
+	<p>
+	<div class="horizontal-position">
+		<span class="two-col1">
+		{*$form.cb_ss.label*} {$form.cb_ss.html}
+		</span>	
+		<div class="spacer"></div>
+	</div>
+	</p>
+	
+	<p>
+	<div class="horizontal-position">
+		<div class="two-col1">
+		<span class="labels">{$form.ss_name.label}</span>
+		<span class="fields">{$form.ss_name.html}</span>
+		</div>
+		<div class="spacer"></div>
+	</div>
+	</p>
 
-	<p>	
-
-
-<p>
-{$form.cb_ss.label} {$form.cb_ss.html}
-<p>
-{$form.ss_name.label} {$form.ss_name.html}
-<p>
-{$form.ss_description.label} {$form.ss_description.html}
-<p>
-
+	<p>
+	<div class="horizontal-position">
+		<div class="two-col1">
+		<span class="labels">{$form.ss_description.label}</span>
+		<span class="fields">{$form.ss_description.html}</span>
+		</div>
+		<div class="spacer"></div>
+	</div>
+	</p>
+</fieldset>
 
 	<div>
 	<span class="three-col3">
