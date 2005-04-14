@@ -90,13 +90,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
                           6  => 'Export' );
         $this->add('select', 'action_id'   , 'Actions: '    , $actions    );
         
-        //link to show advanced search form
-        $this->addElement('link', 'adv_search', null, 'crm/contact/search', ' >> Advanced Search....');
-        $this->addElement('link', 'select_all', null, 'crm/contact/search', 'All', array('onclick' => 'changeCheckboxVals(\'chk\',\'select\','.$this->getName().'); return false;'));
-        $this->addElement('link', 'select_none', null, 'crm/contact/search', 'None', array('onclick' => 'changeCheckboxVals(\'chk\',\'deselect\','.$this->getName().'); return false;'));
-        // $this->addElement('link', 'select_none', null, '#', 'None', array('onclick' => 'check(); return false;'));
-
-
         $this->addButtons( array(
                                  array ( 'type'      => 'refresh',
                                          'name'      => 'Search' ,

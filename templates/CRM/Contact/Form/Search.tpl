@@ -19,7 +19,7 @@
         </span>
      </div>
      <p>
-     <span class="element-right">{$form.adv_search.html}</span>
+     <span class="element-right"><a href="{crmURL p='civicrm/contact/advanced_search' q='reset=1'}">&gt;&gt; Advanced Search...</a></span>
      </p>
  </div>
 </fieldset>
@@ -48,7 +48,9 @@
        <span class="horizontal-position">
          {$form.action_id.label}{$form.action_id.html} &nbsp; &nbsp; {$form.go.html}
        </span>
-       <span class="element-right">Select: {$form.select_all.html} | {$form.select_none.html}</span>
+       <span class="element-right">Select: 
+<a onclick="changeCheckboxVals('chk','select'  , 'Search' ); return false;" name="select_all"  href="#">All</a> |
+<a onclick="changeCheckboxVals('chk','deselect', 'Search' ); return false;" name="select_none" href="#">None</a></span>
      </div>  
 
      <p>
