@@ -171,7 +171,7 @@
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{$config->httpBase}contact/view/note&cid={$contactId}&nid={$note.id}&op=edit">Edit</a></td> 
+            <td><a href="{crmURL p='contact/view/note' q="cid=$contactId&nid=`$note.id`&op=edit"}">Edit</a></td> 
          </tr>  
        {/foreach}
        </table>

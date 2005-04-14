@@ -94,7 +94,7 @@ class CRM_Page {
 
         $template->assign_by_ref( 'config' , $config  );
         $template->assign_by_ref( 'session', $session );
-        $template->register_function ( 'surl', array( 'CRM_System', 'surl' ) );
+        $template->register_function ( 'crmURL', array( 'CRM_System', 'crmURL' ) );
 
         $template->assign( 'mode'   , $this->_mode );
         $template->assign( 'tplFile', $this->getTemplateFileName() );

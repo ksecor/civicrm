@@ -1,6 +1,6 @@
 <div id="name" class="data-group form-item">
     <span class="float-right">
-        <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{$config->httpBase}contact/edit?cid={$contact_id}';">
+        <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{surl p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}';">
     </span>
     <p>
     {if $contact_type eq 'Individual'}
@@ -124,27 +124,27 @@
                     <td>
                     {$rel.relation|truncate:80:"...":true}
                     </td>
-                <td><a href="{$config->httpBase}contact/view&reset=1&cid={$rel.cid}">{$rel.name}</a></td>
+                <td><a href="{surl p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
                 <td>{$rel.email}</td>
                 <td>{$rel.phone}</td>
                 <td>{$rel.city}</td>
                 <td>{$rel.state}</td>
-                    <td><a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=edit&rtype={$rtype}">Edit</a></td> 
+                    <td><a href="{surl p='civicrm/contact/view/rel' q="rid=`$rel.id`&op=edit&rtype=$rtype"}">Edit</a></td> 
             </tr>  
         {/foreach}
         </table>
 	{else}
         <div class="message status">
         <img src="crm/i/Inform.gif" alt="status"> &nbsp;
-        There are no Relationships entered for this contact. You can <a href="{$config->httpBase}contact/view/rel&op=add">add one</a>.
+        There are no Relationships entered for this contact. You can <a href="{surl p='civicrm/contact/view/rel' q='op=add'}">add one</a>.
         </div>
 	{/if}
 	{/strip}
        <br />
        <div class="action-link">
-       <a href="{$config->httpBase}contact/view/rel&op=add">New Relationship</a>
+       <a href="{surl p='civicrm/contact/view/rel' q='op=add'}">New Relationship</a>
         {if $relationshipsCount gt 10 }
-         | <a href="{$config->httpBase}contact/view/rel&op=browse">Browse all Relationships...</a>
+         | <a href="{surl p='civicrm/contact/view/rel' q='op=browse'}">Browse all Relationships...</a>
         {/if}
         </div>
     </div>
@@ -155,7 +155,7 @@
 
 <div id="groups" class="data-group form-item">
   <span class="float-right">
-	<a href="{$config->httpBase}contact/view/group&op=browse">View Groups</a>
+	<a href="{surl p='civicrm/contact/view/group' q='op=browse'}">View Groups</a>
   </span>
   <label>Groups</label>
   <span class="horizontal-position">
@@ -194,20 +194,20 @@
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}
-                    <a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=view">(more)</a>
+                    <a href="{surl p='civicrm/contact/view/note' q="nid=`$note.id`&op=view"}">(more)</a>
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{$config->httpBase}contact/view/note&nid={$note.id}&op=edit">Edit</a></td> 
+            <td><a href="{surl p='civicrm/contact/view/note' q="nid=`$note.id`&op=edit"}">Edit</a></td> 
        </tr>  
        {/foreach}
        </table>
        {/strip}
        <br />
        <div class="action-link">
-       <a href="{$config->httpBase}contact/view/note&op=add">New Note</a>
+       <a href="{surl p='civicrm/contact/view/note' q='op=add'}">New Note</a>
         {if $notesCount gt 3 }
-         | <a href="{$config->httpBase}contact/view/note&op=browse">Browse all notes...</a>
+         | <a href="{surl p='civicrm/contact/view/note' q='op=browse'}">Browse all notes...</a>
         {/if}
         </div>
     </div>
@@ -218,7 +218,7 @@
 
 <div id="edit-link" class="form-item">
   <span class="float-right">
-   <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{$config->httpBase}contact/edit&cid={$contact_id}';">
+     <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{surl p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}';">
   </span>
 </div> 
 

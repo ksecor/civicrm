@@ -182,12 +182,11 @@ class CRM_System {
      * @return string url
      * @access public
      */
-    function surl( $params ) {
-        CRM_Error::debug( 'surl', $params );
-        return url( CRM_Array::value( 'p', $params ),
-                    CRM_Array::value( 'q', $params ),
-                    CRM_Array::value( 'a', $params, true ),
-                    CRM_Array::value( 'f', $params ) );
+    function crmURL( $params ) {
+        return self::url( CRM_Array::value( 'p', $params ),
+                          CRM_Array::value( 'q', $params ),
+                          CRM_Array::value( 'a', $params, true ),
+                          CRM_Array::value( 'f', $params ) );
     }
 
 }
@@ -208,6 +207,5 @@ function __autoload( $class ) {
     $classPath = str_replace( '_', '/', $class ) . '.php';
     require_once($classPath);
 }
-
 
 ?>
