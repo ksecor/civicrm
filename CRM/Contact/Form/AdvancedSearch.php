@@ -113,8 +113,6 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         // checkboxes for location type
         $cb_location_type = array();
         $locationType = CRM_PseudoConstant::getLocationType();
-        //$locationType[''] = 'Any Locations';
-        //$locationType['any'] = 'Any Locations';
         $locationType['any'] = 'Any Locations';
         foreach ($locationType as $locationTypeID => $locationTypeName) {
             $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
@@ -123,6 +121,12 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
 
         // checkbox for primary location only
         $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
+
+
+        // add components for saving the search
+        $this->addElement('checkbox', 'cb_ss', null, 'Save Search ?');
+        $this->addElement('text', 'ss_name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
+        $this->addElement('text', 'ss_description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description') );
 
         // add the buttons
         $this->addButtons(array(

@@ -317,23 +317,29 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $andArray['postal_code'] = $pcORString;
         }
 
-
-        // processing for location type - check if any locations checked
-        if ($formValues['cb_location_type']['any']) {
-            CRM_Error::debug_log_message("any locations true");
-            // we need to do postal code processing
-            $ltORArray = array();
-            $pcORString = "";
-            // foreach ();
-            // $andArray['location_type'] = $pcORString;
+        if ($formValues['cb_location_type']) {
+            CRM_Error::debug_log_message("cb_location_type is set");
+            // processing for location type - check if any locations checked
+            // if (!$formValues['cb_location_type']['any']) {
+            if (!$formValues['cb_location_type']['any']) {
+                CRM_Error::debug_log_message("any locations not true");
+                $andArray['location_type'] = "(crm_location.location_type_id IN (";
+                foreach ($formValues['cb_location_type']  as $k => $v) {
+                    $andArray['location_type'] .= "$k,"; 
+                }
+                $andArray['location_type'] = rtrim($andArray['location_type'], ",");
+                $andArray['location_type'] .= "))";
+            } else {
+                CRM_Error::debug_log_message("any locations true");
+            }
         } else {
-            CRM_Error::debug_log_message("any locations not true");
+            CRM_Error::debug_log_message("cb_location_type is not set");
         }
-
-
-
+        
         // processing for primary location
-
+        if ($formValues['cb_primary_location']) {
+            $andArray['cb_primary_location'] = "crm_location.is_primary = 1";
+        }
 
         // final AND ing of the entire query.
         foreach ($andArray as $v) {

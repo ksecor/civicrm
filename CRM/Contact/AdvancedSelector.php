@@ -224,10 +224,10 @@ class CRM_Contact_AdvancedSelector extends CRM_Selector_Base implements CRM_Sele
         // CRM_Error::debug_var("result", $result);
         // CRM_Error::debug_var("resultRow", $resultRow);
 
-        CRM_Error::debug_var("v1", $v1);
-        CRM_Error::debug_var("v2", $v2);
-        CRM_Error::debug_var("v2res", $v2->result);
-        CRM_Error::debug_var("v3", $v3);
+//         CRM_Error::debug_var("v1", $v1);
+//         CRM_Error::debug_var("v2", $v2);
+//         CRM_Error::debug_var("v2res", $v2->result);
+//         CRM_Error::debug_var("v3", $v3);
         CRM_Error::debug_var("count", $count);
 
         return $count;

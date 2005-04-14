@@ -1,3 +1,4 @@
+{debug}
 <form {$form.attributes}>
 {$form.hidden}
 <div class="bottom-light-coloured">
@@ -131,6 +132,17 @@
 	</p>
 
 	<p>	
+
+
+<p>
+{$form.cb_ss.label} {$form.cb_ss.html}
+<p>
+{$form.ss_name.label} {$form.ss_name.html}
+<p>
+{$form.ss_description.label} {$form.ss_description.html}
+<p>
+
+
 	<div>
 	<span class="three-col3">
 	<span class="float-right">{$form.buttons.html}</span>

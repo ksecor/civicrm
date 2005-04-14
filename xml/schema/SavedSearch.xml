@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Contact</base>
+  <name>crm_saved_search</name>
+  <comment>User's can save their complex SQL queries and invoke them @ later stage</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+       <comment>Saved search ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>false</autoincrement>
+  </primaryKey>
+  <field>
+       <name>domain_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>which organization/domain owns this search</comment>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>crm_domain</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>name</name>
+       <title>Search Name</title>
+       <type>varchar</type>
+       <length>64</length>
+       <import>true</import>
+       <comment>search name (brief)</comment>
+  </field>
+  <field>
+       <name>description</name>
+       <title>Description</title>
+       <type>varchar</type>
+       <length>255</length>
+       <import>true</import>
+       <comment>verbose description</comment>
+  </field>
+  <field>
+       <name>query</name>
+       <title>SQL Query</title>
+       <type>text</type>
+       <import>true</import>
+       <comment>SQL query for this search</comment>
+  </field>
+</table>
