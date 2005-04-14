@@ -49,8 +49,8 @@
          {$form.action_id.label}{$form.action_id.html} &nbsp; &nbsp; {$form.go.html}
        </span>
        <span class="element-right">Select: 
-<a onclick="changeCheckboxVals('chk','select'  , 'Search' ); return false;" name="select_all"  href="#">All</a> |
-<a onclick="changeCheckboxVals('chk','deselect', 'Search' ); return false;" name="select_none" href="#">None</a></span>
+<a onclick="changeCheckboxVals('chk','select',document.forms['Search']); return false;" title="Select All"  href="#">All</a> |
+<a onclick="changeCheckboxVals('chk','deselect',document.forms['Search']); return false;" title="Select None" href="#">None</a></span>
      </div>  
 
      <p>
