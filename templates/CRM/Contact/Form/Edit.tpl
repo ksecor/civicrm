@@ -171,15 +171,15 @@
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{crmURL p='contact/view/note' q="cid=$contactId&nid=`$note.id`&op=edit"}">Edit</a></td> 
+            <td><a href="{crmURL p='civicrm/contact/view/note' q="cid=$contactId&nid=`$note.id`&op=edit"}">Edit</a></td> 
          </tr>  
        {/foreach}
        </table>
        <br />
        <div class="action-link">
-       <a href="{$config->httpBase}contact/view/note&cid={$contactId}&op=add">New Note</a>
+       <a href="{crmURL p='civicrm/contact/view/note' q="cid=$contactId&op=add"}">New Note</a>
         {if $notesCount gt 3 }
-         | <a href="{$config->httpBase}contact/view/note&cid={$contactId}&op=browse">Browse all notes...</a>
+         | <a href="{crmURL p='civicrm/contact/view/note' q="cid=$contactId&op=browse"}">Browse all notes...</a>
         {/if}
         </div>
         {/if}  

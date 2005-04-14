@@ -59,10 +59,12 @@
        </table>
        {/strip}
 
-       <!--br />
+       {if $op eq 'browse' or $op eq 'view'}
+	<br/>
        <div class="action-link">
     	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&op=add"}">New Note</a>
-       </div-->
+       </div>
+       {/if}
     </div>
  </p>
 </div>
