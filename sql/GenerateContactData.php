@@ -982,7 +982,7 @@ class CRM_GCD {
         $this->lee();
         
         $group = new CRM_Contact_DAO_Group();
-        $groupContact = new CRM_Contact_DAO_GroupContact();
+
         
         // add the 3 groups first
         $num_group = count($this->group);
@@ -997,6 +997,7 @@ class CRM_GCD {
 
         // 60 are for newsletter
         for ($i=0; $i<60; $i++) {
+            $groupContact = new CRM_Contact_DAO_GroupContact();
             $groupContact->group_id = 1; // newsletter subscribers
             $groupContact->contact_id = $this->individual[$i];
             $this->_setGroupContactStatus($groupContact);
@@ -1005,6 +1006,7 @@ class CRM_GCD {
 
         // 15 volunteers
         for ($i=0; $i<15; $i++) {
+            $groupContact = new CRM_Contact_DAO_GroupContact();
             $groupContact->group_id = 2; // Volunteers
             $groupContact->contact_id = $this->individual[$i+60];
             $this->_setGroupContactStatus($groupContact);
@@ -1013,6 +1015,7 @@ class CRM_GCD {
 
         // 8 advisory board group
         for ($i=0; $i<8; $i++) {
+            $groupContact = new CRM_Contact_DAO_GroupContact();
             $groupContact->group_id = 3; // advisory board group
             $groupContact->contact_id = $this->individual[$i*7];
             $this->_setGroupContactStatus($groupContact);
@@ -1027,17 +1030,21 @@ class CRM_GCD {
 
         // clear existing fields for DAO
         if ($groupContact->contact_id % 7) {
-            unset($groupContact->out_date);
-            unset($groupContact->out_method);
             $groupContact->status = "In";
             $groupContact->in_date = $this->_getRandomDate();
             $groupContact->in_method = 'Admin';
         } else {
-            unset($groupContact->in_date);
-            unset($groupContact->in_method);
             $groupContact->status = "Out";
             $groupContact->out_date = $this->_getRandomDate();
+            $groupContact->in_date = $this->_getRandomDate(0, strtotime($groupContact->out_date));
             $groupContact->out_method = 'Admin';
+        }
+        if (!$groupContact->contact_id % 13) {
+            unset($groupContact->in_date);
+            unset($groupContact->in_method);
+            $groupContact->status = "Pending";
+            $groupContact->pending_date = $this->_getRandomDate();
+            $groupContact->pending_method = 'Admin';
         }
         return;
     }

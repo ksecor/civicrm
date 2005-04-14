@@ -189,7 +189,11 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function getTotalCount($action)
     {
-        return $this->_contact->count();
+        $v1 = $this->_contact->basicSearchQuery($offset, $rowCount, $sort, TRUE);
+        $v2 = $v1->getDatabaseResult();
+        $v3 = $v2->fetchRow();
+        $count = $v3[0];
+        return $count;
     }//end of function
 
 
@@ -208,7 +212,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     {
         $config = CRM_Config::singleton( );
 
-        $result = $this->_contact->basicSearchQuery( $offset, $rowCount, $sort );
+        $result = $this->_contact->basicSearchQuery($offset, $rowCount, $sort);
 
         $rows = array( );
         while ( $result->fetch( ) ) {

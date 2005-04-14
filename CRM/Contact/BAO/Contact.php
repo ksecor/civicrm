@@ -363,10 +363,21 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         $this->query($query_string);
 
+        // if we have to save query, do it here since if there's an error we
+        // surely dont want to save it.
+        if (!$count && $formValues['cb_ss']) {
+            CRM_Error::debug_log_message("cb_ss is set");            
+            CRM_Error::debug_log_message("saving search");            
+            // save the search
+            $savedSearchDAO = new CRM_Contact_DAO_SavedSearch();
+            $savedSearchDAO->domain_id = 1;   // hack for now
+            $savedSearchDAO->name = $formValues['ss_name'];
+            $savedSearchDAO->description = $formValues['ss_description'];
+            $savedSearchDAO->query = $query_string;
+            $savedSearchDAO->insert();
+        }
         return $this;
     }
-
-
 
 
 
