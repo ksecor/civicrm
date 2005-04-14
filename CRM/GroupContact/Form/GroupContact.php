@@ -133,7 +133,7 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
         asort($aGrouplist);
 
         if (count($aGrouplist) > 1) {
-            $this->addElement('select', 'allgroups', 'Add to another group:', $aGrouplist );
+            $this->addElement('select', 'group_id', 'Add to another group:', $aGrouplist );
             $this->addElement('checkbox', 'antichk', 'Anti-spam \'disclaimer\' (tbd)');
             
             $this->addButtons( array(
@@ -153,26 +153,26 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
      */
     public function postProcess() 
     {
-
         // store the submitted values in an array
         $params = $this->exportValues();
         //        print_r($params);
+        
+        $groupContact = new CRM_Contact_DAO_GroupContact();
+        
+        $groupContact->contact_id = $this->_contactId;
+        $groupContact->group_id = $params['group_id'];
+        $groupContact->status = "In";
+        $groupContact->in_method = "Admin";
+        $groupContact->in_date = date("Ymd");
+        $groupContact->save();
 
         /*
-        // action is taken depending upon the mode
-        $ids = array( );
-        $ids['contact'] = $this->_contactId;
-        if ($this->_mode & self::MODE_UPDATE ) {
-            $ids['groupContact'] = $this->_groupContactId;
-        }    
-
-        $groupContact = CRM_Contact_BAO_GroupContact::create( $params, $ids );
-
         $session = CRM_Session::singleton( );
         if ($groupContact->id) {
             $session->setStatus( 'Your Group(s) record has been saved.' );
         }
         */
+
     }//end of function
 
 
