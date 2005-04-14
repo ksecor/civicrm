@@ -111,44 +111,7 @@ function civicrm_block($op='list', $delta='0')
         if ($op == 'list') {
             return CRM_Block::getInfo( );
         } else {
-            // If $op is "view", then we need to generate the block for display purposes.
-            // The $delta parameter tells us which block is being requested.
-            switch ($delta) {
-
-            case 2:
-                //Case 2 builds the content of quick search block.
-                return CRM_Block::getContent ( 2 );
-                
-            case 1: 
-                //Case 1 builds the content of quick add block.
-                return CRM_Block::getContent ( 1 );
-                   
-            case 0:
-                //Case 0 builds the content of shortcuts block.
-                $content .= "<div id='crm-shortcuts'>";
-                static $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
-                                                  'qs'    => 'c_type=Individual&reset=1',
-                                                  'title' => 'New Individual' ), 
-                                           array( 'path'  => 'civicrm/contact/addO',
-                                                  'qs'    => 'c_type=Organization&reset=1',
-                                                  'title' => 'New Organization' ),
-                                           array( 'path'  => 'civicrm/contact/addH',
-                                                  'qs'    => 'c_type=Household&reset=1',
-                                                  'title' => 'New Household' ),
-                                           array( 'path'  => 'civicrm/groups/add',
-                                                  'qs'    => 'reset=1',
-                                                  'title' => 'New Group' ));
-                                                  
-                foreach ( $shortCuts as &$short ) {
-                    $content .= '<a href="' . CRM_System::url( $short['path'], $short['qs'] ) . '">' . $short['title'] . '</a><br>';
-                }
-
-                $content .= "</div>";
-                $block['subject'] = "<span class='crm_blocktitle'>CiviCRM Shortcuts</span>";
-                $block['content'] = $content;
-                break;
-            }
-            return $block;
+            return CRM_Block::getContent ( $delta );
         }
     }
 }
@@ -201,10 +164,10 @@ function civicrm_menu($may_cache)
         
         $items[] = array(
                          'path'  => 'civicrm',
-                         'title' => t('CiviCRM'),
+                         'title' => t('CiviCRM Navigation - DISABLE '),
                          'callback' => 'civicrm_invoke',
                          'access' => user_access('view contact'),
-                         'type'   => MENU_IS_ROOT | MENU_VISIBLE_IN_TREE | MENU_CALLBACK,
+                         'type'   => MENU_IS_ROOT | MENU_CALLBACK,
                          'pid'    => 0,
                          );
         

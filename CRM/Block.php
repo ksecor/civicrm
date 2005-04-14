@@ -42,26 +42,32 @@ class CRM_Block {
      * @var int
      */
     const
-        MENU     = 0,
-        ADD      = 1,
-        SEARCH   = 2;
+        SHORTCUTS = 0,
+        ADD       = 1,
+        SEARCH    = 2,
+        MENU      = 4;
 
     /**
      * template file names for the above blocks
      */
     static $_properties = array(
-                                   self::MENU   => array( 'template' => 'Menu.tpl',
+                                   self::SHORTCUTS   => array( 'template' => 'Shortcuts.tpl',
                                                           'info'     => 'CiviCRM Shortcuts',
                                                           'subject'  => 'CiviCRM Shortcuts',
                                                           'active'   => true ),
-                                   self::ADD    => array( 'template' => 'Add.tpl',
-                                                          'info'     => 'CiviCRM Quick Add',
-                                                          'subject'  => 'New Individual',
-                                                          'active'   => true ),
-                                   self::SEARCH => array( 'template' => 'Search.tpl',
-                                                          'info'     => 'CiviCRM Search',
-                                                          'subject'  => 'Contact Search',
-                                                          'active'   => true ),
+                                   self::ADD         => array( 'template' => 'Add.tpl',
+                                                               'info'     => 'CiviCRM Quick Add',
+                                                               'subject'  => 'New Individual',
+                                                               'active'   => true ),
+                                   self::SEARCH      => array( 'template' => 'Search.tpl',
+                                                               'info'     => 'CiviCRM Search',
+                                                               'subject'  => 'Contact Search',
+                                                               'active'   => true ),
+                                   self::MENU        => array( 'template' => 'Menu.tpl',
+                                                               'info'     => 'CiviCRM Menu',
+                                                               'subject'  => 'CiviCRM',
+                                                               'active'   => true ),
+                                   
                                    );
 
                                                     
@@ -97,10 +103,72 @@ class CRM_Block {
      * @return void
      * @access private
      */
-    private function setPostURL( ) {
-        self::$_properties[self::MENU  ]['postURL'] = '';
-        self::$_properties[self::ADD   ]['postURL'] = CRM_System::url( 'civicrm/contact/add' );
-        self::$_properties[self::SEARCH]['postURL'] = CRM_System::url( 'civicrm/contact/search' );
+    private function setTemplateValues( $id ) {
+        if ( $id == self::SHORTCUTS ) {
+            self::setTemplateShortcutValues( );
+        } else if ( $id == self::ADD ) {
+            self::$_properties[self::ADD   ]['templateValues'] =
+                array( 'postURL'           => CRM_System::url( 'civicrm/contact/add'            , 'reset=1' ) );
+        } else if ( $id == self::SEARCH ) {
+            self::$_properties[self::SEARCH]['templateValues'] =
+                array( 'postURL'           => CRM_System::url( 'civicrm/contact/search'         , 'reset=1' ) ,
+                       'AdvancedSearchURL' => CRM_System::url( 'civicrm/contact/advanced_search', 'reset=1' ) );
+        } else if ( $id == self::MENU ) {
+            self::setTemplateMenuValues( );
+        }
+    }
+
+    /**
+     * create the list of shortcuts for the application and format is as a block
+     *
+     * @return void
+     * @access private
+     */
+    private function setTemplateShortcutValues( ) {
+        static $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
+                                          'qs'    => 'c_type=Individual&reset=1',
+                                          'title' => 'New Individual' ),
+                                   array( 'path'  => 'civicrm/contact/addO',
+                                          'qs'    => 'c_type=Organization&reset=1',
+                                          'title' => 'New Organization' ),
+                                   array( 'path'  => 'civicrm/contact/addH',
+                                          'qs'    => 'c_type=Household&reset=1',
+                                          'title' => 'New Household' ),
+                                   array( 'path'  => 'civicrm/groups/add',
+                                          'qs'    => 'reset=1',
+                                          'title' => 'New Group' ) );
+
+        $values = array( );
+        foreach ( $shortCuts as &$short ) {
+            $value = array( );
+            $value['url'  ] = CRM_System::url( $short['path'], $short['qs'] );
+            $value['title'] = $short['title'];
+            $values[] = $value;
+        }
+        self::$_properties[self::SHORTCUTS]['templateValues'] = array( 'shortCuts' => $values );
+    }
+
+    /**
+     * create the list of shortcuts for the application and format is as a block
+     *
+     * @return void
+     * @access private
+     */
+    private function setTemplateMenuValues( ) {
+        $items = civicrm_menu( true );
+        $values = array( );
+
+        foreach ( $items as $item ) {
+            if ( $item['type'] == MENU_NORMAL_ITEM ) {
+                $value = array( );
+                $value['url'  ] = CRM_System::url( $item['path'], CRM_Array::value( 'qs', $item ) );
+                $value['title'] = $item['title'];
+                $value['class'] = 'leaf';
+                $values[] = $value;
+            }
+        }
+        
+        self::$_properties[self::MENU]['templateValues'] = array( 'menu' => $values );
     }
 
     /**
@@ -112,7 +180,7 @@ class CRM_Block {
      * @access public
      */
     static function getContent( $id ) {
-        self::setPostURL( );
+        self::setTemplateValues( $id );
         $block = array( );
         if ( ! self::$_properties[$id]['active'] ) {
             return null;
@@ -121,7 +189,7 @@ class CRM_Block {
         $block['subject'] = self::fetch( $id, 'Subject.tpl',
                                          array( 'subject' => self::$_properties[$id]['subject'] ) );
         $block['content'] = self::fetch( $id, self::$_properties[$id]['template'],
-                                         array( 'postURL' => self::$_properties[$id]['postURL'] ) );
+                                         self::$_properties[$id]['templateValues'] );
 
         return $block;
     }

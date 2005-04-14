@@ -20,7 +20,7 @@
     </form>
     
     <div class="link">
-        <a href="crm/contact/search" title="Go to Advanced Search">Advanced Search...</a>
+        <a href="{$searchURL}" title="Go to Advanced Search">Advanced Search...</a>
     </div>
     </frameset>
 </div>

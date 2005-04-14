@@ -1,0 +1,5 @@
+<div id='crm-shortcuts'>
+{foreach $shortCuts as $short}
+  <a href="{$short.url}">$short.title</a><br>
+{/foreach}
+</div>
