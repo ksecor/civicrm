@@ -145,13 +145,13 @@ class CRM_Contact_Page_GroupContact {
         $count = 0;
         while ( $groupContact->fetch() ) {
             
-            $values[$groupContact->crm_group_id]['id'] = $groupContact->crm_group_contact_id;
-            $values[$groupContact->crm_group_id]['name'] = $groupContact->crm_group_name;
-            $values[$groupContact->crm_group_id]['in_date'] = $groupContact->in_date;
-            $values[$groupContact->crm_group_id]['out_date'] = $groupContact->out_date;
-            $values[$groupContact->crm_group_id]['pending_method'] = $groupContact->pending_method;
-            $values[$groupContact->crm_group_id]['in_method'] = $groupContact->in_method;
-            $values[$groupContact->crm_group_id]['out_method'] = $groupContact->out_method;
+            $values[$groupContact->crm_group_contact_id]['id'] = $groupContact->crm_group_contact_id;
+            $values[$groupContact->crm_group_contact_id]['name'] = $groupContact->crm_group_name;
+            $values[$groupContact->crm_group_contact_id]['in_date'] = $groupContact->in_date;
+            $values[$groupContact->crm_group_contact_id]['out_date'] = $groupContact->out_date;
+            $values[$groupContact->crm_group_contact_id]['pending_method'] = $groupContact->pending_method;
+            $values[$groupContact->crm_group_contact_id]['in_method'] = $groupContact->in_method;
+            $values[$groupContact->crm_group_contact_id]['out_method'] = $groupContact->out_method;
 
             $count++;
         }
