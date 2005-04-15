@@ -48,4 +48,11 @@
        <import>true</import>
        <comment>SQL query for this search</comment>
   </field>
+  <field>
+       <name>form_values</name>
+       <title>Submitte Form Values</title>
+       <type>text</type>
+       <import>true</import>
+       <comment>Submitted form values for this search</comment>
+  </field>
 </table>

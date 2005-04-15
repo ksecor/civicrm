@@ -418,6 +418,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $savedSearchDAO->name = $formValues['ss_name'];
             $savedSearchDAO->description = $formValues['ss_description'];
             $savedSearchDAO->query = $query_string;
+
+            $serialFormValues = serialize($formValues);
+            CRM_Error::debug_var('serialFormValues', $serialFormValues);
+
+            $savedSearchDAO->form_values = serialize($formValues);
             $savedSearchDAO->insert();
         }
         return $this;

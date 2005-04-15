@@ -187,6 +187,32 @@ function civicrm_menu($may_cache)
                          'weight' => 0
                          );
         
+        $items[] = array(
+                         'path'  => 'civicrm/contact/advanced_search',
+                         'title' => t('Advanced Search'),
+                         'type'   => MENU_CALLBACK | MENU_NORMAL_ITEM
+                         //'type'   => MENU_CALLBACK
+                         );
+
+        $items[] = array(
+                         'path'  => 'civicrm/contact/advanced_search/new',
+                         'title' => t('New Search'),
+                         'qs'    => 'reset=1',
+                         //'type'   => MENU_NORMAL_ITEM,
+                         'type'   => MENU_DEFAULT_LOCAL_TASK,
+                         'weight' => 0
+                         );
+
+        $items[] = array(
+                         'path'  => 'civicrm/contact/advanced_search/browse',
+                         'title' => t('Browse Saved Search'),
+                         'qs'    => 'reset=1',
+                         //'type'   => MENU_NORMAL_ITEM,
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => 1
+                         );
+
+
        $items[] = array(
                          'path'  => 'civicrm/contact/addI',
                          'title' => t('New Individual'),
@@ -341,6 +367,9 @@ function civicrm_invoke()
 
 function civicrm_contact_invoke() 
 {
+
+    CRM_Error::le_method();
+
     $content = "";
 
     //  add contact
@@ -401,6 +430,8 @@ function civicrm_contact_invoke()
             $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
         }
     }
+
+    CRM_Error::ll_method();
 
     print theme('page', $content);
     
@@ -478,10 +509,31 @@ function civicrm_query()
  */
 function civicrm_advanced_search() 
 {
+    
+    CRM_Error::le_method();
+
+    CRM_Error::debug_log_message("arg1 = " . arg(1));
+    CRM_Error::debug_log_message("arg2 = " . arg(2));
+    CRM_Error::debug_log_message("arg3 = " . arg(3));
+    CRM_Error::debug_log_message("arg4 = " . arg(4));
+    CRM_Error::debug_log_message("arg5 = " . arg(5));
+
+    // browse all saved searches
+    if (arg(3) == 'browse') {
+        $savedSearchPage = new CRM_Contact_Page_SavedSearch('Browse Saved Search', '', CRM_Contact_Page_View::MODE_NONE);
+        $content .= $savedSearchPage->run();
+
+        CRM_Error::ll_method();
+        return $content;
+    }
+
+    // this is for a new advanved search
     $wrapper = new CRM_Wrapper();
-    $wrapper->run('CRM_Contact_Form_AdvancedSearch', 'Search Contacts', CRM_Form::MODE_SEARCH,
-                  CRM_System::url( 'civicrm/contact/advanced_search', 'reset=1' ) );
+    $wrapper->run('CRM_Contact_Form_AdvancedSearch', 'Search Contacts', CRM_Form::MODE_SEARCH, CRM_System::url( 'civicrm/contact/advanced_search', 'reset=1' ));
+
+    CRM_Error::ll_method();
     return $wrapper->getContent();
+
 } // end of function civicrm_query
 
 
