@@ -157,6 +157,10 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
         $params = $this->exportValues();
         //        print_r($params);
         
+        if ($params['group_id'] == 0) {
+            return false;
+        }
+        
         $groupContact = new CRM_Contact_DAO_GroupContact();
         
         $groupContact->contact_id = $this->_contactId;
@@ -165,7 +169,7 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
         $groupContact->in_method = "Admin";
         $groupContact->in_date = date("Ymd");
         $groupContact->save();
-
+        
         /*
         $session = CRM_Session::singleton( );
         if ($groupContact->id) {
