@@ -68,19 +68,31 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        $this->add('select', 'contact_type', 'Show me.... ', CRM_SelectValues::$contactType);
-        $this->add('text', 'sort_name', 'Name:',
-                   CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-        
-        $groups     = array(''  => '- any group -', 
-                            1   => 'Group A',
-                            2   => 'Group B' );
-        $categories = array(''  => '- any category -', 
-                            1   => 'Category A',
-                            2   => 'Category B' );
-        $this->add('select', 'group_id'   , 'in '    , $groups    );
-        $this->add('select', 'category_id', 'Category ', $categories);
+        // add checkboxes for contact type
+        $cb_contact_type = array( );
+        foreach (CRM_PseudoConstant::$contactType as $key => $value) {
+            $cb_contact_type[] = HTML_QuickForm::createElement('checkbox', $key, null, $value);
+        }
+        $this->addGroup($cb_contact_type, 'cb_contact_type', 'Show Me....', '<br />');
 
+        // checkboxes for groups
+        $cb_group = array();
+        $group = CRM_PseudoConstant::getGroup();
+        foreach ($group as $groupID => $groupName) {
+            $this->addElement('checkbox', "cb_group[$groupID]", null, $groupName);
+        }
+
+        // checkboxes for categories
+        $cb_category = array();
+        $category = CRM_PseudoConstant::getCategory();
+        foreach ($category as $categoryID => $categoryDetail) {
+            $cb_category[] = $this->addElement('checkbox', "cb_category[$categoryID]", null, $categoryDetail['name']);
+        }
+
+        // text for sort_name
+        $this->add('text', 'sort_name', 'Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        
+        // some actions.. what do we want to do with the selected contacts ?
         $actions = array( '' => '- actions -',
                           1  => 'Add Contacts to a Group',
                           2  => 'Tag Contacts (assign category)',
@@ -89,7 +101,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
                           5  => 'Print',
                           6  => 'Export' );
         $this->add('select', 'action_id'   , 'Actions: '    , $actions    );
-        
+
+        // add buttons
         $this->addButtons( array(
                                  array ( 'type'      => 'refresh',
                                          'name'      => 'Search' ,
@@ -139,34 +152,19 @@ class CRM_Contact_Form_Search extends CRM_Form {
         if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
             $this->postProcess( );
         }
-
     }
 
     function postProcess() 
     {
-        CRM_ERROR::le_method();
-
-        $params = array( );
-
+        CRM_Error::le_method();
         if($_GET['reset'] != 1) {
-            CRM_Error::debug_log_message("reset != 1");
-            $contact_type = trim($this->controller->exportValue($this->_name, 'contact_type'));
-            $sort_name = trim($this->controller->exportValue($this->_name, 'sort_name'));
-            if (!empty( $contact_type ))  {
-                $params['contact_type'] = $contact_type;
-            }
-            if (!empty( $sort_name ))  {
-                $params['sort_name'] = $sort_name;
-            }
-
-            $selector   = new CRM_Contact_Selector($params);
+            $formValues = $this->controller->exportValues($this->_name);
+            CRM_Error::debug_var("formValues", $formValues);
+            $selector   = new CRM_Contact_Selector($formValues);
             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
             $controller->run();
-        } else {
-            CRM_Error::debug_log_message("reset = 1");            
         }
-        CRM_ERROR::ll_method();
+        CRM_Error::ll_method();
     }
 }
-
 ?>

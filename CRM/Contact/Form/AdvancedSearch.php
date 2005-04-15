@@ -90,8 +90,7 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         }
 
         // add text box for last name, first name, street name, city
-        $this->addElement('text', 'last_name', 'Contact Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-        $this->addElement('text', 'first_name', 'First Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Individual', 'first_name') );
+        $this->addElement('text', 'sort_name', 'Contact Name', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         $this->addElement('text', 'street_name', 'Street Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
         $this->addElement('text', 'city', 'City:',CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
 
@@ -202,20 +201,13 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
      */
     function postProcess() 
     {
-        CRM_ERROR::le_method();
-        $params = array( );
         if($_GET['reset'] != 1) {
-            CRM_Error::debug_log_message("reset != 1");
-            // CRM_Error::debug_var("post vars", $_POST);
             $formValues = $this->controller->exportValues($this->_name);
             CRM_Error::debug_var("formValues", $formValues);
             $selector   = new CRM_Contact_AdvancedSelector($formValues);
             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
             $controller->run();
-        } else {
-            CRM_Error::debug_log_message("reset = 1");            
         }
-        CRM_ERROR::ll_method();
     }
 }
 

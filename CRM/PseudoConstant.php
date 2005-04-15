@@ -189,16 +189,22 @@ class CRM_PseudoConstant {
      * @access public
      * @static
      *
-     * @param none
+     * @param boolean getAll - get All location types - default is to get only active ones.
+     *
      * @return array - array reference of all location types.
      *
      */
-    public static function &getLocationType()
+    public static function &getLocationType($getAll=false)
     {
         if(!self::$locationType) {
             $locationTypeDAO = new CRM_Contact_DAO_LocationType();
             $locationTypeDAO->selectAdd();
             $locationTypeDAO->selectAdd('id, name');
+            
+            if (!$getAll) {
+                $locationTypeDAO->is_active = 1;
+            }
+
             $locationTypeDAO->find();
             while($locationTypeDAO->fetch()) {
                 self::$locationType[$locationTypeDAO->id] = "$locationTypeDAO->name";

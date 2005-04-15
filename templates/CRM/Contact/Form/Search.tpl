@@ -4,9 +4,36 @@
 {* Begin Browse Criteria section *}
 <fieldset>
  <div class="form-item">
-     <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
-     <span class="horizontal-position">{$form.group_id.label}{$form.group_id.html}</span>
-     <span class="element-right">{$form.category_id.label}{$form.category_id.html}</span>
+
+		<div class="three-col1">
+		<span class="font-size12pt">{$form.cb_contact_type.label}</span>	
+		<span class="fields">{$form.cb_contact_type.html}</span>
+		</div>
+
+		<div class="three-col2">
+		<div><label>In Group (s)</label></div>
+		<div class="listing-box">
+			{foreach from=$form.cb_group item="cb_group_val"}
+			<div class="{cycle values="odd-row,even-row"}">
+			{$cb_group_val.html}
+			</div>
+			{/foreach}
+		</div>
+		</div>
+	 
+		<div class="three-col3">
+		<span><label>In Category (s)</label></sapn>
+		<div class="listing-box">
+			{foreach from=$form.cb_category item="cb_category_val"} 
+			<div class="{cycle values="odd-row,even-row"}">
+			{$cb_category_val.html}
+			</div>
+			{/foreach}
+		</div>
+		</div>
+
+
+
  </div>
  <div class="form-item">
      <span class="horizontal-position">

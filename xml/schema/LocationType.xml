@@ -43,4 +43,9 @@
        <type>boolean</type>
        <comment>Is this location type a predefined system location?</comment>
   </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this location type a predefined system location?</comment>
+  </field>
 </table>

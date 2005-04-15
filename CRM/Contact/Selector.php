@@ -114,6 +114,14 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     protected $_contact;
 
     /**
+     * formValues is the array returned by exportValues called on
+     * the HTML_QuickForm_Controller for that page.
+     *
+     * @var array
+     */
+    protected $_formValues;
+
+    /**
      * Class constructor
      *
      * @param array $params (reference ) array of parameters for query
@@ -121,14 +129,13 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$params) 
+    function __construct(&$formValues) 
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
-        
-        foreach ($params as $name => $value) {
-            $this->_contact->$name = $value;
-        }
+
+        // lets store the formvalues for now
+        $this->_formValues = $formValues;
         
     }//end of constructor
 
@@ -189,7 +196,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function getTotalCount($action)
     {
-        $v1 = $this->_contact->basicSearchQuery($offset, $rowCount, $sort, TRUE);
+        $v1 = $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
         $v2 = $v1->getDatabaseResult();
         $v3 = $v2->fetchRow();
         $count = $v3[0];
@@ -210,9 +217,12 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function &getRows($action, $offset, $rowCount, $sort)
     {
+
+        CRM_Error::le_method();
+
         $config = CRM_Config::singleton( );
 
-        $result = $this->_contact->basicSearchQuery($offset, $rowCount, $sort);
+        $result = $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort);
 
         $rows = array( );
         while ( $result->fetch( ) ) {
@@ -245,6 +255,9 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             $rows[] = $row;
         }
+
+        CRM_Error::le_method();
+
         return $rows;
     }
     

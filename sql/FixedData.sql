@@ -337,10 +337,10 @@ INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1112
 #
 INSERT INTO crm_domain( name ) VALUES ( 'CRM Test Domain' );
 
-INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Home', 'Place of residence', 1 );
-INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Work', 'Work location', 1 );
-INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Main', 'Main office location', 0 );
-INSERT INTO crm_location_type( domain_id, name, description, is_reserved ) VALUES( 1, 'Other', 'Another location', 0 );
+INSERT INTO crm_location_type( domain_id, name, description, is_reserved, is_active ) VALUES( 1, 'Home', 'Place of residence', 1, 1 );
+INSERT INTO crm_location_type( domain_id, name, description, is_reserved, is_active ) VALUES( 1, 'Work', 'Work location', 1, 1 );
+INSERT INTO crm_location_type( domain_id, name, description, is_reserved, is_active ) VALUES( 1, 'Main', 'Main office location', 0, 1 );
+INSERT INTO crm_location_type( domain_id, name, description, is_reserved, is_active ) VALUES( 1, 'Other', 'Another location', 0, 1 );
 
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 1, 'Child', 'Parent', 'Parent/child relationship.', 'Individual', 'Individual', 1 );

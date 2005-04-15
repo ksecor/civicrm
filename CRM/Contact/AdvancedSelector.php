@@ -133,16 +133,12 @@ class CRM_Contact_AdvancedSelector extends CRM_Selector_Base implements CRM_Sele
      */
     function __construct(&$formValues) 
     {
-
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
-
-        CRM_Error::debug_var("formValues", $formValues);
 
         // lets store the formvalues for now
         $this->_formValues = $formValues;
 
-        
     }//end of constructor
 
 
@@ -242,8 +238,8 @@ class CRM_Contact_AdvancedSelector extends CRM_Selector_Base implements CRM_Sele
                 $row[$property] = $result->$property;
             }
 
-            $row['edit']           = $config->httpBase . 'contact/edit&reset=1&cid=' . $result->contact_id;
-            $row['view']           = $config->httpBase . 'contact/view&reset=1&cid=' . $result->contact_id;
+            $row['edit'] = CRM_System::url( 'civicrm/contact/edit', 'reset=1&cid=' . $result->contact_id );
+            $row['view'] = CRM_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $result->contact_id );
 
             $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($result->contact_type) {

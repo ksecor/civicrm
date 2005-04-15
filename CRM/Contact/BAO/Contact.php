@@ -70,10 +70,17 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function basicSearchQuery($offset, $rowCount, $sort, $count=FALSE)
+    function basicSearchQuery(&$formValues, $offset, $rowCount, $sort, $count=FALSE)
     {
-        $str_select = $str_from = $str_where = $str_order = $str_limit = '';
-        
+        CRM_Error::le_method();
+
+        $str_select = $str_from = $str_where = $str_order = $str_limit = ''; 
+
+        CRM_Error::debug_var("formValues", $formValues);
+
+        // stores all the "AND" clauses
+        $andArray = array();
+       
         if ($count) {
             $str_select = "SELECT count(crm_contact.id) "; 
         } else {
@@ -97,24 +104,59 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                         LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
                         LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id)";
 
-        // add where clause if any condition exists..
-        if (strlen($this->contact_type) || strlen(trim($this->sort_name))){
-            $str_where = " WHERE ";
+
+
+        // check for contact type restriction
+        if ($formValues['cb_contact_type']) {
+            $andArray['contact_type'] = "(contact_type IN (";
+            foreach ($formValues['cb_contact_type']  as $k => $v) {
+                $andArray['contact_type'] .= "'$k',"; 
+            }            
+            // replace the last comma with the parentheses.
+            $andArray['contact_type'] = rtrim($andArray['contact_type'], ",");
+            $andArray['contact_type'] .= "))";
+        }
+        
+        // check for group restriction
+        if ($formValues['cb_group']) {
+            $andArray['group'] = "(group_id IN (";
+            foreach ($formValues['cb_group']  as $k => $v) {
+                // going with the OR case for this version
+                // i.e. it'll select all contacts who are members of group 1 OR group 2
+                // if we want all contacts who are members of group 1 AND group 2 then'll
+                // we'll have to use self joins
+                $andArray['group'] .= "$k,"; 
+            }
+            $andArray['group'] = rtrim($andArray['group'], ",");
+            $andArray['group'] .= "))";
+            $str_from .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
         }
 
-        // adding contact_type in where
-        if (strlen($this->contact_type)) {
-            $str_where .= " crm_contact.contact_type ='".$this->contact_type."'";
+        // check for category restriction
+        if ($formValues['cb_category']) {
+            $andArray['category'] .= "(category_id IN (";
+            foreach ($formValues['cb_category'] as $k => $v) {
+                $andArray['category'] .= "$k,"; 
+            }
+            $andArray['category'] = rtrim($andArray['category'], ",");
+            $andArray['category'] .= "))"; 
+            $str_from .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
         }
 
-        // adding sort_name
-        if (strlen(trim($this->sort_name))) {
-            if (strlen($this->contact_type)) { // check if contact_type is present..
-                $str_where .= " AND LOWER(crm_contact.sort_name) like '%".strtolower(addslashes($this->sort_name))."%'";
-            } else {
-                $str_where .= " LOWER(crm_contact.sort_name) like '%".strtolower(addslashes($this->sort_name))."%'";
-            }   
+        // check for last name, as of now only working with sort name
+        if ($formValues['sort_name']) {
+            $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['sort_name'])) ."%'";
         }
+
+
+        // final AND ing of the entire query.
+        foreach ($andArray as $v) {
+            $str_where .= " AND ($v) ";
+        }
+
+        // skip the following for now
+        // last_name, first_name, street_name, city, state_province, country, postal_code, postal_code_low, postal_code_high
+        $str_where = preg_replace("/AND|OR/", "WHERE", $str_where, 1);
 
         if(!$count) {
             $str_order = " ORDER BY " . $sort->orderBy(); 
@@ -123,11 +165,16 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // building the query string
         $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
+
+        CRM_Error::debug_var('query_string', $query_string);
+
         $this->query($query_string);
+
+        CRM_Error::ll_method();
+
         return $this;
     }
     
-
 
 
     /**
@@ -147,8 +194,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // stores all the "AND" clauses
         $andArray = array();
-
-        CRM_Error::debug_var("formValues", $formValues);        
 
         if($count) {
             $str_select = "SELECT count(crm_contact.id) ";
@@ -251,8 +296,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
 
         // check for last name, as of now only working with sort name
-        if ($formValues['last_name']) {
-            $andArray['last_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['last_name'])) ."%'";
+        if ($formValues['sort_name']) {
+            $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['sort_name'])) ."%'";
         }
 
         // street_name
@@ -346,7 +391,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $str_where .= " AND ($v) ";
         }
 
-
         // skip the following for now
         // last_name, first_name, street_name, city, state_province, country, postal_code, postal_code_low, postal_code_high
         $str_where = preg_replace("/AND|OR/", "WHERE", $str_where, 1);
@@ -437,7 +481,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     static function getValues( &$params, &$values, &$ids ) {
 
         CRM_Error::le_method();
-
         CRM_Error::debug_var("params", $params);
 
         $contact = new CRM_Contact_BAO_Contact( );

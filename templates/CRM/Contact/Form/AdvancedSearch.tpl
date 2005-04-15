@@ -35,15 +35,13 @@
 	<p>
 	<div class="horizontal-position">
 	<span class="two-col1">
-	<span class="labels">{$form.last_name.label}</span><span="fields">{$form.last_name.html}</span>
+	<span class="labels">{$form.sort_name.label}</span><span="fields">{$form.sort_name.html}</span>
 	</span>
-	<span class="two-col2">
-	<span class="labels">{$form.first_name.label}</span><span="fields">{$form.first_name.html}</span>
 	</span>
 	</div>
 	<span class="two-col1">
 		<span class="fields description font-italic">
-		Last name, organization or household name
+		Individual, Organization or Household Name
 		</span>
 	</span>
 	</p>
