@@ -24,7 +24,6 @@
 
 /**
  *
- *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo 01/15/2005
@@ -32,50 +31,35 @@
  *
  */
 
+require_once 'CRM/Page.php';
 
-
-
-class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory 
-{
-
+class CRM_Contact_Page_Tag {
 
     /**
-     *
-     * Given a contact id, it returns an array of category id's the 
-     * contact belongs to.
-     *
-     * @param string $entityTable name of the entity table usually 'crm_contact'
-     * @param int $entityID id of the entity usually the contactID.
-     * @returns array() reference $category array of catagory id's the contact belongs to.
-     *
-     * @access public
-     * @static
+     * class constructor
      */
-
-    static function &getCategory($entityTable = 'crm_contact', $entityID) 
-    {
-        CRM_Error::le_method();
-
-        CRM_Error::debug_var('entityID', $entityID);
-
-        $category = array();
-
-        $entityCategory = new CRM_Contact_DAO_EntityCategory();
-
-        $entityCategory->entity_table = $entityTable;
-
-        $entityCategory->entity_id = $entityID;
-
-        $entityCategory->find();
-
-        while ($entityCategory->fetch()) {
-            
-            CRM_Error::debug_var('category_id', $entityCategory->category_id);
-
-            $category[$entityCategory->category_id] = $entityCategory->category_id;
-        } 
-        return $category;        
+    function __construct( ) {
     }
+
+    static function browse( $page ) {
+        $controller = new CRM_Controller_Simple( 'CRM_Tag_Form_Tag', 'Contact Tags', $mode );
+        
+        // set the userContext stack
+        $session = CRM_Session::singleton();
+        $config  = CRM_Config::singleton();
+        $session->pushUserContext( $config->httpBase . 'civicrm/contact/view/tag&op=browse' );
+
+        $controller->reset( );
+        $controller->set( 'contactId'  , $page->getContactId( ) );
+
+        $controller->process( );
+        $controller->run( );
+    }
+
+    static function run( $page ) {
+        self::browse( $page );
+    }
+
 }
 
 ?>

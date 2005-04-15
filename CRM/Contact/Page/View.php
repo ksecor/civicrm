@@ -78,7 +78,7 @@ class CRM_Contact_Page_View extends CRM_Page {
         } else if ( $this->_mode == self::MODE_REL ) {
             CRM_Contact_Page_Relationship::run( $this );
         } else if ( $this->_mode == self::MODE_TAG ) {
-            $this->runModeTag( );
+            CRM_Contact_Page_Tag::run( $this );
         } else if ( $this->_mode == self::MODE_GROUP ) {
             CRM_Contact_Page_GroupContact::run( $this );
         } 
@@ -133,36 +133,28 @@ class CRM_Contact_Page_View extends CRM_Page {
         } else {
             $displayName = $defaults['sort_name'];
         }
+
+        // get the list of all the categories
+        $category = CRM_SelectValues::getCategory();
+        // get categories for the contact id
+        $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
+        
+        if (is_array($entityCategory)){
+            $strCategories = '';
+            foreach ($entityCategory as $lngKey ) {
+                $strCategories .= $category[$lngKey]['name'];
+                $strCategories .= ", ";
+            }
+        }
+        
+        $defaults['contactCategory'] = substr($strCategories, 0, (strlen(trim($strCategories))-1));
+        
         $this->assign( $defaults );
         $this->set( 'displayName', $displayName );
 
         $this->setShowHide( $defaults );
     }
 
-    function runModeTag()
-    {
-        $contactParam   = array();
-        $defaults = array();
-        $ids      = array();
-
-        // too heavy
-        $contactParam['id'] = $contactParam['contact_id'] = $this->_contactId;
-        $contact = CRM_Contact_BAO_Contact::retrieve($contactParam, $defaults, $ids);
-        $this->assign($defaults);
-
-        // get categories for the contact id
-        $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
-        $this->assign('entityCategory', $entityCategory); 
-
-        $category = CRM_SelectValues::getCategory();
-
-        // need to append the array with the " checked " if contact is tagged with the category
-        foreach ($category as $categoryID => &$categoryDetail) {
-            $categoryDetail['checked'] = in_array($categoryID, $entityCategory) ? " checked " : " ";
-        }
-
-        $this->assign('category', $category);
-    }
 
     function setShowHide( &$defaults ) {
 

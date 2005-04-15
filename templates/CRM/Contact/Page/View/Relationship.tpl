@@ -76,7 +76,6 @@
 	<p>
        	<div>
 	<a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&op=add"}">New Relationship</a>
-        <a href="{$config->httpBase}contact/view/rel&cid={$contactId}&op=add">New Relationship</a>
        	</div>
 	</p>
 	{/if}

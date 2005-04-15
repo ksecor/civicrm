@@ -3,16 +3,17 @@
         <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}';">
     </span>
     <p>
+
     {if $contact_type eq 'Individual'}
         <label>{$prefix} {$display_name} {$suffix}</label> &nbsp; &nbsp; {$job_title}
-        <span class="horizontal-position"><a href="#">Major Donor</a>, <a href="#">Volunteer</a></span>
+        <span class="horizontal-position"> {$contactCategory}</span>
     {elseif $contact_type eq 'Organization'}
         <label>{$sort_name}</label>
-        <span class="horizontal-position"><a href="#">For-profit</a>, <a href="#">Funder</a></span>
+        <span class="horizontal-position">{$contactCategory}</span>
     {elseif $contact_type eq 'Household'}
         <label>{$sort_name}</label>
     {/if}
-    </p>
+   </p>
 </div>
 
 
