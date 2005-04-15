@@ -74,7 +74,7 @@ class CRM_Import_Form_Preview extends CRM_Form {
     public function buildQuickForm( ) {
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Continue',
+                                         'name'      => 'Import Now',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'back',
                                          'name'      => 'Previous' ),
@@ -96,6 +96,25 @@ class CRM_Import_Form_Preview extends CRM_Form {
         return 'Preview';
     }
 
+    /**
+     * Process the mapped fields and map it into the uploaded file
+     * preview the file and extract some summary statistics
+     *
+     * @return void
+     * @access public
+     */
+    public function postProcess( ) {
+        $fileName  = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
+        $seperator = ',';
+
+        $mapperKeys = $this->controller->exportValue( 'MapField', 'mapper' );
+
+        $parser = new CRM_Import_Parser_Contact( $mapperKeys );
+        $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_IMPORT );
+
+        // add all the necessary variables to the form
+        $parser->set( $this );
+    }
 }
 
 ?>

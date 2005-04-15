@@ -38,8 +38,6 @@
         </p>
     {/if}
     
-
-    <p>Click 'Import Now' if you are ready to proceed.</p>
  </div>
     
  {* Summary of Import Results (record counts) *}

@@ -33,6 +33,8 @@
 
 require_once 'CRM/Import/Parser.php';
 
+require_once 'api/civicrm.php';
+
 /**
  * class to parse contact csv files
  */
@@ -77,20 +79,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
     }
 
-    function process( &$values, $mode ) {
-        switch ( $mode ) {
-        case self::MODE_PREVIEW:
-            return self::VALID;
-
-        case self::MODE_SUMMARY:
-            return summary( $values, $mode );
-
-        default:
-            return SELF::VALID;
-        }
+    function preview( &$values ) {
+        return self::VALID;
     }
 
-    function summary( &$values, $mode ) {
+    function summary( &$values ) {
         $response = $this->setActiveFieldValues( $values );
         if ( $response != self::VALID ) {
             return $response;
@@ -109,6 +102,20 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         return self::VALID;
     }
 
+    function import( &$values ) {
+        // first make sure this is a valid line
+        $response = $this->summary( $values );
+        if ( $response != self::VALID ) {
+            return $response;
+        }
+
+        $params =& $this->getActiveFieldParams( );
+        if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Error ) {
+            return self::ERROR;
+        }
+        return self::VALID;
+    }
+    
     /**
      * the initializer code, called before the processing
      *

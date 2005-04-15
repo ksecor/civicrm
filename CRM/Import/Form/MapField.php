@@ -112,7 +112,8 @@ class CRM_Import_Form_MapField extends CRM_Form {
     }
 
     /**
-     * Process the mapped fields
+     * Process the mapped fields and map it into the uploaded file
+     * preview the file and extract some summary statistics
      *
      * @return void
      * @access public
@@ -128,10 +129,10 @@ class CRM_Import_Form_MapField extends CRM_Form {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i]];
         }
 
-        $this->set( "mapper"    , $mapper     );
+        $this->set( 'mapper'    , $mapper     );
 
         $parser = new CRM_Import_Parser_Contact( $mapperKeys );
-        $parser->import( $fileName, $seperator, CRM_Import_Parser::MODE_SUMMARY );
+        $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_SUMMARY );
 
         // add all the necessary variables to the form
         $parser->set( $this );

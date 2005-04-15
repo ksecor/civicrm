@@ -262,6 +262,7 @@ function civicrm_menu($may_cache)
         $items[] = array(
                          'path'  => 'civicrm/group',
                          'title' => t('Manage Groups'),
+                         'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 1
                          );
@@ -269,6 +270,7 @@ function civicrm_menu($may_cache)
         $items[] = array(
                          'path'  => 'civicrm/import',
                          'title' => t('Import Contacts'),
+                         'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 2
                          );

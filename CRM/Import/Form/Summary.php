@@ -46,6 +46,40 @@ class CRM_Import_Form_Summary extends CRM_Form {
     }
 
     /**
+     * Function to set variables up before form is built
+     *
+     * @return void
+     * @access public
+     */
+    public function preProcess( ) {
+        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'duplicateRowCount' );
+        foreach ( $properties as $property ) {
+            $this->assign( $property, $this->get( $property ) );
+        }
+    }
+
+    /**
+     * Function to actually build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) {
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => 'Done',
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'back',
+                                         'name'      => 'Previous' ),
+                                 array ( 'type'      => 'reset',
+                                         'name'      => 'Reset'),
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => 'Cancel' ),
+                                 )
+                           );
+    }
+
+    /**
      * Return a descriptive name for the page, used in wizard header
      *
      * @return string

@@ -156,7 +156,7 @@ abstract class CRM_Import_Parser {
 
     abstract function init();
 
-    function import( $fileName, $seperator = ',', $mode = self::MODE_PREVIEW ) {
+    function run( $fileName, $seperator = ',', $mode = self::MODE_PREVIEW ) {
         $this->init();
 
         $this->_seperator = ',';
@@ -190,7 +190,15 @@ abstract class CRM_Import_Parser {
 
             $this->_totalCount++;
 
-            $returnCode = $this->process( $values, $mode );
+            if ( $mode == self::MODE_PREVIEW ) {
+                $returnCode = $this->preview( $values );
+            } else if ( $mode == self::MODE_SUMMARY ) {
+                $returnCode = $this->summary( $values );
+            } else if ( $mode == self::MODE_IMPORT ) {
+                $returnCode = $this->import( $values );
+            } else {
+                $returnCode = self::ERROR;
+            }
 
             // note that a line could be valid but still produce a warning
             if ( $returnCode & self::VALID ) {
@@ -237,7 +245,9 @@ abstract class CRM_Import_Parser {
         return $this->fini();
     }
 
-    abstract function process( &$values, $mode );
+    abstract function preview( &$values );
+    abstract function summary( &$values );
+    abstract function import ( &$values );
 
     abstract function fini();
 
@@ -258,26 +268,41 @@ abstract class CRM_Import_Parser {
     }
 
     function setActiveFieldValues( $elements ) {
-        for ( $j = 0; $j < count( $elements ); $j++ ) {
-            $this->_activeFields[$j]->setValue( $elements[$j] );
+        for ( $i = 0; $i < count( $elements ); $i++ ) {
+            $this->_activeFields[$i]->setValue( $elements[$i] );
         }
 
         // reset all the values that we did not have an equivalent import element
-        for ( ; $j < $this->_activeFieldCount; $j++ ) {
-            $this->_activeFields[$j]->resetValue();
+        for ( ; $i < $this->_activeFieldCount; $i++ ) {
+            $this->_activeFields[$i]->resetValue();
         }
 
         // now validate the fields and return false if error
         $valid = self::VALID;
-        for ( $j = 0; $j < $this->_activeFieldCount; $j++ ) {
-            if ( $this->_activeFields[$j]->validate() ) {
+        for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
+            if ( ! $this->_activeFields[$i]->validate() ) {
                 // no need to do any more validation
                 $valid = self::ERROR;
                 break;
             }
         }
-        CRM_Error::debug( $valid, $elements );
         return $valid;
+    }
+
+    /**
+     * function to format the field values for input to the api
+     *
+     * @return array (reference ) associative array of name/value pairs
+     * @access public
+     */
+    function &getActiveFieldParams( ) {
+        $params = array( );
+        for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
+            if ( isset( $this->_activeFields[$i]->_value ) ) {
+                $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
+            }
+        }
+        return $params;
     }
 
     function getSelectValues() {
