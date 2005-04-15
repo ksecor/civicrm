@@ -33,17 +33,16 @@
 </div>
 <div class="form-item">	
 	<p>
-	<div class="horizontal-position">
-	<span class="two-col1">
+	<div class="horizontal-position two-col1">
+	<div>
 	<span class="labels">{$form.sort_name.label}</span><span="fields">{$form.sort_name.html}</span>
-	</span>
+	</div>
+	<div>
+	<span class="fields description font-italic">
+	Individual, Organization or Household Name
 	</span>
 	</div>
-	<span class="two-col1">
-		<span class="fields description font-italic">
-		Individual, Organization or Household Name
-		</span>
-	</span>
+	</div>	
 	</p>
 </div>
 <div class="spacer"></div>
