@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM</base>
+  <name>crm_ext_data</name>
+  <comment>Data store for each property.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Validation ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>table_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Foreign key to the referenced item.</comment>
+  </field>
+  <field>
+      <name>ext_property_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Foreign key to crm_ext_property.</comment>
+  </field>
+  <foreignKey>
+       <name>ext_property_id</name>
+       <table>crm_ext_property</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+     <name>int_data</name>
+     <type>int</type>
+     <comment>stores data for ext property data_type = integer. This col supports signed integers.</comment>
+  </field>
+  <field>
+     <name>float_data</name>
+     <type>float</type>
+     <comment>stores data for ext property data_type = float and money.</comment>
+  </field>
+  <field>
+     <name>char_data</name>
+     <type>varchar</type>
+     <length>255</length>
+     <comment>data for ext property data_type = text.</comment>
+  </field>
+  <field>
+     <name>date_data</name>
+     <type>DATETIME</type>
+     <comment>data for ext property data_type = date.</comment>
+  </field>
+  <field>
+     <name>memo_data</name>
+     <type>text</type>
+     <comment>data for ext property data_type = memo.</comment>
+  </field>
+</table>
+
+

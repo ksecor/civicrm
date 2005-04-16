@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM</base>
+  <name>crm_ext_property_group</name>
+  <comment>All extended (custom) properties are associated with a group. These are logical sets of related data.</comment>
+    <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Ext Property Group ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>crm_domain</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+     <name>name</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Variable name/programmatic handle for this group.</comment>
+  </field>
+  <field>
+     <name>title</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Friendly Name.</comment>
+  </field>
+  <field>
+     <name>description</name>
+     <type>varchar</type>
+     <length>255</length>
+     <comment>Group description (verbose).</comment>
+  </field>
+  <field>
+     <name>extends</name>
+     <type>enum</type>
+     <values>Contact, Individual, Household, Organization, Location, Address</values>
+     <default>'Contact'</default>
+     <comment>Type of object this group extends (can add other options later e.g. contact_address, etc.).</comment>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+  </field>
+</table>
+
+

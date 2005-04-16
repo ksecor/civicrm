@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM</base>
+  <name>crm_form_field</name>
+  <comment>Defines form field and its attributes.</comment>
+    <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Form Group ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+     <name>ext_property_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+     <comment>FK to ext_property</comment>
+  </field>
+  <foreignKey>
+       <name>ext_property_id</name>
+       <table>crm_ext_property</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+     <name>form_group_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+     <comment>FK to form_group, assigns field to visual/display grouping.</comment>
+  </field>
+  <foreignKey>
+       <name>form_group_id</name>
+       <table>crm_form_group</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+     <name>name</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Variable name/programmatic handle for this property.</comment>
+  </field>
+  <field>
+     <name>title</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Friendly Name.</comment>
+  </field>
+  <field>
+     <name>type</name>
+     <type>enum</type>
+     <values>Text, TextArea, Select, Radio, CheckBox, Select Date, Select State / Province, Select Country</values>
+     <comment>HTML types plus several built-in extended types.</comment>
+  </field>
+  <field>
+     <name>mask</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Optional format instructions for specific field types, like date types.</comment>
+  </field>
+  <field>
+     <name>attributes</name>
+     <type>varchar</type>
+     <length>255</length>
+     <comment>Store collection of type-appropriate attributes, e.g. textarea  needs rows/cols attributes</comment>
+  </field>
+  <field>
+     <name>javascript</name>
+     <type>varchar</type>
+     <length>255</length>
+     <comment>Optional scripting attributes for field.</comment>
+  </field>
+  <field>
+     <name>default_value</name>
+     <type>varchar</type>
+     <length>255</length>
+     <comment>Use form_options.is_default for field_types which use options.</comment>
+  </field>
+  <field>
+     <name>help_pre</name>
+     <type>text</type>
+     <comment>Description and/or help text to display before fields in group.</comment>
+  </field>
+  <field>
+     <name>help_post</name>
+     <type>text</type>
+     <comment>Description and/or help text to display after fields in group.</comment>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+  </field>
+</table>
+
+

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM</base>
+  <name>crm_ext_property</name>
+  <comment>Stores core info about an extended (custom) property.</comment>
+    <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Ext Property ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>ext_property_group_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to crm_ext_property_group.</comment>
+  </field>
+  <foreignKey>
+       <name>ext_property_group_id</name>
+       <table>crm_ext_property_group</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+     <name>name</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Variable name/programmatic handle for this property.</comment>
+  </field>
+  <field>
+     <name>title</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Friendly Name.</comment>
+  </field>
+  <field>
+     <name>description</name>
+     <type>varchar</type>
+     <length>255</length>
+     <comment>Property description (verbose).</comment>
+  </field>
+  <field>
+     <name>data_type</name>
+     <type>enum</type>
+     <values>String, Int, Float, Money, Text, Date, Boolean</values>
+     <comment>Controls location of data storage in extended_data table.</comment>
+  </field>
+  <field>
+     <name>is_required</name>
+     <type>boolean</type>
+     <comment>Is a value required for this property.</comment>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+  </field>
+  <field>
+      <name>validation_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to crm_validation.</comment>
+  </field>
+  <foreignKey>
+       <name>validation_id</name>
+       <table>crm_validation</table>
+       <key>id</key>
+  </foreignKey>
+</table>
+
+

@@ -46,6 +46,6 @@
   <field>
        <name>is_active</name>
        <type>boolean</type>
-       <comment>Is this location type a predefined system location?</comment>
+       <comment>Is this property active?</comment>
   </field>
 </table>
