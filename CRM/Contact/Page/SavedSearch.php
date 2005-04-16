@@ -56,22 +56,30 @@ class CRM_Contact_Page_SavedSearch extends CRM_Page {
         parent::__construct($name, $title, $mode);
     }
 
-    function run( ) {
+    function run() {
+        CRM_Error::le_method();
         if ($this->_mode == self::MODE_NONE) {
-            $this->runModeNone( );
+            $this->runModeNone();
         }
-        return parent::run( );
+        CRM_Error::ll_method();        
+        return parent::run();
     }
 
-    function runModeNone( ) {
+    function runModeNone() {
         $rows = array();
-        $ssDAO = new CRM_Contact_Page_SavedSearch();
-        $result = $ssDAO->find();
-        while ($result->fetch()) {
+        $ssDAO = new CRM_Contact_DAO_SavedSearch();
+        $ssDAO->find();
+        while ($ssDAO->fetch()) {
+            $row = array();
+            CRM_Error::debug_log_message("fetching a saved search");
             $properties = array('name', 'description', 'query', 'form_values');
-            $rows[$properties] = $result->$property;
+            foreach ($properties as $property) {
+                $row[$property] = $ssDAO->$property;
+            }
+            $rows[] = $row;
         }
         CRM_Error::debug_var('rows', $rows);
+        $this->assign($rows);
     }
 }
 ?>
