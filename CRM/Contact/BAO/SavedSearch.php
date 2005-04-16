@@ -24,6 +24,7 @@
 
 /**
  *
+ *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo 01/15/2005
@@ -31,47 +32,28 @@
  *
  */
 
-require_once 'CRM/Page.php';
-require_once 'CRM/Contact/DAO/SavedSearch.php';
+require_once 'CRM/DAO/SavedSearch.php';
 
-class CRM_Contact_Page_SavedSearch extends CRM_Page {
-
-    /**
-     * constants for various modes that the page can operate as
-     *
-     * @var const int
-     */
-    const MODE_NONE = 0;
-
-    /**
-     * class constructor
-     *
-     * @param string $name  name of the page
-     * @param string $title title of the page
-     * @param int    $mode  mode of the page
-     *
-     * @return CRM_Page
-     */
-    function __construct( $name, $title = null, $mode = null ) {
-        parent::__construct($name, $title, $mode);
+class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch 
+{
+    function __construct()
+    {
+        parent::__construct();
     }
 
-    function run( ) {
-        if ($this->_mode == self::MODE_NONE) {
-            $this->runModeNone( );
-        }
-        return parent::run( );
-    }
-
-    function runModeNone( ) {
-        $rows = array();
-        $ssDAO = new CRM_Contact_Page_SavedSearch();
-        $result = $ssDAO->find();
-        while ($result->fetch()) {
-            $properties = array('name', 'description', 'query', 'form_values');
-            $rows[$properties] = $result->$property;
-        }
-        CRM_Error::debug_var('rows', $rows);
+    /**
+     * query the db for all saved searches.
+     *
+     * @param boolean $count is this query used for counting rows only ?
+     *
+     * @return none
+     *
+     * @access public
+     */
+    function getAll($count=FALSE)
+    {
+        CRM_Error::le_method();
+        CRM_Error::ll_method();
     }
 }
 ?>
