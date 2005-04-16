@@ -195,6 +195,22 @@ class CRM_SelectValues {
                                        );
     
 
+    /**
+        * various pre defined contact super types
+     * @var array
+     * @static
+     */
+    public static $extPropertyDataType = array(
+                                       ''           => '-select-',
+                                       'String'     => 'Text',
+                                       'Int'        => 'Integer',
+                                       'Float'      => 'Decimal Number',
+                                       'Money'      => 'Money',
+                                       'Text'       => 'Memo',
+                                       'Date'       => 'Date',
+                                       'Boolean'    => 'Yes/No',
+                                       );
+    
 
 
     /**

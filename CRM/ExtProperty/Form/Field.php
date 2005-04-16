@@ -59,15 +59,28 @@ class CRM_ExtProperty_Form_Field extends CRM_Form {
      *
      * @return None
      * @access public
+     title varchar(64)    COMMENT 'Friendly Name.',
+     description varchar(255)    COMMENT 'Property description (verbose).',
+     data_type enum('String', 'Int', 'Float', 'Money', 'Text', 'Date', 'Boolean')    COMMENT 'Controls location of data storage in extended_data table.',
+     is_required boolean    COMMENT 'Is a value required for this property.',
+     is_active boolean    COMMENT 'Is this property active?',
+     validation_id int unsigned NOT NULL   COMMENT 'FK to crm_validation.' 
+     
      */
     public function buildQuickForm( ) {
-        $this->add( 'text', 'title'      , 'Group Name', CRM_DAO::getAttribute( 'CRM_DAO_ExtPropertyGroup', 'title'       ), true );
-        $this->add( 'text', 'description', 'Group Description', CRM_DAO::getAttribute( 'CRM_DAO_ExtPropertyGroup', 'description' ), true );
-        $this->addElement( 'checkbox', 'is_active', 'Status' );
+        $this->add( 'text', 'title'      , 'Field Name', CRM_DAO::getAttribute( 'CRM_DAO_ExtProperty', 'title'       ), true );
+        $this->add( 'text', 'description', 'Description', CRM_DAO::getAttribute( 'CRM_DAO_ExtProperty', 'description' ), true );
+        $this->addElement('select',
+                          'data_type',
+                          'Data Type',
+                          CRM_SelectValues::$extPropertyDataType);
+        
+        $this->addElement( 'checkbox', 'is_required', 'Required?' );
+        $this->addElement( 'checkbox', 'is_active', 'Active?' );
         
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Continue',
+                                         'name'      => 'Save',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'reset',
                                          'name'      => 'Reset'),
