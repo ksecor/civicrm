@@ -293,12 +293,20 @@ function civicrm_menu($may_cache)
                          'weight' => 1
                          );
         
-        $items[] = array(
+       $items[] = array(
                          'path'  => 'civicrm/import',
                          'title' => t('Import Contacts'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 2
+                         );
+
+        $items[] = array(
+                         'path'  => 'civicrm/extproperty',
+                         'title' => t('Browse Extended Properties'),
+                         'qs'     => 'reset=1',
+                         'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 3
                          );
   
      }
@@ -362,13 +370,25 @@ function civicrm_invoke()
         return;
     }
   
+    //  import wizard
+    if (arg(1) == 'extproperty') {
+	    $wrapper = new CRM_Wrapper();
+        if ( arg(2) == 'group' ) {
+            $wrapper->run('CRM_ExtProperty_Form_Group', 'Extended Properties Group', 0,
+                          CRM_System::url( 'civicrm/extproperty/group', 'reset=1' ) );
+        } else {
+            $wrapper->run('CRM_ExtProperty_Form_Field', 'Extended Property', 0,
+                          CRM_System::url( 'civicrm/extproperty/group', 'reset=1' ) );
+        }
+        $content = $wrapper->getContent();
+        print theme('page', $content);
+    }
+  
     drupal_goto( 'civicrm/contact/search', 'reset=1' );
 }
 
 function civicrm_contact_invoke() 
 {
-
-    CRM_Error::le_method();
 
     $content = "";
 
@@ -430,9 +450,6 @@ function civicrm_contact_invoke()
             $content .= 'Please select a valid contact id to edit - ' . arg(3) . ' is not a valid contact id';
         }
     }
-
-    CRM_Error::ll_method();
-
     print theme('page', $content);
     
 } // end of function civicrm_invoke

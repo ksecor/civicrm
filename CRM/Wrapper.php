@@ -84,7 +84,6 @@ class CRM_Wrapper
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
 
-
         // store the return url. Note that this is typically computed by the framework at runtime
         // based on multiple things (typically where the link was clicked from / http_referer
         // since we are just starting and figuring out navigation, we are hard coding it here
