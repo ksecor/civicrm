@@ -39,7 +39,7 @@ require_once 'CRM/Form.php';
  * This class generates form components for groupContact
  * 
  */
-class CRM_GroupContact_Form_GroupContact extends CRM_Form
+class CRM_Contact_Form_GroupContact extends CRM_Form
 {
 
     /**
@@ -64,7 +64,7 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
      * @param string $state       The state object associated with this form
      * @param int    $mode        The mode of the form
      *
-     * @return CRM_GroupContact_Form_GroupContact
+     * @return CRM_Contact_Form_GroupContact
      * @access public
      */
     function __construct($name, $state, $mode = self::MODE_NONE) 
@@ -183,7 +183,7 @@ class CRM_GroupContact_Form_GroupContact extends CRM_Form
     /**
      * This function is to get list of all the groups
      *
-     * param  bolean $lngStatus true give the list of groups for contact. false gives all the groups
+     * @param  boolean $lngStatus true give the list of groups for contact. false gives all the groups
      *
      * @access public
      * @return None

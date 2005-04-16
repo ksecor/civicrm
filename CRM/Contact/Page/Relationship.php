@@ -171,7 +171,7 @@ class CRM_Contact_Page_Relationship {
 
     static function edit( $page, $mode, $relationshipId = null ) {
 
-        $controller = new CRM_Controller_Simple( 'CRM_Relationship_Form_Relationship', 'Contact Relationships', $mode );
+        $controller = new CRM_Controller_Simple( 'CRM_Contact_Form_Relationship', 'Contact Relationships', $mode );
 
         // set the userContext stack
         $session = CRM_Session::singleton();

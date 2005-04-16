@@ -73,7 +73,7 @@ class CRM_Contact_Page_GroupContact {
 
     static function edit( $page, $mode, $groupId = null ) {
 
-        $controller = new CRM_Controller_Simple( 'CRM_GroupContact_Form_GroupContact', 'Contact GroupContacts', $mode );
+        $controller = new CRM_Controller_Simple( 'CRM_Contact_Form_GroupContact', 'Contact GroupContacts', $mode );
 
         // set the userContext stack
         $session = CRM_Session::singleton();

@@ -39,7 +39,7 @@ require_once 'CRM/Form.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Relationship_Form_Relationship extends CRM_Form
+class CRM_Contact_Form_Relationship extends CRM_Form
 {
 
     /**
@@ -64,7 +64,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
      * @param string $state       The state object associated with this form
      * @param int     $mode       The mode of the form
      *
-     * @return CRM_Relationship_Form_Relationship
+     * @return CRM_Contact_Form_Relationship
      * @access public
      */
     function __construct($name, $state, $mode = self::MODE_NONE) 
@@ -212,7 +212,7 @@ class CRM_Relationship_Form_Relationship extends CRM_Form
     /**
      * This function is to get the result of the search for contact in relationship form
      *
-     * param  array $params  This contains elements for search criteria
+     * @param  array $params  This contains elements for search criteria
      *
      * @access public
      * @return None
