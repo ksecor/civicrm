@@ -167,6 +167,10 @@
 </div>
 <div class="spacer"></div>
 
+<p>
+Fetching {$session->get('qill')}
+<p>
+
 {if $rowsEmpty}
 
     {* No matches for search criteria *}

@@ -25,6 +25,11 @@
 </fieldset>
 {* END Browse Criteria section *}
 
+<p>
+Fetching {$session->get('qill')}
+<p>
+
+
 {if $rowsEmpty}
     {* No matches for submitted search request.*}
     <div class="messages status">

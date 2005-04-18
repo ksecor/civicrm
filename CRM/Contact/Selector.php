@@ -232,7 +232,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         $result = $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort);
 
         $rows = array( );
-        while ( $result->fetch( ) ) {
+        while ($result->fetch( )) {
             $row = array();
 
             static $properties = array( 'contact_id', 'sort_name', 'street_address',
