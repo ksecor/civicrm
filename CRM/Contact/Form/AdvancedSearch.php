@@ -85,8 +85,8 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
         // checkboxes for categories
         $cb_category = array();
         $category = CRM_PseudoConstant::getCategory();
-        foreach ($category as $categoryID => $categoryDetail) {
-            $cb_category[] = $this->addElement('checkbox', "cb_category[$categoryID]", null, $categoryDetail['name']);
+        foreach ($category as $categoryID => $categoryName) {
+            $cb_category[] = $this->addElement('checkbox', "cb_category[$categoryID]", null, $categoryName);
         }
 
         // add text box for last name, first name, street name, city
@@ -117,10 +117,9 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Form {
             $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
         }
         $this->addGroup($cb_location_type, 'cb_location_type', 'Include these locations', '&nbsp;');
-
+        
         // checkbox for primary location only
         $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
-
 
         // add components for saving the search
         $this->addElement('checkbox', 'cb_ss', null, 'Save Search ?');

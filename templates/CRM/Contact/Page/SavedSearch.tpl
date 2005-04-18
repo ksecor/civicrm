@@ -1,4 +1,4 @@
-{debug}
+{* {debug} *}
 List of Saved Searches. <p>
 <table>
   <tr><td>Name</td><td>Description</td></tr>

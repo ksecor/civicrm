@@ -329,18 +329,14 @@ class CRM_PseudoConstant {
             self::$category = array();
             $categoryDAO = new CRM_Contact_DAO_Category();
             $categoryDAO->selectAdd();
-            $categoryDAO->selectAdd('id, name, parent_id');
+            $categoryDAO->selectAdd('id, name');
             $categoryDAO->find();
             while($categoryDAO->fetch()) {
-                self::$category[$categoryDAO->id] = array(
-                                                           'name' => "$categoryDAO->name",
-                                                           'parent_id' => $categoryDAO->parent_id,
-                                                           );
+                self::$category[$categoryDAO->id] = $categoryDAO->name;
             }
         }
         return self::$category;
     }
-
 
     /**
      * Get all groups from database.

@@ -107,39 +107,19 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
 
         // check for contact type restriction
-        if ($formValues['cb_contact_type']) {
-            $andArray['contact_type'] = "(contact_type IN (";
-            foreach ($formValues['cb_contact_type']  as $k => $v) {
-                $andArray['contact_type'] .= "'$k',"; 
-            }            
-            // replace the last comma with the parentheses.
-            $andArray['contact_type'] = rtrim($andArray['contact_type'], ",");
-            $andArray['contact_type'] .= "))";
+        if ($formValues['contact_type'] != 'any') {
+            $andArray['contact_type'] = "contact_type = '" . $formValues['contact_type'] . "'";
         }
         
         // check for group restriction
-        if ($formValues['cb_group']) {
-            $andArray['group'] = "(group_id IN (";
-            foreach ($formValues['cb_group']  as $k => $v) {
-                // going with the OR case for this version
-                // i.e. it'll select all contacts who are members of group 1 OR group 2
-                // if we want all contacts who are members of group 1 AND group 2 then'll
-                // we'll have to use self joins
-                $andArray['group'] .= "$k,"; 
-            }
-            $andArray['group'] = rtrim($andArray['group'], ",");
-            $andArray['group'] .= "))";
+        if ($formValues['group'] != 'any') {
+            $andArray['group'] = "crm_group_contact.group_id = " .$formValues['group'];
             $str_from .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
         }
 
         // check for category restriction
-        if ($formValues['cb_category']) {
-            $andArray['category'] .= "(category_id IN (";
-            foreach ($formValues['cb_category'] as $k => $v) {
-                $andArray['category'] .= "$k,"; 
-            }
-            $andArray['category'] = rtrim($andArray['category'], ",");
-            $andArray['category'] .= "))"; 
+        if ($formValues['category'] != 'any') {
+            $andArray['category'] .= "crm_entity_category.category_id = " . $formValues['category'];
             $str_from .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
         }
 
@@ -363,7 +343,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
 
         if ($formValues['cb_location_type']) {
-            CRM_Error::debug_log_message("cb_location_type is set");
+            //CRM_Error::debug_log_message("cb_location_type is set");
             // processing for location type - check if any locations checked
             // if (!$formValues['cb_location_type']['any']) {
             if (!$formValues['cb_location_type']['any']) {
@@ -391,8 +371,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $str_where .= " AND ($v) ";
         }
 
-        // skip the following for now
-        // last_name, first_name, street_name, city, state_province, country, postal_code, postal_code_low, postal_code_high
         $str_where = preg_replace("/AND|OR/", "WHERE", $str_where, 1);
 
         if(!$count) {
@@ -413,17 +391,18 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             CRM_Error::debug_log_message("cb_ss is set");            
             CRM_Error::debug_log_message("saving search");            
             // save the search
-            $savedSearchDAO = new CRM_Contact_DAO_SavedSearch();
-            $savedSearchDAO->domain_id = 1;   // hack for now
-            $savedSearchDAO->name = $formValues['ss_name'];
-            $savedSearchDAO->description = $formValues['ss_description'];
-            $savedSearchDAO->query = $query_string;
+            $savedSearchBAO = new CRM_Contact_BAO_SavedSearch();
+            $savedSearchBAO->domain_id = 1;   // hack for now
+            $savedSearchBAO->name = $formValues['ss_name'];
+            $savedSearchBAO->description = $formValues['ss_description'];
+            $savedSearchBAO->query = $query_string;
+            $savedSearchBAO->form_values = serialize($formValues);
+            //$savedSearchBAO->search_criteria = $savedSearchBAO->convertToEnglish($formValues);
+            $englishString = $savedSearchBAO->convertToEnglish($formValues);
 
-            $serialFormValues = serialize($formValues);
-            CRM_Error::debug_var('serialFormValues', $serialFormValues);
-
-            $savedSearchDAO->form_values = serialize($formValues);
-            $savedSearchDAO->insert();
+            CRM_Error::debug_var('englishString', $englishString);
+            
+            //$savedSearchBAO->insert();
         }
         return $this;
     }

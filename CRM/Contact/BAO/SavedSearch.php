@@ -32,7 +32,7 @@
  *
  */
 
-require_once 'CRM/DAO/SavedSearch.php';
+require_once 'CRM/Contact/DAO/SavedSearch.php';
 
 class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch 
 {
@@ -53,6 +53,75 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
     function getAll($count=FALSE)
     {
         CRM_Error::le_method();
+        CRM_Error::ll_method();
+    }
+
+
+    /**
+     * convert form values to basic english language
+     *
+     * it checks for the following variables to build a basic english sentence
+     *
+     *     cb_contact_type, cb_group, cb_category
+     *     sort_name, street_name, city, state_province, country
+     *     postal_code, postal_code_low, postal_code_high
+     *     cb_location_type, cb_primary_location
+     *
+     * @param array() reference of the submitted form values
+     *
+     * @return string english represetation of the form values.
+     *
+     * @access public
+     */
+    function convertToEnglish(&$formValues)
+    {
+        CRM_Error::le_method();
+
+        $andArray = array();
+
+        $englishString = "Get me all ";
+
+        // check for contact type restriction
+        if ($formValues['cb_contact_type']) {
+            foreach ($formValues['cb_contact_type']  as $k => $v) {
+                $englishString .= "{$k}s, "; 
+            }            
+            // replace the last comma with the parentheses.
+            $englishString = rtrim($englishString);
+            $englishString = rtrim($englishString, ",");
+            $englishString .= " ";
+        } else {
+            $englishString .= "contacts ";
+        }
+
+
+        // check for group membership
+        if ($formValues['cb_group']) {
+            $englishString .= " who are members of group_id ";
+            foreach ($formValues['cb_group']  as $k => $v) {
+                $englishString .= "{$k}, "; 
+            }
+            // replace the last comma with the parentheses.
+            $englishString = rtrim($englishString);
+            $englishString = rtrim($englishString, ",");
+            $englishString .= " ";
+        }
+
+
+        // check for group membership
+        if ($formValues['cb_category']) {
+            $englishString .= " who are categorized as ";
+            foreach ($formValues['cb_category']  as $k => $v) {
+                $englishString .= "{$k}, "; 
+            }
+            // replace the last comma with the parentheses.
+            $englishString = rtrim($englishString);
+            $englishString = rtrim($englishString, ",");
+            $englishString .= " ";
+        }
+        
+        return $englishString;
+
         CRM_Error::ll_method();
     }
 }

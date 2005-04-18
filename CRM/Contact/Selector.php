@@ -131,11 +131,18 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function __construct(&$formValues) 
     {
+
+        CRM_Error::le_method();
+
+        CRM_Error::debug_var('formValues', $formValues);
+
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
 
         // lets store the formvalues for now
         $this->_formValues = $formValues;
+
+        CRM_Error::ll_method();
         
     }//end of constructor
 

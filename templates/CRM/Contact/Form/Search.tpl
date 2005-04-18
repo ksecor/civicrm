@@ -4,36 +4,9 @@
 {* Begin Browse Criteria section *}
 <fieldset>
  <div class="form-item">
-
-		<div class="three-col1">
-		<span class="font-size12pt">{$form.cb_contact_type.label}</span>	
-		<span class="fields">{$form.cb_contact_type.html}</span>
-		</div>
-
-		<div class="three-col2">
-		<div><label>In Group (s)</label></div>
-		<div class="listing-box">
-			{foreach from=$form.cb_group item="cb_group_val"}
-			<div class="{cycle values="odd-row,even-row"}">
-			{$cb_group_val.html}
-			</div>
-			{/foreach}
-		</div>
-		</div>
-	 
-		<div class="three-col3">
-		<span><label>In Category (s)</label></sapn>
-		<div class="listing-box">
-			{foreach from=$form.cb_category item="cb_category_val"} 
-			<div class="{cycle values="odd-row,even-row"}">
-			{$cb_category_val.html}
-			</div>
-			{/foreach}
-		</div>
-		</div>
-
-
-
+     <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
+     <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
+     <span class="element-right">{$form.category.label}{$form.category.html}</span>
  </div>
  <div class="form-item">
      <span class="horizontal-position">
@@ -76,8 +49,8 @@
          {$form.action_id.label}{$form.action_id.html} &nbsp; &nbsp; {$form.go.html}
        </span>
        <span class="element-right">Select: 
-<a onclick="changeCheckboxVals('chk','select',document.forms['Search']); return false;" title="Select All"  href="#">All</a> |
-<a onclick="changeCheckboxVals('chk','deselect',document.forms['Search']); return false;" title="Select None" href="#">None</a></span>
+<a onclick="changeCheckboxVals('chk','select'  , 'Search' ); return false;" name="select_all"  href="#">All</a> |
+<a onclick="changeCheckboxVals('chk','deselect', 'Search' ); return false;" name="select_none" href="#">None</a></span>
      </div>  
 
      <p>

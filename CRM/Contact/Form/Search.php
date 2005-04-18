@@ -35,7 +35,7 @@
  * Files required
  */
 require_once 'CRM/Form.php';
-require_once 'CRM/SelectValues.php';
+require_once 'CRM/PseudoConstant.php';
 require_once 'CRM/Selector/Controller.php';
 require_once 'CRM/Contact/Selector.php';
 
@@ -68,26 +68,23 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        // add checkboxes for contact type
-        $cb_contact_type = array( );
-        foreach (CRM_PseudoConstant::$contactType as $key => $value) {
-            $cb_contact_type[] = HTML_QuickForm::createElement('checkbox', $key, null, $value);
-        }
-        $this->addGroup($cb_contact_type, 'cb_contact_type', 'Show Me....', '<br />');
+        
+        CRM_Error::le_method();
 
-        // checkboxes for groups
-        $cb_group = array();
+        // add select for contact type
+        $contactType = CRM_PseudoConstant::$contactType;
+        $contactType = array('any' => ' - any contact - ') + $contactType;
+        $this->add('select', 'contact_type', 'Show me.... ', $contactType);
+
+        // add select for groups
         $group = CRM_PseudoConstant::getGroup();
-        foreach ($group as $groupID => $groupName) {
-            $this->addElement('checkbox', "cb_group[$groupID]", null, $groupName);
-        }
+        $group = array('any' => ' - any group - ') + $group;
+        $this->add('select', 'group', 'in', $group);
 
-        // checkboxes for categories
-        $cb_category = array();
+        // add select for categories
         $category = CRM_PseudoConstant::getCategory();
-        foreach ($category as $categoryID => $categoryDetail) {
-            $cb_category[] = $this->addElement('checkbox', "cb_category[$categoryID]", null, $categoryDetail['name']);
-        }
+        $category = array('any' => ' - any category - ') + $category;
+        $this->add('select', 'category', 'Category', $category);
 
         // text for sort_name
         $this->add('text', 'sort_name', 'Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
@@ -114,7 +111,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
          * added one extra button, this is needed as per the design of the action form
          */
         $this->add('submit', 'go', 'Go');
-        
+
+        CRM_Error::ll_method();
+
     }
 
 

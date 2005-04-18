@@ -1,0 +1,22 @@
+Saved Search User Interface and Logic.
+
+Search Tabs:
+- Basic Search
+- Advanced Search
+- Browse Saved Search
+
+Browse Saved Searches.
+This operation will be displayed as a tab - "Browse Saved Search"
+It will use a selector / pager to display list of saved searches.
+Fields displayed will be
+
+Name:
+Description:
+formValues (converted to basic english):
+links for [run], [remove], [edit].
+
+The 'run' link will execute the Saved Search query.
+'remove' will delete it from database
+'edit' will open the edit form.
+
+(currently there is no search area in this tab for searching "saved searches" but it will be implemented in future)
