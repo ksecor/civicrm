@@ -161,6 +161,13 @@ function civicrm_menu($may_cache)
                          'title' => t('Contact Settings'),
                          'type'   => MENU_LOCAL_TASK
                          );
+
+        $items[] = array(
+                         'path'  => 'admin/contact/locType',
+                         'title' => t('Location Type'),
+                         'type'   => MENU_LOCAL_TASK
+                         );
+
         
         $items[] = array(
                          'path'  => 'civicrm',
@@ -343,7 +350,15 @@ function civicrm_init()
  */
 function civicrm_admin_invoke() 
 {
-    $content = "the contact administrator invoked $operation";
+    //$content = "the contact administrator invoked $operation";
+    $content = "";
+
+    // location type
+    if (arg(2) == 'locType') {
+        $view = new CRM_LocationType_Page_LocationType( 'View LocationType' );
+        $content .= $view->run( );
+    }
+
     print theme('page', $content);
 }
 
