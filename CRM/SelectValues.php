@@ -196,22 +196,39 @@ class CRM_SelectValues {
     
 
     /**
-        * various pre defined contact super types
+     * Extended property (custom field) data types
      * @var array
      * @static
      */
     public static $extPropertyDataType = array(
-                                       ''           => '-select-',
-                                       'String'     => 'Text',
-                                       'Int'        => 'Integer',
-                                       'Float'      => 'Decimal Number',
-                                       'Money'      => 'Money',
-                                       'Text'       => 'Memo',
-                                       'Date'       => 'Date',
-                                       'Boolean'    => 'Yes/No',
-                                       );
+                                               ''           => '-select-',
+                                               'String'     => 'Text',
+                                               'Int'        => 'Integer',
+                                               'Float'      => 'Decimal Number',
+                                               'Money'      => 'Money',
+                                               'Text'       => 'Memo',
+                                               'Date'       => 'Date',
+                                               'Boolean'    => 'Yes/No',
+                                               );
     
-
+    /**
+     * Custom form field types
+     * @var array
+     * @static
+     */
+    public static $formFieldType = array(
+                                               ''                        => '-select-',
+                                               'Text'                    => 'Single-line input field (text or numeric)',
+                                               'TextArea'                => 'Multi-line text box (textarea)',
+                                               'Select'                  => 'Drop-down (select list)',
+                                               'Radio'                   => 'Radio buttons',
+                                               'Checkbox'                => 'Checkbox(es)',
+                                               'Select Date'             => 'Date selector',
+                                               'Select State / Province' => 'State / Province selector',
+                                               'Select Country'          => 'Country selector',
+                                               );
+    
+    
 
     /**
      * Get all the location types from database.
