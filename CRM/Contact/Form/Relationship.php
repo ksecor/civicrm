@@ -201,9 +201,8 @@ class CRM_Contact_Form_Relationship extends CRM_Form
 
         $relationship = CRM_Contact_BAO_Relationship::create( $params, $ids );
 
-        $session = CRM_Session::singleton( );
         if ($relationship->id) {
-            $session->setStatus( 'Your relationship record has been saved' );
+            CRM_Session::setStatus( 'Your relationship record has been saved' );
         }
 
     }//end of function

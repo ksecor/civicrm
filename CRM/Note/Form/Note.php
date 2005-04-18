@@ -94,7 +94,6 @@ class CRM_Note_Form_Note extends CRM_Form
      */
     function setDefaultValues( ) {
         $defaults = array( );
-        $params   = array( );
 
         if ( $this->_mode & self::MODE_UPDATE ) {
             if ( isset( $this->_noteId ) ) {
@@ -152,9 +151,7 @@ class CRM_Note_Form_Note extends CRM_Form
         }
         $note->save( );
 
-        $session = CRM_Session::singleton( );
-
-        $session->setStatus( "Your Note has been saved." );
+        CRM_Session::setStatus( "Your Note has been saved." );
     }//end of function
 
 

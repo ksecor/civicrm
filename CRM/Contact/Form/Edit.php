@@ -301,7 +301,7 @@ class CRM_Contact_Form_Edit extends CRM_Form
         $config  = CRM_Config::singleton( );
         $session = CRM_Session::singleton( );
 
-        $session->setStatus( 'Your ' . $contact->contact_type . ' contact record has been saved' );
+        CRM_Session::setStatus( 'Your ' . $contact->contact_type . ' contact record has been saved' );
 
         $session->replaceUserContext( CRM_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ) );
     }//end of function

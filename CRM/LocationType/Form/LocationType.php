@@ -84,13 +84,13 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
 
         if ( $this->_mode & self::MODE_UPDATE ) {
             if ( isset( $this->_locationTypeId ) ) {
-                $locType = new CRM_Contact_DAO_LocationType();
+                $locationType = new CRM_Contact_DAO_LocationType();
                 
-                $locType->id = $this->_locationTypeId;
-                $locType->find(true);
+                $locationType->id = $this->_locationTypeId;
+                $locationType->find(true);
                 
-                $defaults['name'] = $locType->name;
-                $defaults['description'] = $locType->description;
+                $defaults['name'] = $locationType->name;
+                $defaults['description'] = $locationType->description;
             }
         }
 
@@ -104,9 +104,10 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
      * @access public
      */
     public function buildQuickForm( ) {
-
-        $this->add('text', 'name', 'Name:');
-        $this->add('textarea', 'description', 'Description:', array('rows' => 4, 'cols' => '82',));    
+        $this->add('text', 'name'       , 'Name'       ,
+                   CRM_DAO::getAttributes( 'CRM_Contact_DAO_LocationType', 'name' ) );
+        $this->add('text', 'description', 'Description', 
+                   CRM_DAO::getAttributes( 'CRM_Contact_DAO_LocationType', 'description' ) );
         
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -131,22 +132,20 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
-        $locType               = new CRM_Contact_DAO_LocationType( );
-        $locType->domain_id    = 1;
-        $locType->name         = $params['name'];
-        $locType->description  = $params['description'];
+        $locationType               = new CRM_Contact_DAO_LocationType( );
+        $locationType->domain_id    = 1;
+        $locationType->name         = $params['name'];
+        $locationType->description  = $params['description'];
 
         if ($this->_mode & self::MODE_UPDATE ) {
-            $locType->id = $this->_locationTypeId;
+            $locationType->id = $this->_locationTypeId;
         }else {
-            $locType->is_active    = 1;        
+            $locationType->is_active    = 1;        
         }
 
-        $locType->save( );
+        $locationType->save( );
 
-        $session = CRM_Session::singleton( );
-
-        $session->setStatus( " Location Type has been saved." );
+        CRM_Session::setStatus( 'The Location Type ' . $locationType->name . ' has been saved.' );
     }//end of function
 
 

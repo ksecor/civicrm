@@ -20,6 +20,10 @@ if ( ! defined(CRM_MAINMENU) ) {
   define( 'CRM_MAINMENU', '/drupal/' );
 }
 
+if ( ! defined( JPSPAN ) ) {
+    define( JPSPAN, $user_home . DIRECTORY_SEPARATOR . packages . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR );
+}
+
 // drupal specific code
 if ( function_exists( 'variable_get' ) && ( variable_get('clean_url', '0') != '0' ) ) {
     define( 'CRM_CLEANURL', 1 );

@@ -367,10 +367,11 @@ class CRM_Session {
      *
      * @param $status string the status message
      *
+     * @static
      * @return void
      */
-    function setStatus( $status ) {
-        $this->_session[$this->_key]['status'] = $status;
+    static function setStatus( $status ) {
+        self::$_singleton->_session[$this->_key]['status'] = $status;
     }
 
 }

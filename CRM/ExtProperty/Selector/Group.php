@@ -37,18 +37,13 @@ require_once 'CRM/Sort.php';
 require_once 'CRM/Selector/Base.php';
 require_once 'CRM/Selector/API.php';
 require_once 'CRM/Form.php';
-require_once 'CRM/Contact/BAO/Contact.php';
-
 
 /**
  * This class is used to retrieve and display a range of
- * contacts that match the given criteria
- *
- * This class is a generic class and should be used by any / all
- * objects that requires contacts to be selectively listed (list / search)
+ * groups that belong to a domain
  *
  */
-class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API 
+class CRM_ExtProperty_Selector_Group extends CRM_Selector_Base implements CRM_Selector_API 
 {
     /**
      * This defines two actions- View and Edit.
@@ -56,71 +51,46 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @var array
      */
     static $_links = array(
-                           CRM_Action::VIEW => array(
-                                                     'name'  => 'View',
-                                                     'link'  => 'contact/view&id=%%id%%',
-                                                     'title' => 'View Contact',
-                                                     ),
-                           CRM_Action::EDIT => array(
-                                                     'name'  => 'Edit',
-                                                     'link'  => 'contact/edit&id=%%id%%',
-                                                     'title' => 'Edit Contact',
-                                                     ),
+                           CRM_Action::VIEW    => array(
+                                                        'name'  => 'View',
+                                                        'link'  => 'civicrm/extproperty/group?op=view&id=%%id%%',
+                                                        'title' => 'View Extended Property Group',
+                                                        ),
+                           CRM_Action::EDIT    => array(
+                                                        'name'  => 'Edit',
+                                                        'link'  => 'civicrm/extproperty/group?op=edit&id=%%id%%',
+                                                        'title' => 'Edit Extended Property Group'),
+                           CRM_Action::DISABLE => array(
+                                                        'name'  => 'Disable',
+                                                        'link'  => 'civicrm/extproperty/group?op=disable&id=%%id%%',
+                                                        'title' => 'Disable Extended Property Group',
+                                                        ),
+                           CRM_Action::LIST     => array(
+                                                         'name'  => 'List',
+                                                         'link'  => 'civicrm/extproperty/field?op=browse&gid=%%id%%',
+                                                         'title' => 'List Extended Property Group Fields',
+                                                         ),
                            );
 
     static $_columnHeaders = array(
-                                   array('name' => ''),
-                                   array('name' => ''),
-                                   array(
-                                         'name'      => 'Name',
-                                         'sort'      => 'sort_name',
+                                   array('name'      => 'Title',
+                                         'sort'      => 'title',
                                          'direction' => CRM_Sort::ASCENDING,
                                          ),
-                                   array('name' => 'Address'),
                                    array(
-                                         'name'      => 'City',
-                                         'sort'      => 'city',
-                                         'direction' => CRM_Sort::DONTCARE,
+                                         'name'      => 'Description',
                                          ),
                                    array(
-                                         'name'      => 'State',
-                                         'sort'      => 'state',
-                                         'direction' => CRM_Sort::DONTCARE,
+                                         'name'      => 'Status',
                                          ),
                                    array(
-                                         'name'      => 'Postal',
-                                         'sort'      => 'postal_code',
-                                         'direction' => CRM_Sort::DONTCARE,
+                                         'name'      => 'Used For',
                                          ),
                                    array(
-                                         'name'      => 'Country',
-                                         'sort'      => 'country',
-                                         'direction' => CRM_Sort::DONTCARE,
+                                         'name'      => '',
                                          ),
-                                   array(
-                                         'name'      => 'Email',
-                                         'sort'      => 'email',
-                                         'direction' => CRM_Sort::DONTCARE,
-                                         ),
-                                   array('name' => 'Phone'),
-                                   array('name' => ''),
                                    );
     
-    /**
-     * This caches the content for the display system.
-     *
-     * @var string
-     */
-    protected $_contact;
-
-    /**
-     * formValues is the array returned by exportValues called on
-     * the HTML_QuickForm_Controller for that page.
-     *
-     * @var array
-     */
-    protected $_formValues;
-
     /**
      * Class constructor
      *
@@ -129,23 +99,14 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$formValues) 
+    function __construct( )
     {
-
-        //object of BAO_Contact_Individual for fetching the records from db
-        $this->_contact = new CRM_Contact_BAO_Contact();
-
-        // lets store the formvalues for now
-        $this->_formValues = $formValues;
+        $this->_group = new CRM_DAO_ExtPropertyGroup( );
     }//end of constructor
 
 
     /**
      * This method returns the links that are given for each search row.
-     * currently the links added for each row are 
-     * 
-     * - View
-     * - Edit
      *
      * @param none
      *
@@ -166,7 +127,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function getPagerParams($action, &$params) 
     {
-        $params['status']       = "Contact %%StatusMessage%%";
+        $params['status']       = "Extended Property Group %%StatusMessage%%";
         $params['csvString']    = null;
         $params['rowCount']     = CRM_Pager::ROWCOUNT;
 
@@ -196,11 +157,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function getTotalCount($action)
     {
-        $v1 = $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
-        $v2 = $v1->getDatabaseResult();
-        $v3 = $v2->fetchRow();
-        $count = $v3[0];
-        return $count;
+        return $this->_group->count( );
     }//end of function
 
 
@@ -217,41 +174,15 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function &getRows($action, $offset, $rowCount, $sort)
     {
-
-        $config = CRM_Config::singleton( );
-
-        $result = $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort);
+        $result = $this->_group->find( );
 
         $rows = array( );
         while ($result->fetch( )) {
-            $row = array();
-
-            static $properties = array( 'contact_id', 'sort_name', 'street_address',
-                                        'city', 'state', 'country', 'postal_code',
-                                        'email', 'phone' );
-            foreach ( $properties as $property ) {
-                $row[$property] = $result->$property;
-            }
+            $rows[$result->id] = array();
+            $result->storeValues( $rows[$result->id] );
 
             $row['edit'] = CRM_System::url( 'civicrm/contact/edit', 'reset=1&cid=' . $result->contact_id );
             $row['view'] = CRM_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $result->contact_id );
-
-            $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
-            switch ($result->contact_type) {
-            case 'Individual' :
-                $contact_type .= 'ind.png" alt="Individual">';
-                break;
-            case 'Household' :
-                $contact_type .= 'house.png" alt="Household" height="16" width="16">';
-                break;
-            case 'Organization' :
-                $contact_type .= 'org.gif" alt="Organization" height="16" width="18">';
-                break;
-
-            }
-            $row['contact_type'] = $contact_type;
-
-            $rows[] = $row;
         }
 
         return $rows;

@@ -170,13 +170,7 @@ class CRM_Contact_Form_GroupContact extends CRM_Form
         $groupContact->in_date = date("Ymd");
         $groupContact->save();
         
-        /*
-        $session = CRM_Session::singleton( );
-        if ($groupContact->id) {
-            $session->setStatus( 'Your Group(s) record has been saved.' );
-        }
-        */
-
+        CRM_Session::setStatus( 'Your Group(s) record has been saved.' );
     }//end of function
 
 

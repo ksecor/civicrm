@@ -197,6 +197,7 @@ class CRM_SelectValues {
 
     /**
      * Extended property (custom field) data types
+     *
      * @var array
      * @static
      */
@@ -229,6 +230,21 @@ class CRM_SelectValues {
                                                );
     
     
+    /**
+     * various pre defined extensions for dynamic properties and groups
+     *
+     * @var array
+     * @static
+     */
+    public static $extPropertyGroupsExtends = array(
+                                                    'Contact'      => 'Contact',
+                                                    'Individual'   => 'Individual',
+                                                    'Household'    => 'Household',
+                                                    'Organization' => 'Organization',
+                                                    'Location'     => 'Location',
+                                                    'Address'      => 'Address'
+                                                    );
+                                                    
 
     /**
      * Get all the location types from database.

@@ -50,9 +50,12 @@ class CRM_Action {
     const
         CREATE        =     1,
         VIEW          =     2,
-        UPDATE        =     4,
-        DELETE        =     8,
-        EXPORT        =    16;
+        LIST          =     4,
+        UPDATE        =     8,
+        DELETE        =    16,
+        ENABLE        =    32,
+        DISABLE       =    64,
+        EXPORT        =   128;
   
     /**
      * map the action names to the relevant constant. We perform

@@ -39,6 +39,13 @@ require_once 'CRM/Form.php';
 class CRM_ExtProperty_Form_Group extends CRM_Form {
 
     /**
+     * the group id saved to the session for an update
+     *
+     * @var int
+     */
+    protected $_groupId;
+
+    /**
      * class constructor
      */
     function __construct($name, $state, $mode = self::MODE_NONE) {
@@ -52,6 +59,7 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
      * @access public
      */
     public function preProcess( ) {
+        $this->_groupId = $this->get( 'groupId' );
     }
 
     /**
@@ -61,8 +69,11 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->add( 'text', 'title'      , 'Group Name', CRM_DAO::getAttribute( 'CRM_DAO_ExtPropertyGroup', 'title'       ), true );
-        $this->add( 'text', 'description', 'Group Description', CRM_DAO::getAttribute( 'CRM_DAO_ExtPropertyGroup', 'description' ), true );
+        $this->add( 'text'  , 'title'      , 'Group Name',
+                    CRM_DAO::getAttribute( 'CRM_DAO_ExtPropertyGroup', 'title'       ), true );
+        $this->add( 'text'  , 'description', 'Group Description',
+                    CRM_DAO::getAttribute( 'CRM_DAO_ExtPropertyGroup', 'description' ), true );
+        $this->add( 'select', 'extends', 'Used For', CRM_SelectValues::$extPropertyGroupExtends );
         $this->addElement( 'checkbox', 'is_active', 'Is this Extended Property Group active?' );
         
         $this->addButtons( array(
@@ -79,10 +90,26 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
 
     /**
      * Process the form
-     *     * @return void
+     *
+     * @return void
      * @access public
      */
     public function postProcess( ) {
+        $params = $this->controller->exportValues( 'Group' );
+
+        $group = new CRM_DAO_ExtPropertyGroup( );
+        $group->name        = $params['name'];
+        $group->title       = $params['title'];
+        $group->description = $params['description'];
+        $group->extends     = $params['extends'];
+        $group->is_active   = CRM_Array::value( 'is_active', $params, false );
+
+        if ( $this->_mode & self::MODE_UPDATE ) {
+            $group->id = $this->_groupId;
+        }
+        $group->save( );
+
+        CRM_Session::setStatus( 'Your Group ' . $group->name . ' has been saved' );
     }
 
 }
