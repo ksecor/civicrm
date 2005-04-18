@@ -35,7 +35,7 @@
 	</div>
 	{/if}
 	
-	{include file="CRM/GroupContact/Form/GroupContact.tpl"}	
+	{include file="CRM/Contact/Form/GroupContact.tpl"}	
 
        	{if $groupPending }
 	<div class="form-item">

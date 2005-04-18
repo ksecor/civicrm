@@ -24,7 +24,7 @@
 </div>    
 {/if}
 {elseif $op eq 'add' or $op eq 'edit'}
-{include file="CRM/Relationship/Form/Relationship.tpl"}	
+{include file="CRM/Contact/Form/Relationship.tpl"}	
 {/if}
 
 {if $relationship}
