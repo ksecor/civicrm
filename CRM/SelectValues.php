@@ -236,14 +236,14 @@ class CRM_SelectValues {
      * @var array
      * @static
      */
-    public static $extPropertyGroupsExtends = array(
-                                                    'Contact'      => 'Contact',
-                                                    'Individual'   => 'Individual',
-                                                    'Household'    => 'Household',
-                                                    'Organization' => 'Organization',
-                                                    'Location'     => 'Location',
-                                                    'Address'      => 'Address'
-                                                    );
+    public static $extPropertyGroupExtends = array(
+                                                   'Contact'      => 'Contact',
+                                                   'Individual'   => 'Individual',
+                                                   'Household'    => 'Household',
+                                                   'Organization' => 'Organization',
+                                                   'Location'     => 'Location',
+                                                   'Address'      => 'Address'
+                                                   );
                                                     
 
     /**

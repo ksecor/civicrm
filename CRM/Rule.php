@@ -27,7 +27,7 @@ require_once 'HTML/QuickForm/Rule/Email.php';
 
 class CRM_Rule {
 
-    static function name( $str ) {
+    static function title( $str ) {
     
         // check length etc
         if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > 127 ) {

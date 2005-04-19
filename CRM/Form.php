@@ -136,7 +136,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      *
      */
     function registerRules( ) {
-        static $rules = array( 'name', 'variable', 'phone', 'query', 'url', 'date', 'qfDate', 'asciiFile', 'htmlFile' );
+        static $rules = array( 'title', 'variable', 'phone', 'query', 'url', 'date', 'qfDate', 'asciiFile', 'htmlFile' );
 
         foreach ( $rules as $rule ) {
             $this->registerRule( $rule, 'callback', $rule, 'CRM_Rule' );

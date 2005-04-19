@@ -41,19 +41,19 @@ class CRM_ExtProperty_Page_Group extends CRM_Page {
     function __construct( ) {
     }
 
-    static function view( $page, $groupId ) {
+    function view( $groupId ) {
         $group = new CRM_DAO_ExtPropertyGroup( );
         $group->id = $groupId;
         if ( $group->find( true ) ) {
             $values = array( );
             $group->storeValues( $values );
-            $page->assign( 'group', $values );
+            $this->assign( 'group', $values );
         }
         
-        self::browse( $page );
+        $this->browse( );
     }
 
-    static function browse( $page ) {
+    function browse( ) {
         $group = new CRM_DAO_ExtPropertyGroup( );
 
         $values = array( );
@@ -62,10 +62,10 @@ class CRM_ExtProperty_Page_Group extends CRM_Page {
             $values[$group->id] = array( );
             $group->storeValues( $values[$group->id] );
         }
-        $page->assign( 'groups', $values );
+        $this->assign( 'groups', $values );
     }
 
-    static function edit( $page, $mode, $groupId = null ) {
+    function edit( $mode, $groupId = null ) {
         $controller = new CRM_Controller_Simple( 'CRM_ExtProperty_Form_Group', 'Extended Property Groups', $mode );
 
         // set the userContext stack
@@ -73,41 +73,34 @@ class CRM_ExtProperty_Page_Group extends CRM_Page {
         $config  = CRM_Config::singleton();
         $session->pushUserContext( $config->httpBase . 'civicrm/extproperty/group&op=browse' );
 
-        if ( ! $groupId ) {
-            $groupId = $controller->get( 'groupId' );
-        }
-
         $controller->reset( );
-        $controller->set( 'groupId'   , $groupId );
-
         $controller->process( );
         $controller->run( );
     }
 
-    static function run( $page ) {
-        $contactId = $page->getContactId( );
-        $page->assign( 'contactId', $contactId );
+    function run( ) {
+        $op = CRM_Request::retrieve( 'op', $this, false, 'browse' );
+        $this->assign( 'op', $op );
 
-        $op = CRM_Request::retrieve( 'op', $page, false, 'browse' );
-        $page->assign( 'op', $op );
+        $groupId = CRM_Request::retrieve( 'groupId', $this, false, 0 );
 
         switch ( $op ) {
         case 'view':
-            $groupId = $_GET['gid'];
-            self::view( $page, $groupId );
+            $this->view( $groupId );
             break;
 
         case 'edit':
-            $groupId = $_GET['gid'];
-            self::edit( $page, CRM_Form::MODE_UPDATE, $groupId );
+            $this->edit( CRM_Form::MODE_UPDATE, $groupId );
             break;
 
         case 'add':
-            self::edit( $page, CRM_Form::MODE_ADD );
+            $this->edit( CRM_Form::MODE_ADD );
             break;
         }
 
-        self::browse( $page );
+        $this->browse( );
+
+        return parent::run( );
     }
 
 }

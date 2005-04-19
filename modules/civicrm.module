@@ -301,16 +301,16 @@ function civicrm_menu($may_cache)
                          );
         
        $items[] = array(
-                         'path'  => 'civicrm/import',
-                         'title' => t('Import Contacts'),
+                         'path'   => 'civicrm/import',
+                         'title'  => t('Import Contacts'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 2
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/extproperty',
-                         'title' => t('Browse Extended Properties'),
+                         'path'   => 'civicrm/extproperty',
+                         'title'  => t('Browse Extended Properties'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 3
@@ -385,17 +385,17 @@ function civicrm_invoke()
         return;
     }
   
-    //  import wizard
+    // handle external properties
     if (arg(1) == 'extproperty') {
-	    $wrapper = new CRM_Wrapper();
-        if ( arg(2) == 'group' ) {
-            $wrapper->run('CRM_ExtProperty_Form_Group', 'Extended Properties Group', 0,
-                          CRM_System::url( 'civicrm/extproperty/group', 'reset=1' ) );
+        if ( arg(2) == 'group' ) {	
+            $page = new CRM_ExtProperty_Page_Group( );
+            $content = $page->run( );
         } else {
+            $wrapper = new CRM_Wrapper();
             $wrapper->run('CRM_ExtProperty_Form_Field', 'Extended Property', 0,
                           CRM_System::url( 'civicrm/extproperty/group', 'reset=1' ) );
+            $content = $wrapper->getContent();
         }
-        $content = $wrapper->getContent();
         print theme('page', $content);
     }
   

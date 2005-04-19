@@ -71,6 +71,8 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
     public function buildQuickForm( ) {
         $this->add( 'text'  , 'title'      , 'Group Name',
                     CRM_DAO::getAttribute( 'CRM_DAO_ExtPropertyGroup', 'title'       ), true );
+        $this->addRule( 'title', 'Please enter a valid name.', 'title' );
+
         $this->add( 'text'  , 'description', 'Group Description',
                     CRM_DAO::getAttribute( 'CRM_DAO_ExtPropertyGroup', 'description' ), true );
         $this->add( 'select', 'extends', 'Used For', CRM_SelectValues::$extPropertyGroupExtends );
@@ -98,18 +100,19 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
         $params = $this->controller->exportValues( 'Group' );
 
         $group = new CRM_DAO_ExtPropertyGroup( );
-        $group->name        = $params['name'];
         $group->title       = $params['title'];
+        $group->name        = CRM_String::nameToVar( $params['title'] );
         $group->description = $params['description'];
         $group->extends     = $params['extends'];
         $group->is_active   = CRM_Array::value( 'is_active', $params, false );
+        $group->domain_id   = 1;
 
         if ( $this->_mode & self::MODE_UPDATE ) {
             $group->id = $this->_groupId;
         }
         $group->save( );
 
-        CRM_Session::setStatus( 'Your Group ' . $group->name . ' has been saved' );
+        CRM_Session::setStatus( 'Your Group ' . $group->title . ' has been saved' );
     }
 
 }

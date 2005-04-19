@@ -65,7 +65,7 @@ class CRM_ExtProperty_Selector_Group extends CRM_Selector_Base implements CRM_Se
                                                         'link'  => 'civicrm/extproperty/group?op=disable&id=%%id%%',
                                                         'title' => 'Disable Extended Property Group',
                                                         ),
-                           CRM_Action::LIST     => array(
+                           CRM_Action::EXPAND  => array(
                                                          'name'  => 'List',
                                                          'link'  => 'civicrm/extproperty/field?op=browse&gid=%%id%%',
                                                          'title' => 'List Extended Property Group Fields',

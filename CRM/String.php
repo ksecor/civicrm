@@ -48,12 +48,12 @@ class CRM_String {
      * @return string (or null)
      * @static
      */
-    static function nameToVar( $name ) {
-        if ( ! CRM_Rule::name( $name ) ) {
+    static function titleToVar( $title ) {
+        if ( ! CRM_Rule::title( $title ) ) {
             return null;
         }
 
-        $variable = CRM_String::munge( $name );
+        $variable = CRM_String::munge( $title );
 
         if ( CRM_Rule::variable( $variable ) ) {
             return $variable;

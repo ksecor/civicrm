@@ -50,7 +50,7 @@ class CRM_Action {
     const
         CREATE        =     1,
         VIEW          =     2,
-        LIST          =     4,
+        EXPAND        =     4,
         UPDATE        =     8,
         DELETE        =    16,
         ENABLE        =    32,
