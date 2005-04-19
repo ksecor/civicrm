@@ -25,10 +25,11 @@
 </fieldset>
 {* END Browse Criteria section *}
 
+{if $session->get('qill')}
 <p>
 Fetching {$session->get('qill')}
 <p>
-
+{/if}
 
 {if $rowsEmpty}
     {* No matches for submitted search request.*}
