@@ -35,18 +35,14 @@
 require_once 'CRM/Form.php';
 
 /**
- * This class generates form components generic to note
+ * This class generates form components for Location Type
  * 
- * It delegates the work to lower level subclasses and integrates the changes
- * back in. It also uses a lot of functionality with the CRM API's, so any change
- * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
- *
  */
-class CRM_LocationType_Form_LocationType extends CRM_Form
+class CRM_Admin_Form_LocationType extends CRM_Form
 {
     
     /**
-     * The note id, used when editing the note
+     * The location type id, used when editing location type
      *
      * @var int
      */
@@ -59,7 +55,7 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
      * @param string $state       The state object associated with this form
      * @param int     $mode       The mode of the form
      *
-     * @return CRM_LocationType_Form_LocationType
+     * @return CRM_Admin_Form_LocationType
      * @access public
      */
     function __construct($name, $state, $mode = self::MODE_NONE) {

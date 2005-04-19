@@ -35,31 +35,27 @@
 require_once 'CRM/Form.php';
 
 /**
- * This class generates form components generic to note
+ * This class generates form components generic to Mobile provider
  * 
- * It delegates the work to lower level subclasses and integrates the changes
- * back in. It also uses a lot of functionality with the CRM API's, so any change
- * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
- *
  */
-class CRM_LocationType_Form_LocationType extends CRM_Form
+class CRM_Admin_Form_MobileProvider extends CRM_Form
 {
     
     /**
-     * The note id, used when editing the note
+     * The mobile provider id, used when editing mobile provider
      *
      * @var int
      */
-    protected $_locationTypeId;
+    protected $_MobileProviderId;
 
     /**
      * class constructor
      *
      * @param string $name        Name of the form.
      * @param string $state       The state object associated with this form
-     * @param int     $mode       The mode of the form
+     * @param int    $mode        The mode of the form
      *
-     * @return CRM_LocationType_Form_LocationType
+     * @return CRM_Admin_Form_MobileProvider
      * @access public
      */
     function __construct($name, $state, $mode = self::MODE_NONE) {
@@ -67,11 +63,11 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
     }
 
     function preProcess( ) {
-        $this->_locationTypeId    = $this->get( 'locationTypeId' );
+        $this->_MobileProviderId    = $this->get( 'MobileProviderId' );
     }
 
     /**
-     * This function sets the default values for the form. LocationType that in edit/view mode
+     * This function sets the default values for the form. MobileProvider that in edit/view mode
      * the default values are retrieved from the database
      * 
      * @access public
@@ -81,16 +77,14 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
         $defaults = array( );
         $params   = array( );
 
-
         if ( $this->_mode & self::MODE_UPDATE ) {
-            if ( isset( $this->_locationTypeId ) ) {
-                $locationType = new CRM_Contact_DAO_LocationType();
+            if ( isset( $this->_MobileProviderId ) ) {
+                $MobileProvider = new CRM_DAO_MobileProvider();
                 
-                $locationType->id = $this->_locationTypeId;
-                $locationType->find(true);
+                $MobileProvider->id = $this->_MobileProviderId;
+                $MobileProvider->find(true);
                 
-                $defaults['name'] = $locationType->name;
-                $defaults['description'] = $locationType->description;
+                $defaults['name'] = $MobileProvider->name;
             }
         }
 
@@ -105,10 +99,8 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
      */
     public function buildQuickForm( ) {
         $this->add('text', 'name'       , 'Name'       ,
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
-        $this->add('text', 'description', 'Description', 
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
-        
+                   CRM_DAO::getAttribute( 'CRM_DAO_MobileProvider', 'name' ) );
+             
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',
@@ -132,22 +124,17 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
-        $locationType               = new CRM_Contact_DAO_LocationType( );
-        $locationType->domain_id    = 1;
-        $locationType->name         = $params['name'];
-        $locationType->description  = $params['description'];
+        $MobileProvider               = new CRM_DAO_MobileProvider( );
+        $MobileProvider->name         = $params['name'];
 
         if ($this->_mode & self::MODE_UPDATE ) {
-            $locationType->id = $this->_locationTypeId;
-        }else {
-            $locationType->is_active    = 1;        
+            $MobileProvider->id = $this->_MobileProviderId;
         }
 
-        $locationType->save( );
+        $MobileProvider->save( );
 
-        CRM_Session::setStatus( 'The Location Type ' . $locationType->name . ' has been saved.' );
+        CRM_Session::setStatus( 'The Mobile Provider ' . $MobileProvider->name . ' has been saved.' );
     }//end of function
-
 
 }
 

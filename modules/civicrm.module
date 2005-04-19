@@ -167,7 +167,18 @@ function civicrm_menu($may_cache)
                          'title' => t('Location Type'),
                          'type'   => MENU_LOCAL_TASK
                          );
+        
+        $items[] = array(
+                         'path'  => 'admin/contact/improv',
+                         'title' => t('IM Provider'),
+                         'type'   => MENU_LOCAL_TASK
+                         );
 
+       $items[] = array(
+                         'path'  => 'admin/contact/mobprov',
+                         'title' => t('Mobile Provider'),
+                         'type'   => MENU_LOCAL_TASK
+                         );
         
         $items[] = array(
                          'path'  => 'civicrm',
@@ -349,6 +360,24 @@ function civicrm_admin_invoke()
 {
     //$content = "the contact administrator invoked $operation";
     $content = "";
+    
+    // Location Type
+    if (arg(1) == 'contact' && arg(2) == 'locType') {
+        $view = new CRM_Admin_Page_View( 'View Location Types','',CRM_Admin_Page_View::MODE_LTYPE );
+        $content .= $view->run( );
+    }
+    
+    // IM provider
+    if (arg(1) == 'contact' && arg(2) == 'improv') {
+        $view = new CRM_Admin_Page_View( 'View IM Providers','',CRM_Admin_Page_View::MODE_IM_PROVIDER );
+        $content .= $view->run( );
+    }
+
+    // Mobile provider
+    if (arg(1) == 'contact' && arg(2) == 'mobprov') {
+        $view = new CRM_Admin_Page_View( 'View Mobile Providers','',CRM_Admin_Page_View::MODE_MOB_PROVIDER );
+        $content .= $view->run( );
+    }
 
     print theme('page', $content);
 }

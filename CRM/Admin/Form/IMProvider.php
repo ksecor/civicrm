@@ -35,22 +35,18 @@
 require_once 'CRM/Form.php';
 
 /**
- * This class generates form components generic to note
+ * This class generates form components generic to IM provider
  * 
- * It delegates the work to lower level subclasses and integrates the changes
- * back in. It also uses a lot of functionality with the CRM API's, so any change
- * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
- *
  */
-class CRM_LocationType_Form_LocationType extends CRM_Form
+class CRM_Admin_Form_IMProvider extends CRM_Form
 {
     
     /**
-     * The note id, used when editing the note
+     * The IM Provider id, used when editing IM Provider
      *
      * @var int
      */
-    protected $_locationTypeId;
+    protected $_IMProviderId;
 
     /**
      * class constructor
@@ -59,7 +55,7 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
      * @param string $state       The state object associated with this form
      * @param int     $mode       The mode of the form
      *
-     * @return CRM_LocationType_Form_LocationType
+     * @return CRM_Admin_Form_IMProvider
      * @access public
      */
     function __construct($name, $state, $mode = self::MODE_NONE) {
@@ -67,11 +63,11 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
     }
 
     function preProcess( ) {
-        $this->_locationTypeId    = $this->get( 'locationTypeId' );
+        $this->_IMProviderId    = $this->get( 'IMProviderId' );
     }
 
     /**
-     * This function sets the default values for the form. LocationType that in edit/view mode
+     * This function sets the default values for the form. IMProvider that in edit/view mode
      * the default values are retrieved from the database
      * 
      * @access public
@@ -81,16 +77,14 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
         $defaults = array( );
         $params   = array( );
 
-
         if ( $this->_mode & self::MODE_UPDATE ) {
-            if ( isset( $this->_locationTypeId ) ) {
-                $locationType = new CRM_Contact_DAO_LocationType();
+            if ( isset( $this->_IMProviderId ) ) {
+                $IMProvider = new CRM_DAO_IMProvider();
                 
-                $locationType->id = $this->_locationTypeId;
-                $locationType->find(true);
+                $IMProvider->id = $this->_IMProviderId;
+                $IMProvider->find(true);
                 
-                $defaults['name'] = $locationType->name;
-                $defaults['description'] = $locationType->description;
+                $defaults['name'] = $IMProvider->name;
             }
         }
 
@@ -105,10 +99,8 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
      */
     public function buildQuickForm( ) {
         $this->add('text', 'name'       , 'Name'       ,
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
-        $this->add('text', 'description', 'Description', 
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
-        
+                   CRM_DAO::getAttribute( 'CRM_DAO_IMProvider', 'name' ) );
+             
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',
@@ -132,20 +124,16 @@ class CRM_LocationType_Form_LocationType extends CRM_Form
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
-        $locationType               = new CRM_Contact_DAO_LocationType( );
-        $locationType->domain_id    = 1;
-        $locationType->name         = $params['name'];
-        $locationType->description  = $params['description'];
+        $IMProvider               = new CRM_DAO_IMProvider( );
+        $IMProvider->name         = $params['name'];
 
         if ($this->_mode & self::MODE_UPDATE ) {
-            $locationType->id = $this->_locationTypeId;
-        }else {
-            $locationType->is_active    = 1;        
+            $IMProvider->id = $this->_IMProviderId;
         }
 
-        $locationType->save( );
+        $IMProvider->save( );
 
-        CRM_Session::setStatus( 'The Location Type ' . $locationType->name . ' has been saved.' );
+        CRM_Session::setStatus( 'The IM Provider ' . $IMProvider->name . ' has been saved.' );
     }//end of function
 
 
