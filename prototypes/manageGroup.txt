@@ -1,0 +1,117 @@
+Document that describes Group Management.
+
+Group Management will be done at the Administrative level.
+
+The menu path will be 
+"admin/contact/group" - menu normal item
+
+There will be different operations passed as get parameters to
+"admin/contact/group" to perform tasks.
+
+Example:
+"admin/contact/group" will perform browse all groups
+"admin/contact/group?op=edit&group_id=<id>" will perform the edit operation on group id <id>
+"admin/contact/group?op=member&group_id=<id>" will display membership information for group id <id>
+
+
+The managing of groups will consist of 
+
+1 - Create new groups
+      new groups are created via a form which takes the following input
+
+        - domain_id
+        - iname - internal name
+        - name
+        - description
+        - group type (static or dynamic)
+             - if group type is dynamic display an additional drop down for selecting the saved search
+               (the show hide of drop down for saved search will be done via javascript)
+        - source
+
+2 - Browsing all groups.
+    Browsing will display the following information about the groups
+
+      - name
+      - iname
+      - description (truncated)
+      - group type
+
+   there will be links after the listing for the following operations "view", "edit" and "remove".
+
+3 - Viewing / Editing.
+    During viewing and editing a single group, more details of the 
+    group are shown such as domain name, source and full description.
+
+    - for dynamic queries there will be an additional select box showing
+      the name of the saved search. also there'll be an additional button
+      for 'converting to static' which will do the following when clicked
+
+        - fire the saved search query
+        - get the resulting contact id's 
+        - add them as members of the group.
+	- change type of group to static
+        - and nullify the foreign key
+    
+    Note : Only if user clicks on button convert to static will the contact id's of the saved search 
+           be added to the table crm_group_contact.
+
+           If user changes the drop down from dynamic to static (but does not click the convert button)
+           and then clicks on update button, then in this case no queries are fired and contact id's
+           added to crm_group_contact table. only the respective fields of "group_type" and "saved_search_id"
+           are changed in the crm_group table.
+
+3 - Removing a group is provided from the link only where a javascript popup will ask for 
+    confirmation.
+
+4 - Viewing / Editing membership details of a group
+
+    - When viewing membership details care is taken for dynamic and static type of groups.
+      for dynamic groups the records displayed are a result of firing the saved search
+      whereas for static groups the records are fetched from the table crm_group_contact.
+
+    Default viewing shows only members with status = "in".
+    However, we can use a select box or check box to show 
+    members with status "in", "out", or "pending".
+
+    Membership details for a group will show the following
+
+        - Name (which will be linked to view contact)
+        - Contact Type
+	- status (with dates)
+        - Street
+        - City
+        - State
+        - Country
+        - single checkbox
+	- links for viewing/editing membership details
+   
+   The user can then select members using the checkbox and
+   perform the following actions (using a select box)
+     - change status (to 'in', 'out', 'pending')
+
+
+5 - Viewing / Editing of member of a group will consist
+    of showing complete details such as
+
+      group_id
+      contact_id
+      status_type   - drop down (in, out, pending)
+      status_date   - date box
+      status_method - drop down (web, admin, email, api)
+        
+    the above fields can be updated.
+
+
+6 - Group Statistics ???? (for later revisions and in reporting modules)
+
+       This will show the membership numbers over a period of time - graphically.
+
+
+
+Note: In order to have dynamic groups based on saved search, the schema
+      for table crm_group will have to include a foreign key saved_search_id
+      which will reference the "id" in the table crm_saved_search. saved_search_id
+      will be NULL for static queries.
+
+
+ 
