@@ -48,7 +48,7 @@ class CRM_Action {
      * @access public
      */
     const
-        CREATE        =     1,
+        ADD           =     1,
         VIEW          =     2,
         EXPAND        =     4,
         UPDATE        =     8,
@@ -69,12 +69,23 @@ class CRM_Action {
      *
      */
     static $_names = array(
-                           'create'        => CRM_Action::CREATE,
+                           'add'           => CRM_Action::ADD,
                            'view'          => CRM_Action::VIEW  ,
+                           'expand'        => CRM_Action::EXPAND,
                            'update'        => CRM_Action::UPDATE,
                            'delete'        => CRM_Action::DELETE,
+                           'enable'        => CRM_Action::ENABLE,
+                           'disable'       => CRM_Action::DISABLE,
                            'export'        => CRM_Action::EXPORT,
                            );
+
+    /**
+     * the flipped version of the names array, initialized when used
+     * 
+     * @var array
+     * @static
+     */
+    static $_description;
 
     /**
      *
@@ -157,13 +168,33 @@ class CRM_Action {
      *
      */
     static function description( $mask ) {
-        static $_description;
-        if ( ! isset( $description ) ) {
-            $description = array_flip( CRM_Action::$_names );
+        if ( ! isset( $_description ) ) {
+            self::$_description = array_flip( self::$_names );
         }
         
-        $desc = CRM_Array::value( $mask, $description );
-        return $desc ? $desc : 'NO DESCRIPTION SET';
+        return CRM_Array::value( $mask, self::$_description, 'NO DESCRIPTION SET' );
+    }
+
+    static function formLink( $links, $mask, $values ) {
+        $url = array( );
+        foreach ( $links as $m => &$link ) {
+            if ( ! $mask || ( $mask & $m ) ) {
+                $url[] = sprintf('<a href="%s">%s</a>',
+                                 CRM_System::url( $link['url'],
+                                                  self::replace( $link['qs'], $values ) ),
+                                 $link['name'] );
+            }
+        }
+        $result = '';
+        CRM_String::append( $result, '&nbsp;|&nbsp;', $url );
+        return $result;
+    }
+
+    function replace( $str, $values ) {
+        foreach ( $values as $n => $v ) {
+            $str = str_replace( "%%$n%%", $v, $str );
+        }
+        return $str;
     }
 
 }

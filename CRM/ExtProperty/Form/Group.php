@@ -43,7 +43,7 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
      *
      * @var int
      */
-    protected $_groupId;
+    protected $_id;
 
     /**
      * class constructor
@@ -59,7 +59,7 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
      * @access public
      */
     public function preProcess( ) {
-        $this->_groupId = $this->get( 'groupId' );
+        $this->_id = $this->get( 'id' );
     }
 
     /**
@@ -80,7 +80,7 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
         
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Continue',
+                                         'name'      => 'Save',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'reset',
                                          'name'      => 'Reset'),
@@ -88,6 +88,29 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
                                          'name'      => 'Cancel' ),
                                  )
                            );
+
+        if ( $this->_mode & self::MODE_VIEW ) {
+            $this->freeze( );
+        }
+    }
+
+    /**
+     * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     *
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $defaults = array( );
+
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
+            CRM_BAO_ExtPropertyGroup::retrieve( $params, $defaults );
+        } else {
+            $defaults['is_active'] = 1;
+        }
+        return $defaults;
     }
 
     /**
@@ -108,11 +131,11 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
         $group->domain_id   = 1;
 
         if ( $this->_mode & self::MODE_UPDATE ) {
-            $group->id = $this->_groupId;
+            $group->id = $this->_id;
         }
         $group->save( );
 
-        CRM_Session::setStatus( 'Your Group ' . $group->title . ' has been saved' );
+        CRM_Session::setStatus( 'Your Group "' . $group->title . '" has been saved' );
     }
 
 }

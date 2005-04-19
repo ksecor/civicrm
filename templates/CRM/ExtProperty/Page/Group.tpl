@@ -1,4 +1,4 @@
-{if $op eq 'add' or $op eq 'edit'}
+{if $op eq 'add' or $op eq 'edit' or $op eq 'view'}
 <form {$form.attributes}>
 <fieldset>
 <div class="form-item">
@@ -13,9 +13,11 @@
 <div class="form-item">
   {$form.is_active.html} {$form.is_active.label}
 </div>
+{if $op ne 'view'}
  <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
+{/if} {* $op ne view *}
 </fieldset>
 </form>
 {/if}
@@ -39,7 +41,7 @@
          <td>{$row.description}</td>
          <td>{$row.is_active}</td>
          <td>{$row.extends}</td>
-         <td>{$row.actions}</td>
+         <td>{$row.action}</td>
        </tr>
 {/foreach}
        </table>

@@ -408,7 +408,7 @@ function civicrm_invoke()
     // handle external properties
     if (arg(1) == 'extproperty') {
         if ( arg(2) == 'group' ) {	
-            $page = new CRM_ExtProperty_Page_Group( );
+            $page = new CRM_ExtProperty_Page_Group( 'Page_Group', 'Extended Property Group' );
             $content = $page->run( );
         } else {
             $wrapper = new CRM_Wrapper();
