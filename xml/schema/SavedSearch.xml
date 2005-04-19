@@ -34,6 +34,13 @@
        <comment>search name (brief)</comment>
   </field>
   <field>
+       <name>search_type</name>
+       <title>Identify form associated with saved search</title>
+       <type>int unsigned</type>
+       <import>true</import>
+       <comment>used to identify the form associated with this saved search</comment>
+  </field>
+  <field>
        <name>description</name>
        <title>Description</title>
        <type>varchar</type>
@@ -54,12 +61,5 @@
        <type>text</type>
        <import>true</import>
        <comment>Submitted form values for this search</comment>
-  </field>
-  <field>
-       <name>qill</name>
-       <title>Query in local language</title>
-       <type>text</type>
-       <import>true</import>
-       <comment>Simple local language representation of the query</comment>
   </field>
 </table>

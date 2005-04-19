@@ -440,11 +440,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $savedSearchBAO->name = $formValues['ss_name'];
             $savedSearchBAO->description = $formValues['ss_description'];
             $savedSearchBAO->query = $query_string;
+            $savedSearchBAO->form_type = CRM_PseudoConstant::CONTACT_SEARCH_ADVANCED;
             $savedSearchBAO->form_values = serialize($formValues);
-            //$savedSearchBAO->search_criteria = $savedSearchBAO->convertToEnglish($formValues);
-            //$englishString = $savedSearchBAO->convertToEnglish($formValues);
-            $savedSearchBAO->qill = $qill;
-            
             $savedSearchBAO->insert();
         }
         return $this;

@@ -36,6 +36,7 @@ require_once 'CRM/Contact/DAO/SavedSearch.php';
 
 class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch 
 {
+
     function __construct()
     {
         parent::__construct();
