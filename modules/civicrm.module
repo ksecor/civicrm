@@ -519,7 +519,7 @@ function civicrm_search()
     // advanced search
     if(arg(3) == 'advanced') {
         $wrapper = new CRM_Wrapper();
-        $wrapper->run('CRM_Contact_Form_AdvancedSearch', 'Search Contacts', CRM_Form::MODE_SEARCH,
+        $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH_ADVANCED,
                       CRM_System::url( 'civicrm/contact/search/advanced', 'reset=1' ));
         CRM_Error::ll_method();
         return $wrapper->getContent();
@@ -533,32 +533,14 @@ function civicrm_search()
         return $content;
     }
 
-
     // basic search
     $wrapper = new CRM_Wrapper();
-    $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH,
-                  CRM_System::url( 'civicrm/contact/search', 'reset=1' ) );
+    $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH_BASIC,
+                  CRM_System::url( 'civicrm/contact/search', 'reset=1' ));
     CRM_Error::ll_method();
     return $wrapper->getContent();
 
 } // end of function civicrm_search
-
-
-/**
- * Create form for advanced search options.
- *
- * Advanced search options include <b>Groups, Categories, Addresses, Email.</b>
- *
- * @param None
- *
- * @return this returns the display content
- */
-function civicrm_advanced_search() 
-{
-
-} // end of function civicrm_query
-
-
 
 /**
  *

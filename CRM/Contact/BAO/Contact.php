@@ -145,7 +145,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $session = CRM_Session::singleton();
         $session->set('qill', $qill);
 
-        CRM_Error::debug_var('session', $session);
+        //CRM_Error::debug_var('session', $session);
         
         // final AND ing of the entire query.
         foreach ($andArray as $v) {
