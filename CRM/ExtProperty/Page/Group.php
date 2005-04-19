@@ -62,7 +62,7 @@ class CRM_ExtProperty_Page_Group extends CRM_Page {
             $values[$group->id] = array( );
             $group->storeValues( $values[$group->id] );
         }
-        $this->assign( 'groups', $values );
+        $this->assign( 'rows', $values );
     }
 
     function edit( $mode, $groupId = null ) {

@@ -101,7 +101,7 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
 
         $group = new CRM_DAO_ExtPropertyGroup( );
         $group->title       = $params['title'];
-        $group->name        = CRM_String::nameToVar( $params['title'] );
+        $group->name        = CRM_String::titleToVar( $params['title'] );
         $group->description = $params['description'];
         $group->extends     = $params['extends'];
         $group->is_active   = CRM_Array::value( 'is_active', $params, false );
