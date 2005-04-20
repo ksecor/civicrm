@@ -38,26 +38,18 @@ require_once 'CRM/Form.php';
  */
 class CRM_ExtProperty_Form_Field extends CRM_Form {
     /**
-    * The table name, used when editing/creating an ext property
-     *
-     * @var string
-     */
-    protected $_tableName;
-    
-    /**
-    * The table id, used when editing/creating an ext property
+    * the ext prop group id saved to the session for an update
      *
      * @var int
      */
-    protected $_tableId;
-    
+    protected $_groupId;
+
     /**
         * The ext property id, used when editing the ext property
      *
      * @var int
      */
     protected $_extPropertyId;
-    
     
     /**
      * class constructor
@@ -73,9 +65,9 @@ class CRM_ExtProperty_Form_Field extends CRM_Form {
      * @access public
      */
     public function preProcess( ) {
-        $this->_tableName = $this->get( 'tableName' );
-        $this->_tableId   = $this->get( 'tableId'   );
-        $this->_extPropertyId    = $this->get( 'extPropertyId'    );
+        $this->get( 'groupId' );
+        $this->get( 'extPropertyId' );
+
     }
 
     /**
@@ -108,6 +100,8 @@ class CRM_ExtProperty_Form_Field extends CRM_Form {
      */
     public function buildQuickForm( ) {
         $this->add( 'text', 'title'      , 'Field Label', CRM_DAO::getAttribute( 'CRM_DAO_ExtProperty', 'title'       ), true );
+        $this->addRule( 'title', 'Please enter label for this field.', 'title' );
+
         $this->add( 'text', 'description', 'Description', CRM_DAO::getAttribute( 'CRM_DAO_ExtProperty', 'description' ), false );
         $this->add( 'select', 'data_type', 'Data Type', CRM_SelectValues::$extPropertyDataType, true);
         $this->add( 'select', 'type', 'Form Field Type', CRM_SelectValues::$formFieldType, true);
@@ -134,24 +128,26 @@ class CRM_ExtProperty_Form_Field extends CRM_Form {
      */
     public function postProcess( ) {
         // store the submitted values in an array
-        $params = $this->exportValues();
+        $params = $this->controller->exportValues( 'Field' );
         
-        // action is taken depending upon the mode
-        $extProperty                         = new CRM_DAO_ExtProperty( );
-        $extProperty->extProperty            = $params['extProperty'];
-        $extProperty->ext_property_group_id  = 1;
+        // set values for object properties
+        $extProp                = new CRM_DAO_ExtProperty( );
+        $extProp->title         = $params['title'];
+        $extProp->name          = CRM_String::titleToVar( $params['title'] );
+        $extProp->description   = $params['description'];
+        $extProp->data_type     = $params['data_type'];
+        $extProp->default_value = $params['data_type'];
+        $extProp->is_required   = CRM_Array::value( 'is_required', $params, false );
+        $extProp->is_active     = CRM_Array::value( 'is_active', $params, false );
+        $extProp->validation_id = 1;
+
+        $extProp->ext_property_group_id = $this->_groupID;
         
-        if ($this->_mode & self::MODE_UPDATE ) {
-            $extProperty->id = $this->_extPropertyId;
-        } else {
-            $extProperty->table_name = $this->_tableName;
-            $extProperty->table_id   = $this->_tableId;
+        if ( $this->_mode & self::MODE_UPDATE ) {
+            $extProp->id = $this->_extPropertyId;
         }
-        $extProperty->save( );
-        
-        $session = CRM_Session::singleton( );
-        
-        $session->setStatus( "Your Custom Field has been saved." );
+        $extProp->save( );
+        CRM_Session::setStatus( 'Your custom field - ' . $extProp->title . ' has been saved' );
     }
 
 }
