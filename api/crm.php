@@ -41,7 +41,7 @@
  */
 
 require_once 'PEAR.php';
-require_once 'CRM/Error.php';
+require_once 'CRM/Core/Error.php';
 require_once 'api/utils.php';
 
 require_once 'api/Contact.php';

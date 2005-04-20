@@ -31,7 +31,7 @@
  *
  */
 
-require_once 'CRM/Controller.php';
+require_once 'CRM/Core/Controller.php';
 
 class CRM_Import_Controller extends CRM_Controller {
 

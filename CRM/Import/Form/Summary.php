@@ -31,7 +31,7 @@
  *
  */
 
-require_once 'CRM/Form.php';
+require_once 'CRM/Core/Form.php';
 
 /**
  * This class summarizes the import results

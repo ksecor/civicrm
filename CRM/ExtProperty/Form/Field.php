@@ -31,7 +31,7 @@
  *
  */
 
-require_once 'CRM/Form.php';
+require_once 'CRM/Core/Form.php';
 
 /**
  * form to process actions on the field aspect of ExtProperty

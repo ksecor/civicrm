@@ -31,7 +31,7 @@
  *
  */
 
-require_once 'CRM/Form.php';
+require_once 'CRM/Core/Form.php';
 
 /**
  * This class gets the name of the file to upload

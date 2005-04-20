@@ -31,7 +31,7 @@
  *
  */
 
-require_once 'CRM/StateMachine.php';
+require_once 'CRM/Core/StateMachine.php';
 
 class CRM_Import_StateMachine extends CRM_StateMachine {
 
