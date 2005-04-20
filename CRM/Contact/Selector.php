@@ -302,6 +302,145 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         return $rows;
     }
     
+    
+    /**
+     * Given the current formValues, gets the query in local
+     * language
+     *
+     * @param array reference $formValues submitted formValues
+     * @param int $type the type of form
+     *
+     * @return string string representing the query in local language
+     * @access public
+     */
+  
+    function getQILL($formValues=null, $type=null)
+    {
+        CRM_Error::le_method();
+        CRM_Error::debug_var('formValues', $this->_formValues);
+
+        // query in local language
+        $qill = "all";
+
+        switch ($this->_type) {
+        case self::TYPE_BASIC:
+            if ($this->_formValues['contact_type'] != 'any') {
+                $qill .= " " . $this->_formValues['contact_type'] . "s";
+            } else {
+                $qill .= " contacts";
+            }
+
+            // check for group restriction
+            if ($this->_formValues['group'] != 'any') {
+                $qill .= " belonging to the group \"" . CRM_PseudoConstant::$group[$this->_formValues['group']] . "\" and";
+            }
+            
+            // check for category restriction
+            if ($this->_formValues['category'] != 'any') {
+                $qill .= " categorized as \"" . CRM_PseudoConstant::$category[$this->_formValues['category']] . "\" and";
+            }
+            
+            // check for last name, as of now only working with sort name
+            if ($this->_formValues['sort_name']) {
+                $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($this->_formValues['sort_name'])) ."%'";
+                $qill .= "whose name is like \"" . $this->_formValues['sort_name'] . "\" and";
+            }
+            $qill = rtrim($qill, " and");
+            break;
+
+        case self::TYPE_ADVANCED:
+            // check for contact type restriction
+            if ($this->_formValues['cb_contact_type']) {
+                foreach ($this->_formValues['cb_contact_type']  as $k => $v) {
+                    $qill .= " {$k}s,";
+                }            
+            } else {
+                $qill .= " contacts";
+            }
+
+            // check for group restriction
+            if ($this->_formValues['cb_group']) {
+                $qill .= " belonging to groups";
+                foreach ($this->_formValues['cb_group']  as $k => $v) {
+                    $qill .= " \"" . CRM_PseudoConstant::$group[$k] . "\",";
+                }
+            }
+
+            // check for category restriction
+            if ($this->_formValues['cb_category']) {
+                $qill .= " categorized as";
+                foreach ($this->_formValues['cb_category'] as $k => $v) {
+                    $qill .= " \"" . CRM_PseudoConstant::$category[$k] . "\",";
+                }
+            }
+
+            // check for last name, as of now only working with sort name
+            if ($this->_formValues['sort_name']) {
+                $qill .= " whose name is like \"" . $this->_formValues['sort_name'] . "\",";
+            }
+
+            // street_name
+            if ($this->_formValues['street_name']) {
+                $qill .= " living in street name like \"" . $this->_formValues['street_name'] . "\",";
+            }
+
+            // city_name
+            if ($this->_formValues['city']) {
+                $qill .= " living in city like \"" . $this->_formValues['city'] . "\",";
+            }
+
+            // state
+            if ($this->_formValues['state_province']) {
+                $qill .= " living in the state of  \"" . CRM_PseudoConstant::$stateProvince[$this->_formValues['state_province']] . "\",";
+            }
+
+            // country
+            if ($this->_formValues['country']) {
+                $qill .= " living in the country  \"" . CRM_PseudoConstant::$country[$this->_formValues['country']] . "\",";
+            }
+
+
+            // postal code processing
+            if ($this->_formValues['postal_code'] || $this->_formValues['postal_code_low'] || $this->_formValues['postal_code_high']) {
+                if ($this->_formValues['postal_code']) {
+                    $qill .= " whose postal code is  \"" . $this->_formValues['postal_code'] . "\" or";
+                }
+                if ($this->_formValues['postal_code_low']) {
+                    $qill .= " whose postal code is  greater than \"" . $this->_formValues['postal_code_low'] . "\" and";
+                }
+                if ($this->_formValues['postal_code_high']) {
+                    $qill .= " whose postal code is less than \"" . $this->_formValues['postal_code_high'] . "\"";
+                }            
+            }
+
+            if ($this->_formValues['cb_location_type']) {
+                    $qill .= " in";
+                if (!$this->_formValues['cb_location_type']['any']) {
+                    foreach ($this->_formValues['cb_location_type']  as $k => $v) {
+                        $qill .= " " . CRM_PseudoConstant::$locationType[$k] . ",";
+                    }
+                } else {
+                    $qill .= " any";
+                }
+                $qill .= " location.";
+            }
+        
+            // processing for primary location
+            if ($this->_formValues['cb_primary_location']) {
+                $qill .= " Searching Primary Locations only ....";
+                $andArray['cb_primary_location'] = "crm_location.is_primary = 1";
+            }
+            break;
+        }
+        CRM_Error::debug_var('qill', $qill);
+        CRM_Error::ll_method();
+
+        if($qill != "all") {
+            return $qill;
+        } else {
+            return "";
+        }
+    }
 
     function getExportColumnHeaders($action, $type = 'csv')
     {

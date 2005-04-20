@@ -32,8 +32,6 @@
  *
  */
 
-require_once 'CRM/Core/Session.php';
-
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Contact/DAO/Location.php';
 require_once 'CRM/Contact/DAO/Address.php';
@@ -79,9 +77,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         $str_select = $str_from = $str_where = $str_order = $str_limit = ''; 
         
-        // query in local language
-        $qill = "All ";
-
         CRM_Error::debug_var("formValues", $formValues);
 
         // stores all the "AND" clauses
@@ -114,41 +109,25 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // check for contact type restriction
         if ($formValues && ($formValues['contact_type'] != 'any')) {
             $andArray['contact_type'] = "contact_type = '" . $formValues['contact_type'] . "'";
-            $qill .= $formValues['contact_type'] . "s ";
-        } else {
-            $qill .= "contacts ";
         }
         
         // check for group restriction
         if ($formValues && ($formValues['group'] != 'any')) {
             $andArray['group'] = "crm_group_contact.group_id = " .$formValues['group'];
             $str_from .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
-            // $qill .= " belonging to the group " . CRM_PseudoConstant::getGroupName($formValues['group']) . " ";
-            $qill .= "belonging to the group \"" . CRM_PseudoConstant::$group[$formValues['group']] . "\" and ";
         }
 
         // check for category restriction
         if ($formValues && ($formValues['category'] != 'any')) {
             $andArray['category'] .= "crm_entity_category.category_id = " . $formValues['category'];
             $str_from .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
-            //$qill .= " categorized as " . CRM_PseudoConstant::getCategoryName($formValues['category']) . " ";
-            $qill .= "categorized as \"" . CRM_PseudoConstant::$category[$formValues['category']] . "\" and ";
         }
 
         // check for last name, as of now only working with sort name
         if ($formValues['sort_name']) {
             $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['sort_name'])) ."%'";
-            $qill .= "whose name is like \"" . $formValues['sort_name'] . "\" and ";
         }
 
-        $qill = rtrim($qill, " and ");
-        // set the session variable quill...
-        CRM_Error::debug_log_message("storing quill in session");
-        $session = CRM_Session::singleton();
-        $session->set('qill', $qill);
-
-        //CRM_Error::debug_var('session', $session);
-        
         // final AND ing of the entire query.
         foreach ($andArray as $v) {
             $str_where .= " AND ($v) ";
@@ -166,7 +145,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // building the query string
         $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
 
-        CRM_Error::debug_var('qill', $qill);
         CRM_Error::debug_var('query_string', $query_string);
 
         $this->query($query_string);
@@ -192,8 +170,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     function advancedSearchQuery(&$formValues, $offset, $rowCount, $sort, $count=FALSE)
     {
         $str_select = $str_from = $str_where = $str_order = $str_limit = '';
-        // query in local language
-        $qill = "All ";
 
         // stores all the "AND" clauses
         $andArray = array();
@@ -265,21 +241,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $andArray['contact_type'] = "(contact_type IN (";
             foreach ($formValues['cb_contact_type']  as $k => $v) {
                 $andArray['contact_type'] .= "'$k',"; 
-                $qill .= " {$k}s, ";
             }            
             // replace the last comma with the parentheses.
             $andArray['contact_type'] = rtrim($andArray['contact_type'], ",");
             $andArray['contact_type'] .= "))";
-            // replace the last ", and " in the qill string
-            //$qill = rtrim($qill, ", ");
-            //$qill .= " and"
-        } else {
-            $qill .= " contacts";
         }
         
         // check for group restriction
         if ($formValues['cb_group']) {
-            $qill .= "belonging to groups ";
             $andArray['group'] = "(group_id IN (";
             foreach ($formValues['cb_group']  as $k => $v) {
                 // going with the OR case for this version
@@ -287,7 +256,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 // if we want all contacts who are members of group 1 AND group 2 then'll
                 // we'll have to use self joins
                 $andArray['group'] .= "$k,"; 
-                $qill .= "\"" . CRM_PseudoConstant::$group[$k] . "\", ";
             }
             $andArray['group'] = rtrim($andArray['group'], ",");
             $andArray['group'] .= "))";
@@ -297,10 +265,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // check for category restriction
         if ($formValues['cb_category']) {
             $andArray['category'] .= "(category_id IN (";
-            $qill .= " and categorized as ";
             foreach ($formValues['cb_category'] as $k => $v) {
                 $andArray['category'] .= "$k,"; 
-                $qill .= "\"" . CRM_PseudoConstant::$category[$k] . "\", ";
             }
             $andArray['category'] = rtrim($andArray['category'], ",");
             $andArray['category'] .= "))"; 
@@ -311,33 +277,28 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // check for last name, as of now only working with sort name
         if ($formValues['sort_name']) {
             $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['sort_name'])) ."%'";
-            $qill .= "whose name is like \"" . $formValues['sort_name'] . "\"";
         }
 
         // street_name
         if ($formValues['street_name']) {
             $andArray['street_name'] = " LOWER(crm_address.street_name) LIKE '%". strtolower(addslashes($formValues['street_name'])) ."%'";
-            $qill .= " and living in street name like \"" . $formValues['street_name'] . "\"";
         }
 
 
         // city_name
         if ($formValues['city']) {
             $andArray['city'] = " LOWER(crm_address.city) LIKE '%". strtolower(addslashes($formValues['city'])) ."%'";
-            $qill .= " and living in city like \"" . $formValues['city'] . "\"";
         }
 
 
         // state
         if ($formValues['state_province']) {
             $andArray['state_province'] = " crm_address.state_province_id = " . $formValues['state_province'];
-            $qill .= " and living in the state of  \"" . CRM_PseudoConstant::$stateProvince[$formValues['state_province']] . "\"";
         }
 
         // country
         if ($formValues['country']) {
             $andArray['country'] = " crm_address.country_id = " . $formValues['country'];
-            $qill .= " and living in the country  \"" . CRM_PseudoConstant::$country[$formValues['country']] . "\"";
         }
 
 
@@ -352,15 +313,12 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
             if ($formValues['postal_code']) {
                 $pcORArray[] = "crm_address.postal_code = " . $formValues['postal_code'];
-                $qill .= " and whose postal code is  \"" . $formValues['postal_code'] . "\" or ";
             }
             if ($formValues['postal_code_low']) {
                 $pcANDArray[] = "crm_address.postal_code >= " . $formValues['postal_code_low'];
-                $qill .= "whose postal code is  greater than \"" . $formValues['postal_code_low'] . "\" and ";
             }
             if ($formValues['postal_code_high']) {
                 $pcANDArray[] = "crm_address.postal_code <= " . $formValues['postal_code_high'];
-                $qill .= "whose postal code is less than \"" . $formValues['postal_code_high'] . "\"";
             }            
 
             // add the next element to the OR Array
@@ -422,12 +380,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // building the query string
         $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
 
-        CRM_Error::debug_var('qill', $qill);
         CRM_Error::debug_var("query_string", $query_string);
-        // set the session variable quill...
-        CRM_Error::debug_log_message("storing quill in session");
-        $session = CRM_Session::singleton();
-        $session->set('qill', $qill);
 
         $this->query($query_string);
 

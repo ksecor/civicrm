@@ -25,9 +25,9 @@
 </fieldset>
 {* END Browse Criteria section *}
 
-{if $session->get('qill')}
+{if $qill}
 <p>
-Fetching {$session->get('qill')}
+Fetching {$qill}
 <p>
 {/if}
 

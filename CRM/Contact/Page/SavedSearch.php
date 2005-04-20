@@ -31,7 +31,7 @@
  *
  */
 
-require_once 'CRM/Page.php';
+require_once 'CRM/Core/Page.php';
 require_once 'CRM/Contact/DAO/SavedSearch.php';
 
 class CRM_Contact_Page_SavedSearch extends CRM_Page {

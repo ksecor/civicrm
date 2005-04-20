@@ -179,6 +179,7 @@ class CRM_Selector_Controller {
                                                    $this->_pagerRowCount,
                                                    $this->_sort );
         $rowsEmpty = count( $rows ) ? false : true;
+        $qill = $this->_object->getQILL();
 
         $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
         $template->assign_by_ref( 'config' , $config  );
@@ -189,6 +190,7 @@ class CRM_Selector_Controller {
         $template->assign_by_ref( 'columnHeaders', $columnHeaders );
         $template->assign_by_ref( 'rows'         , $rows          );
         $template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
+        $template->assign       ( 'qill'         , $qill          );
         
         $template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
         $this->_content = $template->fetch( 'CRM/index.tpl', $config->templateDir );

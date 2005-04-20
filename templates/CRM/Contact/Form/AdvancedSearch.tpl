@@ -167,9 +167,11 @@
 </div>
 <div class="spacer"></div>
 
+{if $qill}
 <p>
-Fetching {$session->get('qill')}
+Fetching {$qill}
 <p>
+{/if}
 
 {if $rowsEmpty}
 
