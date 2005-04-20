@@ -74,7 +74,7 @@ class CRM_Contact_Page_Note {
 
         // set the userContext stack
         $session = CRM_Session::singleton();
-        $session->pushUserContext( CRM_System::url('civicrm/contact/view/note', 'op=browse' ) );
+        $session->pushUserContext( CRM_System::url('civicrm/contact/view/note', 'action=browse' ) );
 
         $controller->reset( );
         $controller->set( 'tableName', 'crm_contact' );
@@ -89,23 +89,15 @@ class CRM_Contact_Page_Note {
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
 
-        $op = CRM_Request::retrieve( 'op', $page, false, 'browse' );
-        $page->assign( 'op', $op );
+        $action = CRM_Request::retrieve( 'action', $page, false, 'browse' );
+        $page->assign( 'action', $action );
 
         $nid = CRM_Request::retrieve( 'nid', $page, false, 0 );
 
-        switch ( $op ) {
-        case 'view':
+        if ( $action & CRM_Action::VIEW ) {
             self::view( $page, $nid );
-            break;
-
-        case 'edit':
-            self::edit( $page, CRM_Form::MODE_UPDATE, $nid );
-            break;
-
-        case 'add':
-            self::edit( $page, CRM_Form::MODE_ADD );
-            break;
+        } else if ( $action & ( CRM_Action::UPDATE | CRM_Action::ADD ) ) {
+            self::edit( $page, $action, $nid );
         }
 
         self::browse( $page );

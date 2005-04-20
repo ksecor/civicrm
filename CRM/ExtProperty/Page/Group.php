@@ -43,30 +43,30 @@ class CRM_ExtProperty_Page_Group extends CRM_Page {
                            CRM_Action::VIEW    => array(
                                                         'name'  => 'View',
                                                         'url'   => 'civicrm/extproperty/group',
-                                                        'qs'    => 'op=view&id=%%id%%',
+                                                        'qs'    => 'action=view&id=%%id%%',
                                                         'title' => 'View Extended Property Group',
                                                         ),
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
                                                         'url'   => 'civicrm/extproperty/group',
-                                                        'qs'    => 'op=edit&id=%%id%%',
+                                                        'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Extended Property Group'),
                            CRM_Action::DISABLE => array(
                                                         'name'  => 'Disable',
                                                         'url'   => 'civicrm/extproperty/group',
-                                                        'qs'    => 'op=disable&id=%%id%%',
+                                                        'qs'    => 'action=disable&id=%%id%%',
                                                         'title' => 'Disable Extended Property Group',
                                                         ),
                            CRM_Action::ENABLE  => array(
                                                         'name'  => 'Enable',
                                                         'url'   => 'civicrm/extproperty/group',
-                                                        'qs'    => 'op=enable&id=%%id%%',
+                                                        'qs'    => 'action=enable&id=%%id%%',
                                                         'title' => 'Enable Extended Property Group',
                                                         ),
-                           CRM_Action::EXPAND  => array(
+                           CRM_Action::BROWSE  => array(
                                                         'name'  => 'List',
                                                         'url'   => 'civicrm/extproperty/field',
-                                                        'qs'    => 'op=browse&gid=%%id%%',
+                                                        'qs'    => 'action=browse&gid=%%id%%',
                                                         'title' => 'List Extended Property Group Fields',
                                                         ),
                            );
@@ -113,7 +113,7 @@ class CRM_ExtProperty_Page_Group extends CRM_Page {
 
         // set the userContext stack
         $session = CRM_Session::singleton();
-        $session->pushUserContext( CRM_System::url( 'civicrm/extproperty/group', 'reset=1&op=browse' ) );
+        $session->pushUserContext( CRM_System::url( 'civicrm/extproperty/group', 'reset=1&action=browse' ) );
 
         $controller->reset( );
         if ( $id ) {
@@ -124,32 +124,17 @@ class CRM_ExtProperty_Page_Group extends CRM_Page {
     }
 
     function run( ) {
-        $op = CRM_Request::retrieve( 'op', $this, false, 'browse' );
-        $this->assign( 'op', $op );
+        $action = CRM_Request::retrieve( 'action', $this, false, 'browse' );
+        $this->assign( 'action', $action );
 
         $id = CRM_Request::retrieve( 'id', $this, false, 0 );
 
-        switch ( $op ) {
-        case 'view':
-            $this->edit( CRM_Form::MODE_VIEW, $id );
-            break;
-
-        case 'edit':
-            $this->edit( CRM_Form::MODE_UPDATE, $id );
-            break;
-
-        case 'add':
-            $this->edit( CRM_Form::MODE_ADD );
-            break;
-
-        case 'disable':
+        if ( $action & (CRM_Action::VIEW | CRM_Action::ADD | CRM_Action::UPDATE) ) {
+            $this->edit( $action, $id );
+        } else if ( $action & CRM_Action::DISABLE ) {
             CRM_BAO_ExtPropertyGroup::setIsActive( $id, 0 );
-            break;
-
-        case 'enable':
+        } else if ( $action & CRM_Action::ENABLE ) {
             CRM_BAO_ExtPropertyGroup::setIsActive( $id, 1 );
-            break;
-
         }
 
         $this->browse( );

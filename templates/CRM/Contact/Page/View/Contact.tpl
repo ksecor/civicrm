@@ -130,22 +130,22 @@
                 <td>{$rel.phone}</td>
                 <td>{$rel.city}</td>
                 <td>{$rel.state}</td>
-                    <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&op=edit&rtype=$rtype"}">Edit</a></td> 
+                    <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=browse&rtype=$rtype"}">Edit</a></td> 
             </tr>  
         {/foreach}
         </table>
 	{else}
         <div class="message status">
         <img src="crm/i/Inform.gif" alt="status"> &nbsp;
-        There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q='op=add'}">add one</a>.
+        There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">add one</a>.
         </div>
 	{/if}
 	{/strip}
        <br />
        <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/rel' q='op=add'}">New Relationship</a>
+       <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">New Relationship</a>
         {if $relationshipsCount gt 10 }
-         | <a href="{crmURL p='civicrm/contact/view/rel' q='op=browse'}">Browse all Relationships...</a>
+         | <a href="{crmURL p='civicrm/contact/view/rel' q='action=browse'}">Browse all Relationships...</a>
         {/if}
         </div>
     </div>
@@ -156,7 +156,7 @@
 
 <div id="groups" class="data-group form-item">
   <span class="float-right">
-	<a href="{crmURL p='civicrm/contact/view/group' q='op=browse'}">View Groups</a>
+	<a href="{crmURL p='civicrm/contact/view/group' q='action=browse'}">View Groups</a>
   </span>
   <label>Groups</label>
   <span class="horizontal-position">
@@ -195,20 +195,20 @@
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}
-                    <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&op=view"}">(more)</a>
+                    <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">(more)</a>
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&op=edit"}">Edit</a></td> 
+            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=browse"}">Edit</a></td> 
        </tr>  
        {/foreach}
        </table>
        {/strip}
        <br />
        <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/note' q='op=add'}">New Note</a>
+       <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">New Note</a>
         {if $notesCount gt 3 }
-         | <a href="{crmURL p='civicrm/contact/view/note' q='op=browse'}">Browse all notes...</a>
+         | <a href="{crmURL p='civicrm/contact/view/note' q='action=browse'}">Browse all notes...</a>
         {/if}
         </div>
     </div>

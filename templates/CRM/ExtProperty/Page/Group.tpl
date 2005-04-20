@@ -1,4 +1,4 @@
-{if $op eq 'add' or $op eq 'edit' or $op eq 'view'}
+{if $action eq 1 or $action eq 2 or $action eq 4}
 <form {$form.attributes}>
 <fieldset>
 <div class="form-item">
@@ -13,11 +13,11 @@
 <div class="form-item">
   {$form.is_active.html} {$form.is_active.label}
 </div>
-{if $op ne 'view'}
+{if $action ne 4}
  <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
-{/if} {* $op ne view *}
+{/if} {* $action ne view *}
 </fieldset>
 </form>
 {/if}
@@ -46,7 +46,7 @@
 {/foreach}
        </table>
        {/strip}
-       {if $op eq 'browse' or $op eq 'view'}
+       {if $action eq 16 or $action eq 4}
         <br/>
        <div class="action-link">
          <a href="{crmURL p='civicrm/extproperty/group' q="op=add"}">New Extended Property Group</a>

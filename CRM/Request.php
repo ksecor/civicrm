@@ -75,6 +75,10 @@ class CRM_Request {
         }
 
         if ( $value && $store ) {
+            // minor hack for action
+            if ( $name == 'action' && is_string( $value ) ) {
+                $value = CRM_Action::resolve( $value );
+            }
             $store->set( $name, $value );
         }
 

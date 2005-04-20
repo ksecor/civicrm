@@ -41,18 +41,19 @@ require_once 'CRM/Array.php';
 class CRM_Action {
 
     /**
-     * Different possible actions are defined here
+     * Different possible actions are defined here. Keep in sync with the
+     * constant from CRM_Form for various modes.
      *
      * @var const
      *
      * @access public
      */
     const
-        ADD           =     1,
-        VIEW          =     2,
-        EXPAND        =     4,
-        UPDATE        =     8,
-        DELETE        =    16,
+        ADD           = CRM_Form::MODE_ADD,
+        VIEW          = CRM_Form::MODE_VIEW,
+        UPDATE        = CRM_Form::MODE_UPDATE,
+        DELETE        = CRM_Form::MODE_DELETE,
+        BROWSE        =    16,
         ENABLE        =    32,
         DISABLE       =    64,
         EXPORT        =   128;
@@ -70,10 +71,10 @@ class CRM_Action {
      */
     static $_names = array(
                            'add'           => CRM_Action::ADD,
-                           'view'          => CRM_Action::VIEW  ,
-                           'expand'        => CRM_Action::EXPAND,
                            'update'        => CRM_Action::UPDATE,
+                           'view'          => CRM_Action::VIEW  ,
                            'delete'        => CRM_Action::DELETE,
+                           'browse'        => CRM_Action::BROWSE,
                            'enable'        => CRM_Action::ENABLE,
                            'disable'       => CRM_Action::DISABLE,
                            'export'        => CRM_Action::EXPORT,
@@ -89,29 +90,19 @@ class CRM_Action {
 
     /**
      *
-     * returns the actions to be performed for the page being 
-     * processed. Uses the $_GET super global directly. Should
-     * we be using a Request Object instead? This seems fine since
-     * we actually do exact mapping in a fixed pre determined array
-     * ($_names)
+     * called by the request object to translate a string into a mask
      *
-     * @param string kwd     the name of the GET parameter
-     * @param string default the default action for this page is none exists
+     * @param string $action the action to be resolved
      *
-     * @return int the action mask corresponding to the GET param
+     * @return int the action mask corresponding to the input string
      * @access public
      * @static
      *
      */
-    static function get( $kwd = 'action', $default = null ) {
-        $urlVar = CRM_Array::value( $kwd, $_GET );
-        if ( ! isset( $urlVar ) ) {
-            $urlVar = $default;
-        }
-    
+    static function resolve( $str ) {
         $action = 0;
-        if ( $urlVar ) {
-            $items = explode( '|', $urlVar );
+        if ( $str ) {
+            $items = explode( '|', $str );
             $action = CRM_Action::map( $items );
         }
         return $action;
