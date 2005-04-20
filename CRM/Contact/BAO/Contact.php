@@ -32,13 +32,15 @@
  *
  */
 
+require_once 'CRM/Core/Session.php';
+
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Contact/DAO/Location.php';
 require_once 'CRM/Contact/DAO/Address.php';
 require_once 'CRM/Contact/DAO/Phone.php';
 require_once 'CRM/Contact/DAO/Email.php';
 require_once 'CRM/DAO/Note.php';
-require_once 'CRM/Session.php';
+
 
 /**
  * rare case where because of inheritance etc, we actually store a reference

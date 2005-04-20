@@ -25,7 +25,7 @@
 
 require_once "PEAR.php"; 
 
-require_once "CRM/Error.php";
+require_once "CRM/Core/Error.php";
 
 class CRM_Session {
 

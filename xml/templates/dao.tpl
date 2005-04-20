@@ -31,7 +31,7 @@
  *
  */
 
-require_once 'CRM/DAO.php';
+require_once 'CRM/Core/DAO.php';
 
 class {$table.className} extends CRM_DAO {ldelim}
 

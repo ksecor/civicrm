@@ -57,7 +57,7 @@
 
 
 require_once '../modules/config.inc.php';
-require_once 'CRM/Config.php';
+require_once 'CRM/Core/Config.php';
 
 class CRM_GCD {
 

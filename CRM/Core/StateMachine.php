@@ -31,10 +31,10 @@
  *
  */
 
-require_once 'CRM/Config.php';
-require_once 'CRM/Session.php';
-require_once 'CRM/State.php' ;
-require_once 'CRM/String.php';
+require_once 'CRM/Core/Config.php';
+require_once 'CRM/Core/Session.php';
+require_once 'CRM/Core/State.php' ;
+require_once 'CRM/Core/String.php';
 
 class CRM_StateMachine {
 

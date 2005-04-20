@@ -37,8 +37,8 @@
  */
 
 require_once 'Log.php';
-require_once 'CRM/DAO.php';
-require_once 'CRM/System.php';
+require_once 'CRM/Core/DAO.php';
+require_once 'CRM/Core/System.php';
 
 class CRM_Config {
 

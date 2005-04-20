@@ -34,8 +34,8 @@
 /**
  * Files required
  */
-require_once 'CRM/Form.php';
-require_once 'CRM/PseudoConstant.php';
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/PseudoConstant.php';
 require_once 'CRM/Selector/Controller.php';
 require_once 'CRM/Contact/Selector.php';
 

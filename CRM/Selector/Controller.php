@@ -39,8 +39,8 @@
  *
  */
 
-require_once 'CRM/Pager.php';
-require_once 'CRM/Sort.php';
+require_once 'CRM/Core/Pager.php';
+require_once 'CRM/Core/Sort.php';
 require_once 'CRM/Report/Excel.php';
 
 class CRM_Selector_Controller {

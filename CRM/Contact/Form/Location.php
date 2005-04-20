@@ -31,8 +31,8 @@
  * $Id$
  *
  */
-require_once 'CRM/Form.php';
-require_once 'CRM/SelectValues.php';
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Contact/Form/Phone.php';
 require_once 'CRM/Contact/Form/Email.php';
 require_once 'CRM/Contact/Form/IM.php';

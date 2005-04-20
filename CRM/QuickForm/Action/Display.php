@@ -34,7 +34,7 @@
 
 require_once 'CRM/QuickForm/Action.php';
 
-require_once 'CRM/Config.php';
+require_once 'CRM/Core/Config.php';
 
 class CRM_QuickForm_Action_Display extends CRM_QuickForm_Action {
 

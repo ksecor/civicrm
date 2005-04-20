@@ -44,7 +44,7 @@
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Action/Direct.php';
 
-require_once 'CRM/StateMachine.php';
+require_once 'CRM/Core/StateMachine.php';
 
 class CRM_Controller extends HTML_QuickForm_Controller {
 

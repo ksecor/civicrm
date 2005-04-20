@@ -32,11 +32,11 @@
  *
  */
 
-require_once 'CRM/Pager.php';
-require_once 'CRM/Sort.php';
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/Pager.php';
+require_once 'CRM/Core/Sort.php';
 require_once 'CRM/Selector/Base.php';
 require_once 'CRM/Selector/API.php';
-require_once 'CRM/Form.php';
 require_once 'CRM/Contact/BAO/Contact.php';
 
 

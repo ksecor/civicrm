@@ -32,8 +32,8 @@
  *
  */
 
-require_once 'CRM/Form.php';
-require_once 'CRM/SelectValues.php';
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/SelectValues.php';
 
 require_once 'CRM/Contact/Form/Location.php';
 require_once 'CRM/Contact/Form/Individual.php';

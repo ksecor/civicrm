@@ -23,7 +23,7 @@
 */
 
 
-require_once 'CRM/Rule.php';
+require_once 'CRM/Core/Rule.php';
 require_once 'Validate.php';
 
 class CRM_Type {

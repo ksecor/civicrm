@@ -23,7 +23,7 @@
 */
 
 
-require_once 'CRM/String.php';
+require_once 'CRM/Core/String.php';
 
 class CRM_Report_Excel {
     /**

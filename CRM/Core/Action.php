@@ -36,7 +36,7 @@
  *
  */
 
-require_once 'CRM/Array.php';
+require_once 'CRM/Core/Array.php';
 
 class CRM_Action {
 

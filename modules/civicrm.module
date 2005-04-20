@@ -37,16 +37,16 @@ include_once 'config.inc.php';
 
 require_once 'PEAR.php';
 
-require_once 'CRM/Action.php';
-require_once 'CRM/Form.php';
-require_once 'CRM/Block.php';
-require_once 'CRM/Wrapper.php';
+require_once 'CRM/Core/Action.php';
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/Block.php';
+require_once 'CRM/Core/Wrapper.php';
 
 require_once 'CRM/Contact/Page/View.php';
 require_once 'CRM/Selector/Controller.php';
 
 // only used for debugging purposes - remove in production system
-require_once 'CRM/Error.php';
+require_once 'CRM/Core/Error.php';
 
 
 /**
