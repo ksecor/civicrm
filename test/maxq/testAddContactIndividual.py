@@ -12,7 +12,8 @@ exec 'from '+validatorPkg+' import Validator'
 class addIndividual_complete(PyHttpTestCase):
     def runTest(self):
         self.msg('Test started')
-        drupal_path = self.userInput("Enter the Drupal Path (e.g. http://192.168.2.9/drupal)")
+
+        drupal_path = "http://localhost/drupal"
         self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
         url = "%s/" % drupal_path
         params = None
@@ -27,7 +28,7 @@ class addIndividual_complete(PyHttpTestCase):
             ('''edit[name]''', self.userInput('Enter Drupal UserName')),
             ('''edit[pass]''', self.userInput('Enter Drupal Password')),
             ('''op''', '''Log in'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/drupal/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
+        self.msg("Testing URL: %s" % self.replaceURL('''%s/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
         url = "%s/user/login" % drupal_path
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)

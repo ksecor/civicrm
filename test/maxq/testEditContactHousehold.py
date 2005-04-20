@@ -13,7 +13,7 @@ class testEditContactHousehold(PyHttpTestCase):
     def runTest(self):
         self.msg('Test started')
 
-        drupal_path = self.userInput("Enter the Drupal Path (e.g. http://192.168.2.9/drupal)")
+        drupal_path = "http://localhost/drupal"
         self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
         url = "%s/" % drupal_path
         params = None
@@ -28,7 +28,7 @@ class testEditContactHousehold(PyHttpTestCase):
             ('''edit[name]''', self.userInput('Enter Drupal UserName')),
             ('''edit[pass]''', self.userInput('Enter Drupal Password')),
             ('''op''', '''Log in'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/drupal/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
+        self.msg("Testing URL: %s" % self.replaceURL('''%s/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
         url = "%s/user/login" % drupal_path
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
@@ -56,8 +56,8 @@ class testEditContactHousehold(PyHttpTestCase):
         self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        # self.msg("Testing URL: %s" % self.replaceURL('''http://192.168.2.9/favicon.ico'''))
-        # url = "http://192.168.2.9/favicon.ico"
+        # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
+        # url = "http://localhost/favicon.ico"
         # params = None
         # Validator.validateRequest(self, self.getMethod(), "get", url, params)
         # self.get(url, params)
@@ -116,8 +116,8 @@ class testEditContactHousehold(PyHttpTestCase):
         self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        # self.msg("Testing URL: %s" % self.replaceURL('''http://192.168.2.9/favicon.ico'''))
-        # url = "http://192.168.2.9/favicon.ico"
+        # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
+        # url = "http://localhost/favicon.ico"
         # params = None
         # Validator.validateRequest(self, self.getMethod(), "get", url, params)
         # self.get(url, params)
