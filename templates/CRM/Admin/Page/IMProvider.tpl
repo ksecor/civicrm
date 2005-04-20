@@ -1,4 +1,4 @@
-{if $op eq 'add' or $op eq 'edit'}
+{if $action eq 1 or $action eq 2}
    {include file="CRM/Admin/Form/IMProvider.tpl"}	
 {/if}
 
@@ -11,19 +11,19 @@
 	<th>Name</th>
 	<th></th>
        </tr>
-       {foreach from=$IMProviders item=IMProv}
+       {foreach from=$rows item=row}
          <tr class="{cycle values="odd-row,even-row"}">
-	    <td> {$IMProv.name}</td>	
-            <td><a href="{crmURL p='admin/contact/improv' q="impid=`$IMProv.id`&op=edit"}">Edit</a></td>	
+	    <td> {$row.name}</td>	
+            <td><a href="{crmURL p='admin/contact/IMProvider' q="impid=`$row.id`&action=edit"}">Edit</a></td>	
          </tr>
        {/foreach}
        </table>
        {/strip}
 
-       {if $op eq 'browse' }
-	<br/>
+       {if $action ne 1 and $action ne 2}
+       <br/>
        <div class="action-link">
-    	 <a href="{crmURL p='admin/contact/improv' q="op=add"}">New IM Provider</a>
+    	 <a href="{crmURL p='admin/contact/IMProvider' q="action=add"}">New IM Provider</a>
        </div>
        {/if}
     </div>

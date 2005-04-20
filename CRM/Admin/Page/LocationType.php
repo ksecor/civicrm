@@ -31,9 +31,9 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Admin_Page_LocationType {
+class CRM_Admin_Page_LocationType extends CRM_Page_Basic {
     /**
      * The action links that we need to display for the browse screen
      *
@@ -42,99 +42,41 @@ class CRM_Admin_Page_LocationType {
     static $_links = array(
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
-                                                        'url'   => 'admin/contact/locType',
+                                                        'url'   => 'admin/contact/locationType',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Location Type'),
                            CRM_Action::DISABLE => array(
                                                         'name'  => 'Disable',
-                                                        'url'   => 'admin/contact/locType',
+                                                        'url'   => 'admin/contact/locationType',
                                                         'qs'    => 'action=disable&id=%%id%%',
                                                         'title' => 'Disable Location Type',
                                                         ),
                            CRM_Action::ENABLE  => array(
                                                         'name'  => 'Enable',
-                                                        'url'   => 'admin/contact/locType',
+                                                        'url'   => 'admin/contact/locationType',
                                                         'qs'    => 'action=enable&id=%%id%%',
                                                         'title' => 'Enable Location Type',
                                                         ),
                            );
 
-    /**
-     * class constructor
-     *
-     * @return CRM_Page
-     */
-    function __construct( ) {
-
+    function getBAOName( ) {
+        return 'CRM_Contact_BAO_LocationType';
     }
 
-    function run($page) {
-        $action = CRM_Request::retrieve( 'action', $page, false, 'browse' );
-        $page->assign( 'action', $action );
-
-        $id = CRM_Request::retrieve( 'id', $page, false, 0 );
-
-        if ( $action & (CRM_Action::VIEW | CRM_Action::ADD | CRM_Action::UPDATE) ) {
-            self::edit($action, $id );
-        } else if ( $action & CRM_Action::DISABLE ) {
-            CRM_BAO_LocationType::setIsActive( $id, 0 );
-        } else if ( $action & CRM_Action::ENABLE ) {
-            CRM_BAO_LocationType::setIsActive( $id, 1 );
-        }
-
-        self::browse($page);
-
+    function &links( ) {
+        return self::$_links;
     }
 
-    static function browse( $page, $action = null ) {
-        $locationType = new CRM_Contact_DAO_LocationType( );
-
-        if ( $action == null ) {
-            $action = array_sum( array_keys( self::$_links ) );
-        }
-
-        if ( $action & CRM_Action::DISABLE ) {
-            $action -= CRM_Action::DISABLE;
-        }
-        if ( $action & CRM_Action::ENABLE ) {
-            $action -= CRM_Action::ENABLE;
-        }
-        
-
-        $values = array( );
-        $locationType->find( );
-        while ( $locationType->fetch( ) ) {
-            $values[$locationType->id] = array( );
-            $locationType->storeValues( $values[$locationType->id] );
-            if ( $locationType->is_active ) {
-                $newAction = $action + CRM_Action::DISABLE;
-            } else {
-                $newAction = $action + CRM_Action::ENABLE;
-            }
-            $values[$locationType->id]['action'] = CRM_Action::formLink( self::$_links, $newAction, array( 'id' => $locationType->id ) );
-        }
-        $page->assign( 'rows', $values );
+    function formClass( ) {
+        return 'CRM_Admin_Form_LocationType';
     }
 
+    function formName( ) {
+        return 'Location Types';
+    }
 
-
-    static function edit( $mode, $id = null ) 
-    {
-        
-        $controller = new CRM_Controller_Simple( 'CRM_Admin_Form_LocationType', 'Location Types', $mode );
-
-       // set the userContext stack
-        $session = CRM_Session::singleton();
-        $config  = CRM_Config::singleton();
-
-        $session->pushUserContext( CRM_System::url( 'admin/contact/locType', 'reset=1&action=browse' ) );
-        
-        $controller->reset( );
-        if ($id) {
-            $controller->set( 'id'   , $id );
-        }
-        $controller->process( );
-        $controller->run( );
+    function UserContext( ) {
+        return 'admin/contact/locationType';
     }
 
 }

@@ -29,7 +29,7 @@
        </table>
        {/strip}
 
-       {if $action eq 16 or $action eq 4 or $action eq 32 or $action eq 64}
+       {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
     	 <a href="{crmURL p='admin/contact/locType' q="action=add"}">New Location Type</a>

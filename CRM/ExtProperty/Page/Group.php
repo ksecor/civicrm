@@ -31,9 +31,10 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_ExtProperty_Page_Group extends CRM_Page {
+class CRM_ExtProperty_Page_Group extends CRM_Page_Basic {
+    
     /**
      * The action links that we need to display for the browse screen
      *
@@ -71,75 +72,25 @@ class CRM_ExtProperty_Page_Group extends CRM_Page {
                                                         ),
                            );
 
-    /**
-     * class constructor
-     */
-    function __construct( $name, $title = null, $mode = null ) {
-        parent::__construct( $name, $title, $mode );
+
+    function getBAOName( ) {
+        return 'CRM_BAO_ExtPropertyGroup';
     }
 
-    function browse( $action = null ) {
-        $group = new CRM_DAO_ExtPropertyGroup( );
-
-        if ( $action == null ) {
-            $action = array_sum( array_keys( self::$_links ) );
-        }
-
-        if ( $action & CRM_Action::DISABLE ) {
-            $action -= CRM_Action::DISABLE;
-        }
-        if ( $action & CRM_Action::ENABLE ) {
-            $action -= CRM_Action::ENABLE;
-        }
-        
-
-        $values = array( );
-        $group->find( );
-        while ( $group->fetch( ) ) {
-            $values[$group->id] = array( );
-            $group->storeValues( $values[$group->id] );
-            if ( $group->is_active ) {
-                $newAction = $action + CRM_Action::DISABLE;
-            } else {
-                $newAction = $action + CRM_Action::ENABLE;
-            }
-            $values[$group->id]['action'] = CRM_Action::formLink( self::$_links, $newAction, array( 'id' => $group->id ) );
-        }
-        $this->assign( 'rows', $values );
+    function &links( ) {
+        return self::$_links;
     }
 
-    function edit( $mode, $id = null ) {
-        $controller = new CRM_Controller_Simple( 'CRM_ExtProperty_Form_Group', 'Extended Property Groups', $mode );
-
-        // set the userContext stack
-        $session = CRM_Session::singleton();
-        $session->pushUserContext( CRM_System::url( 'civicrm/extproperty/group', 'reset=1&action=browse' ) );
-
-        $controller->reset( );
-        if ( $id ) {
-            $controller->set( 'id', $id );
-        }
-        $controller->process( );
-        $controller->run( );
+    function formClass( ) {
+        return 'CRM_ExtProperty_Form_Group';
     }
 
-    function run( ) {
-        $action = CRM_Request::retrieve( 'action', $this, false, 'browse' );
-        $this->assign( 'action', $action );
+    function formName( ) {
+        return 'Extended Property Groups';
+    }
 
-        $id = CRM_Request::retrieve( 'id', $this, false, 0 );
-
-        if ( $action & (CRM_Action::VIEW | CRM_Action::ADD | CRM_Action::UPDATE) ) {
-            $this->edit( $action, $id );
-        } else if ( $action & CRM_Action::DISABLE ) {
-            CRM_BAO_ExtPropertyGroup::setIsActive( $id, 0 );
-        } else if ( $action & CRM_Action::ENABLE ) {
-            CRM_BAO_ExtPropertyGroup::setIsActive( $id, 1 );
-        }
-
-        $this->browse( );
-
-        return parent::run( );
+    function UserContext( ) {
+        return 'civicrm/extproperty/group';
     }
 
 }

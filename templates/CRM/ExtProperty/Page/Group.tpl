@@ -49,7 +49,7 @@
        {if $action eq 16 or $action eq 4}
         <br/>
        <div class="action-link">
-         <a href="{crmURL p='civicrm/extproperty/group' q="op=add"}">New Extended Property Group</a>
+         <a href="{crmURL p='civicrm/extproperty/group' q="action=add"}">New Extended Property Group</a>
        </div>
        {/if}
     </div>
@@ -58,6 +58,6 @@
 {else}
    <div class="message status">
    <img src="crm/i/Inform.gif" alt="status"> &nbsp;
-   There are no extended property groups for this organization. You can <a href="{crmURL p='civicrm/extproperty/group' q='op=add'}">add one</a>.
+   There are no extended property groups for this organization. You can <a href="{crmURL p='civicrm/extproperty/group' q='action=add'}">add one</a>.
    </div>
 {/if}

@@ -31,46 +31,58 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
-
-class CRM_Admin_Page_View extends CRM_Page {
-
-    /**
-     * constants for various modes that the page can operate as
-     *
-     * @var const int
-     */
-    const
-        MODE_NONE                  =   0,
-        MODE_LOCATION_TYPE         =   1,
-        MODE_IM_PROVIDER           =   2,
-        MODE_MOBILE_PROVIDER       =   4;
+class CRM_BAO_IMProvider extends CRM_DAO_IMProvider {
 
     /**
      * class constructor
-     *
-     * @param string $name  name of the page
-     * @param string $title title of the page
-     * @param int    $mode  mode of the page
-     *
-     * @return CRM_Page
      */
-    function __construct( $name, $title = null, $mode = null ) {
-        parent::__construct($name, $title, $mode);
+    function __construct( ) {
+        parent::__construct( );
     }
 
-    function run( ) {
-        if ( $this->_mode == self::MODE_LTYPE ) {
-            CRM_Admin_Page_LocationType::run( $this );
-        } else if ( $this->_mode == self::MODE_IM_PROVIDER ) {
-            CRM_Admin_Page_IMProvider::run( $this );
-        } else if ( $this->_mode == self::MODE_MOB_PROVIDER ) {
-            CRM_Admin_Page_MobileProvider::run( $this );
-        } 
-
-        return parent::run( );
+    /**
+     * Takes a bunch of params that are needed to match certain criteria and
+     * retrieves the relevant objects. Typically the valid params are only
+     * contact_id. We'll tweak this function to be more full featured over a period
+     * of time. This is the inverse function of create. It also stores all the retrieved
+     * values in the default array
+     *
+     * @param array $params   (reference ) an assoc array of name/value pairs
+     * @param array $defaults (reference ) an assoc array to hold the flattened values
+     *
+     * @return object CRM_BAO_LocaationType object
+     * @access public
+     * @static
+     */
+    static function retrieve( &$params, &$defaults ) {
+        $imProvider = new CRM_DAO_IMProvider( );
+        $imProvider->copyValues( $params );
+        if ( $imProvider->find( true ) ) {
+            $imProvider->storeValues( $defaults );
+            return $imProvider;
+        }
+        return null;
     }
-    
+
+    /**
+     * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * @static
+     */
+    static function setIsActive( $id, $is_active ) {
+        $imProvider = new CRM_DAO_IMProvider( );
+        $imProvider->id = $id;
+        if ( $imProvider->find( true ) ) {
+            $imProvider->is_active = $is_active;
+            return $imProvider->save( );
+        }
+        return null;
+    }
+
 }
 
 ?>

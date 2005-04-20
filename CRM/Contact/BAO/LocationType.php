@@ -31,7 +31,7 @@
  *
  */
 
-class CRM_BAO_LocationType extends CRM_Contact_DAO_LocationType {
+class CRM_Contact_BAO_LocationType extends CRM_Contact_DAO_LocationType {
 
     /**
      * class constructor

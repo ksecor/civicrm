@@ -163,19 +163,19 @@ function civicrm_menu($may_cache)
                          );
 
         $items[] = array(
-                         'path'  => 'admin/contact/locType',
+                         'path'  => 'admin/contact/locationType',
                          'title' => t('Location Type'),
                          'type'   => MENU_LOCAL_TASK
                          );
         
         $items[] = array(
-                         'path'  => 'admin/contact/improv',
+                         'path'  => 'admin/contact/IMProvider',
                          'title' => t('IM Provider'),
                          'type'   => MENU_LOCAL_TASK
                          );
 
        $items[] = array(
-                         'path'  => 'admin/contact/mobprov',
+                         'path'  => 'admin/contact/mobileProvider',
                          'title' => t('Mobile Provider'),
                          'type'   => MENU_LOCAL_TASK
                          );
@@ -362,19 +362,19 @@ function civicrm_admin_invoke()
     $content = "";
     
     // Location Type
-    if (arg(1) == 'contact' && arg(2) == 'locType') {
-        $view = new CRM_Admin_Page_View( 'View Location Types','',CRM_Admin_Page_View::MODE_LTYPE );
+    if (arg(1) == 'contact' && arg(2) == 'locationType') {
+        $view = new CRM_Admin_Page_LocationType( 'View Location Types' );
         $content .= $view->run( );
     }
     
     // IM provider
-    if (arg(1) == 'contact' && arg(2) == 'improv') {
-        $view = new CRM_Admin_Page_View( 'View IM Providers','',CRM_Admin_Page_View::MODE_IM_PROVIDER );
+    if (arg(1) == 'contact' && arg(2) == 'IMProvider') {
+        $view = new CRM_Admin_Page_IMProvider( 'View Instant Messenger Providers' );
         $content .= $view->run( );
     }
 
     // Mobile provider
-    if (arg(1) == 'contact' && arg(2) == 'mobprov') {
+    if (arg(1) == 'contact' && arg(2) == 'mobileProvider') {
         $view = new CRM_Admin_Page_View( 'View Mobile Providers','',CRM_Admin_Page_View::MODE_MOB_PROVIDER );
         $content .= $view->run( );
     }

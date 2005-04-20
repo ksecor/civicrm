@@ -33,7 +33,7 @@
 
 require_once 'CRM/Import/Parser.php';
 
-require_once 'api/civicrm.php';
+require_once 'api/crm.php';
 
 /**
  * class to parse contact csv files

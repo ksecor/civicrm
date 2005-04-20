@@ -31,78 +31,40 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Admin_Page_IMProvider {
-
+class CRM_Admin_Page_IMProvider extends CRM_Page_Basic {
     /**
-     * the IM Provider id being viewed
-     * @int
-     */
-    protected $_IMProviderId;
-    
-    /**
-     * class constructor
+     * The action links that we need to display for the browse screen
      *
-     * @return CRM_Page
+     * @var array
      */
-    function __construct( ) {
+    static $_links = array(
+                           CRM_Action::UPDATE  => array(
+                                                        'name'  => 'Edit',
+                                                        'url'   => 'admin/contact/IMProvider',
+                                                        'qs'    => 'action=update&id=%%id%%',
+                                                        'title' => 'Edit Location Type'),
+                           );
 
+    function getBAOName( ) {
+        return 'CRM_BAO_IMProvider';
     }
 
-    function run($page) 
-    {
-        $op = CRM_Request::retrieve( 'op', $page, false, 'browse' );
-        $page->assign( 'op', $op );
-        
-        switch ( $op ) {
-        case 'edit':
-            self::edit( $page, CRM_Form::MODE_UPDATE );
-            break;
-            
-        case 'add':
-            self::edit( $page, CRM_Form::MODE_ADD );
-            break;
-        }
-        
-        self::browse( $page );
+    function &links( ) {
+        return self::$_links;
     }
 
-    static function browse( $page ) 
-    {
-        $IMProvider = new CRM_DAO_IMProvider( );
-
-        $IMProvider->orderBy( 'name asc' );
-
-        $values = array( );
-        $IMProvider->find( );
-        while ( $IMProvider->fetch( ) ) {
-            $values[$IMProvider->id] = array( );
-            $IMProvider->storeValues( $values[$IMProvider->id] );
-        }
-        $page->assign( 'IMProviders', $values );
+    function formClass( ) {
+        return 'CRM_Admin_Form_IMProvider';
     }
- 
-   static function edit( $page, $mode ) 
-    {
-        $IMProviderId = $_GET['impid'];
-        
-        $controller = new CRM_Controller_Simple( 'CRM_Admin_Form_IMProvider', 'IM Provider', $mode );
-        
-       // set the userContext stack
-        $session = CRM_Session::singleton();
-        $config  = CRM_Config::singleton();
-        $session->pushUserContext( $config->httpBase . 'admin/contact/improv&op=browse' );
-        
-        if (!$IMProviderId) {
-            $IMProviderId = $controller->get( 'IMProviderId' );
-        }
 
-        $controller->reset( );
-        $controller->set( 'IMProviderId'  , $IMProviderId );
+    function formName( ) {
+        return 'Instant Message Provider';
+    }
 
-        $controller->process( );
-        $controller->run( );
+    function UserContext( ) {
+        return 'admin/contact/IMProvider';
     }
 
 }
