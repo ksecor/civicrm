@@ -13,6 +13,7 @@ Example:
 "admin/contact/group?op=edit&group_id=<id>" will perform the edit operation on group id <id>
 "admin/contact/group?op=member&group_id=<id>" will display membership information for group id <id>
 
+! Paths should prob be admin/group/... since group is a top-level class (i think - check w/ lobo)
 
 The managing of groups will consist of 
 
@@ -20,27 +21,57 @@ The managing of groups will consist of
       new groups are created via a form which takes the following input
 
         - domain_id
+! auto-assigned (=1 for now)
+
         - iname - internal name
+! change to -name (this is now our convention for naming 'internal name' of an object instance)
+
         - name
+! change to -title
         - description
+
         - group type (static or dynamic)
+! let's label these types as 'manual' and 'automatic' membership for now (see how that 'fits')
+
              - if group type is dynamic display an additional drop down for selecting the saved search
                (the show hide of drop down for saved search will be done via javascript)
+
+! suggest implementing 'new group' as a wizard.
+    * Step 1 -> name + desc + type
+    * Step 2 (type = dynamic) -> select from saved search OR create new saved search (exclusive OR)
+
+    * Step 3 (type = dynamic & create new saved search) - use existing 'new saved search' code
+    * Step 4 (type = dynamic & create new saved search) - create the group and go to Browse Group Members
+
+    * Step 3 (type = dynamic, using existing saved search) - create the group and go to Browse Group Members
+     
+    * Step 2 (type = static) -> present simple seach form and prompt user to run search a select
+      (checkmark) members they want to add to the group. Allow them to do this repeatedly until they 
+      click 'done'
+      
         - source
+! not used for now
 
 2 - Browsing all groups.
     Browsing will display the following information about the groups
 
+      - title
+
       - name
-      - iname
+! name is internal, not displayed
+
       - description (truncated)
       - group type
 
-   there will be links after the listing for the following operations "view", "edit" and "remove".
+! number of 'In' members (for static only)
 
-3 - Viewing / Editing.
-    During viewing and editing a single group, more details of the 
+   there will be links after the listing for the following operations "members", "edit" and "delete".
+
+3 - Editing
+! don't think we need view group, just "members" (below).
+    During editing a single group, more details of the 
     group are shown such as domain name, source and full description.
+! domain name and source not used for now
 
     - for dynamic queries there will be an additional select box showing
       the name of the saved search. also there'll be an additional button
@@ -60,8 +91,12 @@ The managing of groups will consist of
            added to crm_group_contact table. only the respective fields of "group_type" and "saved_search_id"
            are changed in the crm_group table.
 
+! suggest not using drop-down AND button, but just button and then confirm page
+! probably don't eliminate saved search FKey on convert - it could be useful to audit how group evolved
+
 3 - Removing a group is provided from the link only where a javascript popup will ask for 
     confirmation.
+! This is a pretty drastic action, should be actual confirm page - not rely on jscript.
 
 4 - Viewing / Editing membership details of a group
 
@@ -77,13 +112,16 @@ The managing of groups will consist of
 
         - Name (which will be linked to view contact)
         - Contact Type
-	- status (with dates)
+	    - status (with dates)
+        
+! let's start w/ just City, State, Email (omit street, country for now)
         - Street
         - City
         - State
         - Country
         - single checkbox
-	- links for viewing/editing membership details
+    	- links for viewing/editing membership details
+! Prob just Edit (only 1 field is editable anyway - see below)
    
    The user can then select members using the checkbox and
    perform the following actions (using a select box)
@@ -93,11 +131,22 @@ The managing of groups will consist of
 5 - Viewing / Editing of member of a group will consist
     of showing complete details such as
 
+
       group_id
+! s/b Group name (not editable)
+
       contact_id
+! s/b Contact summary fields (as shown in selector above - not editable - but name is link to View contact
+    page, and include an Edit contact link
+    
       status_type   - drop down (in, out, pending)
+! this is only editable field on this form
+
       status_date   - date box
+! these are auto-assigned (In date, out date etc)
+
       status_method - drop down (web, admin, email, api)
+! these are auto-assigned - for now all will be admin
         
     the above fields can be updated.
 
@@ -105,7 +154,7 @@ The managing of groups will consist of
 6 - Group Statistics ???? (for later revisions and in reporting modules)
 
        This will show the membership numbers over a period of time - graphically.
-
+! yep - cool stuff for later
 
 
 Note: In order to have dynamic groups based on saved search, the schema
@@ -113,5 +162,7 @@ Note: In order to have dynamic groups based on saved search, the schema
       which will reference the "id" in the table crm_saved_search. saved_search_id
       will be NULL for static queries.
 
+! this was in original SQL, got lost in conversion to xml
+	saved_search_id	INT UNSIGNED COMMENT 'FK to saved_searches table for type=query. We will also store the FK here for static groups created via saved search.',
 
  
