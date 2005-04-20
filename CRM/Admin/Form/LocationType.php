@@ -46,7 +46,7 @@ class CRM_Admin_Form_LocationType extends CRM_Form
      *
      * @var int
      */
-    protected $_locationTypeId;
+    protected $_id;
 
     /**
      * class constructor
@@ -63,7 +63,7 @@ class CRM_Admin_Form_LocationType extends CRM_Form
     }
 
     function preProcess( ) {
-        $this->_locationTypeId    = $this->get( 'locationTypeId' );
+        $this->_id    = $this->get( 'id' );
     }
 
     /**
@@ -77,24 +77,16 @@ class CRM_Admin_Form_LocationType extends CRM_Form
         $defaults = array( );
         $params   = array( );
 
-
-        if ( $this->_mode & self::MODE_UPDATE ) {
-            if ( isset( $this->_locationTypeId ) ) {
-                $locationType = new CRM_Contact_DAO_LocationType();
-                
-                $locationType->id = $this->_locationTypeId;
-                $locationType->find(true);
-                
-                $defaults['name'] = $locationType->name;
-                $defaults['description'] = $locationType->description;
-            }
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
+            CRM_BAO_LocationType::retrieve( $params, $defaults );
         }
-
+        
         return $defaults;
     }
 
     /**
-     * Function to actually build the form
+     * Function to build the form
      *
      * @return None
      * @access public
@@ -102,6 +94,7 @@ class CRM_Admin_Form_LocationType extends CRM_Form
     public function buildQuickForm( ) {
         $this->add('text', 'name'       , 'Name'       ,
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
+        $this->addRule( 'name', 'Please enter a valid name.', 'required' );
         $this->add('text', 'description', 'Description', 
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
         
@@ -118,6 +111,7 @@ class CRM_Admin_Form_LocationType extends CRM_Form
 
        
     /**
+     * Function to process the form
      *
      * @access public
      * @return None
@@ -134,11 +128,11 @@ class CRM_Admin_Form_LocationType extends CRM_Form
         $locationType->description  = $params['description'];
 
         if ($this->_mode & self::MODE_UPDATE ) {
-            $locationType->id = $this->_locationTypeId;
+            $locationType->id = $this->_id;
         }else {
             $locationType->is_active    = 1;        
         }
-
+        
         $locationType->save( );
 
         CRM_Session::setStatus( 'The Location Type ' . $locationType->name . ' has been saved.' );
