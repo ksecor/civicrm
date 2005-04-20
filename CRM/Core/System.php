@@ -201,22 +201,17 @@ class CRM_System {
  * @access public
  */
 function __autoload( $class ) {
-    
-    echo "\$class = $class <p>";
-
     if ( substr( $class, 0, 4 ) != 'CRM_' ) {
         return;
     }
 
+    // need to check for classes that belong to the Core directory they are exceptions in the sense
+    // their location is CRM/Core/*.php but the class names do not have "Core" in the them
     if (substr_count($class, "_") == 1) {
         $class = str_replace('CRM_', 'CRM_Core_', $class);
-        echo "\$class = $class <p>";
     }
 
     $classPath = str_replace( '_', '/', $class ) . '.php';
-    echo "\$classpath = $classpath <p>";
-//    $classPath = str_replace('CRM_Core_', 'CRM_', $classPath);
-//    echo "\$classpath = $classpath <p>";
     require_once($classPath);
 }
 
