@@ -13,14 +13,14 @@
 {* Check for Status message for the page (stored in session->getStatus). Status is cleared on retrieval. *}
 {if $session->getStatus(false)}
 <div class="message status">
-  <img src="{$config->resourceBase}i/inform.gif" alt="status"> &nbsp; {$session->getStatus(true)}
+  <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp; {$session->getStatus(true)}
 </div>
 {/if}
 
 {include file=$tplFile}
 
 <div class="message status">
-  <img src="{$config->resourceBase}i/inform.gif" alt="status"> &nbsp; Please add your comments on the look and feel of these pages along with workflow issues on the <a href="http://objectledge.org/confluence/display/CRM/Demo">CiviCRM Comments Page</a>.
+  <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp; Please add your comments on the look and feel of these pages along with workflow issues on the <a href="http://objectledge.org/confluence/display/CRM/Demo">CiviCRM Comments Page</a>.
 <p>
 Please do not file bug reports at this time.
 </div>

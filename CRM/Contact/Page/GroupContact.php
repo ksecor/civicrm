@@ -78,7 +78,8 @@ class CRM_Contact_Page_GroupContact {
         // set the userContext stack
         $session = CRM_Session::singleton();
         $config  = CRM_Config::singleton();
-        $session->pushUserContext( $config->httpBase . 'civicrm/contact/view/group&op=browse' );
+
+        $session->pushUserContext( CRM_System::url('civicrm/contact/view/group', 'action=browse' ) );
 
         $controller->reset( );
 
@@ -95,10 +96,10 @@ class CRM_Contact_Page_GroupContact {
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
 
-        $op = CRM_Request::retrieve( 'op', $page, false, 'browse' );
-        $page->assign( 'op', $op );
+        $action = CRM_Request::retrieve( 'action', $page, false, 'browse' );
+        $page->assign( 'action', $action );
 
-        if ( $op == 'del' ) {
+        if ( $action == CRM_Action::DELETE ) {
             $groupContactId = $_GET['gcid'];
             $status = $_GET['st'];
             if (is_numeric($groupContactId) && strlen(trim($status))) {
@@ -106,7 +107,7 @@ class CRM_Contact_Page_GroupContact {
             }
         }
 
-        self::edit( $page, CRM_Form::MODE_ADD );
+        self::edit( $page, CRM_Action::ADD );
         self::browse( $page );
     }
 

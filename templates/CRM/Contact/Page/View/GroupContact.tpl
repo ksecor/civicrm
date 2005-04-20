@@ -26,7 +26,7 @@
 	    	<td></td>	
 	    	<td>Added (by {$row.in_method})</td> 
             	<td>{$row.in_date|date_format:"%B %e, %Y"}</td>
-	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&op=del&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.name}?');">[ Remove ]</a></td> 
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.name}?');">[ Remove ]</a></td> 
 	</tr>
      	{/foreach}
         </table>
@@ -58,7 +58,7 @@
 	    	<td></td>	
 	    	<td>Pending (by {$row.pending_method})</td> 
             	<td>{$row.pending_date|date_format:"%B %e, %Y"}</td>
-	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&op=del&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.name}?');">[ Remove ]</a></td> 
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.name}?');">[ Remove ]</a></td> 
 
     	</tr>
      	{/foreach}
@@ -94,7 +94,7 @@
 	    	<td></td>	
 	    	<td>Removed (by {$row.out_method})</td> 
             	<td>{$row.out_date|date_format:"%B %e, %Y"}</td>
-	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&op=del&st=i"}" onclick ="return confirm('Are you sure you want to add {$displayName} back into {$row.name}?');">[ Rejoin Group ]</a></td>
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=i"}" onclick ="return confirm('Are you sure you want to add {$displayName} back into {$row.name}?');">[ Rejoin Group ]</a></td>
 
     	</tr>
      	{/foreach}

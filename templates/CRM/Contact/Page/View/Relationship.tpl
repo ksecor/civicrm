@@ -2,7 +2,7 @@
  	<label>{$displayName}</label>
 </div>
 
-  {if $op eq 'view'}
+  {if $action eq 4}
   {if $relationship}
   <div class="form-item">
 	<fieldset><legend>View Relationship</legend>
@@ -23,7 +23,7 @@
 	</fieldset>
 </div>    
 {/if}
-{elseif $op eq 'add' or $op eq 'edit'}
+{elseif $action eq 1 or $action eq 2}
 {include file="CRM/Contact/Form/Relationship.tpl"}	
 {/if}
 
@@ -33,7 +33,7 @@
     {strip}
 	{if $relationship}
 	<div>
-    	 <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&op=add"}">New Relationship</a>
+    	 <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add"}">New Relationship</a>
        </div>
 	<p>
 	<table>
@@ -61,22 +61,23 @@
 	 	<td>{$rel.phone}</td>
 	 	<td>{$rel.city}</td>
 	 	<td>{$rel.state}</td>
-         	<td><!--a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=view&rtype={$rtype}">View</a> | <a href="{$config->httpBase}contact/view/rel&rid={$rel.id}&op=edit&rtype={$rtype}">Edit</a-->
-		   <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&op=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&op=edit&rtype=$rtype"}">Edit</a>
+         	<td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a>
 		</td>
 	</tr>
        	{/foreach}
        	</table>
        	</p>
-	{elseif $op EQ 'browse'}
+	{else}
 	<div class="status">
         <img src="crm/i/Inform.gif" alt="status"> &nbsp;
         There are no Relationships entered for this contact.
 	</div>
 	<p>
+        {if $action eq 16 or $action eq 4}
        	<div>
-	<a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&op=add"}">New Relationship</a>
+	<a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add"}">New Relationship</a>
        	</div>
+        {/if}
 	</p>
 	{/if}
 	{/strip}	
@@ -86,6 +87,6 @@
 {else}
    <div class="message status">
    <img src="crm/i/Inform.gif" alt="status"> &nbsp;
-   There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q='op=add'}">add one</a>.
+   There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">add one</a>.
   </div>
 {/if}

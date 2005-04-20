@@ -1,13 +1,13 @@
 {* this template is used for adding/editing relationships  *}
 <form {$form.attributes}>
 <div class="form-item">
-<fieldset><legend>{if $op eq 'add'}New{else}Edit{/if} Relationship(s)</legend>
+<fieldset><legend>{if $action eq 1}New{else}Edit{/if} Relationship(s)</legend>
 	<div class="data-group">
       	<span><label>{$displayName} is a {$form.relationship_type_id.html} of {$sort_name}</label></span>
 	</div>
 	<div>
 
-	{if $op eq 'add'}
+	{if $action eq 1}
         <span class="description">
             Use 'Search' to narrow down list of contacts. Then mark the contact(s) and click 'Create Relationship'	
         </span>
@@ -53,8 +53,8 @@
         </div>
 	{/if}
 
-	{* Only show start/end date and buttons if op=edit, OR if we have $contacts (results)*}
-    {if $contacts OR $op EQ 'edit'}
+	{* Only show start/end date and buttons if action=update, OR if we have $contacts (results)*}
+    {if $contacts OR $action EQ 2}
         <div class="horizontal-position">
         <span class="two-col1">
         <span class="labels">{$form.start_date.label}</span>
