@@ -50,7 +50,7 @@ class CRM_BAO_IMProvider extends CRM_DAO_IMProvider {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_BAO_LocaationType object
+     * @return object CRM_BAO_IMProvider object
      * @access public
      * @static
      */

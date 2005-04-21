@@ -46,7 +46,7 @@ class CRM_Admin_Form_IMProvider extends CRM_Form
      *
      * @var int
      */
-    protected $_IMProviderId;
+    protected $_id;
 
     /**
      * class constructor
@@ -63,7 +63,7 @@ class CRM_Admin_Form_IMProvider extends CRM_Form
     }
 
     function preProcess( ) {
-        $this->_IMProviderId    = $this->get( 'IMProviderId' );
+        $this->_id    = $this->get( 'id' );
     }
 
     /**
@@ -76,18 +76,12 @@ class CRM_Admin_Form_IMProvider extends CRM_Form
     function setDefaultValues( ) {
         $defaults = array( );
         $params   = array( );
-
-        if ( $this->_mode & self::MODE_UPDATE ) {
-            if ( isset( $this->_IMProviderId ) ) {
-                $IMProvider = new CRM_DAO_IMProvider();
-                
-                $IMProvider->id = $this->_IMProviderId;
-                $IMProvider->find(true);
-                
-                $defaults['name'] = $IMProvider->name;
-            }
+ 
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
+            CRM_BAO_IMProvider::retrieve( $params, $defaults );
         }
-
+        
         return $defaults;
     }
 
@@ -100,7 +94,7 @@ class CRM_Admin_Form_IMProvider extends CRM_Form
     public function buildQuickForm( ) {
         $this->add('text', 'name'       , 'Name'       ,
                    CRM_DAO::getAttribute( 'CRM_DAO_IMProvider', 'name' ) );
-             
+        $this->addRule( 'name', 'Please enter a valid name.', 'required' );             
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',
@@ -128,7 +122,7 @@ class CRM_Admin_Form_IMProvider extends CRM_Form
         $IMProvider->name         = $params['name'];
 
         if ($this->_mode & self::MODE_UPDATE ) {
-            $IMProvider->id = $this->_IMProviderId;
+            $IMProvider->id = $this->_id;
         }
 
         $IMProvider->save( );

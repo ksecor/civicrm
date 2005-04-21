@@ -14,7 +14,7 @@
        {foreach from=$rows item=row}
          <tr class="{cycle values="odd-row,even-row"}">
 	    <td> {$row.name}</td>	
-            <td><a href="{crmURL p='admin/contact/IMProvider' q="impid=`$row.id`&action=edit"}">Edit</a></td>	
+            <td><a href="{crmURL p='admin/contact/IMProvider' q="id=`$row.id`&action=update"}">Edit</a></td>	
          </tr>
        {/foreach}
        </table>

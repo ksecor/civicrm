@@ -46,7 +46,7 @@ class CRM_Admin_Form_MobileProvider extends CRM_Form
      *
      * @var int
      */
-    protected $_MobileProviderId;
+    protected $_id;
 
     /**
      * class constructor
@@ -63,7 +63,7 @@ class CRM_Admin_Form_MobileProvider extends CRM_Form
     }
 
     function preProcess( ) {
-        $this->_MobileProviderId    = $this->get( 'MobileProviderId' );
+        $this->_id    = $this->get( 'id' );
     }
 
     /**
@@ -77,17 +77,11 @@ class CRM_Admin_Form_MobileProvider extends CRM_Form
         $defaults = array( );
         $params   = array( );
 
-        if ( $this->_mode & self::MODE_UPDATE ) {
-            if ( isset( $this->_MobileProviderId ) ) {
-                $MobileProvider = new CRM_DAO_MobileProvider();
-                
-                $MobileProvider->id = $this->_MobileProviderId;
-                $MobileProvider->find(true);
-                
-                $defaults['name'] = $MobileProvider->name;
-            }
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
+            CRM_BAO_MobileProvider::retrieve( $params, $defaults );
         }
-
+  
         return $defaults;
     }
 
@@ -100,7 +94,8 @@ class CRM_Admin_Form_MobileProvider extends CRM_Form
     public function buildQuickForm( ) {
         $this->add('text', 'name'       , 'Name'       ,
                    CRM_DAO::getAttribute( 'CRM_DAO_MobileProvider', 'name' ) );
-             
+        $this->addRule( 'name', 'Please enter a valid name.', 'required' );             
+        
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',

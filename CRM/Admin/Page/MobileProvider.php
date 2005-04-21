@@ -31,79 +31,40 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Admin_Page_MobileProvider {
-
+class CRM_Admin_Page_MobileProvider extends CRM_Page_Basic {
     /**
-     * the Mobile Provider id being viewed
-     * @int
-     */
-    protected $_MobileProviderId;
-    
-    /**
-     * class constructor
+     * The action links that we need to display for the browse screen
      *
-     * @return CRM_Page
+     * @var array
      */
-    function __construct( ) {
+    static $_links = array(
+                           CRM_Action::UPDATE  => array(
+                                                        'name'  => 'Edit',
+                                                        'url'   => 'admin/contact/mobileProvider',
+                                                        'qs'    => 'action=update&id=%%id%%',
+                                                        'title' => 'Edit Mobile Provider'),
+                           );
 
+    function getBAOName( ) {
+        return 'CRM_BAO_MobileProvider';
     }
 
-    function run($page) 
-    {
-        $op = CRM_Request::retrieve( 'op', $page, false, 'browse' );
-        $page->assign( 'op', $op );
-        
-        switch ( $op ) {
-        case 'edit':
-            self::edit( $page, CRM_Form::MODE_UPDATE );
-            break;
-            
-        case 'add':
-            self::edit( $page, CRM_Form::MODE_ADD );
-            break;
-        }
-        
-        self::browse( $page );
+    function &links( ) {
+        return self::$_links;
     }
 
-    static function browse( $page ) 
-    {
-        $MobileProvider = new CRM_DAO_MobileProvider( );
-        
-        $MobileProvider->orderBy( 'name asc' );
-
-        $values = array( );
-        $MobileProvider->find( );
-        while ( $MobileProvider->fetch( ) ) {
-            $values[$MobileProvider->id] = array( );
-            $MobileProvider->storeValues( $values[$MobileProvider->id] );
-        }
-      
-        $page->assign( 'MobileProviders', $values );
+    function formClass( ) {
+        return 'CRM_Admin_Form_MobileProvider';
     }
- 
-   static function edit( $page, $mode ) 
-    {
-        $MobileProviderId = $_GET['impid'];
-        
-        $controller = new CRM_Controller_Simple( 'CRM_Admin_Form_MobileProvider', 'Mobile Provider', $mode );
-        
-       // set the userContext stack
-        $session = CRM_Session::singleton();
-        $config  = CRM_Config::singleton();
-        $session->pushUserContext( $config->httpBase . 'admin/contact/mobprov&op=browse' );
-        
-        if (!$MobileProviderId) {
-            $MobileProviderId = $controller->get( 'MobileProviderId' );
-        }
 
-        $controller->reset( );
-        $controller->set( 'MobileProviderId'  , $MobileProviderId );
+    function formName( ) {
+        return 'Mobile Provider';
+    }
 
-        $controller->process( );
-        $controller->run( );
+    function UserContext( ) {
+        return 'admin/contact/mobileProvider';
     }
 
 }

@@ -383,7 +383,7 @@ function civicrm_admin_invoke()
 
     // Mobile provider
     if (arg(1) == 'contact' && arg(2) == 'mobileProvider') {
-        $view = new CRM_Admin_Page_View( 'View Mobile Providers','',CRM_Admin_Page_View::MODE_MOB_PROVIDER );
+        $view = new CRM_Admin_Page_MobileProvider( 'View Mobile Providers' );
         $content .= $view->run( );
     }
 

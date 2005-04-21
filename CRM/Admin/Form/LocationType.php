@@ -79,7 +79,7 @@ class CRM_Admin_Form_LocationType extends CRM_Form
 
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-            CRM_BAO_LocationType::retrieve( $params, $defaults );
+            CRM_Contact_BAO_LocationType::retrieve( $params, $defaults );
         }
         
         return $defaults;
@@ -95,6 +95,7 @@ class CRM_Admin_Form_LocationType extends CRM_Form
         $this->add('text', 'name'       , 'Name'       ,
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
         $this->addRule( 'name', 'Please enter a valid name.', 'required' );
+
         $this->add('text', 'description', 'Description', 
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
         

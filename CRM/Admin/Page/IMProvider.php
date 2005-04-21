@@ -44,7 +44,7 @@ class CRM_Admin_Page_IMProvider extends CRM_Page_Basic {
                                                         'name'  => 'Edit',
                                                         'url'   => 'admin/contact/IMProvider',
                                                         'qs'    => 'action=update&id=%%id%%',
-                                                        'title' => 'Edit Location Type'),
+                                                        'title' => 'IM Provider'),
                            );
 
     function getBAOName( ) {
