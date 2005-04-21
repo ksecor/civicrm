@@ -88,8 +88,9 @@ class CRM_Form extends HTML_QuickForm_Page {
         MODE_UPDATE                =   2,
         MODE_VIEW                  =   4,
         MODE_DELETE                =   8,
-        MODE_SEARCH_BASIC          =  16,
-        MODE_SEARCH_ADVANCED       =  32; 
+        MODE_SEARCH                =  16,
+        MODE_BASIC                 =  32,
+        MODE_ADVANCED              =  64; 
 
     /**
      * All checkboxes are defined with a common prefix. This allows us to

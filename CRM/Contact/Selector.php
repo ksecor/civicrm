@@ -48,18 +48,6 @@ require_once 'CRM/Contact/BAO/Contact.php';
  */
 class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API 
 {
-    
-    /**
-     * Constants are used for assigning a type of selector.
-     * 
-     * Selectors can be for Basic or Advanced search.
-     *
-     * @var const int
-     */
-    const
-        TYPE_BASIC = 0,
-        TYPE_ADVANCED = 1;
-
 
     /**
      * This defines two actions- View and Edit.
@@ -156,7 +144,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @return CRM_Contact_AdvancedSelector
      * @access public
      */
-    function __construct(&$formValues, $type=self::TYPE_BASIC) 
+    function __construct(&$formValues, $type=CRM_Form::MODE_NONE) 
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
@@ -227,10 +215,10 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     function getTotalCount($action)
     {
         switch ($this->_type) {
-        case self::TYPE_BASIC:
+        case CRM_Form::MODE_BASIC:
             $v1 = $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
             break;
-        case self::TYPE_ADVANCED:
+        case CRM_Form::MODE_ADVANCED:
             $v1 = $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
             break;
         }
@@ -259,14 +247,13 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         // note the formvalues were given by CRM_Contact_Form_Search to us 
         // and contain the search criteria (parameters)
         switch ($this->_type) {
-        case self::TYPE_BASIC:
+        case CRM_Form::MODE_BASIC:
             $result = $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort);
             break;
-        case self::TYPE_ADVANCED:
+        case CRM_Form::MODE_ADVANCED:
             $result = $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort);
             break;
         }
-
 
         // process the result of the query
         $rows = array( );
@@ -323,7 +310,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         $qill = "all";
 
         switch ($this->_type) {
-        case self::TYPE_BASIC:
+        case CRM_Form::MODE_BASIC:
             if ($this->_formValues['contact_type'] != 'any') {
                 $qill .= " " . $this->_formValues['contact_type'] . "s";
             } else {
@@ -348,7 +335,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
             $qill = rtrim($qill, " and");
             break;
 
-        case self::TYPE_ADVANCED:
+        case CRM_Form::MODE_ADVANCED:
             // check for contact type restriction
             if ($this->_formValues['cb_contact_type']) {
                 foreach ($this->_formValues['cb_contact_type']  as $k => $v) {

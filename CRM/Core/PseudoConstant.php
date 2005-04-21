@@ -46,18 +46,6 @@
 class CRM_PseudoConstant {
 
     /**
-     * constants for storing different types of saved searches 
-     * this constant is used to interpret the sumitted form values
-     *
-     * @var constant int
-     */
-
-    const
-        CONTACT_SEARCH_BASIC         = 0,
-        CONTACT_SEARCH_ADVANCED      = 2; 
-
-
-    /**
      * various pre defined contact super types
      * @var array
      * @static

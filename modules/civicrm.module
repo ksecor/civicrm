@@ -553,7 +553,7 @@ function civicrm_search()
     // advanced search
     if(arg(3) == 'advanced') {
         $wrapper = new CRM_Wrapper();
-        $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH_ADVANCED,
+        $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_ADVANCED,
                       CRM_System::url( 'civicrm/contact/search/advanced', 'reset=1' ));
         CRM_Error::ll_method();
         return $wrapper->getContent();
@@ -569,7 +569,7 @@ function civicrm_search()
 
     // basic search
     $wrapper = new CRM_Wrapper();
-    $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_SEARCH_BASIC,
+    $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_BASIC,
                   CRM_System::url( 'civicrm/contact/search', 'reset=1' ));
     CRM_Error::ll_method();
     return $wrapper->getContent();

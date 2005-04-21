@@ -75,11 +75,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
         CRM_Error::le_method();
         CRM_Error::debug_var('this->_mode', $this->_mode);
         switch($this->_mode) {
-        case CRM_Form::MODE_SEARCH_BASIC:
+        case CRM_Form::MODE_BASIC:
             CRM_Error::debug_log_message('building basic search form');
             $this->buildBasicSearchForm();
             break;
-        case CRM_Form::MODE_SEARCH_ADVANCED:
+        case CRM_Form::MODE_ADVANCED:
             CRM_Error::debug_log_message('building advanced search form');
             $this->buildAdvancedSearchForm();
             break;        
@@ -258,16 +258,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $formValues = $this->controller->exportValues($this->_name);
             CRM_Error::debug_var("formValues", $formValues);
             CRM_Error::debug_var('this->_mode', $this->_mode);
-            switch($this->_mode) {
-            case CRM_Form::MODE_SEARCH_BASIC:
-                CRM_Error::debug_log_message('processing basic search form');
-                $selector = new CRM_Contact_Selector($formValues, CRM_Contact_Selector::TYPE_BASIC);
-                break;
-            case CRM_Form::MODE_SEARCH_ADVANCED:
-                CRM_Error::debug_log_message('processing advanced search form');
-                $selector = new CRM_Contact_Selector($formValues, CRM_Contact_Selector::TYPE_ADVANCED);
-                break;        
-            }
+            $selector = new CRM_Contact_Selector($formValues, $this->_mode);
             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
             $controller->run();
         }

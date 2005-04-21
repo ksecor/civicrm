@@ -395,7 +395,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $savedSearchBAO->name = $formValues['ss_name'];
             $savedSearchBAO->description = $formValues['ss_description'];
             $savedSearchBAO->query = $query_string;
-            $savedSearchBAO->search_type = CRM_PseudoConstant::CONTACT_SEARCH_ADVANCED;
+            $savedSearchBAO->search_type = CRM_Form::MODE_ADVANCED;
             $savedSearchBAO->form_values = serialize($formValues);
             $savedSearchBAO->insert();
         }
