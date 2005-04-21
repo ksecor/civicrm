@@ -9,7 +9,7 @@ exec 'from '+validatorPkg+' import Validator'
 
 
 # definition of test class
-class addHousehold_complete(PyHttpTestCase):
+class testAddContactHousehold(PyHttpTestCase):
     def runTest(self):
         self.msg('Test started')
 
@@ -128,13 +128,13 @@ class addHousehold_complete(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/crm/i/inform.gif''') % drupal_path)
-        url = "%s/crm/i/inform.gif" % drupal_path
+        self.msg("Testing URL: %s" % self.replaceURL('''%s/crm/i/Inform.gif''') % drupal_path)
+        url = "%s/crm/i/Inform.gif" % drupal_path
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 8 failed", 404, self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
 
@@ -143,5 +143,6 @@ class addHousehold_complete(PyHttpTestCase):
 
 # Code to load and run the test
 if __name__ == 'main':
-    test = addHousehold_complete("addHousehold_complete")
+    test = testAddContactHousehold("testAddContactHousehold")
     test.Run()
+

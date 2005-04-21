@@ -139,13 +139,13 @@ class testAddContactOrganization(PyHttpTestCase):
         self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/crm/i/inform.gif''') % drupal_path)
-        url = "%s/crm/i/inform.gif" % drupal_path
+        self.msg("Testing URL: %s" % self.replaceURL('''%s/crm/i/Inform.gif''') % drupal_path)
+        url = "%s/crm/i/Inform.gif" % drupal_path
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 9 failed", 404, self.getResponseCode())
+        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
 
