@@ -71,20 +71,30 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
         //CRM_Error::le_method();
 
         $session = CRM_Session::singleton( );
-        $formValues = unserialize($session->get("formValues"));
+        $asfv = unserialize($session->get("formValues", "advancedSearch"));
 
-        $selector = new CRM_Contact_Selector($formValues, CRM_Form::MODE_ADVANCED);
-        $formValuesString = $selector->getQILL();
+        //CRM_Error::debug_var('asfv', $asfv);
+
+        $fvs = CRM_Contact_Selector::getQILL($asfv, CRM_Form::MODE_ADVANCED);
 
         $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        $template->assign('formValuesString' , $formValuesString);
+        $template->assign('fvs' , $fvs);
         
-        // $this->addElement('label', 'fv_string' . $formValuesString);
         $this->addElement('text', 'name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
         $this->addElement('text', 'description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description') );
 
+        // add the buttons
+        $this->addButtons(array(
+                                array ( 'type'      => 'refresh',
+                                        'name'      => 'Search',
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'reset',
+                                        'name'      => 'Reset'),
+                                )
+                          );
 
-        //CRM_Error::debug_var('formValues', $formValues);
+
+
 
         //CRM_Error::ll_method();
     }
@@ -127,6 +137,26 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
 
     function postProcess() 
     {
+        //CRM_Error::le_method();
+
+        if($_GET['reset'] != 1) {
+
+            $session = CRM_Session::singleton( );
+            $asfv = $session->get("formValues", "advancedSearch");
+
+            $cfv = $this->controller->exportValues($this->_name);
+        
+            //CRM_Error::debug_var('cfv', $cfv);
+
+            $savedSearchBAO = new CRM_Contact_BAO_SavedSearch();
+            $savedSearchBAO->domain_id = 1;   // hack for now
+            $savedSearchBAO->name = $cfv['name'];
+            $savedSearchBAO->description = $cfv['description'];
+            $savedSearchBAO->search_type = CRM_Form::MODE_ADVANCED;
+            $savedSearchBAO->form_values = $asfv;
+            $savedSearchBAO->insert();
+        }
+        //CRM_Error::ll_method();
     }
 }
 ?>

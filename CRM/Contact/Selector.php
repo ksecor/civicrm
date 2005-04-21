@@ -308,10 +308,10 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @access public
      */
   
-    function getQILL($formValues=null, $type=null)
+    public static function getQILL(&$formValues, $type)
     {
-        CRM_Error::le_method();
-        CRM_Error::debug_var('formValues', $this->_formValues);
+        //CRM_Error::le_method();
+        //CRM_Error::debug_var('formValues', $formValues);
 
         // query in local language
         $qill = "";
@@ -322,29 +322,36 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         $patternAnd = "/(.*) and$/";
         $replacement = "$1";
 
-        switch ($this->_type) {
+        // load the PseudoConstant arrays
+        CRM_PseudoConstant::populateGroup();
+        CRM_PseudoConstant::populateCategory();
+        CRM_PseudoConstant::populateStateProvince();
+        CRM_PseudoConstant::populateCountry();
+        CRM_PseudoConstant::populateLocationType();        
+
+        switch ($type) {
         case CRM_Form::MODE_BASIC:
-            if ($this->_formValues['contact_type'] != 'any') {
-                $qill .= " " . $this->_formValues['contact_type'] . "s";
+            if ($formValues['contact_type'] != 'any') {
+                $qill .= " " . $formValues['contact_type'] . "s";
             } else {
                 $qill .= " contacts";
             }
 
             // check for group restriction
-            if ($this->_formValues['group'] != 'any') {
+            if ($formValues['group'] != 'any') {
                 // BUG.... 
-                $qill .= " belonging to the group \"" . CRM_PseudoConstant::$group[$this->_formValues['group']] . "\" and";
+                $qill .= " belonging to the group \"" . CRM_PseudoConstant::$group[$formValues['group']] . "\" and";
             }
             
             // check for category restriction
-            if ($this->_formValues['category'] != 'any') {
-                $qill .= " categorized as \"" . CRM_PseudoConstant::$category[$this->_formValues['category']] . "\" and";
+            if ($formValues['category'] != 'any') {
+                $qill .= " categorized as \"" . CRM_PseudoConstant::$category[$formValues['category']] . "\" and";
             }
             
             // check for last name, as of now only working with sort name
-            if ($this->_formValues['sort_name']) {
-                $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($this->_formValues['sort_name'])) ."%'";
-                $qill .= "whose name is like \"" . $this->_formValues['sort_name'] . "\" and";
+            if ($formValues['sort_name']) {
+                $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['sort_name'])) ."%'";
+                $qill .= "whose name is like \"" . $formValues['sort_name'] . "\" and";
             }
             $qill = preg_replace($patternAnd, $replacement, $qill);
             break;
@@ -355,8 +362,8 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // contact type
             $qill .= "<li>Contact Type -";
-            if ($this->_formValues['cb_contact_type']) {
-                foreach ($this->_formValues['cb_contact_type']  as $k => $v) {
+            if ($formValues['cb_contact_type']) {
+                foreach ($formValues['cb_contact_type']  as $k => $v) {
                     $qill .= " {$k}s or";
                 }            
                 $qill = preg_replace($patternOr, $replacement, $qill);
@@ -368,10 +375,8 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
             
             // check for group restriction
             $qill .= "<li>Belonging to Group -";
-            if ($this->_formValues['cb_group']) {
-                foreach ($this->_formValues['cb_group']  as $k => $v) {
-                    CRM_Error::debug_var('k', $k);
-                    CRM_Error::debug_var("CRM_PseudoConstant_group", CRM_PseudoConstant::$group);
+            if ($formValues['cb_group']) {
+                foreach ($formValues['cb_group']  as $k => $v) {
                     $qill .= " \"" . CRM_PseudoConstant::$group[$k] . "\" or";
                 }
                 $qill = preg_replace($patternOr, $replacement, $qill);
@@ -383,8 +388,8 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // check for category restriction
             $qill .= "<li>Categorized as -";
-            if ($this->_formValues['cb_category']) {
-                foreach ($this->_formValues['cb_category'] as $k => $v) {
+            if ($formValues['cb_category']) {
+                foreach ($formValues['cb_category'] as $k => $v) {
                     $qill .= " \"" . CRM_PseudoConstant::$category[$k] . "\" or";
                 }
                 $qill = preg_replace($patternOr, $replacement, $qill);
@@ -395,8 +400,8 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // check for last name, as of now only working with sort name
             $qill .= "<li>Name like -";
-            if ($this->_formValues['sort_name']) {
-                $qill .= " \"" . $this->_formValues['sort_name'] . "\"";
+            if ($formValues['sort_name']) {
+                $qill .= " \"" . $formValues['sort_name'] . "\"";
             } else {
                 $qill .= $dontCare;
             }
@@ -404,8 +409,8 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // street_name
             $qill .= "<li>Street Name like -";
-            if ($this->_formValues['street_name']) {
-                $qill .= " \"" . $this->_formValues['street_name'] . "\"";
+            if ($formValues['street_name']) {
+                $qill .= " \"" . $formValues['street_name'] . "\"";
             } else {
                 $qill .= $dontCare;
             }
@@ -413,8 +418,8 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // city_name
             $qill .= "<li>City Name like -";
-            if ($this->_formValues['city']) {
-                $qill .= " \"" . $this->_formValues['city'] . "\"";
+            if ($formValues['city']) {
+                $qill .= " \"" . $formValues['city'] . "\"";
             } else {
                 $qill .= $dontCare;
             }
@@ -422,8 +427,8 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // state
             $qill .= "<li>State -";
-            if ($this->_formValues['state_province']) {
-                $qill .= " \"" . CRM_PseudoConstant::$stateProvince[$this->_formValues['state_province']] . "\"";
+            if ($formValues['state_province']) {
+                $qill .= " \"" . CRM_PseudoConstant::$stateProvince[$formValues['state_province']] . "\"";
             } else {
                 $qill .= $dontCare;
             }
@@ -432,8 +437,8 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // country
             $qill .= "<li>Country -";
-            if ($this->_formValues['country']) {
-                $qill .= " \"" . CRM_PseudoConstant::$country[$this->_formValues['country']] . "\"";
+            if ($formValues['country']) {
+                $qill .= " \"" . CRM_PseudoConstant::$country[$formValues['country']] . "\"";
             } else {
                 $qill .= $dontCare;
             }
@@ -442,19 +447,19 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // postal code processing
             $qill .= "<li>Postal code -";
-            if ($this->_formValues['postal_code'] || $this->_formValues['postal_code_low'] || $this->_formValues['postal_code_high']) {
+            if ($formValues['postal_code'] || $formValues['postal_code_low'] || $formValues['postal_code_high']) {
                 // postal code = value
-                if ($this->_formValues['postal_code']) {
-                    $qill .= " \"" . $this->_formValues['postal_code'] . "\" or";
+                if ($formValues['postal_code']) {
+                    $qill .= " \"" . $formValues['postal_code'] . "\" or";
                 }
                 
                 // postal code between 2 values
-                if ($this->_formValues['postal_code_low'] && $this->_formValues['postal_code_high']) {
-                    $qill .= " between \"" . $this->_formValues['postal_code_low'] . "\" and \"" . $this->_formValues['postal_code_high'] . "\"";
-                } elseif ($this->_formValues['postal_code_low']) {
-                    $qill .= " greater than \"" . $this->_formValues['postal_code_low'] . "\"";
-                } elseif ($this->_formValues['postal_code_high']) {
-                    $qill .= " less than \"" . $this->_formValues['postal_code_high'] . "\"";
+                if ($formValues['postal_code_low'] && $formValues['postal_code_high']) {
+                    $qill .= " between \"" . $formValues['postal_code_low'] . "\" and \"" . $formValues['postal_code_high'] . "\"";
+                } elseif ($formValues['postal_code_low']) {
+                    $qill .= " greater than \"" . $formValues['postal_code_low'] . "\"";
+                } elseif ($formValues['postal_code_high']) {
+                    $qill .= " less than \"" . $formValues['postal_code_high'] . "\"";
                 }            
                 // remove the trailing "or"
                 $qill = preg_replace($patternOr, $replacement, $qill);
@@ -465,9 +470,9 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // location type processing
             $qill .= "<li>Location type -";
-            if ($this->_formValues['cb_location_type']) {
-                if (!$this->_formValues['cb_location_type']['any']) {
-                    foreach ($this->_formValues['cb_location_type']  as $k => $v) {
+            if ($formValues['cb_location_type']) {
+                if (!$formValues['cb_location_type']['any']) {
+                    foreach ($formValues['cb_location_type']  as $k => $v) {
                         $qill .= " " . CRM_PseudoConstant::$locationType[$k] . " or";
                     }
                     $qill = preg_replace($patternOr, $replacement, $qill);
@@ -481,7 +486,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         
             // primary location processing
             $qill .= "<li>Primary Location only ? -";
-            if ($this->_formValues['cb_primary_location']) {
+            if ($formValues['cb_primary_location']) {
                 $andArray['cb_primary_location'] = "crm_location.is_primary = 1";
                 $qill .= " Yes";
             } else {
@@ -502,6 +507,12 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
             return "";
         }
     }
+
+
+    public function getMyQILL() {
+        return self::getQILL($this->_formValues, $this->_type);
+    }
+
 
     function getExportColumnHeaders($action, $type = 'csv')
     {

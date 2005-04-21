@@ -169,6 +169,7 @@ class CRM_Selector_Controller {
     }
 
     function run( ) {
+        CRM_Error::le_method();
         //print $this->_pager->getPageID();
         $config  = CRM_Config::singleton ();
         $session = CRM_Session::singleton();
@@ -179,7 +180,7 @@ class CRM_Selector_Controller {
                                                    $this->_pagerRowCount,
                                                    $this->_sort );
         $rowsEmpty = count( $rows ) ? false : true;
-        $qill = $this->_object->getQILL();
+        $qill = $this->_object->getMyQILL();
 
         $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
         $template->assign_by_ref( 'config' , $config  );
@@ -199,6 +200,7 @@ class CRM_Selector_Controller {
         $this->_store->set( CRM_Pager::PAGE_ID      , $this->_pager->getCurrentPageID( ) );
         $this->_store->set( CRM_Sort::SORT_ID       , $this->_sort->getCurrentSortID ( ) );
         $this->_store->set( CRM_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage            );
+        CRM_Error::ll_method();
     }
     
     function getPager() {

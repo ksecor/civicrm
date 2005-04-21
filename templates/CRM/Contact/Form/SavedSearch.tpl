@@ -1,10 +1,12 @@
-<p><hr>Searched for {$formValuesString} <hr>
+<p><hr>Searched for {$fvs} <hr>
+<p>
 
-
-{$form.name.label}
-{$form.name.html}
-{$form.description.label}
-{$form.description.html}
-
-
+<form {$form.attributes}>
+{$form.hidden}
+{$form.name.label} {$form.name.html}
+<p>
+{$form.description.label} {$form.description.html}
+<p>
+{$form.buttons.html}
+</form>
 

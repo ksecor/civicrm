@@ -258,7 +258,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $formValues = $this->controller->exportValues($this->_name);
             // important - we need to store the formValues in the session in case we want to save it.
             $session = CRM_Session::singleton( );
-            $session->set("formValues", serialize($formValues));
+            $session->set("formValues", serialize($formValues), "advancedSearch");
             $selector = new CRM_Contact_Selector($formValues, $this->_mode);
             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
             $controller->run();
