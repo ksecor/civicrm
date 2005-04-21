@@ -317,10 +317,18 @@ function civicrm_menu($may_cache)
                          );
 
         $items[] = array(
-                         'path'   => 'civicrm/extproperty',
+                         'path'   => 'civicrm/extproperty/group',
                          'title'  => t('Browse Extended Properties'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 3
+                         );
+  
+        $items[] = array(
+                         'path'   => 'civicrm/extproperty/field',
+                         'title'  => t('Browse Extended Property Fields'),
+                         'qs'     => 'reset=1',
+                         'type'   => MENU_CALLBACK,
                          'weight' => 3
                          );
   
@@ -409,13 +417,10 @@ function civicrm_invoke()
     if (arg(1) == 'extproperty') {
         if ( arg(2) == 'group' ) {	
             $page = new CRM_ExtProperty_Page_Group( 'Page_Group', 'Extended Property Group' );
-            $content = $page->run( );
         } else {
-            $wrapper = new CRM_Wrapper();
-            $wrapper->run('CRM_ExtProperty_Form_Field', 'Extended Property', 0,
-                          CRM_System::url( 'civicrm/extproperty/group', 'reset=1' ) );
-            $content = $wrapper->getContent();
+            $page = new CRM_ExtProperty_Page_Field( 'Page_Field', 'Extended Property Field' );
         }
+        $content = $page->run( );
         print theme('page', $content);
     }
   

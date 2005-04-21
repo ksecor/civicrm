@@ -434,9 +434,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $privacy = CRM_Array::value( 'privacy', $params );
         if ( $privacy && is_array( $privacy ) ) {
             foreach ( self::$_commPrefs as $name ) {
-                if ( array_key_exists( $name, $privacy ) ) {
-                    $contact->$name = $privacy[$name];
-                }
+                $contact->$name = CRM_Array::value( $name, $privacy, false );
             }
         }
 

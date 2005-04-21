@@ -80,6 +80,28 @@ abstract class CRM_Page_Basic extends CRM_Page {
     abstract function userContext( );
 
     /**
+     * function to get userContext params
+     *
+     * @return string
+     * @access public
+     */
+    function userContextParams( ) {
+        return 'reset=1&action=browse';
+    }
+
+    /**
+     * allows the derived class to add some more state variables to
+     * the controller. By default does nothing, and hence is abstract
+     *
+     * @param CRM_Controller $controller the controller object
+     *
+     * @return void
+     * @access public
+     */
+    function addValues( $controller ) {
+    }
+
+    /**
      * class constructor
      *
      * @param string $name  name of the page
@@ -96,7 +118,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
         $action = CRM_Request::retrieve( 'action', $this, false, 'browse' );
         $this->assign( 'action', $action );
 
-        $id = CRM_Request::retrieve( 'id', $this, false, 0 );
+        $id  = CRM_Request::retrieve( 'id', $this, false, 0 );
 
         if ( $action & (CRM_Action::VIEW | CRM_Action::ADD | CRM_Action::UPDATE) ) {
             $this->edit($action, $id );
@@ -131,7 +153,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
         while ( $object->fetch( ) ) {
             $values[$object->id] = array( );
             $object->storeValues( $values[$object->id] );
-            if ( isset( $object->is_active ) {
+            if ( isset( $object->is_active ) ) {
                 if ( $object->is_active ) {
                     $newAction = $action + CRM_Action::DISABLE;
                 } else {
@@ -149,12 +171,13 @@ abstract class CRM_Page_Basic extends CRM_Page {
 
        // set the userContext stack
         $session = CRM_Session::singleton();
-        $session->pushUserContext( CRM_System::url( $this->userContext( ), 'reset=1&action=browse' ) );
+        $session->pushUserContext( CRM_System::url( $this->userContext( ), $this->userContextParams( ) ) );
         
         $controller->reset( );
-        if ($id) {
+        if ( $id ) {
             $controller->set( 'id'   , $id );
         }
+        $this->addValues( $controller );
         $controller->process( );
         $controller->run( );
     }

@@ -62,7 +62,6 @@
   <field>
       <name>validation_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>FK to crm_validation.</comment>
   </field>
   <foreignKey>

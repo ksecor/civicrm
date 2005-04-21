@@ -38,18 +38,18 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_ExtProperty_Form_Field extends CRM_Form {
     /**
-    * the ext prop group id saved to the session for an update
+     * the ext prop group id saved to the session for an update
      *
      * @var int
      */
-    protected $_groupId;
+    protected $_gid;
 
     /**
-        * The ext property id, used when editing the ext property
+     * The ext property id, used when editing the ext property
      *
      * @var int
      */
-    protected $_extPropertyId;
+    protected $_id;
     
     /**
      * class constructor
@@ -65,9 +65,8 @@ class CRM_ExtProperty_Form_Field extends CRM_Form {
      * @access public
      */
     public function preProcess( ) {
-        $this->get( 'groupId' );
-        $this->get( 'extPropertyId' );
-
+        $this->_gid = CRM_Request::retrieve( 'gid', $this );
+        $this->_id  = CRM_Request::retrieve( 'id' , $this );
     }
 
     /**
@@ -78,13 +77,14 @@ class CRM_ExtProperty_Form_Field extends CRM_Form {
      * @return None
      */
     function setDefaultValues( ) {
-        $defaults = array( 'is_active' => '1' );
-        $params   = array( );
+        $defaults = array( );
         
-        if ( $this->_mode & self::MODE_UPDATE ) {
-            if ( isset( $this->_extPropertyId ) ) {
-                $defaults['field'] = CRM_BAO_ExtProperty::getExtProperty( $this->_extPropertyId );
-            }
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
+            CRM_BAO_ExtProperty::retrieve( $params, $defaults );
+            $this->_gid = $defaults['ext_property_group_id'];
+        } else {
+            $defaults['is_active'] = 1;
         }
         
         return $defaults;
@@ -95,8 +95,6 @@ class CRM_ExtProperty_Form_Field extends CRM_Form {
      *
      * @return None
      * @access public
-     validation_id int unsigned NOT NULL   COMMENT 'FK to crm_validation.' 
-     
      */
     public function buildQuickForm( ) {
         $this->add( 'text', 'title'      , 'Field Label', CRM_DAO::getAttribute( 'CRM_DAO_ExtProperty', 'title'       ), true );
@@ -120,10 +118,11 @@ class CRM_ExtProperty_Form_Field extends CRM_Form {
                                  )
                            );
     }
-
+    
     /**
      * Process the form
-     *     * @return void
+     *
+     * @return void
      * @access public
      */
     public function postProcess( ) {
@@ -136,16 +135,16 @@ class CRM_ExtProperty_Form_Field extends CRM_Form {
         $extProp->name          = CRM_String::titleToVar( $params['title'] );
         $extProp->description   = $params['description'];
         $extProp->data_type     = $params['data_type'];
-        $extProp->default_value = $params['data_type'];
+        $extProp->default_value = $params['default_value'];
         $extProp->is_required   = CRM_Array::value( 'is_required', $params, false );
         $extProp->is_active     = CRM_Array::value( 'is_active', $params, false );
-        $extProp->validation_id = 1;
 
         $extProp->ext_property_group_id = $this->_groupID;
         
         if ( $this->_mode & self::MODE_UPDATE ) {
-            $extProp->id = $this->_extPropertyId;
+            $extProp->id = $this->_id;
         }
+        $extProp->ext_property_group_id = $this->_gid;
         $extProp->save( );
         CRM_Session::setStatus( 'Your custom field - ' . $extProp->title . ' has been saved' );
     }

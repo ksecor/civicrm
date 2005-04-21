@@ -33,8 +33,15 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_ExtProperty_Page_Group extends CRM_Page_Basic {
+class CRM_ExtProperty_Page_Field extends CRM_Page_Basic {
     
+    /**
+     * The group id of the field
+     *
+     * @var int
+     */
+    protected $_gid;
+
     /**
      * The action links that we need to display for the browse screen
      *
@@ -43,38 +50,32 @@ class CRM_ExtProperty_Page_Group extends CRM_Page_Basic {
     static $_links = array(
                            CRM_Action::VIEW    => array(
                                                         'name'  => 'View',
-                                                        'url'   => 'civicrm/extproperty/group',
+                                                        'url'   => 'civicrm/extproperty/field',
                                                         'qs'    => 'action=view&id=%%id%%',
                                                         'title' => 'View Extended Property Group',
                                                         ),
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
-                                                        'url'   => 'civicrm/extproperty/group',
+                                                        'url'   => 'civicrm/extproperty/field',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Extended Property Group'),
                            CRM_Action::DISABLE => array(
                                                         'name'  => 'Disable',
-                                                        'url'   => 'civicrm/extproperty/group',
+                                                        'url'   => 'civicrm/extproperty/field',
                                                         'qs'    => 'action=disable&id=%%id%%',
                                                         'title' => 'Disable Extended Property Group',
                                                         ),
                            CRM_Action::ENABLE  => array(
                                                         'name'  => 'Enable',
-                                                        'url'   => 'civicrm/extproperty/group',
+                                                        'url'   => 'civicrm/extproperty/field',
                                                         'qs'    => 'action=enable&id=%%id%%',
                                                         'title' => 'Enable Extended Property Group',
-                                                        ),
-                           CRM_Action::BROWSE  => array(
-                                                        'name'  => 'List',
-                                                        'url'   => 'civicrm/extproperty/field',
-                                                        'qs'    => 'reset=1&action=browse&gid=%%id%%',
-                                                        'title' => 'List Extended Property Group Fields',
                                                         ),
                            );
 
 
     function getBAOName( ) {
-        return 'CRM_BAO_ExtPropertyGroup';
+        return 'CRM_BAO_ExtProperty';
     }
 
     function &links( ) {
@@ -82,15 +83,34 @@ class CRM_ExtProperty_Page_Group extends CRM_Page_Basic {
     }
 
     function formClass( ) {
-        return 'CRM_ExtProperty_Form_Group';
+        return 'CRM_ExtProperty_Form_Field';
     }
 
     function formName( ) {
-        return 'Extended Property Groups';
+        return 'Extended Property Field';
     }
 
-    function UserContext( ) {
-        return 'civicrm/extproperty/group';
+    function userContext( ) {
+        return 'civicrm/extproperty/field';
+    }
+
+    function userContextParams( ) {
+        return 'reset=1&action=browse&gid=' . $this->_gid;
+    }
+
+    function run( ) {
+        $this->_gid = CRM_Request::retrieve( 'gid', $this );
+        if ( $this->_gid ) {
+            $this->assign( 'gid', $this->_gid );
+        }
+
+        return parent::run( );
+    }
+
+    function addValues( $controller ) {
+        if ( $this->_gid ) {
+            $controller->set( 'gid', $this->_gid );
+        }
     }
 
 }
