@@ -175,9 +175,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $andArray = array();
 
         if($count) {
-            $str_select = "SELECT count(crm_contact.id) ";
+            $str_select = "SELECT count(DISTINCT crm_contact.id) ";
         } else {
-            $str_select = "SELECT crm_contact.id as contact_id,
+            $str_select = "SELECT DISTINCT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,

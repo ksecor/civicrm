@@ -126,7 +126,9 @@
 	</div>
 	
 	</p>
-	
+
+
+{if $foo}
 <fieldset><legend>Save Search</legend>
 	<p>
 	<div class="horizontal-position">
@@ -157,6 +159,7 @@
 	</div>
 	</p>
 </fieldset>
+{/if}
 
 	<div>
 	<span class="three-col3">
@@ -168,9 +171,9 @@
 <div class="spacer"></div>
 
 {if $qill}
-<p>
-Fetching {$qill}
-<p>
+<hr>
+Searching for {$qill}
+<hr>
 {/if}
 
 {if $rowsEmpty}

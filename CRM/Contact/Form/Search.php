@@ -58,7 +58,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
     function __construct($name, $state, $mode = self::MODE_NONE)
     {
         CRM_Error::le_method();
-        CRM_Error::debug_var('mode', $mode);
         parent::__construct($name, $state, $mode);
         CRM_Error::ll_method();
     }
@@ -73,18 +72,15 @@ class CRM_Contact_Form_Search extends CRM_Form {
     {
         
         CRM_Error::le_method();
-        CRM_Error::debug_var('this->_mode', $this->_mode);
         switch($this->_mode) {
         case CRM_Form::MODE_BASIC:
-            CRM_Error::debug_log_message('building basic search form');
             $this->buildBasicSearchForm();
             break;
         case CRM_Form::MODE_ADVANCED:
-            CRM_Error::debug_log_message('building advanced search form');
             $this->buildAdvancedSearchForm();
             break;        
         }
-
+        CRM_Error::ll_method();
     }
 
     /**
@@ -95,6 +91,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildBasicSearchForm( ) 
     {
+        CRM_Error::le_method();
         // add select for contact type
         $contactType = CRM_PseudoConstant::$contactType;
         $contactType = array('any' => ' - any contact - ') + $contactType;
@@ -146,10 +143,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildAdvancedSearchForm() 
     {
+        CRM_Error::le_method();
         // add checkboxes for contact type
         $cb_contact_type = array( );
-        foreach (CRM_PseudoConstant::$contactType as $key => $value) {
-            $cb_contact_type[] = HTML_QuickForm::createElement('checkbox', $key, null, $value);
+        foreach (CRM_PseudoConstant::$contactType as $k => $v) {
+            $cb_contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
         }
         $this->addGroup($cb_contact_type, 'cb_contact_type', 'Show Me....', '<br />');
         
@@ -200,9 +198,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
 
         // add components for saving the search
-        $this->addElement('checkbox', 'cb_ss', null, 'Save Search ?');
-        $this->addElement('text', 'ss_name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
-        $this->addElement('text', 'ss_description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description') );
+        //$this->addElement('checkbox', 'cb_ss', null, 'Save Search ?');
+        //$this->addElement('text', 'ss_name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
+        //$this->addElement('text', 'ss_description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description') );
 
         // add the buttons
         $this->addButtons(array(
@@ -213,8 +211,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
                                         'name'      => 'Reset'),
                                 )
                           );
+        CRM_Error::ll_method();
     }
-
 
     /**
      * Set the default form values
@@ -256,8 +254,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
         CRM_Error::le_method();
         if($_GET['reset'] != 1) {
             $formValues = $this->controller->exportValues($this->_name);
-            CRM_Error::debug_var("formValues", $formValues);
-            CRM_Error::debug_var('this->_mode', $this->_mode);
             $selector = new CRM_Contact_Selector($formValues, $this->_mode);
             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
             $controller->run();
