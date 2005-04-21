@@ -179,7 +179,13 @@ function civicrm_menu($may_cache)
                          'title' => t('Mobile Provider'),
                          'type'   => MENU_LOCAL_TASK
                          );
-        
+     
+       $items[] = array(
+                        'path'  => 'admin/contact/reltype',
+                        'title' => t('Manage Relationship Types'),
+                        'type'   => MENU_LOCAL_TASK
+                        );
+       
         $items[] = array(
                          'path'  => 'civicrm',
                          'title' => t('CiviCRM Navigation - DISABLE '),
@@ -392,6 +398,13 @@ function civicrm_admin_invoke()
         $view = new CRM_Admin_Page_MobileProvider( 'View Mobile Providers' );
         $content .= $view->run( );
     }
+
+    // relationship type
+    if (arg(1) == 'contact' && arg(2) == 'reltype') {
+        $view = new CRM_Admin_Page_RelationshipType( 'View Relationship Types' );
+        $content .= $view->run( );
+    }
+
 
     print theme('page', $content);
 }
