@@ -130,7 +130,7 @@
                 <td>{$rel.phone}</td>
                 <td>{$rel.city}</td>
                 <td>{$rel.state}</td>
-                    <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=browse&rtype=$rtype"}">Edit</a></td> 
+                    <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a></td> 
             </tr>  
         {/foreach}
         </table>
@@ -199,7 +199,7 @@
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=browse"}">Edit</a></td> 
+            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">Edit</a></td> 
        </tr>  
        {/foreach}
        </table>

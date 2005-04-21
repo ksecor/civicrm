@@ -182,6 +182,7 @@ class CRM_Contact_Page_Relationship {
         if ( !$relationshipId ) {
             $relationshipId = $controller->get( 'relationshipId' );
         }
+        */
 
         // rtype is the variable that tells type of realationship (a_b or b_a)
         if ( !$_GET['rtype'] ) {
@@ -189,10 +190,11 @@ class CRM_Contact_Page_Relationship {
         } else {
             $rtype = $_GET['rtype'];
         }
-        */
+
         $controller->reset( );
         $controller->set( 'contactId'  , $page->getContactId( ) );
         $controller->set( 'relationshipId'   , $relationshipId );
+        
         $controller->set( 'rtype' , $rtype);
                 
         $controller->process( );
