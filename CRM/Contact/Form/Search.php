@@ -57,9 +57,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function __construct($name, $state, $mode = self::MODE_NONE)
     {
-        CRM_Error::le_method();
+        //CRM_Error::le_method();
         parent::__construct($name, $state, $mode);
-        CRM_Error::ll_method();
+        //CRM_Error::ll_method();
     }
 
     /**
@@ -71,7 +71,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
     function buildQuickForm( ) 
     {
         
-        CRM_Error::le_method();
+        //CRM_Error::le_method();
         switch($this->_mode) {
         case CRM_Form::MODE_BASIC:
             $this->buildBasicSearchForm();
@@ -80,7 +80,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $this->buildAdvancedSearchForm();
             break;        
         }
-        CRM_Error::ll_method();
+        //CRM_Error::ll_method();
     }
 
     /**
@@ -91,7 +91,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildBasicSearchForm( ) 
     {
-        CRM_Error::le_method();
+        //CRM_Error::le_method();
         // add select for contact type
         $contactType = CRM_PseudoConstant::$contactType;
         $contactType = array('any' => ' - any contact - ') + $contactType;
@@ -132,7 +132,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
          * added one extra button, this is needed as per the design of the action form
          */
         $this->add('submit', 'go', 'Go');
-        CRM_Error::ll_method();
+        //CRM_Error::ll_method();
     }
 
     /**
@@ -143,7 +143,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildAdvancedSearchForm() 
     {
-        CRM_Error::le_method();
+        //CRM_Error::le_method();
         // add checkboxes for contact type
         $cb_contact_type = array( );
         foreach (CRM_PseudoConstant::$contactType as $k => $v) {
@@ -211,7 +211,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
                                         'name'      => 'Reset'),
                                 )
                           );
-        CRM_Error::ll_method();
+
+
+        //CRM_Error::ll_method();
     }
 
     /**
@@ -251,14 +253,17 @@ class CRM_Contact_Form_Search extends CRM_Form {
 
     function postProcess() 
     {
-        CRM_Error::le_method();
+        //CRM_Error::le_method();
         if($_GET['reset'] != 1) {
             $formValues = $this->controller->exportValues($this->_name);
+            // important - we need to store the formValues in the session in case we want to save it.
+            $session = CRM_Session::singleton( );
+            $session->set("formValues", serialize($formValues));
             $selector = new CRM_Contact_Selector($formValues, $this->_mode);
             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
             $controller->run();
         }
-        CRM_Error::ll_method();
+        //CRM_Error::ll_method();
     }
 }
 ?>

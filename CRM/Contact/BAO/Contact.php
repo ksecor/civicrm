@@ -73,11 +73,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     function basicSearchQuery(&$formValues, $offset, $rowCount, $sort, $count=FALSE)
     {
-        CRM_Error::le_method();
+        //CRM_Error::le_method();
 
         $str_select = $str_from = $str_where = $str_order = $str_limit = ''; 
         
-        CRM_Error::debug_var("formValues", $formValues);
+        //CRM_Error::debug_var("formValues", $formValues);
 
         // stores all the "AND" clauses
         $andArray = array();
@@ -145,11 +145,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // building the query string
         $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
 
-        CRM_Error::debug_var('query_string', $query_string);
+        //CRM_Error::debug_var('query_string', $query_string);
 
         $this->query($query_string);
 
-        CRM_Error::ll_method();
+        //CRM_Error::ll_method();
 
         return $this;
     }
@@ -346,7 +346,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             // processing for location type - check if any locations checked
             // if (!$formValues['cb_location_type']['any']) {
             if (!$formValues['cb_location_type']['any']) {
-                CRM_Error::debug_log_message("any locations not true");
+                //CRM_Error::debug_log_message("any locations not true");
                 $andArray['location_type'] = "(crm_location.location_type_id IN (";
                 foreach ($formValues['cb_location_type']  as $k => $v) {
                     $andArray['location_type'] .= "$k,"; 
@@ -354,10 +354,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $andArray['location_type'] = rtrim($andArray['location_type'], ",");
                 $andArray['location_type'] .= "))";
             } else {
-                CRM_Error::debug_log_message("any locations true");
+                //CRM_Error::debug_log_message("any locations true");
             }
         } else {
-            CRM_Error::debug_log_message("cb_location_type is not set");
+            //CRM_Error::debug_log_message("cb_location_type is not set");
         }
         
         // processing for primary location
@@ -380,15 +380,15 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // building the query string
         $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
 
-        CRM_Error::debug_var("query_string", $query_string);
+        //CRM_Error::debug_var("query_string", $query_string);
 
         $this->query($query_string);
 
         // if we have to save query, do it here since if there's an error we
         // surely dont want to save it.
         if (!$count && $formValues['cb_ss']) {
-            CRM_Error::debug_log_message("cb_ss is set");            
-            CRM_Error::debug_log_message("saving search");            
+            //CRM_Error::debug_log_message("cb_ss is set");            
+            //CRM_Error::debug_log_message("saving search");            
             // save the search
             $savedSearchBAO = new CRM_Contact_BAO_SavedSearch();
             $savedSearchBAO->domain_id = 1;   // hack for now
@@ -457,8 +457,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     static function getValues( &$params, &$values, &$ids ) {
 
-        CRM_Error::le_method();
-        CRM_Error::debug_var("params", $params);
+        //CRM_Error::le_method();
+        //CRM_Error::debug_var("params", $params);
 
         $contact = new CRM_Contact_BAO_Contact( );
 
@@ -466,7 +466,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         if ( $contact->find(true) ) {
 
-            CRM_Error::debug_log_message("found contact");
+            //CRM_Error::debug_log_message("found contact");
 
             $ids['contact'] = $contact->id;
             $ids['domain' ] = $contact->domain_id;

@@ -146,6 +146,9 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function __construct(&$formValues, $type=CRM_Form::MODE_NONE) 
     {
+        
+        //CRM_Error::le_method();
+
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
 
@@ -154,6 +157,10 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
         // type of selector
         $this->_type = $type;
+
+        //CRM_Error::debug_var('formValues', $this->_formValues);
+
+        //CRM_Error::ll_method();
 
     }//end of constructor
 
@@ -307,7 +314,6 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         CRM_Error::debug_var('formValues', $this->_formValues);
 
         // query in local language
-        //$qill = "all";
         $qill = "";
         $dontCare = " <i>dont care</i>";
 
@@ -326,6 +332,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // check for group restriction
             if ($this->_formValues['group'] != 'any') {
+                // BUG.... 
                 $qill .= " belonging to the group \"" . CRM_PseudoConstant::$group[$this->_formValues['group']] . "\" and";
             }
             
@@ -363,6 +370,8 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
             $qill .= "<li>Belonging to Group -";
             if ($this->_formValues['cb_group']) {
                 foreach ($this->_formValues['cb_group']  as $k => $v) {
+                    CRM_Error::debug_var('k', $k);
+                    CRM_Error::debug_var("CRM_PseudoConstant_group", CRM_PseudoConstant::$group);
                     $qill .= " \"" . CRM_PseudoConstant::$group[$k] . "\" or";
                 }
                 $qill = preg_replace($patternOr, $replacement, $qill);
@@ -484,8 +493,8 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
         $qill .= "</ul>";
 
-        CRM_Error::debug_var('qill', $qill);
-        CRM_Error::ll_method();
+        //CRM_Error::debug_var('qill', $qill);
+        //CRM_Error::ll_method();
 
         if($qill != "all") {
             return $qill;
