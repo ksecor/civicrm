@@ -86,7 +86,7 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
         // add the buttons
         $this->addButtons(array(
                                 array ( 'type'      => 'refresh',
-                                        'name'      => 'Search',
+                                        'name'      => 'Save Search',
                                         'isDefault' => true   ),
                                 array ( 'type'      => 'reset',
                                         'name'      => 'Reset'),

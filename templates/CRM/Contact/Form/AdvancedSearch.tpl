@@ -174,6 +174,7 @@
 <hr>
 Searching for {$qill}
 <hr>
+<a href="{crmURL p='civicrm/contact/search/saved/new' q='reset=1'}">Save this search...</a>
 {/if}
 
 {if $rowsEmpty}

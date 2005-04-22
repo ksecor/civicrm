@@ -301,7 +301,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @access public
      */
   
-    public static function getQILL(&$formValues, $type)
+    public static function getQILL(&$fv, $type)
     {
         // query in local language
         $qill = "";
@@ -312,36 +312,31 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         $patternAnd = "/(.*) and$/";
         $replacement = "$1";
 
-        // load the PseudoConstant arrays
-        CRM_PseudoConstant::getGroup();
-        CRM_PseudoConstant::getCategory();
-        CRM_PseudoConstant::getStateProvince();
-        CRM_PseudoConstant::getCountry();
-        CRM_PseudoConstant::getLocationType();        
-
         switch ($type) {
         case CRM_Form::MODE_BASIC:
-            if ($formValues['contact_type'] != 'any') {
-                $qill .= " " . $formValues['contact_type'] . "s";
+            $qill .= " all";
+            if ($fv['contact_type'] && ($fv['contact_type'] != 'any')) {
+                $qill .= " " . $fv['contact_type'] . "s";
             } else {
                 $qill .= " contacts";
             }
 
             // check for group restriction
-            if ($formValues['group'] != 'any') {
-                // BUG.... 
-                $qill .= " belonging to the group \"" . CRM_PseudoConstant::$group[$formValues['group']] . "\" and";
+            if ($fv['group'] && ($fv['group'] != 'any')) {
+                CRM_PseudoConstant::populateGroup();
+                $qill .= " belonging to the group \"" . CRM_PseudoConstant::$group[$fv['group']] . "\" and";
             }
             
             // check for category restriction
-            if ($formValues['category'] != 'any') {
-                $qill .= " categorized as \"" . CRM_PseudoConstant::$category[$formValues['category']] . "\" and";
+            if ($fv['category'] && ($fv['category'] != 'any')) {
+                CRM_PseudoConstant::populateCategory();
+                $qill .= " categorized as \"" . CRM_PseudoConstant::$category[$fv['category']] . "\" and";
             }
             
             // check for last name, as of now only working with sort name
-            if ($formValues['sort_name']) {
-                $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['sort_name'])) ."%'";
-                $qill .= " whose name is like \"" . $formValues['sort_name'] . "\" and";
+            if ($fv['sort_name']) {
+                $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($fv['sort_name'])) ."%'";
+                $qill .= " whose name is like \"" . $fv['sort_name'] . "\" and";
             }
             $qill = preg_replace($patternAnd, $replacement, $qill);
             break;
@@ -352,147 +347,112 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // contact type
             $qill .= "<li>Contact Type -";
-            if ($formValues['cb_contact_type']) {
-                foreach ($formValues['cb_contact_type']  as $k => $v) {
+            if ($fv['cb_contact_type']) {
+                foreach ($fv['cb_contact_type']  as $k => $v) {
                     $qill .= " {$k}s or";
                 }            
                 $qill = preg_replace($patternOr, $replacement, $qill);
             } else {
-                $qill .= $dontCare;
+                $qill .= " All";
             }
             $qill .= "</li>";
-
             
             // check for group restriction
-            $qill .= "<li>Belonging to Group -";
-            if ($formValues['cb_group']) {
-                foreach ($formValues['cb_group']  as $k => $v) {
+            if ($fv['cb_group']) {
+                CRM_PseudoConstant::populateGroup();
+                $qill .= "<li>Belonging to Group -";
+                foreach ($fv['cb_group']  as $k => $v) {
                     $qill .= " \"" . CRM_PseudoConstant::$group[$k] . "\" or";
                 }
                 $qill = preg_replace($patternOr, $replacement, $qill);
-            } else {
-                $qill .= $dontCare;
+                $qill .= "</li>";
             }
-            $qill .= "</li>";
-                
 
             // check for category restriction
-            $qill .= "<li>Categorized as -";
-            if ($formValues['cb_category']) {
-                foreach ($formValues['cb_category'] as $k => $v) {
+            if ($fv['cb_category']) {
+                CRM_PseudoConstant::populateCategory();
+                $qill .= "<li>Categorized as -";
+                foreach ($fv['cb_category'] as $k => $v) {
                     $qill .= " \"" . CRM_PseudoConstant::$category[$k] . "\" or";
                 }
                 $qill = preg_replace($patternOr, $replacement, $qill);
-            } else {
-                $qill .= $dontCare;
+                $qill .= "</li>";
             }
-            $qill .= "</li>";
 
             // check for last name, as of now only working with sort name
-            $qill .= "<li>Name like -";
-            if ($formValues['sort_name']) {
-                $qill .= " \"" . $formValues['sort_name'] . "\"";
-            } else {
-                $qill .= $dontCare;
+            if ($fv['sort_name']) {
+                $qill .= "<li>Name like - \"" . $fv['sort_name'] . "\"</li>";
             }
-            $qill .= "</li>";
 
             // street_name
-            $qill .= "<li>Street Name like -";
-            if ($formValues['street_name']) {
-                $qill .= " \"" . $formValues['street_name'] . "\"";
-            } else {
-                $qill .= $dontCare;
+            if ($fv['street_name']) {
+                $qill .= "<li>Street Name like - \"" . $fv['street_name'] . "\"</li>";
             }
-            $qill .= "</li>";
 
             // city_name
-            $qill .= "<li>City Name like -";
-            if ($formValues['city']) {
-                $qill .= " \"" . $formValues['city'] . "\"";
-            } else {
-                $qill .= $dontCare;
+            if ($fv['city']) {
+                $qill .= "<li>City Name like - \"" . $fv['city'] . "\"</li>";
             }
-            $qill .= "</li>";
 
             // state
-            $qill .= "<li>State -";
-            if ($formValues['state_province']) {
-                $qill .= " \"" . CRM_PseudoConstant::$stateProvince[$formValues['state_province']] . "\"";
-            } else {
-                $qill .= $dontCare;
+            if ($fv['state_province']) {
+                CRM_PseudoConstant::populateStateProvince();
+                $qill .= "<li>State - \"" . CRM_PseudoConstant::$stateProvince[$fv['state_province']] . "\"</li>";
             }
-            $qill .= "</li>";
-
-
+            
             // country
-            $qill .= "<li>Country -";
-            if ($formValues['country']) {
-                $qill .= " \"" . CRM_PseudoConstant::$country[$formValues['country']] . "\"";
-            } else {
-                $qill .= $dontCare;
+            if ($fv['country']) {
+                CRM_PseudoConstant::populateCountry();
+                $qill .= "<li>Country - \"" . CRM_PseudoConstant::$country[$fv['country']] . "\"</li>";
             }
-            $qill .= "</li>";
-
 
             // postal code processing
-            $qill .= "<li>Postal code -";
-            if ($formValues['postal_code'] || $formValues['postal_code_low'] || $formValues['postal_code_high']) {
+            if ($fv['postal_code'] || $fv['postal_code_low'] || $fv['postal_code_high']) {
+                $qill .= "<li>Postal code -";
+
                 // postal code = value
-                if ($formValues['postal_code']) {
-                    $qill .= " \"" . $formValues['postal_code'] . "\" or";
+                if ($fv['postal_code']) {
+                    $qill .= " \"" . $fv['postal_code'] . "\" or";
                 }
                 
                 // postal code between 2 values
-                if ($formValues['postal_code_low'] && $formValues['postal_code_high']) {
-                    $qill .= " between \"" . $formValues['postal_code_low'] . "\" and \"" . $formValues['postal_code_high'] . "\"";
-                } elseif ($formValues['postal_code_low']) {
-                    $qill .= " greater than \"" . $formValues['postal_code_low'] . "\"";
-                } elseif ($formValues['postal_code_high']) {
-                    $qill .= " less than \"" . $formValues['postal_code_high'] . "\"";
+                if ($fv['postal_code_low'] && $fv['postal_code_high']) {
+                    $qill .= " between \"" . $fv['postal_code_low'] . "\" and \"" . $fv['postal_code_high'] . "\"";
+                } elseif ($fv['postal_code_low']) {
+                    $qill .= " greater than \"" . $fv['postal_code_low'] . "\"";
+                } elseif ($fv['postal_code_high']) {
+                    $qill .= " less than \"" . $fv['postal_code_high'] . "\"";
                 }            
                 // remove the trailing "or"
                 $qill = preg_replace($patternOr, $replacement, $qill);
-            } else {
-                $qill .= $dontCare;
+                $qill .= "</li>";
             }
-            $qill .= "</li>";
 
             // location type processing
-            $qill .= "<li>Location type -";
-            if ($formValues['cb_location_type']) {
-                if (!$formValues['cb_location_type']['any']) {
-                    foreach ($formValues['cb_location_type']  as $k => $v) {
+            if ($fv['cb_location_type']) {
+                CRM_PseudoConstant::populateLocationType();        
+                $qill .= "<li>Location type -";
+                if (!$fv['cb_location_type']['any']) {
+                    foreach ($fv['cb_location_type']  as $k => $v) {
                         $qill .= " " . CRM_PseudoConstant::$locationType[$k] . " or";
                     }
                     $qill = preg_replace($patternOr, $replacement, $qill);
                 } else {
-                    $qill .= " any";
+                    $qill .= " Any";
                 }
-            } else {
-                $qill .= $dontCare;
+                $qill .= "</li>";
             }
-            $qill .= "</li>";
         
             // primary location processing
-            $qill .= "<li>Primary Location only ? -";
-            if ($formValues['cb_primary_location']) {
-                $andArray['cb_primary_location'] = "crm_location.is_primary = 1";
-                $qill .= " Yes";
-            } else {
-                $qill .= $dontCare;
+            if ($fv['cb_primary_location']) {
+                $qill .= "<li>Primary Location only ? - Yes</li>";
             }
-            $qill .= "</li>";
+            
+            // ending tag for unordered list
+            $qill .= "</ul>";
             break;
         }
-
-        $qill .= "</ul>";
-
-        if($qill != "all") {
-            return $qill;
-        } else {
-            return "";
-        }
+        return $qill;
     }
 
 

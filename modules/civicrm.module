@@ -234,7 +234,7 @@ function civicrm_menu($may_cache)
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/saved/new',
+                         'path'  => 'civicrm/contact/search/saved/new?reset=1',
                          'title' => t('New Saved Search'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 3

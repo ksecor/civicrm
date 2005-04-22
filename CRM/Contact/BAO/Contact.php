@@ -71,8 +71,12 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function basicSearchQuery(&$formValues, $offset, $rowCount, $sort, $count=false)
+    function basicSearchQuery(&$fv, $offset, $rowCount, $sort, $count=false)
     {
+        
+        //CRM_Error::le_method();
+        //CRM_Error::debug_var('fv', $fv);
+
         $str_select = $str_from = $str_where = $str_order = $str_limit = ''; 
         
         // stores all the "AND" clauses
@@ -103,25 +107,25 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
 
         // check for contact type restriction
-        if ($formValues && ($formValues['contact_type'] != 'any')) {
-            $andArray['contact_type'] = "contact_type = '" . $formValues['contact_type'] . "'";
+        if ($fv['contact_type'] && ($fv['contact_type'] != 'any')) {
+            $andArray['contact_type'] = "contact_type = '" . $fv['contact_type'] . "'";
         }
         
         // check for group restriction
-        if ($formValues && ($formValues['group'] != 'any')) {
-            $andArray['group'] = "crm_group_contact.group_id = " .$formValues['group'];
+        if ($fv['group'] && ($fv['group'] != 'any')) {
+            $andArray['group'] = "crm_group_contact.group_id = " .$fv['group'];
             $str_from .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
         }
 
         // check for category restriction
-        if ($formValues && ($formValues['category'] != 'any')) {
-            $andArray['category'] .= "crm_entity_category.category_id = " . $formValues['category'];
+        if ($fv['category'] && ($fv['category'] != 'any')) {
+            $andArray['category'] .= "crm_entity_category.category_id = " . $fv['category'];
             $str_from .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
         }
 
         // check for last name, as of now only working with sort name
-        if ($formValues['sort_name']) {
-            $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['sort_name'])) ."%'";
+        if ($fv['sort_name']) {
+            $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($fv['sort_name'])) ."%'";
         }
 
         // final AND ing of the entire query.
@@ -163,7 +167,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function advancedSearchQuery(&$formValues, $offset, $rowCount, $sort, $count=FALSE)
+    function advancedSearchQuery(&$fv, $offset, $rowCount, $sort, $count=FALSE)
     {
         $str_select = $str_from = $str_where = $str_order = $str_limit = '';
 
@@ -199,7 +203,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
          * Get me all contacts of type individual or organization who are members of group 1 "Newsletter Subscribers"
          * and are categorized as "Non Profit" (catid 1) or "Volunteer" (catid 5) 
 
-        $formValues = Array
+        $fv = Array
             (
              [cb_contact_type] => Array
              (
@@ -233,9 +237,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
 
         // check for contact type restriction
-        if ($formValues['cb_contact_type']) {
+        if ($fv['cb_contact_type']) {
             $andArray['contact_type'] = "(contact_type IN (";
-            foreach ($formValues['cb_contact_type']  as $k => $v) {
+            foreach ($fv['cb_contact_type']  as $k => $v) {
                 $andArray['contact_type'] .= "'$k',"; 
             }            
             // replace the last comma with the parentheses.
@@ -244,9 +248,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
         
         // check for group restriction
-        if ($formValues['cb_group']) {
+        if ($fv['cb_group']) {
             $andArray['group'] = "(group_id IN (";
-            foreach ($formValues['cb_group']  as $k => $v) {
+            foreach ($fv['cb_group']  as $k => $v) {
                 // going with the OR case for this version
                 // i.e. it'll select all contacts who are members of group 1 OR group 2
                 // if we want all contacts who are members of group 1 AND group 2 then'll
@@ -259,9 +263,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
 
         // check for category restriction
-        if ($formValues['cb_category']) {
+        if ($fv['cb_category']) {
             $andArray['category'] .= "(category_id IN (";
-            foreach ($formValues['cb_category'] as $k => $v) {
+            foreach ($fv['cb_category'] as $k => $v) {
                 $andArray['category'] .= "$k,"; 
             }
             $andArray['category'] = rtrim($andArray['category'], ",");
@@ -271,35 +275,35 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
 
         // check for last name, as of now only working with sort name
-        if ($formValues['sort_name']) {
-            $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['sort_name'])) ."%'";
+        if ($fv['sort_name']) {
+            $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($fv['sort_name'])) ."%'";
         }
 
         // street_name
-        if ($formValues['street_name']) {
-            $andArray['street_name'] = " LOWER(crm_address.street_name) LIKE '%". strtolower(addslashes($formValues['street_name'])) ."%'";
+        if ($fv['street_name']) {
+            $andArray['street_name'] = " LOWER(crm_address.street_name) LIKE '%". strtolower(addslashes($fv['street_name'])) ."%'";
         }
 
 
         // city_name
-        if ($formValues['city']) {
-            $andArray['city'] = " LOWER(crm_address.city) LIKE '%". strtolower(addslashes($formValues['city'])) ."%'";
+        if ($fv['city']) {
+            $andArray['city'] = " LOWER(crm_address.city) LIKE '%". strtolower(addslashes($fv['city'])) ."%'";
         }
 
 
         // state
-        if ($formValues['state_province']) {
-            $andArray['state_province'] = " crm_address.state_province_id = " . $formValues['state_province'];
+        if ($fv['state_province']) {
+            $andArray['state_province'] = " crm_address.state_province_id = " . $fv['state_province'];
         }
 
         // country
-        if ($formValues['country']) {
-            $andArray['country'] = " crm_address.country_id = " . $formValues['country'];
+        if ($fv['country']) {
+            $andArray['country'] = " crm_address.country_id = " . $fv['country'];
         }
 
 
         // postal code processing
-        if ($formValues['postal_code'] || $formValues['postal_code_low'] || $formValues['postal_code_high']) {
+        if ($fv['postal_code'] || $fv['postal_code_low'] || $fv['postal_code_high']) {
 
             // we need to do postal code processing
             $pcORArray = array();
@@ -307,14 +311,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $pcORString = "";
             $pcANDString = "";
 
-            if ($formValues['postal_code']) {
-                $pcORArray[] = "crm_address.postal_code = " . $formValues['postal_code'];
+            if ($fv['postal_code']) {
+                $pcORArray[] = "crm_address.postal_code = " . $fv['postal_code'];
             }
-            if ($formValues['postal_code_low']) {
-                $pcANDArray[] = "crm_address.postal_code >= " . $formValues['postal_code_low'];
+            if ($fv['postal_code_low']) {
+                $pcANDArray[] = "crm_address.postal_code >= " . $fv['postal_code_low'];
             }
-            if ($formValues['postal_code_high']) {
-                $pcANDArray[] = "crm_address.postal_code <= " . $formValues['postal_code_high'];
+            if ($fv['postal_code_high']) {
+                $pcANDArray[] = "crm_address.postal_code <= " . $fv['postal_code_high'];
             }            
 
             // add the next element to the OR Array
@@ -337,11 +341,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $andArray['postal_code'] = $pcORString;
         }
 
-        if ($formValues['cb_location_type']) {
+        if ($fv['cb_location_type']) {
             // processing for location type - check if any locations checked
-            if (!$formValues['cb_location_type']['any']) {
+            if (!$fv['cb_location_type']['any']) {
                 $andArray['location_type'] = "(crm_location.location_type_id IN (";
-                foreach ($formValues['cb_location_type']  as $k => $v) {
+                foreach ($fv['cb_location_type']  as $k => $v) {
                     $andArray['location_type'] .= "$k,"; 
                 }
                 $andArray['location_type'] = rtrim($andArray['location_type'], ",");
@@ -350,7 +354,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
         
         // processing for primary location
-        if ($formValues['cb_primary_location']) {
+        if ($fv['cb_primary_location']) {
             $andArray['cb_primary_location'] = "crm_location.is_primary = 1";
         }
 
@@ -380,17 +384,17 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // if we have to save query, do it here since if there's an error we
         // surely dont want to save it.
-        if ($formValues['cb_ss']) {
+        if ($fv['cb_ss']) {
             //CRM_Error::debug_log_message("cb_ss is set");            
             //CRM_Error::debug_log_message("saving search");            
             // save the search
             $savedSearchBAO = new CRM_Contact_BAO_SavedSearch();
             $savedSearchBAO->domain_id = 1;   // hack for now
-            $savedSearchBAO->name = $formValues['ss_name'];
-            $savedSearchBAO->description = $formValues['ss_description'];
+            $savedSearchBAO->name = $fv['ss_name'];
+            $savedSearchBAO->description = $fv['ss_description'];
             $savedSearchBAO->query = $query_string;
             $savedSearchBAO->search_type = CRM_Form::MODE_ADVANCED;
-            $savedSearchBAO->form_values = serialize($formValues);
+            $savedSearchBAO->form_values = serialize($fv);
             $savedSearchBAO->insert();
         }
         return $this;

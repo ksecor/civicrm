@@ -68,6 +68,24 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
+        CRM_Error::le_method();
+
+        // need to populate constants for group and category
+        CRM_PseudoConstant::populateGroup();
+        CRM_PseudoConstant::populateCategory();
+
+        // get the formvalues
+       //         $formValues = $this->controller->exportValues($this->_name);
+//         CRM_Error::debug_var('formValues', $formValues);
+         $container = $this->controller->container();
+         CRM_Error::debug_var('container->values->Search',  $container['values']['Search']);        
+         $container['values']['Search']['KEY1'] = "BFC11";
+         CRM_Error::debug_var('container->values->Search',  $container['values']['Search']);        
+//         CRM_Error::debug_var('container',  $container);
+//         // check for container -> values -> Search - >cb_contact_type
+//         CRM_Error::debug_var('container->values->Search',  $container['values']['Search']);        
+
+
         switch($this->_mode) {
         case CRM_Form::MODE_BASIC:
             $this->buildBasicSearchForm();
@@ -76,6 +94,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $this->buildAdvancedSearchForm();
             break;        
         }
+
+        CRM_Error::ll_method();
     }
 
     /**
@@ -86,15 +106,49 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildBasicSearchForm( ) 
     {
+        CRM_Error::le_method();
+
+        // get the container
+        $container = $this->controller->container();
+        //CRM_Error::debug_var('container',  $container);
+        // check for container -> values -> Search - >cb_contact_type
+        CRM_Error::debug_var('container->values->Search',  $container['values']['Search']);        
+
+//         // we could have container filled with advanced search checkboxes so lets get those values
+//         if($container['values']['Search']['contact_type']) {
+//             $array1 = $container['values']['Search']['contact_type'];    
+//             CRM_Error::debug_var('array1', $array1);
+//             $array2 = array_slice($array1, 0, 1);
+//             CRM_Error::debug_var('array2', $array2);
+//             $key = key($array2);
+//             CRM_Error::debug_var('key', $key);
+//             $container['values']['Search']['contact_type'] = key(array_slice($array1, 0, 1));
+//             CRM_Error::debug_var('container',  $container);
+//         }
+
+
+//         // we could have container filled with advanced search checkboxes so lets get those values
+//         if($container['values']['Search']['group']) {
+//             $group = $container['values']['Search']['group'];    
+//             $container['values']['Search']['group'] = key(array_slice($group, 0, 1));
+//         }
+
+//         // we could have container filled with advanced search checkboxes so lets get those values
+//         if($container['values']['Search']['category']) {
+//             $category = $container['values']['Search']['category'];    
+//             $container['values']['Search']['category'] = key(array_slice($category, 0, 1));
+//         }
+
+
         $contactType = array('any' => ' - any contact - ') + CRM_PseudoConstant::$contactType;
         $this->add('select', 'contact_type', 'Show me.... ', $contactType);
 
         // add select for groups
-        $group = array('any' => ' - any group - ') + CRM_PseudoConstant::getGroup();
+        $group = array('any' => ' - any group - ') + CRM_PseudoConstant::$group;
         $this->add('select', 'group', 'in', $group);
 
         // add select for categories
-        $category = array('any' => ' - any category - ') + CRM_PseudoConstant::getCategory();
+        $category = array('any' => ' - any category - ') + CRM_PseudoConstant::$category;
         $this->add('select', 'category', 'Category', $category);
 
         // text for sort_name
@@ -123,6 +177,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
          *
          */
         $this->add('submit', $this->getButtonName( 'next' ), 'Go', array( 'class' => 'form-submit' ) );
+
+        CRM_Error::le_method();
     }
 
     /**
@@ -133,6 +189,12 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildAdvancedSearchForm() 
     {
+
+        // populate stateprovince, country, locationtype
+        CRM_PseudoConstant::populateStateProvince();
+        CRM_PseudoConstant::populateCountry();
+        CRM_PseudoConstant::populateLocationType();
+
         // add checkboxes for contact type
         $cb_contact_type = array( );
         foreach (CRM_PseudoConstant::$contactType as $k => $v) {
@@ -142,15 +204,13 @@ class CRM_Contact_Form_Search extends CRM_Form {
         
         // checkboxes for groups
         $cb_group = array();
-        $group = CRM_PseudoConstant::getGroup();
-        foreach ($group as $groupID => $groupName) {
+        foreach (CRM_PseudoConstant::$group as $groupID => $groupName) {
             $this->addElement('checkbox', "cb_group[$groupID]", null, $groupName);
         }
 
         // checkboxes for categories
         $cb_category = array();
-        $category = CRM_PseudoConstant::getCategory();
-        foreach ($category as $categoryID => $categoryName) {
+        foreach (CRM_PseudoConstant::$category as $categoryID => $categoryName) {
             $cb_category[] = $this->addElement('checkbox', "cb_category[$categoryID]", null, $categoryName);
         }
 
@@ -160,11 +220,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $this->addElement('text', 'city', 'City:',CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
 
         // select for state province
-        $stateProvince = array('' => ' - any state/province - ') + CRM_PseudoConstant::getStateProvince();
+        $stateProvince = array('' => ' - any state/province - ') + CRM_PseudoConstant::$stateProvince;
         $this->addElement('select', 'state_province', 'State/Province', $stateProvince);
 
         // select for country
-        $country = array('' => ' - any country - ') + CRM_PseudoConstant::getCountry();
+        $country = array('' => ' - any country - ') + CRM_PseudoConstant::$country;
         $this->addElement('select', 'country', 'Country', $country);
 
         // add text box for postal code
@@ -174,8 +234,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
 
         // checkboxes for location type
         $cb_location_type = array();
-        $locationType = CRM_PseudoConstant::getLocationType();
-        $locationType['any'] = 'Any Locations';
+        $locationType = CRM_PseudoConstant::$locationType + array('any' => 'Any Locations');
         foreach ($locationType as $locationTypeID => $locationTypeName) {
             $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
         }
@@ -255,8 +314,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $formValues = $this->controller->exportValues($this->_name);
 
         // important - we need to store the formValues in the session in case we want to save it.
-        $session = CRM_Session::singleton( );
-        $session->set("formValues", serialize($formValues), "advancedSearch");
+        if ($this->_mode == CRM_Form::MODE_ADVANCED) {
+            $session = CRM_Session::singleton( );
+            $session->set("formValues", serialize($formValues), "advancedSearch");
+        }
 
         $selector = new CRM_Contact_Selector($formValues, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
