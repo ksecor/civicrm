@@ -68,23 +68,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        CRM_Error::le_method();
-
-        // need to populate constants for group and category
-        CRM_PseudoConstant::populateGroup();
-        CRM_PseudoConstant::populateCategory();
-
-        // get the formvalues
-       //         $formValues = $this->controller->exportValues($this->_name);
-//         CRM_Error::debug_var('formValues', $formValues);
-         $container = $this->controller->container();
-         CRM_Error::debug_var('container->values->Search',  $container['values']['Search']);        
-         $container['values']['Search']['KEY1'] = "BFC11";
-         CRM_Error::debug_var('container->values->Search',  $container['values']['Search']);        
-//         CRM_Error::debug_var('container',  $container);
-//         // check for container -> values -> Search - >cb_contact_type
-//         CRM_Error::debug_var('container->values->Search',  $container['values']['Search']);        
-
+        CRM_PseudoConstant::getGroup();
+        CRM_PseudoConstant::getCategory();
 
         switch($this->_mode) {
         case CRM_Form::MODE_BASIC:
@@ -94,8 +79,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $this->buildAdvancedSearchForm();
             break;        
         }
-
-        CRM_Error::ll_method();
     }
 
     /**
@@ -155,15 +138,16 @@ class CRM_Contact_Form_Search extends CRM_Form {
         // text for sort_name
         $this->add('text', 'sort_name', 'Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         
-        // some actions.. what do we want to do with the selected contacts ?
-        $actions = array( '' => '- actions -',
-                          1  => 'Add Contacts to a Group',
-                          2  => 'Tag Contacts (assign category)',
-                          3  => 'Add to Household',
-                          4  => 'Delete',
-                          5  => 'Print',
-                          6  => 'Export' );
-        $this->add('select', 'action'   , 'Actions: '    , $actions    );
+        // some tasks.. what do we want to do with the selected contacts ?
+        $tasks = array( '' => '- actions -' ) + CRM_Contact_Task::$tasks;
+        $this->add('select', 'task'   , 'Actions: '    , $tasks    );
+
+        $rows = $this->get( 'rows' );
+        if ( is_array( $rows ) ) {
+            foreach ( $rows as &$row ) {
+                $this->addElement( 'checkbox', $row['checkbox'] );
+            }
+        }
 
         // add buttons
         $this->addButtons( array(
@@ -177,7 +161,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
          * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
          *
          */
-        $this->add('submit', $this->getButtonName( 'next' ), 'Go', array( 'class' => 'form-submit' ) );
+        $this->add('submit', $this->getButtonName( 'next' ), 'Perform Action!', array( 'class' => 'form-submit' ) );
 
         CRM_Error::le_method();
     }
@@ -192,9 +176,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
     {
 
         // populate stateprovince, country, locationtype
-        CRM_PseudoConstant::populateStateProvince();
-        CRM_PseudoConstant::populateCountry();
-        CRM_PseudoConstant::populateLocationType();
+        CRM_PseudoConstant::getStateProvince();
+        CRM_PseudoConstant::getCountry();
+        CRM_PseudoConstant::getLocationType();
 
         // add checkboxes for contact type
         $cb_contact_type = array( );
@@ -291,12 +275,19 @@ class CRM_Contact_Form_Search extends CRM_Form {
          *  - pageID/sortID change
          *  - user hits reload
          *  - user clicks on menu
-         */
         if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
             $this->postProcess( );
         }
+         */
 
-        
+        $formValues = $this->controller->exportValues($this->_name);
+        $selector = new CRM_Contact_Selector($formValues, $this->_mode);
+        $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
+        if ( $controller->hasChanged( ) ) {
+            $this->postProcess( );
+        }
+        $controller->moveFromSessionToTemplate( );
+
     }
 
     function postProcess() 
@@ -321,7 +312,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
         }
 
         $selector = new CRM_Contact_Selector($formValues, $this->_mode);
-        $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
+        $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
         $controller->run();
     }
 
@@ -333,8 +324,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
         // check actionName and if next, then do not repeat a search, since we are going to the next page
         
         if ( array_key_exists( '_qf_Search_next', $fields ) ) {
-            if ( ! CRM_Array::value( 'action', $fields ) ) {
-                return array( 'action' => 'Please select a valid action.' );
+            if ( ! CRM_Array::value( 'task', $fields ) ) {
+                return array( 'task' => 'Please select a valid action.' );
             }
 
             foreach ( $fields as $name => $dontCare ) {
@@ -342,7 +333,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
                     return true;
                 }
             }
-            return array( 'action' => 'Please select one or more checkboxes to perform the action on.' );
+            return array( 'task' => 'Please select one or more checkboxes to perform the action on.' );
         }
         return true;
     }

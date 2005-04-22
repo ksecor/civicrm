@@ -53,11 +53,11 @@ Fetching {$qill}
     <fieldset>
      <div class="form-item">
        <span class="horizontal-position">
-         {$form.action.label}{$form.action.html} &nbsp; &nbsp; {$form._qf_Search_next.html}
+         {$form.task.label}{$form.task.html} &nbsp; &nbsp; {$form._qf_Search_next.html}
        </span>
        <span class="element-right">Select: 
-<a onclick="changeCheckboxVals('mark_x_','select'  , 'Search' ); return false;" name="select_all"  href="#">All</a> |
-<a onclick="changeCheckboxVals('mark_x_','deselect', 'Search' ); return false;" name="select_none" href="#">None</a></span>
+<a onclick="changeCheckboxVals('mark_x_','select'  , Search ); return false;" name="select_all"  href="#">All</a> |
+<a onclick="changeCheckboxVals('mark_x_','deselect', Search ); return false;" name="select_none" href="#">None</a></span>
      </div>  
 
      <p>

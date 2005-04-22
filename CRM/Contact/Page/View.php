@@ -106,7 +106,7 @@ class CRM_Contact_Page_View extends CRM_Page {
 
         // fix the display name for various types and store in session
         if ( $defaults['contact_type'] == 'Individual' ) {
-            $displayName = $defaults['prefix'] . ' ' . $defaults['display_name'] . ' ' . $defaults['suffix'];
+            $displayName = trim( $defaults['prefix'] . ' ' . $defaults['display_name'] . ' ' . $defaults['suffix'] );
         } else {
             $displayName = $defaults['sort_name'];
         }

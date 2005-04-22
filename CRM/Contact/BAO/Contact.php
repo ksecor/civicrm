@@ -530,16 +530,13 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 // self::lookupValue( $location, 'location_type', CRM_SelectValues::$locationType, $reverse );
                 self::lookupValue( $location, 'location_type', CRM_SelectValues::getLocationType(), $reverse );
                 if ( array_key_exists( 'address', $location ) ) {
-                    // self::lookupValue( $location['address'], 'state_province', CRM_SelectValues::$stateProvince, $reverse );
                     self::lookupValue( $location['address'], 'state_province', CRM_SelectValues::getStateProvince(), $reverse );
-                    // self::lookupValue( $location['address'], 'country'       , CRM_SelectValues::$country      , $reverse );
                     self::lookupValue( $location['address'], 'country'       , CRM_SelectValues::getCountry()      , $reverse );
-                    self::lookupValue( $location['address'], 'county'        , CRM_SelectValues::$county       , $reverse );
+                    self::lookupValue( $location['address'], 'county'        , CRM_SelectValues::$county           , $reverse );
                 }
                 if ( array_key_exists( 'im', $location ) ) {
                     $ims =& $location['im'];
                     foreach ( $ims as $innerIndex => &$im ) {
-                        // self::lookupValue( $im, 'provider', CRM_SelectValues::$imProvider , $reverse );
                         self::lookupValue( $im, 'provider', CRM_SelectValues::getIMProvider(), $reverse );
                     }
                 }
@@ -600,6 +597,32 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact->groupContact = CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
 
         return $contact;
+    }
+
+    /**
+     * function to get the display name of a contact
+     *
+     * @param  int    $id id of the contact
+     *
+     * @return null|string     display name of the contact if found
+     * @static
+     * @access public
+     */
+    static function displayName( $id ) {
+        $contact = new CRM_Contact_BAO_Contact( );
+        $contact->id = $id;
+        if ( $contact->find( true ) ) {
+            if ( $contact->contact_type == 'Household' || $contact->contact_type == 'Organization' ) {
+                return $contact->sort_name;
+            } else {
+                $individual = new CRM_Contact_BAO_Individual( );
+                $individual->contact_id = $id;
+                if ( $individual->find( true ) ) {
+                    return trim( $individual->prefix . ' ' . $individual->display_name . $individual->suffix );
+                }
+            }
+        }
+        return null;
     }
 
 }

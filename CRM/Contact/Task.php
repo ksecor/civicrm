@@ -31,24 +31,31 @@
  *
  */
 
-require_once 'CRM/Core/StateMachine.php';
+/**
+ * class to represent the actions that can be performed on a group of contacts
+ * used by the search forms
+ *
+ */
+class CRM_Contact_Task {
 
-class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
+    const
+        GROUP_CONTACTS      =   1,
+        TAG_CONTACTS        =   2,
+        ADD_TO_HOUSEHOLD    =   4,
+        ADD_TO_ORGANIZATION =   8,
+        DELETE_CONTACTS     =  16,
+        PRINT_CONTACTS      =  32,
+        EXPORT_CONTACTS     =  64;
 
-    /**
-     * class constructor
-     */
-    function __construct( $controller, $mode = CRM_Form::MODE_NONE ) {
-        parent::__construct( $controller, $mode );
-        
-        $this->_pages = array(
-                              'CRM_Contact_Form_Search',
-                              'CRM_Contact_Form_Task',
-                              );
-        
-        $this->addSequentialPages( $this->_pages, $mode );
-    }
-
+    static $tasks = array(
+                          self::GROUP_CONTACTS      => 'Add Contacts to a Group',
+                          self::TAG_CONTACTS        => 'Tag Contacts (assign category)',
+                          self::ADD_TO_HOUSEHOLD    => 'Add to Household',
+                          self::ADD_TO_ORGANIZATION => 'Add to Organization',
+                          self::DELETE_CONTACTS     => 'Delete',
+                          self::PRINT_CONTACTS      => 'Print',
+                          self::EXPORT_CONTACTS     => 'Export',
+                          );
 }
 
 ?>

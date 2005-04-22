@@ -39,8 +39,29 @@ require_once 'CRM/Core/Form.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Contact_Form_Action extends CRM_Form
+class CRM_Contact_Form_Task extends CRM_Form
 {
+    /**
+     * the task being performed
+     *
+     * @var int
+     */
+    protected $_task;
+
+    /**
+     * The contacts ids that the task is performed on
+     *
+     * @var array
+     */
+    protected $_ids;
+
+    /**
+     * The rows that hold display data
+     *
+     * @var array
+     */
+    protected $_rows;
+
     /**
      * class constructor
      *
@@ -48,7 +69,7 @@ class CRM_Contact_Form_Action extends CRM_Form
      * @param string $state       The state object associated with this form
      * @param int     $mode       The mode of the form
      *
-     * @return CRM_Contact_Form_Action
+     * @return CRM_Contact_Form_Task
      * @access public
      */
     function __construct($name, $state, $mode = self::MODE_NONE) 
@@ -58,6 +79,21 @@ class CRM_Contact_Form_Action extends CRM_Form
     
     function preProcess( ) 
     {
+        $values = $this->controller->exportValues( 'Search' );
+        
+        $this->_task = $values['task'];
+        $this->assign( 'taskName', CRM_Contact_Task::$tasks[$this->_task] );
+
+        $this->_rows = array( );
+        foreach ( $values as $name => $value ) {
+            if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
+                $row = array( );
+                $row['id'] = substr( $name, self::CB_PREFIX_LEN );
+                $row['displayName'] = CRM_Contact_BAO_Contact::displayName( $row['id'] );
+                $this->_rows[] = $row;
+            }
+        }
+        $this->assign( 'rows', $this->_rows );
     }
 
     /**
@@ -95,8 +131,10 @@ class CRM_Contact_Form_Action extends CRM_Form
     {
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Continue',
+                                         'name'      => 'Confirm Action!',
                                          'isDefault' => true   ),
+                                 array ( 'type'      => 'back',
+                                         'name'      => 'Previous' ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => 'Cancel' ),
                                  )

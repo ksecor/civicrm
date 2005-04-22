@@ -158,9 +158,18 @@ class CRM_Selector_Controller {
         $this->_output = $output;
 
         $params = array(
-                        'total'   => $this->_object->getTotalCount($action),
                         'pageID'  => $this->_pageID
                         );
+
+        /*
+         * if we are in transfer mode, do not goto database, use the 
+         * session values instead
+         */
+        if ( $output == self::TRANSFER ) {
+            $params['total'] = $this->_store->get( 'rowCount' );
+        } else {
+            $params['total'] = $this->_object->getTotalCount($action);
+        }
         $this->_object->getPagerParams($action, $params);
 
         /*
@@ -181,8 +190,13 @@ class CRM_Selector_Controller {
     }
 
     function hasChanged( ) {
-        if ( $this->_store->get( CRM_Pager::PAGE_ID ) != $this->_pager->getCurrentPageID( ) ||
-             $this->_store->get( CRM_Sort::SORT_ID  ) != $this->_sort->getCurrentSortID ( ) ) {
+        /**
+        echo "Current Sort ID: " . $this->_sort->getCurrentSortID ( ) . '_' . $this->_sort->getCurrentSortDirection ( ) . "<p>";
+        echo "Stored Sort ID: " . $this->_store->get( CRM_Sort::SORT_ID  ) . '_' . $this->_store->get( CRM_Sort::SORT_DIRECTION ) . "<p>";
+        **/
+        if ( $this->_store->get( CRM_Pager::PAGE_ID       ) != $this->_pager->getCurrentPageID       ( ) ||
+             $this->_store->get( CRM_Sort::SORT_ID        ) != $this->_sort->getCurrentSortID        ( ) || 
+             $this->_store->get( CRM_Sort::SORT_DIRECTION ) != $this->_sort->getCurrentSortDirection ( ) ) {
             return true;
         }
         return false;
@@ -219,14 +233,16 @@ class CRM_Selector_Controller {
         if ( $this->_output & self::SESSION ) {
             $this->_store->set( 'columnHeaders', $columnHeaders );
             $this->_store->set( 'rows'         , $rows          );
+            $this->_store->set( 'rowCount'     , count($rows)   );
             $this->_store->set( 'rowsEmpty'    , $rowsEmpty     );
             $this->_store->set( 'qill'         , $qill          );
         }
 
         // always store the current pageID and sortID
-        $this->_store->set( CRM_Pager::PAGE_ID      , $this->_pager->getCurrentPageID( ) );
-        $this->_store->set( CRM_Sort::SORT_ID       , $this->_sort->getCurrentSortID ( ) );
-        $this->_store->set( CRM_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage            );
+        $this->_store->set( CRM_Pager::PAGE_ID      , $this->_pager->getCurrentPageID       ( ) );
+        $this->_store->set( CRM_Sort::SORT_ID       , $this->_sort->getCurrentSortID        ( ) );
+        $this->_store->set( CRM_Sort::SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
+        $this->_store->set( CRM_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
     }
     
     function getPager() {
@@ -274,6 +290,30 @@ class CRM_Selector_Controller {
         return $this->_content;
     }
 
+    /**
+     * Move the variables from the session to the template
+     *
+     * @return void
+     * @access public
+     */
+    function moveFromSessionToTemplate( ) {
+        $config  = CRM_Config::singleton ();
+        $session = CRM_Session::singleton();
+
+        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        $template->assign_by_ref( 'config' , $config  );
+        $template->assign_by_ref( 'session', $session );
+        $template->assign_by_ref( 'pager'  , $this->_pager   );
+        $template->assign_by_ref( 'sort'   , $this->_sort    );
+
+        $template->assign_by_ref( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
+        $template->assign_by_ref( 'rows'         , $this->_store->get( 'rows' )          );
+        $template->assign       ( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
+        $template->assign       ( 'qill'         , $this->_store->get( 'qill' )          );
+
+        $template->assign( 'tplFile', $this->_object->getTemplateFileName() );
+        $this->_content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
+    }
 
 }
 

@@ -73,7 +73,7 @@ class CRM_QuickForm_Action_Refresh extends CRM_QuickForm_Action {
         // the page is valid, process it before we jump to the next state
         $page->postProcess( );
 
-        return $page->handle('display');
+        return $page->handle('jump');
     }
 
 }

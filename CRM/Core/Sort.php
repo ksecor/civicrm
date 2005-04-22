@@ -55,7 +55,8 @@ class CRM_Sort {
          *
          * @var string
          */
-        SORT_ID    = 'crmSID';
+        SORT_ID        = 'crmSID',
+        SORT_DIRECTION = 'crmSortDirection';
 
     /**
      * name of the sort function. Used to isolate session variables
@@ -93,6 +94,14 @@ class CRM_Sort {
     protected $_currentSortID;
 
     /**
+     * What direction are we sorting on
+     *
+     * @var string
+     */
+    protected $_currentSortDirection;
+
+
+    /**
      * The output generated for the current form
      *
      * @var array
@@ -123,9 +132,10 @@ class CRM_Sort {
                                           );
         }
     
-        $this->_currentSortID  = 1;
-        $this->_urlVar         = CRM_Sort::SORT_ID;
-        $this->_link           = CRM_System::makeUrl( $this->_urlVar );
+        $this->_currentSortID        = 1;
+        $this->_currentSortDirection = $this->_vars[$this->_currentSortID]['direction'];
+        $this->_urlVar               = CRM_Sort::SORT_ID;
+        $this->_link                 = CRM_System::makeUrl( $this->_urlVar );
 
         $this->initialize( $defaultSortOrder );
     }
@@ -160,7 +170,8 @@ class CRM_Sort {
             $direction = CRM_Sort::DONTCARE;
         }
 
-        $this->_currentSortID = $current;
+        $this->_currentSortID               = $current;
+        $this->_currentSortDirection        = $direction;
         $this->_vars[$current]['direction'] = $direction;
     }
 
@@ -175,8 +186,6 @@ class CRM_Sort {
             $this->_response[$name] = array();
 
             $newDirection = ( $item['direction'] == CRM_Sort::ASCENDING ) ? CRM_Sort::DESCENDING : CRM_Sort::ASCENDING;
-
-            
 
             if ( $current == $index ) {
                 if ( $item['direction'] == CRM_Sort::ASCENDING ) {
@@ -202,6 +211,15 @@ class CRM_Sort {
         return $this->_currentSortID;
     }
 
+    /**
+     * getter for currentSortDirection
+     *
+     * @return int
+     * @acccess public
+     */
+    function getCurrentSortDirection( ) {
+        return $this->_currentSortDirection;
+    }
 }
 
 ?>
