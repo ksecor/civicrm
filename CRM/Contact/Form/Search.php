@@ -109,7 +109,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
         CRM_Error::le_method();
 
         // get the container
-        $container = $this->controller->container();
+        $container =& $this->controller->container();
+
         //CRM_Error::debug_var('container',  $container);
         // check for container -> values -> Search - >cb_contact_type
         CRM_Error::debug_var('container->values->Search',  $container['values']['Search']);        
