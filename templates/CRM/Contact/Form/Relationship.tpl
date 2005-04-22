@@ -4,9 +4,11 @@
 <fieldset><legend>{if $action eq 1}New{else}Edit{/if} Relationship(s)</legend>
 	<div class="data-group">
       	<span><label>{$displayName} is a {$form.relationship_type_id.html} of {$sort_name}</label></span>
-	</div>
-	<div>
 
+	<div><a href="{crmURL p='admin/contact/reltype' q="action=add&reset=1&rd=1"}">Add or Edit relationship types for your sites..</a></div>
+	</div>
+
+	<div>
 	{if $action eq 1}
         <span class="description">
             Use 'Search' to narrow down list of contacts. Then mark the contact(s) and click 'Create Relationship'	

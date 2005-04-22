@@ -92,14 +92,30 @@ class CRM_Admin_Form_RelationshipType extends CRM_Form
      * @access public
      */
     public function buildQuickForm( ) {
+
+        /*
+        // store the referer url
+        $rd = 0;
+        $rd = CRM_Request::retrieve( 'rd', $this, false, 0 );
+        
+        if ($rd) {
+            echo $strReturnPath = $_SERVER['HTTP_REFERER'];
+            echo "<br>======<br>"; 
+            echo $lngCrmPosition = strpos($strReturnPath, 'civicrm');
+            echo "<br>======<br>"; 
+            echo $lngActionPosition = strpos($strReturnPath, 'action');
+            $strReturnPath = substr($strReturnPath, $lngCrmPosition, $lngActionPosition);
+            echo $_SESSION['returnPath'] = $strReturnPath;
+        }
+        */
+        
         $this->add('text', 'name_a_b'       , 'Relationship Label for A to B'       ,
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'name_a_b' ) );
         $this->addRule( 'name_a_b', 'Please enter a valid Relationship Label for A to B.', 'required' );
 
         $this->add('text', 'name_b_a'       , 'Relationship Label for B to A'       ,
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'name_b_a' ) );
-        $this->addRule( 'name_b_a', 'Please enter a valid Relationship Label for B to A.', 'required' );
-
+      
         // add select for contact type
         $contactType = CRM_PseudoConstant::$contactType;
         $contactType = array(' ' => ' - any contact type - ') + $contactType;
@@ -117,7 +133,11 @@ class CRM_Admin_Form_RelationshipType extends CRM_Form
                                          'name'      => 'Cancel' ),
                                  )
                            );
-        
+
+        if ( $this->_mode & self::MODE_VIEW ) {
+            $this->freeze( );
+        }
+  
     }
 
        
@@ -129,25 +149,18 @@ class CRM_Admin_Form_RelationshipType extends CRM_Form
      */
     public function postProcess() 
     {
+        $params = $ids = array();
+        
         // store the submitted values in an array
         $params = $this->exportValues();
 
-        // action is taken depending upon the mode
-        $relationshipType               = new CRM_Contact_DAO_RelationshipType( );
-        
-        $relationshipType->copyValues( $params );
-        $relationshipType->domain_id    = 1;
-                
         if ($this->_mode & self::MODE_UPDATE ) {
-            $relationshipType->id = $this->_id;
-        }else {
-            $relationshipType->is_active    = 1;        
-        }
+            $ids['relationshipType'] = $this->_id;
+        }    
         
-        // print_r($relationshipType);
-        $relationshipType->save( );
+        CRM_Contact_BAO_RelationshipType::add($params, $ids);
 
-        CRM_Session::setStatus( 'The Relationship Type ' . $relationshipType->name . ' has been saved.' );
+        CRM_Session::setStatus( 'The Relationship Type has been saved.' );
     }//end of function
 
 

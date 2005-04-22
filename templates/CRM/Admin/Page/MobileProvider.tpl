@@ -23,7 +23,7 @@
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL p='admin/contact/mobileProvider' q="action=add"}">New Mobile Provider</a>
+    	 <a href="{crmURL p='admin/contact/mobileProvider' q="action=add&reset=1"}">New Mobile Provider</a>
        </div>
        {/if}
     </div>

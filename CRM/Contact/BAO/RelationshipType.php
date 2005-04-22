@@ -83,6 +83,39 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
         return null;
     }
 
+    /**
+     * Function to add the relationship type in the db
+     *
+     * @param array $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids  
+     *
+     * @return object CRM_Contact_DAO_RelationshipType
+     * @access public
+     * @static
+     *
+     */
+    static function add( &$params, &$ids) {
+        // action is taken depending upon the mode
+        $relationshipType = new CRM_Contact_DAO_RelationshipType( );
+        
+        $relationshipType->copyValues( $params );
+
+        // if label B to A is blank, insert the value label A to B for it
+        if (!strlen(trim($strName = CRM_Array::value( 'name_b_a', $params)))) {
+            $relationshipType->name_b_a = CRM_Array::value( 'name_a_b', $params);
+        }
+        
+        $relationshipType->domain_id = 1;
+
+        $relationshipType->id = CRM_Array::value( 'relationshipType', $ids );
+        
+        if (!$relationshipType->id) {
+            $relationshipType->is_active = 1;
+        }
+        
+        return $relationshipType->save( );
+        
+    }
 }
 
 ?>

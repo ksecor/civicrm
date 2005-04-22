@@ -40,6 +40,11 @@ class CRM_Admin_Page_RelationshipType extends CRM_Page_Basic {
      * @var array
      */
     static $_links = array(
+                           CRM_Action::VIEW  => array(
+                                                        'name'  => 'View',
+                                                        'url'   => 'admin/contact/reltype',
+                                                        'qs'    => 'action=view&id=%%id%%',
+                                                        'title' => 'View Relationship Type'),
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
                                                         'url'   => 'admin/contact/reltype',
@@ -76,6 +81,12 @@ class CRM_Admin_Page_RelationshipType extends CRM_Page_Basic {
     }
 
     function UserContext( ) {
+        /*
+        if ($_SESSION['returnPath']){
+            return $_SESSION['returnPath'];
+        }
+        */
+
         return 'admin/contact/reltype';
     }
 
