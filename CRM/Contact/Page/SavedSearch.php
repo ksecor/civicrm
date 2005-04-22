@@ -69,15 +69,17 @@ class CRM_Contact_Page_SavedSearch extends CRM_Page {
         CRM_Error::le_method();
         $rows = array();
         $ssDAO = new CRM_Contact_DAO_SavedSearch();
+        $ssDAO->selectAdd();
+        $ssDAO->selectAdd('id, name, search_type, description, form_values');
         $ssDAO->find();
         while ($ssDAO->fetch()) {
             $row = array();
-            CRM_Error::debug_log_message("fetching a saved search");
-            $properties = array('name', 'description', 'search_type');
+            //CRM_Error::debug_log_message("fetching a saved search");
+            $properties = array('id', 'name', 'description');
             foreach ($properties as $property) {
                 $row[$property] = $ssDAO->$property;
             }
-            $row['qill'] = CRM_Contact_Selector::getQILL(unserialize($ssDAO->form_values), $ssDAO->search_type);
+            $row['query_detail'] = CRM_Contact_Selector::getQILL(unserialize($ssDAO->form_values), $ssDAO->search_type);
             $rows[] = $row;
         }
         CRM_Error::debug_var('rows', $rows);
