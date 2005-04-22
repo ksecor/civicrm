@@ -41,9 +41,9 @@ require_once 'CRM/Core/Action.php';
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/Block.php';
 require_once 'CRM/Core/Wrapper.php';
+require_once 'CRM/Core/Selector/Controller.php';
 
 require_once 'CRM/Contact/Page/View.php';
-require_once 'CRM/Selector/Controller.php';
 
 // only used for debugging purposes - remove in production system
 require_once 'CRM/Core/Error.php';
@@ -562,19 +562,11 @@ function civicrm_assign( $var, $value = null) {
  */
 function civicrm_search() 
 {
-    //CRM_Error::le_method();
-    //CRM_Error::debug_log_message("arg1 = " . arg(1));
-    //CRM_Error::debug_log_message("arg2 = " . arg(2));
-    //CRM_Error::debug_log_message("arg3 = " . arg(3));
-    //CRM_Error::debug_log_message("arg4 = " . arg(4));
-    //CRM_Error::debug_log_message("arg5 = " . arg(5));
-
     // advanced search
     if(arg(3) == 'advanced') {
         $wrapper = new CRM_Wrapper();
         $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_ADVANCED,
                       CRM_System::url( 'civicrm/contact/search/advanced', 'reset=1' ));
-        //CRM_Error::ll_method();
         return $wrapper->getContent();
     }
 
@@ -582,7 +574,6 @@ function civicrm_search()
     if(arg(3) == 'saved' && arg(4) == 'browse') {
         $savedSearchPage = new CRM_Contact_Page_SavedSearch('Browse Saved Search', '', CRM_Contact_Page_View::MODE_NONE);
         $content .= $savedSearchPage->run();
-        //CRM_Error::ll_method();
         return $content;
     }
 
@@ -590,16 +581,13 @@ function civicrm_search()
     if(arg(3) == 'saved' && arg(4) == 'new') {
         $wrapper = new CRM_Wrapper();
         $wrapper->run('CRM_Contact_Form_SavedSearch', 'New Saved Search', CRM_Form::MODE_ADD, CRM_System::url( 'civicrm/contact/search/saved/browse', 'reset=1' ));
-        //CRM_Error::ll_method();
         return $wrapper->getContent();
     }
 
     // basic search
-    $wrapper = new CRM_Wrapper();
-    $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_BASIC,
-                  CRM_System::url( 'civicrm/contact/search', 'reset=1' ));
-    //CRM_Error::ll_method();
-    return $wrapper->getContent();
+	$controller = new CRM_Contact_Controller_Search( 'Search Contacts', CRM_Form::MODE_BASIC );
+    $controller->run( );
+    return $controller->getContent( );
 
 } // end of function civicrm_search
 

@@ -35,8 +35,9 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/Pager.php';
 require_once 'CRM/Core/Sort.php';
-require_once 'CRM/Selector/Base.php';
-require_once 'CRM/Selector/API.php';
+require_once 'CRM/Core/Selector/Base.php';
+require_once 'CRM/Core/Selector/API.php';
+
 require_once 'CRM/Contact/BAO/Contact.php';
 
 
@@ -55,18 +56,18 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @var array
      */
     static $_links = array(
-                           CRM_Action::VIEW => array(
-                                                     'name'     => 'View Contact',
-                                                     'link'     => '/crm/contact?action=view&id=%%id%%',
-                                                     'linkName' => 'View Contact',
-                                                     'menuName' => 'View Contact Details'
-                                                     ),
-                           CRM_Action::EDIT => array(
-                                                     'name'     => 'Edit Contact',
-                                                     'link'     => '/crm/contact?action=edit&id=%%id%%',
-                                                     'linkName' => 'Edit Contact',
-                                                     'menuName' => 'Edit Contact Details'
-                                                     ),
+                           CRM_Action::VIEW   => array(
+                                                       'name'     => 'View',
+                                                       'url'      => '/civicrm/contact/view',
+                                                       'qs'       => 'reset=1&cid=%%id%%',
+                                                       'title'    => 'View Contact Details',
+                                                       ),
+                           CRM_Action::UPDATE => array(
+                                                       'name'     => 'Edit',
+                                                       'url'      => '/civicrm/contact/edit',
+                                                       'qs'       => 'reset=1&cid=%%id%%',
+                                                       'menuName' => 'Edit Contact Details',
+                                                       ),
                            );
 
     static $_columnHeaders = array(
@@ -146,21 +147,14 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function __construct(&$formValues, $type=CRM_Form::MODE_NONE) 
     {
-        
-        //CRM_Error::le_method();
-
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
 
         // submitted form values
-        $this->_formValues = $formValues;
+        $this->_formValues =& $formValues;
 
         // type of selector
         $this->_type = $type;
-
-        //CRM_Error::debug_var('formValues', $this->_formValues);
-
-        //CRM_Error::ll_method();
 
     }//end of constructor
 
@@ -178,7 +172,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @access public
      *
      */
-    function &getLinks() 
+    function &links() 
     {
         return CRM_Contact_Selector::$_links;
     } //end of function
@@ -223,16 +217,11 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     {
         switch ($this->_type) {
         case CRM_Form::MODE_BASIC:
-            $v1 = $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
-            break;
+            return $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
         case CRM_Form::MODE_ADVANCED:
-            $v1 = $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
-            break;
+            return $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
         }
-        $v2 = $v1->getDatabaseResult();
-        $v3 = $v2->fetchRow();
-        $count = $v3[0];
-        return $count;
+        return 0;
     }
 
 
@@ -249,8 +238,12 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function &getRows($action, $offset, $rowCount, $sort)
     {
+        static $properties = array( 'contact_id', 'sort_name', 'street_address',
+                                    'city', 'state', 'country', 'postal_code',
+                                    'email', 'phone' );
+        
         $config = CRM_Config::singleton( );
-
+        
         // note the formvalues were given by CRM_Contact_Form_Search to us 
         // and contain the search criteria (parameters)
         switch ($this->_type) {
@@ -268,16 +261,16 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         while ($result->fetch()) {
             $row = array();
 
+            $row['checkbox'] = CRM_Form::CB_PREFIX . $result->contact_id;
+
             // the columns we are interested in
-            static $properties = array( 'contact_id', 'sort_name', 'street_address',
-                                        'city', 'state', 'country', 'postal_code',
-                                        'email', 'phone' );
             foreach ($properties as $property) {
                 $row[$property] = $result->$property;
             }
-            $row['edit'] = CRM_System::url( 'civicrm/contact/edit', 'reset=1&cid=' . $result->contact_id );
-            $row['view'] = CRM_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $result->contact_id );
-            $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
+            $row['action'] = CRM_Action::formLink( self::$_links, null, array( 'id' => $result->contact_id ) );
+            $row['edit']   = CRM_System::url( 'civicrm/contact/edit', 'reset=1&cid=' . $result->contact_id );
+            $row['view']   = CRM_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $result->contact_id );
+            $contact_type  = '<img src="' . $config->resourceBase . 'i/contact_';
             switch ($result->contact_type) {
             case 'Individual' :
                 $contact_type .= 'ind.png" alt="Individual">';
@@ -310,9 +303,6 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
   
     public static function getQILL(&$formValues, $type)
     {
-        //CRM_Error::le_method();
-        //CRM_Error::debug_var('formValues', $formValues);
-
         // query in local language
         $qill = "";
         $dontCare = " <i>dont care</i>";
@@ -323,11 +313,11 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         $replacement = "$1";
 
         // load the PseudoConstant arrays
-        CRM_PseudoConstant::populateGroup();
-        CRM_PseudoConstant::populateCategory();
-        CRM_PseudoConstant::populateStateProvince();
-        CRM_PseudoConstant::populateCountry();
-        CRM_PseudoConstant::populateLocationType();        
+        CRM_PseudoConstant::getGroup();
+        CRM_PseudoConstant::getCategory();
+        CRM_PseudoConstant::getStateProvince();
+        CRM_PseudoConstant::getCountry();
+        CRM_PseudoConstant::getLocationType();        
 
         switch ($type) {
         case CRM_Form::MODE_BASIC:
@@ -351,7 +341,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
             // check for last name, as of now only working with sort name
             if ($formValues['sort_name']) {
                 $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($formValues['sort_name'])) ."%'";
-                $qill .= "whose name is like \"" . $formValues['sort_name'] . "\" and";
+                $qill .= " whose name is like \"" . $formValues['sort_name'] . "\" and";
             }
             $qill = preg_replace($patternAnd, $replacement, $qill);
             break;
@@ -497,9 +487,6 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         }
 
         $qill .= "</ul>";
-
-        //CRM_Error::debug_var('qill', $qill);
-        //CRM_Error::ll_method();
 
         if($qill != "all") {
             return $qill;

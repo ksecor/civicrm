@@ -57,7 +57,7 @@ class CRM_Selector_Base {
      *
      */
     function getActionAttribute( $match, $attribute = 'name' ) {
-        $links =& $this->getLinks();
+        $links =& $this->links();
 
         foreach ( $link as $action => &$item ) {
             if ( $match & $action ) {
@@ -76,11 +76,11 @@ class CRM_Selector_Base {
      * has 3 fields
      *
      * name    : the name of the link
-     * link    : the URI to be used for this link, along with any strings that will
-     *           be replaced dynamically
+     * url     : the URI to be used for this link
+     * qs      : the parameters to the above url along with any dynamic substitutions
      * title   : A more descriptive name, typically used in breadcrumbs / navigation
      */
-    function &getLinks() {
+    function &links() {
         return null;
     }
 

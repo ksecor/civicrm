@@ -46,6 +46,17 @@ require_once 'CRM/Report/Excel.php';
 class CRM_Selector_Controller {
 
     /**
+     * constants to determine if we should store
+     * the output in the session or template
+     * @var int
+     */
+    const
+        SESSION   = 1,
+        TEMPLATE  = 2,
+        BOTH      = 3, // this is primarily done for ease of use
+        TRANSFER  = 4; // move the values from the session to the template
+
+    /**
      * a CRM Object that implements CRM_Selector_api
      * @var object
      */
@@ -119,6 +130,13 @@ class CRM_Selector_Controller {
     protected $_store;
 
     /**
+     * Output target, session, template or both?
+     *
+     * @var int
+     */
+    protected $_output;
+
+    /**
      * Class constructor
      *
      * @param CRM_Selector_API $object  an object that implements the selector API
@@ -126,16 +144,18 @@ class CRM_Selector_Controller {
      * @param int               $sortID  default sortID
      * @param int               $action  the actions to potentially support
      * @param CRM_Page|CRM_Form $store   place in session to store some values
+     * @param int               $output  what do we so with the output, session/template//both
      *
      * @return Object
      * @access public
      */
-    function __construct($object, $pageID, $sortID, $action, $store = null) {
+    function __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE) {
         $this->_object = $object;
         $this->_pageID = $pageID ? $pageID : 1;
         $this->_sortID = $sortID ? $sortID : null;
         $this->_action = $action;
         $this->_store  = $store;
+        $this->_output = $output;
 
         $params = array(
                         'total'   => $this->_object->getTotalCount($action),
@@ -169,8 +189,6 @@ class CRM_Selector_Controller {
     }
 
     function run( ) {
-        CRM_Error::le_method();
-        //print $this->_pager->getPageID();
         $config  = CRM_Config::singleton ();
         $session = CRM_Session::singleton();
 
@@ -182,25 +200,33 @@ class CRM_Selector_Controller {
         $rowsEmpty = count( $rows ) ? false : true;
         $qill = $this->_object->getMyQILL();
 
-        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        $template->assign_by_ref( 'config' , $config  );
-        $template->assign_by_ref( 'session', $session );
-        $template->assign_by_ref( 'pager'  , $this->_pager   );
-        $template->assign_by_ref( 'sort'   , $this->_sort    );
-        
-        $template->assign_by_ref( 'columnHeaders', $columnHeaders );
-        $template->assign_by_ref( 'rows'         , $rows          );
-        $template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
-        $template->assign       ( 'qill'         , $qill          );
-        
-        $template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
-        $this->_content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
-    
+        if ( $this->_output & self::TEMPLATE ) {
+            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+            $template->assign_by_ref( 'config' , $config  );
+            $template->assign_by_ref( 'session', $session );
+            $template->assign_by_ref( 'pager'  , $this->_pager   );
+            $template->assign_by_ref( 'sort'   , $this->_sort    );
+            
+            $template->assign_by_ref( 'columnHeaders', $columnHeaders );
+            $template->assign_by_ref( 'rows'         , $rows          );
+            $template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
+            $template->assign       ( 'qill'         , $qill          );
+            
+            $template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
+            $this->_content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
+        }
+
+        if ( $this->_output & self::SESSION ) {
+            $this->_store->set( 'columnHeaders', $columnHeaders );
+            $this->_store->set( 'rows'         , $rows          );
+            $this->_store->set( 'rowsEmpty'    , $rowsEmpty     );
+            $this->_store->set( 'qill'         , $qill          );
+        }
+
         // always store the current pageID and sortID
         $this->_store->set( CRM_Pager::PAGE_ID      , $this->_pager->getCurrentPageID( ) );
         $this->_store->set( CRM_Sort::SORT_ID       , $this->_sort->getCurrentSortID ( ) );
         $this->_store->set( CRM_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage            );
-        CRM_Error::ll_method();
     }
     
     function getPager() {

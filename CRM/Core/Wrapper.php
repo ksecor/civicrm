@@ -37,7 +37,7 @@
  */
 
 require_once 'CRM/Core/Base.php';
-require_once 'CRM/Controller/Simple.php';
+require_once 'CRM/Core/Controller/Simple.php';
 
 class CRM_Wrapper 
 {

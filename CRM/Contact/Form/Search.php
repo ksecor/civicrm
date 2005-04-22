@@ -36,7 +36,7 @@
  */
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/PseudoConstant.php';
-require_once 'CRM/Selector/Controller.php';
+require_once 'CRM/Core/Selector/Controller.php';
 require_once 'CRM/Contact/Selector.php';
 
 /**
@@ -57,9 +57,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function __construct($name, $state, $mode = self::MODE_NONE)
     {
-        //CRM_Error::le_method();
         parent::__construct($name, $state, $mode);
-        //CRM_Error::ll_method();
     }
 
     /**
@@ -70,8 +68,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        
-        //CRM_Error::le_method();
         switch($this->_mode) {
         case CRM_Form::MODE_BASIC:
             $this->buildBasicSearchForm();
@@ -80,7 +76,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $this->buildAdvancedSearchForm();
             break;        
         }
-        //CRM_Error::ll_method();
     }
 
     /**
@@ -91,20 +86,15 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildBasicSearchForm( ) 
     {
-        //CRM_Error::le_method();
-        // add select for contact type
-        $contactType = CRM_PseudoConstant::$contactType;
-        $contactType = array('any' => ' - any contact - ') + $contactType;
+        $contactType = array('any' => ' - any contact - ') + CRM_PseudoConstant::$contactType;
         $this->add('select', 'contact_type', 'Show me.... ', $contactType);
 
         // add select for groups
-        $group = CRM_PseudoConstant::getGroup();
-        $group = array('any' => ' - any group - ') + $group;
+        $group = array('any' => ' - any group - ') + CRM_PseudoConstant::getGroup();
         $this->add('select', 'group', 'in', $group);
 
         // add select for categories
-        $category = CRM_PseudoConstant::getCategory();
-        $category = array('any' => ' - any category - ') + $category;
+        $category = array('any' => ' - any category - ') + CRM_PseudoConstant::getCategory();
         $this->add('select', 'category', 'Category', $category);
 
         // text for sort_name
@@ -118,7 +108,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
                           4  => 'Delete',
                           5  => 'Print',
                           6  => 'Export' );
-        $this->add('select', 'action_id'   , 'Actions: '    , $actions    );
+        $this->add('select', 'action'   , 'Actions: '    , $actions    );
 
         // add buttons
         $this->addButtons( array(
@@ -129,10 +119,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
                            );
         
         /*
-         * added one extra button, this is needed as per the design of the action form
+         * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
+         *
          */
-        $this->add('submit', 'go', 'Go');
-        //CRM_Error::ll_method();
+        $this->add('submit', $this->getButtonName( 'next' ), 'Go', array( 'class' => 'form-submit' ) );
     }
 
     /**
@@ -143,7 +133,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildAdvancedSearchForm() 
     {
-        //CRM_Error::le_method();
         // add checkboxes for contact type
         $cb_contact_type = array( );
         foreach (CRM_PseudoConstant::$contactType as $k => $v) {
@@ -171,13 +160,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $this->addElement('text', 'city', 'City:',CRM_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
 
         // select for state province
-        $stateProvince = CRM_PseudoConstant::getStateProvince();
-        $stateProvince = array('' => ' - any state/province - ') + $stateProvince;
+        $stateProvince = array('' => ' - any state/province - ') + CRM_PseudoConstant::getStateProvince();
         $this->addElement('select', 'state_province', 'State/Province', $stateProvince);
 
         // select for country
-        $country = CRM_PseudoConstant::getCountry();
-        $country = array('' => ' - any country - ') + $country;
+        $country = array('' => ' - any country - ') + CRM_PseudoConstant::getCountry();
         $this->addElement('select', 'country', 'Country', $country);
 
         // add text box for postal code
@@ -212,8 +199,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
                                 )
                           );
 
-
-        //CRM_Error::ll_method();
     }
 
     /**
@@ -234,6 +219,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return void
      */
     function addRules( ) {
+        $this->addFormRule( array( 'CRM_Contact_Form_Search', 'formRule' ) );
     }
 
     function preProcess( ) {
@@ -249,21 +235,55 @@ class CRM_Contact_Form_Search extends CRM_Form {
         if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
             $this->postProcess( );
         }
+
+        
     }
 
     function postProcess() 
     {
-        //CRM_Error::le_method();
-        if($_GET['reset'] != 1) {
-            $formValues = $this->controller->exportValues($this->_name);
-            // important - we need to store the formValues in the session in case we want to save it.
-            $session = CRM_Session::singleton( );
-            $session->set("formValues", serialize($formValues), "advancedSearch");
-            $selector = new CRM_Contact_Selector($formValues, $this->_mode);
-            $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
-            $controller->run();
+        // if we are in reset state, i.e. just entered the form, dont display any result
+        if($_GET['reset'] == 1) {
+            return;
         }
-        //CRM_Error::ll_method();
+
+        // check actionName and if next, then do not repeat a search, since we are going to the next page
+        list( $pageName, $action ) = $this->controller->getActionName( );
+        if ( $action == 'next' ) {
+            return;
+        }
+
+        $formValues = $this->controller->exportValues($this->_name);
+
+        // important - we need to store the formValues in the session in case we want to save it.
+        $session = CRM_Session::singleton( );
+        $session->set("formValues", serialize($formValues), "advancedSearch");
+
+        $selector = new CRM_Contact_Selector($formValues, $this->_mode);
+        $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this);
+        $controller->run();
     }
+
+    /**
+     * Add a form rule for this form. If Go is pressed then we must select some checkboxes
+     * and an action
+     */
+    static function formRule( &$fields ) {
+        // check actionName and if next, then do not repeat a search, since we are going to the next page
+        
+        if ( array_key_exists( '_qf_Search_next', $fields ) ) {
+            if ( ! CRM_Array::value( 'action', $fields ) ) {
+                return array( 'action' => 'Please select a valid action.' );
+            }
+
+            foreach ( $fields as $name => $dontCare ) {
+                if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
+                    return true;
+                }
+            }
+            return array( 'action' => 'Please select one or more checkboxes to perform the action on.' );
+        }
+        return true;
+    }
+
 }
 ?>

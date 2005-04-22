@@ -37,7 +37,7 @@
 require_once 'HTML/QuickForm/Page.php';
 
 require_once 'CRM/Core/Rule.php';
-require_once 'CRM/Form/Renderer.php';
+require_once 'CRM/Core/Form/Renderer.php';
 
 require_once 'themes/engines/smarty/SmartyTemplate.php';
 

@@ -1,5 +1,6 @@
 <form {$form.attributes}>
-{$form.hidden}
+
+{include file="CRM/formCommon.tpl"}
 
 {* Begin Browse Criteria section *}
 <fieldset>
@@ -19,7 +20,7 @@
         </span>
      </div>
      <p>
-     <span class="element-right"><a href="{crmURL p='civicrm/contact/advanced_search' q='reset=1'}">&gt;&gt; Advanced Search...</a></span>
+     <span class="element-right"><a href="{crmURL p='civicrm/contact/search/advanced' q='reset=1'}">&gt;&gt; Advanced Search...</a></span>
      </p>
  </div>
 </fieldset>
@@ -52,15 +53,15 @@ Fetching {$qill}
     <fieldset>
      <div class="form-item">
        <span class="horizontal-position">
-         {$form.action_id.label}{$form.action_id.html} &nbsp; &nbsp; {$form.go.html}
+         {$form.action.label}{$form.action.html} &nbsp; &nbsp; {$form._qf_Search_next.html}
        </span>
        <span class="element-right">Select: 
-<a onclick="changeCheckboxVals('chk','select'  , 'Search' ); return false;" name="select_all"  href="#">All</a> |
-<a onclick="changeCheckboxVals('chk','deselect', 'Search' ); return false;" name="select_none" href="#">None</a></span>
+<a onclick="changeCheckboxVals('mark_x_','select'  , 'Search' ); return false;" name="select_all"  href="#">All</a> |
+<a onclick="changeCheckboxVals('mark_x_','deselect', 'Search' ); return false;" name="select_none" href="#">None</a></span>
      </div>  
 
      <p>
-       {include file="CRM/Contact/Selector.tpl"}
+       {include file="CRM/Contact/Form/Selector.tpl"}
      </p>
 
     </fieldset>

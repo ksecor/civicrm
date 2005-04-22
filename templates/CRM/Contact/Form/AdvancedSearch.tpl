@@ -195,7 +195,7 @@ Searching for {$qill}
 {else}
 <div>
 	<p>
-	{include file="CRM/Contact/Selector.tpl"}
+	{include file="CRM/Contact/Form/Selector.tpl"}
 	</p>
 </div>
 <div class="spacer"></div>
