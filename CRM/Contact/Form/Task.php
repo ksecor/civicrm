@@ -91,6 +91,7 @@ class CRM_Contact_Form_Task extends CRM_Form
                 $this->_rows[$id]['displayName'] = CRM_Contact_BAO_Contact::displayName( $id );
             }
         }
+        $this->assign_by_ref( 'rows', $this->_rows );
     }
 
     /**

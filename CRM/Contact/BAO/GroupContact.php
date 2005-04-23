@@ -134,7 +134,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @access public
      * @static
      */
-    function addToGroup( $groupId, $contactIds, $status = 'In' ) {
+    static function addContactsToGroup( $groupId, $contactIds, $status = 'In' ) {
     }
 
 }

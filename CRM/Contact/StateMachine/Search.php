@@ -40,16 +40,50 @@ class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
      */
     function __construct( $controller, $mode = CRM_Form::MODE_NONE ) {
         parent::__construct( $controller, $mode );
-        
+
+        $task = $this->taskName( $controller );
+
         $this->_pages = array(
                               'CRM_Contact_Form_Search',
-                              'CRM_Contact_Form_Task_Delete',
-                              'CRM_Contact_Form_Task_AddToGroup',
+                              $task,
                               );
         
         $this->addSequentialPages( $this->_pages, $mode );
     }
 
+    /**
+     * Determine the form name based on the action. This allows us
+     * to avoid using  conditional state machine, much more efficient
+     * and simpler
+     *
+     * @param CRM_Controller $controller the controller object
+     *
+     * @return string the name of the form that will handle the task
+     * @access protected
+     */
+    function taskName( $controller ) {
+        // total hack, first check POST vars and then check controller vars
+        $value = CRM_Array::value( 'task', $_POST );
+        if ( ! isset( $value ) ) {
+            $value = $controller->exportValue( 'Search', 'task' );
+        }
+
+        switch ( $value ) {
+        case  CRM_Contact_Task::GROUP_CONTACTS:
+            $task = 'CRM_Contact_Form_Task_AddToGroup';
+            break;
+
+        case CRM_Contact_Task::DELETE_CONTACTS:
+            $task = 'CRM_Contact_Form_Task_Delete';
+            break;
+            
+        default:
+            $task = 'CRM_Contact_Form_Task';
+            break;
+        }
+
+        return $task;
+    }
 }
 
 ?>

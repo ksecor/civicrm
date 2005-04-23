@@ -37,7 +37,6 @@
  *
  */
 class CRM_Contact_Task {
-
     const
         GROUP_CONTACTS      =   1,
         TAG_CONTACTS        =   2,
@@ -48,13 +47,13 @@ class CRM_Contact_Task {
         EXPORT_CONTACTS     =  64;
 
     static $tasks = array(
-                          self::GROUP_CONTACTS      => 'Add Contacts to a Group',
-                          self::TAG_CONTACTS        => 'Tag Contacts (assign category)',
-                          self::ADD_TO_HOUSEHOLD    => 'Add to Household',
-                          self::ADD_TO_ORGANIZATION => 'Add to Organization',
-                          self::DELETE_CONTACTS     => 'Delete',
-                          self::PRINT_CONTACTS      => 'Print',
-                          self::EXPORT_CONTACTS     => 'Export',
+                           1  => 'Add Contacts to a Group',
+                           2  => 'Tag Contacts (assign category)',
+                           4  => 'Add to Household',
+                           8  => 'Add to Organization',
+                           16 => 'Delete',
+                           32 => 'Print',
+                           64 => 'Export',
                           );
 }
 

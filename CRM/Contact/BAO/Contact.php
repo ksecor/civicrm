@@ -618,7 +618,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $individual = new CRM_Contact_BAO_Individual( );
                 $individual->contact_id = $id;
                 if ( $individual->find( true ) ) {
-                    return trim( $individual->prefix . ' ' . $individual->display_name . $individual->suffix );
+                    return trim( $individual->prefix . ' ' . $individual->display_name . ' ' . $individual->suffix );
                 }
             }
         }

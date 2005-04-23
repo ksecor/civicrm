@@ -57,8 +57,6 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
          * initialize the task and row fields
          */
         parent::preProcess( );
-
-        $this->assign_by_ref( 'rows', $this->_rows );
     }
 
     /**
