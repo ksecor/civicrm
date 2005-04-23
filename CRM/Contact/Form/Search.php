@@ -91,39 +91,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
     {
         CRM_Error::le_method();
 
-        // get the container
-        $container =& $this->controller->container();
-
-        //CRM_Error::debug_var('container',  $container);
-        // check for container -> values -> Search - >cb_contact_type
-        CRM_Error::debug_var('container->values->Search',  $container['values']['Search']);        
-
-//         // we could have container filled with advanced search checkboxes so lets get those values
-//         if($container['values']['Search']['contact_type']) {
-//             $array1 = $container['values']['Search']['contact_type'];    
-//             CRM_Error::debug_var('array1', $array1);
-//             $array2 = array_slice($array1, 0, 1);
-//             CRM_Error::debug_var('array2', $array2);
-//             $key = key($array2);
-//             CRM_Error::debug_var('key', $key);
-//             $container['values']['Search']['contact_type'] = key(array_slice($array1, 0, 1));
-//             CRM_Error::debug_var('container',  $container);
-//         }
-
-
-//         // we could have container filled with advanced search checkboxes so lets get those values
-//         if($container['values']['Search']['group']) {
-//             $group = $container['values']['Search']['group'];    
-//             $container['values']['Search']['group'] = key(array_slice($group, 0, 1));
-//         }
-
-//         // we could have container filled with advanced search checkboxes so lets get those values
-//         if($container['values']['Search']['category']) {
-//             $category = $container['values']['Search']['category'];    
-//             $container['values']['Search']['category'] = key(array_slice($category, 0, 1));
-//         }
-
-
         $contactType = array('any' => ' - any contact - ') + CRM_PseudoConstant::$contactType;
         $this->add('select', 'contact_type', 'Show me.... ', $contactType);
 
@@ -251,8 +218,30 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @access protected
      * @return array the default array reference
      */
-    function &setDefaultValues( ) {
-        $defaults = array( );
+    function &setDefaultValues() {
+        $defaults = array();
+        $csv = array();
+
+        $session = CRM_Session::singleton( );        
+        $session->getVars($csv, "commonSearchValues");
+      
+        CRM_Error::debug_var('csv', $csv);
+
+        switch($this->_mode) {
+        case CRM_Form::MODE_BASIC:
+            $defaults = $csv;
+            break;
+        case CRM_Form::MODE_ADVANCED:
+            //$defaults['sort_name'] = 
+            $csv['cb_contact_type'][$csv['contact_type']] = 1;
+            $csv['cb_group'][$csv['group']] = 1;
+            $csv['cb_category'][$csv['category']] = 1;
+            $defaults = $csv;
+            break;        
+        }
+
+        // $name = $session->get("name", "commonSearchValues");        
+        // $contact_type = $session->get("name", "commonSearchValues");        
         return $defaults;
     }
 
@@ -285,6 +274,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $this->postProcess( );
         }
          */
+        
+        CRM_Error::le_method();
 
         $formValues = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($formValues, $this->_mode);
@@ -294,32 +285,54 @@ class CRM_Contact_Form_Search extends CRM_Form {
         }
         $controller->moveFromSessionToTemplate( );
 
+        CRM_Error::ll_method();
     }
 
     function postProcess() 
     {
+
+        CRM_Error::le_method();
         // if we are in reset state, i.e. just entered the form, dont display any result
         if($_GET['reset'] == 1) {
+            CRM_Error::ll_method();
             return;
         }
 
+        
         // check actionName and if next, then do not repeat a search, since we are going to the next page
         list( $pageName, $action ) = $this->controller->getActionName( );
         if ( $action == 'next' ) {
+            CRM_Error::ll_method();
             return;
         }
 
+        // get user submitted values
         $formValues = $this->controller->exportValues($this->_name);
 
-        // important - we need to store the formValues in the session in case we want to save it.
+        // store the user submitted values in the common search values scope
+        $session = CRM_Session::singleton( );
+        $session->set("name", $formValues['sort_name'], "commonSearchValues");        
+
         if ($this->_mode == CRM_Form::MODE_ADVANCED) {
-            $session = CRM_Session::singleton( );
+            // important - we need to store the formValues in the session in case we want to save it.
             $session->set("formValues", serialize($formValues), "advancedSearch");
+            // store contact_type, group and category
+            $session->set("contact_type", $formValues['cb_contact_type'] ? key($formValues['cb_contact_type']) : "", "commonSearchValues");
+            $session->set("group", $formValues['cb_group'] ? key($formValues['cb_group']) : "", "commonSearchValues");
+            $session->set("category", $formValues['cb_category'] ? key($formValues['cb_category']) : "", "commonSearchValues");
+        } else {
+            $session->set("contact_type", ($formValues['contact_type']=='any') ? "" : $formValues['contact_type'], "commonSearchValues");
+            $session->set("group", ($formValues['group']=='any') ? "" : $formValues['group'], "commonSearchValues");
+            $session->set("category", ($formValues['category']=='any') ? "" : $formValues['category'], "commonSearchValues");
         }
+
+        // CRM_Error::debug_var('session', $session);
 
         $selector = new CRM_Contact_Selector($formValues, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
         $controller->run();
+
+        CRM_Error::ll_method();
     }
 
     /**
