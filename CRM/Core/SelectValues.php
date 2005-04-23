@@ -242,9 +242,21 @@ class CRM_SelectValues {
                                                    'Household'    => 'Household',
                                                    'Organization' => 'Organization',
                                                    'Location'     => 'Location',
-                                                   'Address'      => 'Address'
+                                                   'Address'      => 'Address',
                                                    );
-                                                    
+
+    /**
+     * the status of a contact within a group
+     *
+     * @ @var array
+     * @static
+     */
+    public static $groupContactStatus = array(
+                                              'In'      => 'In',
+                                              'Out'     => 'Out',
+                                              'Pending' => 'Pending',
+                                              );
+
 
     /**
      * Get all the location types from database.

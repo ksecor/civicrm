@@ -94,6 +94,12 @@ class CRM_Contact_Form_Edit extends CRM_Form
         parent::__construct($name, $state, $mode);
     }
 
+    /**
+     * build all the data structures needed to build the form
+     *
+     * @return void
+     * @access public
+     */
     function preProcess( ) {
         if ( $this->_mode == self::MODE_ADD ) {
             $this->_contactType = CRM_Request::retrieve( 'c_type', $this, true, null, 'REQUEST' );

@@ -49,13 +49,6 @@ class CRM_Contact_Form_Task extends CRM_Form
     protected $_task;
 
     /**
-     * The contacts ids that the task is performed on
-     *
-     * @var array
-     */
-    protected $_ids;
-
-    /**
      * The rows that hold display data
      *
      * @var array
@@ -77,6 +70,12 @@ class CRM_Contact_Form_Task extends CRM_Form
         parent::__construct($name, $state, $mode);
     }
     
+    /**
+     * build all the data structures needed to build the form
+     *
+     * @return void
+     * @access public
+     */
     function preProcess( ) 
     {
         $values = $this->controller->exportValues( 'Search' );
@@ -87,13 +86,11 @@ class CRM_Contact_Form_Task extends CRM_Form
         $this->_rows = array( );
         foreach ( $values as $name => $value ) {
             if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
-                $row = array( );
-                $row['id'] = substr( $name, self::CB_PREFIX_LEN );
-                $row['displayName'] = CRM_Contact_BAO_Contact::displayName( $row['id'] );
-                $this->_rows[] = $row;
+                $id = substr( $name, self::CB_PREFIX_LEN );
+                $this->_rows[$id] = array( );
+                $this->_rows[$id]['displayName'] = CRM_Contact_BAO_Contact::displayName( $id );
             }
         }
-        $this->assign( 'rows', $this->_rows );
     }
 
     /**
@@ -144,6 +141,7 @@ class CRM_Contact_Form_Task extends CRM_Form
 
        
     /**
+     * process the form after the input has been submitted and validated
      *
      * @access public
      * @return None
@@ -151,6 +149,28 @@ class CRM_Contact_Form_Task extends CRM_Form
     public function postProcess() 
     {
     }//end of function
+
+    /**
+     * simple shell that derived classes can call to add buttons to
+     * the form with a customized title for the main Submit
+     *
+     * @param string $title title of the main button
+     *
+     * @return void
+     * @access public
+     */
+    function addDefaultButtons( $title ) {
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => $title,
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'back',
+                                         'name'      => 'Previous' ),
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => 'Cancel' ),
+                                 )
+                           );
+    }
 
 }
 

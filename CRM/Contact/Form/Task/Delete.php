@@ -31,24 +31,58 @@
  *
  */
 
-require_once 'CRM/Core/StateMachine.php';
-
-class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
+/**
+ * This class provides the functionality to delete a group of
+ * contacts. This class provides functionality for the actual
+ * deletion.
+ */
+class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
 
     /**
      * class constructor
+     *
      */
-    function __construct( $controller, $mode = CRM_Form::MODE_NONE ) {
-        parent::__construct( $controller, $mode );
-        
-        $this->_pages = array(
-                              'CRM_Contact_Form_Search',
-                              'CRM_Contact_Form_Task_Delete',
-                              'CRM_Contact_Form_Task_AddToGroup',
-                              );
-        
-        $this->addSequentialPages( $this->_pages, $mode );
+    function __construct( $name, $state, $mode = self::MODE_NONE ) {
+        parent::__construct($name, $state, $mode);
     }
+
+    /**
+     * build all the data structures needed to build the form
+     *
+     * @return void
+     * @access public
+     */
+    function preProcess( ) {
+        /*
+         * initialize the task and row fields
+         */
+        parent::preProcess( );
+
+        $this->assign_by_ref( 'rows', $this->_rows );
+    }
+
+    /**
+     * Build the form
+     *
+     * @access public
+     * @return void
+     */
+    function buildQuickForm( ) {
+        $this->addDefaultButtons( 'Delete Contacts' );
+    }
+
+    /**
+     * process the form after the input has been submitted and validated
+     *
+     * @access public
+     * @return None
+     */
+    public function postProcess() {
+        foreach ( $rows as &$row ) {
+            CRM_Contact_BAO_Contact::deleteContact( $row['id'] );
+        }
+    }//end of function
+
 
 }
 

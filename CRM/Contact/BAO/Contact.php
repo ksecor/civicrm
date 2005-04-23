@@ -625,6 +625,18 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         return null;
     }
 
+    /**
+     * Delete a contact and all its associated records
+     * 
+     * @param  int  $id id of the contact to delete
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    function deleteContact( $id ) {
+    }
+
 }
 
 ?>

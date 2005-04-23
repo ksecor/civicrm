@@ -1,13 +1,5 @@
-<form {$form.attributes}>
-
-{include file="CRM/formCommon.tpl"}
-
-<fieldset>
-<legend>
-Would you like to {$taskName} on the following:
-</legend>
 <div class="form-item">
-<table>
+<table width="30%">
   <tr class="columnheader">
     <th>Name</th>
   </tr>
@@ -18,11 +10,3 @@ Would you like to {$taskName} on the following:
 {/foreach}
 </table>
 </div>
-</fieldset>
-<p>
-
-<div class="form-item">
-     <span class="element-right">{$form.buttons.html}</span>
-</div>
-
-</form>

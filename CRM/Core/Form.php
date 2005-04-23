@@ -487,6 +487,27 @@ class CRM_Form extends HTML_QuickForm_Page {
 
         $template->assign($var, $value);
     }
+
+    /**
+     * assign value to name in template by reference
+     *
+     * @param array|string $name  name  of variable
+     * @param mixed $value value of varaible
+     *
+     * @return void
+     * @access public
+     */
+    function assign_by_ref( $var, &$value ) {
+        static $template = null;
+
+        if ( ! isset( $template ) ) {
+            $config  = CRM_Config::singleton ();
+            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        }
+
+        $template->assign_by_ref($var, $value);
+    }
+
 }
 
 ?>
