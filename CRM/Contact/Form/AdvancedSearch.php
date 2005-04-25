@@ -194,11 +194,14 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Contact_Form_Search {
          */
         
         CRM_Error::le_method();
-
         $formValues = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($formValues, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
-        if ($controller->hasChanged() || CRM_Request::retrieve('ssid')) {
+        if ($controller->hasChanged()) {
+            $this->postProcess( );
+        }
+        if (CRM_Request::retrieve('ssid')) {
+            CRM_Error::debug_log_message('we have a saved search id ssid - do a post process');
             $this->postProcess( );
         }
         $controller->moveFromSessionToTemplate( );
@@ -223,7 +226,9 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Contact_Form_Search {
         }
 
         if($ssid=CRM_Request::retrieve('ssid')) {
+
             CRM_Error::debug_log_message("ssid is set");
+            CRM_Error::debug_var('ssid', $ssid);
 
             // ssid is set hence we need to set the formValues for it.
             // also we need to set the values in the form...
@@ -233,6 +238,7 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Contact_Form_Search {
             $ssDAO->selectAdd('id, form_values');
             if($ssDAO->find(1)) {
                 // make sure u unserialize - since it's stored in serialized form
+                CRM_Error::debug_log_message('found ss for ssid = $ssid');                
                 $formValues = unserialize($ssDAO->form_values);
             }
         } else {
@@ -248,14 +254,11 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Contact_Form_Search {
 
         // store the user submitted values in the common search values scope
         $session->set("name", $formValues['sort_name'], "commonSearchValues");        
-
-        // store contact_type, group and category
         $session->set("contact_type", $formValues['cb_contact_type'] ? key($formValues['cb_contact_type']) : "", "commonSearchValues");
         $session->set("group", $formValues['cb_group'] ? key($formValues['cb_group']) : "", "commonSearchValues");
         $session->set("category", $formValues['cb_category'] ? key($formValues['cb_category']) : "", "commonSearchValues");
 
         CRM_Error::debug_var('formValues', $formValues);
-        CRM_Error::debug_var('csv', $csv);
 
         $selector = new CRM_Contact_Selector($formValues, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
