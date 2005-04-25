@@ -13,3 +13,5 @@ for code in PEAR DB HTML Log Smarty Validate Pager PHP Archive System Console XM
 done
 
 [ -d ../PEAR/HTML ] && $rsync ../PEAR/HTML $dst
+[ -d ../PEAR/DB   ] && $rsync ../PEAR/DB   $dst
+

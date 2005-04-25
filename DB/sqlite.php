@@ -21,7 +21,7 @@
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0 3.0
- * @version    CVS: $Id: sqlite.php,v 1.108 2005/03/04 23:12:36 danielc Exp $
+ * @version    CVS: $Id: sqlite.php,v 1.109 2005/03/10 01:22:48 danielc Exp $
  * @link       http://pear.php.net/package/DB
  */
 
@@ -47,7 +47,7 @@ require_once 'DB/common.php';
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0 3.0
- * @version    Release: 1.7.4
+ * @version    Release: 1.7.6
  * @link       http://pear.php.net/package/DB
  */
 class DB_sqlite extends DB_common
@@ -734,6 +734,7 @@ class DB_sqlite extends DB_common
                 '/^(table|index) .* already exists$/' => DB_ERROR_ALREADY_EXISTS,
                 '/PRIMARY KEY must be unique/i' => DB_ERROR_CONSTRAINT,
                 '/is not unique/' => DB_ERROR_CONSTRAINT,
+                '/columns .* are not unique/i' => DB_ERROR_CONSTRAINT,
                 '/uniqueness constraint failed/' => DB_ERROR_CONSTRAINT,
                 '/may not be NULL/' => DB_ERROR_CONSTRAINT_NOT_NULL,
                 '/^no such column:/' => DB_ERROR_NOSUCHFIELD,

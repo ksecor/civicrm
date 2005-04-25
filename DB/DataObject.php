@@ -20,7 +20,7 @@
  * @package  DB_DataObject
  * @category DB
  *
- * $Id: DataObject.php,v 1.333 2005/03/07 04:58:45 alan_k Exp $
+ * $Id: DataObject.php,v 1.341 2005/03/23 02:03:22 alan_k Exp $
  */
 
 /* =========================================================================== 
@@ -227,7 +227,7 @@ class DB_DataObject extends DB_DataObject_Overload
     * @access   private
     * @var      string
     */
-    var $_DB_DataObject_version = "1.7.7";
+    var $_DB_DataObject_version = "1.7.13";
 
     /**
      * The Database table (used by table extends)
@@ -519,7 +519,7 @@ class DB_DataObject extends DB_DataObject_Overload
         foreach($array as $k=>$v) {
             $kk = str_replace(".", "_", $k);
             $kk = str_replace(" ", "_", $kk);
-             if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
+            if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
                 $this->debug("$kk = ". $array[$k], "fetchrow LINE", 3);
             }
             $this->$kk = $array[$k];
@@ -943,14 +943,14 @@ class DB_DataObject extends DB_DataObject_Overload
               
             
             if ($v & DB_DATAOBJECT_STR) {
-                $rightq .= $DB->quote(
-                        ($v & DB_DATAOBJECT_BOOL) ? (bool)$this->$k : $this->$k
-                    ) . " ";
+                $rightq .= $DB->quoteSmart((string) (
+                        ($v & DB_DATAOBJECT_BOOL) ? (int)(bool)$this->$k : $this->$k
+                    )) . " ";
                 continue;
             }
 
             if ($v & DB_DATAOBJECT_TXT) {
-                $rightq .= $DB->quote($this->$k) . " ";
+                $rightq .= $DB->quoteSmart((string) $this->$k ) . " ";
                 continue;
             }
 
@@ -1166,14 +1166,14 @@ class DB_DataObject extends DB_DataObject_Overload
             
 
             if ($v & DB_DATAOBJECT_STR) {
-                $settings .= "$kSql = ". $DB->quote(
-                        ($v & DB_DATAOBJECT_BOOL) ? (bool)$this->$k : $this->$k
-                    ) . ' ';
+                $settings .= "$kSql = ". $DB->quoteSmart((string) (
+                        ($v & DB_DATAOBJECT_BOOL) ? (int)(bool)$this->$k : $this->$k
+                    )) . ' ';
                 continue;
             }
 
             if ($v & DB_DATAOBJECT_TXT) {
-                $settings .= "$kSql = ". $DB->quote($this->$k) . ' ';
+                $settings .= "$kSql = " . $DB->quoteSmart((string) $this->$k ) . ' ';
                 continue;
             }
 
@@ -1385,15 +1385,18 @@ class DB_DataObject extends DB_DataObject_Overload
      * $object->name = "fred";
      * echo $object->count();
      * echo $object->count(true);  // dont use object vars.
-     * echo $object->count('distinct mycol'); 
+     * echo $object->count('distinct mycol');   count distinct mycol.
      * echo $object->count('distinct mycol',true); // dont use object vars.
+     * echo $object->count('distinct');      // count distinct id (eg. the primary key)
      *
      *
      * @param bool|string  (optional)
-     *                  (true|false = see below not on whereAddonly)
+     *                  (true|false => see below not on whereAddonly)
      *                  (string)
-     *                  $countWhat (optional) normally it counts primary keys - you can use 
-     *                  this to do things like $do->count('distinct mycol');
+     *                      "DISTINCT" => does a distinct count on the tables 'key' column
+     *                      otherwise  => normally it counts primary keys - you can use 
+     *                                    this to do things like $do->count('distinct mycol');
+     *                  
      * @param bool      $whereAddOnly (optional) If DB_DATAOBJECT_WHEREADD_ONLY is passed in then
      *                  we will build the condition only using the whereAdd's.  Default is to
      *                  build the condition using the object parameters as well.
@@ -1442,6 +1445,10 @@ class DB_DataObject extends DB_DataObject_Overload
         }
         
         $as      = ($quoteIdentifiers ? $DB->quoteIdentifier('DATAOBJECT_NUM') : 'DATAOBJECT_NUM');
+        
+        // support distinct on default keys.
+        $countWhat = (strtoupper($countWhat) == 'DISTINCT') ? 
+            "DISTINCT {$table}.{$key_col}" : $countWhat;
         
         $countWhat = is_string($countWhat) ? $countWhat : "{$table}.{$key_col}";
         
@@ -2226,15 +2233,16 @@ class DB_DataObject extends DB_DataObject_Overload
              
              
             
-            if (is_a($this->$k,'DB_DataObject_Cast')) {
+           if (is_a($this->$k,'DB_DataObject_Cast')) {
                 $dbtype = $DB->dsn["phptype"];
                 $value = $this->$k->toString($v,$dbtype);
                 if (PEAR::isError($value)) {
                     $this->raiseError($value->getMessage() ,DB_DATAOBJECT_ERROR_INVALIDARG);
                     return false;
                 }
-                if ($value == 'NULL') {
-                    $value = 'IS NULL';
+                if ((strtolower($value) === 'null') && !($v & DB_DATAOBJECT_NOTNULL)) {
+                    $this->whereAdd(" $kSql IS NULL");
+                    continue;
                 }
                 $this->whereAdd(" $kSql = $value");
                 continue;
@@ -2247,9 +2255,9 @@ class DB_DataObject extends DB_DataObject_Overload
             
 
             if ($v & DB_DATAOBJECT_STR) {
-                $this->whereAdd(" $kSql  = " . $DB->quote(
-                        ($v & DB_DATAOBJECT_BOOL) ? (bool)$this->$k : $this->$k
-                    ) );
+                $this->whereAdd(" $kSql  = " . $DB->quoteSmart((string) (
+                        ($v & DB_DATAOBJECT_BOOL) ? (int)(bool)$this->$k : $this->$k
+                    )) );
                 continue;
             }
             if (is_numeric($this->$k)) {
@@ -2845,20 +2853,26 @@ class DB_DataObject extends DB_DataObject_Overload
         
         $quoteIdentifiers = !empty($_DB_DATAOBJECT['CONFIG']['quote_identifiers']);
         
-        $database_prefix = in_array($DB->dsn["phptype"],array('mysql','mysqli')) ?
-            $obj->_database . '.' : '';
-        
         // not sure  how portable adding database prefixes is..
         $objTable = $quoteIdentifiers ? 
-                $DB->quoteIdentifier($database_prefix  . '.' . $obj->__table) : 
-                $database_prefix  .   $obj->__table ;
+                $DB->quoteIdentifier($obj->__table) : 
+                 $obj->__table ;
                 
-        // add database prefix if they are different databases
-        if ($database_prefix && ($obj->_database != $this->_database) && strlen($obj->_database )) {
-            // ojbjTable is already quoted????
-            $objTable = ($quoteIdentifiers ? 
-                $DB->quoteIdentifier($obj->_database) : $obj->_database) . '.' . $objTable;
+         
+         // as far as we know only mysql supports database prefixes..
+        if (    
+                in_array($DB->dsn['phptype'],array('mysql','mysqli')) &&
+                ($obj->_database != $this->_database) &&
+                strlen($obj->_database)
+            ) 
+        {
+            // prefix database (quoted if neccessary..)
+            $objTable = ($quoteIdentifiers
+                         ? $DB->quoteIdentifier($obj->_database)
+                         : $obj->_database)
+                    . '.' . $objTable;
         }
+         
         
         
         
@@ -2885,17 +2899,20 @@ class DB_DataObject extends DB_DataObject_Overload
             $tfield   = $DB->quoteIdentifier($tfield);    
         }
         // add database prefix if they are different databases
-        if ($database_prefix && ($obj->_database != $this->_database) && strlen($this->_database )) {
-            $table = ($quoteIdentifiers ? $DB->quoteIdentifier($this->_database) : $this->_database) . '.' . $table;
-            
-        }
+       
         
         $fullJoinAs = '';
         $addJoinAs  = ($quoteIdentifiers ? $DB->quoteIdentifier($obj->__table) : $obj->__table) != $joinAs;
         if ($addJoinAs) {
             $fullJoinAs = "AS {$joinAs}";
         } else {
-            if ($database_prefix && ($obj->_database != $this->_database) && strlen($this->_database )) {
+            // if 
+            if (
+                    in_array($DB->dsn['phptype'],array('mysql','mysqli')) &&
+                    ($obj->_database != $this->_database) &&
+                    strlen($this->_database)
+                ) 
+            {
                 $joinAs = ($quoteIdentifiers ? $DB->quoteIdentifier($obj->_database) : $obj->_database) . '.' . $joinAs;
             }
         }
@@ -2947,9 +2964,9 @@ class DB_DataObject extends DB_DataObject_Overload
             
             
             if ($v & DB_DATAOBJECT_STR) {
-                $this->whereAdd("{$joinAs}.{$kSql} = " . $DB->quote(
-                        ($v & DB_DATAOBJECT_BOOL) ? (bool)$obj->$k : $obj->$k
-                    ));
+                $this->whereAdd("{$joinAs}.{$kSql} = " . $DB->quoteSmart((string) (
+                        ($v & DB_DATAOBJECT_BOOL) ? (int)(bool)$obj->$k : $obj->$k
+                    )));
                 continue;
             }
             if (is_numeric($obj->$k)) {
@@ -3483,7 +3500,16 @@ class DB_DataObject extends DB_DataObject_Overload
                 
                 return $x->format($format);
             
+             
+            case ($cols[$col] &  DB_DATAOBJECT_BOOLEAN):
+                
+                if ($cols[$col] &  DB_DATAOBJECT_STR) {
+                    // it's a 't'/'f' !
+                    return ($cols[$col] == 't');
+                }
+                return (bool) $cols[$col];
             
+               
             default:
                 return sprintf($format,$this->col);
         }
@@ -3677,3 +3703,4 @@ if (!defined('DB_DATAOBJECT_NO_OVERLOAD')) {
         $GLOBALS['_DB_DATAOBJECT']['OVERLOADED'] = true;
     }
 }
+

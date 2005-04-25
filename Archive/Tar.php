@@ -16,7 +16,7 @@
 // | Author: Vincent Blavet <vincent@phpconcept.net>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Tar.php,v 1.28 2005/03/06 22:21:44 vblavet Exp $
+// $Id: Tar.php,v 1.29 2005/03/17 21:02:31 vblavet Exp $
 
 require_once 'PEAR.php';
 
@@ -27,7 +27,7 @@ define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
 * Creates a (compressed) Tar archive
 *
 * @author   Vincent Blavet <vincent@phpconcept.net>
-* @version  $Revision: 1.28 $
+* @version  $Revision: 1.29 $
 * @package  Archive
 */
 class Archive_Tar extends PEAR
@@ -82,7 +82,7 @@ class Archive_Tar extends PEAR
         $this->PEAR();
         $this->_compress = false;
         $this->_compress_type = 'none';
-        if ($p_compress === null) {
+        if (($p_compress === null) || ($p_compress == '')) {
             if (@file_exists($p_tarname)) {
                 if ($fp = @fopen($p_tarname, "rb")) {
                     // look for gzip magic cookie

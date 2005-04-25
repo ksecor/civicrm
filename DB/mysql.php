@@ -20,7 +20,7 @@
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: mysql.php,v 1.115 2005/03/04 23:12:36 danielc Exp $
+ * @version    CVS: $Id: mysql.php,v 1.117 2005/03/29 15:03:26 danielc Exp $
  * @link       http://pear.php.net/package/DB
  */
 
@@ -41,7 +41,7 @@ require_once 'DB/common.php';
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.4
+ * @version    Release: 1.7.6
  * @link       http://pear.php.net/package/DB
  */
 class DB_mysql extends DB_common
@@ -213,12 +213,15 @@ class DB_mysql extends DB_common
         }
         $params[] = $dsn['username'] ? $dsn['username'] : null;
         $params[] = $dsn['password'] ? $dsn['password'] : null;
-        if (isset($dsn['new_link'])
-            && ($dsn['new_link'] == 'true' || $dsn['new_link'] === true))
-        {
-            $params[] = true;
-        } else {
-            $params[] = false;
+
+        if (!$persistent) {
+            if (isset($dsn['new_link'])
+                && ($dsn['new_link'] == 'true' || $dsn['new_link'] === true))
+            {
+                $params[] = true;
+            } else {
+                $params[] = false;
+            }
         }
         if (version_compare(phpversion(), '4.3.0', '>=')) {
             $params[] = isset($dsn['client_flags'])
