@@ -1,6 +1,6 @@
 {if $form.javascript}
   {$form.javascript}
-{/form}
+{/if}
 
 {if $form.hidden}
   {$form.hidden}

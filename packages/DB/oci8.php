@@ -20,7 +20,7 @@
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: oci8.php,v 1.102 2005/02/28 01:42:01 danielc Exp $
+ * @version    CVS: $Id: oci8.php,v 1.103 2005/04/11 15:10:22 danielc Exp $
  * @link       http://pear.php.net/package/DB
  */
 
@@ -47,7 +47,7 @@ require_once 'DB/common.php';
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.4
+ * @version    Release: 1.7.6
  * @link       http://pear.php.net/package/DB
  */
 class DB_oci8 extends DB_common
@@ -225,10 +225,18 @@ class DB_oci8 extends DB_common
                 $connect_function = $persistent ? 'oci_pconnect'
                                     : 'oci_connect';
             }
+
+            // Backwards compatibility with DB < 1.7.0
+            if (empty($dsn['database']) && !empty($dsn['hostspec'])) {
+                $db = $dsn['hostspec'];
+            } else {
+                $db = $dsn['database'];
+            }
+
             $char = empty($dsn['charset']) ? null : $dsn['charset'];
             $this->connection = @$connect_function($dsn['username'],
                                                    $dsn['password'],
-                                                   $dsn['database'],
+                                                   $db,
                                                    $char);
             $error = OCIError();
             if (!empty($error) && $error['code'] == 12541) {

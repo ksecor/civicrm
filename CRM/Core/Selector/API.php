@@ -83,7 +83,7 @@ interface CRM_Selector_API {
      * @access public
      *
      */
-    function &getColumnHeaders( $action );
+    function &getColumnHeaders( $action = null );
     
     /**
      * returns the number of rows for this action
@@ -121,7 +121,7 @@ interface CRM_Selector_API {
      * @access public
      *
      */
-    function getTemplateFileName( $action );
+    function getTemplateFileName( $action = null );
 
     /**
      * returns the column headers as an array of tuples:

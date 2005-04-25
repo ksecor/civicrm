@@ -16,8 +16,13 @@
 // | Author:  Alan Knowles <alan@akbkhome.com>
 // +----------------------------------------------------------------------+
 //
-// $Id: createTables.php,v 1.19 2004/02/10 07:34:51 alan_k Exp $
+// $Id: createTables.php,v 1.20 2005/03/12 03:36:09 alan_k Exp $
 //
+
+// since this version doesnt use overload, 
+// and I assume anyone using custom generators should add this..
+
+define('DB_DATAOBJECT_NO_OVERLOAD',1);
 
 require_once 'DB/DataObject/Generator.php';
 

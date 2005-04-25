@@ -1,24 +1,26 @@
 <?php
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.02 of the PHP license,      |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author:  Alan Knowles <alan@akbkhome.com>
-// +----------------------------------------------------------------------+
-// $Id: Generator.php,v 1.88 2005/03/05 02:44:22 alan_k Exp $
-
 /**
  * Generation tools for DB_DataObject
  *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   Database
+ * @package    DB_DataObject
+ * @author     Alan Knowles <alan@akbkhome.com>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id: Generator.php,v 1.91 2005/03/23 02:35:35 alan_k Exp $
+ * @link       http://pear.php.net/package/DB_DataObject
+ */
+ 
+/**
+ * 
  * Config _$ptions
  * [DB_DataObject_Generator]
  * ; optional default = DB/DataObject.php
@@ -28,8 +30,6 @@
  * ; alter the extends field when updating a class (defaults to only replacing DB_DataObject)
  * generator_class_rewrite = ANY|specific_name   // default is DB_DataObject
  *
- * @package  DB_DataObject
- * @category DB
  */
 
 /**
@@ -140,9 +140,13 @@ class DB_DataObject_Generator extends DB_DataObject
         $options = &PEAR::getStaticProperty('DB_DataObject','options');
 
         $__DB= &$GLOBALS['_DB_DATAOBJECT']['CONNECTIONS'][$this->_database_dsn_md5];
-
-        $this->tables = $__DB->getListOf('tables');
         
+        // try getting a list of schema tables first. (postgres)
+        $this->tables = $__DB->getListOf('schema.tables');
+        if (empty($this->tables) || is_a($this->tables , 'PEAR_Error')) {
+            //if that fails fall back to clasic tables list.
+            $this->tables = $__DB->getListOf('tables');
+        }
         if (is_a($this->tables , 'PEAR_Error')) {
             return PEAR::raiseError($this->tables->toString(), null, PEAR_ERROR_DIE);
         }

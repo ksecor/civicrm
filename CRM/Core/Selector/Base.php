@@ -92,7 +92,7 @@ class CRM_Selector_Base {
      * @return string template file name
      * @access public
      */
-    function getTemplateFileName($action)
+    function getTemplateFileName($action = null)
     {
         return str_replace('_', '/', get_class( $this ) ) . '.tpl';
     }//end of function
@@ -106,7 +106,7 @@ class CRM_Selector_Base {
      * @access public
      */
     function &getSortOrder( $action ) {
-        $columnHeaders =& $this->getColumnHeaders( );
+        $columnHeaders =& $this->getColumnHeaders( null );
         if ( ! isset( $this->_order ) ) {
             $this->_order = array( );
             $start  = 2;

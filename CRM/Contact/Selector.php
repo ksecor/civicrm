@@ -200,7 +200,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @return array (reference)
      * @access public
      */
-    function &getColumnHeaders($action) 
+    function &getColumnHeaders($action = null) 
     {
         return self::$_columnHeaders;
     }

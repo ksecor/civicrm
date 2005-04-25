@@ -20,7 +20,7 @@
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: common.php,v 1.135 2005/03/04 23:12:36 danielc Exp $
+ * @version    CVS: $Id: common.php,v 1.137 2005/04/07 14:27:35 danielc Exp $
  * @link       http://pear.php.net/package/DB
  */
 
@@ -42,7 +42,7 @@ require_once 'PEAR.php';
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.4
+ * @version    Release: 1.7.6
  * @link       http://pear.php.net/package/DB
  */
 class DB_common extends PEAR
@@ -479,10 +479,8 @@ class DB_common extends PEAR
     /**
      * Sets the fetch mode that should be used by default for query results
      *
-     * @param integer $fetchmode   DB_FETCHMODE_ORDERED or DB_FETCHMODE_ASSOC,
-     *                              possibly bit-wise OR'ed with
-     *                              DB_FETCHMODE_FLIPPED
-     *
+     * @param integer $fetchmode    DB_FETCHMODE_ORDERED, DB_FETCHMODE_ASSOC
+     *                               or DB_FETCHMODE_OBJECT
      * @param string $object_class  the class name of the object to be returned
      *                               by the fetch methods when the
      *                               DB_FETCHMODE_OBJECT mode is selected.
@@ -491,8 +489,7 @@ class DB_common extends PEAR
      *                               done.  There is also the posibility to use
      *                               and extend the 'DB_row' class.
      *
-     * @see DB_FETCHMODE_ORDERED, DB_FETCHMODE_ASSOC, DB_FETCHMODE_FLIPPED,
-     *      DB_FETCHMODE_OBJECT
+     * @see DB_FETCHMODE_ORDERED, DB_FETCHMODE_ASSOC, DB_FETCHMODE_OBJECT
      */
     function setFetchMode($fetchmode, $object_class = 'stdClass')
     {
@@ -804,6 +801,9 @@ class DB_common extends PEAR
                          $where = false)
     {
         $query = $this->buildManipSQL($table, $table_fields, $mode, $where);
+        if (DB::isError($query)) {
+            return $query;
+        }
         return $this->prepare($query);
     }
 
@@ -834,6 +834,9 @@ class DB_common extends PEAR
     {
         $sth = $this->autoPrepare($table, array_keys($fields_values), $mode,
                                   $where);
+        if (DB::isError($sth)) {
+            return $sth;
+        }
         $ret =& $this->execute($sth, array_values($fields_values));
         $this->freePrepared($sth);
         return $ret;
@@ -876,7 +879,7 @@ class DB_common extends PEAR
     function buildManipSQL($table, $table_fields, $mode, $where = false)
     {
         if (count($table_fields) == 0) {
-            $this->raiseError(DB_ERROR_NEED_MORE_DATA);
+            return $this->raiseError(DB_ERROR_NEED_MORE_DATA);
         }
         $first = true;
         switch ($mode) {
@@ -910,7 +913,7 @@ class DB_common extends PEAR
                 }
                 return $sql;
             default:
-                $this->raiseError(DB_ERROR_SYNTAX);
+                return $this->raiseError(DB_ERROR_SYNTAX);
         }
     }
 
@@ -1565,7 +1568,11 @@ class DB_common extends PEAR
      *                            placeholders in query:  meaning 1
      *                            placeholder for non-array parameters or
      *                            1 placeholder per array element.
-     * @param int    $fetchmode  the fetch mode to use
+     * @param int    $fetchmode  the fetch mode to use:
+     *                            + DB_FETCHMODE_ORDERED
+     *                            + DB_FETCHMODE_ASSOC
+     *                            + DB_FETCHMODE_ORDERED | DB_FETCHMODE_FLIPPED
+     *                            + DB_FETCHMODE_ASSOC | DB_FETCHMODE_FLIPPED
      *
      * @return array  the nested array.  A DB_Error object on failure.
      */
