@@ -124,7 +124,7 @@ class CRM_Contact_Page_GroupContact {
     function getContactGroup( $lngContactId, $status = null ) {
         $groupContact = new CRM_Contact_DAO_GroupContact( );
      
-        $strSelect = "SELECT crm_group_contact.id as crm_group_contact_id, crm_group.name as crm_group_name,
+        $strSelect = "SELECT crm_group_contact.id as crm_group_contact_id, crm_group.title as crm_group_title,
                              crm_group_contact.in_date as in_date, crm_group_contact.out_date as out_date,
                              crm_group_contact.pending_date as pending_date, crm_group_contact.status as status,
                              crm_group_contact.pending_method as pending_method, crm_group_contact.in_method as in_method,
@@ -147,7 +147,7 @@ class CRM_Contact_Page_GroupContact {
         while ( $groupContact->fetch() ) {
             
             $values[$groupContact->crm_group_contact_id]['id'] = $groupContact->crm_group_contact_id;
-            $values[$groupContact->crm_group_contact_id]['name'] = $groupContact->crm_group_name;
+            $values[$groupContact->crm_group_contact_id]['title'] = $groupContact->crm_group_title;
             $values[$groupContact->crm_group_contact_id]['in_date'] = $groupContact->in_date;
             $values[$groupContact->crm_group_contact_id]['out_date'] = $groupContact->out_date;
             $values[$groupContact->crm_group_contact_id]['pending_method'] = $groupContact->pending_method;

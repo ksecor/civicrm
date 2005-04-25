@@ -189,7 +189,7 @@ class CRM_Contact_Form_GroupContact extends CRM_Form
 
         $str_select = $str_from = $str_where = '';
         
-        $str_select = "SELECT crm_group.id, crm_group.name ";
+        $str_select = "SELECT crm_group.id, crm_group.title ";
         $str_from = " FROM crm_group, crm_group_contact ";
         $str_where = " WHERE crm_group.group_type='static'";
         if ($lngStatus) {
@@ -203,7 +203,7 @@ class CRM_Contact_Form_GroupContact extends CRM_Form
         $group->query($str_sql);
 
         while($group->fetch()) {
-            $values[$group->id] = $group->name;
+            $values[$group->id] = $group->title;
         }
         
         return $values;

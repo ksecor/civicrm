@@ -26,13 +26,13 @@
        <key>id</key>
   </foreignKey>
   <field>
-       <name>iname</name>
+       <name>name</name>
        <type>varchar</type>
        <length>64</length>
        <comment>Internal name of Group.</comment>
   </field>
   <field>
-       <name>name</name>
+       <name>title</name>
        <type>varchar</type>
        <length>64</length>
        <comment>Name of Group.</comment>

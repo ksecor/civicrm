@@ -191,6 +191,12 @@ function civicrm_menu($may_cache)
                          'title' => t('Category'),
                          'type'   => MENU_LOCAL_TASK
                          );
+
+       $items[] = array(
+                         'path'  => 'admin/contact/group',
+                         'title' => t('Group'),
+                         'type'   => MENU_LOCAL_TASK
+                         );
        
         $items[] = array(
                          'path'  => 'civicrm',
@@ -416,6 +422,13 @@ function civicrm_admin_invoke()
         $view = new CRM_Admin_Page_Category( 'View Categories' );
         $content .= $view->run( );
     }
+    /*
+    // group
+    if (arg(1) == 'contact' && arg(2) == 'group') {
+        $view = new CRM_Admin_Page_Group( 'View Groups' );
+        $content .= $view->run( );
+    }
+    */
 
     print theme('page', $content);
 }

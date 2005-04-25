@@ -22,11 +22,11 @@
 	</tr>
        	{foreach from=$groupIn item=row}
         <tr class="{cycle values="odd-row,even-row"}">
-        	<td>{$row.name}</td>
+        	<td>{$row.title}</td>
 	    	<td></td>	
 	    	<td>Added (by {$row.in_method})</td> 
             	<td>{$row.in_date|date_format:"%B %e, %Y"}</td>
-	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.name}?');">[ Remove ]</a></td> 
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.title}?');">[ Remove ]</a></td> 
 	</tr>
      	{/foreach}
         </table>
@@ -54,11 +54,11 @@
 	</tr>
    	{foreach from=$groupPending item=row}
         <tr class="{cycle values="odd-row,even-row"}">
- 		<td> {$row.name}</td>
+ 		<td> {$row.title}</td>
 	    	<td></td>	
 	    	<td>Pending (by {$row.pending_method})</td> 
             	<td>{$row.pending_date|date_format:"%B %e, %Y"}</td>
-	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.name}?');">[ Remove ]</a></td> 
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.title}?');">[ Remove ]</a></td> 
 
     	</tr>
      	{/foreach}
@@ -90,11 +90,11 @@
 	</tr>
         {foreach from=$groupOut item=row}
         <tr class="{cycle values="odd-row,even-row"}">
-            	<td> {$row.name}</td>
+            	<td> {$row.title}</td>
 	    	<td></td>	
 	    	<td>Removed (by {$row.out_method})</td> 
             	<td>{$row.out_date|date_format:"%B %e, %Y"}</td>
-	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=i"}" onclick ="return confirm('Are you sure you want to add {$displayName} back into {$row.name}?');">[ Rejoin Group ]</a></td>
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=i"}" onclick ="return confirm('Are you sure you want to add {$displayName} back into {$row.title}?');">[ Rejoin Group ]</a></td>
 
     	</tr>
      	{/foreach}

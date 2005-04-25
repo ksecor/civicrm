@@ -347,17 +347,14 @@ class CRM_PseudoConstant {
             self::$group = array();
             $groupDAO = new CRM_Contact_DAO_Group();
             $groupDAO->selectAdd();
-            $groupDAO->selectAdd('id, name');
+            $groupDAO->selectAdd('id, title');
             $groupDAO->find();
             while($groupDAO->fetch()) {
-                self::$group[$groupDAO->id] = "$groupDAO->name";
+                self::$group[$groupDAO->id] = "$groupDAO->title";
             }
         }
         return self::$group;
     }
-
-
-
 
 
     /**
