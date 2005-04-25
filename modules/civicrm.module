@@ -185,6 +185,12 @@ function civicrm_menu($may_cache)
                         'title' => t('Manage Relationship Types'),
                         'type'   => MENU_LOCAL_TASK
                         );
+
+       $items[] = array(
+                         'path'  => 'admin/contact/category',
+                         'title' => t('Category'),
+                         'type'   => MENU_LOCAL_TASK
+                         );
        
         $items[] = array(
                          'path'  => 'civicrm',
@@ -405,6 +411,11 @@ function civicrm_admin_invoke()
         $content .= $view->run( );
     }
 
+    // category
+    if (arg(1) == 'contact' && arg(2) == 'category') {
+        $view = new CRM_Admin_Page_Category( 'View Categories' );
+        $content .= $view->run( );
+    }
 
     print theme('page', $content);
 }

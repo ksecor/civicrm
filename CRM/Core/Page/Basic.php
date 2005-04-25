@@ -126,6 +126,8 @@ abstract class CRM_Page_Basic extends CRM_Page {
             eval( $this->getBAOName( ) . "::setIsActive( $id, 0 );" );
         } else if ( $action & CRM_Action::ENABLE ) {
             eval( $this->getBAOName( ) . "::setIsActive( $id, 1 );" );
+        } else if ( $action & CRM_Action::DELETE ) {
+            eval( $this->getBAOName( ) . "::del( $id );" );
         }
 
         $this->browse( );
