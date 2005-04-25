@@ -589,7 +589,7 @@ function civicrm_search()
     // advanced search
     if(arg(3) == 'advanced') {
         $wrapper = new CRM_Wrapper();
-        $wrapper->run('CRM_Contact_Form_Search', 'Search Contacts', CRM_Form::MODE_ADVANCED,
+        $wrapper->run('CRM_Contact_Form_AdvancedSearch', 'Search Contacts', CRM_Form::MODE_ADVANCED,
                       CRM_System::url( 'civicrm/contact/search/advanced', 'reset=1' ));
         return $wrapper->getContent();
     }
