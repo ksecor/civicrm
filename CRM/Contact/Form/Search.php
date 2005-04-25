@@ -174,6 +174,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $formValues = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($formValues, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
+
+        // do we need a run here ?
+        //$controller->run();
+
         if ( $controller->hasChanged( ) ) {
             $this->postProcess( );
         }

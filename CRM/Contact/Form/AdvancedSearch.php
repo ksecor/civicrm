@@ -197,6 +197,9 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Contact_Form_Search {
         $formValues = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($formValues, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
+
+        // not sure if we need to do a run ? 
+        // $controller->run();
         if ($controller->hasChanged()) {
             $this->postProcess( );
         }
@@ -259,7 +262,7 @@ class CRM_Contact_Form_AdvancedSearch extends CRM_Contact_Form_Search {
         $session->set("category", $formValues['cb_category'] ? key($formValues['cb_category']) : "", "commonSearchValues");
 
         CRM_Error::debug_var('formValues', $formValues);
-
+        
         $selector = new CRM_Contact_Selector($formValues, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
         $controller->run();
