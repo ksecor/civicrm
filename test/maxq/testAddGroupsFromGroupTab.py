@@ -9,7 +9,7 @@ exec 'from '+validatorPkg+' import Validator'
 
 
 # definition of test class
-class testAddGroupByGroupsTab(PyHttpTestCase):
+class testAddGroupsFromGroupTab(PyHttpTestCase):
     def runTest(self):
         self.msg('Test started')
 
@@ -54,8 +54,8 @@ class testAddGroupByGroupsTab(PyHttpTestCase):
         self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        # url = "http://localhost/favicon.ico"
+        # self.msg("Testing URL: %s" % self.replaceURL('''http://192.168.2.9/favicon.ico'''))
+        # url = "http://192.168.2.9/favicon.ico"
         # params = None
         # Validator.validateRequest(self, self.getMethod(), "get", url, params)
         # self.get(url, params)
@@ -64,9 +64,9 @@ class testAddGroupByGroupsTab(PyHttpTestCase):
         # Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
-            ('''group_id''', '''3'''),
+            ('''group_id''', '''1'''),
             ('''_qf_GroupContact_next''', '''Add'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/group?group_id=3&_qf_GroupContact_next=Add''') % drupal_path)
+        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/group?group_id=1&_qf_GroupContact_next=Add''') % drupal_path)
         url = "%s/civicrm/contact/view/group" % drupal_path
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
@@ -84,13 +84,55 @@ class testAddGroupByGroupsTab(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        # url = "http://localhost/favicon.ico"
+        # self.msg("Testing URL: %s" % self.replaceURL('''http://192.168.2.9/favicon.ico'''))
+        # url = "http://192.168.2.9/favicon.ico"
         # params = None
         # Validator.validateRequest(self, self.getMethod(), "get", url, params)
         # self.get(url, params)
         # self.msg("Response code: %s" % self.getResponseCode())
         # self.assertEquals("Assert number 8 failed", 404, self.getResponseCode())
+        # Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''gcid''', '''67'''),
+            ('''action''', '''delete'''),
+            ('''st''', '''o'''),]
+        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/group?gcid=67&action=delete&st=o''') % drupal_path)
+        url = "%s/civicrm/contact/view/group" % drupal_path
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        # self.msg("Testing URL: %s" % self.replaceURL('''http://192.168.2.9/favicon.ico'''))
+        # url = "http://192.168.2.9/favicon.ico"
+        # params = None
+        # Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        # self.get(url, params)
+        # self.msg("Response code: %s" % self.getResponseCode())
+        # self.assertEquals("Assert number 10 failed", 404, self.getResponseCode())
+        # Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''gcid''', '''67'''),
+            ('''action''', '''delete'''),
+            ('''st''', '''i'''),]
+        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/group?gcid=67&action=delete&st=i''') % drupal_path)
+        url = "%s/civicrm/contact/view/group" % drupal_path
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        # self.msg("Testing URL: %s" % self.replaceURL('''http://192.168.2.9/favicon.ico'''))
+        # url = "http://192.168.2.9/favicon.ico"
+        # params = None
+        # Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        # self.get(url, params)
+        # self.msg("Response code: %s" % self.getResponseCode())
+        # self.assertEquals("Assert number 12 failed", 404, self.getResponseCode())
         # Validator.validateResponse(self, self.getMethod(), url, params)
         
 
@@ -99,5 +141,5 @@ class testAddGroupByGroupsTab(PyHttpTestCase):
 
 # Code to load and run the test
 if __name__ == 'main':
-    test = testAddGroupByGroupsTab("testAddGroupByGroupsTab")
+    test = testAddGroupsFromGroupTab("testAddGroupsFromGroupTab")
     test.Run()
