@@ -219,6 +219,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return array the default array reference
      */
     function &setDefaultValues() {
+        
+        CRM_Error::le_method();
+
         $defaults = array();
         $csv = array();
 
@@ -233,15 +236,33 @@ class CRM_Contact_Form_Search extends CRM_Form {
             break;
         case CRM_Form::MODE_ADVANCED:
             //$defaults['sort_name'] = 
-            $csv['cb_contact_type'][$csv['contact_type']] = 1;
-            $csv['cb_group'][$csv['group']] = 1;
-            $csv['cb_category'][$csv['category']] = 1;
-            $defaults = $csv;
+            //$csv['cb_contact_type'][$csv['contact_type']] = 1;
+            //$csv['cb_group'][$csv['group']] = 1;
+            //$csv['cb_category'][$csv['category']] = 1;
+            //$defaults = $csv;
+            
+            $defaults['sort_name'] = $csv['name'];
+            if($csv['contact_type']) {
+                $defaults['cb_contact_type'] = array($csv['contact_type'] => 1);
+            }
+            if($csv['group']) {
+                $defaults['cb_group'] = array($csv['group'] => 1);
+            }
+            if($csv['category']) {
+                $defaults['cb_category'] = array($csv['category'] => 1);
+            }
+
             break;        
         }
 
         // $name = $session->get("name", "commonSearchValues");        
         // $contact_type = $session->get("name", "commonSearchValues");        
+
+
+        CRM_Error::debug_var('defaults', $defaults);
+
+        CRM_Error::ll_method();
+
         return $defaults;
     }
 
@@ -297,7 +318,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
             CRM_Error::ll_method();
             return;
         }
-
+        
         
         // check actionName and if next, then do not repeat a search, since we are going to the next page
         list( $pageName, $action ) = $this->controller->getActionName( );
@@ -325,6 +346,30 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $session->set("group", ($formValues['group']=='any') ? "" : $formValues['group'], "commonSearchValues");
             $session->set("category", ($formValues['category']=='any') ? "" : $formValues['category'], "commonSearchValues");
         }
+
+        if($ssid=CRM_Request::retrieve('ssid')) {
+            CRM_Error::debug_log_message("ssid is set");
+
+            // ssid is set hence we need to set the formValues for it.
+            // also we need to set the values in the form...
+
+            $ssDAO = new CRM_Contact_DAO_SavedSearch();
+            $ssDAO->id = $ssid;
+            $ssDAO->selectAdd();
+            $ssDAO->selectAdd('id, form_values');
+            if($ssDAO->find(1)) {
+                $formValues = $ssDAO->form_values;
+            }
+
+        } else {
+            CRM_Error::debug_log_message("ssid is not set");
+        }
+
+        
+        $session->getVars($csv, "commonSearchValues");
+        CRM_Error::debug_var('formValues', $formValues);
+        CRM_Error::debug_var('csv', $csv);
+        
 
         // CRM_Error::debug_var('session', $session);
 
