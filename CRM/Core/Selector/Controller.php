@@ -104,6 +104,12 @@ class CRM_Selector_Controller {
      */
     private $_pagerRowCount;
 
+    /**
+     * total number of rows
+     * @var int
+     */
+    private $_total;
+
     /* the objectAction for the WebObject */
     private $_action;
 
@@ -170,6 +176,7 @@ class CRM_Selector_Controller {
         } else {
             $params['total'] = $this->_object->getTotalCount($action);
         }
+        $this->_total = $params['total'];
         $this->_object->getPagerParams($action, $params);
 
         /*
@@ -233,7 +240,7 @@ class CRM_Selector_Controller {
         if ( $this->_output & self::SESSION ) {
             $this->_store->set( 'columnHeaders', $columnHeaders );
             $this->_store->set( 'rows'         , $rows          );
-            $this->_store->set( 'rowCount'     , count($rows)   );
+            $this->_store->set( 'rowCount'     , $this->_total  );
             $this->_store->set( 'rowsEmpty'    , $rowsEmpty     );
             $this->_store->set( 'qill'         , $qill          );
         }

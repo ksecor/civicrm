@@ -217,9 +217,9 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     {
         switch ($this->_type) {
         case CRM_Form::MODE_BASIC:
-            return $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
+            return $this->_contact->basicSearchQuery($this->_formValues, 0, 0, null, TRUE);
         case CRM_Form::MODE_ADVANCED:
-            return $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort, TRUE);
+            return $this->_contact->advancedSearchQuery($this->_formValues, 0, 0, null, TRUE);
         }
         return 0;
     }
