@@ -240,8 +240,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
     }
 
     protected function populatePseudoConstant() {
-        CRM_PseudoConstant::getGroup();
-        CRM_PseudoConstant::getCategory();
+        CRM_PseudoConstant::populateGroup();
+        CRM_PseudoConstant::populateCategory();
     }
 
 }

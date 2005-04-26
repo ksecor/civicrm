@@ -381,22 +381,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $row = $this->getDatabaseResult()->fetchRow();
             return $row[0];
         }
-
-        // if we have to save query, do it here since if there's an error we
-        // surely dont want to save it.
-        if ($fv['cb_ss']) {
-            //CRM_Error::debug_log_message("cb_ss is set");            
-            //CRM_Error::debug_log_message("saving search");            
-            // save the search
-            $savedSearchBAO = new CRM_Contact_BAO_SavedSearch();
-            $savedSearchBAO->domain_id = 1;   // hack for now
-            $savedSearchBAO->name = $fv['ss_name'];
-            $savedSearchBAO->description = $fv['ss_description'];
-            $savedSearchBAO->query = $query_string;
-            $savedSearchBAO->search_type = CRM_Form::MODE_ADVANCED;
-            $savedSearchBAO->form_values = serialize($fv);
-            $savedSearchBAO->insert();
-        }
         return $this;
     }
 

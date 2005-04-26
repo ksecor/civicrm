@@ -170,6 +170,14 @@
 </div>
 <div class="spacer"></div>
 
+<p>
+{$form.cb_ss.label} {$form.cb_ss.html}
+<p>
+{$form.ss_name.label} {$form.ss_name.html}
+<p>
+{$form.ss_description.label} {$form.ss_description.html}
+<p>
+
 {if $qill}
 <hr>
 Searching for {$qill}
