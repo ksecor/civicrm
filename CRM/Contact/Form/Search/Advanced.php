@@ -166,12 +166,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         $defaults = array();
 
-        // dont want to populate default values if
-        // user wants to start afresh.
-        if($_GET['reset'] == 1) {
-            return;
-        }
-
         // since we have a ssid we need to set defaults differently
         if ($ssid = CRM_Request::retrieve('ssid')) {
             // ssid is set hence we need to set defaults using form values of SSID
