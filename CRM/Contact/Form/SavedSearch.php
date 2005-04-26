@@ -108,6 +108,7 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
         return $defaults;
     }
 
+
     /**
      * Add local and global form rules
      *
@@ -129,7 +130,7 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
          *  - user clicks on menu
          */
         if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
-            $this->postProcess( );
+            // $this->postProcess( );
         }
     }
 
@@ -137,26 +138,24 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
     {
         CRM_Error::le_method();
 
-        if($_GET['reset'] != 1) {
-            $session = CRM_Session::singleton();
+        $session = CRM_Session::singleton();
             
-            // advanced search form values
-            $asfv = unserialize($session->get("fv", CRM_Session::SCOPE_AS));
-            
-            // saved search form values
-            $fv = $this->controller->exportValues($this->_name);
+        // advanced search form values
+        $asfv = unserialize($session->get("fv", CRM_Session::SCOPE_AS));
+        
+        // saved search form values
+        $fv = $this->controller->exportValues($this->_name);
 
-            // create saved search BAO and insert the SS
-            $ssBAO = new CRM_Contact_BAO_SavedSearch();
-            $ssBAO->domain_id = 1;   // hack for now
-            $ssBAO->name = $fv['name'];
-            $ssBAO->description = $fv['description'];
-            $ssBAO->search_type = CRM_Form::MODE_ADVANCED;
-            $ssBAO->form_values = serialize($asfv);
-            $ssBAO->insert();
-
-            CRM_Session::setStatus( 'Your search has been saved as ' . $fv['name'] );
-        }
+        // create saved search BAO and insert the SS
+        $ssBAO = new CRM_Contact_BAO_SavedSearch();
+        $ssBAO->domain_id = 1;   // hack for now
+        $ssBAO->name = $fv['name'];
+        $ssBAO->description = $fv['description'];
+        $ssBAO->search_type = CRM_Form::MODE_ADVANCED;
+        $ssBAO->form_values = serialize($asfv);
+        $ssBAO->insert();
+        
+        CRM_Session::setStatus( 'Your search has been saved as "' . $fv['name'] . '"' );
 
         CRM_Error::ll_method();
     }

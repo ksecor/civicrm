@@ -27,3 +27,4 @@
     {/strip}
 
 </div>
+<a href="{crmURL p='civicrm/contact/search/advanced' q='nss=1'}">New Saved Search...</a>
