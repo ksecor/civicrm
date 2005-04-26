@@ -130,6 +130,15 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             }
         }
 
+        // do we need to show elements of saved search ?
+        if (CRM_Request::retrieve('nss')) {
+            // since there's a request for a new saved search
+            // we need to display form components for saved search
+            // add components for saving the search
+            $this->addElement('checkbox', 'cb_ss', null, 'Save Search ?');
+            $this->addElement('text', 'ss_name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
+            $this->addElement('text', 'ss_description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
+        }
 
         // add the buttons
         $this->addButtons(array(
@@ -141,14 +150,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                                 )
                           );
 
-        if (CRM_Request::retrieve('nss')) {
-            // since there's a request for a new saved search
-            // we need to display form components for saved search
-            // add components for saving the search
-            $this->addElement('checkbox', 'cb_ss', null, 'Save Search ?');
-            $this->addElement('text', 'ss_name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
-            $this->addElement('text', 'ss_description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description') );
-        }
     }
 
 
@@ -250,6 +251,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     {
 
         CRM_Error::le_method();
+
+        //CRM_Error::debug_var('GLOBALS', $GLOBALS);
+        CRM_Error::debug_var('_POST', $_POST);
 
         if($_GET['reset'] == 1) {
             return;
