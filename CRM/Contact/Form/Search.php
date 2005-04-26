@@ -35,6 +35,7 @@
  * Files required
  */
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/Session.php';
 require_once 'CRM/Core/PseudoConstant.php';
 require_once 'CRM/Core/Selector/Controller.php';
 require_once 'CRM/Contact/Selector.php';
@@ -44,6 +45,9 @@ require_once 'CRM/Contact/Selector.php';
  * contacts
  */
 class CRM_Contact_Form_Search extends CRM_Form {
+
+    //const SESSION_SCOPE_CSV = "commonSearchValues";
+
 
     /**
      * Class construtor
@@ -123,10 +127,17 @@ class CRM_Contact_Form_Search extends CRM_Form {
         CRM_Error::le_method();
 
         $defaults = array();
+
+        // dont want to populate default values if
+        // user wants to start afresh.
+        if($_GET['reset'] == 1) {
+            return;
+        }
+
         $csv = array();
 
         $session = CRM_Session::singleton( );        
-        $session->getVars($csv, "commonSearchValues");
+        $session->getVars($csv, CRM_Session::SCOPE_CSV);
       
         CRM_Error::debug_var('csv', $csv);
 
@@ -156,8 +167,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @access public
      */
     function preProcess( ) {
-        $formValues = $this->controller->exportValues($this->_name);
-        $selector = new CRM_Contact_Selector($formValues, $this->_mode);
+        $fv = $this->controller->exportValues($this->_name);
+        $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
 
         if ( $controller->hasChanged( ) ) {
@@ -173,31 +184,37 @@ class CRM_Contact_Form_Search extends CRM_Form {
             return;
         }
         
-        
         // check actionName and if next, then do not repeat a search, since we are going to the next page
-        list( $pageName, $action ) = $this->controller->getActionName( );
-        if ( $action == 'next' ) {
+        list($pageName, $action) = $this->controller->getActionName();
+        if ($action == 'next') {
             return;
         }
 
         // get user submitted values
-        $formValues = $this->controller->exportValues($this->_name);
+        $fv = $this->controller->exportValues($this->_name);
 
-        // store the user submitted values in the common search values scope
-        $session = CRM_Session::singleton( );
-        $session->set("name", $formValues['sort_name'], "commonSearchValues");        
-        $session->set("contact_type", ($formValues['contact_type']=='any') ? "" : $formValues['contact_type'], "commonSearchValues");
-        $session->set("group", ($formValues['group']=='any') ? "" : $formValues['group'], "commonSearchValues");
-        $session->set("category", ($formValues['category']=='any') ? "" : $formValues['category'], "commonSearchValues");
-     
-        CRM_Error::debug_var('formValues', $formValues);
-
-        $selector = new CRM_Contact_Selector($formValues, $this->_mode);
+        // set the scope for csv
+        $this->_setCSV($fv);
+        
+        // create the selector, controller and run - store results in session
+        $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
         $controller->run();
 
         CRM_Error::ll_method();
     }
+
+
+
+    private function _setCSV(&$fv) {
+        // store the user submitted values in the common search values scope
+        $session = CRM_Session::singleton( );
+        $session->set("name", $fv['sort_name'], CRM_Session::SCOPE_CSV);        
+        $session->set("contact_type", ($fv['contact_type']=='any') ? "" : $fv['contact_type'], CRM_Session::SCOPE_CSV);
+        $session->set("group", ($fv['group']=='any') ? "" : $fv['group'], CRM_Session::SCOPE_CSV);
+        $session->set("category", ($fv['category']=='any') ? "" : $fv['category'], CRM_Session::SCOPE_CSV);
+    }
+
 
 
     /**

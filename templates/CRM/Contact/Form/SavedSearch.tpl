@@ -1,4 +1,4 @@
-<p><hr>Searched for {$fvs} <hr>
+<p><hr>Searched for {$qill} <hr>
 <p>
 
 <form {$form.attributes}>

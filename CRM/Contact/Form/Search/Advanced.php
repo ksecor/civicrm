@@ -35,6 +35,7 @@
  * Files required
  */
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/Session.php';
 require_once 'CRM/Core/PseudoConstant.php';
 require_once 'CRM/Core/Selector/Controller.php';
 require_once 'CRM/Contact/Selector.php';
@@ -149,32 +150,48 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * @return array the default array reference
      */
     function &setDefaultValues() {
-        
         CRM_Error::le_method();
 
         $defaults = array();
-        $csv = array();
 
-        $session = CRM_Session::singleton( );        
-        $session->getVars($csv, "commonSearchValues");
-      
-        CRM_Error::debug_var('csv', $csv);
-        // name
-        $defaults['sort_name'] = $csv['name'];
-
-        // contact_type
-        if($csv['contact_type']) {
-            $defaults['cb_contact_type'] = array($csv['contact_type'] => 1);
+        // dont want to populate default values if
+        // user wants to start afresh.
+        if($_GET['reset'] == 1) {
+            return;
         }
 
-        // group
-        if($csv['group']) {
-            $defaults['cb_group'] = array($csv['group'] => 1);
-        }
+        // since we have a ssid we need to set defaults differently
+        if ($ssid = CRM_Request::retrieve('ssid')) {
+            // ssid is set hence we need to set defaults using form values of SSID
+            $ssDAO = new CRM_Contact_DAO_SavedSearch();
+            $ssDAO->id = $ssid;
+            $ssDAO->selectAdd();
+            $ssDAO->selectAdd('id, form_values');
+            if($ssDAO->find(1)) {
+                // make sure u unserialize - since it's stored in serialized form
+                CRM_Error::debug_log_message('found ss for ssid = $ssid');                
+                $defaults = unserialize($ssDAO->form_values);
+            }
+        } else {
+            $csv = array();
+            $session = CRM_Session::singleton( );        
+            $session->getVars($csv, CRM_Session::SCOPE_CSV);
+            CRM_Error::debug_var('csv', $csv);
+            // name
+            $defaults['sort_name'] = $csv['name'];
+            // contact_type
+            if($csv['contact_type']) {
+                $defaults['cb_contact_type'] = array($csv['contact_type'] => 1);
+            }
+            // group
+            if($csv['group']) {
+                $defaults['cb_group'] = array($csv['group'] => 1);
+            }
 
-        // category
-        if($csv['category']) {
-            $defaults['cb_category'] = array($csv['category'] => 1);
+            // category
+            if($csv['category']) {
+                $defaults['cb_category'] = array($csv['category'] => 1);
+            }
         }
 
         CRM_Error::debug_var('defaults', $defaults);
@@ -183,9 +200,17 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         return $defaults;
     }
 
+    /**
+     * The preprocessing of the form gets done here.
+     *
+     * @param none
+     *
+     * @return none 
+     * @access public
+     */
     function preProcess( ) {
-        $formValues = $this->controller->exportValues($this->_name);
-        $selector = new CRM_Contact_Selector($formValues, $this->_mode);
+        $fv = $this->controller->exportValues($this->_name);
+        $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
 
         if ($controller->hasChanged() || CRM_Request::retrieve('ssid') ) {
@@ -195,6 +220,23 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     }
 
 
+    /**
+     * The post processing of the form gets done here.
+     *
+     * Key things done during post processing are
+     *      - check for reset or next request. if present, skip post procesing.
+     *      - now check if user requested running a saved search, if so, then
+     *        the form values associated with the saved search are used for searching.
+     *      - if user has done a submit with new values the regular post submissing is 
+     *        done.
+     * The processing consists of using a Selector / Controller framework for getting the
+     * search results.
+     *
+     * @param none
+     *
+     * @return none 
+     * @access public
+     */
     function postProcess() 
     {
         if($_GET['reset'] == 1) {
@@ -208,8 +250,11 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             return;
         }
 
-        if ( $ssid = CRM_Request::retrieve('ssid') ) {
-            // ssid is set hence we need to set the formValues for it.
+        $fv = array();
+
+        // get form values either from saved search or from user submission
+        if ($ssid = CRM_Request::retrieve('ssid')) {
+            // ssid is set hence we need to set the form values for it.
             // also we need to set the values in the form...
             $ssDAO = new CRM_Contact_DAO_SavedSearch();
             $ssDAO->id = $ssid;
@@ -218,41 +263,57 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             if($ssDAO->find(1)) {
                 // make sure u unserialize - since it's stored in serialized form
                 CRM_Error::debug_log_message('found ss for ssid = $ssid');                
-                $formValues = unserialize($ssDAO->form_values);
+                $fv = unserialize($ssDAO->form_values);
             }
         } else {
             CRM_Error::debug_log_message("ssid is not set");
             // get user submitted values
-            $formValues = $this->controller->exportValues($this->_name);
+            $fv = $this->controller->exportValues($this->_name);
         }
 
         $session = CRM_Session::singleton( );
 
-        // important - we need to store the formValues in the session in case we want to save it.
-        $session->set("formValues", serialize($formValues), "advancedSearch");
+        // important - we need to store the form values in the session in case we want to save it.
+        $session->set("fv", serialize($fv), CRM_Session::SCOPE_AS);
 
-        // store the user submitted values in the common search values scope
-        $session->set("name", $formValues['sort_name'], "commonSearchValues");        
-        $session->set("contact_type", $formValues['cb_contact_type'] ? key($formValues['cb_contact_type']) : "", "commonSearchValues");
-        $session->set("group", $formValues['cb_group'] ? key($formValues['cb_group']) : "", "commonSearchValues");
-        $session->set("category", $formValues['cb_category'] ? key($formValues['cb_category']) : "", "commonSearchValues");
+        // set up csv
+        $this->_setCSV($fv);
 
-        CRM_Error::debug_var('formValues', $formValues);
-        
-        $selector = new CRM_Contact_Selector($formValues, $this->_mode);
+        $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
         $controller->run();
 
         CRM_Error::ll_method();
     }
 
+
+    /**
+     * set the CSV common Search Values.
+     *
+     * Common Search Values (CSV) consists of an array of 4 fields
+     * which is stored in the session with a scope commonSearchValues
+     *
+     * @param array reference
+     *
+     * @return none 
+     * @access public
+     */
+    private function _setCSV(&$fv) {
+        $session = CRM_Session::singleton( );
+        CRM_Error::debug_var('fv', $fv);
+        // store the user submitted values in the common search values scope
+        $session->set("name", $fv['sort_name'], CRM_Session::SCOPE_CSV);        
+        $session->set("contact_type", $fv['cb_contact_type'] ? key($fv['cb_contact_type']) : "", CRM_Session::SCOPE_CSV);
+        $session->set("group", $fv['cb_group'] ? key($fv['cb_group']) : "", CRM_Session::SCOPE_CSV);
+        $session->set("category", $fv['cb_category'] ? key($fv['cb_category']) : "", CRM_Session::SCOPE_CSV);
+    }
+
     protected function populatePseudoConstant() {
         parent::populatePseudoConstant();
-
         // populate stateprovince, country, locationtype
-        CRM_PseudoConstant::getStateProvince();
-        CRM_PseudoConstant::getCountry();
-        CRM_PseudoConstant::getLocationType();
+        CRM_PseudoConstant::populateStateProvince();
+        CRM_PseudoConstant::populateCountry();
+        CRM_PseudoConstant::populateLocationType();
     }
 }
 ?>

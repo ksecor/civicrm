@@ -256,6 +256,7 @@ class CRM_PseudoConstant {
             $stateProvinceDAO = new CRM_DAO_StateProvince();
             $stateProvinceDAO->selectAdd();
             $stateProvinceDAO->selectAdd('id, name');
+            $stateProvinceDAO->orderBy('name');            
             $stateProvinceDAO->find();
             while($stateProvinceDAO->fetch()) {
                 self::$stateProvince[$stateProvinceDAO->id] = "$stateProvinceDAO->name";
@@ -286,6 +287,7 @@ class CRM_PseudoConstant {
             $countryDAO = new CRM_DAO_Country();
             $countryDAO->selectAdd();
             $countryDAO->selectAdd('id, name');
+            $countryDAO->orderBy('name');
             $countryDAO->find();
             while($countryDAO->fetch()) {
                 self::$country[$countryDAO->id] = "$countryDAO->name";
