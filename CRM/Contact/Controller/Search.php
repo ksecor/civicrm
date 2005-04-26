@@ -32,6 +32,7 @@
  */
 
 require_once 'CRM/Core/Controller.php';
+require_once 'CRM/Core/Session.php';
 
 class CRM_Contact_Controller_Search extends CRM_Controller {
 
@@ -50,6 +51,20 @@ class CRM_Contact_Controller_Search extends CRM_Controller {
         $config = CRM_Config::singleton( );
         $this->addActions( );
     }
+
+    /**
+     * function to destroy session scope for common search values (CSV);
+     *
+     * @access public
+     * @return void
+     */
+    public function reset()
+    {
+        $session = CRM_Session::singleton( );
+        $session->resetScope(CRM_Session::SCOPE_CSV);
+        parent::reset();
+    }
+
 
 }
 
