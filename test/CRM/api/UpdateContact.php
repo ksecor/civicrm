@@ -60,10 +60,17 @@ class TestOfUpdateContactAPI extends UnitTestCase
         $this->assertEqual($contact->contact_type, 'Organization');
         $this->_organization = $contact;
     }
-    /*
+    
     function testUpdateContactIndividual() 
     {
-        $params = array('contact_id' => $this->_individual->id, 'location_type' => 'Main', 'im_name' => 'kurundssyahoo', 'im_provider' => 'AIM','phone' => '999999', 'phone_type' => 'Phone', 'email' => 'kurund@yahoo.com');
+        $params = array('contact_id'    => $this->_individual->id, 
+                        'location_type' => 'Main', 
+                        'im_name'       => 'kurundssyahoo', 
+                        'im_provider'   => 'AIM',
+                        'phone'         => '999999', 
+                        'phone_type'    => 'Phone', 
+                        'email'         => 'kurund@yahoo.com'
+                        );
         $contact = $this->_individual;
         $contact = crm_update_contact($contact, $params);
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
@@ -75,9 +82,9 @@ class TestOfUpdateContactAPI extends UnitTestCase
        
     function testUpdateContactHousehold() 
     {
-        $params = array('contact_id' => $this->_houseHold->id, 
-                        'nick_name' => 'J House', 
-                        'email' => 'household@yahoo.com', 
+        $params = array('contact_id'    => $this->_houseHold->id, 
+                        'nick_name'     => 'J House', 
+                        'email'         => 'household@yahoo.com', 
                         'location_type' => 'Main'
                         );
         $contact = $this->_houseHold;
@@ -88,9 +95,9 @@ class TestOfUpdateContactAPI extends UnitTestCase
     
     function testUpdateContactOrganization() 
     {
-        $params = array('contact_id' => $this->_organization->id, 
-                        'nick_name' => 'J House',
-                        'email' => 'organization@yahoo.com',
+        $params = array('contact_id'    => $this->_organization->id, 
+                        'nick_name'     => 'J House',
+                        'email'         => 'organization@yahoo.com',
                         'location_type' => 'Main'
                         );
         $contact = $this->_organization;
@@ -110,9 +117,9 @@ class TestOfUpdateContactAPI extends UnitTestCase
     
     function testUpdateLocationTypeIndividual()
     {
-        $params = array('contact_id' => $this->_individual->id, 
+        $params = array('contact_id'    => $this->_individual->id, 
                         'location_type' => 'Home', 
-                        'is_primary' => '1'
+                        'is_primary'    => '1'
                         );
         $contact = $this->_individual;
         $contact = crm_update_contact($contact, $params);
@@ -122,9 +129,9 @@ class TestOfUpdateContactAPI extends UnitTestCase
     
     function testUpdateHouseholdNameError()
     {
-        $params = array('contact_id' => $this->_houseHold->id, 
+        $params = array('contact_id'     => $this->_houseHold->id, 
                         'household_name' => '', 
-                        'location_type' => 'Home'
+                        'location_type'  => 'Home'
                         );
         $contact = $this->_houseHold;
         $contact = crm_update_contact($contact, $params);
@@ -133,15 +140,15 @@ class TestOfUpdateContactAPI extends UnitTestCase
     
     function testUpdateEmailIndividualError()
     {
-        $params = array('contact_id' => $this->_individual->id, 
+        $params = array('contact_id'    => $this->_individual->id, 
                         'location_type' => 'Home', 
-                        'email' => 'manishzope.aaa.aaa'
+                        'email'         => 'manishzope.aaa.aaa'
                         );
         $contact = $this->_individual;
         $contact = crm_update_contact($contact, $params);
         $this->assertIsA($contact, 'CRM_Error');
     }
-    */ 
+     
     function testUpdateIndivdualError()
     {
         $params = array('contact_id'    => $this->_individual->id,

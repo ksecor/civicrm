@@ -16,13 +16,14 @@ class TestOfCreateLocationAPI extends UnitTestCase
     {
     }
 
-    /* Test cases for Individual contact locations*/ 
+/* Test cases for crm_create_location for Individual contact */ 
+
     function testCreateIndividual()
     {
-        $params = array('first_name' => 'Manish',
-                        'last_name'  => 'Zope',
+        $params = array('first_name'    => 'Manish',
+                        'last_name'     => 'Zope',
                         'location_type' => 'Main',
-                        'email' => 'manish@yahoo.com'
+                        'email'         => 'manish@yahoo.com'
                         );
         $contact =& crm_create_contact($params, 'Individual');
         
@@ -37,13 +38,13 @@ class TestOfCreateLocationAPI extends UnitTestCase
     function testCreateLocationIndividualError()
     {
         $params = array('location_type' => 'Main',
-                        'im_provider' => 'AIM',
-                        'im_name' => 'mlzope'
+                        'im_provider'   => 'AIM',
+                        'im_name'       => 'mlzope'
                         );
         $contact = $this->_individual;
-        $contact =& crm_create_location($contact, $params);
+        $newLocation =& crm_create_location($contact, $params);
         
-        $this->assertIsA($contact, 'CRM_Error');
+        $this->assertIsA($newLocation, 'CRM_Error');
     }
     
     function testCreateLocationIndividual()
@@ -53,7 +54,7 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $workFax    = new Phone('91-20-234-657686', false, 'Fax'          );
         $phones     = array ($workPhone, $workMobile, $workFax);
         
-        /*Not sure, should i add the IM and email like as given below .... thats why commented the code */
+        /* following commented code is for adding the IM and Email to the location */
         /*
         $workIMFirst  = new IM('mlzope', true, 'Yahoo'      );
         $workIMSecond = new IM('mlzope', false, 'AIM'       );
@@ -75,18 +76,19 @@ class TestOfCreateLocationAPI extends UnitTestCase
                         );*/
         
         $contact = $this->_individual;
-        $contact =& crm_create_location($contact, $params);
+        $newLocation =& crm_create_location($contact, $params);
         
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Location');
-        $this->assertEqual($contact->location[2]->phone[2]->phone, '91-20-989090098988');
-        $this->assertEqual($contact->location[2]->phone[2]->phone_type, 'mobile');
-        $this->assertNull($contact->location[2]->phone[2]->mobile_provider_id);
-        //$this->assertEqual($contact->location[2]->im[1]->name, '');
-        //$this->assertEqual($contact->location[2]->im[1]->provider_id, '1');
-        //$this->assertEqual($contact->location[2]->email[3]->email, 'manish@lycos.com');
+        $this->assertIsA($newLocation, 'CRM_Contact_DAO_Location');
+        $this->assertEqual($newLocation->location[2]->phone[2]->phone, '91-20-989090098988');
+        $this->assertEqual($newLocation->location[2]->phone[2]->phone_type, 'mobile');
+        $this->assertNull($newLocation->location[2]->phone[2]->mobile_provider_id);
+        //$this->assertEqual($newLocation->location[2]->im[1]->name, '');
+        //$this->assertEqual($newLocation->location[2]->im[1]->provider_id, '1');
+        //$this->assertEqual($newLocation->location[2]->email[3]->email, 'manish@lycos.com');
     }
 
-    /* Test cases for Household contact locations*/
+/* Test cases for crm_create_location for Household contact */
+
     function testCreateHousehold() 
     {
         $params = array('household_name' => 'Zope House',
@@ -112,12 +114,12 @@ class TestOfCreateLocationAPI extends UnitTestCase
                         'city'          => 'pune'
                         );
         $contact = $this->_household;
-        $contact =& crm_create_location($contact, $params);
+        $newLocation =& crm_create_location($contact, $params);
         
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Location');
-        $this->assertEqual($contact->location[2]->phone[3]->phone, '91-20-234-657686');
-        $this->assertEqual($contact->location[2]->phone[1]->phone_type, 'mobile');
-        $this->assertNull($contact->location[2]->phone[1]->mobile_provider_id);
+        $this->assertIsA($newLocation, 'CRM_Contact_DAO_Location');
+        $this->assertEqual($newLocation->location[2]->phone[3]->phone, '91-20-234-657686');
+        $this->assertEqual($newLocation->location[2]->phone[1]->phone_type, 'mobile');
+        $this->assertNull($newLocation->location[2]->phone[1]->mobile_provider_id);
     }
     
     function testCreateLocationHouseholdError()
@@ -126,12 +128,13 @@ class TestOfCreateLocationAPI extends UnitTestCase
                         'city'          => 'whatever'
                         );
         $contact = $this->_household;
-        $contact =& crm_create_location($contact, $params);
+        $newLocation =& crm_create_location($contact, $params);
         
-        $this->assertIsA($contact, 'CRM_Error');
+        $this->assertIsA($newLocation, 'CRM_Error');
     }
 
-    /* Test cases for Organization contact locations*/
+/* Test cases for crm_create_location for Organization contact */
+
     function testCreateOrganization( ) 
     {
         $params = array('organization_name' => 'Zope Pvt Ltd', 
@@ -148,7 +151,7 @@ class TestOfCreateLocationAPI extends UnitTestCase
     function testCreateLocationOrganization()
     {
         $mainMobile = new Phone('91-20-989090098988', false, 'Mobile', null);
-        $mainPager  = new Phone( '91-20-234-657686', true, 'Pager'         );
+        $mainPager  = new Phone('91-20-234-657686', true, 'Pager'         );
         $mainPhone  = new Phone('91-20-2345678', false, 'Phone'            );
         $phones     = array ($mainMobile, $mainPager, $mainPhone);
         
@@ -157,12 +160,12 @@ class TestOfCreateLocationAPI extends UnitTestCase
                         'city'          => 'pune'
                         );
         $contact = $this->_organization;
-        $contact =& crm_create_location($contact, $params);
+        $newLocation =& crm_create_location($contact, $params);
         
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Location');
-        $this->assertEqual($contact->location[2]->phone[1]->phone, '91-20-989090098988');
-        $this->assertEqual($contact->location[2]->phone[3]->phone_type, 'Phone');
-        $this->assertNull($contact->location[2]->phone[1]->mobile_provider_id);
+        $this->assertIsA($newLocation, 'CRM_Contact_DAO_Location');
+        $this->assertEqual($newLocation->location[2]->phone[1]->phone, '91-20-989090098988');
+        $this->assertEqual($newLocation->location[2]->phone[3]->phone_type, 'Phone');
+        $this->assertNull($newLocation->location[2]->phone[1]->mobile_provider_id);
     }
         
     function testCreateLocationOrganization()
@@ -178,12 +181,12 @@ class TestOfCreateLocationAPI extends UnitTestCase
                         'city'          => 'pune'
                         );
         $contact = $this->_organization;
-        $contact =& crm_create_location($contact, $params);
+        $newLocation =& crm_create_location($contact, $params);
         
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Location');
-        $this->assertEqual($contact->location[3]->phone[1]->phone, '91-20-989090098988');
-        $this->assertEqual($contact->location[3]->phone[3]->phone_type, 'Phone');
-        $this->assertNull($contact->location[3]->phone[1]->mobile_provider_id);
+        $this->assertIsA($newLocation, 'CRM_Contact_DAO_Location');
+        $this->assertEqual($newLocation->location[3]->phone[1]->phone, '91-20-989090098988');
+        $this->assertEqual($newLocation->location[3]->phone[3]->phone_type, 'Phone');
+        $this->assertNull($newLocation->location[3]->phone[1]->mobile_provider_id);
     }
     
     function testCreateLocationOrganizationError()
@@ -192,9 +195,9 @@ class TestOfCreateLocationAPI extends UnitTestCase
                         'city'          => 'whatever'
                         );
         $contact = $this->_organization;
-        $contact =& crm_create_location($contact, $params);
+        $newLocation =& crm_create_location($contact, $params);
         
-        $this->assertIsA($contact, 'CRM_Error');
+        $this->assertIsA($newLocation, 'CRM_Error');
     }
 
 }

@@ -5,7 +5,7 @@ require_once 'config.inc.php';
 require_once 'SimpleTest/unit_tester.php';
 require_once 'SimpleTest/reporter.php';
 
-require_once 'CRM/Config.php';
+require_once 'CRM/Core/Config.php';
 
 if ( !defined( 'TEST' ) ) {
     define( 'TEST', __FILE__ );

@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfCreateLocationAPI extends UnitTestCase 
+class TestOfGetLocationAPI extends UnitTestCase 
 {
     protected $_individual;
     protected $_household;
@@ -16,51 +16,23 @@ class TestOfCreateLocationAPI extends UnitTestCase
     {
     }
 
-    /* Creating contacts (I,H,O)*/ 
-    function testCreateIndividual()
+/* Test cases for crm_get_location for Individual contact */ 
+    function testCreateContactIndividual()
     {
-        $params = array('first_name' => 'Manish',
-                        'last_name'  => 'Zope',
-                        'location_type' => 'Main',
-                        'email' => 'manish@yahoo.com'
-                        );
+        $params  = array('first_name'    => 'Manish',
+                         'last_name'     => 'Zope',
+                         'location_type' => 'Main',
+                         'email'         => 'manish@yahoo.com'
+                         );
         $contact =& crm_create_contact($params, 'Individual');
         
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
-        $this->assertEqual($contact->contact_type, 'Individual');
+        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact'                          );
+        $this->assertEqual($contact->contact_type, 'Individual'                       );
         $this->assertEqual($contact->contact_type_object->display_name, 'Manish  Zope');
-        $this->assertEqual($contact->location[1]->email[1]->email, 'manish@yahoo.com');
+        $this->assertEqual($contact->location[1]->email[1]->email, 'manish@yahoo.com' );
         $this->_individual = $contact;
-        //print_r($this->_individual);
     }
     
-    function testCreateHousehold() 
-    {
-        $params = array('household_name' => 'Zope House',
-                        'nick_name'      => 'zope villa',
-                        'location_type'  => 'Work'
-                        );
-        $contact =& crm_create_contact($params, 'Household');
-        
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
-        $this->assertEqual($contact->contact_type, 'Household');
-        $this->_household = $contact;
-    }
-
-    function testCreateOrganization( ) 
-    {
-        $params = array('organization_name' => 'Zope Pvt Ltd', 
-                        'nick_name'         => 'zope companies', 
-                        'location_type'     => 'Home'
-                        );
-        $contact =& crm_create_contact($params, 'Organization');
-        
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
-        $this->assertEqual($contact->contact_type, 'Organization');
-        $this->_organization = $contact;
-    }
-    
-    /* added locations to exsting contacts using crm_create_locations */
     function testCreateLocationIndividual()
     {
         $workPhone  = new Phone('91-20-2345678', false, 'Phone'           );
@@ -68,18 +40,55 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $workFax    = new Phone('91-20-234-657686', false, 'Fax'          );
         $phones     = array ($workPhone, $workMobile, $workFax);
         
-        $params = array('location_type' => 'Work',
-                        'phone'         => $phones,
-                        'city'          => 'pune'
-                        );
+        $params     = array('location_type' => 'Work',
+                            'phone'         => $phones,
+                            'postal_code'   => '768594',
+                            'city'          => 'pune'
+                            );
                 
-        $contact = $this->_individual;
-        $contact =& crm_create_location($contact, $params);
+        $contact    = $this->_individual;
+        $newLocation    =& crm_create_location($contact, $params);
         
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Location');
-        $this->assertEqual($contact->location[2]->phone[2]->phone, '91-20-989090098988');
-        $this->assertEqual($contact->location[2]->phone[2]->phone_type, 'mobile');
-        $this->assertNull($contact->location[2]->phone[2]->mobile_provider_id);
+        $this->assertIsA($newLocation, 'CRM_Contact_DAO_Location'                          );
+        $this->assertEqual($newLocation->location[2]->phone[2]->phone, '91-20-989090098988');
+        $this->assertEqual($newLocation->location[2]->phone[2]->phone_type, 'mobile'       );
+        $this->assertNull($newLocation->location[2]->phone[2]->mobile_provider_id          );
+    }
+
+    function testGetLocationIndividualError()
+    {
+        $location_types    = array ('Home');
+        $contact           = $this->_individual;
+        $newlocation       =& crm_get_locations(&$contact, $location_types);
+        $this->assertIsA($newLocation, 'CRM_Error');
+    }
+
+    function testGetLocationIndividual()
+    {
+        $location_types    = array ('Main', 'Work');
+        $return_properties = array ('phone', 'city', 'postal_code');
+        $contact           = $this->_individual;
+        $newlocation       =& crm_get_locations(&$contact, $location_types, $return_properties);
+        $this->assertIsA($newLocation, 'CRM_Contact_DAO_Location');
+        $this->assertEqual($newLocation->location[1]->location_type_id, 3);
+        $this->assertEqual($newLocation->location[1]->email[1]->email, 'manish@yahoo.com');
+        $this->assertEqual($newLocation->location[2]->phone[2]->phone_type, 'Mobile');
+        $this->assertEqual($newLocation->location[2]->postal_code, '768594');
+    }
+
+/* Test cases for crm_get_location for Household contact */
+
+    function testCreateContactHousehold() 
+    {
+        $params  = array('household_name' => 'Zope House',
+                         'nick_name'      => 'zope villa',
+                         'location_type'  => 'Work'
+                         );
+        $contact =& crm_create_contact($params, 'Household');
+        
+        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact'  );
+        $this->assertEqual($contact->contact_type, 'Household');
+        $this->_household = $contact;
     }
 
     function testCreateLocationHousehold()
@@ -89,17 +98,48 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $homePager  = new Phone('91-20-234-657686', false, 'Pager'         );
         $phones     = array ($homeMobile, $homePhone, $homePager);
         
-        $params = array('location_type' => 'Home',
-                        'phone'         => $phones,
-                        'city'          => 'pune'
-                        );
-        $contact = $this->_household;
-        $contact =& crm_create_location($contact, $params);
+        $params     = array('location_type' => 'Home',
+                            'phone'         => $phones,
+                            'city'          => 'pune',
+                            'postal_code'   => '12345'
+                            );
+        $contact    = $this->_household;
+        $contact    =& crm_create_location($contact, $params);
         
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Location');
+        $this->assertIsA($contact, 'CRM_Contact_DAO_Location'                        );
         $this->assertEqual($contact->location[2]->phone[3]->phone, '91-20-234-657686');
-        $this->assertEqual($contact->location[2]->phone[1]->phone_type, 'mobile');
-        $this->assertNull($contact->location[2]->phone[1]->mobile_provider_id);
+        $this->assertEqual($contact->location[2]->phone[1]->phone_type, 'mobile'     );
+        $this->assertNull($contact->location[2]->phone[1]->mobile_provider_id        );
+    }
+
+    function testGetLocationHousehold()
+    {
+        $location_types    = array ('Work', 'Home');
+        $return_properties = array ('phone', 'city', 'postal_code');
+        $contact           = $this->_household;
+        
+        $newlocation       =& crm_get_locations(&$contact, $location_types, $return_properties);
+        
+        $this->assertIsA($newLocation, 'CRM_Contact_DAO_Location'                  );
+        $this->assertEqual($newLocation->location[2]->location_type_id, 1          );
+        $this->assertEqual($newLocation->location[2]->phone[2]->phone_type, 'Phone');
+        $this->assertEqual($newLocation->location[2]->postal_code, '12345'         );
+        $this->assertEqual($newLocation->location[2]->city, 'pune'                 );
+    }
+
+/* Test cases for crm_get_location for Organization contact */
+
+    function testCreateContactOrganization( ) 
+    {
+        $params  = array('organization_name' => 'Zope Pvt Ltd', 
+                         'nick_name'         => 'zope companies', 
+                         'location_type'     => 'Home'
+                         );
+        $contact =& crm_create_contact($params, 'Organization');
+        
+        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact'     );
+        $this->assertEqual($contact->contact_type, 'Organization');
+        $this->_organization = $contact;
     }
     
     function testCreateLocationOrganization()
@@ -109,31 +149,33 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $mainPhone  = new Phone('91-20-2345678', false, 'Phone'            );
         $phones     = array ($mainMobile, $mainPager, $mainPhone);
         
-        $params = array('location_type' => 'Main',
-                        'phone'         => $phones,
-                        'city'          => 'pune'
-                        );
-        $contact = $this->_organization;
-        $contact =& crm_create_location($contact, $params);
+        $params     = array('location_type' => 'Main',
+                            'phone'         => $phones,
+                            'city'          => 'pune',
+                            'postal_code'   => '9874793'
+                            );
+        $contact    = $this->_organization;
+        $contact    =& crm_create_location($contact, $params);
         
-        $this->assertIsA($contact, 'CRM_Contact_DAO_Location');
+        $this->assertIsA($contact, 'CRM_Contact_DAO_Location'                          );
         $this->assertEqual($contact->location[2]->phone[1]->phone, '91-20-989090098988');
-        $this->assertEqual($contact->location[2]->phone[3]->phone_type, 'Phone');
-        $this->assertNull($contact->location[2]->phone[1]->mobile_provider_id);
+        $this->assertEqual($contact->location[2]->phone[3]->phone_type, 'Phone'        );
+        $this->assertNull($contact->location[2]->phone[1]->mobile_provider_id          );
     }
-
-    /* cases for crm_get_locations*/
-    function testGetLocationIndividual()
+    
+    function testGetLocationOrganization()
     {
-        $location_types    = array ("Home", "Work");
-        $return_properties = array ("phones");
-        $contact = $this->_individual;
-        $location =& crm_get_locations($contact, $location_types, $return_properties);
-        /*
-        foreach ($location as $location_val => $location_key) {
-
-        }
-        */
+        $location_types    = array ('Home', 'Main');
+        $return_properties = array ('phone', 'city', 'postal_code');
+        $contact           = $this->_organization;
+        
+        $newlocation       =& crm_get_locations(&$contact, $location_types, $return_properties);
+        
+        $this->assertIsA($newLocation, 'CRM_Contact_DAO_Location'                  );
+        $this->assertEqual($newLocation->location[1]->location_type_id, 1          );
+        $this->assertEqual($newLocation->location[2]->phone[2]->phone_type, 'Pager');
+        $this->assertEqual($newLocation->location[2]->postal_code, '9874793'       );
+        $this->assertEqual($newLocation->location[2]->city, 'pune'                 );
     }
 }
 ?>
