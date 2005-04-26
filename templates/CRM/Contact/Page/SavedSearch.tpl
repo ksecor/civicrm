@@ -19,7 +19,8 @@
         <td>{$row.name}</td>
         <td>{$row.description}</td>
         <td>{$row.query_detail}</td>
-        <td><a href="{crmURL p='civicrm/contact/search/advanced' q="ssid=`$row.id`"}">Run</a></td>
+	{* <td><a href="{crmURL p='civicrm/contact/search/advanced' q="ssid=`$row.id`&reset=1"}">Run</a></td> *}
+	<td><a href="{crmURL p='civicrm/contact/search/advanced' q="ssid=`$row.id`"}">Run</a></td>
     </tr>
     {/foreach}
     </table>
@@ -27,4 +28,4 @@
     {/strip}
 
 </div>
-<a href="{crmURL p='civicrm/contact/search/advanced' q='nss=1'}">New Saved Search...</a>
+<a href="{crmURL p='civicrm/contact/search/advanced' q='nss=1&reset=1'}">New Saved Search...</a>
