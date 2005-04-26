@@ -11,7 +11,7 @@
             {assign var="stepClass" value="future-step"}
             {assign var="stepPrefix" value=""}
         {/if} 
-        <li class="{$stepClass}">{$stepPrefix} {$wizard.steps[step].title}</li>
+        <li class="{$stepClass}">{$stepPrefix} {$smarty.section.step.iteration}. {$wizard.steps[step].title}</li>
     {/section}
    </ul>
 </div>
