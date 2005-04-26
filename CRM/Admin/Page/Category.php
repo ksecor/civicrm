@@ -50,6 +50,7 @@ class CRM_Admin_Page_Category extends CRM_Page_Basic {
                                                         'name'  => 'Delete',
                                                         'url'   => 'admin/contact/category',
                                                         'qs'    => 'action=delete&id=%%id%%',
+                                                        'extra'    => 'onclick = "return confirm(\'Are you sure you want to delete this category.\');"',
                                                         'title' => 'Delete Category',
                                                         ),
                            );
