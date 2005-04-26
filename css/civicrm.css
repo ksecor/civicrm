@@ -274,9 +274,9 @@ div.crm-pager a {
   list-style: none;
   margin: 10px 0px 20px;
   height: auto;
-  width: 90%;
+  width: auto;
   line-height: normal;
-  border-top: 3px solid #000;
+  border-top: 3px solid #bbb;
 }
 #crm-container ul.wizard-bar li {
   display: inline;
@@ -284,7 +284,7 @@ div.crm-pager a {
   border: 1px solid #bbb;
   height: auto;
   margin-right: 2em;
-  padding: 0em 1em;
+  padding: .5em 1em .5em;
   text-decoration: none;
 }
 #crm-container ul.wizard-bar li.current-step {
