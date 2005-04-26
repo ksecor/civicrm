@@ -9,7 +9,6 @@ $include_path = '.'        . PATH_SEPARATOR .
                 $include_path;
 ini_set('include_path', $include_path);
 
-define( 'CRM_TEMPLATE_COMPILEDIR', $user_home . DIRECTORY_SEPARATOR . 'templates_c' );
 define( 'CRM_TEMPLATEDIR'        , $user_home . DIRECTORY_SEPARATOR . 'templates'   );
 
 if ( ! defined(CRM_HTTPBASE) ) {
@@ -25,10 +24,31 @@ if ( ! defined( JPSPAN ) ) {
 }
 
 // drupal specific code
-if ( function_exists( 'variable_get' ) && ( variable_get('clean_url', '0') != '0' ) ) {
-    define( 'CRM_CLEANURL', 1 );
+if ( function_exists( 'variable_get' ) ) {
+    if ( variable_get('clean_url', '0') != '0' ) {
+        define( 'CRM_CLEANURL', 1 );
+    } else {
+        define( 'CRM_CLEANURL', 0 );
+    }
+
+    $scratch_directory = variable_get( 'file_directory_path', 'files');
+    $scratch_directory = $scratch_directory . DIRECTORY_SEPARATOR . 'civicrm';
+
+    $compileDir        = $scratch_directory . DIRECTORY_SEPARATOR . 'templates_c';
+    if ( ! is_dir( $compileDir ) ) {
+        mkdir( $compileDir, 0777, true );
+    }
+    define( 'CRM_TEMPLATE_COMPILEDIR', $compileDir );
+
+    $uploadDir         = $scratch_directory . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
+    if ( ! is_dir( $uploadDir ) ) {
+        mkdir( $uploadDir, 0777, true );
+    }
+    define( 'CRM_UPLOAD_DIR'         , $uploadDir );
 } else {
     define( 'CRM_CLEANURL', 0 );
+    define( 'CRM_TEMPLATE_COMPILEDIR', $user_home . DIRECTORY_SEPARATOR . 'templates_c' );
+    define( 'CRM_UPLOAD_DIR'         , $user_home . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR );
 }
 
 ?>

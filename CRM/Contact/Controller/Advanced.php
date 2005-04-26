@@ -31,60 +31,26 @@
  *
  */
 
-require_once 'CRM/Core/StateMachine.php';
+require_once 'CRM/Core/Controller.php';
 
-class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
+class CRM_Contact_Controller_Advanced extends CRM_Controller {
 
     /**
      * class constructor
      */
-    function __construct( $controller, $mode = CRM_Form::MODE_NONE ) {
-        parent::__construct( $controller, $mode );
+    function __construct( $name, $mode = CRM_Form::MODE_NONE, $modal = true ) {
+        parent::__construct( $name, $modal );
 
-        $task = $this->taskName( $controller );
+        $this->_stateMachine = new CRM_Contact_StateMachine_Advanced( $this, $mode );
 
-        $this->_pages = array(
-                              'CRM_Contact_Form_Search',
-                              $task,
-                              );
-        
-        $this->addSequentialPages( $this->_pages, $mode );
+        // create and instantiate the pages
+        $this->addPages( $this->_stateMachine, $mode );
+
+        // add all the actions
+        $config = CRM_Config::singleton( );
+        $this->addActions( );
     }
 
-    /**
-     * Determine the form name based on the action. This allows us
-     * to avoid using  conditional state machine, much more efficient
-     * and simpler
-     *
-     * @param CRM_Controller $controller the controller object
-     *
-     * @return string the name of the form that will handle the task
-     * @access protected
-     * @static
-     */
-    static function taskName( $controller ) {
-        // total hack, first check POST vars and then check controller vars
-        $value = CRM_Array::value( 'task', $_POST );
-        if ( ! isset( $value ) ) {
-            $value = $controller->exportValue( 'Search', 'task' );
-        }
-
-        switch ( $value ) {
-        case  CRM_Contact_Task::GROUP_CONTACTS:
-            $task = 'CRM_Contact_Form_Task_AddToGroup';
-            break;
-
-        case CRM_Contact_Task::DELETE_CONTACTS:
-            $task = 'CRM_Contact_Form_Task_Delete';
-            break;
-            
-        default:
-            $task = 'CRM_Contact_Form_Task';
-            break;
-        }
-
-        return $task;
-    }
 }
 
 ?>

@@ -81,8 +81,9 @@ class CRM_Import_Form_UploadFile extends CRM_Form {
     public function postProcess( ) {
         $fileName  = $this->controller->exportValue( $this->_name, 'uploadFile' );
         $seperator = ',';
+        $mapperKeys = array( );
 
-        $parser = new CRM_Import_Parser_Contact( );
+        $parser = new CRM_Import_Parser_Contact( $mapperKeys );
         $parser->setMaxLinesToProcess( 5 );
         $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_PREVIEW );
 

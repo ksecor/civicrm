@@ -352,6 +352,8 @@ class CRM_Session {
      * @return string        the status message if any
      */
     function getStatus( $reset = false ) {
+        $this->create( );
+
         $status = null;
         if ( array_key_exists( 'status', $this->_session[$this->_key] ) ) {
             $status = $this->_session[$this->_key]['status'];

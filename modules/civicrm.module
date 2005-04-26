@@ -219,11 +219,11 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm/contact/search',
                          'title' => t('Browse Contacts'),
                          'qs'    => 'reset=1',
-                         'type'   => MENU_CALLBACK | MENU_NORMAL_ITEM,
+                         'type'   => MENU_NORMAL_ITEM,
                          );
         
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/basic',
+                         'path'  => 'civicrm/contact/search/basic?reset=1',
                          'title' => t('Browse Contacts'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
@@ -231,14 +231,14 @@ function civicrm_menu($may_cache)
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/advanced',
+                         'path'  => 'civicrm/contact/search/advanced?reset=1',
                          'title' => t('Advanced Search'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/saved/browse',
+                         'path'  => 'civicrm/contact/search/saved/browse?reset=1',
                          'title' => t('Browse Saved Search'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,
@@ -588,10 +588,9 @@ function civicrm_search()
 {
     // advanced search
     if(arg(3) == 'advanced') {
-        $wrapper = new CRM_Wrapper();
-        $wrapper->run('CRM_Contact_Form_AdvancedSearch', 'Search Contacts', CRM_Form::MODE_ADVANCED,
-                      CRM_System::url( 'civicrm/contact/search/advanced', 'reset=1' ));
-        return $wrapper->getContent();
+        $controller = new CRM_Contact_Controller_Advanced( 'Advanced Search', CRM_Form::MODE_ADVANCED );
+        $controller->run( );
+        return $controller->getContent( );
     }
 
     // browse saved searches
@@ -609,7 +608,7 @@ function civicrm_search()
     }
 
     // basic search
-	$controller = new CRM_Contact_Controller_Search( 'Search Contacts', CRM_Form::MODE_BASIC );
+    $controller = new CRM_Contact_Controller_Search( 'Search Contacts', CRM_Form::MODE_BASIC );
     $controller->run( );
     return $controller->getContent( );
 
