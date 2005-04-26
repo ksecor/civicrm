@@ -250,8 +250,11 @@ class HTML_QuickForm extends HTML_Common {
     {
         HTML_Common::HTML_Common($attributes);
         $method = (strtoupper($method) == 'GET') ? 'get' : 'post';
-        // $action = ($action == '') ? $_SERVER['PHP_SELF'] : $action;
-        $action = ($action == '') ? $_SERVER['REDIRECT_URL'] : $action;
+        if ( array_key_exists( 'q', $_GET ) ) {
+            $action = ($action == '') ? CRM_System::url( $_GET['q'] ) : $action;
+        } else {
+            $action = ($action == '') ? $_SERVER['PHP_SELF'] : $action;
+        }
         $target = (empty($target) || $target == '_self') ? array() : array('target' => $target);
         $attributes = array('action'=>$action, 'method'=>$method, 'name'=>$formName, 'id'=>$formName) + $target;
         $this->updateAttributes($attributes);
