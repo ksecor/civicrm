@@ -503,6 +503,16 @@ class CRM_SelectValues {
         
         return self::$relationshipType;
     }
+
+    /**
+     * list of Group Types
+     * @var array
+     * @static
+     */
+    public static $groupType = array(
+                                     'query'    => 'Dynamic',
+                                     'static'   => 'Static',
+                                     );
     
 }
 

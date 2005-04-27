@@ -422,13 +422,16 @@ function civicrm_admin_invoke()
         $view = new CRM_Admin_Page_Category( 'View Categories' );
         $content .= $view->run( );
     }
-    /*
-    // group
+
+    // group wizard
     if (arg(1) == 'contact' && arg(2) == 'group') {
-        $view = new CRM_Admin_Page_Group( 'View Groups' );
-        $content .= $view->run( );
+        
+        $controller = new CRM_Group_Controller( 'Groups' );
+        $controller->run( );
+        $content = $controller->getContent( );
+        print theme('page', $content);
+        return;
     }
-    */
 
     print theme('page', $content);
 }

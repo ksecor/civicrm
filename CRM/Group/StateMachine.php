@@ -24,7 +24,6 @@
 
 /**
  *
- *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo 01/15/2005
@@ -32,36 +31,24 @@
  *
  */
 
-require_once 'CRM/Contact/DAO/SavedSearch.php';
+require_once 'CRM/Core/StateMachine.php';
 
-class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch 
-{
-
-    function __construct()
-    {
-        parent::__construct();
-    }
+class CRM_Group_StateMachine extends CRM_StateMachine {
 
     /**
-     * query the db for all saved searches.
-     *
-     * @param none
-     *
-     * @return array $aSavedSearch - contains the search name as value and and id as key
-     *
-     * @access public
+     * class constructor
      */
-    function getAll()
-    {
-
-        $savedSearch = new CRM_Contact_DAO_SavedSearch ();
-        $savedSearch->selectAdd('id, name');
-        $savedSearch->find();
-        while($savedSearch->fetch()) {
-            $aSavedSearch[$savedSearch->id] = $savedSearch->name;
-        }
-        return $aSavedSearch;
-
+    function __construct( $controller, $mode = CRM_Form::MODE_NONE ) {
+        parent::__construct( $controller, $mode );
+        
+        $this->_pages = array(
+                              'CRM_Group_Form_Group',
+                              'CRM_Group_Form_DynamicGroup',
+                              );
+        
+        $this->addSequentialPages( $this->_pages, $mode );
     }
+
 }
+
 ?>

@@ -24,7 +24,6 @@
 
 /**
  *
- *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo 01/15/2005
@@ -32,36 +31,26 @@
  *
  */
 
-require_once 'CRM/Contact/DAO/SavedSearch.php';
+require_once 'CRM/Core/Controller.php';
 
-class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch 
-{
-
-    function __construct()
-    {
-        parent::__construct();
-    }
+class CRM_Group_Controller extends CRM_Controller {
 
     /**
-     * query the db for all saved searches.
-     *
-     * @param none
-     *
-     * @return array $aSavedSearch - contains the search name as value and and id as key
-     *
-     * @access public
+     * class constructor
      */
-    function getAll()
-    {
+    function __construct( $name, $mode = CRM_Form::MODE_NONE, $modal = true ) {
+        parent::__construct( $name, $modal );
 
-        $savedSearch = new CRM_Contact_DAO_SavedSearch ();
-        $savedSearch->selectAdd('id, name');
-        $savedSearch->find();
-        while($savedSearch->fetch()) {
-            $aSavedSearch[$savedSearch->id] = $savedSearch->name;
-        }
-        return $aSavedSearch;
+        $this->_stateMachine = new CRM_Group_StateMachine( $this, $mode );
 
+        // create and instantiate the pages
+        $this->addPages( $this->_stateMachine, $mode );
+
+        // add all the actions
+        $config = CRM_Config::singleton( );
+        $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
     }
+
 }
+
 ?>
