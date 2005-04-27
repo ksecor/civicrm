@@ -54,24 +54,14 @@ class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory
 
     static function &getCategory($entityTable = 'crm_contact', $entityID) 
     {
-        CRM_Error::le_method();
-
-        CRM_Error::debug_var('entityID', $entityID);
-
         $category = array();
 
         $entityCategory = new CRM_Contact_DAO_EntityCategory();
-
         $entityCategory->entity_table = $entityTable;
-
         $entityCategory->entity_id = $entityID;
-
         $entityCategory->find();
 
         while ($entityCategory->fetch()) {
-            
-            CRM_Error::debug_var('category_id', $entityCategory->category_id);
-
             $category[$entityCategory->category_id] = $entityCategory->category_id;
         } 
         return $category;        

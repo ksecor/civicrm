@@ -56,9 +56,7 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
      */
     function __construct($name, $state, $mode = self::MODE_NONE)
     {
-        //CRM_Error::le_method();
         parent::__construct($name, $state, $mode);
-        //CRM_Error::ll_method();
     }
 
     /**
@@ -69,12 +67,8 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        //CRM_Error::le_method();
-
         $session = CRM_Session::singleton( );
         $asfv = unserialize($session->get("fv", CRM_SESSION::SCOPE_AS));
-
-        //CRM_Error::debug_var('asfv', $asfv);
 
         $qill = CRM_Contact_Selector::getQILL($asfv, CRM_Form::MODE_ADVANCED);
 
@@ -94,7 +88,6 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
                                 )
                           );
 
-        CRM_Error::ll_method();
     }
 
     /**
@@ -136,8 +129,6 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
 
     function postProcess() 
     {
-        CRM_Error::le_method();
-
         $session = CRM_Session::singleton();
             
         // advanced search form values
@@ -156,8 +147,6 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
         $ssBAO->insert();
         
         CRM_Session::setStatus( 'Your search has been saved as "' . $fv['name'] . '"' );
-
-        CRM_Error::ll_method();
     }
 }
 ?>

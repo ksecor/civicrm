@@ -53,8 +53,6 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      */
     function getAll($count=FALSE)
     {
-        CRM_Error::le_method();
-        CRM_Error::ll_method();
     }
 }
 ?>

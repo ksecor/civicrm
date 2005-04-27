@@ -72,9 +72,6 @@ class CRM_QuickForm_Action_Display extends CRM_QuickForm_Action {
      * @access public
      */
     function perform(&$page, $actionName) {
-
-        // CRM_Error::le_method();
-
         $pageName = $page->getAttribute('id');
         // If the original action was 'display' and we have values in container then we load them
         // BTW, if the page was invalid, we should later call validate() to get the errors
@@ -99,8 +96,6 @@ class CRM_QuickForm_Action_Display extends CRM_QuickForm_Action {
         if (isset($validate) && $validate) {
             $page->validate();
         }
-
-        // CRM_Error::ll_method();
 
         $f = $this->_renderForm($page);
         return $f;

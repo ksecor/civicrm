@@ -72,7 +72,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        CRM_Error::le_method();
         $this->populatePseudoConstant();
 
         $contactType = array('any' => ' - any contact - ') + CRM_PseudoConstant::$contactType;
@@ -113,8 +112,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
          *
          */
         $this->add('submit', $this->getButtonName( 'next' ), 'Perform Action!', array( 'class' => 'form-submit' ) );
-
-        CRM_Error::le_method();
     }
 
     /**
@@ -124,28 +121,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @return array the default array reference
      */
     function &setDefaultValues() {
-        CRM_Error::le_method();
-
         $defaults = array();
-
-        // dont want to populate default values if
-        // user wants to start afresh.
-        if($_GET['reset'] == 1) {
-            return;
-        }
-
-        $csv = array();
-
         $session = CRM_Session::singleton( );        
-        $session->getVars($csv, CRM_Session::SCOPE_CSV);
-      
-        CRM_Error::debug_var('csv', $csv);
-
-        $defaults = $csv;
-
-        CRM_Error::debug_var('defaults', $defaults);
-
-        CRM_Error::ll_method();
+        $session->getVars($defaults, CRM_Session::SCOPE_CSV);
 
         return $defaults;
     }
@@ -200,8 +178,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
         $controller->run();
-
-        CRM_Error::ll_method();
     }
 
 

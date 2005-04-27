@@ -57,16 +57,13 @@ class CRM_Contact_Page_SavedSearch extends CRM_Page {
     }
 
     function run() {
-        CRM_Error::le_method();
         if ($this->_mode == self::MODE_NONE) {
             $this->runModeNone();
         }
-        CRM_Error::ll_method();        
         return parent::run();
     }
 
     function runModeNone() {
-        CRM_Error::le_method();
         $rows = array();
         $ssDAO = new CRM_Contact_DAO_SavedSearch();
         $ssDAO->selectAdd();
@@ -74,7 +71,6 @@ class CRM_Contact_Page_SavedSearch extends CRM_Page {
         $ssDAO->find();
         while ($ssDAO->fetch()) {
             $row = array();
-            //CRM_Error::debug_log_message("fetching a saved search");
             $properties = array('id', 'name', 'description');
             foreach ($properties as $property) {
                 $row[$property] = $ssDAO->$property;
@@ -82,9 +78,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Page {
             $row['query_detail'] = CRM_Contact_Selector::getQILL(unserialize($ssDAO->form_values), $ssDAO->search_type);
             $rows[] = $row;
         }
-        CRM_Error::debug_var('rows', $rows);
         $this->assign('rows', $rows);
-        CRM_Error::ll_method();
     }
 }
 ?>

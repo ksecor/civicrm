@@ -277,9 +277,7 @@ class CRM_SelectValues {
      */
     public static function &getLocationType()
     {
-        CRM_Error::le_method();
         if(!isset(self::$locationType)) {
-            CRM_Error::debug_log_message("locationType is not set");
             self::$locationType = array('' => '-select-');
             $location_type_dao = new CRM_Contact_DAO_LocationType();
             $location_type_dao->selectAdd('id, name');
@@ -310,9 +308,7 @@ class CRM_SelectValues {
      */
     public static function &getIMProvider()
     {
-        CRM_Error::le_method();
         if (!isset(self::$imProvider)) {
-            CRM_Error::debug_log_message("imProvider is not set");
             self::$imProvider = array('' => '-select-');
             $im_provider_dao = new CRM_DAO_IMProvider();
             $im_provider_dao->selectAdd('id, name');
@@ -342,9 +338,7 @@ class CRM_SelectValues {
      */
     public static function &getStateProvince()
     {
-        CRM_Error::le_method();
         if (!isset(self::$stateProvince)) {
-            CRM_Error::debug_log_message("stateProvince is not set");
             self::$stateProvince = array('' => '-select-');
             $state_province_dao = new CRM_DAO_StateProvince();
             $state_province_dao->selectAdd('id, name');
@@ -375,9 +369,7 @@ class CRM_SelectValues {
      */
     public static function &getCountry()
     {
-        CRM_Error::le_method();
         if (!isset(self::$country)) {
-            CRM_Error::debug_log_message("country is not set");
             self::$country = array('' => '-select-');
             $country_dao = new CRM_DAO_Country();
             $country_dao->selectAdd('id, name');
@@ -410,7 +402,6 @@ class CRM_SelectValues {
     public static function &getCategory()
     {
         if (!isset(self::$category)) {
-            CRM_Error::debug_log_message("category is not set");
             self::$category = array();
             $category_dao = new CRM_Contact_DAO_Category();
             $category_dao->selectAdd('id, name, parent_id');
@@ -444,9 +435,7 @@ class CRM_SelectValues {
      */
     public static function &getGroup()
     {
-        CRM_Error::le_method();
         if (!isset(self::$group)) {
-            CRM_Error::debug_log_message("group is not set");
             self::$group = array();
             $group_dao = new CRM_Contact_DAO_Group();
             $group_dao->selectAdd('id, name');
@@ -479,7 +468,6 @@ class CRM_SelectValues {
      */
     public static function &getRelationshipType($relationship)
     {
-        CRM_Error::le_method();
         $contact = new CRM_Contact_BAO_Contact();
         
         $contact->id = $relationship->get('contactId');

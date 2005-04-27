@@ -73,10 +73,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     function basicSearchQuery(&$fv, $offset, $rowCount, $sort, $count=false)
     {
-        
-        //CRM_Error::le_method();
-        //CRM_Error::debug_var('fv', $fv);
-
         $str_select = $str_from = $str_where = $str_order = $str_limit = ''; 
         
         // stores all the "AND" clauses
@@ -373,8 +369,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // building the query string
         $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
 
-        //CRM_Error::debug_var("query_string", $query_string);
-
         $this->query($query_string);
 
         if ($count) {
@@ -439,17 +433,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     static function getValues( &$params, &$values, &$ids ) {
 
-        //CRM_Error::le_method();
-        //CRM_Error::debug_var("params", $params);
-
         $contact = new CRM_Contact_BAO_Contact( );
 
         $contact->copyValues( $params );
 
         if ( $contact->find(true) ) {
-
-            //CRM_Error::debug_log_message("found contact");
-
             $ids['contact'] = $contact->id;
             $ids['domain' ] = $contact->domain_id;
 

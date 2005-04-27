@@ -68,7 +68,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     function buildQuickForm( ) 
     {
-        CRM_Error::le_method();
         $this->populatePseudoConstant();
 
         // add checkboxes for contact type
@@ -162,8 +161,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * @return array the default array reference
      */
     function &setDefaultValues() {
-        CRM_Error::le_method();
-
         $defaults = array();
 
         // since we have a ssid we need to set defaults differently
@@ -175,14 +172,12 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $ssDAO->selectAdd('id, form_values');
             if($ssDAO->find(1)) {
                 // make sure u unserialize - since it's stored in serialized form
-                CRM_Error::debug_log_message('found ss for ssid = $ssid');                
                 $defaults = unserialize($ssDAO->form_values);
             }
         } else {
             $csv = array();
             $session = CRM_Session::singleton( );        
             $session->getVars($csv, CRM_Session::SCOPE_CSV);
-            CRM_Error::debug_var('csv', $csv);
             // name
             $defaults['sort_name'] = $csv['name'];
             // contact_type
@@ -199,9 +194,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                 $defaults['cb_category'] = array($csv['category'] => 1);
             }
         }
-
-        CRM_Error::debug_var('defaults', $defaults);
-        CRM_Error::ll_method();
 
         return $defaults;
     }
@@ -245,12 +237,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     function postProcess() 
     {
-
-        CRM_Error::le_method();
-
-        //CRM_Error::debug_var('GLOBALS', $GLOBALS);
-        CRM_Error::debug_var('_POST', $_POST);
-
         if($_GET['reset'] == 1) {
             return;
         }
@@ -258,7 +244,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         // check actionName and if next, then do not repeat a search, since we are going to the next page
         list( $pageName, $action ) = $this->controller->getActionName( );
         if ( $action == 'next' ) {
-            CRM_Error::ll_method();
             return;
         }
 
@@ -268,23 +253,18 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         if ($ssid = CRM_Request::retrieve('ssid')) {
             // ssid is set hence we need to set the form values for it.
             // also we need to set the values in the form...
-            CRM_Error::debug_log_message("ssid is set");
             $ssDAO = new CRM_Contact_DAO_SavedSearch();
             $ssDAO->id = $ssid;
             $ssDAO->selectAdd();
             $ssDAO->selectAdd('id, form_values');
             if($ssDAO->find(1)) {
                 // make sure u unserialize - since it's stored in serialized form
-                CRM_Error::debug_log_message('found ss for ssid = $ssid');                
                 $fv = unserialize($ssDAO->form_values);
             }
         } else {
-            CRM_Error::debug_log_message("ssid is not set");
             // get user submitted values
             $fv = $this->controller->exportValues($this->_name);
         }
-
-        CRM_Error::debug_var('fv', $fv);
 
         $session = CRM_Session::singleton( );
 
@@ -300,7 +280,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         // has the user asked to save query ?
         if ($fv['cb_ss']) {
-            CRM_Error::debug_log_message("save this search pls");            
             // save the search
             $ssBAO = new CRM_Contact_BAO_SavedSearch();
             $ssBAO->domain_id = 1;   // hack for now
@@ -310,7 +289,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $ssBAO->form_values = serialize($fv);
             $ssBAO->insert();
         }
-        CRM_Error::ll_method();
     }
 
 
@@ -327,7 +305,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     private function _setCSV(&$fv) {
         $session = CRM_Session::singleton( );
-        CRM_Error::debug_var('fv', $fv);
+
         // store the user submitted values in the common search values scope
         $session->set("name", $fv['sort_name'], CRM_Session::SCOPE_CSV);        
         $session->set("contact_type", $fv['cb_contact_type'] ? key($fv['cb_contact_type']) : "", CRM_Session::SCOPE_CSV);
