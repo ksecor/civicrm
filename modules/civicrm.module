@@ -424,13 +424,10 @@ function civicrm_admin_invoke()
     }
 
     // group wizard
-    if (arg(1) == 'contact' && arg(2) == 'group') {
-        
+    if (arg(0) == 'admin'  && arg(1) == 'contact' && arg(2) == 'group') {
         $controller = new CRM_Group_Controller( 'Groups' );
         $controller->run( );
         $content = $controller->getContent( );
-        print theme('page', $content);
-        return;
     }
 
     print theme('page', $content);
@@ -438,6 +435,8 @@ function civicrm_admin_invoke()
 
 function civicrm_invoke()
 {
+
+    /*
     //  manage groups
     if (arg(1) == 'group') {
         if(arg(2) == 'edit' OR arg(2) == 'add') {
@@ -448,6 +447,16 @@ function civicrm_invoke()
         }
         print theme('page', $content);
         return;
+    }
+    */
+
+    // browse groups
+    if (arg(1) == 'group') {
+        $view = new CRM_Group_Page_Group( 'View Groups' );
+        $content .= $view->run( );
+        print theme('page', $content);
+        return;
+
     }
 
     //  import wizard
