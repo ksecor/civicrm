@@ -19,7 +19,7 @@
         <td>{$row.name}</td>
         <td>{$row.description}</td>
         <td>{$row.query_detail}</td>
-	<td><a href="{crmURL p='civicrm/contact/search/advanced' q="ssid=`$row.id`&reset=1"}">Edit</a></td>
+	<td><a href="{crmURL p='civicrm/contact/search/advanced' q="ssid=`$row.id`&reset=1&action=edit"}">Edit</a></td>
     </tr>
     {/foreach}
     </table>

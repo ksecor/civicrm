@@ -34,7 +34,7 @@
 /**
  * This class provides the functionality to delete a group of
  * contacts. This class provides functionality for the actual
- * deletion.
+ * addition of contacts to groups.
  */
 class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
 
@@ -66,7 +66,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      * @return void
      */
     function buildQuickForm( ) {
-        CRM_PseudoConstant::getGroup();
+        CRM_PseudoConstant::populateGroup();
 
         // add select for groups
         $group = array( '' => ' - any group - ') + CRM_PseudoConstant::$group;
@@ -88,9 +88,6 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
         $status     = $this->controller->exportValue( 'AddToGroup', 'status' );
         $contactIds = array_keys( $this->_rows );
         CRM_Contact_BAO_GroupContact::addContactsToGroup( $groupId, $contactIds, $status );
-        foreach ( $rows as $id => &$row ) {
-            CRM_Contact_BAO_Contact::deleteContact( $id );
-        }
     }//end of function
 
 

@@ -129,7 +129,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             }
         }
 
-        // do we need to show elements of saved search ?
+        // new saved search link
         if (CRM_Request::retrieve('nss', $this)) {
             // since there's a request for a new saved search
             // we need to display form components for saved search
@@ -138,8 +138,24 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $this->addElement('checkbox', 'cb_ss', null, 'Save Search ?');
             $this->addElement('text', 'ss_name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
             $this->addElement('text', 'ss_description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
+        } else if (($ssid=CRM_Request::retrieve('ssid')) && (CRM_Request::retrieve('action') == 'edit')) {
+            // since there's a request for edit an existing saved search
+            // we need to display correctly populated form components for saved search
+            
+            // get the ss
+            $ssBAO = new CRM_Contact_BAO_SavedSearch();
+            $ssBAO->id = $ssid;
+            if($ssBAO->find(1)) {
+                $this->addElement('checkbox', 'cb_ss', null, 'Save Search ?', array('checked'=>true));
+                $this->addElement('text', 'ss_name', 'Name', 
+                                  CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') + array('value' => $ssBAO->name));
+                $this->addElement('text', 'ss_description', 'Description', 
+                                  CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description')+array('value'=>$ssBAO->description));
+            } else {
+                // fatal error ssid does not exist
+                CRM_Error::fatal("saved search with id $ssid not found");
+            }
         }
-
 
         // add the buttons
         $this->addButtons(array(
