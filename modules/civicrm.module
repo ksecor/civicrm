@@ -200,19 +200,11 @@ function civicrm_menu($may_cache)
        
         $items[] = array(
                          'path'  => 'civicrm',
-                         'title' => t('CiviCRM Navigation - DISABLE '),
+                         'title' => t('CiviCRM'),
                          'callback' => 'civicrm_invoke',
                          'access' => user_access('view contact'),
                          'type'   => MENU_IS_ROOT | MENU_CALLBACK,
                          'pid'    => 0,
-                         );
-
-        $items[] = array(
-                         'path'  => 'civicrm/contact',
-                         'title' => t('Contact'),
-                         'callback' => 'civicrm_contact_invoke',
-                         'access' => user_access('view contact'),
-                         'type'   => MENU_CALLBACK
                          );
 
         $items[] = array(
@@ -349,7 +341,7 @@ function civicrm_menu($may_cache)
                          );
   
         $items[] = array(
-                         'path'   => 'civicrm/extproperty/field',
+                         'path'   => 'civicrm/extproperty/group/field',
                          'title'  => t('Browse Extended Property Fields'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_CALLBACK,
@@ -364,11 +356,6 @@ function civicrm_menu($may_cache)
 function civicrm_init() 
 {
     menu_rebuild();
-
-    // Over-ride default breadcrumb for now since we want "Contact Mgmt" to link to contact browser and don't know how else to do it.
-    $crm_top_breadcrumb = array('<a href="">Home</a>',
-                                '<a href="' . CRM_System::url( 'civicrm/contact/search', 'reset=1' ) . '">Contact Management</a>');
-    drupal_set_breadcrumb($crm_top_breadcrumb);
 
     $config = CRM_Config::singleton();
     CRM_DAO::init($config->dsn, $config->daoDebug);
@@ -435,20 +422,11 @@ function civicrm_admin_invoke()
 
 function civicrm_invoke()
 {
-
-    /*
-    //  manage groups
-    if (arg(1) == 'group') {
-        if(arg(2) == 'edit' OR arg(2) == 'add') {
-            $content = fetch_tpl( 'Group/Form/Edit.tpl');
-        } else {
-            civicrm_assign( 'name','dave');
-            $content = fetch_tpl( 'Group/Group.tpl');
-        }
-        print theme('page', $content);
+    // contact related functionality
+    if (arg(1) == 'contact') {
+        civicrm_contact_invoke();
         return;
-    }
-    */
+        }
 
     // browse groups
     if (arg(1) == 'group') {
@@ -456,7 +434,6 @@ function civicrm_invoke()
         $content .= $view->run( );
         print theme('page', $content);
         return;
-
     }
 
     //  import wizard
@@ -470,7 +447,7 @@ function civicrm_invoke()
   
     // handle external properties
     if (arg(1) == 'extproperty') {
-        if ( arg(2) == 'group' ) {	
+        if ( arg(2) == 'group' && arg(3) != 'field' ) {	
             $page = new CRM_ExtProperty_Page_Group( 'Page_Group', 'Extended Property Group' );
         } else {
             $page = new CRM_ExtProperty_Page_Field( 'Page_Field', 'Extended Property Field' );
