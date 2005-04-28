@@ -345,7 +345,7 @@ class CRM_DAO extends DB_DataObject {
             return self::makeAttribute( $field );
         } else {
             foreach ($fields as $name => &$field) {
-                $attribute = self::makeAttribue( $field );
+                $attribute = self::makeAttribute( $field );
                 $attributes = array( );
                 if ( $attribute ) {
                     $attributes[$name] = $attribute;
