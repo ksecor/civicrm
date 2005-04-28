@@ -146,6 +146,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         if ($count) {
             $row = $this->getDatabaseResult()->fetchRow();
             return $row[0];
+        } else {
+            // need to store query in session for basic search for getting contact id's only
+            $task_query = 
         }
         return $this;
     }

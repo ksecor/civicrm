@@ -84,12 +84,19 @@ class CRM_Contact_Form_Task extends CRM_Form
         $this->assign( 'taskName', CRM_Contact_Task::$tasks[$this->_task] );
 
         $this->_rows = array( );
-        foreach ( $values as $name => $value ) {
-            if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
-                $id = substr( $name, self::CB_PREFIX_LEN );
-                $this->_rows[$id] = array( );
-                $this->_rows[$id]['displayName'] = CRM_Contact_BAO_Contact::displayName( $id );
+
+        //if($radio_sel) {
+        if(1) {
+            foreach ( $values as $name => $value ) {
+                if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
+                    $id = substr( $name, self::CB_PREFIX_LEN );
+                    $this->_rows[$id] = array( );
+                    $this->_rows[$id]['displayName'] = CRM_Contact_BAO_Contact::displayName( $id );
+                }
             }
+        } else {
+            // fire the query again and get the contact id's + display name
+
         }
         $this->assign_by_ref( 'rows', $this->_rows );
     }
