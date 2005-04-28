@@ -148,12 +148,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             return $row[0];
         } else {
             // need to store query in session for basic search for getting contact id's only
-            $task_query = 
+            $str_select = "SELECT crm_contact.id as contact_id, crm_contact.sort_name as sort_name";
+            $taskQuery = $str_select . $str_from . $str_where . $str_order;
+            $session = CRM_Session::singleton( );        
+            $session->set('taskQuery', $taskQuery, CRM_Contact_Form_Search::SESSION_SCOPE_TQ);
         }
         return $this;
     }
     
-
 
     /**
      * create and query the db for an advanced contact search

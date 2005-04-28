@@ -86,8 +86,22 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
     public function postProcess() {
         $groupId    = $this->controller->exportValue( 'AddToGroup', 'group'  );
         $status     = $this->controller->exportValue( 'AddToGroup', 'status' );
-        $contactIds = array_keys( $this->_rows );
+
+        // get contactID's of formValues
+
+        // get contactID's of group members
+
+        // create an intersection of 2 arrays of contactID
+
+        // create an array of duplicate ID's with same status
+
+        // create an array of duplicate ID's with conflicting status
+
+        // display results.
+
+        //$contactIds = array_keys( $this->_rows );
         CRM_Contact_BAO_GroupContact::addContactsToGroup( $groupId, $contactIds, $status );
+
     }//end of function
 
 

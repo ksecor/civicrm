@@ -46,7 +46,9 @@ require_once 'CRM/Contact/Selector.php';
  */
 class CRM_Contact_Form_Search extends CRM_Form {
 
-    //const SESSION_SCOPE_CSV = "commonSearchValues";
+    const 
+        SESSION_SCOPE_CSV      = "commonSearchValues",
+        SESSION_SCOPE_TQ       = "taskQuery";
 
 
     /**

@@ -78,15 +78,19 @@ class CRM_Contact_Form_Task extends CRM_Form
      */
     function preProcess( ) 
     {
+        CRM_Error::le_method();
+
+
         $values = $this->controller->exportValues( 'Search' );
+
+        CRM_Error::debug_var('values', $values);
         
         $this->_task = $values['task'];
         $this->assign( 'taskName', CRM_Contact_Task::$tasks[$this->_task] );
 
         $this->_rows = array( );
 
-        //if($radio_sel) {
-        if(1) {
+        if($values['radio_ts'] == 'ts_sel') {
             foreach ( $values as $name => $value ) {
                 if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
                     $id = substr( $name, self::CB_PREFIX_LEN );
@@ -96,9 +100,20 @@ class CRM_Contact_Form_Task extends CRM_Form
             }
         } else {
             // fire the query again and get the contact id's + display name
+            $session = CRM_Session::singleton( );        
+            $taskQuery = $session->get('taskQuery', CRM_Contact_Form_Search::SESSION_SCOPE_TQ);
+            CRM_Error::debug_var('taskQuery', $taskQuery);            
 
+            $dao = new CRM_DAO();
+            $dao->query($taskQuery);
+            while($dao->fetch()) {
+                $this->_rows[$dao->contact_id] = array( );
+                $this->_rows[$dao->contact_id]['displayName'] = $dao->sort_name;
+            }
         }
         $this->assign_by_ref( 'rows', $this->_rows );
+
+        CRM_Error::debug_var('rows', $this->_rows);
     }
 
     /**
