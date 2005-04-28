@@ -222,6 +222,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
                 return array( 'task' => 'Please select a valid action.' );
             }
 
+            // if the all contact option is selected, ignore the contact checkbox validation
+            if ($fields['radio_ts'] == 'ts_all') { 
+                return true;
+            }
+
             foreach ( $fields as $name => $dontCare ) {
                 if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
                     return true;
