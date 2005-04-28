@@ -36,7 +36,8 @@
 //require_once 'PEAR.php';
 require_once 'PEAR/ErrorStack.php';
 require_once 'CRM/Core/Config.php';
-require_once 'themes/engines/smarty/SmartyTemplate.php';
+require_once 'CRM/Core/Smarty.php';
+
 require_once 'Log.php';
 
 class CRM_Error extends PEAR_ErrorStack {
@@ -114,11 +115,7 @@ class CRM_Error extends PEAR_ErrorStack {
     public static function handle($pear_error)
     {
         // setup smarty with config, session and template location.
-        $config  = CRM_Config::singleton();
-        $session = CRM_Session::singleton();
-        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        $template->assign_by_ref( 'config' , $config  );
-        $template->assign_by_ref( 'session', $session );
+        $template = CRM_Core_Smarty::singleton( );
         
         // create the error array
         $error = array();
@@ -134,7 +131,7 @@ class CRM_Error extends PEAR_ErrorStack {
         $template->assign_by_ref('error', $error);
         
         $template->assign( 'tplFile', "CRM/" . CRM_Error::ERROR_TEMPLATE); 
-        $content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
+        $content = $template->fetch( 'CRM/index.tpl' );
         CRM_Error::debug( 'error', $error );
 
         return CRM_System::theme( 'page', $content );

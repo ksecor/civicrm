@@ -9,7 +9,8 @@ $include_path = '.'        . PATH_SEPARATOR .
                 $include_path;
 ini_set('include_path', $include_path);
 
-define( 'CRM_TEMPLATEDIR'        , $user_home . DIRECTORY_SEPARATOR . 'templates'   );
+define( 'CRM_TEMPLATEDIR', $user_home . DIRECTORY_SEPARATOR . 'templates'   );
+define( 'CRM_PLUGINSDIR' , $user_home . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR . 'plugins' );
 
 if ( ! defined(CRM_HTTPBASE) ) {
   define( 'CRM_HTTPBASE', '/drupal/' );

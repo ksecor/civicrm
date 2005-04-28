@@ -105,7 +105,7 @@
 	{/if}
  {if $groupCount eq 0 }  		
   <div class="form-item message status">	
-  <img src="crm/i/Inform.gif" alt="status"> &nbsp; No current group membership.
+  <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp; No current group membership.
   </div>	
   {/if}
   

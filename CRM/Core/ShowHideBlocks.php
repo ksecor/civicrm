@@ -77,7 +77,7 @@ class CRM_ShowHideBlocks {
             $first = false;
         }
 
-        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
+        $template = CRM_Core_Smarty::singleton( );
         $template->assign_by_ref( 'hideBlocks', $this->_hideString );
         $template->assign_by_ref( 'showBlocks', $this->_showString );
     }

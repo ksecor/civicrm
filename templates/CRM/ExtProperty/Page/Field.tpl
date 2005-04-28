@@ -72,7 +72,7 @@
 {else}
    {if $action ne 1} {* When we are adding an item, we should not display this message *}
    <div class="message status">
-   <img src="crm/i/Inform.gif" alt="status"> &nbsp;
+   <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
    There are no extended property Fields for this property group. You can <a href="{crmURL p='civicrm/extproperty/field' q="action=add&gid=$gid"}">add one</a>.
    </div>
    {/if}

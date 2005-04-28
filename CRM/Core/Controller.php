@@ -63,6 +63,20 @@ class CRM_Controller extends HTML_QuickForm_Controller {
     protected $_content;
 
     /**
+     * cache the smarty template for efficiency reasons
+     *
+     * @var CRM_Core_Smarty
+     */
+    static protected $_template;
+
+    /**
+     * cache the session for efficiency reasons
+     *
+     * @var CRM_Core_Session
+     */
+    static protected $_session;
+
+    /**
      * All CRM single or multi page pages should inherit from this class. 
      *
      * @param string  name of the controller
@@ -76,11 +90,16 @@ class CRM_Controller extends HTML_QuickForm_Controller {
     function __construct( $name, $modal ) {
         $this->HTML_QuickForm_Controller( $name, $modal );
 
+        // let the constructor initialize this, should happen only once
+        if ( ! isset( self::$_template ) ) {
+            self::$_template = CRM_Core_Smarty::singleton( );
+            self::$_session  = CRM_Session::singleton( );
+        }
+
         // if the request has a reset value, initialize the controller session
         if ( $_GET['reset'] ) {
             $this->reset( );
         }
-
     }
 
     /**
@@ -251,8 +270,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      */
     function reset( ) {
         $this->container( true );
-        $session = CRM_Session::singleton( );
-        $session->resetScope( $this->_name );
+        self::$_session->resetScope( $this->_name );
     }
 
     /**
@@ -302,8 +320,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      *
      */
     function set( $name, $value = null) {
-        $session = CRM_Session::singleton( );
-        $session->set( $name, $value, $this->_name );
+        self::$_session->set( $name, $value, $this->_name );
     }
 
     /**
@@ -312,12 +329,12 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      * @param  string name  : name  of the variable
      *
      * @access public
+
      * @return mixed
      *
      */
     function get( $name ) {
-        $session = CRM_Session::singleton( );
-        return $session->get( $name, $this->_name );
+        return self::$_session->get( $name, $this->_name );
     }
 
     /**
@@ -361,14 +378,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      * @access public
      */
     function assign( $var, $value = null) {
-        static $template = null;
-
-        if ( ! isset( $template ) ) {
-            $config  = CRM_Config::singleton ();
-            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        }
-
-        $template->assign($var, $value);
+        self::$_template->assign($var, $value);
     }
 
 }

@@ -205,18 +205,13 @@ class CRM_Block {
      * @access public
      */
     static function fetch( $id, $fileName, $properties ) {
-        $config  = CRM_Config::singleton ();
-        $session = CRM_Session::singleton();
-
-        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        $template->assign_by_ref( 'config' , $config  );
-        $template->assign_by_ref( 'session', $session );
+        $template = CRM_Core_Smarty::singleton( );
 
         if ( $properties ) {
             $template->assign( $properties );
         }
 
-        return $template->fetch( "CRM/Block/" . $fileName, $config->templateDir );
+        return $template->fetch( "CRM/Block/" . $fileName );
     }
 
 }

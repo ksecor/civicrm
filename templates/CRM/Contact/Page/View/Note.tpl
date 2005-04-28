@@ -72,7 +72,7 @@
 
 {else}
    <div class="message status">
-   <img src="crm/i/Inform.gif" alt="status"> &nbsp;
+   <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
    There are no notes entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">add one</a>.
    </div>
 {/if}

@@ -66,7 +66,7 @@ class CRM_ExtProperty_Page_Group extends CRM_Page_Basic {
                                                         ),
                            CRM_Action::BROWSE  => array(
                                                         'name'  => 'List',
-                                                        'url'   => 'civicrm/extproperty/field',
+                                                        'url'   => 'civicrm/extproperty/group/field',
                                                         'qs'    => 'reset=1&action=browse&gid=%%id%%',
                                                         'title' => 'List Extended Property Group Fields',
                                                         ),

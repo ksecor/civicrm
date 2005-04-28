@@ -35,7 +35,7 @@ Fetching {$qill}
 {if $rowsEmpty}
     {* No matches for submitted search request.*}
     <div class="messages status">
-        <img src="crm/i/Inform.gif" alt="status"> &nbsp;
+        <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
         No matches were found for your browse criteria.
         <ul>
         <li>check your spelling

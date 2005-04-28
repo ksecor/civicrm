@@ -37,9 +37,8 @@
 require_once 'HTML/QuickForm/Page.php';
 
 require_once 'CRM/Core/Rule.php';
+require_once 'CRM/Core/Smarty.php';
 require_once 'CRM/Core/Form/Renderer.php';
-
-require_once 'themes/engines/smarty/SmartyTemplate.php';
 
 class CRM_Form extends HTML_QuickForm_Page {
 
@@ -63,9 +62,17 @@ class CRM_Form extends HTML_QuickForm_Page {
 
     /**
      * the renderer used for this form
+     *
      * @var object
      */
     protected $_renderer;
+
+    /**
+     * cache the smarty template for efficiency reasons
+     *
+     * @var CRM_Core_Smarty
+     */
+    static protected $_template;
 
     /**
      * constants for attributes for various form elements
@@ -128,6 +135,11 @@ class CRM_Form extends HTML_QuickForm_Page {
         $this->_mode  = $mode;
 
         $this->registerRules( );
+
+        // let the constructor initialize this, should happen only once
+        if ( ! isset( self::$_template ) ) {
+            self::$_template = CRM_Core_Smarty::singleton( );
+        }
     }
 
     /**
@@ -395,8 +407,7 @@ class CRM_Form extends HTML_QuickForm_Page {
         if (isset($this->_renderer)) {
             return $this->_renderer;
         } else {
-            $template = SmartyTemplate::singleton();
-            $this->_renderer = new CRM_Form_Renderer($template);
+            $this->_renderer = new CRM_Form_Renderer(self::$_template);
             return $this->_renderer;
         }
     }
@@ -478,14 +489,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      * @access public
      */
     function assign( $var, $value = null) {
-        static $template = null;
-
-        if ( ! isset( $template ) ) {
-            $config  = CRM_Config::singleton ();
-            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        }
-
-        $template->assign($var, $value);
+        self::$_template->assign($var, $value);
     }
 
     /**
@@ -498,14 +502,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      * @access public
      */
     function assign_by_ref( $var, &$value ) {
-        static $template = null;
-
-        if ( ! isset( $template ) ) {
-            $config  = CRM_Config::singleton ();
-            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        }
-
-        $template->assign_by_ref($var, $value);
+        self::$_template->assign_by_ref($var, $value);
     }
 
 }

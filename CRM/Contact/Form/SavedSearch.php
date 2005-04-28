@@ -72,8 +72,7 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
 
         $qill = CRM_Contact_Selector::getQILL($asfv, CRM_Form::MODE_ADVANCED);
 
-        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        $template->assign('qill' , $qill);
+        $this->assign('qill' , $qill);
         
         $this->addElement('text', 'name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
         $this->addElement('text', 'description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description') );

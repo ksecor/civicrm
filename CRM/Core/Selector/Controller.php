@@ -120,6 +120,14 @@ class CRM_Selector_Controller {
      */
     protected $_content;
 
+
+    /**
+     * cache the smarty template for efficiency reasons
+     *
+     * @var CRM_Core_Smarty
+     */
+    static protected $_template;
+
     /**
      * Array of properties that the controller dumps into the output object
      *
@@ -167,6 +175,11 @@ class CRM_Selector_Controller {
                         'pageID'  => $this->_pageID
                         );
 
+        // let the constructor initialize this, should happen only once
+        if ( ! isset( self::$_template ) ) {
+            self::$_template = CRM_Core_Smarty::singleton( );
+        }
+
         /*
          * if we are in transfer mode, do not goto database, use the 
          * session values instead
@@ -194,6 +207,7 @@ class CRM_Selector_Controller {
 
         $this->_sortOrder =& $this->_object->getSortOrder($action);
         $this->_sort      =  new CRM_Sort( $this->_sortOrder, $this->_sortID );
+
     }
 
     function hasChanged( ) {
@@ -210,9 +224,6 @@ class CRM_Selector_Controller {
     }
 
     function run( ) {
-        $config  = CRM_Config::singleton ();
-        $session = CRM_Session::singleton();
-
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action );
         $rows          =& $this->_object->getRows( $this->_action,
                                                    $this->_pagerOffset,
@@ -222,19 +233,16 @@ class CRM_Selector_Controller {
         $qill = $this->_object->getMyQILL();
 
         if ( $this->_output & self::TEMPLATE ) {
-            $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-            $template->assign_by_ref( 'config' , $config  );
-            $template->assign_by_ref( 'session', $session );
-            $template->assign_by_ref( 'pager'  , $this->_pager   );
-            $template->assign_by_ref( 'sort'   , $this->_sort    );
+            self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
+            self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
             
-            $template->assign_by_ref( 'columnHeaders', $columnHeaders );
-            $template->assign_by_ref( 'rows'         , $rows          );
-            $template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
-            $template->assign       ( 'qill'         , $qill          );
+            self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
+            self::$_template->assign_by_ref( 'rows'         , $rows          );
+            self::$_template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
+            self::$_template->assign       ( 'qill'         , $qill          );
             
-            $template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
-            $this->_content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
+            self::$_template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
+            $this->_content = self::$_template->fetch( 'CRM/index.tpl' );
         }
 
         if ( $this->_output & self::SESSION ) {
@@ -304,22 +312,16 @@ class CRM_Selector_Controller {
      * @access public
      */
     function moveFromSessionToTemplate( ) {
-        $config  = CRM_Config::singleton ();
-        $session = CRM_Session::singleton();
+        self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
+        self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
 
-        $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-        $template->assign_by_ref( 'config' , $config  );
-        $template->assign_by_ref( 'session', $session );
-        $template->assign_by_ref( 'pager'  , $this->_pager   );
-        $template->assign_by_ref( 'sort'   , $this->_sort    );
+        self::$_template->assign_by_ref( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
+        self::$_template->assign_by_ref( 'rows'         , $this->_store->get( 'rows' )          );
+        self::$_template->assign       ( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
+        self::$_template->assign       ( 'qill'         , $this->_store->get( 'qill' )          );
 
-        $template->assign_by_ref( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
-        $template->assign_by_ref( 'rows'         , $this->_store->get( 'rows' )          );
-        $template->assign       ( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
-        $template->assign       ( 'qill'         , $this->_store->get( 'qill' )          );
-
-        $template->assign( 'tplFile', $this->_object->getTemplateFileName() );
-        $this->_content = $template->fetch( 'CRM/index.tpl', $config->templateDir );
+        self::$_template->assign( 'tplFile', $this->_object->getTemplateFileName() );
+        $this->_content = self::$_template->fetch( 'CRM/index.tpl' );
     }
 
 }

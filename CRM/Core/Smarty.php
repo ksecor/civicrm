@@ -1,0 +1,91 @@
+<?php
+/*
+ +----------------------------------------------------------------------+
+ | CiviCRM version 1.0                                                  |
+ +----------------------------------------------------------------------+
+ | Copyright (c) 2005 Donald A. Lobo                                    |
+ +----------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                      |
+ |                                                                      |
+ | CiviCRM is free software; you can redistribute it and/or modify it   |
+ | under the terms of the Affero General Public License Version 1,      |
+ | March 2002.                                                          |
+ |                                                                      |
+ | CiviCRM is distributed in the hope that it will be useful, but       |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of           |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                 |
+ | See the Affero General Public License for more details at            |
+ | http://www.affero.org/oagpl.html                                     |
+ |                                                                      |
+ | A copy of the Affero General Public License has been been            |
+ | distributed along with this program (affero_gpl.txt)                 |
+ +----------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
+
+require_once 'Smarty/Smarty.class.php';
+
+/**
+ *
+ */
+class CRM_Core_Smarty extends Smarty {
+
+    /**
+     * We only need one instance of this object. So we use the singleton
+     * pattern and cache the instance in this variable
+     *
+     * @var object
+     * @static
+     */
+    static private $_singleton = null;
+
+    /**
+     * class constructor
+     *
+     * @param string $templateDir root directory for all the templates
+     * @param string $compileDir  where should all the compiled templates be stored
+     *
+     * @return CRM_Core_Smarty
+     * @access private
+     */
+    function __construct( $templateDir, $compileDir ) {
+        parent::__construct( );
+
+        $this->template_dir = $templateDir;
+        $this->compile_dir  = $compileDir;
+        $this->use_sub_dirs = true;
+        $this->plugins_dir  = array ( CRM_SMARTYDIR . 'plugins', CRM_PLUGINSDIR );
+
+        // add the session and the config here
+        $config  = CRM_Config::singleton ();
+        $session = CRM_Session::singleton();
+
+        $this->assign_by_ref( 'config' , $config  );
+        $this->assign_by_ref( 'session', $session );
+        $this->register_function ( 'crmURL', array( 'CRM_System', 'crmURL' ) );
+    }
+
+    /**
+     * Static instance provider.
+     *
+     * Method providing static instance of SmartTemplate, as
+     * in Singleton pattern.
+     */
+    static function singleton( ) {
+        if ( ! isset( self::$_singleton ) ) {
+            self::$_singleton = new CRM_Core_Smarty( CRM_TEMPLATEDIR, CRM_TEMPLATE_COMPILEDIR );
+        }
+        return self::$_singleton;
+    }
+
+}
+
+?>

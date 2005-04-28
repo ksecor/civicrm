@@ -55,7 +55,7 @@ require_once 'CRM/Core/Error.php';
  * @return a &lt;style&gt; tag that indicates what file browsers should import
  */
 function civicrm_html_head() {
-  return '<style type="text/css">@import url(crm/css/civicrm.css);</style>';
+  return '<style type="text/css">@import url(' . CRM_RESOURCEBASE . '/css/civicrm.css);</style>';
 }
 
 /**
@@ -103,6 +103,10 @@ function civicrm_perm()
 
 function civicrm_block($op='list', $delta='0')
 {
+    if ( arg(0) != 'civicrm' && arg(0) != 'admin' ) {
+        return;
+    }
+
     // The $op parameter determines what piece of information is being requested.
     global $user;
     if ($user->uid) {
@@ -186,8 +190,7 @@ function civicrm_menu($may_cache)
                          'title' => t('CiviCRM'),
                          'callback' => 'civicrm_invoke',
                          'access' => user_access('view contact'),
-                         'type'   => MENU_IS_ROOT | MENU_CALLBACK,
-                         'pid'    => 0,
+                         'type'   => MENU_CALLBACK,
                          );
 
         $items[] = array(
@@ -198,29 +201,21 @@ function civicrm_menu($may_cache)
                          );
         
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/basic?reset=1',
+                         'path'  => civicrm_hack_path( 'civicrm/contact/search/basic', 'reset=1' ),
                          'title' => t('Browse Contacts'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => 0
                          );
 
-        /*
-         * hack to go around menu limitations in drupal, do this for all local tasks menu
-         */
-        if ( arg(3) != 'advanced' ) {
-            $path = CRM_System::url( 'civicrm/contact/search/advanced', 'reset=1', false );
-        } else {
-            $path = 'civicrm/contact/search/advanced';
-        }
         $items[] = array(
-                         'path'  => $path,
+                         'path'  => civicrm_hack_path( 'civicrm/contact/search/advanced', 'reset=1' ),
                          'title' => t('Advanced Search'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/saved/browse?reset=1',
+                         'path'  => civicrm_hack_path( 'civicrm/contact/search/saved/browse', 'reset=1' ),
                          'title' => t('Browse Saved Search'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,
@@ -343,6 +338,16 @@ function civicrm_menu($may_cache)
    return $items;
 }
 
+function civicrm_hack_path( $path, $qs ) {
+	$items = explode( '/', $path );
+    $len   = count( $items ) ;
+    if ( arg( $len - 1 ) != $items[$len - 1] ) {
+        return CRM_System::url( $path, $qs, false );
+    } else {
+        return $path;
+    }
+}
+
 function civicrm_init() 
 {
     if ( arg(0) != 'civicrm' ) {
@@ -436,13 +441,15 @@ function civicrm_invoke()
   
     // handle external properties
     if (arg(1) == 'extproperty') {
-        if ( arg(2) == 'group' && arg(3) != 'field' ) {	
-            $page = new CRM_ExtProperty_Page_Group( 'Page_Group', 'Extended Property Group' );
-        } else {
-            $page = new CRM_ExtProperty_Page_Field( 'Page_Field', 'Extended Property Field' );
+        if ( arg(2) == 'group' ) {
+            if ( arg(3) != 'field' ) {	
+                $page = new CRM_ExtProperty_Page_Group( 'Page_Group', 'Extended Property Group' );
+            } else {
+                $page = new CRM_ExtProperty_Page_Field( 'Page_Field', 'Extended Property Field' );
+            }
+            $content = $page->run( );
+            print theme('page', $content);
         }
-        $content = $page->run( );
-        print theme('page', $content);
     }
   
     drupal_goto( 'civicrm/contact/search', 'reset=1' );

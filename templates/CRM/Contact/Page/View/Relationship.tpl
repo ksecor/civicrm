@@ -69,7 +69,7 @@
        	</p>
 	{else}
 	<div class="status">
-        <img src="crm/i/Inform.gif" alt="status"> &nbsp;
+        <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
         There are no Relationships entered for this contact.
 	</div>
 	<p>
@@ -86,7 +86,7 @@
   </div>
 {else}
    <div class="message status">
-   <img src="crm/i/Inform.gif" alt="status"> &nbsp;
+   <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
    There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">add one</a>.
   </div>
 {/if}
