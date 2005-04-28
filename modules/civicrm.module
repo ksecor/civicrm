@@ -103,7 +103,10 @@ function civicrm_perm()
 
 function civicrm_block($op='list', $delta='0')
 {
-   
+    if ( arg(0) != 'civicrm' ) {
+        return;
+    }
+
     // The $op parameter determines what piece of information is being requested.
     global $user;
     if ($user->uid) {
@@ -144,60 +147,44 @@ function civicrm_menu($may_cache)
     if ($may_cache) {
         // This is the minimum information you can provide for a menu item.
         $items[] = array(
-                         'path'  => 'admin/contact',
-                         'title' => t('Contact'),
+                         'path'  => 'civicrm/admin',
+                         'title' => t('Administer CiviCRM'),
+                         'qs'    => 'reset=1',
                          'callback' => 'civicrm_admin_invoke',
-                         'access' => user_access('administer contact')
+                         'access' => user_access('administer contact'),
+                         'type'   => MENU_NORMAL_ITEM,
                          );
         
         $items[] = array(
-                         'path'  => 'admin/contact/configure',
-                         'title' => t('Configure Contact'),
+                         'path'  => 'civicrm/admin/locationType',
+                         'title' => t('Location Type'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK
                          );
         
         $items[] = array(
-                         'path'  => 'admin/contact/settings',
-                         'title' => t('Contact Settings'),
-                         'type'   => MENU_LOCAL_TASK
-                         );
-
-        $items[] = array(
-                         'path'  => 'admin/contact/locationType',
-                         'title' => t('Location Type'),
-                         'type'   => MENU_LOCAL_TASK
-                         );
-        
-        $items[] = array(
-                         'path'  => 'admin/contact/IMProvider',
+                         'path'  => 'civicrm/admin/IMProvider',
                          'title' => t('IM Provider'),
                          'type'   => MENU_LOCAL_TASK
                          );
 
        $items[] = array(
-                         'path'  => 'admin/contact/mobileProvider',
+                         'path'  => 'civicrm/admin/mobileProvider',
                          'title' => t('Mobile Provider'),
                          'type'   => MENU_LOCAL_TASK
                          );
      
        $items[] = array(
-                        'path'  => 'admin/contact/reltype',
+                        'path'  => 'civicrm/admin/reltype',
                         'title' => t('Manage Relationship Types'),
                         'type'   => MENU_LOCAL_TASK
                         );
 
        $items[] = array(
-                         'path'  => 'admin/contact/category',
+                         'path'  => 'civicrm/admin/category',
                          'title' => t('Category'),
                          'type'   => MENU_LOCAL_TASK
                          );
 
-       $items[] = array(
-                         'path'  => 'admin/contact/group',
-                         'title' => t('Group'),
-                         'type'   => MENU_LOCAL_TASK
-                         );
-       
         $items[] = array(
                          'path'  => 'civicrm',
                          'title' => t('CiviCRM'),
@@ -222,13 +209,20 @@ function civicrm_menu($may_cache)
                          'weight' => 0
                          );
 
+        /*
+         * hack to go around menu limitations in drupal, do this for all local tasks menu
+         */
+        if ( arg(3) != 'advanced' ) {
+            $path = CRM_System::url( 'civicrm/contact/search/advanced', 'reset=1', false );
+        } else {
+            $path = 'civicrm/contact/search/advanced';
+        }
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/advanced?reset=1',
+                         'path'  => $path,
                          'title' => t('Advanced Search'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
-
         $items[] = array(
                          'path'  => 'civicrm/contact/search/saved/browse?reset=1',
                          'title' => t('Browse Saved Search'),
@@ -355,6 +349,10 @@ function civicrm_menu($may_cache)
 
 function civicrm_init() 
 {
+    if ( arg(0) != 'civicrm' ) {
+        return;
+    }
+
     menu_rebuild();
 
     $config = CRM_Config::singleton();
@@ -381,43 +379,32 @@ function civicrm_admin_invoke()
     $content = "";
     
     // Location Type
-    if (arg(1) == 'contact' && arg(2) == 'locationType') {
-        $view = new CRM_Admin_Page_LocationType( 'View Location Types' );
-        $content .= $view->run( );
-    }
-    
-    // IM provider
-    if (arg(1) == 'contact' && arg(2) == 'IMProvider') {
-        $view = new CRM_Admin_Page_IMProvider( 'View Instant Messenger Providers' );
-        $content .= $view->run( );
-    }
+    if (arg(1) == 'admin') {
+        $view = null;
 
-    // Mobile provider
-    if (arg(1) == 'contact' && arg(2) == 'mobileProvider') {
-        $view = new CRM_Admin_Page_MobileProvider( 'View Mobile Providers' );
-        $content .= $view->run( );
-    }
+        if (arg(2) == 'locationType') {
+            $view = new CRM_Admin_Page_LocationType( 'View Location Types' );
+        } else if (arg(2) == 'IMProvider') {
+            // IM provider
+            $view = new CRM_Admin_Page_IMProvider( 'View Instant Messenger Providers' );
+        } else if (arg(2) == 'mobileProvider') {
+            // Mobile provider
+            $view = new CRM_Admin_Page_MobileProvider( 'View Mobile Providers' );
+        } else if (arg(2) == 'reltype') {
+            // relationship type
+            $view = new CRM_Admin_Page_RelationshipType( 'View Relationship Types' );
+        } else if (arg(2) == 'category') {
+            // category
+            $view = new CRM_Admin_Page_Category( 'View Categories' );
+        } else {
+            $view = new CRM_Admin_Page_LocationType( 'View Location Types' );
+        }
 
-    // relationship type
-    if (arg(1) == 'contact' && arg(2) == 'reltype') {
-        $view = new CRM_Admin_Page_RelationshipType( 'View Relationship Types' );
-        $content .= $view->run( );
+        if ( $view ) {
+            $content = $view->run( );
+        }
+        print theme('page', $content);
     }
-
-    // category
-    if (arg(1) == 'contact' && arg(2) == 'category') {
-        $view = new CRM_Admin_Page_Category( 'View Categories' );
-        $content .= $view->run( );
-    }
-
-    // group wizard
-    if (arg(0) == 'admin'  && arg(1) == 'contact' && arg(2) == 'group') {
-        $controller = new CRM_Group_Controller( 'Groups' );
-        $controller->run( );
-        $content = $controller->getContent( );
-    }
-
-    print theme('page', $content);
 }
 
 function civicrm_invoke()
@@ -430,8 +417,14 @@ function civicrm_invoke()
 
     // browse groups
     if (arg(1) == 'group') {
-        $view = new CRM_Group_Page_Group( 'View Groups' );
-        $content .= $view->run( );
+        if ( arg(2) == 'edit' ) {
+            $controller = new CRM_Group_Controller( 'Groups' );
+            $controller->run( );
+            $content = $controller->getContent( );
+        } else {
+            $view = new CRM_Group_Page_Group( 'View Groups' );
+            $content .= $view->run( );
+        }
         print theme('page', $content);
         return;
     }
