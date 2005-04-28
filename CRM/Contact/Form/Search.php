@@ -178,9 +178,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
         if($_GET['reset'] == 1) {
             return;
         }
-        
+
         // check actionName and if next, then do not repeat a search, since we are going to the next page
         list($pageName, $action) = $this->controller->getActionName();
+
         if ($action == 'next') {
             return;
         }

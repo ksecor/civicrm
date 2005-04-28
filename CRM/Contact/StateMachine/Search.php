@@ -77,7 +77,11 @@ class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
         case CRM_Contact_Task::DELETE_CONTACTS:
             $task = 'CRM_Contact_Form_Task_Delete';
             break;
-            
+
+        case CRM_Contact_Task::ADD_TO_HOUSEHOLD:
+            $task = 'CRM_Contact_Form_Task_AddToHousehold';
+            break;
+
         default:
             $task = 'CRM_Contact_Form_Task';
             break;
