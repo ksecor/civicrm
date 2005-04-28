@@ -36,6 +36,9 @@
      <name>help_pre</name>
      <type>text</type>
      <comment>Description and/or help text to display before fields in form.</comment>
+     <htmlType>textarea</htmlType>
+     <rows>4</rows>
+     <cols>80</cols>
   </field>
   <field>
      <name>help_post</name>

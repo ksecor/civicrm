@@ -133,6 +133,12 @@ class {$table.className} extends CRM_DAO {ldelim}
 {if $field.size}
 								      'size'      => {$field.size},
 {/if} {* field.size *}
+{if $field.rows}
+								      'rows'      => {$field.rows},
+{/if} {* field.rows *}
+{if $field.cols}
+								      'cols'      => {$field.cols},
+{/if} {* field.cols *}
 {if $field.import}
 								      'import'    => {$field.import},
 {/if} {* field.import *}

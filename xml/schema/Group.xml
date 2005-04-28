@@ -56,7 +56,6 @@
        <length>64</length>
        <comment>Module or process which created this group.</comment>
   </field>
-
   <field>
       <name>saved_search_id</name>
       <type>int unsigned</type>

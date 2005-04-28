@@ -31,6 +31,9 @@
        <name>note</name>
        <type>text</type>
        <comment>Note and/or Comment.</comment>
+       <htmlType>textarea</htmlType>
+       <rows>4</rows>
+       <cols>80</cols>
   </field>
   <field>
        <name>contact_id</name>

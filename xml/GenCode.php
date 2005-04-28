@@ -213,6 +213,12 @@ function getField( &$fieldXML, &$fields ) {
         $field['crmType'] = 'CRM_Type::T_ENUM';
         break;
 
+    case 'text':
+        $field['sqlType'] = $field['phpType'] = $type;
+        $field['crmType'] = 'CRM_Type::T_' . strtoupper( $type );
+        $field['rows']    = value( 'rows', $fieldXML );
+        $field['cols']    = value( 'cols', $fieldXML );
+
     default:
         $field['sqlType'] = $field['phpType'] = $type;
         if ( $type == 'int unsigned' ) {

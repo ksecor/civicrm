@@ -112,7 +112,7 @@ class CRM_Note_Form_Note extends CRM_Form
      */
     public function buildQuickForm( ) {
 
-        $note = $this->add('textarea', 'note', 'Notes', array('rows' => 4, 'cols' => '82',));    
+        $note = $this->add('textarea', 'note', 'Notes', CRM_DAO::getAttribute( 'CRM_DAO_Note', 'note' ) );
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',

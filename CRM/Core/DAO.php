@@ -284,6 +284,49 @@ class CRM_DAO extends DB_DataObject {
     }
 
     /**
+     * create an attribute for this specific field. We only do this for strings and text
+     *
+     * @param array $field the field under task
+     *
+     * @return array|null the attributes for the object
+     * @access public
+     * @static
+     */
+    static function makeAttribute( $field ) {
+        if ( $field ) {
+            if ( $field['type'] == CRM_Type::T_STRING ) {
+                $maxLength  = CRM_Array::value( 'maxlength', $field );
+                $size       = CRM_Array::value( 'size'     , $field );
+                if ( $maxLength || $size ) {
+                    $attributes = array( );
+                    if ( $maxLength ) {
+                        $attributes['maxlength'] = $maxLength;
+                    }
+                    if ( $size ) {
+                        $attributes['size'] = $size;
+                    }
+                    return $attributes;
+                }
+            } else if ( $field['type'] == CRM_Type::T_TEXT ) {
+                $rows = CRM_Array::value( 'rows', $field );
+                if ( ! isset( $rows ) ) {
+                    $rows = 2;
+                }
+                $cols = CRM_Array::value( 'cols', $field );
+                if ( ! isset( $cols ) ) {
+                    $cols = 80;
+                }
+
+                $attributes = array( );
+                $attributes['rows'] = $rows;
+                $attributes['cols'] = $cols;
+                return $attributes;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Get the size and maxLength attributes for this text field
      * (or for all text fields) in the DAO object.
      *
@@ -299,41 +342,19 @@ class CRM_DAO extends DB_DataObject {
         eval('$fields =& ' . $class . '::fields( );');
         if ( $fieldName != null ) {
             $field = CRM_Array::value( $fieldName, $fields );
-            if ( $field && $field['type'] == CRM_Type::T_STRING ) {
-                $maxLength  = CRM_Array::value( 'maxlength', $field );
-                $size       = CRM_Array::value( 'size'     , $field );
-                if ( $maxLength || $size ) {
-                    $attributes = array( );
-                    if ( $maxLength ) {
-                        $attributes['maxlength'] = $maxLength;
-                    }
-                    if ( $size ) {
-                        $attributes['size'] = $size;
-                    }
-                    return $attributes;
-                }
-            }
+            return self::makeAttribute( $field );
         } else {
-            $attributes = array( );
             foreach ($fields as $name => &$field) {
-                if ( $field && $field['type'] == CRM_Type::T_STRING ) {
-                    $maxLength  = CRM_Array::value( 'maxlength', $field );
-                    $size       = CRM_Array::value( 'size'     , $field );
-                    if ( $maxLength || $size ) {
-                        if ( $maxLength ) {
-                            $attributes[$name]['maxlength'] = $maxLength;
-                        }
-                        if ( $size ) {
-                            $attributes[$name]['size'] = $size;
-                        }
-                    }
+                $attribute = self::makeAttribue( $field );
+                $attributes = array( );
+                if ( $attribute ) {
+                    $attributes[$name] = $attribute;
                 }
             }
             if ( !empty($attributes)) {
                 return $attributes;
             }
         }
-
         return null;
     }
 
