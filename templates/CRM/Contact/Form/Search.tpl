@@ -54,6 +54,9 @@ Fetching {$qill}
      <div class="form-item">
        <span class="horizontal-position">
          {$form.task.label}{$form.task.html} &nbsp; &nbsp; {$form._qf_Search_next.html}
+	 <p>
+ 	 Hello {$form.radio_ts.label}{$form.radio_ts.html}
+	 Hello {$form.radio_ts.ts_sel.html} {$form.radio_ts.ts_all.html}
        </span>
        <span class="element-right">Select: 
 <a onclick="changeCheckboxVals('mark_x_','select'  , Search ); return false;" name="select_all"  href="#">All</a> |

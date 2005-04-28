@@ -92,6 +92,16 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $tasks = array( '' => '- actions -' ) + CRM_Contact_Task::$tasks;
         $this->add('select', 'task'   , 'Actions: '    , $tasks    );
 
+        // need to perform tasks on all or selected items ? using radio_ts(task selection) for it
+        //$radio_ts_sel = new HTML_QuickForm_radio('radio_ts', null, 'selected records only', 'ts_sel', array('checked'=>true));
+        //$radio_ts_all = new HTML_QuickForm_radio('radio_ts', null, 'all', 'ts_all');
+        //$this->addElement($radio_ts_all);
+        //$this->addElement($radio_ts_sel);
+        
+        //$this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', array('checked'=>'checked'));
+        $this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', 'checked=checked');
+        $this->addElement('radio', 'radio_ts', null, 'all', 'ts_all');
+
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
             foreach ( $rows as &$row ) {

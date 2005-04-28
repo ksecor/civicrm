@@ -103,10 +103,6 @@ function civicrm_perm()
 
 function civicrm_block($op='list', $delta='0')
 {
-    if ( arg(0) != 'civicrm' ) {
-        return;
-    }
-
     // The $op parameter determines what piece of information is being requested.
     global $user;
     if ($user->uid) {

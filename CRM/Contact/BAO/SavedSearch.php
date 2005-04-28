@@ -55,6 +55,7 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
     {
 
         $savedSearch = new CRM_Contact_DAO_SavedSearch ();
+        $savedSearch->selectAdd();
         $savedSearch->selectAdd('id, name');
         $savedSearch->find();
         while($savedSearch->fetch()) {
