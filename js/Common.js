@@ -172,10 +172,24 @@ function countSelectedCheckboxes(fldPrefix, form) {
     return fieldCount;
 }
 
-function checkStatus (fldPrefix, form) {
+/**
+ * This function is used to check if any actio is selected and also to check if any contacts are checked.
+ *
+ * @access public
+ * @param fldPrefix - common string which precedes unique checkbox ID and identifies field as
+ *                    belonging to the resultset's checkbox collection
+ * @param form - name of form that checkboxes are part of
+ * Sample usage: onClick="javascript:checkPerformAction('chk_', myForm );"
+ *
+ */
+function checkPerformAction (fldPrefix, form) {
     var cnt;
     
-    if (document.forms[form].task.selectedIndex) {
+    if (document.forms[form].task.selectedIndex ) {
+
+	if (document.forms[form].radio_ts[1].checked) {
+	    return true;
+	}
 	cnt = countSelectedCheckboxes(fldPrefix, document.forms[form]);
 	if (!cnt) {
 	    alert ("Please select the contact(s).");
