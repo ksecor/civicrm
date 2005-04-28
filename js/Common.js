@@ -171,3 +171,11 @@ function countSelectedCheckboxes(fldPrefix, form) {
     }
     return fieldCount;
 }
+
+function checkStatus (fldPrefix, form) {
+    var cnt;
+    cnt = countSelectedCheckboxes(fldPrefix, form);
+    if (!cnt) {
+	alert ("Please select the contact(s).");
+    }
+}

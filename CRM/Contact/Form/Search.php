@@ -99,8 +99,12 @@ class CRM_Contact_Form_Search extends CRM_Form {
         //$this->addElement($radio_ts_sel);
         
         //$this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', array('checked'=>'checked'));
-        $this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', 'checked=checked');
+        
+        $this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', array('checked'=>null));
+                
         $this->addElement('radio', 'radio_ts', null, 'all', 'ts_all');
+
+        //$this->createElement('radio', 'radio_ts', 'selected records only', 'ts_sel', 'checked=checked');            
 
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
@@ -121,7 +125,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
          * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
          *
          */
-        $this->add('submit', $this->getButtonName( 'next' ), 'Perform Action!', array( 'class' => 'form-submit' ) );
+        $this->add('submit', $this->getButtonName( 'next' ), 'Perform Action!', array( 'class' => 'form-submit',
+                                                                                       'onclick' => "checkStatus('mark_x', '".$this->getName()."');" ) );
     }
 
     /**
