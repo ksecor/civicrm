@@ -174,8 +174,15 @@ function countSelectedCheckboxes(fldPrefix, form) {
 
 function checkStatus (fldPrefix, form) {
     var cnt;
-    cnt = countSelectedCheckboxes(fldPrefix, form);
-    if (!cnt) {
-	alert ("Please select the contact(s).");
+    
+    if (document.forms[form].task.selectedIndex) {
+	cnt = countSelectedCheckboxes(fldPrefix, document.forms[form]);
+	if (!cnt) {
+	    alert ("Please select the contact(s).");
+	    return false;
+	}
+    } else {
+	alert ("Please select a valid action.");
+	return false;
     }
 }
