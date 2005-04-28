@@ -128,7 +128,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
          *
          */
         $this->add('submit', $this->getButtonName( 'next' ), 'Perform Action!', array( 'class' => 'form-submit',
-                                                                                       'onclick' => "return checkStatus('mark_x', '".$this->getName()."');" ) );
+                                                                                       'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."');" ) );
     }
 
     /**
