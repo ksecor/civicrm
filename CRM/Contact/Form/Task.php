@@ -104,7 +104,7 @@ class CRM_Contact_Form_Task extends CRM_Form
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
             //$session = CRM_Session::singleton( );        
-            $taskQuery = $session->get('taskQuery', CRM_Contact_Form_Search::SESSION_SCOPE_TQ);
+            $taskQuery = $session->get('tq', CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
             $dao = new CRM_DAO();
             $dao->query($taskQuery);
             while($dao->fetch()) {
