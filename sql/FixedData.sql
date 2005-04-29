@@ -351,11 +351,11 @@ INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, c
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 1, 'Employee', 'Employer', 'Employment relationship.','Individual','Organization', 1 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Volunteer', 'Volunteers', 'Volunteer relationship.','Individual','Organization', 1 );
+    VALUES( 1, 'Volunteer', 'Volunteers', 'Volunteer relationship.','Individual','Organization', 0 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Head of Household', 'Head of Household', 'Head of household.','Individual','Household', 1 );
+    VALUES( 1, 'Head of Household', 'Head of Household', 'Head of household.','Individual','Household', 0 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Household Member', 'Household Members', 'Household membership.','Individual','Household', 1 );
+    VALUES( 1, 'Household Member', 'Household Members', 'Household membership.','Individual','Household', 0 );
 
 INSERT INTO crm_category( domain_id, name, description, parent_id )
     VALUES( 1, 'Non-profit', 'Any not-for-profit organization.', NULL );
@@ -369,19 +369,18 @@ INSERT INTO crm_category( domain_id, name, description, parent_id )
     VALUES( 1, 'Volunteer', 'Active volunteers.', NULL );
 
 
-INSERT INTO crm_im_provider(name) VALUES('Yahoo');
-INSERT INTO crm_im_provider(name) VALUES('MSN');
-INSERT INTO crm_im_provider(name) VALUES('AIM');
-INSERT INTO crm_im_provider(name) VALUES('Jabber');
-INSERT INTO crm_im_provider(name) VALUES('Indiatimes');
+INSERT INTO crm_im_provider(name, is_reserved) VALUES('Yahoo', 1);
+INSERT INTO crm_im_provider(name, is_reserved) VALUES('MSN', 1);
+INSERT INTO crm_im_provider(name, is_reserved) VALUES('AIM', 1);
+INSERT INTO crm_im_provider(name, is_reserved) VALUES('Jabber', 0);
+INSERT INTO crm_im_provider(name, is_reserved) VALUES('Indiatimes', 0);
 
-INSERT INTO crm_mobile_provider (name) VALUES ('Reliance Infocom');
-INSERT INTO crm_mobile_provider (name) VALUES ('MTNL Garuda');
-INSERT INTO crm_mobile_provider (name) VALUES ('MTNL Dolphin');
-INSERT INTO crm_mobile_provider (name) VALUES ('Orange');
-INSERT INTO crm_mobile_provider (name) VALUES ('BPL Mobile');
-INSERT INTO crm_mobile_provider (name) VALUES ('Airtel');
-INSERT INTO crm_mobile_provider (name) VALUES ('Tata Indicom');
+INSERT INTO crm_mobile_provider (name, is_reserved) VALUES ('Sprint', 1);
+INSERT INTO crm_mobile_provider (name, is_reserved) VALUES ('Verizon', 1);
+INSERT INTO crm_mobile_provider (name, is_reserved) VALUES ('Cingular', 0);
+INSERT INTO crm_mobile_provider (name, is_reserved) VALUES ('Reliance Infocom', 1);
+INSERT INTO crm_mobile_provider (name, is_reserved) VALUES ('BPL Mobile', 0);
+INSERT INTO crm_mobile_provider (name, is_reserved) VALUES ('Airtel', 0);
 
 INSERT INTO crm_county (name, state_province_id) VALUES ('Alameda', 1004);
 INSERT INTO crm_county (name, state_province_id) VALUES ('Contra Costa', 1004);

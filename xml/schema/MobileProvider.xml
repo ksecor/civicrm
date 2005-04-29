@@ -20,4 +20,9 @@
        <length>64</length>
        <comment>Name of Mobile Provider.</comment>
   </field>
+  <field>
+       <name>is_reserved</name>
+       <type>boolean</type>
+       <comment>Is this location type a predefined system location?</comment>
+  </field>
 </table>

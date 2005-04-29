@@ -39,7 +39,7 @@ class CRM_Session {
      *
      * @var string
      */
-    protected $_key = 'crm';
+    protected $_key = 'CiviCRM';
 
     const USER_CONTEXT = 'userContext';
 
