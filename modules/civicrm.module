@@ -155,36 +155,42 @@ function civicrm_menu($may_cache)
                          'type'   => MENU_NORMAL_ITEM,
                          );
         
+       $items[] = array(
+                         'path'  => 'civicrm/admin/category',
+                         'title' => t('Categories'),
+                         'type'   => MENU_DEFAULT_LOCAL_TASK,
+                        'weight' => -10
+                         );
+
+       $items[] = array(
+                        'path'  => 'civicrm/admin/reltype',
+                        'title' => t('Relationship Types'),
+                        'type'   => MENU_LOCAL_TASK,
+                        'weight' => -8
+                        );
+
         $items[] = array(
                          'path'  => 'civicrm/admin/locationType',
-                         'title' => t('Location Type'),
-                         'type'   => MENU_DEFAULT_LOCAL_TASK
+                         'title' => t('Location Types'),
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => -6
+
                          );
         
         $items[] = array(
                          'path'  => 'civicrm/admin/IMProvider',
-                         'title' => t('IM Provider'),
-                         'type'   => MENU_LOCAL_TASK
+                         'title' => t('IM Services'),
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => -4
                          );
 
        $items[] = array(
                          'path'  => 'civicrm/admin/mobileProvider',
-                         'title' => t('Mobile Provider'),
-                         'type'   => MENU_LOCAL_TASK
+                         'title' => t('Mobile Providers'),
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => -2
                          );
      
-       $items[] = array(
-                        'path'  => 'civicrm/admin/reltype',
-                        'title' => t('Manage Relationship Types'),
-                        'type'   => MENU_LOCAL_TASK
-                        );
-
-       $items[] = array(
-                         'path'  => 'civicrm/admin/category',
-                         'title' => t('Category'),
-                         'type'   => MENU_LOCAL_TASK
-                         );
-
         $items[] = array(
                          'path'  => 'civicrm',
                          'title' => t('CiviCRM'),
@@ -216,7 +222,7 @@ function civicrm_menu($may_cache)
                          );
         $items[] = array(
                          'path'  => civicrm_hack_path( 'civicrm/contact/search/saved/browse', 'reset=1' ),
-                         'title' => t('Browse Saved Search'),
+                         'title' => t('Saved Searches'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
@@ -319,7 +325,7 @@ function civicrm_menu($may_cache)
 
         $items[] = array(
                          'path'   => 'civicrm/extproperty/group',
-                         'title'  => t('Browse Extended Properties'),
+                         'title'  => t('Custom Properties'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 3
@@ -327,7 +333,7 @@ function civicrm_menu($may_cache)
   
         $items[] = array(
                          'path'   => 'civicrm/extproperty/group/field',
-                         'title'  => t('Browse Extended Property Fields'),
+                         'title'  => t('Browse Custom Fields'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_CALLBACK,
                          'weight' => 3
