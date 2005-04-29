@@ -11,7 +11,7 @@
     </div>
     <div class="form-item">
         <!-- <label for="quick_search">Name:</label> -->
-        <input type="text" name="sort_name" class="form-text required" value="-full or partial-" onFocus="clearFldVal(this);" />
+        <input type="text" name="sort_name" class="form-text required" value="-full or partial name-" onFocus="clearFldVal(this);" />
     </div>
 
     <div class="form-item">

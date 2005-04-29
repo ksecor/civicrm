@@ -26,37 +26,39 @@
 </fieldset>
 {* END Browse Criteria section *}
 
-{if $qill}
-<p>
-Fetching {$qill}
-<p>
-{/if}
-
 {if $rowsEmpty}
     {* No matches for submitted search request.*}
     <div class="messages status">
-        <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-        No matches were found for your browse criteria.
-        <ul>
-        <li>check your spelling
-        <li>try a different spelling or use fewer letters</li>
-        <li>if you are searching within a Group or Category, try 'any group' or 'any category'</li>
-        <li>add a <a href="{crmURL p='civicrm/contact/addI' q='c_type=Individual&reset=1'}">New Individual</a>,
-        <a href="{crmURL p='civicrm/contact/addO' q='c_type=Organization&reset=1'}">Organization</a> or
-        <a href="{crmURL p='civicrm/contact/addH' q='c_type=Household&reset=1'}">Household</a></li>
-        </ul>
+      <dl>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
+        <dd>
+            No matching contacts found. You can:
+            <ul>
+            <li>check your spelling
+            <li>try a different spelling or use fewer letters</li>
+            <li>if you are searching within a Group or Category, try 'any group' or 'any category'</li>
+            <li>add a <a href="{crmURL p='civicrm/contact/addI' q='c_type=Individual&reset=1'}">New Individual</a>,
+            <a href="{crmURL p='civicrm/contact/addO' q='c_type=Organization&reset=1'}">Organization</a> or
+            <a href="{crmURL p='civicrm/contact/addH' q='c_type=Household&reset=1'}">Household</a></li>
+            </ul>
+        </dd>
+      </dl>
     </div>
 {/if}
 
 {if $rows}
     {* Some matches for search request. Begin Actions/Results section *}
     <fieldset>
+    
+     <div id="search-status">
+      Found {$pager->_totalItems} contacts.
+     </div>
+
      <div class="form-item">
-       <span class="horizontal-position">
-         {$form.task.label}{$form.task.html} &nbsp; &nbsp; {$form._qf_Search_next.html}
-	 <p>
-	 {* Hello{$form.radio_ts.label} {$form.radio_ts.html}*}
-	 {$form.radio_ts.ts_sel.html} {$form.radio_ts.ts_all.html} {$pager->_totalItems} records.
+       <span>
+         {$form.task.html} &nbsp; &nbsp; {$form._qf_Search_next.html}
+  	     <br />
+	     {$form.radio_ts.ts_sel.html} &nbsp; {$form.radio_ts.ts_all.html} {$pager->_totalItems} records
        </span>
        <span class="element-right">Select: 
 <a onclick="changeCheckboxVals('mark_x_','select'  , Search ); return false;" name="select_all"  href="#">All</a> |

@@ -41,17 +41,32 @@ div.spacer {
   height: 5px;
   }
 
-div.status {
-  margin: 1em 0em 1em;
+#crm-container div.status {
+  margin: .5em; 0 .5em;
   background-color: #ffff99;
-  padding: .9em;
+  padding: .25em .5em .25em .5em;
   border: 1px solid #abc;
 }
 
+#crm-container #feedback-request {
+  margin-top: 3em;
+  background-color: #ffcccc;
+}
+
+#crm-container div.status ul {
+  margin: 0;
+}
+
+#crm-container div.status dt {
+  float: left;
+  clear: left;
+  width: auto;
+}
+
 #crm-container div.form-item {
+  margin: 0 0 5px 0px;
+  padding: 5px 0px 5px 0px;
   clear: both;
-  padding-top: 5px;
-  padding-bottom: 5px;
 }
 
 /* Use this rule for Box-Grey or other themes with very large default label fonts... */
@@ -197,6 +212,17 @@ div.status {
 #crm-container .element-right {
   position: absolute;
   right: 35px;
+}
+
+#crm-container #search-status {
+ padding: 0.25em;
+ background-color: #ccc;
+ font-size: .95em;
+ font-weight: bold;
+}
+
+#crm-container #search-status ul {
+ margin: 0;
 }
 
 div.crm-pager {

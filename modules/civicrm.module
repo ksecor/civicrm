@@ -201,14 +201,14 @@ function civicrm_menu($may_cache)
 
         $items[] = array(
                          'path'  => 'civicrm/contact/search',
-                         'title' => t('Browse Contacts'),
+                         'title' => t('Contacts'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          );
         
         $items[] = array(
                          'path'  => civicrm_hack_path( 'civicrm/contact/search/basic', 'reset=1' ),
-                         'title' => t('Browse Contacts'),
+                         'title' => t('Find Contacts'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => 0
@@ -222,7 +222,7 @@ function civicrm_menu($may_cache)
                          );
         $items[] = array(
                          'path'  => civicrm_hack_path( 'civicrm/contact/search/saved/browse', 'reset=1' ),
-                         'title' => t('Browse Saved Searches'),
+                         'title' => t('Saved Searches'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
@@ -318,7 +318,7 @@ function civicrm_menu($may_cache)
 
         $items[] = array(
                          'path'   => 'civicrm/extproperty/group',
-                         'title'  => t('Custom Properties'),
+                         'title'  => t('Custom Data'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 3
