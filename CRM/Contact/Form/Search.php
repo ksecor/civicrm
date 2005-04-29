@@ -172,6 +172,13 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $controller->moveFromSessionToTemplate( );
     }
 
+    /**
+     * this method is called for processing a submitted search form
+     *
+     * @param none
+     * @return void
+     * @access public
+     */
     function postProcess() 
     {
         // if we are in reset state, i.e. just entered the form, dont display any result

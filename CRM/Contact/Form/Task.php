@@ -73,24 +73,24 @@ class CRM_Contact_Form_Task extends CRM_Form
     /**
      * build all the data structures needed to build the form
      *
+     * @param none
      * @return void
      * @access public
      */
     function preProcess( ) 
     {
-        CRM_Error::le_method();
-
-
+        // get the submitted values of the search form
+        // we'll need to get fv from either search or adv search in the future
         $values = $this->controller->exportValues( 'Search' );
 
-        CRM_Error::debug_var('values', $values);
-        
         $this->_task = $values['task'];
         $this->assign( 'taskName', CRM_Contact_Task::$tasks[$this->_task] );
 
         $this->_rows = array( );
 
+        // radio_ts = radio button for task selection - could be either selected or All search results
         if($values['radio_ts'] == 'ts_sel') {
+            // need to perform action on only selected contacts
             foreach ( $values as $name => $value ) {
                 if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
                     $id = substr( $name, self::CB_PREFIX_LEN );
@@ -99,11 +99,10 @@ class CRM_Contact_Form_Task extends CRM_Form
                 }
             }
         } else {
+            // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
             $session = CRM_Session::singleton( );        
             $taskQuery = $session->get('taskQuery', CRM_Contact_Form_Search::SESSION_SCOPE_TQ);
-            CRM_Error::debug_var('taskQuery', $taskQuery);            
-
             $dao = new CRM_DAO();
             $dao->query($taskQuery);
             while($dao->fetch()) {
@@ -112,8 +111,6 @@ class CRM_Contact_Form_Task extends CRM_Form
             }
         }
         $this->assign_by_ref( 'rows', $this->_rows );
-
-        CRM_Error::debug_var('rows', $this->_rows);
     }
 
     /**
