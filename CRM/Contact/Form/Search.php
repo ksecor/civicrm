@@ -239,6 +239,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
                 return array( 'task' => 'Please select a valid action.' );
             }
 
+            if(CRM_ARRAY::value('task', $fields) == CRM_Contact_Task::SAVE_SEARCH) {
+                // dont need to check for selection of contacts for saving search
+                return true;
+            }
+
             // if the all contact option is selected, ignore the contact checkbox validation
             if ($fields['radio_ts'] == 'ts_all') { 
                 return true;
