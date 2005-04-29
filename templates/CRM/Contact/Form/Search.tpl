@@ -41,9 +41,9 @@ Fetching {$qill}
         <li>check your spelling
         <li>try a different spelling or use fewer letters</li>
         <li>if you are searching within a Group or Category, try 'any group' or 'any category'</li>
-        <li>add a <a href="crm/contact/addI?c_type=Individual&reset=1">New Individual</a>,
-        <a href="crm/contact/addO?c_type=Organization&reset=1">Organization</a> or
-        <a href="crm/contact/addH?c_type=Household&reset=1">Household</a></li>
+        <li>add a <a href="{crmURL p='civicrm/contact/addI' q='c_type=Individual&reset=1'}">New Individual</a>,
+        <a href="{crmURL p='civicrm/contact/addO' q='c_type=Organization&reset=1'}">Organization</a> or
+        <a href="{crmURL p='civicrm/contact/addH' q='c_type=Household&reset=1'}">Household</a></li>
         </ul>
     </div>
 {/if}

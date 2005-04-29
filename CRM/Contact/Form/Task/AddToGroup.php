@@ -70,9 +70,9 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
 
         // add select for groups
         $group = array( '' => ' - any group - ') + CRM_PseudoConstant::$group;
-        $this->add('select', 'group', 'Select Group', $group, true);
+        $this->add('select', 'group_id', 'Select Group', $group, true);
 
-        $this->add('select', 'status', 'Status of the Contact', CRM_SelectValues::$groupContactStatus, true);
+        //$this->add('select', 'status', 'Status of the Contact', CRM_SelectValues::$groupContactStatus, true);
 
         $this->addDefaultButtons( 'Add To Group' );
     }
@@ -84,23 +84,9 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
-        $groupId    = $this->controller->exportValue( 'AddToGroup', 'group'  );
-        $status     = $this->controller->exportValue( 'AddToGroup', 'status' );
-
-        // get contactID's of formValues
-
-        // get contactID's of group members
-
-        // create an intersection of 2 arrays of contactID
-
-        // create an array of duplicate ID's with same status
-
-        // create an array of duplicate ID's with conflicting status
-
-        // display results.
-
-        //$contactIds = array_keys( $this->_rows );
-        CRM_Contact_BAO_GroupContact::addContactsToGroup( $groupId, $contactIds, $status );
+        $groupId    = $this->controller->exportValue( 'AddToGroup', 'group_id'  );
+        
+        CRM_Contact_BAO_GroupContact::addContactsToGroup( $groupId );
 
     }//end of function
 

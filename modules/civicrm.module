@@ -459,6 +459,7 @@ function civicrm_invoke()
     }
   
     drupal_goto( 'civicrm/contact/search', 'reset=1' );
+    // drupal_goto( 'civicrm/contact/search' );
 }
 
 function civicrm_contact_invoke() 
@@ -537,7 +538,7 @@ function civicrm_form( $mode )
 {
     $wrapper = new CRM_Wrapper();
     $wrapper->run('CRM_Contact_Form_Edit', 'Contact Page', $mode,
-                  CRM_System::url( 'civicrm/contact/add', 'reset=1' ) );
+                  CRM_System::url( 'civicrm/contact/addI', 'c_type=Individual&reset=1' ) );
     return $wrapper->getContent();
 }
 

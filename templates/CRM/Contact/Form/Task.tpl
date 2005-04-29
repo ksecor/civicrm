@@ -1,4 +1,8 @@
 <div class="form-item">
+Total selected contacts are {$totalSelectedContact}.
+</div>
+{if $rows } 
+<div class="form-item">
 <table width="30%">
   <tr class="columnheader">
     <th>Name</th>
@@ -10,3 +14,4 @@
 {/foreach}
 </table>
 </div>
+{/if}

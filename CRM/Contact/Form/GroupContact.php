@@ -117,10 +117,10 @@ class CRM_Contact_Form_GroupContact extends CRM_Form
     {
         $aGroup = $aGroupContact = array ();
         // get the list of all the groups
-        $aGroup = $this->getGroupList();
+        $aGroup = CRM_Contact_BAO_GroupContact::getGroupList();
 
         // get the list of groups for the contact
-        $aGroupContact = $this->getGroupList(true);
+        $aGroupContact = CRM_Contact_BAO_GroupContact::getGroupList($this->_contactId);
         
         if (is_array($aGroupContact)) {
             $aGrouplist = array_diff ($aGroup,$aGroupContact);
@@ -155,59 +155,26 @@ class CRM_Contact_Form_GroupContact extends CRM_Form
     {
         // store the submitted values in an array
         $params = $this->exportValues();
-        //        print_r($params);
         
-        if ($params['group_id'] == 0) {
-            return false;
-        }
+        $params['contact_id'] = $this->_contactId;
+        $params['status'] = "In";
+        $params['in_method'] = "Admin";
+        $params['in_date'] = date("Ymd");
         
-        $groupContact = new CRM_Contact_DAO_GroupContact();
-        
-        $groupContact->contact_id = $this->_contactId;
-        $groupContact->group_id = $params['group_id'];
-        $groupContact->status = "In";
-        $groupContact->in_method = "Admin";
-        $groupContact->in_date = date("Ymd");
-        $groupContact->save();
+        CRM_Contact_BAO_GroupContact::add($params);
+
+//         $groupContact = new CRM_Contact_DAO_GroupContact();        
+//         $groupContact->contact_id = $this->_contactId;
+//         $groupContact->group_id = $params['group_id'];
+//         $groupContact->status = "In";
+//         $groupContact->in_method = "Admin";
+//         $groupContact->in_date = date("Ymd");
+//         $groupContact->save();
         
         CRM_Session::setStatus( 'Your Group(s) record has been saved.' );
     }//end of function
 
 
-    /**
-     * This function is to get list of all the groups
-     *
-     * @param  boolean $lngStatus true give the list of groups for contact. false gives all the groups
-     *
-     * @access public
-     * @return None
-     *
-     */
-    function getGroupList($lngStatus = false) {
-        
-        $group = new CRM_Contact_DAO_Group( );
-
-        $str_select = $str_from = $str_where = '';
-        
-        $str_select = "SELECT crm_group.id, crm_group.title ";
-        $str_from = " FROM crm_group, crm_group_contact ";
-        $str_where = " WHERE crm_group.group_type='static'";
-        if ($lngStatus) {
-            $str_where .= " AND crm_group.id = crm_group_contact.group_id 
-                       AND crm_group_contact.contact_id = ".$this->_contactId;
-        }
-
-        $str_orderby = " ORDER BY crm_group.name";
-        $str_sql = $str_select.$str_from.$str_where.$str_orderby;
-
-        $group->query($str_sql);
-
-        while($group->fetch()) {
-            $values[$group->id] = $group->title;
-        }
-        
-        return $values;
-    }
     
 
 }

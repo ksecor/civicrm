@@ -79,6 +79,8 @@ class CRM_Contact_Form_Task extends CRM_Form
      */
     function preProcess( ) 
     {
+        $session = CRM_Session::singleton( );        
+        
         // get the submitted values of the search form
         // we'll need to get fv from either search or adv search in the future
         $values = $this->controller->exportValues( 'Search' );
@@ -101,7 +103,7 @@ class CRM_Contact_Form_Task extends CRM_Form
         } else {
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
-            $session = CRM_Session::singleton( );        
+            //$session = CRM_Session::singleton( );        
             $taskQuery = $session->get('taskQuery', CRM_Contact_Form_Search::SESSION_SCOPE_TQ);
             $dao = new CRM_DAO();
             $dao->query($taskQuery);
@@ -110,7 +112,11 @@ class CRM_Contact_Form_Task extends CRM_Form
                 $this->_rows[$dao->contact_id]['displayName'] = $dao->sort_name;
             }
         }
-        $this->assign_by_ref( 'rows', $this->_rows );
+        // $this->assign_by_ref( 'rows', $this->_rows );
+        $session->set('selectedContacts', $this->_rows);
+        
+        $this->assign_by_ref( 'totalSelectedContact', count($this->_rows) );
+        
     }
 
     /**
