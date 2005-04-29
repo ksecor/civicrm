@@ -4,17 +4,12 @@
 
 <fieldset>
 <legend>
-Choose Group you would like to add the below contacts to.
+Choose Tag you would like to add the below contacts to.
 </legend>
 
 <div class="form-item">
-{$form.group_id.label} {$form.group_id.html}
+{$form.category_id.label} {$form.category_id.html}
 </div>
-{*
-<div class="form-item">
-{$form.status.label} {$form.status.html}
-</div>
-*}
 
 {include file="CRM/Contact/Form/Task.tpl"}
 

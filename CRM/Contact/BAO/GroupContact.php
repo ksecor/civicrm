@@ -119,11 +119,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
     }
 
     /**
-     * Given an array of contact ids and a group id, add all the contacts
-     * to the group with the specified status
+     * Given an array of contact ids, add all the contacts to the group 
      *
      * @param int    $lngGroupId    the id of the group
-     * @param string $status     the status under which the ids will be added
      *
      * @return void
      * @access public

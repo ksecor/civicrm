@@ -133,7 +133,6 @@ class CRM_Tag_Form_Tag extends CRM_Form
                                          'name'      => 'Cancel' ),
                                  )
                            );
-        
     }
 
        
@@ -144,9 +143,9 @@ class CRM_Tag_Form_Tag extends CRM_Form
      */
     public function postProcess() 
     {
-        $params = $aEntityCategory = $aCategory = array();
+        $data = $aEntityCategory = $aCategory = $params = array();
         // store the submitted values in an array
-        $params = $this->exportValues();
+        $data = $this->exportValues();
 
         // get categories for the contact id
         $aEntityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
@@ -156,30 +155,36 @@ class CRM_Tag_Form_Tag extends CRM_Form
 
 //         print_r($_POST['categoryList']);
 //         echo "<br>==<br>";
-//         print_r($params['categoryList']);
+//         print_r($data['categoryList']);
 //         echo "<br>============<br>";
 //         print_r($aEntityCategory);
 
         // array contains the posted values
         // exportvalues is not used because its give value 1 of the checkbox which were checked by default, 
         // even after unchecking them before submitting them
-        //  $aContactCategory = $params['categoryList'];
+        //  $aContactCategory = $data['categoryList'];
         $aContactCategory = $_POST['categoryList'];
 
         // check which values has to be inserted/deleted for contact
         foreach ($aCategory as $lngKey => $var_value) {
-            $objName = $entityCategory."_".$lngKey;
-            $objName = new CRM_Contact_DAO_EntityCategory();
-            $objName->entity_id = $this->_contactId;
-            $objName->entity_table = 'crm_contact';
-            $objName->category_id = $lngKey;
+//             $objName = $entityCategory."_".$lngKey;
+//             $objName = new CRM_Contact_DAO_EntityCategory();
+//             $objName->entity_id = $this->_contactId;
+//             $objName->entity_table = 'crm_contact';
+//             $objName->category_id = $lngKey;
+            
+            $params['entity_id'] = $this->_contactId;
+            $params['entity_table'] = 'crm_contact';
+            $params['category_id'] = $lngKey;
             
             if (array_key_exists($lngKey, $aContactCategory) && !array_key_exists($lngKey, $aEntityCategory) ) {
                 // insert a new record
-                $objName->save();
+                //$objName->save();
+                CRM_Contact_BAO_EntityCategory::add($params);
             } else if (!array_key_exists($lngKey, $aContactCategory) && array_key_exists($lngKey, $aEntityCategory) ) {
                 // delete a record for existing contact
-                $objName->delete();
+                //$objName->delete();
+                CRM_Contact_BAO_EntityCategory::del($params);
             }
             
         }

@@ -31,66 +31,66 @@
  *
  */
 
-class CRM_Contact_BAO_Category extends CRM_Contact_DAO_Category {
+/**
+ * This class provides the functionality to delete a group of
+ * contacts. This class provides functionality for the actual
+ * addition of contacts to groups.
+ */
+class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
 
     /**
      * class constructor
+     *
      */
-    function __construct( ) {
-        parent::__construct( );
+    function __construct( $name, $state, $mode = self::MODE_NONE ) {
+        parent::__construct($name, $state, $mode);
     }
 
     /**
-     * Takes a bunch of params that are needed to match certain criteria and
-     * retrieves the relevant objects. Typically the valid params are only
-     * contact_id. We'll tweak this function to be more full featured over a period
-     * of time. This is the inverse function of create. It also stores all the retrieved
-     * values in the default array
+     * build all the data structures needed to build the form
      *
-     * @param array $params   (reference ) an assoc array of name/value pairs
-     * @param array $defaults (reference ) an assoc array to hold the flattened values
-     *
-     * @return object CRM_Contact_BAO_Category object
+     * @return void
      * @access public
-     * @static
      */
-    static function retrieve( &$params, &$defaults ) {
-        $category = new CRM_Contact_DAO_Category( );
-        $category->copyValues( $params );
-        if ( $category->find( true ) ) {
-            $category->storeValues( $defaults );
-            return $category;
-        }
-        return null;
+    function preProcess( ) {
+        /*
+         * initialize the task and row fields
+         */
+        parent::preProcess( );
     }
 
     /**
-     * Function to delete the category 
+     * Build the form
      *
-     * @param int $id category id
-     *
-     * @return null
      * @access public
-     * @static
-     *
+     * @return void
      */
-    static function del ( $id ) {
-        // delete all crm_entity_category records with the selected category id
-        $entityCategory = new CRM_Contact_DAO_EntityCategory( );
-        $entityCategory->category_id = $id;
-        $entityCategory->find();
-        while ( $entityCategory->fetch() ) {
-            $entityCategory->delete();
-        }
-        
-        // delete from category table
-        $category = new CRM_Contact_DAO_Category( );
-        $category->id = $id;
-        $category->delete();
+    function buildQuickForm( ) {
+        CRM_PseudoConstant::populateCategory();
 
-        
+        // add select for tag
+        $tag = array( '' => ' - any tag - ') + CRM_PseudoConstant::$category;
+        $this->add('select', 'category_id', 'Select Tag', $tag, true);
+
+        //$this->add('select', 'status', 'Status of the Contact', CRM_SelectValues::$groupContactStatus, true);
+
+        $this->addDefaultButtons( 'Add To Tag' );
     }
-    
+
+    /**
+     * process the form after the input has been submitted and validated
+     *
+     * @access public
+     * @return None
+     */
+    public function postProcess() {
+        $categoryId    = $this->controller->exportValue( 'AddToTag', 'category_id'  );
+        
+        CRM_Contact_BAO_EntityCategory::addContactsToTag($categoryId );
+
+    }//end of function
+
+
 }
 
 ?>

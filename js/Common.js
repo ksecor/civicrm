@@ -190,6 +190,9 @@ function checkPerformAction (fldPrefix, form) {
 	if (document.forms[form].radio_ts[1].checked) {
 	    return true;
 	}
+	if (document.forms[form].task.value == 128) {
+	    return true;
+	}
 	cnt = countSelectedCheckboxes(fldPrefix, document.forms[form]);
 	if (!cnt) {
 	    alert ("Please select the contact(s).");
