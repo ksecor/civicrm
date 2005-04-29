@@ -44,16 +44,18 @@ class CRM_Contact_Task {
         ADD_TO_ORGANIZATION =   8,
         DELETE_CONTACTS     =  16,
         PRINT_CONTACTS      =  32,
-        EXPORT_CONTACTS     =  64;
+        EXPORT_CONTACTS     =  64,
+        SAVE_SEARCH         = 128;
 
     static $tasks = array(
                            1  => 'Add Contacts to a Group',
                            2  => 'Tag Contacts (assign category)',
-                           4  => 'Add to Household',
-                           8  => 'Add to Organization',
+                           /*4  => 'Add to Household',
+                           8  => 'Add to Organization',*/
                            16 => 'Delete',
                            32 => 'Print',
                            64 => 'Export',
+                           128 => 'Save Search',
                           );
 }
 
