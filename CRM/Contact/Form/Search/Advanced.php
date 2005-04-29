@@ -178,29 +178,21 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * @return array the default array reference
      */
     function &setDefaultValues() {
-        CRM_Error::le_method();
         $defaults = array();
         $session = CRM_Session::singleton( );        
         $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
 
-        $properties = array('contact_type', 'group', 'category');
-
-        CRM_Error::debug_var('searchScope', $searchScope);
-
         $defaults['sort_name'] = $searchScope['fv']['sort_name'];
         switch ($searchScope['type']) {
         case CRM_Form::MODE_BASIC:
-            foreach ($properties as $v) {
+            foreach (parent::$csv as $v) {
                 if ($searchScope['fv'][$v] != 'any') {
                     $defaults['cb_'.$v] = array($searchScope['fv'][$v] => 1);
                 }
             }
             break;
         case CRM_Form::MODE_ADVANCED:
-            foreach ($properties as $v) {
-                CRM_Error::debug_log_message("processing $v ...");
-                //CRM_Error::debug_var('v = ', $searchScope['fv']['cb_'.$v]);
-                CRM_Error::debug_log_message("$v = " . $searchScope['fv']['cb_'.$v]);
+            foreach (parent::$csv as $v) {
                 if ($searchScope['fv']['cb_'.$v]) {
                     $defaults['cb_'.$v] = $searchScope['fv']['cb_'.$v];
                 }
@@ -297,9 +289,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         // important - we need to store the form values in the session in case we want to save it.
         $session->set("fv", serialize($fv), CRM_Session::SCOPE_AS);
 
-        // set up csv
-        $this->_setCSV($fv);
-
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
         $controller->run();
@@ -315,28 +304,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $ssBAO->form_values = serialize($fv);
             $ssBAO->insert();
         }
-    }
-
-
-    /**
-     * set the CSV common Search Values.
-     *
-     * Common Search Values (CSV) consists of an array of 4 fields
-     * which is stored in the session with a scope commonSearchValues
-     *
-     * @param array reference
-     *
-     * @return none 
-     * @access public
-     */
-    private function _setCSV(&$fv) {
-        $session = CRM_Session::singleton( );
-
-        // store the user submitted values in the common search values scope
-        $session->set("name", $fv['sort_name'], CRM_Session::SCOPE_CSV);        
-        $session->set("contact_type", $fv['cb_contact_type'] ? key($fv['cb_contact_type']) : "", CRM_Session::SCOPE_CSV);
-        $session->set("group", $fv['cb_group'] ? key($fv['cb_group']) : "", CRM_Session::SCOPE_CSV);
-        $session->set("category", $fv['cb_category'] ? key($fv['cb_category']) : "", CRM_Session::SCOPE_CSV);
     }
 
     protected function populatePseudoConstant() {

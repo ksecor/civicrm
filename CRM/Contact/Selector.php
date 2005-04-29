@@ -314,31 +314,34 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
         switch ($type) {
         case CRM_Form::MODE_BASIC:
-            $qill .= " all";
+            $qill .= "<ul>";
+
+            // contact type
+            $qill .= "<li>Contact Type -";
             if ($fv['contact_type'] && ($fv['contact_type'] != 'any')) {
                 $qill .= " " . $fv['contact_type'] . "s";
             } else {
-                $qill .= " contacts";
+                $qill .= " Any";
             }
+            $qill .= "</li>";
 
             // check for group restriction
             if ($fv['group'] && ($fv['group'] != 'any')) {
                 CRM_PseudoConstant::populateGroup();
-                $qill .= " belonging to the group \"" . CRM_PseudoConstant::$group[$fv['group']] . "\" and";
+                $qill .= " <li>Belonging to the group - \"" . CRM_PseudoConstant::$group[$fv['group']] . "\"</li>";
             }
             
             // check for category restriction
             if ($fv['category'] && ($fv['category'] != 'any')) {
                 CRM_PseudoConstant::populateCategory();
-                $qill .= " categorized as \"" . CRM_PseudoConstant::$category[$fv['category']] . "\" and";
+                $qill .= " <li>Categorized as - \"" . CRM_PseudoConstant::$category[$fv['category']] . "\"</li>";
             }
             
             // check for last name, as of now only working with sort name
             if ($fv['sort_name']) {
-                $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($fv['sort_name'])) ."%'";
-                $qill .= " whose name is like \"" . $fv['sort_name'] . "\" and";
+                $qill .= " <li>Name like - \"" . $fv['sort_name'] . "\"</li>";
             }
-            $qill = preg_replace($patternAnd, $replacement, $qill);
+            $qill .= " </ul>";
             break;
 
         case CRM_Form::MODE_ADVANCED:

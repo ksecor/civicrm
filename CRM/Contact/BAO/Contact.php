@@ -151,7 +151,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $str_select = "SELECT crm_contact.id as contact_id, crm_contact.sort_name as sort_name";
             $taskQuery = $str_select . $str_from . $str_where . $str_order;
             $session = CRM_Session::singleton( );        
-            $session->set('taskQuery', $taskQuery, CRM_Contact_Form_Search::SESSION_SCOPE_TQ);
+            $session->set('tq', $taskQuery, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
         }
         return $this;
     }

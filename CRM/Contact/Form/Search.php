@@ -46,10 +46,14 @@ require_once 'CRM/Contact/Selector.php';
  */
 class CRM_Contact_Form_Search extends CRM_Form {
 
-    const 
-        SESSION_SCOPE_CSV      = "commonSearchValues",
-        SESSION_SCOPE_TQ       = "taskQuery";
+    const SESSION_SCOPE_SEARCH   = 'search';
 
+    /*
+     * csv - common search values
+     * @static
+     * @access protected
+     */
+    static $csv = array('contact_type', 'group', 'category');
 
     /**
      * Class construtor
@@ -95,19 +99,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $this->add('select', 'task'   , 'Actions: '    , $tasks    );
 
         // need to perform tasks on all or selected items ? using radio_ts(task selection) for it
-        //$radio_ts_sel = new HTML_QuickForm_radio('radio_ts', null, 'selected records only', 'ts_sel', array('checked'=>true));
-        //$radio_ts_all = new HTML_QuickForm_radio('radio_ts', null, 'all', 'ts_all');
-        //$this->addElement($radio_ts_all);
-        //$this->addElement($radio_ts_sel);
-        
-        //$this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', array('checked'=>'checked'));
-        
         $this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', array('checked'=>null));
-                
         $this->addElement('radio', 'radio_ts', null, 'all', 'ts_all');
 
-        //$this->createElement('radio', 'radio_ts', 'selected records only', 'ts_sel', 'checked=checked');            
-
+        // ??
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
             foreach ( $rows as &$row ) {
@@ -139,9 +134,27 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function &setDefaultValues() {
         $defaults = array();
-        $session = CRM_Session::singleton( );        
-        $session->getVars($defaults, CRM_Session::SCOPE_CSV);
 
+        // get the session variables for search scope
+        $session = CRM_Session::singleton( );        
+        $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
+
+        // sort_name remains same across basic/advanced search
+        $defaults['sort_name'] = $searchScope['fv']['sort_name'];
+        
+        // defaults for the rest depend on type of search in the session
+        switch ($searchScope['type']) {
+        case CRM_Form::MODE_BASIC:
+            foreach (self::$csv as $v) {
+                $defaults[$v] = $searchScope['fv'][$v];
+            }
+            break;
+        case CRM_Form::MODE_ADVANCED:
+            foreach (self::$csv as $v) {
+                $defaults[$v] = $searchScope['fv']['cb_'.$v] ? key($searchScope['fv']['cb_'.$v]) : 'any';
+            }
+            break;
+        }
         return $defaults;
     }
 
@@ -186,6 +199,20 @@ class CRM_Contact_Form_Search extends CRM_Form {
             return;
         }
 
+        // get user submitted values
+        $fv = $this->controller->exportValues($this->_name);
+
+        /* after every search form is submitted we save the following in the session
+         *     - type of search 'type'
+         *     - submitted form values 'fv'
+         *     - task query 'tq'
+         *     - QILL 'qill'
+         */
+
+        $session = CRM_Session::singleton();
+        $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);
+        $session->set('fv', $fv, self::SESSION_SCOPE_SEARCH);
+
         // check actionName and if next, then do not repeat a search, since we are going to the next page
         list($pageName, $action) = $this->controller->getActionName();
 
@@ -193,29 +220,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
             return;
         }
 
-        // get user submitted values
-        $fv = $this->controller->exportValues($this->_name);
-
-        // set the scope for csv
-        $this->_setCSV($fv);
-        
         // create the selector, controller and run - store results in session
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
         $controller->run();
     }
-
-
-
-    private function _setCSV(&$fv) {
-        // store the user submitted values in the common search values scope
-        $session = CRM_Session::singleton( );
-        $session->set("name", $fv['sort_name'], CRM_Session::SCOPE_CSV);        
-        $session->set("contact_type", ($fv['contact_type']=='any') ? "" : $fv['contact_type'], CRM_Session::SCOPE_CSV);
-        $session->set("group", ($fv['group']=='any') ? "" : $fv['group'], CRM_Session::SCOPE_CSV);
-        $session->set("category", ($fv['category']=='any') ? "" : $fv['category'], CRM_Session::SCOPE_CSV);
-    }
-
 
 
     /**
@@ -249,6 +258,5 @@ class CRM_Contact_Form_Search extends CRM_Form {
         CRM_PseudoConstant::populateGroup();
         CRM_PseudoConstant::populateCategory();
     }
-
 }
 ?>

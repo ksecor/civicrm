@@ -70,15 +70,19 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
      */
     function buildQuickForm()
     {
-        // get the qill (for this i need the type of search - advanced or basic)
+        // get the qill 
+        // get the session variables for search scope
+        $session = CRM_Session::singleton( );        
+        $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
+        $qill = CRM_Contact_Selector::getQILL($searchScope['fv'], $searchScope['type']);
 
-        // add select for groups
-        $group = array( '' => ' - any group - ') + CRM_PseudoConstant::$group;
-        $this->add('select', 'group', 'Select Group', $group, true);
+        // need to save qill for the smarty template
+        $template = CRM_Core_Smarty::singleton( );
+        $template->assign('qill', $qill);
 
-        $this->add('select', 'status', 'Status of the Contact', CRM_SelectValues::$groupContactStatus, true);
-
-        $this->addDefaultButtons( 'Add To Group' );
+        $this->addElement('text', 'ss_name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
+        $this->addElement('text', 'ss_description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
+        $this->addDefaultButtons( 'Save Search' );
     }
 
     /**
@@ -87,28 +91,24 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
      * @access public
      * @return None
      */
-    public function postProcess() {
-        $groupId    = $this->controller->exportValue( 'AddToGroup', 'group'  );
-        $status     = $this->controller->exportValue( 'AddToGroup', 'status' );
+    public function postProcess()
+    {
 
-        // get contactID's of formValues
+        $session = CRM_Session::singleton( );        
+        $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
 
-        // get contactID's of group members
+        // saved search form values
+        $fv = $this->controller->exportValues($this->_name);
 
-        // create an intersection of 2 arrays of contactID
-
-        // create an array of duplicate ID's with same status
-
-        // create an array of duplicate ID's with conflicting status
-
-        // display results.
-
-        //$contactIds = array_keys( $this->_rows );
-        CRM_Contact_BAO_GroupContact::addContactsToGroup( $groupId, $contactIds, $status );
-
-    }//end of function
-
-
+        // save the search
+        $ssBAO = new CRM_Contact_BAO_SavedSearch();
+        $ssBAO->domain_id = 1;   // hack for now
+        $ssBAO->name = $fv['ss_name'];
+        $ssBAO->description = $fv['ss_description'];
+        $ssBAO->search_type = $searchScope['type'];
+        $ssBAO->form_values = serialize($searchScope['fv']);
+        $ssBAO->insert();
+        CRM_Session::setStatus( 'Your search has been saved as "' . $fv['name'] . '"' );
+    }
 }
-
 ?>
