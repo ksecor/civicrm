@@ -31,53 +31,38 @@
  *
  */
 
-require_once 'CRM/Core/Controller.php';
-require_once 'CRM/Core/Session.php';
+require_once 'CRM/Core/Page.php';
 
 /**
- * This class is used by the Search functionality.
- *
- *  - the search controller is used for building/processing multiform
- *    searches.
- *
- * Typically the first form will display the search criteria and it's results
- *
- * The second form is used to process search results with the asscociated actions
+ * This is a dummy class that does nothing at the moment.
+ * the template is used primarily for displaying result page
+ * of tasks performed on contacts. Contacts are searched/selected
+ * and then subjected to Tasks/Actions.
  *
  */
 
-class CRM_Contact_Controller_Search extends CRM_Controller {
-
+class CRM_Contact_Page_Task extends CRM_Page {
     /**
      * class constructor
-     */
-    function __construct( $name, $mode = CRM_Form::MODE_NONE, $modal = true ) {
-        parent::__construct( $name, $modal );
-
-        $this->_stateMachine = new CRM_Contact_StateMachine_Search( $this, $mode );
-
-        // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $mode );
-
-        // add all the actions
-        $config = CRM_Config::singleton( );
-        $this->addActions( );
-    }
-
-    /**
-     * function to destroy session scope for common search values (CSV);
      *
-     * @access public
-     * @return void
+     * @param string $name  name of the page
+     * @param string $title title of the page
+     * @param int    $mode  mode of the page
+     *
+     * @return CRM_Page
      */
-    public function reset()
-    {
-        $session = CRM_Session::singleton( );
-        $session->resetScope(CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-        parent::reset();
+    function __construct( $name, $title = null, $mode = null ) {
+        parent::__construct($name, $title, $mode);
     }
 
+    function run() {
+        return parent::run();
+    }
+
+    function getTitle()
+    {
+        return "Task Results";
+    }
 
 }
-
 ?>

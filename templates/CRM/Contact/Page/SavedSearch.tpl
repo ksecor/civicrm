@@ -1,5 +1,3 @@
-{*debug*} 
-
 <div class="form-item">
     <div class="data-group label">List of Saved Searches.</div> 
     
@@ -27,4 +25,3 @@
     {/strip}
 
 </div>
-<a href="{crmURL p='civicrm/contact/search/advanced' q='nss=1&reset=1'}">New Saved Search...</a>

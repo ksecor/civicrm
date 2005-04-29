@@ -80,7 +80,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $template = CRM_Core_Smarty::singleton( );
         $template->assign('qill', $qill);
 
-        $this->addElement('text', 'ss_name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
+        $this->add('text', 'ss_name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name'), true);
         $this->addElement('text', 'ss_description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
         $this->addDefaultButtons( 'Save Search' );
     }
@@ -108,7 +108,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $ssBAO->search_type = $searchScope['type'];
         $ssBAO->form_values = serialize($searchScope['fv']);
         $ssBAO->insert();
-        CRM_Session::setStatus( 'Your search has been saved as "' . $fv['name'] . '"' );
+        CRM_Session::setStatus( 'Your search has been saved as "' . $fv['ss_name'] . '"' );
     }
 }
 ?>
