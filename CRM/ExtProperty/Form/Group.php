@@ -81,9 +81,8 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',
+                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'reset',
-                                         'name'      => 'Reset'),
                                  array ( 'type'      => 'cancel',
                                          'name'      => 'Cancel' ),
                                  )

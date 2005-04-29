@@ -285,8 +285,8 @@ class CRM_Form extends HTML_QuickForm_Page {
      *
      */
     function addButtons( $params ) {
-    
         $prevnext = array( );
+        $spacing = array( );
         foreach ( $params as $button ) {
             if ( $button['type'] === 'reset' ) {
                 $prevnext[] =& $this->createElement( $button['type'], 'reset', $button['name'], array( 'class' => 'form-submit' ) );
@@ -296,8 +296,11 @@ class CRM_Form extends HTML_QuickForm_Page {
             if ( CRM_Array::value( 'isDefault', $button ) ) {
                 $this->setDefaultAction( $button['type'] );
             }
-       
-            $this->addGroup( $prevnext, 'buttons', '', self::ATTR_SPACING, false );
+            
+            // hack - addGroup uses an array to express variable spacing, read from the last element
+            $spacing[] = CRM_Array::value('spacing', $button, self::ATTR_SPACING);
+            
+            $this->addGroup( $prevnext, 'buttons', '', $spacing, false );
         }
     }
 
