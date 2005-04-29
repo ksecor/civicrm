@@ -170,6 +170,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     }
 
 
+
     /**
      * Set the default form values
      *
@@ -177,40 +178,35 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * @return array the default array reference
      */
     function &setDefaultValues() {
+        CRM_Error::le_method();
         $defaults = array();
+        $session = CRM_Session::singleton( );        
+        $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
 
-        // since we have a ssid we need to set defaults differently
-        if ($ssid = CRM_Request::retrieve('ssid')) {
-            // ssid is set hence we need to set defaults using form values of SSID
-            $ssDAO = new CRM_Contact_DAO_SavedSearch();
-            $ssDAO->id = $ssid;
-            $ssDAO->selectAdd();
-            $ssDAO->selectAdd('id, form_values');
-            if($ssDAO->find(1)) {
-                // make sure u unserialize - since it's stored in serialized form
-                $defaults = unserialize($ssDAO->form_values);
-            }
-        } else {
-            $csv = array();
-            $session = CRM_Session::singleton( );        
-            $session->getVars($csv, CRM_Session::SCOPE_CSV);
-            // name
-            $defaults['sort_name'] = $csv['name'];
-            // contact_type
-            if($csv['contact_type']) {
-                $defaults['cb_contact_type'] = array($csv['contact_type'] => 1);
-            }
-            // group
-            if($csv['group']) {
-                $defaults['cb_group'] = array($csv['group'] => 1);
-            }
+        $properties = array('contact_type', 'group', 'category');
 
-            // category
-            if($csv['category']) {
-                $defaults['cb_category'] = array($csv['category'] => 1);
+        CRM_Error::debug_var('searchScope', $searchScope);
+
+        $defaults['sort_name'] = $searchScope['fv']['sort_name'];
+        switch ($searchScope['type']) {
+        case CRM_Form::MODE_BASIC:
+            foreach ($properties as $v) {
+                if ($searchScope['fv'][$v] != 'any') {
+                    $defaults['cb_'.$v] = array($searchScope['fv'][$v] => 1);
+                }
             }
+            break;
+        case CRM_Form::MODE_ADVANCED:
+            foreach ($properties as $v) {
+                CRM_Error::debug_log_message("processing $v ...");
+                //CRM_Error::debug_var('v = ', $searchScope['fv']['cb_'.$v]);
+                CRM_Error::debug_log_message("$v = " . $searchScope['fv']['cb_'.$v]);
+                if ($searchScope['fv']['cb_'.$v]) {
+                    $defaults['cb_'.$v] = $searchScope['fv']['cb_'.$v];
+                }
+            }
+            break;
         }
-
         return $defaults;
     }
 
@@ -264,6 +260,20 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         $fv = array();
+
+        // get user submitted values
+        $fv = $this->controller->exportValues($this->_name);
+
+        /* after every search form is submitted we save the following in the session
+         *     - type of search 'type'
+         *     - submitted form values 'fv'
+         *     - task query 'tq'
+         *     - QILL 'qill'
+         */
+
+        $session = CRM_Session::singleton();
+        $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);
+        $session->set('fv', $fv, self::SESSION_SCOPE_SEARCH);
 
         // get form values either from saved search or from user submission
         if ($ssid = CRM_Request::retrieve('ssid')) {

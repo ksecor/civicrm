@@ -34,6 +34,18 @@
 require_once 'CRM/Core/Controller.php';
 require_once 'CRM/Core/Session.php';
 
+/**
+ * This class is used by the Search functionality.
+ *
+ *  - the search controller is used for building/processing multiform
+ *    searches.
+ *
+ * Typically the first form will display the search criteria and it's results
+ *
+ * The second form is used to process search results with the asscociated actions
+ *
+ */
+
 class CRM_Contact_Controller_Search extends CRM_Controller {
 
     /**

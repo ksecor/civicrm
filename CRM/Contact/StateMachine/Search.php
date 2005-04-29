@@ -82,6 +82,10 @@ class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
             $task = 'CRM_Contact_Form_Task_AddToHousehold';
             break;
 
+        case CRM_Contact_Task::SAVE_SEARCH:
+            $task = 'CRM_Contact_Form_Task_SaveSearch';
+            break;
+
         default:
             $task = 'CRM_Contact_Form_Task';
             break;
