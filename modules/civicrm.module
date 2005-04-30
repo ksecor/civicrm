@@ -159,7 +159,7 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm/admin/category',
                          'title' => t('Categories'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
-                        'weight' => -10
+                         'weight' => -10
                          );
 
        $items[] = array(
@@ -177,6 +177,21 @@ function civicrm_menu($may_cache)
 
                          );
         
+        $items[] = array(
+                         'path'   => 'civicrm/admin/custom/group',
+                         'title'  => t('Custom Data'),
+                         'qs'     => 'reset=1',
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => -5
+                         );
+  
+        $items[] = array(
+                         'path'   => 'civicrm/admin/custom/group/field',
+                         'title'  => t('Browse Custom Fields'),
+                         'qs'     => 'reset=1',
+                         'type'   => MENU_CALLBACK,
+                         'weight' => 3
+                         );
         $items[] = array(
                          'path'  => 'civicrm/admin/IMProvider',
                          'title' => t('IM Services'),
@@ -203,7 +218,7 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm/contact/search',
                          'title' => t('Contacts'),
                          'qs'    => 'reset=1',
-                         'type'   => MENU_NORMAL_ITEM,
+                         'type'   => MENU_NORMAL_ITEM
                          );
         
         $items[] = array(
@@ -315,23 +330,7 @@ function civicrm_menu($may_cache)
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 2
                          );
-
-        $items[] = array(
-                         'path'   => 'civicrm/admin/custom/group',
-                         'title'  => t('Custom Data'),
-                         'qs'     => 'reset=1',
-                         'type'   => MENU_NORMAL_ITEM,
-                         'weight' => 3
-                         );
-  
-        $items[] = array(
-                         'path'   => 'civicrm/admin/custom/group/field',
-                         'title'  => t('Browse Custom Fields'),
-                         'qs'     => 'reset=1',
-                         'type'   => MENU_CALLBACK,
-                         'weight' => 3
-                         );
-  
+ 
      }
 
    return $items;
@@ -406,7 +405,8 @@ function civicrm_admin_invoke()
                 }
             }
         } else {
-            $view = new CRM_Admin_Page_LocationType( 'View Location Types' );
+            // Categories is default local task
+            $view = new CRM_Admin_Page_Category( 'View Categories' );
         }
         
         if ( $view ) {

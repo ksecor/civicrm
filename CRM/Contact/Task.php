@@ -52,10 +52,10 @@ class CRM_Contact_Task {
                            2  => 'Tag Contacts (assign category)',
                            /*4  => 'Add to Household',
                            8  => 'Add to Organization',*/
-                           16 => 'Delete',
-                           32 => 'Print',
-                           64 => 'Export',
-                           128 => 'Save Search',
+                           16 => 'Delete Contacts',
+                           32 => 'Print Contact List',
+                           64 => 'Export Contacts',
+                           128 => 'New Saved Search',
                           );
 }
 

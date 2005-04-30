@@ -3,6 +3,7 @@
 {include file="CRM/formCommon.tpl"}
 
 {* Begin Browse Criteria section *}
+{* $context indicates where we are searching, values = "search, advanced, group" *}
 <fieldset>
  <div class="form-item">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
