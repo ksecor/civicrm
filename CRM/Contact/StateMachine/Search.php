@@ -51,17 +51,11 @@ class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
         switch ($task) {
         case 'CRM_Contact_Form_Task_AddToGroup':
         case 'CRM_Contact_Form_Task_AddToTag':
-        case 'CRM_Contact_Form_Task_AddToHousehold':
-        case 'CRM_Contact_Form_Task_AddToOrganization':
         case 'CRM_Contact_Form_Task_SaveSearch':
-            CRM_Error::debug_log_message('adding landing page for status/results');
             array_push($this->_pages, 'CRM_Contact_Form_Task_Result');
             break;
         }
 
-        CRM_Error::debug_var('pages', $this->_pages);
-        CRM_Error::debug_var('task', $task);
-        
         $this->addSequentialPages( $this->_pages, $mode );
     }
 

@@ -82,7 +82,7 @@ class CRM_Session {
      * @param  string   Index for session variables
      * @return void
      */
-    function __construct( $key = 'crm' ) { 
+    function __construct( $key = 'CiviCRM' ) { 
         $this->_key     = $key;
         $this->_session =& $_SESSION;
 
@@ -98,7 +98,7 @@ class CRM_Session {
      * @static
      *
      */
-    static function singleton($key = 'crm') {
+    static function singleton($key = 'CiviCRM') {
         if (self::$_singleton === null ) {
             self::$_singleton = new CRM_Session($key);
         }

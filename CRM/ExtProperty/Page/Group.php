@@ -43,32 +43,32 @@ class CRM_ExtProperty_Page_Group extends CRM_Page_Basic {
     static $_links = array(
                            CRM_Action::VIEW    => array(
                                                         'name'  => 'View',
-                                                        'url'   => 'civicrm/extproperty/group',
+                                                        'url'   => 'civicrm/admin/custom/group',
                                                         'qs'    => 'action=view&id=%%id%%',
-                                                        'title' => 'View Extended Property Group',
+                                                        'title' => 'View Custom Group',
                                                         ),
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
-                                                        'url'   => 'civicrm/extproperty/group',
+                                                        'url'   => 'civicrm/admin/custom/group',
                                                         'qs'    => 'action=update&id=%%id%%',
-                                                        'title' => 'Edit Extended Property Group'),
+                                                        'title' => 'Edit Custom Group'),
                            CRM_Action::DISABLE => array(
                                                         'name'  => 'Disable',
-                                                        'url'   => 'civicrm/extproperty/group',
+                                                        'url'   => 'civicrm/admin/custom/group',
                                                         'qs'    => 'action=disable&id=%%id%%',
-                                                        'title' => 'Disable Extended Property Group',
+                                                        'title' => 'Disable Custom Group',
                                                         ),
                            CRM_Action::ENABLE  => array(
                                                         'name'  => 'Enable',
-                                                        'url'   => 'civicrm/extproperty/group',
+                                                        'url'   => 'civicrm/admin/custom/group',
                                                         'qs'    => 'action=enable&id=%%id%%',
-                                                        'title' => 'Enable Extended Property Group',
+                                                        'title' => 'Enable Custom Group',
                                                         ),
                            CRM_Action::BROWSE  => array(
                                                         'name'  => 'List',
-                                                        'url'   => 'civicrm/extproperty/group/field',
+                                                        'url'   => 'civicrm/admin/custom/group/field',
                                                         'qs'    => 'reset=1&action=browse&gid=%%id%%',
-                                                        'title' => 'List Extended Property Group Fields',
+                                                        'title' => 'List Custom Group Fields',
                                                         ),
                            );
 
@@ -86,7 +86,7 @@ class CRM_ExtProperty_Page_Group extends CRM_Page_Basic {
     }
 
     function formName( ) {
-        return 'Extended Property Groups';
+        return 'Custom Groups';
     }
 
     function UserContext( ) {

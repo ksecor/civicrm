@@ -46,7 +46,24 @@ require_once 'CRM/Contact/Selector.php';
  */
 class CRM_Contact_Form_Search extends CRM_Form {
 
-    const SESSION_SCOPE_SEARCH   = 'search';
+    const
+        SESSION_SCOPE_SEARCH   = 'search',
+        CONTEXT_SEARCH         =  0,
+        CONTEXT_GROUP          =  1;
+
+    /**
+     * the groupId retrieved from the GET vars
+     *
+     * @var int
+     */
+    protected $_groupId;
+
+    /**
+     * Are we forced to run a search
+     *
+     * @var int
+     */
+    protected $_force;
 
     /*
      * csv - common search values
@@ -102,7 +119,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', array('checked'=>null));
         $this->addElement('radio', 'radio_ts', null, 'all', 'ts_all');
 
-        // ??
+        /*
+         * add form checkboxes for each row. This is needed out here to conform to QF protocol
+         * of all elements being declared in builQuickForm
+         */
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
             foreach ( $rows as &$row ) {
@@ -149,6 +169,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
                 $defaults[$v] = $searchScope['fv'][$v];
             }
             break;
+            
         case CRM_Form::MODE_ADVANCED:
             foreach (self::$csv as $v) {
                 $defaults[$v] = $searchScope['fv']['cb_'.$v] ? key($searchScope['fv']['cb_'.$v]) : 'any';
@@ -175,11 +196,16 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @access public
      */
     function preProcess( ) {
+        $this->_force   = CRM_Request::retrieve( 'force' );
+        $this->_reset   = CRM_Request::retrieve( 'reset' );
+        $this->_groupId = CRM_Request::retrieve( 'gid'   );
+        
+
         $fv = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
 
-        if ( $controller->hasChanged( ) ) {
+        if ( $controller->hasChanged( $this->_reset ) || $this->_force ) {
             $this->postProcess( );
         }
         $controller->moveFromSessionToTemplate( );
@@ -194,11 +220,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function postProcess() 
     {
-        // if we are in reset state, i.e. just entered the form, dont display any result
-        if($_GET['reset'] == 1) {
-            return;
-        }
-
         // get user submitted values
         $fv = $this->controller->exportValues($this->_name);
 
@@ -208,6 +229,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
          *     - task query 'tq'
          *     - QILL 'qill'
          */
+        
+        // hack: if this is a forced search, stuff values into FV
+        if ( $this->_force ) {
+            $fv['group'] = $this->_groupId;
+        }
 
         $session = CRM_Session::singleton();
         $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);

@@ -50,8 +50,8 @@ class CRM_Action {
      */
     const
         ADD           = CRM_Form::MODE_ADD,
-        VIEW          = CRM_Form::MODE_VIEW,
         UPDATE        = CRM_Form::MODE_UPDATE,
+        VIEW          = CRM_Form::MODE_VIEW,
         DELETE        = CRM_Form::MODE_DELETE,
         BROWSE        =    16,
         ENABLE        =    32,

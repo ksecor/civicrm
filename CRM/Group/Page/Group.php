@@ -40,25 +40,22 @@ class CRM_Group_Page_Group extends CRM_Page_Basic {
      * @var array
      */
     static $_links = array(
-                           CRM_Action::View  => array(
-                                                        'name'  => 'Members',
-                                                        'url'   => 'civicrm/group',
-                                                        'qs'    => 'action=view&id=%%id%%',
-                                                        'title' => 'Members'),
-                           /*
+                           CRM_Action::VIEW    => array(
+                                                        'name'  => 'Show Group Members',
+                                                        'url'   => 'civicrm/group/search',
+                                                        'qs'    => 'reset=1&force=1&gid=%%id%%',
+                                                        'title' => 'Group Members',
+                                                        ),
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
-                                                        'url'   => 'civicrm/group',
+                                                        'url'   => 'civicrm/group/edit',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Group'),
-                          
-                           CRM_Action::DELETE => array(
+                           CRM_Action::DELETE  => array(
                                                         'name'  => 'Delete',
-                                                        'url'   => 'civicrm/group',
+                                                        'url'   => 'civicrm/group/delete',
                                                         'qs'    => 'action=delete&id=%%id%%',
-                                                        'extra'    => 'onclick = "return confirm(\'Are you sure you want to delete this group.\');"',
-                                                        'title' => 'Delete Group',
-                                                      ), */
+                                                        'title' => 'Delete Group'),
                            );
 
     function getBAOName( ) {

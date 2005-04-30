@@ -210,7 +210,22 @@ class CRM_Selector_Controller {
 
     }
 
-    function hasChanged( ) {
+    /**
+     * have the GET vars changed, i.e. pageId or sortId that forces us to recompute the search values
+     *
+     * @param int $reset are we being reset
+     *
+     * @return boolean   if the GET params are different from the session params
+     * @access public
+     */
+    function hasChanged( $reset ) {
+        /**
+         * if we are in reset state, i.e the store is cleaned out, we return false
+         */
+        if ( $reset ) {
+            return false;
+        }
+
         /**
         echo "Current Sort ID: " . $this->_sort->getCurrentSortID ( ) . '_' . $this->_sort->getCurrentSortDirection ( ) . "<p>";
         echo "Stored Sort ID: " . $this->_store->get( CRM_Sort::SORT_ID  ) . '_' . $this->_store->get( CRM_Sort::SORT_DIRECTION ) . "<p>";
