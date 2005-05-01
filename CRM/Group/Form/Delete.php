@@ -36,13 +36,44 @@ require_once 'CRM/Core/Form.php';
 /**
  * This class is to build the form for adding Group
  */
-class CRM_Group_Form_Group extends CRM_Form {
+class CRM_Group_Form_Delete extends CRM_Form {
+
+    /**
+     * the group id, used when editing a group
+     *
+     * @var int
+     */
+    protected $_id;
    
     /**
      * class constructor
+     *
+     * @param string $name        Name of the form.
+     * @param string $state       The state object associated with this form
+     * @param int     $mode       The mode of the form
+     *
+     * @return CRM_Group_Form_Delete
+     * @access public
      */
     function __construct($name, $state, $mode = self::MODE_NONE) {
         parent::__construct($name, $state, $mode);
+    }
+
+    /**
+     * set up variables to build the form
+     *
+     * @return void
+     * @acess protected
+     */
+    function preProcess( ) {
+        $this->_id    = $this->get( 'id' );
+
+        $defaults = array( );
+        $params   = array( );
+        CRM_Contact_BAO_Group::retrieve( $params, $defaults );
+
+        $this->assign( 'name' , $defaults['title'] );
+        $this->assign( 'count', 120 );
     }
 
     /**
@@ -53,22 +84,11 @@ class CRM_Group_Form_Group extends CRM_Form {
      */
     public function buildQuickForm( ) {
 
-        $this->add('text', 'title'       , 'Name: ' ,
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
-        $this->addRule( 'title', 'Please enter the name.', 'required' );
-
-        $this->add('text', 'description', 'Description: ', 
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'description' ) );
-
-        $this->addElement('select', 'group_type', 'Type: ', CRM_SelectValues::$groupType);
-
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Continue',
+                                         'name'      => 'Delete Group',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'reset',
-                                         'name'      => 'Reset'),
-                                 array ( 'type'      => 'cancel',
+                                 array ( 'type'       => 'cancel',
                                          'name'      => 'Cancel' ),
                                  )
                            );
@@ -81,17 +101,8 @@ class CRM_Group_Form_Group extends CRM_Form {
      * @access public
      */
     public function postProcess( ) {
-        
-    }
-
-    /**
-     * Return a descriptive name for the page, used in wizard header
-     *
-     * @return string
-     * @access public
-     */
-    public function getTitle( ) {
-        return 'New Group';
+        // need to add functionality here!!
+        CRM_Session::setStatus( 'The Group "' . $group->name . '" has been deleted' );        
     }
 
 }

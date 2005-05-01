@@ -48,18 +48,18 @@ class CRM_Group_Page_Group extends CRM_Page_Basic {
                                                         ),
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
-                                                        'url'   => 'civicrm/group/edit',
-                                                        'qs'    => 'action=update&id=%%id%%',
+                                                        'url'   => 'civicrm/group',
+                                                        'qs'    => 'reset=1&action=update&id=%%id%%',
                                                         'title' => 'Edit Group'),
                            CRM_Action::DELETE  => array(
                                                         'name'  => 'Delete',
-                                                        'url'   => 'civicrm/group/delete',
-                                                        'qs'    => 'action=delete&id=%%id%%',
+                                                        'url'   => 'civicrm/group',
+                                                        'qs'    => 'reset=1&action=delete&id=%%id%%',
                                                         'title' => 'Delete Group'),
                            );
 
     function getBAOName( ) {
-        return 'CRM_BAO_Group';
+        return 'CRM_Contact_BAO_Group';
     }
 
     function &links( ) {
@@ -67,11 +67,19 @@ class CRM_Group_Page_Group extends CRM_Page_Basic {
     }
 
     function formClass( ) {
-        return 'CRM_Group_Form_GroupMember';
+        return 'CRM_Group_Form_Edit';
     }
 
     function formName( ) {
-        return 'GroupMember';
+        return 'Edit Group';
+    }
+
+    function deleteClass( ) {
+        return 'CRM_Group_Form_Delete';
+    }
+
+    function deleteName( ) {
+        return 'Delete Group';
     }
 
     function UserContext( ) {

@@ -1,9 +1,9 @@
 {* this template is used for adding/editing a group  *}
 <form {$form.attributes}>
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}New{else}Edit{/if} Group</legend>
-        <div>{$form.title.label}{$form.title.html}</div>
-        <div>{$form.description.label}{$form.description.html}</div>
+<fieldset><legend>Delete Group</legend>
+Are your sure you want to delete the group {$name}. This group currently has {$count} members
+in it.
         <div class="horizontal-position">
         <span class="two-col1">
             <span class="fields">{$form.buttons.html}</span>

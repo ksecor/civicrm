@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
  +----------------------------------------------------------------------+
@@ -24,7 +24,6 @@
 
 /**
  *
- *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo 01/15/2005
@@ -35,19 +34,17 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * This class generates form components for Location Type
- * 
+ * This class is to build the form for adding Group
  */
-class CRM_Admin_Form_LocationType extends CRM_Form
-{
-    
+class CRM_Group_Form_Edit extends CRM_Form {
+
     /**
-     * The location type id, used when editing location type
+     * the group id, used when editing a group
      *
      * @var int
      */
     protected $_id;
-
+   
     /**
      * class constructor
      *
@@ -55,7 +52,7 @@ class CRM_Admin_Form_LocationType extends CRM_Form
      * @param string $state       The state object associated with this form
      * @param int     $mode       The mode of the form
      *
-     * @return CRM_Admin_Form_LocationType
+     * @return CRM_Group_Form_Edit
      * @access public
      */
     function __construct($name, $state, $mode = self::MODE_NONE) {
@@ -75,7 +72,7 @@ class CRM_Admin_Form_LocationType extends CRM_Form
     /**
      * This function sets the default values for the form. LocationType that in edit/view mode
      * the default values are retrieved from the database
-     * 
+     *
      * @access public
      * @return None
      */
@@ -85,26 +82,27 @@ class CRM_Admin_Form_LocationType extends CRM_Form
 
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-            CRM_Contact_BAO_LocationType::retrieve( $params, $defaults );
+            CRM_Contact_BAO_Group::retrieve( $params, $defaults );
         }
-        
+
         return $defaults;
     }
 
     /**
-     * Function to build the form
+     * Function to actually build the form
      *
      * @return None
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->add('text', 'name'       , 'Name'       ,
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
-        $this->addRule( 'name', 'Please enter a valid name.', 'required' );
 
-        $this->add('text', 'description', 'Description', 
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
-        
+        $this->add('text', 'title'       , 'Name: ' ,
+                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
+        $this->addRule( 'title', 'Please enter the name.', 'required' );
+
+        $this->add('text', 'description', 'Description: ', 
+                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
+
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',
@@ -113,38 +111,33 @@ class CRM_Admin_Form_LocationType extends CRM_Form
                                          'name'      => 'Cancel' ),
                                  )
                            );
-        
     }
 
-       
     /**
-     * Function to process the form
+     * Process the form when submitted
      *
+     * @return void
      * @access public
-     * @return None
      */
-    public function postProcess() 
-    {
+    public function postProcess( ) {
         // store the submitted values in an array
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
-        $locationType               = new CRM_Contact_DAO_LocationType( );
-        $locationType->domain_id    = 1;
-        $locationType->name         = $params['name'];
-        $locationType->description  = $params['description'];
+        $group               = new CRM_Contact_DAO_Group( );
+        $group->domain_id    = 1;
+        $group->name         = $params['title'];
+        $group->title        = $params['title'];
+        $group->description  = $params['description'];
 
         if ($this->_mode & self::MODE_UPDATE ) {
-            $locationType->id = $this->_id;
-        }else {
-            $locationType->is_active    = 1;        
+            $group->id = $this->_id;
         }
-        
-        $locationType->save( );
 
-        CRM_Session::setStatus( 'The Location Type ' . $locationType->name . ' has been saved.' );
-    }//end of function
+        $group->save( );
 
+        CRM_Session::setStatus( 'The Group "' . $group->name . '" has been saved' );        
+    }
 
 }
 

@@ -2,6 +2,7 @@
 <div id="group">
 <p>
 <div class="form-item">
+{if $action eq 16} {* browse *}
    {strip}
    <table>
    <tr class="columnheader">
@@ -20,13 +21,21 @@
    {/foreach}
    </table>
    {/strip}
+{/if} {* browse action *}
 
-   {if $action ne 1 and $action ne 2}
+{if $action eq 1 or $action eq 2}
+   {include file="CRM/Group/Form/Edit.tpl"}
+{/if}
+{if $action eq 8}
+   {include file="CRM/Group/Form/Delete.tpl"}
+{/if}
+
+{if $action ne 1 and $action ne 2}
     <br/>
     <div class="action-link">
-        <a href="{crmURL p='civicrm/group/edit'}">New Group</a>
+        <a href="{crmURL p='civicrm/group' q='reset=1&action=add'}">New Group</a>
     </div>
-   {/if}
+{/if} {* action ne add or edit *}
 </div>
 </p>
 </div>

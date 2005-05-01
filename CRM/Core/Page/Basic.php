@@ -122,6 +122,8 @@ abstract class CRM_Page_Basic extends CRM_Page {
 
         if ( $action & (CRM_Action::VIEW | CRM_Action::ADD | CRM_Action::UPDATE) ) {
             $this->edit($action, $id );
+        } else if ( $action & CRM_Action::DELETE ) {
+            $this->delete($action, $id );
         } else if ( $action & CRM_Action::DISABLE ) {
             eval( $this->getBAOName( ) . "::setIsActive( $id, 0 );" );
         } else if ( $action & CRM_Action::ENABLE ) {
@@ -175,6 +177,24 @@ abstract class CRM_Page_Basic extends CRM_Page {
         $session = CRM_Session::singleton();
         $session->pushUserContext( CRM_System::url( $this->userContext( ), $this->userContextParams( ) ) );
         
+        $controller->reset( );
+        if ( $id ) {
+            $controller->set( 'id'   , $id );
+        }
+        $this->addValues( $controller );
+        $controller->process( );
+        $controller->run( );
+    }
+
+
+    function delete( $id = null )
+    {
+        $controller = new CRM_Controller_Simple( $this->deleteClass( ), $this->deleteName( ), CRM_Form::MODE_DELETE );
+
+        // set the userContext stack
+        $session = CRM_Session::singleton();
+        $session->pushUserContext( CRM_System::url( $this->userContext( ), $this->userContextParams( ) ) );
+
         $controller->reset( );
         if ( $id ) {
             $controller->set( 'id'   , $id );
