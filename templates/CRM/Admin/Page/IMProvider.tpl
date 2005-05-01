@@ -12,7 +12,7 @@
 	<th></th>
        </tr>
        {foreach from=$rows item=row}
-         <tr class="{cycle values="odd-row,even-row"}">
+         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
 	    <td> {$row.name}</td>	
             <td><a href="{crmURL p='admin/contact/IMProvider' q="id=`$row.id`&action=update"}">Edit</a></td>	
          </tr>

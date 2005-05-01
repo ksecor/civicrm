@@ -65,7 +65,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
     }
 
     /**
-     * Function to delete the group 
+     * Function to delete the group and all the object that connect to
+     * this group. Incredibly destructive
      *
      * @param int $id group id
      *
@@ -74,24 +75,36 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @static
      *
      */
-    static function del ( $id ) {
-        /*
+    static function discard ( $id ) {
         // delete all crm_group_contact records with the selected group id
         $groupContact = new CRM_Contact_DAO_GroupContact( );
         $groupContact->group_id = $id;
-        $groupContact->find();
-        while ( $groupContact->fetch() ) {
-            $groupContact->delete();
-        }
+        $groupContact->delete();
 
         // delete from group table
         $group = new CRM_Contact_DAO_Group( );
         $group->id = $id;
         $group->delete();
-        */
-        
     }
-    
+
+    /**
+     * Get the count of a members in a group with the specific status
+     *
+     * @param int $id      group id
+     * @param enum $status status of members in group
+     *
+     * @return int count of members in the group with above status
+     * @access public
+     */
+    static function memberCount( $id, $status = 'In' ) {
+        $groupContact = new CRM_Contact_DAO_GroupContact( );
+        $groupContact->group_id = $id;
+        if ( isset( $status ) ) {
+            $groupContact->status   = $status;
+        }
+        return $groupContact->count( );
+    }
+
     /**
      * Get the list of member for a group id
      *

@@ -39,12 +39,19 @@ require_once 'CRM/Core/Form.php';
 class CRM_Group_Form_Delete extends CRM_Form {
 
     /**
-     * the group id, used when editing a group
+     * the group id
      *
      * @var int
      */
     protected $_id;
-   
+
+    /**
+     * The title of the group being deleted
+     *
+     * @var string
+     */
+    protected $_title;
+
     /**
      * class constructor
      *
@@ -72,8 +79,9 @@ class CRM_Group_Form_Delete extends CRM_Form {
         $params   = array( );
         CRM_Contact_BAO_Group::retrieve( $params, $defaults );
 
-        $this->assign( 'name' , $defaults['title'] );
-        $this->assign( 'count', 120 );
+        $this->_title = $defaults['title'];
+        $this->assign( 'name' , $this->_title );
+        $this->assign( 'count', CRM_Contact_BAO_Group::memberCount( $this->_id ) );
     }
 
     /**
@@ -101,10 +109,9 @@ class CRM_Group_Form_Delete extends CRM_Form {
      * @access public
      */
     public function postProcess( ) {
-        // need to add functionality here!!
-        CRM_Session::setStatus( 'The Group "' . $group->name . '" has been deleted' );        
+        CRM_Contact_BAO_Group::discard( $this->_id );
+        CRM_Session::setStatus( 'The Group "' . $this->_title . '" has been deleted' );        
     }
-
 }
 
 ?>

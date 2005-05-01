@@ -12,7 +12,7 @@
 	<th></th>
        </tr>
        {foreach from=$rows item=lType}
-         <tr class="{cycle values="odd-row,even-row"}">
+         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
 	    <td> {$lType.name}
 	    </td>	
             <td>

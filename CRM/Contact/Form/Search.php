@@ -200,13 +200,17 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $this->_reset   = CRM_Request::retrieve( 'reset' );
         $this->_groupId = CRM_Request::retrieve( 'gid'   );
         
-
         $fv = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
-
         if ( $controller->hasChanged( $this->_reset ) || $this->_force ) {
             $this->postProcess( );
+            /*
+             * We need to do this, since a few values might have changed in postProcess which
+             * might have affected the initial construction of the constructor, specifically count
+             * kinda hacking, elegant solution coming soon
+             */
+            $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
         }
         $controller->moveFromSessionToTemplate( );
     }

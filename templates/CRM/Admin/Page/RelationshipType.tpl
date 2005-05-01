@@ -15,7 +15,7 @@
 	<th></th>
        </tr>
        {foreach from=$rows item=row}
-         <tr class="{cycle values="odd-row,even-row"}">
+         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
 	    <td> {$row.name_a_b} </td>	
 	    <td> {$row.name_b_a} </td>	
 	    <td> {$row.contact_type_a} </td>	

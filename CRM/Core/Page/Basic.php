@@ -123,7 +123,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
         if ( $action & (CRM_Action::VIEW | CRM_Action::ADD | CRM_Action::UPDATE) ) {
             $this->edit($action, $id );
         } else if ( $action & CRM_Action::DELETE ) {
-            $this->delete($action, $id );
+            $this->delete($id );
         } else if ( $action & CRM_Action::DISABLE ) {
             eval( $this->getBAOName( ) . "::setIsActive( $id, 0 );" );
         } else if ( $action & CRM_Action::ENABLE ) {
@@ -157,16 +157,40 @@ abstract class CRM_Page_Basic extends CRM_Page {
         while ( $object->fetch( ) ) {
             $values[$object->id] = array( );
             $object->storeValues( $values[$object->id] );
-            if ( isset( $object->is_active ) ) {
-                if ( $object->is_active ) {
-                    $newAction = $action + CRM_Action::DISABLE;
-                } else {
-                    $newAction = $action + CRM_Action::ENABLE;
-                }
-            }
-            $values[$object->id]['action'] = CRM_Action::formLink( $links, $newAction, array( 'id' => $object->id ) );
+            $newAction = self::action( $object, $action, $values[$object->id], $links );
         }
         $this->assign( 'rows', $values );
+    }
+
+    /**
+     * Given an object, get the actions that can be associated with this
+     * object. Check the is_active and is_required flags to display valid
+     * actions
+     *
+     * @param CRM_DAO $object the object being considered
+     * @param int     $action the base set of actions
+     * @param array   $values the array of values that we send to the template
+     * @param array   $links  the array of links
+     *
+     * @return void
+     * @access private
+     */
+    function action( $object, $action, &$values, &$links ) {
+        $values['class'] = '';
+        if ( array_key_exists( 'is_reserved', $object ) && $object->is_reserved ) {
+            $newAction = 0;
+            $values['action'] = '';
+            $values['class'] = 'reserved';
+        } else if ( array_key_exists( 'is_active', $object ) ) {
+            if ( $object->is_active ) {
+                $newAction = $action + CRM_Action::DISABLE;
+            } else {
+                $newAction = $action + CRM_Action::ENABLE;
+            }
+            $values['action'] = CRM_Action::formLink( $links, $newAction, array( 'id' => $object->id ) );
+        } else {
+            $values['action'] = CRM_Action::formLink( $links, $action, array( 'id' => $object->id ) );
+        }
     }
 
     function edit( $mode, $id = null ) 
