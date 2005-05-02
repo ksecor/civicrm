@@ -114,7 +114,7 @@ class CRM_Contact_Form_Task extends CRM_Form
                 $this->_rows[$dao->contact_id]['displayName'] = $dao->sort_name;
             }
         }
-        $this->assign_by_ref( 'rows', $this->_rows );
+        //$this->assign_by_ref( 'rows', $this->_rows );
         $session->set('selectedContacts', $this->_rows);
         
         $this->assign_by_ref( 'totalSelectedContact', count($this->_rows) );
