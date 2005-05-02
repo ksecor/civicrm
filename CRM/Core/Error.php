@@ -131,10 +131,10 @@ class CRM_Error extends PEAR_ErrorStack {
         $template->assign_by_ref('error', $error);
         
         $template->assign( 'tplFile', "CRM/" . CRM_Error::ERROR_TEMPLATE); 
-        $content = $template->fetch( 'CRM/index.tpl' );
-        CRM_Error::debug( 'error', $error );
+        $content  = $template->fetch( 'CRM/error.tpl' );
+        $content .= CRM_Error::debug( 'error', $error, false );
 
-        return CRM_System::theme( 'page', $content );
+        echo CRM_System::theme( 'page', $content );
         exit(1);
     }
 

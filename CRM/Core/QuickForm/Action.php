@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
  +----------------------------------------------------------------------+
@@ -23,7 +23,8 @@
 */
 
 /**
- * Redefine the back action.
+ * This is the base Action class for all actions which we redefine. This is
+ * integrated with the StateMachine, Controller and State objects
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -32,33 +33,37 @@
  *
  */
 
-require_once 'CRM/QuickForm/Action.php';
-
-class CRM_QuickForm_Action_Back extends CRM_QuickForm_Action {
+class CRM_Core_QuickForm_Action extends HTML_QuickForm_Action {
+    /**
+     * reference to the state machine i belong to
+     * @var object
+     */
+    protected $_stateMachine;
 
     /**
-     * class constructor
+     * constructor
      *
-     * @param object $stateMachine reference to state machine object
+     * @param object    $stateMachine    reference to state machine object
      *
      * @return object
      * @access public
      */
     function __construct( &$stateMachine ) {
-        parent::__construct( $stateMachine );
+        $this->_stateMachine =& $stateMachine;
     }
 
-    /**
-     * Processes the request. 
-     *
-     * @param  object    $page       CRM_Form the current form-page
-     * @param  string    $actionName Current action name, as one Action object can serve multiple actions
-     *
-     * @return void
-     * @access public
-     */
-    function perform(&$page, $actionName) {
-        $this->_stateMachine->perform( $page, $actionName, 'Back' );
+    function popUserContext( ) {
+        $session = CRM_Session::singleton( );
+        $config  = CRM_Config::singleton( );
+
+        $userContext = $session->popUserContext( );
+
+        if ( empty( $userContext ) ) {
+            $userContext = $config->mainMenu;
+        }
+
+        header( "Location: $userContext" );
+        exit();
     }
 
 }

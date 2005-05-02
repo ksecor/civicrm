@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
  +----------------------------------------------------------------------+
@@ -23,8 +23,7 @@
 */
 
 /**
- * This is the base Action class for all actions which we redefine. This is
- * integrated with the StateMachine, Controller and State objects
+ * Redefine the submit action.
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -33,37 +32,50 @@
  *
  */
 
-class CRM_QuickForm_Action extends HTML_QuickForm_Action {
-    /**
-     * reference to the state machine i belong to
-     * @var object
-     */
-    protected $_stateMachine;
+require_once 'CRM/Core/QuickForm/Action.php';
+
+class CRM_Core_QuickForm_Action_Submit extends CRM_Core_QuickForm_Action {
 
     /**
-     * constructor
+     * class constructor
      *
-     * @param object    $stateMachine    reference to state machine object
+     * @param object $stateMachine reference to state machine object
      *
      * @return object
      * @access public
      */
     function __construct( &$stateMachine ) {
-        $this->_stateMachine =& $stateMachine;
+        parent::__construct( $stateMachine );
     }
 
-    function popUserContext( ) {
-        $session = CRM_Session::singleton( );
-        $config  = CRM_Config::singleton( );
+    /**
+     * Processes the request. 
+     *
+     * @param  object    $page       CRM_Form the current form-page
+     * @param  string    $actionName Current action name, as one Action object can serve multiple actions
+     *
+     * @return void
+     * @access public
+     */
+    function perform(&$page, $actionName) {
+        // save the form values and validation status to the session
+        $page->isFormBuilt() or $page->buildForm();
+        $pageName =  $page->getAttribute('id');
+        $data     =& $page->controller->container();
+        $data['values'][$pageName] = $page->exportValues();
+        $data['valid'][$pageName]  = $page->validate();
 
-        $userContext = $session->popUserContext( );
-
-        if ( empty( $userContext ) ) {
-            $userContext = $config->mainMenu;
+        if ($page->controller->isValid()) {
+            // All pages are valid, process
+            return $page->handle('process');
+        } elseif (!$data['valid'][$pageName]) {
+            // Current page is invalid, display it
+            return $page->handle('display');
+            // Some other page is invalid, redirect to it
+        } else {
+            $target =& $page->controller->getPage($page->controller->findInvalid());
+            return $target->handle('jump');
         }
-
-        header( "Location: $userContext" );
-        exit();
     }
 
 }

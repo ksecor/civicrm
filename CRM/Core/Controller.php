@@ -154,15 +154,15 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      */
     function addActions( $uploadDirectory = null, $uploadNames = null ) {
         static $names = array(
-                              'display'   => 'CRM_QuickForm_Action_Display',
-                              'next'      => 'CRM_QuickForm_Action_Next'   ,
-                              'back'      => 'CRM_QuickForm_Action_Back'   ,
-                              'process'   => 'CRM_QuickForm_Action_Process',
-                              'cancel'    => 'CRM_QuickForm_Action_Cancel' ,
-                              'refresh'   => 'CRM_QuickForm_Action_Refresh',
-                              'done'      => 'CRM_QuickForm_Action_Done'   ,
-                              'jump'      => 'CRM_QuickForm_Action_Jump'   ,
-                              'submit'    => 'CRM_QuickForm_Action_Submit' ,
+                              'display'   => 'CRM_Core_QuickForm_Action_Display',
+                              'next'      => 'CRM_Core_QuickForm_Action_Next'   ,
+                              'back'      => 'CRM_Core_QuickForm_Action_Back'   ,
+                              'process'   => 'CRM_Core_QuickForm_Action_Process',
+                              'cancel'    => 'CRM_Core_QuickForm_Action_Cancel' ,
+                              'refresh'   => 'CRM_Core_QuickForm_Action_Refresh',
+                              'done'      => 'CRM_Core_QuickForm_Action_Done'   ,
+                              'jump'      => 'CRM_Core_QuickForm_Action_Jump'   ,
+                              'submit'    => 'CRM_Core_QuickForm_Action_Submit' ,
                               );
 
         foreach ( $names as $name => &$classPath ) {
@@ -171,9 +171,9 @@ class CRM_Controller extends HTML_QuickForm_Controller {
     
         if ( ! empty( $uploadDirectory ) ) {
             $this->addAction('upload' ,
-                             new CRM_QuickForm_Action_Upload ($this->_stateMachine,
-                                                              $uploadDirectory,
-                                                              $uploadNames));
+                             new CRM_Core_QuickForm_Action_Upload ($this->_stateMachine,
+                                                                   $uploadDirectory,
+                                                                   $uploadNames));
         }
     
     }

@@ -23,7 +23,7 @@
 */
 
 /**
- * Redefine the back action.
+ * Redefine the jump action.
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -32,9 +32,9 @@
  *
  */
 
-require_once 'CRM/QuickForm/Action.php';
+require_once 'CRM/Core/QuickForm/Action.php';
 
-class CRM_QuickForm_Action_Done extends CRM_QuickForm_Action {
+class CRM_Core_QuickForm_Action_Jump extends CRM_Core_QuickForm_Action {
 
     /**
      * class constructor
@@ -49,10 +49,7 @@ class CRM_QuickForm_Action_Done extends CRM_QuickForm_Action {
     }
 
     /**
-     * Processes the request.
-     * this is basically a self submit, so validate the page
-     * and if success, call post process
-     * when done processing pop to user context
+     * Processes the request. 
      *
      * @param  object    $page       CRM_Form the current form-page
      * @param  string    $actionName Current action name, as one Action object can serve multiple actions
@@ -60,25 +57,28 @@ class CRM_QuickForm_Action_Done extends CRM_QuickForm_Action {
      * @return void
      * @access public
      */
-    function perform( &$page, $actionName ) {
-        $page->isFormBuilt() or $page->buildForm();
+    function perform(&$page, $actionName) {
+        // check whether the page is valid before trying to go to it
+        if ($page->controller->isModal()) {
+            // we check whether *all* pages up to current are valid
+            // if there is an invalid page we go to it, instead of the
+            // requested one
+            $pageName = $page->getAttribute('id');
+            if (!$page->controller->isValid($pageName)) {
+                $pageName = $page->controller->findInvalid();
+            }
+            $current =& $page->controller->getPage($pageName);
 
-        $pageName =  $page->getAttribute('name');
-        $data     =& $page->controller->container();
-        $data['values'][$pageName] = $page->exportValues();
-        $data['valid'][$pageName]  = $page->validate();
-
-        // Modal form and page is invalid: don't go further
-        if ($page->controller->isModal() && !$data['valid'][$pageName]) {
-            return $page->handle('display');
+        } else {
+            $current =& $page;
         }
-
-        // the page is valid, process it before we jump to the next state
-        $page->postProcess( );
-
-        // ok so we are done now, pop stack and jump back to where we came from
-        $this->_stateMachine->reset( );
-        $this->_popUserContext( );
+        // generate the URL for the page 'display' event and redirect to it
+        $action = $current->getAttribute('action');
+        $url    = $action . (false === strpos($action, '?')? '?': '&') .
+                  $current->getButtonName('display') . '=true' .
+                  ((!defined('SID') || '' == SID)? '': '&' . SID);
+        header('Location: ' . $url);
+        exit();
     }
 
 }

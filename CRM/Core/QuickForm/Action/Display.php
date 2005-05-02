@@ -32,11 +32,11 @@
  *
  */
 
-require_once 'CRM/QuickForm/Action.php';
+require_once 'CRM/Core/QuickForm/Action.php';
 
 require_once 'CRM/Core/Config.php';
 
-class CRM_QuickForm_Action_Display extends CRM_QuickForm_Action {
+class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
 
     /**
      * the template to display the required "red" asterick
@@ -89,6 +89,7 @@ class CRM_QuickForm_Action_Display extends CRM_QuickForm_Action {
                 $validate = false === $data['valid'][$pageName];
             }
         }
+
         // set "common" defaults and constants
         $page->controller->applyDefaults($pageName);
         $page->isFormBuilt() or $page->buildForm();
@@ -116,14 +117,21 @@ class CRM_QuickForm_Action_Display extends CRM_QuickForm_Action {
 
         $this->_setRenderTemplates($page);
         $template = CRM_Core_Smarty::singleton( );
+        $template->assign('form',  $page->toSmarty());
 
-        // We could do something real smart out here and actually figure out the real tpl to call
-        // rather than go thru this indirection. TODO
+        if ( $page->getEmbedded( ) ) {
+            return;
+        }
+
         $template->assign( 'mode'   , $page->getMode( ) );
         $template->assign( 'tplFile', $page->getTemplateFileName() ); 
-        $template->assign('form',  $page->toSmarty());
-        $content = $template->fetch( 'CRM/index.tpl' );
-        $this->_stateMachine->setContent($content);
+        if ( $page->getPrint( ) ) {
+            $content = $template->fetch( 'CRM/print.tpl' );
+        } else {
+            $content = $template->fetch( 'CRM/index.tpl' );
+        }
+        echo CRM_System::theme( 'page', $content, null, $page->getPrint( ) );
+
         return;
     }
 

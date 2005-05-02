@@ -58,6 +58,9 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
          */
         parent::preProcess();
 
+        // set print view, so that print templates are called
+        $this->_print = true;
+
         // parent preprocess populates the variable $_rows
         // with contact_id and display name
         // since we need more data we'll populate it with address, city, state, postal, country, email, phone

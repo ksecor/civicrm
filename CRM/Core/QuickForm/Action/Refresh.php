@@ -23,7 +23,7 @@
 */
 
 /**
- * Redefine the process action.
+ * Redefine the refresh action.
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -32,9 +32,9 @@
  *
  */
 
-require_once 'CRM/QuickForm/Action.php';
+require_once 'CRM/Core/QuickForm/Action.php';
 
-class CRM_QuickForm_Action_Process extends CRM_QuickForm_Action {
+class CRM_Core_QuickForm_Action_Refresh extends CRM_Core_QuickForm_Action {
 
     /**
      * class constructor
@@ -58,8 +58,22 @@ class CRM_QuickForm_Action_Process extends CRM_QuickForm_Action {
      * @access public
      */
     function perform(&$page, $actionName) {
-        $this->_stateMachine->reset( );
-        $this->popUserContext( );
+        // save the form values and validation status to the session
+        $page->isFormBuilt() or $page->buildForm();
+        
+        $pageName =  $page->getAttribute('name');
+        $data     =& $page->controller->container();
+        $data['values'][$pageName] = $page->exportValues();
+        $data['valid'][$pageName]  = $page->validate();
+        // Modal form and page is invalid: don't go further
+        if ($page->controller->isModal() && !$data['valid'][$pageName]) {
+            return $page->handle('display');
+        }
+
+        // the page is valid, process it before we jump to the next state
+        $page->postProcess( );
+
+        return $page->handle('jump');
     }
 
 }

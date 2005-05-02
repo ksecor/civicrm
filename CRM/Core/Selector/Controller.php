@@ -120,6 +120,22 @@ class CRM_Selector_Controller {
      */
     protected $_content;
 
+    /**
+     * Is this object being embedded in another object. If
+     * so the display routine needs to not do any work. (The
+     * parent object takes care of the display)
+     *
+     * @var boolean
+     */
+    protected $_embedded = false;
+
+    /**
+     * Are we in print mode? if so we need to modify the display
+     * functionality to do a minimal display :)
+     *
+     * @var boolean
+     */
+    protected $_print = false;
 
     /**
      * cache the smarty template for efficiency reasons
@@ -247,19 +263,6 @@ class CRM_Selector_Controller {
         $rowsEmpty = count( $rows ) ? false : true;
         $qill = $this->_object->getMyQILL();
 
-        if ( $this->_output & self::TEMPLATE ) {
-            self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
-            self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
-            
-            self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
-            self::$_template->assign_by_ref( 'rows'         , $rows          );
-            self::$_template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
-            self::$_template->assign       ( 'qill'         , $qill          );
-            
-            self::$_template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
-            $this->_content = self::$_template->fetch( 'CRM/index.tpl' );
-        }
-
         if ( $this->_output & self::SESSION ) {
             $this->_store->set( 'columnHeaders', $columnHeaders );
             $this->_store->set( 'rows'         , $rows          );
@@ -273,6 +276,29 @@ class CRM_Selector_Controller {
         $this->_store->set( CRM_Sort::SORT_ID       , $this->_sort->getCurrentSortID        ( ) );
         $this->_store->set( CRM_Sort::SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
         $this->_store->set( CRM_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
+
+        if ( $this->_output & self::TEMPLATE ) {
+            self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
+            self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
+            
+            self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
+            self::$_template->assign_by_ref( 'rows'         , $rows          );
+            self::$_template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
+            self::$_template->assign       ( 'qill'         , $qill          );
+            
+            if ( $this->_embedded ) {
+                return;
+            }
+            
+            self::$_template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
+            if ( $this->_print ) {
+                $content = self::$_template->fetch( 'CRM/print.tpl' );
+            } else {
+                $content = self::$_template->fetch( 'CRM/index.tpl' );
+            }
+            echo CRM_System::theme( 'page', $content, null, $this->_print );
+        }
+
     }
     
     function getPager() {
@@ -296,7 +322,7 @@ class CRM_Selector_Controller {
 
         CRM_Report_Excel::writeCSVFile( $fileName, $headers, $rows );
 
-        exit();
+        exit( );
     }
 
     /**
@@ -335,8 +361,61 @@ class CRM_Selector_Controller {
         self::$_template->assign       ( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
         self::$_template->assign       ( 'qill'         , $this->_store->get( 'qill' )          );
 
+        if ( $this->_embedded ) {
+            return;
+        }
+            
         self::$_template->assign( 'tplFile', $this->_object->getTemplateFileName() );
-        $this->_content = self::$_template->fetch( 'CRM/index.tpl' );
+        if ( $this->_print ) {
+            $content = self::$_template->fetch( 'CRM/print.tpl' );
+        } else {
+            $content = self::$_template->fetch( 'CRM/index.tpl' );
+        }
+        echo CRM_System::theme( 'page', $content, null, $this->_print );
+    }
+
+    /**
+     * setter for embedded 
+     *
+     * @param boolean $embedded
+     *
+     * @return void
+     * @access public
+     */
+    function setEmbedded( $embedded  ) {
+        $this->_embedded = $embedded;
+    }
+
+    /**
+     * getter for embedded 
+     *
+     * @return boolean return the embedded value
+     * @access public
+     */
+    function getEmbedded( ) {
+        return $this->_embedded;
+    }
+
+    /**
+     * setter for print 
+     *
+     * @param boolean $print
+     *
+     * @return void
+     * @access public
+     */
+    function setPrint( $print  ) {
+        $this->_print = $print;
+    }
+
+    /**
+     * getter for print 
+     *
+     * @return boolean return the print value
+     * @access public
+     */
+    function getPrint( ) {
+        return $this->_print;
     }
 
 }

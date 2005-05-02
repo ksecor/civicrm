@@ -104,15 +104,16 @@ class CRM_System {
      * if we are using a theming system, invoke theme, else just print the
      * content
      *
-     * @param string $type    name of theme object/file
-     * @param string $content the content that will be themed
-     * @param array  $args    the args for the themeing function if any
+     * @param string  $type    name of theme object/file
+     * @param string  $content the content that will be themed
+     * @param array   $args    the args for the themeing function if any
+     * @param boolean $print   are we displaying to the screen or bypassing theming?
      * 
      * @return void           prints content on stdout
      * @access public
      */
-    function theme( $type, &$content, $args = null ) {
-        if ( function_exists( 'theme' ) ) {
+    function theme( $type, &$content, $args = null, $print = false ) {
+        if ( function_exists( 'theme' ) && ! $print ) {
             print theme( $type, $content, $args );
         } else {
             print $content;

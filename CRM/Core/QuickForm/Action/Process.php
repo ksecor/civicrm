@@ -23,7 +23,7 @@
 */
 
 /**
- * Redefine the submit action.
+ * Redefine the process action.
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -32,9 +32,9 @@
  *
  */
 
-require_once 'CRM/QuickForm/Action.php';
+require_once 'CRM/Core/QuickForm/Action.php';
 
-class CRM_QuickForm_Action_Submit extends CRM_QuickForm_Action {
+class CRM_Core_QuickForm_Action_Process extends CRM_Core_QuickForm_Action {
 
     /**
      * class constructor
@@ -58,24 +58,8 @@ class CRM_QuickForm_Action_Submit extends CRM_QuickForm_Action {
      * @access public
      */
     function perform(&$page, $actionName) {
-        // save the form values and validation status to the session
-        $page->isFormBuilt() or $page->buildForm();
-        $pageName =  $page->getAttribute('id');
-        $data     =& $page->controller->container();
-        $data['values'][$pageName] = $page->exportValues();
-        $data['valid'][$pageName]  = $page->validate();
-
-        if ($page->controller->isValid()) {
-            // All pages are valid, process
-            return $page->handle('process');
-        } elseif (!$data['valid'][$pageName]) {
-            // Current page is invalid, display it
-            return $page->handle('display');
-            // Some other page is invalid, redirect to it
-        } else {
-            $target =& $page->controller->getPage($page->controller->findInvalid());
-            return $target->handle('jump');
-        }
+        $this->_stateMachine->reset( );
+        $this->popUserContext( );
     }
 
 }

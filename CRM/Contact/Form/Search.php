@@ -239,10 +239,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $this->set( 'context', $this->_context );
         }
         $this->assign( 'context', $this->_context );
-
         $fv = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
+        $controller->setEmbedded( true );
         if ( $controller->hasChanged( $this->_reset ) || $this->_force ) {
             $this->postProcess( );
             /*
@@ -251,6 +251,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
              * like totalCount etc
              */
             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
+            $controller->setEmbedded( true );
         }
         $controller->moveFromSessionToTemplate( );
     }
@@ -292,6 +293,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
         // create the selector, controller and run - store results in session
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
+        $controller->setEmbedded( true );
         $controller->run();
     }
 
