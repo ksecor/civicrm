@@ -182,7 +182,7 @@
 <hr>
 Searching for {$qill}
 <hr>
-<a href="{crmURL p='civicrm/contact/search/saved/sas'}">Save this search...</a>
+{* <a href="{crmURL p='civicrm/contact/search/saved/sas'}">Save this search...</a> *}
 {/if}
 
 {if $rowsEmpty}

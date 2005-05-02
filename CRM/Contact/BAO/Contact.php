@@ -614,6 +614,72 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     function deleteContact( $id ) {
     }
 
+
+    /**
+     * Get address details for a list of contact id's.
+     *
+     * The address details of contact id's needed are
+     *     - address, city, state, postal, country, email, phone
+     * 
+     * @param array $ids ids of the contact whose address details are needed
+     *
+     * @return array addressDetail
+     * @access public
+     * @static
+     *
+     */
+    public static function getAddress( $ids ) {
+
+        static $properties = array( 'contact_id', 'sort_name', 'street_address',
+                                    'city', 'state', 'country', 'postal_code',
+                                    'email', 'phone' );
+
+        $addressDetail = array();
+        $strSelect = $strFrom = $strWhere = ''; 
+
+        // stores all the "AND" clauses
+        $andArray = array();
+       
+        $strSelect = "SELECT crm_contact.id as contact_id,
+                              crm_contact.sort_name as sort_name,
+                              crm_address.street_address as street_address,
+                              crm_address.city as city,
+                              crm_address.postal_code as postal_code,
+                              crm_state_province.abbreviation as state,
+                              crm_country.name as country,
+                              crm_email.email as email,
+                              crm_phone.phone as phone";
+
+        $strFrom = " FROM crm_contact 
+                        LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                        LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
+                        LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+                        LEFT OUTER JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                        LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
+                        LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id)";
+
+        // adding the WHERE clause which for specific contact_id's
+        $strWhere = " WHERE contact_id IN (" . implode(',', $ids) . ")"; 
+
+        // building the query string
+        $queryString = $strSelect . $strFrom . $strWhere;
+
+        // dummy dao needed
+        $crmDAO = new CRM_DAO();
+        $crmDAO->query($queryString);
+
+        // process records
+        while($crmDAO->fetch()) {
+            $id = $crmDAO->contact_id;
+            $addressDetail[$id] = array();
+
+            // populate columns
+            foreach ($properties as $property) {
+                $addressDetail[$id][$property] = $crmDAO->$property;
+            }
+        }
+        return $addressDetail;
+    }
 }
 
 ?>
