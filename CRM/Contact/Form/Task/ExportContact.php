@@ -101,7 +101,7 @@ class CRM_Contact_Form_Task_ExportContact extends CRM_Contact_Form_Task {
         $strRows = '';
         foreach ($aContact as $lngKey => $varValue) {
             if(array_key_exists($varValue['contact_id'], $aSelectedContact)) {
-                $strRows .= str_replace(',',' ',$varValue['sort_name']).",".str_replace(',',' ',$varValue['street_address']).",".str_replace(',',' ',$varValue['city']).",".$varValue['state'].",".$varValue['country'].",".$varValue['postal_code'].",".$varValue['email'].",".$varValue['phone'];
+                $strRows .= str_replace(',',' ',$varValue['sort_name']).",".str_replace(',',' ',$varValue['street_address']).",".str_replace(',',' ',$varValue['city']).",".str_replace(',',' ',$varValue['state']).",".str_replace(',',' ',$varValue['country']).",".$varValue['postal_code'].",".$varValue['email'].",".$varValue['phone'];
                 $strRows .= " \n";
             }
         }
