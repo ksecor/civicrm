@@ -65,7 +65,10 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
         // get the ids
         $ids = array_keys($this->_rows);
         $addressDetail = CRM_Contact_BAO_Contact::getAddress($ids);
-        CRM_Error::debug_var('addressDetail', $addressDetail);        
+        
+        // need to save address detail for print template
+        $template = CRM_Core_Smarty::singleton( );
+        $template->assign_by_ref('printRows', $addressDetail);
     }
 
 
