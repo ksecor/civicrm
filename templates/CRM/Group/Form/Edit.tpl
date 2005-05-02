@@ -1,7 +1,7 @@
 {* this template is used for adding/editing a group  *}
 <form {$form.attributes}>
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}New{else}Edit{/if} Group</legend>
+<fieldset><legend>{if $action eq 2}Edit{else}New{/if} Group</legend>
         <div>{$form.title.label}{$form.title.html}</div>
         <div>{$form.description.label}{$form.description.html}</div>
         <div class="horizontal-position">

@@ -43,7 +43,7 @@ class CRM_Group_Page_Group extends CRM_Page_Basic {
                            CRM_Action::VIEW    => array(
                                                         'name'  => 'Show Group Members',
                                                         'url'   => 'civicrm/group/search',
-                                                        'qs'    => 'reset=1&force=1&gid=%%id%%',
+                                                        'qs'    => 'reset=1&force=1&context=smog&gid=%%id%%',
                                                         'title' => 'Group Members',
                                                         ),
                            CRM_Action::UPDATE  => array(

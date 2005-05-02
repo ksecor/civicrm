@@ -425,8 +425,8 @@ function civicrm_invoke()
 
     // browse groups
     if (arg(1) == 'group') {
-        if ( arg(2) == 'edit' ) {
-            $controller = new CRM_Group_Controller( 'Groups' );
+        if ( arg(2) == 'add' ) {
+            $controller = new CRM_Group_Controller( 'Groups', CRM_Form::MODE_BASIC );
             $controller->run( );
             $content = $controller->getContent( );
         } else if ( arg(2) == 'search' ) {
@@ -434,7 +434,7 @@ function civicrm_invoke()
             return civicrm_search( );
         } else {
             $view = new CRM_Group_Page_Group( 'View Groups' );
-            $content .= $view->run( );
+            $content = $view->run( );
         }
         print theme('page', $content);
         return;

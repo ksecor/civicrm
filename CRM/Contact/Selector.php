@@ -246,13 +246,17 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         
         // note the formvalues were given by CRM_Contact_Form_Search to us 
         // and contain the search criteria (parameters)
+        // note that the default mode is basic
         switch ($this->_type) {
-        case CRM_Form::MODE_BASIC:
-            $result = $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort);
-            break;
+
         case CRM_Form::MODE_ADVANCED:
             $result = $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort);
             break;
+            
+        default:
+            $result = $this->_contact->basicSearchQuery($this->_formValues, $offset, $rowCount, $sort);
+            break;
+
         }
 
         // process the result of the query

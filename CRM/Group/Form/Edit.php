@@ -137,6 +137,13 @@ class CRM_Group_Form_Edit extends CRM_Form {
         $group->save( );
 
         CRM_Session::setStatus( 'The Group "' . $group->name . '" has been saved' );        
+
+        /*
+         * Add context to the session, in case we are adding members to the group
+         */
+        $this->set( 'context', 'amtg' );
+        $this->set( 'amtgID' , $group->id );
+        $this->set( 'force'  , true   );
     }
 
 }

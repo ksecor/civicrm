@@ -42,8 +42,8 @@ class CRM_Group_StateMachine extends CRM_StateMachine {
         parent::__construct( $controller, $mode );
         
         $this->_pages = array(
-                              'CRM_Group_Form_Group',
-                              'CRM_Group_Form_DynamicGroup',
+                              'CRM_Group_Form_Edit',
+                              'CRM_Contact_Form_Search',
                               );
         
         $this->addSequentialPages( $this->_pages, $mode );

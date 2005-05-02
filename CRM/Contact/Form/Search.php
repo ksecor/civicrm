@@ -47,9 +47,20 @@ require_once 'CRM/Contact/Selector.php';
 class CRM_Contact_Form_Search extends CRM_Form {
 
     const
-        SESSION_SCOPE_SEARCH   = 'search',
-        CONTEXT_SEARCH         =  0,
-        CONTEXT_GROUP          =  1;
+        SESSION_SCOPE_SEARCH   = 'search';
+
+    static $_validContext = array(
+                                  'search' => 'Search',
+                                  'smog'   => 'Show members of group',
+                                  'amtg'   => 'Add members to group',
+                                  );
+
+    /**
+     * The context that we are working on
+     *
+     * @var string
+     */
+    protected $_context;
 
     /**
      * the groupId retrieved from the GET vars
@@ -102,7 +113,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
 
         // add select for groups
         $group = array('any' => ' - any group - ') + CRM_PseudoConstant::$group;
-        $this->add('select', 'group', 'in', $group);
+        $groupElement = $this->add('select', 'group', 'in', $group);
+        if ( $this->_context === 'smog' ) {
+            $groupElement->freeze( );
+        }
 
         // add select for categories
         $category = array('any' => ' - any category - ') + CRM_PseudoConstant::$category;
@@ -113,7 +127,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
         
         // some tasks.. what do we want to do with the selected contacts ?
         $tasks = array( '' => '- actions -' ) + CRM_Contact_Task::$tasks;
-        $this->add('select', 'task'   , 'Actions: '    , $tasks    );
+        $actionElement = $this->add('select', 'task'   , 'Actions: '    , $tasks    );
+        if ( $this->_context === 'amtg' ) {
+            $actionElement->freeze( );
+        }
 
         // need to perform tasks on all or selected items ? using radio_ts(task selection) for it
         $this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', array('checked'=>null));
@@ -176,6 +193,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
             }
             break;
         }
+
+        if ( $this->_context === 'amtg' ) {
+            $defaults['task'] = CRM_Contact_Task::GROUP_CONTACTS;
+        }
+
         return $defaults;
     }
 
@@ -196,19 +218,37 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @access public
      */
     function preProcess( ) {
-        $this->_force   = CRM_Request::retrieve( 'force' );
+        /*
+         * we allow the controller to set force/reset externally, useful when we are being
+         * driven by the wizard framework
+         */
         $this->_reset   = CRM_Request::retrieve( 'reset' );
-        $this->_groupId = CRM_Request::retrieve( 'gid'   );
-        
+
+        $this->_force   = CRM_Request::retrieve( 'force', $this, false );
+        // we only force stuff once :)
+        $this->set( 'force', false );
+
+        $this->_groupId = CRM_Request::retrieve( 'gid', $this );
+
+        /*
+         * assign context to drive the template display, make sure context is valid
+         */
+        $this->_context = CRM_Request::retrieve( 'context', $this, false, 'search' );
+        if ( ! CRM_Array::value( $this->_context, self::$_validContext ) ) {
+            $this->_context = 'search';
+            $this->set( 'context', $this->_context );
+        }
+        $this->assign( 'context', $this->_context );
+
         $fv = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
         if ( $controller->hasChanged( $this->_reset ) || $this->_force ) {
             $this->postProcess( );
             /*
-             * We need to do this, since a few values might have changed in postProcess which
-             * might have affected the initial construction of the constructor, specifically count
-             * kinda hacking, elegant solution coming soon
+             * Note that we repeat this, since the search creates and stores
+             * values that potentially change the controller behavior. i.e. things
+             * like totalCount etc
              */
             $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
         }
@@ -245,7 +285,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
 
         // check actionName and if next, then do not repeat a search, since we are going to the next page
         list($pageName, $action) = $this->controller->getActionName();
-
         if ($action == 'next') {
             return;
         }
@@ -293,5 +332,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
         CRM_PseudoConstant::populateGroup();
         CRM_PseudoConstant::populateCategory();
     }
+
 }
+
 ?>
