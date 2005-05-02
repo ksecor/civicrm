@@ -73,21 +73,15 @@ class CRM_Admin_Page_RelationshipType extends CRM_Page_Basic {
         return self::$_links;
     }
 
-    function formClass( ) {
+    function editForm( ) {
         return 'CRM_Admin_Form_RelationshipType';
     }
 
-    function formName( ) {
+    function editName( ) {
         return 'Relationship Types';
     }
 
     function UserContext( ) {
-        /*
-        if ($_SESSION['returnPath']){
-            return $_SESSION['returnPath'];
-        }
-        */
-
         return 'civicrm/admin/reltype';
     }
 

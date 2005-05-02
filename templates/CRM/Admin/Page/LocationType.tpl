@@ -28,7 +28,7 @@
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL p='admin/contact/locationType' q="action=add&reset=1"}">New Location Type</a>
+    	 <a href="{crmURL q="action=add&reset=1"}">New Location Type</a>
        </div>
        {/if}
     </div>

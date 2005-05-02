@@ -32,59 +32,14 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Admin/Form.php';
 
 /**
  * This class generates form components for Category
  * 
  */
-class CRM_Admin_Form_Category extends CRM_Form
+class CRM_Admin_Form_Category extends CRM_Admin_Form
 {
-    
-    /**
-     * The category id, used when editing 
-     *
-     * @var int
-     */
-    protected $_id;
-
-    /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int     $mode       The mode of the form
-     *
-     * @return CRM_Admin_Form_Category
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
-    function preProcess( ) {
-        $this->_id    = $this->get( 'id' );
-    }
-
-    /**
-     * This function sets the default values for the form. Category that in edit/view mode
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( ) {
-        $defaults = array( );
-        $params   = array( );
-
-        if ( isset( $this->_id ) ) {
-            $params = array( 'id' => $this->_id );
-            CRM_Contact_BAO_Category::retrieve( $params, $defaults );
-        }
-        
-        return $defaults;
-    }
-
     /**
      * Function to build the form
      *
@@ -98,16 +53,8 @@ class CRM_Admin_Form_Category extends CRM_Form
 
         $this->add('text', 'description', 'Description', 
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'description' ) );
-        
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => 'Save',
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
-                                 )
-                           );
-        
+
+        parent::buildQuickForm( );
     }
 
        

@@ -56,11 +56,21 @@ class CRM_Controller extends HTML_QuickForm_Controller {
     protected $_stateMachine;
 
     /**
-     * This caches the content for the display system
+     * Is this object being embedded in another object. If
+     * so the display routine needs to not do any work. (The
+     * parent object takes care of the display)
      *
-     * @var string
+     * @var boolean
      */
-    protected $_content;
+    protected $_embedded = false;
+
+    /**
+     * Are we in print mode? if so we need to modify the display
+     * functionality to do a minimal display :)
+     *
+     * @var boolean
+     */
+    protected $_print = false;
 
     /**
      * cache the smarty template for efficiency reasons
@@ -286,29 +296,6 @@ class CRM_Controller extends HTML_QuickForm_Controller {
     function process( ) {
     }
 
-
-    /**
-     * setter for content
-     *
-     * @param string
-     * @return void
-     * @access public
-     */
-    function setContent(&$content) {
-        $this->_content =& $content;
-    }
-
-    /**
-     * getter for content
-     *
-     * @return void
-     * @access public
-     */
-    function &getContent() {
-        return $this->_content;
-    }
-
-
     /**
      * Store the variable with the value in the form scope
      *
@@ -379,6 +366,50 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      */
     function assign( $var, $value = null) {
         self::$_template->assign($var, $value);
+    }
+
+    /**
+     * setter for embedded 
+     *
+     * @param boolean $embedded
+     *
+     * @return void
+     * @access public
+     */
+    function setEmbedded( $embedded  ) {
+        $this->_embedded = $embedded;
+    }
+
+    /**
+     * getter for embedded 
+     *
+     * @return boolean return the embedded value
+     * @access public
+     */
+    function getEmbedded( ) {
+        return $this->_embedded;
+    }
+
+    /**
+     * setter for print 
+     *
+     * @param boolean $print
+     *
+     * @return void
+     * @access public
+     */
+    function setPrint( $print  ) {
+        $this->_print = $print;
+    }
+
+    /**
+     * getter for print 
+     *
+     * @return boolean return the print value
+     * @access public
+     */
+    function getPrint( ) {
+        return $this->_print;
     }
 
 }

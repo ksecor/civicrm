@@ -154,6 +154,7 @@ function civicrm_menu($may_cache)
                          'callback' => 'civicrm_admin_invoke',
                          'access' => user_access('administer contact'),
                          'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 40,
                          );
         
        $items[] = array(
@@ -219,7 +220,8 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm/contact/search',
                          'title' => t('Contacts'),
                          'qs'    => 'reset=1',
-                         'type'   => MENU_NORMAL_ITEM
+                         'type'   => MENU_NORMAL_ITEM,
+                         'weight' => 10,
                          );
         
         $items[] = array(
@@ -321,7 +323,7 @@ function civicrm_menu($may_cache)
                          'title' => t('Manage Groups'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
-                         'weight' => 1
+                         'weight' => 20,
                          );
         
        $items[] = array(
@@ -329,7 +331,7 @@ function civicrm_menu($may_cache)
                          'title'  => t('Import Contacts'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
-                         'weight' => 2
+                         'weight' => 30,
                          );
  
      }
@@ -375,13 +377,10 @@ function civicrm_init()
  */
 function civicrm_admin_invoke() 
 {
-    //$content = "the contact administrator invoked $operation";
-    $content = "";
-    
     // Location Type
     if (arg(1) == 'admin') {
         $view = null;
-
+        
         if (arg(2) == 'locationType') {
             $view = new CRM_Admin_Page_LocationType( 'View Location Types' );
         } else if (arg(2) == 'IMProvider') {
@@ -411,9 +410,8 @@ function civicrm_admin_invoke()
         }
         
         if ( $view ) {
-            $content = $view->run( );
+            $view->run( );
         }
-        print theme('page', $content);
     }
 }
 

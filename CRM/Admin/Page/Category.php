@@ -63,11 +63,11 @@ class CRM_Admin_Page_Category extends CRM_Page_Basic {
         return self::$_links;
     }
 
-    function formClass( ) {
+    function editForm( ) {
         return 'CRM_Admin_Form_Category';
     }
 
-    function formName( ) {
+    function editName( ) {
         return 'Category';
     }
 

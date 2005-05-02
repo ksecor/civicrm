@@ -52,9 +52,9 @@ class CRM_Block {
      */
     static $_properties = array(
                                    self::SHORTCUTS   => array( 'template' => 'Shortcuts.tpl',
-                                                          'info'     => 'CiviCRM Shortcuts',
-                                                          'subject'  => 'CiviCRM Shortcuts',
-                                                          'active'   => true ),
+                                                               'info'     => 'CiviCRM Shortcuts',
+                                                               'subject'  => 'CiviCRM Shortcuts',
+                                                               'active'   => true ),
                                    self::ADD         => array( 'template' => 'Add.tpl',
                                                                'info'     => 'CiviCRM Quick Add',
                                                                'subject'  => 'New Individual',
@@ -164,10 +164,10 @@ class CRM_Block {
                 $value['url'  ] = CRM_System::url( $item['path'], CRM_Array::value( 'qs', $item ) );
                 $value['title'] = $item['title'];
                 $value['class'] = 'leaf';
-                $values[] = $value;
+                $values[$item['weight']] = $value;
             }
         }
-        
+        ksort($values);
         self::$_properties[self::MENU]['templateValues'] = array( 'menu' => $values );
     }
 

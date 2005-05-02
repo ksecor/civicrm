@@ -8,6 +8,8 @@
 {$session->debug($smarty.get.sessionDebug)}
 {/if}
 
+<!-- .tpl file invoked: {$tplFile} -->
+
 <div id="crm-container">
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 

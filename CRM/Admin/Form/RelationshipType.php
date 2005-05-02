@@ -32,59 +32,14 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Admin/Form.php';
 
 /**
  * This class generates form components for Relationship Type
  * 
  */
-class CRM_Admin_Form_RelationshipType extends CRM_Form
+class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
 {
-    
-    /**
-     * The relationship type id, used when editing relationship type
-     *
-     * @var int
-     */
-    protected $_id;
-
-    /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int     $mode       The mode of the form
-     *
-     * @return CRM_Admin_Form_RelationshipType
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
-    function preProcess( ) {
-        $this->_id    = $this->get( 'id' );
-    }
-
-    /**
-     * This function sets the default values for the form. RelationshipType that in edit/view mode
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( ) {
-        $defaults = array( );
-        $params   = array( );
-
-        if ( isset( $this->_id ) ) {
-            $params = array( 'id' => $this->_id );
-            CRM_Contact_BAO_RelationshipType::retrieve( $params, $defaults );
-        }
-        
-        return $defaults;
-    }
-
     /**
      * Function to build the form
      *
@@ -124,15 +79,8 @@ class CRM_Admin_Form_RelationshipType extends CRM_Form
 
         $this->add('text', 'description', 'Description', 
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'description' ) );
-        
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => 'Save',
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
-                                 )
-                           );
+
+        parent::buildQuickForm( );
 
         if ( $this->_mode & self::MODE_VIEW ) {
             $this->freeze( );
@@ -149,7 +97,8 @@ class CRM_Admin_Form_RelationshipType extends CRM_Form
      */
     public function postProcess() 
     {
-        $params = $ids = array();
+        $params = array();
+        $ids    = array();
         
         // store the submitted values in an array
         $params = $this->exportValues();

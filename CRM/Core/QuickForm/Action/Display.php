@@ -119,18 +119,19 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
         $template = CRM_Core_Smarty::singleton( );
         $template->assign('form',  $page->toSmarty());
 
-        if ( $page->getEmbedded( ) ) {
+        $controller =& $page->controller;
+        if ( $controller->getEmbedded( ) ) {
             return;
         }
 
         $template->assign( 'mode'   , $page->getMode( ) );
         $template->assign( 'tplFile', $page->getTemplateFileName() ); 
-        if ( $page->getPrint( ) ) {
+        if ( $controller->getPrint( ) ) {
             $content = $template->fetch( 'CRM/print.tpl' );
         } else {
             $content = $template->fetch( 'CRM/index.tpl' );
         }
-        echo CRM_System::theme( 'page', $content, null, $page->getPrint( ) );
+        echo CRM_System::theme( 'page', $content, null, $controller->getPrint( ) );
 
         return;
     }

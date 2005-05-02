@@ -56,12 +56,12 @@ abstract class CRM_Page_Basic extends CRM_Page {
     abstract function &links( );
 
     /**
-     * name of the form class
+     * name of the edit form class
      *
      * @return string
      * @access public
      */
-    abstract function formClass( );
+    abstract function editForm( );
 
     /**
      * name of the form
@@ -69,7 +69,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
      * @return string
      * @access public
      */
-    abstract function formName( );
+    abstract function editName( );
 
     /**
      * userContext to pop back to
@@ -196,7 +196,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
 
     function edit( $mode, $id = null ) 
     {
-        $controller = new CRM_Controller_Simple( $this->formClass( ), $this->formName( ), $mode );
+        $controller = new CRM_Controller_Simple( $this->editForm( ), $this->editName( ), $mode );
 
        // set the userContext stack
         $session = CRM_Session::singleton();
@@ -206,7 +206,9 @@ abstract class CRM_Page_Basic extends CRM_Page {
         if ( $id ) {
             $controller->set( 'id'   , $id );
         }
+        $controller->set( 'BAOName', $this->getBAOName( ) );
         $this->addValues( $controller );
+        $controller->setEmbedded( true );
         $controller->process( );
         $controller->run( );
     }
@@ -214,7 +216,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
 
     function delete( $id = null )
     {
-        $controller = new CRM_Controller_Simple( $this->deleteClass( ), $this->deleteName( ), CRM_Form::MODE_DELETE );
+        $controller = new CRM_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), CRM_Form::MODE_DELETE );
 
         // set the userContext stack
         $session = CRM_Session::singleton();
@@ -225,6 +227,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
             $controller->set( 'id'   , $id );
         }
         $this->addValues( $controller );
+        $controller->setEmbedded( true );
         $controller->process( );
         $controller->run( );
     }

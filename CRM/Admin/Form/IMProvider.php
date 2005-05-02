@@ -32,59 +32,14 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Admin/Form.php';
 
 /**
  * This class generates form components generic to IM provider
  * 
  */
-class CRM_Admin_Form_IMProvider extends CRM_Form
+class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
 {
-    
-    /**
-     * The IM Provider id, used when editing IM Provider
-     *
-     * @var int
-     */
-    protected $_id;
-
-    /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int     $mode       The mode of the form
-     *
-     * @return CRM_Admin_Form_IMProvider
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
-    function preProcess( ) {
-        $this->_id    = $this->get( 'id' );
-    }
-
-    /**
-     * This function sets the default values for the form. IMProvider that in edit/view mode
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( ) {
-        $defaults = array( );
-        $params   = array( );
- 
-        if ( isset( $this->_id ) ) {
-            $params = array( 'id' => $this->_id );
-            CRM_BAO_IMProvider::retrieve( $params, $defaults );
-        }
-        
-        return $defaults;
-    }
-
     /**
      * Function to actually build the form
      *
@@ -95,15 +50,8 @@ class CRM_Admin_Form_IMProvider extends CRM_Form
         $this->add('text', 'name'       , 'Name'       ,
                    CRM_DAO::getAttribute( 'CRM_DAO_IMProvider', 'name' ) );
         $this->addRule( 'name', 'Please enter a valid name.', 'required' );             
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => 'Save',
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
-                                 )
-                           );
-        
+
+        parent::buildQuickForm( );
     }
 
        

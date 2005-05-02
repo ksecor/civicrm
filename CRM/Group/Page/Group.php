@@ -66,15 +66,15 @@ class CRM_Group_Page_Group extends CRM_Page_Basic {
         return self::$_links;
     }
 
-    function formClass( ) {
+    function editForm( ) {
         return 'CRM_Group_Form_Edit';
     }
 
-    function formName( ) {
+    function editName( ) {
         return 'Edit Group';
     }
 
-    function deleteClass( ) {
+    function deleteForm( ) {
         return 'CRM_Group_Form_Delete';
     }
 

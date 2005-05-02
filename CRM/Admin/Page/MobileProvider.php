@@ -55,11 +55,11 @@ class CRM_Admin_Page_MobileProvider extends CRM_Page_Basic {
         return self::$_links;
     }
 
-    function formClass( ) {
+    function editForm( ) {
         return 'CRM_Admin_Form_MobileProvider';
     }
 
-    function formName( ) {
+    function editName( ) {
         return 'Mobile Provider';
     }
 

@@ -68,23 +68,6 @@ class CRM_Form extends HTML_QuickForm_Page {
     protected $_renderer;
 
     /**
-     * Is this object being embedded in another object. If
-     * so the display routine needs to not do any work. (The
-     * parent object takes care of the display)
-     *
-     * @var boolean
-     */
-    protected $_embedded = false;
-
-    /**
-     * Are we in print mode? if so we need to modify the display
-     * functionality to do a minimal display :)
-     *
-     * @var boolean
-     */
-    protected $_print = false;
-
-    /**
      * cache the smarty template for efficiency reasons
      *
      * @var CRM_Core_Smarty
@@ -523,50 +506,6 @@ class CRM_Form extends HTML_QuickForm_Page {
      */
     function assign_by_ref( $var, &$value ) {
         self::$_template->assign_by_ref($var, $value);
-    }
-
-    /**
-     * setter for embedded 
-     *
-     * @param boolean $embedded
-     *
-     * @return void
-     * @access public
-     */
-    function setEmbedded( $embedded  ) {
-        $this->_embedded = $embedded;
-    }
-
-    /**
-     * getter for embedded 
-     *
-     * @return boolean return the embedded value
-     * @access public
-     */
-    function getEmbedded( ) {
-        return $this->_embedded;
-    }
-
-    /**
-     * setter for print 
-     *
-     * @param boolean $print
-     *
-     * @return void
-     * @access public
-     */
-    function setPrint( $print  ) {
-        $this->_print = $print;
-    }
-
-    /**
-     * getter for print 
-     *
-     * @return boolean return the print value
-     * @access public
-     */
-    function getPrint( ) {
-        return $this->_print;
     }
 
 }

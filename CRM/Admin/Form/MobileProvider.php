@@ -32,59 +32,14 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Admin/Form.php';
 
 /**
  * This class generates form components generic to Mobile provider
  * 
  */
-class CRM_Admin_Form_MobileProvider extends CRM_Form
+class CRM_Admin_Form_MobileProvider extends CRM_Admin_Form
 {
-    
-    /**
-     * The mobile provider id, used when editing mobile provider
-     *
-     * @var int
-     */
-    protected $_id;
-
-    /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int    $mode        The mode of the form
-     *
-     * @return CRM_Admin_Form_MobileProvider
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
-    function preProcess( ) {
-        $this->_id    = $this->get( 'id' );
-    }
-
-    /**
-     * This function sets the default values for the form. MobileProvider that in edit/view mode
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( ) {
-        $defaults = array( );
-        $params   = array( );
-
-        if ( isset( $this->_id ) ) {
-            $params = array( 'id' => $this->_id );
-            CRM_BAO_MobileProvider::retrieve( $params, $defaults );
-        }
-  
-        return $defaults;
-    }
-
     /**
      * Function to actually build the form
      *
@@ -96,15 +51,7 @@ class CRM_Admin_Form_MobileProvider extends CRM_Form
                    CRM_DAO::getAttribute( 'CRM_DAO_MobileProvider', 'name' ) );
         $this->addRule( 'name', 'Please enter a valid name.', 'required' );             
         
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => 'Save',
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
-                                 )
-                           );
-        
+        parent::buildQuickForm( );
     }
 
        
@@ -119,16 +66,16 @@ class CRM_Admin_Form_MobileProvider extends CRM_Form
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
-        $MobileProvider               = new CRM_DAO_MobileProvider( );
-        $MobileProvider->name         = $params['name'];
+        $mobileProvider               = new CRM_DAO_MobileProvider( );
+        $mobileProvider->name         = $params['name'];
 
         if ($this->_mode & self::MODE_UPDATE ) {
-            $MobileProvider->id = $this->_MobileProviderId;
+            $mobileProvider->id = $this->_MobileProviderId;
         }
 
-        $MobileProvider->save( );
+        $mobileProvider->save( );
 
-        CRM_Session::setStatus( 'The Mobile Provider ' . $MobileProvider->name . ' has been saved.' );
+        CRM_Session::setStatus( 'The Mobile Provider ' . $mobileProvider->name . ' has been saved.' );
     }//end of function
 
 }

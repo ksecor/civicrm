@@ -176,6 +176,16 @@ class CRM_System {
     }
 
     /**
+     * What menu path are we currently on. Called for the primary tpl
+     *
+     * @return string the current menu path
+     * @access public
+     */
+    static function currentPath( ) {
+        return trim($_GET['q'], '/');
+    }
+
+    /**
      * this function is called from a template to compose a url
      *
      * @param array $params list of parameters
@@ -184,7 +194,12 @@ class CRM_System {
      * @access public
      */
     function crmURL( $params ) {
-        return self::url( CRM_Array::value( 'p', $params ),
+        $p = CRM_Array::value( 'p', $params );
+        if ( ! isset( $p ) ) {
+            $p = self::currentPath( );
+        }
+
+        return self::url( $p,
                           CRM_Array::value( 'q', $params ),
                           CRM_Array::value( 'a', $params, true ),
                           CRM_Array::value( 'f', $params ) );
