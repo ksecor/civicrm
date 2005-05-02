@@ -134,7 +134,7 @@ class CRM_Admin_Form_Category extends CRM_Form
         
         $category->save( );
 
-        CRM_Session::setStatus( 'The Category ' . $category->name . ' has been saved.' );
+        CRM_Session::setStatus( 'The category \'' . $category->name . '\' has been saved.' );
     }//end of function
 
 

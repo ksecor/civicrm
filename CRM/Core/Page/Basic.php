@@ -153,6 +153,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
         eval( '$object = new ' . $this->getBAOName( ) . '( );' );
 
         $values = array( );
+        $object->orderBy ( 'name asc' );
         $object->find( );
         while ( $object->fetch( ) ) {
             $values[$object->id] = array( );

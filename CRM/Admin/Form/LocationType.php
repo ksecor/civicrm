@@ -100,7 +100,7 @@ class CRM_Admin_Form_LocationType extends CRM_Form
     public function buildQuickForm( ) {
         $this->add('text', 'name'       , 'Name'       ,
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
-        $this->addRule( 'name', 'Please enter a valid name.', 'required' );
+        $this->addRule( 'name', 'Please enter a valid location type name.', 'required' );
 
         $this->add('text', 'description', 'Description', 
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
@@ -142,7 +142,7 @@ class CRM_Admin_Form_LocationType extends CRM_Form
         
         $locationType->save( );
 
-        CRM_Session::setStatus( 'The Location Type ' . $locationType->name . ' has been saved.' );
+        CRM_Session::setStatus( 'The location type \'' . $locationType->name . '\' has been saved.' );
     }//end of function
 
 

@@ -7,24 +7,20 @@
        {strip}
        <table>
        <tr class="columnheader">
-	<th>Name</th>
-	<th>Description</th>
-	<th></th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Reserved?</th>
+        <th></th>
        </tr>
-       {foreach from=$rows item=lType}
+       {foreach from=$rows item=row}
          <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-	    <td> {$lType.name}
-	    </td>	
-            <td>
-                {$lType.description|truncate:80:"...":true}
-                {* Include '(more)' link to view entire note if it has been truncated *}
-                {*assign var="descSize" value=$lType.description|count_characters:true}
-                {if $descSize GT 80}
-		  <a href="{crmURL p='admin/contact/locType' q="ltid=`$lType.id`&action=view"}">(more)</a>
-                {/if*}
-            </td>
-	    <td>{$lType.action}</td>
-         </tr>
+	       <td>{$row.name}</td>	
+           <td>
+            {$row.description}
+           </td>
+	       <td>{if $row.is_reserved eq 1} Yes {else} No {/if}</td>
+	       <td>{$row.action}</td>
+        </tr>
        {/foreach}
        </table>
        {/strip}

@@ -42,7 +42,7 @@ class CRM_Admin_Page_IMProvider extends CRM_Page_Basic {
     static $_links = array(
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
-                                                        'url'   => 'admin/contact/IMProvider',
+                                                        'url'   => 'civicrm/admin/IMProvider',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'IM Provider'),
                            );
@@ -64,7 +64,7 @@ class CRM_Admin_Page_IMProvider extends CRM_Page_Basic {
     }
 
     function UserContext( ) {
-        return 'admin/contact/IMProvider';
+        return 'civicrm/admin/IMProvider';
     }
 
 }

@@ -42,15 +42,15 @@ class CRM_Admin_Page_Category extends CRM_Page_Basic {
     static $_links = array(
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
-                                                        'url'   => 'admin/contact/category',
+                                                        'url'   => 'civicrm/admin/category',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Category'),
                           
                            CRM_Action::DELETE => array(
                                                         'name'  => 'Delete',
-                                                        'url'   => 'admin/contact/category',
+                                                        'url'   => 'civicrm/admin/category',
                                                         'qs'    => 'action=delete&id=%%id%%',
-                                                        'extra'    => 'onclick = "return confirm(\'Are you sure you want to delete this category.\');"',
+                                                        'extra'    => 'onclick = "return confirm(\'Are you sure you want to delete this category.\n\nThis category will be removed from any currently tagged contacts, and users will no longer be able to assign contacts to this category.\');"',
                                                         'title' => 'Delete Category',
                                                         ),
                            );
@@ -72,7 +72,7 @@ class CRM_Admin_Page_Category extends CRM_Page_Basic {
     }
 
     function UserContext( ) {
-        return 'admin/contact/category';
+        return 'civicrm/admin/category';
     }
 
 }

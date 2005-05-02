@@ -54,6 +54,7 @@ class CRM_Admin_Page_RelationshipType extends CRM_Page_Basic {
                                                         'name'  => 'Disable',
                                                         'url'   => 'civicrm/admin/reltype',
                                                         'qs'    => 'action=disable&id=%%id%%',
+                                                        'extra' => 'onclick = "return confirm(\'Are you sure you want to disable this relationship type.\n\nUsers will no longer be able to select this value when adding or editing relationships between contacts.\');"',
                                                         'title' => 'Disable Relationship Type',
                                                         ),
                            CRM_Action::ENABLE  => array(

@@ -42,18 +42,19 @@ class CRM_Admin_Page_LocationType extends CRM_Page_Basic {
     static $_links = array(
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
-                                                        'url'   => 'admin/contact/locationType',
+                                                        'url'   => 'civicrm/admin/locationType',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Location Type'),
                            CRM_Action::DISABLE => array(
                                                         'name'  => 'Disable',
-                                                        'url'   => 'admin/contact/locationType',
+                                                        'url'   => 'civicrm/admin/locationType',
                                                         'qs'    => 'action=disable&id=%%id%%',
+                                                        'extra' => 'onclick = "return confirm(\'Are you sure you want to disable this location type.\n\nUsers will no longer be able to select this value when adding or editing contact locations.\');"',
                                                         'title' => 'Disable Location Type',
                                                         ),
                            CRM_Action::ENABLE  => array(
                                                         'name'  => 'Enable',
-                                                        'url'   => 'admin/contact/locationType',
+                                                        'url'   => 'civicrm/admin/locationType',
                                                         'qs'    => 'action=enable&id=%%id%%',
                                                         'title' => 'Enable Location Type',
                                                         ),
@@ -76,7 +77,7 @@ class CRM_Admin_Page_LocationType extends CRM_Page_Basic {
     }
 
     function UserContext( ) {
-        return 'admin/contact/locationType';
+        return 'civicrm/admin/locationType';
     }
 
 }

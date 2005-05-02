@@ -7,7 +7,7 @@
        {strip}
        <table>
        <tr class="columnheader">
-	<th>Name</th>
+	<th>Category Name (Tag)</th>
 	<th>Description</th>
 	<th></th>
        </tr>
@@ -27,7 +27,7 @@
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL p='admin/contact/category' q="action=add&reset=1"}">New Category</a>
+    	 <a href="{crmURL p='civicrm/admin/category' q="action=add&reset=1"}">New Category</a>
        </div>
        {/if}
     </div>

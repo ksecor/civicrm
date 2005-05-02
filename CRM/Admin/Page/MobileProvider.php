@@ -42,7 +42,7 @@ class CRM_Admin_Page_MobileProvider extends CRM_Page_Basic {
     static $_links = array(
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
-                                                        'url'   => 'admin/contact/mobileProvider',
+                                                        'url'   => 'civicrm/admin/mobileProvider',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Mobile Provider'),
                            );
@@ -64,7 +64,7 @@ class CRM_Admin_Page_MobileProvider extends CRM_Page_Basic {
     }
 
     function UserContext( ) {
-        return 'admin/contact/mobileProvider';
+        return 'civicrm/admin/mobileProvider';
     }
 
 }

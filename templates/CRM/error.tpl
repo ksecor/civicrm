@@ -1,19 +1,31 @@
-There is a major error
-<br />
-callback = {$error.callback}
-<br />
-code = {$error.code}
-<br />
-message = {$error.message}
-<br />
-mode = {$error.mode}
-<br />
-debug_info = {$error.debug_info}
-<br />
-type = {$error.type}
-<br />
-user_info = {$error.user_info}
-<br />
-to_string = {$error.to_string}
-<br />
+{* error.tpl: Display page for fatal errors. Provides complete HTML doc.*}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
+<head>
+  <title>{$pageTitle}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <base href="{$config->resourceBase}" />
+  <style type="text/css" media="screen">@import url({$config->resourceBase}css/civicrm.css);</style>
+</head>
+
+<body>
+
+<div id="crm-container">
+
+<div class="message status">
+  <dl>
+  <dt><img src="{$config->resourceBase}i/Error.gif" alt="unrecoverable error"></dt>
+  <dd>
+      Sorry. A non-recoverable error has occurred.
+      <p>$errorMsg</p>
+      <p>Error Code: {$errorCode}</p>
+      <p><a href="{$config->mainMenu}" title="Main Menu">Return to CiviCRM menu.</a></p>
+  </dd>
+  </dl>
+</div>
+
+</div> {* end crm-container div *}
+
+</body>
+</html>

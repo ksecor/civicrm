@@ -76,6 +76,25 @@ div.spacer {
 }
 */
 
+#crm-container div.form-item dl{
+ margin: 0;
+}
+
+/* Use definition lists for simple forms - <dt> for labels, <dd> for fields */
+#crm-container div.form-item dt {
+  float: left;
+  clear: left;
+  width: 25%;
+  text-align: right;
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 5px 15px 5px 0px;
+}
+
+#crm-container div.form-item dd {
+ padding: 5px;
+}
+
 #crm-container div.form-item span.labels {
   float: left;
   width: 25%;
