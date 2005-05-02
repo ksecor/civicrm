@@ -98,6 +98,10 @@ class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
             $task = 'CRM_Contact_Form_Task_AddToTag';
             break;
 
+        case CRM_Contact_Task::EXPORT_CONTACTS:
+            $task = 'CRM_Contact_Form_Task_ExportContact';
+            break;
+
         case CRM_Contact_Task::PRINT_CONTACTS:
             $task = 'CRM_Contact_Form_Task_Print';
             break;
