@@ -42,23 +42,23 @@ class CRM_Admin_Page_RelationshipType extends CRM_Page_Basic {
     static $_links = array(
                            CRM_Action::VIEW  => array(
                                                         'name'  => 'View',
-                                                        'url'   => 'admin/contact/reltype',
+                                                        'url'   => 'civicrm/admin/reltype',
                                                         'qs'    => 'action=view&id=%%id%%',
                                                         'title' => 'View Relationship Type'),
                            CRM_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
-                                                        'url'   => 'admin/contact/reltype',
+                                                        'url'   => 'civicrm/admin/reltype',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Relationship Type'),
                            CRM_Action::DISABLE => array(
                                                         'name'  => 'Disable',
-                                                        'url'   => 'admin/contact/reltype',
+                                                        'url'   => 'civicrm/admin/reltype',
                                                         'qs'    => 'action=disable&id=%%id%%',
                                                         'title' => 'Disable Relationship Type',
                                                         ),
                            CRM_Action::ENABLE  => array(
                                                         'name'  => 'Enable',
-                                                        'url'   => 'admin/contact/reltype',
+                                                        'url'   => 'civicrm/admin/reltype',
                                                         'qs'    => 'action=enable&id=%%id%%',
                                                         'title' => 'Enable Relationship Type',
                                                         ),
@@ -87,7 +87,7 @@ class CRM_Admin_Page_RelationshipType extends CRM_Page_Basic {
         }
         */
 
-        return 'admin/contact/reltype';
+        return 'civicrm/admin/reltype';
     }
 
 }

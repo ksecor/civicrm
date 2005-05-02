@@ -86,10 +86,10 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
         //
         // just need to add a javacript to popup the window for printing
         // 
-        $this->addDefaultButtons('Print');
+        $this->addDefaultButtons('Print Contact List');
         // get the print button and add the javascript
         //$printButton = $this->getElement('Print');
-        $this->updateElementAttr('Print', array('onclick' => 'window.print()'));
+        $this->updateElementAttr('_qf_Print_next', array('onclick' => 'window.print()'));
     }
 
     /**

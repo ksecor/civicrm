@@ -1,0 +1,6 @@
+/* CiviCRM Print Media Stylesheet */
+
+// Hide any buttons or other form items when printing
+.form-item {
+  display: none;
+}

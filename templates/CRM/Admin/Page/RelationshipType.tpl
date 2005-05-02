@@ -30,7 +30,7 @@
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL p='admin/contact/reltype' q="action=add&reset=1"}">New Relationship Type</a>
+    	 <a href="{crmURL p='civicrm/admin/reltype' q="action=add&reset=1"}">New Relationship Type</a>
        </div>
        {/if}
     </div>
