@@ -54,7 +54,8 @@ class CRM_Selector_Controller {
         SESSION   = 1,
         TEMPLATE  = 2,
         TRANSFER  = 4, // move the values from the session to the template
-        EXPORT    = 8;
+        EXPORT    = 8,
+        SCREEN    = 16;
 
     /**
      * a CRM Object that implements CRM_Selector_api
@@ -254,24 +255,26 @@ class CRM_Selector_Controller {
     }
 
     function run( ) {
-        $type = ( $this->_output == self::EXPORT ) ? CRM_Selector_Base::CSV : CRM_Selector_Base::HTML;
-
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $type );
-        if ( $type == CRM_Selector_Base::CSV ) {
+        if ( $this->_output == self::EXPORT || $this->_output == self::SCREEN ) {
             $rows          =& $this->_object->getRows( $this->_action,
                                                        0, 0,
                                                        $this->_sort,
-                                                       $type );
-            CRM_Core_Report_Excel::writeCSVFile( $this->_object->getExportFileName( ),
-                                                 $columnHeaders,
-                                                 $rows );
-            exit(1);
+                                                       $this->_output );
+            if ( $this->_output == self::EXPORT ) {
+                CRM_Core_Report_Excel::writeCSVFile( $this->_object->getExportFileName( ),
+                                                     $columnHeaders,
+                                                     $rows );
+                exit(1);
+            } else {
+                self::$_template->assign_by_ref( 'rows'         , $rows          );
+            }
         } else {
             $rows          =& $this->_object->getRows( $this->_action,
                                                        $this->_pagerOffset,
                                                        $this->_pagerRowCount,
                                                        $this->_sort,
-                                                       $type );
+                                                       $this->_output );
             $rowsEmpty = count( $rows ) ? false : true;
             $qill = $this->_object->getMyQILL();
             

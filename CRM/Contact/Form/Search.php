@@ -156,8 +156,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
         }
 
         // need to perform tasks on all or selected items ? using radio_ts(task selection) for it
-        $this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', array('checked'=>null));
-        $this->addElement('radio', 'radio_ts', null, 'all', 'ts_all');
+        $this->addElement('radio', 'radio_ts', null, 'selected records only', 'ts_sel', array( 'checked' => null) );
+        $this->addElement('radio', 'radio_ts', null, 'all', 'ts_all', array( 'onchange' => "changeCheckboxVals('mark_x_','deselect', Search ); return false;" ) );
 
         /*
          * add form checkboxes for each row. This is needed out here to conform to QF protocol

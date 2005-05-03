@@ -2,7 +2,7 @@
 {include file="CRM/formCommon.tpl"}
 <p>
 
-{if $printRows } 
+{if $rows } 
 <div class="form-item">
      <span class="element-right">{$form.buttons.html}</span>
 </div>
@@ -20,7 +20,7 @@
     <th>Email</th>
     <th>Phone</th>
   </tr>
-{foreach from=$printRows item=row}
+{foreach from=$rows item=row}
     <tr class="{cycle values="odd-row,even-row"}">
         <td>{$row.sort_name}</td>
         <td>{$row.street_address}</td>

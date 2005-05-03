@@ -53,24 +53,15 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
      */
     function preProcess()
     {
-        /*
-         * initialize the task and row fields
-         */
-        parent::preProcess();
-
         // set print view, so that print templates are called
         $this->controller->setPrint( true );
 
-        // parent preprocess populates the variable $_rows
-        // with contact_id and display name
-        // since we need more data we'll populate it with address, city, state, postal, country, email, phone
-
-        // get the ids
-        $ids = array_keys($this->_rows);
-        $addressDetail = CRM_Contact_BAO_Contact::getAddress($ids);
-        
-        // need to save address detail for print template
-        $this->assign_by_ref('printRows', $addressDetail);
+        // create the selector, controller and run - store results in session
+        $fv = $this->controller->exportValues('Search');
+        $selector = new CRM_Contact_Selector($fv, $this->_mode);
+        $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SCREEN);
+        $controller->setEmbedded( true );
+        $controller->run();
     }
 
 

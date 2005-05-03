@@ -207,7 +207,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function &getColumnHeaders($action = null, $output = null) 
     {
-        if ( $output == self::CSV ) {
+        if ( $output == CRM_Selector_Controller::EXPORT || $output == CRM_Selector_Controller::SCREEN ) {
             $csvHeaders = array( 'Contact Id', 'Contact Type' );
             foreach ( self::$_columnHeaders as $column ) {
                 if ( array_key_exists( 'name', $column ) ) {
@@ -254,10 +254,13 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $config = CRM_Config::singleton( );
 
-        $includeContactIds = false;
-        if ( $output == self::CSV ) {
+        if ( ( $output == CRM_Selector_Controller::EXPORT || $output == CRM_Selector_Controller::SCREEN ) &&
+             $this->_formValues['radio_ts'] == 'ts_sel' ) {
             $includeContactIds = true;
+        } else {
+            $includeContactIds = false;
         }
+
         // note the formvalues were given by CRM_Contact_Form_Search to us 
         // and contain the search criteria (parameters)
         // note that the default mode is basic
@@ -284,7 +287,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                 $row[$property] = $result->$property;
             }
 
-            if ( $output != self::CSV ) {
+            if ( $output != CRM_Selector_Controller::EXPORT && $output != CRM_Selector_Controller::SCREEN ) {
                 $row['checkbox'] = CRM_Form::CB_PREFIX . $result->contact_id;
                 $row['action'] = CRM_Action::formLink( self::$_links, null, array( 'id' => $result->contact_id ) );
                 $contact_type  = '<img src="' . $config->resourceBase . 'i/contact_';

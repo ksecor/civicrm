@@ -36,15 +36,6 @@
  */
 
 class CRM_Selector_Base {
-
-    /**
-     * the type of output we could potentially generate. CSV output
-     * typically would skip form elements and images
-     */
-    const
-        HTML  = 1,
-        CSV   = 2;
-
     /**
      * the sort order which is computed from the columnHeaders
      *

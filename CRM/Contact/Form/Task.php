@@ -102,10 +102,8 @@ class CRM_Contact_Form_Task extends CRM_Form
                 $this->_rows[$dao->contact_id] = array( );
                 $this->_rows[$dao->contact_id]['displayName'] = $dao->sort_name;
             }
-        }
-
-        // selected contacts only
-        if($values['radio_ts'] == 'ts_sel') {
+        } else if($values['radio_ts'] == 'ts_sel') {
+            // selected contacts only
             // need to perform action on only selected contacts
             foreach ( $values as $name => $value ) {
                 if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
