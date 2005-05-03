@@ -153,7 +153,15 @@ abstract class CRM_Page_Basic extends CRM_Page {
         eval( '$object = new ' . $this->getBAOName( ) . '( );' );
 
         $values = array( );
-        $object->orderBy ( 'name asc' );
+
+        /*
+         * lets make sure we get the stuff sorted by name if it exists
+         */
+        $fields =& $object->fields( );
+        if ( CRM_Array::value( 'name', $fields ) ) {
+            $object->orderBy ( 'name asc' );
+        }
+
         $object->find( );
         while ( $object->fetch( ) ) {
             $values[$object->id] = array( );

@@ -65,8 +65,6 @@ class CRM_Contact_Form_Task_ExportContact extends CRM_Contact_Form_Task {
      * @return void
      */
     function buildQuickForm( ) {
-        // print_r($_SESSION);
-
         $this->addDefaultButtons( 'Export' );
     }
 

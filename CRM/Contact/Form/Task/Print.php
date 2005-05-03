@@ -59,7 +59,7 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
         parent::preProcess();
 
         // set print view, so that print templates are called
-        $this->_print = true;
+        $this->controller->setPrint( true );
 
         // parent preprocess populates the variable $_rows
         // with contact_id and display name
@@ -70,8 +70,7 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
         $addressDetail = CRM_Contact_BAO_Contact::getAddress($ids);
         
         // need to save address detail for print template
-        $template = CRM_Core_Smarty::singleton( );
-        $template->assign_by_ref('printRows', $addressDetail);
+        $this->assign_by_ref('printRows', $addressDetail);
     }
 
 
@@ -89,10 +88,15 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
         //
         // just need to add a javacript to popup the window for printing
         // 
-        $this->addDefaultButtons('Print Contact List');
-        // get the print button and add the javascript
-        //$printButton = $this->getElement('Print');
-        $this->updateElementAttr('_qf_Print_next', array('onclick' => 'window.print()'));
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => 'Print Contact List',
+                                         'js'        => array( 'onclick' => 'window.print()' ),
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'back',
+                                         'name'      => 'Cancel' ),
+                                 )
+                           );
     }
 
     /**

@@ -288,10 +288,17 @@ class CRM_Form extends HTML_QuickForm_Page {
         $prevnext = array( );
         $spacing = array( );
         foreach ( $params as $button ) {
-            if ( $button['type'] === 'reset' ) {
-                $prevnext[] =& $this->createElement( $button['type'], 'reset', $button['name'], array( 'class' => 'form-submit' ) );
+            $js = CRM_Array::value( 'js', $button );
+            if ( $js ) {
+                $attrs = array_merge( $js, array( 'class' => 'form-submit' ) );
             } else {
-                $prevnext[] =& $this->createElement( 'submit', $this->getButtonName($button['type']), $button['name'],  array( 'class' => 'form-submit' ) );
+                $attrs = array( 'class' => 'form-submit' );
+            }
+
+            if ( $button['type'] === 'reset' ) {
+                $prevnext[] =& $this->createElement( $button['type'], 'reset', $button['name'], $js );
+            } else {
+                $prevnext[] =& $this->createElement( 'submit', $this->getButtonName($button['type']), $button['name'], $js );
             }
             if ( CRM_Array::value( 'isDefault', $button ) ) {
                 $this->setDefaultAction( $button['type'] );
