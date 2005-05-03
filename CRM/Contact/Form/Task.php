@@ -81,8 +81,6 @@ class CRM_Contact_Form_Task extends CRM_Form
     {
         $session = CRM_Session::singleton( );        
 
-        //CRM_Error::debug_var('session', $session);
-        
         // get the submitted values of the search form
         // we'll need to get fv from either search or adv search in the future
         $values = $this->controller->exportValues( 'Search' );
@@ -118,7 +116,6 @@ class CRM_Contact_Form_Task extends CRM_Form
         $session->set('selectedContacts', $this->_rows);
         
         $this->assign_by_ref( 'totalSelectedContact', count($this->_rows) );
-        
     }
 
     /**

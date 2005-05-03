@@ -143,8 +143,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         $this->query($queryString);
 
-        CRM_Error::debug_var('queryString', $queryString);
-
         if ($count) {
             $row = $this->getDatabaseResult()->fetchRow();
             return $row[0];
@@ -152,9 +150,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             // need to store query in session for basic search for getting contact id's only
             $strSelect = "SELECT crm_contact.id as contact_id, crm_contact.sort_name as sort_name";
             $taskQuery = $strSelect . $strFrom . $strWhere . $strOrder;
-
-            CRM_Error::debug_var('taskQuery', $taskQuery);
-
             $session = CRM_Session::singleton( );        
             $session->set('tq', $taskQuery, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
         }
@@ -664,7 +659,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                         LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id)";
 
         // adding the WHERE clause which for specific contact_id's
-        //$strWhere = " WHERE contact_id IN (" . implode(',', $ids) . ")"; 
         $strWhere = " WHERE crm_contact.id IN (" . implode(',', $ids) . ")"; 
 
         // building the query string
@@ -673,8 +667,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // dummy dao needed
         $crmDAO = new CRM_DAO();
         $crmDAO->query($queryString);
-
-        CRM_Error::debug_var('queryString', $queryString);
 
         // process records
         while($crmDAO->fetch()) {
@@ -686,9 +678,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $addressDetail[$id][$property] = $crmDAO->$property;
             }
         }
-
-        CRM_Error::debug_var('numRows', count($addressDetail));
-
         return $addressDetail;
     }
 }
