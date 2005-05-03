@@ -173,7 +173,7 @@ function _crm_format_params( &$params, &$values ) {
     }
 
     if ( $locationTypeNeeded &&
-         ! array_key_exists( 'location_type', $values['location'][1] ) ) {
+         ! array_key_exists( 'location_type_id', $values['location'][1] ) ) {
         return _crm_error( "Location Type not defined" );
     }
 

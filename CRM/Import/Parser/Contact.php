@@ -110,6 +110,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
 
         $params =& $this->getActiveFieldParams( );
+        
+        $params['location_type_id'] = 1;
+
         if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Error ) {
             return self::ERROR;
         }
@@ -140,8 +143,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             self::$_importableFields = array( );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Individual::import( ) );
+            /*
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Location::import( ) );
+            */
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Address::import( ) );
             self::$_importableFields = array_merge(self::$_importableFields,
