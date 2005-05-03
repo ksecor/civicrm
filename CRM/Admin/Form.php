@@ -103,7 +103,7 @@ class CRM_Admin_Form extends CRM_Form
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',
                                          'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
+                                 array ( 'type'      => 'cancel',
                                          'name'      => 'Cancel' ),
                                  )
                            );

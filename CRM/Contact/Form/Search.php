@@ -154,7 +154,11 @@ class CRM_Contact_Form_Search extends CRM_Form {
                                          'isDefault' => true     )
                                  )        
                            );
-        
+
+        $this->add('submit', $this->getButtonName( 'refresh'           ), 'Search', array( 'class' => 'form-submit' ) );
+        $this->add('submit', $this->getButtonName( 'refresh', 'export' ), 'Export', array( 'class' => 'form-submit' ) );
+        $this->setDefaultAction( 'refresh' );
+
         /*
          * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
          *
@@ -218,6 +222,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @access public
      */
     function preProcess( ) {
+        CRM_Error::debug( 'P', $this->controller->container( ) );
         /*
          * we allow the controller to set force/reset externally, useful when we are being
          * driven by the wizard framework

@@ -296,9 +296,9 @@ class CRM_Form extends HTML_QuickForm_Page {
             }
 
             if ( $button['type'] === 'reset' ) {
-                $prevnext[] =& $this->createElement( $button['type'], 'reset', $button['name'], $js );
+                $prevnext[] =& $this->createElement( $button['type'], 'reset', $button['name'], $attrs );
             } else {
-                $prevnext[] =& $this->createElement( 'submit', $this->getButtonName($button['type']), $button['name'], $js );
+                $prevnext[] =& $this->createElement( 'submit', $this->getButtonName($button['type']), $button['name'], $attrs );
             }
             if ( CRM_Array::value( 'isDefault', $button ) ) {
                 $this->setDefaultAction( $button['type'] );
