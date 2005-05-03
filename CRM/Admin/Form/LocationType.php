@@ -54,6 +54,7 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
         $this->add('text', 'description', 'Description', 
                    CRM_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
 
+        $this->add('checkbox', 'is_active', 'Enabled?');
         parent::buildQuickForm( );
     }
 
@@ -68,12 +69,16 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
     {
         // store the submitted values in an array
         $params = $this->exportValues();
+        if (!CRM_Array::value( 'is_active', $params )) {
+            $params['is_active'] = 0;
+        }
 
         // action is taken depending upon the mode
         $locationType               = new CRM_Contact_DAO_LocationType( );
         $locationType->domain_id    = 1;
         $locationType->name         = $params['name'];
         $locationType->description  = $params['description'];
+        $locationType->is_active    = $params['is_active'];
 
         if ($this->_mode & self::MODE_UPDATE ) {
             $locationType->id = $this->_id;

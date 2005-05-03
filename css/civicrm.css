@@ -205,6 +205,10 @@ div.spacer {
   background-color: #EAEAEA;
 }
 
+#crm-container .disabled {
+  color: #ff0000;
+}
+
 #crm-container a.sort-ascending:before {
    content: url(sort-asc.png);
    margin-right: 5px;

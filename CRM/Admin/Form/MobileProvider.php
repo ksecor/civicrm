@@ -49,8 +49,9 @@ class CRM_Admin_Form_MobileProvider extends CRM_Admin_Form
     public function buildQuickForm( ) {
         $this->add('text', 'name'       , 'Name'       ,
                    CRM_DAO::getAttribute( 'CRM_DAO_MobileProvider', 'name' ) );
-        $this->addRule( 'name', 'Please enter a valid name.', 'required' );             
-        
+        $this->addRule( 'name', 'Please enter a valid name.', 'required' );
+        $this->add('checkbox', 'is_active', 'Enabled?');
+
         parent::buildQuickForm( );
     }
 
@@ -64,18 +65,22 @@ class CRM_Admin_Form_MobileProvider extends CRM_Admin_Form
     {
         // store the submitted values in an array
         $params = $this->exportValues();
-
+        if (!CRM_Array::value( 'is_active', $params )) {
+            $params['is_active'] = 0;
+        }
+        
         // action is taken depending upon the mode
         $mobileProvider               = new CRM_DAO_MobileProvider( );
         $mobileProvider->name         = $params['name'];
+        $mobileProvider->is_active    = $params['is_active'];
 
         if ($this->_mode & self::MODE_UPDATE ) {
-            $mobileProvider->id = $this->_MobileProviderId;
+            $mobileProvider->id = $this->_id;
         }
 
         $mobileProvider->save( );
 
-        CRM_Session::setStatus( 'The Mobile Provider ' . $mobileProvider->name . ' has been saved.' );
+        CRM_Session::setStatus( 'The Mobile Provider \'' . $MobileProvider->name . '\' has been saved.' );
     }//end of function
 
 }

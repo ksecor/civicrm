@@ -377,7 +377,7 @@ function civicrm_init()
  */
 function civicrm_admin_invoke() 
 {
-    // Location Type
+    // Admin classes
     if (arg(1) == 'admin') {
         $view = null;
         

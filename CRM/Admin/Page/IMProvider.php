@@ -45,6 +45,19 @@ class CRM_Admin_Page_IMProvider extends CRM_Page_Basic {
                                                         'url'   => 'civicrm/admin/IMProvider',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'IM Provider'),
+                           CRM_Action::DISABLE => array(
+                                                        'name'  => 'Disable',
+                                                        'url'   => 'civicrm/admin/IMProvider',
+                                                        'qs'    => 'action=disable&id=%%id%%',
+                                                        'extra' => 'onclick = "return confirm(\'Are you sure you want to disable this IM Service Provider.\n\nUsers will no longer be able to select this value when adding or editing contact IM screen names.\');"',
+                                                        'title' => 'Disable IM Service Provider',
+                                                        ),
+                           CRM_Action::ENABLE  => array(
+                                                        'name'  => 'Enable',
+                                                        'url'   => 'civicrm/admin/IMProvider',
+                                                        'qs'    => 'action=enable&id=%%id%%',
+                                                        'title' => 'Enable IM Service Provider',
+                                                        ),
                            );
 
     function getBAOName( ) {

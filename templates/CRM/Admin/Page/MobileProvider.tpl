@@ -8,13 +8,17 @@
        {strip}
        <table>
        <tr class="columnheader">
-	<th>Name</th>
-	<th></th>
+	     <th>Mobile Phone Provider</th>
+         <th>Reserved?</th>
+         <th>Enabled?</th>
+	     <th></th>
        </tr>
        {foreach from=$rows item=row}
-         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-	    <td> {$row.name}</td>	
-            <td><a href="{crmURL p='admin/contact/mobileProvider' q="id=`$row.id`&action=update"}">Edit</a></td>	
+         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+	       <td> {$row.name}</td>
+	       <td>{if $row.is_reserved eq 1} Yes {else} No {/if}</td>
+	       <td>{if $row.is_active eq 1} Yes {else} No {/if}</td>
+           <td>{$row.action}</td>	
          </tr>
        {/foreach}
        </table>
@@ -23,7 +27,7 @@
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL p='admin/contact/mobileProvider' q="action=add&reset=1"}">New Mobile Provider</a>
+    	 <a href="{crmURL q="action=add&reset=1"}">New Mobile Phone Provider</a>
        </div>
        {/if}
     </div>

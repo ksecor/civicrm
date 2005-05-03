@@ -10,15 +10,17 @@
         <th>Name</th>
         <th>Description</th>
         <th>Reserved?</th>
+        <th>Enabled?</th>
         <th></th>
        </tr>
        {foreach from=$rows item=row}
-         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
+         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	       <td>{$row.name}</td>	
            <td>
             {$row.description}
            </td>
 	       <td>{if $row.is_reserved eq 1} Yes {else} No {/if}</td>
+	       <td>{if $row.is_active eq 1} Yes {else} No {/if}</td>
 	       <td>{$row.action}</td>
         </tr>
        {/foreach}

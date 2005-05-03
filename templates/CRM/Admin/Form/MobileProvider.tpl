@@ -2,14 +2,11 @@
 <form {$form.attributes}>
 <div class="form-item">
 <fieldset><legend>{if $action eq 1}New{else}Edit{/if} Mobile Provider</legend>
-	<div>{$form.name.label}{$form.name.html}</div>
-        <div class="horizontal-position">
-        <span class="two-col1">
-            <span class="fields">{$form.buttons.html}</span>
-        </span>
-        <div class="spacer"></div>
-        </div>
-
-    </fieldset>
+    <dl>
+	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
+    <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+    <dt></dt><dd>{$form.buttons.html}</dd>
+    </dl>
+</fieldset>
 </div>
 </form>

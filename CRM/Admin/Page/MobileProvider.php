@@ -45,6 +45,19 @@ class CRM_Admin_Page_MobileProvider extends CRM_Page_Basic {
                                                         'url'   => 'civicrm/admin/mobileProvider',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Mobile Provider'),
+                           CRM_Action::DISABLE => array(
+                                                        'name'  => 'Disable',
+                                                        'url'   => 'civicrm/admin/mobileProvider',
+                                                        'qs'    => 'action=disable&id=%%id%%',
+                                                        'extra' => 'onclick = "return confirm(\'Are you sure you want to disable this Mobile Phone Service Provider.\n\nUsers will no longer be able to select this value when adding or editing contact phone numbers.\');"',
+                                                        'title' => 'Disable Mobile Phone Service Provider',
+                                                        ),
+                           CRM_Action::ENABLE  => array(
+                                                        'name'  => 'Enable',
+                                                        'url'   => 'civicrm/admin/mobileProvider',
+                                                        'qs'    => 'action=enable&id=%%id%%',
+                                                        'title' => 'Enable Mobile Phone Service Provider',
+                                                        ),
                            );
 
     function getBAOName( ) {

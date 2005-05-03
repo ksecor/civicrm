@@ -9,6 +9,7 @@
         <dt>{$form.contact_type_a.label}</dt><dd>{$form.contact_type_a.html}</dd>
         <dt>{$form.contact_type_b.label}</dt><dd>{$form.contact_type_b.html}</dd>
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+        <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         {if $action neq 4}
             <dt></dt><dd>{$form.buttons.html}</dd>
         {/if}

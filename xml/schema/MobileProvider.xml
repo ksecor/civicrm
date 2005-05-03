@@ -23,6 +23,11 @@
   <field>
        <name>is_reserved</name>
        <type>boolean</type>
-       <comment>Is this location type a predefined system location?</comment>
+       <comment>Is this entry a predefined system option?</comment>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this entry active?</comment>
   </field>
 </table>
