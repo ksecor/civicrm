@@ -73,15 +73,15 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     function basicSearchQuery(&$fv, $offset, $rowCount, $sort, $count=false)
     {
-        $str_select = $str_from = $str_where = $str_order = $str_limit = ''; 
+        $strSelect = $strFrom = $strWhere = $strOrder = $strLimit = ''; 
         
         // stores all the "AND" clauses
         $andArray = array();
        
         if ($count) {
-            $str_select = "SELECT count(crm_contact.id) "; 
+            $strSelect = "SELECT count(crm_contact.id) "; 
         } else {
-            $str_select = "SELECT crm_contact.id as contact_id,
+            $strSelect = "SELECT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
@@ -93,7 +93,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                               crm_contact.contact_type as contact_type";
         }
 
-        $str_from = " FROM crm_contact 
+        $strFrom = " FROM crm_contact 
                         LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
                         LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
                         LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
@@ -110,13 +110,13 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // check for group restriction
         if ($fv['group'] && ($fv['group'] != 'any')) {
             $andArray['group'] = "crm_group_contact.group_id = " .$fv['group'];
-            $str_from .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
+            $strFrom .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
         }
 
         // check for category restriction
         if ($fv['category'] && ($fv['category'] != 'any')) {
             $andArray['category'] .= "crm_entity_category.category_id = " . $fv['category'];
-            $str_from .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
+            $strFrom .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
         }
 
         // check for last name, as of now only working with sort name
@@ -126,30 +126,35 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // final AND ing of the entire query.
         foreach ($andArray as $v) {
-            $str_where .= " AND ($v) ";
+            $strWhere .= " AND ($v) ";
         }
 
         // skip the following for now
         // last_name, first_name, street_name, city, state_province, country, postal_code, postal_code_low, postal_code_high
-        $str_where = preg_replace("/AND|OR/", "WHERE", $str_where, 1);
+        $strWhere = preg_replace("/AND|OR/", "WHERE", $strWhere, 1);
 
         if(!$count) {
-            $str_order = " ORDER BY " . $sort->orderBy(); 
-            $str_limit = " LIMIT $offset, $rowCount ";
+            $strOrder = " ORDER BY " . $sort->orderBy(); 
+            $strLimit = " LIMIT $offset, $rowCount ";
         }
 
         // building the query string
-        $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
+        $queryString = $strSelect . $strFrom . $strWhere . $strOrder . $strLimit;
 
-        $this->query($query_string);
+        $this->query($queryString);
+
+        CRM_Error::debug_var('queryString', $queryString);
 
         if ($count) {
             $row = $this->getDatabaseResult()->fetchRow();
             return $row[0];
         } else {
             // need to store query in session for basic search for getting contact id's only
-            $str_select = "SELECT crm_contact.id as contact_id, crm_contact.sort_name as sort_name";
-            $taskQuery = $str_select . $str_from . $str_where . $str_order;
+            $strSelect = "SELECT crm_contact.id as contact_id, crm_contact.sort_name as sort_name";
+            $taskQuery = $strSelect . $strFrom . $strWhere . $strOrder;
+
+            CRM_Error::debug_var('taskQuery', $taskQuery);
+
             $session = CRM_Session::singleton( );        
             $session->set('tq', $taskQuery, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
         }
@@ -170,15 +175,15 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     function advancedSearchQuery(&$fv, $offset, $rowCount, $sort, $count=FALSE)
     {
-        $str_select = $str_from = $str_where = $str_order = $str_limit = '';
+        $strSelect = $strFrom = $strWhere = $strOrder = $strLimit = '';
 
         // stores all the "AND" clauses
         $andArray = array();
 
         if($count) {
-            $str_select = "SELECT count(DISTINCT crm_contact.id) ";
+            $strSelect = "SELECT count(DISTINCT crm_contact.id) ";
         } else {
-            $str_select = "SELECT DISTINCT crm_contact.id as contact_id,
+            $strSelect = "SELECT DISTINCT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
@@ -190,7 +195,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                               crm_contact.contact_type as contact_type";
         }
 
-        $str_from = " FROM crm_contact 
+        $strFrom = " FROM crm_contact 
                         LEFT JOIN crm_location ON crm_contact.id = crm_location.contact_id
                         LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
                         LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
@@ -260,7 +265,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             }
             $andArray['group'] = rtrim($andArray['group'], ",");
             $andArray['group'] .= "))";
-            $str_from .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
+            $strFrom .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
         }
 
         // check for category restriction
@@ -271,7 +276,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             }
             $andArray['category'] = rtrim($andArray['category'], ",");
             $andArray['category'] .= "))"; 
-            $str_from .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
+            $strFrom .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
         }
 
 
@@ -361,20 +366,20 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // final AND ing of the entire query.
         foreach ($andArray as $v) {
-            $str_where .= " AND ($v) ";
+            $strWhere .= " AND ($v) ";
         }
 
-        $str_where = preg_replace("/AND|OR/", "WHERE", $str_where, 1);
+        $strWhere = preg_replace("/AND|OR/", "WHERE", $strWhere, 1);
 
         if(!$count) {
-            $str_order = " ORDER BY " . $sort->orderBy(); 
-            $str_limit = " LIMIT $offset, $rowCount ";
+            $strOrder = " ORDER BY " . $sort->orderBy(); 
+            $strLimit = " LIMIT $offset, $rowCount ";
         }
 
         // building the query string
-        $query_string = $str_select . $str_from . $str_where . $str_order . $str_limit;
+        $queryString = $strSelect . $strFrom . $strWhere . $strOrder . $strLimit;
 
-        $this->query($query_string);
+        $this->query($queryString);
 
         if ($count) {
             $row = $this->getDatabaseResult()->fetchRow();
@@ -659,7 +664,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                         LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id)";
 
         // adding the WHERE clause which for specific contact_id's
-        $strWhere = " WHERE contact_id IN (" . implode(',', $ids) . ")"; 
+        //$strWhere = " WHERE contact_id IN (" . implode(',', $ids) . ")"; 
+        $strWhere = " WHERE crm_contact.id IN (" . implode(',', $ids) . ")"; 
 
         // building the query string
         $queryString = $strSelect . $strFrom . $strWhere;
@@ -667,6 +673,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // dummy dao needed
         $crmDAO = new CRM_DAO();
         $crmDAO->query($queryString);
+
+        CRM_Error::debug_var('queryString', $queryString);
 
         // process records
         while($crmDAO->fetch()) {
@@ -678,6 +686,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $addressDetail[$id][$property] = $crmDAO->$property;
             }
         }
+
+        CRM_Error::debug_var('numRows', count($addressDetail));
+
         return $addressDetail;
     }
 }
