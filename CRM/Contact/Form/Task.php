@@ -90,17 +90,8 @@ class CRM_Contact_Form_Task extends CRM_Form
 
         $this->_rows = array( );
 
-        // radio_ts = radio button for task selection - could be either selected or All search results
-        if($values['radio_ts'] == 'ts_sel') {
-            // need to perform action on only selected contacts
-            foreach ( $values as $name => $value ) {
-                if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
-                    $id = substr( $name, self::CB_PREFIX_LEN );
-                    $this->_rows[$id] = array( );
-                    $this->_rows[$id]['displayName'] = CRM_Contact_BAO_Contact::displayName( $id );
-                }
-            }
-        } else {
+        // all contacts or action = save a search
+        if (($values['radio_ts'] == 'ts_all') || ($this->_task == CRM_Contact_Task::SAVE_SEARCH)) {
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
             //$session = CRM_Session::singleton( );        
@@ -112,9 +103,19 @@ class CRM_Contact_Form_Task extends CRM_Form
                 $this->_rows[$dao->contact_id]['displayName'] = $dao->sort_name;
             }
         }
-        //$this->assign_by_ref( 'rows', $this->_rows );
+
+        // selected contacts only
+        if($values['radio_ts'] == 'ts_sel') {
+            // need to perform action on only selected contacts
+            foreach ( $values as $name => $value ) {
+                if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
+                    $id = substr( $name, self::CB_PREFIX_LEN );
+                    $this->_rows[$id] = array( );
+                    $this->_rows[$id]['displayName'] = CRM_Contact_BAO_Contact::displayName( $id );
+                }
+            }
+        }
         $session->set('selectedContacts', $this->_rows);
-        
         $this->assign_by_ref( 'totalSelectedContact', count($this->_rows) );
     }
 

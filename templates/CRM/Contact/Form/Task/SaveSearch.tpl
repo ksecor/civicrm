@@ -17,7 +17,7 @@ Searching for {$qill}
 {$form.ss_description.label} {$form.ss_description.html}
 </div>
 
-{include file="CRM/Contact/Form/Task.tpl"}
+{*{include file="CRM/Contact/Form/Task.tpl"}*}
 
 </fieldset>
 <p>
@@ -27,3 +27,7 @@ Searching for {$qill}
 </div>
 
 </form>
+
+<hr />
+There are {$totalSelectedContact} contacts in the resultset currently.
+<hr/>
