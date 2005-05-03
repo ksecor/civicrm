@@ -8,6 +8,7 @@
           {$pager->_response.next}&nbsp;
           {$pager->_response.last}&nbsp;
           </span>
+          {if $pager->_response.numPages > 1}          
           <span class="element-right">
           {if $location eq 'top'}
             {$pager->_response.titleTop}&nbsp;<input name="{$pager->_response.buttonTop}" value="Go" type="submit"/>
@@ -15,6 +16,7 @@
             {$pager->_response.titleBottom}&nbsp;<input name="{$pager->_response.buttonBottom}" value="Go" type="submit"/>
           {/if}
           </span>
+          {/if}
         </div>
     {/if}
     

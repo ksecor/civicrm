@@ -25,7 +25,7 @@
 
 require_once 'CRM/Core/String.php';
 
-class CRM_Report_Excel {
+class CRM_Core_Report_Excel {
     /**
      * Code copied from phpMyAdmin (v2.6.1-pl3)
      * File: PHPMYADMIN/libraries/export/csv.php
@@ -142,7 +142,7 @@ class CRM_Report_Excel {
             header('Pragma: no-cache');
         }
     
-        CRM_Report_Excel::makeCSVTable( $header, $rows, true );
+        self::makeCSVTable( $header, $rows, true );
     }
 
 }

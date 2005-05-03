@@ -76,14 +76,13 @@ interface CRM_Selector_API {
      * returns the column headers as an array of tuples:
      * (name, sortName (key to the sort array))
      *
-     * @param string action the action being performed
+     * @param string $action the action being performed
+     * @param enum   $type   what should the result set include (web/email/csv)
      *
      * @return array the column headers that need to be displayed
-     *
      * @access public
-     *
      */
-    function &getColumnHeaders( $action = null );
+    function &getColumnHeaders( $action = null, $type = null );
     
     /**
      * returns the number of rows for this action
@@ -100,17 +99,16 @@ interface CRM_Selector_API {
     /**
      * returns all the rows in the given offset and rowCount
      *
-     * @param string action   the action being performed
-     * @param int    offset   the row number to start from
-     * @param int    rowCount the number of rows to return
-     * @param string sort     the sql string that describes the sort order
+     * @param enum   $action   the action being performed
+     * @param int    $offset   the row number to start from
+     * @param int    $rowCount the number of rows to return
+     * @param string $sort     the sql string that describes the sort order
+     * @param enum   $type     what should the result set include (web/email/csv)
      *
      * @return int   the total number of rows for this action
-     *
      * @access public
-     *
      */
-    function &getRows( $action, $offset, $rowCount, $sort );
+    function &getRows( $action, $offset, $rowCount, $sort, $type = null );
 
     /**
      * return the template (.tpl) filename
@@ -124,52 +122,15 @@ interface CRM_Selector_API {
     function getTemplateFileName( $action = null );
 
     /**
-     * returns the column headers as an array of tuples:
-     * (name, sortName (key to the sort array))
-     * This is specifically for Export (typically exports have
-     * a whole lot more detailed information than normal
-     * html reports. Since export could be in various formats
-     * am introducing a type field here
-     *
-     * @param string action the action being performed
-     * @param string type   the type of export required: csv/xml/foaf etc
-     *
-     * @return array the column headers that need to be displayed
-     *
-     * @access public
-     *
-     */
-    function getExportColumnHeaders( $action, $type = 'csv' );
-  
-    /**
-     * returns all the rows for the given action
-     * This will typically be a big set, and hence is a slow
-     * time consuming process. Might need to add an iterator
-     * and make it more stream-lined, so we can actually
-     * fetch and shove bytes down the network pipe at the same
-     * time
-     *
-     * @param string action the action being performed
-     * @param string type   the type of export required: csv/xml/foaf etc
-     *
-     * @return array all the data rows for the specific action
-     *
-     * @access public
-     *
-     */
-    function getExportRows( $action, $type = 'csv' );
-  
-    /**
      * return the filename for the exported CSV
      *
-     * @param string action the action being performed
      * @param string type   the type of export required: csv/xml/foaf etc
      *
      * @return string the fileName which we will munge to skip spaces and
      *                special characters to avoid various browser issues
      *
      */
-    function getExportFileName( $action, $type = 'csv' );
+    function getExportFileName( $type = 'csv' );
 
 }
 

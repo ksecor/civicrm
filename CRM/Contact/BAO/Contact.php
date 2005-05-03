@@ -63,15 +63,16 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     /**
      * create and query the db for a simple contact search
      *
-     * @param int      $action    the type of action links
-     * @param int      $offset    the offset for the query
-     * @param int      $rowCount  the number of rows to return
-     * @param boolean  $count     is this query used for counting the rows only ?
+     * @param int      $action            the type of action links
+     * @param int      $offset            the offset for the query
+     * @param int      $rowCount          the number of rows to return
+     * @param boolean  $count             is this query used for counting the rows only ?
+     * @param boolean  $includeContactIds should we include the contact ids if present in the form values?
      *
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function basicSearchQuery(&$fv, $offset, $rowCount, $sort, $count=false)
+    function basicSearchQuery(&$fv, $offset, $rowCount, $sort, $count = false, $includeContactIds = false)
     {
         $strSelect = $strFrom = $strWhere = $strOrder = $strLimit = ''; 
         
@@ -124,6 +125,18 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($fv['sort_name'])) ."%'";
         }
 
+        if ( $includeContactIds ) {
+            $contactIds = array( );
+            foreach ( $fv as $name => $value ) {
+                if ( substr( $name, 0, CRM_Form::CB_PREFIX_LEN ) == CRM_Form::CB_PREFIX ) {
+                    $contactIds[] = substr( $name, CRM_Form::CB_PREFIX_LEN );
+                }
+            }
+            if ( ! empty( $contactIds ) ) {
+                $andArray['cid'] = " crm_contact.id in (" . implode( ',', $contactIds ) . ")";
+            }
+        }
+
         // final AND ing of the entire query.
         foreach ($andArray as $v) {
             $strWhere .= " AND ($v) ";
@@ -134,8 +147,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $strWhere = preg_replace("/AND|OR/", "WHERE", $strWhere, 1);
 
         if(!$count) {
-            $strOrder = " ORDER BY " . $sort->orderBy(); 
-            $strLimit = " LIMIT $offset, $rowCount ";
+            $strOrder = " ORDER BY " . $sort->orderBy();
+            if ( $rowCount > 0 ) {
+                $strLimit = " LIMIT $offset, $rowCount ";
+            }
         }
 
         // building the query string
@@ -368,7 +383,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         if(!$count) {
             $strOrder = " ORDER BY " . $sort->orderBy(); 
-            $strLimit = " LIMIT $offset, $rowCount ";
+            if ( $rowCount > 0 ) {
+                $strLimit = " LIMIT $offset, $rowCount ";
+            }
         }
 
         // building the query string

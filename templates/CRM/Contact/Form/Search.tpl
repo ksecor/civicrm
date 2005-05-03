@@ -14,7 +14,7 @@
      <span class="horizontal-position">
      {$form.sort_name.label}{$form.sort_name.html}
      </span>
-     <span class="element-right">{$form._qf_Search_refresh.html}</span>
+     <span class="element-right">{$form._qf_Search_refresh_search.html}</span>
      <div class="description font-italic">
         <span class="horizontal-position">
         Enter full or partial last name or organization name to further limit the contacts included below.
@@ -57,7 +57,7 @@
 
      <div class="form-item">
        <span>
-         {$form.task.html} &nbsp; &nbsp; {$form._qf_Search_next.html} &nbsp; &nbsp; {$form._qf_Search_refresh_export.html}
+         {$form.task.html} &nbsp; &nbsp; {$form._qf_Search_next_action.html} &nbsp; &nbsp; {$form._qf_Search_refresh_export.html}
   	     <br />
 	     {$form.radio_ts.ts_sel.html} &nbsp; {$form.radio_ts.ts_all.html} {$pager->_totalItems} records
        </span>

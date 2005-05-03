@@ -76,6 +76,29 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     protected $_force;
 
+    /**
+     * name of search button
+     *
+     * @var string
+     */
+    protected $_searchButtonName;
+
+    /**
+     * name of export button
+     *
+     * @var string
+     */
+    protected $_exportButtonName;
+
+    
+    /**
+     * name of export button
+     *
+     * @var string
+     */
+    protected $_actionButtonName;
+
+    
     /*
      * csv - common search values
      * @static
@@ -155,16 +178,17 @@ class CRM_Contact_Form_Search extends CRM_Form {
                                  )        
                            );
 
-        $this->add('submit', $this->getButtonName( 'refresh'           ), 'Search', array( 'class' => 'form-submit' ) );
-        $this->add('submit', $this->getButtonName( 'refresh', 'export' ), 'Export', array( 'class' => 'form-submit' ) );
+        $this->add('submit', $this->_searchButtonName, 'Search', array( 'class' => 'form-submit' ) );
+        $this->add('submit', $this->_exportButtonName, 'Export', array( 'class' => 'form-submit' ) );
         $this->setDefaultAction( 'refresh' );
 
         /*
          * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
          *
          */
-        $this->add('submit', $this->getButtonName( 'next' ), 'Perform Action!', array( 'class' => 'form-submit',
-                                                                                       'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."');" ) );
+        $this->add('submit', $this->_actionButtonName, 'Perform Action!',
+                   array( 'class' => 'form-submit',
+                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."');" ) );
     }
 
     /**
@@ -222,7 +246,13 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * @access public
      */
     function preProcess( ) {
-        CRM_Error::debug( 'P', $this->controller->container( ) );
+        /**
+         * set the button names
+         */
+        $this->_searchButtonName = $this->getButtonName( 'refresh', 'search' );
+        $this->_exportButtonName = $this->getButtonName( 'refresh', 'export' );
+        $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' );
+
         /*
          * we allow the controller to set force/reset externally, useful when we are being
          * driven by the wizard framework
@@ -289,17 +319,26 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);
         $session->set('fv', $fv, self::SESSION_SCOPE_SEARCH);
 
-        // check actionName and if next, then do not repeat a search, since we are going to the next page
-        list($pageName, $action) = $this->controller->getActionName();
-        if ($action == 'next') {
-            return;
-        }
 
-        // create the selector, controller and run - store results in session
-        $selector = new CRM_Contact_Selector($fv, $this->_mode);
-        $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
-        $controller->setEmbedded( true );
-        $controller->run();
+        if ( $this->controller->getButtonData( $this->_actionButtonName ) ) {
+            // check actionName and if next, then do not repeat a search, since we are going to the next page
+            $this->controller->resetButtonData( );
+            return;
+        } else {
+            // do export stuff
+            if ( $this->controller->getButtonData( $this->_exportButtonName ) ) {
+                $output = CRM_Selector_Controller::EXPORT;
+            } else {
+                $output = CRM_Selector_Controller::SESSION;
+            }
+            $this->controller->resetButtonData( );
+
+            // create the selector, controller and run - store results in session
+            $selector = new CRM_Contact_Selector($fv, $this->_mode);
+            $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, $output );
+            $controller->setEmbedded( true );
+            $controller->run();
+        }
     }
 
 

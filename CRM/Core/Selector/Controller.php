@@ -41,7 +41,7 @@
 
 require_once 'CRM/Core/Pager.php';
 require_once 'CRM/Core/Sort.php';
-require_once 'CRM/Report/Excel.php';
+require_once 'CRM/Core/Report/Excel.php';
 
 class CRM_Selector_Controller {
 
@@ -53,8 +53,8 @@ class CRM_Selector_Controller {
     const
         SESSION   = 1,
         TEMPLATE  = 2,
-        BOTH      = 3, // this is primarily done for ease of use
-        TRANSFER  = 4; // move the values from the session to the template
+        TRANSFER  = 4, // move the values from the session to the template
+        EXPORT    = 8;
 
     /**
      * a CRM Object that implements CRM_Selector_api
@@ -196,6 +196,9 @@ class CRM_Selector_Controller {
             self::$_template = CRM_Core_Smarty::singleton( );
         }
 
+        $this->_sortOrder =& $this->_object->getSortOrder($action);
+        $this->_sort      =  new CRM_Sort( $this->_sortOrder, $this->_sortID );
+
         /*
          * if we are in transfer mode, do not goto database, use the 
          * session values instead
@@ -220,10 +223,6 @@ class CRM_Selector_Controller {
 
         $this->_pager = new CRM_Pager( $params );
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
-
-        $this->_sortOrder =& $this->_object->getSortOrder($action);
-        $this->_sort      =  new CRM_Sort( $this->_sortOrder, $this->_sortID );
-
     }
 
     /**
@@ -255,48 +254,62 @@ class CRM_Selector_Controller {
     }
 
     function run( ) {
-        $columnHeaders =& $this->_object->getColumnHeaders( $this->_action );
-        $rows          =& $this->_object->getRows( $this->_action,
-                                                   $this->_pagerOffset,
-                                                   $this->_pagerRowCount,
-                                                   $this->_sort );
-        $rowsEmpty = count( $rows ) ? false : true;
-        $qill = $this->_object->getMyQILL();
+        $type = ( $this->_output == self::EXPORT ) ? CRM_Selector_Base::CSV : CRM_Selector_Base::HTML;
 
-        if ( $this->_output & self::SESSION ) {
-            $this->_store->set( 'columnHeaders', $columnHeaders );
-            $this->_store->set( 'rows'         , $rows          );
-            $this->_store->set( 'rowCount'     , $this->_total  );
-            $this->_store->set( 'rowsEmpty'    , $rowsEmpty     );
-            $this->_store->set( 'qill'         , $qill          );
-        }
-
-        // always store the current pageID and sortID
-        $this->_store->set( CRM_Pager::PAGE_ID      , $this->_pager->getCurrentPageID       ( ) );
-        $this->_store->set( CRM_Sort::SORT_ID       , $this->_sort->getCurrentSortID        ( ) );
-        $this->_store->set( CRM_Sort::SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
-        $this->_store->set( CRM_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
-
-        if ( $this->_output & self::TEMPLATE ) {
-            self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
-            self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
+        $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $type );
+        if ( $type == CRM_Selector_Base::CSV ) {
+            $rows          =& $this->_object->getRows( $this->_action,
+                                                       0, 0,
+                                                       $this->_sort,
+                                                       $type );
+            CRM_Core_Report_Excel::writeCSVFile( $this->_object->getExportFileName( ),
+                                                 $columnHeaders,
+                                                 $rows );
+            exit(1);
+        } else {
+            $rows          =& $this->_object->getRows( $this->_action,
+                                                       $this->_pagerOffset,
+                                                       $this->_pagerRowCount,
+                                                       $this->_sort,
+                                                       $type );
+            $rowsEmpty = count( $rows ) ? false : true;
+            $qill = $this->_object->getMyQILL();
             
-            self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
-            self::$_template->assign_by_ref( 'rows'         , $rows          );
-            self::$_template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
-            self::$_template->assign       ( 'qill'         , $qill          );
-            
-            if ( $this->_embedded ) {
-                return;
+            if ( $this->_output & self::SESSION ) {
+                $this->_store->set( 'columnHeaders', $columnHeaders );
+                $this->_store->set( 'rows'         , $rows          );
+                $this->_store->set( 'rowCount'     , $this->_total  );
+                $this->_store->set( 'rowsEmpty'    , $rowsEmpty     );
+                $this->_store->set( 'qill'         , $qill          );
             }
+
+            // always store the current pageID and sortID
+            $this->_store->set( CRM_Pager::PAGE_ID      , $this->_pager->getCurrentPageID       ( ) );
+            $this->_store->set( CRM_Sort::SORT_ID       , $this->_sort->getCurrentSortID        ( ) );
+            $this->_store->set( CRM_Sort::SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
+            $this->_store->set( CRM_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
             
-            self::$_template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
-            if ( $this->_print ) {
-                $content = self::$_template->fetch( 'CRM/print.tpl' );
-            } else {
-                $content = self::$_template->fetch( 'CRM/index.tpl' );
+            if ( $this->_output & self::TEMPLATE ) {
+                self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
+                self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
+                
+                self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
+                self::$_template->assign_by_ref( 'rows'         , $rows          );
+                self::$_template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
+                self::$_template->assign       ( 'qill'         , $qill          );
+                
+                if ( $this->_embedded ) {
+                    return;
+                }
+            
+                self::$_template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
+                if ( $this->_print ) {
+                    $content = self::$_template->fetch( 'CRM/print.tpl' );
+                } else {
+                    $content = self::$_template->fetch( 'CRM/index.tpl' );
+                }
+                echo CRM_System::theme( 'page', $content, null, $this->_print );
             }
-            echo CRM_System::theme( 'page', $content, null, $this->_print );
         }
 
     }
@@ -309,43 +322,6 @@ class CRM_Selector_Controller {
         return $this->_sort;
     }
     
-    function export() {
-        $fileName = $this->_object->getExportFileName     ( $this->_action );
-        $headers  = $this->_object->getExportColumnHeaders( $this->_action );
-        $rows     = $this->_object->getExportRows         ( $this->_action );
-
-        /**
-         * At this point we need to remove the 'action' export from the session
-         * Else this might result in an infinite loop
-         * Will do this once we figure out how we handle session data
-         */
-
-        CRM_Report_Excel::writeCSVFile( $fileName, $headers, $rows );
-
-        exit( );
-    }
-
-    /**
-     * setter for content
-     *
-     * @param string
-     * @return void
-     * @access public
-     */
-    function setContent(&$content) {
-        $this->_content =& $content;
-    }
-
-    /**
-     * getter for content
-     *
-     * @return void
-     * @access public
-     */
-    function &getContent() {
-        return $this->_content;
-    }
-
     /**
      * Move the variables from the session to the template
      *

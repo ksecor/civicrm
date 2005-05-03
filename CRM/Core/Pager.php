@@ -253,12 +253,16 @@ class CRM_Pager extends Pager_Sliding {
      * @access void
      */
     function getPerPageLink( $perPage ) {
-        $href = CRM_System::makeURL( self::PAGE_ROWCOUNT ) . $perPage;
-        $link = sprintf('<a href="%s" %s>%s</a>',
-                        $href,
-                        $this->_classString,
-                        $perPage )
-                  . $this->_spacesBefore . $this->_spacesAfter;
+        if ( $perPage != $this->_perPage ) {
+            $href = CRM_System::makeURL( self::PAGE_ROWCOUNT ) . $perPage;
+            $link = sprintf('<a href="%s" %s>%s</a>',
+                            $href,
+                            $this->_classString,
+                            $perPage )
+                . $this->_spacesBefore . $this->_spacesAfter;
+        } else {
+            $link = $this->_spacesBefore . $perPage . $this->_spacesAfter;
+        }
         return $link;
     }
 
