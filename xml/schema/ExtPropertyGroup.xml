@@ -38,17 +38,40 @@
      <comment>Friendly Name.</comment>
   </field>
   <field>
-     <name>description</name>
-     <type>varchar</type>
-     <length>255</length>
-     <comment>Group description (verbose).</comment>
-  </field>
-  <field>
      <name>extends</name>
      <type>enum</type>
      <values>Contact, Individual, Household, Organization, Location, Address</values>
      <default>'Contact'</default>
      <comment>Type of object this group extends (can add other options later e.g. contact_address, etc.).</comment>
+  </field>
+  <field>
+     <name>style</name>
+     <type>enum</type>
+     <values>Tab, Inline</values>
+     <comment>Visual relationship between this form and its parent.</comment>
+  </field>
+  <field>
+     <name>help_pre</name>
+     <type>text</type>
+     <comment>Description and/or help text to display before fields in form.</comment>
+     <htmlType>textarea</htmlType>
+     <rows>4</rows>
+     <cols>80</cols>
+  </field>
+  <field>
+     <name>help_post</name>
+     <type>text</type>
+     <comment>Description and/or help text to display after fields in form.</comment>
+     <htmlType>textarea</htmlType>
+     <rows>4</rows>
+     <cols>80</cols>
+  </field>
+  <field>
+      <name>weight</name>
+      <type>int</type>
+      <required>true</required>
+      <default>1</default>
+      <comment>Controls display order when multiple extended property groups are setup for the same class.</comment>
   </field>
   <field>
        <name>is_active</name>

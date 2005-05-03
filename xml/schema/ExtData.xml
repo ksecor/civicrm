@@ -3,23 +3,17 @@
 <table>
   <base>CRM</base>
   <name>crm_ext_data</name>
-  <comment>Data store for each property.</comment>
+  <comment>Data store for each extended properties.</comment>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Unique Validation ID</comment>
+      <comment>Unique ID</comment>
   </field>
   <primaryKey>
        <name>id</name>
        <autoincrement>true</autoincrement>
   </primaryKey>
-  <field>
-      <name>table_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Foreign key to the referenced item.</comment>
-  </field>
   <field>
       <name>ext_property_id</name>
       <type>int unsigned</type>
@@ -31,6 +25,18 @@
        <table>crm_ext_property</table>
        <key>id</key>
   </foreignKey>
+  <field>
+       <name>entity_table</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>physical tablename for entity being extended by this data, e.g. crm_contact</comment>
+  </field>
+  <field>
+      <name>entity_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to record in the entity table specified by entity_table column.</comment>
+  </field>
   <field>
      <name>int_data</name>
      <type>int</type>
@@ -58,5 +64,3 @@
      <comment>data for ext property data_type = memo.</comment>
   </field>
 </table>
-
-
