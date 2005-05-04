@@ -632,7 +632,7 @@ class Pager_Common
                 $href = sprintf($this->_fileName, $this->_linkData[$this->_urlVar]);
             }
             return sprintf('<a href="%s"%s title="%s">%s</a>',
-                           htmlentities($this->_url . $href, ENT_COMPAT),
+                           $this->_url . $href,
                            empty($this->_classString) ? '' : ' '.$this->_classString,
                            $altText,
                            $linkText
@@ -958,7 +958,7 @@ class Pager_Common
         } else {
             $href = sprintf($this->_fileName, $this->_linkData[$this->_urlVar]);
         }
-        return htmlentities($this->_url . $href);
+        return $this->_url . $href;
     }
     
     // }}}
