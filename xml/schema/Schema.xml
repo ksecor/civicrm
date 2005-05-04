@@ -34,9 +34,6 @@
 <xi:include href="GroupContact.xml"     parse="xml" />
 <xi:include href="Validation.xml"       parse="xml" />
 <xi:include href="ExtPropertyGroup.xml" parse="xml" />
-<xi:include href="ExtProperty.xml"      parse="xml" />
+<xi:include href="ExtPropertyField.xml"      parse="xml" />
 <xi:include href="ExtData.xml"          parse="xml" />
-<xi:include href="FormGroup.xml"        parse="xml" />
-<xi:include href="FormField.xml"        parse="xml" />
-<xi:include href="Form.xml"             parse="xml" />
 </database>

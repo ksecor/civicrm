@@ -8,7 +8,7 @@
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Unique Ext Property ID</comment>
+      <comment>Unique Ext Property Field ID</comment>
   </field>
   <primaryKey>
        <name>id</name>
@@ -35,7 +35,7 @@
      <name>label</name>
      <type>varchar</type>
      <length>64</length>
-     <comment>Text for form field label (also 'friendly name' for administering this custom property).</comment>
+     <comment>Text for form field label (also friendly name for administering this custom property).</comment>
   </field>
   <field>
      <name>data_type</name>

@@ -103,9 +103,7 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
         
         // store the submitted values in an array
         $params = $this->exportValues();
-        if (!CRM_Array::value( 'is_active', $params )) {
-            $params['is_active'] = 0;
-        }
+        $params['is_active'] =  CRM_Array::value( 'is_active', $params, false );
         
         if ($this->_mode & self::MODE_UPDATE ) {
             $ids['relationshipType'] = $this->_id;

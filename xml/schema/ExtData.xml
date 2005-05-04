@@ -15,14 +15,14 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>ext_property_id</name>
+      <name>ext_property_field_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Foreign key to crm_ext_property.</comment>
   </field>
   <foreignKey>
-       <name>ext_property_id</name>
-       <table>crm_ext_property</table>
+       <name>ext_property_field_id</name>
+       <table>crm_ext_property_field</table>
        <key>id</key>
   </foreignKey>
   <field>
