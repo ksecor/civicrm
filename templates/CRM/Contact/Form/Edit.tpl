@@ -167,7 +167,7 @@
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}
-                    <a href="{crmURL p='civicrm/contact/view/note' q="cid=$contactId&nid=`$note.id`&op=view">(more)</a>
+                    <a href="{crmURL p='civicrm/contact/view/note' q="cid=$contactId&nid=`$note.id`&op=view"}">(more)</a>
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
