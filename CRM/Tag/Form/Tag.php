@@ -110,7 +110,7 @@ class CRM_Tag_Form_Tag extends CRM_Form
         $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
         
         // get the list of all the categories
-        $category = CRM_SelectValues::getCategory();
+        $category = CRM_PseudoConstant::getCategory();
         
         // need to append the array with the " checked " if contact is tagged with the category
         foreach ($category as $categoryID => $varValue) {
@@ -151,13 +151,7 @@ class CRM_Tag_Form_Tag extends CRM_Form
         $aEntityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
 
         // get the list of all the categories
-        $aCategory = CRM_SelectValues::getCategory();
-
-//         print_r($_POST['categoryList']);
-//         echo "<br>==<br>";
-//         print_r($data['categoryList']);
-//         echo "<br>============<br>";
-//         print_r($aEntityCategory);
+        $aCategory = CRM_PseudoConstant::getCategory();
 
         // array contains the posted values
         // exportvalues is not used because its give value 1 of the checkbox which were checked by default, 
@@ -167,12 +161,6 @@ class CRM_Tag_Form_Tag extends CRM_Form
 
         // check which values has to be inserted/deleted for contact
         foreach ($aCategory as $lngKey => $var_value) {
-//             $objName = $entityCategory."_".$lngKey;
-//             $objName = new CRM_Contact_DAO_EntityCategory();
-//             $objName->entity_id = $this->_contactId;
-//             $objName->entity_table = 'crm_contact';
-//             $objName->category_id = $lngKey;
-            
             $params['entity_id'] = $this->_contactId;
             $params['entity_table'] = 'crm_contact';
             $params['category_id'] = $lngKey;

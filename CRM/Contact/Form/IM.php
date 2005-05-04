@@ -45,8 +45,7 @@ class CRM_Contact_Form_IM
             $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select',
                                                                                "location[$locationId][im][$i][provider_id]",
                                                                                $label,
-                                                                               //CRM_SelectValues::$imProvider   );
-                                                                               CRM_SelectValues::getIMProvider()   );
+                                                                               CRM_PseudoConstant::getIMProvider()   );
 
             $location[$locationId]['im'][$i]['name'] = $form->addElement('text',
                                                                          "location[$locationId][im][$i][name]",

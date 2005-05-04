@@ -68,7 +68,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
         $sel =& $this->addElement('hierselect', 'status', 'Household:', null, ' / ');
         
         //build the country array
-        $aCountry = CRM_SelectValues::getCountry();
+        $aCountry = CRM_PseudoConstant::getCountry();
         
         // build the state array
         $stateProvinceDAO = new CRM_DAO_StateProvince();

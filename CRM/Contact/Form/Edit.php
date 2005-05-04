@@ -142,8 +142,7 @@ class CRM_Contact_Form_Edit extends CRM_Form
                 // set the is_primary location for the first location
                 $defaults['location']    = array( );
                 
-                // $locationTypeKeys = array_filter(array_keys( CRM_SelectValues::$locationType ), is_int );
-                $locationTypeKeys = array_filter(array_keys( CRM_SelectValues::getLocationType() ), is_int );
+                $locationTypeKeys = array_filter(array_keys( CRM_PseudoConstant::getLocationType() ), is_int );
                 sort( $locationTypeKeys );
 
                 // also set the location types for each location block

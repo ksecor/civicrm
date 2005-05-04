@@ -56,11 +56,8 @@ class CRM_Contact_Form_Location extends CRM_Form
         $location = array();
         
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {    
-            //$location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_SelectValues::$locationType);
-            $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_SelectValues::getLocationType());
-            //if ($maxLocationBlocks != 2 ) {
-                $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", 'Primary location for this contact',  'Make this the primary location.', array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId);" ) );
-            //}
+            $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_PseudoConstant::getLocationType());
+            $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", 'Primary location for this contact',  'Make this the primary location.', array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId);" ) );
             
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
 
