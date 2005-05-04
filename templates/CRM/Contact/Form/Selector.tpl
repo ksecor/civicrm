@@ -14,14 +14,15 @@
     </th>
   {/foreach}
   </tr>
-
+{debug}
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   <tr class="{cycle values="odd-row,even-row"}">
     {assign var=cbName value=$row.checkbox}
     <td>{$form.$cbName.html}</td>
     <td>{$row.contact_type}</td>	
-    <td><a href="{$row.view}">{$row.sort_name}</a></td>
+    <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
+    <!--td><a href="{$row.view}">{$row.sort_name}</a></td-->
     <td>{$row.street_address|truncate:22:"...":true}</td>
     <td>{$row.city}</td>
     <td>{$row.state}</td>
