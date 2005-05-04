@@ -14,7 +14,7 @@
     </th>
   {/foreach}
   </tr>
-{debug}
+
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   <tr class="{cycle values="odd-row,even-row"}">
