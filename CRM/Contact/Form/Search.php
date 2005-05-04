@@ -139,6 +139,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $groupElement = $this->add('select', 'group', 'in', $group);
         if ( $this->_context === 'smog' ) {
             $groupElement->freeze( );
+
+            // also set the group title
+            $groupValues = array( 'id' => $this->_groupId, 'title' => $group[$this->_groupId] );
+            $this->assign_by_ref( 'group', $groupValues );
         }
 
         // add select for categories
@@ -275,6 +279,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $this->set( 'context', $this->_context );
         }
         $this->assign( 'context', $this->_context );
+
+
         $fv = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );

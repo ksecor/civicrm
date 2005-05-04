@@ -10,11 +10,6 @@ Choose Group you would like to add the below contacts to.
 <div class="form-item">
 {$form.group_id.label} {$form.group_id.html}
 </div>
-{*
-<div class="form-item">
-{$form.status.label} {$form.status.html}
-</div>
-*}
 
 {include file="CRM/Contact/Form/Task.tpl"}
 

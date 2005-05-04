@@ -72,8 +72,6 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
         $group = array( '' => ' - any group - ') + CRM_PseudoConstant::$group;
         $this->add('select', 'group_id', 'Select Group', $group, true);
 
-        //$this->add('select', 'status', 'Status of the Contact', CRM_SelectValues::$groupContactStatus, true);
-
         $this->addDefaultButtons( 'Add To Group' );
     }
 
@@ -86,7 +84,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
     public function postProcess() {
         $groupId    = $this->controller->exportValue( 'AddToGroup', 'group_id'  );
         
-        CRM_Contact_BAO_GroupContact::addContactsToGroup( $groupId );
+        CRM_Contact_BAO_GroupContact::addContactsToGroup( $this->_contactIds, $groupId );
 
     }//end of function
 
