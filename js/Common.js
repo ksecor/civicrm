@@ -159,6 +159,9 @@ function changeCheckboxVals(fldPrefix, action, form) {
             }
         }
     }
+    /* function called to change the color of selected rows */
+    on_load_init_checkboxes(form.name); 
+
 }
 
 function countSelectedCheckboxes(fldPrefix, form) {
@@ -202,4 +205,60 @@ function checkPerformAction (fldPrefix, form) {
 	alert ("Please select an action from the drop-down menu.");
 	return false;
     }
+}
+
+/**
+ * This function is used to check if any actio is selected and also to check if any contacts are checked.
+ *
+ * @access public
+ * @param chkName - it is name of the checkbox
+ * @param form - name of form that checkboxes are part of
+ * @return null
+ */
+function checkSelectedBox (chkName, form) 
+{
+    var ss = document.forms[form].elements[chkName].name.substring(7,document.forms[form].elements[chkName].name.length);
+    
+    var row = 'rowid'+ss;
+
+    if (document.forms[form].elements[chkName].checked == true) {
+	
+	if (document.getElementById(row).getAttribute('class') == 'even-row') {
+	    document.getElementById(row).setAttribute('class','selected-even-row');
+	} else {
+	    document.getElementById(row).setAttribute('class','selected-odd-row');
+	}
+
+    } else {
+
+	if (document.getElementById(row).getAttribute('class') == 'selected-even-row') {
+	    document.getElementById(row).setAttribute('class','even-row');
+	} else {
+	    document.getElementById(row).setAttribute('class','odd-row');
+	}
+
+    }
+    
+}
+
+
+/**
+ * This function is to show the row with  selected checkbox in different color
+ * @param form - name of form that checkboxes are part of
+ *
+ * @access public
+ * @param form - name of form that checkboxes are part of
+ * @return null
+ */
+
+function on_load_init_checkboxes(form) 
+{
+    var fldPrefix = 'mark_x';
+    for( i=0; i < document.forms[form].elements.length; i++) {
+	fpLen = fldPrefix.length;
+	if (document.forms[form].elements[i].type == 'checkbox' && document.forms[form].elements[i].name.slice(0,fpLen) == fldPrefix ) {
+	    checkSelectedBox (document.forms[form].elements[i].name, form); 
+	}
+    }
+
 }

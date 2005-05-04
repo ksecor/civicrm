@@ -17,12 +17,11 @@
 
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr class="{cycle values="odd-row,even-row"}">
+  <tr id='rowid{$row.contact_id}' class="{cycle values="odd-row,even-row"}">
     {assign var=cbName value=$row.checkbox}
     <td>{$form.$cbName.html}</td>
     <td>{$row.contact_type}</td>	
     <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
-    <!--td><a href="{$row.view}">{$row.sort_name}</a></td-->
     <td>{$row.street_address|truncate:22:"...":true}</td>
     <td>{$row.city}</td>
     <td>{$row.state}</td>
@@ -35,5 +34,12 @@
   {/foreach}
 </table>
 {/strip}
+
+ <script type="text/javascript">
+ {* this function is called to change the color of selected row(s) *}
+    var fname = "{$form.formName}";	
+    on_load_init_checkboxes(fname);
+ </script>
+
 
 {include file="CRM/pager.tpl" location="bottom"}

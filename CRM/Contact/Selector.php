@@ -57,13 +57,13 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     static $_links = array(
                            CRM_Action::VIEW   => array(
                                                        'name'     => 'View',
-                                                       'url'      => '/civicrm/contact/view',
+                                                       'url'      => 'civicrm/contact/view',
                                                        'qs'       => 'reset=1&cid=%%id%%',
                                                        'title'    => 'View Contact Details',
                                                        ),
                            CRM_Action::UPDATE => array(
                                                        'name'     => 'Edit',
-                                                       'url'      => '/civicrm/contact/edit',
+                                                       'url'      => 'civicrm/contact/edit',
                                                        'qs'       => 'reset=1&cid=%%id%%',
                                                        'title'    => 'Edit Contact Details',
                                                        ),

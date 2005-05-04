@@ -166,7 +166,8 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
             foreach ( $rows as &$row ) {
-                $this->addElement( 'checkbox', $row['checkbox'] );
+                //$this->addElement( 'checkbox', $row['checkbox'] );
+                $this->addElement( 'checkbox', $row['checkbox'], null, null, array( 'onclick' => "return checkSelectedBox('".$row[checkbox]."', '".$this->getName()."');" ) );
             }
         }
 
