@@ -214,8 +214,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $fv = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
+        $controller->setEmbedded( true );
 
-        if ($controller->hasChanged() || CRM_Request::retrieve('ssid') ) {
+        if ($controller->hasChanged( true ) || CRM_Request::retrieve('ssid') ) {
             $this->postProcess( );
         }
         $controller->moveFromSessionToTemplate( );
@@ -291,6 +292,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::SESSION );
+        $controller->setEmbedded( true );
         $controller->run();
 
         // has the user asked to save query ?

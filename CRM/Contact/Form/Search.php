@@ -319,7 +319,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);
         $session->set('fv', $fv, self::SESSION_SCOPE_SEARCH);
 
-
         if ( $this->controller->getButtonData( $this->_actionButtonName ) ) {
             // check actionName and if next, then do not repeat a search, since we are going to the next page
             $this->controller->resetButtonData( );
