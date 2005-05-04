@@ -195,11 +195,11 @@ function checkPerformAction (fldPrefix, form) {
 	}
 	cnt = countSelectedCheckboxes(fldPrefix, document.forms[form]);
 	if (!cnt) {
-	    alert ("Please select the contact(s).");
+	    alert ("Please select one or more contact(s) for this action. To use the entire set of search results, click the 'all records' radio button.");
 	    return false;
 	}
     } else {
-	alert ("Please select a valid action.");
+	alert ("Please select an action from the drop-down menu.");
 	return false;
     }
 }

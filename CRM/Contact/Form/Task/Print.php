@@ -85,7 +85,7 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
                                          'js'        => array( 'onclick' => 'window.print()' ),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'back',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => 'Done' ),
                                  )
                            );
     }
