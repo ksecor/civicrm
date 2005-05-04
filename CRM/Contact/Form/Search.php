@@ -131,8 +131,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
     {
         $this->populatePseudoConstant();
 
-        $contactType = array('any' => ' - any contact - ') + CRM_PseudoConstant::$contactType;
-        $this->add('select', 'contact_type', 'Show me.... ', $contactType);
+        $this->add('select', 'contact_type', 'Show me.... ', CRM_SelectValues::$contactType);
 
         // add select for groups
         $group = array('any' => ' - any group - ') + CRM_PseudoConstant::$group;

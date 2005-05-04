@@ -205,6 +205,18 @@ class CRM_System {
                           CRM_Array::value( 'f', $params ) );
     }
 
+    /**
+     * sets the title of the page
+     *
+     * @param string $title
+     *
+     * @return void
+     * @access public
+     */
+    function setTitle( $title ) {
+        drupal_set_title( $title );
+    }
+
 }
 
 /**

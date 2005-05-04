@@ -72,8 +72,6 @@ class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
         $tag = array( '' => ' - any tag - ') + CRM_PseudoConstant::$category;
         $this->add('select', 'category_id', 'Select Tag', $tag, true);
 
-        //$this->add('select', 'status', 'Status of the Contact', CRM_SelectValues::$groupContactStatus, true);
-
         $this->addDefaultButtons( 'Add To Tag' );
     }
 
@@ -86,7 +84,7 @@ class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
     public function postProcess() {
         $categoryId    = $this->controller->exportValue( 'AddToTag', 'category_id'  );
         
-        CRM_Contact_BAO_EntityCategory::addContactsToTag($categoryId );
+        CRM_Contact_BAO_EntityCategory::addContactsToTag( $this->_contactIds, $categoryId );
 
     }//end of function
 
