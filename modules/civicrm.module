@@ -325,6 +325,12 @@ function civicrm_menu($may_cache)
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 20,
                          );
+
+        $items[] = array(
+                         'path'  => 'civicrm/group/search',
+                         'title' => t('Group Members'),
+                         'type'   => MENU_CALLBACK,
+                         );
         
        $items[] = array(
                          'path'   => 'civicrm/import',
