@@ -105,60 +105,6 @@ class CRM_SelectValues {
                                       'Pager'  => 'Pager'
                                       );
 
-    /**
-     * All the below elements are dynamic. Constants
-     */
-
-    /**
-     * Location Type (fetch and cache from db based on domain)
-     * @var array
-     * @static
-     */
-    public static $locationType;
-    
-    /**
-     * im protocols (fetch and cache from db based on locale)
-     * @var array
-     * @static
-     */
-    public static $imProvider;
-
-    /**
-     * states array (fetch and cache from generic db, based on locale)
-     * @var array
-     * @static
-     */
-    public static $stateProvince;
-
-    /**
-     * country array (fetch and cache from generic db, based on locale)
-     * @var array
-     * @static
-     */
-    public static $country;
-
-    /**
-     * category array (fetch and cache from generic db)
-     * @var array
-     * @static
-     */
-    public static $category;
-
-    /**
-     * group array (fetch and cache from generic db)
-     * @var array
-     * @static
-     */
-    public static $group;
-    
-
-    /**
-     * relationshipType array (fetch and cache from generic db)
-     * @var array
-     * @static
-     */
-    public static $relationshipType;
-
 
     /**
      * list of counties

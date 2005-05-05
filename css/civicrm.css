@@ -63,6 +63,10 @@ div.spacer {
   width: auto;
 }
 
+#crm-container input.form-submit, #crm-container select {
+  vertical-align: middle;
+}
+
 #crm-container div.form-item {
   margin: 0 0 5px 0px;
   padding: 5px 0px 5px 0px;
@@ -131,6 +135,11 @@ div.spacer {
 #crm-container .description {
   padding: 5px 0px 5px;
   font-size: 0.9em;
+}
+
+/* Page and form-level 'help' */
+#crm-container #help {
+  margin: 1em 0em 1em;
 }
 
 #crm-container .labels, .label {

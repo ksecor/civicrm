@@ -1,13 +1,27 @@
+{* $context indicates where we are searching, values = "search,advanced,smog,amtg" *}
+{* Subtitles for 'show members of group' (smog) and 'add members to group' (amtg) contexts *}
+{if $context EQ 'smog'}
+    <div id="help">
+        The current members of {$group.title} are displayed below. Use the Find box below to
+        search for specific members. Click 'Add Members' if you want to find more contacts
+        and add them to this group.
+    </div>
+    <div class="form-item">
+        <a href="{crmURL q="context=amtg&gid=`$group.id`&reset=1"}">Add Members to {$group.title}</a>
+    </div>
+{/if}
 <form {$form.attributes}>
 
 {include file="CRM/formCommon.tpl"}
 
 {* Begin Browse Criteria section *}
-{* $context indicates where we are searching, values = "search, advanced, group" *}
 <fieldset>
+ {if $context EQ 'smog'}<legend>Find Contacts within this Group</legend>{/if}
  <div class="form-item">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
-     <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
+     {* if $context NEQ 'smog' *}
+        <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
+     {* /if *}
      <span class="element-right">{$form.category.label}{$form.category.html}</span>
  </div>
  <div class="form-item">
@@ -57,7 +71,7 @@
 
      <div class="form-item">
        <span>
-         {$form.task.html} &nbsp; &nbsp; {$form._qf_Search_next_action.html} &nbsp; &nbsp; {$form._qf_Search_refresh_export.html}
+         {$form._qf_Search_refresh_export.html} &nbsp; &nbsp; &nbsp; {$form.task.html} {$form._qf_Search_next_action.html}
   	     <br />
 	     {$form.radio_ts.ts_sel.html} &nbsp; {$form.radio_ts.ts_all.html} {$pager->_totalItems} records
        </span>

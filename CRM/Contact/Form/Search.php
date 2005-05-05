@@ -129,7 +129,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        $this->add('select', 'contact_type', 'Show me.... ', CRM_SelectValues::$contactType);
+        $this->add('select', 'contact_type', 'Find... ', CRM_SelectValues::$contactType);
 
         // add select for groups
         $group = array('any' => ' - any group - ') + CRM_PseudoConstant::group( );
@@ -140,6 +140,9 @@ class CRM_Contact_Form_Search extends CRM_Form {
             // also set the group title
             $groupValues = array( 'id' => $this->_groupId, 'title' => $group[$this->_groupId] );
             $this->assign_by_ref( 'group', $groupValues );
+            
+            // Set dynamic page title for 'Show Members of Group'
+            CRM_System::setTitle( 'Members of ' . $group[$this->_groupId] );
         }
 
         // add select for categories
@@ -150,7 +153,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $this->add('text', 'sort_name', 'Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         
         // some tasks.. what do we want to do with the selected contacts ?
-        $tasks = array( '' => '- actions -' ) + CRM_Contact_Task::$tasks;
+        $tasks = array( '' => '- more actions -' ) + CRM_Contact_Task::$tasks;
         $actionElement = $this->add('select', 'task'   , 'Actions: '    , $tasks    );
         if ( $this->_context === 'amtg' ) {
             $actionElement->freeze( );
@@ -188,7 +191,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
          * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
          *
          */
-        $this->add('submit', $this->_actionButtonName, 'Perform Action!',
+        $this->add('submit', $this->_actionButtonName, 'Perform Action',
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."');" ) );
     }
@@ -276,8 +279,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $this->set( 'context', $this->_context );
         }
         $this->assign( 'context', $this->_context );
-
-
+        
         $fv = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
         $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
