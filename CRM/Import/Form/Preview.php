@@ -55,7 +55,55 @@ class CRM_Import_Form_Preview extends CRM_Form {
     public function preProcess( ) {
         $this->_mapperFields = $this->get( 'fields' );
         $this->_columnCount  = $this->get( 'columnCount' );
+       
+        //get the data from the session
+        $aData = $this->get('dataValues');
+        $aMapper = $this->get('mapper');
+
+        //print_r($aData);
+        //print_r($aMapper);
         
+        //print_r($_SESSION);
+
+        $lngEmailKey = 0;
+        $lngPhoneKey = 0;
+        //get the key of email and phone field
+        foreach($aMapper as $lngKey => $varValue) {
+            if($varValue == 'Email'){
+                $lngEmailKey = $lngKey;
+            }
+            if($varValue == 'Phone'){
+                $lngPhoneKey = $lngKey;
+            }
+        }
+
+        // if the  email is present check for duplicate emails and also keep the count
+        if($lngEmailKey > 0 ) {
+            
+            $aEmail = array();
+            $lngDuplicateEmail = 1;
+            $lngIncorrectRecord = 0;
+            
+            foreach($aData as $lngKey => $varValue) {
+                // check the duplicate emails
+                if ( in_array($varValue[$lngEmailKey], $aEmail)) {
+                    $lngDuplicateEmail++;
+                } else {
+                    array_push($aEmail, $varValue[$lngEmailKey]);
+                }
+                
+                //check for valid email/phone
+                if (!CRM_Rule::email($varValue[$lngEmailKey]) || !CRM_Rule::phone($varValue[$lngPhoneKey])) {
+                    $lngIncorrectRecord++;            
+                }
+            }
+        }
+
+        //echo $lngDuplicateEmail;
+        //echo $lngIncorrectEmail;
+        $this->set('duplicateRowCount', $lngDuplicateEmail);
+        $this->set('invalidRowCount', $lngIncorrectRecord);
+
         $this->assign( 'rowDisplayCount', 2 );
 
         $properties = array( 'mapper', 'dataValues', 'columnCount',
