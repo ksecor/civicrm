@@ -34,17 +34,23 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * form to process actions on the group aspect of ExtProperty
+ * form to process actions on the field aspect of Custom
  */
-class CRM_ExtProperty_Form_Group extends CRM_Core_Form {
+class CRM_Custom_Form_Field extends CRM_Core_Form {
+    /**
+     * the ext prop group id saved to the session for an update
+     *
+     * @var int
+     */
+    protected $_gid;
 
     /**
-     * the group id saved to the session for an update
+     * The ext property id, used when editing the ext property
      *
      * @var int
      */
     protected $_id;
-
+    
     /**
      * class constructor
      */
@@ -59,9 +65,31 @@ class CRM_ExtProperty_Form_Group extends CRM_Core_Form {
      * @access public
      */
     public function preProcess( ) {
-        $this->_id = $this->get( 'id' );
+        $this->_gid = CRM_Utils_Request::retrieve( 'gid', $this );
+        $this->_id  = CRM_Utils_Request::retrieve( 'id' , $this );
     }
 
+    /**
+    * This function sets the default values for the form. Note that in edit/view mode
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $defaults = array( );
+        
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
+            CRM_Core_BAO_CustomField::retrieve( $params, $defaults );
+            $this->_gid = $defaults['ext_property_group_id'];
+        } else {
+            $defaults['is_active'] = 1;
+        }
+        
+        return $defaults;
+    }
+    
     /**
      * Function to actually build the form
      *
@@ -69,20 +97,21 @@ class CRM_ExtProperty_Form_Group extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->add( 'text'  , 'title'      , 'Group Name',
-                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ExtPropertyGroup', 'title'       ), true );
-        $this->addRule( 'title', 'Please enter a valid name.', 'title' );
+        $this->add( 'text', 'label'      , 'Field Label', CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomField', 'label'       ), true );
+        $this->addRule( 'label', 'Please enter label for this field.', 'title' );
 
-        $this->add( 'text'  , 'description', 'Group Description',
-                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ExtPropertyGroup', 'description' ), true );
-        $this->add( 'select', 'extends', 'Used For', CRM_Core_SelectValues::$extPropertyGroupExtends );
-        $this->addElement( 'checkbox', 'is_active', 'Is this Extended Property Group active?' );
+        $this->add( 'select', 'data_type', 'Data Type', CRM_Core_SelectValues::$extPropertyDataType, true);
+        $this->add( 'select', 'html_type', 'HTML Type', CRM_Core_SelectValues::$htmlType, true);
+        $this->add( 'text', 'default_value', 'Default Value', CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomField', 'default_value' ), false );
+        $this->addElement( 'checkbox', 'is_required', 'Required?' );
+        $this->addElement( 'checkbox', 'is_active', 'Active?' );
         
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',
-                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                          'isDefault' => true   ),
+                                 array ( 'type'      => 'reset',
+                                         'name'      => 'Reset'),
                                  array ( 'type'      => 'cancel',
                                          'name'      => 'Cancel' ),
                                  )
@@ -92,26 +121,7 @@ class CRM_ExtProperty_Form_Group extends CRM_Core_Form {
             $this->freeze( );
         }
     }
-
-    /**
-     * This function sets the default values for the form. Note that in edit/view mode
-     * the default values are retrieved from the database
-     *
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( ) {
-        $defaults = array( );
-
-        if ( isset( $this->_id ) ) {
-            $params = array( 'id' => $this->_id );
-            CRM_Core_BAO_ExtPropertyGroup::retrieve( $params, $defaults );
-        } else {
-            $defaults['is_active'] = 1;
-        }
-        return $defaults;
-    }
-
+    
     /**
      * Process the form
      *
@@ -119,22 +129,24 @@ class CRM_ExtProperty_Form_Group extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-        $params = $this->controller->exportValues( 'Group' );
-
-        $group = new CRM_Core_DAO_ExtPropertyGroup( );
-        $group->title       = $params['title'];
-        $group->name        = CRM_Utils_String::titleToVar( $params['title'] );
-        $group->description = $params['description'];
-        $group->extends     = $params['extends'];
-        $group->is_active   = CRM_Utils_Array::value( 'is_active', $params, false );
-        $group->domain_id   = 1;
+        // store the submitted values in an array
+        $params = $this->controller->exportValues( 'Field' );
+        
+        // set values for object properties
+        $customField                = new CRM_Core_DAO_CustomField( );
+        $customField->label         = $params['label'];
+        $customField->name          = CRM_Utils_String::titleToVar( $params['label'] );
+        $customField->data_type     = $params['data_type'];
+        $customField->default_value = $params['default_value'];
+        $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
+        $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
 
         if ( $this->_mode & self::MODE_UPDATE ) {
-            $group->id = $this->_id;
+            $customField->id = $this->_id;
         }
-        $group->save( );
-
-        CRM_Core_Session::setStatus( 'Your Group "' . $group->title . '" has been saved' );
+        $customField->custom_group_id = $this->_gid;
+        $customField->save( );
+        CRM_Core_Session::setStatus( 'Your custom field - ' . $customField->label . ' has been saved' );
     }
 
 }

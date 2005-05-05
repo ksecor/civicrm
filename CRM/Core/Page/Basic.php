@@ -160,6 +160,10 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         $fields =& $object->fields( );
         if ( CRM_Utils_Array::value( 'name', $fields ) ) {
             $object->orderBy ( 'name asc' );
+        } else if ( CRM_Utils_Array::value( 'title', $fields ) ) {
+            $object->orderBy ( 'title asc' );
+        }  else if ( CRM_Utils_Array::value( 'label', $fields ) ) {
+            $object->orderBy ( 'label asc' );
         }
 
         $object->find( );

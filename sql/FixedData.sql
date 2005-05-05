@@ -393,27 +393,27 @@ INSERT INTO crm_county (name, state_province_id) VALUES ('Santa Clara', 1004);
 INSERT INTO crm_geo_coord (id, coord_type, coord_units, coord_ogc_wkt_string) VALUES (1, 'LatLong', 'Degree', 31);
 
 -- Sample Extended Property Group and Fields
-INSERT INTO crm_ext_property_group
+INSERT INTO crm_custom_group
     (domain_id, name, title, extends, style, help_pre, weight, is_active)
 VALUES
     (1, 'voter_info', 'Voter Info', 'Individual', 'Tab', 'Please complete the voter information fields as data becomes available for this contact.', 1, 1);
 
-INSERT INTO crm_ext_property_field
-    (ext_property_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
+INSERT INTO crm_custom_field
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
     (1, 'registered_voter', 'Registered Voter?', 'Boolean', 'Radio', 1, 1, '', 1);
     
-INSERT INTO crm_ext_property_field
-    (ext_property_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
+INSERT INTO crm_custom_field
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
     (1, 'party_registration', 'Party Registration', 'String', 'Text', 0, 2, 'If contact is registered, enter party name here.', 1);
     
-INSERT INTO crm_ext_property_field
-    (ext_property_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
+INSERT INTO crm_custom_field
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
     (1, 'date_last_voted', 'Date Last Voted', 'Date', 'Select Date', 0, 3, '', 1);
 
-INSERT INTO crm_ext_property_field
-    (ext_property_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
+INSERT INTO crm_custom_field
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
     (1, 'voting_precinct', 'Voting Precinct', 'Int', 'Text', 0, 4, 'Precinct number - if available.', 1);

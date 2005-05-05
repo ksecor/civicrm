@@ -33,7 +33,7 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_ExtProperty_Page_Group extends CRM_Core_Page_Basic {
+class CRM_Custom_Page_Group extends CRM_Core_Page_Basic {
     
     /**
      * The action links that we need to display for the browse screen
@@ -74,23 +74,23 @@ class CRM_ExtProperty_Page_Group extends CRM_Core_Page_Basic {
 
 
     function getBAOName( ) {
-        return 'CRM_Core_BAO_ExtPropertyGroup';
+        return 'CRM_Core_BAO_CustomGroup';
     }
 
     function &links( ) {
         return self::$_links;
     }
 
-    function formClass( ) {
-        return 'CRM_ExtProperty_Form_Group';
+    function editForm( ) {
+        return 'CRM_Custom_Form_Group';
     }
 
-    function formName( ) {
+    function editName( ) {
         return 'Custom Groups';
     }
 
     function UserContext( ) {
-        return 'civicrm/extproperty/group';
+        return 'civicrm/admin/custom/group';
     }
 
 }

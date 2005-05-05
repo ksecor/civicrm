@@ -2,7 +2,7 @@
 
 <table>
   <base>CRM/Core</base>
-  <name>crm_custom_data_value</name>
+  <name>crm_custom_value</name>
   <comment>Data store for each extended properties.</comment>
   <field>
       <name>id</name>
@@ -15,14 +15,14 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>custom_data_field_id</name>
+      <name>custom_field_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Foreign key to crm_ext_property.</comment>
   </field>
   <foreignKey>
-       <name>custom_data_field_id</name>
-       <table>crm_custom_data_field</table>
+       <name>custom_field_id</name>
+       <table>crm_custom_field</table>
        <key>id</key>
   </foreignKey>
   <field>

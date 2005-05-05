@@ -413,9 +413,9 @@ function civicrm_admin_invoke()
             // handle external properties
             if ( arg(3) == 'group' ) {
                 if ( arg(4) != 'field' ) {	
-                    $view = new CRM_ExtProperty_Page_Group( 'Page_Group', 'Extended Property Group' );
+                    $view = new CRM_Custom_Page_Group( 'Page_Group', 'Extended Property Group' );
                 } else {
-                    $view = new CRM_ExtProperty_Page_Field( 'Page_Field', 'Extended Property Field' );
+                    $view = new CRM_Custom_Page_Field( 'Page_Field', 'Extended Property Field' );
                 }
             }
         } else {

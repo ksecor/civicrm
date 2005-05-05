@@ -31,9 +31,9 @@
  *
  */
 
-require_once 'CRM/Core/DAO/ExtProperty.php';
+require_once 'CRM/Core/DAO/CustomGroup.php';
 
-class CRM_Core_BAO_ExtProperty extends CRM_Core_DAO_ExtProperty {
+class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
     /**
      * class constructor
@@ -52,12 +52,12 @@ class CRM_Core_BAO_ExtProperty extends CRM_Core_DAO_ExtProperty {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_ExtProperty object
+     * @return object CRM_Core_BAO_CustomGroup object
      * @access public
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $group = new CRM_Core_DAO_ExtProperty( );
+        $group = new CRM_Core_DAO_CustomGroup( );
         $group->copyValues( $params );
         if ( $group->find( true ) ) {
             $group->storeValues( $defaults );
@@ -76,7 +76,7 @@ class CRM_Core_BAO_ExtProperty extends CRM_Core_DAO_ExtProperty {
      * @static
      */
     static function setIsActive( $id, $is_active ) {
-        $group = new CRM_Core_DAO_ExtProperty( );
+        $group = new CRM_Core_DAO_CustomGroup( );
         $group->id = $id;
         if ( $group->find( true ) ) {
             $group->is_active = $is_active;

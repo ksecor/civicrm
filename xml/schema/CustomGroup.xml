@@ -2,7 +2,7 @@
 
 <table>
   <base>CRM/Core</base>
-  <name>crm_custom_data_group</name>
+  <name>crm_custom_group</name>
   <comment>All extended (custom) properties are associated with a group. These are logical sets of related data.</comment>
     <field>
       <name>id</name>

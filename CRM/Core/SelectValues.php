@@ -163,7 +163,7 @@ class CRM_Core_SelectValues {
      * @var array
      * @static
      */
-    public static $formFieldType = array(
+    public static $htmlType = array(
                                                ''                        => '-select-',
                                                'Text'                    => 'Single-line input field (text or numeric)',
                                                'TextArea'                => 'Multi-line text box (textarea)',
