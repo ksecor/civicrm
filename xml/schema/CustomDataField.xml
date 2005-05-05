@@ -2,7 +2,7 @@
 
 <table>
   <base>CRM/Core</base>
-  <name>crm_ext_property_field</name>
+  <name>crm_custom_data_field</name>
   <comment>Stores info about an extended (custom) property (data and form field info).</comment>
     <field>
       <name>id</name>
@@ -15,14 +15,14 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>ext_property_group_id</name>
+      <name>custom_data_group_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to crm_ext_property_group.</comment>
+      <comment>FK to crm_custom_data_group.</comment>
   </field>
   <foreignKey>
-       <name>ext_property_group_id</name>
-       <table>crm_ext_property_group</table>
+       <name>custom_data_group_id</name>
+       <table>crm_custom_data_group</table>
        <key>id</key>
   </foreignKey>
   <field>

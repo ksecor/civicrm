@@ -331,14 +331,15 @@ class HTML_QuickForm_Controller
         unset( $data['_qf_button_name'] );
         foreach (array_keys($_REQUEST) as $key) {
             if (preg_match($regex, $key, $matches)) {
+                $data['_qf_button_name'] = $key;
                 if ( array_key_exists( 3, $matches ) ) {
                     $key = preg_replace( '/_(x|y)$/', '', $key );
-                    $data['_qf_button_name'] = $key;
                 }
                 return array($matches[1], $matches[2]);
             }
         }
         if (isset($_REQUEST['_qf_default'])) {
+            data['_qf_button_name'] = '_qf_default';
             $matches = explode(':', $_REQUEST['_qf_default'], 2);
             if (isset($this->_pages[$matches[0]])) {
                 return $matches;
