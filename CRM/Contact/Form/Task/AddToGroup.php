@@ -37,6 +37,19 @@
  * addition of contacts to groups.
  */
 class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
+    /**
+     * The context that we are working on
+     *
+     * @var string
+     */
+    protected $_context;
+
+    /**
+     * the groupId retrieved from the GET vars
+     *
+     * @var int
+     */
+    protected $_groupId;
 
     /**
      * class constructor
@@ -57,6 +70,9 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
          * initialize the task and row fields
          */
         parent::preProcess( );
+
+        $this->_context = CRM_Request::retrieve( 'context', $this );
+        $this->_groupId = CRM_Request::retrieve( 'amtgID' , $this );
     }
 
     /**
@@ -70,9 +86,32 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
 
         // add select for groups
         $group = array( '' => ' - any group - ') + CRM_PseudoConstant::$group;
-        $this->add('select', 'group_id', 'Select Group', $group, true);
+        $groupElement = $this->add('select', 'group_id', 'Select Group', $group, true);
+
+        if ( $this->_context === 'amtg' ) {
+            $groupElement->freeze( );
+
+            // also set the group title
+            $groupValues = array( 'id' => $this->_groupId, 'title' => $group[$this->_groupId] );
+            $this->assign_by_ref( 'group', $groupValues );
+        }
 
         $this->addDefaultButtons( 'Add To Group' );
+    }
+
+    /**
+     * Set the default form values
+     *
+     * @access protected
+     * @return array the default array reference
+     */
+    function &setDefaultValues() {
+        $defaults = array();
+
+        if ( $this->_context === 'amtg' ) {
+            $defaults['group_id'] = $this->_groupId;
+        }
+        return $defaults;
     }
 
     /**

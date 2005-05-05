@@ -188,7 +188,7 @@ function countSelectedCheckboxes(fldPrefix, form) {
 function checkPerformAction (fldPrefix, form) {
     var cnt;
     
-    if (document.forms[form].task.selectedIndex ) {
+    if (document.forms[form].task.selectedIndex || document.forms[form].task.value == 1) {
 
 	if (document.forms[form].radio_ts[1].checked) {
 	    return true;

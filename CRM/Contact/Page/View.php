@@ -135,7 +135,7 @@ class CRM_Contact_Page_View extends CRM_Page {
         }
 
         // get the list of all the categories
-        $category = CRM_PseudoConstant::getCategory();
+        $category =& CRM_PseudoConstant::category();
         // get categories for the contact id
         $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
         

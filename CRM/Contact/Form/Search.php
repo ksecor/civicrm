@@ -129,12 +129,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        $this->populatePseudoConstant();
-
         $this->add('select', 'contact_type', 'Show me.... ', CRM_SelectValues::$contactType);
 
         // add select for groups
-        $group = array('any' => ' - any group - ') + CRM_PseudoConstant::$group;
+        $group = array('any' => ' - any group - ') + CRM_PseudoConstant::group( );
         $groupElement = $this->add('select', 'group', 'in', $group);
         if ( $this->_context === 'smog' ) {
             $groupElement->freeze( );
@@ -145,7 +143,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
         }
 
         // add select for categories
-        $category = array('any' => ' - any category - ') + CRM_PseudoConstant::$category;
+        $category = array('any' => ' - any category - ') + CRM_PseudoConstant::category( );
         $this->add('select', 'category', 'Category', $category);
 
         // text for sort_name
@@ -377,11 +375,6 @@ class CRM_Contact_Form_Search extends CRM_Form {
             return array( 'task' => 'Please select one or more checkboxes to perform the action on.' );
         }
         return true;
-    }
-
-    protected function populatePseudoConstant() {
-        CRM_PseudoConstant::populateGroup();
-        CRM_PseudoConstant::populateCategory();
     }
 
 }

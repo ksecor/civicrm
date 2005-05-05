@@ -54,42 +54,42 @@ class CRM_PseudoConstant {
      * @var array
      * @static
      */
-    public static $locationType;
+    private static $locationType;
     
     /**
      * im protocols
      * @var array
      * @static
      */
-    public static $imProvider;
+    private static $imProvider;
 
     /**
      * states, provinces
      * @var array
      * @static
      */
-    public static $stateProvince;
+    private static $stateProvince;
 
     /**
      * country
      * @var array
      * @static
      */
-    public static $country;
+    private static $country;
 
     /**
      * category
      * @var array
      * @static
      */
-    public static $category;
+    private static $category;
 
     /**
      * group
      * @var array
      * @static
      */
-    public static $group;
+    private static $group;
     
 
     /**
@@ -97,192 +97,43 @@ class CRM_PseudoConstant {
      * @var array
      * @static
      */
-    public static $relationshipType;
+    private static $relationshipType;
 
 
     /**
-     * populate location types from database.
+     * populate the object from the database. generic populate
+     * method
      *
-     * The static array locationType is populated from the db
-     * using the <b>location DAO</b>. 
-     *
-     * Note: any database errors will be trapped by the DAO.
-     *
-     * @access public
-     * @static
-     *
-     * @param boolean getAll - get All location types - default is to get only active ones.
-     *
-     * @return array - array reference of all location types.
-     *
-     */
-    public static function populateLocationType($all=false)
-    {
-        $locationTypeDAO = new CRM_Contact_DAO_LocationType();
-        $locationTypeDAO->selectAdd();
-        $locationTypeDAO->selectAdd('id, name');
-            
-        if (!$all) {
-            $locationTypeDAO->is_active = 1;
-        }
-
-        $locationTypeDAO->find();
-        while($locationTypeDAO->fetch()) {
-            self::$locationType[$locationTypeDAO->id] = "$locationTypeDAO->name";
-        }
-    }
-
-    /**
-     * Populate IM Providers from database.
+     * The static array $var is populated from the db
+     * using the <b>$name DAO</b>. 
      *
      * Note: any database errors will be trapped by the DAO.
      *
-     * @access public
+     * @param array   $var      the associative array we will fill
+     * @param string  $name     the name of the DAO
+     * @param boolean $all      get all objects. default is to get only active ones.
+     * @param string  $retrieve the field that we are interested in (normally name, differs in some objects)
+     *
+     * @return void
+     * @access private
      * @static
-     *
-     * @param none
-     * @return array - array reference of all IM providers.
-     *
      */
-    public static function populateIMProvider()
-    {
-        if (!self::$imProvider) {
-            $imProviderDAO = new CRM_DAO_IMProvider();
-            $imProviderDAO->selectAdd();
-            $imProviderDAO->selectAdd('id, name');
-            $imProviderDAO->find();
-            while($imProviderDAO->fetch()) {
-                self::$imProvider[$imProviderDAO->id] = "$imProviderDAO->name";
-            }
+    private static function populate( &$var, $name, $all = false, $retrieve = 'name' ) {
+        eval( '$object = new ' . $name . '( );' );
+        $object->selectAdd( );
+        $object->selectAdd( "id, $retrieve" );
+        $object->orderBy( $retrieve );
+        
+        if ( ! $all ) {
+            $object->is_active = 1;
         }
-    }
-
-
-
-    /**
-     * Get all the State/Province from database.
-     *
-     * The static array stateProvince is returned, and if it's
-     * called the first time, the <b>State Province DAO</b> is used 
-     * to get all the States.
-     *
-     * Note: any database errors will be trapped by the DAO.
-     *
-     * @access public
-     * @static
-     *
-     * @param none
-     * @return array - array reference of all IM providers.
-     *
-     */
-    public static function populateStateProvince()
-    {
-        if (!self::$stateProvince) {
-            $stateProvinceDAO = new CRM_DAO_StateProvince();
-            $stateProvinceDAO->selectAdd();
-            $stateProvinceDAO->selectAdd('id, name');
-            $stateProvinceDAO->orderBy('name');            
-            $stateProvinceDAO->find();
-            while($stateProvinceDAO->fetch()) {
-                self::$stateProvince[$stateProvinceDAO->id] = "$stateProvinceDAO->name";
-            }
+        
+        $object->find( );
+        while ( $object->fetch( ) ) {
+            $var[$object->id] = $object->$retrieve;
         }
+
     }
-
-
-    /**
-     * Get all the countries from database.
-     *
-     * The static array country is returned, and if it's
-     * called the first time, the <b>Country DAO</b> is used 
-     * to get all the countries.
-     *
-     * Note: any database errors will be trapped by the DAO.
-     *
-     * @access public
-     * @static
-     *
-     * @param none
-     * @return array - array reference of all countries.
-     *
-     */
-    public static function populateCountry()
-    {
-        if (!self::$country) {
-            $countryDAO = new CRM_DAO_Country();
-            $countryDAO->selectAdd();
-            $countryDAO->selectAdd('id, name');
-            $countryDAO->orderBy('name');
-            $countryDAO->find();
-            while($countryDAO->fetch()) {
-                self::$country[$countryDAO->id] = "$countryDAO->name";
-            }
-        }
-    }
-
-
-
-    /**
-     * Get all the categories from database.
-     *
-     * The static array category is returned, and if it's
-     * called the first time, the <b>Category DAO</b> is used 
-     * to get all the categories.
-     *
-     * Note: any database errors will be trapped by the DAO.
-     *
-     * @access public
-     * @static
-     *
-     * @param none
-     * @return array - array reference of all categories.
-     *
-     */
-    public static function populateCategory()
-    {
-        if (!self::$category) {
-            self::$category = array();
-            $categoryDAO = new CRM_Contact_DAO_Category();
-            $categoryDAO->selectAdd();
-            $categoryDAO->selectAdd('id, name');
-            $categoryDAO->find();
-            while($categoryDAO->fetch()) {
-                self::$category[$categoryDAO->id] = $categoryDAO->name;
-            }
-        }
-    }
-
-    /**
-     * Get all groups from database.
-     *
-     * The static array group is returned, and if it's
-     * called the first time, the <b>Group DAO</b> is used 
-     * to get all the groups.
-     *
-     * Note: any database errors will be trapped by the DAO.
-     *
-     * @access public
-     * @static
-     *
-     * @param none
-     * @return array - array reference of all groups.
-     *
-     */
-    public static function populateGroup()
-    {
-        if (!self::$group) {
-            self::$group = array();
-            $groupDAO = new CRM_Contact_DAO_Group();
-            $groupDAO->selectAdd();
-            $groupDAO->selectAdd('id, title');
-            $groupDAO->find();
-            while($groupDAO->fetch()) {
-                self::$group[$groupDAO->id] = "$groupDAO->title";
-            }
-        }
-        return self::$group;
-    }
-
 
     /**
      * Get all location types.
@@ -292,15 +143,15 @@ class CRM_PseudoConstant {
      * @access public
      * @static
      *
-     * @param boolean getAll - get All location types - default is to get only active ones.
+     * @param boolean $all - get All location types - default is to get only active ones.
      *
      * @return array - array reference of all location types.
      *
      */
-    public static function &getLocationType($getAll=false)
+    public static function &locationType( $all=false )
     {
-        if(!self::$locationType) {
-            self::populateLocationType($getAll);
+        if ( ! self::$locationType ) {
+            self::populate( self::$locationType, 'CRM_Contact_DAO_LocationType', $all );
         }
         return self::$locationType;
     }
@@ -322,10 +173,9 @@ class CRM_PseudoConstant {
      * @return array - array reference of all IM providers.
      *
      */
-    public static function &getIMProvider()
-    {
+    public static function &IMProvider( $all = false ) {
         if (!self::$imProvider) {
-            self::populateIMProvider();
+            self::populate( self::$imProvider, 'CRM_DAO_IMProvider', $all );
         }
         return self::$imProvider;
     }
@@ -346,10 +196,10 @@ class CRM_PseudoConstant {
      * @return array - array reference of all IM providers.
      *
      */
-    public static function &getStateProvince()
+    public static function &stateProvince()
     {
         if (!self::$stateProvince) {
-            self::populateStateProvince();
+            self::populate( self::$stateProvince, 'CRM_DAO_StateProvince', true );
         }
         return self::$stateProvince;
     }
@@ -371,10 +221,10 @@ class CRM_PseudoConstant {
      * @return array - array reference of all countries.
      *
      */
-    public static function &getCountry()
+    public static function &country()
     {
         if (!self::$country) {
-            self::populateCountry();
+            self::populate( self::$country, 'CRM_DAO_Country', true );
         }
         return self::$country;
     }
@@ -397,10 +247,10 @@ class CRM_PseudoConstant {
      * @return array - array reference of all categories.
      *
      */
-    public static function &getCategory()
+    public static function &category()
     {
         if (!self::$category) {
-            self::populateCategory();
+            self::populate( self::$category, 'CRM_Contact_DAO_Category', true );
         }
         return self::$category;
     }
@@ -421,10 +271,10 @@ class CRM_PseudoConstant {
      * @return array - array reference of all groups.
      *
      */
-    public static function &getGroup()
+    public static function &group()
     {
         if (!self::$group) {
-            self::populateGroup();
+            self::populate( self::$group, 'CRM_Contact_DAO_Group', true, 'title' );
         }
         return self::$group;
     }
@@ -448,7 +298,7 @@ class CRM_PseudoConstant {
      * @return array - array reference of all relationship types.
      *
      */
-    public static function &getRelationshipType()
+    public static function &relationshipType()
     {
         if (!self::$relationshipType) {
             self::$relationshipType = array();

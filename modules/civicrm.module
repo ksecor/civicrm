@@ -423,6 +423,8 @@ function civicrm_admin_invoke()
 
 function civicrm_invoke()
 {
+    $session = CRM_Session::singleton( );
+
     // contact related functionality
     if (arg(1) == 'contact') {
         return civicrm_contact_invoke();
@@ -432,8 +434,8 @@ function civicrm_invoke()
     if (arg(1) == 'group') {
         if ( arg(2) == 'add' ) {
             $controller = new CRM_Group_Controller( 'Groups', CRM_Form::MODE_BASIC );
+            $session->pushUserContext( CRM_System::url( 'civicrm/group', 'reset=1&action=browse' ) );
             $controller->run( );
-            $controller->getContent( );
         } else if ( arg(2) == 'search' ) {
             // this is really a search, including here to get drupal customizations
             civicrm_search( );

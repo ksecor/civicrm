@@ -132,7 +132,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         foreach ( $contactIds as $contactId ) {
             $groupContact = new CRM_Contact_DAO_GroupContact( );
-            $groupContact->group_id    = $groupId;
+            $groupContact->group_id   = $groupId;
             $groupContact->contact_id = $contactId;
             // check if the selected contact id already a member
             // if not a member add to groupContact else keep the count of contacts that are not added
@@ -149,15 +149,12 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
 
         $status = 'Total Selected Contact(s): ' . count($contactIds) . '<br>';
-
         if ($numContactsAdded) {
             $status .= 'Total Contact(s) added to group: ' . $numContactsAdded . '<br>';
         }
-
         if ($numContactsNotAdded) {
             $status .= "Total Contact(s) already in selected group: ". $numContactsNotAdded . "<br>";
         }
-
         CRM_Session::setStatus( $status );
         
     }
@@ -198,29 +195,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         return $values;
     }
 
-    /**
-     * Function is to get the list of contacts for a group
-     *
-     * @param int $groupId group id
-     *
-     * @access public
-     * @return array $aGroupContact key -> contact id  and value contact id
-     * @static
-     *
-     */
-    static function getGroupContact( $groupId ) {
-        $groupContact = new CRM_Contact_BAO_GroupContact();
-        $groupContact->selectAdd();
-        $groupContact->selectAdd('contact_id');
-
-        $groupContact->group_id = $groupId;
-        
-        $groupContact->find();
-        while($groupContact->fetch()) {
-            $aGroupContact[$groupContact->contact_id] = $groupContact->contact_id;
-        } 
-        return $aGroupContact;
-    }
 }
 
 ?>

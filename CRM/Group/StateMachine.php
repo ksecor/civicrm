@@ -44,6 +44,7 @@ class CRM_Group_StateMachine extends CRM_StateMachine {
         $this->_pages = array(
                               'CRM_Group_Form_Edit',
                               'CRM_Contact_Form_Search',
+                              'CRM_Contact_Form_Task_AddToGroup',
                               );
         
         $this->addSequentialPages( $this->_pages, $mode );

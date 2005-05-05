@@ -323,7 +323,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     {
         $aRelationshipType = array();
         $relationshipType = array();
-        $aRelationshipType = CRM_PseudoConstant::getRelationshipType();
+        $aRelationshipType = CRM_PseudoConstant::relationshipType();
 
         $contact = new CRM_Contact_BAO_Contact();
         
