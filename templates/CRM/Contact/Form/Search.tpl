@@ -12,17 +12,8 @@
 {/if}
 {if $context EQ 'amtg'}
     <div id="help">
-        <p>
         Use the Search form to find contacts to add to {$group.title}. Mark the
-        contacts you want to add and click 'Perform Action' to add them.
-        </p>
-        <p>
-        You may repeat this search -> select -> add to group cycle as many times as necessary.
-        Click 'Done' when you are finished.
-        </p>
-    </div>
-    <div class="form-item">
-        <a href="{crmURL q="context=smog&gid=`$group.id`&reset=1"}">Done</a>
+        contacts you want to add and click 'Perform Action'.
     </div>
 {/if}
 <form {$form.attributes}>
@@ -35,9 +26,7 @@
  {if $context EQ 'amtg'}<legend>Find Contacts to Add to this Group</legend>{/if}
  <div class="form-item">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
-     {* if $context NEQ 'smog' *}
-        <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
-     {* /if *}
+     <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
      <span class="element-right">{$form.category.label}{$form.category.html}</span>
  </div>
  <div class="form-item">
@@ -58,20 +47,24 @@
 {* END Browse Criteria section *}
 
 {if $rowsEmpty}
-    {* No matches for submitted search request.*}
+    {* No matches for submitted search request or viewing an empty group. *}
     <div class="messages status">
       <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
         <dd>
-            No matching contacts found. You can:
-            <ul>
-            <li>check your spelling
-            <li>try a different spelling or use fewer letters</li>
-            <li>if you are searching within a Group or Category, try 'any group' or 'any category'</li>
-            <li>add a <a href="{crmURL p='civicrm/contact/addI' q='c_type=Individual&reset=1'}">New Individual</a>,
-            <a href="{crmURL p='civicrm/contact/addO' q='c_type=Organization&reset=1'}">Organization</a> or
-            <a href="{crmURL p='civicrm/contact/addH' q='c_type=Household&reset=1'}">Household</a></li>
-            </ul>
+            {if $context EQ 'smog'}
+                {$group.title} currently has no members. You can <a href="{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}">add members here.</a>
+            {else}
+                No matching contacts found. You can:
+                <ul>
+                <li>check your spelling
+                <li>try a different spelling or use fewer letters</li>
+                <li>if you are searching within a Group or Category, try 'any group' or 'any category'</li>
+                <li>add a <a href="{crmURL p='civicrm/contact/addI' q='c_type=Individual&reset=1'}">New Individual</a>,
+                <a href="{crmURL p='civicrm/contact/addO' q='c_type=Organization&reset=1'}">Organization</a> or
+                <a href="{crmURL p='civicrm/contact/addH' q='c_type=Household&reset=1'}">Household</a></li>
+                </ul>
+            {/if}
         </dd>
       </dl>
     </div>
@@ -87,8 +80,13 @@
 
      <div class="form-item">
        <span>
-         {$form._qf_Search_refresh_export.html} &nbsp; &nbsp; &nbsp; {$form.task.html} {$form._qf_Search_next_action.html}
-  	     <br />
+         {* Hide export and print buttons in 'Add Members to Group' context. *}
+         {if $context NEQ 'amtg'}
+            {$form._qf_Search_refresh_export.html} &nbsp; &nbsp; &nbsp;
+            {$form.task.html}
+         {/if}
+  	     {$form._qf_Search_next_action.html}
+         <br />
 	     {$form.radio_ts.ts_sel.html} &nbsp; {$form.radio_ts.ts_all.html} {$pager->_totalItems} records
        </span>
        <span class="element-right">Select: 

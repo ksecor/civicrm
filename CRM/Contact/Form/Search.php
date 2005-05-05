@@ -204,7 +204,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
          *
          */
-        $this->add('submit', $this->_actionButtonName, 'Perform Action',
+        $this->add('submit', $this->_actionButtonName, ( $this->_context == 'amtg' ) ? 'Add Contacts to this Group' : 'Go',
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."');" ) );
     }

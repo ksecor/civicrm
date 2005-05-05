@@ -60,7 +60,7 @@ div.spacer {
 #crm-container div.status dt {
   float: left;
   clear: left;
-  width: auto;
+  width: 30px;
 }
 
 #crm-container div.messages {
