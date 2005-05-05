@@ -325,18 +325,17 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);
         $session->set('fv', $fv, self::SESSION_SCOPE_SEARCH);
 
-        if ( $this->controller->getButtonData( $this->_actionButtonName ) ) {
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->_actionButtonName ) {
             // check actionName and if next, then do not repeat a search, since we are going to the next page
-            $this->controller->resetButtonData( );
             return;
         } else {
             // do export stuff
-            if ( $this->controller->getButtonData( $this->_exportButtonName ) ) {
+            if ( $buttonName == $this->_exportButtonName ) {
                 $output = CRM_Selector_Controller::EXPORT;
             } else {
                 $output = CRM_Selector_Controller::SESSION;
             }
-            $this->controller->resetButtonData( );
 
             // create the selector, controller and run - store results in session
             $selector = new CRM_Contact_Selector($fv, $this->_mode);

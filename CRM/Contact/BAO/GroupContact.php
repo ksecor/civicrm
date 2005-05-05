@@ -153,7 +153,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $status .= 'Total Contact(s) added to group: ' . $numContactsAdded . '<br>';
         }
         if ($numContactsNotAdded) {
-            $status .= "Total Contact(s) already in selected group: ". $numContactsNotAdded . "<br>";
+            $status .= 'Total Contact(s) already in selected group: ' . $numContactsNotAdded . '<br>';
         }
         CRM_Session::setStatus( $status );
         
@@ -175,8 +175,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         $str_select = $str_from = $str_where = '';
         
-        $str_select = "SELECT crm_group.id, crm_group.title ";
-        $str_from = " FROM crm_group, crm_group_contact ";
+        $str_select = 'SELECT crm_group.id, crm_group.title ';
+        $str_from = ' FROM crm_group, crm_group_contact ';
         $str_where = " WHERE crm_group.group_type='static'";
         if ($lngContactId) {
             $str_where .= " AND crm_group.id = crm_group_contact.group_id 

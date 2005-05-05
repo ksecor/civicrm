@@ -349,14 +349,14 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // check for group restriction
             if ($fv['group'] && ($fv['group'] != 'any')) {
-                CRM_PseudoConstant::populateGroup();
-                $qill .= " <li>Belonging to the group - \"" . CRM_PseudoConstant::$group[$fv['group']] . "\"</li>";
+                $group =& CRM_PseudoConstant::group();
+                $qill .= " <li>Belonging to the group - \"" . $group[$fv['group']] . "\"</li>";
             }
             
             // check for category restriction
             if ($fv['category'] && ($fv['category'] != 'any')) {
-                CRM_PseudoConstant::populateCategory();
-                $qill .= " <li>Categorized as - \"" . CRM_PseudoConstant::$category[$fv['category']] . "\"</li>";
+                $category =& CRM_PseudoConstant::category(); 
+                $qill .= " <li>Categorized as - \"" . $category[$fv['category']] . "\"</li>";
             }
             
             // check for last name, as of now only working with sort name
@@ -384,10 +384,10 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
             
             // check for group restriction
             if ($fv['cb_group']) {
-                CRM_PseudoConstant::populateGroup();
+                $group =& CRM_PseudoConstant::group();
                 $qill .= "<li>Belonging to Group -";
                 foreach ($fv['cb_group']  as $k => $v) {
-                    $qill .= " \"" . CRM_PseudoConstant::$group[$k] . "\" or";
+                    $qill .= " \"" . $group[$k] . "\" or";
                 }
                 $qill = preg_replace($patternOr, $replacement, $qill);
                 $qill .= "</li>";
@@ -395,10 +395,10 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // check for category restriction
             if ($fv['cb_category']) {
-                CRM_PseudoConstant::populateCategory();
+                $category =& CRM_PseudoConstant::category();
                 $qill .= "<li>Categorized as -";
                 foreach ($fv['cb_category'] as $k => $v) {
-                    $qill .= " \"" . CRM_PseudoConstant::$category[$k] . "\" or";
+                    $qill .= " \"" . $category[$k] . "\" or";
                 }
                 $qill = preg_replace($patternOr, $replacement, $qill);
                 $qill .= "</li>";
@@ -421,14 +421,14 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // state
             if ($fv['state_province']) {
-                CRM_PseudoConstant::populateStateProvince();
-                $qill .= "<li>State - \"" . CRM_PseudoConstant::$stateProvince[$fv['state_province']] . "\"</li>";
+                $states =& CRM_PseudoConstant::stateProvince();
+                $qill .= "<li>State - \"" . $states[$fv['state_province']] . "\"</li>";
             }
             
             // country
             if ($fv['country']) {
-                CRM_PseudoConstant::populateCountry();
-                $qill .= "<li>Country - \"" . CRM_PseudoConstant::$country[$fv['country']] . "\"</li>";
+                $country =& CRM_PseudoConstant::country();
+                $qill .= "<li>Country - \"" . $country[$fv['country']] . "\"</li>";
             }
 
             // postal code processing
@@ -455,11 +455,11 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // location type processing
             if ($fv['cb_location_type']) {
-                CRM_PseudoConstant::populateLocationType();        
+                $locationType =& CRM_PseudoConstant::locationType();        
                 $qill .= "<li>Location type -";
                 if (!$fv['cb_location_type']['any']) {
                     foreach ($fv['cb_location_type']  as $k => $v) {
-                        $qill .= " " . CRM_PseudoConstant::$locationType[$k] . " or";
+                        $qill .= " " . $locationType[$k] . " or";
                     }
                     $qill = preg_replace($patternOr, $replacement, $qill);
                 } else {

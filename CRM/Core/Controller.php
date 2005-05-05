@@ -242,34 +242,13 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      * we have two submit buttons, we could have one displayed as a button and
      * the other as an image, both are of type 'submit'.
      *
-     * @param string name of the button
-     *
-     * @return string the value of the button data (null if not present)
+     * @return string the 
      * @access public
      *
      */
-    function getButtonData( $buttonName ) {
+    function getButtonName( ) {
         $data =& $this->container();
-    
-        $buttonStore =& $data['_qf_button_data'];
-
-        return CRM_Array::value( $buttonName, $buttonStore );
-    }
-
-    /**
-     * The above button data is actually stored in the session by QFC.
-     * It is super important to reset this data once you have retrieved it.
-     * We avoid doing it in the above routine in case the user calls the
-     * getButtonData function multiple times
-     *
-     * @access public
-     * @return void
-     *
-     */
-    function resetButtonData( ) {
-        $data =& $this->container();
-
-        $data['_qf_button_data'] = array( );
+        return CRM_Array::value( '_qf_button_name', $data );
     }
 
     /**

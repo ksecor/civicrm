@@ -157,10 +157,10 @@ class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory
 
         $status = 'Total Selected Contact(s): ' . count($contactIds) . '<br>';
         if ($numContactsAdded) {
-            $status .= 'Total Contact(s) added to category: ' . $numContactsAdded . '<br>';
+            $status .= 'Total Contact(s) tagged: ' . $numContactsAdded . '<br>';
         }
         if ($numContactsNotAdded) {
-            $status .= "Total Contact(s) already in selected category: ". $numContactsNotAdded . "<br>";
+            $status .= 'Total Contact(s) already tagged: ' . $numContactsNotAdded . '<br>';
         }
         CRM_Session::setStatus( $status );
 
