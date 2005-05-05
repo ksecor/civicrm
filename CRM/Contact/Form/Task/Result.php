@@ -31,8 +31,10 @@
  *
  */
 
+require_once 'CRM/Core/Form.php';
+
 /**
- * dummy form. only used for displaying results
+ * Used for displaying results
  *
  *
  */
@@ -45,5 +47,28 @@ class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
     function __construct( $name, $state, $mode = self::MODE_NONE ) {
         parent::__construct($name, $state, $mode);
     }
+
+
+/**
+* Function to actually build the form
+ *
+ * @return None
+ * @access public
+ */
+public function buildQuickForm( ) {
+    $context = CRM_Utils_Request::retrieve( 'context', $this );
+    if ( $context == 'smog' ) {
+        $session = CRM_Core_Session::singleton( );
+        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/group/search' ) );
+    }
+    
+    $this->addButtons( array(
+                             array ( 'type'      => 'next',
+                                     'name'      => 'Done',
+                                     'isDefault' => true   ),
+                             )
+                       );
+}
+
 }
 ?>

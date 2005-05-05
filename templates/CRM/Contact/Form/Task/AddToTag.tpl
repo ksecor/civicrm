@@ -4,7 +4,7 @@
 
 <fieldset>
 <legend>
-Choose Tag you would like to add the below contacts to.
+Select Tag
 </legend>
 
 <div class="form-item">
@@ -13,10 +13,9 @@ Choose Tag you would like to add the below contacts to.
 
 {include file="CRM/Contact/Form/Task.tpl"}
 
-</fieldset>
-
 <div class="form-item">
      <span class="element-right">{$form.buttons.html}</span>
 </div>
+</fieldset>
 
 </form>

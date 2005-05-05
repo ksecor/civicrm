@@ -594,6 +594,8 @@ function civicrm_assign( $var, $value = null) {
  */
 function civicrm_search() 
 {
+    $session = CRM_Core_Session::singleton( );
+
     // advanced search
     if(arg(3) == 'advanced') {
         $controller = new CRM_Contact_Controller_Advanced( 'Advanced Search', CRM_Core_Form::MODE_ADVANCED );
@@ -605,6 +607,7 @@ function civicrm_search()
     } else {
         // basic search
         $controller = new CRM_Contact_Controller_Search( 'Search Contacts', CRM_Core_Form::MODE_BASIC );
+        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contact/search' ) );
         $controller->run( );
     }
 
