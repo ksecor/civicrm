@@ -45,7 +45,8 @@ class CRM_Contact_Page_View extends CRM_Page {
         MODE_NOTE                  =   1,
         MODE_GROUP                 =   2,
         MODE_REL                   =   4,
-        MODE_TAG                   =   8;
+        MODE_TAG                   =   8,
+        MODE_CD                    =  16;
 
     /**
      * the contact id of the contact being viewed
@@ -81,7 +82,9 @@ class CRM_Contact_Page_View extends CRM_Page {
             CRM_Contact_Page_Tag::run( $this );
         } else if ( $this->_mode == self::MODE_GROUP ) {
             CRM_Contact_Page_GroupContact::run( $this );
-        } 
+        } else if ( $this->_mode == self::MODE_CD ) {
+            CRM_Contact_Page_CustomData::run( $this );
+        }
 
         return parent::run( );
     }
