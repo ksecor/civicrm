@@ -40,8 +40,9 @@ require_once 'PEAR.php';
 require_once 'CRM/Core/Action.php';
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/Block.php';
-require_once 'CRM/Core/Wrapper.php';
 require_once 'CRM/Core/Selector/Controller.php';
+
+require_once 'CRM/Utils/Wrapper.php';
 
 require_once 'CRM/Contact/Page/View.php';
 
@@ -55,7 +56,7 @@ require_once 'CRM/Core/Error.php';
  * @return a &lt;style&gt; tag that indicates what file browsers should import
  */
 function civicrm_html_head() {
-	$config = CRM_Config::singleton( );
+	$config = CRM_Core_Config::singleton( );
     return '<style type="text/css">@import url(' . $config->resourceBase . 'css/civicrm.css);</style>';
 }
 
@@ -113,9 +114,9 @@ function civicrm_block($op='list', $delta='0')
     if ($user->uid) {
         $menu_arr = civicrm_menu(true);
         if ($op == 'list') {
-            return CRM_Block::getInfo( );
+            return CRM_Core_Block::getInfo( );
         } else {
-            return CRM_Block::getContent ( $delta );
+            return CRM_Core_Block::getContent ( $delta );
         }
     }
 }
@@ -356,7 +357,7 @@ function civicrm_hack_path( $path, $qs ) {
 	$items = explode( '/', $path );
     $len   = count( $items ) ;
     if ( arg( $len - 1 ) != $items[$len - 1] ) {
-        return CRM_System::url( $path, $qs, false );
+        return CRM_Utils_System::url( $path, $qs, false );
     } else {
         return $path;
     }
@@ -370,18 +371,18 @@ function civicrm_init()
 
     menu_rebuild();
 
-    $config = CRM_Config::singleton();
-    CRM_DAO::init($config->dsn, $config->daoDebug);
+    $config = CRM_Core_Config::singleton();
+    CRM_Core_DAO::init($config->dsn, $config->daoDebug);
     
     $factoryClass = 'CRM_Contact_DAO_Factory';
     
-    CRM_DAO::setFactory(new $factoryClass());
+    CRM_Core_DAO::setFactory(new $factoryClass());
 
     // Add module-specific stylesheet to page header
     drupal_set_html_head(civicrm_html_head());
 
     // set error handling
-    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Error', 'handle'));
+    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Core_Error', 'handle'));
 }
 
 
@@ -430,7 +431,7 @@ function civicrm_admin_invoke()
 
 function civicrm_invoke()
 {
-    $session = CRM_Session::singleton( );
+    $session = CRM_Core_Session::singleton( );
 
     // contact related functionality
     if (arg(1) == 'contact') {
@@ -440,8 +441,8 @@ function civicrm_invoke()
     // browse groups
     if (arg(1) == 'group') {
         if ( arg(2) == 'add' ) {
-            $controller = new CRM_Group_Controller( 'Groups', CRM_Form::MODE_BASIC );
-            $session->pushUserContext( CRM_System::url( 'civicrm/group', 'reset=1&action=browse' ) );
+            $controller = new CRM_Group_Controller( 'Groups', CRM_Core_Form::MODE_BASIC );
+            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/group', 'reset=1&action=browse' ) );
             $controller->run( );
         } else if ( arg(2) == 'search' ) {
             // this is really a search, including here to get drupal customizations
@@ -471,12 +472,12 @@ function civicrm_contact_invoke()
     }
 
     if (substr(arg(2),0,3) == 'add') {
-        return civicrm_form( CRM_Form::MODE_ADD );
+        return civicrm_form( CRM_Core_Form::MODE_ADD );
     }
 
     // edit contact
     if (arg(2) == 'edit') {
-        return civicrm_form( CRM_Form::MODE_UPDATE );
+        return civicrm_form( CRM_Core_Form::MODE_UPDATE );
     }
  
     // view contact
@@ -546,9 +547,9 @@ function civicrm_load($queryArgs)
  */
 function civicrm_form( $mode )
 {
-    $wrapper = new CRM_Wrapper();
+    $wrapper = new CRM_Utils_Wrapper();
     $wrapper->run('CRM_Contact_Form_Edit', 'Contact Page', $mode,
-                  CRM_System::url( 'civicrm/contact/addI', 'c_type=Individual&reset=1' ) );
+                  CRM_Utils_System::url( 'civicrm/contact/addI', 'c_type=Individual&reset=1' ) );
 }
 
 
@@ -560,9 +561,9 @@ function fetch_tpl( $tpl ) {
     
     $fileName = $baseDir . $tpl;
     
-    $config  = CRM_Config::singleton ();
+    $config  = CRM_Core_Config::singleton ();
     $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-    echo CRM_System::theme( 'page', $template->fetch( $fileName ) );
+    echo CRM_Utils_System::theme( 'page', $template->fetch( $fileName ) );
     
 }
 
@@ -570,7 +571,7 @@ function civicrm_assign( $var, $value = null) {
     static $template = null;
     
     if ( ! isset( $template ) ) {
-        $config  = CRM_Config::singleton ();
+        $config  = CRM_Core_Config::singleton ();
         $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
     }
     
@@ -589,7 +590,7 @@ function civicrm_search()
 {
     // advanced search
     if(arg(3) == 'advanced') {
-        $controller = new CRM_Contact_Controller_Advanced( 'Advanced Search', CRM_Form::MODE_ADVANCED );
+        $controller = new CRM_Contact_Controller_Advanced( 'Advanced Search', CRM_Core_Form::MODE_ADVANCED );
         $controller->run( );
     } else if (arg(3) == 'saved' && arg(4) == 'browse') {
         // browse saved searches
@@ -597,7 +598,7 @@ function civicrm_search()
         $savedSearchPage->run();
     } else {
         // basic search
-        $controller = new CRM_Contact_Controller_Search( 'Search Contacts', CRM_Form::MODE_BASIC );
+        $controller = new CRM_Contact_Controller_Search( 'Search Contacts', CRM_Core_Form::MODE_BASIC );
         $controller->run( );
     }
 

@@ -68,7 +68,7 @@ class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
 
         $household->copyValues( $params );
 
-        $household->id = CRM_Array::value( 'household', $ids );
+        $household->id = CRM_Utils_Array::value( 'household', $ids );
         return $household->save( );
     }
 

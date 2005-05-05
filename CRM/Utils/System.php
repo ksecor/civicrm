@@ -31,7 +31,7 @@
  *
  */
 
-class CRM_System {
+class CRM_Utils_System {
 
     /**
      * Compose a new url string from the current url string
@@ -135,7 +135,7 @@ class CRM_System {
      *
      */
     function url($path = null, $query = null, $absolute = true, $fragment = null ) {
-        $config        = CRM_Config::singleton( );
+        $config        = CRM_Core_Config::singleton( );
         static $script = 'index.php';
 
         if (isset($fragment)) {
@@ -194,15 +194,15 @@ class CRM_System {
      * @access public
      */
     function crmURL( $params ) {
-        $p = CRM_Array::value( 'p', $params );
+        $p = CRM_Utils_Array::value( 'p', $params );
         if ( ! isset( $p ) ) {
             $p = self::currentPath( );
         }
 
         return self::url( $p,
-                          CRM_Array::value( 'q', $params ),
-                          CRM_Array::value( 'a', $params, true ),
-                          CRM_Array::value( 'f', $params ) );
+                          CRM_Utils_Array::value( 'q', $params ),
+                          CRM_Utils_Array::value( 'a', $params, true ),
+                          CRM_Utils_Array::value( 'f', $params ) );
     }
 
     /**
@@ -231,12 +231,6 @@ class CRM_System {
 function __autoload( $class ) {
     if ( substr( $class, 0, 4 ) != 'CRM_' ) {
         return;
-    }
-
-    // need to check for classes that belong to the Core directory they are exceptions in the sense
-    // their location is CRM/Core/*.php but the class names do not have "Core" in the them
-    if (substr_count($class, "_") == 1) {
-        $class = str_replace('CRM_', 'CRM_Core_', $class);
     }
 
     $classPath = str_replace( '_', '/', $class ) . '.php';

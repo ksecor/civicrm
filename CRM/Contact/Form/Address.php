@@ -37,7 +37,7 @@ class CRM_Contact_Form_Address
 {
 
     static function buildAddressBlock($form, &$location, $locationId) {
-        $attributes = CRM_DAO::getAttribute('CRM_Contact_DAO_Address');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address');
         $location[$locationId]['address']['street_address']         =
             $form->addElement('text', "location[$locationId][address][street_address]", 'Street Address:',
                               $attributes['street_address']);
@@ -56,10 +56,10 @@ class CRM_Contact_Form_Address
                               $attributes['postal_code']);
         $location[$locationId]['address']['state_province_id']      =
             $form->addElement('select', "location[$locationId][address][state_province_id]", 'State / Province:',
-                              //CRM_SelectValues::$stateProvince);
-                              CRM_PseudoConstant::stateProvince());
+                              //CRM_Core_SelectValues::$stateProvince);
+                              CRM_Core_PseudoConstant::stateProvince());
         $location[$locationId]['address']['country_id']             =
-            $form->addElement('select', "location[$locationId][address][country_id]", 'Country:', CRM_PseudoConstant::country());
+            $form->addElement('select', "location[$locationId][address][country_id]", 'Country:', CRM_Core_PseudoConstant::country());
     }
 
 }

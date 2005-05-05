@@ -38,7 +38,7 @@ require_once 'CRM/Contact/Form/Email.php';
 require_once 'CRM/Contact/Form/IM.php';
 require_once 'CRM/Contact/Form/Address.php';
 
-class CRM_Contact_Form_Location extends CRM_Form
+class CRM_Contact_Form_Location extends CRM_Core_Form
 {
     /**
      * BLOCKS constant determines max number of Phone, Email and IM blocks to offer
@@ -56,7 +56,7 @@ class CRM_Contact_Form_Location extends CRM_Form
         $location = array();
         
         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) {    
-            $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_PseudoConstant::locationType());
+            $location[$locationId]['location_type_id'] =  $form->addElement('select'  , "location[$locationId][location_type_id]", null, CRM_Core_PseudoConstant::locationType());
             $location[$locationId]['is_primary']       =  $form->addElement('checkbox', "location[$locationId][is_primary]", 'Primary location for this contact',  'Make this the primary location.', array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId);" ) );
             
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
@@ -65,7 +65,7 @@ class CRM_Contact_Form_Location extends CRM_Form
             CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS); 
             CRM_Contact_Form_IM::buildIMBlock      ($form, $location, $locationId, self::BLOCKS); 
 
-            CRM_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '[+] another location', '[-] hide location');
+            CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '[+] another location', '[-] hide location');
 
         }
         return $location;
@@ -102,7 +102,7 @@ class CRM_Contact_Form_Location extends CRM_Form
     /**
      * Fix what blocks to show/hide based on the default values set
      *
-     * @param CRM_ShowHideBlocks $showHide the showHide object
+     * @param CRM_Core_ShowHideBlocks $showHide the showHide object
      * @param array @defaults the array of default values
      *
      * @return void
@@ -130,7 +130,7 @@ class CRM_Contact_Form_Location extends CRM_Form
             $commPrefs = array( 'phone', 'email', 'im' );
             foreach ( self::$_commPrefs as $block ) {
                 self::updateShowHideSubBlocks( $showHide, $block, "location[$locationId]",
-                                               CRM_Array::value( $block, $values[$locationId] ) );
+                                               CRM_Utils_Array::value( $block, $values[$locationId] ) );
             }
         }
     }

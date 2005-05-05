@@ -31,11 +31,11 @@
  *
  */
 
-require_once 'CRM/DAO/Note.php';
+require_once 'CRM/Core/DAO/Note.php';
 
 require_once 'CRM/Contact/BAO/Block.php';
 
-class CRM_Contact_BAO_Note extends CRM_DAO_Note {
+class CRM_Contact_BAO_Note extends CRM_Core_DAO_Note {
     
     /**
      * const the max number of notes we display at any given time

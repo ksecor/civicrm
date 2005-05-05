@@ -38,7 +38,7 @@ require_once 'CRM/Core/Form.php';
  * This class is used for listing the members of the group
  * 
  */
-class CRM_Group_Form_GroupMember extends CRM_Form
+class CRM_Group_Form_GroupMember extends CRM_Core_Form
 {
     
     /**
@@ -76,7 +76,7 @@ class CRM_Group_Form_GroupMember extends CRM_Form
     function setDefaultValues( ) {
 
         if ( isset( $this->_id ) ) {
-            $aMembers = CRM_BAO_Group::getMember( $this->_id );
+            $aMembers = CRM_Core_BAO_Group::getMember( $this->_id );
         }
         $this->assign('members', $aMembers );
         //        print_r($aMembers);

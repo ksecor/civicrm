@@ -27,7 +27,7 @@ require_once "PEAR.php";
 
 require_once "CRM/Core/Error.php";
 
-class CRM_Session {
+class CRM_Core_Session {
 
     /**
      * key is used to allow the application to have multiple top
@@ -74,7 +74,7 @@ class CRM_Session {
      * Since we are now a client / module of drupal, drupal takes care
      * of initiating the php session handler session_start ().
      * All crm code should always use the session using
-     * CRM_Session. we prefix stuff to avoid collisions with drupal and also
+     * CRM_Core_Session. we prefix stuff to avoid collisions with drupal and also
      * collisions with other crm modules!!
      * This constructor is invoked whenever any module requests an instance of
      * the session and one is not available.
@@ -100,7 +100,7 @@ class CRM_Session {
      */
     static function singleton($key = 'CiviCRM') {
         if (self::$_singleton === null ) {
-            self::$_singleton = new CRM_Session($key);
+            self::$_singleton = new CRM_Core_Session($key);
         }
         return self::$_singleton;
     }
@@ -150,7 +150,7 @@ class CRM_Session {
             return;
         }
 
-        if ( ! CRM_Array::value( $prefix, $this->_session[$this->_key] ) ) {
+        if ( ! CRM_Utils_Array::value( $prefix, $this->_session[$this->_key] ) ) {
             $this->_session[$this->_key][$prefix] = array( );
         }
     }
@@ -232,7 +232,7 @@ class CRM_Session {
             $session =& $this->_session[$this->_key][$prefix];
         }
 
-        return CRM_Array::value( $name, $session );
+        return CRM_Utils_Array::value( $name, $session );
     }
 
   
@@ -346,9 +346,9 @@ class CRM_Session {
      */
     function debug( $all = 1 ) {
         if ( $all != 1) {
-            CRM_Error::debug( 'CRM Session', $this->_session );
+            CRM_Core_Error::debug( 'CRM Session', $this->_session );
         } else {
-            CRM_Error::debug( 'CRM Session', $this->_session[$this->_key] );
+            CRM_Core_Error::debug( 'CRM Session', $this->_session[$this->_key] );
         }
     }
 

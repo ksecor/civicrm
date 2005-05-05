@@ -313,7 +313,7 @@ abstract class CRM_Import_Parser {
         return $values;
     }
 
-    function addField( $name, $title, $type = CRM_Type::T_INT, $required = false, $payload = null, $active = false ) {
+    function addField( $name, $title, $type = CRM_Utils_Type::T_INT, $required = false, $payload = null, $active = false ) {
         $this->_fields[$name] = new CRM_Import_Field($name, $title, $type, $required, $payload, $active);
     }
 
@@ -332,7 +332,7 @@ abstract class CRM_Import_Parser {
     /**
      * Store parser values
      *
-     * @param CRM_Session $store 
+     * @param CRM_Core_Session $store 
      *
      * @return void
      * @access public

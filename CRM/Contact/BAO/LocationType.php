@@ -50,7 +50,7 @@ class CRM_Contact_BAO_LocationType extends CRM_Contact_DAO_LocationType {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_BAO_LocaationType object
+     * @return object CRM_Core_BAO_LocaationType object
      * @access public
      * @static
      */

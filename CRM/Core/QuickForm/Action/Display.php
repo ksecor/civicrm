@@ -65,7 +65,7 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
     /**
      * Processes the request.
      *
-     * @param  object    $page       CRM_Form the current form-page
+     * @param  object    $page       CRM_Core_Form the current form-page
      * @param  string    $actionName Current action name, as one Action object can serve multiple actions
      *
      * @return void
@@ -106,14 +106,14 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
      * render the page using a custom templating
      * system
      *
-     * @param object  $page the CRM_Form page
+     * @param object  $page the CRM_Core_Form page
      *
      * @return void
      * @access public
      */
     function _renderForm(&$page) {
-        $config  = CRM_Config::singleton ();
-        $session = CRM_Session::singleton();
+        $config  = CRM_Core_Config::singleton ();
+        $session = CRM_Core_Session::singleton();
 
         $this->_setRenderTemplates($page);
         $template = CRM_Core_Smarty::singleton( );
@@ -131,7 +131,7 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
         } else {
             $content = $template->fetch( 'CRM/index.tpl' );
         }
-        echo CRM_System::theme( 'page', $content, null, $controller->getPrint( ) );
+        echo CRM_Utils_System::theme( 'page', $content, null, $controller->getPrint( ) );
 
         return;
     }
@@ -139,7 +139,7 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
     /**
      * set the various rendering templates
      *
-     * @param object  $page the CRM_Form page
+     * @param object  $page the CRM_Core_Form page
      *
      * @return void
      * @access public
@@ -158,7 +158,7 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
     /**
      * initialize the various templates
      *
-     * @param object  $page the CRM_Form page
+     * @param object  $page the CRM_Core_Form page
      *
      * @return void
      * @access public
@@ -168,7 +168,7 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
             return;
         }
 
-        $config = CRM_Config::singleton();
+        $config = CRM_Core_Config::singleton();
         self::$_requiredTemplate = file_get_contents( $config->templateDir . '/CRM/common/form_label.tpl' );
         self::$_errorTemplate    = file_get_contents( $config->templateDir . '/CRM/common/form_error.tpl' );
     }

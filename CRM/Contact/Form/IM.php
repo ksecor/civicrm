@@ -40,17 +40,17 @@ class CRM_Contact_Form_IM
         for ($i = 1; $i <= $count; $i++) {
             $label = 'Instant Message:';
 
-            CRM_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][im]", '[+] another Instant Message', '[-] hide Instant Message');
+            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][im]", '[+] another Instant Message', '[-] hide Instant Message');
 
             $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select',
                                                                                "location[$locationId][im][$i][provider_id]",
                                                                                $label,
-                                                                               CRM_PseudoConstant::IMProvider()   );
+                                                                               CRM_Core_PseudoConstant::IMProvider()   );
 
             $location[$locationId]['im'][$i]['name'] = $form->addElement('text',
                                                                          "location[$locationId][im][$i][name]",
                                                                          null,
-                                                                         CRM_DAO::getAttribute('CRM_Contact_DAO_IM',
+                                                                         CRM_Core_DAO::getAttribute('CRM_Contact_DAO_IM',
                                                                                                'name'));
         }
     }

@@ -33,7 +33,7 @@
 
 require_once 'CRM/Core/Page.php';
 
-class CRM_Contact_Page_View extends CRM_Page {
+class CRM_Contact_Page_View extends CRM_Core_Page {
 
     /**
      * constants for various modes that the page can operate as
@@ -61,7 +61,7 @@ class CRM_Contact_Page_View extends CRM_Page {
      * @param string $title title of the page
      * @param int    $mode  mode of the page
      *
-     * @return CRM_Page
+     * @return CRM_Core_Page
      */
     function __construct( $name, $title = null, $mode = null ) {
         parent::__construct($name, $title, $mode);
@@ -69,7 +69,7 @@ class CRM_Contact_Page_View extends CRM_Page {
 
     function run( ) {
 
-        $this->_contactId = CRM_Request::retrieve( 'cid', $this, true );
+        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $this, true );
         $this->getContactDetails( );
 
         if ( $this->_mode == self::MODE_NONE ) {
@@ -138,7 +138,7 @@ class CRM_Contact_Page_View extends CRM_Page {
         }
 
         // get the list of all the categories
-        $category =& CRM_PseudoConstant::category();
+        $category =& CRM_Core_PseudoConstant::category();
         // get categories for the contact id
         $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
         
@@ -161,7 +161,7 @@ class CRM_Contact_Page_View extends CRM_Page {
 
     function setShowHide( &$defaults ) {
 
-        $showHide = new CRM_ShowHideBlocks(array('commPrefs'       => 1,
+        $showHide = new CRM_Core_ShowHideBlocks(array('commPrefs'       => 1,
                                                  'notes[show]'     => 1,
                                                  'relationships[show]'     => 1 ),
                                            array('notes'           => 1,
@@ -171,9 +171,9 @@ class CRM_Contact_Page_View extends CRM_Page {
 
         if ( $defaults['contact_type'] == 'Individual' ) {
             // is there any demographics data?
-            if ( CRM_Array::value( 'gender'     , $defaults ) ||
-                 CRM_Array::value( 'is_deceased', $defaults ) ||
-                 CRM_Array::value( 'birth_date' , $defaults ) ) {
+            if ( CRM_Utils_Array::value( 'gender'     , $defaults ) ||
+                 CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
+                 CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
                 $showHide->addShow( 'demographics' );
                 $showHide->addHide( 'demographics[show]' );
             } else {
@@ -183,13 +183,13 @@ class CRM_Contact_Page_View extends CRM_Page {
         }
 
         // is there any notes data?
-        if ( CRM_Array::value( 'notesCount', $defaults ) ) {
+        if ( CRM_Utils_Array::value( 'notesCount', $defaults ) ) {
             $showHide->addShow( 'notes' );
             $showHide->addHide( 'notes[show]' );
         }
 
         // is there any relationships data?
-        if ( CRM_Array::value( 'relationshipsCount', $defaults ) ) {
+        if ( CRM_Utils_Array::value( 'relationshipsCount', $defaults ) ) {
             $showHide->addShow( 'relationships' );
             $showHide->addHide( 'relationships[show]' );
         }

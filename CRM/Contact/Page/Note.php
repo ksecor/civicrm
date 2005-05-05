@@ -42,7 +42,7 @@ class CRM_Contact_Page_Note {
     }
 
     static function view( $page, $noteId ) {
-        $note = new CRM_DAO_Note( );
+        $note = new CRM_Core_DAO_Note( );
         $note->id = $noteId;
         if ( $note->find( true ) ) {
             $values = array( );
@@ -54,7 +54,7 @@ class CRM_Contact_Page_Note {
     }
 
     static function browse( $page ) {
-        $note = new CRM_DAO_Note( );
+        $note = new CRM_Core_DAO_Note( );
         $note->table_name = 'crm_contact';
         $note->table_id   = $page->getContactId( );
 
@@ -70,11 +70,11 @@ class CRM_Contact_Page_Note {
     }
 
     static function edit( $page, $mode, $noteId = null ) {
-        $controller = new CRM_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', $mode );
+        $controller = new CRM_Core_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', $mode );
 
         // set the userContext stack
-        $session = CRM_Session::singleton();
-        $session->pushUserContext( CRM_System::url('civicrm/contact/view/note', 'action=browse' ) );
+        $session = CRM_Core_Session::singleton();
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/note', 'action=browse' ) );
 
         $controller->reset( );
         $controller->set( 'tableName', 'crm_contact' );
@@ -89,14 +89,14 @@ class CRM_Contact_Page_Note {
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
 
-        $action = CRM_Request::retrieve( 'action', $page, false, 'browse' );
+        $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
         $page->assign( 'action', $action );
 
-        $nid = CRM_Request::retrieve( 'nid', $page, false, 0 );
+        $nid = CRM_Utils_Request::retrieve( 'nid', $page, false, 0 );
 
-        if ( $action & CRM_Action::VIEW ) {
+        if ( $action & CRM_Core_Action::VIEW ) {
             self::view( $page, $nid );
-        } else if ( $action & ( CRM_Action::UPDATE | CRM_Action::ADD ) ) {
+        } else if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
             self::edit( $page, $action, $nid );
         }
 

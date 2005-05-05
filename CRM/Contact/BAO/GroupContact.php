@@ -155,7 +155,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ($numContactsNotAdded) {
             $status .= 'Total Contact(s) already in selected group: ' . $numContactsNotAdded . '<br>';
         }
-        CRM_Session::setStatus( $status );
+        CRM_Core_Session::setStatus( $status );
         
     }
 

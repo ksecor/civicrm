@@ -25,7 +25,7 @@
 
 require_once 'HTML/QuickForm/Rule/Email.php';
 
-class CRM_String {
+class CRM_Utils_String {
   
     const
     COMMA          = ","   ,
@@ -49,13 +49,13 @@ class CRM_String {
      * @static
      */
     static function titleToVar( $title ) {
-        if ( ! CRM_Rule::title( $title ) ) {
+        if ( ! CRM_Utils_Rule::title( $title ) ) {
             return null;
         }
 
-        $variable = CRM_String::munge( $title );
+        $variable = self::munge( $title );
 
-        if ( CRM_Rule::variable( $variable ) ) {
+        if ( CRM_Utils_Rule::variable( $variable ) ) {
             return $variable;
         }
       

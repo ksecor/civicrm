@@ -31,7 +31,7 @@
  *
  */
 
-class CRM_ShowHideBlocks {
+class CRM_Core_ShowHideBlocks {
 
     protected $_show;
 

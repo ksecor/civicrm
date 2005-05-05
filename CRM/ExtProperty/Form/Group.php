@@ -36,7 +36,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * form to process actions on the group aspect of ExtProperty
  */
-class CRM_ExtProperty_Form_Group extends CRM_Form {
+class CRM_ExtProperty_Form_Group extends CRM_Core_Form {
 
     /**
      * the group id saved to the session for an update
@@ -70,12 +70,12 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
      */
     public function buildQuickForm( ) {
         $this->add( 'text'  , 'title'      , 'Group Name',
-                    CRM_DAO::getAttribute( 'CRM_DAO_ExtPropertyGroup', 'title'       ), true );
+                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ExtPropertyGroup', 'title'       ), true );
         $this->addRule( 'title', 'Please enter a valid name.', 'title' );
 
         $this->add( 'text'  , 'description', 'Group Description',
-                    CRM_DAO::getAttribute( 'CRM_DAO_ExtPropertyGroup', 'description' ), true );
-        $this->add( 'select', 'extends', 'Used For', CRM_SelectValues::$extPropertyGroupExtends );
+                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_ExtPropertyGroup', 'description' ), true );
+        $this->add( 'select', 'extends', 'Used For', CRM_Core_SelectValues::$extPropertyGroupExtends );
         $this->addElement( 'checkbox', 'is_active', 'Is this Extended Property Group active?' );
         
         $this->addButtons( array(
@@ -105,7 +105,7 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
 
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-            CRM_BAO_ExtPropertyGroup::retrieve( $params, $defaults );
+            CRM_Core_BAO_ExtPropertyGroup::retrieve( $params, $defaults );
         } else {
             $defaults['is_active'] = 1;
         }
@@ -121,12 +121,12 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
     public function postProcess( ) {
         $params = $this->controller->exportValues( 'Group' );
 
-        $group = new CRM_DAO_ExtPropertyGroup( );
+        $group = new CRM_Core_DAO_ExtPropertyGroup( );
         $group->title       = $params['title'];
-        $group->name        = CRM_String::titleToVar( $params['title'] );
+        $group->name        = CRM_Utils_String::titleToVar( $params['title'] );
         $group->description = $params['description'];
         $group->extends     = $params['extends'];
-        $group->is_active   = CRM_Array::value( 'is_active', $params, false );
+        $group->is_active   = CRM_Utils_Array::value( 'is_active', $params, false );
         $group->domain_id   = 1;
 
         if ( $this->_mode & self::MODE_UPDATE ) {
@@ -134,7 +134,7 @@ class CRM_ExtProperty_Form_Group extends CRM_Form {
         }
         $group->save( );
 
-        CRM_Session::setStatus( 'Your Group "' . $group->title . '" has been saved' );
+        CRM_Core_Session::setStatus( 'Your Group "' . $group->title . '" has been saved' );
     }
 
 }

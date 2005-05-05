@@ -36,7 +36,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * This class for the second step in Group Wizard (for listing saved searches)
  */
-class CRM_Group_Form_DynamicGroup extends CRM_Form {
+class CRM_Group_Form_DynamicGroup extends CRM_Core_Form {
 
     /**
      * class constructor

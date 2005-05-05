@@ -69,7 +69,7 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
         $im->is_primary   = $isPrimary;
         $isPrimary        = false;
 
-        $im->id = CRM_Array::value( $imId, $ids['location'][$locationId]['im'] );
+        $im->id = CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] );
         return $im->save( );
     }
 

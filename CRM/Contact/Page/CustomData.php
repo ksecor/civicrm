@@ -57,7 +57,7 @@ class CRM_Contact_Page_CustomData {
         //$contactType = CRM_Contact_BAO_Contact::getContactType($page->getContactId());
 
         // get groups, fields for contact type & id
-        //$customData = CRM_BAO_ExtProperty_Group::getCustomData($page->getContactID());
+        //$customData = CRM_Core_BAO_ExtProperty_Group::getCustomData($page->getContactID());
     }
 
     static function browse( $page )
@@ -81,11 +81,11 @@ class CRM_Contact_Page_CustomData {
      */
     static function edit($page, $action)
     {
-        $controller = new CRM_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $mode);
+        $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $mode);
 
         // set the userContext stack
-        $session = CRM_Session::singleton();
-        $session->pushUserContext(CRM_System::url('civicrm/contact/view/cd', 'action=browse'));
+        $session = CRM_Core_Session::singleton();
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view/cd', 'action=browse'));
 
         $controller->run();
     }
@@ -107,16 +107,16 @@ class CRM_Contact_Page_CustomData {
     {
         // get the contact id & requested action
         $contactId = $page->getContactId();
-        $action = CRM_Request::retrieve('action', $page, false, 'browse'); // default to 'browse'
+        $action = CRM_Utils_Request::retrieve('action', $page, false, 'browse'); // default to 'browse'
         
         // assign vars to templates
         $page->assign('contactId', $contactId);
         $page->assign('action', $action);
 
         // what action to take ?
-        if ($action & CRM_Action::VIEW) {
+        if ($action & CRM_Core_Action::VIEW) {
             self::view($page);
-        } else if ($action & (CRM_Action::UPDATE | CRM_Action::ADD)) {
+        } else if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             // both update and add are handled by 'edit'
             self::edit($page, $action, $contactId);
         }

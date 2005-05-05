@@ -51,7 +51,7 @@ class CRM_Core_QuickForm_Action_Jump extends CRM_Core_QuickForm_Action {
     /**
      * Processes the request. 
      *
-     * @param  object    $page       CRM_Form the current form-page
+     * @param  object    $page       CRM_Core_Form the current form-page
      * @param  string    $actionName Current action name, as one Action object can serve multiple actions
      *
      * @return void

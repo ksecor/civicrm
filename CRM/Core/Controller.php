@@ -46,7 +46,7 @@ require_once 'HTML/QuickForm/Action/Direct.php';
 
 require_once 'CRM/Core/StateMachine.php';
 
-class CRM_Controller extends HTML_QuickForm_Controller {
+class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
     /**
      * the state machine associated with this controller
@@ -103,7 +103,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
         // let the constructor initialize this, should happen only once
         if ( ! isset( self::$_template ) ) {
             self::$_template = CRM_Core_Smarty::singleton( );
-            self::$_session  = CRM_Session::singleton( );
+            self::$_session  = CRM_Core_Session::singleton( );
         }
 
         // if the request has a reset value, initialize the controller session
@@ -222,11 +222,11 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      * @access public
      *
      */
-    function addPages( $stateMachine, $mode = CRM_Form::MODE_NONE ) {
+    function addPages( $stateMachine, $mode = CRM_Core_Form::MODE_NONE ) {
         $pages = $stateMachine->getPages( );
 
         foreach ( $pages as $classPath ) {
-            $stateName   = CRM_String::getClassName($classPath);
+            $stateName   = CRM_Utils_String::getClassName($classPath);
 
             $$stateName = new $classPath( $stateName,
                                           $stateMachine->find( $classPath ),
@@ -248,7 +248,7 @@ class CRM_Controller extends HTML_QuickForm_Controller {
      */
     function getButtonName( ) {
         $data =& $this->container();
-        return CRM_Array::value( '_qf_button_name', $data );
+        return CRM_Utils_Array::value( '_qf_button_name', $data );
     }
 
     /**

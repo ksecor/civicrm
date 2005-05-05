@@ -36,11 +36,11 @@
 
 require_once 'HTML/QuickForm/Page.php';
 
-require_once 'CRM/Core/Rule.php';
+require_once 'CRM/Utils/Rule.php';
 require_once 'CRM/Core/Smarty.php';
 require_once 'CRM/Core/Form/Renderer.php';
 
-class CRM_Form extends HTML_QuickForm_Page {
+class CRM_Core_Form extends HTML_QuickForm_Page {
 
     /**
      * The state object that this form belongs to
@@ -153,7 +153,7 @@ class CRM_Form extends HTML_QuickForm_Page {
         static $rules = array( 'title', 'variable', 'phone', 'query', 'url', 'date', 'qfDate', 'asciiFile', 'htmlFile' );
 
         foreach ( $rules as $rule ) {
-            $this->registerRule( $rule, 'callback', $rule, 'CRM_Rule' );
+            $this->registerRule( $rule, 'callback', $rule, 'CRM_Utils_Rule' );
         }
     }
 
@@ -176,13 +176,13 @@ class CRM_Form extends HTML_QuickForm_Page {
                  $attributes = '', $required   = false ) {
         $element = $this->addElement($type, $name, $label, $attributes);
         if (HTML_QuickForm::isError($element)) {
-            CRM_Error::fatal(HTML_QuickForm::errorMessage($element));
+            CRM_Core_Error::fatal(HTML_QuickForm::errorMessage($element));
         }
     
         if ( $required ) {
             $error = $this->addRule($name, ' is a required field' , 'required');
             if (HTML_QuickForm::isError($error)) {
-                CRM_Error::fatal(HTML_QuickForm::errorMessage($element));
+                CRM_Core_Error::fatal(HTML_QuickForm::errorMessage($element));
             }
         }
     
@@ -288,11 +288,16 @@ class CRM_Form extends HTML_QuickForm_Page {
         $prevnext = array( );
         $spacing = array( );
         foreach ( $params as $button ) {
-            $js = CRM_Array::value( 'js', $button );
-            if ( $js ) {
-                $attrs = array_merge( $js, array( 'class' => 'form-submit' ) );
+            $js = CRM_Utils_Array::value( 'js', $button );
+            $isDefault = CRM_Utils_Array::value( 'isDefault', $button, false );
+            if ( $isDefault ) {
+                $attrs = array( 'class' => 'form-submit default' );
             } else {
                 $attrs = array( 'class' => 'form-submit' );
+            }
+
+            if ( $js ) {
+                $attrs = array_merge( $js, $attrs );
             }
 
             if ( $button['type'] === 'reset' ) {
@@ -300,12 +305,12 @@ class CRM_Form extends HTML_QuickForm_Page {
             } else {
                 $prevnext[] =& $this->createElement( 'submit', $this->getButtonName($button['type']), $button['name'], $attrs );
             }
-            if ( CRM_Array::value( 'isDefault', $button ) ) {
+            if ( CRM_Utils_Array::value( 'isDefault', $button ) ) {
                 $this->setDefaultAction( $button['type'] );
             }
             
             // hack - addGroup uses an array to express variable spacing, read from the last element
-            $spacing[] = CRM_Array::value('spacing', $button, self::ATTR_SPACING);
+            $spacing[] = CRM_Utils_Array::value('spacing', $button, self::ATTR_SPACING);
             
             $this->addGroup( $prevnext, 'buttons', '', $spacing, false );
         }
@@ -368,7 +373,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      * @access public
      */     
     function isSimpleForm() {
-        return $this->_state->getType( ) & ( CRM_State::START | CRM_State::FINISH );
+        return $this->_state->getType( ) & ( CRM_Core_State::START | CRM_Core_State::FINISH );
     }
 
     /**
@@ -417,7 +422,7 @@ class CRM_Form extends HTML_QuickForm_Page {
         if (isset($this->_renderer)) {
             return $this->_renderer;
         } else {
-            $this->_renderer = new CRM_Form_Renderer(self::$_template);
+            $this->_renderer = new CRM_Core_Form_Renderer(self::$_template);
             return $this->_renderer;
         }
     }
@@ -439,7 +444,7 @@ class CRM_Form extends HTML_QuickForm_Page {
      *
      * @param string  $message Error Message
      * @param int     $code    Error Code
-     * @param CRM_DAO $dao     A data access object on which we perform a rollback if non - empty
+     * @param CRM_Core_DAO $dao     A data access object on which we perform a rollback if non - empty
      * @return void
      * @access public
      */
@@ -448,7 +453,7 @@ class CRM_Form extends HTML_QuickForm_Page {
             $dao->query( 'ROLLBACK' );
         }
 
-        $error =& CRM_Error::singleton();
+        $error =& CRM_Core_Error::singleton();
         
         $error->push( $code, $message );
     }

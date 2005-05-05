@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Contact_Form_Relationship extends CRM_Form
+class CRM_Contact_Form_Relationship extends CRM_Core_Form
 {
 
     /**
@@ -93,7 +93,7 @@ class CRM_Contact_Form_Relationship extends CRM_Form
 
         if ( $this->_mode & self::MODE_UPDATE ) {
 
-            $session = CRM_Session::singleton( );
+            $session = CRM_Core_Session::singleton( );
 
             $relationship = new CRM_Contact_DAO_Relationship( );
 
@@ -146,15 +146,15 @@ class CRM_Contact_Form_Relationship extends CRM_Form
     {
         $this->addElement('select', "relationship_type_id", '', CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $this->_rtype));
         
-        $this->addElement('select', "contact_type", '', CRM_SelectValues::$contactType);
+        $this->addElement('select', "contact_type", '', CRM_Core_SelectValues::$contactType);
         
         $this->addElement('text', 'name' );
 
         $this->addElement('hidden', 'csearch','0' );
 
-        $this->addElement('date', 'start_date', 'Starting:', CRM_SelectValues::$date);
+        $this->addElement('date', 'start_date', 'Starting:', CRM_Core_SelectValues::$date);
         
-        $this->addElement('date', 'end_date', 'Ending:', CRM_SelectValues::$date);
+        $this->addElement('date', 'end_date', 'Ending:', CRM_Core_SelectValues::$date);
 
         $arraySearch = array();
         $params = array();
@@ -202,7 +202,7 @@ class CRM_Contact_Form_Relationship extends CRM_Form
         $relationship = CRM_Contact_BAO_Relationship::create( $params, $ids );
 
         if ($relationship->id) {
-            CRM_Session::setStatus( 'Your relationship record has been saved' );
+            CRM_Core_Session::setStatus( 'Your relationship record has been saved' );
         }
 
     }//end of function
@@ -237,7 +237,7 @@ class CRM_Contact_Form_Relationship extends CRM_Form
             $this->assign('noResult', 'Please enter appropriate search criteria.');
         } else {
 
-            $config = CRM_Config::singleton( );
+            $config = CRM_Core_Config::singleton( );
             $contact->find();
             while($contact->fetch()) {
 

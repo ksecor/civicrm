@@ -36,7 +36,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * This class gets the name of the file to upload
  */
-class CRM_Import_Form_MapField extends CRM_Form {
+class CRM_Import_Form_MapField extends CRM_Core_Form {
 
     /**
      * cache of preview data values

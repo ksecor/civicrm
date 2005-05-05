@@ -65,12 +65,12 @@ class CRM_Core_Smarty extends Smarty {
         $this->plugins_dir  = array ( CRM_SMARTYDIR . 'plugins', CRM_PLUGINSDIR );
 
         // add the session and the config here
-        $config  = CRM_Config::singleton ();
-        $session = CRM_Session::singleton();
+        $config  = CRM_Core_Config::singleton ();
+        $session = CRM_Core_Session::singleton();
 
         $this->assign_by_ref( 'config' , $config  );
         $this->assign_by_ref( 'session', $session );
-        $this->register_function ( 'crmURL', array( 'CRM_System', 'crmURL' ) );
+        $this->register_function ( 'crmURL', array( 'CRM_Utils_System', 'crmURL' ) );
     }
 
     /**

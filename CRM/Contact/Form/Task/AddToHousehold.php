@@ -68,10 +68,10 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
         $sel =& $this->addElement('hierselect', 'status', 'Household:', null, ' / ');
         
         //build the country array
-        $aCountry = CRM_PseudoConstant::country();
+        $aCountry = CRM_Core_PseudoConstant::country();
         
         // build the state array
-        $stateProvinceDAO = new CRM_DAO_StateProvince();
+        $stateProvinceDAO = new CRM_Core_DAO_StateProvince();
         $stateProvinceDAO->selectAdd();
         $stateProvinceDAO->selectAdd('id, name, country_id');
         $stateProvinceDAO->find();
@@ -129,7 +129,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
         //$sel->setOptions(array($aStateProvince, $aHousehold));
 
 
-        //$this->add('select', 'status', 'Status of the Contact', CRM_SelectValues::$groupContactStatus, true);
+        //$this->add('select', 'status', 'Status of the Contact', CRM_Core_SelectValues::$groupContactStatus, true);
 
         $this->addDefaultButtons( 'Add To Household' );
     }

@@ -42,13 +42,13 @@ require_once 'CRM/Core/PseudoConstant.php';
  * Base Search / View form for *all* listing of multiple 
  * contacts
  */
-class CRM_Contact_Form_SavedSearch extends CRM_Form {
+class CRM_Contact_Form_SavedSearch extends CRM_Core_Form {
 
     /**
      * Class construtor
      *
      * @param string    $name  name of the form
-     * @param CRM_State $state State object that is controlling this form
+     * @param CRM_Core_State $state State object that is controlling this form
      * @param int       $mode  Mode of operation for this form
      *
      * @return CRM_Contact_Form_Search
@@ -67,15 +67,15 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        $session = CRM_Session::singleton( );
+        $session = CRM_Core_Session::singleton( );
         $asfv = unserialize($session->get("fv", CRM_SESSION::SCOPE_AS));
 
-        $qill = CRM_Contact_Selector::getQILL($asfv, CRM_Form::MODE_ADVANCED);
+        $qill = CRM_Contact_Selector::getQILL($asfv, CRM_Core_Form::MODE_ADVANCED);
 
         $this->assign('qill' , $qill);
         
-        $this->addElement('text', 'name', 'Name', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
-        $this->addElement('text', 'description', 'Description', CRM_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description') );
+        $this->addElement('text', 'name', 'Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
+        $this->addElement('text', 'description', 'Description', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description') );
         
         // add the buttons
         $this->addButtons(array(
@@ -128,10 +128,10 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
 
     function postProcess() 
     {
-        $session = CRM_Session::singleton();
+        $session = CRM_Core_Session::singleton();
             
         // advanced search form values
-        $asfv = unserialize($session->get("fv", CRM_Session::SCOPE_AS));
+        $asfv = unserialize($session->get("fv", CRM_Core_Session::SCOPE_AS));
         
         // saved search form values
         $fv = $this->controller->exportValues($this->_name);
@@ -141,11 +141,11 @@ class CRM_Contact_Form_SavedSearch extends CRM_Form {
         $ssBAO->domain_id = 1;   // hack for now
         $ssBAO->name = $fv['name'];
         $ssBAO->description = $fv['description'];
-        $ssBAO->search_type = CRM_Form::MODE_ADVANCED;
+        $ssBAO->search_type = CRM_Core_Form::MODE_ADVANCED;
         $ssBAO->form_values = serialize($asfv);
         $ssBAO->insert();
         
-        CRM_Session::setStatus( 'Your search has been saved as "' . $fv['name'] . '"' );
+        CRM_Core_Session::setStatus( 'Your search has been saved as "' . $fv['name'] . '"' );
     }
 }
 ?>

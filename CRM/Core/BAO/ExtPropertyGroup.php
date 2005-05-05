@@ -31,7 +31,9 @@
  *
  */
 
-class CRM_BAO_IMProvider extends CRM_DAO_IMProvider {
+require_once 'CRM/Core/DAO/ExtPropertyGroup.php';
+
+class CRM_Core_BAO_ExtPropertyGroup extends CRM_Core_DAO_ExtPropertyGroup {
 
     /**
      * class constructor
@@ -50,16 +52,16 @@ class CRM_BAO_IMProvider extends CRM_DAO_IMProvider {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_BAO_IMProvider object
+     * @return object CRM_Core_BAO_ExtPropertyGroup object
      * @access public
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $imProvider = new CRM_DAO_IMProvider( );
-        $imProvider->copyValues( $params );
-        if ( $imProvider->find( true ) ) {
-            $imProvider->storeValues( $defaults );
-            return $imProvider;
+        $group = new CRM_Core_DAO_ExtPropertyGroup( );
+        $group->copyValues( $params );
+        if ( $group->find( true ) ) {
+            $group->storeValues( $defaults );
+            return $group;
         }
         return null;
     }
@@ -74,11 +76,11 @@ class CRM_BAO_IMProvider extends CRM_DAO_IMProvider {
      * @static
      */
     static function setIsActive( $id, $is_active ) {
-        $imProvider = new CRM_DAO_IMProvider( );
-        $imProvider->id = $id;
-        if ( $imProvider->find( true ) ) {
-            $imProvider->is_active = $is_active;
-            return $imProvider->save( );
+        $group = new CRM_Core_DAO_ExtPropertyGroup( );
+        $group->id = $id;
+        if ( $group->find( true ) ) {
+            $group->is_active = $is_active;
+            return $group->save( );
         }
         return null;
     }

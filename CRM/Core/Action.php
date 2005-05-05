@@ -36,23 +36,23 @@
  *
  */
 
-require_once 'CRM/Core/Array.php';
+require_once 'CRM/Utils/Array.php';
 
-class CRM_Action {
+class CRM_Core_Action {
 
     /**
      * Different possible actions are defined here. Keep in sync with the
-     * constant from CRM_Form for various modes.
+     * constant from CRM_Core_Form for various modes.
      *
      * @var const
      *
      * @access public
      */
     const
-        ADD           = CRM_Form::MODE_ADD,
-        UPDATE        = CRM_Form::MODE_UPDATE,
-        VIEW          = CRM_Form::MODE_VIEW,
-        DELETE        = CRM_Form::MODE_DELETE,
+        ADD           = CRM_Core_Form::MODE_ADD,
+        UPDATE        = CRM_Core_Form::MODE_UPDATE,
+        VIEW          = CRM_Core_Form::MODE_VIEW,
+        DELETE        = CRM_Core_Form::MODE_DELETE,
         BROWSE        =    16,
         ENABLE        =    32,
         DISABLE       =    64,
@@ -70,14 +70,14 @@ class CRM_Action {
      *
      */
     static $_names = array(
-                           'add'           => CRM_Action::ADD,
-                           'update'        => CRM_Action::UPDATE,
-                           'view'          => CRM_Action::VIEW  ,
-                           'delete'        => CRM_Action::DELETE,
-                           'browse'        => CRM_Action::BROWSE,
-                           'enable'        => CRM_Action::ENABLE,
-                           'disable'       => CRM_Action::DISABLE,
-                           'export'        => CRM_Action::EXPORT,
+                           'add'           => self::ADD,
+                           'update'        => self::UPDATE,
+                           'view'          => self::VIEW  ,
+                           'delete'        => self::DELETE,
+                           'browse'        => self::BROWSE,
+                           'enable'        => self::ENABLE,
+                           'disable'       => self::DISABLE,
+                           'export'        => self::EXPORT,
                            );
 
     /**
@@ -103,7 +103,7 @@ class CRM_Action {
         $action = 0;
         if ( $str ) {
             $items = explode( '|', $str );
-            $action = CRM_Action::map( $items );
+            $action = self::map( $items );
         }
         return $action;
     }
@@ -124,11 +124,11 @@ class CRM_Action {
 
         if ( is_array( $item ) ) {
             foreach ( $item as $it ) {
-                $mask |= CRM_Action::mapItem( $it );
+                $mask |= self::mapItem( $it );
             }
             return $mask;
         } else {
-            return CRM_Action::mapItem( $item );
+            return self::mapItem( $item );
         }
     }
 
@@ -143,7 +143,7 @@ class CRM_Action {
      *
      */
     static function mapItem( $item ) {
-        $mask = CRM_Array::value( trim( $item ), CRM_Action::$_names );
+        $mask = CRM_Utils_Array::value( trim( $item ), self::$_names );
         return $mask ? $mask : 0;
     }
 
@@ -163,7 +163,7 @@ class CRM_Action {
             self::$_description = array_flip( self::$_names );
         }
         
-        return CRM_Array::value( $mask, self::$_description, 'NO DESCRIPTION SET' );
+        return CRM_Utils_Array::value( $mask, self::$_description, 'NO DESCRIPTION SET' );
     }
 
     static function formLink( $links, $mask, $values ) {
@@ -172,14 +172,14 @@ class CRM_Action {
         foreach ( $links as $m => &$link ) {
             if ( ! $mask || ( $mask & $m ) ) {
                 $url[] = sprintf('<a href="%s" '.$link['extra'].'>%s</a>',
-                                 CRM_System::url( $link['url'],
+                                 CRM_Utils_System::url( $link['url'],
                                                   self::replace( $link['qs'], $values ) ),
                                  $link['name'] );
             }
         }
 
         $result = '';
-        CRM_String::append( $result, '&nbsp;|&nbsp;', $url );
+        CRM_Utils_String::append( $result, '&nbsp;|&nbsp;', $url );
 
         return $result;
     }

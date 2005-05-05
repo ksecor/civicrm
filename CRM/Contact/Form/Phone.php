@@ -41,17 +41,17 @@ Class CRM_Contact_Form_Phone
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Preferred Phone:' : 'Additional Phone:';
 
-            CRM_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", '[+] another phone', '[-] hide phone');
+            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", '[+] another phone', '[-] hide phone');
             
             $location[$locationId]['phone'][$i]['phone_type'] = $form->addElement('select',
                                                                                   "location[$locationId][phone][$i][phone_type]",
                                                                                   null,
-                                                                                  CRM_SelectValues::$phoneType);
+                                                                                  CRM_Core_SelectValues::$phoneType);
 
             $location[$locationId]['phone'][$i]['phone']      = $form->addElement('text',
                                                                                   "location[$locationId][phone][$i][phone]", 
                                                                                   $label,
-                                                                                  CRM_DAO::getAttribute('CRM_Contact_DAO_Phone',
+                                                                                  CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Phone',
                                                                                                         'phone'));
 
             // TODO: set this up as a group, we need a valid phone_type_id if we have a  phone number

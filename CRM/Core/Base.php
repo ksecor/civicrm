@@ -36,7 +36,7 @@
 
 require_once 'CRM/Core/Error.php';
 
-class CRM_Base {
+class CRM_Core_Base {
 
     /**
      * constructor

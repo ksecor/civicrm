@@ -42,7 +42,7 @@ require_once 'CRM/Core/Form.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
  */
-class CRM_Note_Form_Note extends CRM_Form
+class CRM_Note_Form_Note extends CRM_Core_Form
 {
     /**
      * The table name, used when editing/creating a note
@@ -97,7 +97,7 @@ class CRM_Note_Form_Note extends CRM_Form
 
         if ( $this->_mode & self::MODE_UPDATE ) {
             if ( isset( $this->_noteId ) ) {
-                $defaults['note'] = CRM_BAO_Note::getNoteText( $this->_noteId );
+                $defaults['note'] = CRM_Core_BAO_Note::getNoteText( $this->_noteId );
             }
         }
 
@@ -112,7 +112,7 @@ class CRM_Note_Form_Note extends CRM_Form
      */
     public function buildQuickForm( ) {
 
-        $note = $this->add('textarea', 'note', 'Notes', CRM_DAO::getAttribute( 'CRM_DAO_Note', 'note' ) );
+        $note = $this->add('textarea', 'note', 'Notes', CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note', 'note' ) );
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',
@@ -138,7 +138,7 @@ class CRM_Note_Form_Note extends CRM_Form
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
-        $note                = new CRM_DAO_Note( );
+        $note                = new CRM_Core_DAO_Note( );
         $note->note          = $params['note'];
         $note->contact_id    = 1;
         $note->modified_date = date("Ymd");
@@ -151,7 +151,7 @@ class CRM_Note_Form_Note extends CRM_Form
         }
         $note->save( );
 
-        CRM_Session::setStatus( "Your Note has been saved." );
+        CRM_Core_Session::setStatus( "Your Note has been saved." );
     }//end of function
 
 

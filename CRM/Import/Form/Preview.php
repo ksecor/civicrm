@@ -37,7 +37,7 @@ require_once 'CRM/Core/Form.php';
  * This class previews the uplaoded file and returns summary
  * statistics
  */
-class CRM_Import_Form_Preview extends CRM_Form {
+class CRM_Import_Form_Preview extends CRM_Core_Form {
 
     /**
      * class constructor
@@ -93,7 +93,7 @@ class CRM_Import_Form_Preview extends CRM_Form {
                 }
                 
                 //check for valid email/phone
-                if (!CRM_Rule::email($varValue[$lngEmailKey]) || !CRM_Rule::phone($varValue[$lngPhoneKey])) {
+                if (!CRM_Utils_Rule::email($varValue[$lngEmailKey]) || !CRM_Utils_Rule::phone($varValue[$lngPhoneKey])) {
                     $lngIncorrectRecord++;            
                 }
             }

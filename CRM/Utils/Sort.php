@@ -37,7 +37,7 @@
  */
 
 
-class CRM_Sort {
+class CRM_Utils_Sort {
 
     /**
      * constants to determine what direction each variable
@@ -134,15 +134,15 @@ class CRM_Sort {
     
         $this->_currentSortID        = 1;
         $this->_currentSortDirection = $this->_vars[$this->_currentSortID]['direction'];
-        $this->_urlVar               = CRM_Sort::SORT_ID;
-        $this->_link                 = CRM_System::makeUrl( $this->_urlVar );
+        $this->_urlVar               = self::SORT_ID;
+        $this->_link                 = CRM_Utils_System::makeUrl( $this->_urlVar );
 
         $this->initialize( $defaultSortOrder );
     }
 
     function orderBy( ) {
-        if ( $this->_vars[$this->_currentSortID]['direction'] == CRM_Sort::ASCENDING || 
-             $this->_vars[$this->_currentSortID]['direction'] == CRM_Sort::DONTCARE ) {
+        if ( $this->_vars[$this->_currentSortID]['direction'] == self::ASCENDING || 
+             $this->_vars[$this->_currentSortID]['direction'] == self::DONTCARE ) {
             return $this->_vars[$this->_currentSortID]['name'] . ' asc';
         } else {
             return $this->_vars[$this->_currentSortID]['name'] . ' desc';
@@ -150,11 +150,11 @@ class CRM_Sort {
     }
 
     function sortIDValue( $index, $dir ) {
-        return ( $dir == CRM_Sort::DESCENDING ) ? $index . '_d' : $index . '_u';
+        return ( $dir == self::DESCENDING ) ? $index . '_d' : $index . '_u';
     }
   
     function getSortID( $defaultSortOrder ) {
-        $url = $_GET[CRM_Sort::SORT_ID] ? $_GET[CRM_Sort::SORT_ID] : $defaultSortOrder;
+        $url = $_GET[self::SORT_ID] ? $_GET[self::SORT_ID] : $defaultSortOrder;
 
         if ( empty( $url ) ) {
             return;
@@ -163,11 +163,11 @@ class CRM_Sort {
         list( $current, $direction ) = explode( '_', $url );
       
         if ( $direction == 'u' ) {
-            $direction = CRM_Sort::ASCENDING;
+            $direction = self::ASCENDING;
         } else if  ( $direction == 'd' ) {
-            $direction = CRM_Sort::DESCENDING;
+            $direction = self::DESCENDING;
         } else {
-            $direction = CRM_Sort::DONTCARE;
+            $direction = self::DONTCARE;
         }
 
         $this->_currentSortID               = $current;
@@ -185,10 +185,10 @@ class CRM_Sort {
             $name = $item['name'];
             $this->_response[$name] = array();
 
-            $newDirection = ( $item['direction'] == CRM_Sort::ASCENDING ) ? CRM_Sort::DESCENDING : CRM_Sort::ASCENDING;
+            $newDirection = ( $item['direction'] == self::ASCENDING ) ? self::DESCENDING : self::ASCENDING;
 
             if ( $current == $index ) {
-                if ( $item['direction'] == CRM_Sort::ASCENDING ) {
+                if ( $item['direction'] == self::ASCENDING ) {
                     $class = 'sort-ascending';
                 } else {
                     $class = 'sort-descending';

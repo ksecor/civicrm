@@ -43,7 +43,7 @@
  *
  */
 
-class CRM_PseudoConstant {
+class CRM_Core_PseudoConstant {
     /**
      * All the below elements are dynamic.
      */
@@ -175,7 +175,7 @@ class CRM_PseudoConstant {
      */
     public static function &IMProvider( $all = false ) {
         if (!self::$imProvider) {
-            self::populate( self::$imProvider, 'CRM_DAO_IMProvider', $all );
+            self::populate( self::$imProvider, 'CRM_Core_DAO_IMProvider', $all );
         }
         return self::$imProvider;
     }
@@ -199,7 +199,7 @@ class CRM_PseudoConstant {
     public static function &stateProvince()
     {
         if (!self::$stateProvince) {
-            self::populate( self::$stateProvince, 'CRM_DAO_StateProvince', true );
+            self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true );
         }
         return self::$stateProvince;
     }
@@ -224,7 +224,7 @@ class CRM_PseudoConstant {
     public static function &country()
     {
         if (!self::$country) {
-            self::populate( self::$country, 'CRM_DAO_Country', true );
+            self::populate( self::$country, 'CRM_Core_DAO_Country', true );
         }
         return self::$country;
     }

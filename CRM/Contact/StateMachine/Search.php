@@ -33,12 +33,12 @@
 
 require_once 'CRM/Core/StateMachine.php';
 
-class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
+class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
 
     /**
      * class constructor
      */
-    function __construct( $controller, $mode = CRM_Form::MODE_NONE ) {
+    function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
         parent::__construct( $controller, $mode );
 
         $task = $this->taskName( $controller );
@@ -64,7 +64,7 @@ class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
      * to avoid using  conditional state machine, much more efficient
      * and simpler
      *
-     * @param CRM_Controller $controller the controller object
+     * @param CRM_Core_Controller $controller the controller object
      *
      * @return string the name of the form that will handle the task
      * @access protected
@@ -72,7 +72,7 @@ class CRM_Contact_StateMachine_Search extends CRM_StateMachine {
      */
     static function taskName( $controller ) {
         // total hack, first check POST vars and then check controller vars
-        $value = CRM_Array::value( 'task', $_POST );
+        $value = CRM_Utils_Array::value( 'task', $_POST );
         if ( ! isset( $value ) ) {
             $value = $controller->exportValue( 'Search', 'task' );
         }

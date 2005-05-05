@@ -48,7 +48,7 @@ class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
      */
     public function buildQuickForm( ) {
         $this->add('text', 'name'       , 'Name'       ,
-                   CRM_DAO::getAttribute( 'CRM_DAO_IMProvider', 'name' ) );
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_IMProvider', 'name' ) );
         $this->addRule( 'name', 'Please enter a valid name.', 'required' );
         $this->add('checkbox', 'is_active', 'Enabled?');
 
@@ -65,10 +65,10 @@ class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
     {
         // store the submitted values in an array
         $params = $this->exportValues();
-        $params['is_active'] =  CRM_Array::value( 'is_active', $params, false );
+        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
         
         // action is taken depending upon the mode
-        $IMProvider               = new CRM_DAO_IMProvider( );
+        $IMProvider               = new CRM_Core_DAO_IMProvider( );
         $IMProvider->name         = $params['name'];
         $IMProvider->is_active    = $params['is_active'];
 
@@ -78,7 +78,7 @@ class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
 
         $IMProvider->save( );
 
-        CRM_Session::setStatus( 'The IM Provider \'' . $IMProvider->name . '\' has been saved.' );
+        CRM_Core_Session::setStatus( 'The IM Provider \'' . $IMProvider->name . '\' has been saved.' );
     }//end of function
 
 

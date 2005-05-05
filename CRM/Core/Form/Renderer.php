@@ -34,7 +34,7 @@
 
 require_once 'HTML/QuickForm/Renderer/ArraySmarty.php';
 
-class CRM_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
+class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
     static $_sizeMapper = array(
                                 2  => 'two',
                                 4  => 'four',
@@ -115,6 +115,6 @@ class CRM_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
         $element->updateAttributes( array( 'class' => $class ) );
     }
 
-} // end CRM_Form_Renderer
+} // end CRM_Core_Form_Renderer
 
 ?>

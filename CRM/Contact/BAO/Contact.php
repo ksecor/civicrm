@@ -37,7 +37,8 @@ require_once 'CRM/Contact/DAO/Location.php';
 require_once 'CRM/Contact/DAO/Address.php';
 require_once 'CRM/Contact/DAO/Phone.php';
 require_once 'CRM/Contact/DAO/Email.php';
-require_once 'CRM/DAO/Note.php';
+
+require_once 'CRM/Core/DAO/Note.php';
 
 
 /**
@@ -128,8 +129,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         if ( $includeContactIds ) {
             $contactIds = array( );
             foreach ( $fv as $name => $value ) {
-                if ( substr( $name, 0, CRM_Form::CB_PREFIX_LEN ) == CRM_Form::CB_PREFIX ) {
-                    $contactIds[] = substr( $name, CRM_Form::CB_PREFIX_LEN );
+                if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                    $contactIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
             }
             if ( ! empty( $contactIds ) ) {
@@ -165,7 +166,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             // need to store query in session for basic search for getting contact id's only
             $strSelect = "SELECT crm_contact.id as contact_id, crm_contact.sort_name as sort_name";
             $taskQuery = $strSelect . $strFrom . $strWhere . $strOrder;
-            $session = CRM_Session::singleton( );        
+            $session = CRM_Core_Session::singleton( );        
             $session->set('tq', $taskQuery, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
         }
         return $this;
@@ -422,22 +423,22 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact->copyValues( $params );
 
         if ($contact->contact_type == 'Individual') {
-            $contact->sort_name = CRM_Array::value( 'last_name', $params, '' ) . ', ' . CRM_Array::value( 'first_name', $params, '' );
+            $contact->sort_name = CRM_Utils_Array::value( 'last_name', $params, '' ) . ', ' . CRM_Utils_Array::value( 'first_name', $params, '' );
         } else if ($contact->contact_type == 'Household') {
-            $contact->sort_name = CRM_Array::value( 'household_name', $params, '' ) ;
+            $contact->sort_name = CRM_Utils_Array::value( 'household_name', $params, '' ) ;
         } else {
-            $contact->sort_name = CRM_Array::value( 'organization_name', $params, '' ) ;
+            $contact->sort_name = CRM_Utils_Array::value( 'organization_name', $params, '' ) ;
         } 
 
-        $privacy = CRM_Array::value( 'privacy', $params );
+        $privacy = CRM_Utils_Array::value( 'privacy', $params );
         if ( $privacy && is_array( $privacy ) ) {
             foreach ( self::$_commPrefs as $name ) {
-                $contact->$name = CRM_Array::value( $name, $privacy, false );
+                $contact->$name = CRM_Utils_Array::value( $name, $privacy, false );
             }
         }
 
-        $contact->domain_id = CRM_Array::value( 'domain' , $ids, 1 );
-        $contact->id        = CRM_Array::value( 'contact', $ids );
+        $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, 1 );
+        $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
         return $contact->save( );
     }
 
@@ -494,7 +495,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @static
      */
     static function create( &$params, &$ids, $maxLocationBlocks ) {
-        CRM_DAO::transaction( 'BEGIN' );
+        CRM_Core_DAO::transaction( 'BEGIN' );
         
         $contact = self::add( $params, $ids );
         
@@ -512,7 +513,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // add notes
         $contact->note = CRM_Contact_BAO_Note::add( $params, $ids );
 
-        CRM_DAO::transaction( 'COMMIT' );
+        CRM_Core_DAO::transaction( 'COMMIT' );
 
         return $contact;
     }
@@ -521,17 +522,17 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
             foreach ( $locations as $index => &$location ) {
-                // self::lookupValue( $location, 'location_type', CRM_SelectValues::$locationType, $reverse );
-                self::lookupValue( $location, 'location_type', CRM_PseudoConstant::locationType(), $reverse );
+                // self::lookupValue( $location, 'location_type', CRM_Core_SelectValues::$locationType, $reverse );
+                self::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
                 if ( array_key_exists( 'address', $location ) ) {
-                    self::lookupValue( $location['address'], 'state_province', CRM_PseudoConstant::stateProvince(), $reverse );
-                    self::lookupValue( $location['address'], 'country'       , CRM_PseudoConstant::country()      , $reverse );
-                    self::lookupValue( $location['address'], 'county'        , CRM_SelectValues::$county           , $reverse );
+                    self::lookupValue( $location['address'], 'state_province', CRM_Core_PseudoConstant::stateProvince(), $reverse );
+                    self::lookupValue( $location['address'], 'country'       , CRM_Core_PseudoConstant::country()      , $reverse );
+                    self::lookupValue( $location['address'], 'county'        , CRM_Core_SelectValues::$county           , $reverse );
                 }
                 if ( array_key_exists( 'im', $location ) ) {
                     $ims =& $location['im'];
                     foreach ( $ims as $innerIndex => &$im ) {
-                        self::lookupValue( $im, 'provider', CRM_PseudoConstant::IMProvider(), $reverse );
+                        self::lookupValue( $im, 'provider', CRM_Core_PseudoConstant::IMProvider(), $reverse );
                     }
                 }
             }
@@ -682,7 +683,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $queryString = $strSelect . $strFrom . $strWhere;
 
         // dummy dao needed
-        $crmDAO = new CRM_DAO();
+        $crmDAO = new CRM_Core_DAO();
         $crmDAO->query($queryString);
 
         // process records

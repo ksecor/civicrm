@@ -34,7 +34,7 @@
 /**
  * defines a simple implemenation of a block using smarty
  */
-class CRM_Block {
+class CRM_Core_Block {
 
     /**
      * the following blocks are supported
@@ -108,11 +108,11 @@ class CRM_Block {
             self::setTemplateShortcutValues( );
         } else if ( $id == self::ADD ) {
             self::$_properties[self::ADD   ]['templateValues'] =
-                array( 'postURL'           => CRM_System::url( 'civicrm/contact/add'            ) );
+                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/add'            ) );
         } else if ( $id == self::SEARCH ) {
             self::$_properties[self::SEARCH]['templateValues'] =
-                array( 'postURL'           => CRM_System::url( 'civicrm/contact/search'         ) ,
-                       'advancedSearchURL' => CRM_System::url( 'civicrm/contact/search/advanced', 'reset=1' ) );
+                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search'         ) ,
+                       'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'reset=1' ) );
         } else if ( $id == self::MENU ) {
             self::setTemplateMenuValues( );
         }
@@ -141,7 +141,7 @@ class CRM_Block {
         $values = array( );
         foreach ( $shortCuts as &$short ) {
             $value = array( );
-            $value['url'  ] = CRM_System::url( $short['path'], $short['qs'] );
+            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['qs'] );
             $value['title'] = $short['title'];
             $values[] = $value;
         }
@@ -161,7 +161,7 @@ class CRM_Block {
         foreach ( $items as $item ) {
             if ( $item['type'] == MENU_NORMAL_ITEM ) {
                 $value = array( );
-                $value['url'  ] = CRM_System::url( $item['path'], CRM_Array::value( 'qs', $item ) );
+                $value['url'  ] = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'qs', $item ) );
                 $value['title'] = $item['title'];
                 $value['class'] = 'leaf';
                 $values[$item['weight']] = $value;

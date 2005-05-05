@@ -31,9 +31,8 @@
  *
  */
 
-require_once 'CRM/DAO/Note.php';
+class CRM_Core_BAO_MobileProvider extends CRM_Core_DAO_MobileProvider {
 
-class CRM_BAO_Note extends CRM_DAO_Note {
     /**
      * class constructor
      */
@@ -42,19 +41,44 @@ class CRM_BAO_Note extends CRM_DAO_Note {
     }
 
     /**
-     * given a note id, retrieve the note text
-     * 
-     * @param int $id id of the note to retrieve
+     * Takes a bunch of params that are needed to match certain criteria and
+     * retrieves the relevant objects. Typically the valid params are only
+     * contact_id. We'll tweak this function to be more full featured over a period
+     * of time. This is the inverse function of create. It also stores all the retrieved
+     * values in the default array
      *
-     * @return string the note text or null if note not found
+     * @param array $params   (reference ) an assoc array of name/value pairs
+     * @param array $defaults (reference ) an assoc array to hold the flattened values
+     *
+     * @return object CRM_Core_BAO_MobileProvider object
+     * @access public
      * @static
-     *
      */
-    static function getNoteText( $id ) {
-        $note = new CRM_DAO_Note( );
-        $note->id = $id;
-        if ( $note->find( true ) ) {
-            return $note->note;
+    static function retrieve( &$params, &$defaults ) {
+        $mobileProvider = new CRM_Core_DAO_MobileProvider( );
+        $mobileProvider->copyValues( $params );
+        if ( $mobileProvider->find( true ) ) {
+            $mobileProvider->storeValues( $defaults );
+            return $mobileProvider;
+        }
+        return null;
+    }
+
+    /**
+     * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * @static
+     */
+    static function setIsActive( $id, $is_active ) {
+        $mobileProvider = new CRM_Core_DAO_MobileProvider( );
+        $mobileProvider->id = $id;
+        if ( $mobileProvider->find( true ) ) {
+            $mobileProvider->is_active = $is_active;
+            return $mobileProvider->save( );
         }
         return null;
     }

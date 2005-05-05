@@ -48,11 +48,11 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
      */
     public function buildQuickForm( ) {
         $this->add('text', 'name'       , 'Name'       ,
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'name' ) );
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'name' ) );
         $this->addRule( 'name', 'Please enter a valid name.', 'required' );
 
         $this->add('text', 'description', 'Description', 
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'description' ) );
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'description' ) );
 
         parent::buildQuickForm( );
     }
@@ -81,7 +81,7 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
         
         $category->save( );
 
-        CRM_Session::setStatus( 'The category \'' . $category->name . '\' has been saved.' );
+        CRM_Core_Session::setStatus( 'The category \'' . $category->name . '\' has been saved.' );
     }//end of function
 
 

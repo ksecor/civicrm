@@ -32,8 +32,9 @@
  */
 
 require_once 'CRM/Core/DAO.php';
+require_once 'CRM/Utils/Type.php';
 
-class {$table.className} extends CRM_DAO {ldelim}
+class {$table.className} extends CRM_Core_DAO {ldelim}
 
      /**
       * static instance to hold the table name

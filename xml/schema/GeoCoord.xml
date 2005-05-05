@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM</base>
+  <base>CRM/Core</base>
   <name>crm_geo_coord</name>
   <comment>Geo code coordinate system info.</comment>
   <field>

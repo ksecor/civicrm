@@ -22,42 +22,42 @@
  +----------------------------------------------------------------------+
 */
 
+/**
+ *
+ * @package CRM
+ * @author Donald A. Lobo <lobo@yahoo.com>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ *
+ */
 
-require_once 'CRM/Core/Rule.php';
-require_once 'Validate.php';
+require_once 'CRM/Core/DAO/Note.php';
 
-class CRM_Type {
-    const
-        T_INT       =     1,
-        T_STRING    =     2,
-        T_ENUM      =     2,
-        T_DATE      =     4,
-        T_TIME      =     8,
-        T_BOOL      =    16,
-        T_BOOLEAN   =    16,
-        T_TEXT      =    32,
-        T_BLOB      =    64,
-        T_TIMESTAMP =   256,
-        T_DOUBLE    =   512,
-        T_MONEY     =  1024,
-        T_DATE      =  2048,
-        T_EMAIL     =  4096,
-        T_URL       =  8192,
-        T_CCNUM     = 16384,
-        T_FLOAT     = 32768;
+class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
+    /**
+     * class constructor
+     */
+    function __construct( ) {
+        parent::__construct( );
+    }
 
-    const
-        TWO          =  2,
-        FOUR         =  4,
-        EIGHT        =  8,
-        TWELVE       = 12,
-        SIXTEEN      = 16,
-        TWENTY       = 20,
-        MEDIUM       = 20,
-        THIRTY       = 30,
-        BIG          = 30,
-        FORTYFIVE    = 45,
-        HUGE         = 45;
+    /**
+     * given a note id, retrieve the note text
+     * 
+     * @param int $id id of the note to retrieve
+     *
+     * @return string the note text or null if note not found
+     * @static
+     *
+     */
+    static function getNoteText( $id ) {
+        $note = new CRM_Core_DAO_Note( );
+        $note->id = $id;
+        if ( $note->find( true ) ) {
+            return $note->note;
+        }
+        return null;
+    }
 
 }
 

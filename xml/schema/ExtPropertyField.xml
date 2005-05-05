@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM</base>
+  <base>CRM/Core</base>
   <name>crm_ext_property_field</name>
   <comment>Stores info about an extended (custom) property (data and form field info).</comment>
     <field>

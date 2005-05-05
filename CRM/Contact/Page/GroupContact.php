@@ -73,13 +73,13 @@ class CRM_Contact_Page_GroupContact {
 
     static function edit( $page, $mode, $groupId = null ) {
 
-        $controller = new CRM_Controller_Simple( 'CRM_Contact_Form_GroupContact', 'Contact GroupContacts', $mode );
+        $controller = new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', 'Contact GroupContacts', $mode );
 
         // set the userContext stack
-        $session = CRM_Session::singleton();
-        $config  = CRM_Config::singleton();
+        $session = CRM_Core_Session::singleton();
+        $config  = CRM_Core_Config::singleton();
 
-        $session->pushUserContext( CRM_System::url('civicrm/contact/view/group', 'action=browse' ) );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/group', 'action=browse' ) );
 
         $controller->reset( );
 
@@ -96,10 +96,10 @@ class CRM_Contact_Page_GroupContact {
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
 
-        $action = CRM_Request::retrieve( 'action', $page, false, 'browse' );
+        $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
         $page->assign( 'action', $action );
 
-        if ( $action == CRM_Action::DELETE ) {
+        if ( $action == CRM_Core_Action::DELETE ) {
             $groupContactId = $_GET['gcid'];
             $status = $_GET['st'];
             if (is_numeric($groupContactId) && strlen(trim($status))) {
@@ -107,7 +107,7 @@ class CRM_Contact_Page_GroupContact {
             }
         }
 
-        self::edit( $page, CRM_Action::ADD );
+        self::edit( $page, CRM_Core_Action::ADD );
         self::browse( $page );
     }
 

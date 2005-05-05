@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM</base>
+  <base>CRM/Core</base>
   <name>crm_domain</name>
   <comment>Top-level hierarchy to support multi-org/domain installations. Define domains for multi-org installs, else all contacts belong to one domain.</comment>
   <field>

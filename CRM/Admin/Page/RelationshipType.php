@@ -33,31 +33,31 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Admin_Page_RelationshipType extends CRM_Page_Basic {
+class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic {
     /**
      * The action links that we need to display for the browse screen
      *
      * @var array
      */
     static $_links = array(
-                           CRM_Action::VIEW  => array(
+                           CRM_Core_Action::VIEW  => array(
                                                         'name'  => 'View',
                                                         'url'   => 'civicrm/admin/reltype',
                                                         'qs'    => 'action=view&id=%%id%%',
                                                         'title' => 'View Relationship Type'),
-                           CRM_Action::UPDATE  => array(
+                           CRM_Core_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
                                                         'url'   => 'civicrm/admin/reltype',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Relationship Type'),
-                           CRM_Action::DISABLE => array(
+                           CRM_Core_Action::DISABLE => array(
                                                         'name'  => 'Disable',
                                                         'url'   => 'civicrm/admin/reltype',
                                                         'qs'    => 'action=disable&id=%%id%%',
                                                         'extra' => 'onclick = "return confirm(\'Are you sure you want to disable this relationship type.\n\nUsers will no longer be able to select this value when adding or editing relationships between contacts.\');"',
                                                         'title' => 'Disable Relationship Type',
                                                         ),
-                           CRM_Action::ENABLE  => array(
+                           CRM_Core_Action::ENABLE  => array(
                                                         'name'  => 'Enable',
                                                         'url'   => 'civicrm/admin/reltype',
                                                         'qs'    => 'action=enable&id=%%id%%',

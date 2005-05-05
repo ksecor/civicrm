@@ -23,6 +23,8 @@
 */
 
 /**
+ * Simple wrapper class to add a few essential core functions to
+ * arrays in PHP
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -31,56 +33,45 @@
  *
  */
 
-require_once 'CRM/DAO/ExtProperty.php';
-
-class CRM_BAO_ExtProperty extends CRM_DAO_ExtProperty {
+class CRM_Utils_Array {
 
     /**
-     * class constructor
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-    /**
-     * Takes a bunch of params that are needed to match certain criteria and
-     * retrieves the relevant objects. Typically the valid params are only
-     * contact_id. We'll tweak this function to be more full featured over a period
-     * of time. This is the inverse function of create. It also stores all the retrieved
-     * values in the default array
+     * if the key exists in the list returns the associated value
      *
-     * @param array $params   (reference ) an assoc array of name/value pairs
-     * @param array $defaults (reference ) an assoc array to hold the flattened values
-     *
-     * @return object CRM_BAO_ExtProperty object
      * @access public
+     *
+     * @param array  $list  the array to be searched
+     * @param string $key   the key value
+     * 
+     * @return value if exists else null
      * @static
+     * @access public
+     *
      */
-    static function retrieve( &$params, &$defaults ) {
-        $group = new CRM_DAO_ExtProperty( );
-        $group->copyValues( $params );
-        if ( $group->find( true ) ) {
-            $group->storeValues( $defaults );
-            return $group;
+    static function value( $key, &$list, $default = null ) {
+        if ( is_array( $list ) ) {
+            return array_key_exists( $key, $list ) ? $list[$key] : $default;
         }
-        return null;
+        return $default;
     }
 
     /**
-     * update the is_active flag in the db
+     * if the value exists in the list returns the associated key
      *
-     * @param int      $id        id of the database record
-     * @param boolean  $is_active value we want to set the is_active field
+     * @access public
      *
-     * @return Object             DAO object on sucess, null otherwise
+     * @param list  the array to be searched
+     * @param value the search value
+     * 
+     * @return key if exists else null
      * @static
+     * @access public
+     *
      */
-    static function setIsActive( $id, $is_active ) {
-        $group = new CRM_DAO_ExtProperty( );
-        $group->id = $id;
-        if ( $group->find( true ) ) {
-            $group->is_active = $is_active;
-            return $group->save( );
+    static function key( $value, &$list ) {
+        if ( is_array( $list ) ) {
+            $key = array_search( $value, $list );
+            return $key ? $key : null;
         }
         return null;
     }

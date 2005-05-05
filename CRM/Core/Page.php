@@ -35,11 +35,11 @@
  * A Page is basically data in a nice pretty format.
  *
  * Pages should not have any form actions / elements in them. If they
- * do, make sure you use CRM_Form and the related structures. You can
+ * do, make sure you use CRM_Core_Form and the related structures. You can
  * embed simple forms in Page and do your own form handling.
  *
  */
-class CRM_Page {
+class CRM_Core_Page {
     /**
      * The name of the page
      * @var string
@@ -97,7 +97,7 @@ class CRM_Page {
      * @param string $title title of the page
      * @param int    $mode  mode of the page
      *
-     * @return CRM_Page
+     * @return CRM_Core_Page
      */
     function __construct( $name, $title = null, $mode = null ) {
         $this->_name  = $name;
@@ -107,7 +107,7 @@ class CRM_Page {
         // let the constructor initialize this, should happen only once
         if ( ! isset( self::$_template ) ) {
             self::$_template = CRM_Core_Smarty::singleton( );
-            self::$_session  = CRM_Session::singleton( );
+            self::$_session  = CRM_Core_Session::singleton( );
         }
 
         // if the request has a reset value, initialize the controller session
@@ -137,7 +137,7 @@ class CRM_Page {
         } else {
             $content = self::$_template->fetch( 'CRM/index.tpl' );
         }
-        echo CRM_System::theme( 'page', $content, null, $this->_print );
+        echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
     }
 
     /**

@@ -35,7 +35,7 @@
 
 require_once 'Pager/Sliding.php';
 
-class CRM_Pager extends Pager_Sliding {
+class CRM_Utils_Pager extends Pager_Sliding {
 
     /**
      * constants for static parameters of the pager
@@ -119,8 +119,8 @@ class CRM_Pager extends Pager_Sliding {
          * page variable, but a different form element for one at the bottom
          *
          */
-        $this->_response['titleTop']    = 'Page <input size=2 maxlength=3 name="' . CRM_Pager::PAGE_ID . '" type="text" value="' . $this->_response['currentPage'] . '" /> of ' . $this->_response['numPages'];
-        $this->_response['titleBottom']    = 'Page <input size=2 maxlength=3 name="' . CRM_Pager::PAGE_ID_BOTTOM . '" type="text" value="' . $this->_response['currentPage'] . '" /> of ' . $this->_response['numPages'];
+        $this->_response['titleTop']    = 'Page <input size=2 maxlength=3 name="' . self::PAGE_ID . '" type="text" value="' . $this->_response['currentPage'] . '" /> of ' . $this->_response['numPages'];
+        $this->_response['titleBottom']    = 'Page <input size=2 maxlength=3 name="' . self::PAGE_ID_BOTTOM . '" type="text" value="' . $this->_response['currentPage'] . '" /> of ' . $this->_response['numPages'];
 
     }
 
@@ -137,13 +137,11 @@ class CRM_Pager extends Pager_Sliding {
      *
      */
     function initialize( &$params ) {
-        $config = CRM_Config::singleton( );
-
         /* set the mode for the pager to Sliding */
         $params['mode']       = 'Sliding';
 
         /* also set the urlVar to be a crm specific get variable */
-        $params['urlVar']     = CRM_Pager::PAGE_ID;
+        $params['urlVar']     = self::PAGE_ID;
     
         /* set this to a small value, since we dont use this functionality */
         $params['delta']      = 1;
@@ -189,12 +187,12 @@ class CRM_Pager extends Pager_Sliding {
      */
     function getPageID( $defaultPageId = 1, &$params ) {
         // POST has higher priority than GET vars
-        if ( isset( $_POST[ $params['buttonTop'] ] ) && isset( $_POST[ CRM_Pager::PAGE_ID ] ) ) {
-            $currentPage = max( (int ) @$_POST[ CRM_Pager::PAGE_ID ], 1 );
-        } else if ( isset( $_POST[ $params['buttonBottom'] ] ) && isset( $_POST[ CRM_Pager::PAGE_ID_BOTTOM ] ) ) {
-            $currentPage = max( (int ) @$_POST[ CRM_Pager::PAGE_ID_BOTTOM ], 1 );
-        } else if ( isset( $_GET[ CRM_Pager::PAGE_ID ] ) ) {
-            $currentPage = max( (int ) @$_GET[ CRM_Pager::PAGE_ID ], 1 );
+        if ( isset( $_POST[ $params['buttonTop'] ] ) && isset( $_POST[ self::PAGE_ID ] ) ) {
+            $currentPage = max( (int ) @$_POST[ self::PAGE_ID ], 1 );
+        } else if ( isset( $_POST[ $params['buttonBottom'] ] ) && isset( $_POST[ self::PAGE_ID_BOTTOM ] ) ) {
+            $currentPage = max( (int ) @$_POST[ self::PAGE_ID_BOTTOM ], 1 );
+        } else if ( isset( $_GET[ self::PAGE_ID ] ) ) {
+            $currentPage = max( (int ) @$_GET[ self::PAGE_ID ], 1 );
         } else {
             $currentPage = $defaultPageId;
         }
@@ -254,7 +252,7 @@ class CRM_Pager extends Pager_Sliding {
      */
     function getPerPageLink( $perPage ) {
         if ( $perPage != $this->_perPage ) {
-            $href = CRM_System::makeURL( self::PAGE_ROWCOUNT ) . $perPage;
+            $href = CRM_Utils_System::makeURL( self::PAGE_ROWCOUNT ) . $perPage;
             $link = sprintf('<a href="%s" %s>%s</a>',
                             $href,
                             $this->_classString,

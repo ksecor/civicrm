@@ -35,7 +35,7 @@
  *
  */
 
-class CRM_Selector_Base {
+class CRM_Core_Selector_Base {
     /**
      * the sort order which is computed from the columnHeaders
      *
@@ -112,7 +112,7 @@ class CRM_Selector_Base {
             $firstElementNotFound = true;
             foreach ( $columnHeaders as &$header ) {
                 if ( array_key_exists( 'sort', $header ) ) {
-                    if ( $firstElementNotFound && $header['direction'] != CRM_Sort::DONTCARE ) {
+                    if ( $firstElementNotFound && $header['direction'] != CRM_Utils_Sort::DONTCARE ) {
                         $this->_order[1] =& $header;
                         $firstElementNotFound = false;
                     } else {
@@ -121,7 +121,7 @@ class CRM_Selector_Base {
                 }
             }
             if ( $firstElementNotFound ) {
-                CRM_Error::fatal( "Could not find a valid sort directional element" );
+                CRM_Core_Error::fatal( "Could not find a valid sort directional element" );
             }
         }
         return $this->_order;

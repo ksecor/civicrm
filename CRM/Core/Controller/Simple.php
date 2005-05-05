@@ -36,8 +36,9 @@
  */
 
 require_once 'CRM/Core/Controller.php';
+require_once 'CRM/Core/StateMachine.php';
 
-class CRM_Controller_Simple extends CRM_Controller {
+class CRM_Core_Controller_Simple extends CRM_Core_Controller {
 
     /**
      * constructor
@@ -53,7 +54,7 @@ class CRM_Controller_Simple extends CRM_Controller {
         // by definition a single page is modal :)
         parent::__construct( $name, true );
 
-        $this->_stateMachine = new CRM_StateMachine( $this );
+        $this->_stateMachine = new CRM_Core_StateMachine( $this );
 
         $params = array($path);
 

@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
  * This class generates form components for groupContact
  * 
  */
-class CRM_Contact_Form_GroupContact extends CRM_Form
+class CRM_Contact_Form_GroupContact extends CRM_Core_Form
 {
 
     /**
@@ -171,7 +171,7 @@ class CRM_Contact_Form_GroupContact extends CRM_Form
 //         $groupContact->in_date = date("Ymd");
 //         $groupContact->save();
         
-        CRM_Session::setStatus( 'Your Group(s) record has been saved.' );
+        CRM_Core_Session::setStatus( 'Your Group(s) record has been saved.' );
     }//end of function
 
 

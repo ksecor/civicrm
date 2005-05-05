@@ -90,9 +90,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
 
         if ( $this->_emailIndex >= 0 ) {
-            $email = CRM_Array::value( $values, $this->_emailIndex );
+            $email = CRM_Utils_Array::value( $values, $this->_emailIndex );
             if ( $email ) {
-                if ( CRM_Array::value( $email, $this->_allEmails ) ) {
+                if ( CRM_Utils_Array::value( $email, $this->_allEmails ) ) {
                     return self::DUPLICATE;
                 }
                 $this->_allEmails[$email] = 1;
@@ -113,7 +113,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         
         $params['location_type_id'] = 1;
 
-        if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Error ) {
+        if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Core_Error ) {
             return self::ERROR;
         }
         return self::VALID;

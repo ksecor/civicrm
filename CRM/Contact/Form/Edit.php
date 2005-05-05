@@ -49,7 +49,7 @@ require_once 'CRM/Contact/Form/Note.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
  */
-class CRM_Contact_Form_Edit extends CRM_Form
+class CRM_Contact_Form_Edit extends CRM_Core_Form
 {
     /**
      * how many locationBlocks should we display?
@@ -76,7 +76,7 @@ class CRM_Contact_Form_Edit extends CRM_Form
     /**
      * what blocks should we show and hide.
      *
-     * @var CRM_ShowHideBlocks
+     * @var CRM_Core_ShowHideBlocks
      */
     protected $_showHide;
     
@@ -102,27 +102,27 @@ class CRM_Contact_Form_Edit extends CRM_Form
      */
     function preProcess( ) {
         if ( $this->_mode == self::MODE_ADD ) {
-            $this->_contactType = CRM_Request::retrieve( 'c_type', $this, true, null, 'REQUEST' );
+            $this->_contactType = CRM_Utils_Request::retrieve( 'c_type', $this, true, null, 'REQUEST' );
             $this->_contactId = null;
         } else {
             // this is update mode, first get the id from the session
             // else get it from the REQUEST
             $ids = $this->get('ids');
-            $this->_contactId = CRM_Array::value( 'contact', $ids );
+            $this->_contactId = CRM_Utils_Array::value( 'contact', $ids );
             if ( ! $this->_contactId ) {
-                $this->_contactId   = CRM_Array::value( 'cid', $_REQUEST );
+                $this->_contactId   = CRM_Utils_Array::value( 'cid', $_REQUEST );
             }
 
             if ( $this->_contactId ) {
                 $contact = new CRM_Contact_DAO_Contact( );
                 $contact->id = $this->_contactId;
                 if ( ! $contact->find( true ) ) {
-                    CRM_Error::fatal( "contact does not exist: $this->_contactId" );
+                    CRM_Core_Error::fatal( "contact does not exist: $this->_contactId" );
                 }
                 $this->_contactType = $contact->contact_type;
                 return;
             }
-            CRM_Error::fatal( "Could not get a contact_id and/or contact_type" );
+            CRM_Core_Error::fatal( "Could not get a contact_id and/or contact_type" );
         }
     }
 
@@ -142,7 +142,7 @@ class CRM_Contact_Form_Edit extends CRM_Form
                 // set the is_primary location for the first location
                 $defaults['location']    = array( );
                 
-                $locationTypeKeys = array_filter(array_keys( CRM_PseudoConstant::locationType() ), is_int );
+                $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), is_int );
                 sort( $locationTypeKeys );
 
                 // also set the location types for each location block
@@ -167,7 +167,7 @@ class CRM_Contact_Form_Edit extends CRM_Form
             $this->assign( 'contactId' , $this->_contactId );
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)
-            $this->_contactType = CRM_Array::value( 'contact_type', $defaults );
+            $this->_contactType = CRM_Utils_Array::value( 'contact_type', $defaults );
         }
         
         $this->setShowHide( $defaults );
@@ -183,7 +183,7 @@ class CRM_Contact_Form_Edit extends CRM_Form
      * @return void
      */
     function setShowHide( &$defaults ) {
-        $this->_showHide = new CRM_ShowHideBlocks( array('commPrefs'       => 1,
+        $this->_showHide = new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1,
                                                          'notes[show]'     => 1),
                                                    array('notes'           => 1 ) ) ;
 
@@ -198,21 +198,21 @@ class CRM_Contact_Form_Edit extends CRM_Form
 
         if ( $this->_mode & self::MODE_UPDATE ) {
             // is there any demographics data?
-            if ( CRM_Array::value( 'gender'     , $defaults ) ||
-                 CRM_Array::value( 'is_deceased', $defaults ) ||
-                 CRM_Array::value( 'birth_date' , $defaults ) ) {
+            if ( CRM_Utils_Array::value( 'gender'     , $defaults ) ||
+                 CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
+                 CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
                 $this->_showHide->addShow( 'demographics' );
                 $this->_showHide->addHide( 'demographics[show]' );
             }
 
             // is there any notes data?
-            if ( CRM_Array::value( 'notesCount', $defaults ) ) {
+            if ( CRM_Utils_Array::value( 'notesCount', $defaults ) ) {
                 $this->_showHide->addShow( 'notes' );
                 $this->_showHide->addHide( 'notes[show]' );
             }
 
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
-                                                       CRM_Array::value( 'location', $defaults ),
+                                                       CRM_Utils_Array::value( 'location', $defaults ),
                                                        self::LOCATION_BLOCKS );
         }
         
@@ -259,7 +259,7 @@ class CRM_Contact_Form_Edit extends CRM_Form
         if ($this->_mode == self::MODE_ADD) {
             $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
         }    
-        CRM_ShowHideBlocks::links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
+        CRM_Core_ShowHideBlocks::links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
             
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -299,12 +299,12 @@ class CRM_Contact_Form_Edit extends CRM_Form
         $contact = CRM_Contact_BAO_Contact::create( $params, $ids, self::LOCATION_BLOCKS );
 
         // here we replace the user context with the url to view this contact
-        $config  = CRM_Config::singleton( );
-        $session = CRM_Session::singleton( );
+        $config  = CRM_Core_Config::singleton( );
+        $session = CRM_Core_Session::singleton( );
 
-        CRM_Session::setStatus( 'Your ' . $contact->contact_type . ' contact record has been saved' );
+        CRM_Core_Session::setStatus( 'Your ' . $contact->contact_type . ' contact record has been saved' );
 
-        $session->replaceUserContext( CRM_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ) );
+        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ) );
     }//end of function
 
     public static function buildCommunicationBlock(&$form)
@@ -319,7 +319,7 @@ class CRM_Contact_Form_Edit extends CRM_Form
         $form->addGroup( $privacy, 'privacy', 'Privacy' );
 
         // preferred communication method 
-        $form->add('select', 'preferred_communication_method', 'Prefers:', CRM_SelectValues::$pcm);
+        $form->add('select', 'preferred_communication_method', 'Prefers:', CRM_Core_SelectValues::$pcm);
     }
 
     static function formRule( &$fields, &$errors ) {
@@ -353,7 +353,7 @@ class CRM_Contact_Form_Edit extends CRM_Form
                 }
                 if ( self::locationDataExists( $fields['location'][$locationId] ) ) {
                     $dataExists = true;
-                    if ( ! CRM_Array::value( 'location_type_id', $fields['location'][$locationId] ) ) {
+                    if ( ! CRM_Utils_Array::value( 'location_type_id', $fields['location'][$locationId] ) ) {
                         $errors["location[$locationId][location_type_id]"] = 'The Location Type should be set if there is any location information';
                     }
                 }

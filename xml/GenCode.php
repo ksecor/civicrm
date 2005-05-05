@@ -179,7 +179,7 @@ function getField( &$fieldXML, &$fields ) {
     case 'varchar':
         $field['sqlType'] = 'varchar(' . (int ) $fieldXML->length . ')';
         $field['phpType'] = 'string';
-        $field['crmType'] = 'CRM_Type::T_STRING';
+        $field['crmType'] = 'CRM_Utils_Type::T_STRING';
         $field['length' ] = (int ) $fieldXML->length;
         $field['size'   ] = getSize($field['length']);
         break;
@@ -187,7 +187,7 @@ function getField( &$fieldXML, &$fields ) {
     case 'char':
         $field['sqlType'] = 'char(' . (int ) $fieldXML->length . ')';
         $field['phpType'] = 'string';
-        $field['crmType'] = 'CRM_Type::T_STRING';
+        $field['crmType'] = 'CRM_Utils_Type::T_STRING';
         $field['length' ] = (int ) $fieldXML->length;
         $field['size'   ] = getSize($field['length']);
         break;
@@ -210,21 +210,21 @@ function getField( &$fieldXML, &$fields ) {
         }
         $field['sqlType'] .= ')';
         $field['phpType'] = $field['sqlType'];
-        $field['crmType'] = 'CRM_Type::T_ENUM';
+        $field['crmType'] = 'CRM_Utils_Type::T_ENUM';
         break;
 
     case 'text':
         $field['sqlType'] = $field['phpType'] = $type;
-        $field['crmType'] = 'CRM_Type::T_' . strtoupper( $type );
+        $field['crmType'] = 'CRM_Utils_Type::T_' . strtoupper( $type );
         $field['rows']    = value( 'rows', $fieldXML );
         $field['cols']    = value( 'cols', $fieldXML );
 
     default:
         $field['sqlType'] = $field['phpType'] = $type;
         if ( $type == 'int unsigned' ) {
-            $field['crmType'] = 'CRM_Type::T_INT';
+            $field['crmType'] = 'CRM_Utils_Type::T_INT';
         } else {
-            $field['crmType'] = 'CRM_Type::T_' . strtoupper( $type );
+            $field['crmType'] = 'CRM_Utils_Type::T_' . strtoupper( $type );
         }
         
         break;
@@ -371,24 +371,24 @@ function append( &$str, $delim, $name ) {
 
 function getSize( $maxLength ) {
     if ( $maxLength <= 2 ) {
-        return 'CRM_Type::TWO';
+        return 'CRM_Utils_Type::TWO';
     } 
     if ( $maxLength <= 4 ) {
-        return 'CRM_Type::FOUR';
+        return 'CRM_Utils_Type::FOUR';
     } 
     if ( $maxLength <= 8 ) {
-        return 'CRM_Type::EIGHT';
+        return 'CRM_Utils_Type::EIGHT';
     } 
     if ( $maxLength <= 16 ) {
-        return 'CRM_Type::TWELVE';
+        return 'CRM_Utils_Type::TWELVE';
     } 
     if ( $maxLength <= 32 ) {
-        return 'CRM_Type::MEDIUM';
+        return 'CRM_Utils_Type::MEDIUM';
     } 
     if ( $maxLength <= 64 ) {
-        return 'CRM_Type::BIG';
+        return 'CRM_Utils_Type::BIG';
     } 
-    return 'CRM_Type::HUGE';
+    return 'CRM_Utils_Type::HUGE';
 }
 
 ?>

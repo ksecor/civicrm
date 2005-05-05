@@ -33,7 +33,7 @@
 
 require_once 'CRM/Core/Page.php';
 
-abstract class CRM_Page_Basic extends CRM_Page {
+abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     
     /**
      * define all the abstract functions here
@@ -93,7 +93,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
      * allows the derived class to add some more state variables to
      * the controller. By default does nothing, and hence is abstract
      *
-     * @param CRM_Controller $controller the controller object
+     * @param CRM_Core_Controller $controller the controller object
      *
      * @return void
      * @access public
@@ -108,27 +108,27 @@ abstract class CRM_Page_Basic extends CRM_Page {
      * @param string $title title of the page
      * @param int    $mode  mode of the page
      *
-     * @return CRM_Page
+     * @return CRM_Core_Page
      */
     function __construct( $name, $title = null, $mode = null ) {
         parent::__construct($name, $title, $mode);
     }
 
     function run( ) {
-        $action = CRM_Request::retrieve( 'action', $this, false, 'browse' );
+        $action = CRM_Utils_Request::retrieve( 'action', $this, false, 'browse' );
         $this->assign( 'action', $action );
 
-        $id  = CRM_Request::retrieve( 'id', $this, false, 0 );
+        $id  = CRM_Utils_Request::retrieve( 'id', $this, false, 0 );
 
-        if ( $action & (CRM_Action::VIEW | CRM_Action::ADD | CRM_Action::UPDATE) ) {
+        if ( $action & (CRM_Core_Action::VIEW | CRM_Core_Action::ADD | CRM_Core_Action::UPDATE) ) {
             $this->edit($action, $id );
-        } else if ( $action & CRM_Action::DELETE ) {
+        } else if ( $action & CRM_Core_Action::DELETE ) {
             $this->delete($id );
-        } else if ( $action & CRM_Action::DISABLE ) {
+        } else if ( $action & CRM_Core_Action::DISABLE ) {
             eval( $this->getBAOName( ) . "::setIsActive( $id, 0 );" );
-        } else if ( $action & CRM_Action::ENABLE ) {
+        } else if ( $action & CRM_Core_Action::ENABLE ) {
             eval( $this->getBAOName( ) . "::setIsActive( $id, 1 );" );
-        } else if ( $action & CRM_Action::DELETE ) {
+        } else if ( $action & CRM_Core_Action::DELETE ) {
             eval( $this->getBAOName( ) . "::del( $id );" );
         }
 
@@ -143,11 +143,11 @@ abstract class CRM_Page_Basic extends CRM_Page {
             $action = array_sum( array_keys( $links ) );
         }
 
-        if ( $action & CRM_Action::DISABLE ) {
-            $action -= CRM_Action::DISABLE;
+        if ( $action & CRM_Core_Action::DISABLE ) {
+            $action -= CRM_Core_Action::DISABLE;
         }
-        if ( $action & CRM_Action::ENABLE ) {
-            $action -= CRM_Action::ENABLE;
+        if ( $action & CRM_Core_Action::ENABLE ) {
+            $action -= CRM_Core_Action::ENABLE;
         }
 
         eval( '$object = new ' . $this->getBAOName( ) . '( );' );
@@ -158,7 +158,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
          * lets make sure we get the stuff sorted by name if it exists
          */
         $fields =& $object->fields( );
-        if ( CRM_Array::value( 'name', $fields ) ) {
+        if ( CRM_Utils_Array::value( 'name', $fields ) ) {
             $object->orderBy ( 'name asc' );
         }
 
@@ -176,7 +176,7 @@ abstract class CRM_Page_Basic extends CRM_Page {
      * object. Check the is_active and is_required flags to display valid
      * actions
      *
-     * @param CRM_DAO $object the object being considered
+     * @param CRM_Core_DAO $object the object being considered
      * @param int     $action the base set of actions
      * @param array   $values the array of values that we send to the template
      * @param array   $links  the array of links
@@ -192,23 +192,23 @@ abstract class CRM_Page_Basic extends CRM_Page {
             $values['class'] = 'reserved';
         } else if ( array_key_exists( 'is_active', $object ) ) {
             if ( $object->is_active ) {
-                $newAction = $action + CRM_Action::DISABLE;
+                $newAction = $action + CRM_Core_Action::DISABLE;
             } else {
-                $newAction = $action + CRM_Action::ENABLE;
+                $newAction = $action + CRM_Core_Action::ENABLE;
             }
-            $values['action'] = CRM_Action::formLink( $links, $newAction, array( 'id' => $object->id ) );
+            $values['action'] = CRM_Core_Action::formLink( $links, $newAction, array( 'id' => $object->id ) );
         } else {
-            $values['action'] = CRM_Action::formLink( $links, $action, array( 'id' => $object->id ) );
+            $values['action'] = CRM_Core_Action::formLink( $links, $action, array( 'id' => $object->id ) );
         }
     }
 
     function edit( $mode, $id = null ) 
     {
-        $controller = new CRM_Controller_Simple( $this->editForm( ), $this->editName( ), $mode );
+        $controller = new CRM_Core_Controller_Simple( $this->editForm( ), $this->editName( ), $mode );
 
        // set the userContext stack
-        $session = CRM_Session::singleton();
-        $session->pushUserContext( CRM_System::url( $this->userContext( ), $this->userContextParams( ) ) );
+        $session = CRM_Core_Session::singleton();
+        $session->pushUserContext( CRM_Utils_System::url( $this->userContext( ), $this->userContextParams( ) ) );
         
         $controller->reset( );
         if ( $id ) {
@@ -224,11 +224,11 @@ abstract class CRM_Page_Basic extends CRM_Page {
 
     function delete( $id = null )
     {
-        $controller = new CRM_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), CRM_Form::MODE_DELETE );
+        $controller = new CRM_Core_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), CRM_Core_Form::MODE_DELETE );
 
         // set the userContext stack
-        $session = CRM_Session::singleton();
-        $session->pushUserContext( CRM_System::url( $this->userContext( ), $this->userContextParams( ) ) );
+        $session = CRM_Core_Session::singleton();
+        $session->pushUserContext( CRM_Utils_System::url( $this->userContext( ), $this->userContextParams( ) ) );
 
         $controller->reset( );
         if ( $id ) {

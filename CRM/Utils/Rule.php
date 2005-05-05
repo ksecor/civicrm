@@ -25,7 +25,7 @@
 
 require_once 'HTML/QuickForm/Rule/Email.php';
 
-class CRM_Rule {
+class CRM_Utils_Rule {
 
     static function title( $str ) {
     
@@ -146,7 +146,7 @@ class CRM_Rule {
     static function asciiFile( $elementValue ) {
         if ((isset($elementValue['error']) && $elementValue['error'] == 0) ||
             (!empty($elementValue['tmp_name']) && $elementValue['tmp_name'] != 'none')) {
-            return CRM_File::isAscii($elementValue['tmp_name']);
+            return CRM_Utils_File::isAscii($elementValue['tmp_name']);
         }
         return false;
     }
@@ -162,7 +162,7 @@ class CRM_Rule {
     static function htmlFile( $elementValue ) {
         if ((isset($elementValue['error']) && $elementValue['error'] == 0) ||
             (!empty($elementValue['tmp_name']) && $elementValue['tmp_name'] != 'none')) {
-            return CRM_File::isHtmlFile($elementValue['tmp_name']);
+            return CRM_Utils_File::isHtmlFile($elementValue['tmp_name']);
         }
         return false;
     }

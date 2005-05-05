@@ -33,14 +33,14 @@
  *
  */
 
-//require_once 'PEAR.php';
 require_once 'PEAR/ErrorStack.php';
+
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Smarty.php';
 
 require_once 'Log.php';
 
-class CRM_Error extends PEAR_ErrorStack {
+class CRM_Core_Error extends PEAR_ErrorStack {
 
     /**
      * status code of various types of errors
@@ -85,7 +85,7 @@ class CRM_Error extends PEAR_ErrorStack {
      */
     function singleton( $key = 'CRM' ) {
         if (self::$_singleton === null ) {
-            self::$_singleton = new CRM_Error( $key );
+            self::$_singleton = new CRM_Core_Error( $key );
         }
         return self::$_singleton;
     }
@@ -96,7 +96,7 @@ class CRM_Error extends PEAR_ErrorStack {
     function __construct( $name = 'CRM' ) {
         parent::__construct( $name );
 
-        $log =& CRM_Config::getLog();
+        $log =& CRM_Core_Config::getLog();
         $this->setLogger( $log );
     }
 
@@ -130,11 +130,11 @@ class CRM_Error extends PEAR_ErrorStack {
 
         $template->assign_by_ref('error', $error);
         
-        $template->assign( 'tplFile', "CRM/" . CRM_Error::ERROR_TEMPLATE); 
+        $template->assign( 'tplFile', "CRM/" . self::ERROR_TEMPLATE); 
         $content  = $template->fetch( 'CRM/error.tpl' );
-        $content .= CRM_Error::debug( 'error', $error, false );
+        $content .= CRM_Core_Error::debug( 'error', $error, false );
 
-        echo CRM_System::theme( 'page', $content );
+        echo CRM_Utils_System::theme( 'page', $content );
         exit(1);
     }
 
@@ -154,12 +154,12 @@ class CRM_Error extends PEAR_ErrorStack {
         $vars = array( 'message' => $message,
                        'code'    => $code );
 
-        CRM_Error::debug( $code, $message );
-        CRM_Error::debug( 'BT', debug_backtrace( ) );
+        CRM_Core_Error::debug( $code, $message );
+        CRM_Core_Error::debug( 'BT', debug_backtrace( ) );
         $fileName = 'error.tpl';
-        CRM_System::theme( 'fatal_error', $fileName, $vars );
+        CRM_Utils_System::theme( 'fatal_error', $fileName, $vars );
 
-        exit( CRM_Error::FATAL_ERROR );
+        exit( CRM_Core_Error::FATAL_ERROR );
     }
 
     /**
@@ -202,8 +202,8 @@ class CRM_Error extends PEAR_ErrorStack {
      *
      * @static
      *
-     * @see CRM_Error::debug()
-     * @see CRM_Error::debug_log_message()
+     * @see CRM_Core_Error::debug()
+     * @see CRM_Core_Error::debug_log_message()
      */
    static function debug_var($variable_name, &$variable, $log=true)
     {
@@ -394,6 +394,6 @@ class CRM_Error extends PEAR_ErrorStack {
 
 }
 
-PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Error');
+PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');
 
 ?>

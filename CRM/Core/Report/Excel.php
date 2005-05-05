@@ -23,7 +23,7 @@
 */
 
 
-require_once 'CRM/Core/String.php';
+require_once 'CRM/Utils/String.php';
 
 class CRM_Core_Report_Excel {
     /**
@@ -125,7 +125,7 @@ class CRM_Core_Report_Excel {
         $mime_type = 'text/x-csv';
         $ext       = 'csv';
 
-        $fileName = CRM_String::munge( $fileName );
+        $fileName = CRM_Utils_String::munge( $fileName );
 
         // send the write header statements to the browser
         header('Content-Type: ' . $mime_type); 

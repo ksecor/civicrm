@@ -443,14 +443,14 @@ class CRM_GCD {
     public function initDBData()
     {
 
-        $state = new CRM_DAO_StateProvince();
+        $state = new CRM_Core_DAO_StateProvince();
         $state->selectAdd('id');
         $state->find();
         while($state->fetch()) {
             $this->state[] = $state->id;
         }
 
-        $country = new CRM_DAO_Country();
+        $country = new CRM_Core_DAO_Country();
         $country->selectAdd('id');
         $country->find();
         while($country->fetch()) {
@@ -476,7 +476,7 @@ class CRM_GCD {
 
     public function initDB()
     {
-        $config = CRM_Config::singleton();
+        $config = CRM_Core_Config::singleton();
     }
 
 
@@ -556,7 +556,7 @@ class CRM_GCD {
     {
 
         $this->lee();
-        $domain = new CRM_DAO_Domain();
+        $domain = new CRM_Core_DAO_Domain();
         for ($id=2; $id<=self::NUM_DOMAIN; $id++) {
             // domain name is pretty simple. it is "Domain $id"
             $domain->name = "Domain $id";
@@ -1061,7 +1061,7 @@ class CRM_GCD {
     {
         $this->lee();
         
-        $note = new CRM_DAO_Note();
+        $note = new CRM_Core_DAO_Note();
         $note->table_name = 'crm_contact';
         // $note->table_id = 1;
         $note->contact_id = 1;

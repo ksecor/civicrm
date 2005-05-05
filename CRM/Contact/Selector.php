@@ -33,10 +33,11 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/Pager.php';
-require_once 'CRM/Core/Sort.php';
 require_once 'CRM/Core/Selector/Base.php';
 require_once 'CRM/Core/Selector/API.php';
+
+require_once 'CRM/Utils/Pager.php';
+require_once 'CRM/Utils/Sort.php';
 
 require_once 'CRM/Contact/BAO/Contact.php';
 
@@ -47,7 +48,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * results of advanced search options.
  *
  */
-class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API 
+class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
 {
     /**
      * This defines two actions- View and Edit.
@@ -55,13 +56,13 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @var array
      */
     static $_links = array(
-                           CRM_Action::VIEW   => array(
+                           CRM_Core_Action::VIEW   => array(
                                                        'name'     => 'View',
                                                        'url'      => 'civicrm/contact/view',
                                                        'qs'       => 'reset=1&cid=%%id%%',
                                                        'title'    => 'View Contact Details',
                                                        ),
-                           CRM_Action::UPDATE => array(
+                           CRM_Core_Action::UPDATE => array(
                                                        'name'     => 'Edit',
                                                        'url'      => 'civicrm/contact/edit',
                                                        'qs'       => 'reset=1&cid=%%id%%',
@@ -76,33 +77,33 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                                    array(
                                          'name'      => 'Name',
                                          'sort'      => 'sort_name',
-                                         'direction' => CRM_Sort::ASCENDING,
+                                         'direction' => CRM_Utils_Sort::ASCENDING,
                                          ),
                                    array('name' => 'Address'),
                                    array(
                                          'name'      => 'City',
                                          'sort'      => 'city',
-                                         'direction' => CRM_Sort::DONTCARE,
+                                         'direction' => CRM_Utils_Sort::DONTCARE,
                                          ),
                                    array(
                                          'name'      => 'State',
                                          'sort'      => 'state',
-                                         'direction' => CRM_Sort::DONTCARE,
+                                         'direction' => CRM_Utils_Sort::DONTCARE,
                                          ),
                                    array(
                                          'name'      => 'Postal',
                                          'sort'      => 'postal_code',
-                                         'direction' => CRM_Sort::DONTCARE,
+                                         'direction' => CRM_Utils_Sort::DONTCARE,
                                          ),
                                    array(
                                          'name'      => 'Country',
                                          'sort'      => 'country',
-                                         'direction' => CRM_Sort::DONTCARE,
+                                         'direction' => CRM_Utils_Sort::DONTCARE,
                                          ),
                                    array(
                                          'name'      => 'Email',
                                          'sort'      => 'email',
-                                         'direction' => CRM_Sort::DONTCARE,
+                                         'direction' => CRM_Utils_Sort::DONTCARE,
                                          ),
                                    array('name' => 'Phone'),
                                    array('desc' => 'Actions'),
@@ -147,7 +148,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @return CRM_Contact_AdvancedSelector
      * @access public
      */
-    function __construct(&$formValues, $mode = CRM_Form::MODE_NONE) 
+    function __construct(&$formValues, $mode = CRM_Core_Form::MODE_NONE) 
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
@@ -189,7 +190,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     {
         $params['status']       = "Contact %%StatusMessage%%";
         $params['csvString']    = null;
-        $params['rowCount']     = CRM_Pager::ROWCOUNT;
+        $params['rowCount']     = CRM_Utils_Pager::ROWCOUNT;
 
         $params['buttonTop']    = 'PagerTopButton';
         $params['buttonBottom'] = 'PagerBottomButton';
@@ -207,7 +208,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      */
     function &getColumnHeaders($action = null, $output = null) 
     {
-        if ( $output == CRM_Selector_Controller::EXPORT || $output == CRM_Selector_Controller::SCREEN ) {
+        if ( $output == CRM_Core_Selector_Controller::EXPORT || $output == CRM_Core_Selector_Controller::SCREEN ) {
             $csvHeaders = array( 'Contact Id', 'Contact Type' );
             foreach ( self::$_columnHeaders as $column ) {
                 if ( array_key_exists( 'name', $column ) ) {
@@ -231,9 +232,9 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
     function getTotalCount($action)
     {
         switch ($this->_mode) {
-        case CRM_Form::MODE_BASIC:
+        case CRM_Core_Form::MODE_BASIC:
             return $this->_contact->basicSearchQuery($this->_formValues, 0, 0, null, true);
-        case CRM_Form::MODE_ADVANCED:
+        case CRM_Core_Form::MODE_ADVANCED:
             return $this->_contact->advancedSearchQuery($this->_formValues, 0, 0, null, true);
         }
         return 0;
@@ -252,9 +253,9 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $config = CRM_Config::singleton( );
+        $config = CRM_Core_Config::singleton( );
 
-        if ( ( $output == CRM_Selector_Controller::EXPORT || $output == CRM_Selector_Controller::SCREEN ) &&
+        if ( ( $output == CRM_Core_Selector_Controller::EXPORT || $output == CRM_Core_Selector_Controller::SCREEN ) &&
              $this->_formValues['radio_ts'] == 'ts_sel' ) {
             $includeContactIds = true;
         } else {
@@ -266,7 +267,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         // note that the default mode is basic
         switch ($this->_mode) {
 
-        case CRM_Form::MODE_ADVANCED:
+        case CRM_Core_Form::MODE_ADVANCED:
             $result = $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort, false, $includeContactIds );
             break;
             
@@ -287,9 +288,9 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
                 $row[$property] = $result->$property;
             }
 
-            if ( $output != CRM_Selector_Controller::EXPORT && $output != CRM_Selector_Controller::SCREEN ) {
-                $row['checkbox'] = CRM_Form::CB_PREFIX . $result->contact_id;
-                $row['action'] = CRM_Action::formLink( self::$_links, null, array( 'id' => $result->contact_id ) );
+            if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
+                $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
+                $row['action'] = CRM_Core_Action::formLink( self::$_links, null, array( 'id' => $result->contact_id ) );
                 $contact_type  = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {
                 case 'Individual' :
@@ -335,7 +336,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
         $replacement = "$1";
 
         switch ($mode) {
-        case CRM_Form::MODE_BASIC:
+        case CRM_Core_Form::MODE_BASIC:
             $qill .= "<ul>";
 
             // contact type
@@ -349,13 +350,13 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // check for group restriction
             if ($fv['group'] && ($fv['group'] != 'any')) {
-                $group =& CRM_PseudoConstant::group();
+                $group =& CRM_Core_PseudoConstant::group();
                 $qill .= " <li>Belonging to the group - \"" . $group[$fv['group']] . "\"</li>";
             }
             
             // check for category restriction
             if ($fv['category'] && ($fv['category'] != 'any')) {
-                $category =& CRM_PseudoConstant::category(); 
+                $category =& CRM_Core_PseudoConstant::category(); 
                 $qill .= " <li>Categorized as - \"" . $category[$fv['category']] . "\"</li>";
             }
             
@@ -366,7 +367,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
             $qill .= " </ul>";
             break;
 
-        case CRM_Form::MODE_ADVANCED:
+        case CRM_Core_Form::MODE_ADVANCED:
             // check for contact type restriction
             $qill .= "<ul>";
 
@@ -384,7 +385,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
             
             // check for group restriction
             if ($fv['cb_group']) {
-                $group =& CRM_PseudoConstant::group();
+                $group =& CRM_Core_PseudoConstant::group();
                 $qill .= "<li>Belonging to Group -";
                 foreach ($fv['cb_group']  as $k => $v) {
                     $qill .= " \"" . $group[$k] . "\" or";
@@ -395,7 +396,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // check for category restriction
             if ($fv['cb_category']) {
-                $category =& CRM_PseudoConstant::category();
+                $category =& CRM_Core_PseudoConstant::category();
                 $qill .= "<li>Categorized as -";
                 foreach ($fv['cb_category'] as $k => $v) {
                     $qill .= " \"" . $category[$k] . "\" or";
@@ -421,13 +422,13 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // state
             if ($fv['state_province']) {
-                $states =& CRM_PseudoConstant::stateProvince();
+                $states =& CRM_Core_PseudoConstant::stateProvince();
                 $qill .= "<li>State - \"" . $states[$fv['state_province']] . "\"</li>";
             }
             
             // country
             if ($fv['country']) {
-                $country =& CRM_PseudoConstant::country();
+                $country =& CRM_Core_PseudoConstant::country();
                 $qill .= "<li>Country - \"" . $country[$fv['country']] . "\"</li>";
             }
 
@@ -455,7 +456,7 @@ class CRM_Contact_Selector extends CRM_Selector_Base implements CRM_Selector_API
 
             // location type processing
             if ($fv['cb_location_type']) {
-                $locationType =& CRM_PseudoConstant::locationType();        
+                $locationType =& CRM_Core_PseudoConstant::locationType();        
                 $qill .= "<li>Location type -";
                 if (!$fv['cb_location_type']['any']) {
                     foreach ($fv['cb_location_type']  as $k => $v) {

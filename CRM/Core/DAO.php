@@ -36,7 +36,7 @@
 require_once 'PEAR.php';
 require_once 'DB/DataObject.php';
 
-class CRM_DAO extends DB_DataObject {
+class CRM_Core_DAO extends DB_DataObject {
 
     const
         NOT_NULL       =   1,
@@ -92,7 +92,7 @@ class CRM_DAO extends DB_DataObject {
                           );
     
         if ( $debug ) {
-            DB_DataObject::DebugLevel($debug);
+            self::DebugLevel($debug);
         }
     }
 	
@@ -226,7 +226,7 @@ class CRM_DAO extends DB_DataObject {
         $table = array();
         foreach ( $fields as $name => $value ) {
             $table[$name] = $value['type'];
-            if ( CRM_Array::value( 'required', $value ) ) {
+            if ( CRM_Utils_Array::value( 'required', $value ) ) {
                 $table[$name] += self::DB_DAO_NOTNULL;
             }
         }
@@ -294,9 +294,9 @@ class CRM_DAO extends DB_DataObject {
      */
     static function makeAttribute( $field ) {
         if ( $field ) {
-            if ( $field['type'] == CRM_Type::T_STRING ) {
-                $maxLength  = CRM_Array::value( 'maxlength', $field );
-                $size       = CRM_Array::value( 'size'     , $field );
+            if ( $field['type'] == CRM_Utils_Type::T_STRING ) {
+                $maxLength  = CRM_Utils_Array::value( 'maxlength', $field );
+                $size       = CRM_Utils_Array::value( 'size'     , $field );
                 if ( $maxLength || $size ) {
                     $attributes = array( );
                     if ( $maxLength ) {
@@ -307,12 +307,12 @@ class CRM_DAO extends DB_DataObject {
                     }
                     return $attributes;
                 }
-            } else if ( $field['type'] == CRM_Type::T_TEXT ) {
-                $rows = CRM_Array::value( 'rows', $field );
+            } else if ( $field['type'] == CRM_Utils_Type::T_TEXT ) {
+                $rows = CRM_Utils_Array::value( 'rows', $field );
                 if ( ! isset( $rows ) ) {
                     $rows = 2;
                 }
-                $cols = CRM_Array::value( 'cols', $field );
+                $cols = CRM_Utils_Array::value( 'cols', $field );
                 if ( ! isset( $cols ) ) {
                     $cols = 80;
                 }
@@ -341,7 +341,7 @@ class CRM_DAO extends DB_DataObject {
     function getAttribute( $class, $fieldName = null) {
         eval('$fields =& ' . $class . '::fields( );');
         if ( $fieldName != null ) {
-            $field = CRM_Array::value( $fieldName, $fields );
+            $field = CRM_Utils_Array::value( $fieldName, $fields );
             return self::makeAttribute( $field );
         } else {
             foreach ($fields as $name => &$field) {
@@ -368,7 +368,7 @@ class CRM_DAO extends DB_DataObject {
      */
     static function transaction( $type ) {
         if ( self::$_singleton == null ) {
-            self::$_singleton = new CRM_DAO( );
+            self::$_singleton = new CRM_Core_DAO( );
         }
         self::$_singleton->query( $type );
     }

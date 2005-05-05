@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
  * This class generates form components for tags
  * 
  */
-class CRM_Tag_Form_Tag extends CRM_Form
+class CRM_Tag_Form_Tag extends CRM_Core_Form
 {
 
     /**
@@ -110,7 +110,7 @@ class CRM_Tag_Form_Tag extends CRM_Form
         $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
         
         // get the list of all the categories
-        $category =& CRM_PseudoConstant::category();
+        $category =& CRM_Core_PseudoConstant::category();
         
         // need to append the array with the " checked " if contact is tagged with the category
         foreach ($category as $categoryID => $varValue) {
@@ -151,7 +151,7 @@ class CRM_Tag_Form_Tag extends CRM_Form
         $aEntityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
 
         // get the list of all the categories
-        $aCategory =& CRM_PseudoConstant::category();
+        $aCategory =& CRM_Core_PseudoConstant::category();
 
         // array contains the posted values
         // exportvalues is not used because its give value 1 of the checkbox which were checked by default, 

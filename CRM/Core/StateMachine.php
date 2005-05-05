@@ -34,9 +34,10 @@
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Session.php';
 require_once 'CRM/Core/State.php' ;
-require_once 'CRM/Core/String.php';
 
-class CRM_StateMachine {
+require_once 'CRM/Utils/String.php';
+
+class CRM_Core_StateMachine {
 
     /**
      * the controller of this state machine
@@ -78,7 +79,7 @@ class CRM_StateMachine {
      * @return object
      * @access public
      */
-    function __construct( &$controller, $mode = CRM_Form::MODE_NONE ) {
+    function __construct( &$controller, $mode = CRM_Core_Form::MODE_NONE ) {
         $this->_controller =& $controller;
         $this->_mode       = $mode;
 
@@ -112,7 +113,7 @@ class CRM_StateMachine {
      * Next and Back. The other actions (Cancel, Done, Submit etc) do
      * not need the state machine to figure out where to go
      *
-     * @param  object    $page       CRM_Form the current form-page
+     * @param  object    $page       CRM_Core_Form the current form-page
      * @param  string    $actionName Current action name, as one Action object can serve multiple actions
      * @param  string    $type       The type of transition being requested (Next or Back)
      *
@@ -166,7 +167,7 @@ class CRM_StateMachine {
      * @access public
      */
     function addState( $name, $title, $type, $prev, $next ) {
-        $this->_states[$name] =& new CRM_State( $name, $title, $type, $prev, $next, $this );
+        $this->_states[$name] =& new CRM_Core_State( $name, $title, $type, $prev, $next, $this );
     }
 
     /**
@@ -200,7 +201,7 @@ class CRM_StateMachine {
      *
      * @param string $name name of page
      *
-     * @return CRM_State state object matching the name
+     * @return CRM_Core_State state object matching the name
      * @access public
      */
     function &getState( $name ) {
@@ -236,29 +237,29 @@ class CRM_StateMachine {
         $numPages = count( $pages );
         
         for ( $i = 0; $i < $numPages ; $i++ ) {
-            $name = CRM_String::getClassName($pages[$i]);
+            $name = CRM_Utils_String::getClassName($pages[$i]);
 
             $classPath = str_replace( '_', '/', $pages[$i] ) . '.php';
             require_once($classPath);
             $title = eval( sprintf( "return %s::getTitle( );", $pages[$i] ) );
             if ( $numPages == 1 ) {
                 $prev = $next = null;
-                $type = CRM_State::START | CRM_State::FINISH;
+                $type = CRM_Core_State::START | CRM_Core_State::FINISH;
             } else if ( $i == 0 ) {
                 // start state
                 $prev = null;
-                $next = CRM_String::getClassName( $pages[$i + 1] );
-                $type = CRM_State::START;
+                $next = CRM_Utils_String::getClassName( $pages[$i + 1] );
+                $type = CRM_Core_State::START;
             } else if ( $i == $numPages - 1 ) {
                 // finish state
-                $prev = CRM_String::getClassName( $pages[$i - 1] );
+                $prev = CRM_Utils_String::getClassName( $pages[$i - 1] );
                 $next = null;
-                $type = CRM_State::FINISH;
+                $type = CRM_Core_State::FINISH;
             } else {
                 // in between simple state
-                $prev = CRM_String::getClassName( $pages[$i - 1] );
-                $next = CRM_String::getClassName( $pages[$i + 1] ); 
-                $type = CRM_State::SIMPLE;
+                $prev = CRM_Utils_String::getClassName( $pages[$i - 1] );
+                $next = CRM_Utils_String::getClassName( $pages[$i + 1] ); 
+                $type = CRM_Core_State::SIMPLE;
             }
       
             $this->addState( $name, $title, $type, $prev, $next );

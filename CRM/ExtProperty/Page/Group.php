@@ -33,7 +33,7 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_ExtProperty_Page_Group extends CRM_Page_Basic {
+class CRM_ExtProperty_Page_Group extends CRM_Core_Page_Basic {
     
     /**
      * The action links that we need to display for the browse screen
@@ -41,30 +41,30 @@ class CRM_ExtProperty_Page_Group extends CRM_Page_Basic {
      * @var array
      */
     static $_links = array(
-                           CRM_Action::VIEW    => array(
+                           CRM_Core_Action::VIEW    => array(
                                                         'name'  => 'View',
                                                         'url'   => 'civicrm/admin/custom/group',
                                                         'qs'    => 'action=view&id=%%id%%',
                                                         'title' => 'View Custom Group',
                                                         ),
-                           CRM_Action::UPDATE  => array(
+                           CRM_Core_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
                                                         'url'   => 'civicrm/admin/custom/group',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Custom Group'),
-                           CRM_Action::DISABLE => array(
+                           CRM_Core_Action::DISABLE => array(
                                                         'name'  => 'Disable',
                                                         'url'   => 'civicrm/admin/custom/group',
                                                         'qs'    => 'action=disable&id=%%id%%',
                                                         'title' => 'Disable Custom Group',
                                                         ),
-                           CRM_Action::ENABLE  => array(
+                           CRM_Core_Action::ENABLE  => array(
                                                         'name'  => 'Enable',
                                                         'url'   => 'civicrm/admin/custom/group',
                                                         'qs'    => 'action=enable&id=%%id%%',
                                                         'title' => 'Enable Custom Group',
                                                         ),
-                           CRM_Action::BROWSE  => array(
+                           CRM_Core_Action::BROWSE  => array(
                                                         'name'  => 'List',
                                                         'url'   => 'civicrm/admin/custom/group/field',
                                                         'qs'    => 'reset=1&action=browse&gid=%%id%%',
@@ -74,7 +74,7 @@ class CRM_ExtProperty_Page_Group extends CRM_Page_Basic {
 
 
     function getBAOName( ) {
-        return 'CRM_BAO_ExtPropertyGroup';
+        return 'CRM_Core_BAO_ExtPropertyGroup';
     }
 
     function &links( ) {

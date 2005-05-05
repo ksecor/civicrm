@@ -42,7 +42,7 @@ require_once 'CRM/Core/Form.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
  */
-class CRM_Contact_Form_CustomData extends CRM_Form
+class CRM_Contact_Form_CustomData extends CRM_Core_Form
 {
     /**
      * The table name, used when editing/creating custom data

@@ -49,7 +49,7 @@ class CRM_Contact_Form_Household {
      * @return None
      */
     public function buildQuickForm( $form ) {
-        $attributes = CRM_DAO::getAttribute('CRM_Contact_DAO_Household');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Household');
         
         // household_name
         $this->add('text', 'household_name', 'Household Name:', $attributes['household_name'], true);

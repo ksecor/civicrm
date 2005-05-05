@@ -39,11 +39,11 @@
  *
  */
 
-require_once 'CRM/Core/Pager.php';
-require_once 'CRM/Core/Sort.php';
+require_once 'CRM/Utils/Pager.php';
+require_once 'CRM/Utils/Sort.php';
 require_once 'CRM/Core/Report/Excel.php';
 
-class CRM_Selector_Controller {
+class CRM_Core_Selector_Controller {
 
     /**
      * constants to determine if we should store
@@ -58,13 +58,13 @@ class CRM_Selector_Controller {
         SCREEN    = 16;
 
     /**
-     * a CRM Object that implements CRM_Selector_api
+     * a CRM Object that implements CRM_Core_Selector_API
      * @var object
      */
     private $_object;
     
     /*
-     * the CRM_Sort object
+     * the CRM_Utils_Sort object
      * @var object
      */
     private $_sort;
@@ -82,7 +82,7 @@ class CRM_Selector_Controller {
     private $_sortOrder;
 
     /*
-     * the CRM_Pager object
+     * the CRM_Utils_Pager object
      * @var object
      */
     private $_pager;
@@ -170,11 +170,11 @@ class CRM_Selector_Controller {
     /**
      * Class constructor
      *
-     * @param CRM_Selector_API $object  an object that implements the selector API
+     * @param CRM_Core_Selector_API $object  an object that implements the selector API
      * @param int               $pageID  default pageID
      * @param int               $sortID  default sortID
      * @param int               $action  the actions to potentially support
-     * @param CRM_Page|CRM_Form $store   place in session to store some values
+     * @param CRM_Core_Page|CRM_Core_Form $store   place in session to store some values
      * @param int               $output  what do we so with the output, session/template//both
      *
      * @return Object
@@ -198,7 +198,7 @@ class CRM_Selector_Controller {
         }
 
         $this->_sortOrder =& $this->_object->getSortOrder($action);
-        $this->_sort      =  new CRM_Sort( $this->_sortOrder, $this->_sortID );
+        $this->_sort      =  new CRM_Utils_Sort( $this->_sortOrder, $this->_sortID );
 
         /*
          * if we are in transfer mode, do not goto database, use the 
@@ -215,14 +215,14 @@ class CRM_Selector_Controller {
         /*
          * Set the default values of RowsPerPage
          */
-        $storeRowCount = $store->get( CRM_Pager::PAGE_ROWCOUNT );
+        $storeRowCount = $store->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
         if ( $storeRowCount ) {
             $params['rowCount'] = $storeRowCount;
         } else if ( ! isset( $params['rowCount'] ) ) {
-            $params['rowCount'] = CRM_Pager::ROWCOUNT;
+            $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
         }
 
-        $this->_pager = new CRM_Pager( $params );
+        $this->_pager = new CRM_Utils_Pager( $params );
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
     }
 
@@ -244,11 +244,11 @@ class CRM_Selector_Controller {
 
         /**
         echo "Current Sort ID: " . $this->_sort->getCurrentSortID ( ) . '_' . $this->_sort->getCurrentSortDirection ( ) . "<p>";
-        echo "Stored Sort ID: " . $this->_store->get( CRM_Sort::SORT_ID  ) . '_' . $this->_store->get( CRM_Sort::SORT_DIRECTION ) . "<p>";
+        echo "Stored Sort ID: " . $this->_store->get( CRM_Utils_Sort::SORT_ID  ) . '_' . $this->_store->get( CRM_Utils_Sort::SORT_DIRECTION ) . "<p>";
         **/
-        if ( $this->_store->get( CRM_Pager::PAGE_ID       ) != $this->_pager->getCurrentPageID       ( ) ||
-             $this->_store->get( CRM_Sort::SORT_ID        ) != $this->_sort->getCurrentSortID        ( ) || 
-             $this->_store->get( CRM_Sort::SORT_DIRECTION ) != $this->_sort->getCurrentSortDirection ( ) ) {
+        if ( $this->_store->get( CRM_Utils_Pager::PAGE_ID       ) != $this->_pager->getCurrentPageID       ( ) ||
+             $this->_store->get( CRM_Utils_Sort::SORT_ID        ) != $this->_sort->getCurrentSortID        ( ) || 
+             $this->_store->get( CRM_Utils_Sort::SORT_DIRECTION ) != $this->_sort->getCurrentSortDirection ( ) ) {
             return true;
         }
         return false;
@@ -287,10 +287,10 @@ class CRM_Selector_Controller {
             }
 
             // always store the current pageID and sortID
-            $this->_store->set( CRM_Pager::PAGE_ID      , $this->_pager->getCurrentPageID       ( ) );
-            $this->_store->set( CRM_Sort::SORT_ID       , $this->_sort->getCurrentSortID        ( ) );
-            $this->_store->set( CRM_Sort::SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
-            $this->_store->set( CRM_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
+            $this->_store->set( CRM_Utils_Pager::PAGE_ID      , $this->_pager->getCurrentPageID       ( ) );
+            $this->_store->set( CRM_Utils_Sort::SORT_ID       , $this->_sort->getCurrentSortID        ( ) );
+            $this->_store->set( CRM_Utils_Sort::SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
+            $this->_store->set( CRM_Utils_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
             
             if ( $this->_output & self::TEMPLATE ) {
                 self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
@@ -311,7 +311,7 @@ class CRM_Selector_Controller {
                 } else {
                     $content = self::$_template->fetch( 'CRM/index.tpl' );
                 }
-                echo CRM_System::theme( 'page', $content, null, $this->_print );
+                echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
             }
         }
 
@@ -350,7 +350,7 @@ class CRM_Selector_Controller {
         } else {
             $content = self::$_template->fetch( 'CRM/index.tpl' );
         }
-        echo CRM_System::theme( 'page', $content, null, $this->_print );
+        echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
     }
 
     /**

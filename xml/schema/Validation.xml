@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM</base>
+  <base>CRM/Core</base>
   <name>crm_validation</name>
   <comment>Stores core info about an extended (custom) property. Input form-related info is kept separately (in contact_form_field), so a property may be 'presented' in multiple form fields.</comment>
     <field>

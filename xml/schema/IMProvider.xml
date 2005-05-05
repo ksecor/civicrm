@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM</base>
+  <base>CRM/Core</base>
   <name>crm_im_provider</name>
   <comment>IM Provider catalogue.</comment>
   <field>

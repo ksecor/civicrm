@@ -69,9 +69,9 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
         $phone->is_primary         = $isPrimary;
         $isPrimary                 = false;
 
-        $phone->mobile_provider_id = CRM_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
+        $phone->mobile_provider_id = CRM_Utils_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
 
-        $phone->id = CRM_Array::value( $phoneId, $ids['location'][$locationId]['phone'] );
+        $phone->id = CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] );
         return $phone->save( );
     }
 

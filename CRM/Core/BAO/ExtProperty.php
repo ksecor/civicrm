@@ -21,6 +21,7 @@
  | distributed along with this program (affero_gpl.txt)                 |
  +----------------------------------------------------------------------+
 */
+
 /**
  *
  * @package CRM
@@ -30,59 +31,58 @@
  *
  */
 
-class CRM_Request {
-    /**
-     * We only need one instance of this object. So we use the singleton
-     * pattern and cache the instance in this variable
-     *
-     * @var object
-     * @static
-     */
-    static private $_singleton = null;
+require_once 'CRM/Core/DAO/ExtProperty.php';
+
+class CRM_Core_BAO_ExtProperty extends CRM_Core_DAO_ExtProperty {
 
     /**
      * class constructor
      */
     function __construct( ) {
+        parent::__construct( );
     }
 
-    static function retrieve( $name, $store = null, $abort = false, $default = null, $method = 'GET' ) {
-        $value = null;
-        switch ( $method ) {
-        case 'GET':
-            $value = CRM_Array::value( $name, $_GET );
-            break;
-
-        case 'POST':
-            $value = CRM_Array::value( $name, $_POST );
-            break;
-            
-        default:
-            $value = CRM_Array::value( $name, $_REQUEST );
-            break;
+    /**
+     * Takes a bunch of params that are needed to match certain criteria and
+     * retrieves the relevant objects. Typically the valid params are only
+     * contact_id. We'll tweak this function to be more full featured over a period
+     * of time. This is the inverse function of create. It also stores all the retrieved
+     * values in the default array
+     *
+     * @param array $params   (reference ) an assoc array of name/value pairs
+     * @param array $defaults (reference ) an assoc array to hold the flattened values
+     *
+     * @return object CRM_Core_BAO_ExtProperty object
+     * @access public
+     * @static
+     */
+    static function retrieve( &$params, &$defaults ) {
+        $group = new CRM_Core_DAO_ExtProperty( );
+        $group->copyValues( $params );
+        if ( $group->find( true ) ) {
+            $group->storeValues( $defaults );
+            return $group;
         }
+        return null;
+    }
 
-        if ( ! isset( $value ) && $store ) {
-            $value = $store->get( $name );
+    /**
+     * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * @static
+     */
+    static function setIsActive( $id, $is_active ) {
+        $group = new CRM_Core_DAO_ExtProperty( );
+        $group->id = $id;
+        if ( $group->find( true ) ) {
+            $group->is_active = $is_active;
+            return $group->save( );
         }
-
-        if ( ! isset( $value ) && $abort ) {
-            CRM_Error::fatal( "Could not find valid value for $name" );
-        }
-
-        if ( ! isset( $value ) && $default ) {
-            $value = $default;
-        }
-
-        if ( $value && $store ) {
-            // minor hack for action
-            if ( $name == 'action' && is_string( $value ) ) {
-                $value = CRM_Action::resolve( $value );
-            }
-            $store->set( $name, $value );
-        }
-
-        return $value;
+        return null;
     }
 
 }

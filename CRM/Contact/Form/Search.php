@@ -44,7 +44,7 @@ require_once 'CRM/Contact/Selector.php';
  * Base Search / View form for *all* listing of multiple 
  * contacts
  */
-class CRM_Contact_Form_Search extends CRM_Form {
+class CRM_Contact_Form_Search extends CRM_Core_Form {
 
     const
         SESSION_SCOPE_SEARCH   = 'search';
@@ -110,7 +110,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
      * Class construtor
      *
      * @param string    $name  name of the form
-     * @param CRM_State $state State object that is controlling this form
+     * @param CRM_Core_State $state State object that is controlling this form
      * @param int       $mode  Mode of operation for this form
      *
      * @return CRM_Contact_Form_Search
@@ -129,10 +129,10 @@ class CRM_Contact_Form_Search extends CRM_Form {
      */
     function buildQuickForm( ) 
     {
-        $this->add('select', 'contact_type', 'Find... ', CRM_SelectValues::$contactType);
+        $this->add('select', 'contact_type', 'Find... ', CRM_Core_SelectValues::$contactType);
 
         // add select for groups
-        $group = array('any' => ' - any group - ') + CRM_PseudoConstant::group( );
+        $group = array('any' => ' - any group - ') + CRM_Core_PseudoConstant::group( );
         $groupElement = $this->add('select', 'group', 'in', $group);
         if ( $this->_context === 'smog' ) {
             $groupElement->freeze( );
@@ -142,15 +142,15 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $this->assign_by_ref( 'group', $groupValues );
             
             // Set dynamic page title for 'Show Members of Group'
-            CRM_System::setTitle( 'Members of ' . $group[$this->_groupId] );
+            CRM_Utils_System::setTitle( 'Members of ' . $group[$this->_groupId] );
         }
 
         // add select for categories
-        $category = array('any' => ' - any category - ') + CRM_PseudoConstant::category( );
+        $category = array('any' => ' - any category - ') + CRM_Core_PseudoConstant::category( );
         $this->add('select', 'category', 'Category', $category);
 
         // text for sort_name
-        $this->add('text', 'sort_name', 'Name:', CRM_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->add('text', 'sort_name', 'Name:', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         
         // some tasks.. what do we want to do with the selected contacts ?
         $tasks = array( '' => '- more actions -' ) + CRM_Contact_Task::$tasks;
@@ -206,7 +206,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
         $defaults = array();
 
         // get the session variables for search scope
-        $session = CRM_Session::singleton( );        
+        $session = CRM_Core_Session::singleton( );        
         $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
 
         // sort_name remains same across basic/advanced search
@@ -214,13 +214,13 @@ class CRM_Contact_Form_Search extends CRM_Form {
         
         // defaults for the rest depend on type of search in the session
         switch ($searchScope['type']) {
-        case CRM_Form::MODE_BASIC:
+        case CRM_Core_Form::MODE_BASIC:
             foreach (self::$csv as $v) {
                 $defaults[$v] = $searchScope['fv'][$v];
             }
             break;
             
-        case CRM_Form::MODE_ADVANCED:
+        case CRM_Core_Form::MODE_ADVANCED:
             foreach (self::$csv as $v) {
                 $defaults[$v] = $searchScope['fv']['cb_'.$v] ? key($searchScope['fv']['cb_'.$v]) : 'any';
             }
@@ -262,19 +262,19 @@ class CRM_Contact_Form_Search extends CRM_Form {
          * we allow the controller to set force/reset externally, useful when we are being
          * driven by the wizard framework
          */
-        $this->_reset   = CRM_Request::retrieve( 'reset' );
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset' );
 
-        $this->_force   = CRM_Request::retrieve( 'force', $this, false );
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', $this, false );
         // we only force stuff once :)
         $this->set( 'force', false );
 
-        $this->_groupId = CRM_Request::retrieve( 'gid', $this );
+        $this->_groupId = CRM_Utils_Request::retrieve( 'gid', $this );
 
         /*
          * assign context to drive the template display, make sure context is valid
          */
-        $this->_context = CRM_Request::retrieve( 'context', $this, false, 'search' );
-        if ( ! CRM_Array::value( $this->_context, self::$_validContext ) ) {
+        $this->_context = CRM_Utils_Request::retrieve( 'context', $this, false, 'search' );
+        if ( ! CRM_Utils_Array::value( $this->_context, self::$_validContext ) ) {
             $this->_context = 'search';
             $this->set( 'context', $this->_context );
         }
@@ -282,7 +282,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
         
         $fv = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
-        $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
+        $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
         $controller->setEmbedded( true );
         if ( $controller->hasChanged( $this->_reset ) || $this->_force ) {
             $this->postProcess( );
@@ -291,7 +291,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
              * values that potentially change the controller behavior. i.e. things
              * like totalCount etc
              */
-            $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, CRM_Selector_Controller::TRANSFER );
+            $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
             $controller->setEmbedded( true );
         }
         $controller->moveFromSessionToTemplate( );
@@ -321,7 +321,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
             $fv['group'] = $this->_groupId;
         }
 
-        $session = CRM_Session::singleton();
+        $session = CRM_Core_Session::singleton();
         $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);
         $session->set('fv', $fv, self::SESSION_SCOPE_SEARCH);
 
@@ -332,14 +332,14 @@ class CRM_Contact_Form_Search extends CRM_Form {
         } else {
             // do export stuff
             if ( $buttonName == $this->_exportButtonName ) {
-                $output = CRM_Selector_Controller::EXPORT;
+                $output = CRM_Core_Selector_Controller::EXPORT;
             } else {
-                $output = CRM_Selector_Controller::SESSION;
+                $output = CRM_Core_Selector_Controller::SESSION;
             }
 
             // create the selector, controller and run - store results in session
             $selector = new CRM_Contact_Selector($fv, $this->_mode);
-            $controller = new CRM_Selector_Controller($selector , null, null, CRM_Action::VIEW, $this, $output );
+            $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, $output );
             $controller->setEmbedded( true );
             $controller->run();
         }
@@ -354,7 +354,7 @@ class CRM_Contact_Form_Search extends CRM_Form {
         // check actionName and if next, then do not repeat a search, since we are going to the next page
         
         if ( array_key_exists( '_qf_Search_next', $fields ) ) {
-            if ( ! CRM_Array::value( 'task', $fields ) ) {
+            if ( ! CRM_Utils_Array::value( 'task', $fields ) ) {
                 return array( 'task' => 'Please select a valid action.' );
             }
 

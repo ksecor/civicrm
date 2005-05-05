@@ -66,7 +66,7 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
 
         $address->county_id = $address->geo_coord_id = 1;
 
-        $address->id = CRM_Array::value( 'address', $ids['location'][$locationId] );
+        $address->id = CRM_Utils_Array::value( 'address', $ids['location'][$locationId] );
         return $address->save( );
     }
 

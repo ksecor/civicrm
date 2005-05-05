@@ -33,25 +33,25 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Group_Page_Group extends CRM_Page_Basic {
+class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
     /**
      * The action links that we need to display for the browse screen
      *
      * @var array
      */
     static $_links = array(
-                           CRM_Action::VIEW    => array(
+                           CRM_Core_Action::VIEW    => array(
                                                         'name'  => 'Show Group Members',
                                                         'url'   => 'civicrm/group/search',
                                                         'qs'    => 'reset=1&force=1&context=smog&gid=%%id%%',
                                                         'title' => 'Group Members',
                                                         ),
-                           CRM_Action::UPDATE  => array(
+                           CRM_Core_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
                                                         'url'   => 'civicrm/group',
                                                         'qs'    => 'reset=1&action=update&id=%%id%%',
                                                         'title' => 'Edit Group'),
-                           CRM_Action::DELETE  => array(
+                           CRM_Core_Action::DELETE  => array(
                                                         'name'  => 'Delete',
                                                         'url'   => 'civicrm/group',
                                                         'qs'    => 'reset=1&action=delete&id=%%id%%',

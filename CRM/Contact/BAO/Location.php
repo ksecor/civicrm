@@ -64,10 +64,10 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
         $location = new CRM_Contact_BAO_Location( );
         
         $location->contact_id       = $params['contact_id'];
-        $location->is_primary       = CRM_Array::value( 'is_primary', $params['location'][$locationId] );
-        $location->location_type_id = CRM_Array::value( 'location_type_id', $params['location'][$locationId] );
+        $location->is_primary       = CRM_Utils_Array::value( 'is_primary', $params['location'][$locationId] );
+        $location->location_type_id = CRM_Utils_Array::value( 'location_type_id', $params['location'][$locationId] );
 
-        $location->id = CRM_Array::value( 'id', $ids['location'][$locationId] );
+        $location->id = CRM_Utils_Array::value( 'id', $ids['location'][$locationId] );
         $location->save( );
 
         $params['location'][$locationId]['id'] = $location->id;

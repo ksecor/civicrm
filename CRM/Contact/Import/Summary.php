@@ -22,7 +22,7 @@ class CRM_Contacts_Import_Summary extends CRM_Import_Base {
 
 
   function process($line) {
-    $elements = CRM_String::explode( $line, CRM_String::COMMA, true );
+    $elements = CRM_Utils_String::explode( $line, CRM_Utils_String::COMMA, true );
 
     if ( $this->_maxFields > count($elements) ) {
       $this->_maxFields = count($elements);

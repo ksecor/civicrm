@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
  * This class generates form components for relationship
  * 
  */
-class CRM_Contact_Form_Task extends CRM_Form
+class CRM_Contact_Form_Task extends CRM_Core_Form
 {
     /**
      * the task being performed
@@ -79,7 +79,7 @@ class CRM_Contact_Form_Task extends CRM_Form
      */
     function preProcess( ) 
     {
-        $session = CRM_Session::singleton( );        
+        $session = CRM_Core_Session::singleton( );        
         
         $this->_contactIds = array( );
 
@@ -95,7 +95,7 @@ class CRM_Contact_Form_Task extends CRM_Form
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
             $taskQuery = $session->get('tq', CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-            $dao = new CRM_DAO();
+            $dao = new CRM_Core_DAO();
             $dao->query($taskQuery);
             while($dao->fetch()) {
                 $this->_contactIds[] = $dao->contact_id;

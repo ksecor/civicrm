@@ -33,12 +33,12 @@
 
 require_once 'CRM/Core/Controller.php';
 
-class CRM_Import_Controller extends CRM_Controller {
+class CRM_Import_Controller extends CRM_Core_Controller {
 
     /**
      * class constructor
      */
-    function __construct( $name, $mode = CRM_Form::MODE_NONE, $modal = true ) {
+    function __construct( $name, $mode = CRM_Core_Form::MODE_NONE, $modal = true ) {
         parent::__construct( $name, $modal );
 
         $this->_stateMachine = new CRM_Import_StateMachine( $this, $mode );
@@ -47,7 +47,7 @@ class CRM_Import_Controller extends CRM_Controller {
         $this->addPages( $this->_stateMachine, $mode );
 
         // add all the actions
-        $config = CRM_Config::singleton( );
+        $config = CRM_Core_Config::singleton( );
         $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
     }
 

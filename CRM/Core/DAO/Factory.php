@@ -1,8 +1,9 @@
 <?php
 
-require_once 'CRM/Core/Array.php';
+require_once 'CRM/Core/Error.php';
+require_once 'CRM/Utils/Array.php';
 
-class CRM_DAO_Factory {
+class CRM_Core_DAO_Factory {
 
     static $_classes = array (
                               'Domain'         => 'data',
@@ -16,8 +17,8 @@ class CRM_DAO_Factory {
                              );
 
     static $_prefix = array(
-                           'business'  =>  'CRM/BAO/',
-                           'data'      =>  'CRM/DAO/',
+                           'business'  =>  'CRM/Core/BAO/',
+                           'data'      =>  'CRM/Core/DAO/',
                            );
     
     static $_suffix = '.php';
@@ -36,9 +37,9 @@ class CRM_DAO_Factory {
     
 
     static function &create ( $className ) {
-      $type = CRM_Array::value( $className, self::$_classes );
+      $type = CRM_Utils_Array::value( $className, self::$_classes );
       if ( ! $type ) {
-        CRM_Error::fatal( "class $className not found" );
+        CRM_Core_Error::fatal( "class $className not found" );
       }
 
       $file  = self::$_prefix[$type] . $className;

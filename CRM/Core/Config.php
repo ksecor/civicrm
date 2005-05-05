@@ -38,9 +38,9 @@
 
 require_once 'Log.php';
 require_once 'CRM/Core/DAO.php';
-require_once 'CRM/Core/System.php';
+require_once 'CRM/Utils/System.php';
 
-class CRM_Config {
+class CRM_Core_Config {
 
     /**
      * the dsn of the database connection
@@ -136,7 +136,7 @@ class CRM_Config {
      */
     static function singleton($key = 'crm') {
         if (self::$_singleton === null ) {
-            self::$_singleton = new CRM_Config($key);
+            self::$_singleton = new CRM_Core_Config($key);
         }
         return self::$_singleton;
     }
@@ -153,12 +153,12 @@ class CRM_Config {
             $this->dsn = CRM_DSN;
         }
 
-        if (defined('CRM_DAO_DEBUG') ) {
-            $this->daoDebug = CRM_DAO_DEBUG;
+        if (defined('CRM_Core_DAO_DEBUG') ) {
+            $this->daoDebug = CRM_Core_DAO_DEBUG;
         }
 
-        if (defined('CRM_DAO_FACTORY_CLASS') ) {
-            $this->DAOFactoryClass = CRM_DAO_FACTORY_CLASS;
+        if (defined('CRM_Core_DAO_FACTORY_CLASS') ) {
+            $this->DAOFactoryClass = CRM_Core_DAO_FACTORY_CLASS;
         }
 
         if (defined('CRM_SMARTYDIR')) {
@@ -218,13 +218,13 @@ class CRM_Config {
      * @access private
      */
     function initDAO() {
-        CRM_DAO::init(
+        CRM_Core_DAO::init(
                       $this->dsn, 
                       $this->daoDebug
                       );
 
         $factoryClass = $this->DAOFactoryClass;
-        CRM_DAO::setFactory(new $factoryClass());
+        CRM_Core_DAO::setFactory(new $factoryClass());
     }
 
     static function &getLog() {
@@ -235,6 +235,6 @@ class CRM_Config {
         return self::$_log;
     }
 
-} // end CRM_Config
+} // end CRM_Core_Config
 
 ?>

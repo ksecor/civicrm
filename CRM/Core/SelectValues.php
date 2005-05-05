@@ -34,7 +34,7 @@
  *
  */
 
-class CRM_SelectValues {
+class CRM_Core_SelectValues {
 
     /**
      * prefix names
@@ -219,6 +219,6 @@ class CRM_SelectValues {
  * initialize maxYear to the right value, i.e.
  * the current year
  */
-CRM_SelectValues::$date['maxYear'] = date('Y');
+CRM_Core_SelectValues::$date['maxYear'] = date('Y');
 
 ?>

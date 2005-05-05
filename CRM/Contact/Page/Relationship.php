@@ -171,12 +171,12 @@ class CRM_Contact_Page_Relationship {
 
     static function edit( $page, $mode, $relationshipId = null ) {
 
-        $controller = new CRM_Controller_Simple( 'CRM_Contact_Form_Relationship', 'Contact Relationships', $mode );
+        $controller = new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Relationship', 'Contact Relationships', $mode );
 
         // set the userContext stack
-        $session = CRM_Session::singleton();
-        $config  = CRM_Config::singleton();
-        $session->pushUserContext( CRM_System::url('civicrm/contact/view/rel', 'action=browse' ) );
+        $session = CRM_Core_Session::singleton();
+        $config  = CRM_Core_Config::singleton();
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/rel', 'action=browse' ) );
         
         /*
         if ( !$relationshipId ) {
@@ -206,14 +206,14 @@ class CRM_Contact_Page_Relationship {
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
 
-        $action = CRM_Request::retrieve( 'action', $page, false, 'browse' );
+        $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
         $page->assign( 'action', $action );
 
-        $rid = CRM_Request::retrieve( 'rid', $page, false, 0 );
+        $rid = CRM_Utils_Request::retrieve( 'rid', $page, false, 0 );
 
-        if ( $action & CRM_Action::VIEW ) {
+        if ( $action & CRM_Core_Action::VIEW ) {
             self::view( $page, $rid );
-        } else if ( $action & ( CRM_Action::UPDATE | CRM_Action::ADD ) ) {
+        } else if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
             self::edit( $page, $action, $rid );
         }
 

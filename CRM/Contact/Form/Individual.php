@@ -51,9 +51,9 @@ class CRM_Contact_Form_Individual {
     public function buildQuickForm( $form ) 
     {
         // prefix
-        $form->addElement('select', 'prefix', null, CRM_SelectValues::$prefixName);
+        $form->addElement('select', 'prefix', null, CRM_Core_SelectValues::$prefixName);
 
-        $attributes = CRM_DAO::getAttribute('CRM_Contact_DAO_Individual');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
 
         // first_name
         $form->addElement('text', 'first_name', 'First Name', $attributes['first_name'] );
@@ -62,10 +62,10 @@ class CRM_Contact_Form_Individual {
         $form->addElement('text', 'last_name', 'Last Name', $attributes['last_name'] );
         
         // suffix
-        $form->addElement('select', 'suffix', null, CRM_SelectValues::$suffixName);
+        $form->addElement('select', 'suffix', null, CRM_Core_SelectValues::$suffixName);
         
         // greeting type
-        $form->addElement('select', 'greeting_type', 'Greeting type :', CRM_SelectValues::$greeting);
+        $form->addElement('select', 'greeting_type', 'Greeting type :', CRM_Core_SelectValues::$greeting);
         
         // job title
         $form->addElement('text', 'job_title', 'Job title :', $attributes['job_title']);
@@ -79,10 +79,10 @@ class CRM_Contact_Form_Individual {
         
         $form->addElement('checkbox', 'is_deceased', null, 'Contact is deceased');
         
-        $form->addElement('date', 'birth_date', 'Date of birth', CRM_SelectValues::$date);
+        $form->addElement('date', 'birth_date', 'Date of birth', CRM_Core_SelectValues::$date);
         $form->addRule('birth_date', 'Select a valid date.', 'qfDate' );
 
-        CRM_ShowHideBlocks::links( $this, 'demographics', '[+] show demographics' , '[-] hide demographics'  );
+        CRM_Core_ShowHideBlocks::links( $this, 'demographics', '[+] show demographics' , '[-] hide demographics'  );
     }
 
     static function formRule( &$fields ) {
@@ -91,8 +91,8 @@ class CRM_Contact_Form_Individual {
         $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
 
         // make sure that firstName and lastName or a primary email is set
-        if (! ( (CRM_Array::value( 'first_name', $fields ) && 
-                 CRM_Array::value( 'last_name' , $fields )    ) ||
+        if (! ( (CRM_Utils_Array::value( 'first_name', $fields ) && 
+                 CRM_Utils_Array::value( 'last_name' , $fields )    ) ||
                 !empty( $primaryEmail ) ) ) {
             $errors['first_name'] = "First Name and Last Name OR an email in the Primary Location should be set.";
         }

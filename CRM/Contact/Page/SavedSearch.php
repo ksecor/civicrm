@@ -34,7 +34,7 @@
 require_once 'CRM/Core/Page.php';
 require_once 'CRM/Contact/DAO/SavedSearch.php';
 
-class CRM_Contact_Page_SavedSearch extends CRM_Page {
+class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
 
     /**
      * constants for various modes that the page can operate as
@@ -50,7 +50,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Page {
      * @param string $title title of the page
      * @param int    $mode  mode of the page
      *
-     * @return CRM_Page
+     * @return CRM_Core_Page
      */
     function __construct( $name, $title = null, $mode = null ) {
         parent::__construct($name, $title, $mode);

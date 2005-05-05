@@ -38,7 +38,7 @@ require_once 'CRM/Core/Form.php';
  * This class generates form components generic to Mobile provider
  * 
  */
-class CRM_Admin_Form extends CRM_Form
+class CRM_Admin_Form extends CRM_Core_Form
 {
     /**
      * The id of the object being edited / created

@@ -33,20 +33,20 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Admin_Page_Category extends CRM_Page_Basic {
+class CRM_Admin_Page_Category extends CRM_Core_Page_Basic {
     /**
      * The action links that we need to display for the browse screen
      *
      * @var array
      */
     static $_links = array(
-                           CRM_Action::UPDATE  => array(
+                           CRM_Core_Action::UPDATE  => array(
                                                         'name'  => 'Edit',
                                                         'url'   => 'civicrm/admin/category',
                                                         'qs'    => 'action=update&id=%%id%%',
                                                         'title' => 'Edit Category'),
                           
-                           CRM_Action::DELETE => array(
+                           CRM_Core_Action::DELETE => array(
                                                         'name'  => 'Delete',
                                                         'url'   => 'civicrm/admin/category',
                                                         'qs'    => 'action=delete&id=%%id%%',

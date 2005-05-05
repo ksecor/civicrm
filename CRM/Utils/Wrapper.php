@@ -39,7 +39,7 @@
 require_once 'CRM/Core/Base.php';
 require_once 'CRM/Core/Controller/Simple.php';
 
-class CRM_Wrapper 
+class CRM_Utils_Wrapper 
 {
     /**
      * Simple Controller
@@ -81,8 +81,8 @@ class CRM_Wrapper
      * @access public
      */
     function run($formName, $formLabel, $mode, $userContext = null, $data = null ) {
-        $session = CRM_Session::singleton();
-        $config  = CRM_Config::singleton();
+        $session = CRM_Core_Session::singleton();
+        $config  = CRM_Core_Config::singleton();
 
         // store the return url. Note that this is typically computed by the framework at runtime
         // based on multiple things (typically where the link was clicked from / http_referer
@@ -91,7 +91,7 @@ class CRM_Wrapper
             $session->pushUserContext( $userContext );
         }
 
-        $this->_controller = new CRM_Controller_Simple( $formName, $formLabel, $mode );
+        $this->_controller = new CRM_Core_Controller_Simple( $formName, $formLabel, $mode );
         if ( $data ) {
             $this->_controller->set( $data );
         }
@@ -99,16 +99,6 @@ class CRM_Wrapper
         $this->_controller->run();
     }
 
-    /**
-     * getContent
-     *
-     * returns the content which is stored in the controller.
-     *
-     * @protected object
-     */
-    function getContent()
-    {
-        return $this->_controller->getContent();
-    }
 }
+
 ?>

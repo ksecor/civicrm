@@ -39,7 +39,7 @@
  *
  */
 
-interface CRM_Selector_API {
+interface CRM_Core_Selector_API {
 
     /**
      * Based on the action, the GET variables and the session state

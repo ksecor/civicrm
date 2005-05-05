@@ -21,7 +21,6 @@
  | distributed along with this program (affero_gpl.txt)                 |
  +----------------------------------------------------------------------+
 */
-
 /**
  *
  * @package CRM
@@ -31,67 +30,59 @@
  *
  */
 
-/**
- * class to provide simple static functions for file objects
- */
-class CRM_File {
+class CRM_Utils_Request {
+    /**
+     * We only need one instance of this object. So we use the singleton
+     * pattern and cache the instance in this variable
+     *
+     * @var object
+     * @static
+     */
+    static private $_singleton = null;
 
     /**
-     * Given a file name, determine if the file contents make it an ascii file
-     *
-     * @param string $name name of file
-     *
-     * @return boolean     true if file is ascii
-     * @access public
+     * class constructor
      */
-    static function isAscii( $name ) {
-        $fd = fopen( $name, "r" );
-        if ( ! $fd ) {
-            return false;
-        }
-
-        $ascii = true;
-        $lineCount = 0;
-        while ( ! feof( $fd ) & $lineCount <= 5 ) {
-            $lineCount++;
-            $line = fgets( $fd, 8192 );
-            if ( ! CRM_String::isAscii( $line ) ) {
-                $ascii = false;
-                break;
-            }
-        }
-
-        fclose( $fd );
-        return $ascii;
+    function __construct( ) {
     }
 
-    /**
-     * Given a file name, determine if the file contents make it an html file
-     *
-     * @param string $name name of file
-     *
-     * @return boolean     true if file is html
-     * @access public
-     */
-    static function isHtml( $name ) {
-        $fd = fopen( $name, "r" );
-        if ( ! $fd ) {
-            return false;
+    static function retrieve( $name, $store = null, $abort = false, $default = null, $method = 'GET' ) {
+        $value = null;
+        switch ( $method ) {
+        case 'GET':
+            $value = CRM_Utils_Array::value( $name, $_GET );
+            break;
+
+        case 'POST':
+            $value = CRM_Utils_Array::value( $name, $_POST );
+            break;
+            
+        default:
+            $value = CRM_Utils_Array::value( $name, $_REQUEST );
+            break;
         }
 
-        $html = false;
-        $lineCount = 0;
-        while ( ! feof( $fd ) & $lineCount <= 5 ) {
-            $lineCount++;
-            $line = fgets( $fd, 8192 );
-            if ( ! CRM_String::isHtml( $line ) ) {
-                $html = true;
-                break;
+        if ( ! isset( $value ) && $store ) {
+            $value = $store->get( $name );
+        }
+
+        if ( ! isset( $value ) && $abort ) {
+            CRM_Core_Error::fatal( "Could not find valid value for $name" );
+        }
+
+        if ( ! isset( $value ) && $default ) {
+            $value = $default;
+        }
+
+        if ( $value && $store ) {
+            // minor hack for action
+            if ( $name == 'action' && is_string( $value ) ) {
+                $value = CRM_Core_Action::resolve( $value );
             }
+            $store->set( $name, $value );
         }
 
-        fclose( $fd );
-        return $html;
+        return $value;
     }
 
 }

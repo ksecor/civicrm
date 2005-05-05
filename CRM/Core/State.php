@@ -35,7 +35,7 @@
  *
  */
 
-class CRM_State {
+class CRM_Core_State {
 
     /**
      * state name
@@ -110,13 +110,13 @@ class CRM_State {
     /**
      * Given an CRM Form, jump to the previous page
      *
-     * @param object the CRM_Form element under consideration
+     * @param object the CRM_Core_Form element under consideration
      *
      * @return mixed does a jump to the back state
      * @access public
      */
     function handleBackState( &$page ) {
-        if ( $this->_type & CRM_State::START ) {
+        if ( $this->_type & self::START ) {
             $page->handle('display');
         } else { 
             $back =& $page->controller->getPage($this->_back); 
@@ -127,13 +127,13 @@ class CRM_State {
     /**
      * Given an CRM Form, jump to the next page
      *
-     * @param object the CRM_Form element under consideration
+     * @param object the CRM_Core_Form element under consideration
      *
      * @return mixed does a jump to the nextstate
      * @access public
      */
     function handleNextState( &$page ) {
-        if ( $this->_type & CRM_State::FINISH ) {
+        if ( $this->_type & self::FINISH ) {
             $page->handle('process');
         } else { 
             $next =& $page->controller->getPage($this->_next); 
@@ -149,7 +149,7 @@ class CRM_State {
      * @access public
      */
     function getNextState( ) {
-        if ( $this->_type & CRM_State::FINISH ) {
+        if ( $this->_type & self::FINISH ) {
             return null;
         } else { 
             $next =& $page->controller->getPage( $this->_next ); 

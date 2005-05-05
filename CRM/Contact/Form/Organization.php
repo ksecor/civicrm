@@ -41,7 +41,7 @@ require_once 'CRM/Core/ShowHideBlocks.php';
  * a small set of static methods
  *
  */
-class CRM_Contact_Form_Organization extends CRM_Form 
+class CRM_Contact_Form_Organization extends CRM_Core_Form 
 {
     /**
      * This function provides the HTML form elements that are specific to this Contact Type
@@ -50,7 +50,7 @@ class CRM_Contact_Form_Organization extends CRM_Form
      * @return None
      */
     public function buildQuickForm( $form ) {
-        $attributes = CRM_DAO::getAttribute('CRM_Contact_DAO_Organization');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Organization');
         
         // Organization_name
         $this->add('text', 'organization_name', 'Organization Name:', $attributes['organization_name'], true);

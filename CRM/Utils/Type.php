@@ -22,59 +22,38 @@
  +----------------------------------------------------------------------+
 */
 
-/**
- * Simple wrapper class to add a few essential core functions to
- * arrays in PHP
- *
- * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
- * @copyright Donald A. Lobo 01/15/2005
- * $Id$
- *
- */
+class CRM_Utils_Type {
+    const
+        T_INT       =     1,
+        T_STRING    =     2,
+        T_ENUM      =     2,
+        T_DATE      =     4,
+        T_TIME      =     8,
+        T_BOOL      =    16,
+        T_BOOLEAN   =    16,
+        T_TEXT      =    32,
+        T_BLOB      =    64,
+        T_TIMESTAMP =   256,
+        T_DOUBLE    =   512,
+        T_MONEY     =  1024,
+        T_DATE      =  2048,
+        T_EMAIL     =  4096,
+        T_URL       =  8192,
+        T_CCNUM     = 16384,
+        T_FLOAT     = 32768;
 
-class CRM_Array {
-
-    /**
-     * if the key exists in the list returns the associated value
-     *
-     * @access public
-     *
-     * @param array  $list  the array to be searched
-     * @param string $key   the key value
-     * 
-     * @return value if exists else null
-     * @static
-     * @access public
-     *
-     */
-    static function value( $key, &$list, $default = null ) {
-        if ( is_array( $list ) ) {
-            return array_key_exists( $key, $list ) ? $list[$key] : $default;
-        }
-        return $default;
-    }
-
-    /**
-     * if the value exists in the list returns the associated key
-     *
-     * @access public
-     *
-     * @param list  the array to be searched
-     * @param value the search value
-     * 
-     * @return key if exists else null
-     * @static
-     * @access public
-     *
-     */
-    static function key( $value, &$list ) {
-        if ( is_array( $list ) ) {
-            $key = array_search( $value, $list );
-            return $key ? $key : null;
-        }
-        return null;
-    }
+    const
+        TWO          =  2,
+        FOUR         =  4,
+        EIGHT        =  8,
+        TWELVE       = 12,
+        SIXTEEN      = 16,
+        TWENTY       = 20,
+        MEDIUM       = 20,
+        THIRTY       = 30,
+        BIG          = 30,
+        FORTYFIVE    = 45,
+        HUGE         = 45;
 
 }
 

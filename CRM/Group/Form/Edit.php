@@ -36,7 +36,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * This class is to build the form for adding Group
  */
-class CRM_Group_Form_Edit extends CRM_Form {
+class CRM_Group_Form_Edit extends CRM_Core_Form {
 
     /**
      * the group id, used when editing a group
@@ -97,11 +97,11 @@ class CRM_Group_Form_Edit extends CRM_Form {
     public function buildQuickForm( ) {
 
         $this->add('text', 'title'       , 'Name: ' ,
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
         $this->addRule( 'title', 'Please enter the name.', 'required' );
 
         $this->add('text', 'description', 'Description: ', 
-                   CRM_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -136,7 +136,7 @@ class CRM_Group_Form_Edit extends CRM_Form {
 
         $group->save( );
 
-        CRM_Session::setStatus( 'The Group "' . $group->name . '" has been saved' );        
+        CRM_Core_Session::setStatus( 'The Group "' . $group->name . '" has been saved' );        
 
         /*
          * Add context to the session, in case we are adding members to the group

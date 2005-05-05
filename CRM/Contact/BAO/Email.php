@@ -68,7 +68,7 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
         $email->is_primary  = $isPrimary;
         $isPrimary          = false;
 
-        $email->id = CRM_Array::value( $emailId, $ids['location'][$locationId]['email'] );
+        $email->id = CRM_Utils_Array::value( $emailId, $ids['location'][$locationId]['email'] );
         return $email->save( );
     }
 

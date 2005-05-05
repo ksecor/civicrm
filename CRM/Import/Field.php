@@ -66,7 +66,7 @@ class CRM_Import_Field {
      */
     public $_value;
 
-    function __construct( $name, $title, $type = CRM_Type::T_INT, $required = false, $payload = null, $active = false ) {
+    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $required = false, $payload = null, $active = false ) {
         $this->_name      = $name;
         $this->_title     = $title;
         $this->_type      = $type;
@@ -93,7 +93,7 @@ class CRM_Import_Field {
             return true;
         }
         if ( $this->_name == 'email' ) {
-            return CRM_Rule::email( $this->_value );
+            return CRM_Utils_Rule::email( $this->_value );
         }
         return true;
     }

@@ -33,12 +33,12 @@
 
 require_once 'CRM/Core/StateMachine.php';
 
-class CRM_Contact_StateMachine_Advanced extends CRM_StateMachine {
+class CRM_Contact_StateMachine_Advanced extends CRM_Core_StateMachine {
 
     /**
      * class constructor
      */
-    function __construct( $controller, $mode = CRM_Form::MODE_NONE ) {
+    function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
         parent::__construct( $controller, $mode );
 
         $task = CRM_Contact_StateMachine_Search::taskName( $controller );

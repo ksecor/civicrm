@@ -31,56 +31,67 @@
  *
  */
 
-class CRM_BAO_MobileProvider extends CRM_DAO_MobileProvider {
+/**
+ * class to provide simple static functions for file objects
+ */
+class CRM_Utils_File {
 
     /**
-     * class constructor
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-    /**
-     * Takes a bunch of params that are needed to match certain criteria and
-     * retrieves the relevant objects. Typically the valid params are only
-     * contact_id. We'll tweak this function to be more full featured over a period
-     * of time. This is the inverse function of create. It also stores all the retrieved
-     * values in the default array
+     * Given a file name, determine if the file contents make it an ascii file
      *
-     * @param array $params   (reference ) an assoc array of name/value pairs
-     * @param array $defaults (reference ) an assoc array to hold the flattened values
+     * @param string $name name of file
      *
-     * @return object CRM_BAO_MobileProvider object
+     * @return boolean     true if file is ascii
      * @access public
-     * @static
      */
-    static function retrieve( &$params, &$defaults ) {
-        $mobileProvider = new CRM_DAO_MobileProvider( );
-        $mobileProvider->copyValues( $params );
-        if ( $mobileProvider->find( true ) ) {
-            $mobileProvider->storeValues( $defaults );
-            return $mobileProvider;
+    static function isAscii( $name ) {
+        $fd = fopen( $name, "r" );
+        if ( ! $fd ) {
+            return false;
         }
-        return null;
+
+        $ascii = true;
+        $lineCount = 0;
+        while ( ! feof( $fd ) & $lineCount <= 5 ) {
+            $lineCount++;
+            $line = fgets( $fd, 8192 );
+            if ( ! CRM_Utils_String::isAscii( $line ) ) {
+                $ascii = false;
+                break;
+            }
+        }
+
+        fclose( $fd );
+        return $ascii;
     }
 
     /**
-     * update the is_active flag in the db
+     * Given a file name, determine if the file contents make it an html file
      *
-     * @param int      $id        id of the database record
-     * @param boolean  $is_active value we want to set the is_active field
+     * @param string $name name of file
      *
-     * @return Object             DAO object on sucess, null otherwise
-     * @static
+     * @return boolean     true if file is html
+     * @access public
      */
-    static function setIsActive( $id, $is_active ) {
-        $mobileProvider = new CRM_DAO_MobileProvider( );
-        $mobileProvider->id = $id;
-        if ( $mobileProvider->find( true ) ) {
-            $mobileProvider->is_active = $is_active;
-            return $mobileProvider->save( );
+    static function isHtml( $name ) {
+        $fd = fopen( $name, "r" );
+        if ( ! $fd ) {
+            return false;
         }
-        return null;
+
+        $html = false;
+        $lineCount = 0;
+        while ( ! feof( $fd ) & $lineCount <= 5 ) {
+            $lineCount++;
+            $line = fgets( $fd, 8192 );
+            if ( ! CRM_Utils_String::isHtml( $line ) ) {
+                $html = true;
+                break;
+            }
+        }
+
+        fclose( $fd );
+        return $html;
     }
 
 }

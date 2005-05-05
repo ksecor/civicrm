@@ -42,12 +42,12 @@ class CRM_Contact_Page_Tag {
     }
 
     static function browse( $page ) {
-        $controller = new CRM_Controller_Simple( 'CRM_Tag_Form_Tag', 'Contact Tags', $mode );
+        $controller = new CRM_Core_Controller_Simple( 'CRM_Tag_Form_Tag', 'Contact Tags', $mode );
         
         // set the userContext stack
-        $session = CRM_Session::singleton();
-        $config  = CRM_Config::singleton();
-        $session->pushUserContext( CRM_System::url('civicrm/contact/view/tag', 'action=browse' ) );
+        $session = CRM_Core_Session::singleton();
+        $config  = CRM_Core_Config::singleton();
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/tag', 'action=browse' ) );
 
         $controller->reset( );
         $controller->set( 'contactId'  , $page->getContactId( ) );

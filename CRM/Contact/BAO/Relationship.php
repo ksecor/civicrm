@@ -192,7 +192,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
    */
     static function create( &$params, &$ids ) {
         $lngRelationshipId = 0;
-        $lngRelationshipId = CRM_Array::value( 'relationship', $ids );
+        $lngRelationshipId = CRM_Utils_Array::value( 'relationship', $ids );
         if (!$lngRelationshipId) {
             $dataExists = self::dataExists( $params );
             if ( ! $dataExists ) {
@@ -200,7 +200,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             }
         }
 
-        CRM_DAO::transaction( 'BEGIN' );
+        CRM_Core_DAO::transaction( 'BEGIN' );
         
         if (is_array($params['contact_check'])) {
             foreach ( $params['contact_check'] as $lng_key => $value) {
@@ -209,7 +209,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         } else {
             $relationship = self::add( $params, $ids);
         }
-        CRM_DAO::transaction( 'COMMIT' );
+        CRM_Core_DAO::transaction( 'COMMIT' );
 
         return $relationship;
     }
@@ -236,7 +236,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $relationship                = new CRM_Contact_BAO_Relationship( );
         
         // get the string of relationship type
-        $strRelationshipType = CRM_Array::value( 'relationship_type_id', $params );
+        $strRelationshipType = CRM_Utils_Array::value( 'relationship_type_id', $params );
 
         // expolode the string with _ to get the relationship type id and to know which contact has to be inserted in
         // contact_id_a and which one in contact_id_b
@@ -248,11 +248,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         // if $a_temp[1] == a or $a_temp[2] == b then the currnet contact has to be inserted as contact_id_a
         
         if ($a_temp[1] == 'b') {
-            $lng_contact_b = CRM_Array::value( 'contact', $ids );
+            $lng_contact_b = CRM_Utils_Array::value( 'contact', $ids );
             $lng_contact_a = $lngContactId;
         } else if ($a_temp[1] == 'a') {
             $lng_contact_b = $lngContactId;
-            $lng_contact_a = CRM_Array::value( 'contact', $ids );
+            $lng_contact_a = CRM_Utils_Array::value( 'contact', $ids );
         }
         
         if($lngContactId > 0) { // don't update the contact during the update call.
@@ -261,7 +261,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         }
         $relationship->relationship_type_id = $a_temp[0];
         
-        $sdate = CRM_Array::value( 'start_date', $params );
+        $sdate = CRM_Utils_Array::value( 'start_date', $params );
         $relationship->start_date = null;
         if ( $sdate              &&
              !empty($sdate['M']) &&
@@ -272,7 +272,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             $relationship->start_date = $sdate['Y'] . $sdate['M'] . $sdate['d'];
         }
 
-        $edate = CRM_Array::value( 'end_date', $params );
+        $edate = CRM_Utils_Array::value( 'end_date', $params );
         $relationship->end_date = null;
         if ( $edate              &&
              !empty($edate['M']) &&
@@ -283,7 +283,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             $relationship->end_date = $edate['Y'] . $edate['M'] . $edate['d'];
         }
         
-        $relationship->id = CRM_Array::value( 'relationship', $ids );
+        $relationship->id = CRM_Utils_Array::value( 'relationship', $ids );
         return  $relationship->save( );
 
     }
@@ -323,7 +323,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     {
         $aRelationshipType = array();
         $relationshipType = array();
-        $aRelationshipType = CRM_PseudoConstant::relationshipType();
+        $aRelationshipType = CRM_Core_PseudoConstant::relationshipType();
 
         $contact = new CRM_Contact_BAO_Contact();
         

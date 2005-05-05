@@ -1,6 +1,6 @@
 <?php
 
-require_once 'CRM/DAO/Factory.php';
+require_once 'CRM/Core/DAO/Factory.php';
 
 class CRM_Contact_DAO_Factory {
 
@@ -39,9 +39,9 @@ class CRM_Contact_DAO_Factory {
     
 
     static function &create ( $className ) {
-      $type = CRM_Array::value( $className, self::$_classes );
+      $type = CRM_Utils_Array::value( $className, self::$_classes );
       if ( ! $type ) {
-        return CRM_DAO_Factory::create( $className );
+        return CRM_Core_DAO_Factory::create( $className );
       }
 
       $file  = self::$_prefix[$type] . $className;

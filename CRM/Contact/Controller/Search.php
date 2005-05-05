@@ -46,12 +46,12 @@ require_once 'CRM/Core/Session.php';
  *
  */
 
-class CRM_Contact_Controller_Search extends CRM_Controller {
+class CRM_Contact_Controller_Search extends CRM_Core_Controller {
 
     /**
      * class constructor
      */
-    function __construct( $name, $mode = CRM_Form::MODE_NONE, $modal = true ) {
+    function __construct( $name, $mode = CRM_Core_Form::MODE_NONE, $modal = true ) {
         parent::__construct( $name, $modal );
 
         $this->_stateMachine = new CRM_Contact_StateMachine_Search( $this, $mode );
@@ -60,7 +60,7 @@ class CRM_Contact_Controller_Search extends CRM_Controller {
         $this->addPages( $this->_stateMachine, $mode );
 
         // add all the actions
-        $config = CRM_Config::singleton( );
+        $config = CRM_Core_Config::singleton( );
         $this->addActions( );
     }
 
@@ -72,7 +72,7 @@ class CRM_Contact_Controller_Search extends CRM_Controller {
      */
     public function reset()
     {
-        $session = CRM_Session::singleton( );
+        $session = CRM_Core_Session::singleton( );
         $session->resetScope(CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
         parent::reset();
     }
