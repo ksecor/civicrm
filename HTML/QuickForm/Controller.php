@@ -327,12 +327,13 @@ class HTML_QuickForm_Controller
         }
         $names = array_map('preg_quote', array_keys($this->_pages));
         $regex = '/^_qf_(' . implode('|', $names) . ')_(.+?)(_.+?)?(_x)?$/';
+        $data =& $this->container();
+        unset( $data['_qf_button_name'] );
         foreach (array_keys($_REQUEST) as $key) {
             if (preg_match($regex, $key, $matches)) {
                 if ( array_key_exists( 3, $matches ) ) {
-                    $data =& $this->container();
                     $key = preg_replace( '/_(x|y)$/', '', $key );
-                    $data['_qf_button_data'][$key] = 1;
+                    $data['_qf_button_name'] = $key;
                 }
                 return array($matches[1], $matches[2]);
             }
