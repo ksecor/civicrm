@@ -339,7 +339,7 @@ class HTML_QuickForm_Controller
             }
         }
         if (isset($_REQUEST['_qf_default'])) {
-            data['_qf_button_name'] = '_qf_default';
+            $data['_qf_button_name'] = '_qf_default';
             $matches = explode(':', $_REQUEST['_qf_default'], 2);
             if (isset($this->_pages[$matches[0]])) {
                 return $matches;
