@@ -67,7 +67,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      *
      * @var int
      */
-    protected $_groupId;
+    protected $_groupID;
+
+    /**
+     * the amtgId retrieved from the GET vars
+     *
+     * @var int
+     */
+    protected $_amtgID;
 
     /**
      * Are we forced to run a search
@@ -138,11 +145,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $groupElement->freeze( );
 
             // also set the group title
-            $groupValues = array( 'id' => $this->_groupId, 'title' => $group[$this->_groupId] );
+            $groupValues = array( 'id' => $this->_groupID, 'title' => $group[$this->_groupID] );
             $this->assign_by_ref( 'group', $groupValues );
             
             // Set dynamic page title for 'Show Members of Group'
-            CRM_Utils_System::setTitle( 'Group Members: ' . $group[$this->_groupId] );
+            CRM_Utils_System::setTitle( 'Group Members: ' . $group[$this->_groupID] );
         }
 
         // add select for categories
@@ -155,11 +162,12 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // some tasks.. what do we want to do with the selected contacts ?
         $tasks = array( '' => '- more actions -' ) + CRM_Contact_Task::$tasks;
         $actionElement = $this->add('select', 'task'   , 'Actions: '    , $tasks    );
+
         if ( $this->_context === 'amtg' ) {
             // Set dynamic page title for 'Add Members Group'
-            CRM_Utils_System::setTitle( 'Add Members: ' . $group[$this->_groupId] );
+            CRM_Utils_System::setTitle( 'Add Members: ' . $group[$this->_amtgID] );
             // also set the group title and freeze the action task with Add Members to Group
-            $groupValues = array( 'id' => $this->_groupId, 'title' => $group[$this->_groupId] );
+            $groupValues = array( 'id' => $this->_amtgID, 'title' => $group[$this->_amtgID] );
             $this->assign_by_ref( 'group', $groupValues );
             $actionElement->freeze( );
         }
@@ -273,7 +281,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // we only force stuff once :)
         $this->set( 'force', false );
 
-        $this->_groupId = CRM_Utils_Request::retrieve( 'gid', $this );
+        $this->_groupID = CRM_Utils_Request::retrieve( 'gid'   , $this );
+        $this->_amtgID  = CRM_Utils_Request::retrieve( 'amtgID', $this );
 
         /*
          * assign context to drive the template display, make sure context is valid
@@ -323,7 +332,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         
         // hack: if this is a forced search, stuff values into FV
         if ( $this->_force ) {
-            $fv['group'] = $this->_groupId;
+            $fv['group'] = $this->_groupID;
         }
 
         $session = CRM_Core_Session::singleton();

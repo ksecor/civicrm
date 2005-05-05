@@ -100,8 +100,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->add( 'text', 'label'      , 'Field Label', CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomField', 'label'       ), true );
         $this->addRule( 'label', 'Please enter label for this field.', 'title' );
 
-        $this->add( 'select', 'data_type', 'Data Type', CRM_Core_SelectValues::$extPropertyDataType, true);
-        $this->add( 'select', 'html_type', 'HTML Type', CRM_Core_SelectValues::$htmlType, true);
+        $this->add( 'select', 'data_type', 'Data Type', CRM_Core_SelectValues::$customDataType, true);
+        $this->add( 'select', 'html_type', 'HTML Type', CRM_Core_SelectValues::$customHtmlType, true);
         $this->add( 'text', 'default_value', 'Default Value', CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomField', 'default_value' ), false );
         $this->addElement( 'checkbox', 'is_required', 'Required?' );
         $this->addElement( 'checkbox', 'is_active', 'Active?' );

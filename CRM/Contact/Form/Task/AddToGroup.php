@@ -130,6 +130,11 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
         
         CRM_Contact_BAO_GroupContact::addContactsToGroup( $this->_contactIds, $groupId );
 
+        if ( $this->_context == 'amtg' ) {
+            $session = CRM_Core_Session::singleton( );
+            $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1&context=amtg&amtgID=' . $groupId ) );
+        }
+
     }//end of function
 
 

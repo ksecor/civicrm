@@ -237,15 +237,17 @@ class CRM_Core_Selector_Controller {
     function hasChanged( $reset ) {
         /**
          * if we are in reset state, i.e the store is cleaned out, we return false
+         * we also return if we dont have a record of the sort id or page id
          */
-        if ( $reset ) {
+        if ( $reset || $this->_store->get( CRM_Utils_Pager::PAGE_ID ) == null || $this->_store->get( CRM_Utils_Sort::SORT_ID ) == null ) {
             return false;
         }
 
-        /**
+        /*
         echo "Current Sort ID: " . $this->_sort->getCurrentSortID ( ) . '_' . $this->_sort->getCurrentSortDirection ( ) . "<p>";
         echo "Stored Sort ID: " . $this->_store->get( CRM_Utils_Sort::SORT_ID  ) . '_' . $this->_store->get( CRM_Utils_Sort::SORT_DIRECTION ) . "<p>";
-        **/
+        */
+
         if ( $this->_store->get( CRM_Utils_Pager::PAGE_ID       ) != $this->_pager->getCurrentPageID       ( ) ||
              $this->_store->get( CRM_Utils_Sort::SORT_ID        ) != $this->_sort->getCurrentSortID        ( ) || 
              $this->_store->get( CRM_Utils_Sort::SORT_DIRECTION ) != $this->_sort->getCurrentSortDirection ( ) ) {

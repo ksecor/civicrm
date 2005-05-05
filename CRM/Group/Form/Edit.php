@@ -142,7 +142,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
          */
         $this->set( 'context', 'amtg' );
         $this->set( 'amtgID' , $group->id );
-        $this->set( 'force'  , true   );
     }
 
 }

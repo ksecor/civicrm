@@ -147,33 +147,33 @@ class CRM_Core_SelectValues {
      * @var array
      * @static
      */
-    public static $extPropertyDataType = array(
-                                               ''           => '-select-',
-                                               'String'     => 'Text',
-                                               'Int'        => 'Integer',
-                                               'Float'      => 'Decimal Number',
-                                               'Money'      => 'Money',
-                                               'Text'       => 'Memo',
-                                               'Date'       => 'Date',
-                                               'Boolean'    => 'Yes/No',
-                                               );
+    public static $customDataType = array(
+                                          ''           => '-select-',
+                                          'String'     => 'Text',
+                                          'Int'        => 'Integer',
+                                          'Float'      => 'Decimal Number',
+                                          'Money'      => 'Money',
+                                          'Text'       => 'Memo',
+                                          'Date'       => 'Date',
+                                          'Boolean'    => 'Yes/No',
+                                          );
     
     /**
      * Custom form field types
      * @var array
      * @static
      */
-    public static $htmlType = array(
-                                               ''                        => '-select-',
-                                               'Text'                    => 'Single-line input field (text or numeric)',
-                                               'TextArea'                => 'Multi-line text box (textarea)',
-                                               'Select'                  => 'Drop-down (select list)',
-                                               'Radio'                   => 'Radio buttons',
-                                               'Checkbox'                => 'Checkbox(es)',
-                                               'Select Date'             => 'Date selector',
-                                               'Select State / Province' => 'State / Province selector',
-                                               'Select Country'          => 'Country selector',
-                                               );
+    public static $customHtmlType = array(
+                                          ''                        => '-select-',
+                                          'Text'                    => 'Single-line input field (text or numeric)',
+                                          'TextArea'                => 'Multi-line text box (textarea)',
+                                          'Select'                  => 'Drop-down (select list)',
+                                          'Radio'                   => 'Radio buttons',
+                                          'Checkbox'                => 'Checkbox(es)',
+                                          'Select Date'             => 'Date selector',
+                                          'Select State / Province' => 'State / Province selector',
+                                          'Select Country'          => 'Country selector',
+                                          );
     
     
     /**
@@ -182,14 +182,14 @@ class CRM_Core_SelectValues {
      * @var array
      * @static
      */
-    public static $extPropertyGroupExtends = array(
-                                                   'Contact'      => 'Contact',
-                                                   'Individual'   => 'Individual',
-                                                   'Household'    => 'Household',
-                                                   'Organization' => 'Organization',
-                                                   'Location'     => 'Location',
-                                                   'Address'      => 'Address',
-                                                   );
+    public static $customGroupExtends = array(
+                                              'Contact'      => 'Contact',
+                                              'Individual'   => 'Individual',
+                                              'Household'    => 'Household',
+                                              'Organization' => 'Organization',
+                                              'Location'     => 'Location',
+                                              'Address'      => 'Address',
+                                              );
 
     /**
      * the status of a contact within a group

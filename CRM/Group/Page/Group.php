@@ -82,8 +82,12 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
         return 'Delete Group';
     }
 
-    function UserContext( ) {
+    function userContext( $mode = null ) {
         return 'civicrm/group';
+    }
+
+    function userContextParams( $mode = null ) {
+        return 'reset=1&action=browse';
     }
 
 }

@@ -74,18 +74,22 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     /**
      * userContext to pop back to
      *
-     * @return string
-     * @access public
-     */
-    abstract function userContext( );
-
-    /**
-     * function to get userContext params
+     * @param int $mode mode that we are in
      *
      * @return string
      * @access public
      */
-    function userContextParams( ) {
+    abstract function userContext( $mode = null );
+
+    /**
+     * function to get userContext params
+     *
+     * @param int $mode mode that we are in
+     *
+     * @return string
+     * @access public
+     */
+    function userContextParams( $mode = null ) {
         return 'reset=1&action=browse';
     }
 
@@ -123,7 +127,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         if ( $action & (CRM_Core_Action::VIEW | CRM_Core_Action::ADD | CRM_Core_Action::UPDATE) ) {
             $this->edit($action, $id );
         } else if ( $action & CRM_Core_Action::DELETE ) {
-            $this->delete($id );
+            $this->delete($action, $id );
         } else if ( $action & CRM_Core_Action::DISABLE ) {
             eval( $this->getBAOName( ) . "::setIsActive( $id, 0 );" );
         } else if ( $action & CRM_Core_Action::ENABLE ) {
@@ -212,7 +216,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
        // set the userContext stack
         $session = CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url( $this->userContext( ), $this->userContextParams( ) ) );
+        $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) ) );
         
         $controller->reset( );
         if ( $id ) {
@@ -226,13 +230,14 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     }
 
 
-    function delete( $id = null )
+    function delete( $mode, $id = null )
     {
-        $controller = new CRM_Core_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), CRM_Core_Form::MODE_DELETE );
+        $controller = new CRM_Core_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), $mode );
 
         // set the userContext stack
         $session = CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url( $this->userContext( ), $this->userContextParams( ) ) );
+        $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ),
+                                                          $this->userContextParams( $mode ) ) );
 
         $controller->reset( );
         if ( $id ) {

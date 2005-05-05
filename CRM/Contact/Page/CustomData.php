@@ -57,7 +57,7 @@ class CRM_Contact_Page_CustomData {
         //$contactType = CRM_Contact_BAO_Contact::getContactType($page->getContactId());
 
         // get groups, fields for contact type & id
-        //$customData = CRM_Core_BAO_ExtProperty_Group::getCustomData($page->getContactID());
+        //$customData = CRM_Core_BAO_CustomGroup::getCustomData($page->getContactID());
     }
 
     static function browse( $page )

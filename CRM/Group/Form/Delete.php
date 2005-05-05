@@ -76,7 +76,7 @@ class CRM_Group_Form_Delete extends CRM_Core_Form {
         $this->_id    = $this->get( 'id' );
 
         $defaults = array( );
-        $params   = array( );
+        $params   = array( 'id' => $this->_id );
         CRM_Contact_BAO_Group::retrieve( $params, $defaults );
 
         $this->_title = $defaults['title'];

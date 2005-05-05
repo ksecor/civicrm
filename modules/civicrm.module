@@ -447,7 +447,7 @@ function civicrm_invoke()
     // browse groups
     if (arg(1) == 'group') {
         if ( arg(2) == 'add' ) {
-            $controller = new CRM_Group_Controller( 'Groups', CRM_Core_Form::MODE_BASIC );
+            $controller = new CRM_Group_Controller( 'Groups', CRM_Core_Form::MODE_ADD );
             $session->pushUserContext( CRM_Utils_System::url( 'civicrm/group', 'reset=1&action=browse' ) );
             $controller->run( );
         } else if ( arg(2) == 'search' ) {
