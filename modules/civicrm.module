@@ -340,6 +340,12 @@ function civicrm_menu($may_cache)
                          'type'   => MENU_CALLBACK,
                          );
         
+        $items[] = array(
+                         'path'  => 'civicrm/group/add',
+                         'title' => t('Create New Group'),
+                         'type'   => MENU_CALLBACK,
+                         );
+        
        $items[] = array(
                          'path'   => 'civicrm/import',
                          'title'  => t('Import Contacts'),

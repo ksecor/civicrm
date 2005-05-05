@@ -10,18 +10,12 @@
  {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
  {include file="CRM/WizardHeader.tpl}
  
- <div id="upload-file">
+ <div id="upload-file" class="form-item">
  <fieldset><legend>Upload Data File</legend>
-    <div class="form-item">
-        <span class="labels">{$form.uploadFile.label}</span>
-        <span class="fields">
-            {$form.uploadFile.html}
-        </span>
-    </div>
-    <div class="form-item">
-        {$form.skipColumnHeader.html}
-        {$form.skipColumnHeader.label}
-    </div>
+    <dl>
+       <dt>{$form.uploadFile.label}</dt><dd>{$form.uploadFile.html}</dd>
+       <dt></dt><dd>{$form.skipColumnHeader.html} {$form.skipColumnHeader.label}</dd>
+    </dl>
  </fieldset>
  </div>
  <div id="crm-submit-buttons">

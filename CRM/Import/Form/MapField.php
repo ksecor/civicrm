@@ -98,13 +98,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $this->setDefaults( $this->_defaults );
 
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => 'Continue',
-                                         'isDefault' => true   ),
                                  array ( 'type'      => 'back',
-                                         'name'      => 'Previous' ),
-                                 array ( 'type'      => 'reset',
-                                         'name'      => 'Reset'),
+                                         'name'      => '<< Previous' ),
+                                 array ( 'type'      => 'next',
+                                         'name'      => 'Continue >>',
+                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                         'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => 'Cancel' ),
                                  )

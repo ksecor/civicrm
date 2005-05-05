@@ -41,7 +41,7 @@
  </div>
     
  {* Summary of Import Results (record counts) *}
- <table id="summary-counts" class="report>
+ <table id="summary-counts" class="report">
     <tr><td class="label">Total Rows</td>
         <td class="data">{$totalRowCount}</td>
         <td class="explanation">Total rows (contact records) in uploaded file.</td>

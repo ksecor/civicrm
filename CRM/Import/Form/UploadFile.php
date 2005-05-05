@@ -52,7 +52,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->addElement( 'file', 'uploadFile', 'Import Contact Information from File', 'size=30 maxlength=60' );
+        $this->addElement( 'file', 'uploadFile', 'Import Data File', 'size=30 maxlength=60' );
 
         $this->addRule( 'uploadFile', 'File size should be less than 1 MByte', 'maxfilesize', 1024 * 1024 );
         $this->setMaxFileSize( 1024 * 1024 );
@@ -62,10 +62,9 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
 
         $this->addButtons( array(
                                  array ( 'type'      => 'upload',
-                                         'name'      => 'Continue',
+                                         'name'      => 'Continue >>',
+                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'reset',
-                                         'name'      => 'Reset'),
                                  array ( 'type'      => 'cancel',
                                          'name'      => 'Cancel' ),
                                  )

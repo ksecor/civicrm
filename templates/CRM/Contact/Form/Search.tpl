@@ -3,11 +3,26 @@
 {if $context EQ 'smog'}
     <div id="help">
         The current members of {$group.title} are displayed below. Use the Find box below to
-        search for specific members. Click 'Add Members' if you want to find more contacts
+        search for specific members. Click 'Add Members...' to find more contacts
         and add them to this group.
     </div>
     <div class="form-item">
         <a href="{crmURL q="context=amtg&gid=`$group.id`&reset=1"}">Add Members to {$group.title}</a>
+    </div>
+{/if}
+{if $context EQ 'amtg'}
+    <div id="help">
+        <p>
+        Use the Search form to find contacts to add to {$group.title}. Mark the
+        contacts you want to add and click 'Perform Action' to add them.
+        </p>
+        <p>
+        You may repeat this search -> select -> add to group cycle as many times as necessary.
+        Click 'Done' when you are finished.
+        </p>
+    </div>
+    <div class="form-item">
+        <a href="{crmURL q="context=smog&gid=`$group.id`&reset=1"}">Done</a>
     </div>
 {/if}
 <form {$form.attributes}>
@@ -17,6 +32,7 @@
 {* Begin Browse Criteria section *}
 <fieldset>
  {if $context EQ 'smog'}<legend>Find Contacts within this Group</legend>{/if}
+ {if $context EQ 'amtg'}<legend>Find Contacts to Add to this Group</legend>{/if}
  <div class="form-item">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
      {* if $context NEQ 'smog' *}

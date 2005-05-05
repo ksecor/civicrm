@@ -142,7 +142,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->assign_by_ref( 'group', $groupValues );
             
             // Set dynamic page title for 'Show Members of Group'
-            CRM_Utils_System::setTitle( 'Members of ' . $group[$this->_groupId] );
+            CRM_Utils_System::setTitle( 'Group Members: ' . $group[$this->_groupId] );
         }
 
         // add select for categories
@@ -156,6 +156,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $tasks = array( '' => '- more actions -' ) + CRM_Contact_Task::$tasks;
         $actionElement = $this->add('select', 'task'   , 'Actions: '    , $tasks    );
         if ( $this->_context === 'amtg' ) {
+            // Set dynamic page title for 'Add Members Group'
+            CRM_Utils_System::setTitle( 'Add Members: ' . $group[$this->_groupId] );
+            // also set the group title and freeze the action task with Add Members to Group
+            $groupValues = array( 'id' => $this->_groupId, 'title' => $group[$this->_groupId] );
+            $this->assign_by_ref( 'group', $groupValues );
             $actionElement->freeze( );
         }
 

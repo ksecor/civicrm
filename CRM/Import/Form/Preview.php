@@ -121,13 +121,12 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      */
     public function buildQuickForm( ) {
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => 'Import Now',
-                                         'isDefault' => true   ),
                                  array ( 'type'      => 'back',
-                                         'name'      => 'Previous' ),
-                                 array ( 'type'      => 'reset',
-                                         'name'      => 'Reset'),
+                                         'name'      => '<< Previous' ),
+                                 array ( 'type'      => 'next',
+                                         'name'      => 'Import Now >>',
+                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                         'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => 'Cancel' ),
                                  )

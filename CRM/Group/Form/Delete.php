@@ -82,6 +82,7 @@ class CRM_Group_Form_Delete extends CRM_Core_Form {
         $this->_title = $defaults['title'];
         $this->assign( 'name' , $this->_title );
         $this->assign( 'count', CRM_Contact_BAO_Group::memberCount( $this->_id ) );
+        CRM_Utils_System::setTitle( 'Confirm Group Delete' );
     }
 
     /**

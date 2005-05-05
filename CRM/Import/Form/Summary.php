@@ -69,12 +69,6 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
                                  array ( 'type'      => 'next',
                                          'name'      => 'Done',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'back',
-                                         'name'      => 'Previous' ),
-                                 array ( 'type'      => 'reset',
-                                         'name'      => 'Reset'),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => 'Cancel' ),
                                  )
                            );
     }

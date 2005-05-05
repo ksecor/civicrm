@@ -64,11 +64,11 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
         }
         */
         
-        $this->add('text', 'name_a_b'       , 'Relationship Label for A to B'       ,
+        $this->add('text', 'name_a_b'       , 'Relationship Label-A to B'       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'name_a_b' ) );
         $this->addRule( 'name_a_b', 'Please enter a valid Relationship Label for A to B.', 'required' );
 
-        $this->add('text', 'name_b_a'       , 'Relationship Label for B to A'       ,
+        $this->add('text', 'name_b_a'       , 'Relationship Label-B to A'       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'name_b_a' ) );
       
         // add select for contact type

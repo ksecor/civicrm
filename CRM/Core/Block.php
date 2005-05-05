@@ -134,7 +134,7 @@ class CRM_Core_Block {
                                    array( 'path'  => 'civicrm/contact/addH',
                                           'qs'    => 'c_type=Household&reset=1',
                                           'title' => 'New Household' ),
-                                   array( 'path'  => 'civicrm/groups/add',
+                                   array( 'path'  => 'civicrm/group/add',
                                           'qs'    => 'reset=1',
                                           'title' => 'New Group' ) );
 

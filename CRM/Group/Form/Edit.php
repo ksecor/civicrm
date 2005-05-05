@@ -68,8 +68,8 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
     function preProcess( ) {
         $this->_id    = $this->get( 'id' );
     }
-
-    /**
+    
+    /*
      * This function sets the default values for the form. LocationType that in edit/view mode
      * the default values are retrieved from the database
      *
@@ -84,7 +84,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $params = array( 'id' => $this->_id );
             CRM_Contact_BAO_Group::retrieve( $params, $defaults );
         }
-
         return $defaults;
     }
 
@@ -105,7 +104,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Save',
+                                         'name'      => ( $this->_mode == CRM_Core_Form::MODE_ADD ) ? 'Continue' : 'Save',
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
                                          'name'      => 'Cancel' ),
