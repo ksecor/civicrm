@@ -419,9 +419,9 @@ function civicrm_admin_invoke()
             // handle external properties
             if ( arg(3) == 'group' ) {
                 if ( arg(4) != 'field' ) {	
-                    $view = new CRM_Custom_Page_Group( 'Page_Group', 'Extended Property Group' );
+                    $view = new CRM_Custom_Page_Group( 'Extended Property Group' );
                 } else {
-                    $view = new CRM_Custom_Page_Field( 'Page_Field', 'Extended Property Field' );
+                    $view = new CRM_Custom_Page_Field( 'Extended Property Field' );
                 }
             }
         } else {
@@ -602,7 +602,7 @@ function civicrm_search()
         $controller->run( );
     } else if (arg(3) == 'saved' && arg(4) == 'browse') {
         // browse saved searches
-        $savedSearchPage = new CRM_Contact_Page_SavedSearch('Browse Saved Search', '', CRM_Contact_Page_View::MODE_NONE);
+        $savedSearchPage = new CRM_Contact_Page_SavedSearch('', CRM_Contact_Page_View::MODE_NONE);
         $savedSearchPage->run();
     } else {
         // basic search
