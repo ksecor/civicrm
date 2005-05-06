@@ -13,7 +13,7 @@
 {if $context EQ 'amtg'}
     <div id="help">
         Use the Search form to find contacts to add to {$group.title}. Mark the
-        contacts you want to add and click 'Perform Action'.
+        contacts you want to add and click 'Add Contacts...' buttons.
     </div>
 {/if}
 <form {$form.attributes}>
@@ -82,7 +82,7 @@
        <span>
          {* Hide export and print buttons in 'Add Members to Group' context. *}
          {if $context NEQ 'amtg'}
-            {$form._qf_Search_refresh_export.html} &nbsp; &nbsp; &nbsp;
+            {$form._qf_Search_next_print.html} &nbsp; {$form._qf_Search_refresh_export.html} &nbsp; &nbsp; &nbsp;
             {$form.task.html}
          {/if}
   	     {$form._qf_Search_next_action.html}

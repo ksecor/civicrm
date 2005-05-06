@@ -99,7 +99,7 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             break;
 
         default:
-            $task = 'CRM_Contact_Form_Task';
+            $task = 'CRM_Contact_Form_Task_Print';
             break;
         }
 

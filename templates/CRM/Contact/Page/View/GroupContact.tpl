@@ -7,8 +7,7 @@
   	{if $groupIn }
         
 	<div class="form-item">
-        <div class="font-size12pt label">Current Group Memberships</div> 
-	<div><label>{$displayName} is currently a member of these groups:</label></div>
+	<div><label>Current Group Memberships</label></div>
 	
 	<div>
 	{strip}

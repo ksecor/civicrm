@@ -5,7 +5,7 @@
     <table>
         <tr class="columnheader">
             {section name=rows loop=$rowDisplayCount}
-		{if $skipColumnHeader }
+		    {if $skipColumnHeader }
                    { if $smarty.section.rows.iteration == 1 }
                      <th>Column Headers</th>
                    {else}
@@ -26,7 +26,7 @@
                          
                 {section name=rows loop=$rowDisplayCount}
                     {assign var="j" value=$smarty.section.rows.index}
-                    <td class="odd-row">{$dataValues[$j][$i]}</td>
+                    <td class="{if $skipColumnHeader AND $smarty.section.rows.iteration == 1}even-row labels{else}odd-row{/if}">{$dataValues[$j][$i]}</td>
                 {/section}
 
                 {* Display mapper <select> field for 'Map Fields', and mapper value for 'Preview' *}

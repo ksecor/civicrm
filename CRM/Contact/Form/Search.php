@@ -153,8 +153,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         // add select for categories
-        $category = array('any' => ' - any category - ') + CRM_Core_PseudoConstant::category( );
-        $this->add('select', 'category', 'Category', $category);
+        $category = array('any' => ' - any tag - ') + CRM_Core_PseudoConstant::category( );
+        $this->add('select', 'category', 'Tagged', $category);
 
         // text for sort_name
         $this->add('text', 'sort_name', 'Name:', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
@@ -198,13 +198,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         $this->add('submit', $this->_searchButtonName, 'Search', array( 'class' => 'form-submit' ) );
         $this->add('submit', $this->_exportButtonName, 'Export', array( 'class' => 'form-submit' ) );
+        $this->add('submit', $this->_printButtonName, 'Print', array( 'class' => 'form-submit' ) );
         $this->setDefaultAction( 'refresh' );
 
         /*
          * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
          *
          */
-        $this->add('submit', $this->_actionButtonName, ( $this->_context == 'amtg' ) ? 'Add Contacts to this Group' : 'Go',
+        $this->add('submit', $this->_actionButtonName, ( $this->_context == 'amtg' ) ? 'Add Contacts to ' . $group[$this->_amtgID] : 'Go',
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."');" ) );
     }
@@ -269,6 +270,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          */
         $this->_searchButtonName = $this->getButtonName( 'refresh', 'search' );
         $this->_exportButtonName = $this->getButtonName( 'refresh', 'export' );
+        $this->_printButtonName = $this->getButtonName( 'next'    , 'print' );
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' );
 
         /*
@@ -340,7 +342,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $session->set('fv', $fv, self::SESSION_SCOPE_SEARCH);
 
         $buttonName = $this->controller->getButtonName( );
-        if ( $buttonName == $this->_actionButtonName ) {
+        if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {
             // check actionName and if next, then do not repeat a search, since we are going to the next page
             return;
         } else {

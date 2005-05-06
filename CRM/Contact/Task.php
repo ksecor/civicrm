@@ -49,7 +49,6 @@ class CRM_Contact_Task {
                            1  => 'Add Contacts to a Group',
                            2  => 'Tag Contacts (assign category)',
                            4  => 'Delete Contacts',
-                           8  => 'Print Contact List',
                            16 => 'New Saved Search',
                           );
 

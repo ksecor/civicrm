@@ -132,7 +132,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
 
         if ( $this->_context == 'amtg' ) {
             $session = CRM_Core_Session::singleton( );
-            $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1&context=amtg&amtgID=' . $groupId ) );
+            $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&context=amtg&amtgID=' . $groupId ) );
         }
 
     }//end of function

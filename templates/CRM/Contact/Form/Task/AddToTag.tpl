@@ -2,20 +2,16 @@
 
 {include file="CRM/formCommon.tpl"}
 
+<div class="form-item">
 <fieldset>
 <legend>
-Select Tag
+Tag Contact(s)
 </legend>
-
-<div class="form-item">
-{$form.category_id.label} {$form.category_id.html}
-</div>
-
-{include file="CRM/Contact/Form/Task.tpl"}
-
-<div class="form-item">
-     <span class="element-right">{$form.buttons.html}</span>
-</div>
+<dl>
+<dt>{$form.category_id.label}</dt><dd>{$form.category_id.html}</dd>
+<dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
+<dt></dt><dd>{$form.buttons.html}</dd>
 </fieldset>
+</div>
 
 </form>

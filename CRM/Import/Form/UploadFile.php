@@ -62,7 +62,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'uploadFile', 'Input file must be either CSV or XML format', 'asciiFile' );
 
-        $this->addElement( 'checkbox', 'skipColumnHeader', 'Does the file have a column header row?' );
+        $this->addElement( 'checkbox', 'skipColumnHeader', 'First row contains column headers' );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'upload',

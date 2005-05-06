@@ -1,6 +1,5 @@
-<div class="form-item">
-Total selected contacts are {$totalSelectedContacts}.
-</div>
+Number of selected contacts: {$totalSelectedContacts}
+
 {if $rows } 
 <div class="form-item">
 <table width="30%">

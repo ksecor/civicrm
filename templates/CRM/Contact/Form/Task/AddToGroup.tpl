@@ -4,9 +4,9 @@
 
 <div class="form-item">
 <fieldset>
-    <legend>{if $group.id}Confirm{else}Choose{/if} Group</legend>
+    <legend>Add Members</legend>
     <dl>
-        <dt>{$form.group_id.label}</dt><dd>{$form.group_id.html}</dd>
+        <dt>{if $group.id}Group{else}{$form.group_id.label}{/if}</dt><dd>{$form.group_id.html}</dd>
         <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
