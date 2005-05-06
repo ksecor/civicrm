@@ -35,12 +35,6 @@ require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_GroupContact {
 
-    /**
-     * class constructor
-     */
-    function __construct( ) {
-    }
-
     static function view( $page, $groupId ) {
         /*
         $groupContact = new CRM_Contact_DAO_GroupContact( );

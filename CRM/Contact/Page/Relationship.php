@@ -35,12 +35,6 @@ require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_Relationship {
 
-    /**
-     * class constructor
-     */
-    function __construct( ) {
-    }
-
     static function view( $page, $relationshipId ) {
         $relationship = new CRM_Contact_DAO_Relationship( );
 

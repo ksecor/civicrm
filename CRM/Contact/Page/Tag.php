@@ -34,13 +34,6 @@
 require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_Tag {
-
-    /**
-     * class constructor
-     */
-    function __construct( ) {
-    }
-
     static function browse( $page ) {
         $controller = new CRM_Core_Controller_Simple( 'CRM_Tag_Form_Tag', 'Contact Tags', $mode );
         

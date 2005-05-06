@@ -42,18 +42,6 @@ require_once 'CRM/Core/Page.php';
  */
 
 class CRM_Contact_Page_Task extends CRM_Core_Page {
-    /**
-     * class constructor
-     *
-     * @param string $name  name of the page
-     * @param string $title title of the page
-     * @param int    $mode  mode of the page
-     *
-     * @return CRM_Core_Page
-     */
-    function __construct( $name, $title = null, $mode = null ) {
-        parent::__construct($name, $title, $mode);
-    }
 
     function run() {
         return parent::run();

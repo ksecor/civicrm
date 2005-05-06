@@ -49,6 +49,13 @@ require_once 'CRM/Core/StateMachine.php';
 class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
     /**
+     * the title associated with this controller
+     *
+     * @var object
+     */
+    protected $_title;
+
+    /**
      * the state machine associated with this controller
      *
      * @var object
@@ -89,7 +96,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     /**
      * All CRM single or multi page pages should inherit from this class. 
      *
-     * @param string  name of the controller
+     * @param string  descriptive title of the controller
      * @param boolean whether controller is modal
      *
      * @access public
@@ -97,8 +104,10 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      * @return void
      *
      */
-    function __construct( $name, $modal ) {
-        $this->HTML_QuickForm_Controller( $name, $modal );
+    function __construct( $title = null, $modal = true ) {
+        $this->HTML_QuickForm_Controller( get_class( $this ), $modal );
+
+        $this->_title = $title;
 
         // let the constructor initialize this, should happen only once
         if ( ! isset( self::$_template ) ) {

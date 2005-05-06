@@ -41,14 +41,16 @@
  */
 class CRM_Core_Page {
     /**
-     * The name of the page
+     * The name of the page (auto generated from class name)
+     *
      * @var string
      */
     protected $_name;
 
     /**
-     * The title of the page used in any display
-     * @var string
+     * the title associated with this page
+     *
+     * @var object
      */
     protected $_title;
 
@@ -93,14 +95,13 @@ class CRM_Core_Page {
     /**
      * class constructor
      *
-     * @param string $name  name of the page
      * @param string $title title of the page
      * @param int    $mode  mode of the page
      *
      * @return CRM_Core_Page
      */
-    function __construct( $name, $title = null, $mode = null ) {
-        $this->_name  = $name;
+    function __construct( $title = null, $mode = null ) {
+        $this->_name  = get_class( $this );
         $this->_title = $title;
         $this->_mode  = $mode;
         

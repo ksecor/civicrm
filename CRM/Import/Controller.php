@@ -38,8 +38,8 @@ class CRM_Import_Controller extends CRM_Core_Controller {
     /**
      * class constructor
      */
-    function __construct( $name, $mode = CRM_Core_Form::MODE_NONE, $modal = true ) {
-        parent::__construct( $name, $modal );
+    function __construct( $title = null, $mode = CRM_Core_Form::MODE_NONE, $modal = true ) {
+        parent::__construct( $title, $modal );
 
         $this->_stateMachine = new CRM_Import_StateMachine( $this, $mode );
 

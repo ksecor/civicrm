@@ -43,19 +43,6 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
      */
     const MODE_NONE = 0;
 
-    /**
-     * class constructor
-     *
-     * @param string $name  name of the page
-     * @param string $title title of the page
-     * @param int    $mode  mode of the page
-     *
-     * @return CRM_Core_Page
-     */
-    function __construct( $name, $title = null, $mode = null ) {
-        parent::__construct($name, $title, $mode);
-    }
-
     function run() {
         if ($this->_mode == self::MODE_NONE) {
             $this->runModeNone();

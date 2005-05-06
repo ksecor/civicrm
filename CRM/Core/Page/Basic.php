@@ -108,14 +108,13 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     /**
      * class constructor
      *
-     * @param string $name  name of the page
      * @param string $title title of the page
      * @param int    $mode  mode of the page
      *
      * @return CRM_Core_Page
      */
-    function __construct( $name, $title = null, $mode = null ) {
-        parent::__construct($name, $title, $mode);
+    function __construct( $title = null, $mode = null ) {
+        parent::__construct($title, $mode);
     }
 
     function run( ) {

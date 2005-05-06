@@ -36,14 +36,6 @@ require_once 'CRM/Core/Page.php';
 class CRM_Contact_Page_CustomData {
 
     /**
-     * class constructor
-     */
-    function __construct()
-    {
-    }
-
-
-    /**
      * View custom data.
      *
      * @access public

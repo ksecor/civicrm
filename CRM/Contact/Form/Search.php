@@ -47,7 +47,7 @@ require_once 'CRM/Contact/Selector.php';
 class CRM_Contact_Form_Search extends CRM_Core_Form {
 
     const
-        SESSION_SCOPE_SEARCH   = 'search';
+        SESSION_SCOPE_SEARCH   = 'CRM Shared Search';
 
     static $_validContext = array(
                                   'search' => 'Search',

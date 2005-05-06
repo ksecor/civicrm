@@ -54,19 +54,6 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
      */
     protected $_contactId;
 
-    /**
-     * class constructor
-     *
-     * @param string $name  name of the page
-     * @param string $title title of the page
-     * @param int    $mode  mode of the page
-     *
-     * @return CRM_Core_Page
-     */
-    function __construct( $name, $title = null, $mode = null ) {
-        parent::__construct($name, $title, $mode);
-    }
-
     function run( ) {
 
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $this, true );

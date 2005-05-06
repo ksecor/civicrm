@@ -35,12 +35,6 @@ require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_Note {
 
-    /**
-     * class constructor
-     */
-    function __construct( ) {
-    }
-
     static function view( $page, $noteId ) {
         $note = new CRM_Core_DAO_Note( );
         $note->id = $noteId;

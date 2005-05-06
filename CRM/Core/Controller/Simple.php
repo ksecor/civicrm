@@ -44,15 +44,15 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
      * constructor
      *
      * @param string path   the class Path of the form being implemented
-     * @param string name   the descriptive name for the page
+     * @param string title  the descriptive name for the page
      * @param int    mode   the mode that the form will operate on
      *
      * @return object
      * @access public
      */
-    function __construct($path, $name, $mode) {
+    function __construct($path, $title, $mode) {
         // by definition a single page is modal :)
-        parent::__construct( $name, true );
+        parent::__construct( $title, true );
 
         $this->_stateMachine = new CRM_Core_StateMachine( $this );
 
