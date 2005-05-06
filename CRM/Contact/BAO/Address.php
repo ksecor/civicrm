@@ -81,17 +81,25 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      * @static
      */
     static function dataExists( &$params, $locationId ) {
+
         // return if no data present
+
         if ( ! array_key_exists( 'address' , $params['location'][$locationId] ) ) {
             return false;
         }
 
         foreach ( $params['location'][$locationId]['address'] as $name => $value ) {
-            if ( ! empty( $value ) ) {
+            /*if ( ! empty( $value ) ) {
                 return true;
+            }*/
+            if ($name == 'street_address') {
+                if ( !empty( $value ) ) {
+                    return true;
+                }
             }
+            
         }
-
+        
         return false;
     }
 
