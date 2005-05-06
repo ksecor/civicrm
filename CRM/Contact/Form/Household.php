@@ -52,7 +52,7 @@ class CRM_Contact_Form_Household {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Household');
         
         // household_name
-        $this->add('text', 'household_name', 'Household Name:', $attributes['household_name'], true);
+        $this->add('text', 'household_name', 'Household Name:', $attributes['household_name']);
         
         // nick_name
         $this->addElement('text', 'nick_name',"Nick Name:", $attributes['nick_name']);
@@ -60,8 +60,13 @@ class CRM_Contact_Form_Household {
 
     static function formRule( &$fields ) {
         $errors = array( );
-        
+
         $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
+
+        // make sure that household name is set
+        if (! CRM_Utils_Array::value( 'household_name', $fields ) ) {
+            $errors['household_name'] = 'Household Name should be set.';
+        }
 
         return empty( $errors ) ? true : $errors;
     }

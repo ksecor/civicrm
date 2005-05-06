@@ -47,7 +47,7 @@ class CRM_Core_SelectValues {
                                       'Ms'  => 'Ms.',
                                       'Mr'  => 'Mr.',
                                       'Dr'   => 'Dr.',
-                                      'none' => '(none)',
+                                      ' ' => '(none)',
                                       );
 
     /**
@@ -60,7 +60,7 @@ class CRM_Core_SelectValues {
                                       'Jr'  => 'Jr.',
                                       'Sr'  => 'Sr.',
                                       'II'   =>'II',
-                                      'none' => '(none)',
+                                      ' ' => '(none)',
                                       );
 
     /**

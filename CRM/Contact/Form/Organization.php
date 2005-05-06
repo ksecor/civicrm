@@ -53,7 +53,7 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Organization');
         
         // Organization_name
-        $this->add('text', 'organization_name', 'Organization Name:', $attributes['organization_name'], true);
+        $this->add('text', 'organization_name', 'Organization Name:', $attributes['organization_name']);
         
         // legal_name
         $this->addElement('text', 'legal_name', 'Legal Name:', $attributes['legal_name']);
@@ -70,6 +70,11 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         
         $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
         
+        // make sure that organization name is set
+        if (! CRM_Utils_Array::value( 'organization_name', $fields ) ) {
+            $errors['organization_name'] = 'Organization Name should be set.';
+        }
+
         // add code to make sure that the uniqueness criteria is satisfied
         return empty( $errors ) ? true : $errors;
     }
