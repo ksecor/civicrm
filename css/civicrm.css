@@ -171,6 +171,8 @@ div.spacer {
 #crm-container table {
   margin: .5em 0em .5em;
   width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #000000;
 }
 
 #crm-container #map-field table, #crm-container table.report  {
@@ -184,6 +186,8 @@ div.spacer {
 #crm-container td {
   padding: 4px;
   vertical-align: top;
+  border-collapse: collapse;
+  border-top: 1px solid #000000;
 }
 
 #crm-container .nowrap {
@@ -214,12 +218,10 @@ div.spacer {
 }
 
 #crm-container .odd-row {
-  border: 0.5px solid #000000;
   background-color: #FAFAF8;
 }
 
 #crm-container .even-row {
-  border: 0.5px solid #000000;
   background-color: #EAEAEA;
 }
 
