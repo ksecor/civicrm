@@ -100,7 +100,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             $displayName = $defaults['sort_name'];
         }
         $this->set( 'displayName', $displayName );
-        
+
         if ( $this->_mode == self::MODE_NONE ) {
             $this->assign( $defaults );
         }

@@ -35,13 +35,24 @@ require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_Relationship {
 
-    static function view( $page, $relationshipId ) {
+    /**
+     * View details of a relationship
+     *
+     * @access public
+     *
+     * @param object $page - the view page
+     * @param int $relationshipId - which relationship do we want to view ?
+     *
+     * @return none
+     *
+     * @static
+     *
+     */
+    static function view($page, $relationshipId)
+    {
         $relationship = new CRM_Contact_DAO_Relationship( );
-
         self::browse( $page, $relationshipId );
-        
         $relationshipId = 0;
-        self::browse( $page );
     }
 
     static function browse( $page, $relationshipId = 0 ) {

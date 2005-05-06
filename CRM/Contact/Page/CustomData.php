@@ -39,17 +39,38 @@ class CRM_Contact_Page_CustomData {
      * View custom data.
      *
      * @access public
-     * @param object $page - the view page
-     * @static
      *
+     * @param object $page - the view page
+     *
+     * @return none
+     *
+     * @static
      */
     static function view($page)
     {
-        // get contact_type
-        //$contactType = CRM_Contact_BAO_Contact::getContactType($page->getContactId());
+
+        CRM_Core_Error::le_method();
+
+        // get contact
+        $params   = array();
+        $defaults = array();
+        $ids      = array();
+
+        $params['id'] = $this->_contactId;
+        $contact = CRM_Contact_BAO_Contact::retrieve($params, $defaults, $ids);
+
+        CRM_Core_Error::debug_var('params', $params);
+        CRM_Core_Error::debug_var('defaults', $defaults);
+        CRM_Core_Error::debug_var('ids', $ids);
+
+        //CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
+
+        // $contactType = CRM_Contact_BAO_Contact::getContactType($page->getContactId());
 
         // get groups, fields for contact type & id
         //$customData = CRM_Core_BAO_CustomGroup::getCustomData($page->getContactID());
+
+        CRM_Core_Error::ll_method();
     }
 
     static function browse( $page )
@@ -98,6 +119,9 @@ class CRM_Contact_Page_CustomData {
      */
     static function run($page)
     {
+
+        CRM_Core_Error::le_method();
+
         // get the contact id & requested action
         $contactId = $page->getContactId();
         $action = CRM_Utils_Request::retrieve('action', $page, false, 'browse'); // default to 'browse'
@@ -114,6 +138,8 @@ class CRM_Contact_Page_CustomData {
             self::edit($page, $action, $contactId);
         }
         self::browse($page);
+
+        CRM_Core_Error::ll_method();
     }
 }
 
