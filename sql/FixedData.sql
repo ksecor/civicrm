@@ -417,3 +417,30 @@ INSERT INTO crm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
     (1, 'voting_precinct', 'Voting Precinct', 'Int', 'Text', 0, 4, 'Precinct number - if available.', 1);
+
+
+-- Custom data for educational qualifications
+INSERT INTO crm_custom_group
+    (domain_id, name, title, extends, style, help_pre, weight, is_active)
+VALUES
+    (1, 'education', 'Education Qualification', 'Individual', 'Tab', 'Please furnish educational history starting from high school', 1, 1);
+
+INSERT INTO crm_custom_field
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
+VALUES
+    (1, 'degree', 'Degree Obtained', 'String', 'Text', 1, 1, '', 1);
+
+INSERT INTO crm_custom_field
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
+VALUES
+    (1, 'school_college', 'School / College', 'String', 'Text', 0, 2, '', 1);
+    
+INSERT INTO crm_custom_field
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
+VALUES
+    (1, 'marks', 'Marks Obtained', 'String', 'Text', 0, 3, '', 1);
+    
+INSERT INTO crm_custom_field
+    (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
+VALUES
+    (1, 'date_of_degree', 'Degree date', 'Date', 'Select Date', 0, 4, '', 1);
