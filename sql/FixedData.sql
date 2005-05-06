@@ -428,19 +428,19 @@ VALUES
 INSERT INTO crm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
-    (1, 'degree', 'Degree Obtained', 'String', 'Text', 1, 1, '', 1);
+    (2, 'degree', 'Degree Obtained', 'String', 'Text', 1, 1, '', 1);
 
 INSERT INTO crm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
-    (1, 'school_college', 'School / College', 'String', 'Text', 0, 2, '', 1);
+    (2, 'school_college', 'School / College', 'String', 'Text', 0, 2, '', 1);
     
 INSERT INTO crm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
-    (1, 'marks', 'Marks Obtained', 'String', 'Text', 0, 3, '', 1);
+    (2, 'marks', 'Marks Obtained', 'String', 'Text', 0, 3, '', 1);
     
 INSERT INTO crm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
-    (1, 'date_of_degree', 'Degree date', 'Date', 'Select Date', 0, 4, '', 1);
+    (2, 'date_of_degree', 'Degree date', 'Date', 'Select Date', 0, 4, '', 1);

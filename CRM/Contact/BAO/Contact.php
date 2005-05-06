@@ -720,7 +720,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $tableData = array(
                            'crm_custom_value' => array('int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
                            'crm_custom_field' => array('custom_group_id', 'name', 'label', 'data_type', 'html_type', 'default_value', 
-                                                       'is_required', 'weight' )
+                                                       'is_required', 'weight'),
+                           'crm_custom_group' => array('title', 'weight'),
                            );
 
         // create select
@@ -732,12 +733,18 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
         $strSelect = rtrim($strSelect, ',');
 
-        $strFrom = " FROM crm_custom_value, crm_custom_field";
+        $strFrom = " FROM crm_custom_value, crm_custom_field, crm_custom_group";
 
-        $strWhere = " WHERE crm_custom_value.entity_id = $id AND crm_custom_value.custom_field_id = crm_custom_field.id";
+        $strWhere = " WHERE crm_custom_value.entity_id = $id AND
+                            crm_custom_value.custom_field_id = crm_custom_field.id AND
+                            crm_custom_field.custom_group_id = crm_custom_group.id";
+
+        $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
 
         // building the query string
-        $queryString = $strSelect . $strFrom . $strWhere;
+        $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
+
+        CRM_Core_Error::debug_var('queryString', $queryString);
 
         // dummy dao needed
         $crmDAO = new CRM_Core_DAO();
@@ -748,6 +755,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $valueArray = array();
             foreach ($tableData as $tableName => $tableColumn) {
                 foreach ($tableColumn as $columnName) {
+                    //$valueArray[$tableName ."." . $columnName] = $crmDAO->$columnName;
                     $valueArray[$columnName] = $crmDAO->$columnName;
                 }
             }

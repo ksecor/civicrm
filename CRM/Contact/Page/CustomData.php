@@ -54,7 +54,7 @@ class CRM_Contact_Page_CustomData {
         $customData = CRM_Contact_BAO_Contact::getCustomData($page->getContactId());
 
         self::_trimCustomData($customData);
-        
+
         $page->assign('customData', $customData);
 
         // $contactType = CRM_Contact_BAO_Contact::getContactType($page->getContactId());
@@ -144,6 +144,8 @@ class CRM_Contact_Page_CustomData {
     {
         CRM_Core_Error::le_method();
 
+        CRM_Core_Error::debug_var('customData', $customData);
+
         foreach($customData as $k => $v) {
             //CRM_Core_Error::debug_var('v', $v);
             switch ($v['data_type']) {
@@ -175,15 +177,8 @@ class CRM_Contact_Page_CustomData {
         }
 
         CRM_Core_Error::debug_var('customData', $customData);
+
         CRM_Core_Error::ll_method();
-        
-
     }
-
-
 }
-
-
-
-
 ?>
