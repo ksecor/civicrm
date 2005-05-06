@@ -36,7 +36,7 @@
      <span class="element-right">{$form._qf_Search_refresh_search.html}</span>
      <div class="description font-italic">
         <span class="horizontal-position">
-        Enter full or partial last name or organization name to further limit the contacts included below.
+        Full or partial name (last name, or first name, or organization name).
         </span>
      </div>
      <p>
@@ -55,7 +55,7 @@
             {if $context EQ 'smog'}
                 {$group.title} currently has no members. You can <a href="{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}">add members here.</a>
             {else}
-                No matching contacts found. You can:
+                No matches found. You can:
                 <ul>
                 <li>check your spelling
                 <li>try a different spelling or use fewer letters</li>

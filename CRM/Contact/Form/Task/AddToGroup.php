@@ -83,7 +83,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
         // add select for groups
-        $group = array( '' => ' - any group - ') + CRM_Core_PseudoConstant::group( );
+        $group = array( '' => ' - select group - ') + CRM_Core_PseudoConstant::group( );
         $groupElement = $this->add('select', 'group_id', 'Select Group', $group, true);
 
         if ( $this->_context === 'amtg' ) {
