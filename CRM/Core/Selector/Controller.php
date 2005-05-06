@@ -209,6 +209,7 @@ class CRM_Core_Selector_Controller {
         } else {
             $params['total'] = $this->_object->getTotalCount($action);
         }
+
         $this->_total = $params['total'];
         $this->_object->getPagerParams($action, $params);
 

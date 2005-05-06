@@ -456,10 +456,6 @@ class CRM_GCD {
         while($country->fetch()) {
             $this->country[] = $country->id;
         }
-        
-        //print_r($this->state);
-        //print_r($this->country);
-
     }
 
 
@@ -881,10 +877,11 @@ class CRM_GCD {
 
             $address->supplemental_address_1 = ucwords($this->_getRandomElement($this->supplemental_address_1));
             $address->city = ucwords($this->_getRandomElement($this->city));
-            $address->county_id = 1;
             $address->state_province_id = $this->_getRandomElement($this->state);
             $address->postal_code = mt_rand(400001, 499999);
             $address->country_id = $this->_getRandomElement($this->country);
+
+            $address->county_id = 1;
             $address->geo_coord_id = 1;
 
             $this->_insert($address);

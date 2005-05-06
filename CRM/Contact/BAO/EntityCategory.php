@@ -133,7 +133,7 @@ class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory
      * @param array  $contactIds (reference ) the array of contact ids to be added
      * @param int    $categoryId the id of the category
      *
-     * @return void
+     * @return array             (total, added, notAdded) count of contacts added to group
      * @access public
      * @static
      */
@@ -155,15 +155,7 @@ class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory
             }
         }
 
-        $status = 'Total Selected Contact(s): ' . count($contactIds) . '<br>';
-        if ($numContactsAdded) {
-            $status .= 'Total Contact(s) tagged: ' . $numContactsAdded . '<br>';
-        }
-        if ($numContactsNotAdded) {
-            $status .= 'Total Contact(s) already tagged: ' . $numContactsNotAdded . '<br>';
-        }
-        CRM_Core_Session::setStatus( $status );
-
+        return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
     }
 
 

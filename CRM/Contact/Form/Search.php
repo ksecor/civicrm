@@ -320,8 +320,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    function postProcess() 
-    {
+    function postProcess( ) {
         // get user submitted values
         $fv = $this->controller->exportValues($this->_name);
 

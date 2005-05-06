@@ -140,8 +140,13 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         /*
          * Add context to the session, in case we are adding members to the group
          */
-        $this->set( 'context', 'amtg' );
-        $this->set( 'amtgID' , $group->id );
+        if ($this->_mode & self::MODE_ADD ) {
+            $this->set( 'context', 'amtg' );
+            $this->set( 'amtgID' , $group->id );
+            
+            $session = CRM_Core_Session::singleton( );
+            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' . $group->id ) );
+        }
     }
 
 }

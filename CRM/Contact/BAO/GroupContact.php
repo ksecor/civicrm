@@ -120,7 +120,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @param array  $contactIds (reference ) the array of contact ids to be added
      * @param int    $groupId    the id of the group
      *
-     * @return void
+     * @return array             (total, added, notAdded) count of contacts added to group
      * @access public
      * @static
      */
@@ -148,15 +148,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             }
         }
 
-        $status = 'Total Selected Contact(s): ' . count($contactIds) . '<br>';
-        if ($numContactsAdded) {
-            $status .= 'Total Contact(s) added to group: ' . $numContactsAdded . '<br>';
-        }
-        if ($numContactsNotAdded) {
-            $status .= 'Total Contact(s) already in selected group: ' . $numContactsNotAdded . '<br>';
-        }
-        CRM_Core_Session::setStatus( $status );
-        
+        return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
     }
 
 

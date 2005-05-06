@@ -39,6 +39,20 @@
 class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
 
     /**
+     * name of the tag
+     *
+     * @var string
+     */
+    protected $_name;
+
+    /**
+     * all the tags in the system
+     *
+     * @var array
+     */
+    protected $_tags;
+
+    /**
      * class constructor
      *
      */
@@ -67,8 +81,8 @@ class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
         // add select for tag
-        $tag = array( '' => ' - select tag - ') + CRM_Core_PseudoConstant::category( );
-        $this->add('select', 'category_id', 'Select Tag', $tag, true);
+        $this->_tags = array( '' => ' - select tag - ') + CRM_Core_PseudoConstant::category( );
+        $this->add('select', 'category_id', 'Select Tag', $this->_tags, true);
 
         $this->addDefaultButtons( 'Tag Contacts' );
     }
@@ -81,9 +95,20 @@ class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
      */
     public function postProcess() {
         $categoryId    = $this->controller->exportValue( 'AddToTag', 'category_id'  );
-        
-        CRM_Contact_BAO_EntityCategory::addContactsToTag( $this->_contactIds, $categoryId );
+        $this->_name   = $this->_tags[$categoryId];
 
+        list( $total, $added, $notAdded ) = CRM_Contact_BAO_EntityCategory::addContactsToTag( $this->_contactIds, $categoryId );
+        $status = array(
+                        'Contact(s) tagged as: '       . $this->_name,
+                        'Total Selected Contact(s): '  . $total
+                        );
+        if ( $added ) {
+            $status[] = 'Total Contact(s) tagged: ' . $added;
+        }
+        if ( $notAdded ) {
+            $status[] = 'Total Contact(s) already tagged: ' . $notAdded;
+        }
+        CRM_Core_Session::setStatus( $status );
     }//end of function
 
 

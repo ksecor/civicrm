@@ -489,9 +489,22 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * getter for mode
      *
      * @return int
+     * @access public
      */
     function getMode( ) {
         return $this->_mode;
+    }
+
+    /**
+     * setter for mode
+     *
+     * @param  int  $mode the mode we want to set the form
+     *
+     * @return void
+     * @access public
+     */
+    function setMode( $mode ) {
+        $this->_mode = $mode;
     }
 
     /**

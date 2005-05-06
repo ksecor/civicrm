@@ -49,7 +49,14 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      *
      * @var int
      */
-    protected $_groupId;
+    protected $_id;
+
+    /**
+     * the title of the group
+     *
+     * @var string
+     */
+    protected $_title;
 
     /**
      * class constructor
@@ -71,8 +78,8 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
          */
         parent::preProcess( );
 
-        $this->_context = CRM_Utils_Request::retrieve( 'context', $this );
-        $this->_groupId = CRM_Utils_Request::retrieve( 'amtgID' , $this );
+        $this->_context = $this->get( 'context' );
+        $this->_id      = $this->get( 'amtgID'  );
     }
 
     /**
@@ -85,16 +92,17 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
         // add select for groups
         $group = array( '' => ' - select group - ') + CRM_Core_PseudoConstant::group( );
         $groupElement = $this->add('select', 'group_id', 'Select Group', $group, true);
+        $this->_title  = $group[$this->_id];
 
         if ( $this->_context === 'amtg' ) {
             $groupElement->freeze( );
 
             // also set the group title
-            $groupValues = array( 'id' => $this->_groupId, 'title' => $group[$this->_groupId] );
+            $groupValues = array( 'id' => $this->_id, 'title' => $this->_title );
             $this->assign_by_ref( 'group', $groupValues );
             // Set dynamic page title for 'Add Members Group (confirm)'
-            if ( $this->_groupId ) {
-                CRM_Utils_System::setTitle( 'Add Members: ' . $group[$this->_groupId] );
+            if ( $this->_id ) {
+                CRM_Utils_System::setTitle( 'Add Members: ' . $this->_title );
             }
             else {
                 CRM_Utils_System::setTitle( 'Add Members to A Group ');
@@ -114,7 +122,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
         $defaults = array();
 
         if ( $this->_context === 'amtg' ) {
-            $defaults['group_id'] = $this->_groupId;
+            $defaults['group_id'] = $this->_id;
         }
         return $defaults;
     }
@@ -128,13 +136,19 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
     public function postProcess() {
         $groupId    = $this->controller->exportValue( 'AddToGroup', 'group_id'  );
         
-        CRM_Contact_BAO_GroupContact::addContactsToGroup( $this->_contactIds, $groupId );
-
-        if ( $this->_context == 'amtg' ) {
-            $session = CRM_Core_Session::singleton( );
-            $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&context=amtg&amtgID=' . $groupId ) );
+        list( $total, $added, $notAdded ) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $this->_contactIds, $groupId );
+        $status = array(
+                        'Added Contact(s) to '         . $this->_title,
+                        'Total Selected Contact(s): '  . $total
+                        );
+        if ( $added ) {
+            $status[] = 'Total Contact(s) added to group: ' . $added;
         }
-
+        if ( $notAdded ) {
+            $status[] = 'Total Contact(s) already in group: ' . $notAdded;
+        }
+        CRM_Core_Session::setStatus( $status );
+        
     }//end of function
 
 

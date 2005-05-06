@@ -48,26 +48,37 @@ class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
         parent::__construct($name, $state, $mode);
     }
 
-
-/**
-* Function to actually build the form
- *
- * @return None
- * @access public
- */
-public function buildQuickForm( ) {
-    if ( $this->get( 'context' ) == 'smog' ) {
+    /**
+     * build all the data structures needed to build the form
+     *
+     * @return void
+     * @access public
+     */
+    function preProcess( ) {
         $session = CRM_Core_Session::singleton( );
-        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' . $this->get( 'gid' ) ) );
+
+        $url = CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' );
+        if ( $this->get( 'context' ) == 'smog' ) {
+            $session->replaceUserContext( $url . $this->get( 'gid'    ) );
+        } else if ( $this->get( 'context' ) == 'amtg' ) {
+            $session->replaceUserContext( $url . $this->get( 'amtgID' ) );
+        }
     }
-    
-    $this->addButtons( array(
-                             array ( 'type'      => 'next',
-                                     'name'      => 'Done',
-                                     'isDefault' => true   ),
-                             )
-                       );
-}
+
+    /**
+     * Function to actually build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) {
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => 'Done',
+                                         'isDefault' => true   ),
+                                 )
+                           );
+    }
 
 }
 ?>
