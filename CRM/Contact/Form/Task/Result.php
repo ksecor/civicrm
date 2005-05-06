@@ -56,10 +56,9 @@ class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
  * @access public
  */
 public function buildQuickForm( ) {
-    $context = CRM_Utils_Request::retrieve( 'context', $this );
-    if ( $context == 'smog' ) {
+    if ( $this->get( 'context' ) == 'smog' ) {
         $session = CRM_Core_Session::singleton( );
-        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/group/search' ) );
+        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' . $this->get( 'gid' ) ) );
     }
     
     $this->addButtons( array(

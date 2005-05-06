@@ -607,7 +607,7 @@ function civicrm_search()
     } else {
         // basic search
         $controller = new CRM_Contact_Controller_Search( 'Search Contacts', CRM_Core_Form::MODE_BASIC );
-        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contact/search' ) );
+        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) );
         $controller->run( );
     }
 
