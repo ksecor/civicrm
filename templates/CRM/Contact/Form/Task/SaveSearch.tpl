@@ -11,10 +11,10 @@ Save this search
 Searching for {$qill}
 
 <div class="form-item">
-{$form.ss_name.label} {$form.ss_name.html}
+{$form.name.label} {$form.name.html}
 </div>
 <div class="form-item">
-{$form.ss_description.label} {$form.ss_description.html}
+{$form.description.label} {$form.description.html}
 </div>
 
 {*{include file="CRM/Contact/Form/Task.tpl"}*}

@@ -131,23 +131,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $session = CRM_Core_Session::singleton( );        
         $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
 
-        $defaults['sort_name'] = $searchScope['fv']['sort_name'];
-        switch ($searchScope['type']) {
-        case CRM_Core_Form::MODE_BASIC:
-            foreach (parent::$csv as $v) {
-                if ($searchScope['fv'][$v] != 'any') {
-                    $defaults['cb_'.$v] = array($searchScope['fv'][$v] => 1);
-                }
-            }
-            break;
-        case CRM_Core_Form::MODE_ADVANCED:
-            foreach (parent::$csv as $v) {
-                if ($searchScope['fv']['cb_'.$v]) {
-                    $defaults['cb_'.$v] = $searchScope['fv']['cb_'.$v];
-                }
-            }
-            break;
+        $formValues =& $searchScope['formValues'];
+        $defaults['sort_name'] = $formValues['sort_name'];
+
+        foreach (self::$csv as $v) {
+            $defaults['cb_'.$v] = CRM_Utils_Array::value( 'cb_' . $v, $formValues );
         }
+
         return $defaults;
     }
 
@@ -174,13 +164,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         if ($ssid = CRM_Utils_Request::retrieve('ssid')) {
             // ssid is set hence we need to set the form values for it.
             // also we need to set the values in the form...
-            $ssDAO = new CRM_Contact_DAO_SavedSearch();
-            $ssDAO->id = $ssid;
-            $ssDAO->selectAdd();
-            $ssDAO->selectAdd('id, form_values');
-            if($ssDAO->find(true)) {
+            $savedSearch = new CRM_Contact_DAO_SavedSearch();
+            $savedSearch->id = $ssid;
+            $savedSearch->selectAdd();
+            $savedSearch->selectAdd('id, form_values');
+            if($savedSearch->find(true)) {
                 // make sure u unserialize - since it's stored in serialized form
-                $this->_formValues = unserialize($ssDAO->form_values);
+                $this->_formValues = unserialize($savedSearch->form_values);
             }
         } else {
             // get user submitted values

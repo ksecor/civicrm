@@ -232,11 +232,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->add('select', 'contact_type', 'Find... ', CRM_Core_SelectValues::$contactType);
 
         // add select for groups
-        $group               = array('any' => ' - any group - ') + $this->_group;
+        $group               = array('' => ' - any group - ') + $this->_group;
         $this->_groupElement = $this->add('select', 'group', 'in', $group);
 
         // add select for categories
-        $category = array('any' => ' - any tag - ') + $this->_category;
+        $category = array('' => ' - any tag - ') + $this->_category;
         $this->_categoryElement = $this->add('select', 'category', 'Tagged', $category);
 
         // text for sort_name
@@ -259,21 +259,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
 
         // sort_name remains same across basic/advanced search
-        $defaults['sort_name'] = $searchScope['fv']['sort_name'];
-        
-        // defaults for the rest depend on type of search in the session
-        switch ($searchScope['type']) {
-        case CRM_Core_Form::MODE_BASIC:
-            foreach (self::$csv as $v) {
-                $defaults[$v] = $searchScope['fv'][$v];
-            }
-            break;
-            
-        case CRM_Core_Form::MODE_ADVANCED:
-            foreach (self::$csv as $v) {
-                $defaults[$v] = $searchScope['fv']['cb_'.$v] ? key($searchScope['fv']['cb_'.$v]) : 'any';
-            }
-            break;
+        $formValues =& $searchScope['formValues'];
+        $defaults['sort_name'] = $formValues['sort_name'];
+        foreach (self::$csv as $v) {
+            $defaults[$v] = $formValues['cb_' . $v] ? key($formValues['cb_' . $v]) : '';
         }
 
         if ( $this->_context === 'amtg' ) {
@@ -369,7 +358,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         /* after every search form is submitted we save the following in the session
          *     - type of search 'type'
-         *     - submitted form values 'fv'
+         *     - submitted form values 'formValues'
          *     - task query 'tq'
          *     - QILL 'qill'
          */
@@ -379,13 +368,44 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->_formValues['group'] = $this->_groupID;
         }
 
+        $this->normalizeFormValues( );
+
         $this->postProcessCommon( );
+    }
+
+    /**
+     * normalize the form values to make it look similar to the advanced form values
+     * this prevents a ton of work downstream and allows us to use the same code for
+     * multiple purposes (queries, save/edit etc)
+     *
+     * @return void
+     * @access private
+     */
+    function normalizeFormValues( ) {
+        $contactType = CRM_Utils_Array::value( 'contact_type', $this->_formValues );
+        if ( $contactType ) {
+            $this->_formValues['cb_contact_type'][$contactType] = 1;
+        }
+        unset( $this->_formValues['contact_type'] );
+
+        $group = CRM_Utils_Array::value( 'group', $this->_formValues );
+        if ( $group ) {
+            $this->_formValues['cb_group'][$group] = 1;
+        }
+        unset( $this->_formValues['group'] );
+
+        $category = CRM_Utils_Array::value( 'category', $this->_formValues );
+        if ( $category ) {
+            $this->_formValues['cb_category'][$category] = 1;
+        }
+        unset( $this->_formValues['category'] );
+        return;
     }
 
     function postProcessCommon( ) {
         $session = CRM_Core_Session::singleton();
         $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);
-        $session->set('fv', $this->_formValues, self::SESSION_SCOPE_SEARCH);
+        $session->set('formValues', $this->_formValues, self::SESSION_SCOPE_SEARCH);
 
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {

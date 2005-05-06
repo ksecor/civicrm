@@ -53,10 +53,8 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
      */
     function preProcess()
     {
-        /*
-         * initialize the task and row fields
-         */
-        parent::preProcess();
+        $this->_task = $values['task'];
+        $this->assign( 'taskName', CRM_Contact_Task::$tasks[$this->_task] );
     }
 
     /**
@@ -74,14 +72,14 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         // get the session variables for search scope
         $session = CRM_Core_Session::singleton( );        
         $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-        $qill = CRM_Contact_Selector::getQILL($searchScope['fv'], $searchScope['type']);
+        $qill = CRM_Contact_Selector::getQILL($searchScope['formValues']);
 
         // need to save qill for the smarty template
         $template = CRM_Core_Smarty::singleton( );
         $template->assign('qill', $qill);
 
-        $this->add('text', 'ss_name', 'Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name'), true);
-        $this->addElement('text', 'ss_description', 'Description', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
+        $this->add('text', 'name', 'Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name'), true);
+        $this->addElement('text', 'description', 'Description', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
         $this->addDefaultButtons( 'Save Search' );
     }
 
@@ -98,17 +96,16 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
 
         // saved search form values
-        $fv = $this->controller->exportValues($this->_name);
+        $formValues = $this->controller->exportValues($this->_name);
 
         // save the search
-        $ssBAO = new CRM_Contact_BAO_SavedSearch();
-        $ssBAO->domain_id = 1;   // hack for now
-        $ssBAO->name = $fv['ss_name'];
-        $ssBAO->description = $fv['ss_description'];
-        $ssBAO->search_type = $searchScope['type'];
-        $ssBAO->form_values = serialize($searchScope['fv']);
-        $ssBAO->insert();
-        CRM_Core_Session::setStatus( 'Your search has been saved as "' . $fv['ss_name'] . '"' );
+        $savedSearch = new CRM_Contact_BAO_SavedSearch();
+        $savedSearch->domain_id   = 1;   // hack for now
+        $savedSearch->name        = $formValues['name'];
+        $savedSearch->description = $formValues['description'];
+        $savedSearch->form_values = serialize($searchScope['formValues']);
+        $savedSearch->insert();
+        CRM_Core_Session::setStatus( 'Your search has been saved as "' . $formValues['name'] . '"' );
     }
 }
 ?>

@@ -129,11 +129,12 @@ class CRM_Core_StateMachine {
         
         $data['values'][$pageName] = $page->exportValues();
         $data['valid'][$pageName]  = $page->validate();
-        
+
         
         // if we are going to the next state
         // Modal form and page is invalid: don't go further
         if ($type == 'Next' && $page->controller->isModal() && !$data['valid'][$pageName]) {
+            CRM_Core_Error::debug( $data['valid'][$pageName], $pageName );
             return $page->handle('display');
         }
 

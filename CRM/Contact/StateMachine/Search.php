@@ -41,7 +41,7 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
     function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
         parent::__construct( $controller, $mode );
 
-        $task = $this->taskName( $controller );
+        $task = $this->taskName( $controller, 'Search' );
 
         $this->_pages = array(
                               'CRM_Contact_Form_Search',
@@ -70,11 +70,11 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
      * @access protected
      * @static
      */
-    static function taskName( $controller ) {
+    static function taskName( $controller, $formName = 'Search' ) {
         // total hack, first check POST vars and then check controller vars
         $value = CRM_Utils_Array::value( 'task', $_POST );
         if ( ! isset( $value ) ) {
-            $value = $controller->exportValue( 'Search', 'task' );
+            $value = $controller->exportValue( $formName, 'task' );
         }
 
         switch ( $value ) {
