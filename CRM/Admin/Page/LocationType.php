@@ -76,7 +76,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic {
         return 'Location Types';
     }
 
-    function UserContext( ) {
+    function userContext(  $mode = null ) {
         return 'civicrm/admin/locationType';
     }
 

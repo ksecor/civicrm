@@ -76,7 +76,7 @@ class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic {
         return 'Mobile Provider';
     }
 
-    function UserContext( ) {
+    function userContext(  $mode = null ) {
         return 'civicrm/admin/mobileProvider';
     }
 

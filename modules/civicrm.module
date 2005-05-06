@@ -489,37 +489,37 @@ function civicrm_contact_invoke()
     // view contact
     if (arg(2) == 'view') {
         if (arg(3) == '') {
-            $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Contact_Page_View::MODE_NONE );
+            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_NONE );
             return $view->run( );
         }
 
         // view contact notes
         if (arg(3) == 'note') {
-            $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Contact_Page_View::MODE_NOTE );
+            $view = new CRM_Contact_Page_View( '',CRM_Contact_Page_View::MODE_NOTE );
             return $view->run( );
         }
         
         // view contact relationships
         if (arg(3) == 'rel') {
-            $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Contact_Page_View::MODE_REL );
+            $view = new CRM_Contact_Page_View( '',CRM_Contact_Page_View::MODE_REL );
             return $view->run( );
         }
         
         // view contact groups
         if (arg(3) == 'group') {
-            $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Contact_Page_View::MODE_GROUP );
+            $view = new CRM_Contact_Page_View( '',CRM_Contact_Page_View::MODE_GROUP );
             return $view->run( );
         }
         
         // view contact tags
         if (arg(3) == 'tag') {
-            $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Contact_Page_View::MODE_TAG  );
+            $view = new CRM_Contact_Page_View( '',CRM_Contact_Page_View::MODE_TAG  );
             return $view->run( );
         }
 
         // view custom data
         if (arg(3) == 'cd') {
-            $view = new CRM_Contact_Page_View( 'View Contact','',CRM_Contact_Page_View::MODE_CD  );
+            $view = new CRM_Contact_Page_View( '',CRM_Contact_Page_View::MODE_CD  );
             return $view->run( );
         }
 

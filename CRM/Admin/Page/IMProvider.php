@@ -76,7 +76,7 @@ class CRM_Admin_Page_IMProvider extends CRM_Core_Page_Basic {
         return 'Instant Message Provider';
     }
 
-    function UserContext( ) {
+    function userContext( $mode = null ) {
         return 'civicrm/admin/IMProvider';
     }
 

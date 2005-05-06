@@ -9,7 +9,7 @@
   <div class="form-item">
     <fieldset>
       {foreach from=$category item="row" key = "id"}
-         {$form.categoryList[$id].html} &nbsp;{$row.name} <br>
+         {$form.categoryList[$id].html} &nbsp;{$row} <br>
       {/foreach}
     </fieldset>
   </div>

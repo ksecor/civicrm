@@ -34,7 +34,6 @@
 require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_View extends CRM_Core_Page {
-
     /**
      * constants for various modes that the page can operate as
      *
@@ -128,11 +127,11 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $category =& CRM_Core_PseudoConstant::category();
         // get categories for the contact id
         $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
-        
+
         if (is_array($entityCategory)){
             $strCategories = '';
             foreach ($entityCategory as $lngKey ) {
-                $strCategories .= $category[$lngKey]['name'];
+                $strCategories .= $category[$lngKey];
                 $strCategories .= ", ";
             }
         }

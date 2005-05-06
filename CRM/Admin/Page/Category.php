@@ -71,7 +71,7 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic {
         return 'Category';
     }
 
-    function UserContext( ) {
+    function userContext( $mode = null ) {
         return 'civicrm/admin/category';
     }
 
