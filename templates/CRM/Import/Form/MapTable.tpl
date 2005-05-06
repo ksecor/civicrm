@@ -4,7 +4,6 @@
     <h4>Import Data -> CiviCRM Contact Fields</h4>
     <table>
         <tr class="columnheader">
-            {debug}
             {section name=rows loop=$rowDisplayCount}
 		{if $skipColumnHeader }
                    { if $smarty.section.rows.iteration == 1 }

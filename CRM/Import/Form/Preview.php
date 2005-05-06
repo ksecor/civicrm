@@ -110,7 +110,17 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $this->set('invalidRowCount', $lngIncorrectRecord);
         $this->set('validRowCount', $lngValidRowCount);
 
-        $this->assign( 'rowDisplayCount', 2 );
+
+        // get the session variables for import scope
+        $session = CRM_Core_Session::singleton( );        
+        $session->getVars($importScope, CRM_Import_Form_UploadFile::SESSION_SCOPE_IMPORT);
+
+        if($importScope['skipColumnHeader']) {
+            $this->assign( 'skipColumnHeader' , $importScope['skipColumnHeader'] );
+            $this->assign( 'rowDisplayCount', 3 );
+        } else {
+            $this->assign( 'rowDisplayCount', 2 );
+        }
 
         $properties = array( 'mapper', 'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 'invalidRowCount', 'duplicateRowCount' );
