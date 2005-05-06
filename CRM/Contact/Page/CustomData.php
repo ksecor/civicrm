@@ -36,7 +36,7 @@ require_once 'CRM/Core/Page.php';
 class CRM_Contact_Page_CustomData {
 
     /**
-     * View custom data.
+     * Browse all custom data.
      *
      * @access public
      *
@@ -46,37 +46,24 @@ class CRM_Contact_Page_CustomData {
      *
      * @static
      */
-    static function view($page)
+    static function browse($page)
     {
-
         CRM_Core_Error::le_method();
 
         // get contact
-        $params   = array();
-        $defaults = array();
-        $ids      = array();
+        $customData = CRM_Contact_BAO_Contact::getCustomData($page->getContactId());
 
-        $params['id'] = $this->_contactId;
-        $contact = CRM_Contact_BAO_Contact::retrieve($params, $defaults, $ids);
-
-        CRM_Core_Error::debug_var('params', $params);
-        CRM_Core_Error::debug_var('defaults', $defaults);
-        CRM_Core_Error::debug_var('ids', $ids);
-
-        //CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
+        self::_trimCustomData($customData);
+        
+        $page->assign('customData', $customData);
 
         // $contactType = CRM_Contact_BAO_Contact::getContactType($page->getContactId());
-
         // get groups, fields for contact type & id
-        //$customData = CRM_Core_BAO_CustomGroup::getCustomData($page->getContactID());
+        //$customData = CRM_Core_BAO_CustomGroup::getCustomData($defaults['contact_type']);
 
         CRM_Core_Error::ll_method();
     }
 
-    static function browse( $page )
-    {
-    }
-    
     /**
      * edit custom data.
      *
@@ -131,9 +118,7 @@ class CRM_Contact_Page_CustomData {
         $page->assign('action', $action);
 
         // what action to take ?
-        if ($action & CRM_Core_Action::VIEW) {
-            self::view($page);
-        } else if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             // both update and add are handled by 'edit'
             self::edit($page, $action, $contactId);
         }
@@ -141,6 +126,64 @@ class CRM_Contact_Page_CustomData {
 
         CRM_Core_Error::ll_method();
     }
+
+
+    /**
+     * Trim custom data (removes all extra fields for display purpose)
+     *
+     * @access private
+     *
+     * @param array reference $customData
+     *
+     * @return none
+     *
+     * @static
+     *
+     */
+    private static function _trimCustomData(&$customData)
+    {
+        CRM_Core_Error::le_method();
+
+        foreach($customData as $k => $v) {
+            //CRM_Core_Error::debug_var('v', $v);
+            switch ($v['data_type']) {
+            case 'String':
+                $customData[$k]['data'] = $v['char_data'];
+                //$v['data'] = $v['char_data'];
+                break;
+            case 'Int':
+                $customData[$k]['data'] = $v['int_data'];
+                //$v['data'] = $v['int_data'];
+                break;
+            case 'Float':
+                $customData[$k]['data'] = $v['float_data'];
+                //$v['data'] = $v['float_data'];
+                break;
+            case 'Text':
+                $customData[$k]['data'] = $v['memo_data'];
+                //$v['data'] = $v['memo_data'];
+                break;
+            case 'Date':
+                $customData[$k]['data'] = $v['date_data'];
+                //$v['data'] = $v['date_data'];
+                break;
+            case 'Boolean':
+                $customData[$k]['data'] = $v['int_data'];
+                //$v['data'] = $v['int_data'];
+                break;
+            }
+        }
+
+        CRM_Core_Error::debug_var('customData', $customData);
+        CRM_Core_Error::ll_method();
+        
+
+    }
+
+
 }
+
+
+
 
 ?>

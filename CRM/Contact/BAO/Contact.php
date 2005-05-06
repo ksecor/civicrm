@@ -698,6 +698,62 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
         return $addressDetail;
     }
-}
 
+    /**
+     * Get custom data for a contact.
+     *
+     * @param array $id - id of the contact whose custom data is needed
+     *
+     * @return array customData
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+    public static function getCustomData($id)
+    {
+        $customData = array();
+        $strSelect = $strFrom = $strWhere = ''; 
+
+        $tableData = array();
+        $tableData = array(
+                           'crm_custom_value' => array('int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
+                           'crm_custom_field' => array('custom_group_id', 'name', 'label', 'data_type', 'html_type', 'default_value', 
+                                                       'is_required', 'weight' )
+                           );
+
+        // create select
+        $strSelect = "SELECT"; 
+        foreach ($tableData as $tableName => $tableColumn) {
+            foreach ($tableColumn as $columnName) {
+                $strSelect .= " $tableName.$columnName,";
+            }
+        }
+        $strSelect = rtrim($strSelect, ',');
+
+        $strFrom = " FROM crm_custom_value, crm_custom_field";
+
+        $strWhere = " WHERE crm_custom_value.entity_id = $id AND crm_custom_value.custom_field_id = crm_custom_field.id";
+
+        // building the query string
+        $queryString = $strSelect . $strFrom . $strWhere;
+
+        // dummy dao needed
+        $crmDAO = new CRM_Core_DAO();
+        $crmDAO->query($queryString);
+
+        // process records
+        while($crmDAO->fetch()) {
+            $valueArray = array();
+            foreach ($tableData as $tableName => $tableColumn) {
+                foreach ($tableColumn as $columnName) {
+                    $valueArray[$columnName] = $crmDAO->$columnName;
+                }
+            }
+            $customData[] = $valueArray;
+        }
+        return $customData;
+    }
+}
 ?>
