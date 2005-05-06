@@ -38,6 +38,10 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Import_Form_UploadFile extends CRM_Core_Form {
    
+    const
+        SESSION_SCOPE_IMPORT   = 'CRM Contact Import';
+
+
     /**
      * class constructor
      */
@@ -79,6 +83,10 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
      */
     public function postProcess( ) {
         $fileName  = $this->controller->exportValue( $this->_name, 'uploadFile' );
+
+        $session = CRM_Core_Session::singleton();
+        $session->set('skipColumnHeader', $this->controller->exportValue( $this->_name, 'skipColumnHeader' ),self::SESSION_SCOPE_IMPORT);
+                
         $seperator = ',';
         $mapperKeys = array( );
 

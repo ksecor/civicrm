@@ -101,8 +101,14 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         //echo $lngDuplicateEmail;
         //echo $lngIncorrectEmail;
+        // get the total no of records
+        $lngTotalRowCount = $this->get('totalRowCount');
+        
+        $lngValidRowCount = $lngTotalRowCount - $lngIncorrectRecord ;
+
         $this->set('duplicateRowCount', $lngDuplicateEmail);
         $this->set('invalidRowCount', $lngIncorrectRecord);
+        $this->set('validRowCount', $lngValidRowCount);
 
         $this->assign( 'rowDisplayCount', 2 );
 

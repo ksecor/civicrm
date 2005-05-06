@@ -122,7 +122,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
     }
 
     $error = _crm_check_params( $params, $contact_type );
-    if ( $error instanceof CRM_Error ) {
+    if ( $error instanceof CRM_Core_Error ) {
         return $error;
     }
 
@@ -130,7 +130,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
     $values['contact_type'] = $contact_type;
     $error = _crm_format_params( $params, $values );
 
-    if ( $error instanceof CRM_Error ) {
+    if ( $error instanceof CRM_Core_Error ) {
         return $error;
     }
 
@@ -178,7 +178,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
  *                                returned Contact object. If NULL, the default
  *                                set of properties will be included.
  *
- * @return CRM_Contact|CRM_Error  Return the Contact Object if found, else
+ * @return CRM_Contact|CRM_Core_Error  Return the Contact Object if found, else
  *                                Error Object
  *
  * @access public
@@ -192,7 +192,7 @@ function &crm_get_contact( $params, $returnProperties = null ) {
     $params['id'] = $params['contact_id'];
     $ids          = array( );
     $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
-    if ( $contact == null || $contact instanceof CRM_Error || ! $contact->id ) {
+    if ( $contact == null || $contact instanceof CRM_Core_Error || ! $contact->id ) {
         return _crm_error( 'Did not find contact object for ' . $params['contact_id'] );
     }
 
@@ -226,7 +226,7 @@ function &crm_get_contact( $params, $returnProperties = null ) {
  * @param array       $params  Associative array of property
  *                             name/value pairs to be updated. 
  *  
- * @return CRM_Contact|CRM_Error  Return the updated Contact Object else
+ * @return CRM_Contact|CRM_Core_Error  Return the updated Contact Object else
  *                                Error Object (if integrity violation)
  *
  * @access public
@@ -241,12 +241,12 @@ function &crm_update_contact( &$contact, $params ) {
 
     $values['contact_type'] = $contact->contact_type;
     $error = _crm_format_params( $params, $values );
-    if ( $error instanceof CRM_Error ) {
+    if ( $error instanceof CRM_Core_Error ) {
         return $error;
     }
 
     $error = _crm_update_contact( $contact, $values );
-    if ( $error instanceof CRM_Error ) {
+    if ( $error instanceof CRM_Core_Error ) {
         return $error;
     }
 
@@ -267,7 +267,7 @@ function &crm_update_contact( &$contact, $params ) {
  *
  * @param CRM_Contact $contact Contact object to be deleted
  *
- * @return void|CRM_Error  An error if 'contact' is invalid,
+ * @return void|CRM_Core_Error  An error if 'contact' is invalid,
  *                         permissions are insufficient, etc.
  *
  * @access public

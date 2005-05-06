@@ -157,6 +157,7 @@ abstract class CRM_Import_Parser {
     abstract function init();
 
     function run( $fileName, $seperator = ',', $mode = self::MODE_PREVIEW ) {
+
         $this->init();
 
         $this->_seperator = ',';
@@ -180,9 +181,10 @@ abstract class CRM_Import_Parser {
         } else {
             $this->_activeFieldCount = count( $this->_activeFields );
         }
-
+        
         while ( ! feof( $fd ) ) {
             $values = fgetcsv( $fd, 8192, $seperator );
+
             $this->_lineCount++;
             if ( ! $values || empty( $values ) ) {
                 continue;

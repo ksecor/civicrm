@@ -78,7 +78,18 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $this->_columnCount = $this->get( 'columnCount' );
         $this->assign( 'columnCount' , $this->_columnCount );
         $this->assign( 'dataValues'  , $this->get( 'dataValues' ) );
-        $this->assign( 'rowDisplayCount', 2 );
+        
+        // get the session variables for import scope
+        $session = CRM_Core_Session::singleton( );        
+        $session->getVars($importScope, CRM_Import_Form_UploadFile::SESSION_SCOPE_IMPORT);
+
+        if($importScope['skipColumnHeader']) {
+            $this->assign( 'skipColumnHeader' , $importScope['skipColumnHeader'] );
+            $this->assign( 'rowDisplayCount', 3 );
+        } else {
+            $this->assign( 'rowDisplayCount', 2 );
+        }
+        
     }
 
     /**

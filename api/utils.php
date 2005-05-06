@@ -1,7 +1,7 @@
 <?php
 
 function _crm_error( $message, $code = 8000, $level = 'Fatal' ) {
-    $error = CRM_Error::singleton( );
+    $error = CRM_Core_Error::singleton( );
     $error->push( $code, $level, array( ), $message );
     return $error;
 }
@@ -56,7 +56,7 @@ function _crm_update_object( &$object, &$values ) {
  * @param string $contact_type Which class of contact is being created.
  *            Valid values = 'Individual', 'Household', 'Organization'.
  *                            '
- * @return bool|CRM_Error
+ * @return bool|CRM_Utils_Error
  * @access public
  */
 function _crm_check_params( &$params, $contact_type = 'Individual' ) {
@@ -168,7 +168,7 @@ function _crm_format_params( &$params, &$values ) {
 
     // make sure phone and email are valid strings
     if ( array_key_exists( 'email', $params ) &&
-         ! CRM_Rule::email( $params['email'] ) ) {
+         ! CRM_Utils_Rule::email( $params['email'] ) ) {
         return _crm_error( "Email not valid " . $params['email'] );
     }
 
@@ -178,7 +178,7 @@ function _crm_format_params( &$params, &$values ) {
     }
 
     if ( array_key_exists( 'phone', $params ) &&
-         ! CRM_Rule::phone( $params['phone'] ) ) {
+         ! CRM_Utils_Rule::phone( $params['phone'] ) ) {
         return _crm_error( "Phone not valid " . $params['phone'] );
     }
     

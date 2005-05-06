@@ -4,9 +4,17 @@
     <h4>Import Data -> CiviCRM Contact Fields</h4>
     <table>
         <tr class="columnheader">
-            
+            {debug}
             {section name=rows loop=$rowDisplayCount}
-                <th>Import Data (row {$smarty.section.rows.iteration})</th>
+		{if $skipColumnHeader }
+                   { if $smarty.section.rows.iteration == 1 }
+                     <th>Column Headers</th>
+                   {else}
+                     <th>Import Data (row {$smarty.section.rows.iteration})</th>
+                   {/if}
+	        {else}
+                  <th>Import Data (row {$smarty.section.rows.iteration})</th>
+                {/if}
             {/section}
             
             <th>Matching CiviCRM Field</th>
