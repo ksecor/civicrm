@@ -65,6 +65,7 @@ class CRM_Contact_Page_Note {
 
     static function edit( $page, $mode, $noteId = null ) {
         $controller = new CRM_Core_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', $mode );
+        $controller->setEmbedded( true );
 
         // set the userContext stack
         $session = CRM_Core_Session::singleton();

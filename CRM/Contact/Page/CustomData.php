@@ -74,6 +74,7 @@ class CRM_Contact_Page_CustomData {
     static function edit($page, $action)
     {
         $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $mode);
+        $controller->setEmbedded( true );
 
         // set the userContext stack
         $session = CRM_Core_Session::singleton();

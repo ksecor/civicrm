@@ -36,17 +36,6 @@ require_once 'CRM/Core/Page.php';
 class CRM_Contact_Page_GroupContact {
 
     static function view( $page, $groupId ) {
-        /*
-        $groupContact = new CRM_Contact_DAO_GroupContact( );
-        $groupContact->id = $groupContactId;
-        if ( $groupContact->find( true ) ) {
-            $values = array( );
-            $groupContact->storeValues( $values );
-            $page->assign( 'groups', $values );
-        }
-        
-        self::browse( $page );
-        */
     }
 
     static function browse( $page ) {
@@ -66,8 +55,8 @@ class CRM_Contact_Page_GroupContact {
     }
 
     static function edit( $page, $mode, $groupId = null ) {
-
         $controller = new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', 'Contact GroupContacts', $mode );
+        $controller->setEmbedded( true );
 
         // set the userContext stack
         $session = CRM_Core_Session::singleton();
