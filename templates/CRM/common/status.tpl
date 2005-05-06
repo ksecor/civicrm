@@ -1,6 +1,6 @@
 {* Check for Status message for the page (stored in session->getStatus). Status is cleared on retrieval. *}
 {if $session->getStatus(false)}
-    {assign var="status" value=$session->getStatus(false)}
+    {assign var="status" value=$session->getStatus(true)}
     <div class="messages status">
       <dl>
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>

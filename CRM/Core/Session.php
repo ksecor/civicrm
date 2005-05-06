@@ -45,13 +45,6 @@ class CRM_Core_Session {
 
 
     /**
-     * Constants for different types of scopes used by CRM application
-     */
-    const
-        SCOPE_CSV        =   "commonSearchValues",   // common search values
-        SCOPE_AS         =   "advancedSearch";   // advanced search form values
-
-    /**
      * This is just a reference to the real session. Allows us to
      * debug this class a wee bit easier
      *

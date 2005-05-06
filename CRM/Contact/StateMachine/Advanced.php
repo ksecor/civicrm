@@ -47,7 +47,15 @@ class CRM_Contact_StateMachine_Advanced extends CRM_Core_StateMachine {
                               'CRM_Contact_Form_Search_Advanced',
                               $task,
                               );
-        
+
+        switch ($task) {
+        case 'CRM_Contact_Form_Task_AddToGroup':
+        case 'CRM_Contact_Form_Task_AddToTag':
+        case 'CRM_Contact_Form_Task_SaveSearch':
+            array_push($this->_pages, 'CRM_Contact_Form_Task_Result');
+            break;
+        }
+
         $this->addSequentialPages( $this->_pages, $mode );
     }
 

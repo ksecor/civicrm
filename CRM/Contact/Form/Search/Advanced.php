@@ -68,8 +68,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     function buildQuickForm( ) 
     {
-        $this->populatePseudoConstant();
-
         // add checkboxes for contact type
         $cb_contact_type = array( );
         foreach (CRM_Core_SelectValues::$contactType as $k => $v) {
@@ -81,14 +79,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         
         // checkboxes for groups
         $cb_group = array();
-        foreach (CRM_Core_PseudoConstant::$group as $groupID => $groupName) {
-            $this->addElement('checkbox', "cb_group[$groupID]", null, $groupName);
+        foreach ($this->_group as $groupID => $groupName) {
+            $this->_groupElement = $this->addElement('checkbox', "cb_group[$groupID]", null, $groupName);
         }
 
         // checkboxes for categories
-        $cb_category = array();
-        foreach (CRM_Core_PseudoConstant::$category as $categoryID => $categoryName) {
-            $cb_category[] = $this->addElement('checkbox', "cb_category[$categoryID]", null, $categoryName);
+        foreach ($this->_category as $categoryID => $categoryName) {
+            $this->_categoryElement = $this->addElement('checkbox', "cb_category[$categoryID]", null, $categoryName);
         }
 
         // add text box for last name, first name, street name, city
@@ -97,11 +94,11 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->addElement('text', 'city', 'City:',CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
 
         // select for state province
-        $stateProvince = array('' => ' - any state/province - ') + CRM_Core_PseudoConstant::$stateProvince;
+        $stateProvince = array('' => ' - any state/province - ') + CRM_Core_PseudoConstant::stateProvince( );
         $this->addElement('select', 'state_province', 'State/Province', $stateProvince);
 
         // select for country
-        $country = array('' => ' - any country - ') + CRM_Core_PseudoConstant::$country;
+        $country = array('' => ' - any country - ') + CRM_Core_PseudoConstant::country( );
         $this->addElement('select', 'country', 'Country', $country);
 
         // add text box for postal code
@@ -111,7 +108,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         // checkboxes for location type
         $cb_location_type = array();
-        $locationType = CRM_Core_PseudoConstant::$locationType + array('any' => 'Any Locations');
+        $locationType = CRM_Core_PseudoConstant::locationType( ) + array('any' => 'Any Locations');
         foreach ($locationType as $locationTypeID => $locationTypeName) {
             $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
         }
@@ -120,58 +117,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         // checkbox for primary location only
         $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
 
-        // some tasks.. what do we want to do with the selected contacts ?
-        $tasks = array( '' => '- actions -' ) + CRM_Contact_Task::$tasks;
-        $this->add('select', 'task'   , 'Actions: '    , $tasks    );
-
-        $rows = $this->get( 'rows' );
-        if ( is_array( $rows ) ) {
-            foreach ( $rows as &$row ) {
-                $this->addElement( 'checkbox', $row['checkbox'] );
-            }
-        }
-
-        // new saved search link
-        if (CRM_Utils_Request::retrieve('nss', $this)) {
-            // since there's a request for a new saved search
-            // we need to display form components for saved search
-            // add components for saving the search
-            //$this->addElement('checkbox', 'cb_ss', null, 'Save Search ?', array('checked'=>'0'));
-            $this->addElement('checkbox', 'cb_ss', null, 'Save Search ?');
-            $this->addElement('text', 'ss_name', 'Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') );
-            $this->addElement('text', 'ss_description', 'Description', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
-        } else if (($ssid=CRM_Utils_Request::retrieve('ssid')) && (CRM_Utils_Request::retrieve('action') == 'edit')) {
-            // since there's a request for edit an existing saved search
-            // we need to display correctly populated form components for saved search
-            
-            // get the ss
-            $ssBAO = new CRM_Contact_BAO_SavedSearch();
-            $ssBAO->id = $ssid;
-            if($ssBAO->find(1)) {
-                $this->addElement('checkbox', 'cb_ss', null, 'Save Search ?', array('checked'=>true));
-                $this->addElement('text', 'ss_name', 'Name', 
-                                  CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name') + array('value' => $ssBAO->name));
-                $this->addElement('text', 'ss_description', 'Description', 
-                                  CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description')+array('value'=>$ssBAO->description));
-            } else {
-                // fatal error ssid does not exist
-                CRM_Core_Error::fatal("saved search with id $ssid not found");
-            }
-        }
-
-        // add the buttons
-        $this->addButtons(array(
-                                array ( 'type'      => 'refresh',
-                                        'name'      => 'Search',
-                                        'isDefault' => true   ),
-                                array ( 'type'      => 'reset',
-                                        'name'      => 'Reset'),
-                                )
-                          );
-
+        $this->buildQuickFormCommon( );
     }
-
-
 
     /**
      * Set the default form values
@@ -205,27 +152,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     }
 
     /**
-     * The preprocessing of the form gets done here.
-     *
-     * @param none
-     *
-     * @return none 
-     * @access public
-     */
-    function preProcess( ) {
-        $fv = $this->controller->exportValues($this->_name);
-        $selector = new CRM_Contact_Selector($fv, $this->_mode);
-        $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
-        $controller->setEmbedded( true );
-
-        if ($controller->hasChanged( true ) || CRM_Utils_Request::retrieve('ssid') ) {
-            $this->postProcess( );
-        }
-        $controller->moveFromSessionToTemplate( );
-    }
-
-
-    /**
      * The post processing of the form gets done here.
      *
      * Key things done during post processing are
@@ -244,32 +170,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     function postProcess() 
     {
-        if($_GET['reset'] == 1) {
-            return;
-        }
-        
-        // check actionName and if next, then do not repeat a search, since we are going to the next page
-        list( $pageName, $action ) = $this->controller->getActionName( );
-        if ( $action == 'next' ) {
-            return;
-        }
-
-        $fv = array();
-
-        // get user submitted values
-        $fv = $this->controller->exportValues($this->_name);
-
-        /* after every search form is submitted we save the following in the session
-         *     - type of search 'type'
-         *     - submitted form values 'fv'
-         *     - task query 'tq'
-         *     - QILL 'qill'
-         */
-
-        $session = CRM_Core_Session::singleton();
-        $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);
-        $session->set('fv', $fv, self::SESSION_SCOPE_SEARCH);
-
         // get form values either from saved search or from user submission
         if ($ssid = CRM_Utils_Request::retrieve('ssid')) {
             // ssid is set hence we need to set the form values for it.
@@ -278,44 +178,18 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $ssDAO->id = $ssid;
             $ssDAO->selectAdd();
             $ssDAO->selectAdd('id, form_values');
-            if($ssDAO->find(1)) {
+            if($ssDAO->find(true)) {
                 // make sure u unserialize - since it's stored in serialized form
-                $fv = unserialize($ssDAO->form_values);
+                $this->_formValues = unserialize($ssDAO->form_values);
             }
         } else {
             // get user submitted values
-            $fv = $this->controller->exportValues($this->_name);
+            $this->_formValues = $this->controller->exportValues($this->_name);
         }
 
-        $session = CRM_Core_Session::singleton( );
-
-        // important - we need to store the form values in the session in case we want to save it.
-        $session->set("fv", serialize($fv), CRM_Core_Session::SCOPE_AS);
-
-        $selector = new CRM_Contact_Selector($fv, $this->_mode);
-        $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SESSION );
-        $controller->setEmbedded( true );
-        $controller->run();
-
-        // has the user asked to save query ?
-        if ($fv['cb_ss']) {
-            // save the search
-            $ssBAO = new CRM_Contact_BAO_SavedSearch();
-            $ssBAO->domain_id = 1;   // hack for now
-            $ssBAO->name = $fv['ss_name'];
-            $ssBAO->description = $fv['ss_description'];
-            $ssBAO->search_type = CRM_Core_Form::MODE_ADVANCED;
-            $ssBAO->form_values = serialize($fv);
-            $ssBAO->insert();
-        }
+        $this->postProcessCommon( );
     }
 
-    protected function populatePseudoConstant() {
-        parent::populatePseudoConstant();
-        // populate stateprovince, country, locationtype
-        CRM_Core_PseudoConstant::populateStateProvince();
-        CRM_Core_PseudoConstant::populateCountry();
-        CRM_Core_PseudoConstant::populateLocationType();
-    }
 }
+
 ?>

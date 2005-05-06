@@ -61,7 +61,7 @@ class CRM_Contact_Controller_Advanced extends CRM_Core_Controller {
     public function reset()
     {
         $session = CRM_Core_Session::singleton( );
-        $session->resetScope(CRM_Core_Session::SCOPE_CSV);
+        $session->resetScope(CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
         parent::reset();
     }
 }

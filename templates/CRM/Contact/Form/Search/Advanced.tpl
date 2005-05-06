@@ -202,12 +202,35 @@ Searching for {$qill}
     </div>
 
 {else}
-<div>
-	<p>
-	{include file="CRM/Contact/Form/Selector.tpl"}
-	</p>
-</div>
-<div class="spacer"></div>
+    {* Some matches for search request. Begin Actions/Results section *}
+    <fieldset>
+    
+     <div id="search-status">
+      Found {$pager->_totalItems} contacts.
+     </div>
+
+     <div class="form-item">
+       <span>
+         {* Hide export and print buttons in 'Add Members to Group' context. *}
+         {if $context NEQ 'amtg'}
+            {$form._qf_Advanced_next_print.html} &nbsp; {$form._qf_Advanced_refresh_export.html} &nbsp; &nbsp; &nbsp;
+            {$form.task.html}
+         {/if}
+  	     {$form._qf_Advanced_next_action.html}
+         <br />
+	     {$form.radio_ts.ts_sel.html} &nbsp; {$form.radio_ts.ts_all.html} {$pager->_totalItems} records
+       </span>
+       <span class="element-right">Select: 
+<a onclick="changeCheckboxVals('mark_x_','select'  , Advanced ); return false;" name="select_all"  href="#">All</a> |
+<a onclick="changeCheckboxVals('mark_x_','deselect', Advanced ); return false;" name="select_none" href="#">None</a></span>
+     </div>  
+
+     <p>
+       {include file="CRM/Contact/Form/Selector.tpl"}
+     </p>
+
+    </fieldset>
+    {* END Actions/Results section *}
 {/if}
 </div>
 </form>

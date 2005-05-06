@@ -598,6 +598,7 @@ function civicrm_search()
     // advanced search
     if(arg(3) == 'advanced') {
         $controller = new CRM_Contact_Controller_Advanced( 'Advanced Search', CRM_Core_Form::MODE_ADVANCED );
+        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contact/search/advanced' ) );
         $controller->run( );
     } else if (arg(3) == 'saved' && arg(4) == 'browse') {
         // browse saved searches
