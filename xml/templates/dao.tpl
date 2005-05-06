@@ -171,7 +171,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
                self::$_import = array ( );
                $fields =& self::fields( );
                foreach ( $fields as $name => &$field ) {ldelim}
-                 if ( CRM_Array::value( 'import', $field ) ) {ldelim}
+                 if ( CRM_Utils_Array::value( 'import', $field ) ) {ldelim}
                    if ( $prefix ) {ldelim}
                      self::$_import['{$table.objectName}.' . $name] =& $field;
                    {rdelim} else {ldelim}

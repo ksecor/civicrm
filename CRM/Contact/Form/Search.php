@@ -372,7 +372,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                 return array( 'task' => 'Please select a valid action.' );
             }
 
-            if(CRM_ARRAY::value('task', $fields) == CRM_Contact_Task::SAVE_SEARCH) {
+            if(CRM_Utils_Array::value('task', $fields) == CRM_Contact_Task::SAVE_SEARCH) {
                 // dont need to check for selection of contacts for saving search
                 return true;
             }
