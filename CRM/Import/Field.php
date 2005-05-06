@@ -23,7 +23,7 @@
 */
 
 
-require_once 'CRM/Core/Type.php';
+require_once 'CRM/Utils/Type.php';
 
 class CRM_Import_Field {
   

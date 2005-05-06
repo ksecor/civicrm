@@ -23,8 +23,8 @@
 */
 
 
-require_once 'CRM/Core/String.php';
-require_once 'CRM/Core/Type.php';
+require_once 'CRM/Utils/String.php';
+require_once 'CRM/Utils/Type.php';
 
 require_once 'CRM/Import/Field.php';
 

@@ -41,7 +41,7 @@
 require_once 'PEAR.php';
 
 require_once 'CRM/Core/Error.php';
-require_once 'CRM/Core/Array.php';
+require_once 'CRM/Utils/Array.php';
 
 /**
  * Most API functions take in associative arrays ( name => value pairs
