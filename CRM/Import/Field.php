@@ -95,6 +95,10 @@ class CRM_Import_Field {
         if ( $this->_name == 'email' ) {
             return CRM_Utils_Rule::email( $this->_value );
         }
+        if ( $this->_name == 'phone' ) {
+            return CRM_Utils_Rule::phone( $this->_value );
+        }
+ 
         return true;
     }
 

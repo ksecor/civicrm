@@ -181,10 +181,28 @@ abstract class CRM_Import_Parser {
         } else {
             $this->_activeFieldCount = count( $this->_activeFields );
         }
-        
+
+        // get the session variables for import scope
+        $session = CRM_Core_Session::singleton( );        
+        $session->getVars($importScope, CRM_Import_Form_UploadFile::SESSION_SCOPE_IMPORT);
+
+        $lngSkipColumnHeader = 0;
+        if($importScope['skipColumnHeader']) {
+            $lngSkipColumnHeader = 1;
+        }
+
+       
         while ( ! feof( $fd ) ) {
             $values = fgetcsv( $fd, 8192, $seperator );
 
+            // skip column header if data is imported
+            if ( $mode == self::MODE_IMPORT ) {
+                if ($lngSkipColumnHeader) {
+                    $lngSkipColumnHeader = 0;
+                    continue;
+                }
+            }
+            
             $this->_lineCount++;
             if ( ! $values || empty( $values ) ) {
                 continue;
