@@ -48,30 +48,30 @@ class CRM_Contact_Page_CustomData {
      */
     static function browse($page)
     {
-        CRM_Core_Error::le_method();
+        //CRM_Core_Error::le_method();
 
         // get custom data for contact
         $customData = CRM_Contact_BAO_Contact::getCustomData($page->getContactId());
-        $groupTree = CRM_Core_BAO_CustomGroup::getCustomGroups(CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
+        $groupTree = CRM_Core_BAO_CustomGroup::getBasicTree(CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
 
-        CRM_Core_Error::debug_var('groupTree', $groupTree);
-        CRM_Core_Error::debug_var('customData', $customData);
+        //CRM_Core_Error::debug_var('groupTree', $groupTree);
+        //CRM_Core_Error::debug_var('customData', $customData);
 
         self::_trimCustomData($customData);
+        // set data for groupTree
         foreach ($customData as $k => $v) {
             $groupTree[$v['title']][$v['label']] = $v['data'];
         }
 
-        CRM_Core_Error::debug_var('groupTree', $groupTree);
-
-        $page->assign('customData', $customData);
-        $page->assign('groupTree', $groupTree);
+        //CRM_Core_Error::debug_var('groupTree', $groupTree);
+        //$page->assign('customData', $customData);
+        $page->assign('groupTree1', $groupTree);
 
         // $contactType = CRM_Contact_BAO_Contact::getContactType($page->getContactId());
         // get groups, fields for contact type & id
         // $customData = CRM_Core_BAO_CustomGroup::getCustomData($defaults['contact_type']);
 
-        CRM_Core_Error::ll_method();
+        //CRM_Core_Error::ll_method();
     }
 
     /**
@@ -91,14 +91,23 @@ class CRM_Contact_Page_CustomData {
      */
     static function edit($page, $action)
     {
+        //CRM_Core_Error::le_method();
+
         $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $mode);
-        $controller->setEmbedded( true );
+        $controller->setEmbedded(true);
 
         // set the userContext stack
         $session = CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view/cd', 'action=browse'));
-
+        
+        $controller->reset();
+        $controller->set('tableName', 'crm_contact');
+        $controller->set('tableId'  , $page->getContactId());
+        $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
+        $controller->process();
         $controller->run();
+
+        //CRM_Core_Error::ll_method();
     }
 
 
@@ -117,11 +126,13 @@ class CRM_Contact_Page_CustomData {
     static function run($page)
     {
 
-        CRM_Core_Error::le_method();
+        //CRM_Core_Error::le_method();
 
         // get the contact id & requested action
         $contactId = $page->getContactId();
         $action = CRM_Utils_Request::retrieve('action', $page, false, 'browse'); // default to 'browse'
+
+        //CRM_Core_Error::debug_var('action', $action);
         
         // assign vars to templates
         $page->assign('contactId', $contactId);
@@ -129,12 +140,14 @@ class CRM_Contact_Page_CustomData {
 
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+
+            //CRM_Core_Error::debug_log_message('breakpoint1');
             // both update and add are handled by 'edit'
             self::edit($page, $action, $contactId);
         }
         self::browse($page);
 
-        CRM_Core_Error::ll_method();
+        //CRM_Core_Error::ll_method();
     }
 
 
@@ -152,15 +165,8 @@ class CRM_Contact_Page_CustomData {
      */
     private static function _trimCustomData(&$customData)
     {
-        CRM_Core_Error::le_method();
-
+        //CRM_Core_Error::le_method();
         //CRM_Core_Error::debug_var('customData', $customData);
-
-        foreach ($customData as $k => $v) {
-
-        }
-
-
         foreach($customData as $k => $v) {
             //CRM_Core_Error::debug_var('v', $v);
             switch ($v['data_type']) {
@@ -190,10 +196,8 @@ class CRM_Contact_Page_CustomData {
                 break;
             }
         }
-
         //CRM_Core_Error::debug_var('customData', $customData);
-
-        CRM_Core_Error::ll_method();
+        //CRM_Core_Error::ll_method();
     }
 }
 ?>

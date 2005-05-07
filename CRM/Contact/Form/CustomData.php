@@ -59,11 +59,12 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     protected $_tableId;
     
     /**
-     * The custom data id, used when editing the custom data
+     * entity type of the table id
      *
-     * @var int
+     * @var string
      */
-    protected $_cdId;
+    protected $_entityType;
+
 
     /**
      * class constructor
@@ -82,9 +83,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
     function preProcess()
     {
-        $this->_tableName = $this->get('tableName');
-        $this->_tableId   = $this->get('tableId');
-        $this->_cdId      = $this->get('cdId');
+        $this->_tableName  = $this->get('tableName');
+        $this->_tableId    = $this->get('tableId');
+        $this->_entityType = $this->get('entityType');
+
+        //CRM_Core_Error::debug_var('entityType', $this->_entityType);
     }
 
     /**
@@ -96,6 +99,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     function setDefaultValues()
     {
+        // The groupTree array is used to set default values for
+        // the form.
+
     }
 
     /**
@@ -105,6 +111,59 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @access public
      */
     public function buildQuickForm( ) {
+
+        // get the groupTreeForm
+        // gets all details of group tree for entity
+        $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType);
+
+        $this->assign('groupTree2', $groupTree);
+        
+        // this is a complete hack.. need to check for the entitytype and 
+        // then invoke the relevant BAO...
+        $customData = CRM_Contact_BAO_Contact::getCustomData($this->_tableId);
+
+        //CRM_Core_Error::debug_var('groupTree', $groupTree);
+        //CRM_Core_Error::debug_var('customData', $customData);
+
+        // add the form elements
+        foreach ($groupTree as $field) {
+            //CRM_Core_Error::debug_var('field', $field);
+            foreach ($field as $fieldId => $fieldDetail) {
+                //CRM_Core_Error::debug_var('fieldId', $fieldId);
+                //foreach ($fieldDetail as $k => $v) {
+                    // CRM_Core_Error::debug_log_message("$k = $v");
+                //}
+                switch($fieldDetail['html_type']) {
+                case 'Text':
+                case 'TextArea':
+                    $this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'],
+                               $fieldDetail['attributes'], $fieldDetail['required']);
+                    break;
+                case 'Select Date':
+                    $this->add('text', $fieldDetail['name'], $fieldDetail['label'], $fieldDetail['attributes'], $fieldDetail['required']);
+                    break;
+                case 'Radio':
+                    CRM_Core_Error::debug_log_message("adding radio button");
+                    $this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'],
+                               'Yes', 'yes', $fieldDetail['attributes'], $fieldDetail['required']);
+                    $this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], '',
+                               'No', 'No', $fieldDetail['attributes'], $fieldDetail['required']);
+
+//                     $this->add(strtolower($fieldDetail['html_type']), 'n1', $fieldDetail['label'],
+//                                'Yes', 'yes', $fieldDetail['attributes'], $fieldDetail['required']);
+//                     $this->add(strtolower($fieldDetail['html_type']), 'n2', '',
+//                                'No', 'No', $fieldDetail['attributes'], $fieldDetail['required']);
+                    
+
+                    break;
+                case 'Select':
+                case 'CheckBox':
+                case 'Select State / Province':
+                case 'Select Country':
+                }
+            }
+        }
+
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',

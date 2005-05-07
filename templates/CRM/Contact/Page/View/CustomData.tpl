@@ -1,4 +1,19 @@
 {* template for custom data *}
+
+{if $action eq 2}
+    <form {$form.attributes}>
+    <p>
+    <fieldset><legend>Edit Custom Data</legend>
+    <div class="form-item">
+        {$form.note.html}
+        <br/>
+        {$form.buttons.html}
+    </div>
+    </fieldset>
+    </p>
+    </form>
+{/if}
+
 <div id="name" class="data-group form-item">
     <p>
 	<label>{$displayName}</label>
@@ -17,5 +32,3 @@
 </fieldset>
 {/foreach}
 </div>
-
-
