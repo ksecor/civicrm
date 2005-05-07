@@ -186,8 +186,6 @@ div.spacer {
 #crm-container td {
   padding: 4px;
   vertical-align: top;
-  border-collapse: collapse;
-  border-top: 1px solid #000000;
 }
 
 #crm-container .nowrap {
@@ -223,6 +221,11 @@ div.spacer {
 
 #crm-container .even-row {
   background-color: #EAEAEA;
+}
+
+#crm-container tr.even-row td, #crm-container tr.odd-row td {
+  border-collapse: collapse;
+  border-top: 1px solid #000000;
 }
 
 #crm-container tr.selected-even-row, tr.selected-odd-row {
