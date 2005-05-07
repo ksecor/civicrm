@@ -57,11 +57,27 @@ class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
     function preProcess( ) {
         $session = CRM_Core_Session::singleton( );
 
-        $url = CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' );
-        if ( $this->get( 'context' ) == 'smog' ) {
-            $session->replaceUserContext( $url . $this->get( 'gid'    ) );
-        } else if ( $this->get( 'context' ) == 'amtg' ) {
-            $session->replaceUserContext( $url . $this->get( 'amtgID' ) );
+        $context = $this->get( 'context' );
+        if ( $context == 'smog' || $context == 'amtg' ) {
+            $url = CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' );
+            if ( $this->get( 'context' ) == 'smog' ) {
+                $session->replaceUserContext( $url . $this->get( 'gid'    ) );
+            } else {
+                $session->replaceUserContext( $url . $this->get( 'amtgID' ) );
+            }
+            return;
+        }
+
+        $ssID = $this->get( 'ssID' );
+        if ( isset( $ssID ) ) {
+            if ( $this->_mode == self::MODE_BASIC ) {
+                $fragment = 'search';
+            } else {
+                $fragment = 'search/advanced';
+            }
+            $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, 'reset=1&force=1&ssID=' . $ssID );
+            $session->replaceUserContext( $url );
+            return;
         }
     }
 

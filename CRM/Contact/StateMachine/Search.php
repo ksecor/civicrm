@@ -41,12 +41,13 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
     function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
         parent::__construct( $controller, $mode );
 
-        $task = $this->taskName( $controller, 'Search' );
+        if ( $mode == CRM_Core_Form::MODE_ADVANCED ) {
+            $task = $this->taskName( $controller, 'Advanced' );
+        } else {
+            $task = $this->taskName( $controller, 'Search' );
+        }
 
-        $this->_pages = array(
-                              'CRM_Contact_Form_Search',
-                              $task,
-                              );
+        $this->_pages = $this->pages( $controller );
 
         switch ($task) {
         case 'CRM_Contact_Form_Task_AddToGroup':
@@ -58,6 +59,22 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
         }
 
         $this->addSequentialPages( $this->_pages, $mode );
+    }
+
+    /**
+     * return the set of pages that make up this wizard
+     *
+     * @param CRM_Core_Controller the controller object
+     *
+     * @return array
+     * @access public
+     */
+    function pages( $controller ) {
+        $task = CRM_Contact_StateMachine_Search::taskName( $controller, 'Search' );
+        return array(
+                     'CRM_Contact_Form_Search',
+                     $task,
+                     );
     }
 
     /**

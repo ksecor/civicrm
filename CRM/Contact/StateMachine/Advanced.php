@@ -33,32 +33,23 @@
 
 require_once 'CRM/Core/StateMachine.php';
 
-class CRM_Contact_StateMachine_Advanced extends CRM_Core_StateMachine {
+class CRM_Contact_StateMachine_Advanced extends CRM_Contact_StateMachine_Search {
 
     /**
-     * class constructor
+     * return the set of pages that make up this wizard
+     *
+     * @param CRM_Core_Controller the controller object
+     *
+     * @return array
+     * @access public
      */
-    function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
-        parent::__construct( $controller, $mode );
-
+    function pages( $controller ) {
         $task = CRM_Contact_StateMachine_Search::taskName( $controller, 'Advanced' );
-
-        $this->_pages = array(
-                              'CRM_Contact_Form_Search_Advanced',
-                              $task,
-                              );
-
-        switch ($task) {
-        case 'CRM_Contact_Form_Task_AddToGroup':
-        case 'CRM_Contact_Form_Task_AddToTag':
-        case 'CRM_Contact_Form_Task_SaveSearch':
-            array_push($this->_pages, 'CRM_Contact_Form_Task_Result');
-            break;
-        }
-
-        $this->addSequentialPages( $this->_pages, $mode );
+        return array(
+                     'CRM_Contact_Form_Search_Advanced',
+                     $task,
+                     );
     }
-
 }
 
 ?>
