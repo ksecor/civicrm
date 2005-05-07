@@ -17,6 +17,7 @@
 <div id="name" class="data-group form-item">
     <p>
 	<label>{$displayName}</label>
+        <a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update"}">Edit custom data</a>
     </p>
 </div>
 
