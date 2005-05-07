@@ -35,15 +35,13 @@
  * This class provides the functionality to save a search
  * Saved Searches are used for saving frequently used queries
  */
-class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
-
+class CRM_Contact_Form_Task_Search extends CRM_Contact_Form_Task {
     /**
-     * class constructor
+     * saved search id if any
      *
+     * @var int
      */
-    function __construct( $name, $state, $mode = self::MODE_NONE ) {
-        parent::__construct($name, $state, $mode);
-    }
+    protected $_id;
 
     /**
      * build all the data structures needed to build the form
@@ -53,6 +51,8 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
      */
     function preProcess()
     {
+        $this->_id   = null;
+
         $this->_task = $values['task'];
         $this->assign( 'taskName', CRM_Contact_Task::$tasks[$this->_task] );
     }
@@ -80,7 +80,11 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
 
         $this->add('text', 'name', 'Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name'), true);
         $this->addElement('text', 'description', 'Description', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
-        $this->addDefaultButtons( 'Save Search' );
+        if ( isset( $this->_id ) ) {
+            $this->addDefaultButtons( 'Update Saved Search' );
+        } else {
+            $this->addDefaultButtons( 'Save Search' );
+        }
     }
 
     /**
@@ -100,11 +104,12 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
 
         // save the search
         $savedSearch = new CRM_Contact_BAO_SavedSearch();
+        $savedSearch->id          = $this->_id;
         $savedSearch->domain_id   = 1;   // hack for now
         $savedSearch->name        = $formValues['name'];
         $savedSearch->description = $formValues['description'];
         $savedSearch->form_values = serialize($searchScope['formValues']);
-        $savedSearch->insert();
+        $savedSearch->save();
         CRM_Core_Session::setStatus( 'Your search has been saved as "' . $formValues['name'] . '"' );
     }
 }

@@ -43,7 +43,7 @@ class CRM_Contact_Task {
         DELETE_CONTACTS     =   4,
         PRINT_CONTACTS      =   8,
         SAVE_SEARCH         =  16,
-        UPDATE_SAVED_SEARCH =  32;
+        SAVE_SEARCH_UPDATE  =  32;
 
     static $tasks = array(
                            1  => 'Add Contacts to a Group',

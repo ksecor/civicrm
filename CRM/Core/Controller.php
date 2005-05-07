@@ -134,6 +134,8 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      */
     function run( ) {
+        CRM_Core_Error::debug( 'P', $_POST );
+
         // the names of the action and page should be saved
         // note that this is split into two, because some versions of
         // php 5.x core dump on the triple assignment :)
@@ -155,6 +157,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         if ( $action == 'display' ) {
             $this->wizardHeader( $pageName );
         }
+        CRM_Core_Error::debug( $pageName, $action );
         $this->_pages[$pageName]->handle($action);
 
         return $pageName;

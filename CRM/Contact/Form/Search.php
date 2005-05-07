@@ -70,11 +70,19 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     protected $_groupID;
 
     /**
-     * the amtgId retrieved from the GET vars
+     * the Group ID belonging to Add Member to group ID
+     * retrieved from the GET vars
      *
      * @var int
      */
     protected $_amtgID;
+
+    /**
+     * the saved search IDretrieved from the GET vars
+     *
+     * @var int
+     */
+    protected $_ssID;
 
     /**
      * Are we forced to run a search
@@ -160,6 +168,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         // some tasks.. what do we want to do with the selected contacts ?
         $tasks = array( '' => '- more actions -' ) + CRM_Contact_Task::$tasks;
+        if ( isset( $this->_ssID ) ) {
+            $tasks = $tasks + CRM_Contact_Task::optionalTasks;
+        }
         $actionElement = $this->add('select', 'task'   , 'Actions: '    , $tasks    );
 
         if ( $this->_context === 'smog' ) {
@@ -254,15 +265,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     function &setDefaultValues() {
         $defaults = array();
 
-        // get the session variables for search scope
-        $session = CRM_Core_Session::singleton( );        
-        $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-
-        // sort_name remains same across basic/advanced search
-        $formValues =& $searchScope['formValues'];
-        $defaults['sort_name'] = $formValues['sort_name'];
+        $defaults['sort_name'] = $this->_formValues['sort_name'];
         foreach (self::$csv as $v) {
-            $defaults[$v] = $formValues['cb_' . $v] ? key($formValues['cb_' . $v]) : '';
+            $defaults[$v] = $this->_formValues['cb_' . $v] ? key($this->_formValues['cb_' . $v]) : '';
         }
 
         if ( $this->_context === 'amtg' ) {
@@ -315,6 +320,17 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         $this->_groupID = CRM_Utils_Request::retrieve( 'gid'   , $this );
         $this->_amtgID  = CRM_Utils_Request::retrieve( 'amtgID', $this );
+        $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID'  , $this );
+        if ( isset( $this->_ssID ) ) {
+            $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
+        } else {
+            // get the session variables for search scope
+            $session = CRM_Core_Session::singleton( );
+            $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
+
+            // sort_name remains same across basic/advanced search
+            $this->_formValues =& $searchScope['formValues'];
+        }
 
         /*
          * assign context to drive the template display, make sure context is valid
@@ -331,8 +347,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
         $controller->setEmbedded( true );
         if ( $controller->hasChanged( $this->_reset ) ||
-             $this->_force                            ||
-             CRM_Utils_Request::retrieve('ssid') ) {
+             $this->_force ) {
             $this->postProcess( );
             /*
              * Note that we repeat this, since the search creates and stores

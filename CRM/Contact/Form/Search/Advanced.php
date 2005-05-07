@@ -160,19 +160,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     function postProcess() 
     {
-        // get form values either from saved search or from user submission
-        if ($ssid = CRM_Utils_Request::retrieve('ssid')) {
-            // ssid is set hence we need to set the form values for it.
-            // also we need to set the values in the form...
-            $savedSearch = new CRM_Contact_DAO_SavedSearch();
-            $savedSearch->id = $ssid;
-            $savedSearch->selectAdd();
-            $savedSearch->selectAdd('id, form_values');
-            if($savedSearch->find(true)) {
-                // make sure u unserialize - since it's stored in serialized form
-                $this->_formValues = unserialize($savedSearch->form_values);
-            }
-        } else {
+        if ( ! $this->_force ) {
             // get user submitted values
             $this->_formValues = $this->controller->exportValues($this->_name);
         }

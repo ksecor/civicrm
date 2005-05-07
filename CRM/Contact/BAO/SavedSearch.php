@@ -62,7 +62,48 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
             $aSavedSearch[$savedSearch->id] = $savedSearch->name;
         }
         return $aSavedSearch;
+    }
 
+    /**
+     * Takes a bunch of params that are needed to match certain criteria and
+     * retrieves the relevant objects.
+     *
+     * @param array $params   (reference ) an assoc array of name/value pairs
+     * @param array $defaults (reference ) an assoc array to hold the flattened values
+     *
+     * @return object CRM_Contact_BAO_SavedSearch
+     * @access public
+     * @static
+     */
+    static function retrieve( &$params, &$defaults ) {
+        $savedSearch = new CRM_Contact_DAO_SavedSearch( );
+        $savedSearch->copyValues( $params );
+        if ( $savedSearch->find( true ) ) {
+            $savedSearch->storeValues( $defaults );
+            return $savedSearch;
+        }
+        return null;
+    }
+
+    /**
+     * given an id, extract the formValues of the saved search
+     *
+     * @param int $id the id of the saved search
+     *
+     * @return array the values of the posted saved search
+     * @access public
+     * @static
+     */
+    static function getFormValues( $id ) {
+        $savedSearch = new CRM_Contact_DAO_SavedSearch( );
+        $savedSearch->id = $id;
+        $savedSearch->selectAdd();
+        $savedSearch->selectAdd('id, form_values');
+        if($savedSearch->find(true)) {
+            // make sure u unserialize - since it's stored in serialized form
+            return unserialize($savedSearch->form_values);
+        }
     }
 }
+
 ?>

@@ -51,7 +51,8 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
         switch ($task) {
         case 'CRM_Contact_Form_Task_AddToGroup':
         case 'CRM_Contact_Form_Task_AddToTag':
-        case 'CRM_Contact_Form_Task_SaveSearch':
+        case 'CRM_Contact_Form_Task_Search':
+        case 'CRM_Contact_Form_Task_Search_Update':
             array_push($this->_pages, 'CRM_Contact_Form_Task_Result');
             break;
         }
@@ -87,7 +88,11 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             break;
 
         case CRM_Contact_Task::SAVE_SEARCH:
-            $task = 'CRM_Contact_Form_Task_SaveSearch';
+            $task = 'CRM_Contact_Form_Task_Search';
+            break;
+
+        case CRM_Contact_Task::SAVE_SEARCH_UPDATE:
+            $task = 'CRM_Contact_Form_Task_Search_Update';
             break;
 
         case CRM_Contact_Task::TAG_CONTACTS:
