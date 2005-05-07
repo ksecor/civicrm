@@ -191,15 +191,42 @@ abstract class CRM_Import_Parser {
             $lngSkipColumnHeader = 1;
         }
 
-       
+    
+        if ( $mode == self::MODE_IMPORT ) {
+            
+            //get the key of email field
+            $session->getVars($aImportData, CRM_Import_Controller);
+            
+            $aMapperArray = $aImportData['mapper'];
+            
+            // print_r($aImportData);
+            foreach($aMapperArray as $lngKey => $varValue) {
+                if($varValue == 'Email'){
+                    $lngEmailKey = $lngKey;
+                }
+            }
+
+            //$this->_totalCount = $aImportData['totalRowCount'];
+            $this->_validCount = $aImportData['validRowCount'];
+            $this->_errorCount = $aImportData['invalidRowCount'];
+            $this->_duplicateCount = $aImportData['duplicateRowCount'];
+        }
+        
+        $aEmail = array();
         while ( ! feof( $fd ) ) {
             $values = fgetcsv( $fd, 8192, $seperator );
-
+            //print_r($values);            
             // skip column header if data is imported
             if ( $mode == self::MODE_IMPORT ) {
                 if ($lngSkipColumnHeader) {
                     $lngSkipColumnHeader = 0;
                     continue;
+                }
+
+                if ( in_array($values[$lngEmailKey], $aEmail)) {
+                    continue;
+                } else {
+                    array_push($aEmail, $values[$lngEmailKey]);
                 }
             }
             
@@ -208,7 +235,9 @@ abstract class CRM_Import_Parser {
                 continue;
             }
 
-            $this->_totalCount++;
+            //if ( $mode != self::MODE_IMPORT ) {
+                $this->_totalCount++;
+                //}
 
             if ( $mode == self::MODE_PREVIEW ) {
                 $returnCode = $this->preview( $values );
@@ -219,7 +248,7 @@ abstract class CRM_Import_Parser {
             } else {
                 $returnCode = self::ERROR;
             }
-
+            
             // note that a line could be valid but still produce a warning
             if ( $returnCode & self::VALID ) {
                 $this->_validCount++;
@@ -257,7 +286,6 @@ abstract class CRM_Import_Parser {
             if ( $this->_maxLinesToProcess > 0 && $this->_validCount >= $this->_maxLinesToProcess ) {
                 break;
             }
-
         }
 
         fclose( $fd );

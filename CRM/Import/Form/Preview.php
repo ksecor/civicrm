@@ -55,18 +55,27 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
     public function preProcess( ) {
         $this->_mapperFields = $this->get( 'fields' );
         $this->_columnCount  = $this->get( 'columnCount' );
+
+        // get the session variables for import scope
+        $session = CRM_Core_Session::singleton( );        
+        $session->getVars($importScope, CRM_Import_Form_UploadFile::SESSION_SCOPE_IMPORT);
+        //print_r($_SESSION);
        
         //get the data from the session
         $aData = $this->get('dataValues');
         $aMapper = $this->get('mapper');
+
+        if($importScope['skipColumnHeader']) {
+            array_shift($aData);
+        }
 
         //print_r($aData);
         //print_r($aMapper);
         
         //print_r($_SESSION);
 
-        $lngEmailKey = 0;
-        $lngPhoneKey = 0;
+        $lngEmailKey = -1;
+        $lngPhoneKey = -1;
         //get the key of email and phone field
         foreach($aMapper as $lngKey => $varValue) {
             if($varValue == 'Email'){
@@ -77,49 +86,68 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             }
         }
 
+
         // if the  email is present check for duplicate emails and also keep the count
-        if($lngEmailKey > 0 ) {
+        if($lngEmailKey > 0 || $lngPhoneKey > 0) {
             
             $aEmail = array();
-            $lngDuplicateEmail = 1;
+            $lngDuplicateEmail = 0;
             $lngIncorrectRecord = 0;
+            $lngErrorStatus = 0;
+            $lngDuplicateStatus = 0;
             
             foreach($aData as $lngKey => $varValue) {
-                // check the duplicate emails
-                if ( in_array($varValue[$lngEmailKey], $aEmail)) {
-                    $lngDuplicateEmail++;
-                } else {
-                    array_push($aEmail, $varValue[$lngEmailKey]);
+
+                // check for valid phone
+                if ($varValue[$lngPhoneKey] ) {
+                    if ( !CRM_Utils_Rule::phone($varValue[$lngPhoneKey])) {
+                        $lngIncorrectRecord++;
+                        $lngErrorStatus++;
+                    }
+                } 
+                
+                //check for valid email
+                if ($varValue[$lngEmailKey] && !$lngErrorStatus) {
+                    
+                    if (!CRM_Utils_Rule::email($varValue[$lngEmailKey])) {
+                        $lngIncorrectRecord++;            
+                        $lngErrorStatus++;
+                    }
+                    if (!$lngErrorStatus) {
+                        // check the duplicate emails
+                        if ( in_array($varValue[$lngEmailKey], $aEmail)) {
+                            $lngDuplicateEmail++;
+                        } else {
+                            //array_push($aEmail, $varValue[$lngEmailKey]);
+                            $aEmail[$lngKey] = $varValue[$lngEmailKey];
+                        }
+                    }
                 }
                 
-                //check for valid email/phone
-                if (!CRM_Utils_Rule::email($varValue[$lngEmailKey]) || !CRM_Utils_Rule::phone($varValue[$lngPhoneKey])) {
-                    $lngIncorrectRecord++;            
-                }
+                $lngErrorStatus = 0;
             }
+
         }
 
+        // print_r($aEmail);
         //echo $lngDuplicateEmail;
         //echo $lngIncorrectEmail;
         // get the total no of records
         $lngTotalRowCount = $this->get('totalRowCount');
         
-        $lngValidRowCount = $lngTotalRowCount - $lngIncorrectRecord ;
+        $lngValidRowCount = $lngTotalRowCount - $lngIncorrectRecord - $lngDuplicateEmail;
 
         $this->set('duplicateRowCount', $lngDuplicateEmail);
         $this->set('invalidRowCount', $lngIncorrectRecord);
-        $this->set('validRowCount', $lngValidRowCount);
-
-
-        // get the session variables for import scope
-        $session = CRM_Core_Session::singleton( );        
-        $session->getVars($importScope, CRM_Import_Form_UploadFile::SESSION_SCOPE_IMPORT);
-
+        
         if($importScope['skipColumnHeader']) {
             $this->assign( 'skipColumnHeader' , $importScope['skipColumnHeader'] );
             $this->assign( 'rowDisplayCount', 3 );
+            //$this->set('totalRowCount', ($lngTotalRowCount-1));
+            $this->set('validRowCount', ($lngValidRowCount-1));
         } else {
             $this->assign( 'rowDisplayCount', 2 );
+            $this->set('validRowCount', $lngValidRowCount);
         }
 
         $properties = array( 'mapper', 'dataValues', 'columnCount',

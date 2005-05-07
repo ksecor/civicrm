@@ -91,7 +91,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         $mapperKeys = array( );
 
         $parser = new CRM_Import_Parser_Contact( $mapperKeys );
-        $parser->setMaxLinesToProcess( 5 );
+        $parser->setMaxLinesToProcess( 100 );
         $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_PREVIEW );
 
         // add all the necessary variables to the form
