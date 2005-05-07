@@ -169,7 +169,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // some tasks.. what do we want to do with the selected contacts ?
         $tasks = array( '' => '- more actions -' ) + CRM_Contact_Task::$tasks;
         if ( isset( $this->_ssID ) ) {
-            $tasks = $tasks + CRM_Contact_Task::optionalTasks;
+            $tasks = $tasks + CRM_Contact_Task::$optionalTasks;
         }
         $actionElement = $this->add('select', 'task'   , 'Actions: '    , $tasks    );
 
@@ -306,7 +306,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_exportButtonName = $this->getButtonName( 'refresh', 'export' );
         $this->_printButtonName = $this->getButtonName( 'next'    , 'print' );
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' );
-
 
         /*
          * we allow the controller to set force/reset externally, useful when we are being

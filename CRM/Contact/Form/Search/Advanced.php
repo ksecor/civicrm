@@ -127,18 +127,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * @return array the default array reference
      */
     function &setDefaultValues() {
-        $defaults = array();
-        $session = CRM_Core_Session::singleton( );        
-        $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-
-        $formValues =& $searchScope['formValues'];
-        $defaults['sort_name'] = $formValues['sort_name'];
-
-        foreach (self::$csv as $v) {
-            $defaults['cb_'.$v] = CRM_Utils_Array::value( 'cb_' . $v, $formValues );
-        }
-
-        return $defaults;
+        return $this->_formValues;
     }
 
     /**

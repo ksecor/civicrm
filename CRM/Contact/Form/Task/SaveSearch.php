@@ -35,7 +35,7 @@
  * This class provides the functionality to save a search
  * Saved Searches are used for saving frequently used queries
  */
-class CRM_Contact_Form_Task_Search extends CRM_Contact_Form_Task {
+class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
     /**
      * saved search id if any
      *
