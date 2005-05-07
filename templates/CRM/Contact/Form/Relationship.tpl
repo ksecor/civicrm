@@ -5,7 +5,7 @@
 	<div class="data-group">
       	<span><label>{$displayName} is a {$form.relationship_type_id.html} of {$sort_name}</label></span>
 
-	<div><a href="{crmURL p='admin/contact/reltype' q="action=add&reset=1&rd=1"}">Add or Edit relationship types for your sites..</a></div>
+	<div><a href="{crmURL p='civicrm/admin/reltype' q="action=add&reset=1&rd=1"}">Add or Edit relationship types for your sites..</a></div>
 	</div>
 
 	<div>
