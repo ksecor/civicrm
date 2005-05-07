@@ -124,42 +124,7 @@
 		</span>
 		<div class="spacer"></div>
 	</div>
-	
 	</p>
-
-
-{if $foo}
-<fieldset><legend>Save Search</legend>
-	<p>
-	<div class="horizontal-position">
-		<span class="two-col1">
-		{*$form.cb_ss.label*} {$form.cb_ss.html}
-		</span>	
-		<div class="spacer"></div>
-	</div>
-	</p>
-	
-	<p>
-	<div class="horizontal-position">
-		<div class="two-col1">
-		<span class="labels">{$form.ss_name.label}</span>
-		<span class="fields">{$form.ss_name.html}</span>
-		</div>
-		<div class="spacer"></div>
-	</div>
-	</p>
-
-	<p>
-	<div class="horizontal-position">
-		<div class="two-col1">
-		<span class="labels">{$form.ss_description.label}</span>
-		<span class="fields">{$form.ss_description.html}</span>
-		</div>
-		<div class="spacer"></div>
-	</div>
-	</p>
-</fieldset>
-{/if}
 
 	<div>
 	<span class="three-col3">
@@ -170,67 +135,30 @@
 </div>
 <div class="spacer"></div>
 
-<p>
-{$form.cb_ss.label} {$form.cb_ss.html}
-<p>
-{$form.ss_name.label} {$form.ss_name.html}
-<p>
-{$form.ss_description.label} {$form.ss_description.html}
-<p>
-
 {if $qill}
 <hr>
 Searching for {$qill}
 <hr>
-{* <a href="{crmURL p='civicrm/contact/search/saved/sas'}">Save this search...</a> *}
 {/if}
 
 {if $rowsEmpty}
+    {include file="CRM/Contact/Form/EmptySearchResults.tpl"}
+{/if}
 
-    {* No matches for search criteria *}
-    <div class="messages status">
-        <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-        No matches were found for your browse criteria.
-        <ul>
-        <li>check your spelling
-        <li>try a different spelling or use fewer letters</li>
-        <li>if you are searching within a Group or Category, try 'any group' or 'any category'</li>
-        <li>add a <a href="crm/contact/addI?c_type=Individual&reset=1">New Individual</a>,
-        <a href="crm/contact/addO?c_type=Organization&reset=1">Organization</a> or
-        <a href="crm/contact/addH?c_type=Household&reset=1">Household</a></li>
-        </ul>
-    </div>
-
-{else}
-    {* Some matches for search request. Begin Actions/Results section *}
+{if $rows}
+    {* Search request has returned 1 or more matching rows. *}
     <fieldset>
     
-     <div id="search-status">
-      Found {$pager->_totalItems} contacts.
-     </div>
+       {* This section handles form elements for action task select and submit *}
+       {include file="CRM/Contact/Form/SearchResultTasks.tpl"}
 
-     <div class="form-item">
-       <span>
-         {* Hide export and print buttons in 'Add Members to Group' context. *}
-         {if $context NEQ 'amtg'}
-            {$form._qf_Advanced_next_print.html} &nbsp; {$form._qf_Advanced_refresh_export.html} &nbsp; &nbsp; &nbsp;
-            {$form.task.html}
-         {/if}
-  	     {$form._qf_Advanced_next_action.html}
-         <br />
-	     {$form.radio_ts.ts_sel.html} &nbsp; {$form.radio_ts.ts_all.html} {$pager->_totalItems} records
-       </span>
-       <span class="element-right">Select: 
-<a onclick="changeCheckboxVals('mark_x_','select'  , Advanced ); return false;" name="select_all"  href="#">All</a> |
-<a onclick="changeCheckboxVals('mark_x_','deselect', Advanced ); return false;" name="select_none" href="#">None</a></span>
-     </div>  
-
-     <p>
+       {* This section displays the rows along and includes the paging controls *}
+       <p>
        {include file="CRM/Contact/Form/Selector.tpl"}
-     </p>
+       </p>
 
     </fieldset>
     {* END Actions/Results section *}
+
 {/if}
-</div>
 </form>

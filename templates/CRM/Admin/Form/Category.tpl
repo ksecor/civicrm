@@ -1,7 +1,7 @@
-{* this template is used for adding/editing category  *}
+{* this template is used for adding/editing a tag (admin)  *}
 <form {$form.attributes}>
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}New{else}Edit{/if} Category</legend>
+<fieldset><legend>{if $action eq 1}New{else}Edit{/if} Tag</legend>
 	<dl>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
 	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>

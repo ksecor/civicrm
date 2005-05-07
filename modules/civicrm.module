@@ -160,7 +160,7 @@ function civicrm_menu($may_cache)
         
        $items[] = array(
                          'path'  => 'civicrm/admin/category',
-                         'title' => t('Categories'),
+                         'title' => t('Tags'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => -10
                          );

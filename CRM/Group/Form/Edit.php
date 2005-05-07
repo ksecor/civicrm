@@ -67,6 +67,11 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      */
     function preProcess( ) {
         $this->_id    = $this->get( 'id' );
+        if ( isset($this->_id) ) {
+            $groupValues = array( 'id' => $this->_id, 'title' => $group[$this->_id] );
+            $this->assign_by_ref( 'group', $groupValues );
+            
+        }
     }
     
     /*

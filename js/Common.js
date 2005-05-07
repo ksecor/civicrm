@@ -19,7 +19,7 @@
     | A copy of the Affero General Public License has been been            |
     | distributed along with this program (affero_gpl.txt)                 |
 +----------------------------------------------------------------------+
-    */
+*/
 
 /**
 *
@@ -190,20 +190,21 @@ function checkPerformAction (fldPrefix, form) {
     
     if (document.forms[form].task.selectedIndex || document.forms[form].task.value == 1) {
 
-	if (document.forms[form].radio_ts[1].checked) {
-	    return true;
-	}
-	if (document.forms[form].task.value == 128) {
-	    return true;
-	}
-	cnt = countSelectedCheckboxes(fldPrefix, document.forms[form]);
-	if (!cnt) {
-	    alert ("Please select one or more contact(s) for this action. To use the entire set of search results, click the 'all records' radio button.");
-	    return false;
-	}
+        if (document.forms[form].radio_ts[1].checked) {
+            return true;
+        }
+        // Doesn't matter if any rows are checked for New/Update Saved Search tasks
+        if (document.forms[form].task.value == 16 || document.forms[form].task.value == 32) {
+            return true;
+        }
+        cnt = countSelectedCheckboxes(fldPrefix, document.forms[form]);
+        if (!cnt) {
+            alert ("Please select one or more contact(s) for this action. \n\nTo use the entire set of search results, click the 'all records' radio button.");
+            return false;
+        }
     } else {
-	alert ("Please select an action from the drop-down menu.");
-	return false;
+        alert ("Please select an action from the drop-down menu.");
+        return false;
     }
 }
 

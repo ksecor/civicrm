@@ -1,7 +1,6 @@
 {* Actions: 1=add, 2=edit, browse=16, delete=8 *}
 <div id="group">
 <p>
-<div class="form-item">
 {if $action eq 16} {* browse *}
    {strip}
    <table>
@@ -36,7 +35,6 @@
         <a href="{crmURL p='civicrm/group/add' q='reset=1'}">New Group</a>
     </div>
 {/if} {* action ne add or edit *}
-</div>
 </p>
 </div>
 

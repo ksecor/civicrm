@@ -8,11 +8,10 @@
 {$session->debug($smarty.get.sessionDebug)}
 {/if}
 
-{include file="CRM/common/status.tpl"}
-
 <div id="crm-container">
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
+{include file="CRM/common/status.tpl"}
 
 <!-- .tpl file invoked: {$tplFile} -->
 {include file=$tplFile}
