@@ -636,7 +636,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     /**
      * Get custom data for a contact.
      *
-     * @param array $id - id of the contact whose custom data is needed
+     * @param int $id - id of the contact whose custom data is needed
      *
      * @return array customData
      *
@@ -648,9 +648,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     public static function getCustomData($id)
     {
         $customData = array();
-        $strSelect = $strFrom = $strWhere = ''; 
+        $strSelect = $strFrom = $strWhere = $orderBy = ''; 
 
         $tableData = array();
+
+        // using tableData to build the queryString 
         $tableData = array(
                            'crm_custom_value' => array('int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
                            'crm_custom_field' => array('custom_group_id', 'name', 'label', 'data_type', 'html_type', 'default_value', 
@@ -667,15 +669,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
         $strSelect = rtrim($strSelect, ',');
 
+        // from, where, order by
         $strFrom = " FROM crm_custom_value, crm_custom_field, crm_custom_group";
-
         $strWhere = " WHERE crm_custom_value.entity_id = $id AND
                             crm_custom_value.custom_field_id = crm_custom_field.id AND
                             crm_custom_field.custom_group_id = crm_custom_group.id";
-
         $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
 
-        // building the query string
+        // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
 
         // dummy dao needed
@@ -694,6 +695,31 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $customData[] = $valueArray;
         }
         return $customData;
+    }
+
+
+    /**
+     * Get contact type for a contact.
+     *
+     * @param int $id - id of the contact whose contact type is needed
+     *
+     * @return string contact_type if $id found else null ""
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+    public static function getContactType($id)
+    {
+        CRM_Core_Error::le_method();
+        $contact = new CRM_Contact_BAO_Contact();
+        $contact->id = $id;
+        if ($contact->find(true)) {
+            CRM_Core_Error::debug_var('contact_type', $contact->contact_type);
+            return $contact->contact_type;
+        }        
+        return "";
     }
 }
 ?>

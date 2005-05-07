@@ -50,16 +50,26 @@ class CRM_Contact_Page_CustomData {
     {
         CRM_Core_Error::le_method();
 
-        // get contact
+        // get custom data for contact
         $customData = CRM_Contact_BAO_Contact::getCustomData($page->getContactId());
+        $groupTree = CRM_Core_BAO_CustomGroup::getCustomGroups(CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
+
+        CRM_Core_Error::debug_var('groupTree', $groupTree);
+        CRM_Core_Error::debug_var('customData', $customData);
 
         self::_trimCustomData($customData);
+        foreach ($customData as $k => $v) {
+            $groupTree[$v['title']][$v['label']] = $v['data'];
+        }
+
+        CRM_Core_Error::debug_var('groupTree', $groupTree);
 
         $page->assign('customData', $customData);
+        $page->assign('groupTree', $groupTree);
 
         // $contactType = CRM_Contact_BAO_Contact::getContactType($page->getContactId());
         // get groups, fields for contact type & id
-        //$customData = CRM_Core_BAO_CustomGroup::getCustomData($defaults['contact_type']);
+        // $customData = CRM_Core_BAO_CustomGroup::getCustomData($defaults['contact_type']);
 
         CRM_Core_Error::ll_method();
     }
@@ -144,7 +154,12 @@ class CRM_Contact_Page_CustomData {
     {
         CRM_Core_Error::le_method();
 
-        CRM_Core_Error::debug_var('customData', $customData);
+        //CRM_Core_Error::debug_var('customData', $customData);
+
+        foreach ($customData as $k => $v) {
+
+        }
+
 
         foreach($customData as $k => $v) {
             //CRM_Core_Error::debug_var('v', $v);
@@ -176,7 +191,7 @@ class CRM_Contact_Page_CustomData {
             }
         }
 
-        CRM_Core_Error::debug_var('customData', $customData);
+        //CRM_Core_Error::debug_var('customData', $customData);
 
         CRM_Core_Error::ll_method();
     }

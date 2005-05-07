@@ -423,17 +423,17 @@ VALUES
 INSERT INTO crm_custom_group
     (domain_id, name, title, extends, style, help_pre, weight, is_active)
 VALUES
-    (1, 'education', 'Education Qualification', 'Individual', 'Tab', 'Please furnish educational history starting from high school', 1, 1);
+    (1, 'education', 'Education Qualification', 'Individual', 'Tab', 'Please furnish educational history starting from high school', 2, 1);
 
 INSERT INTO crm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
-    (2, 'degree', 'Degree Obtained', 'String', 'Text', 1, 1, '', 1);
+    (2, 'degree', 'Degree Obtained', 'String', 'Text', 1, 2, '', 1);
 
 INSERT INTO crm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
 VALUES
-    (2, 'school_college', 'School / College', 'String', 'Text', 0, 2, '', 1);
+    (2, 'school_college', 'School / College', 'String', 'Text', 0, 1, '', 1);
     
 INSERT INTO crm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
