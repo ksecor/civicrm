@@ -2,6 +2,7 @@
 
  <div id="search-status">
   Found {$pager->_totalItems} contacts.
+  {if $qill}{$qill}{/if}
  </div>
 
  <div class="form-item">

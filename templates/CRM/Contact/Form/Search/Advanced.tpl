@@ -1,145 +1,85 @@
 <form {$form.attributes}>
 {$form.hidden}
-<div class="bottom-light-coloured">
-<div class="form-item">
-	<div class="horizontal-position">
-		<div class="three-col1">
-		<span class="font-size12pt">{$form.cb_contact_type.label}</span>	
-		<span class="fields">{$form.cb_contact_type.html}</span>
-		</div>
-	  
-		<div class="three-col2">
-		<div><label>In Group (s)</label></div>
-		<div class="listing-box">
-			{foreach from=$form.cb_group item="cb_group_val"}
-			<div class="{cycle values="odd-row,even-row"}">
-			{$cb_group_val.html}
-			</div>
-			{/foreach}
-		</div>
-		</div>
-	 
-		<div class="three-col3">
-		<span><label>In Category (s)</label></sapn>
-		<div class="listing-box">
-			{foreach from=$form.cb_category item="cb_category_val"} 
-			<div class="{cycle values="odd-row,even-row"}">
-			{$cb_category_val.html}
-			</div>
-			{/foreach}
-		</div>
-		</div>
-	</div>
-</div>
-<div class="form-item">	
-	<p>
-	<div class="horizontal-position two-col1">
-	<div>
-	<span class="labels">{$form.sort_name.label}</span><span="fields">{$form.sort_name.html}</span>
-	</div>
-	<div>
-	<span class="fields description font-italic">
-	Individual, Organization or Household Name
-	</span>
-	</div>
-	</div>	
-	</p>
-</div>
-<div class="spacer"></div>
-</div>
-
-<div class="top-light-coloured">
-<div class="form-item">
-	<div class="horizontal-position">
-	<span class="three-col1">
-	<span class="font-size12pt"><label>Located In</label></span>	
-	</span>
-	<div class="spacer"></div>
-	</div>
-
-	<p>
-	<div class="horizontal-position">
-	<span class="two-col1">
-		<span class="labels">{$form.street_name.label}</span>
-		<span class="fields">{$form.street_name.html}</span>
-	</span>
-	<span class="two-col2">
-		<span class="labels">{$form.city.label}</span>
-		<span="fields">{$form.city.html}</span>
-	</span>
-	<div class="spacer"></div>
-        </div>
-	</p>
-
-	<p>
-	<div class="horizontal-position">
-	<span class="two-col1">
-		<span class="labels">{$form.state_province.label}</span>
-		<span class="fields">{$form.state_province.html|crmReplace:class:big}</span>
-	</span>
-	<span class="two-col2">
-		<span class="labels">{$form.country.label}</span>
-		<span class="fields">{$form.country.html|crmReplace:class:big}</span>
-	</span>
-	<div class="spacer"></div>
-	</div>
-	</p>
-
-	<p>
-	<div class="horizontal-position">
-	<span class="two-col1">
-		<span class="labels">{$form.postal_code.label}</span>
-		<span class="fields">{$form.postal_code.html} &nbsp; <label>OR</label></span> 
-	</span>
-	<span class="two-col2">
-		<span>{$form.postal_code_low.label}</span>
-		<span>{$form.postal_code_low.html|crmReplace:class:six}</span>
-		<span>{$form.postal_code_high.label}</span>
-		<span>{$form.postal_code_high.html|crmReplace:class:six}</span>
-	</span>
-	<div class="spacer"></div>
-	</div>
-	</p>
-
-	<p>
-	<div class="horizontal-position">
-		<span>{$form.cb_location_type.label}</span>
-		<span>{$form.cb_location_type.html}</span>
-		<div class="spacer"></div>
-	</div>
-	</p>
-
-	<p>
-	<div class="horizontal-position">
-		<span class="two-col1">
-		<span>{$form.cb_primary_location.html}</span>
-		</span>
-		<div class="spacer"></div>
-	</div>
-	<div class="horizontal-position">
-		<span class="two-col1">	
-		<span class="description font-italic">
-		Ignore any contact locations not marked as primary for this search.
-		</span>
-		</span>
-		<div class="spacer"></div>
-	</div>
-	</p>
-
-	<div>
-	<span class="three-col3">
-	<span class="float-right">{$form.buttons.html}</span>
-	</span>
-	</div>
-	</p>
-</div>
-<div class="spacer"></div>
-
-{if $qill}
-<hr>
-Searching for {$qill}
-<hr>
-{/if}
+<fieldset><legend>Advanced Search</legend>
+    <div class="form-item">
+	<table class="form-layout">
+		<tr>
+            <td class="font-size12pt">{$form.sort_name.label}</td>
+            <td>{$form.sort_name.html}<br />
+                <span class="description font-italic">
+                    Full or partial name
+                </span>
+            </td>
+            <td class="label">{$form.buttons.html}</td>       
+        </tr>
+		<tr>
+            <td><label>Contact Type(s)</label><br />
+                {$form.cb_contact_type.html}
+            </td>
+            <td><label>In Group(s)</label><br />
+                <div class="listing-box">
+                    {foreach from=$form.cb_group item="cb_group_val"}
+                    <div class="{cycle values="odd-row,even-row"}">
+                    {$cb_group_val.html}
+                    </div>
+                    {/foreach}
+                </div>
+            </td>
+            <td><label>Category(s)</label><br />
+                <div class="listing-box">
+                    {foreach from=$form.cb_category item="cb_category_val"} 
+                    <div class="{cycle values="odd-row,even-row"}">
+                    {$cb_category_val.html}
+                    </div>
+                    {/foreach}
+                </div>
+            </td>
+		</tr>
+    </table>
+    <fieldset><legend>Location Criteria</legend>
+    <table class="form-layout">
+        <tr>
+            <td class="label">{$form.street_name.label}</td>
+            <td>{$form.street_name.html}</span>
+            <td class="label">{$form.city.label}</td>
+            <td>{$form.city.html}</td>
+        </tr>
+        <tr>
+            <td class="label">{$form.state_province.label}</td>
+            <td>{$form.state_province.html|crmReplace:class:big}</td>
+            <td class="label">{$form.country.label}</td>
+            <td>{$form.country.html|crmReplace:class:big}</td>
+        </tr>
+        <tr>
+            <td class="label">{$form.postal_code.label}</td>
+            <td>{$form.postal_code.html}&nbsp;&nbsp;<label>OR</label></td> 
+            <td class="label">{$form.postal_code_low.label}</span>
+            <td>{$form.postal_code_low.html|crmReplace:class:six}
+                {$form.postal_code_high.label}
+                {$form.postal_code_high.html|crmReplace:class:six}
+            </td>
+        </tr>
+		<tr>
+        
+            <td class="label">{$form.cb_location_type.label}</td>
+            <td colspan="3">
+                {$form.cb_location_type.html}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="2">
+                {$form.cb_primary_location.html}<br />
+                <span class="description font-italic">
+                Ignore any contact locations not marked as primary for this search.
+                </span>
+            </td>
+            <td class="label">{$form.buttons.html}</td>
+        </tr>
+    </table>
+    </fieldset>
+    </div>
+</fieldset>
 
 {if $rowsEmpty}
     {include file="CRM/Contact/Form/EmptySearchResults.tpl"}

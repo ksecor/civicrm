@@ -321,6 +321,11 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // check for contact type restriction
         $qill .= "<ul>";
         
+        // check for last name, as of now only working with sort name
+        if ($fv['sort_name']) {
+            $qill .= "<li>Name like - \"" . $fv['sort_name'] . "\"</li>";
+        }
+        
         // contact type
         $qill .= "<li>Contact Type -";
         if ($fv['cb_contact_type']) {
@@ -336,7 +341,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // check for group restriction
         if ($fv['cb_group']) {
             $group =& CRM_Core_PseudoConstant::group();
-            $qill .= "<li>Belonging to Group -";
+            $qill .= "<li>Member of Group -";
             foreach ($fv['cb_group']  as $k => $v) {
                 $qill .= " \"" . $group[$k] . "\" or";
             }
@@ -347,17 +352,12 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // check for category restriction
         if ($fv['cb_category']) {
             $category =& CRM_Core_PseudoConstant::category();
-            $qill .= "<li>Categorized as -";
+            $qill .= "<li>Tagged as -";
             foreach ($fv['cb_category'] as $k => $v) {
                 $qill .= " \"" . $category[$k] . "\" or";
             }
             $qill = preg_replace($patternOr, $replacement, $qill);
             $qill .= "</li>";
-        }
-        
-        // check for last name, as of now only working with sort name
-        if ($fv['sort_name']) {
-            $qill .= "<li>Name like - \"" . $fv['sort_name'] . "\"</li>";
         }
         
         // street_name

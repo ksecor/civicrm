@@ -75,7 +75,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                 $cb_contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
             }
         }
-        $this->addGroup($cb_contact_type, 'cb_contact_type', 'Show Me....', '<br />');
+        $this->addGroup($cb_contact_type, 'cb_contact_type', 'Contact Type(s)', '<br />');
         
         // checkboxes for groups
         $cb_group = array();
@@ -89,9 +89,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         // add text box for last name, first name, street name, city
-        $this->addElement('text', 'sort_name', 'Contact Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
-        $this->addElement('text', 'street_name', 'Street Name:', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
-        $this->addElement('text', 'city', 'City:',CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
+        $this->addElement('text', 'sort_name', 'Find...', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->addElement('text', 'street_name', 'Street Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'street_name'));
+        $this->addElement('text', 'city', 'City',CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'city'));
 
         // select for state province
         $stateProvince = array('' => ' - any state/province - ') + CRM_Core_PseudoConstant::stateProvince( );
@@ -103,19 +103,19 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         // add text box for postal code
         $this->addElement('text', 'postal_code', 'Postal Code', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
-        $this->addElement('text', 'postal_code_low', 'Postal Code Range From', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
+        $this->addElement('text', 'postal_code_low', 'Range-From', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
         $this->addElement('text', 'postal_code_high', 'To', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
 
         // checkboxes for location type
         $cb_location_type = array();
-        $locationType = CRM_Core_PseudoConstant::locationType( ) + array('any' => 'Any Locations');
+        $locationType = CRM_Core_PseudoConstant::locationType( ) + array('any' => 'All Location Types');
         foreach ($locationType as $locationTypeID => $locationTypeName) {
             $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
         }
-        $this->addGroup($cb_location_type, 'cb_location_type', 'Include these locations', '&nbsp;');
+        $this->addGroup($cb_location_type, 'cb_location_type', 'Location Types', '&nbsp;');
         
         // checkbox for primary location only
-        $this->addElement('checkbox', 'cb_primary_location', null, 'Search for primary locations only');        
+        $this->addElement('checkbox', 'cb_primary_location', null, 'Search primary locations only');        
 
         $this->buildQuickFormCommon( );
     }
