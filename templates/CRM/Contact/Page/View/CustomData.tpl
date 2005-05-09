@@ -6,13 +6,24 @@
     <p>
     <fieldset><legend>Edit Custom Data</legend>
     {foreach from=$groupTree2 item=arr key=fieldset_name}
+        <fieldset><legend>{$fieldset_name}</legend>
         {foreach from=$arr item=element}
+        {assign var="element_html" value=`$element.html_type`} 
         {assign var="element_name" value=`$element.name`} 
-        <dl>
-        {$form.note.html}
-        <dt>{$form.$element_name.label}</dt><dd>{$form.$element_name.html}</dd>
-        </dl>
+            {if $element_html eq "Radio" or $element_html eq "Checkbox"}
+                <dl><dt>{$element.label}</dt><dd>
+                {foreach from=$form.$element_name item=subElement}
+                {$subElement.html}
+                {/foreach}
+                </dd></dl>
+            {else}
+                <dl>
+                {$form.note.html}
+                <dt>{$element.label}</dt><dd>{$form.$element_name.html}</dd>
+                </dl>
+            {/if}
         {/foreach}
+        </fieldset>
     {/foreach}
     <dl>
     <dt></dt><dd>{$form.buttons.html}</dd>
