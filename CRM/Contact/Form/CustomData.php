@@ -157,28 +157,41 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        //CRM_Core_Error::le_method();
+        CRM_Core_Error::le_method();
 
+        // get the form values and groupTree
         $fv = $this->exportValues();
+        $customGroupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
 
-        // get the elements of the contact id
-
+        CRM_Core_Error::debug_var('tableID', $this->_tableId);
         CRM_Core_Error::debug_var('fv', $fv);
-        
-        //CRM_Core_Error::debug_var('session', $_SESSION);
+        CRM_Core_Error::debug_var('customGroupTree', $customGroupTree);
 
-        //CRM_Core_Error::debug_var('tableid', $this->_tableId);
+        // update group tree with form values
 
-        // update them with new values
-        // hack.. need to update only those values which have changed.
-        // but currently updating all fields
-        
-        $customGroupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableID);
+        foreach ($fv as $k => $v) {
+            list($groupID, $fieldID, $elementName) = explode('_', $k, 3);
 
-        //CRM_Core_Error::debug_var('customGroupTree', $customGroupTree);
-        //CRM_Core_Error::debug_var('customData', $customData);
+            CRM_Core_Error::debug_var('groupID', $groupID);
+            CRM_Core_Error::debug_var('fieldID', $fieldID);
+            CRM_Core_Error::debug_var('elementName', $elementName);
 
-        //CRM_Core_Error::ll_method();
+
+            if (isset($groupTree[$groupID]['fields'][$fieldID][$elementName])) {
+                // new element or old one ?
+                
+                if (isset($groupTree[$groupID]['fields'][$fieldID]['customValue'])) {
+                    $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $v;
+                } else {
+                    $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array();
+                    $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $v;
+                }
+            }
+        }
+
+        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $this->_tableID);
+
+        CRM_Core_Error::ll_method();
     }
 
 }

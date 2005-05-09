@@ -162,10 +162,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function getTree($entity, $entityID=null)
     {
-        CRM_Core_Error::le_method();
-
-        CRM_Core_Error::debug_var('entityID', $entityID);
-
         // create a new tree
         $groupTree = array();
         $strSelect = $strFrom = $strWhere = $orderBy = ''; 
@@ -197,8 +193,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-
-        //CRM_Core_Error::debug_var('queryString', $queryString);
 
         // dummy dao needed
         $crmDAO = new CRM_Core_DAO();
@@ -232,16 +226,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             }
         }
 
-        CRM_Core_Error::debug_var('groupTree', $groupTree);
-
         if ($entityID) {
             // hack for now.. using only contacts custom data
             self::_populateCustomData($groupTree, $entityID);
         }
 
-        CRM_Core_Error::debug_var('groupTree', $groupTree);
-
-        CRM_Core_Error::ll_method();
         return $groupTree;
     }
 
@@ -260,10 +249,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     private static function _populateCustomData(&$groupTree, $id)
     {
-
-        CRM_Core_Error::debug_var('id', $id);
-
-        $customData = array();
         $strSelect = $strFrom = $strWhere = $orderBy = ''; 
 
         $tableData = array();
@@ -294,8 +279,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-
-        CRM_Core_Error::debug_var('queryString', $queryString);
 
         // dummy dao needed
         $crmDAO = new CRM_Core_DAO();
@@ -336,9 +319,58 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
 
 
+    /**
+     * Update custom data.
+     * Add custom data to the contact table.
+     *
+     * @param int $id - id of the contact whose custom data is needed
+     *
+     * @return none
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+    public static function updateCustomData(&$groupTree, $entityID)
+    {
+        CRM_Core_Error::le_method();
+        
+        foreach ($groupTree as $group) {
+            $groupID = $group['id'];
+            foreach ($group as $field) {
+                $fieldID = $field['id'];
+                if (isset($field['customValue'])) {
+                    $customValueDAO = new CRM_Core_DAO_CustomValue();
+                    
+                    // check if it's an update or new one
+                    if (isset($field['customValue']['id'])) {
+                        $customValueDAO->id = $field['customValue']['id'];
+                    }
+                    switch ($field['data_type']) {
+                    case 'String':
+                        $customValueDAO->char_data = $field['customValue']['data'];
+                        break;
+                    case 'Int':
+                    case 'Boolean':
+                        $customValueDAO->int_data = $field['customValue']['data'];
+                        break;
+                    case 'Float':
+                        $customValueDAO->float_data = $field['customValue']['data'];
+                        break;
+                    case 'Text':
+                        $customValueDAO->memo_data = $field['customValue']['data'];
+                        break;
+                    case 'Date':
+                        $customValueDAO->date_data = $field['customValue']['data'];
+                        break;
+                    }
+                    // $customValueDAO->save();
+                }
+            }
+        }
+        CRM_Core_Error::ll_method();
+    }
 }
-
-
-
 
 ?>

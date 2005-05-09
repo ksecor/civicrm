@@ -734,11 +734,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     public static function getContactType($id)
     {
-        //CRM_Core_Error::le_method();
         $contact = new CRM_Contact_BAO_Contact();
         $contact->id = $id;
         if ($contact->find(true)) {
-            //CRM_Core_Error::debug_var('contact_type', $contact->contact_type);
             return $contact->contact_type;
         }        
         return "";
