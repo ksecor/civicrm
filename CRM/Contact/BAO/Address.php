@@ -92,12 +92,14 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
             /*if ( ! empty( $value ) ) {
                 return true;
             }*/
-            if ($name == 'street_address') {
-                if ( !empty( $value ) ) {
-                    return true;
-                }
+
+            if ($name == 'country_id' || $name == 'state_province_id') {
+                return false;
             }
-            
+
+            if ( !empty( $value ) ) {
+                return true;
+            }
         }
         
         return false;
