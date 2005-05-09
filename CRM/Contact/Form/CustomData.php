@@ -104,25 +104,17 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 switch($fieldDetail['html_type']) {
                 case 'Text':
                 case 'TextArea':
-                    $this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'],
-                               $fieldDetail['attributes'], $fieldDetail['required']);
+                    $this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'], $fieldDetail['attributes'], $fieldDetail['required']);
                     break;
                 case 'Select Date':
                     $this->add('text', $fieldDetail['name'], $fieldDetail['label'], $fieldDetail['attributes'], $fieldDetail['required']);
                     break;
                 case 'Radio':
-                    CRM_Core_Error::debug_log_message("adding radio button");
-                    $this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'],
-                               'Yes', 'yes', $fieldDetail['attributes'], $fieldDetail['required']);
-                    $this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], '',
-                               'No', 'No', $fieldDetail['attributes'], $fieldDetail['required']);
-
-//                     $this->add(strtolower($fieldDetail['html_type']), 'n1', $fieldDetail['label'],
-//                                'Yes', 'yes', $fieldDetail['attributes'], $fieldDetail['required']);
-//                     $this->add(strtolower($fieldDetail['html_type']), 'n2', '',
-//                                'No', 'No', $fieldDetail['attributes'], $fieldDetail['required']);
-                    
-
+                    //CRM_Core_Error::debug_log_message("adding radio button");
+                    $this->addElement(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'], 'Yes', 'yes', $fieldDetail['attributes']);
+                    $this->addElement(strtolower($fieldDetail['html_type']), $fieldDetail['name'], '', 'No', 'No', $fieldDetail['attributes']);
+                    //$this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'], 'Yes', 'yes', $fieldDetail['attributes'], $fieldDetail['required']);
+                    //$this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], '', 'No', 'No', $fieldDetail['attributes'], $fieldDetail['required']);
                     break;
                 case 'Select':
                 case 'CheckBox':
@@ -131,18 +123,51 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 }
             }
         }
-
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => 'Save',
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'reset',
-                                         'name'      => 'Reset'),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
-                                 )
-                           );
+        $this->addButtons(array(
+                                array ( 'type'      => 'next',
+                                        'name'      => 'Save',
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'reset',
+                                        'name'      => 'Reset'),
+                                array ( 'type'       => 'cancel',
+                                        'name'      => 'Cancel' ),
+                                )
+                          );
     }
+    
+
+
+    /**
+     * Set the default form values
+     *
+     * @access protected
+     * @return array the default array reference
+     */
+    function &setDefaultValues() {
+
+        CRM_Core_Error::le_method();
+
+        $defaults = array();
+
+        $customData = CRM_Contact_BAO_Contact::getCustomData($this->_tableId);
+        CRM_Core_Error::debug_var('customData', $customData);
+        
+
+
+//         $defaults['sort_name'] = $this->_formValues['sort_name'];
+//         foreach (self::$csv as $v) {
+//             $defaults[$v] = $this->_formValues['cb_' . $v] ? key($this->_formValues['cb_' . $v]) : '';
+//         }
+
+//         if ( $this->_context === 'amtg' ) {
+//             $defaults['task'] = CRM_Contact_Task::GROUP_CONTACTS;
+//         }
+
+        CRM_Core_Error::ll_method();
+
+        return $defaults;
+    }
+
 
        
     /**
