@@ -22,13 +22,11 @@
     
     {* Controller for 'Rows Per Page' *}
     {if $location eq 'bottom'}
-     <div class="form-item">
-        <span class="element-right">
+     <div class="form-item float-right">
            <label>Rows per page:</label> &nbsp; 
            {$pager->_response.twentyfive}&nbsp; | &nbsp;
            {$pager->_response.fifty}&nbsp; | &nbsp;
            {$pager->_response.onehundred}&nbsp; 
-         </span>
      </div>
      <div class="spacer"></div>
     {/if}

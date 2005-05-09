@@ -3,31 +3,16 @@
 {include file="CRM/formCommon.tpl"}
 
 <fieldset>
-<legend>
-Save this search
-</legend>
-
-<p>
-Searching for {$qill}
-
-<div class="form-item">
-{$form.name.label} {$form.name.html}
-</div>
-<div class="form-item">
-{$form.description.label} {$form.description.html}
-</div>
-
-{*{include file="CRM/Contact/Form/Task.tpl"}*}
-
+<legend>Saved Search</legend>
+ <div id="search-status">
+  {$qill}<br />
+ </div>
+ <div class="form-item">
+ <dl>
+   <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
+   <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+   <dt></dt><dl>{$form.buttons.html}</dl>
+ </dl>
+ </div>
 </fieldset>
-<p>
-
-<div class="form-item">
-     <span class="element-right">{$form.buttons.html}</span>
-</div>
-
 </form>
-
-<hr />
-There are {$totalSelectedContact} contacts in the resultset currently.
-<hr/>

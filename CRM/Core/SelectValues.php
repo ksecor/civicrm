@@ -134,7 +134,7 @@ class CRM_Core_SelectValues {
      * @static
      */
     public static $contactType = array(
-                                       ''            => '- any contacts -',
+                                       ''            => '- all contacts -',
                                        'Individual'   => 'Individuals',
                                        'Household'    => 'Households',
                                        'Organization' => 'Organizations',

@@ -1,12 +1,12 @@
 {* Form elements for displaying and running action tasks on search results *}
 
  <div id="search-status">
-  Found {$pager->_totalItems} contacts.
+  {if $savedSearch.title}$savedSearch.title (saved search) - {/if}Found {$pager->_totalItems} contacts.
   {if $qill}{$qill}{/if}
  </div>
 
  <div class="form-item">
-   <span>
+   <div>
      {* Hide export and print buttons in 'Add Members to Group' context. *}
      {if $context NEQ 'amtg'}
         {if $mode eq 64}
@@ -23,9 +23,10 @@
      {/if}
      <br />
      {$form.radio_ts.ts_sel.html} &nbsp; {$form.radio_ts.ts_all.html} {$pager->_totalItems} records
-   </span>
-   <span class="element-right">Select: 
-<a onclick="changeCheckboxVals('mark_x_','select'  , Search ); return false;" name="select_all"  href="#">All</a> |
-<a onclick="changeCheckboxVals('mark_x_','deselect', Search ); return false;" name="select_none" href="#">None</a></span>
+   </div>
+   <div class="float-right">Select: 
+    <a onclick="changeCheckboxVals('mark_x_','select'  , Search ); return false;" name="select_all"  href="#">All</a> |
+    <a onclick="changeCheckboxVals('mark_x_','deselect', Search ); return false;" name="select_none" href="#">None</a>
+  </div>
  </div>  
 

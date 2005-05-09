@@ -1,7 +1,17 @@
+{* Master tpl for Advanced Search *}
+
+{assign var="showBlocks" value="'searchForm'"}
+{assign var="hideBlocks" value="'searchForm[show]','searchForm[hide]'"}
+
 <form {$form.attributes}>
 {$form.hidden}
-<fieldset><legend>Advanced Search</legend>
-    <div class="form-item">
+<div id="searchForm[show]" class="form-item">
+  <a href="#" onClick="hide('searchForm[show]'); show('searchForm'); return false;">(+)</a> <label>Search Criteria</label>
+</div>
+
+<div id="searchForm">
+<fieldset><legend><span id="searchForm[hide]"><a href="#" onClick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;">(-)</a> </span>Search Criteria</legend>
+  <div class="form-item">
 	<table class="form-layout">
 		<tr>
             <td class="font-size12pt">{$form.sort_name.label}</td>
@@ -78,15 +88,19 @@
         </tr>
     </table>
     </fieldset>
-    </div>
+  </div>
 </fieldset>
+</div>
 
 {if $rowsEmpty}
     {include file="CRM/Contact/Form/EmptySearchResults.tpl"}
 {/if}
 
 {if $rows}
-    {* Search request has returned 1 or more matching rows. *}
+    {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
+    {assign var="showBlocks" value="'searchForm[show]'"}
+    {assign var="hideBlocks" value="'searchForm'"}
+    
     <fieldset>
     
        {* This section handles form elements for action task select and submit *}
@@ -102,3 +116,12 @@
 
 {/if}
 </form>
+
+<script type="text/javascript">
+    var showBlocks = new Array({$showBlocks});
+    var hideBlocks = new Array({$hideBlocks});
+
+{* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showBlocks, hideBlocks );
+</script>
+
