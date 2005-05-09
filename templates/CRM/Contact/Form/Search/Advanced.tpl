@@ -1,5 +1,7 @@
 {* Master tpl for Advanced Search *}
 
+{include file="CRM/Contact/Form/Search/Intro.tpl"}
+
 {assign var="showBlocks" value="'searchForm'"}
 {assign var="hideBlocks" value="'searchForm[show]','searchForm[hide]'"}
 

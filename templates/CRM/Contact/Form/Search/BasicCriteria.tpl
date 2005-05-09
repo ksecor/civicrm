@@ -1,8 +1,11 @@
 {* Search criteria form elements *}
 
 <fieldset>
- {if $context EQ 'smog'}<legend>Find Contacts within this Group</legend>{/if}
- {if $context EQ 'amtg'}<legend>Find Contacts to Add to this Group</legend>{/if}
+    <legend>
+        {if $context EQ 'smog'}Find Contacts within this Group
+        {elseif $context EQ 'amtg'}<legend>Find Contacts to Add to this Group
+        {else}Search Criteria{/if}
+    </legend>
  <div class="form-item">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
      <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
@@ -19,7 +22,7 @@
         </span>
      </div>
      <p>
-     <span class="element-right"><a href="{crmURL p='civicrm/contact/search/advanced' q='reset=1'}">&gt;&gt; Advanced Search...</a></span>
+     <span class="element-right"><a href="{crmURL p='civicrm/contact/search/advanced'}">&gt;&gt; Advanced Search...</a></span>
      </p>
  </div>
 </fieldset>
