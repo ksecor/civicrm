@@ -2,7 +2,11 @@
 
  <div id="search-status">
   {if $savedSearch.name}{$savedSearch.name} (saved search) - {/if}Found {$pager->_totalItems} contacts.
-  {if $qill}{$qill}{/if}
+  {if $qill}<ul>
+    {foreach from=$qill item=criteria}
+      <li>{$criteria}
+    {/foreach}
+  {/if}
  </div>
 
  <div class="form-item">
@@ -25,8 +29,8 @@
      {$form.radio_ts.ts_sel.html} &nbsp; {$form.radio_ts.ts_all.html} {$pager->_totalItems} records
    </div>
    <div class="float-right">Select: 
-    <a onclick="changeCheckboxVals('mark_x_','select'  , Search ); return false;" name="select_all"  href="#">All</a> |
-    <a onclick="changeCheckboxVals('mark_x_','deselect', Search ); return false;" name="select_none" href="#">None</a>
+    <a onclick="changeCheckboxVals('mark_x_','select'  , {$form.formName} ); return false;" name="select_all"  href="#">All</a> |
+    <a onclick="changeCheckboxVals('mark_x_','deselect', {$form.formName} ); return false;" name="select_none" href="#">None</a>
   </div>
  </div>  
 

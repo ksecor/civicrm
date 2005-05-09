@@ -185,10 +185,10 @@ function countSelectedCheckboxes(fldPrefix, form) {
  * Sample usage: onClick="javascript:checkPerformAction('chk_', myForm );"
  *
  */
-function checkPerformAction (fldPrefix, form) {
+function checkPerformAction (fldPrefix, form, taskButton) {
     var cnt;
     
-    if (document.forms[form].task.selectedIndex || document.forms[form].task.value == 1) {
+    if (document.forms[form].task.selectedIndex || document.forms[form].task.value == 1 || taskButton == 1) {
 
         if (document.forms[form].radio_ts[1].checked) {
             return true;
@@ -223,37 +223,20 @@ function checkSelectedBox (chkName, form)
     var row = 'rowid'+ss;
 
     if (document.forms[form].elements[chkName].checked == true) {
-	/* this code works in firefix but doesnot work in Internet Explorer 6
-	if (document.getElementById(row).getAttribute('class') == 'even-row') {
-	    document.getElementById(row).setAttribute('class','selected-even-row');
-	} else {
-	    document.getElementById(row).setAttribute('class','selected-odd-row');
-	}
-	*/
+        if (document.getElementById(row).className == 'even-row') {
+            document.getElementById(row).className = 'selected even-row';
+        } else {
+            document.getElementById(row).className = 'selected odd-row';
+        }
 
-	if (document.getElementById(row).className == 'even-row') {
-	    document.getElementById(row).className = 'selected-even-row';
-	} else {
-	    document.getElementById(row).className = 'selected-odd-row';
-	}
+        } else {
 
-    } else {
-	/*
-	if (document.getElementById(row).getAttribute('class') == 'selected-even-row') {
-	    document.getElementById(row).setAttribute('class','even-row');
-	} else {
-	    document.getElementById(row).setAttribute('class','odd-row');
-	}
-	*/
-
-	if (document.getElementById(row).className == 'selected-even-row') {
-	    document.getElementById(row).className = 'even-row';
-	} else if (document.getElementById(row).className == 'selected-odd-row') {
-	    document.getElementById(row).className = 'odd-row';
-	}
-
+        if (document.getElementById(row).className == 'selected even-row') {
+            document.getElementById(row).className = 'even-row';
+        } else if (document.getElementById(row).className == 'selected odd-row') {
+            document.getElementById(row).className = 'odd-row';
+        }
     }
-    
 }
 
 

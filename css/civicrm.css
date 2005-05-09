@@ -246,8 +246,8 @@ div.spacer {
   border-top: 1px solid #000000;
 }
 
-#crm-container tr.selected-even-row, tr.selected-odd-row {
-  border: 0.5px solid #000000;
+#crm-container tr.selected {
+//  border: 0.5px solid #000000;
   background-color: #ffff99;
 }
 
@@ -297,8 +297,8 @@ div.spacer {
  font-weight: bold;
 }
 
-#crm-container #search-status ul {
- margin: 0;
+#crm-container #search-status ul, #crm-container td ul {
+ margin: 0em 0em 0em -2.0em;
 }
 
 div.crm-pager {
@@ -333,39 +333,6 @@ div.crm-pager a {
   float: right;
   margin-left: 8px;
   width: auto;
-}
-
-/*
-**Styles for Advanced Search Page
-*/
-/* following classes used to generate three column structure using <div> and <span> */
-#crm-container .three-col1 {
-  float: left;
-  width: 30%;
-  padding-left: 1%;
-} 
-
-#crm-container .three-col2 {
-  float: left;
-  width: 31%;		
-}
-
-#crm-container .three-col3 {
-  float: right;
-  width: 32%;
-}
-
-/* following classes used to generate two column structure using <div> and <span> */
-
-#crm-container .two-col1 {
-  float: left;
-  width: 49%;
-  padding-left: 1%;
-}
-
-#crm-container .two-col2 {
-  float: right;
-  width: 50%;
 }
 
 /* Styles for Wizard Progress Bars */

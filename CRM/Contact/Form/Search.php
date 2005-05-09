@@ -207,8 +207,12 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                            );
 
         $this->add('submit', $this->_searchButtonName, 'Search', array( 'class' => 'form-submit' ) );
-        $this->add('submit', $this->_exportButtonName, 'Export', array( 'class' => 'form-submit' ) );
-        $this->add('submit', $this->_printButtonName, 'Print', array( 'class' => 'form-submit' ) );
+        $this->add('submit', $this->_exportButtonName, 'Export',
+                   array( 'class' => 'form-submit',
+                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
+        $this->add('submit', $this->_printButtonName, 'Print',
+                   array( 'class' => 'form-submit',
+                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
         $this->setDefaultAction( 'refresh' );
 
         /*
@@ -217,7 +221,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          */
         $this->add('submit', $this->_actionButtonName, ( $this->_context == 'amtg' ) ? 'Add Contacts to ' . $group[$this->_amtgID] : 'Go',
                    array( 'class' => 'form-submit',
-                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."');" ) );
+                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) );
 
     }
     
