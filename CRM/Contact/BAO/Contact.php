@@ -654,7 +654,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // using tableData to build the queryString 
         $tableData = array(
-                           'crm_custom_value' => array('int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
+                           'crm_custom_value' => array('id', 'int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
                            'crm_custom_field' => array('custom_group_id', 'name', 'label', 'data_type', 'html_type', 'default_value', 
                                                        'is_required', 'weight'),
                            'crm_custom_group' => array('title', 'weight'),
@@ -693,28 +693,28 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 }
             }
 
-//             switch ($valueArray['data_type']) {
-//             case 'String':
-//                 $valueArray['data'] = $valueArray['char_data'];
-//                 break;
-//             case 'Int':
-//             case 'Boolean':
-//                 $valueArray['data'] = $valueArray['int_data'];
-//                 break;
-//             case 'Float':
-//                 $valueArray['data'] = $valueArray['float_data'];
-//                 break;
-//             case 'Text':
-//                 $valueArray['data'] = $valueArray['memo_data'];
-//                 break;
-//             case 'Date':
-//                 $valueArray['data'] = $valueArray['date_data'];
-//                 break;
-//             }
+            switch ($valueArray['data_type']) {
+            case 'String':
+                $valueArray['data'] = $valueArray['char_data'];
+                break;
+            case 'Int':
+            case 'Boolean':
+                $valueArray['data'] = $valueArray['int_data'];
+                break;
+            case 'Float':
+                $valueArray['data'] = $valueArray['float_data'];
+                break;
+            case 'Text':
+                $valueArray['data'] = $valueArray['memo_data'];
+                break;
+            case 'Date':
+                $valueArray['data'] = $valueArray['date_data'];
+                break;
+            }
             $customData[] = $valueArray;
         }
         
-        self::_trimCustomData($customData);
+        //self::_trimCustomData($customData);
 
         return $customData;
     }
@@ -742,55 +742,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             return $contact->contact_type;
         }        
         return "";
-    }
-
-    /**
-     * Trim custom data (removes all extra fields for display purpose)
-     *
-     * @access private
-     *
-     * @param array reference $customData
-     *
-     * @return none
-     *
-     * @static
-     *
-     */
-    private static function _trimCustomData(&$customData)
-    {
-        //CRM_Core_Error::le_method();
-        //CRM_Core_Error::debug_var('customData', $customData);
-        foreach($customData as $k => $v) {
-            //CRM_Core_Error::debug_var('v', $v);
-            switch ($v['data_type']) {
-            case 'String':
-                $customData[$k]['data'] = $v['char_data'];
-                //$v['data'] = $v['char_data'];
-                break;
-            case 'Int':
-                $customData[$k]['data'] = $v['int_data'];
-                //$v['data'] = $v['int_data'];
-                break;
-            case 'Float':
-                $customData[$k]['data'] = $v['float_data'];
-                //$v['data'] = $v['float_data'];
-                break;
-            case 'Text':
-                $customData[$k]['data'] = $v['memo_data'];
-                //$v['data'] = $v['memo_data'];
-                break;
-            case 'Date':
-                $customData[$k]['data'] = $v['date_data'];
-                //$v['data'] = $v['date_data'];
-                break;
-            case 'Boolean':
-                $customData[$k]['data'] = $v['int_data'];
-                //$v['data'] = $v['int_data'];
-                break;
-            }
-        }
-        //CRM_Core_Error::debug_var('customData', $customData);
-        //CRM_Core_Error::ll_method();
     }
 }
 

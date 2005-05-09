@@ -48,30 +48,15 @@ class CRM_Contact_Page_CustomData {
      */
     static function browse($page)
     {
-        //CRM_Core_Error::le_method();
-
         // get custom data for contact
         $customData = CRM_Contact_BAO_Contact::getCustomData($page->getContactId());
-        $groupTree = CRM_Core_BAO_CustomGroup::getBasicTree(CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
+        $basicGroupTree = CRM_Core_BAO_CustomGroup::getBasicTree(CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
 
-        //CRM_Core_Error::debug_var('groupTree', $groupTree);
-        //CRM_Core_Error::debug_var('customData', $customData);
-
-        self::_trimCustomData($customData);
-        // set data for groupTree
+        // populate basic tree with custom values
         foreach ($customData as $k => $v) {
-            $groupTree[$v['title']][$v['label']] = $v['data'];
+            $basicGroupTree[$v['title']][$v['label']] = $v['data'];
         }
-
-        //CRM_Core_Error::debug_var('groupTree', $groupTree);
-        //$page->assign('customData', $customData);
-        $page->assign('groupTree1', $groupTree);
-
-        // $contactType = CRM_Contact_BAO_Contact::getContactType($page->getContactId());
-        // get groups, fields for contact type & id
-        // $customData = CRM_Core_BAO_CustomGroup::getCustomData($defaults['contact_type']);
-
-        //CRM_Core_Error::ll_method();
+        $page->assign('basicGroupTree', $basicGroupTree);
     }
 
     /**
@@ -147,56 +132,6 @@ class CRM_Contact_Page_CustomData {
         }
         self::browse($page);
 
-        //CRM_Core_Error::ll_method();
-    }
-
-
-    /**
-     * Trim custom data (removes all extra fields for display purpose)
-     *
-     * @access private
-     *
-     * @param array reference $customData
-     *
-     * @return none
-     *
-     * @static
-     *
-     */
-    private static function _trimCustomData(&$customData)
-    {
-        //CRM_Core_Error::le_method();
-        //CRM_Core_Error::debug_var('customData', $customData);
-        foreach($customData as $k => $v) {
-            //CRM_Core_Error::debug_var('v', $v);
-            switch ($v['data_type']) {
-            case 'String':
-                $customData[$k]['data'] = $v['char_data'];
-                //$v['data'] = $v['char_data'];
-                break;
-            case 'Int':
-                $customData[$k]['data'] = $v['int_data'];
-                //$v['data'] = $v['int_data'];
-                break;
-            case 'Float':
-                $customData[$k]['data'] = $v['float_data'];
-                //$v['data'] = $v['float_data'];
-                break;
-            case 'Text':
-                $customData[$k]['data'] = $v['memo_data'];
-                //$v['data'] = $v['memo_data'];
-                break;
-            case 'Date':
-                $customData[$k]['data'] = $v['date_data'];
-                //$v['data'] = $v['date_data'];
-                break;
-            case 'Boolean':
-                $customData[$k]['data'] = $v['int_data'];
-                //$v['data'] = $v['int_data'];
-                break;
-            }
-        }
-        //CRM_Core_Error::debug_var('customData', $customData);
         //CRM_Core_Error::ll_method();
     }
 }

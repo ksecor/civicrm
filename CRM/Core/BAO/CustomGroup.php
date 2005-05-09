@@ -56,12 +56,13 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults ) {
-        $group = new CRM_Core_DAO_CustomGroup( );
-        $group->copyValues( $params );
-        if ( $group->find( true ) ) {
-            $group->storeValues( $defaults );
-            return $group;
+    static function retrieve(&$params, &$defaults)
+    {
+        $customGroup = new CRM_Core_DAO_CustomGroup();
+        $customGroup->copyValues($params);
+        if ($customGroup->find(true)) {
+            $customGroup->storeValues($defaults);
+            return $customGroup;
         }
         return null;
     }
@@ -75,12 +76,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @return Object             DAO object on sucess, null otherwise
      * @static
      */
-    static function setIsActive( $id, $is_active ) {
-        $group = new CRM_Core_DAO_CustomGroup( );
-        $group->id = $id;
-        if ( $group->find( true ) ) {
-            $group->is_active = $is_active;
-            return $group->save( );
+    static function setIsActive($id, $is_active) {
+        $customGroup = new CRM_Core_DAO_CustomGroup();
+        $customGroup->id = $id;
+        if ($customGroup->find(true)) {
+            $customGroup->is_active = $is_active;
+            return $customGroup->save();
         }
         return null;
     }
@@ -180,14 +181,15 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'crm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 
                                                        'is_required', 'attributes', 'label'),
-                           'crm_custom_group' => array('title'),
+                           'crm_custom_group' => array('id', 'title'),
                            );
 
         // create select
         $strSelect = "SELECT"; 
         foreach ($tableData as $tableName => $tableColumn) {
             foreach ($tableColumn as $columnName) {
-                $strSelect .= " $tableName.$columnName,";
+                $alias = $tableName . "_" . $columnName;
+                $strSelect .= " $tableName.$columnName as $alias,";
             }
         }
         $strSelect = rtrim($strSelect, ',');
@@ -209,22 +211,31 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // process records
         while($crmDAO->fetch()) {
-            //$groupTree[$crmDAO->title][] = $crmDAO->label;
-            if (!array_key_exists($crmDAO->title, $groupTree)) {
-                $groupTree[$crmDAO->title] = array();
+
+            $groupID = $crmDAO->crm_custom_group_id;
+            $fieldID = $crmDAO->crm_custom_field_id;
+
+            // create an array for groups if it does not exist
+            if (!array_key_exists($groupID, $groupTree)) {
+                $groupTree[$groupID] = array();
+                $groupTree[$groupID]['id'] = $groupID;
+                $groupTree[$groupID]['title'] = $crmDAO->crm_custom_group_title;
+                $groupTree[$groupID]['fields'] = array();
             }
+            
+            // add the fields now
+            $groupTree[$groupID]['fields'][$fieldID] = array();
+            $groupTree[$groupID]['fields'][$fieldID]['id'] = $fieldID;
+
             foreach ($tableData['crm_custom_field'] as $v) {
                 if ($v == 'id') {
-                    //CRM_Core_Error::debug_var('v', $v);
-                    $groupTree[$crmDAO->title][$crmDAO->id] = array();
+                    continue;
                 } else {
-                    //CRM_Core_Error::debug_var('v', $v);
-                    $groupTree[$crmDAO->title][$crmDAO->id][$v] = $crmDAO->$v;                    
+                    $fullField = "crm_custom_field_" . $v;
+                    $groupTree[$groupID]['fields'][$fieldID][$v] = $crmDAO->$fullField;                    
                 }
-                // $groupTree[$crmDAO->title][$v] = $crmDAO->$v;
             }
         }
-
         //CRM_Core_Error::debug_var('groupTree', $groupTree);
         //CRM_Core_Error::ll_method();
         return $groupTree;

@@ -41,7 +41,7 @@ require_once 'CRM/Core/Form.php';
  * back in. It also uses a lot of functionality with the CRM API's, so any change
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
- */
+  */
 class CRM_Contact_Form_CustomData extends CRM_Core_Form
 {
     /**
@@ -78,13 +78,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
-
-        // get the groupTreeForm
+    public function buildQuickForm()
+    {
         // gets all details of group tree for entity
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType);
-
-        $this->assign('groupTree2', $groupTree);
+        $this->assign('groupTree', $groupTree);
         
         // this is a complete hack.. need to check for the entitytype and 
         // then invoke the relevant BAO...
@@ -95,12 +93,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         // add the form elements
         foreach ($groupTree as $field) {
-            //CRM_Core_Error::debug_var('field', $field);
             foreach ($field as $fieldId => $fieldDetail) {
-                //CRM_Core_Error::debug_var('fieldId', $fieldId);
-                //foreach ($fieldDetail as $k => $v) {
-                    // CRM_Core_Error::debug_log_message("$k = $v");
-                //}
                 switch($fieldDetail['html_type']) {
                 case 'Text':
                 case 'TextArea':
@@ -110,11 +103,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $this->add('text', $fieldDetail['name'], $fieldDetail['label'], $fieldDetail['attributes'], $fieldDetail['required']);
                     break;
                 case 'Radio':
-                    //CRM_Core_Error::debug_log_message("adding radio button");
                     $this->addElement(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'], 'Yes', 'yes', $fieldDetail['attributes']);
                     $this->addElement(strtolower($fieldDetail['html_type']), $fieldDetail['name'], '', 'No', 'No', $fieldDetail['attributes']);
-                    //$this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'], 'Yes', 'yes', $fieldDetail['attributes'], $fieldDetail['required']);
-                    //$this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], '', 'No', 'No', $fieldDetail['attributes'], $fieldDetail['required']);
                     break;
                 case 'Select':
                 case 'CheckBox':
@@ -123,6 +113,18 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 }
             }
         }
+
+        foreach ($customData as $v) {
+            // add hidden fields for storing the crm_custom_value id so that we can update the correct
+            // rows of the crm_custom_value table.
+
+            $elementName = $v['name'] . '_ccvid';
+            $this->addElement('hidden', $elementName, $v['id']);
+
+            //CRM_Core_Error::debug_log_message("adding $elementName = " . $v['id']);
+
+        }
+
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => 'Save',
@@ -133,6 +135,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                         'name'      => 'Cancel' ),
                                 )
                           );
+        //CRM_Core_Error::ll_method();
     }
     
 
@@ -145,25 +148,18 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     function &setDefaultValues() {
 
-        CRM_Core_Error::le_method();
+        //CRM_Core_Error::le_method();
 
         $defaults = array();
 
         $customData = CRM_Contact_BAO_Contact::getCustomData($this->_tableId);
-        CRM_Core_Error::debug_var('customData', $customData);
-        
+        //CRM_Core_Error::debug_var('customData', $customData);
 
+        foreach ($customData as $v) {
+            $defaults[$v['name']] = $v['data'];
+        }
 
-//         $defaults['sort_name'] = $this->_formValues['sort_name'];
-//         foreach (self::$csv as $v) {
-//             $defaults[$v] = $this->_formValues['cb_' . $v] ? key($this->_formValues['cb_' . $v]) : '';
-//         }
-
-//         if ( $this->_context === 'amtg' ) {
-//             $defaults['task'] = CRM_Contact_Task::GROUP_CONTACTS;
-//         }
-
-        CRM_Core_Error::ll_method();
+        //CRM_Core_Error::ll_method();
 
         return $defaults;
     }
@@ -177,8 +173,31 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function postProcess() 
     {
-    }//end of function
+        //CRM_Core_Error::le_method();
 
+        $fv = $this->exportValues();
+
+
+        // get the elements of the contact id
+
+        //        CRM_Core_Error::debug_var('fv', $fv);
+        
+        //CRM_Core_Error::debug_var('session', $_SESSION);
+
+        //CRM_Core_Error::debug_var('tableid', $this->_tableId);
+
+        // update them with new values
+        // hack.. need to update only those values which have changed.
+        // but currently updating all fields
+        
+        $customGroupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType);
+        $customData = CRM_Contact_BAO_Contact::getCustomData($this->_tableId);
+
+        //CRM_Core_Error::debug_var('customGroupTree', $customGroupTree);
+        //CRM_Core_Error::debug_var('customData', $customData);
+
+        //CRM_Core_Error::ll_method();
+    }
 
 }
 

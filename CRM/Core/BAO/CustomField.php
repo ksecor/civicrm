@@ -56,12 +56,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults ) {
-        $group = new CRM_Core_DAO_CustomField( );
-        $group->copyValues( $params );
-        if ( $group->find( true ) ) {
-            $group->storeValues( $defaults );
-            return $group;
+    static function retrieve( &$params, &$defaults )
+    {
+        $customField = new CRM_Core_DAO_CustomField( );
+        $customField->copyValues( $params );
+        if ( $customField->find( true ) ) {
+            $customField->storeValues( $defaults );
+            return $customField;
         }
         return null;
     }
@@ -75,12 +76,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @return Object             DAO object on sucess, null otherwise
      * @static
      */
-    static function setIsActive( $id, $is_active ) {
-        $group = new CRM_Core_DAO_CustomField( );
-        $group->id = $id;
-        if ( $group->find( true ) ) {
-            $group->is_active = $is_active;
-            return $group->save( );
+    static function setIsActive( $id, $is_active )
+    {
+        $customField = new CRM_Core_DAO_CustomField( );
+        $customField->id = $id;
+        if ( $customField->find( true ) ) {
+            $customField->is_active = $is_active;
+            return $customField->save( );
         }
         return null;
     }
