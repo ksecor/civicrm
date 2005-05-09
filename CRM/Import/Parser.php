@@ -186,24 +186,24 @@ abstract class CRM_Import_Parser {
         if ( $mode == self::MODE_IMPORT ) {
             
             //get the key of email field
-            $session->getVars($aImportData, CRM_Import_Controller);
+            $session->getVars($importData, CRM_Import_Controller);
             
-            $aMapperArray = $aImportData['mapper'];
+            $mapper = $importData['mapper'];
             
             // print_r($aImportData);
-            foreach($aMapperArray as $lngKey => $varValue) {
+            foreach($mapper as $key => $varValue) {
                 if($varValue == 'Email'){
-                    $lngEmailKey = $lngKey;
+                    $emailKey = $key;
                 }
             }
 
             //$this->_totalCount = $aImportData['totalRowCount'];
-            $this->_validCount = $aImportData['validRowCount'];
-            $this->_errorCount = $aImportData['invalidRowCount'];
-            $this->_duplicateCount = $aImportData['duplicateRowCount'];
+            $this->_validCount = $importData['validRowCount'];
+            $this->_errorCount = $importData['invalidRowCount'];
+            $this->_duplicateCount = $importData['duplicateRowCount'];
         }
         
-        $aEmail = array();
+        $email = array();
         while ( ! feof( $fd ) ) {
             $values = fgetcsv( $fd, 8192, $seperator );
             //print_r($values);            
@@ -214,10 +214,10 @@ abstract class CRM_Import_Parser {
                     continue;
                 }
 
-                if ( in_array($values[$lngEmailKey], $aEmail)) {
+                if ( in_array($values[$emailKey], $email)) {
                     continue;
                 } else {
-                    array_push($aEmail, $values[$lngEmailKey]);
+                    array_push($email, $values[$emailKey]);
                 }
             }
             
@@ -227,7 +227,7 @@ abstract class CRM_Import_Parser {
             }
 
             //if ( $mode != self::MODE_IMPORT ) {
-                $this->_totalCount++;
+            $this->_totalCount++;
                 //}
 
             if ( $mode == self::MODE_PREVIEW ) {

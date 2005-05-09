@@ -205,7 +205,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         $contact = new CRM_Contact_BAO_Contact( );
         
-        $lngResultCount = 0;
+        $resultCount = 0;
         
         //max records that will be listed
         $maxResultCount = 50;
@@ -214,10 +214,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         if (strlen($params['contact_type'])) {
             $contact->contact_type = $params['contact_type'];
         }
-        $lngResultCount = $contact->count();
+        $resultCount = $contact->count();
 
         
-        if ($lngResultCount > $maxResultCount) {
+        if ($resultCount > $maxResultCount) {
             $this->assign('noResult', 'Please enter appropriate search criteria.');
         } else {
 
@@ -247,7 +247,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             }
             
             $this->addGroup($contact_chk, 'contact_check');
-            if ($lngResultCount == 0) $this->assign('noContacts',' No results were found.');
+            if ($resultCount == 0) $this->assign('noContacts',' No results were found.');
 
             $this->assign('contacts', $values);
         }

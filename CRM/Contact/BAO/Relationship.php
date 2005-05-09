@@ -191,9 +191,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
    * @static
    */
     static function create( &$params, &$ids ) {
-        $lngRelationshipId = 0;
-        $lngRelationshipId = CRM_Utils_Array::value( 'relationship', $ids );
-        if (!$lngRelationshipId) {
+        $relationshipId = 0;
+        $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
+        if (!$relationshipId) {
             $dataExists = self::dataExists( $params );
             if ( ! $dataExists ) {
                 return null;
@@ -203,8 +203,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         CRM_Core_DAO::transaction( 'BEGIN' );
         
         if (is_array($params['contact_check'])) {
-            foreach ( $params['contact_check'] as $lng_key => $value) {
-                $relationship = self::add( $params, $ids, $lng_key );
+            foreach ( $params['contact_check'] as $key => $value) {
+                $relationship = self::add( $params, $ids, $key );
             }
         } else {
             $relationship = self::add( $params, $ids);
@@ -223,43 +223,43 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * pairs
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param integer $lngContactId  this is contact id for adding relationship
+     * @param integer $contactId  this is contact id for adding relationship
      * @param array $ids    the array that holds all the db ids  
      * 
      * @return object CRM_Contact_BAO_Relationship 
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $lngContactId = 0 ) 
+    static function add( &$params, &$ids, $contactId = 0 ) 
     {
         // create relationship object
         $relationship                = new CRM_Contact_BAO_Relationship( );
         
         // get the string of relationship type
-        $strRelationshipType = CRM_Utils_Array::value( 'relationship_type_id', $params );
+        $relationshipTypes = CRM_Utils_Array::value( 'relationship_type_id', $params );
 
         // expolode the string with _ to get the relationship type id and to know which contact has to be inserted in
         // contact_id_a and which one in contact_id_b
         
-        $a_temp = explode('_',$strRelationshipType);
+        $temp = explode('_',$relationshipTypes);
 
-        // $a_temp[0] will contain the relationship type id.
-        // if $a_temp[1] == b or $a_temp[2] == a then the current contact has to be inserted as contact_id_b
-        // if $a_temp[1] == a or $a_temp[2] == b then the currnet contact has to be inserted as contact_id_a
+        // $temp[0] will contain the relationship type id.
+        // if $temp[1] == b or $temp[2] == a then the current contact has to be inserted as contact_id_b
+        // if $temp[1] == a or $temp[2] == b then the currnet contact has to be inserted as contact_id_a
         
-        if ($a_temp[1] == 'b') {
-            $lng_contact_b = CRM_Utils_Array::value( 'contact', $ids );
-            $lng_contact_a = $lngContactId;
-        } else if ($a_temp[1] == 'a') {
-            $lng_contact_b = $lngContactId;
-            $lng_contact_a = CRM_Utils_Array::value( 'contact', $ids );
+        if ($temp[1] == 'b') {
+            $contact_b = CRM_Utils_Array::value( 'contact', $ids );
+            $contact_a = $contactId;
+        } else if ($temp[1] == 'a') {
+            $contact_b = $contactId;
+            $contact_a = CRM_Utils_Array::value( 'contact', $ids );
         }
         
-        if($lngContactId > 0) { // don't update the contact during the update call.
-            $relationship->contact_id_b  = $lng_contact_b;
-            $relationship->contact_id_a  = $lng_contact_a;
+        if($contactId > 0) { // don't update the contact during the update call.
+            $relationship->contact_id_b  = $contact_b;
+            $relationship->contact_id_a  = $contact_a;
         }
-        $relationship->relationship_type_id = $a_temp[0];
+        $relationship->relationship_type_id = $temp[0];
         
         $sdate = CRM_Utils_Array::value( 'start_date', $params );
         $relationship->start_date = null;
@@ -321,36 +321,38 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     function getContactRelationshipType($contactId,$strContact = 'b_a')
     {
-        $aRelationshipType = array();
+        $allRelationshipType = array();
         $relationshipType = array();
-        $aRelationshipType = CRM_Core_PseudoConstant::relationshipType();
+        $allRelationshipType = CRM_Core_PseudoConstant::relationshipType();
 
         $contact = new CRM_Contact_BAO_Contact();
         
         $contact->id = $contactId;
         $contact->find(true);
 
-        $lngCheck = 0;
-        foreach ($aRelationshipType as $lng_key => $var_value) {
+        //$lngCheck = 0;
+        foreach ($allRelationshipType as $key => $varValue) {
             // there is a special relationship (Parent/Child) where we have to show both the name_a_b and name_b_a
             // in the select box. that why for relationship type id 1 we have added small tweak while building return array 
             
-            if ($var_value['contact_type_a'] == $contact->contact_type) {
-                if ($lng_key == 1) { // this is if relationship type id is 1
-                    $relationshipType[$lng_key.'_b_a'] = $var_value['name_a_b'];
-                    $relationshipType[$lng_key.'_a_b'] = $var_value['name_b_a'];
-                    $lngCheck ++;
-                } else if (!in_array($var_value['name_a_b'], $relationshipType)) {
-                    $relationshipType[$lng_key.'_'.$strContact] = $var_value['name_a_b'];
+            if ($varValue['contact_type_a'] == $contact->contact_type) {
+                if ($key == 1) { // this is if relationship type id is 1
+                    $relationshipType[$key.'_b_a'] = $varValue['name_a_b'];
+                    $relationshipType[$key.'_a_b'] = $varValue['name_b_a'];
+                    //$lngCheck ++;
+                } else if (!in_array($varValue['name_a_b'], $relationshipType)) {
+                    $relationshipType[$key.'_'.$strContact] = $varValue['name_a_b'];
                 }
             } 
             
-            if ($var_value['contact_type_b'] == $contact->contact_type) {
-                if (!$lngCheck) { // this is if relationship type id is 1
-                    $relationshipType[$lng_key.'_b_a'] = $var_value['name_a_b'];
-                    $relationshipType[$lng_key.'_a_b'] = $var_value['name_b_a'];
-                } else if (!in_array($var_value['name_b_a'], $relationshipType)) {
-                    $relationshipType[$lng_key.'_'.$strContact] = $var_value['name_b_a'];
+            if ($varValue['contact_type_b'] == $contact->contact_type) {
+                /*if (!$lngCheck) { // this is if relationship type id is 1
+                    $relationshipType[$key.'_b_a'] = $varValue['name_a_b'];
+                    $relationshipType[$key.'_a_b'] = $varValue['name_b_a'];
+                    echo "*********<br>";
+                } else*/
+                    if (!in_array($varValue['name_b_a'], $relationshipType)) {
+                    $relationshipType[$key.'_'.$strContact] = $varValue['name_b_a'];
                 }
             }
             

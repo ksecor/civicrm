@@ -52,83 +52,83 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
        
         //get the data from the session
-        $aData   = $this->get('dataValues');
-        $aMapper = $this->get('mapper');
+        $dataValues   = $this->get('dataValues');
+        $mapper = $this->get('mapper');
 
         if ( $skipColumnHeader ) {
-            array_shift($aData);
+            array_shift($dataValues);
         }
 
-        $lngEmailKey = -1;
-        $lngPhoneKey = -1;
+        $emailKey = -1;
+        $phoneKey = -1;
         //get the key of email and phone field
-        foreach($aMapper as $lngKey => $varValue) {
+        foreach($mapper as $key => $varValue) {
             if($varValue == 'Email'){
-                $lngEmailKey = $lngKey;
+                $emailKey = $key;
             }
             if($varValue == 'Phone'){
-                $lngPhoneKey = $lngKey;
+                $phoneKey = $key;
             }
         }
 
 
         // if the  email is present check for duplicate emails and also keep the count
-        if($lngEmailKey > 0 || $lngPhoneKey > 0) {
+        if($emailKey > 0 || $phoneKey > 0) {
             
-            $aEmail = array();
-            $lngDuplicateEmail = 0;
-            $lngIncorrectRecord = 0;
-            $lngErrorStatus = 0;
-            $lngDuplicateStatus = 0;
+            $email = array();
+            $duplicateEmail = 0;
+            $incorrectRecord = 0;
+            $errorStatus = 0;
+            $duplicateStatus = 0;
             
-            foreach($aData as $lngKey => $varValue) {
+            foreach($dataValues as $key => $varValue) {
 
                 // check for valid phone
-                if ($varValue[$lngPhoneKey] ) {
-                    if ( !CRM_Utils_Rule::phone($varValue[$lngPhoneKey])) {
-                        $lngIncorrectRecord++;
-                        $lngErrorStatus++;
+                if ($varValue[$phoneKey] ) {
+                    if ( !CRM_Utils_Rule::phone($varValue[$phoneKey])) {
+                        $incorrectRecord++;
+                        $errorStatus++;
                     }
                 } 
                 
                 //check for valid email
-                if ($varValue[$lngEmailKey] && !$lngErrorStatus) {
+                if ($varValue[$emailKey] && !$errorStatus) {
                     
-                    if (!CRM_Utils_Rule::email($varValue[$lngEmailKey])) {
-                        $lngIncorrectRecord++;            
-                        $lngErrorStatus++;
+                    if (!CRM_Utils_Rule::email($varValue[$emailKey])) {
+                        $incorrectRecord++;            
+                        $errorStatus++;
                     }
-                    if (!$lngErrorStatus) {
+                    if (!$errorStatus) {
                         // check the duplicate emails
-                        if ( in_array($varValue[$lngEmailKey], $aEmail)) {
-                            $lngDuplicateEmail++;
+                        if ( in_array($varValue[$emailKey], $email)) {
+                            $duplicateEmail++;
                         } else {
-                            //array_push($aEmail, $varValue[$lngEmailKey]);
-                            $aEmail[$lngKey] = $varValue[$lngEmailKey];
+                            //array_push($aEmail, $varValue[$EmailKey]);
+                            $email[$key] = $varValue[$emailKey];
                         }
                     }
                 }
                 
-                $lngErrorStatus = 0;
+                $errorStatus = 0;
             }
 
         }
 
-        $lngTotalRowCount = $this->get('totalRowCount');
+        $totalRowCount = $this->get('totalRowCount');
         
-        $lngValidRowCount = $lngTotalRowCount - $lngIncorrectRecord - $lngDuplicateEmail;
+        $validRowCount = $totalRowCount - $incorrectRecord - $duplicateEmail;
 
-        $this->set('duplicateRowCount', $lngDuplicateEmail);
-        $this->set('invalidRowCount', $lngIncorrectRecord);
+        $this->set('duplicateRowCount', $duplicateEmail);
+        $this->set('invalidRowCount', $incorrectRecord);
         
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
             $this->assign( 'rowDisplayCount', 3 );
-            //$this->set('totalRowCount', ($lngTotalRowCount-1));
-            $this->set('validRowCount', ($lngValidRowCount-1));
+            //$this->set('totalRowCount', ($totalRowCount-1));
+            $this->set('validRowCount', ($validRowCount-1));
         } else {
             $this->assign( 'rowDisplayCount', 2 );
-            $this->set('validRowCount', $lngValidRowCount);
+            $this->set('validRowCount', $validRowCount);
         }
 
         $properties = array( 'mapper', 'dataValues', 'columnCount',

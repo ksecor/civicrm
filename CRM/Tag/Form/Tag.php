@@ -66,10 +66,10 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
         
         // get the list of all the categories
-        $category =& CRM_Core_PseudoConstant::category();
+        $allCategory =& CRM_Core_PseudoConstant::category();
         
         // need to append the array with the " checked " if contact is tagged with the category
-        foreach ($category as $categoryID => $varValue) {
+        foreach ($allCategory as $categoryID => $varValue) {
             $strChecked = '';
             if( in_array($categoryID, $entityCategory)) {
                 $strChecked = 'checked';
@@ -79,7 +79,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         
         $this->addGroup($categoryChk, 'categoryList');
         
-        $this->assign('category', $category);
+        $this->assign('category', $allCategory);
         
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -104,33 +104,30 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         $data = $this->exportValues();
 
         // get categories for the contact id
-        $aEntityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
+        $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
 
         // get the list of all the categories
-        $aCategory =& CRM_Core_PseudoConstant::category();
+        $allCategory =& CRM_Core_PseudoConstant::category();
 
         // array contains the posted values
         // exportvalues is not used because its give value 1 of the checkbox which were checked by default, 
         // even after unchecking them before submitting them
         //  $aContactCategory = $data['categoryList'];
-        $aContactCategory = $_POST['categoryList'];
+        $contactCategory = $_POST['categoryList'];
 
         // check which values has to be inserted/deleted for contact
-        foreach ($aCategory as $lngKey => $var_value) {
+        foreach ($allCategory as $key => $varValue) {
             $params['entity_id'] = $this->_contactId;
             $params['entity_table'] = 'crm_contact';
-            $params['category_id'] = $lngKey;
+            $params['category_id'] = $key;
             
-            if (array_key_exists($lngKey, $aContactCategory) && !array_key_exists($lngKey, $aEntityCategory) ) {
+            if (array_key_exists($key, $contactCategory) && !array_key_exists($key, $entityCategory) ) {
                 // insert a new record
-                //$objName->save();
                 CRM_Contact_BAO_EntityCategory::add($params);
-            } else if (!array_key_exists($lngKey, $aContactCategory) && array_key_exists($lngKey, $aEntityCategory) ) {
+            } else if (!array_key_exists($key, $contactCategory) && array_key_exists($key, $entityCategory) ) {
                 // delete a record for existing contact
-                //$objName->delete();
                 CRM_Contact_BAO_EntityCategory::del($params);
             }
-            
         }
 
     }//end of function

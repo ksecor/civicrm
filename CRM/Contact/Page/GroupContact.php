@@ -97,14 +97,14 @@ class CRM_Contact_Page_GroupContact {
     /**
      * function to get the list of groups for contact based on status of membership
      *
-     * @param int $lngCntactId contact id 
+     * @param int $contactId contact id 
      * @param string $status state of membership
      *
      * @return array|int $values is array when there the values the should be displayed in the listing
      *                    or $count is int when only count is returned
      *
      */
-    function getContactGroup( $lngContactId, $status = null ) {
+    function getContactGroup( $contactId, $status = null ) {
         $groupContact = new CRM_Contact_DAO_GroupContact( );
      
         $strSelect = "SELECT crm_group_contact.id as crm_group_contact_id, crm_group.title as crm_group_title,
@@ -116,7 +116,7 @@ class CRM_Contact_Page_GroupContact {
         $strFrom = " FROM crm_group, crm_group_contact ";
 
         $strWhere = " WHERE crm_group.id = crm_group_contact.group_id
-                          AND crm_group_contact.contact_id = ".$lngContactId;
+                          AND crm_group_contact.contact_id = ".$contactId;
         
         if (strlen($status)) {
             $strWhere .= " AND crm_group_contact.status = '".$status."'";
@@ -149,12 +149,12 @@ class CRM_Contact_Page_GroupContact {
     /*
      * function to remove/ rejoin the group
      *
-     * @param int $lngGroupContactId id of crm_group_contact
+     * @param int $groupContactId id of crm_group_contact
      * @param string $status this is the status that should be updated.
      *
      */
 
-    static function delete ($lngGroupContactId, $status ) {
+    static function delete ($groupContactId, $status ) {
         $groupContact = new CRM_Contact_DAO_GroupContact( );
         
         switch ($status) {
@@ -174,7 +174,7 @@ class CRM_Contact_Page_GroupContact {
             break;
         }
         
-        $groupContact->id = $lngGroupContactId;
+        $groupContact->id = $groupContactId;
 
         $groupContact->save();
 

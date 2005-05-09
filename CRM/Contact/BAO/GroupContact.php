@@ -155,13 +155,13 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
     /**
      * Function to get list of all the groups and groups for a contact
      *
-     * @param  int $lngContactId contact id
+     * @param  int $contactId contact id
      *
      * @access public
      * @return array $values this array has key-> group id and value group title
      * @static
      */
-    static function getGroupList($lngContactId = 0) {
+    static function getGroupList($contactId = 0) {
         
         $group = new CRM_Contact_DAO_Group( );
 
@@ -170,9 +170,9 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $str_select = 'SELECT crm_group.id, crm_group.title ';
         $str_from = ' FROM crm_group, crm_group_contact ';
         $str_where = " WHERE crm_group.group_type='static'";
-        if ($lngContactId) {
+        if ($contactId) {
             $str_where .= " AND crm_group.id = crm_group_contact.group_id 
-                       AND crm_group_contact.contact_id = ".$lngContactId;
+                       AND crm_group_contact.contact_id = ".$contactId;
         }
 
         $str_orderby = " ORDER BY crm_group.name";
