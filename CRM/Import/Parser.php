@@ -156,7 +156,7 @@ abstract class CRM_Import_Parser {
 
     abstract function init();
 
-    function run( $fileName, $seperator = ',', $mode = self::MODE_PREVIEW ) {
+    function run( $fileName, $seperator = ',', $mode = self::MODE_PREVIEW, $skipColumnHeader = false ) {
 
         $this->init();
 
@@ -182,16 +182,7 @@ abstract class CRM_Import_Parser {
             $this->_activeFieldCount = count( $this->_activeFields );
         }
 
-        // get the session variables for import scope
         $session = CRM_Core_Session::singleton( );        
-        $session->getVars($importScope, CRM_Import_Form_UploadFile::SESSION_SCOPE_IMPORT);
-
-        $lngSkipColumnHeader = 0;
-        if($importScope['skipColumnHeader']) {
-            $lngSkipColumnHeader = 1;
-        }
-
-    
         if ( $mode == self::MODE_IMPORT ) {
             
             //get the key of email field
@@ -218,8 +209,8 @@ abstract class CRM_Import_Parser {
             //print_r($values);            
             // skip column header if data is imported
             if ( $mode == self::MODE_IMPORT ) {
-                if ($lngSkipColumnHeader) {
-                    $lngSkipColumnHeader = 0;
+                if ($skipColumnHeader) {
+                    $skipColumnHeader = 0;
                     continue;
                 }
 

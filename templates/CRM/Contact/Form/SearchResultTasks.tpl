@@ -1,7 +1,7 @@
 {* Form elements for displaying and running action tasks on search results *}
 
  <div id="search-status">
-  {if $savedSearch.title}$savedSearch.title (saved search) - {/if}Found {$pager->_totalItems} contacts.
+  {if $savedSearch.name}{$savedSearch.name} (saved search) - {/if}Found {$pager->_totalItems} contacts.
   {if $qill}{$qill}{/if}
  </div>
 

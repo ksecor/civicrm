@@ -226,7 +226,7 @@ function civicrm_menu($may_cache)
                          );
         
         $items[] = array(
-                         'path'  => civicrm_hack_path( 'civicrm/contact/search/basic', 'reset=1' ),
+                         'path'  => 'civicrm/contact/search/basic',
                          'title' => t('Find Contacts'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
@@ -234,13 +234,13 @@ function civicrm_menu($may_cache)
                          );
 
         $items[] = array(
-                         'path'  => civicrm_hack_path( 'civicrm/contact/search/advanced', 'reset=1' ),
+                         'path'  => 'civicrm/contact/search/advanced',
                          'title' => t('Advanced Search'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
         $items[] = array(
-                         'path'  => civicrm_hack_path( 'civicrm/contact/search/saved/browse', 'reset=1' ),
+                         'path'  => 'civicrm/contact/search/saved/browse',
                          'title' => t('Saved Searches'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,

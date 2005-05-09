@@ -104,6 +104,28 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
             return unserialize($savedSearch->form_values);
         }
     }
+
+    /**
+     * given an id, get the name of the saved search
+     *
+     * @param int $id the id of the saved search
+     *
+     * @return string the name of the saved search
+     * @access public
+     * @static
+     */
+    static function getName( $id ) {
+        $savedSearch = new CRM_Contact_DAO_SavedSearch( );
+        $savedSearch->id = $id;
+        $savedSearch->selectAdd();
+        $savedSearch->selectAdd('id, name');
+        if($savedSearch->find(true)) {
+            // make sure u unserialize - since it's stored in serialized form
+            return $savedSearch->name;
+        }
+        return null;
+    }
+
 }
 
 ?>

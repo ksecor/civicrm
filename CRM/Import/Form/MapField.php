@@ -72,12 +72,10 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $this->assign( 'columnCount' , $this->_columnCount );
         $this->assign( 'dataValues'  , $this->get( 'dataValues' ) );
         
-        // get the session variables for import scope
-        $session = CRM_Core_Session::singleton( );        
-        $session->getVars($importScope, CRM_Import_Form_UploadFile::SESSION_SCOPE_IMPORT);
+        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
 
-        if($importScope['skipColumnHeader']) {
-            $this->assign( 'skipColumnHeader' , $importScope['skipColumnHeader'] );
+        if ( $skipColumnHeader ) {
+            $this->assign( 'skipColumnHeader' , $skipColumnHeader );
             $this->assign( 'rowDisplayCount', 3 );
         } else {
             $this->assign( 'rowDisplayCount', 2 );
@@ -122,7 +120,9 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-        $fileName  = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
+        $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
+        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
+
         $seperator = ',';
 
         $mapperKeys = array( );
@@ -135,7 +135,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $this->set( 'mapper'    , $mapper     );
 
         $parser = new CRM_Import_Parser_Contact( $mapperKeys );
-        $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_SUMMARY );
+        $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_SUMMARY, $skipColumnHeader );
 
         // add all the necessary variables to the form
         $parser->set( $this );

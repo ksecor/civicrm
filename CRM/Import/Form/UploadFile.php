@@ -38,9 +38,6 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Import_Form_UploadFile extends CRM_Core_Form {
    
-    const
-        SESSION_SCOPE_IMPORT   = 'CRM Contact Import';
-
     /**
      * Function to actually build the form
      *
@@ -74,17 +71,15 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-        $fileName  = $this->controller->exportValue( $this->_name, 'uploadFile' );
+        $fileName         = $this->controller->exportValue( $this->_name, 'uploadFile' );
+        $skipColumnHeader = $this->controller->exportValue( $this->_name, 'skipColumnHeader' );
 
-        $session = CRM_Core_Session::singleton();
-        $session->set('skipColumnHeader', $this->controller->exportValue( $this->_name, 'skipColumnHeader' ),self::SESSION_SCOPE_IMPORT);
-                
         $seperator = ',';
         $mapperKeys = array( );
 
         $parser = new CRM_Import_Parser_Contact( $mapperKeys );
         $parser->setMaxLinesToProcess( 100 );
-        $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_PREVIEW );
+        $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_PREVIEW, $skipColumnHeader );
 
         // add all the necessary variables to the form
         $parser->set( $this );

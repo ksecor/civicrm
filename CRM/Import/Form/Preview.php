@@ -49,23 +49,15 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $this->_mapperFields = $this->get( 'fields' );
         $this->_columnCount  = $this->get( 'columnCount' );
 
-        // get the session variables for import scope
-        $session = CRM_Core_Session::singleton( );        
-        $session->getVars($importScope, CRM_Import_Form_UploadFile::SESSION_SCOPE_IMPORT);
-        //print_r($_SESSION);
+        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
        
         //get the data from the session
-        $aData = $this->get('dataValues');
+        $aData   = $this->get('dataValues');
         $aMapper = $this->get('mapper');
 
-        if($importScope['skipColumnHeader']) {
+        if ( $skipColumnHeader ) {
             array_shift($aData);
         }
-
-        //print_r($aData);
-        //print_r($aMapper);
-        
-        //print_r($_SESSION);
 
         $lngEmailKey = -1;
         $lngPhoneKey = -1;
@@ -122,10 +114,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         }
 
-        // print_r($aEmail);
-        //echo $lngDuplicateEmail;
-        //echo $lngIncorrectEmail;
-        // get the total no of records
         $lngTotalRowCount = $this->get('totalRowCount');
         
         $lngValidRowCount = $lngTotalRowCount - $lngIncorrectRecord - $lngDuplicateEmail;
@@ -133,8 +121,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $this->set('duplicateRowCount', $lngDuplicateEmail);
         $this->set('invalidRowCount', $lngIncorrectRecord);
         
-        if($importScope['skipColumnHeader']) {
-            $this->assign( 'skipColumnHeader' , $importScope['skipColumnHeader'] );
+        if ( $skipColumnHeader ) {
+            $this->assign( 'skipColumnHeader' , $skipColumnHeader );
             $this->assign( 'rowDisplayCount', 3 );
             //$this->set('totalRowCount', ($lngTotalRowCount-1));
             $this->set('validRowCount', ($lngValidRowCount-1));
@@ -188,13 +176,15 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-        $fileName  = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
+        $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
+        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
+
         $seperator = ',';
 
         $mapperKeys = $this->controller->exportValue( 'MapField', 'mapper' );
 
         $parser = new CRM_Import_Parser_Contact( $mapperKeys );
-        $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_IMPORT );
+        $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_IMPORT, $skipColumnHeader );
 
         // add all the necessary variables to the form
         $parser->set( $this );

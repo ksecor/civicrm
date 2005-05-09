@@ -155,7 +155,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $tasks = array( '' => '- more actions -' ) + CRM_Contact_Task::$tasks;
         if ( isset( $this->_ssID ) ) {
             $tasks = $tasks + CRM_Contact_Task::$optionalTasks;
+
+            $savedSearchValues = array( 'id' => $this->_ssID, 'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID ) );
+            $this->assign_by_ref( 'savedSearch', $savedSearchValues );
         }
+
         $actionElement = $this->add('select', 'task'   , 'Actions: '    , $tasks    );
 
         if ( $this->_context === 'smog' ) {
