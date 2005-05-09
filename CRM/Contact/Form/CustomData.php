@@ -65,43 +65,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     protected $_entityType;
 
-
-    /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int     $mode       The mode of the form
-     *
-     * @return CRM_Contact_Form_CustomData
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE)
-    {
-        parent::__construct($name, $state, $mode);
-    }
-
     function preProcess()
     {
         $this->_tableName  = $this->get('tableName');
         $this->_tableId    = $this->get('tableId');
         $this->_entityType = $this->get('entityType');
-
-        //CRM_Core_Error::debug_var('entityType', $this->_entityType);
-    }
-
-    /**
-     * This function sets the default values for the form. Note that in edit/view mode
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return None
-     */
-    function setDefaultValues()
-    {
-        // The groupTree array is used to set default values for
-        // the form.
-
     }
 
     /**

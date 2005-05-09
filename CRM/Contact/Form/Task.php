@@ -56,21 +56,6 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
     protected $_contactIds;
 
     /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int     $mode       The mode of the form
-     *
-     * @return CRM_Contact_Form_Task
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) 
-    {
-        parent::__construct($name, $state, $mode);
-    }
-    
-    /**
      * build all the data structures needed to build the form
      *
      * @param none

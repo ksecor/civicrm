@@ -119,7 +119,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * We should not use QuickForm directly. This class provides a lot
      * of default convenient functions, rules and buttons
      *
-     * @param string    $name      Form Name
      * @param object    $state     State associated with this form
      * @param enum      $mode      The mode the form is operating in (None/Create/View/Update/Delete)
      * 
@@ -127,10 +126,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */
 
-    function __construct($name = '', $state = null, $mode = self::MODE_NONE ) {
-        $this->HTML_QuickForm_Page( $name );
+    function __construct($state = null, $mode = self::MODE_NONE ) {
+        $this->_name  = CRM_Utils_String::getClassName( get_class( $this ) );
+        $this->HTML_QuickForm_Page( $this->_name );
 
-        $this->_name  = $name;
         $this->_state = $state;
         $this->_mode  = $mode;
 

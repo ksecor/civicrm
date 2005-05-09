@@ -56,22 +56,6 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
      */
     protected $_contactId;
     
-
-    /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int    $mode        The mode of the form
-     *
-     * @return CRM_Contact_Form_GroupContact
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) 
-    {
-        parent::__construct($name, $state, $mode);
-    }
-    
     function preProcess( ) 
     {
 

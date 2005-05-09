@@ -49,54 +49,10 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
      */
     protected $_contactId;
     
-
-    /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int     $mode       The mode of the form
-     *
-     * @return CRM_Tag_Form_Tag
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) 
-    {
-        parent::__construct($name, $state, $mode);
-    }
-    
     function preProcess( ) 
     {
         $this->_contactId   = $this->get('contactId');
     }
-
-    /**
-     * This function sets the default values for the form. Tag that in edit/view mode
-     * the default values are retrieved from the database
-     * 
-     * @access public
-     * @return None
-     */
-    function setDefaultValues( ) 
-    {
-        $defaults = array( );
-        $params   = array( );
-
-        return $defaults;
-    }
-    
-
-    /**
-     * This function is used to add the rules for form.
-     *
-     * @return None
-     * @access public
-     */
-    function addRules( )
-    {
-        
-    }
-
 
     /**
      * Function to build the form

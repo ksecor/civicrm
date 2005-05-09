@@ -39,13 +39,6 @@ require_once 'CRM/Core/Form.php';
 class CRM_Group_Form_DynamicGroup extends CRM_Core_Form {
 
     /**
-     * class constructor
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
-    /**
      * Function to set variables up before form is built
      *
      * @return void

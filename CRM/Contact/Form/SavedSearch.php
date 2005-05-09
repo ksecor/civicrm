@@ -45,21 +45,6 @@ require_once 'CRM/Core/PseudoConstant.php';
 class CRM_Contact_Form_SavedSearch extends CRM_Core_Form {
 
     /**
-     * Class construtor
-     *
-     * @param string    $name  name of the form
-     * @param CRM_Core_State $state State object that is controlling this form
-     * @param int       $mode  Mode of operation for this form
-     *
-     * @return CRM_Contact_Form_Search
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE)
-    {
-        parent::__construct($name, $state, $mode);
-    }
-
-    /**
      * Build the form
      *
      * @access public

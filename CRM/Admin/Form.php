@@ -54,20 +54,6 @@ class CRM_Admin_Form extends CRM_Core_Form
      */
     protected $_BAOName;
 
-    /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int    $mode        The mode of the form
-     *
-     * @return CRM_Admin_Form
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
     function preProcess( ) {
         $this->_id      = $this->get( 'id'      );
         $this->_BAOName = $this->get( 'BAOName' );

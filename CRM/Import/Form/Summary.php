@@ -39,13 +39,6 @@ require_once 'CRM/Core/Form.php';
 class CRM_Import_Form_Summary extends CRM_Core_Form {
 
     /**
-     * class constructor
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
-    /**
      * Function to set variables up before form is built
      *
      * @return void

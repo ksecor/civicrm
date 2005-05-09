@@ -53,27 +53,6 @@ class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
     protected $_tags;
 
     /**
-     * class constructor
-     *
-     */
-    function __construct( $name, $state, $mode = self::MODE_NONE ) {
-        parent::__construct($name, $state, $mode);
-    }
-
-    /**
-     * build all the data structures needed to build the form
-     *
-     * @return void
-     * @access public
-     */
-    function preProcess( ) {
-        /*
-         * initialize the task and row fields
-         */
-        parent::preProcess( );
-    }
-
-    /**
      * Build the form
      *
      * @access public

@@ -53,20 +53,6 @@ class CRM_Group_Form_Delete extends CRM_Core_Form {
     protected $_title;
 
     /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int     $mode       The mode of the form
-     *
-     * @return CRM_Group_Form_Delete
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
-    /**
      * set up variables to build the form
      *
      * @return void

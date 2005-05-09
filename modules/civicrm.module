@@ -595,19 +595,24 @@ function civicrm_search()
 {
     $session = CRM_Core_Session::singleton( );
 
-    // advanced search
-    if(arg(3) == 'advanced') {
-        $controller = new CRM_Contact_Controller_Advanced( 'Advanced Search', CRM_Core_Form::MODE_ADVANCED );
-        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'reset=1' ) );
-        $controller->run( );
-    } else if (arg(3) == 'saved' && arg(4) == 'browse') {
+    if (arg(3) == 'saved' && arg(4) == 'browse') {
         // browse saved searches
         $savedSearchPage = new CRM_Contact_Page_SavedSearch('', CRM_Contact_Page_View::MODE_NONE);
         $savedSearchPage->run();
+        return;
     } else {
-        // basic search
-        $controller = new CRM_Contact_Controller_Search( 'Search Contacts', CRM_Core_Form::MODE_BASIC );
-        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) );
+        if(arg(3) == 'advanced') {
+            // advanced search
+            $mode  = CRM_Core_Form::MODE_ADVANCED;
+            $title = 'Advanced Search';
+            $url   = 'civicrm/contact/search/advanced';
+        } else {
+            $mode  = CRM_Core_Form::MODE_BASIC;
+            $title = 'Search';
+            $url   = 'civicrm/contact/search';
+        }
+        $controller = new CRM_Contact_Controller_Search( $title, $mode );
+        $session->pushUserContext( CRM_Utils_System::url( $url, 'reset=1' ) );
         $controller->run( );
     }
 

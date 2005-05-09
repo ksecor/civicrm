@@ -41,14 +41,6 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
     const
         SESSION_SCOPE_IMPORT   = 'CRM Contact Import';
 
-
-    /**
-     * class constructor
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
     /**
      * Function to actually build the form
      *

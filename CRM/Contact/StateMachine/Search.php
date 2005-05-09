@@ -41,40 +41,21 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
     function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
         parent::__construct( $controller, $mode );
 
+        $this->_pages = array( );
         if ( $mode == CRM_Core_Form::MODE_ADVANCED ) {
-            $task = $this->taskName( $controller, 'Advanced' );
+            $this->_pages[] = 'CRM_Contact_Form_Search_Advanced';
+            list( $task, $result ) = $this->taskName( $controller, 'Advanced' );
         } else {
-            $task = $this->taskName( $controller, 'Search' );
+            $this->_pages[] = 'CRM_Contact_Form_Search';
+            list( $task, $result ) = $this->taskName( $controller, 'Search' );
         }
+        $this->_pages[] = $task;
 
-        $this->_pages = $this->pages( $controller );
-
-        switch ($task) {
-        case 'CRM_Contact_Form_Task_AddToGroup':
-        case 'CRM_Contact_Form_Task_AddToTag':
-        case 'CRM_Contact_Form_Task_SaveSearch':
-        case 'CRM_Contact_Form_Task_SaveSearch_Update':
-            array_push($this->_pages, 'CRM_Contact_Form_Task_Result');
-            break;
+        if ( $result ) {
+            $this->_pages[] = 'CRM_Contact_Form_Task_Result';
         }
 
         $this->addSequentialPages( $this->_pages, $mode );
-    }
-
-    /**
-     * return the set of pages that make up this wizard
-     *
-     * @param CRM_Core_Controller the controller object
-     *
-     * @return array
-     * @access public
-     */
-    function pages( $controller ) {
-        $task = CRM_Contact_StateMachine_Search::taskName( $controller, 'Search' );
-        return array(
-                     'CRM_Contact_Form_Search',
-                     $task,
-                     );
     }
 
     /**
@@ -95,37 +76,39 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             $value = $controller->exportValue( $formName, 'task' );
         }
 
+        $result = false;
         switch ( $value ) {
         case  CRM_Contact_Task::GROUP_CONTACTS:
-            $task = 'CRM_Contact_Form_Task_AddToGroup';
+            $task   = 'CRM_Contact_Form_Task_AddToGroup';
+            $result = true;
             break;
 
         case CRM_Contact_Task::DELETE_CONTACTS:
-            $task = 'CRM_Contact_Form_Task_Delete';
+            $task   = 'CRM_Contact_Form_Task_Delete';
             break;
 
         case CRM_Contact_Task::SAVE_SEARCH:
-            $task = 'CRM_Contact_Form_Task_SaveSearch';
+            $task   = 'CRM_Contact_Form_Task_SaveSearch';
+            $result = true;
             break;
 
         case CRM_Contact_Task::SAVE_SEARCH_UPDATE:
-            $task = 'CRM_Contact_Form_Task_SaveSearch_Update';
+            $task   = 'CRM_Contact_Form_Task_SaveSearch_Update';
+            $result = true;
             break;
 
         case CRM_Contact_Task::TAG_CONTACTS:
-            $task = 'CRM_Contact_Form_Task_AddToTag';
+            $task   = 'CRM_Contact_Form_Task_AddToTag';
+            $result = true;
             break;
 
-        case CRM_Contact_Task::PRINT_CONTACTS:
+        default: // the print task is the default and catch=all task
             $task = 'CRM_Contact_Form_Task_Print';
             break;
 
-        default:
-            $task = 'CRM_Contact_Form_Task_Print';
-            break;
         }
 
-        return $task;
+        return array( $task, $result );
     }
 }
 

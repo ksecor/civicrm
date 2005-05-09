@@ -41,14 +41,6 @@ require_once 'CRM/Core/Form.php';
 class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
 
     /**
-     * class constructor
-     *
-     */
-    function __construct( $name, $state, $mode = self::MODE_NONE ) {
-        parent::__construct($name, $state, $mode);
-    }
-
-    /**
      * build all the data structures needed to build the form
      *
      * @return void

@@ -65,20 +65,6 @@ class CRM_Note_Form_Note extends CRM_Core_Form
      */
     protected $_noteId;
 
-    /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int     $mode       The mode of the form
-     *
-     * @return CRM_Note_Form_Note
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
     function preProcess( ) {
         $this->_tableName = $this->get( 'tableName' );
         $this->_tableId   = $this->get( 'tableId'   );

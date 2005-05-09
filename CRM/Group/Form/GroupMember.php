@@ -48,20 +48,6 @@ class CRM_Group_Form_GroupMember extends CRM_Core_Form
      */
     protected $_id;
 
-    /**
-     * class constructor
-     *
-     * @param string $name        Name of the form.
-     * @param string $state       The state object associated with this form
-     * @param int     $mode       The mode of the form
-     *
-     * @return CRM_Group_Form_GroupMember
-     * @access public
-     */
-    function __construct($name, $state, $mode = self::MODE_NONE) {
-        parent::__construct($name, $state, $mode);
-    }
-
     function preProcess( ) {
         $this->_id    = $this->get( 'id' );
     }
@@ -79,31 +65,7 @@ class CRM_Group_Form_GroupMember extends CRM_Core_Form
             $aMembers = CRM_Core_BAO_Group::getMember( $this->_id );
         }
         $this->assign('members', $aMembers );
-        //        print_r($aMembers);
-        
     }
-
-    /**
-     * Function to build the form
-     *
-     * @return None
-     * @access public
-     */
-    public function buildQuickForm( ) {
-        
-    }
-
-       
-    /**
-     * Function to process the form
-     *
-     * @access public
-     * @return None
-     */
-    public function postProcess() 
-    {
-
-    }//end of function
 
 }
 

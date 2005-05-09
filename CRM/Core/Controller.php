@@ -239,8 +239,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         foreach ( $pages as $classPath ) {
             $stateName   = CRM_Utils_String::getClassName($classPath);
 
-            $$stateName = new $classPath( $stateName,
-                                          $stateMachine->find( $classPath ),
+            $$stateName = new $classPath( $stateMachine->find( $classPath ),
                                           $mode );
             $this->addPage( $$stateName );
             $this->addAction( $stateName, new HTML_QuickForm_Action_Direct( ) );
