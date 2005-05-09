@@ -81,30 +81,23 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     public function buildQuickForm()
     {
         // gets all details of group tree for entity
-        $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType);
+        $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
         $this->assign('groupTree', $groupTree);
         
-        // this is a complete hack.. need to check for the entitytype and 
-        // then invoke the relevant BAO...
-        $customData = CRM_Contact_BAO_Contact::getCustomData($this->_tableId);
-
-        //CRM_Core_Error::debug_var('groupTree', $groupTree);
-        //CRM_Core_Error::debug_var('customData', $customData);
-
         // add the form elements
-        foreach ($groupTree as $field) {
-            foreach ($field as $fieldId => $fieldDetail) {
-                switch($fieldDetail['html_type']) {
+        foreach ($groupTree as $group) {
+            foreach ($group['fields'] as $field) {
+                switch($field['html_type']) {
                 case 'Text':
                 case 'TextArea':
-                    $this->add(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'], $fieldDetail['attributes'], $fieldDetail['required']);
+                    $this->add(strtolower($field['html_type']), $field['name'], $field['label'], $field['attributes'], $field['required']);
                     break;
                 case 'Select Date':
-                    $this->add('text', $fieldDetail['name'], $fieldDetail['label'], $fieldDetail['attributes'], $fieldDetail['required']);
+                    $this->add('text', $field['name'], $field['label'], $field['attributes'], $field['required']);
                     break;
                 case 'Radio':
-                    $this->addElement(strtolower($fieldDetail['html_type']), $fieldDetail['name'], $fieldDetail['label'], 'Yes', 'yes', $fieldDetail['attributes']);
-                    $this->addElement(strtolower($fieldDetail['html_type']), $fieldDetail['name'], '', 'No', 'No', $fieldDetail['attributes']);
+                    $this->addElement(strtolower($field['html_type']), $field['name'], $field['label'], 'Yes', 'yes', $field['attributes']);
+                    $this->addElement(strtolower($field['html_type']), $field['name'], '', 'No', 'No', $field['attributes']);
                     break;
                 case 'Select':
                 case 'CheckBox':
@@ -112,17 +105,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 case 'Select Country':
                 }
             }
-        }
-
-        foreach ($customData as $v) {
-            // add hidden fields for storing the crm_custom_value id so that we can update the correct
-            // rows of the crm_custom_value table.
-
-            $elementName = $v['name'] . '_ccvid';
-            $this->addElement('hidden', $elementName, $v['id']);
-
-            //CRM_Core_Error::debug_log_message("adding $elementName = " . $v['id']);
-
         }
 
         $this->addButtons(array(
@@ -135,7 +117,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                         'name'      => 'Cancel' ),
                                 )
                           );
-        //CRM_Core_Error::ll_method();
     }
     
 
@@ -177,7 +158,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         $fv = $this->exportValues();
 
-
         // get the elements of the contact id
 
         //        CRM_Core_Error::debug_var('fv', $fv);
@@ -190,8 +170,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         // hack.. need to update only those values which have changed.
         // but currently updating all fields
         
-        $customGroupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType);
-        $customData = CRM_Contact_BAO_Contact::getCustomData($this->_tableId);
+        $customGroupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableID);
 
         //CRM_Core_Error::debug_var('customGroupTree', $customGroupTree);
         //CRM_Core_Error::debug_var('customData', $customData);

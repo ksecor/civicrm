@@ -102,9 +102,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function getBasicTree($entity)
     {
-        //CRM_Core_Error::le_method();
-        //CRM_Core_Error::debug_var('entity', $entity);
-
+        // create a new tree
         $groupTree = array();
         $strSelect = $strFrom = $strWhere = $orderBy = ''; 
 
@@ -134,8 +132,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
 
-        //CRM_Core_Error::debug_var('queryString', $queryString);
-
         // dummy dao needed
         $crmDAO = new CRM_Core_DAO();
         $crmDAO->query($queryString);
@@ -145,11 +141,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             if (!array_key_exists($crmDAO->title, $groupTree)) {
                 $groupTree[$crmDAO->title] = array();
             }
-            //$groupTree[$crmDAO->title][] = $crmDAO->label;
             $groupTree[$crmDAO->title][$crmDAO->label] = "";
         }
-        //CRM_Core_Error::debug_var('groupTree', $groupTree);
-        //CRM_Core_Error::ll_method();
         return $groupTree;
     }
 
@@ -167,11 +160,13 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function getTree($entity)
+    public static function getTree($entity, $entityID=null)
     {
-        //CRM_Core_Error::le_method();
-        //CRM_Core_Error::debug_var('entity', $entity);
+        CRM_Core_Error::le_method();
 
+        CRM_Core_Error::debug_var('entityID', $entityID);
+
+        // create a new tree
         $groupTree = array();
         $strSelect = $strFrom = $strWhere = $orderBy = ''; 
 
@@ -236,9 +231,114 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 }
             }
         }
-        //CRM_Core_Error::debug_var('groupTree', $groupTree);
-        //CRM_Core_Error::ll_method();
+
+        CRM_Core_Error::debug_var('groupTree', $groupTree);
+
+        if ($entityID) {
+            // hack for now.. using only contacts custom data
+            self::_populateCustomData($groupTree, $entityID);
+        }
+
+        CRM_Core_Error::debug_var('groupTree', $groupTree);
+
+        CRM_Core_Error::ll_method();
         return $groupTree;
     }
+
+
+    /**
+     * Get custom data for a contact.
+     *
+     * @param int $id - id of the contact whose custom data is needed
+     *
+     * @return array customData
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+    private static function _populateCustomData(&$groupTree, $id)
+    {
+
+        CRM_Core_Error::debug_var('id', $id);
+
+        $customData = array();
+        $strSelect = $strFrom = $strWhere = $orderBy = ''; 
+
+        $tableData = array();
+
+        // using tableData to build the queryString 
+        $tableData = array(
+                           'crm_custom_value' => array('id', 'int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
+                           'crm_custom_field' => array('id'),
+                           'crm_custom_group' => array('id'),
+                           );
+
+        // create select
+        $strSelect = "SELECT"; 
+        foreach ($tableData as $tableName => $tableColumn) {
+            foreach ($tableColumn as $columnName) {
+                $alias = $tableName . '_' . $columnName;
+                $strSelect .= " $tableName.$columnName as $alias,";
+            }
+        }
+        $strSelect = rtrim($strSelect, ',');
+
+        // from, where, order by
+        $strFrom = " FROM crm_custom_value, crm_custom_field, crm_custom_group";
+        $strWhere = " WHERE crm_custom_value.entity_id = $id AND
+                            crm_custom_value.custom_field_id = crm_custom_field.id AND
+                            crm_custom_field.custom_group_id = crm_custom_group.id";
+        $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
+
+        // final query string
+        $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
+
+        CRM_Core_Error::debug_var('queryString', $queryString);
+
+        // dummy dao needed
+        $crmDAO = new CRM_Core_DAO();
+        $crmDAO->query($queryString);
+
+        // process records
+        while($crmDAO->fetch()) {
+            $groupID = $crmDAO->crm_custom_group_id;
+            $fieldID = $crmDAO->crm_custom_field_id;
+            $valueID = $crmDAO->crm_custom_value_id;
+
+            $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array();
+            $groupTree[$groupID]['fields'][$fieldID]['customValue']['id'] = $valueID;
+
+            $dataType = $groupTree[$groupID]['fields'][$fieldID]['data_type'];
+
+            switch ($dataType) {
+            case 'String':
+                $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $crmDAO->crm_custom_value_char_data;
+                break;
+            case 'Int':
+            case 'Boolean':
+                $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $crmDAO->crm_custom_value_int_data;
+                break;
+            case 'Float':
+                $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $crmDAO->crm_custom_value_float_data;
+                break;
+            case 'Text':
+                $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $crmDAO->crm_custom_value_memo_data;
+                break;
+            case 'Date':
+                $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $crmDAO->crm_custom_value_date_data;
+                break;
+            }
+        }
+        return;
+    }
+
+
+
 }
+
+
+
+
 ?>
