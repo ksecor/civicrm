@@ -48,14 +48,8 @@ class CRM_Contact_Page_CustomData {
      */
     static function browse($page)
     {
-        // get custom data for contact
-        $customData = CRM_Contact_BAO_Contact::getCustomData($page->getContactId());
-        $basicGroupTree = CRM_Core_BAO_CustomGroup::getBasicTree(CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
-
-        $entityType = CRM_Contact_BAO_Contact::getContactType($page->getContactId());
-        $contactID = $page->getContactId();
-
-        $groupTree = CRM_Core_BAO_CustomGroup::getTree($entityType, $contactID);
+        $groupTree = CRM_Core_BAO_CustomGroup::getTree(CRM_Contact_BAO_Contact::getContactType($page->getContactId()), 
+                                                       $page->getContactId());
         $page->assign('groupTree', $groupTree);
     }
 

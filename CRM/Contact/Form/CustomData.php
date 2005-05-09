@@ -130,24 +130,28 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @access protected
      * @return array the default array reference
      */
-    function &setDefaultValues() {
-
+    function &setDefaultValues()
+    {
         //CRM_Core_Error::le_method();
 
         $defaults = array();
 
-        $customData = CRM_Contact_BAO_Contact::getCustomData($this->_tableId);
-        //CRM_Core_Error::debug_var('customData', $customData);
+        $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
 
-        foreach ($customData as $v) {
-            $defaults[$v['name']] = $v['data'];
+        foreach ($groupTree as $group) {
+            $groupID = $group['id'];
+            foreach ($group['fields'] as $field) {
+                $fieldID = $field['id'];
+                $elementName = $groupID . '_' . $fieldID . '_' . $field['name'];
+                if (isset($field['customValue'])) {
+                    $defaults[$elementName] = $field['data'];
+                }
+            }
         }
 
         //CRM_Core_Error::ll_method();
-
         return $defaults;
     }
-
 
        
     /**
