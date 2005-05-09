@@ -336,12 +336,21 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     {
         CRM_Core_Error::le_method();
         
+        CRM_Core_Error::debug_var('groupTree', $groupTree);
+        
         foreach ($groupTree as $group) {
             $groupID = $group['id'];
-            foreach ($group as $field) {
+            foreach ($group['fields'] as $field) {
+
+                CRM_Core_Error::debug_var('field', $field);
+
                 $fieldID = $field['id'];
+
                 if (isset($field['customValue'])) {
                     $customValueDAO = new CRM_Core_DAO_CustomValue();
+                    
+                    CRM_Core_Error::debug_log_message('custom Value is set - ' . $field);
+
                     
                     // check if it's an update or new one
                     if (isset($field['customValue']['id'])) {
