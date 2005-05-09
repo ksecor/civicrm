@@ -144,7 +144,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 $fieldID = $field['id'];
                 $elementName = $groupID . '_' . $fieldID . '_' . $field['name'];
                 if (isset($field['customValue'])) {
-                    $defaults[$elementName] = $field['data'];
+                    
+                    CRM_Core_Error::debug_log_message("setting default value for $elementName");
+
+                    $defaults[$elementName] = $field['customValue']['data'];
                 }
             }
         }

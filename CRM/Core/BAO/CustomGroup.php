@@ -365,7 +365,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customValueDAO->date_data = $field['customValue']['data'];
                         break;
                     }
-                    // $customValueDAO->save();
+                    CRM_Core_Error::debug_log_message("saving ... ");
+                    $customValueDAO->save();
                 }
             }
         }
