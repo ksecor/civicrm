@@ -175,9 +175,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         
         if ( $this->_context === 'amtg' ) {
             // Set dynamic page title for 'Add Members Group'
-            CRM_Utils_System::setTitle( 'Add Members: ' . $group[$this->_amtgID] );
+            CRM_Utils_System::setTitle( 'Add Members: ' . $this->_group[$this->_amtgID] );
             // also set the group title and freeze the action task with Add Members to Group
-            $groupValues = array( 'id' => $this->_amtgID, 'title' => $group[$this->_amtgID] );
+            $groupValues = array( 'id' => $this->_amtgID, 'title' => $this->_group[$this->_amtgID] );
             $this->assign_by_ref( 'group', $groupValues );
             $actionElement->freeze( );
         }
@@ -219,7 +219,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
          *
          */
-        $this->add('submit', $this->_actionButtonName, ( $this->_context == 'amtg' ) ? 'Add Contacts to ' . $group[$this->_amtgID] : 'Go',
+        $this->add('submit', $this->_actionButtonName,
+                   ( $this->_context == 'amtg' ) ? 'Add Contacts to ' . $this->_group[$this->_amtgID] : 'Go',
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) );
 
@@ -265,6 +266,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         if ( $this->_context === 'amtg' ) {
             $defaults['task'] = CRM_Contact_Task::GROUP_CONTACTS;
+        } else {
+            $defaults['task'] = CRM_Contact_Task::PRINT_CONTACTS;
         }
 
         return $defaults;

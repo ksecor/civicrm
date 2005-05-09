@@ -55,8 +55,8 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
-        foreach ( $rows as &$row ) {
-            CRM_Contact_BAO_Contact::deleteContact( $row['id'] );
+        foreach ( $this->_contactIds as $contactId ) {
+            CRM_Contact_BAO_Contact::deleteContact( $contactId );
         }
     }//end of function
 

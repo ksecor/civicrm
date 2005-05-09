@@ -4,8 +4,8 @@ cd ../xml
 php GenCode.php
 
 cd ../sql
-mysql -u crm -pMt!Everest < Contacts.sql
-mysql -u crm -pMt!Everest crm < FixedData.sql
+mysql -u civicrm -pMt!Everest civicrm < Contacts.sql
+mysql -u civicrm -pMt!Everest civicrm < FixedData.sql
 
 php GenerateContactData.php
 

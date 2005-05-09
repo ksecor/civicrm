@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <database xmlns:xi="http://www.w3.org/2001/XInclude">
-<name>crm</name>
+<name>civicrm</name>
 <character_set>utf8</character_set>
 <collate>utf8_bin</collate>
 <table_type>InnoDB</table_type>

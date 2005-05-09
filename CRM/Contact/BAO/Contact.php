@@ -62,118 +62,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     }
 
     /**
-     * create and query the db for a simple contact search
-     *
-     * @param int      $action            the type of action links
-     * @param int      $offset            the offset for the query
-     * @param int      $rowCount          the number of rows to return
-     * @param boolean  $count             is this query used for counting the rows only ?
-     * @param boolean  $includeContactIds should we include the contact ids if present in the form values?
-     *
-     * @return CRM_Contact_DAO_Contact 
-     * @access public
-     */
-    function basicSearchQuery(&$fv, $offset, $rowCount, $sort, $count = false, $includeContactIds = false)
-    {
-        $strSelect = $strFrom = $strWhere = $strOrder = $strLimit = ''; 
-        
-        // stores all the "AND" clauses
-        $andArray = array();
-       
-        if ($count) {
-            $strSelect = "SELECT count(crm_contact.id) "; 
-        } else {
-            $strSelect = "SELECT crm_contact.id as contact_id,
-                              crm_contact.sort_name as sort_name,
-                              crm_address.street_address as street_address,
-                              crm_address.city as city,
-                              crm_address.postal_code as postal_code,
-                              crm_state_province.abbreviation as state,
-                              crm_country.name as country,
-                              crm_email.email as email,
-                              crm_phone.phone as phone,
-                              crm_contact.contact_type as contact_type";
-        }
-
-        $strFrom = " FROM crm_contact 
-                        LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-                        LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
-                        LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
-                        LEFT OUTER JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                        LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
-                        LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id)";
-
-
-        // check for contact type restriction
-        if ($fv['contact_type'] && ($fv['contact_type'] != 'any')) {
-            $andArray['contact_type'] = "contact_type = '" . $fv['contact_type'] . "'";
-        }
-        
-        // check for group restriction
-        if ($fv['group'] && ($fv['group'] != 'any')) {
-            $andArray['group'] = "crm_group_contact.group_id = " .$fv['group'];
-            $strFrom .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
-        }
-
-        // check for category restriction
-        if ($fv['category'] && ($fv['category'] != 'any')) {
-            $andArray['category'] .= "crm_entity_category.category_id = " . $fv['category'];
-            $strFrom .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
-        }
-
-        // check for last name, as of now only working with sort name
-        if ($fv['sort_name']) {
-            $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($fv['sort_name'])) ."%'";
-        }
-
-        if ( $includeContactIds ) {
-            $contactIds = array( );
-            foreach ( $fv as $name => $value ) {
-                if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
-                    $contactIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
-                }
-            }
-            if ( ! empty( $contactIds ) ) {
-                $andArray['cid'] = " crm_contact.id in (" . implode( ',', $contactIds ) . ")";
-            }
-        }
-
-        // final AND ing of the entire query.
-        foreach ($andArray as $v) {
-            $strWhere .= " AND ($v) ";
-        }
-
-        // skip the following for now
-        // last_name, first_name, street_name, city, state_province, country, postal_code, postal_code_low, postal_code_high
-        $strWhere = preg_replace("/AND|OR/", "WHERE", $strWhere, 1);
-
-        if(!$count) {
-            $strOrder = " ORDER BY " . $sort->orderBy();
-            if ( $rowCount > 0 ) {
-                $strLimit = " LIMIT $offset, $rowCount ";
-            }
-        }
-
-        // building the query string
-        $queryString = $strSelect . $strFrom . $strWhere . $strOrder . $strLimit;
-
-        $this->query($queryString);
-
-        if ($count) {
-            $row = $this->getDatabaseResult()->fetchRow();
-            return $row[0];
-        } else {
-            // need to store query in session for basic search for getting contact id's only
-            $strSelect = "SELECT crm_contact.id as contact_id, crm_contact.sort_name as sort_name";
-            $taskQuery = $strSelect . $strFrom . $strWhere . $strOrder;
-            $session = CRM_Core_Session::singleton( );        
-            $session->set('tq', $taskQuery, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-        }
-        return $this;
-    }
-    
-
-    /**
      * create and query the db for an advanced contact search
      *
      * @param array    $formValues array of reference of the form values submitted
@@ -181,10 +69,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @param int      $offset   the offset for the query
      * @param int      $rowCount the number of rows to return
      * @param boolean  $count    is this a count only query ?
+     * @param boolean  $includeContactIds should we include contact ids?
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function advancedSearchQuery(&$fv, $offset, $rowCount, $sort, $count=FALSE)
+    function searchQuery(&$fv, $offset, $rowCount, $sort, $count = false, $includeContactIds = false)
     {
         $strSelect = $strFrom = $strWhere = $strOrder = $strLimit = '';
 
@@ -296,6 +185,18 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($fv['sort_name'])) ."%'";
         }
 
+        if ( $includeContactIds ) {
+            $contactIds = array( );
+            foreach ( $fv as $name => $value ) {
+                if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                    $contactIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
+                }
+            }
+            if ( ! empty( $contactIds ) ) {
+                $andArray['cid'] = " crm_contact.id in (" . implode( ',', $contactIds ) . ")";
+            }
+        }
+
         // street_name
         if ($fv['street_name']) {
             $andArray['street_name'] = " LOWER(crm_address.street_name) LIKE '%". strtolower(addslashes($fv['street_name'])) ."%'";
@@ -358,16 +259,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $andArray['postal_code'] = $pcORString;
         }
 
-        if ($fv['cb_location_type']) {
+        if ( $fv['cb_location_type'] ) {
             // processing for location type - check if any locations checked
-            if (!$fv['cb_location_type']['any']) {
-                $andArray['location_type'] = "(crm_location.location_type_id IN (";
-                foreach ($fv['cb_location_type']  as $k => $v) {
-                    $andArray['location_type'] .= "$k,"; 
-                }
-                $andArray['location_type'] = rtrim($andArray['location_type'], ",");
-                $andArray['location_type'] .= "))";
+            $andArray['location_type'] = "(crm_location.location_type_id IN (";
+            foreach ($fv['cb_location_type']  as $k => $v) {
+                $andArray['location_type'] .= "$k,"; 
             }
+            $andArray['location_type'] = rtrim($andArray['location_type'], ",");
+            $andArray['location_type'] .= "))";
         }
         
         // processing for primary location

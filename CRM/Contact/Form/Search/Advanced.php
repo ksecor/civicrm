@@ -93,7 +93,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         // checkboxes for location type
         $cb_location_type = array();
-        $locationType = CRM_Core_PseudoConstant::locationType( ) + array('any' => 'All Location Types');
+        $locationType = CRM_Core_PseudoConstant::locationType( );
         foreach ($locationType as $locationTypeID => $locationTypeName) {
             $cb_location_type[] = HTML_QuickForm::createElement('checkbox', $locationTypeID, null, $locationTypeName);
         }
@@ -112,7 +112,15 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * @return array the default array reference
      */
     function &setDefaultValues() {
-        return $this->_formValues;
+        $defaults = $this->_formValues;
+
+        if ( $this->_context === 'amtg' ) {
+            $defaults['task'] = CRM_Contact_Task::GROUP_CONTACTS;
+        } else {
+            $defaults['task'] = CRM_Contact_Task::PRINT_CONTACTS;
+        }
+
+        return $defaults;
     }
 
     /**

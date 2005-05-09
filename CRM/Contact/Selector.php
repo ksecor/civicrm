@@ -231,7 +231,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      */
     function getTotalCount($action)
     {
-        return $this->_contact->advancedSearchQuery($this->_formValues, 0, 0, null, true);
+        return $this->_contact->searchQuery($this->_formValues, 0, 0, null, true);
     }
 
 
@@ -259,7 +259,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // note the formvalues were given by CRM_Contact_Form_Search to us 
         // and contain the search criteria (parameters)
         // note that the default mode is basic
-        $result = $this->_contact->advancedSearchQuery($this->_formValues, $offset, $rowCount, $sort, false, $includeContactIds );
+        $result = $this->_contact->searchQuery($this->_formValues, $offset, $rowCount, $sort, false, $includeContactIds );
 
         // process the result of the query
         $rows = array( );

@@ -75,6 +75,10 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
         if ( ! isset( $value ) ) {
             $value = $controller->exportValue( $formName, 'task' );
         }
+        /**
+        CRM_Core_Error::debug( "POST", $_POST );
+        CRM_Core_Error::debug( "data: $value", $controller->container( ) );
+        **/
 
         $result = false;
         switch ( $value ) {

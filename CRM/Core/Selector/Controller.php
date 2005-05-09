@@ -258,7 +258,7 @@ class CRM_Core_Selector_Controller {
     }
 
     function run( ) {
-        $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $type );
+        $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $this->_output );
         if ( $this->_output == self::EXPORT || $this->_output == self::SCREEN ) {
             $rows          =& $this->_object->getRows( $this->_action,
                                                        0, 0,

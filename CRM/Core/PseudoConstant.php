@@ -129,6 +129,7 @@ class CRM_Core_PseudoConstant {
         }
         
         $object->find( );
+        $var = array( );
         while ( $object->fetch( ) ) {
             $var[$object->id] = $object->$retrieve;
         }
