@@ -83,21 +83,24 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         // gets all details of group tree for entity
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
         $this->assign('groupTree', $groupTree);
-        
+
         // add the form elements
         foreach ($groupTree as $group) {
+            $groupID = $group['id'];
             foreach ($group['fields'] as $field) {
+                $fieldID = $field['id'];                
+                $elementName = $groupID . '_' . $fieldID . '_' . $field['name']; 
                 switch($field['html_type']) {
                 case 'Text':
                 case 'TextArea':
-                    $this->add(strtolower($field['html_type']), $field['name'], $field['label'], $field['attributes'], $field['required']);
+                    $this->add(strtolower($field['html_type']), $elementName, $field['label'], $field['attributes'], $field['required']);
                     break;
                 case 'Select Date':
-                    $this->add('text', $field['name'], $field['label'], $field['attributes'], $field['required']);
+                    $this->add('text', $elementName, $field['label'], $field['attributes'], $field['required']);
                     break;
                 case 'Radio':
-                    $this->addElement(strtolower($field['html_type']), $field['name'], $field['label'], 'Yes', 'yes', $field['attributes']);
-                    $this->addElement(strtolower($field['html_type']), $field['name'], '', 'No', 'No', $field['attributes']);
+                    $this->addElement(strtolower($field['html_type']), $elementName, $field['label'], 'Yes', 'yes', $field['attributes']);
+                    $this->addElement(strtolower($field['html_type']), $elementName, '', 'No', 'No', $field['attributes']);
                     break;
                 case 'Select':
                 case 'CheckBox':
@@ -160,7 +163,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         // get the elements of the contact id
 
-        //        CRM_Core_Error::debug_var('fv', $fv);
+        CRM_Core_Error::debug_var('fv', $fv);
         
         //CRM_Core_Error::debug_var('session', $_SESSION);
 
