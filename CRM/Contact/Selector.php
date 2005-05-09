@@ -310,122 +310,117 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     public static function getQILL(&$fv)
     {
         // query in local language
-        $qill = "";
-        $dontCare = " <i>dont care</i>";
+        $qill = array( );
+        $dontCare = ' dont care';
 
         // regex patterns
         $patternOr = "/(.*) or$/";
         $patternAnd = "/(.*) and$/";
         $replacement = "$1";
 
-        // check for contact type restriction
-        $qill .= "<ul>";
-        
         // check for last name, as of now only working with sort name
         if ($fv['sort_name']) {
-            $qill .= "<li>Name like - \"" . $fv['sort_name'] . "\"</li>";
+            $qill[] = 'Name like - "' . $fv['sort_name'] . '"';
         }
         
         // contact type
-        $qill .= "<li>Contact Type -";
+        $str = 'Contact Type -';
         if ($fv['cb_contact_type']) {
             foreach ($fv['cb_contact_type']  as $k => $v) {
-                $qill .= " {$k}s or";
+                $str .= " {$k}s or";
             }            
-            $qill = preg_replace($patternOr, $replacement, $qill);
+            $str = preg_replace($patternOr, $replacement, $str);
         } else {
-            $qill .= " All";
+            $str .= ' All';
         }
-        $qill .= "</li>";
+        $qill[] = $str;
         
         // check for group restriction
         if ($fv['cb_group']) {
             $group =& CRM_Core_PseudoConstant::group();
-            $qill .= "<li>Member of Group -";
+            $str = 'Member of Group -';
             foreach ($fv['cb_group']  as $k => $v) {
-                $qill .= " \"" . $group[$k] . "\" or";
+                $str .= ' "' . $group[$k] . '" or';
             }
-            $qill = preg_replace($patternOr, $replacement, $qill);
-            $qill .= "</li>";
+            $str = preg_replace($patternOr, $replacement, $str);
+            $qill[] = $str;
         }
         
         // check for category restriction
         if ($fv['cb_category']) {
             $category =& CRM_Core_PseudoConstant::category();
-            $qill .= "<li>Tagged as -";
+            $str = 'Tagged as -';
             foreach ($fv['cb_category'] as $k => $v) {
-                $qill .= " \"" . $category[$k] . "\" or";
+                $str .= ' "' . $category[$k] . '" or';
             }
-            $qill = preg_replace($patternOr, $replacement, $qill);
-            $qill .= "</li>";
+            $str = preg_replace($patternOr, $replacement, $str);
+            $qill[] = $str;
         }
         
         // street_name
         if ($fv['street_name']) {
-            $qill .= "<li>Street Name like - \"" . $fv['street_name'] . "\"</li>";
+            $qill[] = 'Street Name like - "' . $fv['street_name'] . '"';
         }
         
         // city_name
         if ($fv['city']) {
-            $qill .= "<li>City Name like - \"" . $fv['city'] . "\"</li>";
+            $qill[] = 'City Name like - "' . $fv['city'] . '"';
         }
         
         // state
         if ($fv['state_province']) {
             $states =& CRM_Core_PseudoConstant::stateProvince();
-            $qill .= "<li>State - \"" . $states[$fv['state_province']] . "\"</li>";
+            $qill[] = 'State - "' . $states[$fv['state_province']] . '"';
         }
         
         // country
         if ($fv['country']) {
             $country =& CRM_Core_PseudoConstant::country();
-            $qill .= "<li>Country - \"" . $country[$fv['country']] . "\"</li>";
+            $qill[] = 'Country - "' . $country[$fv['country']] . '"';
         }
 
         // postal code processing
         if ($fv['postal_code'] || $fv['postal_code_low'] || $fv['postal_code_high']) {
-            $qill .= "<li>Postal code -";
+            $str = 'Postal code -';
 
             // postal code = value
             if ($fv['postal_code']) {
-                $qill .= " \"" . $fv['postal_code'] . "\" or";
+                $str .= ' "' . $fv['postal_code'] . '" or';
             }
                 
             // postal code between 2 values
             if ($fv['postal_code_low'] && $fv['postal_code_high']) {
-                $qill .= " between \"" . $fv['postal_code_low'] . "\" and \"" . $fv['postal_code_high'] . "\"";
+                $str .= ' between "' . $fv['postal_code_low'] . '" and "' . $fv['postal_code_high'] . '"';
             } elseif ($fv['postal_code_low']) {
-                $qill .= " greater than \"" . $fv['postal_code_low'] . "\"";
+                $str .= ' greater than "' . $fv['postal_code_low'] . '"';
             } elseif ($fv['postal_code_high']) {
-                $qill .= " less than \"" . $fv['postal_code_high'] . "\"";
+                $str .= ' less than "' . $fv['postal_code_high'] . '"';
             }            
             // remove the trailing "or"
-            $qill = preg_replace($patternOr, $replacement, $qill);
-            $qill .= "</li>";
+            $str    = preg_replace($patternOr, $replacement, $str);
+            $qill[] = $str;
         }
 
         // location type processing
         if ($fv['cb_location_type']) {
             $locationType =& CRM_Core_PseudoConstant::locationType();        
-            $qill .= "<li>Location type -";
+            $str = 'Location type -';
             if (!$fv['cb_location_type']['any']) {
                 foreach ($fv['cb_location_type']  as $k => $v) {
-                    $qill .= " " . $locationType[$k] . " or";
+                    $str .= ' ' . $locationType[$k] . ' or';
                 }
-                $qill = preg_replace($patternOr, $replacement, $qill);
+                $str = preg_replace($patternOr, $replacement, $str);
             } else {
-                $qill .= " Any";
+                $str .= ' Any';
             }
-            $qill .= "</li>";
+            $qill[] = $str;
         }
         
         // primary location processing
         if ($fv['cb_primary_location']) {
-            $qill .= "<li>Primary Location only ? - Yes</li>";
+            $qill[] = 'Primary Location only ? - Yes';
         }
             
-        // ending tag for unordered list
-        $qill .= "</ul>";
         return $qill;
     }
 
