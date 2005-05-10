@@ -132,10 +132,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     function &setDefaultValues()
     {
-        //CRM_Core_Error::le_method();
-
         $defaults = array();
-
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
 
         foreach ($groupTree as $group) {
@@ -144,15 +141,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 $fieldID = $field['id'];
                 $elementName = $groupID . '_' . $fieldID . '_' . $field['name'];
                 if (isset($field['customValue'])) {
-                    
-                    //CRM_Core_Error::debug_log_message("setting default value for $elementName");
-
                     $defaults[$elementName] = $field['customValue']['data'];
                 }
             }
         }
-
-        //CRM_Core_Error::ll_method();
         return $defaults;
     }
 
@@ -164,57 +156,30 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        CRM_Core_Error::le_method();
-
         // get the form values and groupTree
         $fv = $this->exportValues();
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
 
-//         CRM_Core_Error::debug_var('tableID', $this->_tableId);
-        CRM_Core_Error::debug_var('fv', $fv);
-        CRM_Core_Error::debug_var('groupTree', $groupTree);
-
         // update group tree with form values
-
         foreach ($fv as $k => $v) {
             list($groupID, $fieldID, $elementName) = explode('_', $k, 3);
-
-            CRM_Core_Error::debug_var('groupID', $groupID);
-            CRM_Core_Error::debug_var('fieldID', $fieldID);
-            CRM_Core_Error::debug_log_message("checking for $elementName");
-
-//             CRM_Core_Error::debug_var('elementName', $elementName);
-
-
-
+            
+            // check if field exists (since form values will contain other elements besides the custom data fields.
             if (isset($groupTree[$groupID]['fields'][$fieldID]) && $groupTree[$groupID]['fields'][$fieldID]['name'] == $elementName) {
                 // new element or old one ?
-
-                CRM_Core_Error::debug_log_message("field is set");
-                
                 if (isset($groupTree[$groupID]['fields'][$fieldID]['customValue'])) {
-
-
-
                     $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $v;
-
-
-                    CRM_Core_Error::debug_var('value', $groupTree[$groupID]['fields'][$fieldID]['customValue']['data']);
-
+                    //CRM_Core_Error::debug_var('value', $groupTree[$groupID]['fields'][$fieldID]['customValue']['data']);
                     //CRM_Core_Error::debug_log_message("field is set");
-
-                } else {
+                } else if ($v) {
                     $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array();
                     $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $v;
                 }
             }
         }
 
-        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $this->_tableID);
-
-        CRM_Core_Error::ll_method();
+        // do the updates/inserts
+        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $this->_tableId);
     }
-
 }
-
 ?>

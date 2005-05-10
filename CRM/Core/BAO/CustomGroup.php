@@ -93,66 +93,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      *
      * @param string $entity -  of the contact whose contact type is needed
      *
-     * @return array $basicTree
-     *
-     * @access public
-     *
-     * @static
-     *
-     */
-    public static function getBasicTree($entity)
-    {
-        // create a new tree
-        $groupTree = array();
-        $strSelect = $strFrom = $strWhere = $orderBy = ''; 
-
-        $tableData = array();
-
-        // using tableData to build the queryString 
-        $tableData = array(
-                           'crm_custom_field' => array('label'),
-                           'crm_custom_group' => array('title'),
-                           );
-
-        // create select
-        $strSelect = "SELECT"; 
-        foreach ($tableData as $tableName => $tableColumn) {
-            foreach ($tableColumn as $columnName) {
-                $strSelect .= " $tableName.$columnName,";
-            }
-        }
-        $strSelect = rtrim($strSelect, ',');
-
-        // from, where, order by
-        $strFrom = " FROM crm_custom_field, crm_custom_group";
-        $strWhere = " WHERE crm_custom_group.extends = '$entity' AND
-                            crm_custom_field.custom_group_id = crm_custom_group.id";
-        $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
-
-        // final query string
-        $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-
-        // dummy dao needed
-        $crmDAO = new CRM_Core_DAO();
-        $crmDAO->query($queryString);
-
-        // process records
-        while($crmDAO->fetch()) {
-            if (!array_key_exists($crmDAO->title, $groupTree)) {
-                $groupTree[$crmDAO->title] = array();
-            }
-            $groupTree[$crmDAO->title][$crmDAO->label] = "";
-        }
-        return $groupTree;
-    }
-
-    /**
-     * Get custom groups/fields for type of entity.
-     *
-     * An array containing all custom groups and their custom fields is returned.
-     *
-     * @param string $entity -  of the contact whose contact type is needed
-     *
      * @return array $customGroup
      *
      * @access public
@@ -334,52 +274,60 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function updateCustomData(&$groupTree, $entityID)
     {
-        CRM_Core_Error::le_method();
-        
-        CRM_Core_Error::debug_var('groupTree', $groupTree);
-        
+        // traverse the group tree
         foreach ($groupTree as $group) {
             $groupID = $group['id'];
+
+            // traverse fields
             foreach ($group['fields'] as $field) {
-
-                CRM_Core_Error::debug_var('field', $field);
-
                 $fieldID = $field['id'];
 
+                /*
+
+                 */
                 if (isset($field['customValue'])) {
                     $customValueDAO = new CRM_Core_DAO_CustomValue();
-                    
-                    CRM_Core_Error::debug_log_message('custom Value is set - ' . $field);
-
+                    $customValueDAO->entity_table = 'contact'; // hard coded for now.
+                    $customValueDAO->custom_field_id = $fieldID;
+                    $customValueDAO->entity_id = $entityID;
                     
                     // check if it's an update or new one
                     if (isset($field['customValue']['id'])) {
                         $customValueDAO->id = $field['customValue']['id'];
                     }
+
+                    // $data = $field['customValue']['data'] ? $field['customValue']['data'] : null;
+                    $data = $field['customValue']['data'];
+                    
+                    // since custom data is empty, delete it from db.
+                    if (!$data) {
+                        $customValueDAO->delete();
+                        return;
+                    }
+                    
                     switch ($field['data_type']) {
                     case 'String':
-                        $customValueDAO->char_data = $field['customValue']['data'];
+                        $customValueDAO->char_data = $data;
                         break;
                     case 'Int':
                     case 'Boolean':
-                        $customValueDAO->int_data = $field['customValue']['data'];
+                        $customValueDAO->int_data = $data;
                         break;
                     case 'Float':
-                        $customValueDAO->float_data = $field['customValue']['data'];
+                        $customValueDAO->float_data = $data;
                         break;
                     case 'Text':
-                        $customValueDAO->memo_data = $field['customValue']['data'];
+                        $customValueDAO->memo_data = $data;
                         break;
                     case 'Date':
-                        $customValueDAO->date_data = $field['customValue']['data'];
+                        $customValueDAO->date_data = $data;
                         break;
                     }
-                    CRM_Core_Error::debug_log_message("saving ... ");
                     $customValueDAO->save();
                 }
             }
         }
-        CRM_Core_Error::ll_method();
+        //CRM_Core_Error::ll_method();
     }
 }
 

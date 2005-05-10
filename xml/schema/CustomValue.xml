@@ -55,7 +55,7 @@
   </field>
   <field>
      <name>date_data</name>
-     <type>DATETIME</type>
+     <type>date</type>
      <comment>data for ext property data_type = date.</comment>
   </field>
   <field>
