@@ -61,17 +61,14 @@ class CRM_Contact_Page_CustomData {
      * @access public
      *
      * @param object $page - view page of contact
-     * @param int $action - is it ADD or UPDATE ?
-     * @param int $contactId - which contact's custom data are we editing ?
      *
      * @returns none
      *
      * @static
      */
-    static function edit($page, $action)
+    static function edit($page)
     {
-        //CRM_Core_Error::le_method();
-
+        // create a simple controller for editing custom data
         $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $mode);
         $controller->setEmbedded(true);
 
@@ -85,8 +82,6 @@ class CRM_Contact_Page_CustomData {
         $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
         $controller->process();
         $controller->run();
-
-        //CRM_Core_Error::ll_method();
     }
 
 
@@ -104,29 +99,21 @@ class CRM_Contact_Page_CustomData {
      */
     static function run($page)
     {
-
-        //CRM_Core_Error::le_method();
-
         // get the contact id & requested action
         $contactId = $page->getContactId();
         $action = CRM_Utils_Request::retrieve('action', $page, false, 'browse'); // default to 'browse'
 
-        //CRM_Core_Error::debug_var('action', $action);
-        
         // assign vars to templates
         $page->assign('contactId', $contactId);
         $page->assign('action', $action);
 
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-
-            //CRM_Core_Error::debug_log_message('breakpoint1');
             // both update and add are handled by 'edit'
-            self::edit($page, $action, $contactId);
+            self::edit($page);
+        } else {
+            self::browse($page);
         }
-        self::browse($page);
-
-        //CRM_Core_Error::ll_method();
     }
 }
 ?>

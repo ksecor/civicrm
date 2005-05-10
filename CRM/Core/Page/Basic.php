@@ -173,7 +173,10 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         while ( $object->fetch( ) ) {
             $values[$object->id] = array( );
             $object->storeValues( $values[$object->id] );
-            $newAction = self::action( $object, $action, $values[$object->id], $links );
+
+            // ?? bug ?? action does not return anything
+            //$newAction = self::action( $object, $action, $values[$object->id], $links );
+            self::action( $object, $action, $values[$object->id], $links );
         }
         $this->assign( 'rows', $values );
     }

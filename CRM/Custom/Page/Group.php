@@ -42,54 +42,60 @@ class CRM_Custom_Page_Group extends CRM_Core_Page_Basic {
      */
     static $_links = array(
                            CRM_Core_Action::VIEW    => array(
-                                                        'name'  => 'View',
-                                                        'url'   => 'civicrm/admin/custom/group',
-                                                        'qs'    => 'action=view&id=%%id%%',
-                                                        'title' => 'View Custom Group',
-                                                        ),
+                                                             'name'  => 'View',
+                                                             'url'   => 'civicrm/admin/custom/group',
+                                                             'qs'    => 'action=view&id=%%id%%',
+                                                             'title' => 'View Custom Group',
+                                                             ),
                            CRM_Core_Action::UPDATE  => array(
-                                                        'name'  => 'Edit',
-                                                        'url'   => 'civicrm/admin/custom/group',
-                                                        'qs'    => 'action=update&id=%%id%%',
-                                                        'title' => 'Edit Custom Group'),
+                                                             'name'  => 'Edit',
+                                                             'url'   => 'civicrm/admin/custom/group',
+                                                             'qs'    => 'action=update&id=%%id%%',
+                                                             'title' => 'Edit Custom Group'),
                            CRM_Core_Action::DISABLE => array(
-                                                        'name'  => 'Disable',
-                                                        'url'   => 'civicrm/admin/custom/group',
-                                                        'qs'    => 'action=disable&id=%%id%%',
-                                                        'title' => 'Disable Custom Group',
-                                                        ),
+                                                             'name'  => 'Disable',
+                                                             'url'   => 'civicrm/admin/custom/group',
+                                                             'qs'    => 'action=disable&id=%%id%%',
+                                                             'title' => 'Disable Custom Group',
+                                                             ),
                            CRM_Core_Action::ENABLE  => array(
-                                                        'name'  => 'Enable',
-                                                        'url'   => 'civicrm/admin/custom/group',
-                                                        'qs'    => 'action=enable&id=%%id%%',
-                                                        'title' => 'Enable Custom Group',
-                                                        ),
+                                                             'name'  => 'Enable',
+                                                             'url'   => 'civicrm/admin/custom/group',
+                                                             'qs'    => 'action=enable&id=%%id%%',
+                                                             'title' => 'Enable Custom Group',
+                                                             ),
                            CRM_Core_Action::BROWSE  => array(
-                                                        'name'  => 'List',
-                                                        'url'   => 'civicrm/admin/custom/group/field',
-                                                        'qs'    => 'reset=1&action=browse&gid=%%id%%',
-                                                        'title' => 'List Custom Group Fields',
-                                                        ),
+                                                             'name'  => 'List',
+                                                             'url'   => 'civicrm/admin/custom/group/field',
+                                                             'qs'    => 'reset=1&action=browse&gid=%%id%%',
+                                                             'title' => 'List Custom Group Fields',
+                                                             ),
                            );
-
-
-    function getBAOName( ) {
+    
+    
+    function getBAOName()
+    {
         return 'CRM_Core_BAO_CustomGroup';
     }
 
-    function &links( ) {
+    function &links()
+    {
         return self::$_links;
     }
 
-    function editForm( ) {
+    function editForm()
+    {
         return 'CRM_Custom_Form_Group';
     }
 
-    function editName( ) {
+    function editName()
+    {
         return 'Custom Groups';
     }
 
-    function UserContext( ) {
+
+    function userContext($mode=null)
+    {
         return 'civicrm/admin/custom/group';
     }
 

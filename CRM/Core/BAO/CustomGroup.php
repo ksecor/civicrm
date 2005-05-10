@@ -91,16 +91,17 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      *
      * An array containing all custom groups and their custom fields is returned.
      *
-     * @param string $entity -  of the contact whose contact type is needed
+     * @param string $entity   - of the contact whose contact type is needed
+     * @param int    $entityId - optional - id of entity if we need to populate the tree with custom values. 
      *
-     * @return array $customGroup
+     * @return array $groupTree - array consisting of all groups and fields and optionally populated with custom data values.
      *
      * @access public
      *
      * @static
      *
      */
-    public static function getTree($entity, $entityID=null)
+    public static function getTree($entity, $entityId=null)
     {
         // create a new tree
         $groupTree = array();
@@ -141,39 +142,37 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // process records
         while($crmDAO->fetch()) {
 
-            $groupID = $crmDAO->crm_custom_group_id;
-            $fieldID = $crmDAO->crm_custom_field_id;
+            $groupId = $crmDAO->crm_custom_group_id;
+            $fieldId = $crmDAO->crm_custom_field_id;
 
             // create an array for groups if it does not exist
-            if (!array_key_exists($groupID, $groupTree)) {
-                $groupTree[$groupID] = array();
-                $groupTree[$groupID]['id'] = $groupID;
-                $groupTree[$groupID]['title'] = $crmDAO->crm_custom_group_title;
-                $groupTree[$groupID]['fields'] = array();
+            if (!array_key_exists($groupId, $groupTree)) {
+                $groupTree[$groupId] = array();
+                $groupTree[$groupId]['id'] = $groupId;
+                $groupTree[$groupId]['title'] = $crmDAO->crm_custom_group_title;
+                $groupTree[$groupId]['fields'] = array();
             }
             
-            // add the fields now
-            $groupTree[$groupID]['fields'][$fieldID] = array();
-            $groupTree[$groupID]['fields'][$fieldID]['id'] = $fieldID;
+            // add the fields now (note - the query row will always contain a field)
+            $groupTree[$groupId]['fields'][$fieldId] = array();
+            $groupTree[$groupId]['fields'][$fieldId]['id'] = $fieldId;
 
             foreach ($tableData['crm_custom_field'] as $v) {
                 if ($v == 'id') {
                     continue;
                 } else {
                     $fullField = "crm_custom_field_" . $v;
-                    $groupTree[$groupID]['fields'][$fieldID][$v] = $crmDAO->$fullField;                    
+                    $groupTree[$groupId]['fields'][$fieldId][$v] = $crmDAO->$fullField;                    
                 }
             }
         }
 
-        if ($entityID) {
+        if ($entityId) {
             // hack for now.. using only contacts custom data
-            self::_populateCustomData($groupTree, $entityID);
+            self::_populateCustomData($groupTree, $entityId);
         }
-
         return $groupTree;
     }
-
 
     /**
      * Get custom data for a contact.
@@ -226,31 +225,32 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // process records
         while($crmDAO->fetch()) {
-            $groupID = $crmDAO->crm_custom_group_id;
-            $fieldID = $crmDAO->crm_custom_field_id;
-            $valueID = $crmDAO->crm_custom_value_id;
+            $groupId = $crmDAO->crm_custom_group_id;
+            $fieldId = $crmDAO->crm_custom_field_id;
+            $valueId = $crmDAO->crm_custom_value_id;
 
-            $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array();
-            $groupTree[$groupID]['fields'][$fieldID]['customValue']['id'] = $valueID;
+            // create an array for storing custom values for that field
+            $groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
+            $groupTree[$groupId]['fields'][$fieldId]['customValue']['id'] = $valueId;
 
-            $dataType = $groupTree[$groupID]['fields'][$fieldID]['data_type'];
+            $dataType = $groupTree[$groupId]['fields'][$fieldId]['data_type'];
 
             switch ($dataType) {
             case 'String':
-                $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $crmDAO->crm_custom_value_char_data;
+                $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_char_data;
                 break;
             case 'Int':
             case 'Boolean':
-                $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $crmDAO->crm_custom_value_int_data;
+                $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_int_data;
                 break;
             case 'Float':
-                $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $crmDAO->crm_custom_value_float_data;
+                $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_float_data;
                 break;
             case 'Text':
-                $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $crmDAO->crm_custom_value_memo_data;
+                $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_memo_data;
                 break;
             case 'Date':
-                $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $crmDAO->crm_custom_value_date_data;
+                $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_date_data;
                 break;
             }
         }
@@ -277,15 +277,15 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function updateCustomData(&$groupTree, $entityID)
+    public static function updateCustomData(&$groupTree, $entityId)
     {
         // traverse the group tree
         foreach ($groupTree as $group) {
-            $groupID = $group['id'];
+            $groupId = $group['id'];
 
             // traverse fields
             foreach ($group['fields'] as $field) {
-                $fieldID = $field['id'];
+                $fieldId = $field['id'];
 
                 /**
                  * $field['customValue'] is set in the tree in the following cases
@@ -296,8 +296,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     // customValue exists hence we need a DAO.
                     $customValueDAO = new CRM_Core_DAO_CustomValue();
                     $customValueDAO->entity_table = 'contact'; // hard coded for now.
-                    $customValueDAO->custom_field_id = $fieldID;
-                    $customValueDAO->entity_id = $entityID;
+                    $customValueDAO->custom_field_id = $fieldId;
+                    $customValueDAO->entity_id = $entityId;
                     
                     // check if it's an update or new one
                     if (isset($field['customValue']['id'])) {

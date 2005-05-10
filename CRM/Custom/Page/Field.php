@@ -90,7 +90,8 @@ class CRM_Custom_Page_Field extends CRM_Core_Page_Basic {
         return 'Custom Field';
     }
 
-    function userContext( ) {
+    function userContext($mode=null)
+    {
         return 'civicrm/admin/custom/group/field';
     }
 

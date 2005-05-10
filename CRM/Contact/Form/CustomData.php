@@ -65,6 +65,18 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     protected $_entityType;
 
+
+    /**
+     * pre processing work done here.
+     *
+     * gets session variables for table name, id of entity in table, type of entity and stores them.
+     *
+     * @param none
+     * @return none
+     *
+     * @access public
+     *
+     */
     function preProcess()
     {
         $this->_tableName  = $this->get('tableName');
@@ -86,10 +98,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         // add the form elements
         foreach ($groupTree as $group) {
-            $groupID = $group['id'];
+            $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
-                $fieldID = $field['id'];                
-                $elementName = $groupID . '_' . $fieldID . '_' . $field['name']; 
+                $fieldId = $field['id'];                
+                $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
                 switch($field['html_type']) {
                 case 'Text':
                 case 'TextArea':
@@ -123,7 +135,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     }
     
 
-
     /**
      * Set the default form values
      *
@@ -136,10 +147,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
 
         foreach ($groupTree as $group) {
-            $groupID = $group['id'];
+            $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
-                $fieldID = $field['id'];
-                $elementName = $groupID . '_' . $fieldID . '_' . $field['name'];
+                $fieldId = $field['id'];
+                $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
                 if (isset($field['customValue'])) {
                     $defaults[$elementName] = $field['customValue']['data'];
                 }
@@ -162,22 +173,21 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         // update group tree with form values
         foreach ($fv as $k => $v) {
-            list($groupID, $fieldID, $elementName) = explode('_', $k, 3);
+            list($groupId, $fieldId, $elementName) = explode('_', $k, 3);
             
             // check if field exists (since form values will contain other elements besides the custom data fields.
-            if (isset($groupTree[$groupID]['fields'][$fieldID]) && $groupTree[$groupID]['fields'][$fieldID]['name'] == $elementName) {
-                if (isset($groupTree[$groupID]['fields'][$fieldID]['customValue'])) {
+            if (isset($groupTree[$groupId]['fields'][$fieldId]) && $groupTree[$groupId]['fields'][$fieldId]['name'] == $elementName) {
+                if (isset($groupTree[$groupId]['fields'][$fieldId]['customValue'])) {
                     // field exists in db so populate value from "form".
-                    $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $v;
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
                 } else if ($v) {
                     // field does not exist in db but is data is entered by user
                     // hence create an array for customValue and populate it.
-                    $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array();
-                    $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $v;
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
                 }
             }
         }
-
         // do the updates/inserts
         CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $this->_tableId);
     }
