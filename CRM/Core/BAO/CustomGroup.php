@@ -261,9 +261,14 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
     /**
      * Update custom data.
-     * Add custom data to the contact table.
      *
-     * @param int $id - id of the contact whose custom data is needed
+     *  - custom data is modified as follows
+     *    - if custom data is changed it's updated.
+     *    - if custom data is newly entered in field, it's inserted into db, finally
+     *    - if existing custom data is cleared, it is deleted from the table.
+     *
+     * @param array reference &$groupTree - array of all custom groups, fields and values.
+     * @param int $id - id of the contact whose custom data is to be updated
      *
      * @return none
      *
@@ -306,7 +311,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     // since custom data is empty, delete it from db.
                     if (!$data) {
                         $customValueDAO->delete();
-                        return;
+                        continue;
                     }
                     
                     // data is not empty
