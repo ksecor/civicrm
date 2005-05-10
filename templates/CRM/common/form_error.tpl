@@ -1,4 +1,5 @@
-{if $error}
-   <span class="error">{$error}</span><br/>
-{/if}
 {$html}
+{if $error}
+    <span class="error">{$error}</span>
+{/if}
+
