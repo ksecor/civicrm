@@ -1,4 +1,10 @@
 {* template for custom data *}
+<div id="name" class="data-group form-item">
+    <p>
+	<label>{$displayName}</label>
+        <a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update"}">Edit custom data</a>
+    </p>
+</div>
 
 {if $action eq 2}
     <form {$form.attributes}>
@@ -40,14 +46,7 @@
     </form>
 {/if}
 
-<div id="name" class="data-group form-item">
-    <p>
-	<label>{$displayName}</label>
-        <a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update"}">Edit custom data</a>
-    </p>
-</div>
-
-
+{if $action eq 16}
 <div class="form-item">
 {strip}
 {foreach from=$groupTree item=cd_view}
@@ -62,3 +61,4 @@
 {/foreach}
 {/strip}
 </div>
+{/if}
