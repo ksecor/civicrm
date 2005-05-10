@@ -166,12 +166,12 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             
             // check if field exists (since form values will contain other elements besides the custom data fields.
             if (isset($groupTree[$groupID]['fields'][$fieldID]) && $groupTree[$groupID]['fields'][$fieldID]['name'] == $elementName) {
-                // new element or old one ?
                 if (isset($groupTree[$groupID]['fields'][$fieldID]['customValue'])) {
+                    // field exists in db so populate value from "form".
                     $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $v;
-                    //CRM_Core_Error::debug_var('value', $groupTree[$groupID]['fields'][$fieldID]['customValue']['data']);
-                    //CRM_Core_Error::debug_log_message("field is set");
                 } else if ($v) {
+                    // field does not exist in db but is data is entered by user
+                    // hence create an array for customValue and populate it.
                     $groupTree[$groupID]['fields'][$fieldID]['customValue'] = array();
                     $groupTree[$groupID]['fields'][$fieldID]['customValue']['data'] = $v;
                 }

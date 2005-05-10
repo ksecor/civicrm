@@ -282,10 +282,13 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             foreach ($group['fields'] as $field) {
                 $fieldID = $field['id'];
 
-                /*
-
-                 */
+                /**
+                 * $field['customValue'] is set in the tree in the following cases
+                 *     - data existed in db for that field
+                 *     - new data was entered in the "form" for that field
+                */
                 if (isset($field['customValue'])) {
+                    // customValue exists hence we need a DAO.
                     $customValueDAO = new CRM_Core_DAO_CustomValue();
                     $customValueDAO->entity_table = 'contact'; // hard coded for now.
                     $customValueDAO->custom_field_id = $fieldID;
@@ -293,6 +296,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     
                     // check if it's an update or new one
                     if (isset($field['customValue']['id'])) {
+                        // get the id of row in crm_custom_value
                         $customValueDAO->id = $field['customValue']['id'];
                     }
 
@@ -305,6 +309,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         return;
                     }
                     
+                    // data is not empty
                     switch ($field['data_type']) {
                     case 'String':
                         $customValueDAO->char_data = $data;
@@ -323,12 +328,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customValueDAO->date_data = $data;
                         break;
                     }
+                    // insert/update of custom value
                     $customValueDAO->save();
                 }
             }
         }
-        //CRM_Core_Error::ll_method();
     }
 }
-
 ?>
