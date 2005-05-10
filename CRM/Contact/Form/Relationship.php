@@ -55,7 +55,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      * @var int
      */
     protected $_contactId;
-    
+
+    /**
+     * This is a string which is either a_b or  b_a  used to determine the relationship between to contacts
+     *
+     */
+    protected $_rtype;
+
     function preProcess( ) 
     {
         $this->_contactId   = $this->get('contactId');
@@ -89,9 +95,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $defaults['start_date'] = $relationship->start_date;
                 $defaults['end_date'] = $relationship->end_date;
 
-                $a_temp = explode('_', $this->_rtype);
+                $temp = explode('_', $this->_rtype);
 
-                $str_contact = 'contact_id_'.$a_temp[0];
+                $str_contact = 'contact_id_'.$temp[0];
 
                 $cId = $relationship->$str_contact;
 
@@ -128,7 +134,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $this->addElement('select', "relationship_type_id", '', CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $this->_rtype));
+        $rtype = 'b_a';
+        if (strlen(trim($this->_rtype))) $rtype = $this->_rtype;
+        $this->addElement('select', "relationship_type_id", '', CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $rtype));
         
         $this->addElement('select', "contact_type", '', CRM_Core_SelectValues::$contactType);
         

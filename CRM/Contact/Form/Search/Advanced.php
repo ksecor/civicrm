@@ -88,8 +88,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         // add text box for postal code
         $this->addElement('text', 'postal_code', 'Postal Code', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
-        $this->addElement('text', 'postal_code_low', 'Range-From', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
+        $this->addRule('postal_code', 'Enter valid Postal Code', 'numeric' );
+        
+        $this->addElement('text', 'postal_code_low', 'Range-From', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address','postal_code') );
+        $this->addRule('postal_code_low', 'Enter valid From range of Postal Code', 'numeric' );
+
         $this->addElement('text', 'postal_code_high', 'To', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address', 'postal_code') );
+        $this->addRule('postal_code_high', 'Enter valid To range of Postal Code', 'numeric' );
 
         // checkboxes for location type
         $cb_location_type = array();

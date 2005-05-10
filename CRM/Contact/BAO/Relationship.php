@@ -319,8 +319,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @return array - array reference of all relationship types with context to current contact.
      *
      */
-    function getContactRelationshipType($contactId,$strContact = 'b_a')
+    function getContactRelationshipType($contactId,$contactSuffix )
     {
+
         $allRelationshipType = array();
         $relationshipType = array();
         $allRelationshipType = CRM_Core_PseudoConstant::relationshipType();
@@ -341,7 +342,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                     $relationshipType[$key.'_a_b'] = $varValue['name_b_a'];
                     //$lngCheck ++;
                 } else if (!in_array($varValue['name_a_b'], $relationshipType)) {
-                    $relationshipType[$key.'_'.$strContact] = $varValue['name_a_b'];
+                    $relationshipType[$key.'_'.$contactSuffix] = $varValue['name_a_b'];
                 }
             } 
             
@@ -351,8 +352,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                     $relationshipType[$key.'_a_b'] = $varValue['name_b_a'];
                     echo "*********<br>";
                 } else*/
-                    if (!in_array($varValue['name_b_a'], $relationshipType)) {
-                    $relationshipType[$key.'_'.$strContact] = $varValue['name_b_a'];
+                if (!in_array($varValue['name_b_a'], $relationshipType)) {
+                    $relationshipType[$key.'_'.$contactSuffix] = $varValue['name_b_a'];
                 }
             }
             
