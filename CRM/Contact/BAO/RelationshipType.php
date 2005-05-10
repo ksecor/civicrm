@@ -108,11 +108,7 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
         $relationshipType->domain_id = 1;
 
         $relationshipType->id = CRM_Utils_Array::value( 'relationshipType', $ids );
-        
-        if (!$relationshipType->id) {
-            $relationshipType->is_active = 1;
-        }
-        
+
         return $relationshipType->save( );
         
     }
