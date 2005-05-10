@@ -74,7 +74,10 @@ class CRM_Admin_Form extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
         }
-  
+
+        if ($this->_mode == self::MODE_DELETE) {
+            $this->assign('delName',$defaults['name']);
+        }
         return $defaults;
     }
 

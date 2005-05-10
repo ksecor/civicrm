@@ -131,10 +131,8 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
             eval( $this->getBAOName( ) . "::setIsActive( $id, 0 );" );
         } else if ( $action & CRM_Core_Action::ENABLE ) {
             eval( $this->getBAOName( ) . "::setIsActive( $id, 1 );" );
-        } else if ( $action & CRM_Core_Action::DELETE ) {
-            eval( $this->getBAOName( ) . "::del( $id );" );
-        }
-
+        } 
+ 
         $this->browse( );
 
         return parent::run( );
@@ -245,6 +243,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         if ( $id ) {
             $controller->set( 'id'   , $id );
         }
+        $controller->set( 'BAOName', $this->getBAOName( ) );
         $this->addValues( $controller );
         $controller->setEmbedded( true );
         $controller->process( );

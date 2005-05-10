@@ -71,9 +71,17 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic {
         return 'Category';
     }
 
+    function deleteName( ) {
+        return 'Category';
+    }
+
     function userContext( $mode = null ) {
         return 'civicrm/admin/category';
     }
+
+   function deleteForm( ) {
+        return 'CRM_Admin_Form_Category';
+   }
 
 }
 

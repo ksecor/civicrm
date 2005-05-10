@@ -90,6 +90,58 @@ class CRM_Contact_BAO_Category extends CRM_Contact_DAO_Category {
 
         
     }
+
+    /**
+     * takes an associative array and creates a contact object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * contact object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $ids            the array that holds all the db ids
+     *
+     * @return object CRM_Contact_BAO_Category object
+     * @access public
+     * @static
+     */
+    static function add( &$params, &$ids ) {
+        if ( ! self::dataExists( $params ) ) {
+            return null;
+        }
+
+        $category               = new CRM_Contact_DAO_Category( );
+        $category->domain_id    = 1;
+
+        $category->copyValues( $params );
+
+        $category->id = CRM_Utils_Array::value( 'category', $ids );
+
+        $category->save( );
+        
+        CRM_Core_Session::setStatus( 'The category \'' . $category->name . '\' has been saved.' );
+        
+        return $category;
+    }
+
+    /**
+     * Check if there is data to create the object
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     *
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function dataExists( &$params ) {
+        
+        if ( !empty( $params['name'] ) ) {
+            return true;
+        }
+        
+        return false;
+    }
+
     
 }
 

@@ -47,14 +47,27 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->add('text', 'name'       , 'Name'       ,
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'name' ) );
-        $this->addRule( 'name', 'Please enter a valid name.', 'required' );
 
-        $this->add('text', 'description', 'Description', 
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'description' ) );
-
-        parent::buildQuickForm( );
+        if ($this->_mode == self::MODE_DELETE) {
+            $this->addButtons( array(
+                                     array ( 'type'      => 'next',
+                                             'name'      => 'Delete',
+                                             'isDefault' => true   ),
+                                     array ( 'type'      => 'cancel',
+                                             'name'      => 'Cancel' ),
+                                     )
+                               );
+        } else {
+            
+            $this->add('text', 'name'       , 'Name'       ,
+                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'name' ) );
+            $this->addRule( 'name', 'Please enter a valid name.', 'required' );
+            
+            $this->add('text', 'description', 'Description', 
+                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'description' ) );
+            
+            parent::buildQuickForm( ); 
+        }
     }
 
        
@@ -66,22 +79,18 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
      */
     public function postProcess() 
     {
+        $params = $ids = array();
+
         // store the submitted values in an array
         $params = $this->exportValues();
-
-        // action is taken depending upon the mode
-        $category               = new CRM_Contact_DAO_Category( );
-        $category->domain_id    = 1;
-        $category->name         = $params['name'];
-        $category->description  = $params['description'];
-
-        if ($this->_mode & self::MODE_UPDATE ) {
-            $category->id = $this->_id;
-        }
+        $ids['category'] = $this->_id;
         
-        $category->save( );
-
-        CRM_Core_Session::setStatus( 'The category \'' . $category->name . '\' has been saved.' );
+        if ($this->_mode == self::MODE_DELETE) {
+            if ($this->_id  > 0 )  CRM_Contact_BAO_Category::del( $this->_id );
+        } else {
+            CRM_Contact_BAO_Category::add($params, $ids);
+        }        
+        
     }//end of function
 
 
