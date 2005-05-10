@@ -176,6 +176,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
+
         $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
 
@@ -188,6 +189,9 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         // add all the necessary variables to the form
         $parser->set( $this );
+
+        $errorStack = CRM_Core_Error::singleton();
+        $errors = $errorStack->getErrors();
     }
 }
 

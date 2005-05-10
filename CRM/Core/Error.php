@@ -98,6 +98,9 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
         $log =& CRM_Core_Config::getLog();
         $this->setLogger( $log );
+
+        // set up error handling for Pear Error Stack
+        $this->setDefaultCallback(array($this, 'handlePES'));
     }
 
 
@@ -112,21 +115,21 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @return void
      * @access public
      */
-    public static function handle($pear_error)
+    public static function handle($pearError)
     {
         // setup smarty with config, session and template location.
         $template = CRM_Core_Smarty::singleton( );
         
         // create the error array
         $error = array();
-        $error['callback']   = $pear_error->getCallback();
-        $error['code']       = $pear_error->getCode();
-        $error['message']    = $pear_error->getMessage();
-        $error['mode']       = $pear_error->getMode();
-        $error['debug_info'] = $pear_error->getDebugInfo();
-        $error['type']       = $pear_error->getType();
-        $error['user_info']  = $pear_error->getUserInfo();
-        $error['to_string']  = $pear_error->toString();
+        $error['callback']   = $pearError->getCallback();
+        $error['code']       = $pearError->getCode();
+        $error['message']    = $pearError->getMessage();
+        $error['mode']       = $pearError->getMode();
+        $error['debug_info'] = $pearError->getDebugInfo();
+        $error['type']       = $pearError->getType();
+        $error['user_info']  = $pearError->getUserInfo();
+        $error['to_string']  = $pearError->toString();
 
         $template->assign_by_ref('error', $error);
         
@@ -136,6 +139,28 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
         echo CRM_Utils_System::theme( 'page', $content );
         exit(1);
+    }
+
+
+    /**
+     * Handle errors raised using the PEAR Error Stack.
+     *
+     * currently the handler just requests the PES framework
+     * to push the error to the stack (return value PEAR_ERRORSTACK_PUSH).
+     *
+     * Note: we can do our own error handling here and return PEAR_ERRORSTACK_IGNORE.
+     *
+     * Also, if we do not return any value the PEAR_ErrorStack::push() then does the
+     * action of PEAR_ERRORSTACK_PUSHANDLOG which displays the errors on the screen,
+     * since the logger set for this error stack is 'display' - see CRM_Core_Config::getLog();
+     *
+     */
+    public static function handlePES($pearError)
+    {
+//         CRM_Core_Error::le_method();
+//         CRM_Core_Error::debug_var('pearError', $pearError);
+//         CRM_Core_Error::ll_method();
+        return PEAR_ERRORSTACK_PUSH;
     }
 
 
@@ -381,17 +406,15 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     static function debug_log_message($message="", $log=true)
     {
-        // $file_log = Log::singleton('file', '/tmp/CRM.LOG');
-        // $file_log->log("$message\n");
-        $error =& self::singleton( );
+        //$file_log = Log::singleton('file', '/tmp/CRM.LOG');
+        //$file_log->log("$message\n");
+        // $error =& self::singleton( );
         $out = "<p /><code>$message</code>";
         if ($log) {
             // echo $out;
         }
         return $out;
     }
-
-
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');
