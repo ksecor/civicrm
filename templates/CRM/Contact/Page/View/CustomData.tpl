@@ -2,7 +2,6 @@
 <div id="name" class="data-group form-item">
     <p>
 	<label>{$displayName}</label>
-        <a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update"}">Edit custom data</a>
     </p>
 </div>
 
@@ -48,6 +47,11 @@
 
 {if $action eq 16}
 <div class="form-item">
+
+<p>
+<a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update"}">Edit custom data</a>
+</p>
+
 {strip}
 {foreach from=$groupTree item=cd_view}
 <fieldset><legend>{$cd_view.title}</legend>
@@ -62,3 +66,5 @@
 {/strip}
 </div>
 {/if}
+
+
