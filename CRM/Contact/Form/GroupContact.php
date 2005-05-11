@@ -117,7 +117,7 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         asort($aGrouplist);
 
         if (count($aGrouplist) > 1) {
-            $this->addElement('select', 'group_id', 'Add to another group:', $aGrouplist );
+            $this->addElement('select', 'group_id', 'Add to a group', $aGrouplist );
             $this->addElement('checkbox', 'antichk', 'Anti-spam \'disclaimer\' (tbd)');
             
             $this->addButtons( array(
@@ -146,16 +146,8 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         $params['in_date'] = date("Ymd");
         
         CRM_Contact_BAO_GroupContact::add($params);
-
-//         $groupContact = new CRM_Contact_DAO_GroupContact();        
-//         $groupContact->contact_id = $this->_contactId;
-//         $groupContact->group_id = $params['group_id'];
-//         $groupContact->status = "In";
-//         $groupContact->in_method = "Admin";
-//         $groupContact->in_date = date("Ymd");
-//         $groupContact->save();
-        
-        CRM_Core_Session::setStatus( 'Your Group(s) record has been saved.' );
+       
+        CRM_Core_Session::setStatus( 'Contact has been added to the selected group.' );
     }//end of function
 
 

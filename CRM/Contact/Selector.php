@@ -278,7 +278,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $contact_type  = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {
                 case 'Individual' :
-                    $contact_type .= 'ind.png" alt="Individual">';
+                    $contact_type .= 'ind.gif" alt="Individual">';
                     break;
                 case 'Household' :
                     $contact_type .= 'house.png" alt="Household" height="16" width="16">';

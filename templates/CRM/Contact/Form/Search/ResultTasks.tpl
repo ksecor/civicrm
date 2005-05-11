@@ -1,7 +1,13 @@
 {* Form elements for displaying and running action tasks on search results *}
 
  <div id="search-status">
-  {if $savedSearch.name}{$savedSearch.name} (saved search) - {/if}Found {$pager->_totalItems} contacts.
+  {if $savedSearch.name}{$savedSearch.name} (saved search) - {/if}
+    Found {$pager->_totalItems} 
+    {if $context EQ 'smog'}
+      group members
+   {else}
+      contacts
+  {/if}
   {if $qill}<ul>
     {foreach from=$qill item=criteria}
       <li>{$criteria}
@@ -33,4 +39,4 @@
     <a onclick="changeCheckboxVals('mark_x_','deselect', {$form.formName} ); return false;" name="select_none" href="#">None</a>
   </div>
  </div>  
-
+ <p>

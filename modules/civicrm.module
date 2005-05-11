@@ -41,6 +41,8 @@ require_once 'CRM/Core/Action.php';
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/Block.php';
 require_once 'CRM/Core/Selector/Controller.php';
+require_once 'CRM/Core/DAO.php';
+require_once 'CRM/Core/PseudoConstant.php';
 
 require_once 'CRM/Utils/Wrapper.php';
 
@@ -94,7 +96,20 @@ function civicrm_help($section)
  */
 function civicrm_perm() 
 {
-    return array('view contact', 'edit contact', 'administer contact');
+    // static permissions
+    $cPerm = array('view any contact', 'add/edit any contact', 'administer CiviCRM');
+    // dynamic permissions - access by group (title)
+
+    /* This code currently returns an error:
+        "DB_DataObject Error: No database name / dsn found anywhere"
+        Check w/ Lobo on what include is missing or ?? dgg
+    $groups =& CRM_Core_PseudoConstant::group();
+    foreach ( $groups as &$title ) {
+        $cPerm[] = $title;
+    }
+    */
+
+    return $cPerm;
 }
 
 /**
@@ -153,7 +168,7 @@ function civicrm_menu($may_cache)
                          'title' => t('Administer CiviCRM'),
                          'qs'    => 'reset=1',
                          'callback' => 'civicrm_admin_invoke',
-                         'access' => user_access('administer contact'),
+                         'access' => user_access('administer CiviCRM'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 40,
                          );
@@ -213,7 +228,6 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm',
                          'title' => t('CiviCRM'),
                          'callback' => 'civicrm_invoke',
-                         'access' => user_access('view contact'),
                          'type'   => MENU_CALLBACK,
                          );
 
@@ -221,6 +235,7 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm/contact/search',
                          'title' => t('Contacts'),
                          'qs'    => 'reset=1',
+                         'access' => user_access('view any contact'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 10,
                          );
@@ -251,6 +266,7 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm/contact/addI',
                          'title' => t('New Individual'),
                          'qs'    => 'reset=1',
+                         'access' => user_access('add/edit any contact'),
                          'type'  => MENU_CALLBACK,
                          'weight' => 1
                          );    
@@ -259,6 +275,7 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm/contact/addO',
                          'title' => t('New Organization'),
                          'qs'     => 'reset=1',
+                         'access' => user_access('add/edit any contact'),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );    
@@ -267,6 +284,7 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm/contact/addH',
                          'title' => t('New Household'),
                          'qs'     => 'reset=1',
+                         'access' => user_access('add/edit any contact'),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );    
@@ -274,6 +292,7 @@ function civicrm_menu($may_cache)
        $items[] = array(
                          'path'  => 'civicrm/contact/edit',
                          'title' => t('Edit Contact'),
+                         'access' => user_access('add/edit any contact'),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );    
@@ -281,12 +300,13 @@ function civicrm_menu($may_cache)
         $items[] = array(
                          'path'  => 'civicrm/contact/view',
                          'title' => t('View Contact'),
+                         'access' => user_access('view any contact'),
                          'type'   => MENU_CALLBACK
                          );
 
          $items[] = array(
                          'path'  => 'civicrm/contact/view/basic',
-                         'title' => t('Contact Info'),
+                         'title' => t('Contact Summary'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => 0
                         );
@@ -330,6 +350,7 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm/group',
                          'title' => t('Manage Groups'),
                          'qs'     => 'reset=1',
+                         'access' => user_access('view groups'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 20,
                          );
@@ -343,6 +364,7 @@ function civicrm_menu($may_cache)
         $items[] = array(
                          'path'  => 'civicrm/group/add',
                          'title' => t('Create New Group'),
+                         'access' => user_access('add/edit groups'),
                          'type'   => MENU_CALLBACK,
                          );
         
@@ -350,6 +372,7 @@ function civicrm_menu($may_cache)
                          'path'   => 'civicrm/import',
                          'title'  => t('Import Contacts'),
                          'qs'     => 'reset=1',
+                         'access' => user_access('administer CiviCRM'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 30,
                          );
@@ -554,7 +577,7 @@ function civicrm_form( $mode )
 {
     $wrapper = new CRM_Utils_Wrapper();
     $wrapper->run('CRM_Contact_Form_Edit', 'Contact Page', $mode,
-                  CRM_Utils_System::url( 'civicrm/contact/addI', 'c_type=Individual&reset=1' ) );
+                  CRM_Utils_System::url( 'civicrm/contact/search', '' ) );
 }
 
 

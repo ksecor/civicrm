@@ -1,8 +1,12 @@
-<div id="name" class="data-group form-item">
-	<label>{$displayName}</label>
-</div>
-
 <div id="groupContact">
+ {if $groupCount eq 0 }  		
+  <div class="messages status">
+    <dl>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
+      <dd>This contact does not currently belong to any groups.</dd>
+    </dl>
+  </div>	
+ {/if}
 
   	{if $groupIn }
         
@@ -102,10 +106,4 @@
 	</div>
 	</div>
 	{/if}
- {if $groupCount eq 0 }  		
-  <div class="form-item message status">	
-  <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp; No current group membership.
-  </div>	
-  {/if}
-  
 </div>

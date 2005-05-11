@@ -1,32 +1,28 @@
-<div id="name" class="data-group form-item">
-    <span class="float-right">
-        <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}';">
-    </span>
-    <p>
-
+<div id="name" class="data-group">
+   <div class="float-right">
+        <a href="{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}">Edit Basic Contact and Location Info</a>&nbsp;&nbsp;&nbsp;
+   </div>
+   <div>
     {if $contact_type eq 'Individual'}
         <label>{$prefix} {$display_name} {$suffix}</label> &nbsp; &nbsp; {$job_title}
-        <span class="horizontal-position"> {$contactCategory}</span>
-    {elseif $contact_type eq 'Organization'}
-        <label>{$sort_name}</label>
-        <span class="horizontal-position">{$contactCategory}</span>
-    {elseif $contact_type eq 'Household'}
+    {else}
         <label>{$sort_name}</label>
     {/if}
-   </p>
+    {if $contactCategory}<br />{$contactCategory}{/if}
+   </div>
 </div>
 
 
 {* Display populated Locations. Primary location expanded by default. *}
 {foreach from=$location item=loc key=locationIndex}
 
- <div id="location[{$locationIndex}][show]" class="data-group form-item">
-  <a href="#" onClick="hide('location[{$locationIndex}][show]'); show('location[{$locationIndex}]'); return false;">(+)</a> <label>{$loc.location_type}</label><br />
+ <div id="location[{$locationIndex}][show]" class="data-group">
+  <a href="#" onClick="hide('location[{$locationIndex}][show]'); show('location[{$locationIndex}]'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>{$loc.location_type}</label><br />
  </div>
 
- <div id="location[{$locationIndex}]" class="data-group form-item">
-  <a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;">(-)</a> <label>{$loc.location_type}</label>
-  {if $locationIndex eq 1}(primary contact location){/if}<br/ >
+ <div id="location[{$locationIndex}]">
+  <fieldset>
+   <legend{if $locationIndex eq 1} class="label"{/if}><a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>{$loc.location_type}{if $locationIndex eq 1} (primary contact location){/if}<legend/>
 
   <div class="col1">
     {$loc.address.street_address}<br />
@@ -36,30 +32,37 @@
   </div>
   
   <div class="col2">
-   {foreach from=$loc.phone item=phone key=phoneKey}
+   {foreach from=$loc.phone item=phone}
      {if $phone.is_primary eq 1}<strong>{/if}
-     {$phone.phone} ({$phone.phone_type}) 
+     {$phone.phone_type}: {$phone.phone} 
      {if $phone.is_primary eq 1}</strong>{/if}
      <br />
    {/foreach}
 
-   {foreach from=$loc.email item=email key=emailKey}
+   {foreach from=$loc.email item=email}
      {if $email.is_primary eq 1}<strong>{/if}
-     {$email.email}
+     Email: {$email.email}
      {if $email.is_primary eq 1}</strong>{/if}
      <br />
    {/foreach}
-  </div>
-  <div class="spacer"></div>
+
+   {foreach from=$loc.im item=im key=imKey}
+     {if $im.is_primary eq 1}<strong>{/if}
+     Instant Messenger: {$im.name} ( {$im.provider} )
+     {if $im.is_primary eq 1}</strong>{/if}
+     <br />
+   {/foreach}
+  </fieldset>
  </div>
 {/foreach}
 
- <div id="commPrefs[show]" class="data-group form-item">
-  <a href="#" onClick="hide('commPrefs[show]'); show('commPrefs'); return false;">(+)</a> <label>Communications Preferences</label><br />
+ <div id="commPrefs[show]" class="data-group">
+  <a href="#" onClick="hide('commPrefs[show]'); show('commPrefs'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Communications Preferences</label><br />
  </div>
 
-<div id="commPrefs" class="data-group form-item">
-  <a href="#" onClick="hide('commPrefs'); show('commPrefs[show]'); return false;">(-)</a> <label>Communications Preferences</label><br />
+<div id="commPrefs">
+ <fieldset>
+  <legend><a href="#" onClick="hide('commPrefs'); show('commPrefs[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>Communications Preferences</legend>
   <div class="col1">
     <label>Privacy:</label>
     <span class="font-red">
@@ -71,38 +74,43 @@
   <div class="col2">
     <label>Prefers:</label> {$preferred_communication_method}
   </div>
-  <div class="spacer"></div>
+ </fieldset>
 </div>
 
  {if $contact_type eq 'Individual'}
- <div id="demographics[show]" class="data-group form-item">
-  <a href="#" onClick="hide('demographics[show]'); show('demographics'); return false;">(+)</a> <label>Demographics</label><br />
+ <div id="demographics[show]" class="data-group">
+  <a href="#" onClick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Demographics</label><br />
  </div>
 
- <div id="demographics" class="data-group form-item">
-  <a href="#" onClick="hide('demographics'); show('demographics[show]'); return false;">(-)</a> <label>Demographics</label><br />
-  <div class="col1">
+ <div id="demographics">
+  <fieldset>
+   <legend><a href="#" onClick="hide('demographics'); show('demographics[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>Demographics</legend>
+   <div class="col1">
     <label>Gender:</label> {$gender.gender}<br />
     {if $is_deceased eq 1}
         <label>Contact is Deceased</label>
     {/if}
-  </div>
-  <div class="col2">
-    <label>Date of Birth:</label> {$birth_date}
-  </div>
-  <div class="spacer"></div>
-  </div>
+   </div>
+   <div class="col2">
+    <label>Date of Birth:</label> {$birth_date|date_format:"%B %e, %Y"}
+   </div>
+  </fieldset>
+ </div>
  {/if}
 
-<div id="relationships[show]" class="data-group form-item">
-  <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;">(+)</a> <label>Relationships</label><br />
+<div id="relationships[show]" class="data-group">
+  {if $relationshipsCount}
+    <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Relationships</label> ({$relationshipsCount})<br />
+  {else}
+    <label>Relationships</label><span class="horizontal-position">None entered - use the <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">Relationships tab</a> to add them.</span>
+  {/if}
 </div>
+
+{* Relationships block display property is always none if there are 0 relationships for the contact *}
 <div id="relationships">
- <p>
- <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;">(-)</a> Relationships</legend>
-    <div class="form-item">
+ {if $relationship}
+ <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>Relationships</legend>
     {strip}
-	{if $relationship}
         <table>
         <tr class="columnheader">
             <th>Relationship</th>
@@ -134,59 +142,74 @@
             </tr>  
         {/foreach}
         </table>
-	{else}
-        <div class="message status">
-        <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-        There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">add one</a>.
-        </div>
-	{/if}
 	{/strip}
-       <br />
-       <div class="action-link">
+   <div class="action-link">
        <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">New Relationship</a>
-        {if $relationshipsCount gt 10 }
+        {if $relationshipsCount gt 3 }
          | <a href="{crmURL p='civicrm/contact/view/rel' q='action=browse'}">Browse all Relationships...</a>
         {/if}
-        </div>
-    </div>
+   </div>
  </fieldset>
- </p>
- <div class="data-group"></div>	
- </div>
-
-<div id="groups" class="data-group form-item">
-  <span class="float-right">
-	<a href="{crmURL p='civicrm/contact/view/group' q='action=browse'}">View Groups</a>
-  </span>
-  <label>Groups</label>
-  <span class="horizontal-position">
-   {if $groupCount > 0}
-     This contact is member of {$groupCount} Group(s).
-   {else}
-     <div class="message status">
-     <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;	
-      This contact does not belong to any groups.
-     </div>
-   {/if}
-  </span>
-  <br />
-  <div class="spacer"></div>
+ {/if}
 </div>
 
-<div id="notes[show]" class="data-group form-item">
-  <a href="#" onClick="hide('notes[show]'); show('notes'); return false;">(+)</a> <label>Contact Notes</label><br />
+<div id="groups[show]" class="data-group">
+  {if $groupCount}
+    <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Group Memberships</label> ({$groupCount})<br />
+  {else}
+    <label>Group Memberships</label><span class="horizontal-position">None active memberships - use the <a href="{crmURL p='civicrm/contact/view/group' q='action=add'}">Groups tab</a> to add them.</span>
+  {/if}
+</div>
+
+<div id="groups">
+ {if $groupCount}
+ <fieldset><legend><a href="#" onClick="hide('groups'); show('groups[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>Groups</legend>
+	{strip}
+	<table>
+        <tr class="columnheader">
+		<th>Group</th>
+		<th>Category</th>
+		<th>Status</th>
+		<th>Date Added</th>
+	</tr>
+    {foreach from=$groupIn item=row}
+        <tr class="{cycle values="odd-row,even-row"}">
+        	<td>{$row.title}</td>
+	    	<td></td>	
+	    	<td>Added (by {$row.in_method})</td> 
+            <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
+        </tr>
+    {/foreach}
+    </table>
+	{/strip}
+    <p>This table currently not populated for group memberships - coming soon!</p>
+   <div class="action-link">
+       <a href="{crmURL p='civicrm/contact/view/group'}">New Group Membership</a>
+        {if $groupCount gt 3 }
+         | <a href="{crmURL p='civicrm/contact/view/group'}">Browse all Group Memberships...</a>
+        {/if}
+   </div>
+ </fieldset>
+ {/if}
+</div>
+
+<div id="notes[show]" class="data-group">
+  {if $notesCount}
+    <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Contact Notes</label> ({$notesCount})<br />
+  {else}
+    <label>Contact Notes</label> (No notes have been entered for this contact. Use the <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">Notes tab</a> to add them.)
+  {/if}
 </div>
 
 <div id="notes">
- <p>
- <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;">(-)</a> Contact Notes</legend>
-    <div class="form-item">
+{if $notesCount}
+  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;">(-)</a> Contact Notes</legend>
        {strip}
        <table>
        <tr class="columnheader">
-	<th>Note Listings</th>
-	<th>Date</th>
-	<th></th>
+    	<th>Note</th>
+	    <th>Date</th>
+	    <th></th>
        </tr>
        {foreach from=$note item=note}
        <tr class="{cycle values="odd-row,even-row"}">
@@ -204,24 +227,16 @@
        {/foreach}
        </table>
        {/strip}
-       <br />
+       
        <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">New Note</a>
+        <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">New Note</a>
         {if $notesCount gt 3 }
          | <a href="{crmURL p='civicrm/contact/view/note' q='action=browse'}">Browse all notes...</a>
         {/if}
-        </div>
-    </div>
+       </div>
  </fieldset>
- </p>
- <div class="data-group"></div>
-</div>
-
-<div id="edit-link" class="form-item">
-  <span class="float-right">
-     <input type="button" name="edit_contact" value="Edit Contact" onClick="location.href='{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}';">
-  </span>
-</div> 
+{/if}
+</div> <!-- End of Notes block -->
 
  <script type="text/javascript">
     var showBlocks = new Array({$showBlocks});

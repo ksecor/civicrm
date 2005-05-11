@@ -76,11 +76,16 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     }
 
     function getContactDetails( ) {
+        $config = CRM_Core_Config::singleton( );
+        $displayName = $this->get( 'displayName' );
+        
         // for all other tabs, we only need the displayName
         // so if the display name is cached, we can skip the other processing
-        $displayName = $this->get( 'displayName' );
         if ( isset( $displayName ) && $this->_mode != self::MODE_NONE ) {
             $this->assign( 'displayName', $displayName );
+            $contactImage = $this->get( 'contactImage' );
+            // Set dynamic page title = contactImage + displayname>
+            CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
             return;
         }
 
@@ -100,6 +105,22 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             $displayName = $defaults['sort_name'];
         }
         $this->set( 'displayName', $displayName );
+
+        // Set dynamic page title for view = contact_type img + contact displayname
+        $contactImage  = '<img src="' . $config->resourceBase . 'i/contact_';
+        switch ($defaults['contact_type']) {
+            case 'Individual' :
+                $contactImage .= 'ind.gif" alt="Individual">';
+                break;
+            case 'Household' :
+                $contactImage .= 'house.png" alt="Household" height="16" width="16">';
+                break;
+            case 'Organization' :
+                $contactImage .= 'org.gif" alt="Organization" height="16" width="18">';
+                break;
+        }
+        $this->set( 'contactImage', $contactImage );
+        CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
 
         if ( $this->_mode == self::MODE_NONE ) {
             $this->assign( $defaults );
@@ -148,11 +169,13 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     function setShowHide( &$defaults ) {
 
         $showHide = new CRM_Core_ShowHideBlocks(array('commPrefs'       => 1,
-                                                 'notes[show]'     => 1,
-                                                 'relationships[show]'     => 1 ),
-                                           array('notes'           => 1,
-                                                 'commPrefs[show]' => 1,
-                                                 'relationships[show]'     => 1 ) ) ;
+                                                 'notes[show]'          => 1,
+                                                 'relationships[show]'  => 1,
+                                                 'groups[show]'         => 1),
+                                                array('notes'           => 1,
+                                                 'commPrefs[show]'      => 1,
+                                                 'relationships'        => 1,
+                                                 'groups'               => 1) ) ;
         
 
         if ( $defaults['contact_type'] == 'Individual' ) {
@@ -169,18 +192,21 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         }
 
         // is there any notes data?
+        /*
         if ( CRM_Utils_Array::value( 'notesCount', $defaults ) ) {
             $showHide->addShow( 'notes' );
             $showHide->addHide( 'notes[show]' );
         }
+        */ 
 
-        // is there any relationships data?
+        // is there any relationships data? for now, always hide relationships by default dgg.
+        /*
         if ( CRM_Utils_Array::value( 'relationshipsCount', $defaults ) ) {
             $showHide->addShow( 'relationships' );
             $showHide->addHide( 'relationships[show]' );
         }
+        */
 
-            
         if ( array_key_exists( 'location', $defaults ) ) {
             $numLocations = count( $defaults['location'] );
             if ( $numLocations > 0 ) {

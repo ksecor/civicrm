@@ -1,23 +1,15 @@
 {* this template is used for adding/editing tags  *}
 
-<div id="name" class="data-group form-item">
- 	<label>{$displayName}</label>
-</div>
-<h3>Tags(categories) for this contact:</h3>
-
 <form {$form.attributes}>
-  <div class="form-item">
-    <fieldset>
+<fieldset><legend>Tags</legend>
+    <p>Current tag assignments are checked. Mark or unmark the checkboxes, and click 'Update Tags' to change the tags for this contact.</p>
+    <div class="form-item">
       {foreach from=$category item="row" key = "id"}
          {$form.categoryList[$id].html} &nbsp;{$row} <br>
       {/foreach}
-    </fieldset>
-  </div>
- <div class="horizontal-position">
-    <span class="two-col1">
-       <span class="fields">{$form.buttons.html}</span>
-    </span>
- </div>
+    </div>
+    <div class="form-item">{$form.buttons.html}</div>
+</fieldset>
 	
 </form>
-<br><br>
+

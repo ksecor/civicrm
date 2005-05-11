@@ -1,8 +1,8 @@
 {* Advanced Search Criteria Fieldset *}
 <fieldset>
     <legend><span id="searchForm[hide]"><a href="#" onClick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;">(-)</a> </span>
-        {if $context EQ 'smog'}Find Contacts within this Group
-        {elseif $context EQ 'amtg'}<legend>Find Contacts to Add to this Group
+        {if $context EQ 'smog'}Find Members of this Group
+        {elseif $context EQ 'amtg'}Find Contacts to Add to this Group
         {else}Search Criteria{/if}
     </legend>
   <div class="form-item">

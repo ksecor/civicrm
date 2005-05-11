@@ -138,18 +138,20 @@ div.spacer {
 }
 
 /* Data display layouts */
-#crm-container .data-group .col1 {
+#crm-container .col1 {
   float: left;
+  vertical-align: top;
   width: 40%;
   text-align: left;
-  margin: 5px 25px 5px 25px;
+  margin: 0px 25px 0px 25px;
 } 
 
-#crm-container .data-group .col2 {
+#crm-container .col2 {
   float: right;
+  vertical-align: top;
   width: 50%;
   text-align: left;
-  margin: 5px 0px 5px 0px;
+  margin: 0px;
 } 
 
 
@@ -168,7 +170,7 @@ div.spacer {
   margin: 1em 0em 1em;
 }
 
-#crm-container .labels, .label {
+#crm-container label, .labels, .label {
   font-weight: bold;
 }
 
@@ -285,6 +287,7 @@ div.spacer {
   clear: both;
 }
 
+
 #crm-container .element-right {
   position: absolute;
   right: 35px;
@@ -329,11 +332,6 @@ div.crm-pager a {
   border-bottom: 2px solid #B0B0B0;
 }
 
-#crm-container .float-right {
-  float: right;
-  margin-left: 8px;
-  width: auto;
-}
 
 /* Styles for Wizard Progress Bars */
 #crm-container ul.wizard-bar {
@@ -394,4 +392,11 @@ div.crm-pager a {
   height: 6.75em;	
   overflow: auto;
   border: 1px solid #B0B0B0;
+}
+
+/* Image Styles */
+#crm-container .action-icon {
+ vertical-align: middle;
+ height: 20px;
+ width: 20px;
 }

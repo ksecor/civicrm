@@ -1,9 +1,4 @@
 {* template for custom data *}
-<div id="name" class="data-group form-item">
-    <p>
-	<label>{$displayName}</label>
-    </p>
-</div>
 
 {if $action eq 2}
     <form {$form.attributes}>

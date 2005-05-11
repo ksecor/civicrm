@@ -1,9 +1,3 @@
-<div id="name" class="data-group form-item">
-    <p>
-	<label>{$displayName}</label>
-    </p>
-</div>
-
 {if $action eq 4}
 {if $notes}
     <p>
@@ -37,7 +31,7 @@
        {strip}
        <table>
        <tr class="columnheader">
-	<th>Note Listings</th>
+	<th>Note</th>
 	<th>Date</th>
 	<th></th>
        </tr>

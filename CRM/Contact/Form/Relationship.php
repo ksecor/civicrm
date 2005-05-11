@@ -239,7 +239,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($contact->contact_type ) {
                 case 'Individual' :
-                    $contact_type .= 'ind.png" alt="Individual">';
+                    $contact_type .= 'ind.gif" alt="Individual">';
                     break;
                 case 'Household' :
                     $contact_type .= 'house.png" alt="Household" height="16" width="16">';
