@@ -1,5 +1,5 @@
 {* Relationship tab within View Contact - browse, add, edit relationships for a contact *}
-{if $relationship}
+
     {if $action eq 4} {* action = view *}
         <div class="form-item">
         <fieldset><legend>View Relationship</legend>
@@ -25,6 +25,7 @@
         	
     {/if}
 
+{if $relationship}
     {* show browse table for any action *}
       <div id="relationships">
         <p>
@@ -69,7 +70,7 @@
        <div class="message status">
            <dl>
            <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
-           <dd>There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">add one</a>.</dd>
+           <dd>There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q="action=add"}">add one</a>.</dd>
            </dl>
       </div>
 {/if}

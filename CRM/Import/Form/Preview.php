@@ -39,6 +39,9 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Import_Form_Preview extends CRM_Core_Form {
 
+    const CRM_IMPORT_ERROR_FILE = 'CiviCRM_Import_Errors.log';
+
+
     /**
      * Function to set variables up before form is built
      *
@@ -130,7 +133,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $this->assign( 'rowDisplayCount', 2 );
             $this->set('validRowCount', $validRowCount);
         }
-
+        
         $properties = array( 'mapper', 'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 'invalidRowCount', 'duplicateRowCount' );
         foreach ( $properties as $property ) {
@@ -190,8 +193,32 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         // add all the necessary variables to the form
         $parser->set( $this );
 
+        // check if there is any error occured
+
         $errorStack = CRM_Core_Error::singleton();
         $errors = $errorStack->getErrors();
+        
+        //$errorMessage = '';
+
+        $errorMessage = array();
+
+        if(is_array($errors)) {
+            foreach($errors as $lngKey => $varValue) {
+                //$errorMessage .= $varValue['message'].'\n';
+                $errorMessage[] = $varValue['message'];
+            }
+            
+            $errorFile = CRM_UPLOAD_DIR.date('Y_m_d_h_i_s').'_'.self::CRM_IMPORT_ERROR_FILE;
+            
+            if($fd = @fopen ($errorFile, 'x+' )) {
+                $string = implode('\n', $errorMessage);
+                //@fwrite($fd, $errorMessage);
+                @fwrite($fd, $string);
+            }
+            @fclose($fd);
+
+            $this->set('errorFile', $errorFile);
+        }
     }
 }
 

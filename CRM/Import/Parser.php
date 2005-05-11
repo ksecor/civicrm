@@ -182,7 +182,9 @@ abstract class CRM_Import_Parser {
             $this->_activeFieldCount = count( $this->_activeFields );
         }
 
-        $session = CRM_Core_Session::singleton( );        
+        $session = CRM_Core_Session::singleton( );
+
+        // print_r($_SESSION);
         if ( $mode == self::MODE_IMPORT ) {
             
             //get the key of email field
@@ -197,8 +199,8 @@ abstract class CRM_Import_Parser {
                 }
             }
 
-            //$this->_totalCount = $aImportData['totalRowCount'];
-            $this->_validCount = $importData['validRowCount'];
+            $this->_totalCount = $importData['totalRowCount'];
+            //$this->_validCount = $importData['validRowCount'];                 
             $this->_errorCount = $importData['invalidRowCount'];
             $this->_duplicateCount = $importData['duplicateRowCount'];
         }
@@ -209,7 +211,7 @@ abstract class CRM_Import_Parser {
             //print_r($values);            
             // skip column header if data is imported
             if ( $mode == self::MODE_IMPORT ) {
-                if ($skipColumnHeader) {
+                if ($skipColumnHeader ) {
                     $skipColumnHeader = 0;
                     continue;
                 }
@@ -226,9 +228,9 @@ abstract class CRM_Import_Parser {
                 continue;
             }
 
-            //if ( $mode != self::MODE_IMPORT ) {
-            $this->_totalCount++;
-                //}
+            if ( $mode != self::MODE_IMPORT ) {
+                $this->_totalCount++;
+            }
 
             if ( $mode == self::MODE_PREVIEW ) {
                 $returnCode = $this->preview( $values );
@@ -257,7 +259,7 @@ abstract class CRM_Import_Parser {
             } 
 
             if ( $returnCode & self::ERROR ) {
-                $this->_errorCount++;
+                //$this->_errorCount++;
                 if ( $this->_errorCount < $this->_maxErrorCount ) {
                     $this->_errorCount[] = $line;
                 }

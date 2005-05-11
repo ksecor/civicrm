@@ -108,10 +108,10 @@ class CRM_Core_Block {
             self::setTemplateShortcutValues( );
         } else if ( $id == self::ADD ) {
             self::$_properties[self::ADD   ]['templateValues'] =
-                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/add'            ) );
+                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/addI?c_type=Individual' ) );
         } else if ( $id == self::SEARCH ) {
             self::$_properties[self::SEARCH]['templateValues'] =
-                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search'         ) ,
+                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search' ) ,
                        'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'reset=1' ) );
         } else if ( $id == self::MENU ) {
             self::setTemplateMenuValues( );

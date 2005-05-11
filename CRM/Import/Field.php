@@ -89,16 +89,35 @@ class CRM_Import_Field {
     }
 
     function validate( ) {
+        //  echo $this->_value."===========<br>";
+
         if ( $this->_value === null ) {
             return true;
         }
+        /*        
+        if ( $this->_name == 'phone' ) {
+           return CRM_Utils_Rule::phone( $this->_value );
+        }
+        
         if ( $this->_name == 'email' ) {
             return CRM_Utils_Rule::email( $this->_value );
         }
+        */
+
         if ( $this->_name == 'phone' ) {
-            return CRM_Utils_Rule::phone( $this->_value );
+            if( !CRM_Utils_Rule::phone( $this->_value ) ) {
+                if ( $this->_name == 'email' ) {
+                    return CRM_Utils_Rule::email( $this->_value );
+                }
+            } 
+        } else if ( $this->_name == 'email' ) {
+            return CRM_Utils_Rule::email( $this->_value );
         }
- 
+
+
+        //$error = CRM_Core_Error::singleton( );
+        //$error->push( 8000, 'fatal', array( ), $message );
+
         return true;
     }
 

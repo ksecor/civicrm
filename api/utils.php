@@ -91,6 +91,7 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
             foreach ( $field as $element ) {
                 if ( ! CRM_Utils_Array::value( $element, $params ) ) {
                     $valid = false;
+                    $error .= $element; 
                     break;
                 }
             }
@@ -105,7 +106,7 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
     }
     
     if ( ! $valid ) {
-        return _crm_error( "Required fields not found for $contact_type" );
+        return _crm_error( "Required fields not found for $contact_type $error" );
     }
     
     return true;

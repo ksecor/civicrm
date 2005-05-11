@@ -203,7 +203,7 @@
 
 <div id="notes">
 {if $notesCount}
-  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;">(-)</a> Contact Notes</legend>
+  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a> Contact Notes</legend>
        {strip}
        <table>
        <tr class="columnheader">

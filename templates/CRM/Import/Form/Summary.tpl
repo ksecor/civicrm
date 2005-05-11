@@ -16,10 +16,10 @@
     results.
     </p>
     
-    {if $invalidRowCount}
+    {if $invalidRowCount }
         <p>
         CiviCRM has detected invalid data and/or formatting errors in {$invalidRowCount} records.
-        These records have not been imported. You can download a file with just
+        These records have not been imported. You can <a href = "{crmURL p=`$errorFile`}">download</a> a file with just
         these problem records - {$downloadErrorRecords}. You may then correct them and import
         the new file with the corrected data.
         </p>
