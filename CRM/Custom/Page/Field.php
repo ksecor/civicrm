@@ -33,7 +33,7 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Custom_Page_Field extends CRM_Core_Page_Basic {
+class CRM_Custom_Page_Field extends CRM_Core_Page {
     
     /**
      * The group id of the field
@@ -73,46 +73,14 @@ class CRM_Custom_Page_Field extends CRM_Core_Page_Basic {
                                                         ),
                            );
 
-
-    function getBAOName( ) {
-        return 'CRM_Core_BAO_CustomField';
-    }
-
-    function &links( ) {
-        return self::$_links;
-    }
-
-    function editForm( ) {
-        return 'CRM_Custom_Form_Field';
-    }
-
-    function editName( ) {
-        return 'Custom Field';
-    }
-
-    function userContext($mode=null)
+    function run()
     {
-        return 'civicrm/admin/custom/group/field';
-    }
-
-    function userContextParams( ) {
-        return 'reset=1&action=browse&gid=' . $this->_gid;
-    }
-
-    function run( ) {
-        $this->_gid = CRM_Utils_Request::retrieve( 'gid', $this );
-        if ( $this->_gid ) {
-            $this->assign( 'gid', $this->_gid );
+        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
+        if ($this->_gid) {
+            $this->assign('gid', $this->_gid);
         }
-        return parent::run( );
+        return parent::run();
     }
-
-    function addValues( $controller ) {
-        if ( $this->_gid ) {
-            $controller->set( 'gid', $this->_gid );
-        }
-    }
-
 }
 
 ?>

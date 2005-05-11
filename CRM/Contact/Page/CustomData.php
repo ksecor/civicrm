@@ -106,9 +106,9 @@ class CRM_Contact_Page_CustomData {
         // assign vars to templates
         $page->assign('contactId', $contactId);
         $page->assign('action', $action);
-
+        
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
+        if ($action & (CRM_Core_Action::UPDATE)) {
             // both update and add are handled by 'edit'
             self::edit($page);
         } else {

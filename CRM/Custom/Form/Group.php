@@ -51,8 +51,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function preProcess( ) {
-        $this->_id = $this->get( 'id' );
+    public function preProcess()
+    {
+        $this->_id = $this->get('id');
     }
 
     /**
@@ -61,27 +62,28 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
-        $this->add( 'text'  , 'title'      , 'Group Name',
-                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomGroup', 'title'       ), true );
-        $this->addRule( 'title', 'Please enter a valid name.', 'title' );
+    public function buildQuickForm()
+    {
+        // title
+        $this->add('text', 'title', 'Group Name', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
+        $this->addRule('title', 'Please enter a valid name.', 'title');
 
-        $this->add( 'text'  , 'description', 'Group Description',
-                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomGroup', 'description' ), true );
-        $this->add( 'select', 'extends', 'Used For', CRM_Core_SelectValues::$customGroupExtends );
-        $this->addElement( 'checkbox', 'is_active', 'Is this Extended Property Group active?' );
-        
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => 'Save',
-                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => 'Cancel' ),
-                                 )
-                           );
+        // description
+        $this->add('text', 'description', 'Group Description', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'description'),
+                   true);
+        $this->add('select', 'extends', 'Used For', CRM_Core_SelectValues::$customGroupExtends);
+        $this->addElement('checkbox', 'is_active', 'Is this Custom Data Group active?');
 
-        if ( $this->_mode & self::MODE_VIEW ) {
+        $this->addButtons(array(
+                                array ( 'type'      => 'next',
+                                        'name'      => 'Save',
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                        'isDefault' => true   ),
+                                array ( 'type'      => 'cancel',
+                                        'name'      => 'Cancel' ),
+                                )
+                          );
+        if ($this->_mode & self::MODE_VIEW) {
             $this->freeze( );
         }
     }
@@ -93,12 +95,13 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * @access public
      * @return None
      */
-    function setDefaultValues( ) {
-        $defaults = array( );
+    function setDefaultValues()
+    {
+        $defaults = array();
 
-        if ( isset( $this->_id ) ) {
-            $params = array( 'id' => $this->_id );
-            CRM_Core_BAO_CustomGroup::retrieve( $params, $defaults );
+        if (isset($this->_id)) {
+            $params = array('id' => $this->_id);
+            CRM_Core_BAO_CustomGroup::retrieve($params, $defaults);
         } else {
             $defaults['is_active'] = 1;
         }
@@ -111,25 +114,23 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function postProcess( ) {
-        $params = $this->controller->exportValues( 'Group' );
+    public function postProcess()
+    {
+        $params = $this->controller->exportValues('Group');
 
-        $group = new CRM_Core_DAO_CustomGroup( );
+        $group = new CRM_Core_DAO_CustomGroup();
         $group->title       = $params['title'];
-        $group->name        = CRM_Utils_String::titleToVar( $params['title'] );
+        $group->name        = CRM_Utils_String::titleToVar($params['title']);
         $group->description = $params['description'];
         $group->extends     = $params['extends'];
-        $group->is_active   = CRM_Utils_Array::value( 'is_active', $params, false );
+        $group->is_active   = CRM_Utils_Array::value('is_active', $params, false);
         $group->domain_id   = 1;
 
-        if ( $this->_mode & self::MODE_UPDATE ) {
+        if ($this->_mode & self::MODE_UPDATE) {
             $group->id = $this->_id;
         }
-        $group->save( );
-
-        CRM_Core_Session::setStatus( 'Your Group "' . $group->title . '" has been saved' );
+        $group->save();
+        CRM_Core_Session::setStatus('Your Group "' . $group->title . '" has been saved');
     }
-
 }
-
 ?>
