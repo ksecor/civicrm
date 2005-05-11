@@ -139,6 +139,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 case 'Select State / Province':
                 case 'Select Country':
                 }
+
+                // integers will have numeric rule applied to them.
+                if ($field['data_type'] == 'Int') {
+                    $this->addRule($elementName, ' is a numeric field' , 'numeric');
+                }
             }
         }
 
