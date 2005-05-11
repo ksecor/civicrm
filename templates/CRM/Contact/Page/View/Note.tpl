@@ -55,7 +55,6 @@
        {/strip}
 
        {if $action eq 16 or $action eq 4}
-	<br/>
        <div class="action-link">
     	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">New Note</a>
        </div>
@@ -66,7 +65,9 @@
 
 {else}
    <div class="message status">
-   <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-   There are no notes entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">add one</a>.
+    <dl>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
+        <dd>There are no Notes for this contact. You can <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">add one</a>.</dd>
+    </dl>
    </div>
 {/if}

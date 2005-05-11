@@ -16,7 +16,6 @@
 {if $contact_type eq 'Individual'}
  <div id="name">
  <fieldset><legend>Name and Greeting</legend>
-    <!-- <div class="spacer"></div> -->
     <div class="form-item">
         <span class="labels"><label>First/Last:</label></span>
         <span class="fields">
@@ -112,12 +111,12 @@
  {include file="CRM/Contact/Form/Location.tpl"}
 
 {if $contact_type eq 'Individual'}
- <div id = "demographics[show]" class="show-section">
-    {$demographics.show}
+ <div id = "demographics[show]" class="data-group">
+    {$demographics.show}<label>Demographics</label>
  </div>
 
  <div id="demographics">
- <fieldset><legend>Demographics</legend>
+ <fieldset><legend>{$demographics.hide}Demographics</legend>
     <div class="form-item">
         <span class="labels">
         {$form.gender.label}
@@ -138,23 +137,18 @@
         {$form.is_deceased.html}
         {$form.is_deceased.label}
     </div>
-    <div id="demographics[hide]" class="hide-section">
-        {$demographics.hide}
-    </div>
- </fieldset>
+  </fieldset>
  </div>
 {/if}  
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
-
-
- <div id = "notes[show]" class="show-section">
-    {$notes.show}
+ <div id = "notes[show]" class="data-group">
+    {$notes.show}<label>Notes</label>
  </div>
 
  <div id = "notes">
- <fieldset><legend>Contact Notes</legend>
+ <fieldset><legend>{$notes.hide}Contact Notes</legend>
     <div class="form-item">
         {if $mode eq 1} {* Add Contact - show New Note form *}
             {$form.note.html}
@@ -184,14 +178,8 @@
         </div>
         {/if}  
     </div>
-    <!-- Spacer div contains floated elements -->
-	<div id="notes[hide]" class="hide-section">
-        {$notes.hide}
-    </div>
  </fieldset>
  </div>
-
-
  <!-- End of "notes" div -->
  
  <div id="crm-submit-buttons">

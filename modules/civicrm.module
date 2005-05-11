@@ -227,6 +227,7 @@ function civicrm_menu($may_cache)
         $items[] = array(
                          'path'  => 'civicrm',
                          'title' => t('CiviCRM'),
+                         'access' => user_access('view any contact'),
                          'callback' => 'civicrm_invoke',
                          'type'   => MENU_CALLBACK,
                          );
@@ -291,7 +292,7 @@ function civicrm_menu($may_cache)
         
        $items[] = array(
                          'path'  => 'civicrm/contact/edit',
-                         'title' => t('Edit Contact'),
+                         'title' => t('Edit Contact Name and Location'),
                          'access' => user_access('add/edit any contact'),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
@@ -488,8 +489,8 @@ function civicrm_invoke()
         return $controller->run( );
     }
   
-    drupal_goto( 'civicrm/contact/search', 'reset=1' );
-    // drupal_goto( 'civicrm/contact/search' );
+    // Default landing page is basic search (mostly for CiviCRM link in breadcrumb)
+    drupal_goto( 'civicrm/contact/search' );
 }
 
 function civicrm_contact_invoke() 

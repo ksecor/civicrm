@@ -38,14 +38,14 @@ class CRM_Contact_Form_IM
 
     static function buildIMBlock($form, &$location, $locationId, $count) {
         for ($i = 1; $i <= $count; $i++) {
-            $label = 'Instant Message:';
+            $label = 'Instant Messenger (IM):';
 
             CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][im]", '[+] another Instant Message', '[-] hide Instant Message');
 
             $location[$locationId]['im'][$i]['service_id'] = $form->addElement('select',
                                                                                "location[$locationId][im][$i][provider_id]",
                                                                                $label,
-                                                                               CRM_Core_PseudoConstant::IMProvider()   );
+                                                                               array('' => '- select service -') + CRM_Core_PseudoConstant::IMProvider()   );
 
             $location[$locationId]['im'][$i]['name'] = $form->addElement('text',
                                                                          "location[$locationId][im][$i][name]",

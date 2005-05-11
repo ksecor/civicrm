@@ -244,8 +244,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // add note block
         if ($this->_mode == self::MODE_ADD) {
             $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
-        }    
-        CRM_Core_ShowHideBlocks::links( $this, 'notes'       , '[+] show contact notes', '[-] hide contact notes' );
+        }
+
+        $config  = CRM_Core_Config::singleton( );
+        CRM_Core_ShowHideBlocks::links( $this, 'notes', '<img src="'.$config->resourceBase.'i/TreePlus.gif" class="action-icon" alt="close block">' , '<img src="'.$config->resourceBase.'i/TreeMinus.gif" class="action-icon" alt="close block">' );
             
         $this->addButtons( array(
                                  array ( 'type'      => 'next',

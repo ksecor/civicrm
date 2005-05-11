@@ -1,6 +1,6 @@
 <div id="name" class="data-group">
    <div class="float-right">
-        <a href="{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}">Edit Basic Contact and Location Info</a>&nbsp;&nbsp;&nbsp;
+        <a href="{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}">Edit address, phone, email...</a>&nbsp;&nbsp;&nbsp;
    </div>
    <div>
     {if $contact_type eq 'Individual'}
@@ -22,7 +22,7 @@
 
  <div id="location[{$locationIndex}]">
   <fieldset>
-   <legend{if $locationIndex eq 1} class="label"{/if}><a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>{$loc.location_type}{if $locationIndex eq 1} (primary contact location){/if}<legend/>
+   <legend{if $locationIndex eq 1} class="label"{/if}><a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>{$loc.location_type}{if $locationIndex eq 1} (primary location){/if}<legend/>
 
   <div class="col1">
     {$loc.address.street_address}<br />
@@ -102,11 +102,11 @@
   {if $relationshipsCount}
     <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Relationships</label> ({$relationshipsCount})<br />
   {else}
-    <label>Relationships</label><span class="horizontal-position">None entered - use the <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">Relationships tab</a> to add them.</span>
+    <dl><dt>Relationships</dt><dd>No relationships. Use the <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">Relationships tab</a> to add them.</dd></dl>
   {/if}
 </div>
 
-{* Relationships block display property is always none if there are 0 relationships for the contact *}
+{* Relationships block display property is always hidden (non) if there are no relationships *}
 <div id="relationships">
  {if $relationship}
  <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>Relationships</legend>
@@ -114,11 +114,11 @@
         <table>
         <tr class="columnheader">
             <th>Relationship</th>
-            <th>Contact</th>
+            <th>Of</th>
+            <th>City</th>
+            <th>State</th>
             <th>Email</th>
             <th>Phone</th>
-            <th>City</th>
-            <th>State/Prov</th>
             <th>&nbsp;</th>
         </tr>
 
@@ -130,15 +130,13 @@
             {assign var = "rtype" value = "a_b" }
           {/if}
             <tr class="{cycle values="odd-row,even-row"}">
-                    <td>
-                    {$rel.relation|truncate:80:"...":true}
-                    </td>
+                <td class="label">{$rel.relation}</td>
                 <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
-                <td>{$rel.email}</td>
-                <td>{$rel.phone}</td>
                 <td>{$rel.city}</td>
                 <td>{$rel.state}</td>
-                    <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a></td> 
+                <td>{$rel.email}</td>
+                <td>{$rel.phone}</td>
+                <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a></td> 
             </tr>  
         {/foreach}
         </table>
@@ -157,7 +155,7 @@
   {if $groupCount}
     <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Group Memberships</label> ({$groupCount})<br />
   {else}
-    <label>Group Memberships</label><span class="horizontal-position">None active memberships - use the <a href="{crmURL p='civicrm/contact/view/group' q='action=add'}">Groups tab</a> to add them.</span>
+    <dl><dt>Group Memberships</dt><dd>No group memberships. Use the <a href="{crmURL p='civicrm/contact/view/group' q='action=add'}">Groups tab</a> to add them.</dd></dl>
   {/if}
 </div>
 
@@ -197,7 +195,7 @@
   {if $notesCount}
     <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Contact Notes</label> ({$notesCount})<br />
   {else}
-    <label>Contact Notes</label> (No notes have been entered for this contact. Use the <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">Notes tab</a> to add them.)
+    <dl><dt>Contact Notes</dt><dd>No notes. Use the <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">Notes tab</a> to add them.</dd></dl>
   {/if}
 </div>
 
@@ -231,7 +229,7 @@
        <div class="action-link">
         <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">New Note</a>
         {if $notesCount gt 3 }
-         | <a href="{crmURL p='civicrm/contact/view/note' q='action=browse'}">Browse all notes...</a>
+         | <a href="{crmURL p='civicrm/contact/view/note' q='action=browse'}">All notes...</a>
         {/if}
        </div>
  </fieldset>

@@ -48,7 +48,7 @@ class CRM_Contact_Form_Individual {
      * @access public
      * @return None 
      */
-    public function buildQuickForm( $form ) 
+    public function buildQuickForm( $form )
     {
         // prefix
         $form->addElement('select', 'prefix', null, CRM_Core_SelectValues::$prefixName);
@@ -82,7 +82,8 @@ class CRM_Contact_Form_Individual {
         $form->addElement('date', 'birth_date', 'Date of birth', CRM_Core_SelectValues::$date);
         $form->addRule('birth_date', 'Select a valid date.', 'qfDate' );
 
-        CRM_Core_ShowHideBlocks::links( $this, 'demographics', '[+] show demographics' , '[-] hide demographics'  );
+        $config = CRM_Core_Config::singleton( );
+        CRM_Core_ShowHideBlocks::links( $this, 'demographics', '<img src="'.$config->resourceBase.'i/TreePlus.gif" class="action-icon" alt="close block">' , '<img src="'.$config->resourceBase.'i/TreeMinus.gif" class="action-icon" alt="close block">'  );
     }
 
     static function formRule( &$fields ) {

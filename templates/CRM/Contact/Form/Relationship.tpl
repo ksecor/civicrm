@@ -1,46 +1,35 @@
 {* this template is used for adding/editing relationships  *}
+
 <form {$form.attributes}>
-<div class="form-item">
 <fieldset><legend>{if $action eq 1}New{else}Edit{/if} Relationship(s)</legend>
 	<div class="data-group">
-      	<span><label>{$displayName} is a {$form.relationship_type_id.html} of {$sort_name}</label></span>
-
-	<div><a href="{crmURL p='civicrm/admin/reltype' q="action=add&reset=1&rd=1"}">Add or Edit relationship types for your sites..</a></div>
+      	<label>{$displayName}</label> is a(n) &nbsp; {$form.relationship_type_id.html} &nbsp; of {if $action EQ 2}{$sort_name}{else}...{/if}
 	</div>
-
-	<div>
-	{if $action eq 1}
-        <span class="description">
-            Use 'Search' to narrow down list of contacts. Then mark the contact(s) and click 'Create Relationship'	
-        </span>
-        <p>
-        <div class="horizontal-position">
-        <span class="two-col1">
-        <span class="labels"><label>Search:</label></span>
-        <span class="fields">{$form.contact_type.html}</span> 
-        </span>
-        <div class="spacer"></div>
-        </div>
-
-        <div class="horizontal-position">
-        <span class="two-col1">
-            <span class="fields">{$form.name.html}</span>
-        </span>
-        <span class="two-col2">
-        <span>
-              <input type="button" name='search' value="Search" onClick="{$form.formName}.submit();">
-            </span>
-        </span> 
-        <div class="spacer"></div>
-        </div>
-        </p>
-
+	{if $action eq 1} {* action = add *}
         <div class="form-item">
+            <div class="description">
+                {t}Locate target contact(s) for this relationship by entering a full or partial name, selecting the target contact type and clicking 'Search'.{/t}
+            </div>
+            <dl>
+              <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
+              <dt>{$form.contact_type.label}</dt><dd>{$form.contact_type.html}</dd>
+              <dt></dt>
+              <dd>
+                  <input type="button" name='search' value="Search" onClick="{$form.formName}.submit();">
+                  <input type="button" name='cancel' value="Cancel" onClick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';">
+              </dd>
+            </dl>
+        </div>
+
           {if $noResult }
              <div class="message status">{$noResult}</div>
           {else}
              {if $contacts }
-               <fieldset>
+               <fieldset><legend>Search Results</legend>
+                <div class="description">
+                    {t}Now mark the target contact(s) and click 'Create Relationship'.
+                    You may optionally specify start and/or end dates if this relationship is time-delimited.{/t}
+                </div>
                {foreach from=$contacts item="row"}
                {$form.contact_check[$row.id].html}
                     &nbsp;{$row.type} &nbsp;{$row.name} <br>
@@ -52,34 +41,16 @@
                 {/if}
              {/if}
           {/if}
-        </div>
-	{/if}
+	{/if} {* end action = add *}
 
 	{* Only show start/end date and buttons if action=update, OR if we have $contacts (results)*}
     {if $contacts OR $action EQ 2}
-        <div class="horizontal-position">
-        <span class="two-col1">
-        <span class="labels">{$form.start_date.label}</span>
-        <span class="fields">{$form.start_date.html}</span>
-        </span>
-        <div class="spacer"></div>
-        </div>
-
-        <div class="horizontal-position">
-        <span class="two-col1">
-        <span class="labels">{$form.end_date.label}</span>
-        <span class="fields">{$form.end_date.html}</span>
-        </span>      
-        <div class="spacer"></div>
-        </div>
-        
-        <div class="horizontal-position">
-        <span class="two-col1">
-            <span class="fields">{$form.buttons.html}</span>
-        </span>
-        <div class="spacer"></div>
-        </div>
+        <div class="form-item">
+        <dl>
+        <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
+        <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd>
+        <dt></dt><dd>{$form.buttons.html}</dd>
+        </dl>
     {/if}
     </fieldset>
-</div>
 </form>

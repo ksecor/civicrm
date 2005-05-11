@@ -136,11 +136,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         $rtype = 'b_a';
         if (strlen(trim($this->_rtype))) $rtype = $this->_rtype;
-        $this->addElement('select', "relationship_type_id", '', CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $rtype));
         
-        $this->addElement('select', "contact_type", '', CRM_Core_SelectValues::$contactType);
+        $this->addElement('select', "relationship_type_id", '', array('' => '- select relationship type -') + CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $rtype));
         
-        $this->addElement('text', 'name' );
+        $this->addElement('select', "contact_type", 'Contact Type', CRM_Core_SelectValues::$contactType);
+        
+        $this->addElement('text', 'name', 'Name' );
 
         $this->addElement('hidden', 'csearch','0' );
 

@@ -67,6 +67,10 @@ div.spacer {
   margin: 1.0em 0em 1.0em;
 }
 
+#crm-container .action-link {
+  margin: 0.5em 0em 0.5em;
+}
+
 #crm-container input.form-submit, #crm-container select {
   vertical-align: middle;
 }
@@ -76,7 +80,7 @@ div.spacer {
 }
 
 #crm-container div.form-item {
-  margin: 0 0 5px 0px;
+  margin: 0px;
   padding: 5px 0px 5px 0px;
   clear: both;
 }
@@ -88,11 +92,11 @@ div.spacer {
 }
 */
 
-#crm-container div.form-item dl{
+#crm-container div.form-item dl, #crm-container .data-group dl{
  margin: 0;
 }
 
-/* Use definition lists for simple forms - <dt> for labels, <dd> for fields */
+/* Use definition lists for simple 2 col forms - <dt> for labels, <dd> for fields */
 #crm-container div.form-item dt {
   float: left;
   clear: left;
@@ -103,7 +107,17 @@ div.spacer {
   padding: 5px 15px 5px 0px;
 }
 
-#crm-container div.form-item dd {
+#crm-container .data-group dt {
+  float: left;
+  clear: left;
+  width: 22%;
+  text-align: left;
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 5px 15px 5px 0px;
+}
+
+#crm-container div.form-item dd, #crm-container .data-group dd {
  padding: 5px;
 }
 
