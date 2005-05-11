@@ -129,7 +129,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // from, where, order by
         $strFrom = " FROM crm_custom_field, crm_custom_group";
         $strWhere = " WHERE crm_custom_group.extends = '$entity' AND
-                            crm_custom_field.custom_group_id = crm_custom_group.id";
+                            crm_custom_field.custom_group_id = crm_custom_group.id AND
+                            crm_custom_group.is_active = 1 AND
+                            crm_custom_field.is_active = 1";
+
         $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
 
         // final query string
@@ -158,10 +161,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $groupTree[$groupId]['fields'][$fieldId]['id'] = $fieldId;
 
             foreach ($tableData['crm_custom_field'] as $v) {
-                if ($v == 'id') {
+                //if ($v == 'id') {
+                $fullField = "crm_custom_field_" . $v;
+                if ($v == 'id' || is_null($crmDAO->$fullField)) {
                     continue;
                 } else {
-                    $fullField = "crm_custom_field_" . $v;
                     $groupTree[$groupId]['fields'][$fieldId][$v] = $crmDAO->$fullField;                    
                 }
             }
@@ -307,9 +311,14 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
                     // $data = $field['customValue']['data'] ? $field['customValue']['data'] : null;
                     $data = $field['customValue']['data'];
-                    
+
                     // since custom data is empty, delete it from db.
-                    if (!$data) {
+                    // note we cannot use a plain if($data) since data could have a value "0"
+                    // which will result in a !false expression
+                    // and accidental deletion of data.
+                    // especially true in the case of radio buttons where we are using the values
+                    // 1 - true and 0 for false.
+                    if (!strlen($data)) {
                         $customValueDAO->delete();
                         continue;
                     }

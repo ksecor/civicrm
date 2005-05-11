@@ -157,9 +157,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     public static function handlePES($pearError)
     {
-//         CRM_Core_Error::le_method();
-//         CRM_Core_Error::debug_var('pearError', $pearError);
-//         CRM_Core_Error::ll_method();
         return PEAR_ERRORSTACK_PUSH;
     }
 
@@ -219,6 +216,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      *
      * @param  string variable name
      * @param  mixed  reference to variables that we need a trace of
+     * @param  bool   should we use print_r ? (else we use var_dump)
      * @param  bool   should we log or return the output
      *
      * @return string the generated output
@@ -230,14 +228,23 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @see CRM_Core_Error::debug()
      * @see CRM_Core_Error::debug_log_message()
      */
-   static function debug_var($variable_name, &$variable, $log=true)
+    static function debug_var($variable_name, &$variable, $print_r=true, $log=true)
     {
         // check if variable is set
         if(!isset($variable)) {
             $out = "\$$variable_name is not set";
         } else {
-            $out = print_r($variable, true);
-            $out = "\$$variable_name = $out";
+            if ($print_r) {
+                $out = print_r($variable, true);
+                $out = "\$$variable_name = $out";
+            } else {
+                // use var_dump
+                ob_start();
+                var_dump($variable);
+                $dump = ob_get_contents();
+                ob_end_clean();
+                $out = "\n\$$variable_name = $dump";
+            }
             // reset if it is an array
             if(is_array($variable)) {
                 reset($variable);
@@ -273,7 +280,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $out = "<br />backtrace<br /><pre>$out</pre>";
         return self::debug_log_message($out);
     }
-
 
 
 

@@ -65,7 +65,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     protected $_entityType;
 
-
     /**
      * pre processing work done here.
      *
@@ -102,17 +101,38 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             foreach ($group['fields'] as $field) {
                 $fieldId = $field['id'];                
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
+
+                // if custom data exists use it, else use the default value if it exists
+                $elementData = isset($field['customValue']['data']) ? $field['customValue']['data'] : $field['default_value'];
+
                 switch($field['html_type']) {
                 case 'Text':
                 case 'TextArea':
-                    $this->add(strtolower($field['html_type']), $elementName, $field['label'], $field['attributes'], $field['required']);
+                    $element = $this->add(strtolower($field['html_type']), $elementName, $field['label'],
+                                          $field['attributes'], $field['is_required']);
+                    if ($elementData) {
+                        $element->setValue($elementData);
+                    }
                     break;
                 case 'Select Date':
-                    $this->add('text', $elementName, $field['label'], $field['attributes'], $field['required']);
+                    $this->add('text', $elementName, $field['label'], $field['attributes'], $field['is_required']);
                     break;
                 case 'Radio':
-                    $this->addElement(strtolower($field['html_type']), $elementName, $field['label'], 'Yes', 'yes', $field['attributes']);
-                    $this->addElement(strtolower($field['html_type']), $elementName, '', 'No', 'No', $field['attributes']);
+                    $radioYes = $this->addElement(strtolower($field['html_type']), $elementName, $field['label'], 'Yes', '1',
+                                                  $field['attributes']);
+                    $radioNo = $this->addElement(strtolower($field['html_type']), $elementName, '', 'No', '0', $field['attributes']);
+                    
+                    // element data for radio button is a special case
+                    if (!is_null($elementData)) {
+                        if ($elementData) {
+                            $radioYes->setChecked(1);
+                        } else {
+                            $radioNo->setChecked(1);
+                        }
+                    }
+                    if ($field['is_required']) {
+                        $this->addRule($elementName, ' is a required field' , 'required');
+                    }
                     break;
                 case 'Select':
                 case 'CheckBox':
@@ -136,32 +156,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     
 
     /**
-     * Set the default form values
-     *
-     * @access protected
-     * @return array the default array reference
-     */
-    function &setDefaultValues()
-    {
-        $defaults = array();
-        $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
-
-        foreach ($groupTree as $group) {
-            $groupId = $group['id'];
-            foreach ($group['fields'] as $field) {
-                $fieldId = $field['id'];
-                $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
-                if (isset($field['customValue'])) {
-                    $defaults[$elementName] = $field['customValue']['data'];
-                }
-            }
-        }
-        return $defaults;
-    }
-
-       
-    /**
-     *
+     * Process the user submitted custom data values.
      * @access public
      * @return None
      */
@@ -170,7 +165,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         // get the form values and groupTree
         $fv = $this->exportValues();
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
-
+        
         // update group tree with form values
         foreach ($fv as $k => $v) {
             list($groupId, $fieldId, $elementName) = explode('_', $k, 3);
@@ -180,7 +175,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 if (isset($groupTree[$groupId]['fields'][$fieldId]['customValue'])) {
                     // field exists in db so populate value from "form".
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
-                } else if ($v) {
+                } else if (strlen($v)) {
                     // field does not exist in db but is data is entered by user
                     // hence create an array for customValue and populate it.
                     $groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
