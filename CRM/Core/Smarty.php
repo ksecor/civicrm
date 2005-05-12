@@ -32,6 +32,7 @@
  */
 
 require_once 'Smarty/Smarty.class.php';
+require_once 'Smarty/gettext/smarty-gettext.php';
 
 /**
  *
@@ -71,6 +72,7 @@ class CRM_Core_Smarty extends Smarty {
         $this->assign_by_ref( 'config' , $config  );
         $this->assign_by_ref( 'session', $session );
         $this->register_function ( 'crmURL', array( 'CRM_Utils_System', 'crmURL' ) );
+        $this->register_block ( 't', 'smarty_translate' );
     }
 
     /**
