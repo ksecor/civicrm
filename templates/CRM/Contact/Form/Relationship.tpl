@@ -25,16 +25,34 @@
              <div class="message status">{$noResult}</div>
           {else}
              {if $contacts }
-               <fieldset><legend>Search Results</legend>
+                <fieldset><legend>Search Results</legend>
                 <div class="description">
                     {t}Now mark the target contact(s) and click 'Create Relationship'.
                     You may optionally specify start and/or end dates if this relationship is time-delimited.{/t}
                 </div>
-               {foreach from=$contacts item="row"}
-               {$form.contact_check[$row.id].html}
-                    &nbsp;{$row.type} &nbsp;{$row.name} &nbsp;{$row.city}&nbsp;{$row.state}&nbsp;{$row.email}&nbsp;{$row.phone}<br>
-               {/foreach}
-               </fieldset>
+                {strip}
+                <table>
+                <tr class="columnheader">
+                <th>&nbsp;</th>
+                <th>Name</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Email</th>
+                <th>Phone</th>
+                </tr>
+                {foreach from=$contacts item="row"}
+                <tr class="{cycle values="odd-row,even-row"}">
+                    <td>{$form.contact_check[$row.id].html}</td>
+                    <td>{$row.type} {$row.name}</td>
+                    <td>{$row.city}</td>
+                    <td>{$row.state}</td>
+                    <td>{$row.email}</td>
+                    <td>{$row.phone}</td>
+                </tr>
+                {/foreach}
+                </table>
+                {/strip}
+                </fieldset>
              {else}
                 {if $noContacts}
                     <div class="message status"> {$noContacts} </div>

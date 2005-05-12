@@ -7,11 +7,9 @@
     {*<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>*}
     <dt>{$form.extends.label}</dt><dd>{$form.extends.html}</dd>
     <dt>{$form.style.label}</dt><dd>{$form.style.html}</dd>
-    {*<dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html}</dd>*}
-    {*<dt>{$form.help_post.label}</dt><dd>{$form.help_post.tml}</dd>*}
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
-    <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}</dd>
-    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}</dd>
+    <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}&nbsp;</dd>
+    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     {if $action ne 4}
         <div id="crm-submit-buttons">
@@ -38,7 +36,7 @@
           <th></th>
        </tr>
 {foreach from=$rows item=row}
-       <tr class="{cycle values="odd-row,even-row"}">
+       <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
          <td>{$row.title}</td>
          <td>{$row.description}</td>
          <td>{$row.is_active}</td>
