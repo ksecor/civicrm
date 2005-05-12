@@ -69,7 +69,7 @@ class CRM_Contact_Page_CustomData {
     static function edit($page)
     {
         // create a simple controller for editing custom data
-        $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $mode);
+        $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', CRM_Core_Form::MODE_UPDATE);
         $controller->setEmbedded(true);
 
         // set the userContext stack

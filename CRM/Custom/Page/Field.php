@@ -40,7 +40,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      *
      * @var int
      */
-    protected $_gid;
+    protected $_groupId;
 
     /**
      * The action links that we need to display for the browse screen
@@ -73,13 +73,104 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                                                         ),
                            );
 
+
+
+    /**
+     * Browse all custom data.
+     *
+     * @param none
+     * @return none
+     * @access public
+     * @static
+     */
+    function browse()
+    {
+        CRM_Core_Error::le_method();
+
+        $customField = array();
+        $customFieldDAO = new CRM_Core_DAO_CustomField();
+        $fields = $customFieldDAO->fields();
+        
+        CRM_Core_Error::debug_var('fields', $fields);
+        
+        $customFieldDAO->custom_group_id = $this->_groupId;
+        $customFieldDAO->find();
+        
+        while ($customFieldDAO->fetch()) {
+            $fieldId = $customFieldDAO->id;
+            $customField[$fieldId] = array();
+            foreach (array_keys($fields) as $fieldName) {
+                $customField[$fieldId][$fieldName] = $customFieldDAO->$fieldName;
+            }
+        }
+
+        $this->assign('customField', $customField);
+        CRM_Core_Error::ll_method();
+    }
+
+
+    /**
+     * edit custom data.
+     *
+     * editing would involved modifying existing fields + adding data to new fields.
+     *
+     * @param none
+     * @returns none
+     * @access public
+     * @static
+     */
+    function edit()
+    {
+        // create a simple controller for editing custom data
+        $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Field', 'Custom Field', CRM_Core_Form::MODE_UPDATE);
+        $controller->setEmbedded(true);
+
+        // set the userContext stack
+        $session = CRM_Core_Session::singleton();
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/group/', 'action=browse'));
+        
+        $controller->reset();
+        $controller->set('groupId' , $this->_groupId);
+        $controller->process();
+        $controller->run();
+    }
+
+
+    /**
+     * Run the page.
+     *
+     * This method is called after the page is created. It checks for the  
+     * type of action and executes that action. 
+     *
+     * @param none
+     * @return none
+     * @access public
+     *
+     */
     function run()
     {
-        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
-        if ($this->_gid) {
-            $this->assign('gid', $this->_gid);
+        // get the group id
+        $this->_groupId = CRM_Utils_Request::retrieve('gid', $this);
+        if ($this->_groupId) {
+            $this->assign('gid', $this->_groupId);
         }
-        return parent::run();
+
+        // get the requested action
+        $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
+
+        // assign vars to templates
+        $this->assign('action', $action);
+        
+        // what action to take ?
+        if ($action & (CRM_Core_Action::UPDATE)) {
+            // both update and add are handled by 'edit'
+            self::edit();
+        } else {
+            self::browse();
+        }
+        
+        // call the parents run method
+        parent::run();
     }
 }
 
