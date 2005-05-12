@@ -90,6 +90,9 @@ class CRM_Contact_Form_Individual {
         $errors = array( );
         
         $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
+        
+        // check for state/country mapping
+        CRM_Contact_Form_Address::formRule($fields, $errors);
 
         // make sure that firstName and lastName or a primary email is set
         if (! ( (CRM_Utils_Array::value( 'first_name', $fields ) && 
@@ -99,12 +102,8 @@ class CRM_Contact_Form_Individual {
         }
         
         // add code to make sure that the uniqueness criteria is satisfied
-
-        return empty( $errors ) ? true : $errors;
+        return empty($errors) ? true : $errors;
     }
-
 }
-
-
-    
+   
 ?>

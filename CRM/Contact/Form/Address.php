@@ -62,7 +62,46 @@ class CRM_Contact_Form_Address
                               array('' => '- select -') + CRM_Core_PseudoConstant::country());
     }
 
-}
 
+
+    /**
+     * check for correct state / country mapping.
+     *
+     *
+     * @param array reference $fields - submitted form values.
+     * @param array reference $errors - if any errors found add to this array. please.
+     *
+     * @return true if no errors
+     *         array of errors if any present.
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+
+    static function formRule(&$fields, &$errors)
+    {
+        // check for state/country match if not report error to user.
+        for ($i=1; $i<=CRM_Contact_Form_Location::BLOCKS; $i++) {
+            $stateProvinceId = $fields['location'][$i]['address']['state_province_id'];
+            $countryId = $fields['location'][$i]['address']['country_id'];
+
+            if ($stateProvinceId) {
+                $stateProvinceDAO = new CRM_Core_DAO_StateProvince();
+                $stateProvinceDAO->id = $stateProvinceId;
+                $stateProvinceDAO->country_id = $countryId;
+                if (!$stateProvinceDAO->find(1)) {
+                    $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
+                    $countries = CRM_Core_PseudoConstant::country();
+                    $stateProvince = $stateProvinces[$stateProvinceId];
+                    $country = $countries[$countryId];
+                    CRM_Core_Error::debug_log_message("$stateProvince does not belong to $country"); 
+                    $errors["location[$i][address][state_province_id]"] = "State " .  $stateProvince . " does not belong to ". $country;
+                }
+            }
+        }
+    }
+}
 
 ?>

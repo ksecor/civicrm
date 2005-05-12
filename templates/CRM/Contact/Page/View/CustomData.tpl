@@ -4,7 +4,7 @@
   {include file="CRM/Contact/Form/CustomData.tpl"}
 {/if}
 
-{if $action eq 16}
+{if $action eq 16 or $action eq 4}
 <div class="form-item">
 
 <p>
