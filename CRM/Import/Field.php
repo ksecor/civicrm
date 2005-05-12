@@ -90,6 +90,7 @@ class CRM_Import_Field {
 
     function validate( ) {
         //  echo $this->_value."===========<br>";
+        $message = '';
 
         if ( $this->_value === null ) {
             return true;
@@ -105,18 +106,18 @@ class CRM_Import_Field {
         */
 
         if ( $this->_name == 'phone' ) {
-            if( !CRM_Utils_Rule::phone( $this->_value ) ) {
+            if( CRM_Utils_Rule::phone( $this->_value ) ) {
                 if ( $this->_name == 'email' ) {
-                    return CRM_Utils_Rule::email( $this->_value );
+                    if( CRM_Utils_Rule::email( $this->_value )) {
+                        return true;
+                    }
                 }
             } 
         } else if ( $this->_name == 'email' ) {
-            return CRM_Utils_Rule::email( $this->_value );
+            if(CRM_Utils_Rule::email( $this->_value )) {
+                return true;
+            } 
         }
-
-
-        //$error = CRM_Core_Error::singleton( );
-        //$error->push( 8000, 'fatal', array( ), $message );
 
         return true;
     }
