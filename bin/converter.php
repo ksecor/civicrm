@@ -1,6 +1,15 @@
 #!/opt/local/bin/php
 <?php
 
+ini_set( 'include_path', ".:../packages" );
+
+require_once 'PHP/Beautifier.php';
+
+function createDir( $dir, $perm = 0755 ) {
+    if ( ! is_dir( $dir ) ) {
+        mkdir( $dir, $perm, true );
+    }
+}
 
 // lets see if this is feasible..!
 // proof of concept : php5 -> php4 code conversion...
@@ -25,7 +34,7 @@ class PHP_DownGrade {
                 $this->tokens[$i][0] = self::T_SELF;
             }
         }
-        // $this->dump();
+        // $this->dump( );
         
     }
     
@@ -38,7 +47,7 @@ class PHP_DownGrade {
         //$this->dereferences();
         
         //$this->cloning();
-        echo $this->toString();
+        return $this->toString();
     }
     
     
@@ -161,7 +170,7 @@ class PHP_DownGrade {
                         $this->tokens[$start  ][1] = ''; // change it to var.
                         break 3;
                     }
-                    // hopefully we wount loop forever!
+                    // hopefully we wont loop forever!
                 }
                 
             case self::T_SELF:
@@ -263,7 +272,28 @@ class PHP_DownGrade {
                 $class = $this->tokens[$i][1];
                 $i++;
                 break;
-                    
+
+            case 373:
+                // make sure the previous and next tokens are strings
+                if ( $this->tokens[$i-1][0] == T_STRING && $this->tokens[$i+1][0] == T_STRING ) {
+                    // make sure the following token are not open paran and hence a function call
+                    $func = false;
+                    for ( $ii = $i+2; $ii < $i + 4; $ii++ ) {
+                        if ( $this->tokens[$ii][1] == '(' ) {
+                            $func = true;
+                            break;
+                        } else if ( $this->tokens[$ii][1] == ')' || $this->tokens[$ii][1] == ',' ) {
+                            break;
+                        }
+                    }
+                    if ( $func ) {
+                        break;
+                    }
+                    $this->tokens[$i-1][1] = strtoupper($this->tokens[$i-1][1]) . '_' . $this->tokens[$i+1][1];
+                    $this->tokens[$i  ][1] = '';
+                    $this->tokens[$i+1][1] = '';
+                }
+
             case T_FUNCTION:
                 $i++;
                 while($this->tokens[$i][0] != T_STRING) {
@@ -368,7 +398,7 @@ class PHP_DownGrade {
     
     function dump() {
         foreach(array_keys($this->tokens) as $i) {
-            echo token_name($this->tokens[$i][0]) .':'.$this->tokens[$i][1] . "\n";
+            echo token_name($this->tokens[$i][0]) .':' . $this->tokens[$i][0]  . ':' . $this->tokens[$i][1] . "\n";
         }
     }
     
@@ -380,19 +410,27 @@ class PHP_DownGrade {
     
 }
 
-$rootDir = $argv[1];
-$destDir = $argv[2];
+/**
+$rootDir = "../CRM";
+$destDir = "../../crm.php4/CRM";
+
 $dir = new RecursiveIteratorIterator(
                                      new RecursiveDirectoryIterator($rootDir), true);
 
 foreach ( $dir as $file ) {
     if ( substr( $file, -4, 4 ) == '.php' ) {
         echo str_repeat("--", $dir->getDepth()) . ' ' . $file->getPath( ) . " $file\n";
+        $x    = new PHP_DownGrade($file->getPath( ) . '/' . $file);
+        $php4 = $x->toPHP4( );
+        
+        $php4Dir  = str_replace( $rootDir, $destDir, $file->getPath( ) );
+        createDir( $php4Dir );
+        $fd   = fopen( $php4Dir . '/' . $file, "w" );
+        fputs( $fd, $php4 );
+        fclose( $fd );
     }
 }
+**/
 
-
-/**
 $x = new PHP_DownGrade($argv[1]);
 echo $x->toPHP4();
-**/

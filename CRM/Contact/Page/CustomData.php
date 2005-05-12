@@ -77,8 +77,8 @@ class CRM_Contact_Page_CustomData {
         $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view/cd', 'action=browse'));
         
         $controller->reset();
-        $controller->set('tableName', 'crm_contact');
-        $controller->set('tableId'  , $page->getContactId());
+        $controller->set('tableName' , 'crm_contact');
+        $controller->set('tableId'   , $page->getContactId());
         $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
         $controller->process();
         $controller->run();
