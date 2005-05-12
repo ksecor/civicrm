@@ -4,7 +4,7 @@
     <fieldset>
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
-    <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+    {*<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>*}
     <dt>{$form.extends.label}</dt><dd>{$form.extends.html}</dd>
     <dt>{$form.style.label}</dt><dd>{$form.style.html}</dd>
     {*<dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html}</dd>*}
