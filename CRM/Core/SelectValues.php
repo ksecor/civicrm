@@ -191,6 +191,19 @@ class CRM_Core_SelectValues {
                                               'Address'      => 'Address',
                                               );
 
+
+    /**
+     * styles for displaying the custom data group
+     *
+     * @var array
+     * @static
+     */
+    public static $customGroupStyle = array(
+                                            'Tab'    => 'Tab',
+                                            'Inline' => 'Inline',
+                                            );
+
+
     /**
      * the status of a contact within a group
      *
