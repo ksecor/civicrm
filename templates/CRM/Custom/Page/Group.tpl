@@ -1,24 +1,26 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
 <form {$form.attributes}>
-<fieldset>
 <div class="form-item">
-  {$form.title.label} {$form.title.html}
+    <fieldset>
+    <dl>
+    <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
+    <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+    <dt>{$form.extends.label}</dt><dd>{$form.extends.html}</dd>
+    <dt>{$form.style.label}</dt><dd>{$form.style.html}</dd>
+    {*<dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html}</dd>*}
+    {*<dt>{$form.help_post.label}</dt><dd>{$form.help_post.tml}</dd>*}
+    <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
+    <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}</dd>
+    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}</dd>
+    <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
+    {if $action ne 4}
+        <div id="crm-submit-buttons">
+        <dt></dt><dd>{$form.buttons.html}</dd>
+        </div>
+    {/if} {* $action ne view *}
+    </dl>
+    </fieldset>
 </div>
-<div class="form-item">
-  {$form.description.label} {$form.description.html}
-</div>
-<div class="form-item">
-  {$form.extends.label}  {$form.extends.html}
-</div>
-<div class="form-item">
-  {$form.is_active.label} {$form.is_active.html}
-</div>
-{if $action ne 4}
- <div id="crm-submit-buttons">
-    {$form.buttons.html}
- </div>
-{/if} {* $action ne view *}
-</fieldset>
 </form>
 {/if}
 
