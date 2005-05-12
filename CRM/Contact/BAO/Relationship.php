@@ -362,6 +362,25 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         //print_r($relationshipType);
         return $relationshipType;
     }
+
+    /**
+     * Function to delete the relationship
+     *
+     * @param int $id relationship id
+     *
+     * @return null
+     * @access public
+     * @static
+     *
+     */
+    static function del ( $id ) {
+
+        // delete from relationship table
+        $relationship = new CRM_Contact_DAO_Relationship( );
+        $relationship->id = $id;
+        $relationship->delete();
+        
+    }
 }
 
 ?>

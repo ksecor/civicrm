@@ -15,8 +15,8 @@
               <dt>{$form.contact_type.label}</dt><dd>{$form.contact_type.html}</dd>
               <dt></dt>
               <dd>
-                  <input type="button" name='search' value="Search" onClick="{$form.formName}.submit();">
-                  <input type="button" name='cancel' value="Cancel" onClick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';">
+	         {$form.search.html}
+	         {$form.cancel.html}
               </dd>
             </dl>
         </div>
@@ -32,7 +32,7 @@
                 </div>
                {foreach from=$contacts item="row"}
                {$form.contact_check[$row.id].html}
-                    &nbsp;{$row.type} &nbsp;{$row.name} <br>
+                    &nbsp;{$row.type} &nbsp;{$row.name} &nbsp;{$row.city}&nbsp;{$row.state}&nbsp;{$row.email}&nbsp;{$row.phone}<br>
                {/foreach}
                </fieldset>
              {else}

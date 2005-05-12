@@ -6,14 +6,16 @@
             <fieldset><legend>View Relationship</legend>
 
             <div class="form-item">
-                <label>{$relationship_contact_name}</label> &nbsp; is a(n) &nbsp; 
+                <label>{$displayName}</label> &nbsp; is a(n) &nbsp; 
                 <label>{$relationship_name}</label> &nbsp; of &nbsp; 
-                <label>{$displayName}</label>
+                <label>{$relationship_contact_name}</label>
                 {if $start_date}
-                    <dl><dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd></dl>
+                    {*<dl><dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd></dl> *}
+                    <dl><dt>Starting: </dt><dd>{$start_date}</dd></dl>
                 {/if}
                 {if $end_date}
-                    <dl><dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd></dl>
+                    {*<dl><dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd></dl>*}
+		    <dl><dt>Ending: </dt><dd>{$end_date}</dd></dl>	
                 {/if}
             </div>
             <div class="form-item">
@@ -23,7 +25,7 @@
             </form>
         </div>    
         
-    {elseif $action eq 1 or $action eq 2} {* add or update *}
+    {elseif $action eq 1 or $action eq 2 } {* add or update *}
         {include file="CRM/Contact/Form/Relationship.tpl"}
         	
     {/if}
@@ -47,7 +49,7 @@
 
         {foreach from=$relationship item=rel}
           {assign var = "rtype" value = "" }
-          {if $rel.contact_b > 0 }
+          {if $rel.contact_a > 0 }
             {assign var = "rtype" value = "b_a" }
           {else}
             {assign var = "rtype" value = "a_b" }
@@ -59,7 +61,7 @@
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
             <td>{$rel.phone}</td>
-            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a> | Delete</td>
+            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a> |<a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation} relationship with {$rel.name}?");'> Delete</a> </td>
           </tr>
         {/foreach}
         </table>

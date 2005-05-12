@@ -50,8 +50,18 @@ class CRM_Contact_Page_Relationship {
      */
     static function view($page, $relationshipId)
     {
-        $relationship = new CRM_Contact_DAO_Relationship( );
+
+        // $relationship = new CRM_Contact_DAO_Relationship( );
         self::browse( $page, $relationshipId );
+        
+        $relationship = new CRM_Contact_DAO_Relationship( );
+        
+        $relationship->id = $relationshipId;
+        
+        if ($relationship->find(true)) {
+             $page->assign('start_date', $relationship->start_date);
+             $page->assign('end_date',  $relationship->end_date);
+        }
         $relationshipId = 0;
     }
 
@@ -90,8 +100,8 @@ class CRM_Contact_Page_Relationship {
 
         // add where clause 
         $str_where1 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
-                         AND crm_relationship.contact_id_b = ".$contactId." 
-                         AND crm_relationship.contact_id_a = crm_contact.id  ";
+                         AND crm_relationship.contact_id_a = ".$contactId." 
+                         AND crm_relationship.contact_id_b = crm_contact.id  ";
 
         if ($relationshipId > 0) {
             $str_where1 .= " AND crm_relationship.id = ".$relationshipId;
@@ -125,8 +135,8 @@ class CRM_Contact_Page_Relationship {
 
         // add where clause 
         $str_where2 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
-                         AND crm_relationship.contact_id_a = ".$contactId." 
-                         AND crm_relationship.contact_id_b = crm_contact.id";
+                         AND crm_relationship.contact_id_b = ".$contactId." 
+                         AND crm_relationship.contact_id_a = crm_contact.id";
 
         if ($relationshipId > 0) {
             $str_where2 .= " AND crm_relationship.id = ".$relationshipId;
@@ -213,6 +223,7 @@ class CRM_Contact_Page_Relationship {
         $page->assign( 'contactId', $contactId );
 
         $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
+
         $page->assign( 'action', $action );
 
         $rid = CRM_Utils_Request::retrieve( 'rid', $page, false, 0 );
@@ -221,11 +232,17 @@ class CRM_Contact_Page_Relationship {
             self::view( $page, $rid );
         } else if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
             self::edit( $page, $action, $rid );
+        } else if ( $action & CRM_Core_Action::DELETE ) {
+            self::delete( $rid );
         }
-
 
         self::browse( $page );
     }
+
+    static function delete( $relationshipId ) {
+        CRM_Contact_BAO_Relationship::del($relationshipId);
+    }
+
 }
 
 ?>

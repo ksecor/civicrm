@@ -119,6 +119,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
     function run( ) {
         $action = CRM_Utils_Request::retrieve( 'action', $this, false, 'browse' );
+
         $this->assign( 'action', $action );
 
         $id  = CRM_Utils_Request::retrieve( 'id', $this, false, 0 );

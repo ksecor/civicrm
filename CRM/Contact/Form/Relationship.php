@@ -83,11 +83,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
         if ( $this->_mode & self::MODE_UPDATE ) {
 
-            $session = CRM_Core_Session::singleton( );
+            // $session = CRM_Core_Session::singleton( );
 
             $relationship = new CRM_Contact_DAO_Relationship( );
 
             $relationship->id = $this->_relationshipId;
+            //echo $this->_rtype;
 
             if ($relationship->find(true)) {
                 $defaults['relationship_type_id'] = $relationship->relationship_type_id."_".$this->_rtype;
@@ -97,7 +98,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
                 $temp = explode('_', $this->_rtype);
 
-                $str_contact = 'contact_id_'.$temp[0];
+                $str_contact = 'contact_id_'.$temp[1];
 
                 $cId = $relationship->$str_contact;
 
@@ -121,6 +122,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     function addRules( )
     {
+        $this->addRule('relationship_type_id',' ', 'required' );
         $this->addRule('start_date', 'Select a valid start date.', 'qfDate' );
         $this->addRule('end_date', 'Select a valid end date.', 'qfDate' );
     }
@@ -161,6 +163,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $this->getContactList($this, $params);
             }
         }
+
+        $this->addElement('button', 'search', 'Search', array('onClick' => "submit();"));
+        $this->addElement('button', 'cancel', 'Cancel', array('onClick' => "location.href='civicrm/contact/view/rel?action=browse'"));
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -211,9 +216,68 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      *
      */
     function getContactList($this, &$params) {
-        
-        $contact = new CRM_Contact_BAO_Contact( );
-        
+    
+        //max records that will be listed
+        $maxResultCount = 50;
+        $resultCount = 0;
+        $searchName = array();
+
+        $contactBAO = new CRM_Contact_BAO_Contact( );
+        $searchName['sort_name'] = $params['name']; 
+
+        if (strlen($params['contact_type'])) { 
+            $searchName['cb_contact_type'] = array($params['contact_type'] => 1); 
+        }
+     
+        $resultCount = $contactBAO->searchQuery($searchName, 0, 51, $sort, true );
+                
+        if ($resultCount > $maxResultCount) {
+            $this->assign('noResult', 'Please enter appropriate search criteria.');
+        } else {
+
+            //  print_r($searchName);
+            //$contact1 = new CRM_Contact_BAO_Contact( );
+            $result = $contactBAO->searchQuery($searchName, 0, 50, $sort, false );
+
+            $config = CRM_Core_Config::singleton( );
+
+            while($result->fetch()) {
+
+                $values[$result->contact_id]['id'] = $result->contact_id;
+                $values[$result->contact_id]['name'] = $result->sort_name;
+                $values[$result->contact_id]['city'] = $result->city;
+                $values[$result->contact_id]['state'] = $result->state;
+                $values[$result->contact_id]['email'] = $result->email;
+                $values[$result->contact_id]['phone'] = $result->phone;
+
+                $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
+                switch ($result->contact_type ) {
+                case 'Individual' :
+                    $contact_type .= 'ind.gif" alt="Individual">';
+                    break;
+                case 'Household' :
+                    $contact_type .= 'house.png" alt="Household" height="16" width="16">';
+                    break;
+                case 'Organization' :
+                    $contact_type .= 'org.gif" alt="Organization" height="16" width="18">';
+                    break;
+                }
+                $values[$result->contact_id]['type'] = $contact_type;
+                
+                $contact_chk[$result->contact_id] = $this->createElement('checkbox', $result->contact_id, null,'');                
+            
+            }
+
+            $this->addGroup($contact_chk, 'contact_check');
+            if ($resultCount == 0) $this->assign('noContacts',' No results were found.');
+            // print_r($values);
+
+            $this->assign('contacts', $values);
+
+        }
+
+        /*
+
         $resultCount = 0;
         
         //max records that will be listed
@@ -225,7 +289,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
         $resultCount = $contact->count();
 
-        
+       
         if ($resultCount > $maxResultCount) {
             $this->assign('noResult', 'Please enter appropriate search criteria.');
         } else {
@@ -260,7 +324,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
             $this->assign('contacts', $values);
         }
-        
+        */
     }
 
 

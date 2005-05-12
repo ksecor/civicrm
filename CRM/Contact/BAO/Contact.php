@@ -281,8 +281,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         $strWhere = preg_replace("/AND|OR/", "WHERE", $strWhere, 1);
 
-        if(!$count) {
-            $strOrder = " ORDER BY " . $sort->orderBy(); 
+        if (!$count) {
+            if ($sort) {
+                $strOrder = " ORDER BY " . $sort->orderBy(); 
+            }
             if ( $rowCount > 0 ) {
                 $strLimit = " LIMIT $offset, $rowCount ";
             }
