@@ -57,6 +57,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page_Basic {
                                                              'url'   => 'civicrm/admin/custom/group',
                                                              'qs'    => 'action=disable&id=%%id%%',
                                                              'title' => 'Disable Custom Group',
+                                                             'extra' => 'onclick = "return confirm(\'Are you sure you want to disable this custom data group.\');"',
                                                              ),
                            CRM_Core_Action::ENABLE  => array(
                                                              'name'  => 'Enable',
