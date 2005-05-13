@@ -38,28 +38,50 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Custom_Form_Field extends CRM_Core_Form {
     /**
-     * the ext prop group id saved to the session for an update
+     * the custom group id saved to the session for an update
      *
      * @var int
      */
     protected $_gid;
 
     /**
-     * The ext property id, used when editing the ext property
+     * The field id, used when editing the field
      *
      * @var int
      */
     protected $_id;
-    
+
+
+    /**
+     * Array for valid combinations of data_type & html_type
+     *
+     * @var array
+     * @static
+     */
+    public $dataType = array ('String', 'Int', 'Float', 'Money', 'Text', 'Date', 'Boolean', 'Set', 'Enum', 'Array');
+    public $dataToHTML = array (
+                                array('Text'),
+                                array('Text'),
+                                array('Text'),
+                                array('Text'),
+                                array('TextArea'),
+                                array('Select Date'),
+                                array('Radio'),
+                                array('Checkbox'),
+                                array('Radio'),
+                                array('Checkbox', 'Radio', 'Select'),
+                                );
+
     /**
      * Function to set variables up before form is built
      *
      * @return void
      * @access public
      */
-    public function preProcess( ) {
-        $this->_gid = CRM_Utils_Request::retrieve( 'gid', $this );
-        $this->_id  = CRM_Utils_Request::retrieve( 'id' , $this );
+    public function preProcess()
+    {
+        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
+        $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
     }
 
     /**
@@ -69,8 +91,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @access public
      * @return None
      */
-    function setDefaultValues( ) {
-        $defaults = array( );
+    function setDefaultValues()
+    {
+        $defaults = array();
         
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
@@ -89,12 +112,17 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm()
+    {
         $this->add( 'text', 'label'      , 'Field Label', CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomField', 'label'       ), true );
         $this->addRule( 'label', 'Please enter label for this field.', 'title' );
+        
+        //$this->add( 'select', 'data_type', 'Data Type', CRM_Core_SelectValues::$customDataType, true);
+        //$this->add( 'select', 'html_type', 'HTML Type', CRM_Core_SelectValues::$customHtmlType, true);
 
-        $this->add( 'select', 'data_type', 'Data Type', CRM_Core_SelectValues::$customDataType, true);
-        $this->add( 'select', 'html_type', 'HTML Type', CRM_Core_SelectValues::$customHtmlType, true);
+        $dataHTMLElement = $this->addElement('hierselect', 'data_type', 'Data Type');
+        $dataHTMLElement->setOptions(array($dataType, $dataToHTML));
+
         $this->add( 'text', 'default_value', 'Default Value', CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomField', 'default_value' ), false );
         $this->addElement( 'checkbox', 'is_required', 'Required?' );
         $this->addElement( 'checkbox', 'is_active', 'Active?' );
@@ -110,8 +138,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                                  )
                            );
 
-        if ( $this->_mode & self::MODE_VIEW ) {
-            $this->freeze( );
+        if ($this->_mode & self::MODE_VIEW) {
+            $this->freeze();
         }
     }
     
@@ -121,7 +149,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function postProcess( ) {
+    public function postProcess()
+    {
         // store the submitted values in an array
         $params = $this->controller->exportValues( 'Field' );
         
@@ -141,7 +170,5 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->save( );
         CRM_Core_Session::setStatus( 'Your custom field - ' . $customField->label . ' has been saved' );
     }
-
 }
-
 ?>
