@@ -123,7 +123,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $choice = array();
                     $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 'Yes', 'yes', $field['attributes']);
                     $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 'No' , 'no' , $field['attributes']);
-                    $this->addGroup($choice, $elementName, '');
+                    $this->addGroup($choice, $elementName, $field['label']);
                     if ($field['is_required']) {
                         $this->addRule($elementName, ' is a required field' , 'required');
                     }
