@@ -219,11 +219,15 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
          *
          */
-        $this->add('submit', $this->_actionButtonName,
-                   ( $this->_context == 'amtg' ) ? 'Add Contacts to ' . $this->_group[$this->_amtgID] : 'Go',
+        if ( $this->_context == 'amtg' ){
+            $this->add('submit', $this->_actionButtonName, 'Add Contacts to ' . $this->_group[$this->_amtgID],
+                   array( 'class' => 'form-submit',
+                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
+        } else {
+            $this->add('submit', $this->_actionButtonName, 'Go',
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) );
-
+        }    
     }
     
     /**

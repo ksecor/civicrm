@@ -143,43 +143,20 @@
 
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
- <div id = "notes[show]" class="data-group">
-    {$notes.show}<label>Notes</label>
- </div>
+ {* Notes block only included for Add Contact (since it navigates from Edit form...) *}
+ {if $mode eq 1}
+     <div id = "notes[show]" class="data-group">
+        {$notes.show}<label>Notes</label>
+     </div>
 
- <div id = "notes">
- <fieldset><legend>{$notes.hide}Contact Notes</legend>
-    <div class="form-item">
-        {if $mode eq 1} {* Add Contact - show New Note form *}
-            {$form.note.html}
-        {else}
-       <table>
-       {foreach from=$note item=note}
-         <tr>
-            <td>
-                {$note.note|truncate:80:"...":true}
-                {* Include '(more)' link to view entire note if it has been truncated *}
-                {assign var="noteSize" value=$note.note|count_characters:true}
-                {if $noteSize GT 80}
-                    <a href="{crmURL p='civicrm/contact/view/note' q="cid=$contactId&nid=`$note.id`&op=view"}">(more)</a>
-                {/if}
-            </td>
-            <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/note' q="cid=$contactId&nid=`$note.id`&op=edit"}">Edit</a></td> 
-         </tr>  
-       {/foreach}
-       </table>
-       <br />
-       <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/note' q="cid=$contactId&op=add"}">New Note</a>
-        {if $notesCount gt 3 }
-         | <a href="{crmURL p='civicrm/contact/view/note' q="cid=$contactId&op=browse"}">Browse all notes...</a>
-        {/if}
-        </div>
-        {/if}  
-    </div>
- </fieldset>
- </div>
+     <div id = "notes">
+         <fieldset><legend>{$notes.hide}Contact Notes</legend>
+            <div class="form-item">
+                {$form.note.html}
+            </div>
+         </fieldset>
+     </div>
+{/if}
  <!-- End of "notes" div -->
  
  <div id="crm-submit-buttons">

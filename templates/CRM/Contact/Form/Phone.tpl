@@ -4,7 +4,6 @@
 {* @var location.$index Contains the current location id, and assigned in the Location.tpl file *}
 {* @var $blockCount Contains the max number of phone field sets to offer. *} 
  
-<fieldset>
     <div class="form-item">
         <span class="labels">
             <label>{$form.location.$index.phone.1.phone.label}</label>
@@ -43,4 +42,3 @@
 	 </div>
 
 	{/section}
-</fieldset>

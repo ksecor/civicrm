@@ -17,12 +17,12 @@
 {foreach from=$location item=loc key=locationIndex}
 
  <div id="location[{$locationIndex}][show]" class="data-group">
-  <a href="#" onClick="hide('location[{$locationIndex}][show]'); show('location[{$locationIndex}]'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>{$loc.location_type}</label><br />
+  <a href="#" onClick="hide('location[{$locationIndex}][show]'); show('location[{$locationIndex}]'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>{$loc.location_type}</label><br />
  </div>
 
  <div id="location[{$locationIndex}]">
   <fieldset>
-   <legend{if $locationIndex eq 1} class="label"{/if}><a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>{$loc.location_type}{if $locationIndex eq 1} (primary location){/if}<legend/>
+   <legend{if $locationIndex eq 1} class="label"{/if}><a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>{$loc.location_type}{if $locationIndex eq 1} (primary location){/if}<legend/>
 
   <div class="col1">
     {$loc.address.street_address}<br />
@@ -57,12 +57,12 @@
 {/foreach}
 
  <div id="commPrefs[show]" class="data-group">
-  <a href="#" onClick="hide('commPrefs[show]'); show('commPrefs'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Communications Preferences</label><br />
+  <a href="#" onClick="hide('commPrefs[show]'); show('commPrefs'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Communications Preferences</label><br />
  </div>
 
 <div id="commPrefs">
  <fieldset>
-  <legend><a href="#" onClick="hide('commPrefs'); show('commPrefs[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>Communications Preferences</legend>
+  <legend><a href="#" onClick="hide('commPrefs'); show('commPrefs[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Communications Preferences</legend>
   <div class="col1">
     <label>Privacy:</label>
     <span class="font-red">
@@ -79,12 +79,12 @@
 
  {if $contact_type eq 'Individual'}
  <div id="demographics[show]" class="data-group">
-  <a href="#" onClick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Demographics</label><br />
+  <a href="#" onClick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Demographics</label><br />
  </div>
 
  <div id="demographics">
   <fieldset>
-   <legend><a href="#" onClick="hide('demographics'); show('demographics[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>Demographics</legend>
+   <legend><a href="#" onClick="hide('demographics'); show('demographics[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Demographics</legend>
    <div class="col1">
     <label>Gender:</label> {$gender.gender}<br />
     {if $is_deceased eq 1}
@@ -100,7 +100,7 @@
 
 <div id="relationships[show]" class="data-group">
   {if $relationshipsCount}
-    <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Relationships</label> ({$relationshipsCount})<br />
+    <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Relationships</label> ({$relationshipsCount})<br />
   {else}
     <dl><dt>Relationships</dt><dd>No relationships. Use the <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">Relationships tab</a> to add them.</dd></dl>
   {/if}
@@ -109,7 +109,7 @@
 {* Relationships block display property is always hidden (non) if there are no relationships *}
 <div id="relationships">
  {if $relationship}
- <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>Relationships</legend>
+ <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Relationships</legend>
     {strip}
         <table>
         <tr class="columnheader">
@@ -153,7 +153,7 @@
 
 <div id="groups[show]" class="data-group">
   {if $groupCount}
-    <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Group Memberships</label> ({$groupCount})<br />
+    <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Group Memberships</label> ({$groupCount})<br />
   {else}
     <dl><dt>Group Memberships</dt><dd>No group memberships. Use the <a href="{crmURL p='civicrm/contact/view/group' q='action=add'}">Groups tab</a> to add them.</dd></dl>
   {/if}
@@ -161,7 +161,7 @@
 
 <div id="groups">
  {if $groupCount}
- <fieldset><legend><a href="#" onClick="hide('groups'); show('groups[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a>Groups</legend>
+ <fieldset><legend><a href="#" onClick="hide('groups'); show('groups[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Groups</legend>
 	{strip}
 	<table>
         <tr class="columnheader">
@@ -193,7 +193,7 @@
 
 <div id="notes[show]" class="data-group">
   {if $notesCount}
-    <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open block"></a><label>Contact Notes</label> ({$notesCount})<br />
+    <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Contact Notes</label> ({$notesCount})<br />
   {else}
     <dl><dt>Contact Notes</dt><dd>No notes. Use the <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">Notes tab</a> to add them.</dd></dl>
   {/if}
@@ -201,7 +201,7 @@
 
 <div id="notes">
 {if $notesCount}
-  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close block"></a> Contact Notes</legend>
+  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a> Contact Notes</legend>
        {strip}
        <table>
        <tr class="columnheader">

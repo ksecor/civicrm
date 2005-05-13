@@ -148,8 +148,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->set( 'ids', $ids );
 
             // show notes
-            $this->assign( 'note'      , $defaults['note'] );
-            $this->assign( 'notesCount', $defaults['notesCount'] );
+//            $this->assign( 'note'      , $defaults['note'] );
+//            $this->assign( 'notesCount', $defaults['notesCount'] );
             $this->assign( 'contactId' , $this->_contactId );
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)
@@ -169,9 +169,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @return void
      */
     function setShowHide( &$defaults ) {
-        $this->_showHide = new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1,
-                                                         'notes[show]'     => 1),
-                                                   array('notes'           => 1 ) ) ;
+        $this->_showHide = new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
+                                                        '') ;
 
         if ( $this->_contactType == 'Individual' ) {
             $this->_showHide->addShow( 'demographics[show]' );
@@ -181,6 +180,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // first do the defaults showing
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
                                                         self::LOCATION_BLOCKS );
+ 
+        if ( $this->_mode & self::MODE_ADD ) {
+        // notes are only included in the template for New Contact
+            $this->_showHide->addShow( 'notes[show]' );
+            $this->_showHide->addHide( 'notes' );
+        }
 
         if ( $this->_mode & self::MODE_UPDATE ) {
             // is there any demographics data?
@@ -189,12 +194,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                  CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
                 $this->_showHide->addShow( 'demographics' );
                 $this->_showHide->addHide( 'demographics[show]' );
-            }
-
-            // is there any notes data?
-            if ( CRM_Utils_Array::value( 'notesCount', $defaults ) ) {
-                $this->_showHide->addShow( 'notes' );
-                $this->_showHide->addHide( 'notes[show]' );
             }
 
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
@@ -247,7 +246,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         $config  = CRM_Core_Config::singleton( );
-        CRM_Core_ShowHideBlocks::links( $this, 'notes', '<img src="'.$config->resourceBase.'i/TreePlus.gif" class="action-icon" alt="close block">' , '<img src="'.$config->resourceBase.'i/TreeMinus.gif" class="action-icon" alt="close block">' );
+        CRM_Core_ShowHideBlocks::links( $this, 'notes', '<img src="'.$config->resourceBase.'i/TreePlus.gif" class="action-icon" alt="open section">' , '<img src="'.$config->resourceBase.'i/TreeMinus.gif" class="action-icon" alt="close section">' );
             
         $this->addButtons( array(
                                  array ( 'type'      => 'next',

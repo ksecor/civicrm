@@ -103,8 +103,6 @@ class CRM_Note_Form_Note extends CRM_Core_Form
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'reset',
-                                         'name'      => 'Reset'),
                                  array ( 'type'       => 'cancel',
                                          'name'      => 'Cancel' ),
                                  )

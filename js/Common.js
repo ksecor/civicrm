@@ -187,16 +187,25 @@ function countSelectedCheckboxes(fldPrefix, form) {
  */
 function checkPerformAction (fldPrefix, form, taskButton) {
     var cnt;
+    var gotTask = 0;
     
-    if (document.forms[form].task.selectedIndex || document.forms[form].task.value == 1 || taskButton == 1) {
+    // If user wants to perform action on ALL records, return (no need to check further)
+    if (document.forms[form].radio_ts[1].checked) {
+        return true;
+    }
 
-        if (document.forms[form].radio_ts[1].checked) {
-            return true;
-        }
+    // taskButton TRUE means we don't need to check the 'task' field - it's a button-driven task
+    if (taskButton == 1) { gotTask = 1; }
+    
+    else if (document.forms[form].task.selectedIndex) {
         // Doesn't matter if any rows are checked for New/Update Saved Search tasks
         if (document.forms[form].task.value == 16 || document.forms[form].task.value == 32) {
             return true;
         }
+        gotTask = 1;
+    }
+
+    if (gotTask) {
         cnt = countSelectedCheckboxes(fldPrefix, document.forms[form]);
         if (!cnt) {
             alert ("Please select one or more contact(s) for this action. \n\nTo use the entire set of search results, click the 'all records' radio button.");

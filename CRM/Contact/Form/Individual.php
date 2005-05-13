@@ -83,7 +83,7 @@ class CRM_Contact_Form_Individual {
         $form->addRule('birth_date', 'Select a valid date.', 'qfDate' );
 
         $config = CRM_Core_Config::singleton( );
-        CRM_Core_ShowHideBlocks::links( $this, 'demographics', '<img src="'.$config->resourceBase.'i/TreePlus.gif" class="action-icon" alt="close block">' , '<img src="'.$config->resourceBase.'i/TreeMinus.gif" class="action-icon" alt="close block">'  );
+        CRM_Core_ShowHideBlocks::links( $this, 'demographics', '<img src="'.$config->resourceBase.'i/TreePlus.gif" class="action-icon" alt="open section">' , '<img src="'.$config->resourceBase.'i/TreeMinus.gif" class="action-icon" alt="close section">'  );
     }
 
     static function formRule( &$fields ) {

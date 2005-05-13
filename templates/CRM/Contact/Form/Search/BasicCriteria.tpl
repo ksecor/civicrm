@@ -22,7 +22,7 @@
         </span>
      </div>
      <p>
-     <span class="element-right"><a href="{crmURL p='civicrm/contact/search/advanced'}">&gt;&gt; Advanced Search...</a></span>
+     <span class="element-right"><a href="{crmURL p='civicrm/contact/search/advanced'}">&raquo; Advanced Search</a></span>
      </p>
  </div>
 </fieldset>

@@ -7,7 +7,7 @@
         and add them to this group.
     </div>
     <div class="form-item">
-        <a href="{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}">Add Members to {$group.title}</a>
+        <a href="{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}">&raquo; Add Members to {$group.title}</a>
     </div>
 {elseif $context EQ 'amtg'}
     <div id="help">
