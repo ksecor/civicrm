@@ -31,7 +31,7 @@
        <tr class="columnheader">
           <th>Group Title</th>
           <th>Description</th>
-          <th>Status</th>
+          <th>Is Active?</th>
           <th>Used For</th>
           <th></th>
        </tr>
@@ -39,7 +39,7 @@
        <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
          <td>{$row.title}</td>
          <td>{$row.description}</td>
-         <td>{$row.is_active}</td>
+         <td>{if $row.is_active eq 1} Yes {else} No {/if}</td>
          <td>{$row.extends}</td>
          <td>{$row.action}</td>
        </tr>
