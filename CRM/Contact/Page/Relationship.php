@@ -23,6 +23,7 @@
 */
 
 /**
+* This class contains functions for managing Relationship(s) of a Contact. 
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -38,20 +39,16 @@ class CRM_Contact_Page_Relationship {
     /**
      * View details of a relationship
      *
-     * @access public
-     *
      * @param object $page - the view page
      * @param int $relationshipId - which relationship do we want to view ?
      *
      * @return none
      *
+     * @access public
      * @static
-     *
      */
     static function view($page, $relationshipId)
     {
-
-        // $relationship = new CRM_Contact_DAO_Relationship( );
         self::browse( $page, $relationshipId );
         
         $relationship = new CRM_Contact_DAO_Relationship( );
@@ -65,8 +62,18 @@ class CRM_Contact_Page_Relationship {
         $relationshipId = 0;
     }
 
+    /**
+     * This function is called when action is browse
+     * 
+     * @param object $page CRM_Contact_Page_Relationship
+     * @param int    $relationshipId relationship id 
+     *
+     * return null
+     * @static
+     * @access public
+     */
     static function browse( $page, $relationshipId = 0 ) {
-     
+        
         $relationship = new CRM_Contact_DAO_Relationship( );
      
         $contactId = $page->getContactId( );
@@ -144,10 +151,6 @@ class CRM_Contact_Page_Relationship {
 
         $str_where2 .= ")";
 
-
-        //$str_order = " GROUP BY crm_relationship.id ";
-        //$str_limit = "  ";
-
         // building the query string
         $query_string = $str_select1.$str_from1.$str_where1.$str_select2.$str_from2.$str_where2;
         $relationship->query($query_string);
@@ -184,6 +187,18 @@ class CRM_Contact_Page_Relationship {
         }
     }
 
+
+    /**
+     * This function is called when action is update for relationship page
+     * 
+     * @param object $page CRM_Contact_Page_Relationship
+     * @param int    $mode mode of the page which depends on the action
+     * @param int    $realtionshipID relationship id 
+     *
+     * return null
+     * @static
+     * @access public
+     */
     static function edit( $page, $mode, $relationshipId = null ) {
 
         $controller = new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Relationship', 'Contact Relationships', $mode );
@@ -194,12 +209,6 @@ class CRM_Contact_Page_Relationship {
         $config  = CRM_Core_Config::singleton();
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/rel', 'action=browse' ) );
         
-        /*
-        if ( !$relationshipId ) {
-            $relationshipId = $controller->get( 'relationshipId' );
-        }
-        */
-
         // rtype is the variable that tells type of realationship (a_b or b_a)
         if ( !$_GET['rtype'] ) {
             $rtype = $controller->get( 'rtype' );
@@ -217,7 +226,17 @@ class CRM_Contact_Page_Relationship {
         $controller->run( );
     }
 
-    static function run( $page ) {
+
+   /**
+     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+     * 
+     * @param object $page CRM_Contact_Page_Relationship
+     * 
+     * return null
+     * @static
+     * @access public
+     */
+     static function run( $page ) {
 
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
@@ -238,8 +257,18 @@ class CRM_Contact_Page_Relationship {
 
         self::browse( $page );
     }
-
+    
+   /**
+     * This function is called to delete the relationship of a contact
+     * 
+     * @param int $relationshipId relationship id
+     * 
+     * return null
+     * @static
+     * @access public
+     */
     static function delete( $relationshipId ) {
+        // calls a function to delete relationship
         CRM_Contact_BAO_Relationship::del($relationshipId);
     }
 

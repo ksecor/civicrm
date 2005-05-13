@@ -23,7 +23,7 @@
 */
 
 /**
- *
+ * This class contains functions for managing Category(tag) for a contact
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -32,12 +32,8 @@
  *
  */
 
-
-
-
 class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory 
 {
-
 
     /**
      *
@@ -51,7 +47,6 @@ class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory
      * @access public
      * @static
      */
-
     static function &getCategory($entityTable = 'crm_contact', $entityID) 
     {
         $category = array();

@@ -23,6 +23,7 @@
 */
 
 /**
+ * This class contains functions for managing Mobile Providers. 
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>

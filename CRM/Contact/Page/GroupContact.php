@@ -23,6 +23,8 @@
 */
 
 /**
+ * This class contains functions for managing Groups of a Contact. 
+ *
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -34,10 +36,16 @@
 require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_GroupContact {
-
-    static function view( $page, $groupId ) {
-    }
-
+    
+    /**
+     * This function is called when action is browse
+     * 
+     * @param object $page CRM_Contact_Page_GroupContact
+     * 
+     * return null
+     * @static
+     * @access public
+     */
     static function browse( $page ) {
   
         $contactId   = $page->getContactId( );
@@ -54,6 +62,17 @@ class CRM_Contact_Page_GroupContact {
         $page->assign( 'groupOut', $aGroupOut );
     }
 
+    /**
+     * This function is called when action is update
+     * 
+     * @param object $page CRM_Contact_Page_GroupContact
+     * @param int    $mode mode of the page which depends on the action
+     * @param int    $groupID group id 
+     *
+     * return null
+     * @static
+     * @access public
+     */
     static function edit( $page, $mode, $groupId = null ) {
         $controller = new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', 'Contact GroupContacts', $mode );
         $controller->setEmbedded( true );
@@ -74,6 +93,15 @@ class CRM_Contact_Page_GroupContact {
 
     }
 
+    /**
+     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+     * 
+     * @param object $page CRM_Contact_Page_GroupContact
+     * 
+     * return null
+     * @static
+     * @access public
+     */
     static function run( $page ) {
 
         $contactId = $page->getContactId( );
@@ -103,6 +131,7 @@ class CRM_Contact_Page_GroupContact {
      * @return array|int $values is array when there the values the should be displayed in the listing
      *                    or $count is int when only count is returned
      *
+     * $access public
      */
     function getContactGroup( $contactId, $status = null ) {
         $groupContact = new CRM_Contact_DAO_GroupContact( );
@@ -152,8 +181,9 @@ class CRM_Contact_Page_GroupContact {
      * @param int $groupContactId id of crm_group_contact
      * @param string $status this is the status that should be updated.
      *
+     * $access public
+     * @static
      */
-
     static function delete ($groupContactId, $status ) {
         $groupContact = new CRM_Contact_DAO_GroupContact( );
         

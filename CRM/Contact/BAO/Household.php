@@ -23,6 +23,7 @@
 */
 
 /**
+ * This class contains basic functions for Contact Household
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>

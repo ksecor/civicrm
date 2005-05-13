@@ -89,13 +89,11 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
         }
 
         foreach ( $params['location'][$locationId]['address'] as $name => $value ) {
-            /*if ( ! empty( $value ) ) {
-                return true;
-            }*/
-
+            /*
             if ($name == 'country_id' || $name == 'state_province_id') {
                 return false;
             }
+            */
 
             if ( !empty( $value ) ) {
                 return true;

@@ -23,7 +23,7 @@
 */
 
 /**
- *
+ * This class contains function to build the note form.
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
