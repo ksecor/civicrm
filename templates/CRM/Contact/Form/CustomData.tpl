@@ -9,7 +9,7 @@
         {assign var="name" value=`$element.name`} 
         {assign var="element_name value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}
         <dl>
-          <dt>{$element.label}</dt><dd>{$form.$element_name.html}</dd>
+            <dt>{$form.$element_name.label}</dt><dd>{$form.$element_name.html}</dd>
         </dl>
     {/foreach}
     </fieldset>
