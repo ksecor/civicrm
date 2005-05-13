@@ -129,7 +129,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
 
     /**
-     * Function to actually build the form
+     * Function to build the form
      *
      * @return None
      * @access public
@@ -180,6 +180,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
        
     /**
+     *  This function is called when the form is submitted 
      *
      * @access public
      * @return None
@@ -228,15 +229,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         if (strlen($params['contact_type'])) { 
             $searchName['cb_contact_type'] = array($params['contact_type'] => 1); 
         }
-     
+        // get the count of contact
         $resultCount = $contactBAO->searchQuery($searchName, 0, 51, $sort, true );
                 
         if ($resultCount > $maxResultCount) {
             $this->assign('noResult', 'Please enter appropriate search criteria.');
         } else {
-
-            //  print_r($searchName);
-            //$contact1 = new CRM_Contact_BAO_Contact( );
+            // get the result of the search
             $result = $contactBAO->searchQuery($searchName, 0, 50, $sort, false );
 
             $config = CRM_Core_Config::singleton( );
@@ -270,63 +269,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
             $this->addGroup($contact_chk, 'contact_check');
             if ($resultCount == 0) $this->assign('noContacts',' No results were found.');
-            // print_r($values);
-
-            $this->assign('contacts', $values);
-
-        }
-
-        /*
-
-        $resultCount = 0;
-        
-        //max records that will be listed
-        $maxResultCount = 50;
-      
-        $contact->whereAdd( " LOWER(crm_contact.sort_name) like '%".addslashes(strtolower($params['name']))."%'");
-        if (strlen($params['contact_type'])) {
-            $contact->contact_type = $params['contact_type'];
-        }
-        $resultCount = $contact->count();
-
-       
-        if ($resultCount > $maxResultCount) {
-            $this->assign('noResult', 'Please enter appropriate search criteria.');
-        } else {
-
-            $config = CRM_Core_Config::singleton( );
-            $contact->find();
-            while($contact->fetch()) {
-
-                $values[$contact->id]['id'] = $contact->id;
-                $values[$contact->id]['name'] = $contact->sort_name;
-
-                $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
-                switch ($contact->contact_type ) {
-                case 'Individual' :
-                    $contact_type .= 'ind.gif" alt="Individual">';
-                    break;
-                case 'Household' :
-                    $contact_type .= 'house.png" alt="Household" height="16" width="16">';
-                    break;
-                case 'Organization' :
-                    $contact_type .= 'org.gif" alt="Organization" height="16" width="18">';
-                    break;
-                    
-                }
-                $values[$contact->id]['type'] = $contact_type;
-                
-                $contact_chk[$contact->id] = $this->createElement('checkbox', $contact->id, null,'');                
-            }
-            
-            $this->addGroup($contact_chk, 'contact_check');
-            if ($resultCount == 0) $this->assign('noContacts',' No results were found.');
 
             $this->assign('contacts', $values);
         }
-        */
     }
-
 
 }
 

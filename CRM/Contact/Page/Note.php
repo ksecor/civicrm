@@ -93,9 +93,15 @@ class CRM_Contact_Page_Note {
             self::view( $page, $nid );
         } else if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
             self::edit( $page, $action, $nid );
+        } else if ( $action & CRM_Core_Action::DELETE ) {
+            self::delete( $nid );
         }
 
         self::browse( $page );
+    }
+
+    static function delete( $noteId ) {
+        CRM_Contact_BAO_Note::del($noteId);
     }
 
 }

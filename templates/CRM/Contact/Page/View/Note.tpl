@@ -46,15 +46,14 @@
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">View</a> | 
-		<a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">Edit</a>
+            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">View</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete  {$note.note|truncate:15:"...":true} ?");'> Delete</a>
             </td>	
          </tr>
        {/foreach}
        </table>
        {/strip}
 
-       {if $action eq 16 or $action eq 4}
+       {if $action eq 16 or $action eq 4 or $action eq 8}
        <div class="action-link">
     	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">New Note</a>
        </div>

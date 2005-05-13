@@ -151,6 +151,28 @@ class CRM_Contact_BAO_Note extends CRM_Core_DAO_Note {
         
         return $notes;
     }
+
+
+    /**
+     * Function to delete the notes
+     *
+     * @param int $id note id
+     *
+     * @return null
+     * @access public
+     * @static
+     *
+     */
+    static function del ( $id ) {
+
+        // delete from relationship table
+        $note = new CRM_Core_DAO_Note( );
+        $note->id = $id;
+        $note->delete();
+        
+    }
+
+
 }
 
 ?>

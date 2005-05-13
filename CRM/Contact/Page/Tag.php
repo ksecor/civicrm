@@ -34,14 +34,14 @@
 require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_Tag {
-    static function browse( $page ) {
+    static function browse( $page, $mode ) {
         $controller = new CRM_Core_Controller_Simple( 'CRM_Tag_Form_Tag', 'Contact Tags', $mode );
         $controller->setEmbedded( true );
         
         // set the userContext stack
         $session = CRM_Core_Session::singleton();
         $config  = CRM_Core_Config::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/tag', 'action=browse' ) );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/tag', 'action=view' ) );
 
         $controller->reset( );
         $controller->set( 'contactId'  , $page->getContactId( ) );
@@ -51,7 +51,12 @@ class CRM_Contact_Page_Tag {
     }
 
     static function run( $page ) {
-        self::browse( $page );
+
+        $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'view' );
+
+        $page->assign( 'action', $action );
+
+        self::browse( $page, $action );
     }
 
 }
