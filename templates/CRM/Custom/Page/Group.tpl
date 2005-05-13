@@ -24,36 +24,39 @@
 
 {if $rows}
 <div id="notes">
- <p>
+<p>
     <div class="form-item">
-       {strip}
-       <table>
-       <tr class="columnheader">
-          <th>Group Title</th>
-          <th>Description</th>
-          <th>Is Active?</th>
-          <th>Used For</th>
-          <th></th>
-       </tr>
-{foreach from=$rows item=row}
-       <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-         <td>{$row.title}</td>
-         <td>{$row.description}</td>
-         <td>{if $row.is_active eq 1} Yes {else} No {/if}</td>
-         <td>{$row.extends}</td>
-         <td>{$row.action}</td>
-       </tr>
-{/foreach}
-       </table>
-       {/strip}
-       {if $action eq 16 or $action eq 4}
-        <br/>
-       <div class="action-link">
-         <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}">New Custom Data Group</a>
-       </div>
-       {/if}
+    {strip}
+    <table>
+    <tr class="columnheader">
+        <th>Group Title</th>
+        <th>Description</th>
+        <th>Is Active?</th>
+        <th>Used For</th>
+        <th></th>
+    </tr>
+    {foreach from=$rows item=row}
+    <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+        <td>{$row.title}</td>
+        <td>{$row.description}</td>
+        <td>{if $row.is_active eq 1} Yes {else} No {/if}</td>
+        <td>{$row.extends}</td>
+        <td>{$row.action}</td>
+    </tr>
+    {/foreach}
+    </table>
+    
+    {if NOT ($action eq 1 or $action eq 2) }
+    <p>
+    <div class="action-link">
+    <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}">New Custom Data Group</a>
     </div>
- </p>
+    </p>
+    {/if}
+
+    {/strip}
+    </div>
+</p>
 </div>
 {else}
    {if $action ne 1} {* When we are adding an item, we should not display this message *}
