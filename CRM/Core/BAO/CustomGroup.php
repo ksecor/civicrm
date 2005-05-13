@@ -348,5 +348,39 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             }
         }
     }
+
+
+    /**
+     * Get number of elements for a particular group.
+     *
+     * This method returns the number of entries in the crm_custom_value table for this particular group.
+     *
+     * @param int $groupId - id of group.
+     *
+     * @return int $numValue - number of custom data values for this group.
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+    public static function getNumValue($groupId)
+    {
+         $queryString = "SELECT count(*) 
+                         FROM   crm_custom_value, crm_custom_field 
+                         WHERE  crm_custom_value.custom_field_id = crm_custom_field.id AND
+                                crm_custom_field.custom_group_id = $groupId";
+
+         // this might be faster
+         // $queryString = "SELECT count(*) 
+         // FROM   crm_custom_value
+         // WHERE  crm_custom_value.custom_field_id IN (SELECT id FROM crm_custom_field WHERE custom_group_id = $groupId)";
+
+        // dummy dao needed
+        $crmDAO = new CRM_Core_DAO();
+        $crmDAO->query($queryString);
+        $resultRow = $crmDAO->getDatabaseResult()->fetchRow();
+        return $resultRow[0];
+    }
 }
 ?>

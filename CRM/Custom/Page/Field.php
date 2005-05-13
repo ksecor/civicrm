@@ -31,7 +31,7 @@
  *
  */
 
-require_once 'CRM/Core/Page/Basic.php';
+require_once 'CRM/Core/Page.php';
 
 class CRM_Custom_Page_Field extends CRM_Core_Page {
     
@@ -49,28 +49,16 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      */
     static $_links = array(
                            CRM_Core_Action::VIEW    => array(
-                                                        'name'  => 'View',
-                                                        'url'   => 'civicrm/admin/custom/group/field',
-                                                        'qs'    => 'action=view&id=%%id%%',
-                                                        'title' => 'View Extended Property Group',
-                                                        ),
+                                                             'name'  => 'View',
+                                                             'url'   => 'civicrm/admin/custom/group/field',
+                                                             'qs'    => 'action=view&id=%%id%%',
+                                                             'title' => 'View Custom Field',
+                                                             ),
                            CRM_Core_Action::UPDATE  => array(
-                                                        'name'  => 'Edit',
-                                                        'url'   => 'civicrm/admin/custom/group/field',
-                                                        'qs'    => 'action=update&id=%%id%%',
-                                                        'title' => 'Edit Extended Property Group'),
-                           CRM_Core_Action::DISABLE => array(
-                                                        'name'  => 'Disable',
-                                                        'url'   => 'civicrm/admin/custom/group/field',
-                                                        'qs'    => 'action=disable&id=%%id%%',
-                                                        'title' => 'Disable Extended Property Group',
-                                                        ),
-                           CRM_Core_Action::ENABLE  => array(
-                                                        'name'  => 'Enable',
-                                                        'url'   => 'civicrm/admin/custom/group/field',
-                                                        'qs'    => 'action=enable&id=%%id%%',
-                                                        'title' => 'Enable Extended Property Group',
-                                                        ),
+                                                             'name'  => 'Edit',
+                                                             'url'   => 'civicrm/admin/custom/group/field',
+                                                             'qs'    => 'action=update&id=%%id%%',
+                                                             'title' => 'Edit Custom Field'),
                            );
 
 
@@ -102,6 +90,8 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             foreach (array_keys($fields) as $fieldName) {
                 $customField[$fieldId][$fieldName] = $customFieldDAO->$fieldName;
             }
+            $action = CRM_Core_Action::VIEW + CRM_Core_Action::UPDATE;
+            $customField[$fieldId]['action'] = CRM_Core_Action::formLink(self::$_links, $action_, array('id' => $fieldId));
         }
 
         $this->assign('customField', $customField);
