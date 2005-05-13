@@ -164,6 +164,21 @@ class CRM_GCD {
 
 
 
+    private $CSC = array(
+                         1228 => array( // united states
+                                       1004 => array ('San Francisco', 'Los Angeles', 'Palo Alto'), // california
+                                       1031 => array ('New York', 'Albany'), // new york
+                                       ),
+                         1101 => array( // india
+                                       1113 => array ('Mumbai', 'Pune', 'Nasik'), // maharashtra
+                                       1114 => array ('Bangalore', 'Mangalore', 'Udipi'), // karnataka
+                                       ),
+                         1172 => array( // poland
+                                       1115 => array ('Warszawa', 'Plock'), // Mazowieckie
+                                       1116 => array ('Gdansk', 'Gdynia'), // Pomorskie 
+                                       ),
+                         );
+    
   /*********************************
    * private methods
    *********************************/
@@ -237,6 +252,44 @@ class CRM_GCD {
     {
         return $array1[mt_rand(1, count($array1))-1];
     }
+    
+    // country state city combo
+    private function _getRandomCSC()
+    {
+
+        //        print_r($this->CSC);
+        $array1 = array();
+
+        // pick a random element
+        $c = array_rand($this->CSC);
+        //print_r($c);
+        
+
+        //$countryId = key($c);
+
+        // the state array now
+        $s = array_rand($this->CSC[$c]);
+        //$stateId = key($s);
+
+        // the city
+        $ci = array_rand($this->CSC[$c][$s]);
+        $city = $this->CSC[$c][$s][$ci];
+
+        $array1[] = $c;
+        $array1[] = $s;
+        $array1[] = $city;
+
+        //print_r($array1);
+        return $array1;
+    }
+
+    private function _testShuffleCSC()
+    {
+        print_r($this->CSC);
+        shuffle($this->CSC);
+        print_r($this->CSC);
+    }
+
 
 
     /**
@@ -287,7 +340,6 @@ class CRM_GCD {
         // none are defined
         return date($dateFormat, mt_rand($today-$numSecond, $today));
     }
-
 
 
     // insert data into db's
@@ -876,10 +928,14 @@ class CRM_GCD {
             $address->street_address = $address->street_number_predirectional . " " . $address->street_number .  $address->street_number_suffix .  " " . $address->street_name .  " " . $address->street_type . " " . $address->street_number_postdirectional;
 
             $address->supplemental_address_1 = ucwords($this->_getRandomElement($this->supplemental_address_1));
-            $address->city = ucwords($this->_getRandomElement($this->city));
-            $address->state_province_id = $this->_getRandomElement($this->state);
+
             $address->postal_code = mt_rand(400001, 499999);
-            $address->country_id = $this->_getRandomElement($this->country);
+
+            $array1 = $this->_getRandomCSC();
+
+            $address->city = $array1[2];
+            $address->state_province_id = $array1[1];
+            $address->country_id = $array1[0];
 
             $address->county_id = 1;
             $address->geo_coord_id = 1;
@@ -1135,6 +1191,20 @@ class CRM_GCD {
 
 
 
+    function testCSC() {
+        for ($i=0; $i<5; $i++) {
+            $this->_getRandomCSC();
+        }
+    }
+
+    function testShuffleCSC() {
+        for ($i=0; $i<5; $i++) {
+            $this->_testShuffleCSC();
+        }
+    }
+
+
+
 } // end of class CRM_GenerateContactData
 
 
@@ -1146,7 +1216,7 @@ $obj1->parseDataFile();
 $obj1->initID();
 $obj1->initDB();
 $obj1->initDBData();
-$obj1->printID();
+//$obj1->printID();
 $obj1->addDomain();
 $obj1->addContact();
 $obj1->addIndividual();
@@ -1157,6 +1227,10 @@ $obj1->addLocation();
 $obj1->addEntityCategory();
 $obj1->addGroup();
 $obj1->addNote();
+
+//$obj1->testCSC();
+//$obj1->testShuffleCSC();
+
 
 echo("Ending on " . date("F dS h:i:s A") . "\n");
 
