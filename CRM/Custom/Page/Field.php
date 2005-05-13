@@ -73,29 +73,25 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      */
     function browse()
     {
-        CRM_Core_Error::le_method();
-
         $customField = array();
         $customFieldDAO = new CRM_Core_DAO_CustomField();
         $fields = $customFieldDAO->fields();
         
-        CRM_Core_Error::debug_var('fields', $fields);
-        
+        // fkey is groupId
         $customFieldDAO->custom_group_id = $this->_groupId;
         $customFieldDAO->find();
         
         while ($customFieldDAO->fetch()) {
             $fieldId = $customFieldDAO->id;
             $customField[$fieldId] = array();
+            // get all fields, it's a bit heavy (since we need to show only 5 out of 16).
             foreach (array_keys($fields) as $fieldName) {
                 $customField[$fieldId][$fieldName] = $customFieldDAO->$fieldName;
             }
             $action = CRM_Core_Action::VIEW + CRM_Core_Action::UPDATE;
             $customField[$fieldId]['action'] = CRM_Core_Action::formLink(self::$_links, $action_, array('id' => $fieldId));
         }
-
         $this->assign('customField', $customField);
-        CRM_Core_Error::ll_method();
     }
 
 
@@ -111,8 +107,12 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      */
     function edit()
     {
+
+        // get the requested action
+        $action = CRM_Utils_Request::retrieve('action', $this, false, 'add'); // default to 'add'
+        
         // create a simple controller for editing custom data
-        $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Field', 'Custom Field', CRM_Core_Form::MODE_UPDATE);
+        $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Field', 'Custom Field', $action);
         $controller->setEmbedded(true);
 
         // set the userContext stack
@@ -152,13 +152,12 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         $this->assign('action', $action);
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE)) {
+        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             // both update and add are handled by 'edit'
             self::edit();
         } else {
             self::browse();
         }
-        
         // call the parents run method
         parent::run();
     }
