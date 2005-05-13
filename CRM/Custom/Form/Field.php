@@ -58,19 +58,19 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @var array
      * @static
      */
-    public static $dataType = array ('String', 'Int', 'Float', 'Money', 'Text', 'Date', 'Boolean', 'Set', 'Enum', 'Array');
-    public static $dataToHTML = array (
-                                       array('Text'),
-                                       array('Text'),
-                                       array('Text'),
-                                       array('Text'),
-                                       array('TextArea'),
-                                       array('Select Date'),
-                                       array('Radio'),
-                                       array('Checkbox'),
-                                       array('Radio'),
-                                       array('Checkbox', 'Radio', 'Select'),
-                                       );
+    public static $dataType = array('String', 'Int', 'Float', 'Money', 'Text', 'Date', 'Boolean', 'Set', 'Enum', 'Array');
+    public static $dataToHTML = array(
+                                      array('Text'),
+                                      array('Text'),
+                                      array('Text'),
+                                      array('Text'),
+                                      array('TextArea'),
+                                      array('Select Date'),
+                                      array('Radio'),
+                                      array('Checkbox'),
+                                      array('Radio'),
+                                      array('Checkbox', 'Radio', 'Select'),
+                                      );
     
     /**
      * Function to set variables up before form is built
@@ -95,14 +95,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     {
         $defaults = array();
         
-        if ( isset( $this->_id ) ) {
-            $params = array( 'id' => $this->_id );
-            CRM_Core_BAO_CustomField::retrieve( $params, $defaults );
-            $this->_gid = $defaults['ext_property_group_id'];
+        if (isset($this->_id)) {
+            $params = array('id' => $this->_id);
+            CRM_Core_BAO_CustomField::retrieve($params, $defaults);
+            $this->_gid = $defaults['custom_group_id'];
         } else {
             $defaults['is_active'] = 1;
         }
-        
         return $defaults;
     }
     
@@ -153,6 +152,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         if ($this->_mode & self::MODE_VIEW) {
             $this->freeze();
+            $this->addElement('button', 'done', 'Done', array('onClick' => "location.href='civicrm/admin/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
         }
     }
     
@@ -176,11 +176,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
         $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
 
-        if ( $this->_mode & self::MODE_UPDATE ) {
+        if ($this->_mode & self::MODE_UPDATE) {
             $customField->id = $this->_id;
         }
         $customField->custom_group_id = $this->_gid;
-        $customField->save( );
+        $customField->save();
         CRM_Core_Session::setStatus( 'Your custom field - ' . $customField->label . ' has been saved' );
     }
 }

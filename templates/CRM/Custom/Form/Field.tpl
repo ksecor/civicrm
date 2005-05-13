@@ -19,11 +19,15 @@
 <div class="form-item">
   {$form.is_active.label} {$form.is_active.html}
 </div>
+
 {if $action ne 4}
  <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
+ {else}
+   <div class="form-item">{$form.done.html}</div>
 {/if} {* $action ne view *}
+
 </fieldset>
 </form>
 {/if}

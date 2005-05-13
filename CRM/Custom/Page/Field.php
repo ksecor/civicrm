@@ -120,7 +120,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/group/', 'action=browse'));
         
         $controller->reset();
-        $controller->set('groupId' , $this->_groupId);
+        $controller->set('groupId', $this->_groupId);
         $controller->process();
         $controller->run();
     }
@@ -152,8 +152,8 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         $this->assign('action', $action);
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            // both update and add are handled by 'edit'
+        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
+            // update, add and view  are handled by 'edit'
             self::edit();
         } else {
             self::browse();
