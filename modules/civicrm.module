@@ -97,7 +97,7 @@ function civicrm_help($section)
 function civicrm_perm() 
 {
     // static permissions
-    $cPerm = array('view any contact', 'add/edit any contact', 'administer CiviCRM');
+    $cPerm = array('view any contact', 'add/edit any contact', 'view groups', 'add/edit groups', 'administer CiviCRM');
     // dynamic permissions - access by group (title)
 
     /* This code currently returns an error:
