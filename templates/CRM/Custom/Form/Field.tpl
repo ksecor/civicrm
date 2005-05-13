@@ -6,14 +6,16 @@
     <dt>{$form.label.label}</dt><dd> {$form.label.html}</dd>
     <dt>{$form.data_type.label}</dt><dd>{$form.data_type.html}</dd>
     <dt>{$form.html_type.label}</dt><dd>{$form.html_type.html}</dd>
-    <dt>{$form.default_value.label}</dt><dd>{$form.default_value.html}</dd>
     <dt>{$form.mask.label}</dt><dd>{$form.mask.html}</dd>
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
+    <dt>{$form.default_value.label}</dt><dd>{$form.default_value.html}</dd>
+    <dt>{$form.javascript.label}</dt><dd>{$form.javascript.html}</dd>
+    <dt>{$form.attributes.label}</dt><dd>{$form.attributes.html}</dd>
     <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}</dd>
     <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}</dd>
     <dt>{$form.is_required.label}</dt><dd>{$form.is_required.html}</dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
-
+    
     {if $action ne 4}
     <div id="crm-submit-buttons">
     <dt></dt><dd>{$form.buttons.html}</dd>
