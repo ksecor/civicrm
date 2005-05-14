@@ -39,9 +39,6 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Import_Form_Preview extends CRM_Core_Form {
 
-    const CRM_IMPORT_ERROR_FILE = 'CiviCRM_Import_Errors.log';
-
-
     /**
      * Function to set variables up before form is built
      *
@@ -127,7 +124,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
             $this->assign( 'rowDisplayCount', 3 );
-            //$this->set('totalRowCount', ($totalRowCount-1));
             $this->set('validRowCount', ($validRowCount-1));
         } else {
             $this->assign( 'rowDisplayCount', 2 );
@@ -185,10 +181,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         $seperator = ',';
 
-        $mapperKeys = $this->controller->exportValue( 'MapField', 'mapper' );
+        $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
 
-        $parser = new CRM_Import_Parser_Contact( $mapperKeys );
-        $parser->run( $fileName, $seperator, CRM_Import_Parser::MODE_IMPORT, $skipColumnHeader );
+        $parser = new CRM_Import_Parser_Contact( $mapper );
+        $parser->run( $fileName, $seperator, 
+                      $mapper,
+                      $skipColumnHeader,
+                      CRM_Import_Parser::MODE_IMPORT );
 
         // add all the necessary variables to the form
         $parser->set( $this );
@@ -196,26 +195,23 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         // check if there is any error occured
 
         $errorStack = CRM_Core_Error::singleton();
-        $errors = $errorStack->getErrors();
+        $errors     = $errorStack->getErrors();
         
-        //$errorMessage = '';
-
         $errorMessage = array();
+        
+        $config = CRM_Config::singleton( );
 
-        if(is_array($errors)) {
-            foreach($errors as $lngKey => $varValue) {
-                //$errorMessage .= $varValue['message'].'\n';
-                $errorMessage[] = $varValue['message'];
+        if( is_array( $errors ) ) {
+            foreach($errors as $key => $value) {
+                $errorMessage[] = $value['message'];
             }
             
-            $errorFile = CRM_UPLOAD_DIR.date('Y_m_d_h_i_s').'_'.self::CRM_IMPORT_ERROR_FILE;
+            $errorFile = $config->uploadDir . $fileName . '.error.log';
             
-            if($fd = @fopen ($errorFile, 'x+' )) {
-                $string = implode('\n', $errorMessage);
-                //@fwrite($fd, $errorMessage);
-                @fwrite($fd, $string);
+            if ( $fd = fopen( $errorFile, 'w' ) ) {
+                fwrite($fd, implode('\n', $errorMessage));
             }
-            @fclose($fd);
+            fclose($fd);
 
             $this->set('errorFile', $errorFile);
         }

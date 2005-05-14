@@ -74,23 +74,11 @@ class CRM_Utils_Wrapper
      * @param string $formName    name of the form processing this action
      * @param string $formLabel   label for the above form
      * @param int    $mode        mode of operation.
-     * @param string $userContext where should we go when done
-     * @param array  $data        the data for this form, stored in the session
      *
      * @returns none.
      * @access public
      */
-    function run($formName, $formLabel, $mode, $userContext = null, $data = null ) {
-        $session = CRM_Core_Session::singleton();
-        $config  = CRM_Core_Config::singleton();
-
-        // store the return url. Note that this is typically computed by the framework at runtime
-        // based on multiple things (typically where the link was clicked from / http_referer
-        // since we are just starting and figuring out navigation, we are hard coding it here
-        if ( $userContext ) {
-            $session->pushUserContext( $userContext );
-        }
-
+    function run($formName, $formLabel, $mode ) {
         $this->_controller = new CRM_Core_Controller_Simple( $formName, $formLabel, $mode );
         if ( $data ) {
             $this->_controller->set( $data );

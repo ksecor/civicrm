@@ -156,8 +156,11 @@ abstract class CRM_Import_Parser {
 
     abstract function init();
 
-    function run( $fileName, $seperator = ',', $mode = self::MODE_PREVIEW, $skipColumnHeader = false ) {
-
+    function run( $fileName,
+                  $seperator = ',',
+                  &$mapper,
+                  $skipColumnHeader = false,
+                  $mode = self::MODE_PREVIEW ) {
         $this->init();
 
         $this->_seperator = ',';
@@ -182,33 +185,26 @@ abstract class CRM_Import_Parser {
             $this->_activeFieldCount = count( $this->_activeFields );
         }
 
-        $session = CRM_Core_Session::singleton( );
-
-        // print_r($_SESSION);
         if ( $mode == self::MODE_IMPORT ) {
-            
             //get the key of email field
-            $session->getVars($importData, CRM_Import_Controller);
-            
-            $mapper = $importData['mapper'];
-            
-            // print_r($aImportData);
-            foreach($mapper as $key => $varValue) {
-                if($varValue == 'Email'){
+            foreach($mapper as $key => $value) {
+                if ( $value == 'Email' ) {
                     $emailKey = $key;
+                    break;
                 }
             }
 
-            $this->_totalCount = $importData['totalRowCount'];
-            //$this->_validCount = $importData['validRowCount'];                 
-            $this->_errorCount = $importData['invalidRowCount'];
+            $this->_totalCount     = $importData['totalRowCount'];
+            $this->_errorCount     = $importData['invalidRowCount'];
             $this->_duplicateCount = $importData['duplicateRowCount'];
         }
         
         $email = array();
         while ( ! feof( $fd ) ) {
+            $this->_lineCount++;
+
             $values = fgetcsv( $fd, 8192, $seperator );
-            //print_r($values);            
+
             // skip column header if data is imported
             if ( $mode == self::MODE_IMPORT ) {
                 if ($skipColumnHeader ) {
@@ -223,7 +219,6 @@ abstract class CRM_Import_Parser {
                 }
             }
             
-            $this->_lineCount++;
             if ( ! $values || empty( $values ) ) {
                 continue;
             }

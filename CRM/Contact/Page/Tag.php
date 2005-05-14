@@ -51,11 +51,8 @@ class CRM_Contact_Page_Tag {
     }
 
     static function run( $page ) {
-
         $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'view' );
-
         $page->assign( 'action', $action );
-
         self::browse( $page, $action );
     }
 

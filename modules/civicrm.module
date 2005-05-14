@@ -100,14 +100,15 @@ function civicrm_perm()
     $cPerm = array('view any contact', 'add/edit any contact', 'view groups', 'add/edit groups', 'administer CiviCRM');
     // dynamic permissions - access by group (title)
 
-    /* This code currently returns an error:
+    /*
+	 This code currently returns an error:
         "DB_DataObject Error: No database name / dsn found anywhere"
         Check w/ Lobo on what include is missing or ?? dgg
+    */
     $groups =& CRM_Core_PseudoConstant::group();
     foreach ( $groups as &$title ) {
         $cPerm[] = $title;
     }
-    */
 
     return $cPerm;
 }
@@ -395,7 +396,7 @@ function civicrm_hack_path( $path, $qs ) {
 
 function civicrm_init() 
 {
-    if ( arg(0) != 'civicrm' ) {
+    if ( arg(0) != 'civicrm' && arg(0) != 'admin' ) {
         return;
     }
 
@@ -576,9 +577,10 @@ function civicrm_load($queryArgs)
  */
 function civicrm_form( $mode )
 {
+    CRM_Utils_System::setUserContext( array( 'civicrm/contact/search', 'civicrm/contact/view' ),
+                                      CRM_Utils_System::url( 'civicrm/contact/search' ) );
     $wrapper = new CRM_Utils_Wrapper();
-    $wrapper->run('CRM_Contact_Form_Edit', 'Contact Page', $mode,
-                  CRM_Utils_System::url( 'civicrm/contact/search', '' ) );
+    $wrapper->run('CRM_Contact_Form_Edit', 'Contact Page', $mode );
 }
 
 

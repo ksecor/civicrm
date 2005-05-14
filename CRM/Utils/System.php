@@ -217,6 +217,39 @@ class CRM_Utils_System {
         drupal_set_title( $title );
     }
 
+    /**
+     * figures and sets the userContext. Uses the referer if valid
+     * else uses the default
+     *
+     * @param array  $names   refererer should match any str in this array
+     * @param string $default the default userContext if no match found
+     *
+     * @return void
+     * @access public
+     */
+    static function setUserContext( $names, $default = null ) {
+        $config  =& CRM_Core_Config::singleton( );
+        if ( ! isset( $default ) ) {
+            $url = $config->mainMenu;
+        } else {
+            $url = $default;
+        }
+
+        $referer = CRM_Utils_Array::value( 'HTTP_REFERER', $_SERVER );
+
+        if ( $referer && ! empty( $names ) ) {
+            foreach ( $names as $name ) {
+                if ( strstr( $referer, $name ) ) {
+                    $url = $referer;
+                    break;
+                }
+            }
+        }
+
+        $session =& CRM_Core_Session::singleton();
+        $session->pushUserContext( $url );
+    }
+
 }
 
 /**

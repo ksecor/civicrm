@@ -110,7 +110,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                    );
 
     static $_properties = array('contact_id', 'contact_type', 'sort_name', 'street_address',
-                                'city', 'state', 'country', 'postal_code',
+                                'city', 'state', 'postal_code', 'country',
                                 'email', 'phone' );
 
     /**

@@ -58,6 +58,15 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $this, true );
         $this->getContactDetails( );
 
+        $prevMode = $this->get( 'mode' );
+        // if we have switched modes we set the action to browse always
+        // this is primarily because we retain state across tabs but want
+        // to reset the action
+        if ( isset( $prevMode ) && $prevMode != $mode ) {
+            $this->set( 'action', 16 );
+        }
+        $this->set( 'mode', $this->_mode );
+
         if ( $this->_mode == self::MODE_NONE ) {
             $this->runModeNone( );
         } else if ( $this->_mode == self::MODE_NOTE ) {

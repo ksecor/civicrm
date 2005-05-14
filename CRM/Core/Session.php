@@ -274,10 +274,12 @@ class CRM_Core_Session {
         $this->createScope( self::USER_CONTEXT );
 
         $topUC = array_pop( $this->_session[$this->_key][self::USER_CONTEXT] );
-        if ( $topUC != $userContext ) {
-            array_push( $this->_session[$this->_key][self::USER_CONTEXT], $topUC       );
-            array_push( $this->_session[$this->_key][self::USER_CONTEXT], $userContext );
+        // see if there is a match between the new UC and the top one. the match needs to be
+        // fuzzy since we use the referer at times
+        if ( $topUC == $userContext || strstr( $topUC, $userContext ) || strstr( $userContext, $topUC ) ) {
+            array_push( $this->_session[$this->_key][self::USER_CONTEXT], $topUC );
         } else {
+            array_push( $this->_session[$this->_key][self::USER_CONTEXT], $topUC       );
             array_push( $this->_session[$this->_key][self::USER_CONTEXT], $userContext );
         }
     }
