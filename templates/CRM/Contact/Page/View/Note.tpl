@@ -55,7 +55,7 @@
 
        {if $action eq 16 or $action eq 4 or $action eq 8}
        <div class="action-link">
-    	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">New Note</a>
+    	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">&raquo; New Note</a>
        </div>
        {/if}
     </div>

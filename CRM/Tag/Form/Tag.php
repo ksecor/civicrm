@@ -74,16 +74,15 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
             if( in_array($categoryID, $entityCategory)) {
                 $strChecked = 'checked';
             }
-            $categoryChk[$categoryID] = $this->createElement('checkbox', $categoryID, '', '', $strChecked);            
+            $categoryChk[$categoryID] = $this->createElement('checkbox', $categoryID, '', '', $strChecked );
         }
-        
+
         $this->addGroup($categoryChk, 'categoryList');
         
         $this->assign('category', $allCategory);
 
         if ( $this->_mode & self::MODE_VIEW ) {
             $this->freeze();
-            $this->addElement('button', 'edit', 'Edit Tags', array('onClick' => "location.href='civicrm/contact/view/tag?action=update'"));
         } else {
 
             $this->addButtons( array(
@@ -147,7 +146,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         }
         
         if ( $this->_mode & self::MODE_UPDATE ) {
-            CRM_Core_Session::setStatus( 'Your Tag(s) has been saved.' );
+            CRM_Core_Session::setStatus( 'Your update(s) have been saved.' );
         }
         
     }//end of function

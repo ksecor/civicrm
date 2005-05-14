@@ -2,9 +2,9 @@
 {* smog = 'show members of group'; amtg = 'add members to group' *}
 {if $context EQ 'smog'}
     <div id="help">
-        The current members of {$group.title} are displayed below. Use the Find box below to
-        search for specific members. Click 'Add Members...' to find more contacts
-        and add them to this group.
+        The current members of the <strong>{$group.title}</strong> group are listed below. Use the Find box below to
+        search for specific members. Use the <a href="{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}">Add Members...</a>
+        screen if you want to add new members to this group.
     </div>
     <div class="form-item">
         <a href="{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}">&raquo; Add Members to {$group.title}</a>

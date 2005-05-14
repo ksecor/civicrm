@@ -1,19 +1,33 @@
 {* this template is used for adding/editing tags  *}
 
 <form {$form.attributes}>
-<fieldset><legend>Tags</legend>
-    <p>Current tag assignments are checked. Mark or unmark the checkboxes, and click '{if $action eq 4} Edit {else}Update Tags{/if}' to change the tags for this contact.</p>
-    <div class="form-item">
+<fieldset><legend>{t}Tags{/t}</legend>
+    <p>
+    {if $action eq 4}
+        {t}Current tags for <strong>{$displayName}</strong> are highlighted. You can
+        add or remove tags from <a href="{crmURL p='civicrm/contact/view/tag' q='action=update'}">Edit Tags</a>.{/t}
+    {else}
+        {t}Mark or unmark the checkboxes, and click
+        'Update Tags' to modify tags.{/t}
+    {/if}
+    </p>
+    
       {foreach from=$category item="row" key = "id"}
-         {$form.categoryList[$id].html} &nbsp;{$row} <br>
+        <div class="form-item {if $action eq 4 AND $form.categoryList[$id].value}label{/if}">
+         {t}{$form.categoryList[$id].html} &nbsp;{$row}{/t}
+        </div>
       {/foreach}
-    </div>
-    {if $action eq 4}	
-       <div class="form-item">{$form.edit.html}</div>
+
+    {* Show Edit Tags link if in View mode *}
+    {if $action eq 4}
+        <div class="action-link">
+          <a href="{crmURL p='civicrm/contact/view/tag' q='action=update'}">&raquo; Edit Tags</a>
+        </div>
     {else}
        <div class="form-item">{$form.buttons.html}</div>
     {/if}
 </fieldset>
-	
+
+ 	
 </form>
 
