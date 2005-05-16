@@ -51,19 +51,19 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
         if ($this->_mode == self::MODE_DELETE) {
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
-                                             'name'      => 'Delete',
+                                             'name'      => ts('Delete'),
                                              'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
-                                             'name'      => 'Cancel' ),
+                                             'name'      => ts('Cancel') ),
                                      )
                                );
         } else {
             
-            $this->add('text', 'name'       , 'Name'       ,
+            $this->add('text', 'name'       , ts('Name')       ,
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'name' ) );
             $this->addRule( 'name', 'Please enter a valid name.', 'required' );
             
-            $this->add('text', 'description', 'Description', 
+            $this->add('text', 'description', ts('Description'), 
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'description' ) );
             
             parent::buildQuickForm( ); 
