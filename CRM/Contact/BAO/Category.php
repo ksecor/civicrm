@@ -119,7 +119,8 @@ class CRM_Contact_BAO_Category extends CRM_Contact_DAO_Category {
 
         $category->save( );
         
-        CRM_Core_Session::setStatus( 'The category \'' . $category->name . '\' has been saved.' );
+        CRM_Core_Session::setStatus( ts('The category \'%1\' has been saved.',
+                                      array( 1 => $category->name ) ) );
         
         return $category;
     }
