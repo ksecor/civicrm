@@ -40,7 +40,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      *
      * @var int
      */
-    protected $_groupId;
+    protected $_gid;
 
     /**
      * The action links that we need to display for the browse screen
@@ -77,8 +77,8 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         $customFieldDAO = new CRM_Core_DAO_CustomField();
         $fields = $customFieldDAO->fields();
         
-        // fkey is groupId
-        $customFieldDAO->custom_group_id = $this->_groupId;
+        // fkey is gid
+        $customFieldDAO->custom_group_id = $this->_gid;
         $customFieldDAO->find();
         
         while ($customFieldDAO->fetch()) {
@@ -120,7 +120,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/group/', 'action=browse'));
         
         $controller->reset();
-        $controller->set('groupId', $this->_groupId);
+        $controller->set('gid', $this->_gid);
         $controller->process();
         $controller->run();
     }
@@ -140,9 +140,9 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
     function run()
     {
         // get the group id
-        $this->_groupId = CRM_Utils_Request::retrieve('gid', $this);
-        if ($this->_groupId) {
-            $this->assign('gid', $this->_groupId);
+        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
+        if ($this->_gid) {
+            $this->assign('gid', $this->_gid);
         }
 
         // get the requested action
