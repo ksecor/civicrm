@@ -11,8 +11,8 @@
     <dt>{$form.default_value.label}</dt><dd>{$form.default_value.html}</dd>
     <dt>{$form.javascript.label}</dt><dd>{$form.javascript.html}</dd>
     <dt>{$form.attributes.label}</dt><dd>{$form.attributes.html}</dd>
-    <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}</dd>
-    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}</dd>
+    <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}&nbsp;</dd>
+    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
     <dt>{$form.is_required.label}</dt><dd>{$form.is_required.html}</dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
     

@@ -41,7 +41,7 @@
     {if $action eq 16}
     <div class="message status">
     <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-    There are no Custom Fields
+    There are no Custom Fields. To add Custom Fields, <a href="{crmURL p='civicrm/admin/custom/group/field q="action=add&gid=$gid"}">Click Here</a>.
     </div>
     {/if}
 {/if}

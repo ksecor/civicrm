@@ -102,6 +102,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                           );
         if ($this->_mode & self::MODE_VIEW) {
             $this->freeze();
+            $this->addElement('button', 'done', 'Done', array('onClick' => "location.href='civicrm/admin/custom/group?reset=1&action=browse'"));
         }
     }
 

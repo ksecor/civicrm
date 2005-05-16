@@ -149,10 +149,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                                        'name'      => 'Cancel'),
                                 )
                           );
-
         if ($this->_mode & self::MODE_VIEW) {
             $this->freeze();
-            $this->addElement('button', 'done', 'Done', array('onClick' => "location.href='civicrm/admin/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
+            //$this->addElement('button', 'done', 'Done', array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
+            $this->addElement('button', 'done', 'Done', array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid= " . $this->_gid . "'"));
         }
     }
     

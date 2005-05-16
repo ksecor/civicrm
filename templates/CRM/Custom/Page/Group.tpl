@@ -15,6 +15,10 @@
         <div id="crm-submit-buttons">
         <dt></dt><dd>{$form.buttons.html}</dd>
         </div>
+    {else}
+        <div id="crm-done-button">
+        <dt></dt><dd>{$form.done.html}</dd>
+        </div>
     {/if} {* $action ne view *}
     </dl>
     </fieldset>
