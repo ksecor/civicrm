@@ -23,28 +23,28 @@
 */
 
 /**
- * The Base class of the CRM hierarchy. Currently does not provide
- * any useful functionality. As such we dont require anyone to derive
- * from this class. However it includes a few common files
+ * This is CiviCRM's Smarty gettext plugin
  *
  * @package CRM
- * @author Donald A. Lobo <lobo@yahoo.com>
+ * @author Piotr Szotkowski <shot@caltha.pl>
+ * @author Michal Mach <mover@artnet.org>
  * @copyright Donald A. Lobo 01/15/2005
  * $Id$
  *
  */
 
-require_once 'CRM/Core/Error.php';
-require_once 'CRM/Core/I18n.php';
+/** 
+ * Smarty block function, provides gettext support for smarty.
+ * See CRM_Core_I18n class documentation for details.
+ *
+ * @author Michal Mach <mover@artnet.org>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
+ */
 
-class CRM_Core_Base {
-
-    /**
-     * constructor
-     */
-    function __construct() {
-    }
-
+function smarty_block_ts( $params, $text, &$smarty )
+{
+    return ts( $text, $params );
 }
 
 ?>
