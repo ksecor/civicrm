@@ -53,7 +53,7 @@
     {if NOT ($action eq 1 or $action eq 2) }
     <p>
     <div class="action-link">
-    <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}">New Custom Data Group</a>
+    <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}">&raquo;  New Custom Data Group</a>
     </div>
     </p>
     {/if}

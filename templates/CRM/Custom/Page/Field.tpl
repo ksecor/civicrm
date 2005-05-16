@@ -27,12 +27,11 @@
     </table>
     {/strip}
     
-   {*if $action eq 16 or $action eq 4}
-        <br/>
-       <div class="action-link">
-         <a href="{crmURL q="reset=1&action=add&gid=$gid"}">New Extended Property Field</a>
-       </div>
-       {/if*}
+    {if $action eq 16 or $action eq 4}
+        <div class="action-link">
+        <a href="{crmURL q="reset=1&action=add&gid=$gid"}">&raquo; New Custom Field</a>
+        </div>
+    {/if}
     </div>
  </p>
 </div>
@@ -41,7 +40,7 @@
     {if $action eq 16}
     <div class="message status">
     <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-    There are no Custom Fields. To add Custom Fields, <a href="{crmURL p='civicrm/admin/custom/group/field q="action=add&gid=$gid"}">Click Here</a>.
+    There are no Custom Fields, <a href="{crmURL p='civicrm/admin/custom/group/field q="action=add&gid=$gid"}">add one</a>.
     </div>
     {/if}
 {/if}
