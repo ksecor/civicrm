@@ -61,7 +61,7 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
             
             $this->add('text', 'name'       , ts('Name')       ,
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'name' ) );
-            $this->addRule( 'name', 'Please enter a valid name.', 'required' );
+            $this->addRule( 'name', ts('Please enter a valid name.'), 'required' );
             
             $this->add('text', 'description', ts('Description'), 
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'description' ) );
