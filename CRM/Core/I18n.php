@@ -149,7 +149,7 @@ class CRM_Core_I18n {
 
 }
 
-function ts( $text, $params ) {
+function ts( $text, $params = array() ) {
    $i18n = CRM_Core_I18n::singleton( );
    return $i18n->crm_translate( $text, $params );
 }
