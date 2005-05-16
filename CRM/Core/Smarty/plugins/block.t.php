@@ -23,28 +23,29 @@
 */
 
 /**
+ * This is CiviCRM's Smarty gettext plugin
  *
  * @package CRM
  * @author Piotr Szotkowski <shot@caltha.pl>
+ * @author Michal Mach <mover@artnet.org>
  * @copyright Donald A. Lobo 01/15/2005
  * $Id$
  *
  */
 
-/**
- * Call the Drupal's t( ) function on a string enclosed with {t}
- * in Smarty's templates.
+/** 
+ * Smarty block function, provides gettext support for smarty.
+ * See CRM_Core_I18n class documentation for details.
  *
- * @param array  $params  attributes passed from the template
- * @param string $text    the contents of the template block
- * @param object &$smarty the Smarty's template object
- *
- * @return string         the contents of the template translated by Drupal
- * @access public
+ * @author Michal Mach <mover@artnet.org>
+ * @copyright Donald A. Lobo 01/15/2005
+ * $Id$
  */
 
-function smarty_block_t( $params, $text, &$smarty ) {
-    return t($text);
+function smarty_block_t( $params, $text, &$smarty )
+{
+   $i18n = CRM_Core_I18n::singleton( );
+   return $i18n->crm_translate( $text, $params );
 }
 
 ?>
