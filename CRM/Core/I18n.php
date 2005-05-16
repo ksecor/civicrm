@@ -131,7 +131,7 @@ class CRM_Core_I18n {
         // $text = str_replace('\'','\\\'',stripslashes($text));
         // }
 
-	return '<font color="red">' . $text . '</font>';
+	return $text;
     }
 
     /**
