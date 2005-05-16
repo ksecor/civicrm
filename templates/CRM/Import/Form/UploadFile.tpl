@@ -12,15 +12,15 @@
  
  <div id="help">
     <p>
-    {t}The Import Wizard allows you to easily upload contact records from other applications into
+    {ts}The Import Wizard allows you to easily upload contact records from other applications into
     CiviCRM. For example, if your organization has contacts in MS Access&copy; or Excel&copy;,
-    and you want to start using CiviCRM to store these contacts, you can 'import' them here.{/t}
+    and you want to start using CiviCRM to store these contacts, you can 'import' them here.{/ts}
     </p>
     <p>
-    {t}Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications
+    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications
     will allow you to export records in this format. Consult the documentation for your
     application if you're not sure how to do this. Save this file to your local hard drive (or
-    an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/t}
+    an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}
     </p>
  </div>    
 
@@ -32,7 +32,7 @@
        <dt>{$form.skipColumnHeader.html}</dt><dd>{$form.skipColumnHeader.label}</dd>
        <dt> </dt>
           <dd class="description">
-            {t}Check this box if the first row of your file consists of field names (Example: "First Name","Last Name","Email"){/t}
+            {ts}Check this box if the first row of your file consists of field names (Example: "First Name","Last Name","Email"){/ts}
           </dd>  
     </dl>
  </fieldset>
