@@ -124,9 +124,9 @@ class CRM_Contact_BAO_Note extends CRM_Core_DAO_Note {
         $note->table_name = 'crm_contact';
 
         // get the total count of notes
-        $values['notesCount'] = $note->count( );
+        $values['noteTotalCount'] = $note->count( );
 
-        // get only 2 recent notes
+        // get only 3 recent notes
         $note->orderBy( 'modified_date desc' );
         $note->limit( $numNotes );
         $note->find();

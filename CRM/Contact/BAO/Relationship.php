@@ -65,7 +65,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids, $numRelationships = self::MAX_RELATIONSHIPS ) {
+    static function getValues( &$params, &$values, &$ids, $numRelationships = '') {
         $relationship = new CRM_Contact_BAO_Relationship( );
 
         $str_select1 = $str_from1 = $str_where1 = $str_select2 = $str_from2 = $str_where2 = $str_order = $str_limit = '';
@@ -132,11 +132,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                          AND crm_relationship.contact_id_b = crm_contact.id)";
 
 
-        // $str_order1 = " GROUP BY crm_contact.id ORDER BY crm_contact.id ";
-        //$str_limit1 = " LIMIT 0, $numRelationships ";
+        $str_order = " ORDER BY crm_relationship_id ";
+        //  $str_limit = " LIMIT 0, $numRelationships ";
 
         // building the query string
-        $query_string = $str_select1.$str_from1.$str_where1.$str_select2.$str_from2.$str_where2;
+        $query_string = $str_select1.$str_from1.$str_where1.$str_select2.$str_from2.$str_where2.$str_order;
         $relationship->query($query_string);
     
    
@@ -144,35 +144,36 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $ids['relationship'] = array( );
         $count = 0;
         while ( $relationship->fetch() ) {
-            
-            $values['relationship'][$relationship->crm_relationship_id] = array();
-            $ids['relationship'][] = $relationship->crm_relationship_id;
-            
-            $values['relationship'][$relationship->crm_relationship_id]['id'] = $relationship->crm_relationship_id;
-            $values['relationship'][$relationship->crm_relationship_id]['cid'] = $relationship->crm_contact_id;
-            $values['relationship'][$relationship->crm_relationship_id]['relation'] = $relationship->relation;
-            $values['relationship'][$relationship->crm_relationship_id]['name'] = $relationship->sort_name;
-            $values['relationship'][$relationship->crm_relationship_id]['email'] = $relationship->email;
-            $values['relationship'][$relationship->crm_relationship_id]['phone'] = $relationship->phone;
-            $values['relationship'][$relationship->crm_relationship_id]['city'] = $relationship->city;
-            $values['relationship'][$relationship->crm_relationship_id]['state'] = $relationship->state;
-           
-            if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
-                $values['relationship'][$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
-                $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = 0;
-            } else {
-                $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
-                $values['relationship'][$relationship->crm_relationship_id]['contact_a'] = 0;
+            if ($count < $numRelationships ) {
+                $values['relationship'][$relationship->crm_relationship_id] = array();
+                $ids['relationship'][] = $relationship->crm_relationship_id;
+                
+                $values['relationship'][$relationship->crm_relationship_id]['id'] = $relationship->crm_relationship_id;
+                $values['relationship'][$relationship->crm_relationship_id]['cid'] = $relationship->crm_contact_id;
+                $values['relationship'][$relationship->crm_relationship_id]['relation'] = $relationship->relation;
+                $values['relationship'][$relationship->crm_relationship_id]['name'] = $relationship->sort_name;
+                $values['relationship'][$relationship->crm_relationship_id]['email'] = $relationship->email;
+                $values['relationship'][$relationship->crm_relationship_id]['phone'] = $relationship->phone;
+                $values['relationship'][$relationship->crm_relationship_id]['city'] = $relationship->city;
+                $values['relationship'][$relationship->crm_relationship_id]['state'] = $relationship->state;
+                
+                if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
+                    $values['relationship'][$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
+                    $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = 0;
+                } else {
+                    $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
+                    $values['relationship'][$relationship->crm_relationship_id]['contact_a'] = 0;
+                }
+                
+                $relationship->storeValues( $values['relationship'][$relationship->crm_relationship_id] );
+                
+                $relationships = $relationship;
             }
-            
-            $relationship->storeValues( $values['relationship'][$relationship->crm_relationship_id] );
-
-            $relationships = $relationship;
             $count++;
         }
 
         // get the total count of relationships
-        if ($count > 0) $values['relationshipsCount'] = $count;
+        if ($count > 0) $values['relationshipTotalCount'] = $count;
 
         //   print_r($relationships);
         return $relationships;

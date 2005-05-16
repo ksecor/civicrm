@@ -99,8 +99,8 @@
  {/if}
 
 <div id="relationships[show]" class="data-group">
-  {if $relationshipsCount}
-    <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Relationships</label> ({$relationshipsCount})<br />
+  {if $relationshipTotalCount}
+    <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Relationships</label> ({$relationshipTotalCount})<br />
   {else}
     <dl><dt>Relationships</dt><dd>No relationships. Use the <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">Relationships tab</a> to add them.</dd></dl>
   {/if}
@@ -143,7 +143,7 @@
 	{/strip}
    <div class="action-link">
        <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">New Relationship</a>
-        {if $relationshipsCount gt 3 }
+        {if $relationshipTotalCount gt 3 }
          | <a href="{crmURL p='civicrm/contact/view/rel' q='action=browse'}">Browse all Relationships...</a>
         {/if}
    </div>
@@ -152,15 +152,15 @@
 </div>
 
 <div id="groups[show]" class="data-group">
-  {if $groupCount}
-    <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Group Memberships</label> ({$groupCount})<br />
+  {if $groupTotalCount}
+    <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Group Memberships</label> ({$groupTotalCount})<br />
   {else}
     <dl><dt>Group Memberships</dt><dd>No group memberships. Use the <a href="{crmURL p='civicrm/contact/view/group' q='action=add'}">Groups tab</a> to add them.</dd></dl>
   {/if}
 </div>
 
 <div id="groups">
- {if $groupCount}
+ {if $groupIn} 
  <fieldset><legend><a href="#" onClick="hide('groups'); show('groups[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Groups</legend>
 	{strip}
 	<table>
@@ -183,7 +183,7 @@
     <p>This table currently not populated for group memberships - coming soon!</p>
    <div class="action-link">
        <a href="{crmURL p='civicrm/contact/view/group'}">New Group Membership</a>
-        {if $groupCount gt 3 }
+        {if $groupTotalCount gt 3 }
          | <a href="{crmURL p='civicrm/contact/view/group'}">Browse all Group Memberships...</a>
         {/if}
    </div>
@@ -192,15 +192,15 @@
 </div>
 
 <div id="notes[show]" class="data-group">
-  {if $notesCount}
-    <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Contact Notes</label> ({$notesCount})<br />
+  {if $noteTotalCount}
+    <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Contact Notes</label> ({$noteTotalCount})<br />
   {else}
     <dl><dt>Contact Notes</dt><dd>No notes. Use the <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">Notes tab</a> to add them.</dd></dl>
   {/if}
 </div>
 
 <div id="notes">
-{if $notesCount}
+{if $note}
   <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a> Contact Notes</legend>
        {strip}
        <table>
@@ -228,7 +228,7 @@
        
        <div class="action-link">
         <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">New Note</a>
-        {if $notesCount gt 3 }
+        {if $noteTotalCount gt 3 }
          | <a href="{crmURL p='civicrm/contact/view/note' q='action=browse'}">All notes...</a>
         {/if}
        </div>

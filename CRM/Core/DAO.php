@@ -259,12 +259,8 @@ class CRM_Core_DAO extends DB_DataObject {
         $fields =& $this->fields( );
         foreach ( $fields as $name => &$value ) {
             if ( array_key_exists( $name, $params ) ) {
-                // the strlen check is needed since the param may be a zero length null string
-                // "", this then gets copied to the DAO.
-                // and the null string when entered into MySQL gets converted to a '0' which is incorrect behaviour.
-                if (strlen($params[$name])) {
-                    $this->$name = $params[$name];
-                }
+                // if there is no value then make the variable NULL
+                $this->$name = ($params[$name]) ? $params[$name]:'NULL';
             }
         }
     }

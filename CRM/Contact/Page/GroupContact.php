@@ -50,11 +50,11 @@ class CRM_Contact_Page_GroupContact {
   
         $contactId   = $page->getContactId( );
 
-        $count = self::getContactGroup($contactId);
+        $count = CRM_Contact_BAO_GroupContact::getContactGroup($contactId);
         
-        $aGroupIn = self::getContactGroup($contactId, 'In' );
-        $aGroupPending = self::getContactGroup($contactId, 'Pending' );
-        $aGroupOut = self::getContactGroup($contactId, 'Out' );
+        $aGroupIn = CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'In' );
+        $aGroupPending = CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'Pending' );
+        $aGroupOut = CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'Out' );
 
         $page->assign( 'groupCount', $count );
         $page->assign( 'groupIn', $aGroupIn );
@@ -122,59 +122,7 @@ class CRM_Contact_Page_GroupContact {
         self::browse( $page );
     }
 
-    /**
-     * function to get the list of groups for contact based on status of membership
-     *
-     * @param int $contactId contact id 
-     * @param string $status state of membership
-     *
-     * @return array|int $values is array when there the values the should be displayed in the listing
-     *                    or $count is int when only count is returned
-     *
-     * $access public
-     */
-    function getContactGroup( $contactId, $status = null ) {
-        $groupContact = new CRM_Contact_DAO_GroupContact( );
-     
-        $strSelect = "SELECT crm_group_contact.id as crm_group_contact_id, crm_group.title as crm_group_title,
-                             crm_group_contact.in_date as in_date, crm_group_contact.out_date as out_date,
-                             crm_group_contact.pending_date as pending_date, crm_group_contact.status as status,
-                             crm_group_contact.pending_method as pending_method, crm_group_contact.in_method as in_method,
-                             crm_group_contact.out_method as out_method";
-
-        $strFrom = " FROM crm_group, crm_group_contact ";
-
-        $strWhere = " WHERE crm_group.id = crm_group_contact.group_id
-                          AND crm_group_contact.contact_id = ".$contactId;
-        
-        if (strlen($status)) {
-            $strWhere .= " AND crm_group_contact.status = '".$status."'";
-        }    
-
-        $strSql = $strSelect.$strFrom.$strWhere;
-
-        $groupContact->query($strSql);
-     
-        $count = 0;
-        while ( $groupContact->fetch() ) {
-            
-            $values[$groupContact->crm_group_contact_id]['id'] = $groupContact->crm_group_contact_id;
-            $values[$groupContact->crm_group_contact_id]['title'] = $groupContact->crm_group_title;
-            $values[$groupContact->crm_group_contact_id]['in_date'] = $groupContact->in_date;
-            $values[$groupContact->crm_group_contact_id]['out_date'] = $groupContact->out_date;
-            $values[$groupContact->crm_group_contact_id]['pending_method'] = $groupContact->pending_method;
-            $values[$groupContact->crm_group_contact_id]['in_method'] = $groupContact->in_method;
-            $values[$groupContact->crm_group_contact_id]['out_method'] = $groupContact->out_method;
-
-            $count++;
-        }
-
-        if (!strlen($status)) { 
-            return $count;
-        }
-        return $values;
-    }
-
+ 
     /*
      * function to remove/ rejoin the group
      *
