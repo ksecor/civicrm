@@ -1,6 +1,5 @@
 {* Advanced Search Criteria Fieldset *}
 <fieldset>
-{$hideBlocks}
     <legend><span id="searchForm[hide]"><a href="#" onClick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a></span>
         {if $context EQ 'smog'}Find Members of this Group
         {elseif $context EQ 'amtg'}Find Contacts to Add to this Group
