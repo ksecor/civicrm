@@ -1,20 +1,20 @@
 {* this template is used for adding/editing tags  *}
 
 <form {$form.attributes}>
-<fieldset><legend>{t}Tags{/t}</legend>
+<fieldset><legend>{ts}Tags{/ts}</legend>
     <p>
     {if $action eq 4}
-        {t}Current tags for <strong>{$displayName}</strong> are highlighted. You can
-        add or remove tags from <a href="{crmURL p='civicrm/contact/view/tag' q='action=update'}">Edit Tags</a>.{/t}
+        {ts}Current tags for <strong>{$displayName}</strong> are highlighted. You can
+        add or remove tags from <a href="{crmURL p='civicrm/contact/view/tag' q='action=update'}">Edit Tags</a>.{/ts}
     {else}
-        {t}Mark or unmark the checkboxes, and click
-        'Update Tags' to modify tags.{/t}
+        {ts}Mark or unmark the checkboxes, and click
+        'Update Tags' to modify tags.{/ts}
     {/if}
     </p>
     
       {foreach from=$category item="row" key = "id"}
         <div class="form-item {if $action eq 4 AND $form.categoryList[$id].value}label{/if}">
-         {t}{$form.categoryList[$id].html} &nbsp;{$row}{/t}
+         {ts}{$form.categoryList[$id].html} &nbsp;{$row}{/ts}
         </div>
       {/foreach}
 
