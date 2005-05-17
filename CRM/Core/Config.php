@@ -112,6 +112,31 @@ class CRM_Core_Config {
     public $cleanURL = false;
 
     /**
+     * Locale for the application to run with.
+     * @var string
+     */
+    public $lcMessages = 'en_US';
+
+    /**
+     * Default encoding of strings returned by gettext
+     * @var string
+     */
+    public $gettextCodeset = 'utf-8';
+
+
+    /**
+     * Default name for gettext domain.
+     * @var string
+     */
+    public $gettextDomain = 'civicrm';
+
+    /**
+     * Default location of gettext resource files.
+     */
+    public $gettextResourceDir = './l10n';
+
+
+    /**
      * The handle to the log that we are using
      * @var object
      */
@@ -193,6 +218,22 @@ class CRM_Core_Config {
             $this->cleanURL = CRM_CLEANURL;
         }
 
+	if ( defined( 'CRM_LC_MESSAGES' ) ) {
+	    $this->lcMessages = CRM_LC_MESSAGES;
+	}
+
+	if ( defined( 'CRM_GETTEXT_CODESET' ) ) {
+	    $this->gettextCodeset = CRM_GETTEXT_CODESET;
+	}
+
+	if ( defined( 'CRM_GETTEXT_DOMAIN' ) ) {
+	    $this->gettextDomain = CRM_GETTEXT_DOMAIN;
+	}
+
+	if ( defined( 'CRM_GETTEXT_RESOURCE_DIR' ) ) {
+	    $this->gettextResourceDir = CRM_GETTEXT_RESOURCE_DIR;
+	}
+
         // initialize the framework
         $this->init();
     }
@@ -214,7 +255,7 @@ class CRM_Core_Config {
     /**
      * initialize the DataObject framework
      *
-     * @ereturn void
+     * @return void
      * @access private
      */
     function initDAO() {
