@@ -123,7 +123,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
                                             '{$field.name}' => array( 
                                                                       'type'      => {$field.crmType},
 {if $field.title}
-                                                                      'title'     => '{$field.title}',
+                                                                      'title'     => ts('{$field.title}'),
 {/if}
 {if $field.required}
 					                              'required'  => {$field.required},
