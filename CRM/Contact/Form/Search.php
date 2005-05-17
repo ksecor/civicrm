@@ -343,7 +343,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         
         $fv = $this->controller->exportValues($this->_name);
         $selector = new CRM_Contact_Selector($fv, $this->_mode);
-        $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
+        $controller = new CRM_Core_Selector_Controller($selector ,
+                                                       $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                       $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                       CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
         $controller->setEmbedded( true );
         if ( $controller->hasChanged( $this->_reset ) ||
              $this->_force ) {
@@ -353,7 +356,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
              * values that potentially change the controller behavior. i.e. things
              * like totalCount etc
              */
-            $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
+            $controller = new CRM_Core_Selector_Controller($selector ,
+                                                           $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                           $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                           CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
             $controller->setEmbedded( true );
         }
         $controller->moveFromSessionToTemplate( );
@@ -435,7 +441,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
             // create the selector, controller and run - store results in session
             $selector = new CRM_Contact_Selector($this->_formValues, $this->_mode);
-            $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, $output );
+            $controller = new CRM_Core_Selector_Controller($selector ,
+                                                           $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                           $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                           CRM_Core_Action::VIEW, $this, $output );
             $controller->setEmbedded( true );
             $controller->run();
         }

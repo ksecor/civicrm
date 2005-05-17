@@ -175,7 +175,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $groupContact->contact_id = $contactId;
             // check if the selected contact id already a member
             // if not a member remove to groupContact else keep the count of contacts that are not removed
-            if ( $groupContact->find( ) ) {
+            if ( $groupContact->find( true ) ) {
                 // remove the contact from the group
                 $groupContact->status     = 'Out';
                 $groupContact->out_method = 'Admin';

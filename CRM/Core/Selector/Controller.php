@@ -244,10 +244,12 @@ class CRM_Core_Selector_Controller {
             return false;
         }
 
-        /*
+        /**
+        CRM_Core_Error::debug( 'P', $_POST );
+        echo "Current page ID: " . $this->_pager->getCurrentPageID( ) . ', ' . $this->_store->get( CRM_Utils_Pager::PAGE_ID ) . "<p>";
         echo "Current Sort ID: " . $this->_sort->getCurrentSortID ( ) . '_' . $this->_sort->getCurrentSortDirection ( ) . "<p>";
         echo "Stored Sort ID: " . $this->_store->get( CRM_Utils_Sort::SORT_ID  ) . '_' . $this->_store->get( CRM_Utils_Sort::SORT_DIRECTION ) . "<p>";
-        */
+        **/
 
         if ( $this->_store->get( CRM_Utils_Pager::PAGE_ID       ) != $this->_pager->getCurrentPageID       ( ) ||
              $this->_store->get( CRM_Utils_Sort::SORT_ID        ) != $this->_sort->getCurrentSortID        ( ) || 

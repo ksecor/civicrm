@@ -165,6 +165,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             }
             $andArray['group'] = rtrim($andArray['group'], ",");
             $andArray['group'] .= "))";
+            $andArray['groupStatus'] = 'crm_group_contact.status = "In"';
             $strFrom .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
         }
 
@@ -292,6 +293,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // building the query string
         $queryString = $strSelect . $strFrom . $strWhere . $strOrder . $strLimit;
+
+        // CRM_Core_Error::debug( 'qs', $queryString );
 
         $this->query($queryString);
 
