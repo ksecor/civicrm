@@ -41,7 +41,7 @@ class CRM_Contact_Page_Tag {
         // set the userContext stack
         $session = CRM_Core_Session::singleton();
         $config  = CRM_Core_Config::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/tag', 'action=view' ) );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/tag', 'action=browse' ) );
 
         $controller->reset( );
         $controller->set( 'contactId'  , $page->getContactId( ) );
@@ -51,7 +51,7 @@ class CRM_Contact_Page_Tag {
     }
 
     static function run( $page ) {
-        $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'view' );
+        $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
         $page->assign( 'action', $action );
         self::browse( $page, $action );
     }

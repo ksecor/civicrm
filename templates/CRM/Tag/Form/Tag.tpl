@@ -19,7 +19,7 @@
       {/foreach}
 
     {* Show Edit Tags link if in View mode *}
-    {if $action eq 4}
+    {if $action eq 16}
         <div class="action-link">
           <a href="{crmURL p='civicrm/contact/view/tag' q='action=update'}">&raquo; Edit Tags</a>
         </div>

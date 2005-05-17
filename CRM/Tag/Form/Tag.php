@@ -81,7 +81,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         
         $this->assign('category', $allCategory);
 
-        if ( $this->_mode & self::MODE_VIEW ) {
+        if ( $this->_mode & CRM_Core_Action::BROWSE ) {
             $this->freeze();
         } else {
 
