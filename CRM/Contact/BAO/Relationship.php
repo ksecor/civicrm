@@ -97,8 +97,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         // add where clause 
         $str_where1 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
-                         AND crm_relationship.contact_id_b = ".$params['contact_id']." 
-                         AND crm_relationship.contact_id_a = crm_contact.id )
+                         AND crm_relationship.contact_id_a = ".$params['contact_id']." 
+                         AND crm_relationship.contact_id_b = crm_contact.id )
                          UNION ";
 
         $str_select2 = " (SELECT crm_relationship.id as crm_relationship_id,
@@ -128,8 +128,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         // add where clause 
         $str_where2 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
-                         AND crm_relationship.contact_id_a = ".$params['contact_id']." 
-                         AND crm_relationship.contact_id_b = crm_contact.id)";
+                         AND crm_relationship.contact_id_b = ".$params['contact_id']." 
+                         AND crm_relationship.contact_id_a = crm_contact.id)";
 
 
         $str_order = " ORDER BY crm_relationship_id ";
