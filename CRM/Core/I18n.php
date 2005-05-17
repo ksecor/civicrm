@@ -48,40 +48,39 @@ class CRM_Core_I18n {
      *
      * @access private
      */
-    function __construct( ) {
-	if (function_exists( 'gettext' ) ) {
-            $config = CRM_Core_Config::singleton( );
-	    setlocale(LC_MESSAGES, $config->lcMessages);
-	    bindtextdomain($config->gettextDomain, $config->gettextResourceDir);
-	    bind_textdomain_codeset($config->gettextDomain, $config->gettextCodeset);
-	    textdomain($config->gettextDomain);
+    function __construct()
+    {
+        if (function_exists('gettext')) {
+            $config = CRM_Core_Config::singleton();
+            setlocale(LC_MESSAGES, $config->lcMessages);
+            bindtextdomain($config->gettextDomain, $config->gettextResourceDir);
+            bind_textdomain_codeset($config->gettextDomain, $config->gettextCodeset);
+            textdomain($config->gettextDomain);
         }
     }
-
 
     /**
      * Replace arguments in a string with their values. Arguments are represented by % followed by their number.
      *
-     * @param	string	Source string
-     * @param	mixed	Arguments, can be passed in an array or through single variables.
-     * @returns	string	Modified string
+     * @param   string Source string
+     * @param   mixed  Arguments, can be passed in an array or through single variables.
+     * @returns string Modified string
      */
-    function strarg($str) {
-    	$tr = array();
+    function strarg($str)
+    {
+        $tr = array();
         $p = 0;
-
-        for ($i=1; $i < func_num_args(); $i++) {
+        for ($i = 1; $i < func_num_args(); $i++) {
             $arg = func_get_arg($i);
-		
-	    if (is_array($arg)) {
+            if (is_array($arg)) {
                 foreach ($arg as $aarg) {
                     $tr['%'.++$p] = $aarg;
-		}
+                }
             } else {
-		$tr['%'.++$p] = $arg;
-	    }
-	}
-	return strtr($str, $tr);
+                $tr['%'.++$p] = $arg;
+            }
+        }
+        return strtr($str, $tr);
     }
 
     /**
@@ -89,7 +88,7 @@ class CRM_Core_I18n {
      *
      * The block content is the text that should be translated.
      *
-     * Any parameter that is sent to the function will be represented as %n in the translation text, 
+     * Any parameter that is sent to the function will be represented as %n in the translation text,
      * where n is 1 for the first parameter. The following parameters are reserved:
      *   - escape - sets escape mode:
      *       - 'html' for HTML escaping, this is the default.
@@ -98,62 +97,67 @@ class CRM_Core_I18n {
      *   - plural - The plural version of the text (2nd parameter of ngettext())
      *   - count - The item count for plural mode (3rd parameter of ngettext())
      */
-     function crm_translate( $text, $params ) {
-	$text = stripslashes($text);
-	
-	// set escape mode
-	if (isset($params['escape'])) {
-	    $escape = $params['escape'];
-	    unset($params['escape']);
-	}
-	
-	// set plural version
-	if (isset($params['plural'])) {
-	    $plural = $params['plural'];
-	    unset($params['plural']);
-		
-	    // set count
-	    if (isset($params['count'])) {
+    function crm_translate($text, $params)
+    {
+        $text = stripslashes($text);
+
+        // set escape mode
+        if (isset($params['escape'])) {
+            $escape = $params['escape'];
+            unset($params['escape']);
+        }
+
+        // set plural version
+        if (isset($params['plural'])) {
+            $plural = $params['plural'];
+            unset($params['plural']);
+
+            // set count
+            if (isset($params['count'])) {
                 $count = $params['count'];
-	//	unset($params['count']);
-	    }
-	}
-	
-	// use plural if required parameters are set
-	if (isset($count) && isset($plural)) {
+            }
+        }
 
-		if (function_exists('ngettext')) {
-			$text = ngettext($text, $plural, $count);
-		// if there's no gettext support, we have to do ngettext work by hand
-		// if $count == 1 then $text == $text, else $text == $plural
-		} else {
-			if ($count != 1) {
-				$text = $plural;
-			}
-		}
-		$text = strtr($text, array("%count" => $count));
+        // use plural if required parameters are set
+        if (isset($count) && isset($plural)) {
 
-	} else { // use normal
+            // if there's gettext support, use it
+            if (function_exists('ngettext')) {
+                $text = ngettext($text, $plural, $count);
 
-		if (function_exists('gettext')) {
-			$text = gettext($text);
-		}
+            // if there's no gettext support, we have to do ngettext work by hand
+            // if $count == 1 then $text = $text, else $text = $plural
+            } else {
+                if ($count != 1) {
+                    $text = $plural;
+                }
+            }
 
-	}
+            // expand %count in translated string to $count
+            $text = strtr($text, array('%count' => $count));
 
-	// run strarg if there are parameters
-	if (count($params)) {
-	    $text = $this->strarg($text, $params);
+        // use normal gettext() if present, otherwise $text = $text
+        } else {
+
+            if (function_exists('gettext')) {
+                $text = gettext($text);
+            }
+        
+        }
+
+        // run strarg if there are parameters
+        if (count($params)) {
+            $text = $this->strarg($text, $params);
         }
 
         // FIXME escaped until escaping issue is sorted out
         // if (!isset($escape) || $escape == 'html') { // html escape, default
         //     $text = nl2br(htmlspecialchars($text));
         // } elseif (isset($escape) && ($escape == 'javascript' || $escape == 'js')) { // javascript escape
-        // $text = str_replace('\'','\\\'',stripslashes($text));
+        //     $text = str_replace('\'','\\\'',stripslashes($text));
         // }
 
-	return $text;
+        return $text;
     }
 
     /**
@@ -162,8 +166,9 @@ class CRM_Core_I18n {
      * Method providing static instance of SmartTemplate, as
      * in Singleton pattern.
      */
-    static function singleton( ) {
-        if ( ! isset( self::$_singleton ) ) {
+    static function singleton()
+    {
+        if (!isset(self::$_singleton)) {
             self::$_singleton = new CRM_Core_I18n();
         }
         return self::$_singleton;
@@ -172,9 +177,10 @@ class CRM_Core_I18n {
 }
 
 // function defined in global scope so it will be available everywhere
-function ts( $text, $params = array() ) {
-   $i18n = CRM_Core_I18n::singleton( );
-   return $i18n->crm_translate( $text, $params );
+function ts($text, $params = array())
+{
+    $i18n = CRM_Core_I18n::singleton();
+    return $i18n->crm_translate($text, $params);
 }
 
 ?>
