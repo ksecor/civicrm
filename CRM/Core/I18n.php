@@ -115,7 +115,7 @@ class CRM_Core_I18n {
 	    // set count
 	    if (isset($params['count'])) {
                 $count = $params['count'];
-		unset($params['count']);
+	//	unset($params['count']);
 	    }
 	}
 	
@@ -131,6 +131,7 @@ class CRM_Core_I18n {
 				$text = $plural;
 			}
 		}
+		$text = strtr($text, array("%count" => $count));
 
 	} else { // use normal
 

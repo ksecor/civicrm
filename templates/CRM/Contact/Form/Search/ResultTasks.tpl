@@ -2,11 +2,10 @@
 
  <div id="search-status">
   {if $savedSearch.name}{$savedSearch.name} (saved search) - {/if}
-    Found {$pager->_totalItems} 
     {if $context EQ 'smog'}
-      group members
+      {ts count=$pager->_totalItems plural='Found %count group members'}Found %count group member{/ts}
    {else}
-      contacts
+      {ts count=$pager->_totalItems plural='Found %count contacts'}Found %count contact{/ts}
   {/if}
   {if $qill}<ul>
     {foreach from=$qill item=criteria}
