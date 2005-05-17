@@ -1,5 +1,9 @@
 {if $action eq 1 or $action eq 2}
-   {include file="CRM/Admin/Form/LocationType.tpl"}	
+   {include file="CRM/Admin/Form/LocationType.tpl"}
+{else}
+    <div id="help">
+    {ts}Viewing Lcation Type. You can create Location Type as per your need.{/ts}
+    </div>
 {/if}
 <div id="ltype">
  <p>
@@ -30,7 +34,7 @@
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL q="action=add&reset=1"}">{ts}New Location Type{/ts}</a>
+    	 <a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Location Type{/ts}</a>
        </div>
        {/if}
     </div>

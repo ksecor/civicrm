@@ -1,5 +1,9 @@
 {if $action eq 1 or $action eq 2}
-   {include file="CRM/Admin/Form/MobileProvider.tpl"}	
+   {include file="CRM/Admin/Form/MobileProvider.tpl"}
+{else}    
+    <div id="help">
+    {ts}Viewing Mobile Providers. You can create Mobile Providers as per your need{/ts}
+    </div>
 {/if}
 
 <div id="mobprovider">
@@ -27,7 +31,7 @@
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL q="action=add&reset=1"}">{ts}New Mobile Phone Provider{/ts}</a>
+    	 <a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Mobile Phone Provider{/ts}</a>
        </div>
        {/if}
     </div>

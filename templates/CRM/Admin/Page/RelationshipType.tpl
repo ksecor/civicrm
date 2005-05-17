@@ -1,5 +1,9 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
    {include file="CRM/Admin/Form/RelationshipType.tpl"}	
+{else}    
+    <div id="help">
+    {ts}Viewing Relationship Types. You can add (create) Relationship Types as per your need{/ts}
+    </div>
 {/if}
 <div id="ltype">
  <p>
@@ -30,7 +34,7 @@
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL q="action=add&reset=1"}">{ts}New Relationship Type{/ts}</a>
+    	 <a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Relationship Type{/ts}</a>
        </div>
        {/if}
     </div>

@@ -1,17 +1,17 @@
 {* template for custom data *}
 {if $contactType eq 'Individual'}
     {if $action eq 1 or $action eq 2}
+        <p><div id="custom-data" class="label">Editing Custom Groups</div>
         {include file="CRM/Contact/Form/CustomData.tpl"}
+        </p>
     {/if}
 
     {strip}
     {if $action eq 16 or $action eq 4}
-    
-    <div class="form-item">
     <p>
-    <a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update"}">Edit custom data</a>
-    </p>
+    <div id="custom-data" class="label">Existing Custom Groups</div>   
 
+    <div class="form-item">
     {foreach from=$groupTree item=cd_view}
     <fieldset><legend>{$cd_view.title}</legend>
         {foreach from=$cd_view.fields item=cd_value_view}
@@ -32,15 +32,19 @@
     </fieldset>
     {/foreach}
     
+    <div class="action-link">
+    <a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update"}">&raquo; Edit custom data</a>
     </div>
-    
+    </div>
+    </p>
+
     {/if}
     {/strip}
 {else}
     <div class="mesage status">
     <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
-    <dd>No Custom Groups for this Contact</dd>
+    <dd>There are no Custom Groups for <span class="label">{$contactType}</span>.</dd>
     </dl>
     </div>
 {/if}

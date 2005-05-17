@@ -24,13 +24,14 @@
     </fieldset>
 </div>
 </form>
+{else}
+    <div id="help">{ts}Viewing Custom Groups{/ts}</div>
 {/if}
 
 {if $rows}
 <div id="notes">
 <p>
     <div class="form-item">
-    <div id="help">{ts}Viewing Custom Groups{/ts}</div>
     {strip}
     <table>
     <tr class="columnheader">
