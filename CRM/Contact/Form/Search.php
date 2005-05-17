@@ -373,7 +373,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         /* after every search form is submitted we save the following in the session
          *     - type of search 'type'
          *     - submitted form values 'formValues'
-         *     - task query 'tq'
          *     - QILL 'qill'
          */
         
@@ -418,6 +417,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
     function postProcessCommon( ) {
         $session = CRM_Core_Session::singleton();
+
         $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);
         $session->set('formValues', $this->_formValues, self::SESSION_SCOPE_SEARCH);
 

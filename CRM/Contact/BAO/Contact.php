@@ -299,6 +299,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $row = $this->getDatabaseResult()->fetchRow();
             return $row[0];
         }
+
         return $this;
     }
 

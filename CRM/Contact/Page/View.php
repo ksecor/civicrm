@@ -62,7 +62,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         // if we have switched modes we set the action to browse always
         // this is primarily because we retain state across tabs but want
         // to reset the action
-        if ( isset( $prevMode ) && $prevMode != $mode ) {
+        if ( isset( $prevMode ) && $prevMode != $this->_mode ) {
             $this->set( 'action', 16 );
         }
         $this->set( 'mode', $this->_mode );

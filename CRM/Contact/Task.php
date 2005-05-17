@@ -39,17 +39,19 @@
 class CRM_Contact_Task {
     const
         GROUP_CONTACTS      =   1,
-        TAG_CONTACTS        =   2,
-        DELETE_CONTACTS     =   4,
-        PRINT_CONTACTS      =   8,
+        REMOVE_CONTACTS     =   2,
+        TAG_CONTACTS        =   4,
+        DELETE_CONTACTS     =   8,
         SAVE_SEARCH         =  16,
-        SAVE_SEARCH_UPDATE  =  32;
+        SAVE_SEARCH_UPDATE  =  32,
+        PRINT_CONTACTS      =  64;
 
     static $tasks = array(
-                           1  => 'Add Contacts to a Group',
-                           2  => 'Tag Contacts (assign category)',
-                           4  => 'Delete Contacts',
-                           16 => 'New Saved Search',
+                          1   => 'Add Contacts to a Group',
+                          2   => 'Remove Contacts from a Group',
+                          4   => 'Tag Contacts (assign category)',
+                          8   => 'Delete Contacts',
+                          16  => 'New Saved Search',
                           );
 
     static $optionalTasks = array(

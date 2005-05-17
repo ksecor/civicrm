@@ -36,7 +36,7 @@
  * contacts. This class provides functionality for the actual
  * addition of contacts to groups.
  */
-class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
+class CRM_Contact_Form_Task_RemoveFromGroup extends CRM_Contact_Form_Task {
     /**
      * The context that we are working on
      *
@@ -94,15 +94,15 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
             $this->assign_by_ref( 'group', $groupValues );
         }
          
-        // Set dynamic page title for 'Add Members Group (confirm)'
+        // Set dynamic page title for 'Remove Members Group (confirm)'
         if ( $this->_id ) {
-            CRM_Utils_System::setTitle( 'Add Members: ' . $this->_title );
+            CRM_Utils_System::setTitle( 'Remove Members: ' . $this->_title );
         }
         else {
-            CRM_Utils_System::setTitle( 'Add Members to A Group ');
+            CRM_Utils_System::setTitle( 'Remove Members from Group ');
         }
 
-        $this->addDefaultButtons( 'Add To Group' );
+        $this->addDefaultButtons( 'Remove From Group' );
     }
 
     /**
@@ -127,21 +127,21 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
-        $groupId    = $this->controller->exportValue( 'AddToGroup', 'group_id'  );
+        $groupId    = $this->controller->exportValue( 'RemoveFromGroup', 'group_id'  );
         
-        list( $total, $added, $notAdded ) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $this->_contactIds, $groupId );
+        list( $total, $removed, $notRemoved ) = CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $this->_contactIds, $groupId );
         $status = array(
-                        'Added Contact(s) to '         . $this->_title,
+                        'Removed Contact(s) from '     . $this->_title,
                         'Total Selected Contact(s): '  . $total
                         );
-        if ( $added ) {
-            $status[] = 'Total Contact(s) added to group: ' . $added;
+        if ( $removed ) {
+            $status[] = 'Total Contact(s) removed from group: ' . $removed;
         }
-        if ( $notAdded ) {
-            $status[] = 'Total Contact(s) already in group: ' . $notAdded;
+        if ( $notRemoved ) {
+            $status[] = 'Total Contact(s) not in group: ' . $notRemoved;
         }
         CRM_Core_Session::setStatus( $status );
-        
+
     }//end of function
 
 

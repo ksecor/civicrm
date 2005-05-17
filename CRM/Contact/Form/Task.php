@@ -64,14 +64,12 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
      */
     function preProcess( ) 
     {
-        $session = CRM_Core_Session::singleton( );        
-        
         $this->_contactIds = array( );
 
         // get the submitted values of the search form
         // we'll need to get fv from either search or adv search in the future
         $values = $this->controller->exportValues( 'Search' );
-
+        
         $this->_task = $values['task'];
         $this->assign( 'taskName', CRM_Contact_Task::$tasks[$this->_task] );
 
@@ -79,11 +77,15 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
         if (($values['radio_ts'] == 'ts_all') || ($this->_task == CRM_Contact_Task::SAVE_SEARCH)) {
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
-            $taskQuery = $session->get('tq', CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-            $dao = new CRM_Core_DAO();
-            $dao->query($taskQuery);
-            while($dao->fetch()) {
-                $this->_contactIds[] = $dao->contact_id;
+            $contact = new CRM_Contact_BAO_Contact();
+            if ( $this->_mode == CRM_Core_Form::MODE_BASIC ) {
+                $fv = $this->controller->exportValues('Search');
+            } else {
+                $fv = $this->controller->exportValues('Advanced');
+            }
+            $result = $contact->searchQuery( $fv, 0, 0, null );
+            while ( $result->fetch( ) ) {
+                $this->_contactIds[] = $result->contact_id;
             }
         } else if($values['radio_ts'] == 'ts_sel') {
             // selected contacts only

@@ -66,6 +66,13 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     protected $_entityType;
 
     /**
+     * the group tree data
+     *
+     * @var array
+     */
+    protected $_groupTree;
+
+    /**
      * pre processing work done here.
      *
      * gets session variables for table name, id of entity in table, type of entity and stores them.
@@ -81,6 +88,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->_tableName  = $this->get('tableName');
         $this->_tableId    = $this->get('tableId');
         $this->_entityType = $this->get('entityType');
+        
+        // gets all details of group tree for entity
+        $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
     }
 
     /**
@@ -91,15 +101,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-
-        CRM_Core_Error::le_method();
-        
-        // gets all details of group tree for entity
-        $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
-        $this->assign('groupTree', $groupTree);
+        $this->assign('groupTree', $this->_groupTree);
 
         // add the form elements
-        foreach ($groupTree as $group) {
+        foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 $fieldId = $field['id'];                
@@ -175,11 +180,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
-        $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
 
-        // CRM_Core_Error::debug( 'GT', $groupTree );
-
-        foreach ($groupTree as $group) {
+        foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 $fieldId = $field['id'];
@@ -211,45 +213,43 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     public function postProcess() 
     {
 
-        CRM_Core_Error::le_method();
-
         // Get the form values and groupTree
         $fv = $this->exportValues();
-        $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
-        
+        CRM_Core_Error::debug( 'fv', $fv );
+
         // update group tree with form values
-        // CRM_Core_Error::debug ( 'fv', $fv );
         foreach ($fv as $k => $v) {
             list($groupId, $fieldId, $elementName) = explode('_', $k, 3);
             
             // check if field exists (since form values will contain other elements besides the custom data fields.
-            if (isset($groupTree[$groupId]['fields'][$fieldId]) && $groupTree[$groupId]['fields'][$fieldId]['name'] == $elementName) {
-                if (isset( $v ) ) {
-                    if ( ! isset($groupTree[$groupId]['fields'][$fieldId]['customValue'] ) ) {
-                        // field exists in db so populate value from "form".
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
-                    }
-                    switch ( $groupTree[$groupId]['fields'][$fieldId]['html_type'] ) {
-                    case 'Radio':
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = ( $v == 'yes' ) ? 1 : 0;
-                        break;
+            if (isset($v) &&
+                isset($this->_groupTree[$groupId]['fields'][$fieldId]) &&
+                $this->_groupTree[$groupId]['fields'][$fieldId]['name'] == $elementName) {
+                if ( ! isset($this->_groupTree[$groupId]['fields'][$fieldId]['customValue'] ) ) {
+                    // field exists in db so populate value from "form".
+                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
+                }
 
-                    case 'Select Date':
-                        $v['M'] = ( $v['M'] < 10 ) ? '0' . $v['M'] : $v['M'];
-                        $v['d'] = ( $v['d'] < 10 ) ? '0' . $v['d'] : $v['d'];
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v['Y'] . $v['M'] . $v['d'];
-                        break;
-
-                    default:
-                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
-                        break;
-                    }
+                switch ( $this->_groupTree[$groupId]['fields'][$fieldId]['html_type'] ) {
+                case 'Radio':
+                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = ( $v == 'yes' ) ? 1 : 0;
+                    break;
+                    
+                case 'Select Date':
+                    $v['M'] = ( $v['M'] < 10 ) ? '0' . $v['M'] : $v['M'];
+                    $v['d'] = ( $v['d'] < 10 ) ? '0' . $v['d'] : $v['d'];
+                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v['Y'] . $v['M'] . $v['d'];
+                    break;
+                    
+                default:
+                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
+                    break;
                 }
             }
         }
+
         // do the updates/inserts
-        // CRM_Core_Error::debug( 'GT', $groupTree );
-        CRM_Core_BAO_CustomGroup::updateCustomData($groupTree, $this->_tableId);
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, $this->_tableId);
     }
 }
 

@@ -133,7 +133,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->add('textarea', 'help_pre', ts('Help Pre'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_pre'));        
         $this->add('textarea', 'help_post', ts('Help Post'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_post'));        
         $this->add('text', 'mask', ts('Mask'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'mask'));        
-        $this->add('text', 'attributes', ts('Attributes'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'attributes'));       
+        
+        // hack: we use fattributes since QF uses attributes variable for the form!
+        $this->add('text', 'fattributes', ts('Attributes'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'attributes'));       
         $this->add('text', 'javascript', ts('Javascript'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'javascript'));       
         
         // is active ?
@@ -165,7 +167,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
-        
+
         // set values for object properties
         $customField                = new CRM_Core_DAO_CustomField( );
         $customField->label         = $params['label'];
@@ -177,7 +179,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->help_pre      = $params['help_pre'];
         $customField->help_post     = $params['help_post'];
         $customField->mask          = $params['mask'];
-        $customField->attributes    = $params['attributes'];
+        $customField->attributes    = $params['fattributes'];
         $customField->javascript    = $params['javascript'];
         $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
         $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
@@ -185,10 +187,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         if ($this->_mode & self::MODE_UPDATE) {
             $customField->id = $this->_id;
         }
+
         $customField->custom_group_id = $this->_gid;
         $customField->save();
+
         CRM_Core_Session::setStatus( ts('Your custom field - \' %1 \' has been saved', 
-					array( 1 => $customField->label ) ) );
+                                        array( 1 => $customField->label ) ) );
     }
 }
 ?>

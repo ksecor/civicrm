@@ -219,7 +219,6 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         $session = CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) ) );
         
-        $controller->reset( );
         if ( $id ) {
             $controller->set( 'id'   , $id );
         }
@@ -240,7 +239,6 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ),
                                                           $this->userContextParams( $mode ) ) );
 
-        $controller->reset( );
         if ( $id ) {
             $controller->set( 'id'   , $id );
         }

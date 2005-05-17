@@ -100,27 +100,22 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      *
      * editing would involved modifying existing fields + adding data to new fields.
      *
-     * @param none
-     * @returns none
-     * @access public
-     * @static
-     */
-    function edit()
-    {
+     * @param string $action the action to be invoked
 
-        // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', $this, false, 'add'); // default to 'add'
-        
+     * @return none
+     * @access public
+     */
+    function edit( $action )
+    {
         // create a simple controller for editing custom data
         $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Field', ts('Custom Field'), $action);
-        $controller->setEmbedded(true);
 
         // set the userContext stack
         $session = CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/group/', 'action=browse'));
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/', 'action=browse'));
         
-        $controller->reset();
         $controller->set('gid', $this->_gid);
+        $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
     }
@@ -155,13 +150,12 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
-            // update, add and view  are handled by 'edit'
-            //self::edit();
-            $this->edit();
+            $this->edit( $action );
         } else {
             $this->browse();
         }
-        // call the parents run method
+
+        // Call the parents run method
         parent::run();
     }
 }

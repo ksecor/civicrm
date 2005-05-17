@@ -141,7 +141,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 // add the contact to group
                 $groupContact->status    = 'In';
                 $groupContact->in_method = 'Admin';
-                $groupContact->in_date   = $in_date;
+                $groupContact->in_date   = $date;
                 $groupContact->save( );
                 $numContactsAdded++;
             } else {
@@ -150,6 +150,44 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
 
         return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
+    }
+
+
+    /**
+     * Given an array of contact ids, remove all the contacts from the group 
+     *
+     * @param array  $contactIds (reference ) the array of contact ids to be removed
+     * @param int    $groupId    the id of the group
+     *
+     * @return array             (total, removed, notRemoved) count of contacts removed to group
+     * @access public
+     * @static
+     */
+    static function removeContactsFromGroup( &$contactIds, $groupId ) {
+        $date = date('Ymd');
+
+        $numContactsRemoved    = 0;
+        $numContactsNotRemoved = 0;
+
+        foreach ( $contactIds as $contactId ) {
+            $groupContact = new CRM_Contact_DAO_GroupContact( );
+            $groupContact->group_id   = $groupId;
+            $groupContact->contact_id = $contactId;
+            // check if the selected contact id already a member
+            // if not a member remove to groupContact else keep the count of contacts that are not removed
+            if ( $groupContact->find( ) ) {
+                // remove the contact from the group
+                $groupContact->status     = 'Out';
+                $groupContact->out_method = 'Admin';
+                $groupContact->out_date   = $date;
+                $groupContact->save( );
+                $numContactsRemoved++;
+            } else {
+                $numContactsNotRemoved++;
+            }
+        }
+
+        return array( count($contactIds), $numContactsRemoved, $numContactsNotRemoved );
     }
 
 
