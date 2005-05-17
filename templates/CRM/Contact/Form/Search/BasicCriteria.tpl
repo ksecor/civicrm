@@ -18,7 +18,7 @@
      <span class="element-right">{$form._qf_Search_refresh_search.html}</span>
      <div class="description font-italic">
         <span class="horizontal-position">
-        Full or partial name (last name, or first name, or organization name).
+        {ts}Full or partial name (last name, or first name, or organization name).{/ts}
         </span>
      </div>
      <p>

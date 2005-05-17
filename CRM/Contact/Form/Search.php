@@ -241,7 +241,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->add('select', 'contact_type', 'Find... ', CRM_Core_SelectValues::$contactType);
 
         // add select for groups
-        $group               = array('' => ' - any group - ') + $this->_group;
+        $group               = array('' => ts(' - any group - ')) + $this->_group;
         $this->_groupElement = $this->add('select', 'group', 'in', $group);
 
         // add select for categories
