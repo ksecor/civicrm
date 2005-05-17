@@ -1,14 +1,14 @@
 {* this template is used for adding/editing relationships  *}
 
 <form {$form.attributes}>
-<fieldset><legend>{if $action eq 1}New{else}Edit{/if} Relationship(s)</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Relationship{/ts}{else}{ts}Edit Relationship(s){/ts}{/if}</legend>
 	<div class="data-group">
-      	<label>{$displayName}</label> is a(n) &nbsp; {$form.relationship_type_id.html} &nbsp; of {if $action EQ 2}{$sort_name}{else}...{/if}
+      	{ts 1=$displayName 2=$form.relationship_type_id.html}<label>%1</label> is a(n) &nbsp; %2 &nbsp; of {/ts}{if $action EQ 2}{$sort_name}{else}...{/if}
 	</div>
 	{if $action eq 1} {* action = add *}
         <div class="form-item">
             <div class="description">
-                {t}Locate target contact(s) for this relationship by entering a full or partial name, selecting the target contact type and clicking 'Search'.{/t}
+                {ts}Locate target contact(s) for this relationship by entering a full or partial name, selecting the target contact type and clicking 'Search'.{/ts}
             </div>
             <dl>
               <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
@@ -25,20 +25,20 @@
              <div class="message status">{$noResult}</div>
           {else}
              {if $contacts }
-                <fieldset><legend>Search Results</legend>
+                <fieldset><legend>{ts}Search Results{/ts}</legend>
                 <div class="description">
-                    {t}Now mark the target contact(s) and click 'Create Relationship'.
-                    You may optionally specify start and/or end dates if this relationship is time-delimited.{/t}
+                    {ts}Now mark the target contact(s) and click 'Create Relationship'.
+                    You may optionally specify start and/or end dates if this relationship is time-delimited.{/ts}
                 </div>
                 {strip}
                 <table>
                 <tr class="columnheader">
                 <th>&nbsp;</th>
-                <th>Name</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Email</th>
-                <th>Phone</th>
+                <th>{ts}Name{/ts}</th>
+                <th>{ts}City{/ts}</th>
+                <th>{ts}State{/ts}</th>
+                <th>{ts}Email{/ts}</th>
+                <th>{ts}Phone{/ts}</th>
                 </tr>
                 {foreach from=$contacts item="row"}
                 <tr class="{cycle values="odd-row,even-row"}">
