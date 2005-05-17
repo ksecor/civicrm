@@ -147,9 +147,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
             $this->set( 'ids', $ids );
 
-            // show notes
-//            $this->assign( 'note'      , $defaults['note'] );
-//            $this->assign( 'notesCount', $defaults['notesCount'] );
             $this->assign( 'contactId' , $this->_contactId );
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)

@@ -101,18 +101,18 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @param array $values        output values of the object
      * @param array $ids           the array that holds all the db ids
      *
-     * @return void
+     * @return array (reference)   the values that could be potentially assigned to smarty
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids ) {
+    static function &getValues( &$params, &$values, &$ids ) {
 
-        $groupIn = CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In',3 );
-        
-        $values['groupIn'] = $groupIn;
-
+        $groupIn = CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In' , 3 );
+        $values['group']['data']       =& CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In' , 3 );
         // get the total count of relationships
-        $values['groupTotalCount'] = CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'] );
+        $values['group']['totalCount'] =  CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In' , null, true );
+
+        return $values;
     }
 
     /**
@@ -204,20 +204,19 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         
         $group = new CRM_Contact_DAO_Group( );
 
-        $str_select = $str_from = $str_where = '';
+        $select = $from = $where = '';
         
-        $str_select = 'SELECT crm_group.id, crm_group.title ';
-        $str_from = ' FROM crm_group, crm_group_contact ';
-        $str_where = " WHERE crm_group.group_type='static'";
+        $select = 'SELECT crm_group.id, crm_group.title ';
+        $from   = ' FROM crm_group, crm_group_contact ';
+        $where  = " WHERE crm_group.group_type='static'";
         if ($contactId) {
-            $str_where .= " AND crm_group.id = crm_group_contact.group_id 
-                       AND crm_group_contact.contact_id = ".$contactId;
+            $where .= " AND crm_group.id = crm_group_contact.group_id AND crm_group_contact.contact_id = ".$contactId;
         }
 
-        $str_orderby = " ORDER BY crm_group.name";
-        $str_sql = $str_select.$str_from.$str_where.$str_orderby;
+        $orderby = " ORDER BY crm_group.name";
+        $sql     = $select . $from . $where . $orderby;
 
-        $group->query($str_sql);
+        $group->query($sql);
 
         while($group->fetch()) {
             $values[$group->id] = $group->title;
@@ -229,62 +228,67 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
    /**
      * function to get the list of groups for contact based on status of membership
      *
-     * @param int $contactId contact id 
-     * @param string $status state of membership
-     * @param int $numGroupContact number of groups for a contact that should be shown
+     * @param int     $contactId       contact id 
+     * @param string  $status          state of membership
+     * @param int     $numGroupContact number of groups for a contact that should be shown
+     * @param boolean $count           true if we are interested only in the count
      *
-     * @return array|int $values is array when there the values the should be displayed in the listing
-     *                    or $count is int when only count is returned
+     * @return array (reference )|int $values the relevant data object values for the contact or
+                                      the total count when $count is true
      *
      * $access public
      */
-    static function getContactGroup( $contactId, $status = null, $numGroupContact = '' ) {
+    static function &getContactGroup( $contactId, $status = null, $numGroupContact = null, $count = false ) {
         $groupContact = new CRM_Contact_DAO_GroupContact( );
-     
-        $strSelect = "SELECT crm_group_contact.id as crm_group_contact_id, crm_group.title as crm_group_title,
+
+        if ( $count ) {
+            $select = 'SELECT count(DISTINCT crm_group_contact.id)';
+        } else {
+            $select = 'SELECT crm_group_contact.id as crm_group_contact_id, crm_group.title as crm_group_title,
                              crm_group_contact.in_date as in_date, crm_group_contact.out_date as out_date,
                              crm_group_contact.pending_date as pending_date, crm_group_contact.status as status,
                              crm_group_contact.pending_method as pending_method, crm_group_contact.in_method as in_method,
-                             crm_group_contact.out_method as out_method";
+                             crm_group_contact.out_method as out_method ';
+        }
 
-        $strFrom = " FROM crm_group, crm_group_contact ";
+        $from   = ' FROM crm_group, crm_group_contact ';
 
-        $strWhere = " WHERE crm_group.id = crm_group_contact.group_id
-                          AND crm_group_contact.contact_id = ".$contactId;
+        $where  = ' WHERE crm_group.id = crm_group_contact.group_id AND crm_group_contact.contact_id = ' . $contactId;
         
-        if (strlen($status)) {
-            $strWhere .= " AND crm_group_contact.status = '".$status."'";
+        if ( ! empty( $status ) ) {
+            $where .= ' AND crm_group_contact.status = "' . $status . '"';
         }    
-        
-        $strOrder = " ORDER BY crm_group.title ";
 
-        if ($numGroupContact){
-            $strLimit = " LIMIT 0, $numGroupContact";
+        $order = $limit = '';
+        if (! $count ) {
+            $order = ' ORDER BY crm_group.title ';
+
+            if ( $numGroupContact ) {
+                $limit = " LIMIT 0, $numGroupContact";
+            }
         }
 
-        $strSql = $strSelect.$strFrom.$strWhere.$strOrder.$strLimit;
+        $sql = $select . $from . $where . $order . $limit;
 
-        $groupContact->query($strSql);
-     
-        $count = 0;
-        while ( $groupContact->fetch() ) {
-            
-            $values[$groupContact->crm_group_contact_id]['id'] = $groupContact->crm_group_contact_id;
-            $values[$groupContact->crm_group_contact_id]['title'] = $groupContact->crm_group_title;
-            $values[$groupContact->crm_group_contact_id]['in_date'] = $groupContact->in_date;
-            $values[$groupContact->crm_group_contact_id]['out_date'] = $groupContact->out_date;
-            $values[$groupContact->crm_group_contact_id]['pending_method'] = $groupContact->pending_method;
-            $values[$groupContact->crm_group_contact_id]['in_method'] = $groupContact->in_method;
-            $values[$groupContact->crm_group_contact_id]['out_method'] = $groupContact->out_method;
-            
-            $count++;
+        $groupContact->query($sql);
+
+        if ( $count ) {
+            $row = $groupContact->getDatabaseResult()->fetchRow();
+            return $row[0];
+        } else {
+            $values = array( );
+            while ( $groupContact->fetch() ) {
+                $id                            = $groupContact->crm_group_contact_id;
+                $values[$id]['id']             = $id;
+                $values[$id]['title']          = $groupContact->crm_group_title;
+                $values[$id]['in_date']        = $groupContact->in_date;
+                $values[$id]['out_date']       = $groupContact->out_date;
+                $values[$id]['pending_method'] = $groupContact->pending_method;
+                $values[$id]['in_method']      = $groupContact->in_method;
+                $values[$id]['out_method']     = $groupContact->out_method;
+            }
+            return $values;
         }
-
-        if (!strlen($status)) { 
-            return $count;
-        }
-
-        return $values;
     }
 
 

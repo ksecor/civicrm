@@ -50,16 +50,16 @@ class CRM_Contact_Page_GroupContact {
   
         $contactId   = $page->getContactId( );
 
-        $count = CRM_Contact_BAO_GroupContact::getContactGroup($contactId);
+        $count   = CRM_Contact_BAO_GroupContact::getContactGroup($contactId, null, null, true);
         
-        $aGroupIn = CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'In' );
-        $aGroupPending = CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'Pending' );
-        $aGroupOut = CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'Out' );
+        $in      =& CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'In' );
+        $pending =& CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'Pending' );
+        $out     =& CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'Out' );
 
-        $page->assign( 'groupCount', $count );
-        $page->assign( 'groupIn', $aGroupIn );
-        $page->assign( 'groupPending', $aGroupPending );
-        $page->assign( 'groupOut', $aGroupOut );
+        $page->assign       ( 'groupCount'  , $count );
+        $page->assign_by_ref( 'groupIn'     , $in );
+        $page->assign_by_ref( 'groupPending', $pending );
+        $page->assign_by_ref( 'groupOut'    , $out );
     }
 
     /**

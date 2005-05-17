@@ -134,7 +134,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids, $locationCount = 0 ) {
+    static function &getValues( &$params, &$values, &$ids, $locationCount = 0 ) {
         $location = new CRM_Contact_BAO_Location( );
         $location->copyValues( $params );
 

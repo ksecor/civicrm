@@ -181,6 +181,11 @@ class CRM_Core_Page {
         self::$_template->assign($var, $value);
     }
 
+    function assign_by_ref( $var, &$value) {
+        self::$_template->assign_by_ref($var, &$value);
+    }
+
+    
     /**
      * function to destroy all the session state of this page.
      *

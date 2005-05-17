@@ -65,12 +65,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids, $numRelationships = '') {
+    static function &getValues( &$params, &$values, &$ids, $numRelationships = '') {
         $relationship = new CRM_Contact_BAO_Relationship( );
 
-        $str_select1 = $str_from1 = $str_where1 = $str_select2 = $str_from2 = $str_where2 = $str_order = $str_limit = '';
+        $select1 = $from1 = $where1 = $select2 = $from2 = $where2 = $order = $limit = '';
         
-        $str_select1 = "( SELECT crm_relationship.id as crm_relationship_id,
+        $select1 = "( SELECT crm_relationship.id as crm_relationship_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
@@ -85,7 +85,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                               crm_relationship.contact_id_a as contact_id_a,
                               crm_relationship_type.name_b_a as relation";
 
-        $str_from1 = " FROM crm_contact 
+        $from1 = " FROM crm_contact 
                         LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
                         LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
                         LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
@@ -96,12 +96,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                        ";
 
         // add where clause 
-        $str_where1 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
+        $where1 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
                          AND crm_relationship.contact_id_a = ".$params['contact_id']." 
                          AND crm_relationship.contact_id_b = crm_contact.id )
                          UNION ";
 
-        $str_select2 = " (SELECT crm_relationship.id as crm_relationship_id,
+        $select2 = " (SELECT crm_relationship.id as crm_relationship_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
@@ -116,7 +116,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                               crm_relationship.contact_id_a as contact_id_a,
                               crm_relationship_type.name_a_b as relation";
 
-        $str_from2 = " FROM crm_contact 
+        $from2 = " FROM crm_contact 
                         LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
                         LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
                         LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
@@ -127,16 +127,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                        ";
 
         // add where clause 
-        $str_where2 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
+        $where2 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
                          AND crm_relationship.contact_id_b = ".$params['contact_id']." 
                          AND crm_relationship.contact_id_a = crm_contact.id)";
 
 
-        $str_order = " ORDER BY crm_relationship_id ";
-        //  $str_limit = " LIMIT 0, $numRelationships ";
+        $order = " ORDER BY crm_relationship_id ";
 
         // building the query string
-        $query_string = $str_select1.$str_from1.$str_where1.$str_select2.$str_from2.$str_where2.$str_order;
+        $query_string = $select1 . $from1 . $where1 . $select2 . $from2 . $where2 . $order;
         $relationship->query($query_string);
     
    
@@ -145,29 +144,30 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $count = 0;
         while ( $relationship->fetch() ) {
             if ($count < $numRelationships ) {
-                $values['relationship'][$relationship->crm_relationship_id] = array();
-                $ids['relationship'][] = $relationship->crm_relationship_id;
+                $id = $relationship->crm_relationship_id;
+                $values['relationship'][$id] = array();
+                $ids['relationship'][] = $id;
                 
-                $values['relationship'][$relationship->crm_relationship_id]['id'] = $relationship->crm_relationship_id;
-                $values['relationship'][$relationship->crm_relationship_id]['cid'] = $relationship->crm_contact_id;
-                $values['relationship'][$relationship->crm_relationship_id]['relation'] = $relationship->relation;
-                $values['relationship'][$relationship->crm_relationship_id]['name'] = $relationship->sort_name;
-                $values['relationship'][$relationship->crm_relationship_id]['email'] = $relationship->email;
-                $values['relationship'][$relationship->crm_relationship_id]['phone'] = $relationship->phone;
-                $values['relationship'][$relationship->crm_relationship_id]['city'] = $relationship->city;
-                $values['relationship'][$relationship->crm_relationship_id]['state'] = $relationship->state;
+                $values['relationship'][$id]['id'] = $id;
+                $values['relationship'][$id]['cid'] = $relationship->crm_contact_id;
+                $values['relationship'][$id]['relation'] = $relationship->relation;
+                $values['relationship'][$id]['name'] = $relationship->sort_name;
+                $values['relationship'][$id]['email'] = $relationship->email;
+                $values['relationship'][$id]['phone'] = $relationship->phone;
+                $values['relationship'][$id]['city'] = $relationship->city;
+                $values['relationship'][$id]['state'] = $relationship->state;
                 
                 if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
-                    $values['relationship'][$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
-                    $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = 0;
+                    $values['relationship'][$id]['contact_a'] = $relationship->contact_id_a;
+                    $values['relationship'][$id]['contact_b'] = 0;
                 } else {
-                    $values['relationship'][$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
-                    $values['relationship'][$relationship->crm_relationship_id]['contact_a'] = 0;
+                    $values['relationship'][$id]['contact_b'] = $relationship->contact_id_b;
+                    $values['relationship'][$id]['contact_a'] = 0;
                 }
                 
-                $relationship->storeValues( $values['relationship'][$relationship->crm_relationship_id] );
+                $relationship->storeValues( $values['relationship'][$id] );
                 
-                $relationships = $relationship;
+                $relationships[] = $relationship;
             }
             $count++;
         }

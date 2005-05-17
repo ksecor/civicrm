@@ -153,15 +153,15 @@
 </div>
 
 <div id="groups[show]" class="data-group">
-  {if $groupTotalCount}
-    <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Group Memberships</label> ({$groupTotalCount})<br />
+  {if $group.totalCount}
+    <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Group Memberships</label> ({$group.totalCount})<br />
   {else}
     <dl><dt>Group Memberships</dt><dd>No group memberships. Use the <a href="{crmURL p='civicrm/contact/view/group' q='action=add'}">Groups tab</a> to add them.</dd></dl>
   {/if}
 </div>
 
 <div id="groups">
- <fieldset><legend><a href="#" onClick="hide('groups'); show('groups[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Group Memberships{if $groupTotalCount GT 3} (3 of {$groupTotalCount}){/if}</legend>
+ <fieldset><legend><a href="#" onClick="hide('groups'); show('groups[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Group Memberships{if $group.totalCount GT 3} (3 of {$group.totalCount}){/if}</legend>
 	{strip}
 	<table>
         <tr class="columnheader">
@@ -170,7 +170,7 @@
 		<th>Status</th>
 		<th>Date Added</th>
 	</tr>
-    {foreach from=$groupIn item=row}
+    {foreach from=$group.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">
         	<td>{$row.title}</td>
 	    	<td></td>	
@@ -178,7 +178,7 @@
             <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
         </tr>
     {/foreach}
-    {if $groupTotalCount gt 3 }
+    {if $group.totalCount gt 3 }
         <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/group' q='action=browse'}">&raquo; View All Group Memberships...</a></td></tr>
     {/if}
     </table>

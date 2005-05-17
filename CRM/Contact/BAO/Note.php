@@ -117,7 +117,7 @@ class CRM_Contact_BAO_Note extends CRM_Core_DAO_Note {
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids, $numNotes = self::MAX_NOTES ) {
+    static function &getValues( &$params, &$values, &$ids, $numNotes = self::MAX_NOTES ) {
         $note = new CRM_Contact_BAO_Note( );
        
         $note->table_id   = $params['contact_id'] ;        
