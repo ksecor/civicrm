@@ -30,21 +30,21 @@
 <div id="notes">
 <p>
     <div class="form-item">
-    <div id="help">Viewing Custom Groups</div>
+    <div id="help">{ts}Viewing Custom Groups{/ts}</div>
     {strip}
     <table>
     <tr class="columnheader">
-        <th>Group Title</th>
-        <th>Description</th>
-        <th>Is Active?</th>
-        <th>Used For</th>
+        <th>{ts}Group Title{/ts}</th>
+        <th>{ts}Description{/ts}</th>
+        <th>{ts}Is Active?{/ts}</th>
+        <th>{ts}Used For{/ts}</th>
         <th></th>
     </tr>
     {foreach from=$rows item=row}
     <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
         <td>{$row.title}</td>
         <td>{$row.description}</td>
-        <td>{if $row.is_active eq 1} Yes {else} No {/if}</td>
+        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
         <td>{$row.extends}</td>
         <td>{$row.action}</td>
     </tr>
@@ -54,7 +54,7 @@
     {if NOT ($action eq 1 or $action eq 2) }
     <p>
     <div class="action-link">
-    <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}">&raquo;  New Custom Data Group</a>
+    <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}">&raquo;  {ts}New Custom Data Group{/ts}</a>
     </div>
     </p>
     {/if}
@@ -67,7 +67,7 @@
    {if $action ne 1} {* When we are adding an item, we should not display this message *}
    <div class="message status">
    <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-     There are no custom data groups for this organization. You can <a href="{crmURL p='civicrm/admin/custom/group' q='action=add&reset=1'}">add one</a>.
+     {ts}There are no custom data groups for this organization. You can {/ts}<a href="{crmURL p='civicrm/admin/custom/group' q='action=add&reset=1'}">{ts}add one{/ts}</a>.
    </div>
    {/if}
 {/if}

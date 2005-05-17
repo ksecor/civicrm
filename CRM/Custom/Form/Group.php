@@ -65,14 +65,14 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     public function buildQuickForm()
     {
         // title
-        $this->add('text', 'title', 'Group Name', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
-        $this->addRule('title', 'Please enter a valid name.', 'title');
+        $this->add('text', 'title', ts('Group Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
+        $this->addRule('title', ts('Please enter a valid name.'), 'title');
 
         // description
-        //$this->add('text', 'description', 'Group Description', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'description'), true);
+        //$this->add('text', 'description', ts('Group Description'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'description'), true);
         // which entity is this custom data group for ?
         // for update action only allowed if there are no custom values present for this group.
-        $extendsElement = $this->add('select', 'extends', 'Used For', CRM_Core_SelectValues::$customGroupExtends);
+        $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::$customGroupExtends);
 
         //CRM_Core_Error::debug_var('this', $this);
         if ($this->_mode == CRM_Core_Form::MODE_UPDATE && CRM_Core_BAO_CustomGroup::getNumValue($this->_id)) { 
@@ -80,29 +80,29 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         }
 
         // how do we want to display this custom data group ?
-        $this->add('select', 'style',   'Display Style', CRM_Core_SelectValues::$customGroupStyle);
+        $this->add('select', 'style',   ts('Display Style'), CRM_Core_SelectValues::$customGroupStyle);
 
         // help text
-        $this->add('textarea', 'help_pre',  'Help Pre',  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
-        $this->add('textarea', 'help_post', 'Help Post', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post'));
+        $this->add('textarea', 'help_pre',  ts('Help Pre'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
+        $this->add('textarea', 'help_post', ts('Help Post'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post'));
 
         // weight
-        $this->add('text', 'weight', 'Weight', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
+        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
 
-        $this->addElement('checkbox', 'is_active', 'Is this Custom Data Group active?');
+        $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => 'Save',
+                                        'name'      => ts('Save'),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ),
                                 array ( 'type'      => 'cancel',
-                                        'name'      => 'Cancel' ),
+                                        'name'      => ts('Cancel') ),
                                 )
                           );
         if ($this->_mode & self::MODE_VIEW) {
             $this->freeze();
-            $this->addElement('button', 'done', 'Done', array('onClick' => "location.href='civicrm/admin/custom/group?reset=1&action=browse'"));
+            $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group?reset=1&action=browse'"));
         }
     }
 

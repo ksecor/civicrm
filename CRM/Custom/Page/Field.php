@@ -112,7 +112,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         $action = CRM_Utils_Request::retrieve('action', $this, false, 'add'); // default to 'add'
         
         // create a simple controller for editing custom data
-        $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Field', 'Custom Field', $action);
+        $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Field', ts('Custom Field'), $action);
         $controller->setEmbedded(true);
 
         // set the userContext stack

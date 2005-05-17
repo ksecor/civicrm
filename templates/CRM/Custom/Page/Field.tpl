@@ -3,7 +3,7 @@
 {if $customField}
 
 <hr>
-Viewing custom fields for custom group "{$groupTitle}"
+{ts 1=$groupTitle}Viewing custom fields for custom group "%1"{/ts}
 <hr>
 
 <div id="field_page">
@@ -12,11 +12,11 @@ Viewing custom fields for custom group "{$groupTitle}"
     {strip}
     <table>
     <tr class="columnheader">
-        <th>Name</th>
-        <th>Label</th>
-	    <th>Data Type</th>
-        <th>Weight</th>
-        <th>Is Active</th>
+        <th>{ts}Name{/ts}</th>
+        <th>{ts}Label{/ts}</th>
+	<th>{ts}Data Type{/ts}</th>
+        <th>{ts}Weight{/ts}</th>
+        <th>{ts}Is Active{/ts}</th>
         <th>&nbsp;</th>
     </tr>
     {foreach from=$customField item=row}
@@ -25,7 +25,7 @@ Viewing custom fields for custom group "{$groupTitle}"
         <td>{$row.label}</td>
         <td>{$row.data_type}</td>
         <td>{$row.weight}</td>
-        <td>{if $row.is_active eq 1} Yes {else} No {/if}</td>
+        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
         <td>{$row.action}</td>
     </tr>
     {/foreach}
@@ -34,7 +34,7 @@ Viewing custom fields for custom group "{$groupTitle}"
     
     {if $action eq 16 or $action eq 4}
         <div class="action-link">
-        <a href="{crmURL q="reset=1&action=add&gid=$gid"}">&raquo; New Custom Field</a>
+        <a href="{crmURL q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New Custom Field{/ts}</a>
         </div>
     {/if}
     </div>
@@ -45,7 +45,7 @@ Viewing custom fields for custom group "{$groupTitle}"
     {if $action eq 16}
     <div class="message status">
     <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-    There are no custom fields for custom group "{$groupTitle}", <a href="{crmURL p='civicrm/admin/custom/group/field q="action=add&gid=$gid"}">add one</a>.
+    {ts 1=$groupTitle}There are no custom fields for custom group "%1",{/ts} <a href="{crmURL p='civicrm/admin/custom/group/field q="action=add&gid=$gid"}">{ts}add one{/ts}</a>.
     </div>
     {/if}
 {/if}
@@ -53,7 +53,7 @@ Viewing custom fields for custom group "{$groupTitle}"
    {*if $action ne 1*} {* When we are adding an item, we should not display this message *}
    {*<div class="message status">
    <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-   There are no extended property Fields for this property group. You can <a href="{crmURL p='civicrm/extproperty/field' q="action=add&gid=$gid"}">add one</a>.
+   {ts}There are no extended property Fields for this property group. You can{/ts} <a href="{crmURL p='civicrm/extproperty/field' q="action=add&gid=$gid"}">{ts}add one{/ts}</a>.
    </div>
    {/if}
 {/if*}

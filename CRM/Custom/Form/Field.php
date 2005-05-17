@@ -114,30 +114,30 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     public function buildQuickForm()
     {
         // label
-        $this->add( 'text', 'label', 'Field Label', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
-        $this->addRule('label', 'Please enter label for this field.', 'title');
+        $this->add( 'text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
+        $this->addRule('label', ts('Please enter label for this field.'), 'title');
 
         // data type, html type
-        $dataHTMLElement = $this->addElement('hierselect', 'data_type', 'Data Type');
+        $dataHTMLElement = $this->addElement('hierselect', 'data_type', ts('Data Type'));
         $dataHTMLElement->setOptions(array(self::$dataType, self::$dataToHTML));
 
         // weight
-        $this->add('text', 'weight', 'Weight', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'), true);
-        $this->addRule('weight', ' is a numeric field' , 'numeric');
+        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'), true);
+        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
         
         // is required ?
-        $this->add('checkbox', 'is_required', 'Required?');
+        $this->add('checkbox', 'is_required', ts('Required?') );
 
         // default value, help pre, help post, mask, attributes, javascript ?
-        $this->add('text', 'default_value', 'Default Value', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'));
-        $this->add('textarea', 'help_pre', 'Help Pre', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_pre'));        
-        $this->add('textarea', 'help_post', 'Help Post', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_post'));        
-        $this->add('text', 'mask', 'Mask', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'mask'));        
-        $this->add('text', 'attributes', 'Attributes', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'attributes'));       
-        $this->add('text', 'javascript', 'Javascript', CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'javascript'));       
+        $this->add('text', 'default_value', ts('Default Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'));
+        $this->add('textarea', 'help_pre', ts('Help Pre'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_pre'));        
+        $this->add('textarea', 'help_post', ts('Help Post'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_post'));        
+        $this->add('text', 'mask', ts('Mask'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'mask'));        
+        $this->add('text', 'attributes', ts('Attributes'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'attributes'));       
+        $this->add('text', 'javascript', ts('Javascript'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'javascript'));       
         
         // is active ?
-        $this->add('checkbox', 'is_active', 'Active?');
+        $this->add('checkbox', 'is_active', ts('Active?'));
         
         $this->addButtons(array(
                                 array ('type'      => 'next',
@@ -151,8 +151,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                           );
         if ($this->_mode & self::MODE_VIEW) {
             $this->freeze();
-            //$this->addElement('button', 'done', 'Done', array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
-            $this->addElement('button', 'done', 'Done', array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
+            //$this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
+            $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
         }
     }
     
@@ -181,7 +181,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         }
         $customField->custom_group_id = $this->_gid;
         $customField->save();
-        CRM_Core_Session::setStatus( 'Your custom field - ' . $customField->label . ' has been saved' );
+        CRM_Core_Session::setStatus( ts('Your custom field - \' %1 \' has been saved', 
+					array( 1 => $customField->label ) ) );
     }
 }
 ?>
