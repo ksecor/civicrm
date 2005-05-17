@@ -4,8 +4,8 @@
 <fieldset><legend>{ts}Tags{/ts}</legend>
     <p>
     {if $action eq 4}
-        {ts}Current tags for <strong>{$displayName}</strong> are highlighted. You can
-        add or remove tags from <a href="{crmURL p='civicrm/contact/view/tag' q='action=update'}">Edit Tags</a>.{/ts}
+        {ts 1=$displayName}Current tags for <strong>%1</strong> are highlighted. You can
+        add or remove tags from{/ts} <a href="{crmURL p='civicrm/contact/view/tag' q='action=update'}">{ts}Edit Tags{/ts}</a>.
     {else}
         {ts}Mark or unmark the checkboxes, and click
         'Update Tags' to modify tags.{/ts}
