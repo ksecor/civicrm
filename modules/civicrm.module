@@ -257,7 +257,7 @@ function civicrm_menu($may_cache)
                          'weight' => 1
                          );
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/saved/browse',
+                         'path'  => 'civicrm/contact/search/saved',
                          'title' => t('Saved Searches'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,
@@ -621,7 +621,7 @@ function civicrm_search()
 {
     $session = CRM_Core_Session::singleton( );
 
-    if (arg(3) == 'saved' && arg(4) == 'browse') {
+    if (arg(3) == 'saved') {
         // browse saved searches
         $savedSearchPage = new CRM_Contact_Page_SavedSearch('', CRM_Contact_Page_View::MODE_NONE);
         $savedSearchPage->run();

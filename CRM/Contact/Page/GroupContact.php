@@ -114,7 +114,7 @@ class CRM_Contact_Page_GroupContact {
             $groupContactId = $_GET['gcid'];
             $status = $_GET['st'];
             if (is_numeric($groupContactId) && strlen(trim($status))) {
-                self::delete( $groupContactId,$status );
+                self::del( $groupContactId,$status );
             }
         }
 
@@ -132,7 +132,7 @@ class CRM_Contact_Page_GroupContact {
      * $access public
      * @static
      */
-    static function delete ($groupContactId, $status ) {
+    static function del($groupContactId, $status ) {
         $groupContact = new CRM_Contact_DAO_GroupContact( );
         
         switch ($status) {

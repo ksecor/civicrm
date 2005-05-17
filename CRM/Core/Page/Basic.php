@@ -173,8 +173,6 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
             $values[$object->id] = array( );
             $object->storeValues( $values[$object->id] );
 
-            // ?? bug ?? action does not return anything
-            //$newAction = self::action( $object, $action, $values[$object->id], $links );
             self::action( $object, $action, $values[$object->id], $links );
         }
         $this->assign( 'rows', $values );

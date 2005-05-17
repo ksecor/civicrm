@@ -291,6 +291,20 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
     }
 
+    /**
+     * Delete the object records that are associated with this contact
+     *
+     * @param  int  $contactId id of the contact to delete
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function deleteContact( $contactId ) {
+        $groupContact = new CRM_Contact_DAO_GroupContact( );
+        $groupContact->contact_id = $contactId;
+        $groupContact->delete( );
+    }
 
 }
 

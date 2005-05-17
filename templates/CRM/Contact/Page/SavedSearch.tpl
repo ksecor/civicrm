@@ -15,11 +15,11 @@
         <td>{$row.description}</td>
         <td><ul>
             {foreach from=$row.query_detail item=criteria}
-                <li>{$criteria}
+                <li>{$criteria}</li>
             {/foreach}
             </ul>
         </td>
-        <td><a href="{crmURL p='civicrm/contact/search/advanced' q="ssID=`$row.id`&reset=1&force=1"}">Search</a></td>
+        <td>{$row.action}</td>
     </tr>
     {/foreach}
     </table>

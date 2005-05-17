@@ -37,35 +37,64 @@ require_once 'CRM/Contact/DAO/SavedSearch.php';
 class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
 
     /**
-     * constants for various modes that the page can operate as
+     * The action links that we need to display for the browse screen
      *
-     * @var const int
+     * @var array
      */
-    const MODE_NONE = 0;
+    static $_links = array(
+                           CRM_Core_Action::VIEW   => array(
+                                                            'name'  => 'Search',
+                                                            'url'   => 'civicrm/contact/search/advanced',
+                                                            'qs'    => 'reset=1&force=1&ssID=%%id%%',
+                                                            'title' => 'Search'),
+                           CRM_Core_Action::DELETE => array(
+                                                            'name'  => 'Delete',
+                                                            'url'   => 'civicrm/contact/search/saved',
+                                                            'qs'    => 'action=delete&id=%%id%%',
+                                                            'title' => 'Delete Saved Search'),
+                           );
 
-    function run() {
-        if ($this->_mode == self::MODE_NONE) {
-            $this->runModeNone();
-        }
-        return parent::run();
+    function delete( $id ) {
+        $savedSearch = new CRM_Contact_DAO_SavedSearch();
+        $savedSearch->id = $id;
+        $savedSearch->delete( );
+        return;
     }
 
-    function runModeNone() {
+    function browse( ) {
         $rows = array();
+        
         $savedSearch = new CRM_Contact_DAO_SavedSearch();
         $savedSearch->selectAdd();
         $savedSearch->selectAdd('id, name, search_type, description, form_values');
         $savedSearch->find();
+        $properties = array('id', 'name', 'description');
         while ($savedSearch->fetch()) {
             $row = array();
-            $properties = array('id', 'name', 'description');
             foreach ($properties as $property) {
                 $row[$property] = $savedSearch->$property;
             }
             $row['query_detail'] = CRM_Contact_Selector::getQILL(unserialize($savedSearch->form_values), $savedSearch->search_type);
+            $row['action']       = CRM_Core_Action::formLink( self::$_links, null, array( 'id' => $row['id'] ) );
             $rows[] = $row;
         }
         $this->assign('rows', $rows);
+        
+        return parent::run();
     }
+
+    function run( ) {
+        $action = CRM_Utils_Request::retrieve( 'action', $this, false, 'browse' );
+
+        $this->assign( 'action', $action );
+
+        if ( $action & CRM_Core_Action::DELETE ) {
+            $id  = CRM_Utils_Request::retrieve( 'id', $this, true );
+            $this->delete($id );
+        } 
+        $this->browse( );
+    }
+
 }
+
 ?>

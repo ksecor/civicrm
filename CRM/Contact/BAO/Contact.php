@@ -294,8 +294,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // building the query string
         $queryString = $strSelect . $strFrom . $strWhere . $strOrder . $strLimit;
 
-        // CRM_Core_Error::debug( 'qs', $queryString );
-
         $this->query($queryString);
 
         if ($count) {
@@ -416,7 +414,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact->location = $location;
 
         // add notes
-        $contact->note = CRM_Contact_BAO_Note::add( $params, $ids );
+        $contact->note = CRM_Core_BAO_Note::add( $params, $ids );
 
         CRM_Core_DAO::transaction( 'COMMIT' );
 
@@ -492,7 +490,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         eval( '$contact->contact_type_object = CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
 
         $contact->location     =& CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 3 );
-        $contact->notes        =& CRM_Contact_BAO_Note::getValues( $params, $defaults, $ids );
+        $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids, 3 );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
 
@@ -535,6 +533,40 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @static
      */
     function deleteContact( $id ) {
+        CRM_Core_DAO::transaction( 'BEGIN' );
+
+        // do a top down deletion
+        CRM_Contact_BAO_GroupContact::deleteContact( $id );
+
+        CRM_Contact_BAO_Relationship::deleteContact( $id );
+
+        CRM_Core_BAO_Note::deleteContact( $id );
+
+        CRM_Contact_BAO_Location::deleteContact( $id );
+
+        // fix household and org primary contact ids
+        static $misc = array( 'Household', 'Organization' );
+        foreach ( $misc as $name ) {
+            eval( '$object = new CRM_Contact_DAO_' . $name . '( );' );
+            $object->primary_contact_id = $id;
+            $object->find( );
+            while ( $object->fetch( ) ) {
+                $object->primary_contact_id = 'null';
+                $object->save( );
+            }
+        }
+
+        // get the contact type
+        $contact = new CRM_Contact_DAO_Contact();
+        $contact->id = $id;
+        if ($contact->find(true)) {
+            eval( '$object = new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
+            $object->contact_id = $contact->id;
+            $object->delete( );
+            $contact->delete( );
+        }
+
+        CRM_Core_DAO::transaction( 'COMMIT' );
     }
 
 

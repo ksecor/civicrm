@@ -183,6 +183,44 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
         $parent->im      = CRM_Contact_BAO_IM::getValues   ( $params, $values, $ids, $blockCount );
     }
 
+    /**
+     * Delete the object records that are associated with this contact
+     *
+     * @param  int  $contactId id of the contact to delete
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function deleteContact( $contactId ) {
+        $location = new CRM_Contact_DAO_Location( );
+        $location->contact_id = $contactId;
+        $location->find( );
+        while ( $location->fetch( ) ) {
+            self::deleteLocationBlocks( $location->id );
+            $location->delete( );
+        }
+
+    }
+
+    /**
+     * Delete the object records that are associated with this location
+     *
+     * @param  int  $locationId id of the location to delete
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function deleteLocationBlocks( $locationId ) {
+        static $blocks = array( 'Address', 'Phone', 'Email', 'IM' );
+        foreach ( $blocks as $name ) {
+            eval( '$object = new CRM_Contact_DAO_' . $name . '( );' );
+            $object->location_id = $locationId;
+            $object->delete( );
+        }
+    }
+
 }
 
 ?>

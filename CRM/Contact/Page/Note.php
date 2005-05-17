@@ -101,7 +101,7 @@ class CRM_Contact_Page_Note {
     }
 
     static function delete( $noteId ) {
-        CRM_Contact_BAO_Note::del($noteId);
+        CRM_Core_BAO_Note::del($noteId);
     }
 
 }

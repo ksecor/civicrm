@@ -38,43 +38,6 @@
  */
 class CRM_Contact_Form_Task_RemoveFromGroup extends CRM_Contact_Form_Task {
     /**
-     * The context that we are working on
-     *
-     * @var string
-     */
-    protected $_context;
-
-    /**
-     * the groupId retrieved from the GET vars
-     *
-     * @var int
-     */
-    protected $_id;
-
-    /**
-     * the title of the group
-     *
-     * @var string
-     */
-    protected $_title;
-
-    /**
-     * build all the data structures needed to build the form
-     *
-     * @return void
-     * @access public
-     */
-    function preProcess( ) {
-        /*
-         * initialize the task and row fields
-         */
-        parent::preProcess( );
-
-        $this->_context = $this->get( 'context' );
-        $this->_id      = $this->get( 'amtgID'  );
-    }
-
-    /**
      * Build the form
      *
      * @access public
@@ -84,40 +47,9 @@ class CRM_Contact_Form_Task_RemoveFromGroup extends CRM_Contact_Form_Task {
         // add select for groups
         $group = array( '' => ' - select group - ') + CRM_Core_PseudoConstant::group( );
         $groupElement = $this->add('select', 'group_id', 'Select Group', $group, true);
-        $this->_title  = $group[$this->_id];
 
-        if ( $this->_context === 'amtg' ) {
-            $groupElement->freeze( );
-
-            // also set the group title
-            $groupValues = array( 'id' => $this->_id, 'title' => $this->_title );
-            $this->assign_by_ref( 'group', $groupValues );
-        }
-         
-        // Set dynamic page title for 'Remove Members Group (confirm)'
-        if ( $this->_id ) {
-            CRM_Utils_System::setTitle( 'Remove Members: ' . $this->_title );
-        }
-        else {
-            CRM_Utils_System::setTitle( 'Remove Members from Group ');
-        }
-
+        CRM_Utils_System::setTitle( 'Remove Members from Group ');
         $this->addDefaultButtons( 'Remove From Group' );
-    }
-
-    /**
-     * Set the default form values
-     *
-     * @access protected
-     * @return array the default array reference
-     */
-    function &setDefaultValues() {
-        $defaults = array();
-
-        if ( $this->_context === 'amtg' ) {
-            $defaults['group_id'] = $this->_id;
-        }
-        return $defaults;
     }
 
     /**
@@ -127,11 +59,12 @@ class CRM_Contact_Form_Task_RemoveFromGroup extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
-        $groupId    = $this->controller->exportValue( 'RemoveFromGroup', 'group_id'  );
-        
+        $groupId  =  $this->controller->exportValue( 'RemoveFromGroup', 'group_id'  );
+        $group    =& CRM_Core_PseudoConstant::group( );
+
         list( $total, $removed, $notRemoved ) = CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $this->_contactIds, $groupId );
         $status = array(
-                        'Removed Contact(s) from '     . $this->_title,
+                        'Removed Contact(s) from '     . $group[$groupId],
                         'Total Selected Contact(s): '  . $total
                         );
         if ( $removed ) {
