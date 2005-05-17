@@ -90,10 +90,10 @@ class CRM_Admin_Form extends CRM_Core_Form
     public function buildQuickForm( ) {
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Save',
+                                         'name'      => ts('Save'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
         

@@ -64,20 +64,20 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
         }
         */
         
-        $this->add('text', 'name_a_b'       , 'Relationship Label-A to B'       ,
+        $this->add('text', 'name_a_b'       , ts('Relationship Label-A to B')       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'name_a_b' ) );
-        $this->addRule( 'name_a_b', 'Please enter a valid Relationship Label for A to B.', 'required' );
+        $this->addRule( 'name_a_b', ts('Please enter a valid Relationship Label for A to B.'), 'required' );
 
-        $this->add('text', 'name_b_a'       , 'Relationship Label-B to A'       ,
+        $this->add('text', 'name_b_a'       , ts('Relationship Label-B to A')       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'name_b_a' ) );
       
         // add select for contact type
-        $this->add('select', 'contact_type_a', 'Contact Type A ', CRM_Core_SelectValues::$contactType);
-        $this->add('select', 'contact_type_b', 'Contact Type B ', CRM_Core_SelectValues::$contactType);
+        $this->add('select', 'contact_type_a', ts('Contact Type A '), CRM_Core_SelectValues::$contactType);
+        $this->add('select', 'contact_type_b', ts('Contact Type B '), CRM_Core_SelectValues::$contactType);
 
-        $this->add('text', 'description', 'Description', 
+        $this->add('text', 'description', ts('Description'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'description' ) );
-        $this->add('checkbox', 'is_active', 'Enabled?');
+        $this->add('checkbox', 'is_active', ts('Enabled?'));
 
         parent::buildQuickForm( );
 
@@ -109,7 +109,7 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
         
         CRM_Contact_BAO_RelationshipType::add($params, $ids);
 
-        CRM_Core_Session::setStatus( 'The Relationship Type has been saved.' );
+        CRM_Core_Session::setStatus( ts('The Relationship Type has been saved.') );
     }//end of function
 
 
