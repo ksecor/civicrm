@@ -6,8 +6,7 @@
             <fieldset><legend>View Relationship</legend>
 
             <div class="form-item">
-                <label>{$displayName}</label> &nbsp; is a(n) &nbsp; 
-                <label>{$relationship_name}</label> &nbsp; of &nbsp; 
+                <label>{$relationship_name}</label> &nbsp; : &nbsp; 
                 <label>{$relationship_contact_name}</label>
                 {if $start_date}
                     {*<dl><dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd></dl> *}
@@ -39,7 +38,7 @@
         <table>
         <tr class="columnheader">
             <th>Relationship</th>
-            <th>Of</th>
+            <th></th>
             <th>City</th>
             <th>State/Prov</th>
             <th>Email</th>

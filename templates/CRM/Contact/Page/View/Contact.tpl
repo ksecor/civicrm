@@ -1,6 +1,7 @@
+{* View Contact Summary *}
 <div id="name" class="data-group">
    <div class="float-right">
-        <a href="{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}">Edit address, phone, email...</a>&nbsp;&nbsp;&nbsp;
+        <a href="{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}">&raquo; Edit address, phone, email...</a>&nbsp;&nbsp;&nbsp;
    </div>
    <div>
     {if $contact_type eq 'Individual'}
@@ -109,12 +110,12 @@
 {* Relationships block display property is always hidden (non) if there are no relationships *}
 <div id="relationships">
  {if $relationship}
- <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Relationships</legend>
+ <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Relationships {if $relationshipTotalCount GT 3} (3 of {$relationshipTotalCount}){/if}</legend>
     {strip}
         <table>
         <tr class="columnheader">
             <th>Relationship</th>
-            <th>Of</th>
+            <th></th>
             <th>City</th>
             <th>State</th>
             <th>Email</th>
@@ -139,13 +140,13 @@
                 <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a></td> 
             </tr>  
         {/foreach}
+        {if $relationshipTotalCount gt 3 }
+            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/rel' q='action=browse'}">&raquo; View All Relationships...</a></td></tr>
+        {/if}
         </table>
 	{/strip}
    <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">New Relationship</a>
-        {if $relationshipTotalCount gt 3 }
-         | <a href="{crmURL p='civicrm/contact/view/rel' q='action=browse'}">Browse all Relationships...</a>
-        {/if}
+       <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">&raquo; New Relationship</a>
    </div>
  </fieldset>
  {/if}
@@ -160,8 +161,7 @@
 </div>
 
 <div id="groups">
- {if $groupIn} 
- <fieldset><legend><a href="#" onClick="hide('groups'); show('groups[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Groups</legend>
+ <fieldset><legend><a href="#" onClick="hide('groups'); show('groups[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Group Memberships{if $groupTotalCount GT 3} (3 of {$groupTotalCount}){/if}</legend>
 	{strip}
 	<table>
         <tr class="columnheader">
@@ -178,17 +178,15 @@
             <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
         </tr>
     {/foreach}
+    {if $groupTotalCount gt 3 }
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/group' q='action=browse'}">&raquo; View All Group Memberships...</a></td></tr>
+    {/if}
     </table>
 	{/strip}
- 
    <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/group'}">New Group Membership</a>
-        {if $groupTotalCount gt 3 }
-         | <a href="{crmURL p='civicrm/contact/view/group'}">Browse all Group Memberships...</a>
-        {/if}
+       <a href="{crmURL p='civicrm/contact/view/group'}">&raquo; New Group Membership</a>
    </div>
  </fieldset>
- {/if}
 </div>
 
 <div id="notes[show]" class="data-group">
@@ -201,7 +199,7 @@
 
 <div id="notes">
 {if $note}
-  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a> Contact Notes</legend>
+  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a> Contact Notes{if $noteTotalCount GT 3} (3 of {$noteTotalCount}){/if}</legend></legend>
        {strip}
        <table>
        <tr class="columnheader">
@@ -223,14 +221,14 @@
             <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">Edit</a></td> 
        </tr>  
        {/foreach}
+       {if $noteTotalCount gt 3 }
+            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/note' q='action=browse'}">&raquo; View All Notes...</a></td></tr>
+       {/if}
        </table>
        {/strip}
        
        <div class="action-link">
-        <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">New Note</a>
-        {if $noteTotalCount gt 3 }
-         | <a href="{crmURL p='civicrm/contact/view/note' q='action=browse'}">All notes...</a>
-        {/if}
+         <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">&raquo; New Note</a>
        </div>
  </fieldset>
 {/if}
