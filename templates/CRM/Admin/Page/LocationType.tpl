@@ -14,7 +14,7 @@
         <th></th>
        </tr>
        {foreach from=$rows item=row}
-         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} {ts}disabled{/ts}{/if}">
+         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	       <td>{$row.name}</td>	
            <td>
             {$row.description}

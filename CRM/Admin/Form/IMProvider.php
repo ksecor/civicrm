@@ -47,10 +47,10 @@ class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->add('text', 'name'       , 'Name'       ,
+        $this->add('text', 'name'       , ts('Name')       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_IMProvider', 'name' ) );
-        $this->addRule( 'name', 'Please enter a valid name.', 'required' );
-        $this->add('checkbox', 'is_active', 'Enabled?');
+        $this->addRule( 'name', ts('Please enter a valid name.'), 'required' );
+        $this->add('checkbox', 'is_active', ts('Enabled?'));
 
         parent::buildQuickForm( );
     }
@@ -78,7 +78,8 @@ class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
 
         $IMProvider->save( );
 
-        CRM_Core_Session::setStatus( 'The IM Provider \'' . $IMProvider->name . '\' has been saved.' );
+        CRM_Core_Session::setStatus( ts('The IM Provider \' %1 \' has been saved.',
+					array( 1 => $IMProvider->name ) ) );
     }//end of function
 
 
