@@ -114,9 +114,23 @@ class CRM_Core_I18n {
 	
 	// use plural if required parameters are set
 	if (isset($count) && isset($plural)) {
-	    $text = ngettext($text, $plural, $count);
+
+		if (function_exists('ngettext')) {
+			$text = ngettext($text, $plural, $count);
+		// if there's no gettext support, we have to do ngettext work by hand
+		// if $count == 1 then $text == $text, else $text == $plural
+		} else {
+			if ($count != 1) {
+				$text = $plural;
+			}
+		}
+
 	} else { // use normal
-	    $text = gettext($text);
+
+		if (function_exists('gettext')) {
+			$text = gettext($text);
+		}
+
 	}
 
 	// run strarg if there are parameters
