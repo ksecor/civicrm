@@ -30,6 +30,7 @@
 <div id="notes">
 <p>
     <div class="form-item">
+    <div id="help">Viewing Custom Groups</div>
     {strip}
     <table>
     <tr class="columnheader">
