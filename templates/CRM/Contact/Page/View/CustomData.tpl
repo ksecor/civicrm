@@ -1,9 +1,7 @@
 {* template for custom data *}
 {if $contactType eq 'Individual'}
     {if $action eq 1 or $action eq 2}
-        <p><div id="custom-data" class="label">Editing Custom Groups</div>
         {include file="CRM/Contact/Form/CustomData.tpl"}
-        </p>
     {/if}
 
     {strip}

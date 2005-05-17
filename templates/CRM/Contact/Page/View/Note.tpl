@@ -1,4 +1,4 @@
-{if $action eq 4}
+{if $action eq 4}{* when action is view  *}
 {if $notes}
     <p>
     <fieldset>
@@ -6,11 +6,12 @@
       <div class="form-item">
         <label>Date:</label> {$note.modified_date|date_format:"%B %e, %Y"}
         <p>{$note.note}</p>
+               <input type="button" name='cancel' value="Done" onClick="location.href='{crmURL p='civicrm/contact/view/note' q='action=browse'}';">        
       </div>
     </fieldset>
     </p>
 {/if}
-{elseif $action eq 1 or $action eq 2}
+{elseif $action eq 1 or $action eq 2} {* action is add or update *}
     <form {$form.attributes}>
     <p>
     <fieldset><legend>{if $action eq 1}New{else}Edit{/if} Note</legend>
@@ -25,10 +26,12 @@
 {/if}
 
 {if $notes}
+    {* show browse table for any action *}
 <div id="notes">
- <p>
     <div class="form-item">
-       {strip}
+    <p>
+    <div class="label">Existing Notes</div>
+    {strip}
        <table>
        <tr class="columnheader">
 	<th>Note</th>
