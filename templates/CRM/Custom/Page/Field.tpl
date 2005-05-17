@@ -1,6 +1,11 @@
 {include file="CRM/Custom/Form/Field.tpl"}
 
 {if $customField}
+
+<hr>
+Viewing custom fields for custom group "{$groupTitle}"
+<hr>
+
 <div id="field_page">
  <p>
     <div class="form-item">
@@ -40,7 +45,7 @@
     {if $action eq 16}
     <div class="message status">
     <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-    There are no Custom Fields, <a href="{crmURL p='civicrm/admin/custom/group/field q="action=add&gid=$gid"}">add one</a>.
+    There are no custom fields for custom group "{$groupTitle}", <a href="{crmURL p='civicrm/admin/custom/group/field q="action=add&gid=$gid"}">add one</a>.
     </div>
     {/if}
 {/if}

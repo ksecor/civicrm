@@ -142,7 +142,9 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         // get the group id
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         if ($this->_gid) {
+            $groupTitle = CRM_Core_BAO_CustomGroup::getTitle($this->_gid);
             $this->assign('gid', $this->_gid);
+            $this->assign('groupTitle', $groupTitle);
         }
 
         // get the requested action
@@ -154,9 +156,10 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
             // update, add and view  are handled by 'edit'
-            self::edit();
+            //self::edit();
+            $this->edit();
         } else {
-            self::browse();
+            $this->browse();
         }
         // call the parents run method
         parent::run();
