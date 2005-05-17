@@ -151,7 +151,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                           );
         if ($this->_mode & self::MODE_VIEW) {
             $this->freeze();
-            //$this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
             $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
         }
     }
@@ -172,7 +171,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->label         = $params['label'];
         $customField->name          = CRM_Utils_String::titleToVar( $params['label'] );
         $customField->data_type     = $params['data_type'];
+        $customField->html_type     = $params['html_type'];
+        $customField->weight        = $params['weight'];
         $customField->default_value = $params['default_value'];
+        $customField->help_pre      = $params['help_pre'];
+        $customField->help_post     = $params['help_post'];
+        $customField->mask          = $params['mask'];
+        $customField->attributes    = $params['attributes'];
+        $customField->javascript    = $params['javascript'];
         $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
         $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
 

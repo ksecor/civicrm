@@ -87,6 +87,31 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         return null;
     }
 
-}
 
+
+    /**
+     * Get number of elements for a particular field.
+     *
+     * This method returns the number of entries in the crm_custom_value table for this particular field.
+     *
+     * @param int $fieldId - id of field.
+     * @return int $numValue - number of custom data values for this field.
+     *
+     * @access public
+     * @static
+     *
+     */
+    public static function getNumValue($fieldId)
+    {
+        $queryString = "SELECT count(*) 
+                        FROM   crm_custom_value 
+                        WHERE  crm_custom_value.custom_field_id = $fieldId";
+
+        // dummy dao needed
+        $crmDAO = new CRM_Core_DAO();
+        $crmDAO->query($queryString);
+        $resultRow = $crmDAO->getDatabaseResult()->fetchRow();
+        return $resultRow[0];
+    }
+}
 ?>

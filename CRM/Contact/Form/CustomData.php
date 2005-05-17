@@ -91,6 +91,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
+
+        CRM_Core_Error::le_method();
+        
         // gets all details of group tree for entity
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
         $this->assign('groupTree', $groupTree);
@@ -116,7 +119,15 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
 
                 case 'Select Date':
-                    $this->add('date', $elementName, $field['label'], $field['attributes'], $field['required']);
+                    $dateOptions = array(
+                                         'format'          => 'dMY',
+                                         'minYear'         => date('Y')-100,
+                                         'maxYear'         => date('Y'),
+                                         'addEmptyOption'  => 'true',
+                                         'emptyOptionText' => '--',
+                                         );
+                    //$this->add('date', $elementName, $field['label'], $field['attributes'], $field['required']);
+                    $this->add('date', $elementName, $field['label'], $dateOptions, $field['required']);
                     break;
 
                 case 'Radio':
@@ -199,6 +210,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function postProcess() 
     {
+
+        CRM_Core_Error::le_method();
+
         // Get the form values and groupTree
         $fv = $this->exportValues();
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
