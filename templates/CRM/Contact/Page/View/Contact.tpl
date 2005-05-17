@@ -180,7 +180,7 @@
     {/foreach}
     </table>
 	{/strip}
-    <p>This table currently not populated for group memberships - coming soon!</p>
+ 
    <div class="action-link">
        <a href="{crmURL p='civicrm/contact/view/group'}">New Group Membership</a>
         {if $groupTotalCount gt 3 }
