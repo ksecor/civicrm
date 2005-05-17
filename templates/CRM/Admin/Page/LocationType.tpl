@@ -7,20 +7,20 @@
        {strip}
        <table>
        <tr class="columnheader">
-        <th>Name</th>
-        <th>Description</th>
-        <th>Reserved?</th>
-        <th>Enabled?</th>
+        <th>{ts}Name{/ts}</th>
+        <th>{ts}Description{/ts}</th>
+        <th>{ts}Reserved?{/ts}</th>
+        <th>{ts}Enabled?{/ts}</th>
         <th></th>
        </tr>
        {foreach from=$rows item=row}
-         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} {ts}disabled{/ts}{/if}">
 	       <td>{$row.name}</td>	
            <td>
             {$row.description}
            </td>
-	       <td>{if $row.is_reserved eq 1} Yes {else} No {/if}</td>
-	       <td>{if $row.is_active eq 1} Yes {else} No {/if}</td>
+	       <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	       <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	       <td>{$row.action}</td>
         </tr>
        {/foreach}
@@ -30,7 +30,7 @@
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL q="action=add&reset=1"}">New Location Type</a>
+    	 <a href="{crmURL q="action=add&reset=1"}">{ts}New Location Type{/ts}</a>
        </div>
        {/if}
     </div>

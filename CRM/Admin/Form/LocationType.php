@@ -47,14 +47,14 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->add('text', 'name'       , 'Name'       ,
+        $this->add('text', 'name'       , ts('Name')       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
-        $this->addRule( 'name', 'Please enter a valid location type name.', 'required' );
+        $this->addRule( 'name', ts('Please enter a valid location type name.'), 'required' );
 
-        $this->add('text', 'description', 'Description', 
+        $this->add('text', 'description', ts('Description'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
 
-        $this->add('checkbox', 'is_active', 'Enabled?');
+        $this->add('checkbox', 'is_active', ts('Enabled?'));
         parent::buildQuickForm( );
     }
 
@@ -80,7 +80,8 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
 
         $locationType->save( );
 
-        CRM_Core_Session::setStatus( 'The location type \'' . $locationType->name . '\' has been saved.' );
+        CRM_Core_Session::setStatus( ts('The location type \' %1 \' has been saved.',
+					array( 1 => $locationType->name )) );
     }//end of function
 
 
