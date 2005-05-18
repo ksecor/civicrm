@@ -33,6 +33,9 @@
 
 require_once 'CRM/Contact/DAO/Email.php';
 
+/**
+ * BAO object for crm_email table
+ */
 class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
     function __construct( ) {
         parent::__construct( );

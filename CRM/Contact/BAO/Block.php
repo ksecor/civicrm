@@ -29,7 +29,7 @@
  * $Id$
  *
  * add static functions to include some common functionality
- * used across different BAO classes
+ * used across location sub object BAO classes
  *
  */
 
@@ -83,6 +83,19 @@ class CRM_Contact_BAO_Block {
         return $blocks;
     }
 
+    /**
+     * check if the current block object has any valid data
+     *
+     * @param string $blockName     name of the above object
+     * @param array  $blockFields   array of fields that are of interest for this object
+     * @param array  $params        input parameters to find object
+     * @param int    $locationId    the location id
+     * @param int    $blockId       the block id
+     *
+     * @return boolean              true if the block has data, otherwise false
+     * @access public
+     * @static
+     */
     static function dataExists( $blockName, $blockFields, &$params, $locationId, $blockId ) {
         // return if no data present
         if ( ! array_key_exists( $blockName , $params['location'][$locationId] ) ||

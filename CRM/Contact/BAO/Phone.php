@@ -33,6 +33,9 @@
 
 require_once 'CRM/Contact/DAO/Phone.php';
 
+/**
+ * BAO object for crm_phone table
+ */
 class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
     function __construct( ) {
         parent::__construct( );

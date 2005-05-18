@@ -35,6 +35,9 @@ require_once 'CRM/Contact/DAO/Location.php';
 
 require_once 'CRM/Contact/BAO/Block.php';
 
+/**
+ * BAO object for crm_location table
+ */
 class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
     function __construct( ) {
         parent::__construct( );

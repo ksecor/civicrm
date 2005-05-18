@@ -33,6 +33,9 @@
 
 require_once 'CRM/Core/DAO/Note.php';
 
+/**
+ * BAO object for crm_note table
+ */
 class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
 
     /**

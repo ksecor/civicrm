@@ -33,6 +33,9 @@
 
 require_once 'CRM/Contact/DAO/IM.php';
 
+/**
+ * BAO object for crm_im table
+ */
 class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
     function __construct( ) {
         parent::__construct( );

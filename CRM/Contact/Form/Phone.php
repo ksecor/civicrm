@@ -32,11 +32,24 @@
  *
  */
 
-
-Class CRM_Contact_Form_Phone 
+/**
+ * form helper class for a phone object 
+ */
+class CRM_Contact_Form_Phone 
 {
-
-    static function buildPhoneBlock($form, &$location, $locationId, $count) {
+    /**
+     * build the form elements for a phone object
+     *
+     * @param CRM_Core_Form $form       reference to the form object
+     * @param array         $location   the location object to store all the form elements in
+     * @param int           $locationId the locationId we are dealing with
+     * @param int           $count      the number of blocks to create
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function buildPhoneBlock(&$form, &$location, $locationId, $count) {
 
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Preferred Phone:' : 'Additional Phone:';

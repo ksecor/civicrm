@@ -33,9 +33,23 @@
  */
 
 
+/**
+ * form helper class for an IM object 
+ */
 class CRM_Contact_Form_IM
 {
-
+    /**
+     * build the form elements for an IM object
+     *
+     * @param CRM_Core_Form $form       reference to the form object
+     * @param array         $location   the location object to store all the form elements in
+     * @param int           $locationId the locationId we are dealing with
+     * @param int           $count      the number of blocks to create
+     *
+     * @return void
+     * @access public
+     * @static
+     */
     static function buildIMBlock($form, &$location, $locationId, $count) {
         for ($i = 1; $i <= $count; $i++) {
             $label = 'Instant Messenger (IM):';

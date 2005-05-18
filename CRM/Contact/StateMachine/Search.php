@@ -68,14 +68,20 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
      *
      * @return string the name of the form that will handle the task
      * @access protected
-     * @static
      */
-    static function taskName( $controller, $formName = 'Search' ) {
-        // total hack, first check POST vars and then check controller vars
-        $value = CRM_Utils_Array::value( 'task', $_POST );
-        if ( ! isset( $value ) ) {
-            $value = $controller->exportValue( $formName, 'task' );
+    function taskName( $controller, $formName = 'Search' ) {
+        // total hack, check POST vars and then session to determine stuff
+        // fix value if print button is pressed
+        if ( CRM_Utils_Array::value( '_qf_' . $formName . '_next_print', $_POST ) ) {
+            $value = CRM_Contact_Task::PRINT_CONTACTS;
+        } else {
+            $value = CRM_Utils_Array::value( 'task', $_POST );
         }
+        if ( ! isset( $value ) ) {
+            $value = $this->_controller->get( 'task' );
+        }
+        $this->_controller->set( 'task', $value );
+
         /**
         CRM_Core_Error::debug( "POST", $_POST );
         CRM_Core_Error::debug( "data: $value", $controller->container( ) );

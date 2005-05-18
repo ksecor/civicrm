@@ -46,9 +46,6 @@ require_once 'CRM/Contact/Selector.php';
  */
 class CRM_Contact_Form_Search extends CRM_Core_Form {
 
-    const
-        SESSION_SCOPE_SEARCH   = 'CRM Shared Search';
-
     static $_validContext = array(
                                   'search' => 'Search',
                                   'smog'   => 'Show members of group',
@@ -323,12 +320,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         if ( isset( $this->_ssID ) ) {
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         } else {
-            // get the session variables for search scope
-            $session = CRM_Core_Session::singleton( );
-            $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-
-            // sort_name remains same across basic/advanced search
-            $this->_formValues =& $searchScope['formValues'];
+            $this->_formValues = $this->get( 'formValues' );
         }
 
         /*
@@ -383,7 +375,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          */
         
         // hack: if this is a forced search, stuff values into FV
-        if ( $this->_force ) {
+        if ( $this->_force && isset( $this->_groupID ) ) {
             $this->_formValues['group'] = $this->_groupID;
         }
 
@@ -422,10 +414,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     }
 
     function postProcessCommon( ) {
-        $session = CRM_Core_Session::singleton();
-
-        $session->set('type', $this->_mode, self::SESSION_SCOPE_SEARCH);
-        $session->set('formValues', $this->_formValues, self::SESSION_SCOPE_SEARCH);
+        $this->set('type', $this->_mode );
+        $this->set('formValues', $this->_formValues );
 
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {

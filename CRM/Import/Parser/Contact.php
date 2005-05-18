@@ -79,10 +79,26 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
     }
 
+    /**
+     * handle the values in preview mode
+     *
+     * @param array $values the array of values belonging to this line
+     *
+     * @return boolean      the result of this processing
+     * @access public
+     */
     function preview( &$values ) {
         return self::VALID;
     }
 
+    /**
+     * handle the values in summary mode
+     *
+     * @param array $values the array of values belonging to this line
+     *
+     * @return boolean      the result of this processing
+     * @access public
+     */
     function summary( &$values ) {
         $response = $this->setActiveFieldValues( $values );
         if ( $response != self::VALID ) {
@@ -102,6 +118,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         return self::VALID;
     }
 
+    /**
+     * handle the values in import mode
+     *
+     * @param array $values the array of values belonging to this line
+     *
+     * @return boolean      the result of this processing
+     * @access public
+     */
     function import( &$values ) {
         // first make sure this is a valid line
         $response = $this->summary( $values );

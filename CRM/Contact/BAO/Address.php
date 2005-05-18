@@ -33,6 +33,9 @@
 
 require_once 'CRM/Contact/DAO/Address.php';
 
+/**
+ * BAO object for crm_address table
+ */
 class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
     function __construct( ) {
         parent::__construct( );

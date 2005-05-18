@@ -32,7 +32,9 @@
  */
 
 /**
- * defines a simple implemenation of a block using smarty
+ * defines a simple implemenation of a drupal block.
+ * blocks definitions and html are in a smarty template file
+ *
  */
 class CRM_Core_Block {
 

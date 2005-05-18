@@ -637,7 +637,7 @@ function civicrm_search()
             $url   = 'civicrm/contact/search';
         }
         $controller = new CRM_Contact_Controller_Search( $title, $mode );
-        $session->pushUserContext( CRM_Utils_System::url( $url ) );
+        $session->pushUserContext( CRM_Utils_System::url( $url, 'force=1' ) );
         $controller->run( );
     }
 

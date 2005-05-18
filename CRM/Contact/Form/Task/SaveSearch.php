@@ -69,10 +69,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
     function buildQuickForm()
     {
         // get the qill 
-        // get the session variables for search scope
-        $session = CRM_Core_Session::singleton( );        
-        $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-        $qill = CRM_Contact_Selector::getQILL($searchScope['formValues']);
+        $qill = CRM_Contact_Selector::getQILL($this->get( 'formValues' ));
 
         // need to save qill for the smarty template
         $template = CRM_Core_Smarty::singleton( );
@@ -95,10 +92,6 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
      */
     public function postProcess()
     {
-
-        $session = CRM_Core_Session::singleton( );        
-        $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-
         // saved search form values
         $formValues = $this->controller->exportValues($this->_name);
 
@@ -108,7 +101,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $savedSearch->domain_id   = 1;   // hack for now
         $savedSearch->name        = $formValues['name'];
         $savedSearch->description = $formValues['description'];
-        $savedSearch->form_values = serialize($searchScope['formValues']);
+        $savedSearch->form_values = serialize($this->get( 'formValues' ));
         $savedSearch->save();
         CRM_Core_Session::setStatus( 'Your search has been saved as "' . $formValues['name'] . '"' );
     }

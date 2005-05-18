@@ -166,14 +166,25 @@ class CRM_Core_Action {
         return CRM_Utils_Array::value( $mask, self::$_description, 'NO DESCRIPTION SET' );
     }
 
+    /**
+     * given a set of links and a mask, return the html action string for
+     * the links associated with the mask
+     *
+     * @param array $links  the set of link items
+     * @param int   $mask   the mask to be used. a null mask means all items
+     * @param array $values the array of values for parameter substitution in the link items
+     *
+     * @return string       the html string
+     * @access public
+     * @static
+     */
     static function formLink( $links, $mask, $values ) {
- 
         $url = array( );
         foreach ( $links as $m => &$link ) {
             if ( ! $mask || ( $mask & $m ) ) {
                 $url[] = sprintf('<a href="%s" '.$link['extra'].'>%s</a>',
                                  CRM_Utils_System::url( $link['url'],
-                                                  self::replace( $link['qs'], $values ) ),
+                                                        self::replace( $link['qs'], $values ) ),
                                  $link['name'] );
             }
         }
@@ -184,8 +195,19 @@ class CRM_Core_Action {
         return $result;
     }
 
-    function replace( $str, $values ) {
-        foreach ( $values as $n => $v ) {
+    /**
+     * given a string and an array of values, substitute the real values
+     * in the placeholder in the str in the CiviCRM format
+     *
+     * @param string $str    the string to be replaced
+     * @param array  $values the array of values for parameter substitution in the str
+     *
+     * @return string        the substituted string
+     * @access public
+     * @static
+     */
+    static function &replace( &$str, &$values ) {
+        foreach ( $values as $n => &$v ) {
             $str = str_replace( "%%$n%%", $v, $str );
         }
         return $str;

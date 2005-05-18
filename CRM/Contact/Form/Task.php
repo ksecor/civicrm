@@ -78,9 +78,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
             $contact = new CRM_Contact_BAO_Contact();
-            $session = CRM_Core_Session::singleton( );
-            $session->getVars($searchScope, CRM_Contact_Form_Search::SESSION_SCOPE_SEARCH);
-            $fv = $searchScope['formValues'];
+            $fv = $this->get( 'formValues' );
             $result = $contact->searchQuery( $fv, 0, 0, null );
             while ( $result->fetch( ) ) {
                 $this->_contactIds[] = $result->contact_id;

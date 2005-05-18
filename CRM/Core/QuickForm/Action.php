@@ -52,6 +52,12 @@ class CRM_Core_QuickForm_Action extends HTML_QuickForm_Action {
         $this->_stateMachine =& $stateMachine;
     }
 
+    /**
+     * returns the user to the top of the user context stack.
+     *
+     * @return void
+     * @access public
+     */
     function popUserContext( ) {
         $session = CRM_Core_Session::singleton( );
         $config  = CRM_Core_Config::singleton( );

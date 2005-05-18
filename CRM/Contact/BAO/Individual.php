@@ -40,6 +40,9 @@ require_once 'CRM/Contact/DAO/Phone.php';
 require_once 'CRM/Contact/DAO/IM.php';
 require_once 'CRM/Contact/DAO/Email.php';
 
+/**
+ * BAO object for crm_individual table
+ */
 class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual 
 {
     /**

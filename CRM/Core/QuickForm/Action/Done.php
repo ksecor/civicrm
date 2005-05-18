@@ -77,8 +77,9 @@ class CRM_Core_QuickForm_Action_Done extends CRM_Core_QuickForm_Action {
         $page->postProcess( );
 
         // ok so we are done now, pop stack and jump back to where we came from
-        $this->_stateMachine->reset( );
-        $this->_popUserContext( );
+        // we do not reset the context because u can achieve that affect using next
+        // use Done when u want to pop back to the same context without a reset
+        $this->popUserContext( );
     }
 
 }
