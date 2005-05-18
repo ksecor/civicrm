@@ -551,6 +551,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $object->primary_contact_id = $id;
             $object->find( );
             while ( $object->fetch( ) ) {
+                // we need to set this to null explicitly
                 $object->primary_contact_id = 'null';
                 $object->save( );
             }

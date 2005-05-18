@@ -577,8 +577,7 @@ function civicrm_load($queryArgs)
  */
 function civicrm_form( $mode )
 {
-    CRM_Utils_System::setUserContext( array( 'civicrm/contact/search', 'civicrm/contact/view' ),
-                                      CRM_Utils_System::url( 'civicrm/contact/search' ) );
+    CRM_Utils_System::setUserContext( array( 'civicrm/contact/search', 'civicrm/contact/view' ) );
     $wrapper = new CRM_Utils_Wrapper();
     $wrapper->run('CRM_Contact_Form_Edit', 'Contact Page', $mode );
 }
@@ -638,7 +637,7 @@ function civicrm_search()
             $url   = 'civicrm/contact/search';
         }
         $controller = new CRM_Contact_Controller_Search( $title, $mode );
-        $session->pushUserContext( CRM_Utils_System::url( $url, 'reset=1' ) );
+        $session->pushUserContext( CRM_Utils_System::url( $url ) );
         $controller->run( );
     }
 

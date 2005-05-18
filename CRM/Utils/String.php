@@ -166,6 +166,25 @@ class CRM_Utils_String {
         }
         return true;
     }
+
+    /**
+     * determine if two href's are equivalent (fuzzy match)
+     *
+     * @param string $url1 the first url to be matched
+     * @param string $url2 the second url to be matched against
+     *
+     * @return boolean true if the urls match, else false
+     * @access public
+     * @static
+     */
+    function match( $url1, $url2 ) {
+        $url1Str = parse_url( $url1 );
+        $url2Str = parse_url( $url2 );
+
+        // CRM_Core_Error::debug( $url1Str['path'], $url2Str['path'] );
+        return ( strtolower( $url1Str['path'] ) == strtolower( $url2Str['path'] ) ) ? true : false;
+    }
+
 }
 
 ?>

@@ -50,21 +50,6 @@ class CRM_Utils_Wrapper
      */
     protected $_controller;
 
-
-    /**
-     * Constructor
-     *
-     * The constructor calls the constructor of the base class.
-     *
-     * @param none
-     * @return none
-     * @access public
-     *
-     */
-    function __construct()
-    {
-    }
-
     /**
      * Run.
      *

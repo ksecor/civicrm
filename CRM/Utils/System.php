@@ -228,13 +228,9 @@ class CRM_Utils_System {
      * @access public
      */
     static function setUserContext( $names, $default = null ) {
-        $config  =& CRM_Core_Config::singleton( );
-        if ( ! isset( $default ) ) {
-            $url = $config->mainMenu;
-        } else {
-            $url = $default;
-        }
+        $url = $default;
 
+        $session =& CRM_Core_Session::singleton();
         $referer = CRM_Utils_Array::value( 'HTTP_REFERER', $_SERVER );
 
         if ( $referer && ! empty( $names ) ) {
@@ -246,8 +242,10 @@ class CRM_Utils_System {
             }
         }
 
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( $url );
+        if ( $url ) {
+            // CRM_Core_Error::debug( 'pushing: ', $url );
+            $session->pushUserContext( $url );
+        }
     }
 
 }
