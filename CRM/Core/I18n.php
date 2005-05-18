@@ -99,7 +99,7 @@ class CRM_Core_I18n {
      */
     function crm_translate($text, $params)
     {
-        $text = stripslashes($text);
+        // $text = stripslashes($text);
 
         // set escape mode
         if (isset($params['escape'])) {
