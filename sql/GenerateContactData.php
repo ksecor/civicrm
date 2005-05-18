@@ -768,9 +768,6 @@ class CRM_GCD {
 //         CRM_Core_Error::debug_var('household', $this->household);
 //         CRM_Core_Error::debug_var('organization', $this->organization);
 
-        // primary location
-        $location->is_primary = 1;
-        
         // strict individuals
         foreach ($this->strictIndividual as $contactId) {
             $this->_addLocation(self::HOME, $contactId);
@@ -778,7 +775,7 @@ class CRM_GCD {
         
         //household
         foreach ($this->household as $contactId) {
-            $this->_addLocation(self::MAIN, $contactId);
+            $this->_addLocation(self::HOME, $contactId);
         }
         
         //organization
@@ -789,11 +786,6 @@ class CRM_GCD {
         // some individuals.
         $someIndividual = array_diff($this->individual, $this->strictIndividual);
         $someIndividual = array_slice($someIndividual, 0, (int)(75*($this->numIndividual-$this->numStrictIndividual)/100));
-
-        CRM_Core_Error::debug_var('totalIndividual', $this->individual);
-        CRM_Core_Error::debug_var('strictIndividual', $this->strictIndividual);
-        CRM_Core_Error::debug_var('someIndividual', $someIndividual);
-
         foreach ($someIndividual as $contactId) {
             $this->_addLocation(self::HOME, $contactId);
         }
@@ -807,29 +799,29 @@ class CRM_GCD {
         CRM_Core_Error::le_method();
 
         $locationDAO = new CRM_Contact_DAO_Location();
-        $locationDAO->location_type_id = self::HOME;
+
+        $locationDAO->is_primary = 1; // primary location for now
+        $locationDAO->location_type_id = $locationType;
         $locationDAO->contact_id = $contactId;
 
         $this->_insert($locationDAO);
-
         $this->_addAddress($locationDAO->id);        
 
-        // need a new object here otherwise the find will use values of the previous results.
+        // add two phones for each location
+        $this->_addPhone($locationDAO->id, 'Phone', true);
+        $this->_addPhone($locationDAO->id, 'Mobile', false);
+
+        // need to get sort name to generate email id
         $contact = new CRM_Contact_DAO_Contact();
         $contact->id = $locationDAO->contact_id;
         $contact->find(true);
-
         // get the sort name of the contact
         $sortName  = $contact->sort_name;
-        // add 3 email for each location
-        for ($emailId=1; $emailId<=3; $emailId++) {
+
+        // add 2 email for each location
+        for ($emailId=1; $emailId<=2; $emailId++) {
             $this->_addEmail($locationDAO->id, $sortName, ($emailId == 1));
         }
-
-        // add 3 phones for each location
-        for ($phoneId=1; $phoneId<=3; $phoneId++) {
-            $this->_addPhone($locationDAO->id, ($phoneId == 1));
-        }            
 
         CRM_Core_Error::ll_method();
     }
@@ -845,16 +837,13 @@ class CRM_GCD {
 
 
         if ($locationId % 5) {
-
             $addressDAO->street_number = mt_rand(1, 1000);
             $addressDAO->street_number_suffix = ucfirst($this->_getRandomChar());
             $addressDAO->street_number_predirectional = $this->_getRandomElement($this->addressDirection);
             $addressDAO->street_name = ucwords($this->_getRandomElement($this->streetName));
             $addressDAO->street_type = $this->_getRandomElement($this->streetType);
             $addressDAO->street_number_postdirectional = $this->_getRandomElement($this->addressDirection);
-            
             $addressDAO->street_address = $addressDAO->street_number_predirectional . " " . $addressDAO->street_number .  $addressDAO->street_number_suffix .  " " . $addressDAO->street_name .  " " . $addressDAO->street_type . " " . $addressDAO->street_number_postdirectional;
-
             $addressDAO->supplemental_address_1 = ucwords($this->_getRandomElement($this->supplementalAddress1));
         }
         
@@ -888,16 +877,15 @@ class CRM_GCD {
         return $sortName;
     }
 
-    private function _addPhone($locationId, $primary=false)
+    private function _addPhone($locationId, $phoneType, $primary=false)
     {
         CRM_Core_Error::le_method();
         if ($locationId % 3) {
             $phone = new CRM_Contact_DAO_Phone();
             $phone->location_id = $locationId;
             $phone->is_primary = $primary;
-
             $phone->phone = mt_rand(11111111, 99999999);
-            $phone->phone_type = $this->_getRandomElement($this->phoneType);
+            $phone->phone_type = $phoneType;
             $this->_insert($phone);
         }
         CRM_Core_Error::ll_method();
