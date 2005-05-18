@@ -536,6 +536,9 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
     function freeze()
     {
         parent::freeze();
+        if (empty($this->_elements)) {
+            $this->_createElements();
+        }
         foreach (array_keys($this->_elements) as $key) {
             $this->_elements[$key]->freeze();
         }
