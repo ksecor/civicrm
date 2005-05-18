@@ -706,6 +706,9 @@ class CRM_GCD {
         CRM_Core_Error::ll_method();
 
         $relationship = new CRM_Contact_DAO_Relationship();
+
+        $relationship->is_active = 1; // all active for now.
+
         foreach ($this->householdIndividual as $household_id => $household_member) {
             // add child_of relationship
             // 2 for each child
