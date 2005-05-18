@@ -114,13 +114,12 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 $elementData = isset($field['customValue']['data']) ? $field['customValue']['data'] : $field['default_value'];
 
                 switch($field['html_type']) {
+
                 case 'Text':
+
                 case 'TextArea':
                     $element = $this->add(strtolower($field['html_type']), $elementName, $field['label'],
                                           $field['attributes'], $field['is_required']);
-                    if ($elementData) {
-                        $element->setValue($elementData);
-                    }
                     break;
 
                 case 'Select Date':
@@ -134,7 +133,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     //$this->add('date', $elementName, $field['label'], $field['attributes'], $field['required']);
                     $this->add('date', $elementName, $field['label'], $dateOptions, $field['required']);
                     break;
-
                 case 'Radio':
                     $choice = array();
                     $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 'Yes', 'yes', $field['attributes']);
@@ -144,7 +142,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                         $this->addRule($elementName, ' is a required field' , 'required');
                     }
                     break;
-                    
                 case 'Select':
                 case 'CheckBox':
                 case 'Select State / Province':
@@ -168,6 +165,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                         'name'      => 'Cancel' ),
                                 )
                           );
+
+        if ($this->_mode & self::MODE_VIEW) {
+            $this->freeze();
+            // $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
+        }
     }
     
 
@@ -187,12 +189,14 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 $fieldId = $field['id'];
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
                 if (isset($field['customValue'])) {
-                    if ( $field['html_type'] == 'Radio' ) {
+                    if ($field['html_type'] == 'Radio') {
                         $defaults[$elementName] = $field['customValue']['data'] ? 'yes' : 'no';
-                    } else if ( $field['html_type'] == 'Select Date' ) {
-                        $defaults[$elementName]['Y'] = substr( $date, 0, 4 );
-                        $defaults[$elementName]['M'] = substr( $date, 4, 2 );
-                        $defaults[$elementName]['d'] = substr( $date, 6, 2 );
+                    } else if ($field['html_type'] == 'Select Date') {
+                        if ($date = $field['customValue']['data']) {
+                            $defaults[$elementName]['Y'] = substr($date, 0, 4);
+                            $defaults[$elementName]['M'] = substr($date, 5, 2);
+                            $defaults[$elementName]['d'] = substr($date, 8, 2);
+                        }
                     } else {
                         $defaults[$elementName] = $field['customValue']['data'];
                     }
@@ -215,7 +219,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         // Get the form values and groupTree
         $fv = $this->exportValues();
-        CRM_Core_Error::debug( 'fv', $fv );
 
         // update group tree with form values
         foreach ($fv as $k => $v) {
@@ -229,7 +232,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     // field exists in db so populate value from "form".
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
                 }
-
+                
                 switch ( $this->_groupTree[$groupId]['fields'][$fieldId]['html_type'] ) {
                 case 'Radio':
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = ( $v == 'yes' ) ? 1 : 0;

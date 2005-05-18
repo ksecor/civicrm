@@ -34,57 +34,6 @@
 require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_CustomData {
-
-    /**
-     * Browse all custom data.
-     *
-     * @access public
-     *
-     * @param object $page - the view page
-     *
-     * @return none
-     *
-     * @static
-     */
-    static function browse($page)
-    {
-        $groupTree = CRM_Core_BAO_CustomGroup::getTree(CRM_Contact_BAO_Contact::getContactType($page->getContactId()), 
-                                                       $page->getContactId());
-        $page->assign('groupTree', $groupTree);
-    }
-
-    /**
-     * edit custom data.
-     *
-     * editing would involved modifying existing fields + adding data to new fields.
-     *
-     * @access public
-     *
-     * @param object $page - view page of contact
-     *
-     * @returns none
-     *
-     * @static
-     */
-    static function edit($page)
-    {
-        // create a simple controller for editing custom data
-        $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', CRM_Core_Form::MODE_UPDATE);
-        $controller->setEmbedded(true);
-
-        // set the userContext stack
-        $session = CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view/cd', 'action=browse'));
-        
-        $controller->reset();
-        $controller->set('tableName' , 'crm_contact');
-        $controller->set('tableId'   , $page->getContactId());
-        $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
-        $controller->process();
-        $controller->run();
-    }
-
-
     /**
      * Run the page.
      *
@@ -106,14 +55,29 @@ class CRM_Contact_Page_CustomData {
         // assign vars to templates
         $page->assign('contactId', $contactId);
         $page->assign('action', $action);
-        
+
+        $controller = null;
+
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE)) {
             // both update and add are handled by 'edit'
-            self::edit($page);
+            $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', CRM_Core_Form::MODE_UPDATE);
         } else {
-            self::browse($page);
+            $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', CRM_Core_Form::MODE_VIEW);
         }
+
+        // create a simple controller for custom data
+        $controller->setEmbedded(true);
+
+        // set the userContext stack
+        $session = CRM_Core_Session::singleton();
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view/cd', 'action=browse'));
+        $controller->reset();
+        $controller->set('tableName' , 'crm_contact');
+        $controller->set('tableId'   , $page->getContactId());
+        $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
+        $controller->process();
+        $controller->run();
     }
 }
 ?>
