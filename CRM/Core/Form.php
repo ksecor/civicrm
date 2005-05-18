@@ -310,9 +310,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             
             // hack - addGroup uses an array to express variable spacing, read from the last element
             $spacing[] = CRM_Utils_Array::value('spacing', $button, self::ATTR_SPACING);
-            
-            $this->addGroup( $prevnext, 'buttons', '', $spacing, false );
         }
+        $this->addGroup( $prevnext, 'buttons', '', $spacing, false );
     }
 
     /**

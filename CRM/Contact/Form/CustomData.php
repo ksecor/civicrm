@@ -124,13 +124,12 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
                 case 'Select Date':
                     $dateOptions = array(
-                                         'format'          => 'dMY',
+                                         'format'          => 'd M Y',
                                          'minYear'         => date('Y')-100,
                                          'maxYear'         => date('Y'),
                                          'addEmptyOption'  => 'true',
                                          'emptyOptionText' => '--',
                                          );
-                    //$this->add('date', $elementName, $field['label'], $field['attributes'], $field['required']);
                     $this->add('date', $elementName, $field['label'], $dateOptions, $field['required']);
                     break;
                 case 'Radio':
@@ -168,7 +167,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         if ($this->_mode & self::MODE_VIEW) {
             $this->freeze();
-            // $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
         }
     }
     
