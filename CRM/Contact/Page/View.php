@@ -87,13 +87,12 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     function getContactDetails( ) {
         $config = CRM_Core_Config::singleton( );
         $displayName = $this->get( 'displayName' );
-        $contactType = $this->get( 'contactType' );
-        
+             
         // for all other tabs, we only need the displayName
         // so if the display name is cached, we can skip the other processing
         if ( isset( $displayName ) && $this->_mode != self::MODE_NONE ) {
             $this->assign( 'displayName', $displayName );
-            $this->assign( 'contactType', $contactType );
+         
             $contactImage = $this->get( 'contactImage' );
             // Set dynamic page title = contactImage + displayname>
             CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
@@ -116,8 +115,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             $displayName = $defaults['sort_name'];
         }
         $this->set( 'displayName', $displayName );
-        $this->set( 'contactType', $defaults['contact_type'] );
-
+   
         // Set dynamic page title for view = contact_type img + contact displayname
         $contactImage  = '<img src="' . $config->resourceBase . 'i/contact_';
         switch ($defaults['contact_type']) {

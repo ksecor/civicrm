@@ -55,7 +55,7 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      * @static
      */
     static function add( &$params, &$ids, $locationId ) {
-        if ( ! self::dataExists( $params, $locationId ) ) {
+        if ( ! self::dataExists( $params, $locationId, $ids ) ) {
             return null;
         }
 
@@ -80,12 +80,18 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId ) {
+    static function dataExists( &$params, $locationId, &$ids = '' ) {
 
         // return if no data present
 
         if ( ! array_key_exists( 'address' , $params['location'][$locationId] ) ) {
             return false;
+        }
+
+        if (is_array($ids)) {
+            if (CRM_Utils_Array::value( 'address', $ids['location'][$locationId] )) {
+                return true;
+            }
         }
 
         foreach ( $params['location'][$locationId]['address'] as $name => $value ) {

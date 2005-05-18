@@ -208,6 +208,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 $relationship = self::add( $params, $ids, $key );
             }
         } else {
+            
             $relationship = self::add( $params, $ids);
         }
         CRM_Core_DAO::transaction( 'COMMIT' );
@@ -250,16 +251,41 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         
         if ($temp[1] == 'b') {
             $contact_b = CRM_Utils_Array::value( 'contact', $ids );
-            $contact_a = $contactId;
+            if (!$contactId) {
+                // to get the other contact in the relationship
+                $relObj = CRM_Contact_BAO_Relationship::getContactId(CRM_Utils_Array::value( 'relationship', $ids ) );
+                
+                if ($relObj->contact_id_a == $contact_b) {
+                    $contact_a = $relObj->contact_id_b;
+                } else {
+                    $contact_a = $relObj->contact_id_a;
+                }
+
+            } else {
+                $contact_a = $contactId;
+            }
         } else if ($temp[1] == 'a') {
-            $contact_b = $contactId;
+
             $contact_a = CRM_Utils_Array::value( 'contact', $ids );
+
+            if (!$contactId) {
+                // to get the other contact in the relationship
+                $relObj = CRM_Contact_BAO_Relationship::getContactId(CRM_Utils_Array::value( 'relationship', $ids ) );
+                
+                if ($relObj->contact_id_a == $contact_a) {
+                    $contact_b = $relObj->contact_id_b;
+                } else {
+                    $contact_b = $relObj->contact_id_a;
+                }
+
+            } else {
+                $contact_b = $contactId;
+            }
         }
         
-        if($contactId > 0) { // don't update the contact during the update call.
-            $relationship->contact_id_b  = $contact_b;
-            $relationship->contact_id_a  = $contact_a;
-        }
+        $relationship->contact_id_b  = $contact_b;
+        $relationship->contact_id_a  = $contact_a;
+
         $relationship->relationship_type_id = $temp[0];
         
         $sdate = CRM_Utils_Array::value( 'start_date', $params );
@@ -351,8 +377,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 /*if (!$lngCheck) { // this is if relationship type id is 1
                     $relationshipType[$key.'_b_a'] = $varValue['name_a_b'];
                     $relationshipType[$key.'_a_b'] = $varValue['name_b_a'];
-                    echo "*********<br>";
-                } else*/
+                  } else*/
                 if (!in_array($varValue['name_b_a'], $relationshipType)) {
                     $relationshipType[$key.'_'.$contactSuffix] = $varValue['name_b_a'];
                 }
@@ -374,7 +399,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @static
      *
      */
-    static function del ( $id ) {
+    static function del ( $id ) 
+    {
         // delete from relationship table
         $relationship = new CRM_Contact_DAO_Relationship( );
         $relationship->id = $id;
@@ -390,7 +416,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @access public
      * @static
      */
-    static function deleteContact( $contactId ) {
+    static function deleteContact( $contactId ) 
+    {
         $relationship = new CRM_Contact_DAO_Relationship( );
         $relationship->contact_id_a = $contactId;
         $relationship->delete();
@@ -399,6 +426,28 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $relationship->contact_id_b = $contactId;
         $relationship->delete();
     }
+
+    /**
+     * Function to get the other contact in a relationship
+     *
+     * @param int $id relationship id
+     *
+     * $returns  returns the other contact id in the realtionship
+     * @access public
+     * @static
+     */
+    static function getContactId ($id) 
+    {
+        $relationship = new CRM_Contact_DAO_Relationship( );
+
+        $relationship->id = $id;
+        $relationship->selectAdd( );
+        $relationship->selectAdd('contact_id_a, contact_id_b');
+        $relationship->find(true);
+        
+        return $relationship;
+    }
+    
 }
 
 ?>

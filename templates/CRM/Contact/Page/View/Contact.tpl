@@ -28,7 +28,7 @@
   <div class="col1">
     {$loc.address.street_address}<br />
     {if $loc.address.supplemental_address_1}{$loc.address.supplemental_address_1}<br />{/if}
-    {$loc.address.city}, {$loc.address.state_province} {$loc.address.postal_code}<br />
+    {$loc.address.city}{ if $loc.address.city},{/if} {$loc.address.state_province} {$loc.address.postal_code}<br />
     {$loc.address.country}
   </div>
   
@@ -125,7 +125,7 @@
 
         {foreach from=$relationship item=rel}
           {assign var = "rtype" value = "" }
-              {if $rel.contact_b > 0 }
+              {if $rel.contact_a > 0 }
             {assign var = "rtype" value = "b_a" }
           {else}	  
             {assign var = "rtype" value = "a_b" }
