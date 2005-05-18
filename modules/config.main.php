@@ -12,7 +12,6 @@ ini_set('include_path', $include_path);
 define( 'CRM_TEMPLATEDIR', $user_home . DIRECTORY_SEPARATOR . 'templates'   );
 define( 'CRM_PLUGINSDIR' , $user_home . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR . 'plugins' );
 
-define( 'CRM_LC_MESSAGES'         , 'en_US' );
 define( 'CRM_GETTEXT_CODESET'     , 'utf-8' );
 define( 'CRM_GETTEXT_DOMAIN'      , 'civicrm' );
 define( 'CRM_GETTEXT_RESOURCE_DIR', $user_home . DIRECTORY_SEPARATOR . 'l10n' );
