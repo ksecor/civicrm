@@ -65,7 +65,7 @@ class CRM_Admin_Page_IMProvider extends CRM_Core_Page_Basic {
      */
     static private function _links() {
 
-	$disableExtra = ts('Are you sure you want to disable this IM Service Provider.\n\nUsers will no longer be able to select this value when adding or editing contact IM screen names.');
+	$disableExtra = ts('Are you sure you want to disable this IM Service Provider?\n\nUsers will no longer be able to select this value when adding or editing contact IM screen names.');
 
 	return array( CRM_Core_Action::UPDATE  => array( 'name'  => ts('Edit'),
                                                          'url'   => 'civicrm/admin/IMProvider',

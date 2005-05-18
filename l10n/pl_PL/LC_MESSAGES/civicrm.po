@@ -36,3 +36,17 @@ msgstr[0] "Znaleziono %count kontakt"
 msgstr[1] "Znaleziono %count kontakty"
 msgstr[2] "Znaleziono %count kontaktów"
 
+msgid "IM Provider"
+msgstr "Dostawca IM"
+
+msgid "Edit"
+msgstr "Edytuj"
+
+msgid ""
+"Are you sure you want to disable this IM Service Provider?\\n\\nUsers "
+"will no longer be able to select this value when adding or editing contact "
+"IM screen names."
+msgstr ""
+"Na pewno wyłączyć tego dostawcę usług IM?\\n\\nUżytkownicy stracą możliwość "
+"wyboru tej wartości podczas dodawania i edytowania kontaktów IM."
+
