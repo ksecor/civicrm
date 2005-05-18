@@ -39,6 +39,7 @@
         <th>{ts}Description{/ts}</th>
         <th>{ts}Is Active?{/ts}</th>
         <th>{ts}Used For{/ts}</th>
+        <th>{ts}Weight{/ts}</th>
         <th></th>
     </tr>
     {foreach from=$rows item=row}
@@ -47,6 +48,7 @@
         <td>{$row.description}</td>
         <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
         <td>{$row.extends}</td>
+        <td>{$row.weight}</td>
         <td>{$row.action}</td>
     </tr>
     {/foreach}

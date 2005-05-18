@@ -1,5 +1,5 @@
 {* template for custom data *}
-{if $contactType eq 'Individual'}
+
     {if $action eq 1 or $action eq 2}
         {include file="CRM/Contact/Form/CustomData.tpl"}
     {/if}
@@ -10,21 +10,14 @@
     <div id="custom-data" class="label">Existing Custom Groups</div>   
 
     <div class="form-item">
-    {foreach from=$groupTree item=cd_view}
-    <fieldset><legend>{$cd_view.title}</legend>
-        {foreach from=$cd_view.fields item=cd_value_view}
+    {foreach from=$groupTree item=cd key=group_id}
+    <fieldset><legend>{$cd.title}</legend>
+        {foreach from=$cd.fields item=cd_value key=field_id}
+        {assign var="name" value=`$cd_value.name`} 
+        {assign var="element_name value=$group_id|cat:_|cat:$field_id|cat:_|cat:$cd_value.name}
         <dl>
-        <dt>{$cd_value_view.label}</dt>
-        <dd>{if $cd_value_view.customValue}
-            {if $cd_value_view.html_type eq "Radio"} 
-            {if $cd_value_view.customValue.data eq 1} Yes {else} No {/if}
-            {else}
-                {$cd_value_view.customValue.data}
-            {/if} {* html_type *}
-            {else}
-            --
-            {/if} {* customValue *}
-        </dd>
+        <dt>{$cd_value.label}</dt>
+        <dd>{$form.$element_name.html}</dd>
         </dl>
         {/foreach}
     </fieldset>
@@ -38,12 +31,5 @@
 
     {/if}
     {/strip}
-{else}
-    <div class="mesage status">
-    <dl>
-    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
-    <dd>There are no Custom Groups for <span class="label">{$contactType}</span>.</dd>
-    </dl>
-    </div>
-{/if}
+
 
