@@ -35,21 +35,21 @@
   <div class="col2">
    {foreach from=$loc.phone item=phone}
      {if $phone.is_primary eq 1}<strong>{/if}
-     {$phone.phone_type}: {$phone.phone} 
+     {if $phone.phone_type or $phone.phone} {if $phone.phone_type}{$phone.phone_type}:{/if} {if $phone.phone} {$phone.phone} {/if} {/if}
      {if $phone.is_primary eq 1}</strong>{/if}
      <br />
    {/foreach}
 
    {foreach from=$loc.email item=email}
      {if $email.is_primary eq 1}<strong>{/if}
-     Email: {$email.email}
+     {if $email.email}     Email: {$email.email} {/if}
      {if $email.is_primary eq 1}</strong>{/if}
      <br />
    {/foreach}
 
    {foreach from=$loc.im item=im key=imKey}
      {if $im.is_primary eq 1}<strong>{/if}
-     Instant Messenger: {$im.name} ( {$im.provider} )
+     {if $im.name or $im.provider}  Instant Messenger: {if $im.name}{$im.name}{/if} {if $im.provider}( {$im.provider} ) {/if} {/if}
      {if $im.is_primary eq 1}</strong>{/if}
      <br />
    {/foreach}

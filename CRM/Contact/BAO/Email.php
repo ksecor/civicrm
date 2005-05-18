@@ -56,7 +56,7 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      * @static
      */
     static function add( &$params, &$ids, $locationId, $emailId, &$isPrimary ) {
-        if ( ! self::dataExists( $params, $locationId, $emailId ) ) {
+        if ( ! self::dataExists( $params, $locationId, $emailId, $ids ) ) {
             return null;
         }
 
@@ -78,14 +78,23 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param int    $locationId
      * @param int    $emailId
+     * @param array  $ids            the array that holds all the db ids
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $emailId ) {
-        return CRM_Contact_BAO_Block::dataExists('email', array( 'email' ), 
-                                                 $params, $locationId, $emailId );
+    static function dataExists( &$params, $locationId, $emailId, &$ids = '' ) {
+
+        if ( CRM_Utils_Array::value( $emailId, $ids['location'][$locationId]['email'] )) {
+            return true;
+        }
+
+        if ( CRM_Contact_BAO_Block::dataExists('email', array( 'email' ), $params, $locationId, $emailId ) ) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

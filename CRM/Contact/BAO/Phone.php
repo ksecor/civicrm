@@ -56,7 +56,7 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * @static
      */
     static function add( &$params, &$ids, $locationId, $phoneId, &$isPrimary ) {
-        if ( ! self::dataExists( $params, $locationId, $phoneId ) ) {
+        if ( ! self::dataExists( $params, $locationId, $phoneId, $ids ) ) {
             return null;
         }
 
@@ -81,14 +81,28 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param int    $locationId
      * @param int    $phoneId
+     * @param array  $ids            the array that holds all the db ids
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $phoneId ) {
+    static function dataExists( &$params, $locationId, $phoneId, &$ids = ''  ) {
+
+        if ( CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] )) {
+            return true;
+        }
+
+        if (CRM_Contact_BAO_Block::dataExists('phone', array( 'phone' ), $params, $locationId, $phoneId )) {
+            return true;
+        }
+        
+        return false;
+        /*
         return CRM_Contact_BAO_Block::dataExists('phone', array( 'phone' ), 
                                                  $params, $locationId, $phoneId );
+        */
+
     }
 
     /**

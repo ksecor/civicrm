@@ -56,7 +56,7 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      * @static
      */
     static function add( &$params, &$ids, $locationId, $imId, &$isPrimary ) {
-        if ( ! self::dataExists( $params, $locationId, $imId ) ) {
+        if ( ! self::dataExists( $params, $locationId, $imId, $ids ) ) {
             return null;
         }
 
@@ -64,6 +64,8 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
         $im->location_id  = $params['location'][$locationId]['id'];
         $im->name         = $params['location'][$locationId]['im'][$imId]['name'];
         $im->provider_id  = $params['location'][$locationId]['im'][$imId]['provider_id'];
+
+        if (!$im->provider_id) $im->provider_id  = 'NULL';
 
         // set this object to be the value of isPrimary and make sure no one else can be isPrimary
         $im->is_primary   = $isPrimary;
@@ -79,14 +81,21 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param int    $locationId
      * @param int    $imId
+     * @param array  $ids            the array that holds all the db ids
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $imId ) {
-        return CRM_Contact_BAO_Block::dataExists('im', array( 'name', 'provider_id' ), 
-                                                 $params, $locationId, $imId );
+    static function dataExists( &$params, $locationId, $imId, $ids = '' ) {
+        if (CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] )) {
+            return true;
+        }
+        
+        if (CRM_Contact_BAO_Block::dataExists('im', array( 'name', 'provider_id' ), $params, $locationId, $imId ) ) {
+            return true;
+        }
+        return false;
     }
 
 

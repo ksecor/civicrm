@@ -75,6 +75,7 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param array  $locationId     
+     * @param array  $ids            the array that holds all the db ids
      *
      * @return boolean
      * @access public

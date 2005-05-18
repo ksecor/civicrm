@@ -36,14 +36,12 @@
   <field>
       <name>provider_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Which IM Provider does this screen name belong to.</comment>
   </field>
   <foreignKey>
        <name>provider_id</name>
        <table>crm_im_provider</table>
        <key>id</key>
-       <import>true</import>
   </foreignKey>
   <field>
        <name>is_primary</name>
