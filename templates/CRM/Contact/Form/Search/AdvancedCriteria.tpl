@@ -30,7 +30,7 @@
                     {/foreach}
                 </div>
             </td>
-            <td><label>Category(s)</label><br />
+            <td><label>Tag(s)</label><br />
                 <div class="listing-box">
                     {foreach from=$form.cb_category item="cb_category_val"} 
                     <div class="{cycle values="odd-row,even-row"}">

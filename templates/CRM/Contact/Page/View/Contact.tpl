@@ -26,32 +26,40 @@
    <legend{if $locationIndex eq 1} class="label"{/if}><a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>{$loc.location_type}{if $locationIndex eq 1} (primary location){/if}<legend/>
 
   <div class="col1">
-    {$loc.address.street_address}<br />
+    {if $loc.address.street_address}{$loc.address.street_address}<br />{/if}
     {if $loc.address.supplemental_address_1}{$loc.address.supplemental_address_1}<br />{/if}
-    {$loc.address.city}{ if $loc.address.city},{/if} {$loc.address.state_province} {$loc.address.postal_code}<br />
+    {if $loc.address.city OR $loc.address.state_province OR $loc.address.postal_code}
+        {if $loc.address.city}{$loc.address.city},{/if} {$loc.address.state_province} {$loc.address.postal_code}<br />
+    {/if}
     {$loc.address.country}
   </div>
   
   <div class="col2">
    {foreach from=$loc.phone item=phone}
-     {if $phone.is_primary eq 1}<strong>{/if}
-     {if $phone.phone_type or $phone.phone} {if $phone.phone_type}{$phone.phone_type}:{/if} {if $phone.phone} {$phone.phone} {/if} {/if}
-     {if $phone.is_primary eq 1}</strong>{/if}
-     <br />
+     {if $phone.phone}
+        {if $phone.is_primary eq 1}<strong>{/if}
+        {if $phone.phone_type}{$phone.phone_type}:{/if} {$phone.phone}
+        {if $phone.is_primary eq 1}</strong>{/if}
+        <br />
+     {/if}
    {/foreach}
 
    {foreach from=$loc.email item=email}
-     {if $email.is_primary eq 1}<strong>{/if}
-     {if $email.email}     Email: {$email.email} {/if}
-     {if $email.is_primary eq 1}</strong>{/if}
-     <br />
+      {if $email.email}
+        {if $email.is_primary eq 1}<strong>{/if}
+        Email: {$email.email}
+        {if $email.is_primary eq 1}</strong>{/if}
+        <br />
+      {/if}
    {/foreach}
 
    {foreach from=$loc.im item=im key=imKey}
-     {if $im.is_primary eq 1}<strong>{/if}
-     {if $im.name or $im.provider}  Instant Messenger: {if $im.name}{$im.name}{/if} {if $im.provider}( {$im.provider} ) {/if} {/if}
-     {if $im.is_primary eq 1}</strong>{/if}
-     <br />
+     {if $im.name or $im.provider}
+        {if $im.is_primary eq 1}<strong>{/if}
+        Instant Messenger: {if $im.name}{$im.name}{/if} {if $im.provider}( {$im.provider} ) {/if}
+        {if $im.is_primary eq 1}</strong>{/if}
+        <br />
+     {/if}
    {/foreach}
   </fieldset>
  </div>

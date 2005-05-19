@@ -3,7 +3,7 @@
 <form {$form.attributes}>
 <fieldset><legend>{if $action eq 1}{ts}New Relationship{/ts}{else}{ts}Edit Relationship(s){/ts}{/if}</legend>
 	<div class="data-group">
-      	{ts 1=$displayName 2=$form.relationship_type_id.html}<label>%1</label> is a(n) &nbsp; %2 &nbsp; of {/ts}{if $action EQ 2}{$sort_name}{else}...{/if}
+      	{ts 1=$displayName 2=$form.relationship_type_id.html}<label>%1</label> &nbsp; %2 &nbsp; {/ts}{if $action EQ 2}{$sort_name}{else}...{/if}
 	</div>
 	{if $action eq 1} {* action = add *}
         <div class="form-item">

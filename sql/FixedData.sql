@@ -355,19 +355,19 @@ INSERT INTO crm_location_type( domain_id, name, description, is_reserved, is_act
 INSERT INTO crm_location_type( domain_id, name, description, is_reserved, is_active ) VALUES( 1, 'Other', 'Another location', 0, 1 );
 
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Child', 'Parent', 'Parent/child relationship.', 'Individual', 'Individual', 1 );
+    VALUES( 1, 'Child of', 'Parent of', 'Parent/child relationship.', 'Individual', 'Individual', 1 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Spouse', 'Spouse', 'Spousal relationship.', 'Individual', 'Individual', 1 );
+    VALUES( 1, 'Spouse of', 'Spouse of', 'Spousal relationship.', 'Individual', 'Individual', 1 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Sibling','Sibling', 'Sibling relationship.','Individual','Individual', 1 );
+    VALUES( 1, 'Sibling of','Sibling of', 'Sibling relationship.','Individual','Individual', 1 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Employee', 'Employer', 'Employment relationship.','Individual','Organization', 1 );
+    VALUES( 1, 'Employee of', 'Employer of', 'Employment relationship.','Individual','Organization', 1 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Volunteer', 'Volunteer', 'Volunteer relationship.','Individual','Organization', 0 );
+    VALUES( 1, 'Volunteer for', 'Volunteer is', 'Volunteer relationship.','Individual','Organization', 0 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Head of Household', 'Head of Household', 'Head of household.','Individual','Household', 0 );
+    VALUES( 1, 'Head of Household for', 'Head of Household is', 'Head of household.','Individual','Household', 0 );
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( 1, 'Household Member', 'Member of Household', 'Household membership.','Individual','Household', 0 );
+    VALUES( 1, 'Household Member of', 'Household Member is', 'Household membership.','Individual','Household', 0 );
 
 -- Sample Categories
 INSERT INTO crm_category( domain_id, name, description, parent_id )

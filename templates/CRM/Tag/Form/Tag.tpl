@@ -20,13 +20,14 @@
 
     {* Show Edit Tags link if in View mode *}
     {if $action eq 16}
+        </fieldset>
         <div class="action-link">
           <a href="{crmURL p='civicrm/contact/view/tag' q='action=update'}">&raquo; Edit Tags</a>
         </div>
     {else}
        <div class="form-item">{$form.buttons.html}</div>
+       </fieldset>
     {/if}
-</fieldset>
 
  	
 </form>

@@ -6,19 +6,18 @@
             <fieldset><legend>View Relationship</legend>
 
             <div class="form-item">
-                <label>{$relationship_name}</label> &nbsp; : &nbsp; 
-                <label>{$relationship_contact_name}</label>
+                <dl>
+                <dt>{$relationship_name}</dt> 
+                <dd class="label">{$relationship_contact_name}</dd>
                 {if $start_date}
-                    {*<dl><dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd></dl> *}
-                    <dl><dt>Starting: </dt><dd>{$start_date|date_format:"%B %e, %Y" }</dd></dl>
+                    <dt>Start Date: </dt><dd>{$start_date|date_format:"%B %e, %Y"}</dd>
                 {/if}
                 {if $end_date}
-                    {*<dl><dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd></dl>*}
-		    <dl><dt>Ending: </dt><dd>{$end_date|date_format:"%B %e, %Y"}</dd></dl>	
+                    <dt>End Date: </dt><dd>{$end_date|date_format:"%B %e, %Y"}</dd>
                 {/if}
-            </div>
-            <div class="form-item">
-               <input type="button" name='cancel' value="Done" onClick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';">
+                <dt></dt>
+                <dd><input type="button" name='cancel' value="Done" onClick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"></dd>
+                </dl>
             </div>
             </fieldset>
             </form>
@@ -33,7 +32,7 @@
     {* show browse table for any action *}
       <div id="relationships">
         <p>
-        <div><label>Existing Relationships</label></div>
+        <div><label>Current Relationships</label></div>
         {strip}
         <table>
         <tr class="columnheader">
