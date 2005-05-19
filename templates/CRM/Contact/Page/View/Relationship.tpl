@@ -1,32 +1,9 @@
 {* Relationship tab within View Contact - browse, and view relationships for a contact *}
 
-    {if $action eq 4} {* action = view *}
-        <div class="form-item">
-            <form {$form.attributes}>
-            <fieldset><legend>View Relationship</legend>
-
-            <div class="form-item">
-                <dl>
-                <dt>{$relationship_name}</dt> 
-                <dd class="label">{$relationship_contact_name}</dd>
-                {if $start_date}
-                    <dt>Start Date: </dt><dd>{$start_date|date_format:"%B %e, %Y"}</dd>
-                {/if}
-                {if $end_date}
-                    <dt>End Date: </dt><dd>{$end_date|date_format:"%B %e, %Y"}</dd>
-                {/if}
-                <dt></dt>
-                <dd><input type="button" name='cancel' value="Done" onClick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"></dd>
-                </dl>
-            </div>
-            </fieldset>
-            </form>
-        </div>    
+{if $action eq 1 or $action eq 2 or $action eq 4} {* add, update or view *}
+    {include file="CRM/Contact/Form/Relationship.tpl"}
         
-    {elseif $action eq 1 or $action eq 2 } {* add or update *}
-        {include file="CRM/Contact/Form/Relationship.tpl"}
-        	
-    {/if}
+{/if}
 
 {if $relationship}
     {* show browse table for any action *}

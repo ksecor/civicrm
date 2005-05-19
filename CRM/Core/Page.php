@@ -132,7 +132,7 @@ class CRM_Core_Page {
 
         self::$_template->assign( 'mode'   , $this->_mode );
         self::$_template->assign( 'tplFile', $this->getTemplateFileName() );
-        self::$_template->assign( 'isForm' , 0 );
+//        self::$_template->assign( 'isForm' , 0 );
 
         if ( $this->_print ) {
             $content = self::$_template->fetch( 'CRM/print.tpl' );
