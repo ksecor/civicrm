@@ -2,10 +2,6 @@
 
 {include file="CRM/Contact/Form/Search/Intro.tpl"}
 
-<form {$form.attributes}>
-
-{include file="CRM/formCommon.tpl"}
-
 {* This section handles form elements for search criteria *}
 {include file="CRM/Contact/Form/Search/BasicCriteria.tpl"}
 
@@ -29,4 +25,3 @@
     {* END Actions/Results section *}
 
 {/if}
-</form>

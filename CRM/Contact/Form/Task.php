@@ -148,13 +148,13 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
      * the form with a customized title for the main Submit
      *
      * @param string $title title of the main button
-     *
+     * @param string $type  button type for the form after processing
      * @return void
      * @access public
      */
-    function addDefaultButtons( $title ) {
+    function addDefaultButtons( $title, $type = 'next' ) {
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => $type,
                                          'name'      => $title,
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'back',

@@ -14,7 +14,11 @@
 {include file="CRM/common/status.tpl"}
 
 <!-- .tpl file invoked: {$tplFile} -->
+{if $isForm}
+{include file="CRM/form.tpl"}
+{else}
 {include file=$tplFile}
+{/if}
 
 <div class="message status" id="feedback-request">
      <p>We are now soliciting bug reports. If you find a bug, please review the open issues

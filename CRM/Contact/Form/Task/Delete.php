@@ -45,7 +45,7 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
      * @return void
      */
     function buildQuickForm( ) {
-        $this->addDefaultButtons( 'Delete Contacts' );
+        $this->addDefaultButtons( 'Delete Contacts', 'done' );
     }
 
     /**
@@ -58,6 +58,9 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
         foreach ( $this->_contactIds as $contactId ) {
             CRM_Contact_BAO_Contact::deleteContact( $contactId );
         }
+
+        $status = 'Total Contact(s) deleted: ' . count( $this->_contactIds );
+        CRM_Core_Session::setStatus( $status );
     }//end of function
 
 
