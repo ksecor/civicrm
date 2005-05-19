@@ -1,7 +1,3 @@
-<form {$form.attributes}>
-
-{include file="CRM/formCommon.tpl"}
-
 <div class="form-item">
 <fieldset>
     <legend>Remove Members</legend>
@@ -12,5 +8,3 @@
     </dl>
 </fieldset>
 </div>
-
-</form>

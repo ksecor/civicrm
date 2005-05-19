@@ -1,4 +1,3 @@
-<form {$form.attributes}>
 <p>
 <div class="form-item">
     <p>
@@ -6,4 +5,3 @@
     </p>
 </div>
 </p>
-</form>

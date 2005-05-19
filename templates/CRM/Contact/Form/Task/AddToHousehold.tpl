@@ -1,7 +1,3 @@
-<form {$form.attributes}>
-
-{include file="CRM/formCommon.tpl"}
-
 <fieldset>
 <legend>
 Choose Household and Relationship that you would like to add the below contacts to.
@@ -22,5 +18,3 @@ Choose Household and Relationship that you would like to add the below contacts 
 <div class="form-item">
      <span class="element-right">{$form.buttons.html}</span>
 </div>
-
-</form>

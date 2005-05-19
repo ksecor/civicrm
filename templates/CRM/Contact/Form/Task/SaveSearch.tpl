@@ -1,7 +1,3 @@
-<form {$form.attributes}>
-
-{include file="CRM/formCommon.tpl"}
-
 <fieldset>
 <legend>Saved Search</legend>
  <div id="search-status">
@@ -20,4 +16,3 @@
  </dl>
  </div>
 </fieldset>
-</form>

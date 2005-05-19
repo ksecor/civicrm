@@ -1,6 +1,3 @@
-<form {$form.attributes}>
-{include file="CRM/formCommon.tpl"}
-
 <div class="form-item">
 <p>
 <fieldset><legend>Edit Custom Data</legend>
@@ -25,4 +22,3 @@
 </fieldset>
 </p>
 </div>
-    </form>

@@ -1,7 +1,3 @@
-<form {$form.attributes}>
-
-{include file="CRM/formCommon.tpl"}
-
 <div class="form-item">
 <fieldset>
 <legend>
@@ -13,5 +9,3 @@ Tag Contact(s)
 <dt></dt><dd>{$form.buttons.html}</dd>
 </fieldset>
 </div>
-
-</form>

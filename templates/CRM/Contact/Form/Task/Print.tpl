@@ -1,5 +1,3 @@
-<form {$form.attributes}>
-{include file="CRM/formCommon.tpl"}
 <p>
 
 {if $rows } 
@@ -48,6 +46,3 @@
     </dl>
    </div>
 {/if}
-
-
-</form>

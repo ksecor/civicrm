@@ -1,7 +1,4 @@
 {* Confirmation of contact deletes  *}
-<form {$form.attributes}>
-
-{include file="CRM/formCommon.tpl"}
 <div class="messages status">
   <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
@@ -15,5 +12,3 @@
 <div class="form-item">
  {$form.buttons.html}
 </div>
-
-</form>
