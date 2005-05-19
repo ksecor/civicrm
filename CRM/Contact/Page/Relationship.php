@@ -206,22 +206,13 @@ class CRM_Contact_Page_Relationship {
 
         // set the userContext stack
         $session = CRM_Core_Session::singleton();
-        $config  = CRM_Core_Config::singleton();
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/rel', 'action=browse' ) );
         
         // rtype is the variable that tells type of realationship (a_b or b_a)
-        if ( !$_GET['rtype'] ) {
-            $rtype = $controller->get( 'rtype' );
-        } else {
-            $rtype = $_GET['rtype'];
-        }
+        $rtype = CRM_Utils_Request::retrieve( 'rtype', $this );
 
-        $controller->reset( );
-        $controller->set( 'contactId'  , $page->getContactId( ) );
-        $controller->set( 'relationshipId'   , $relationshipId );
-        
-        $controller->set( 'rtype' , $rtype);
-                
+        $controller->set( 'contactId'     , $page->getContactId( ) );
+        $controller->set( 'relationshipId', $relationshipId );
         $controller->process( );
         $controller->run( );
     }

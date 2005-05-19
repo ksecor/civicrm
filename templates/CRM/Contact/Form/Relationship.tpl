@@ -36,8 +36,8 @@
                   <dt>{$form.contact_type.label}</dt><dd>{$form.contact_type.html}</dd>
                   <dt></dt>
                   <dd>
-                 {$form.search.html}
-                 {$form.cancel.html}
+                 {$form._qf_Relationship_refresh.html}
+                 {$form._qf_Relationship_cancel.html}
                   </dd>
                 </dl>
             </div>

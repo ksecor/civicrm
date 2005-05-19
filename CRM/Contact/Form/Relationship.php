@@ -64,9 +64,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
     function preProcess( ) 
     {
-        $this->_contactId   = $this->get('contactId');
-        $this->_relationshipId    = $this->get('relationshipId');
-        $this->_rtype    = $this->get('rtype');
+        $this->_contactId      = $this->get('contactId');
+        $this->_relationshipId = $this->get('relationshipId');
+        $this->_rtype          = $this->get('rtype');
     }
 
     /**
@@ -82,13 +82,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $params   = array( );
 
         if ( $this->_mode & self::MODE_UPDATE ) {
-
-            // $session = CRM_Core_Session::singleton( );
-
             $relationship = new CRM_Contact_DAO_Relationship( );
 
             $relationship->id = $this->_relationshipId;
-            //echo $this->_rtype;
 
             if ($relationship->find(true)) {
                 $defaults['relationship_type_id'] = $relationship->relationship_type_id."_".$this->_rtype;
@@ -109,7 +105,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }
             }
          }
-        //  print_r($defaults);
         return $defaults;
     }
     
@@ -138,7 +133,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         $rtype = 'b_a';
-        if (strlen(trim($this->_rtype))) $rtype = $this->_rtype;
+        if (strlen(trim($this->_rtype))) {
+            $rtype = $this->_rtype;
+        }
         
         $this->addElement('select', "relationship_type_id", '', array('' => '- select relationship type -') + CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $rtype));
         
@@ -154,19 +151,19 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
         $arraySearch = array();
         $params = array();
-        $arraySearch = $this->exportValues();
+        $arraySearch = $this->controller->exportValues( $this->_name );
  
         if ($this->_mode != self::MODE_UPDATE ) {
             if (strlen(trim($arraySearch['name']))) {
-                $params['name'] = $arraySearch['name'];
+                $params['name']         = $arraySearch['name'];
                 $params['contact_type'] = $arraySearch['contact_type'];
             
                 $this->getContactList($this, $params);
             }
         }
 
-        $this->addElement('button', 'search', 'Search', array('onClick' => "submit();"));
-        $this->addElement('button', 'cancel', 'Cancel', array('onClick' => "location.href='civicrm/contact/view/rel?action=browse'"));
+        $this->addElement( 'submit', $this->getButtonName('refresh'), 'Search', array( 'class' => 'form-submit' ) );
+        $this->addElement( 'submit', $this->getButtonName('cancel' ), 'Cancel', array( 'class' => 'form-submit' ) );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -188,9 +185,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     public function postProcess() 
     {
-
         // store the submitted values in an array
-        $params = $this->exportValues();
+        $params = $this->controller->exportValues( $this->_name );
 
         // action is taken depending upon the mode
         $ids = array( );
@@ -200,10 +196,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }    
 
         CRM_Contact_BAO_Relationship::create( $params, $ids );
-
-        //if ($relationship->id) {
-            //CRM_Core_Session::setStatus( 'Your relationship record has been saved' );
-        //} 
 
     }//end of function
 

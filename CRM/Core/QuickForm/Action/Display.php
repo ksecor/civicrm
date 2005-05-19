@@ -117,9 +117,8 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
 
         $this->_setRenderTemplates($page);
         $template = CRM_Core_Smarty::singleton( );
-        $template->assign('form',  $page->toSmarty());
+        $template->assign( 'form'   ,  $page->toSmarty());
         $template->assign( 'isForm' , 1 );
-        
 
         $controller =& $page->controller;
         if ( $controller->getEmbedded( ) ) {
