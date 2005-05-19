@@ -34,50 +34,66 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic {
+class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic 
+{
     /**
      * The action links that we need to display for the browse screen
      *
      * @var array
+     * @static
      */
-    static $_links = array(
-                           CRM_Core_Action::UPDATE  => array(
-                                                        'name'  => 'Edit',
-                                                        'url'   => 'civicrm/admin/mobileProvider',
-                                                        'qs'    => 'action=update&id=%%id%%',
-                                                        'title' => 'Edit Mobile Provider'),
-                           CRM_Core_Action::DISABLE => array(
-                                                        'name'  => 'Disable',
-                                                        'url'   => 'civicrm/admin/mobileProvider',
-                                                        'qs'    => 'action=disable&id=%%id%%',
-                                                        'extra' => 'onclick = "return confirm(\'Are you sure you want to disable this Mobile Phone Service Provider.\n\nUsers will no longer be able to select this value when adding or editing contact phone numbers.\');"',
-                                                        'title' => 'Disable Mobile Phone Service Provider',
-                                                        ),
-                           CRM_Core_Action::ENABLE  => array(
-                                                        'name'  => 'Enable',
-                                                        'url'   => 'civicrm/admin/mobileProvider',
-                                                        'qs'    => 'action=enable&id=%%id%%',
-                                                        'title' => 'Enable Mobile Phone Service Provider',
-                                                        ),
-                           );
+    static $_links;
 
-    function getBAOName( ) {
+    function getBAOName() 
+    {
         return 'CRM_Core_BAO_MobileProvider';
     }
 
-    function &links( ) {
+    static function &links() 
+    {
+
+        if ( ! isset( self::$_links ) ) 
+        {
+            // helper variable for nicer formatting
+            $disableExtra = ts('Are you sure you want to disable this Mobile Phone Service Provider?\n\nUsers will no longer be able to select this value when adding or editing contact phone numbers.');
+
+	    self::$_links = array(
+                                  CRM_Core_Action::UPDATE  => array(
+                                                                    'name'  => ts('Edit'),
+                                                                    'url'   => 'civicrm/admin/mobileProvider',
+                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'title' => ts('Edit Mobile Provider') 
+                                                                   ),
+                                  CRM_Core_Action::DISABLE => array(
+                                                                    'name'  => ts('Disable'),
+                                                                    'url'   => 'civicrm/admin/mobileProvider',
+                                                                    'qs'    => 'action=disable&id=%%id%%',
+                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'title' => ts('Disable Mobile Phone Service Provider') 
+                                                                   ),
+                                  CRM_Core_Action::ENABLE  => array(
+                                                                    'name'  => ts('Enable'),
+                                                                    'url'   => 'civicrm/admin/mobileProvider',
+                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'title' => ts('Enable Mobile Phone Service Provider') 
+                                                                   )
+                                 );
+        }
         return self::$_links;
     }
 
-    function editForm( ) {
+    function editForm() 
+    {
         return 'CRM_Admin_Form_MobileProvider';
     }
 
-    function editName( ) {
+    function editName() 
+    {
         return 'Mobile Provider';
     }
 
-    function userContext(  $mode = null ) {
+    function userContext( $mode = null ) 
+    {
         return 'civicrm/admin/mobileProvider';
     }
 

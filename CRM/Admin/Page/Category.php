@@ -33,56 +33,72 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Admin_Page_Category extends CRM_Core_Page_Basic {
+class CRM_Admin_Page_Category extends CRM_Core_Page_Basic 
+{
+
     /**
      * The action links that we need to display for the browse screen
      *
      * @var array
+     * @static
      */
-    static $_links = array(
-                           CRM_Core_Action::UPDATE  => array(
-                                                        'name'  => 'Edit',
-                                                        'url'   => 'civicrm/admin/category',
-                                                        'qs'    => 'action=update&id=%%id%%',
-                                                        'title' => 'Edit Category'),
-                          
-                           CRM_Core_Action::DELETE => array(
-                                                        'name'  => 'Delete',
-                                                        'url'   => 'civicrm/admin/category',
-                                                        'qs'    => 'action=delete&id=%%id%%',
-                                                        'extra'    => 'onclick = "return confirm(\'Are you sure you want to delete this category.\n\nThis category will be removed from any currently tagged contacts, and users will no longer be able to assign contacts to this category.\');"',
-                                                        'title' => 'Delete Category',
-                                                        ),
-                           );
+    static $_links;
 
-    function getBAOName( ) {
+    function getBAOName() 
+    {
         return 'CRM_Contact_BAO_Category';
     }
 
-    function &links( ) {
+    static function &links() 
+    {
+        if ( ! isset( self::$_links ) ) 
+        {
+            // helper variable for nicer formatting
+            $deleteExtra = ts('Are you sure you want to delete this category?\n\nThis category will be removed from any currently tagged contacts, and users will no longer be able to assign contacts to this category.');
+
+	    self::$_links = array(
+                                  CRM_Core_Action::UPDATE  => array(
+                                                                    'name'  => ts('Edit'),
+                                                                    'url'   => 'civicrm/admin/category',
+                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'title' => ts('Edit Category') 
+                                                                   ),
+                                  CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/admin/category',
+                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'extra'    => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
+                                                                    'title' => ts('Delete Category'), 
+                                                                   ),
+                                 );
+        }
         return self::$_links;
     }
 
-    function editForm( ) {
+    function editForm() 
+    {
         return 'CRM_Admin_Form_Category';
     }
 
-    function editName( ) {
+    function editName() 
+    {
         return 'Category';
     }
 
-    function deleteName( ) {
+    function deleteName() 
+    {
         return 'Category';
     }
 
-    function userContext( $mode = null ) {
+    function userContext( $mode = null ) 
+    {
         return 'civicrm/admin/category';
     }
 
-   function deleteForm( ) {
+   function deleteForm() 
+   {
         return 'CRM_Admin_Form_Category';
    }
-
 }
 
 ?>

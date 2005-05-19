@@ -54,60 +54,12 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * This defines two actions- View and Edit.
      *
      * @var array
+     * @static
      */
-    static $_links = array(
-                           CRM_Core_Action::VIEW   => array(
-                                                       'name'     => 'View',
-                                                       'url'      => 'civicrm/contact/view',
-                                                       'qs'       => 'reset=1&cid=%%id%%',
-                                                       'title'    => 'View Contact Details',
-                                                       ),
-                           CRM_Core_Action::UPDATE => array(
-                                                       'name'     => 'Edit',
-                                                       'url'      => 'civicrm/contact/edit',
-                                                       'qs'       => 'reset=1&cid=%%id%%',
-                                                       'title'    => 'Edit Contact Details',
-                                                       ),
-                           );
+    static $_links;
 
     /* we use desc to remind us what that column is, name is used in the tpl */
-    static $_columnHeaders = array(
-                                   array('desc' => 'Select'),
-                                   array('desc' => 'Contact Type'),
-                                   array(
-                                         'name'      => 'Name',
-                                         'sort'      => 'sort_name',
-                                         'direction' => CRM_Utils_Sort::ASCENDING,
-                                         ),
-                                   array('name' => 'Address'),
-                                   array(
-                                         'name'      => 'City',
-                                         'sort'      => 'city',
-                                         'direction' => CRM_Utils_Sort::DONTCARE,
-                                         ),
-                                   array(
-                                         'name'      => 'State',
-                                         'sort'      => 'state',
-                                         'direction' => CRM_Utils_Sort::DONTCARE,
-                                         ),
-                                   array(
-                                         'name'      => 'Postal',
-                                         'sort'      => 'postal_code',
-                                         'direction' => CRM_Utils_Sort::DONTCARE,
-                                         ),
-                                   array(
-                                         'name'      => 'Country',
-                                         'sort'      => 'country',
-                                         'direction' => CRM_Utils_Sort::DONTCARE,
-                                         ),
-                                   array(
-                                         'name'      => 'Email',
-                                         'sort'      => 'email',
-                                         'direction' => CRM_Utils_Sort::DONTCARE,
-                                         ),
-                                   array('name' => 'Phone'),
-                                   array('desc' => 'Actions'),
-                                   );
+    static $_columnHeaders;
 
     static $_properties = array('contact_id', 'contact_type', 'sort_name', 'street_address',
                                 'city', 'state', 'postal_code', 'country',
@@ -175,10 +127,29 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @access public
      *
      */
-    function &links() 
+    static function &links() 
     {
-        return CRM_Contact_Selector::$_links;
+
+        if ( ! isset( self::$_links ) ) 
+        {
+            self::$_links = array(
+                                  CRM_Core_Action::VIEW   => array(
+                                                                   'name'     => ts('View'),
+                                                                   'url'      => 'civicrm/contact/view',
+                                                                   'qs'       => 'reset=1&cid=%%id%%',
+                                                                   'title'    => ts('View Contact Details'),
+                                                                  ),
+                                  CRM_Core_Action::UPDATE => array(
+                                                                   'name'     => ts('Edit'),
+                                                                   'url'      => 'civicrm/contact/edit',
+                                                                   'qs'       => 'reset=1&cid=%%id%%',
+                                                                   'title'    => ts('Edit Contact Details'),
+                                                                  ),
+                                 );
+        }
+        return self::$_links;
     } //end of function
+
 
     /**
      * getter for array of the parameters required for creating pager.
@@ -210,14 +181,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     {
         if ( $output == CRM_Core_Selector_Controller::EXPORT || $output == CRM_Core_Selector_Controller::SCREEN ) {
             $csvHeaders = array( 'Contact Id', 'Contact Type' );
-            foreach ( self::$_columnHeaders as $column ) {
+            foreach ( self::_getColumnHeaders() as $column ) {
                 if ( array_key_exists( 'name', $column ) ) {
                     $csvHeaders[] = $column['name'];
                 }
             }
             return $csvHeaders;
         } else {
-            return self::$_columnHeaders;
+            return self::_getColumnHeaders();
         }
     }
 
@@ -274,7 +245,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
-                $row['action'] = CRM_Core_Action::formLink( self::$_links, null, array( 'id' => $result->contact_id ) );
+                $row['action'] = CRM_Core_Action::formLink( self::links(), null, array( 'id' => $result->contact_id ) );
                 $contact_type  = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {
                 case 'Individual' :
@@ -433,6 +404,52 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     function getExportFileName( $output = 'csv') {
         return 'CiviCRM Contact Search';
     }
+
+    private static function &_getColumnHeaders() 
+    {
+        if ( ! isset( self::$_columnHeaders ) )
+        {
+            self::$_columnHeaders = array(
+                                          array('desc' => ts('Select') ),
+                                          array('desc' => ts('Contact Type') ),
+                                          array(
+                                                'name'      => ts('Name'),
+                                                'sort'      => 'sort_name',
+                                                'direction' => CRM_Utils_Sort::ASCENDING,
+                                         ),
+                                    array('name' => ts('Address') ),
+                                    array(
+                                          'name'      => ts('City'),
+                                          'sort'      => 'city',
+                                          'direction' => CRM_Utils_Sort::DONTCARE,
+                                         ),
+                                    array(
+                                          'name'      => ts('State'),
+                                          'sort'      => 'state',
+                                          'direction' => CRM_Utils_Sort::DONTCARE,
+                                         ),
+                                    array(
+                                          'name'      => ts('Postal'),
+                                          'sort'      => 'postal_code',
+                                          'direction' => CRM_Utils_Sort::DONTCARE,
+                                         ),
+                                    array(
+                                          'name'      => ts('Country'),
+                                          'sort'      => 'country',
+                                          'direction' => CRM_Utils_Sort::DONTCARE,
+                                         ),
+                                    array(
+                                          'name'      => ts('Email'),
+                                          'sort'      => 'email',
+                                          'direction' => CRM_Utils_Sort::DONTCARE,
+                                         ),
+                                    array('name' => ts('Phone') ),
+                                    array('desc' => ts('Actions') ),
+                                    );
+        }
+        return self::$_columnHeaders;
+    }
+
 
 }//end of class
 

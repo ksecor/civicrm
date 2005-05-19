@@ -33,50 +33,66 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic {
+class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic 
+{
+
     /**
      * The action links that we need to display for the browse screen
      *
      * @var array
+     * @static
      */
-    static $_links = array(
-                           CRM_Core_Action::UPDATE  => array(
-                                                        'name'  => 'Edit',
-                                                        'url'   => 'civicrm/admin/locationType',
-                                                        'qs'    => 'action=update&id=%%id%%',
-                                                        'title' => 'Edit Location Type'),
-                           CRM_Core_Action::DISABLE => array(
-                                                        'name'  => 'Disable',
-                                                        'url'   => 'civicrm/admin/locationType',
-                                                        'qs'    => 'action=disable&id=%%id%%',
-                                                        'extra' => 'onclick = "return confirm(\'Are you sure you want to disable this location type.\n\nUsers will no longer be able to select this value when adding or editing contact locations.\');"',
-                                                        'title' => 'Disable Location Type',
-                                                        ),
-                           CRM_Core_Action::ENABLE  => array(
-                                                        'name'  => 'Enable',
-                                                        'url'   => 'civicrm/admin/locationType',
-                                                        'qs'    => 'action=enable&id=%%id%%',
-                                                        'title' => 'Enable Location Type',
-                                                        ),
-                           );
+    static $_links;
 
-    function getBAOName( ) {
+    function getBAOName() 
+    {
         return 'CRM_Contact_BAO_LocationType';
     }
 
-    function &links( ) {
+    static function &links() 
+    {
+        if ( ! isset( self::$_links ) ) 
+        {
+            // helper variable for nicer formatting
+            $disableExtra = ts('Are you sure you want to disable this location type?\n\nUsers will no longer be able to select this value when adding or editing contact locations.');
+
+	    self::$_links = array(
+                                  CRM_Core_Action::UPDATE  => array(
+                                                                    'name'  => ts('Edit'),
+                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'title' => ts('Edit Location Type') 
+                                                                   ),
+                                  CRM_Core_Action::DISABLE => array(
+                                                                    'name'  => ts('Disable'),
+                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'qs'    => 'action=disable&id=%%id%%',
+                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'title' => ts('Disable Location Type') 
+                                                                   ),
+                                  CRM_Core_Action::ENABLE  => array(
+                                                                    'name'  => ts('Enable'),
+                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'title' => ts('Enable Location Type') 
+                                                                   )
+                                 );
+        }
         return self::$_links;
     }
 
-    function editForm( ) {
+    function editForm() 
+    {
         return 'CRM_Admin_Form_LocationType';
     }
 
-    function editName( ) {
+    function editName() 
+    {
         return 'Location Types';
     }
 
-    function userContext(  $mode = null ) {
+    function userContext(  $mode = null ) 
+    {
         return 'civicrm/admin/locationType';
     }
 

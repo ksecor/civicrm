@@ -42,6 +42,33 @@ msgstr "Dostawca IM"
 msgid "Edit"
 msgstr "Edytuj"
 
+msgid "View"
+msgstr "Zobacz"
+
+msgid "Name"
+msgstr "Nazwa"
+
+msgid "City"
+msgstr "Miasto"
+
+msgid "State"
+msgstr "Region"
+
+msgid "Postal"
+msgstr "Kod pocztowy"
+
+msgid "Country"
+msgstr "Kraj"
+
+msgid "Email"
+msgstr "Adres email"
+
+msgid "Address"
+msgstr "Adres"
+
+msgid "Phone"
+msgstr "Telefon"
+
 msgid ""
 "Are you sure you want to disable this IM Service Provider?\\n\\nUsers "
 "will no longer be able to select this value when adding or editing contact "

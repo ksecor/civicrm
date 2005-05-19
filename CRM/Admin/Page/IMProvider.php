@@ -30,59 +30,69 @@
  * $Id$
  *
  */
-
 require_once 'CRM/Core/Page/Basic.php';
 
-class CRM_Admin_Page_IMProvider extends CRM_Core_Page_Basic {
+class CRM_Admin_Page_IMProvider extends CRM_Core_Page_Basic 
+{
 
-    function getBAOName( ) {
+    /**
+     * The action links that we need to display for the browse screen
+     *
+     * @var array
+     * @static
+     */
+    static $_links;
+
+    function getBAOName() 
+    {
         return 'CRM_Core_BAO_IMProvider';
     }
 
-    function &links( ) {
-        return self::_links();
+    static function &links() 
+    {
+        if ( ! isset( self::$_links ) ) 
+        {
+            // helper variable for nicer formatting
+            $disableExtra = ts('Are you sure you want to disable this IM Service Provider?\n\nUsers will no longer be able to select this value when adding or editing contact IM screen names.');
+
+	    self::$_links = array( 
+                                  CRM_Core_Action::UPDATE  => array( 
+                                                                    'name'  => ts('Edit'),
+                                                                    'url'   => 'civicrm/admin/IMProvider',
+                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'title' => ts( 'IM Provider' ) 
+                                                                   ),
+                                  CRM_Core_Action::DISABLE => array( 
+                                                                    'name'  => ts('Disable'),
+                                                                    'url'   => 'civicrm/admin/IMProvider',
+                                                                    'qs'    => 'action=disable&id=%%id%%',
+                                                                    'extra' => 'onclick = "return confirm(\''. $disableExtra . '\');"',
+                                                                    'title' => ts('Disable IM Service Provider') 
+                                                                   ),
+                                  CRM_Core_Action::ENABLE  => array( 
+                                                                    'name'  => ts('Enable'),
+                                                                    'url'   => 'civicrm/admin/IMProvider',
+                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'title' => ts( 'Enable IM Service Provider' ) 
+                                                                   ),
+                                 );
+        }
+        return self::$_links;
     }
 
-    function editForm( ) {
+    function editForm() 
+    {
         return 'CRM_Admin_Form_IMProvider';
     }
 
-    function editName( ) {
+    function editName() 
+    {
         return 'Instant Message Provider';
     }
 
-    function userContext( $mode = null ) {
+    function userContext( $mode = null ) 
+    {
         return 'civicrm/admin/IMProvider';
-    }
-
-    /**
-     * Static function returning action links 
-     * that we need to display for the browse screen.
-     *
-     * @return array
-     * @access private
-     * @static
-     */
-    static private function _links() {
-
-	$disableExtra = ts('Are you sure you want to disable this IM Service Provider?\n\nUsers will no longer be able to select this value when adding or editing contact IM screen names.');
-
-	return array( CRM_Core_Action::UPDATE  => array( 'name'  => ts('Edit'),
-                                                         'url'   => 'civicrm/admin/IMProvider',
-                                                         'qs'    => 'action=update&id=%%id%%',
-                                                         'title' => ts( 'IM Provider' ) ),
-                      CRM_Core_Action::DISABLE => array( 'name'  => ts('Disable'),
-                                                         'url'   => 'civicrm/admin/IMProvider',
-                                                         'qs'    => 'action=disable&id=%%id%%',
-                                                         'extra' => 'onclick = "return confirm(\''. $disableExtra . '\');"',
-                                                         'title' => ts('Disable IM Service Provider'),
-                                                        ),
-                      CRM_Core_Action::ENABLE  => array( 'name'  => ts('Enable'),
-                                                         'url'   => 'civicrm/admin/IMProvider',
-                                                         'qs'    => 'action=enable&id=%%id%%',
-                                                         'title' => ts( 'Enable IM Service Provider' ),
-                                                         ),
-                      );
     }
 
 }

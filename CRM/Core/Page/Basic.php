@@ -48,12 +48,13 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     abstract function getBAOName( );
     
     /**
-     * array of action links
+     * an array of action links
      *
      * @return array (reference)
      * @access public
+     * @static
      */
-    abstract function &links( );
+    abstract static function &links( );
 
     /**
      * name of the edit form class

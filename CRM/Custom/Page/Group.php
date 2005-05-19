@@ -40,47 +40,55 @@ class CRM_Custom_Page_Group extends CRM_Core_Page_Basic {
      *
      * @var array
      */
-    static $_links = array(
-                           CRM_Core_Action::VIEW    => array(
-                                                             'name'  => 'View',
-                                                             'url'   => 'civicrm/admin/custom/group',
-                                                             'qs'    => 'action=view&id=%%id%%',
-                                                             'title' => 'View Custom Group',
-                                                             ),
-                           CRM_Core_Action::UPDATE  => array(
-                                                             'name'  => 'Edit',
-                                                             'url'   => 'civicrm/admin/custom/group',
-                                                             'qs'    => 'action=update&id=%%id%%',
-                                                             'title' => 'Edit Custom Group'),
-                           CRM_Core_Action::DISABLE => array(
-                                                             'name'  => 'Disable',
-                                                             'url'   => 'civicrm/admin/custom/group',
-                                                             'qs'    => 'action=disable&id=%%id%%',
-                                                             'title' => 'Disable Custom Group',
-                                                             'extra' => 'onclick = "return confirm(\'Are you sure you want to disable this custom data group.\');"',
-                                                             ),
-                           CRM_Core_Action::ENABLE  => array(
-                                                             'name'  => 'Enable',
-                                                             'url'   => 'civicrm/admin/custom/group',
-                                                             'qs'    => 'action=enable&id=%%id%%',
-                                                             'title' => 'Enable Custom Group',
-                                                             ),
-                           CRM_Core_Action::BROWSE  => array(
-                                                             'name'  => 'List',
-                                                             'url'   => 'civicrm/admin/custom/group/field',
-                                                             'qs'    => 'reset=1&action=browse&gid=%%id%%',
-                                                             'title' => 'List Custom Group Fields',
-                                                             ),
-                           );
-    
+    static $_links;
     
     function getBAOName()
     {
         return 'CRM_Core_BAO_CustomGroup';
     }
 
-    function &links()
+    static function &links()
     {
+
+        if ( ! isset( self::$_links ) ) 
+        {
+            // helper variable for nicer formatting
+            $disableExtra = ts('Are you sure you want to disable this custom data group?');
+
+	    self::$_links = array(
+                                  CRM_Core_Action::VIEW    => array(
+                                                                    'name'  => ts('View'),
+                                                                    'url'   => 'civicrm/admin/custom/group',
+                                                                    'qs'    => 'action=view&id=%%id%%',
+                                                                    'title' => ts('View Custom Group'),
+                                                                   ),
+                                  CRM_Core_Action::UPDATE  => array(
+                                                                    'name'  => ts('Edit'),
+                                                                    'url'   => 'civicrm/admin/custom/group',
+                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'title' => ts('Edit Custom Group') 
+                                                                   ),
+                                  CRM_Core_Action::DISABLE => array(
+                                                                    'name'  => ts('Disable'),
+                                                                    'url'   => 'civicrm/admin/custom/group',
+                                                                    'qs'    => 'action=disable&id=%%id%%',
+                                                                    'title' => ts('Disable Custom Group'),
+                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                   ),
+                                  CRM_Core_Action::ENABLE  => array(
+                                                                    'name'  => ts('Enable'),
+                                                                    'url'   => 'civicrm/admin/custom/group',
+                                                                    'qs'    => 'action=enable&id=%%id%%',
+                                                                    'title' => ts('Enable Custom Group'),
+                                                                   ),
+                                  CRM_Core_Action::BROWSE  => array(
+                                                                    'name'  => ts('List'),
+                                                                    'url'   => 'civicrm/admin/custom/group/field',
+                                                                    'qs'    => 'reset=1&action=browse&gid=%%id%%',
+                                                                    'title' => ts('List Custom Group Fields'),
+                                                                   ),
+                                 );
+        }
         return self::$_links;
     }
 

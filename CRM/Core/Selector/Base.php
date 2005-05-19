@@ -67,19 +67,18 @@ class CRM_Core_Selector_Base {
     }
 
     /**
-     * This is a virtual function, since the $_links array is typically
-     * static, we use a virtual function to get the links array. Each 
+     * This is a static virtual function returning reference on links array. Each 
      * inherited class must redefine this function
      *
      * links is an array of associative arrays. Each element of the array
-     * has 3 fields
+     * has at least 3 fields
      *
      * name    : the name of the link
      * url     : the URI to be used for this link
      * qs      : the parameters to the above url along with any dynamic substitutions
      * title   : A more descriptive name, typically used in breadcrumbs / navigation
      */
-    function &links() {
+    static function &links() {
         return null;
     }
 

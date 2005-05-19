@@ -45,23 +45,10 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
     /**
      * The action links that we need to display for the browse screen
      *
+     * @static
      * @var array
      */
-    static $_links = array(
-                           CRM_Core_Action::VIEW    => array(
-                                                             'name'  => 'View',
-                                                             'url'   => 'civicrm/admin/custom/group/field',
-                                                             'qs'    => 'action=view&id=%%id%%',
-                                                             'title' => 'View Custom Field',
-                                                             ),
-                           CRM_Core_Action::UPDATE  => array(
-                                                             'name'  => 'Edit',
-                                                             'url'   => 'civicrm/admin/custom/group/field',
-                                                             'qs'    => 'action=update&id=%%id%%',
-                                                             'title' => 'Edit Custom Field'),
-                           );
-
-
+    static $_links;
 
     /**
      * Browse all custom data.
@@ -89,7 +76,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                 $customField[$fieldId][$fieldName] = $customFieldDAO->$fieldName;
             }
             $action = CRM_Core_Action::VIEW + CRM_Core_Action::UPDATE;
-            $customField[$fieldId]['action'] = CRM_Core_Action::formLink(self::$_links, $action_, array('id' => $fieldId));
+            $customField[$fieldId]['action'] = CRM_Core_Action::formLink(self::links(), $action_, array('id' => $fieldId));
         }
         $this->assign('customField', $customField);
     }
@@ -158,6 +145,30 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         // Call the parents run method
         parent::run();
     }
+
+
+    static function &links()
+    {
+        if ( ! isset( self::$_links ) ) 
+        {
+            self::$_links = array(
+                                  CRM_Core_Action::VIEW    => array(
+                                                                    'name'  => ts('View'),
+                                                                    'url'   => 'civicrm/admin/custom/group/field',
+                                                                    'qs'    => 'action=view&id=%%id%%',
+                                                                    'title' => ts('View Custom Field'),
+                                                                   ),
+                                  CRM_Core_Action::UPDATE  => array(
+                                                                    'name'  => ts('Edit'),
+                                                                    'url'   => 'civicrm/admin/custom/group/field',
+                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'title' => ts('Edit Custom Field') 
+                                                                   ),
+                                 );
+        }
+    return self::$_links;    
+    }
+
 }
 
 ?>
