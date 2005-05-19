@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <sample_data>
 
@@ -29,6 +29,7 @@
     <first_name>Rebecca</first_name>
     <first_name>Purvi</first_name>
     <first_name>Pat</first_name>
+    <first_name>Brzęczysław</first_name>
   </first_names>
 
   <last_names>
@@ -44,6 +45,7 @@
     <last_name>Gandhi</last_name>
     <last_name>Yadav</last_name>
     <last_name>Gupta</last_name>
+    <last_name>Łąchowski</last_name>
   </last_names>
 
   <street_names>
@@ -63,6 +65,9 @@
     <street_name>Van Ness</street_name>
     <street_name>Cadell</street_name>
     <street_name>Northpoint</street_name>
+    <street_name>Niepodległości</street_name>
+    <street_name>Odyńca</street_name>
+    <street_name>Kukułki</street_name>
   </street_names>
 
   <street_types>
@@ -98,13 +103,15 @@
   <cities>
     <city>Mumbai</city>
     <city>Delhi</city>
-    <city>Krakow</city>
+    <city>Kraków</city>
     <city>Chicago</city>
     <city>Bangalore</city>
-    <city>Warsaw</city>
+    <city>Warszawa</city>
     <city>San Francisco</city>
     <city>New York</city>
     <city>Seattle</city>
+    <city>Łódź</city>
+    <city>Wrocław</city>
   </cities>
 
   <address_directions>
@@ -159,6 +166,7 @@
     <organization_name>Compumentor</organization_name>
     <organization_name>Project Open Hand</organization_name>
     <organization_name>Eastmont Computing Center</organization_name>
+    <organization_name>Międzynarodowe Targi Łódzkie</organization_name>
   </organization_names>
 
   <organization_fields>

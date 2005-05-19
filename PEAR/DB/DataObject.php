@@ -2056,6 +2056,8 @@ class DB_DataObject extends DB_DataObject_Overload
         } else {
             $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = DB::connect($dsn);
         }
+
+        $this->query("SET NAMES 'utf8'");
         
         if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
             $this->debug(serialize($_DB_DATAOBJECT['CONNECTIONS']), "CONNECT",5);
