@@ -320,44 +320,40 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @access public
      * @static
      */
-    static function add( &$params, &$ids ) {
-        $contact = new CRM_Contact_BAO_Contact( );
+    static function add(&$params, &$ids)
+    {
+        $contact = new CRM_Contact_BAO_Contact();
         
-        $contact->copyValues( $params );
+        $contact->copyValues($params);
 
         if ($contact->contact_type == 'Individual') {
-
             $sortName = "";
             $firstName = CRM_Utils_Array::value('first_name', $params, '');
             $lastName  = CRM_Utils_Array::value('last_name', $params, '');
-            
+            // a comma should only be present if both first_name and last name are present.            
             if ($firstName && $lastName) {
                 $sortName = "$lastName, $firstName";
             } else {
                 $sortName = $lastName . $firstName;
             }
-            
             $contact->sort_name = $sortName;
-
-            // a comma should only be present if both first_name and last name are present.
-            // $contact->sort_name = CRM_Utils_Array::value( 'last_name', $params, '' ) . ', ' . CRM_Utils_Array::value( 'first_name', $params, '' );
-
         } else if ($contact->contact_type == 'Household') {
-            $contact->sort_name = CRM_Utils_Array::value( 'household_name', $params, '' ) ;
+            $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
         } else {
-            $contact->sort_name = CRM_Utils_Array::value( 'organization_name', $params, '' ) ;
+            $contact->sort_name = CRM_Utils_Array::value('organization_name', $params, '') ;
         } 
 
-        $privacy = CRM_Utils_Array::value( 'privacy', $params );
-        if ( $privacy && is_array( $privacy ) ) {
-            foreach ( self::$_commPrefs as $name ) {
-                $contact->$name = CRM_Utils_Array::value( $name, $privacy, false );
+        // preferred communication block
+        $privacy = CRM_Utils_Array::value('privacy', $params);
+        if ($privacy && is_array($privacy)) {
+            foreach (self::$_commPrefs as $name) {
+                $contact->$name = CRM_Utils_Array::value($name, $privacy, false);
             }
         }
+        $contact->domain_id = CRM_Utils_Array::value('domain' , $ids, 1);
+        $contact->id        = CRM_Utils_Array::value('contact', $ids);
 
-        $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, 1 );
-        $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
-        return $contact->save( );
+        return $contact->save();
     }
 
     /**
@@ -412,26 +408,27 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @access public
      * @static
      */
-    static function create( &$params, &$ids, $maxLocationBlocks ) {
-        CRM_Core_DAO::transaction( 'BEGIN' );
+    static function create(&$params, &$ids, $maxLocationBlocks)
+    {
+        CRM_Core_DAO::transaction('BEGIN');
         
-        $contact = self::add( $params, $ids );
+        $contact = self::add($params, $ids);
         
         $params['contact_id'] = $contact->id;
 
         // invoke the add operator on the contact_type class
-        eval( '$contact->contact_type_object = CRM_Contact_BAO_' . $params['contact_type'] . '::add( $params, $ids );' );
+        eval('$contact->contact_type_object = CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
 
-        $location = array( );
-        for ($locationId= 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-            $location[$locationId] = CRM_Contact_BAO_Location::add( $params, $ids, $locationId );
+        $location = array();
+        for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
+            $location[$locationId] = CRM_Contact_BAO_Location::add($params, $ids, $locationId);
         }
         $contact->location = $location;
 
         // add notes
-        $contact->note = CRM_Core_BAO_Note::add( $params, $ids );
+        $contact->note = CRM_Core_BAO_Note::add($params, $ids);
 
-        CRM_Core_DAO::transaction( 'COMMIT' );
+        CRM_Core_DAO::transaction('COMMIT');
 
         return $contact;
     }

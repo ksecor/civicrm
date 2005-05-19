@@ -67,10 +67,11 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
      * @access public
      * @static
      */
-    static function add( &$params, &$ids ) {
-        $individual = new CRM_Contact_BAO_Individual( );
+    static function add(&$params, &$ids)
+    {
+        $individual = new CRM_Contact_BAO_Individual();
 
-        $individual->copyValues( $params );
+        $individual->copyValues($params);
 
         $individual->display_name =
             CRM_Utils_Array::value( 'first_name' , $params, '' ) . ' ' .
@@ -79,8 +80,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
             
         // fix gender and date
         $individual->gender = $params['gender']['gender'];
-
-        $date = CRM_Utils_Array::value( 'birth_date', $params );
+        $date = CRM_Utils_Array::value('birth_date', $params);
         $individual->birth_date = null;
         if ( $date              &&
              !empty($date['M']) &&
@@ -91,12 +91,13 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
             $individual->birth_date = $date['Y'] . $date['M'] . $date['d'];
         }
 
-        if ( ! array_key_exists( 'is_deceased', $params ) ) {
+        if (!array_key_exists('is_deceased', $params)) {
             $individual->is_deceased = 0;
         }
 
         $individual->id = CRM_Utils_Array::value( 'individual', $ids );
-        return $individual->save( );
+
+        return $individual->save();
     }
 
     /**
