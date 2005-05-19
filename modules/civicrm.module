@@ -82,7 +82,7 @@ function civicrm_help($section)
     switch ($section) {
     case 'admin/modules#description':
         // This description is shown in the listing at admin/modules.
-        return t('CiviCRM module v0.1');
+        return ts('CiviCRM module v0.1');
     }
 }
 
@@ -166,7 +166,7 @@ function civicrm_menu($may_cache)
         // This is the minimum information you can provide for a menu item.
         $items[] = array(
                          'path'  => 'civicrm/admin',
-                         'title' => t('Administer CiviCRM'),
+                         'title' => ts('Administer CiviCRM'),
                          'qs'    => 'reset=1',
                          'callback' => 'civicrm_admin_invoke',
                          'access' => user_access('administer CiviCRM'),
@@ -176,21 +176,21 @@ function civicrm_menu($may_cache)
         
        $items[] = array(
                          'path'  => 'civicrm/admin/category',
-                         'title' => t('Tags'),
+                         'title' => ts('Tags'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => -10
                          );
 
        $items[] = array(
                         'path'  => 'civicrm/admin/reltype',
-                        'title' => t('Relationship Types'),
+                        'title' => ts('Relationship Types'),
                         'type'   => MENU_LOCAL_TASK,
                         'weight' => -8
                         );
 
         $items[] = array(
                          'path'  => 'civicrm/admin/locationType',
-                         'title' => t('Location Types'),
+                         'title' => ts('Location Types'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => -6
 
@@ -198,7 +198,7 @@ function civicrm_menu($may_cache)
         
         $items[] = array(
                          'path'   => 'civicrm/admin/custom/group',
-                         'title'  => t('Custom Data'),
+                         'title'  => ts('Custom Data'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => -5
@@ -206,28 +206,28 @@ function civicrm_menu($may_cache)
   
         $items[] = array(
                          'path'   => 'civicrm/admin/custom/group/field',
-                         'title'  => t('Browse Custom Fields'),
+                         'title'  => ts('Browse Custom Fields'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_CALLBACK,
                          'weight' => 3
                          );
         $items[] = array(
                          'path'  => 'civicrm/admin/IMProvider',
-                         'title' => t('IM Services'),
+                         'title' => ts('IM Services'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => -4
                          );
 
        $items[] = array(
                          'path'  => 'civicrm/admin/mobileProvider',
-                         'title' => t('Mobile Providers'),
+                         'title' => ts('Mobile Providers'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => -2
                          );
      
         $items[] = array(
                          'path'  => 'civicrm',
-                         'title' => t('CiviCRM'),
+                         'title' => ts('CiviCRM'),
                          'access' => user_access('view any contact'),
                          'callback' => 'civicrm_invoke',
                          'type'   => MENU_CALLBACK,
@@ -235,7 +235,7 @@ function civicrm_menu($may_cache)
 
         $items[] = array(
                          'path'  => 'civicrm/contact/search',
-                         'title' => t('Contacts'),
+                         'title' => ts('Contacts'),
                          'qs'    => 'reset=1',
                          'access' => user_access('view any contact'),
                          'type'   => MENU_NORMAL_ITEM,
@@ -244,7 +244,7 @@ function civicrm_menu($may_cache)
         
         $items[] = array(
                          'path'  => 'civicrm/contact/search/basic',
-                         'title' => t('Find Contacts'),
+                         'title' => ts('Find Contacts'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => 0
@@ -252,13 +252,13 @@ function civicrm_menu($may_cache)
 
         $items[] = array(
                          'path'  => 'civicrm/contact/search/advanced',
-                         'title' => t('Advanced Search'),
+                         'title' => ts('Advanced Search'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
         $items[] = array(
                          'path'  => 'civicrm/contact/search/saved',
-                         'title' => t('Saved Searches'),
+                         'title' => ts('Saved Searches'),
                          'qs'    => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
@@ -266,7 +266,7 @@ function civicrm_menu($may_cache)
 
        $items[] = array(
                          'path'  => 'civicrm/contact/addI',
-                         'title' => t('New Individual'),
+                         'title' => ts('New Individual'),
                          'qs'    => 'reset=1',
                          'access' => user_access('add/edit any contact'),
                          'type'  => MENU_CALLBACK,
@@ -275,7 +275,7 @@ function civicrm_menu($may_cache)
         
        $items[] = array(
                          'path'  => 'civicrm/contact/addO',
-                         'title' => t('New Organization'),
+                         'title' => ts('New Organization'),
                          'qs'     => 'reset=1',
                          'access' => user_access('add/edit any contact'),
                          'type'   => MENU_CALLBACK,
@@ -284,7 +284,7 @@ function civicrm_menu($may_cache)
         
        $items[] = array(
                          'path'  => 'civicrm/contact/addH',
-                         'title' => t('New Household'),
+                         'title' => ts('New Household'),
                          'qs'     => 'reset=1',
                          'access' => user_access('add/edit any contact'),
                          'type'   => MENU_CALLBACK,
@@ -293,7 +293,7 @@ function civicrm_menu($may_cache)
         
        $items[] = array(
                          'path'  => 'civicrm/contact/edit',
-                         'title' => t('Edit Contact Name and Location'),
+                         'title' => ts('Edit Contact Name and Location'),
                          'access' => user_access('add/edit any contact'),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
@@ -301,56 +301,56 @@ function civicrm_menu($may_cache)
         
         $items[] = array(
                          'path'  => 'civicrm/contact/view',
-                         'title' => t('View Contact'),
+                         'title' => ts('View Contact'),
                          'access' => user_access('view any contact'),
                          'type'   => MENU_CALLBACK
                          );
 
          $items[] = array(
                          'path'  => 'civicrm/contact/view/basic',
-                         'title' => t('Contact Summary'),
+                         'title' => ts('Contact Summary'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => 0
                         );
 
         $items[] = array(
                          'path'  => 'civicrm/contact/view/rel',
-                         'title' => t('Relationships'),
+                         'title' => ts('Relationships'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
         
         $items[] = array(
                          'path'  => 'civicrm/contact/view/note',
-                         'title' => t('Notes'),
+                         'title' => ts('Notes'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 3
                          );
 
         $items[] = array(
                          'path'  => 'civicrm/contact/view/group',
-                         'title' => t('Groups'),
+                         'title' => ts('Groups'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
                          );
         
         $items[] = array(
                          'path'  => 'civicrm/contact/view/tag',
-                         'title' => t('Tags'),
+                         'title' => ts('Tags'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 4
                          );
 
         $items[] = array(
                          'path'  => 'civicrm/contact/view/cd',
-                         'title' => t('Custom Data'),
+                         'title' => ts('Custom Data'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 5
                          );
 
         $items[] = array(
                          'path'  => 'civicrm/group',
-                         'title' => t('Manage Groups'),
+                         'title' => ts('Manage Groups'),
                          'qs'     => 'reset=1',
                          'access' => user_access('view groups'),
                          'type'   => MENU_NORMAL_ITEM,
@@ -359,20 +359,20 @@ function civicrm_menu($may_cache)
 
         $items[] = array(
                          'path'  => 'civicrm/group/search',
-                         'title' => t('Group Members'),
+                         'title' => ts('Group Members'),
                          'type'   => MENU_CALLBACK,
                          );
         
         $items[] = array(
                          'path'  => 'civicrm/group/add',
-                         'title' => t('Create New Group'),
+                         'title' => ts('Create New Group'),
                          'access' => user_access('add/edit groups'),
                          'type'   => MENU_CALLBACK,
                          );
         
        $items[] = array(
                          'path'   => 'civicrm/import',
-                         'title'  => t('Import Contacts'),
+                         'title'  => ts('Import Contacts'),
                          'qs'     => 'reset=1',
                          'access' => user_access('administer CiviCRM'),
                          'type'   => MENU_NORMAL_ITEM,
