@@ -52,9 +52,8 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      *
      * @return array (reference)
      * @access public
-     * @static
      */
-    abstract static function &links( );
+    abstract function &links( );
 
     /**
      * name of the edit form class
