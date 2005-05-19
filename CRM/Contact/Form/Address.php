@@ -36,7 +36,20 @@
 class CRM_Contact_Form_Address
 {
 
-    static function buildAddressBlock($form, &$location, $locationId) {
+
+    /**
+     * build form for address input fields 
+     *
+     * @param object $form - CRM_Core_Form (or subclass)
+     * @param array reference $location - location array
+     * @param int $locationId - location id whose block needs to be built.
+     * @return none
+     *
+     * @access public
+     * @static
+     */
+    static function buildAddressBlock($form, &$location, $locationId)
+    {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address');
         $location[$locationId]['address']['street_address']         =
             $form->addElement('text', "location[$locationId][address][street_address]", 'Street Address:',
@@ -67,19 +80,14 @@ class CRM_Contact_Form_Address
     /**
      * check for correct state / country mapping.
      *
-     *
      * @param array reference $fields - submitted form values.
      * @param array reference $errors - if any errors found add to this array. please.
-     *
      * @return true if no errors
      *         array of errors if any present.
      *
      * @access public
-     *
      * @static
-     *
      */
-
     static function formRule(&$fields, &$errors)
     {
         // check for state/country match if not report error to user.
@@ -87,17 +95,16 @@ class CRM_Contact_Form_Address
             $stateProvinceId = $fields['location'][$i]['address']['state_province_id'];
             $countryId = $fields['location'][$i]['address']['country_id'];
 
-            if ($stateProvinceId) {
+            if ($stateProvinceId && $countryId) {
                 $stateProvinceDAO = new CRM_Core_DAO_StateProvince();
                 $stateProvinceDAO->id = $stateProvinceId;
-                $stateProvinceDAO->country_id = $countryId;
-                if (!$stateProvinceDAO->find(1)) {
+                $stateProvinceDAO->find(true);
+
+                if ($stateProvinceDAO->country_id != $country_id) {
+                    // countries mismatch hence display error
                     $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
                     $countries = CRM_Core_PseudoConstant::country();
-                    $stateProvince = $stateProvinces[$stateProvinceId];
-                    $country = $countries[$countryId];
-                    CRM_Core_Error::debug_log_message("$stateProvince does not belong to $country"); 
-                    $errors["location[$i][address][state_province_id]"] = "State " .  $stateProvince . " does not belong to ". $country;
+                    $errors["location[$i][address][state_province_id]"] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
                 }
             }
         }

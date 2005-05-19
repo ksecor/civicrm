@@ -37,8 +37,9 @@ require_once 'CRM/Contact/DAO/Address.php';
  * BAO object for crm_address table
  */
 class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
-    function __construct( ) {
-        parent::__construct( );
+    function __construct()
+    {
+        parent::__construct();
     }
 
 
@@ -57,20 +58,31 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId ) {
-        if ( ! self::dataExists( $params, $locationId, $ids ) ) {
+    static function add(&$params, &$ids, $locationId)
+    {
+        if (!self::dataExists($params, $locationId, $ids)) {
             return null;
         }
 
-        $address = new CRM_Contact_BAO_Address( );
-        
-        $address->location_id       = $params['location'][$locationId]['id'];
-        $address->copyValues( $params['location'][$locationId]['address'] );
+        $address = new CRM_Contact_BAO_Address();
+        $address->location_id = $params['location'][$locationId]['id'];
+        $address->copyValues($params['location'][$locationId]['address']);
+
+        // currently copy values populates empty fields with the string "NULL"
+        // and hence need to check for the string NULL
+        //if ($address->state_province_id && (!$address->country_id)) {
+        if ($address->state_province_id && ($address->country_id == 'NULL')) {
+            // since state id present and country id not present, hence lets populate it
+            // jira issue http://objectledge.org/jira/browse/CRM-56
+            $stateProvinceDAO = new CRM_Core_DAO_StateProvince();
+            $stateProvinceDAO->id = $address->state_province_id; 
+            $stateProvinceDAO->find(true);
+            $address->country_id = $stateProvinceDAO->country_id;
+        }
 
         $address->county_id = $address->geo_coord_id = 1;
-
-        $address->id = CRM_Utils_Array::value( 'address', $ids['location'][$locationId] );
-        return $address->save( );
+        $address->id = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
+        return $address->save();
     }
 
     /**
@@ -84,28 +96,29 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, &$ids = '' ) {
+    static function dataExists(&$params, $locationId, &$ids = '')
+    {
 
         // return if no data present
 
-        if ( ! array_key_exists( 'address' , $params['location'][$locationId] ) ) {
+        if (! array_key_exists('address' , $params['location'][$locationId])) {
             return false;
         }
 
         if (is_array($ids)) {
-            if (CRM_Utils_Array::value( 'address', $ids['location'][$locationId] )) {
+            if (CRM_Utils_Array::value('address', $ids['location'][$locationId])) {
                 return true;
             }
         }
 
-        foreach ( $params['location'][$locationId]['address'] as $name => $value ) {
+        foreach ($params['location'][$locationId]['address'] as $name => $value) {
             /*
             if ($name == 'country_id' || $name == 'state_province_id') {
                 return false;
             }
             */
 
-            if ( !empty( $value ) ) {
+            if (!empty($value)) {
                 return true;
             }
         }
@@ -127,23 +140,24 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
-        $address = new CRM_Contact_BAO_Address( );
-        $address->copyValues( $params );
+    static function getValues(&$params, &$values, &$ids, $blockCount=0)
+    {
+        $address = new CRM_Contact_BAO_Address();
+        $address->copyValues($params);
 
         $flatten = false;
-        if ( empty($blockCount) ) {
-            $flatten       = true;
+        if (empty($blockCount)) {
+            $flatten = true;
         }
         
         // we first get the primary location due to the order by clause
-        if ( $address->find( true ) ) {
+        if ($address->find(true)) {
             $ids['address'] = $address->id;
-            if ( $flatten ) {
-                $address->storeValues( $values );
+            if ($flatten) {
+                $address->storeValues($values);
             } else {
                 $values['address'] = array();
-                $address->storeValues( $values['address'] );
+                $address->storeValues($values['address']);
             }
             return $address;
         }

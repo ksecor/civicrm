@@ -4,7 +4,6 @@
     <fieldset>
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
-    {*<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>*}
     <dt>{$form.extends.label}</dt><dd>{$form.extends.html}</dd>
     <dt>{$form.style.label}</dt><dd>{$form.style.html}</dd>
     <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
@@ -36,7 +35,6 @@
     <table>
     <tr class="columnheader">
         <th>{ts}Group Title{/ts}</th>
-        <th>{ts}Description{/ts}</th>
         <th>{ts}Is Active?{/ts}</th>
         <th>{ts}Used For{/ts}</th>
         <th>{ts}Weight{/ts}</th>
@@ -45,7 +43,6 @@
     {foreach from=$rows item=row}
     <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
         <td>{$row.title}</td>
-        <td>{$row.description}</td>
         <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
         <td>{$row.extends}</td>
         <td>{$row.weight}</td>

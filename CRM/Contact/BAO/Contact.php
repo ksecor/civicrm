@@ -326,7 +326,22 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact->copyValues( $params );
 
         if ($contact->contact_type == 'Individual') {
-            $contact->sort_name = CRM_Utils_Array::value( 'last_name', $params, '' ) . ', ' . CRM_Utils_Array::value( 'first_name', $params, '' );
+
+            $sortName = "";
+            $firstName = CRM_Utils_Array::value('first_name', $params, '');
+            $lastName  = CRM_Utils_Array::value('last_name', $params, '');
+            
+            if ($firstName && $lastName) {
+                $sortName = "$lastName, $firstName";
+            } else {
+                $sortName = $lastName . $firstName;
+            }
+            
+            $contact->sort_name = $sortName;
+
+            // a comma should only be present if both first_name and last name are present.
+            // $contact->sort_name = CRM_Utils_Array::value( 'last_name', $params, '' ) . ', ' . CRM_Utils_Array::value( 'first_name', $params, '' );
+
         } else if ($contact->contact_type == 'Household') {
             $contact->sort_name = CRM_Utils_Array::value( 'household_name', $params, '' ) ;
         } else {
