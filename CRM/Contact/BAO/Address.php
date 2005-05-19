@@ -58,11 +58,11 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
             return null;
         }
 
-        $address = new CRM_Contact_BAO_Address();
+        $address              = new CRM_Contact_BAO_Address();
         $address->location_id = $params['location'][$locationId]['id'];
+        $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
         if ( $address->copyValues($params['location'][$locationId]['address']) ) {
             // we copied only null stuff, so we delete the object
-            $address->id = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
             $address->delete( );
             return null;
         }
@@ -79,7 +79,6 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
         }
 
         $address->county_id = $address->geo_coord_id = 1;
-        $address->id = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
         return $address->save();
     }
 

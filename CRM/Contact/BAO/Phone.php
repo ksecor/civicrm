@@ -60,23 +60,22 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
         }
 
         $phone = new CRM_Contact_DAO_Phone();
-        $phone->location_id        = $params['location'][$locationId]['id'];
+        $phone->id                 = CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] );
         $phone->phone              = $params['location'][$locationId]['phone'][$phoneId]['phone'];
+        if ( empty( $phone->phone ) ) {
+            $phone->delete( );
+            return null;
+        }
+
+        $phone->location_id        = $params['location'][$locationId]['id'];
         $phone->phone_type         = $params['location'][$locationId]['phone'][$phoneId]['phone_type'];
+        $phone->mobile_provider_id = CRM_Utils_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
 
         // set this object to be the value of isPrimary and make sure no one else can be isPrimary
         $phone->is_primary         = $isPrimary;
         $isPrimary                 = false;
 
-        $phone->mobile_provider_id = CRM_Utils_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
-
-        $phone->id = CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] );
-        if ( empty( $phone->phone ) ) {
-            $phone->delete( );
-            return null;
-        } else {
-            return $phone->save( );
-        }
+        return $phone->save( );
     }
 
     /**

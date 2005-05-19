@@ -60,23 +60,24 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
         }
 
         $im = new CRM_Contact_DAO_IM();
-        $im->location_id  = $params['location'][$locationId]['id'];
         $im->name         = $params['location'][$locationId]['im'][$imId]['name'];
-        $im->provider_id  = $params['location'][$locationId]['im'][$imId]['provider_id'];
+        $im->id = CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] );
+        if ( empty( $im->name ) ) {
+            $im->delete( );
+            return null;
+        }
 
-        if (!$im->provider_id) $im->provider_id  = 'NULL';
+        $im->location_id  = $params['location'][$locationId]['id'];
+        $im->provider_id  = $params['location'][$locationId]['im'][$imId]['provider_id'];
+        if (! $im->provider_id ) {
+            $im->provider_id  = 'null';
+        }
 
         // set this object to be the value of isPrimary and make sure no one else can be isPrimary
         $im->is_primary   = $isPrimary;
         $isPrimary        = false;
 
-        $im->id = CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] );
-        if ( empty( $im->name ) ) {
-            $im->delete( );
-            return null;
-        } else {
-            return $im->save( );
-        }
+        return $im->save( );
     }
 
     /**

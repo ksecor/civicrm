@@ -61,20 +61,20 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
         }
 
         $email = new CRM_Contact_DAO_Email();
-        $email->location_id = $params['location'][$locationId]['id'];
+        $email->id = CRM_Utils_Array::value( $emailId, $ids['location'][$locationId]['email'] );
         $email->email       = $params['location'][$locationId]['email'][$emailId]['email'];
+        if ( empty( $email->email ) ) {
+            $email->delete( );
+            return null;
+        }
+
+        $email->location_id = $params['location'][$locationId]['id'];
 
         // set this object to be the value of isPrimary and make sure no one else can be isPrimary
         $email->is_primary  = $isPrimary;
         $isPrimary          = false;
-
-        $email->id = CRM_Utils_Array::value( $emailId, $ids['location'][$locationId]['email'] );
-        if ( empty( $email->email ) ) {
-            $email->delete( );
-            return null;
-        } else {
-            return $email->save( );
-        }
+        
+        return $email->save( );
     }
 
     /**
