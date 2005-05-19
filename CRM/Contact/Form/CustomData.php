@@ -151,6 +151,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 if ($field['data_type'] == 'Int') {
                     $this->addRule($elementName, ' is a numeric field' , 'numeric');
                 }
+                // apply date validation rules
+                if ($field['data_type'] == 'Date') {
+                    $this->addRule($elementName, ' is not a valid date' , 'qfDate');
+                }
             }
         }
 
@@ -198,7 +202,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     } else {
                         $defaults[$elementName] = $field['customValue']['data'];
                     }
-                    // CRM_Core_Error::debug( $elementName, $field['customValue']['data'] );
                 }
             }
         }
