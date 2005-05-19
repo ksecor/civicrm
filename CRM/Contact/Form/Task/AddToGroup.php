@@ -127,11 +127,12 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
-        $groupId    = $this->controller->exportValue( 'AddToGroup', 'group_id'  );
-        
+        $groupId = $this->controller->exportValue( 'AddToGroup', 'group_id'  );
+        $group   =& CRM_Core_PseudoConstant::group( );
+
         list( $total, $added, $notAdded ) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $this->_contactIds, $groupId );
         $status = array(
-                        'Added Contact(s) to '         . $this->_title,
+                        'Added Contact(s) to '         . $group[$groupId],
                         'Total Selected Contact(s): '  . $total
                         );
         if ( $added ) {
