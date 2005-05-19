@@ -260,8 +260,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
        
     /**
-     * This function does all the processing of the form for New Contact Individual.
-     * Depending upon the mode this function is used to insert or update the Individual
+     * Form submission of new/edit contact is processed.
      *
      * @access public
      * @return None
@@ -272,41 +271,52 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
-        $ids = array( );
-        if ($this->_mode & self::MODE_UPDATE ) {
+        $ids = array();
+        if ($this->_mode & self::MODE_UPDATE) {
             // if update get all the valid database ids
             // from the session
             $ids = $this->get('ids');
-        }    
+        }
 
         $params['contact_type'] = $this->_contactType;
-        $contact = CRM_Contact_BAO_Contact::create( $params, $ids, self::LOCATION_BLOCKS );
+        $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
 
         // here we replace the user context with the url to view this contact
-        $config  = CRM_Core_Config::singleton( );
-        $session = CRM_Core_Session::singleton( );
+        $session = CRM_Core_Session::singleton();
+        CRM_Core_Session::setStatus('Your ' . $contact->contact_type . ' contact record has been saved');
+        $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
+    }
 
-        CRM_Core_Session::setStatus( 'Your ' . $contact->contact_type . ' contact record has been saved' );
-
-        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ) );
-    }//end of function
-
-    public static function buildCommunicationBlock(&$form)
+    /**
+     * Create communication preferences block for the contact.
+     *
+     * @param object $form - CRM_Core_Form (or it's subclass)
+     * @return none
+     *
+     * @access public
+     * @static
+     */
+    public static function buildCommunicationBlock($form)
     {
-        $privacy = array( );
+        // since the pcm - preferred comminication method is logically
+        // grouped hence we'll use groups of HTML_QuickForm
+
+        $privacy = array();
 
         // checkboxes for DO NOT phone, email, mail
-        $privacy[] = HTML_QuickForm::createElement('checkbox', 'do_not_phone', null, 'Do not call');
-        $privacy[] = HTML_QuickForm::createElement('checkbox', 'do_not_email', null, 'Do not contact by email');
-        $privacy[] = HTML_QuickForm::createElement('checkbox', 'do_not_mail' , null, 'Do not contact by postal mail');
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_phone', null, 'Do not call');
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_email', null, 'Do not contact by email');
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_mail' , null, 'Do not contact by postal mail');
 
-        $form->addGroup( $privacy, 'privacy', 'Privacy' );
+        $form->addGroup($privacy, 'privacy', 'Privacy');
 
         // preferred communication method 
         $form->add('select', 'preferred_communication_method', 'Prefers:', CRM_Core_SelectValues::$pcm);
     }
 
-    static function formRule( &$fields, &$errors ) {
+
+    static function formRule(&$fields, &$errors)
+    {
         $primaryEmail = null;
 
         // make sure that at least one field is marked is_primary
