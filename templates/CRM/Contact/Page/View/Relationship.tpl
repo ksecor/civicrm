@@ -10,11 +10,11 @@
                 <label>{$relationship_contact_name}</label>
                 {if $start_date}
                     {*<dl><dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd></dl> *}
-                    <dl><dt>Starting: </dt><dd>{$start_date}</dd></dl>
+                    <dl><dt>Starting: </dt><dd>{$start_date|date_format:"%B %e, %Y" }</dd></dl>
                 {/if}
                 {if $end_date}
                     {*<dl><dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd></dl>*}
-		    <dl><dt>Ending: </dt><dd>{$end_date}</dd></dl>	
+		    <dl><dt>Ending: </dt><dd>{$end_date|date_format:"%B %e, %Y"}</dd></dl>	
                 {/if}
             </div>
             <div class="form-item">
