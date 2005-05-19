@@ -37,10 +37,6 @@ require_once 'CRM/Contact/DAO/Phone.php';
  * BAO object for crm_phone table
  */
 class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
-    function __construct( ) {
-        parent::__construct( );
-    }
-
     /**
      * takes an associative array and creates a contact object
      *
@@ -75,7 +71,12 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
         $phone->mobile_provider_id = CRM_Utils_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
 
         $phone->id = CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] );
-        return $phone->save( );
+        if ( empty( $phone->phone ) ) {
+            $phone->delete( );
+            return null;
+        } else {
+            return $phone->save( );
+        }
     }
 
     /**
@@ -90,22 +91,12 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $phoneId, &$ids = ''  ) {
-
+    static function dataExists( &$params, $locationId, $phoneId, &$ids ) {
         if ( CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] )) {
             return true;
         }
 
-        if (CRM_Contact_BAO_Block::dataExists('phone', array( 'phone' ), $params, $locationId, $phoneId )) {
-            return true;
-        }
-        
-        return false;
-        /*
-        return CRM_Contact_BAO_Block::dataExists('phone', array( 'phone' ), 
-                                                 $params, $locationId, $phoneId );
-        */
-
+        return CRM_Contact_BAO_Block::dataExists('phone', array( 'phone' ), $params, $locationId, $phoneId );
     }
 
     /**

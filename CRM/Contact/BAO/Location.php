@@ -39,10 +39,6 @@ require_once 'CRM/Contact/BAO/Block.php';
  * BAO object for crm_location table
  */
 class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
-    function __construct( ) {
-        parent::__construct( );
-    }
-
     /**
      * takes an associative array and creates a contact object
      *
@@ -59,8 +55,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * @static
      */
     static function add( &$params, &$ids, $locationId ) {
-        $dataExists = self::dataExists( $params, $locationId );
-        if ( ! $dataExists ) {
+        if ( ! self::dataExists( $params, $locationId, $ids ) ) {
             return null;
         }
         
@@ -103,21 +98,25 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId ) {
+    static function dataExists( &$params, $locationId, &$ids ) {
+        if ( CRM_Utils_Array::value( 'id', $ids['location'][$locationId] ) ) {
+            return true;
+        }
+
         // return if no data present
         if ( ! array_key_exists( 'location' , $params ) ||
              ! array_key_exists( $locationId, $params['location'] ) ) {
             return false;
         }
 
-        if ( CRM_Contact_BAO_Address::dataExists( $params, $locationId ) ) {
+        if ( CRM_Contact_BAO_Address::dataExists( $params, $locationId, $ids ) ) {
             return true;
         }
 
         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
-            if ( CRM_Contact_BAO_Phone::dataExists( $params, $locationId, $i ) ||
-                 CRM_Contact_BAO_Email::dataExists( $params, $locationId, $i ) ||
-                 CRM_Contact_BAO_IM::dataExists   ( $params, $locationId, $i ) ) {
+            if ( CRM_Contact_BAO_Phone::dataExists( $params, $locationId, $i, $ids ) ||
+                 CRM_Contact_BAO_Email::dataExists( $params, $locationId, $i, $ids ) ||
+                 CRM_Contact_BAO_IM::dataExists   ( $params, $locationId, $i, $ids ) ) {
                 return true;
             }
         }

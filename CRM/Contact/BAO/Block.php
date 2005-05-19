@@ -103,15 +103,12 @@ class CRM_Contact_BAO_Block {
             return false;
         }
 
-        $exists = true;
         foreach ( $blockFields as $field ) {
             if ( empty( $params['location'][$locationId][$blockName][$blockId][$field] ) ) {
-                $exists = false;
-                break;
+                return false;
             }
         }
-
-        return $exists;
+        return true;
     }
 
 }

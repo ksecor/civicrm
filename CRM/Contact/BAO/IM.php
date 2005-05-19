@@ -37,10 +37,6 @@ require_once 'CRM/Contact/DAO/IM.php';
  * BAO object for crm_im table
  */
 class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
-    function __construct( ) {
-        parent::__construct( );
-    }
-
     /**
      * takes an associative array and creates a contact object
      *
@@ -75,7 +71,12 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
         $isPrimary        = false;
 
         $im->id = CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] );
-        return $im->save( );
+        if ( empty( $im->name ) ) {
+            $im->delete( );
+            return null;
+        } else {
+            return $im->save( );
+        }
     }
 
     /**
@@ -90,16 +91,12 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $imId, $ids = '' ) {
+    static function dataExists( &$params, $locationId, $imId, &$ids ) {
         if (CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] )) {
             return true;
         }
         
-        if (CRM_Contact_BAO_Block::dataExists('im', array( 'name' ), $params, $locationId, $imId ) ||
-            CRM_Contact_BAO_Block::dataExists('im', array( 'provider_id' ), $params, $locationId, $imId ) ) {
-            return true;
-        }
-        return false;
+        return CRM_Contact_BAO_Block::dataExists('im', array( 'name' ), $params, $locationId, $imId );
     }
 
 

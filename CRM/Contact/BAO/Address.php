@@ -37,12 +37,6 @@ require_once 'CRM/Contact/DAO/Address.php';
  * BAO object for crm_address table
  */
 class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-
     /**
      * takes an associative array and creates a contact object
      *
@@ -60,18 +54,22 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      */
     static function add(&$params, &$ids, $locationId)
     {
-        if (!self::dataExists($params, $locationId, $ids)) {
+        if ( ! self::dataExists($params, $locationId, $ids) ) {
             return null;
         }
 
         $address = new CRM_Contact_BAO_Address();
         $address->location_id = $params['location'][$locationId]['id'];
-        $address->copyValues($params['location'][$locationId]['address']);
+        if ( $address->copyValues($params['location'][$locationId]['address']) ) {
+            // we copied only null stuff, so we delete the object
+            $address->id = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
+            $address->delete( );
+            return null;
+        }
 
-        // currently copy values populates empty fields with the string "NULL"
-        // and hence need to check for the string NULL
-        //if ($address->state_province_id && (!$address->country_id)) {
-        if ($address->state_province_id && ($address->country_id == 'NULL')) {
+        // currently copy values populates empty fields with the string "null"
+        // and hence need to check for the string null
+        if ( is_int( $address->state_province_id ) && ($address->country_id == 'null')) {
             // since state id present and country id not present, hence lets populate it
             // jira issue http://objectledge.org/jira/browse/CRM-56
             $stateProvinceDAO = new CRM_Core_DAO_StateProvince();
@@ -96,28 +94,18 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      * @access public
      * @static
      */
-    static function dataExists(&$params, $locationId, &$ids = '')
+    static function dataExists(&$params, $locationId, &$ids)
     {
+        if ( is_array( $ids ) && CRM_Utils_Array::value('address', $ids['location'][$locationId]) ) {
+            return true;
+        }
 
         // return if no data present
-
         if (! array_key_exists('address' , $params['location'][$locationId])) {
             return false;
         }
 
-        if (is_array($ids)) {
-            if (CRM_Utils_Array::value('address', $ids['location'][$locationId])) {
-                return true;
-            }
-        }
-
         foreach ($params['location'][$locationId]['address'] as $name => $value) {
-            /*
-            if ($name == 'country_id' || $name == 'state_province_id') {
-                return false;
-            }
-            */
-
             if (!empty($value)) {
                 return true;
             }

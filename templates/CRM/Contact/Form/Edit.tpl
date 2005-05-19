@@ -8,11 +8,6 @@
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
  <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
-{* $form.attributes serves as a place holder for all form attributes to be defined in the form tag *}
-<form {$form.attributes}>
-
-{include file="CRM/formCommon.tpl"}
-
 {if $contact_type eq 'Individual'}
  <div id="name">
  <fieldset><legend>Name and Greeting</legend>

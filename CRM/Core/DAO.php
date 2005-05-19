@@ -252,17 +252,24 @@ class CRM_Core_DAO extends DB_DataObject {
      *
      * @param array $params (reference ) associative array of name/value pairs
      *
-     * @return void
+     * @return boolean      did we copy all null values into the object
      * @access public
      */
     function copyValues( &$params ) {
         $fields =& $this->fields( );
+        $allNull = true;
         foreach ( $fields as $name => &$value ) {
             if ( array_key_exists( $name, $params ) ) {
                 // if there is no value then make the variable NULL
-                $this->$name = ($params[$name]) ? $params[$name] : 'null';
+                if ( $params[$name] == '' ) {
+                    $this->$name = 'null';
+                } else {
+                    $this->$name = $params[$name];
+                    $allNull = false;
+                }
             }
         }
+        return $allNull;
     }
 
     /**
