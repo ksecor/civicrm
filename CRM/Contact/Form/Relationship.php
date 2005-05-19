@@ -125,6 +125,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addRule('relationship_type_id',' ', 'required' );
         $this->addRule('start_date', 'Select a valid start date.', 'qfDate' );
         $this->addRule('end_date', 'Select a valid end date.', 'qfDate' );
+        $this->addFormRule(array('CRM_Contact_Form_Relationship','formRule'));
     }
 
 
@@ -198,11 +199,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $ids['relationship'] = $this->_relationshipId;
         }    
 
-        $relationship = CRM_Contact_BAO_Relationship::create( $params, $ids );
+        CRM_Contact_BAO_Relationship::create( $params, $ids );
 
-        if ($relationship->id) {
-            CRM_Core_Session::setStatus( 'Your relationship record has been saved' );
-        }
+        //if ($relationship->id) {
+            //CRM_Core_Session::setStatus( 'Your relationship record has been saved' );
+        //} 
 
     }//end of function
 
@@ -272,6 +273,43 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
             $this->assign('contacts', $values);
         }
+    }
+    
+
+  /**
+   * function for validation
+   *
+   * @param array $params (reference ) an assoc array of name/value pairs
+   *
+   * @return object CRM_Contact_BAO_Relationship object 
+   * @access public
+   * @static
+   */
+    function formRule( &$params ) {
+        $errors = array( );
+        $errorsMessage = '';
+
+        $ids = array( );
+        $session = CRM_Core_Session::Singleton();
+        $ids['contact'] = $session->get('contactId','CRM_Core_Controller_Simple');
+        $ids['relationship'] = $session->get('relationshipId','CRM_Core_Controller_Simple');
+
+        if (is_array($params['contact_check'])) {
+            /*
+            foreach ( $params['contact_check'] as $key => $value) {
+                $errorsMessage .= CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $key );
+            }*/
+        } else {
+            $errorsMessage .= CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids);
+        }
+
+        if (strlen(trim($errorsMessage))) {
+            $errors['relationship_type_id'] = ' ';
+            CRM_Core_Session::setStatus( $errorsMessage );
+        }
+
+        return empty($errors) ? true : $errors;
+
     }
 
 }

@@ -95,7 +95,8 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
             return true;
         }
         
-        if (CRM_Contact_BAO_Block::dataExists('im', array( 'name', 'provider_id' ), $params, $locationId, $imId ) ) {
+        if (CRM_Contact_BAO_Block::dataExists('im', array( 'name' ), $params, $locationId, $imId ) ||
+            CRM_Contact_BAO_Block::dataExists('im', array( 'provider_id' ), $params, $locationId, $imId ) ) {
             return true;
         }
         return false;
