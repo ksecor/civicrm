@@ -130,14 +130,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // default value, help pre, help post, mask, attributes, javascript ?
         $this->add('text', 'default_value', ts('Default Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'));
-        $this->add('textarea', 'help_pre', ts('Help Pre'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_pre'));        
-        $this->add('textarea', 'help_post', ts('Help Post'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_post'));        
-        $this->add('text', 'mask', ts('Mask'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'mask'));        
 
-        // hack: we use fattributes since QF uses attributes variable for the form!
-        $this->add('text', 'fattributes', ts('Attributes'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'attributes'));       
-        // also javascript is used by smarty templates hence the wierd display of text "Array" on the form display.
-        $this->add('text', 'fjavascript', ts('Javascript'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'javascript'));       
+        $this->add('textarea', 'help_post', ts('Field Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_post'));        
+
+        $this->add('text', 'mask', ts('Mask'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'mask'));        
 
         // is active ?
         $this->add('checkbox', 'is_active', ts('Active?'));
@@ -174,18 +170,22 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $params = $this->controller->exportValues('Field');
 
         // set values for object properties
-        $customField                = new CRM_Core_DAO_CustomField( );
+        $customField                = new CRM_Core_DAO_CustomField();
+
         $customField->label         = $params['label'];
-        $customField->name          = CRM_Utils_String::titleToVar( $params['label'] );
-        $customField->data_type     = $params['data_type'];
-        $customField->html_type     = $params['html_type'];
+        $customField->name          = CRM_Utils_String::titleToVar($params['label']);
+
+        $customField->data_type     = self::$_dataType[$params['data_type'][0]];
+        $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
+
         $customField->weight        = $params['weight'];
+
         $customField->default_value = $params['default_value'];
-        $customField->help_pre      = $params['help_pre'];
+
         $customField->help_post     = $params['help_post'];
+
         $customField->mask          = $params['mask'];
-        $customField->attributes    = $params['fattributes'];
-        $customField->javascript    = $params['fjavascript'];
+
         $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
         $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
 
@@ -195,7 +195,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         $customField->custom_group_id = $this->_gid;
         $customField->save();
-
+        
         CRM_Core_Session::setStatus(ts('Your custom field - \' %1 \' has been saved', array(1 => $customField->label)));
     }
 }
