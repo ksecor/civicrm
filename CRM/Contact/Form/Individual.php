@@ -50,6 +50,8 @@ class CRM_Contact_Form_Individual {
      */
     public function buildQuickForm( $form )
     {
+        $form->applyFilter('__ALL__','trim');
+        
         // prefix
         $form->addElement('select', 'prefix', null, CRM_Core_SelectValues::$prefixName);
 

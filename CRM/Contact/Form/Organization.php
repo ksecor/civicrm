@@ -51,6 +51,8 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
      */
     public function buildQuickForm( $form ) {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Organization');
+
+        $this->applyFilter('__ALL__','trim');
         
         // Organization_name
         $this->add('text', 'organization_name', 'Organization Name:', $attributes['organization_name']);

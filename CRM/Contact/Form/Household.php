@@ -51,6 +51,8 @@ class CRM_Contact_Form_Household {
     public function buildQuickForm( $form ) {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Household');
         
+        $this->applyFilter('__ALL__','trim');  
+      
         // household_name
         $this->add('text', 'household_name', 'Household Name:', $attributes['household_name']);
         
