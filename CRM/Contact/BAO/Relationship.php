@@ -91,8 +91,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         // add where clause 
         $where1 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
                          AND crm_relationship.contact_id_a = ".$params['contact_id']." 
-                         AND crm_relationship.contact_id_b = crm_contact.id )
-                         UNION ";
+                         AND crm_relationship.contact_id_b = crm_contact.id ";
+
+        $where1 .= "     AND crm_relationship.is_active = 1 ";
+        $where1 .= "     AND crm_relationship.end_date >= '".date("Y-m-d")."'";
+
+        $where1 .= ")    UNION ";
 
         $select2 = " (SELECT crm_relationship.id as crm_relationship_id,
                               crm_contact.sort_name as sort_name,
@@ -122,8 +126,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         // add where clause 
         $where2 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
                          AND crm_relationship.contact_id_b = ".$params['contact_id']." 
-                         AND crm_relationship.contact_id_a = crm_contact.id)";
+                         AND crm_relationship.contact_id_a = crm_contact.id";
 
+        $where2 .= "     AND crm_relationship.is_active = 1 ";
+        $where2 .= "     AND crm_relationship.end_date >= '".date("Y-m-d")."'";
+
+        $where2 .= ")     ";
 
         $order = " ORDER BY crm_relationship_id ";
 
@@ -265,6 +273,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         // if $temp[1] == b or $temp[2] == a then the current contact has to be inserted as contact_id_b
         // if $temp[1] == a or $temp[2] == b then the currnet contact has to be inserted as contact_id_a
         
+        $relationship->relationship_type_id = $temp[0];        
+
         if ($temp[1] == 'b') {
             $contact_b = CRM_Utils_Array::value( 'contact', $ids );
             if (!$contactId) {
@@ -280,6 +290,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             } else {
                 $contact_a = $contactId;
             }
+
+            //check if the relationship type is Head of Household then update the household's primary contact with this contact.
+            if ($temp[0] == 6) {
+                CRM_Contact_BAO_Household::updatePrimaryContact($contact_b, $contact_a );
+            }
+
         } else if ($temp[1] == 'a') {
 
             $contact_a = CRM_Utils_Array::value( 'contact', $ids );
@@ -297,13 +313,18 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             } else {
                 $contact_b = $contactId;
             }
+            
+            //check if the relationship type is Head of Household then update the household's primary contact with this contact.
+            if ($temp[0] == 6) {
+                CRM_Contact_BAO_Household::updatePrimaryContact($contact_a, $contact_b );
+            }
+
         }
         
         $relationship->contact_id_b  = $contact_b;
         $relationship->contact_id_a  = $contact_a;
 
-        $relationship->relationship_type_id = $temp[0];
-
+        //  $relationship->is_active = 1;
 
         $sdate = CRM_Utils_Array::value( 'start_date', $params );
         $relationship->start_date = null;
@@ -602,7 +623,26 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         return false;
     }
 
-
+    /**
+     * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on success, null otherwise
+     * @static
+     */
+    static function setIsActive( $id, $is_active ) 
+    {
+        if ($id) {
+            $relationship = new CRM_Contact_DAO_Relationship( );
+            $relationship->id = $id;
+            $relationship->is_active = $is_active;
+            return $relationship->save( );
+        }
+        
+        return null;
+    }
 
 }
 

@@ -97,7 +97,31 @@ class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
         }
         return null;
     }
+    
+    /**
+     * function to update the household with primary contact id
+     *
+     * @param integer $contactId contact id
+     * @param integer $primaryContactId
+     *
+     * @return Object     DAO object on success
+     * @access public
+     * @static
+     */
+    static function updatePrimaryContact($primaryContactId, $contactId) 
+    {
+        $household = new CRM_Contact_DAO_Household;
+
+        //$household->primary_contact_id = $primaryContactId;        
+        //$household->whereAdd('contact_id ='.$contactId);
+
+        $queryString = "UPDATE crm_household 
+                        SET primary_contact_id = ".$primaryContactId." 
+                        WHERE contact_id=".$contactId;
         
+        return  $household->query($queryString);
+    }
+    
 }
 
 ?>

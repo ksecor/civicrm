@@ -117,7 +117,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     function addRules( )
     {
-        $this->addRule('relationship_type_id',' ', 'required' );
+        $this->addRule('relationship_type_id', 'Please select the relationship. ', 'required' );
         $this->addRule('start_date', 'Select a valid start date.', 'qfDate' );
         $this->addRule('end_date', 'Select a valid end date.', 'qfDate' );
         $this->addFormRule(array('CRM_Contact_Form_Relationship','formRule'));

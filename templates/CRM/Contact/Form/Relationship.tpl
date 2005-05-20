@@ -14,6 +14,7 @@
             {if $end_date}
                 <dt>End Date: </dt><dd>{$end_date|date_format:"%B %e, %Y"}</dd>
             {/if}
+	    <dt>Status:</dt><dd>{if $is_active}Enabled {else} Disabled{/if}</dd>
             <dt></dt>
             <dd><input type="button" name='cancel' value="Done" onClick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"></dd>
             </dl>
