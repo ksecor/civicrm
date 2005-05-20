@@ -65,31 +65,31 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     public function buildQuickForm()
     {
         $this->applyFilter('__ALL__', 'trim');
+
         // title
         $this->add('text', 'title', ts('Group Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
         $this->addRule('title', ts('Please enter a valid name.'), 'title');
 
-        // description
-        //$this->add('text', 'description', ts('Group Description'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'description'), true);
         // which entity is this custom data group for ?
         // for update action only allowed if there are no custom values present for this group.
         $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::$customGroupExtends);
 
-        //CRM_Core_Error::debug_var('this', $this);
-        if ($this->_mode == CRM_Core_Form::MODE_UPDATE && CRM_Core_BAO_CustomGroup::getNumValue($this->_id)) { 
+        //if ($this->_mode == CRM_Core_Form::MODE_UPDATE && CRM_Core_BAO_CustomGroup::getNumValue($this->_id)) { 
+        if ($this->_mode == CRM_Core_Form::MODE_UPDATE) { 
             $extendsElement->freeze();
         }
 
         // how do we want to display this custom data group ?
-        $this->add('select', 'style',   ts('Display Style'), CRM_Core_SelectValues::$customGroupStyle);
+        //$this->add('select', 'style',   ts('Display Style'), CRM_Core_SelectValues::$customGroupStyle);
 
         // help text
-        $this->add('textarea', 'help_pre',  ts('Help Pre'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
-        $this->add('textarea', 'help_post', ts('Help Post'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post'));
+        $this->add('textarea', 'help_pre',  ts('Form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
+        //$this->add('textarea', 'help_post', ts('Help Post'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post'));
 
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
 
+        // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
 
         $this->addButtons(array(
@@ -117,7 +117,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     function setDefaultValues()
     {
         $defaults = array();
-
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_CustomGroup::retrieve($params, $defaults);
@@ -140,7 +139,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $group = new CRM_Core_DAO_CustomGroup();
         $group->title       = $params['title'];
         $group->name        = CRM_Utils_String::titleToVar($params['title']);
-        //$group->description = $params['description'];
         $group->extends     = $params['extends'];
         $group->style       = $params['style'];
         $group->weight      = $params['weight'];

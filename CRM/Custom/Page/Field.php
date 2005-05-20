@@ -45,10 +45,46 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
     /**
      * The action links that we need to display for the browse screen
      *
-     * @static
      * @var array
      */
-    static $_links;
+    private static $_actionLinks;
+
+
+    function &actionLinks()
+    {
+        if (!isset(self::$_actionLinks)) {
+            // helper variable for nicer formatting
+            $disableExtra = ts('Are you sure you want to disable this custom data field?');
+            self::$_actionLinks = array(
+                                        CRM_Core_Action::UPDATE  => array(
+                                                                          'name'  => ts('Edit'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field',
+                                                                          'qs'    => 'action=update&id=%%id%%',
+                                                                          'title' => ts('Edit Custom Field') 
+                                                                          ),
+                                        CRM_Core_Action::VIEW    => array(
+                                                                          'name'  => ts('View'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field',
+                                                                          'qs'    => 'action=view&id=%%id%%',
+                                                                          'title' => ts('View Custom Field'),
+                                                                          ),
+                                        CRM_Core_Action::DISABLE => array(
+                                                                          'name'  => ts('Disable'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field',
+                                                                          'qs'    => 'action=disable&id=%%id%%',
+                                                                          'title' => ts('Disable Custom Field'),
+                                                                          'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                          ),
+                                        CRM_Core_Action::ENABLE  => array(
+                                                                          'name'  => ts('Enable'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field',
+                                                                          'qs'    => 'action=enable&id=%%id%%',
+                                                                          'title' => ts('Enable Custom Group'),
+                                                                          ),
+                                        );
+        }
+        return self::$_actionLinks;
+    }
 
     /**
      * Browse all custom data.
@@ -61,22 +97,25 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
     function browse()
     {
         $customField = array();
-        $customFieldDAO = new CRM_Core_DAO_CustomField();
-        $fields = $customFieldDAO->fields();
+        $customFieldBAO = new CRM_Core_BAO_CustomField();
         
         // fkey is gid
-        $customFieldDAO->custom_group_id = $this->_gid;
-        $customFieldDAO->find();
-        
-        while ($customFieldDAO->fetch()) {
-            $fieldId = $customFieldDAO->id;
-            $customField[$fieldId] = array();
-            // get all fields, it's a bit heavy (since we need to show only 5 out of 16).
-            foreach (array_keys($fields) as $fieldName) {
-                $customField[$fieldId][$fieldName] = $customFieldDAO->$fieldName;
+        $customFieldBAO->custom_group_id = $this->_gid;
+        $customFieldBAO->orderBy('weight');
+        $customFieldBAO->find();
+       
+        while ($customFieldBAO->fetch()) {
+            $customField[$customFieldBAO->id] = array();
+            $customFieldBAO->storeValues($customField[$customFieldBAO->id]);
+
+            $action = array_sum(array_keys($this->actionLinks()));
+            if ($customFieldBAO->is_active) {
+                $action -= CRM_Core_Action::ENABLE;
+            } else {
+                $action -= CRM_Core_Action::DISABLE;
             }
-            $action = CRM_Core_Action::VIEW + CRM_Core_Action::UPDATE;
-            $customField[$fieldId]['action'] = CRM_Core_Action::formLink(self::links(), $action_, array('id' => $fieldId));
+            $customField[$customFieldBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
+                                                                                    array('id' => $customFieldBAO->id));
         }
         $this->assign('customField', $customField);
     }
@@ -92,7 +131,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      * @return none
      * @access public
      */
-    function edit( $action )
+    function edit($action)
     {
         // create a simple controller for editing custom data
         $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Field', ts('Custom Field'), $action);
@@ -127,6 +166,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             $groupTitle = CRM_Core_BAO_CustomGroup::getTitle($this->_gid);
             $this->assign('gid', $this->_gid);
             $this->assign('groupTitle', $groupTitle);
+            CRM_Utils_System::setTitle("$groupTitle Fields");
         }
 
         // get the requested action
@@ -134,41 +174,22 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
 
         // assign vars to templates
         $this->assign('action', $action);
+
+        $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
-            $this->edit( $action );
-        } else {
-            $this->browse();
-        }
+            $this->edit($action);
+        } else if ($action & CRM_Core_Action::DISABLE) {
+            CRM_Core_BAO_CustomField::setIsActive($id, 0);
+        } else if ($action & CRM_Core_Action::ENABLE) {
+            CRM_Core_BAO_CustomField::setIsActive($id, 1);
+        } 
+        $this->browse();
 
         // Call the parents run method
         parent::run();
     }
-
-
-    static function &links()
-    {
-        if ( ! isset( self::$_links ) ) 
-        {
-            self::$_links = array(
-                                  CRM_Core_Action::VIEW    => array(
-                                                                    'name'  => ts('View'),
-                                                                    'url'   => 'civicrm/admin/custom/group/field',
-                                                                    'qs'    => 'action=view&id=%%id%%',
-                                                                    'title' => ts('View Custom Field'),
-                                                                   ),
-                                  CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/custom/group/field',
-                                                                    'qs'    => 'action=update&id=%%id%%',
-                                                                    'title' => ts('Edit Custom Field') 
-                                                                   ),
-                                 );
-        }
-    return self::$_links;    
-    }
-
 }
 
 ?>

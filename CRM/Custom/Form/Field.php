@@ -58,19 +58,16 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @var array
      * @static
      */
-    public static $dataType = array('String', 'Int', 'Float', 'Money', 'Text', 'Date', 'Boolean', 'Set', 'Enum', 'Array');
-    public static $dataToHTML = array(
-                                      array('Text'),
-                                      array('Text'),
-                                      array('Text'),
-                                      array('Text'),
-                                      array('TextArea'),
-                                      array('Select Date'),
-                                      array('Radio'),
-                                      array('Checkbox'),
-                                      array('Radio'),
-                                      array('Checkbox', 'Radio', 'Select'),
-                                      );
+    private static $_dataType   = array('String', 'Int', 'Float', 'Money', 'Memo', 'Date', 'Boolean');
+    private static $_dataToHTML = array(
+                                        array('Text'),
+                                        array('Text'),
+                                        array('Text'),
+                                        array('Text'),
+                                        array('TextArea'),
+                                        array('Select Date'),
+                                        array('Radio'),
+                                        );
     
     /**
      * Function to set variables up before form is built
@@ -113,14 +110,16 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
+        
         $this->applyFilter('__ALL__', 'trim');
+
         // label
-        $this->add( 'text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
+        $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
         $this->addRule('label', ts('Please enter label for this field.'), 'title');
 
         // data type, html type
         $dataHTMLElement = $this->addElement('hierselect', 'data_type', ts('Data Type'));
-        $dataHTMLElement->setOptions(array(self::$dataType, self::$dataToHTML));
+        $dataHTMLElement->setOptions(array(self::$_dataType, self::$_dataToHTML));
 
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'), true);
@@ -134,14 +133,16 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->add('textarea', 'help_pre', ts('Help Pre'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_pre'));        
         $this->add('textarea', 'help_post', ts('Help Post'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_post'));        
         $this->add('text', 'mask', ts('Mask'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'mask'));        
-        
+
         // hack: we use fattributes since QF uses attributes variable for the form!
         $this->add('text', 'fattributes', ts('Attributes'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'attributes'));       
-        $this->add('text', 'javascript', ts('Javascript'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'javascript'));       
-        
+        // also javascript is used by smarty templates hence the wierd display of text "Array" on the form display.
+        $this->add('text', 'fjavascript', ts('Javascript'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'javascript'));       
+
         // is active ?
         $this->add('checkbox', 'is_active', ts('Active?'));
         
+        // add buttons
         $this->addButtons(array(
                                 array ('type'      => 'next',
                                        'name'      => 'Save',
@@ -152,11 +153,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                                        'name'      => 'Cancel'),
                                 )
                           );
+
+        // if view mode pls freeze it with the done button.
         if ($this->_mode & self::MODE_VIEW) {
             $this->freeze();
             $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
         }
     }
+
     
     /**
      * Process the form
@@ -181,7 +185,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->help_post     = $params['help_post'];
         $customField->mask          = $params['mask'];
         $customField->attributes    = $params['fattributes'];
-        $customField->javascript    = $params['javascript'];
+        $customField->javascript    = $params['fjavascript'];
         $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
         $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
 
@@ -192,8 +196,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->custom_group_id = $this->_gid;
         $customField->save();
 
-        CRM_Core_Session::setStatus( ts('Your custom field - \' %1 \' has been saved', 
-                                        array( 1 => $customField->label ) ) );
+        CRM_Core_Session::setStatus(ts('Your custom field - \' %1 \' has been saved', array(1 => $customField->label)));
     }
 }
 ?>
