@@ -30,9 +30,8 @@
 {/if}
 
 {if $action ne 1 and $action ne 2 and $action ne 8}
-    <br/>
     <div class="action-link">
-        <a href="{crmURL p='civicrm/group/add' q='reset=1'}">New Group</a>
+        <a href="{crmURL p='civicrm/group/add' q='reset=1'}">{ts}&raquo; New Group{/ts}</a>
     </div>
 {/if} {* action ne add or edit *}
 </p>

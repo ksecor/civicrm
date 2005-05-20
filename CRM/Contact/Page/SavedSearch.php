@@ -104,8 +104,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
                                                                    'name'  => ts('Delete'),
                                                                    'url'   => 'civicrm/contact/search/saved',
                                                                    'qs'    => 'action=delete&id=%%id%%',
-                                                                   'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
-                                                                   'title' => ts('Delete Saved Search')
+                                                                   'extra' => 'onclick="return confirm(\'' . $deleteExtra . '\');"',
                                                                   ),
                                  );
         }

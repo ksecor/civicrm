@@ -2,10 +2,10 @@
     <form action="{$postURL}" method="post">
     <div class="form-item">
         <select name="contact_type" size="1" class="form-select">
-            <option>-all contacts-</option>
-            <option>Individuals</option>
-            <option>Organizations</option>
-            <option>Households</option>
+            <option value="">-all contacts-</option>
+            <option value="Individual">Individuals</option>
+            <option value="Organization">Organizations</option>
+            <option value="Household">Households</option>
         </select>
     </div>
     <div class="form-item">
