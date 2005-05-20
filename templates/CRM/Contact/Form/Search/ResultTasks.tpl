@@ -31,7 +31,7 @@
        {$form._qf_Search_next_action.html}
      {/if}
      <br />
-     {$form.radio_ts.ts_sel.html} &nbsp; {$form.radio_ts.ts_all.html} {$pager->_totalItems} records
+     {$form.radio_ts.ts_sel.html}<b> {if $pager->_totalItems gt 1} selected record(s) only{else}selected record{/if}</b>&nbsp; {if $pager->_totalItems gt 1} {$form.radio_ts.ts_all.html} <b> {if $pager->_totalItems gt 2} all {$pager->_totalItems} records {else} {$pager->_totalItems} records {/if}</b> {/if}
    </div>
    <div class="float-right">Select: 
     <a onclick="changeCheckboxVals('mark_x_','select'  , {$form.formName} ); return false;" name="select_all"  href="#">All</a> |
