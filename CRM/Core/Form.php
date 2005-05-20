@@ -179,7 +179,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
     
         if ( $required ) {
-            $error = $this->addRule($name, ' is a required field' , 'required');
+            $error = $this->addRule($name, "$label is a required field" , 'required');
             if (HTML_QuickForm::isError($error)) {
                 CRM_Core_Error::fatal(HTML_QuickForm::errorMessage($element));
             }

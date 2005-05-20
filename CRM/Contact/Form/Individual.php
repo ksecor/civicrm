@@ -81,7 +81,7 @@ class CRM_Contact_Form_Individual {
         
         $form->addElement('checkbox', 'is_deceased', null, 'Contact is deceased');
         
-        $form->addElement('date', 'birth_date', 'Date of birth', CRM_Core_SelectValues::$date);
+        $form->addElement('date', 'birth_date', 'Date of birth', CRM_Core_SelectValues::date( 'birth' ) );
         $form->addRule('birth_date', 'Select a valid date.', 'qfDate' );
 
         $config = CRM_Core_Config::singleton( );

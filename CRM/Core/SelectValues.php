@@ -82,14 +82,12 @@ class CRM_Core_SelectValues {
      * @var array
      * @static
      */
-    public static $date       = array(
-                                      'language'  => 'en',
-                                      'format'    => 'dMY',
-                                      'minYear'   => 1900,
-                                      'maxYear'   => 2005,
-                                      'addEmptyOption'   => true,
-                                      'emptyOptionText'  => '-select-',
-                                      'emptyOptionValue' => ''
+    private static $_date       = array(
+                                        'language'         => 'en',
+                                        'format'           => 'd M Y',
+                                        'addEmptyOption'   => true,
+                                        'emptyOptionText'  => '-select-',
+                                        'emptyOptionValue' => ''
                                       );
 
     /**
@@ -225,13 +223,38 @@ class CRM_Core_SelectValues {
                                      'query'    => 'Dynamic',
                                      'static'   => 'Static',
                                      );
+  
     
-}
+    /**
+     * compose the parameters for a date select object
+     *
+     * @param  $type the type of date
+     *
+     * @return array         the date array
+     * @access public
+     * @static
+     */
+    static function &date( $type = 'birth' ) {
+        $newDate = self::$_date;
 
-/**
- * initialize maxYear to the right value, i.e.
- * the current year
- */
-CRM_Core_SelectValues::$date['maxYear'] = date('Y');
+        if ( $type == 'birth' ) {
+            $minOffset = 100;
+            $maxOffset = 0;
+        } else if ( $type == 'relative' ) {
+            $minOffset = 20;
+            $maxOffset = 20;
+        } else if ( $type == 'custom' ) {
+            $minOffset = 100;
+            $maxOffset = 20;
+        }
+        
+        $year = date('Y');
+        $newDate['minYear'] = $year - $minOffset;
+        $newDate['maxYear'] = $year + $maxOffset;
+
+        return $newDate;
+    }
+
+}
 
 ?>

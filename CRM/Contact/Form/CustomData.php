@@ -123,14 +123,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
 
                 case 'Select Date':
-                    $dateOptions = array(
-                                         'format'          => 'd M Y',
-                                         'minYear'         => date('Y')-100,
-                                         'maxYear'         => date('Y'),
-                                         'addEmptyOption'  => 'true',
-                                         'emptyOptionText' => '--',
-                                         );
-                    $this->add('date', $elementName, $field['label'], $dateOptions, $field['required']);
+                    $this->add('date', $elementName, $field['label'], CRM_Core_SelectValues::date( 'custom' ), $field['required']);
                     break;
                 case 'Radio':
                     $choice = array();
@@ -138,7 +131,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 'No' , 'no' , $field['attributes']);
                     $this->addGroup($choice, $elementName, $field['label']);
                     if ($field['is_required']) {
-                        $this->addRule($elementName, ' is a required field' , 'required');
+                        $this->addRule($elementName, $field['label'] . " is a required field." , 'required');
                     }
                     break;
                 case 'Select':

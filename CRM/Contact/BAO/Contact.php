@@ -332,7 +332,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $lastName  = CRM_Utils_Array::value('last_name', $params, '');
             // a comma should only be present if both first_name and last name are present.            
             if ($firstName && $lastName) {
-                $sortName = "$lastName, $firstName";
+                $sortName = "$lastName $firstName";
             } else {
                 $sortName = $lastName . $firstName;
             }

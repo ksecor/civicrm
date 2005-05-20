@@ -78,6 +78,10 @@ class CRM_Admin_Form extends CRM_Core_Form
         if ($this->_mode == self::MODE_DELETE) {
             $this->assign('delName',$defaults['name']);
         }
+
+        // its ok if there is no element called is_active
+        $defaults['is_active'] = 1;
+
         return $defaults;
     }
 

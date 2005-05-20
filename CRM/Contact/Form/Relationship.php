@@ -145,9 +145,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
         $this->addElement('hidden', 'csearch','0' );
 
-        $this->addElement('date', 'start_date', 'Starting:', CRM_Core_SelectValues::$date);
+        $this->addElement('date', 'start_date', 'Starting:', CRM_Core_SelectValues::date( 'relative' ) );
         
-        $this->addElement('date', 'end_date', 'Ending:', CRM_Core_SelectValues::$date);
+        $this->addElement('date', 'end_date', 'Ending:', CRM_Core_SelectValues::date( 'relative' ) );
 
         $arraySearch = array();
         $params = array();
