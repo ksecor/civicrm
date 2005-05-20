@@ -1,5 +1,4 @@
 {* this template is used for adding/editing Mobile Provider  *}
-<form {$form.attributes}>
 <div class="form-item">
 <fieldset><legend>{if $action eq 1}{ts}New Mobile Provider{/ts}{else}{ts}Edit Mobile Provider{/ts}{/if}</legend>
     <dl>
@@ -9,4 +8,3 @@
     </dl>
 </fieldset>
 </div>
-</form>

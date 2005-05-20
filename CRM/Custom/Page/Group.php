@@ -47,7 +47,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page_Basic {
         return 'CRM_Core_BAO_CustomGroup';
     }
 
-    static function &links()
+    function &links()
     {
 
         if ( ! isset( self::$_links ) ) 

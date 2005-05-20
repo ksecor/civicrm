@@ -8,7 +8,6 @@
         find contacts to add to your new group.
     {/if}
 </div>
-<form {$form.attributes}>
 <div class="form-item">
 <fieldset><legend>Group Name and Description</legend>
     <dl>
@@ -18,4 +17,3 @@
     </dl>
     </fieldset>
 </div>
-</form>

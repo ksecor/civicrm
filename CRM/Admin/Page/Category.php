@@ -49,7 +49,7 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic
         return 'CRM_Contact_BAO_Category';
     }
 
-    static function &links() 
+    function &links() 
     {
         if ( ! isset( self::$_links ) ) 
         {

@@ -1,9 +1,8 @@
 {* this template is used for adding/editing tags  *}
 
-<form {$form.attributes}>
 <fieldset><legend>{ts}Tags{/ts}</legend>
     <p>
-    {if $action eq 4}
+    {if $action eq 16}
         {ts 1=$displayName}Current tags for <strong>%1</strong> are highlighted. You can
         add or remove tags from{/ts} <a href="{crmURL p='civicrm/contact/view/tag' q='action=update'}">{ts}Edit Tags{/ts}</a>.
     {else}
@@ -13,8 +12,8 @@
     </p>
     
       {foreach from=$category item="row" key = "id"}
-        <div class="form-item {if $action eq 4 AND $form.categoryList[$id].value}label{/if}">
-         {ts}{$form.categoryList[$id].html} &nbsp;{$row}{/ts}
+        <div class="form-item {if $action eq 16 AND $form.categoryList[$id].value}label{/if}">
+         {ts}{$form.categoryList[$id].html} &nbsp;{$row}{/ts} 
         </div>
       {/foreach}
 
@@ -28,7 +27,3 @@
        <div class="form-item">{$form.buttons.html}</div>
        </fieldset>
     {/if}
-
- 	
-</form>
-

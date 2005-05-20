@@ -4,9 +4,8 @@
 
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
- {* Including the javascript source code from the Individual.js and Common.js files *}
+ {* Including the javascript source code from the Individual.js *}
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
- <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
 {if $contact_type eq 'Individual'}
  <div id="name">

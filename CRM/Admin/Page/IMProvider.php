@@ -48,7 +48,7 @@ class CRM_Admin_Page_IMProvider extends CRM_Core_Page_Basic
         return 'CRM_Core_BAO_IMProvider';
     }
 
-    static function &links() 
+    function &links() 
     {
         if ( ! isset( self::$_links ) ) 
         {

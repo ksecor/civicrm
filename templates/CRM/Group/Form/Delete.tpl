@@ -9,8 +9,6 @@
       </dl>
     </div>
 
-<form {$form.attributes}>
 <div class="form-item">
     {$form.buttons.html}
 </div>
-</form>

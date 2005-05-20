@@ -49,7 +49,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
         return 'CRM_Contact_BAO_LocationType';
     }
 
-    static function &links() 
+    function &links() 
     {
         if ( ! isset( self::$_links ) ) 
         {

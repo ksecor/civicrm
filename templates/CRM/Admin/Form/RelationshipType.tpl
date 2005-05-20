@@ -1,5 +1,4 @@
-{* this template is used for adding/editing relationship type  *}
-<form {$form.attributes}>
+{* this template is used for adding/editing relationship types  *}
 <p>
 <fieldset><legend>{if $action eq 1}{ts}New Relationship Type{/ts}{elseif $action eq 2}{ts}Edit Relationship Type{/ts}{else} {ts}View Relationship Type{/ts}{/if}</legend>
 	<div class="form-item">
@@ -19,4 +18,3 @@
     </div>
 </fieldset>
 </p>
-</form>

@@ -1,7 +1,5 @@
-{if $action eq 1 or $action eq 2 or $action eq 4}
-<form {$form.attributes}>
 <div class="form-item">
-<fieldset>
+<fieldset><legend>{ts}Custom Data Field{/ts}</legend>
     {strip}
     <dt>{$form.label.label}</dt><dd> {$form.label.html}</dd>
     <dt>{$form.data_type.label}</dt><dd>{$form.data_type.html}</dd>
@@ -26,5 +24,3 @@
     {/strip}
 </div>
 </fieldset>
-</form>
-{/if}

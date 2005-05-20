@@ -13,11 +13,11 @@
 
 {include file="CRM/common/status.tpl"}
 
-<!-- .tpl file invoked: {$tplFile} -->
+<!-- .tpl file invoked: {$tplFile}. Call via form.tpl if we have a form in the page. -->
 {if $isForm}
-{include file="CRM/form.tpl"}
+    {include file="CRM/form.tpl"}
 {else}
-{include file=$tplFile}
+    {include file=$tplFile}
 {/if}
 
 <div class="message status" id="feedback-request">

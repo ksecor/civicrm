@@ -198,7 +198,7 @@ function civicrm_menu($may_cache)
         
         $items[] = array(
                          'path'   => 'civicrm/admin/custom/group',
-                         'title'  => ts('Custom Data'),
+                         'title'  => ts('Custom Data Groups'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => -5
@@ -206,7 +206,7 @@ function civicrm_menu($may_cache)
   
         $items[] = array(
                          'path'   => 'civicrm/admin/custom/group/field',
-                         'title'  => ts('Browse Custom Fields'),
+                         'title'  => ts('Custom Data Fields'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_CALLBACK,
                          'weight' => 3

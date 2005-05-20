@@ -1,5 +1,4 @@
 {* this template is used for adding/editing location type  *}
-<form {$form.attributes}>
 <div class="form-item">
 <fieldset><legend>{if $action eq 1}{ts}New Location Type{/ts}{else}{ts}Edit Location Type{/ts}{/if}</legend>
   <dl>
@@ -10,4 +9,3 @@
   </dl>
 </fieldset>
 </div>
-</form>

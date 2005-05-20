@@ -1,5 +1,4 @@
 {* this template is used for adding/editing IM Provider  *}
-<form {$form.attributes}>
 <div class="form-item">
 <fieldset><legend>{if $action eq 1}{ts}NewIM Provider{/ts}{else}{ts}Edit IM Provider{/ts}{/if}</legend>
     <dl>
@@ -9,4 +8,3 @@
     </dl>
 </fieldset>
 </div>
-</form>

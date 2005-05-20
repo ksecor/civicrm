@@ -48,7 +48,7 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
         return 'CRM_Contact_BAO_RelationshipType';
     }
 
-    static function &links() 
+    function &links() 
     {
         if ( ! isset( self::$_links ) ) 
         {
