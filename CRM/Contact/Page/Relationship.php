@@ -209,7 +209,8 @@ class CRM_Contact_Page_Relationship {
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/rel', 'action=browse' ) );
         
         // rtype is the variable that tells type of realationship (a_b or b_a)
-        $rtype = CRM_Utils_Request::retrieve( 'rtype', $this );
+        //$rtype = CRM_Utils_Request::retrieve( 'rtype', $this );
+        $rtype = CRM_Utils_Request::retrieve( 'rtype', $controller );
 
         $controller->set( 'contactId'     , $page->getContactId( ) );
         $controller->set( 'relationshipId', $relationshipId );
