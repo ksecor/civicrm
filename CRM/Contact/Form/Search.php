@@ -270,6 +270,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $defaults['task'] = CRM_Contact_Task::PRINT_CONTACTS;
         }
 
+        // note that we do this so we over-ride the default/post/submitted values to get
+        // consisten behavior between search and advanced search
+        $this->setConstants( $defaults );
         return $defaults;
     }
 
