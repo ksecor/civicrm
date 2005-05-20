@@ -46,7 +46,8 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
 
         /*
         // store the referer url
@@ -64,6 +65,8 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
         }
         */
         
+        $this->applyFilter('__ALL__', 'trim');
+  
         $this->add('text', 'name_a_b'       , ts('Relationship Label-A to B')       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'name_a_b' ) );
         $this->addRule( 'name_a_b', ts('Please enter a valid Relationship Label for A to B.'), 'required' );
@@ -112,8 +115,6 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
 
         CRM_Core_Session::setStatus( ts('The Relationship Type has been saved.') );
     }//end of function
-
-
 }
 
 ?>

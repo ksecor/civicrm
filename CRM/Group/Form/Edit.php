@@ -86,6 +86,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      */
     public function buildQuickForm( ) {
 
+        $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'title'       , 'Name: ' ,
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
         $this->addRule( 'title', 'Please enter the name.', 'required' );

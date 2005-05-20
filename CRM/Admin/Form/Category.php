@@ -58,6 +58,7 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
                                      )
                                );
         } else {
+            $this->applyFilter('__ALL__', 'trim');
             
             $this->add('text', 'name'       , ts('Name')       ,
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'name' ) );

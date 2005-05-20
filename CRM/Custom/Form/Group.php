@@ -64,6 +64,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
+        $this->applyFilter('__ALL__', 'trim');
         // title
         $this->add('text', 'title', ts('Group Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
         $this->addRule('title', ts('Please enter a valid name.'), 'title');

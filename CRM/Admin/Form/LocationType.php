@@ -46,7 +46,9 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
+        $this->applyFilter('__ALL__', 'trim');
         $this->add('text', 'name'       , ts('Name')       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid location type name.'), 'required' );

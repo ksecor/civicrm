@@ -113,6 +113,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
+        $this->applyFilter('__ALL__', 'trim');
         // label
         $this->add( 'text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
         $this->addRule('label', ts('Please enter label for this field.'), 'title');
