@@ -100,7 +100,7 @@ class CRM_Contact_Form_Address
                 $stateProvinceDAO->id = $stateProvinceId;
                 $stateProvinceDAO->find(true);
 
-                if ($stateProvinceDAO->country_id != $country_id) {
+                if ($stateProvinceDAO->country_id != $countryId) {
                     // countries mismatch hence display error
                     $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
                     $countries = CRM_Core_PseudoConstant::country();

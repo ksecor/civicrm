@@ -87,7 +87,9 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
         $ids['category'] = $this->_id;
         
         if ($this->_mode == self::MODE_DELETE) {
-            if ($this->_id  > 0 )  CRM_Contact_BAO_Category::del( $this->_id );
+            if ($this->_id  > 0 ) {
+                CRM_Contact_BAO_Category::del( $this->_id );
+            }
         } else {
             CRM_Contact_BAO_Category::add($params, $ids);
         }        

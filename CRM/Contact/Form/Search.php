@@ -157,8 +157,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->assign_by_ref( 'savedSearch', $savedSearchValues );
         }
 
-        $actionElement = $this->add('select', 'task'   , 'Actions: '    , $tasks    );
-
         if ( $this->_context === 'smog' ) {
             $this->_groupElement->freeze( );
             
@@ -170,13 +168,26 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             CRM_Utils_System::setTitle( 'Group Members: ' . $this->_group[$this->_groupID] );
         }
         
+        /*
+         * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
+         *
+         */
         if ( $this->_context === 'amtg' ) {
             // Set dynamic page title for 'Add Members Group'
             CRM_Utils_System::setTitle( 'Add Members: ' . $this->_group[$this->_amtgID] );
             // also set the group title and freeze the action task with Add Members to Group
             $groupValues = array( 'id' => $this->_amtgID, 'title' => $this->_group[$this->_amtgID] );
             $this->assign_by_ref( 'group', $groupValues );
-            $actionElement->freeze( );
+            $this->add('submit', $this->_actionButtonName, 'Add Contacts to ' . $this->_group[$this->_amtgID],
+                       array( 'class' => 'form-submit',
+                              'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
+            $this->add('hidden','task', CRM_Contact_Task::GROUP_CONTACTS );
+
+        } else {
+            $this->add('select', 'task'   , 'Actions: '    , $tasks    );
+            $this->add('submit', $this->_actionButtonName, 'Go',
+                       array( 'class' => 'form-submit',
+                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) );
         }
 
         // need to perform tasks on all or selected items ? using radio_ts(task selection) for it
@@ -210,21 +221,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->add('submit', $this->_printButtonName, 'Print',
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
+        
         $this->setDefaultAction( 'refresh' );
 
-        /*
-         * add the go button for the action form, note it is of type 'next' rather than of type 'submit'
-         *
-         */
-        if ( $this->_context == 'amtg' ){
-            $this->add('submit', $this->_actionButtonName, 'Add Contacts to ' . $this->_group[$this->_amtgID],
-                   array( 'class' => 'form-submit',
-                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
-        } else {
-            $this->add('submit', $this->_actionButtonName, 'Go',
-                   array( 'class' => 'form-submit',
-                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) );
-        }    
     }
     
     /**

@@ -80,10 +80,14 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
         $locationType->description  = $params['description'];
         $locationType->is_active    = $params['is_active'];
 
+        if ($this->_mode & self::MODE_UPDATE ) {
+            $locationType->id = $this->_id;
+        }
+
         $locationType->save( );
 
         CRM_Core_Session::setStatus( ts('The location type \' %1 \' has been saved.',
-					array( 1 => $locationType->name )) );
+                                        array( 1 => $locationType->name )) );
     }//end of function
 
 

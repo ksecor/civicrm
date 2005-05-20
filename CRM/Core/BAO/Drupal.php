@@ -31,24 +31,24 @@
  *
  */
 
-require_once 'CRM/Core/StateMachine.php';
-
-class CRM_Group_StateMachine extends CRM_Core_StateMachine {
-
+/**
+ *
+ */
+class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
     /**
-     * class constructor
+     * Given a Drupal user object, make sure there is a contact
+     * object for this user. If the user has new values, we need
+     * to update the CRM DB with the new values
+     *
+     * @param Object  $user   the drupal user object
+     * @param boolean $update has the user object been edited
+     *
+     * @return void
+     * @access public
+     * @static
      */
-    function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
-        parent::__construct( $controller, $mode );
+    static function synchronize( &$user, $update = false ) {
         
-        $this->_pages = array(
-                              'CRM_Group_Form_Edit',
-                              'CRM_Contact_Form_Search',
-                              'CRM_Contact_Form_Task_AddToGroup',
-                              'CRM_Contact_Form_Task_Result',
-                              );
-
-        $this->addSequentialPages( $this->_pages, $mode );
     }
 
 }

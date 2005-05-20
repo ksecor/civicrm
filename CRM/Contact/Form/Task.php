@@ -68,10 +68,10 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
 
         // get the submitted values of the search form
         // we'll need to get fv from either search or adv search in the future
-        if ( $this->_mode == CRM_Core_Form::MODE_BASIC ) {
-            $values = $this->controller->exportValues( 'Search' );
-        } else {
+        if ( $this->_mode == CRM_Core_Form::MODE_ADVANCED ) {
             $values = $this->controller->exportValues( 'Advanced' );
+        } else {
+            $values = $this->controller->exportValues( 'Search' );
         }
         
         $this->_task = $values['task'];

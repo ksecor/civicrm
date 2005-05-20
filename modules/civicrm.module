@@ -98,13 +98,8 @@ function civicrm_perm()
 {
     // static permissions
     $cPerm = array('view any contact', 'add/edit any contact', 'view groups', 'add/edit groups', 'administer CiviCRM');
-    // dynamic permissions - access by group (title)
 
-    /*
-	 This code currently returns an error:
-        "DB_DataObject Error: No database name / dsn found anywhere"
-        Check w/ Lobo on what include is missing or ?? dgg
-    */
+    // dynamic permissions - access by group (title)
     $groups =& CRM_Core_PseudoConstant::group();
     foreach ( $groups as &$title ) {
         $cPerm[] = $title;
@@ -115,6 +110,7 @@ function civicrm_perm()
 
 /**
  * Implementation of hook_block().
+*
  * This hook both declares to Drupal what blocks are provided by the module, and
  * generates the contents of the blocks themselves.
  */
@@ -394,6 +390,10 @@ function civicrm_hack_path( $path, $qs ) {
     }
 }
 
+/**
+ * implementation of hook_init
+ *
+ */
 function civicrm_init() 
 {
     if ( arg(0) != 'civicrm' && arg(0) != 'admin' ) {
@@ -416,6 +416,18 @@ function civicrm_init()
     PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Core_Error', 'handle'));
 }
 
+/**
+ * exit hook, make sure we sync between drupal and crm here
+ */
+function civicrm_exit( $destination = null ) {
+    if ( arg(0) != 'civicrm' && arg(0) != 'admin' ) {
+        return;
+    }
+
+    global $user;
+
+    CRM_Core_BAO_Drupal::synchronize( $user );
+}
 
 /**
  * Menu callbacks; dispatches control to the appropriate handler
