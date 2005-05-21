@@ -107,9 +107,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     static function &getValues( &$params, &$values, &$ids ) {
 
-        $groupIn = CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In' , 3 );
+        //$groupIn = CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In' , 3 );
         $values['group']['data']       =& CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In' , 3 );
-        // get the total count of relationships
+
+        // get the total count of groups
         $values['group']['totalCount'] =  CRM_Contact_BAO_GroupContact::getContactGroup($params['contact_id'], 'In' , null, true );
 
         return $values;

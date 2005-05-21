@@ -503,7 +503,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         $contact->location     =& CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 3 );
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
-        $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids, 3 );
+        $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
 
         return $contact;

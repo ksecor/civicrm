@@ -46,157 +46,22 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     }
    
     /**
-     * Given the list of params in the params array, fetch the object
-     * and store the values in the values array
+     * takes an associative array and creates a relationship object 
      *
-     * @param array $params        input parameters to find object
-     * @param array $values        output values of the object
-     * @param array $ids           the array that holds all the db ids
-     * @param int   $numRelationships      the maximum number of relationships to return (0 if all)
      *
-     * @return void
+     * @param array $params (reference ) an assoc array of name/value pairs
+     * @param array $ids    the array that holds all the db ids
+     *
+     * @return object CRM_Contact_BAO_Relationship object 
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids, $numRelationships = '') {
-        $relationship = new CRM_Contact_BAO_Relationship( );
-
-        $select1 = $from1 = $where1 = $select2 = $from2 = $where2 = $order = $limit = '';
-        
-        $select1 = "( SELECT crm_relationship.id as crm_relationship_id,
-                              crm_contact.sort_name as sort_name,
-                              crm_address.street_address as street_address,
-                              crm_address.city as city,
-                              crm_address.postal_code as postal_code,
-                              crm_state_province.abbreviation as state,
-                              crm_country.name as country,
-                              crm_email.email as email,
-                              crm_phone.phone as phone,
-                              crm_contact.id as crm_contact_id,
-                              crm_contact.contact_type as contact_type,
-                              crm_relationship.contact_id_b as contact_id_b,
-                              crm_relationship.contact_id_a as contact_id_a,
-                              crm_relationship_type.name_b_a as relation";
-
-        $from1 = " FROM crm_contact 
-                        LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-                        LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
-                        LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
-                        LEFT OUTER JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                        LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
-                        LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id),
-                        crm_relationship,crm_relationship_type
-                       ";
-
-        // add where clause 
-        $where1 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
-                         AND crm_relationship.contact_id_a = ".$params['contact_id']." 
-                         AND crm_relationship.contact_id_b = crm_contact.id ";
-
-        $where1 .= "     AND crm_relationship.is_active = 1 ";
-        $where1 .= "     AND crm_relationship.end_date >= '".date("Y-m-d")."'";
-
-        $where1 .= ")    UNION ";
-
-        $select2 = " (SELECT crm_relationship.id as crm_relationship_id,
-                              crm_contact.sort_name as sort_name,
-                              crm_address.street_address as street_address,
-                              crm_address.city as city,
-                              crm_address.postal_code as postal_code,
-                              crm_state_province.abbreviation as state,
-                              crm_country.name as country,
-                              crm_email.email as email,
-                              crm_phone.phone as phone,
-                              crm_contact.id as crm_contact_id,
-                              crm_contact.contact_type as contact_type,
-                              crm_relationship.contact_id_b as contact_id_b,
-                              crm_relationship.contact_id_a as contact_id_a,
-                              crm_relationship_type.name_a_b as relation";
-
-        $from2 = " FROM crm_contact 
-                        LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-                        LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
-                        LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
-                        LEFT OUTER JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                        LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
-                        LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id),
-                      crm_relationship,crm_relationship_type
-                       ";
-
-        // add where clause 
-        $where2 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
-                         AND crm_relationship.contact_id_b = ".$params['contact_id']." 
-                         AND crm_relationship.contact_id_a = crm_contact.id";
-
-        $where2 .= "     AND crm_relationship.is_active = 1 ";
-        $where2 .= "     AND crm_relationship.end_date >= '".date("Y-m-d")."'";
-
-        $where2 .= ")     ";
-
-        $order = " ORDER BY crm_relationship_id ";
-
-        // building the query string
-        $query_string = $select1 . $from1 . $where1 . $select2 . $from2 . $where2 . $order;
-        $relationship->query($query_string);
-    
-   
-        $relationships       = array( );
-        $ids['relationship'] = array( );
-        $count = 0;
-        while ( $relationship->fetch() ) {
-            if ($count < $numRelationships ) {
-                $id = $relationship->crm_relationship_id;
-                $values['relationship'][$id] = array();
-                $ids['relationship'][] = $id;
-                
-                $values['relationship'][$id]['id'] = $id;
-                $values['relationship'][$id]['cid'] = $relationship->crm_contact_id;
-                $values['relationship'][$id]['relation'] = $relationship->relation;
-                $values['relationship'][$id]['name'] = $relationship->sort_name;
-                $values['relationship'][$id]['email'] = $relationship->email;
-                $values['relationship'][$id]['phone'] = $relationship->phone;
-                $values['relationship'][$id]['city'] = $relationship->city;
-                $values['relationship'][$id]['state'] = $relationship->state;
-                
-                if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
-                    $values['relationship'][$id]['contact_a'] = $relationship->contact_id_a;
-                    $values['relationship'][$id]['contact_b'] = 0;
-                } else {
-                    $values['relationship'][$id]['contact_b'] = $relationship->contact_id_b;
-                    $values['relationship'][$id]['contact_a'] = 0;
-                }
-                
-                $relationship->storeValues( $values['relationship'][$id] );
-                
-                $relationships[] = $relationship;
-            }
-            $count++;
-        }
-
-        // get the total count of relationships
-        if ($count > 0) $values['relationshipTotalCount'] = $count;
-
-        //   print_r($relationships);
-        return $relationships;
-    }
-
-
-  /**
-   * takes an associative array and creates a relationship object 
-   *
-   *
-   * @param array $params (reference ) an assoc array of name/value pairs
-   * @param array $ids    the array that holds all the db ids
-   *
-   * @return object CRM_Contact_BAO_Relationship object 
-   * @access public
-   * @static
-   */
-    static function create( &$params, &$ids ) {
+    static function create( &$params, &$ids ) 
+    {
         $invalidRelationshipCount = 0;
         $validRelationshipCount = 0;
         $duplicateRelationshipCount = 0;
-
+        
         $relationshipId = 0;
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
         if (!$relationshipId) {
@@ -205,7 +70,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 return null;
             }
         }
-
+        
         CRM_Core_DAO::transaction( 'BEGIN' );
         
         if (is_array($params['contact_check'])) {
@@ -369,7 +234,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             return false;
         } 
         return true;
-     }
+    }
 
     /**
      * Function to get get list of relationship type based on the contact type.
@@ -428,7 +293,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @return null
      * @access public
      * @static
-     *
      */
     static function del ( $id ) 
     {
@@ -580,7 +444,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             $errors = 'Please select valid relationship between two contact.';
         } 
         return $errors;
-        
     }
   
     /**
@@ -644,6 +507,232 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         return null;
     }
 
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params        input parameters to find object
+     * @param array $values        output values of the object
+     * @param array $ids           the array that holds all the db ids
+     *
+     * @return array (reference)   the values that could be potentially assigned to smarty
+     * @access public
+     * @static
+     */
+    static function &getValues( &$params, &$values, &$ids ) {
+
+        //$currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], 'In' , 3 );
+        $values['relationship']['data']       =& CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , 3 );
+        
+        // get the total count of relationships
+        $values['relationship']['totalCount'] = CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , null, true );
+
+        return $values;
+    }
+
+
+   /**
+     * This is the function to get the list of relationships
+     * 
+     * @param int $contactId contact id
+     * @param int $status 0: Current 1: Past 2: Disabled
+     * @param int $numRelationship no of relationships to display (limit)
+     * @param int $count get the no of relationships
+     * $param int $relationshipId relationship id
+     *
+     * return array $values relationship records
+     * @static
+     * @access public
+     */
+    static function getRelationship( $contactId, $status = 0, $numRelationship = 0, $count = 0, $relationshipId = 0 ) {
+
+        // debug_print_backtrace();
+
+        $relationship = new CRM_Contact_DAO_Relationship( );
+     
+        $select1 = $from1 = $where1 = $select2 = $from2 = $where2 = $order = $limit = '';
+        
+        $select1 = "( ";
+       
+        if ( $count ) {
+            $select1 .= "SELECT count(DISTINCT crm_relationship.id) as cnt1, 0 as cnt2 ";
+        } else { 
+           
+            $select1 .= "SELECT crm_relationship.id as crm_relationship_id,
+                              crm_contact.sort_name as sort_name,
+                              crm_address.street_address as street_address,
+                              crm_address.city as city,
+                              crm_address.postal_code as postal_code,
+                              crm_state_province.abbreviation as state,
+                              crm_country.name as country,
+                              crm_email.email as email,
+                              crm_phone.phone as phone,
+                              crm_contact.id as crm_contact_id,
+                              crm_contact.contact_type as contact_type,
+                              crm_relationship.contact_id_b as contact_id_b,
+                              crm_relationship.contact_id_a as contact_id_a,
+                              crm_relationship_type.name_b_a as relation";
+            
+            if ($relationshipId > 0) {
+                $select1 .= " ,crm_relationship.start_date as start_date, crm_relationship.end_date as end_date, crm_relationship.is_active  as is_active";
+            }
+        }
+
+        $from1 = " FROM crm_contact 
+                        LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                        LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
+                        LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+                        LEFT OUTER JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                        LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
+                        LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id),
+                        crm_relationship,crm_relationship_type
+                       ";
+
+        // add where clause 
+        $where1 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
+                         AND crm_relationship.contact_id_a = ".$contactId." 
+                         AND crm_relationship.contact_id_b = crm_contact.id  ";
+
+        if ($relationshipId > 0) {
+            $where1 .= " AND crm_relationship.id = ".$relationshipId;
+        }
+        
+        switch ($status) {
+        case 2:
+            //this case for showing disabled relationship
+            $where1 .= "     AND crm_relationship.is_active = 0 ";
+            break;
+            
+        case 1:
+            //this case for showing past relationship
+            $where1 .= "     AND crm_relationship.is_active = 1 ";
+            $where1 .= "     AND crm_relationship.end_date < '".date("Y-m-d")."'";
+            break;
+            
+        default: 
+            //this case for showing current relationship
+            $where1 .= "     AND crm_relationship.is_active = 1 ";
+            // $where1 .= "     AND crm_relationship.end_date >= '".date("Y-m-d")."'";
+            $where1 .= "     AND (crm_relationship.end_date >= '".date("Y-m-d")."' OR crm_relationship.end_date IS NULL)";
+        }
+
+        $where1 .= ") UNION ";
+
+        $select2 = "( ";
+       
+        if ( $count ) {
+            $select2 .= "SELECT 0 as cnt1, count(DISTINCT crm_relationship.id) as cnt2";
+        } else { 
+            $select2 .= "SELECT crm_relationship.id as crm_relationship_id,
+                              crm_contact.sort_name as sort_name,
+                              crm_address.street_address as street_address,
+                              crm_address.city as city,
+                              crm_address.postal_code as postal_code,
+                              crm_state_province.abbreviation as state,
+                              crm_country.name as country,
+                              crm_email.email as email,
+                              crm_phone.phone as phone,
+                              crm_contact.id as crm_contact_id,
+                              crm_contact.contact_type as contact_type,
+                              crm_relationship.contact_id_b as contact_id_b,
+                              crm_relationship.contact_id_a as contact_id_a,
+                              crm_relationship_type.name_a_b as relation";
+
+            if ($relationshipId > 0) {
+                $select2 .= " ,crm_relationship.start_date as start_date, crm_relationship.end_date as end_date, crm_relationship.is_active  as is_active";
+            }
+        }
+        $from2 = " FROM crm_contact 
+                        LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                        LEFT OUTER JOIN crm_address ON (crm_location.id = crm_address.location_id )
+                        LEFT OUTER JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+                        LEFT OUTER JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                        LEFT OUTER JOIN crm_state_province ON (crm_address.state_province_id = crm_state_province.id)
+                        LEFT OUTER JOIN crm_country ON (crm_address.country_id = crm_country.id),
+                      crm_relationship,crm_relationship_type ";
+
+        // add where clause 
+        $where2 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
+                         AND crm_relationship.contact_id_b = ".$contactId." 
+                         AND crm_relationship.contact_id_a = crm_contact.id";
+
+        if ($relationshipId > 0) {
+            $where2 .= " AND crm_relationship.id = ".$relationshipId;
+        }
+        
+        switch ($status) {
+        case 2:
+            //this case for showing disabled relationship
+            $where2 .= "     AND crm_relationship.is_active = 0 ";
+            break;
+            
+        case 1:
+            //this case for showing past relationship
+            $where2 .= "     AND crm_relationship.is_active = 1 ";
+            $where2 .= "     AND crm_relationship.end_date < '".date("Y-m-d")."'";
+            break;
+            
+        default: 
+            //this case for showing current relationship
+            $where2 .= "     AND crm_relationship.is_active = 1 ";
+            $where2 .= "     AND (crm_relationship.end_date >= '".date("Y-m-d")."' OR crm_relationship.end_date IS NULL)";
+        }
+
+        $where2 .= ")";
+
+
+        if (! $count ) {
+            $order = ' ORDER BY crm_relationship_id ';
+
+            if ( $numRelationship) {
+                $limit = " LIMIT 0, $numRelationship";
+            }
+        }
+
+        // building the query string
+        $queryString = '';
+        $queryString = $select1.$from1.$where1.$select2.$from2.$where2.$order.$limit;
+
+        $relationship->query($queryString);
+      
+        $row = array();
+        if ( $count ) {
+            $relationshipCount = 0;
+                        
+            while ( $relationship->fetch() ) {
+                $relationshipCount += $relationship->cnt1 + $relationship->cnt2; 
+            }
+            return $relationshipCount;
+
+        } else {
+            $values = array( );
+            
+            while ( $relationship->fetch() ) {
+                $values[$relationship->crm_relationship_id]['id'] = $relationship->crm_relationship_id;
+                $values[$relationship->crm_relationship_id]['cid'] = $relationship->crm_contact_id;
+                $values[$relationship->crm_relationship_id]['relation'] = $relationship->relation;
+                $values[$relationship->crm_relationship_id]['name'] = $relationship->sort_name;
+                $values[$relationship->crm_relationship_id]['email'] = $relationship->email;
+                $values[$relationship->crm_relationship_id]['phone'] = $relationship->phone;
+                $values[$relationship->crm_relationship_id]['city'] = $relationship->city;
+                $values[$relationship->crm_relationship_id]['state'] = $relationship->state;
+                $values[$relationship->crm_relationship_id]['start_date'] = $relationship->start_date;
+                $values[$relationship->crm_relationship_id]['end_date'] = $relationship->end_date;
+                $values[$relationship->crm_relationship_id]['is_active'] = $relationship->is_active;
+                
+                if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
+                    $values[$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
+                    $values[$relationship->crm_relationship_id]['contact_b'] = 0;
+                } else {
+                    $values[$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
+                    $values[$relationship->crm_relationship_id]['contact_a'] = 0;
+                }
+            }
+            return $values;
+        }
+        
+    }
+ 
 }
 
 ?>

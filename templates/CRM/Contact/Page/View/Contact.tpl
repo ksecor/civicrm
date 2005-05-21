@@ -108,8 +108,8 @@
  {/if}
 
 <div id="relationships[show]" class="data-group">
-  {if $relationshipTotalCount}
-    <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Relationships</label> ({$relationshipTotalCount})<br />
+  {if $relationship.totalCount}
+    <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Relationships</label> ({$relationship.totalCount})<br />
   {else}
     <dl><dt>Relationships</dt><dd>No relationships. Use the <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">Relationships tab</a> to add them.</dd></dl>
   {/if}
@@ -117,8 +117,8 @@
 
 {* Relationships block display property is always hidden (non) if there are no relationships *}
 <div id="relationships">
- {if $relationship}
- <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Relationships {if $relationshipTotalCount GT 3} (3 of {$relationshipTotalCount}){/if}</legend>
+ {if $relationship.totalCount}
+ <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Relationships {if $relationship.totalCount GT 3} (3 of {$relationship.totalCount}){/if}</legend>
     {strip}
         <table>
         <tr class="columnheader">
@@ -131,7 +131,7 @@
             <th>&nbsp;</th>
         </tr>
 
-        {foreach from=$relationship item=rel}
+        {foreach from=$relationship.data item=rel}
           {assign var = "rtype" value = "" }
               {if $rel.contact_a > 0 }
             {assign var = "rtype" value = "b_a" }
@@ -148,7 +148,7 @@
                 <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a></td> 
             </tr>  
         {/foreach}
-        {if $relationshipTotalCount gt 3 }
+        {if $relationship.totalCount gt 3 }
             <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/rel' q='action=browse'}">&raquo; View All Relationships...</a></td></tr>
         {/if}
         </table>
