@@ -49,18 +49,10 @@ class CRM_Contact_Page_Relationship {
      */
     static function view($page, $relationshipId)
     {
-        self::browse( $page, $relationshipId );
+        $viewRelationship = self::getRelationships( $page, $relationshipId );
+
+        $page->assign( 'viewRelationship', $viewRelationship );
         
-        $relationship = new CRM_Contact_DAO_Relationship( );
-        
-        $relationship->id = $relationshipId;
-        
-        if ($relationship->find(true)) {
-             $page->assign('start_date', $relationship->start_date);
-             $page->assign('end_date',  $relationship->end_date);
-             $page->assign('is_active',  $relationship->is_active);
-        }
-        $relationshipId = 0;
     }
 
    /**
@@ -72,20 +64,16 @@ class CRM_Contact_Page_Relationship {
      * @static
      * @access public
      */
-    static function browse( $page, $relationshipId = 0 ) {
+    static function browse( $page ) {
   
         $currentRelationships = self::getRelationships($page);
         $pastRelationships = self::getRelationships($page, 0, 1 );
         $disableRelationships = self::getRelationships($page, 0, 2 );
         
-        if ($relationshipId > 0) {
-            $page->assign( 'relationship_name', $relationship->relation );
-            $page->assign( 'relationship_contact_name', $relationship->sort_name );
-        } else {
-            $page->assign( 'currentRelationships', $currentRelationships );
-            $page->assign( 'pastRelationships', $pastRelationships );
-            $page->assign( 'disableRelationships', $disableRelationships );
-        }
+        $page->assign( 'currentRelationships', $currentRelationships );
+        $page->assign( 'pastRelationships', $pastRelationships );
+        $page->assign( 'disableRelationships', $disableRelationships );
+        
     }
 
 
@@ -122,6 +110,10 @@ class CRM_Contact_Page_Relationship {
                               crm_relationship.contact_id_b as contact_id_b,
                               crm_relationship.contact_id_a as contact_id_a,
                               crm_relationship_type.name_b_a as relation";
+        
+        if ($relationshipId > 0) {
+            $str_select1 .= " ,crm_relationship.start_date as start_date, crm_relationship.end_date as end_date, crm_relationship.is_active  as is_active";
+        }
 
         $str_from1 = " FROM crm_contact 
                         LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
@@ -157,7 +149,8 @@ class CRM_Contact_Page_Relationship {
         default: 
             //this case for showing current relationship
             $str_where1 .= "     AND crm_relationship.is_active = 1 ";
-            $str_where1 .= "     AND crm_relationship.end_date >= '".date("Y-m-d")."'";
+            // $str_where1 .= "     AND crm_relationship.end_date >= '".date("Y-m-d")."'";
+            $str_where1 .= "     AND (crm_relationship.end_date >= '".date("Y-m-d")."' OR crm_relationship.end_date IS NULL)";
         }
 
         $str_where1 .= ") UNION ";
@@ -176,6 +169,10 @@ class CRM_Contact_Page_Relationship {
                               crm_relationship.contact_id_b as contact_id_b,
                               crm_relationship.contact_id_a as contact_id_a,
                               crm_relationship_type.name_a_b as relation";
+
+        if ($relationshipId > 0) {
+            $str_select2 .= " ,crm_relationship.start_date as start_date, crm_relationship.end_date as end_date, crm_relationship.is_active  as is_active";
+        }
 
         $str_from2 = " FROM crm_contact 
                         LEFT OUTER JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
@@ -210,7 +207,7 @@ class CRM_Contact_Page_Relationship {
         default: 
             //this case for showing current relationship
             $str_where2 .= "     AND crm_relationship.is_active = 1 ";
-            $str_where2 .= "     AND crm_relationship.end_date >= '".date("Y-m-d")."'";
+            $str_where2 .= "     AND (crm_relationship.end_date >= '".date("Y-m-d")."' OR crm_relationship.end_date IS NULL)";
         }
 
         $str_where2 .= ")";
@@ -229,6 +226,9 @@ class CRM_Contact_Page_Relationship {
             $values[$relationship->crm_relationship_id]['phone'] = $relationship->phone;
             $values[$relationship->crm_relationship_id]['city'] = $relationship->city;
             $values[$relationship->crm_relationship_id]['state'] = $relationship->state;
+            $values[$relationship->crm_relationship_id]['start_date'] = $relationship->start_date;
+            $values[$relationship->crm_relationship_id]['end_date'] = $relationship->end_date;
+            $values[$relationship->crm_relationship_id]['is_active'] = $relationship->is_active;
 
             if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
                 $values[$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
