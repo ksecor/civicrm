@@ -91,9 +91,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
      */
     function run()
     {
-
-        CRM_Core_Error::le_method();
-
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse'); // default to 'browse'
 
@@ -104,17 +101,16 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $this->edit($id, $action) ;
-        } else if ($action & CRM_Core_Action::DISABLE) {
-            CRM_Core_BAO_CustomGroup::setIsActive($id, 0);
-        } else if ($action & CRM_Core_Action::ENABLE) {
-            CRM_Core_BAO_CustomGroup::setIsActive($id, 1);
-        } 
-        $this->browse();
-
+        } else {
+            if ($action & CRM_Core_Action::DISABLE) {
+                CRM_Core_BAO_CustomGroup::setIsActive($id, 0);
+            } else if ($action & CRM_Core_Action::ENABLE) {
+                CRM_Core_BAO_CustomGroup::setIsActive($id, 1);
+            }
+            $this->browse();
+        }
         // Call the parents run method
         parent::run();
-
-        CRM_Core_Error::ll_method();
     }
 
 
@@ -128,9 +124,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
      */
     function edit($id, $action)
     {
-
-        CRM_Core_Error::le_method();
-
         // create a simple controller for editing custom data
         $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Group', ts('Custom Group'), $action);
 
@@ -141,8 +134,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
-
-        CRM_Core_Error::ll_method();
     }
 
 
@@ -156,16 +147,12 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
      */
     function browse($action=null)
     {
+        CRM_Utils_System::setTitle("Custom Groups");
         $customGroup = array();
-
-        CRM_Core_Error::le_method();
-
         $customGroupBAO = new CRM_Core_BAO_CustomGroup();
         $customGroupBAO->orderBy('weight');
         $customGroupBAO->find();
 
-        // shld use it but it's an abstract class right now.
-        // $basicPage = new CRM_Core_Page_Basic();
         while ($customGroupBAO->fetch()) {
             $customGroup[$customGroupBAO->id] = array();
             $customGroupBAO->storeValues($customGroup[$customGroupBAO->id]);
@@ -178,7 +165,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
             }
             $customGroup[$customGroupBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('id' => $customGroupBAO->id));
-            //$basicPage($customGroupBAO, $action, $customGroup[$customGroupBAO->id], $actionLinks);
         }
         $this->assign('rows', $customGroup);
     }

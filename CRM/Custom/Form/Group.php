@@ -54,6 +54,12 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     public function preProcess()
     {
         $this->_id = $this->get('id');
+        if ($this->_mode == CRM_Core_Form::MODE_UPDATE) {
+            $groupTitle = CRM_Core_BAO_CustomGroup::getTitle($this->_id);
+            CRM_Utils_System::setTitle("Edit $groupTitle");
+        } else {
+            CRM_Utils_System::setTitle("New Custom Data Group");
+        }
     }
 
     /**

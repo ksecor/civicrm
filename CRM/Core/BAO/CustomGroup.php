@@ -112,8 +112,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // using tableData to build the queryString 
         $tableData = array(
                            'crm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 
-                                                       'is_required', 'attributes', 'label'),
-                           'crm_custom_group' => array('id', 'title'),
+                                                       'is_required', 'help_post'),
+                           'crm_custom_group' => array('id', 'title', 'help_pre'),
                            );
 
         // create select
@@ -128,10 +128,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // from, where, order by
         $strFrom = " FROM crm_custom_field, crm_custom_group";
-        $strWhere = " WHERE crm_custom_group.extends = '$entity' AND
-                            crm_custom_field.custom_group_id = crm_custom_group.id AND
-                            crm_custom_group.is_active = 1 AND
-                            crm_custom_field.is_active = 1";
+        $strWhere = " WHERE crm_custom_group.extends = '$entity'
+                            AND crm_custom_field.custom_group_id = crm_custom_group.id
+                            AND crm_custom_group.is_active = 1
+                            AND crm_custom_field.is_active = 1";
 
         $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
 
@@ -153,6 +153,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 $groupTree[$groupId] = array();
                 $groupTree[$groupId]['id'] = $groupId;
                 $groupTree[$groupId]['title'] = $crmDAO->crm_custom_group_title;
+                $groupTree[$groupId]['help_pre'] = $crmDAO->crm_custom_group_help_pre;
                 $groupTree[$groupId]['fields'] = array();
             }
             
@@ -175,6 +176,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             // hack for now.. using only contacts custom data
             self::_populateCustomData($groupTree, $entityId);
         }
+
         return $groupTree;
     }
 
@@ -215,9 +217,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // from, where, order by
         $strFrom = " FROM crm_custom_value, crm_custom_field, crm_custom_group";
-        $strWhere = " WHERE crm_custom_value.entity_id = $id AND
-                            crm_custom_value.custom_field_id = crm_custom_field.id AND
-                            crm_custom_field.custom_group_id = crm_custom_group.id";
+        $strWhere = " WHERE crm_custom_value.entity_id = $id
+                            AND crm_custom_value.custom_field_id = crm_custom_field.id
+                            AND crm_custom_field.custom_group_id = crm_custom_group.id
+                            AND crm_custom_group.is_active = 1
+                            AND crm_custom_field.is_active = 1";
         $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
 
         // final query string
@@ -250,7 +254,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             case 'Float':
                 $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_float_data;
                 break;
-            case 'Text':
+            case 'Memo':
                 $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_memo_data;
                 break;
             case 'Date':
@@ -335,7 +339,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     case 'Float':
                         $customValueDAO->float_data = $data;
                         break;
-                    case 'Text':
+                    case 'Memo':
                         $customValueDAO->memo_data = $data;
                         break;
                     case 'Date':

@@ -118,8 +118,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->addRule('label', ts('Please enter label for this field.'), 'title');
 
         // data type, html type
-        $dataHTMLElement = $this->addElement('hierselect', 'data_type', ts('Data Type'));
+        $dataHTMLElement = $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'));
         $dataHTMLElement->setOptions(array(self::$_dataType, self::$_dataToHTML));
+        if ($this->_mode == CRM_Core_Form::MODE_UPDATE) { 
+            $dataHTMLElement->freeze();
+        }
+
 
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'), true);

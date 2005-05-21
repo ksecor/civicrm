@@ -178,6 +178,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     {
         $defaults = array();
 
+        //CRM_Core_Error::debug_var('_groupTree', $this->_groupTree);
+
         foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
@@ -194,6 +196,14 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                         }
                     } else {
                         $defaults[$elementName] = $field['customValue']['data'];
+                    }
+                } else if (($this->_mode == CRM_Core_Form::MODE_UPDATE) && isset($field['default_value']) ) {
+                    // use default value if present but first preference to customValue
+                    if ($field['html_type'] == 'Radio') {
+                    } else if ($field['html_type'] == 'Select Date') {
+                    } else {
+                        // for the rest
+                        $defaults[$elementName] = $field['default_value'];
                     }
                 }
             }
