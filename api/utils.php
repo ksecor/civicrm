@@ -141,6 +141,8 @@ function _crm_format_params( &$params, &$values ) {
     }
     if ( array_key_exists( 'location_type', $params ) ) {
         $values['location'][1]['location_type'] = $params['location_type'];
+        $locationTypes = array_flip( CRM_Core_PseudoConstant::locationType( ) );
+        $values['location'][1]['location_type_id'] = $locationTypes[$params['location_type']];
     }
 
     $values['location'][1]['address'] = array( );

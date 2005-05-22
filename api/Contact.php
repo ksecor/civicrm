@@ -122,19 +122,15 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
     }
 
     $error = _crm_check_params( $params, $contact_type );
-    /*
     if ( $error instanceof CRM_Core_Error ) {
         return $error;
     }
-    */
     $values  = array( );
     $values['contact_type'] = $contact_type;
     $error = _crm_format_params( $params, $values );
-    /*
     if ( $error instanceof CRM_Core_Error ) {
         return $error;
     }
-    */
     $ids     = array( );
 
     $contact = CRM_Contact_BAO_Contact::create( $values, $ids, 1 );

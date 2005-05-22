@@ -31,8 +31,10 @@
  *
  */
 
+require_once 'api/crm.php';
+
 /**
- *
+ * The basic class that interfaces with Drupal CMS.
  */
 class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
     /**
@@ -48,7 +50,51 @@ class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
      * @static
      */
     static function synchronize( &$user, $update = false ) {
+        $session =& CRM_Core_Session::singleton( );
+        // have we already processed this user, if so early
+        // return
+        if ( ! $update && $session->get( 'userID' ) ) {
+            return;
+        }
+
+        // make sure that a contact id exists for this user id
+        $drupal = new CRM_Core_DAO_Drupal( );
+        $drupal->id = $user->uid;
+        if ( ! $drupal->find( true ) ) {
+            $drupal->uid = $user->uid;
+
+            $query = "
+SELECT    crm_contact.id as contact_id, crm_contact.domain_id as domain_id
+FROM      crm_contact
+LEFT JOIN crm_location ON crm_contact.id  = crm_location.contact_id
+LEFT JOIN crm_email    ON crm_location.id = crm_email.location_id
+WHERE     crm_email.email = '" . $user->mail . "'";
+  
+            $dao = new CRM_Core_DAO( );
+            $dao->query( $query );
+            if ( $dao->fetch( ) ) {
+                $drupal->contact_id = $dao->contact_id;
+                $drupal->domain_id  = $dao->domain_id ;
+            } else {
+                $params= array( 'email' => $user->mail, 'location_type' => 'Home' );
+                $contact =& crm_create_contact( $params, 'Individual' );
+                if ( $contact instanceof CRM_Core_Error ) {
+                    CRM_Core_Error::debug( 'error', $contact );
+                    exit(1);
+                }
+                $drupal->contact_id = $contact->id;
+                $drupal->domain_id  = $contact->domain_id ;
+            }
+            $drupal->save( );
+        } 
+
+        $session->set( 'userID'  , $drupal->contact_id );
+        $session->set( 'domainID', $drupal->domain_id  ); 
         
+        if ( $update ) {
+            // some information has changed in the drupal core
+            // replicate that information in civicrm
+        }
     }
 
 }

@@ -420,13 +420,21 @@ function civicrm_init()
  * exit hook, make sure we sync between drupal and crm here
  */
 function civicrm_exit( $destination = null ) {
-    if ( arg(0) != 'civicrm' && arg(0) != 'admin' ) {
+    if ( arg(0) != 'civicrm' && arg(0) != 'admin' && arg(0) != 'user' ) {
         return;
     }
 
+    $update = false;
+    if ( arg(0) == 'user' ) {
+        if ( arg(2) == 'edit' ) {
+            $update = true;
+        } else {
+            return;
+        }
+    }
+        
     global $user;
-
-    CRM_Core_BAO_Drupal::synchronize( $user );
+    CRM_Core_BAO_Drupal::synchronize( $user, $update );
 }
 
 /**

@@ -31,4 +31,15 @@
        <table>crm_contact</table>
        <key>id</key>
   </foreignKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact (cached here for ease of use reasons)</comment>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>crm_domain</table>
+       <key>id</key>
+  </foreignKey>
 </table>
