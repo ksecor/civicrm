@@ -1,36 +1,46 @@
 #!/opt/php5/bin/php
 <?php
 
+
+
 /**
+ * ts() calls extractor
  *
  * Drupal's t() extractor from http://drupal.org/project/drupal-pot
  * modified to suit CiviCRM's ts() calls
  *
+ * Extracts translatable strings from specified function calls, plus adds some
+ * file specific strings. Only literal strings with no embedded variables can
+ * be extracted. Outputs a POT file on STDOUT, errors on STDERR
+ *
+ * @author Jacobo Tarrio <jtarrio [at] alfa21.com>
+ * @author Gabor Hojtsy <goba [at] php.net>
+ * @author Piotr Szotkowski <shot@caltha.pl>
+ * @copyright 2003, 2004 Alfa21 Outsourcing
+ * @license http://www.gnu.org/licenses/gpl.html  GNU General Public License
  */
 
-/*
-  Extracts translatable strings from t(), t(,array()) and format_plural()
-  function calls, plus adds some file specific strings. Only literal strings
-  with no embedded variables can be extracted. Outputs a POT file on
-  STDOUT, errors on STDERR
 
-  Copyright (c) 2003, 2004 Alfa21 Outsourcing
-  Created by Jacobo Tarrio <jtarrio [at] alfa21.com>
-  with contributions from Gabor Hojtsy <goba [at] php.net>
-  Licensed under the terms of the GNU General Public License
-*/
 
+/**
+ * tsCallType return values
+ */
 define('TS_CALL_TYPE_INVALID', 0);
 define('TS_CALL_TYPE_SINGLE', 1);
 define('TS_CALL_TYPE_PLURAL', 2);
 
+
+
 /**
+ * Checks the type of the ts() call
  *
- * Returns the type of the ts() call:
- * TS_CALL_TYPE_SINGLE for a call resulting in singular translation
- * TS_CALL_TYPE_PLURAL for a call resulting in plural translation
+ * TS_CALL_TYPE_SINGLE  for a call resulting in calling gettext() (singular)
+ * TS_CALL_TYPE_PLURAL  for a call resulting in calling ngettext() (plural)
  * TS_CALL_TYPE_INVALID for an invalid call
  *
+ * @param array $tokens  the array with tokens from token_get_all()
+ *
+ * @return int  the integer representing the type of the call
  */
 function tsCallType($tokens)
 {
@@ -64,7 +74,7 @@ function tsCallType($tokens)
         return TS_CALL_TYPE_INVALID;
     }
 
-    // let's iterate on the ts's array(...) contents
+    // let's iterate through the ts()'s array(...) contents
     $i = 6;
     $haveCount = false;
     $havePlural = false;
@@ -103,11 +113,12 @@ function tsCallType($tokens)
 
         }
 
+        // what should we do next...
         if ($tokens[$i + 3] == ')' or ($tokens[$i + 3] == ',' and $tokens[$i + 4] == ')')) {
-            // we've reached the last element of the ts's array(...)
+            // ...we've reached the last element of the ts()'s array(...)
             break;
         } else {
-            // let's go to the next one
+            // ...let's go to the next element of the ts()'s array(...)
             $i += 4;
         }
 
@@ -129,10 +140,14 @@ function tsCallType($tokens)
 
 }
 
+
+
 /**
+ * Gets the plural string from the ts()'s array
  *
- * Gets the plural string from the ts's array
+ * @param array $tokens  the array with tokens from token_get_all()
  *
+ * @return string  the string containing the "plural" string from the ts()'s array
  */
 function getPluralString($tokens)
 {
@@ -150,6 +165,65 @@ function getPluralString($tokens)
         }
     }
     return $plural;
+}
+
+
+
+/**
+ * Find all of the ts() calls
+ *
+ * @param array  $tokens  the array with tokens from token_get_all()
+ * @param string $file    the string containing the file name
+ *
+ * @return void
+ */
+function find_ts_calls($tokens, $file)
+{
+
+    global $strings;
+
+    // iterate through all the tokens while there's still a chance for
+    // a ts() call
+    while (count($tokens) > 3) {
+
+        list($ctok, $par, $mid, $rig, $arr) = $tokens;
+
+        // the first token has to be a T_STRING (with a function name)
+        if (!is_array($ctok)) {
+            array_shift($tokens);
+            continue;
+        }
+
+        // check whether we're at ts(
+        list($type, $string, $line) = $ctok;
+        if (($type == T_STRING) && ($string == 'ts') && ($par == '(')) {
+
+            switch (tsCallType($tokens)) {
+
+            case TS_CALL_TYPE_SINGLE:
+                $strings[format_quoted_string($mid[1])][$file][] = $line;
+                break;
+
+            case TS_CALL_TYPE_PLURAL:
+                $plural = getPluralString($tokens);
+                $strings[format_quoted_string($mid[1]) . "\0" . format_quoted_string($plural)][$file][] = $line;
+                break;
+
+            case TS_CALL_TYPE_INVALID:
+                marker_error($file, $line, 'ts', $tokens);
+                break;
+
+            default:
+                break;
+
+            }
+
+        }
+
+        array_shift($tokens);
+
+    }
+
 }
 
 
@@ -380,61 +454,6 @@ function getPluralString($tokens)
     }
   }
 
-
-
-/**
- *
- * Find all of the ts() calls
- * 
- */
-function find_ts_calls($tokens, $file)
-{
-
-    global $strings;
-
-    // iterate through all the tokens while there's still a chance for
-    // a ts() call
-    while (count($tokens) > 3) {
-
-        list($ctok, $par, $mid, $rig, $arr) = $tokens;
-
-        // the first token has to be a T_STRING (with a function name)
-        if (!is_array($ctok)) {
-            array_shift($tokens);
-            continue;
-        }
-
-        // check whether we're at ts(
-        list($type, $string, $line) = $ctok;
-        if (($type == T_STRING) && ($string == 'ts') && ($par == '(')) {
-
-            switch (tsCallType($tokens)) {
-
-            case TS_CALL_TYPE_SINGLE:
-                $strings[format_quoted_string($mid[1])][$file][] = $line;
-                break;
-
-            case TS_CALL_TYPE_PLURAL:
-                $plural = getPluralString($tokens);
-                $strings[format_quoted_string($mid[1]) . "\0" . format_quoted_string($plural)][$file][] = $line;
-                break;
-
-            case TS_CALL_TYPE_INVALID:
-                marker_error($file, $line, 'ts', $tokens);
-                break;
-
-            default:
-                break;
-
-            }
-
-        }
-
-        array_shift($tokens);
-
-    }
-
-}
 
 
   
