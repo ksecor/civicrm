@@ -96,23 +96,26 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 
                 $contact = new CRM_Contact_DAO_Contact( );
 
-                //$temp = explode('_', $this->_rtype);
-                
+                /*                
+                $temp = explode('_', $this->_rtype);
                 if ($relationship->contact_id_a == $this->_contactId ) {
                     //$cId = $relationship->contact_id_b;
                     $contact->id = $relationship->contact_id_b;
-
                 } else {
                     //$cId = $relationship->contact_id_a;
                     $contact->id = $relationship->contact_id_b;
                 }
-                /*
+                
                 $str_contact = 'contact_id_'.$temp[1];
-
                 $cId = $relationship->$str_contact;
+                $contact->id = $cId;
                 */
                 
-                //$contact->id = $cId;
+                if ($this->_rtype == 'a_b' && $relationship->contact_id_a == $this->_contactId ) {
+                    $contact->id = $relationship->contact_id_b;
+                } else {
+                    $contact->id = $relationship->contact_id_a;
+                }
 
                 if ($contact->find(true)) {
                     $this->assign('sort_name', $contact->sort_name);                
