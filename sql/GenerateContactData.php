@@ -874,10 +874,8 @@ class CRM_GCD {
 
     private function _sortNameToEmail($sortName)
     {
-        $sortName = strtolower(str_replace(" ", "", $sortName));
-        $sortName = strtolower(str_replace(",", "_", $sortName));
-        $sortName = strtolower(str_replace("'s", "_", $sortName));
-        return $sortName;
+        $email = preg_replace("([^a-zA-Z0-9_-]*)", "", $sortName);
+        return $email;
     }
 
     private function _addPhone($locationId, $phoneType, $primary=false)
