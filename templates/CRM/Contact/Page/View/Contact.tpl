@@ -132,12 +132,12 @@
         </tr>
 
         {foreach from=$relationship.data item=rel}
-          {assign var = "rtype" value = "" }
+          {*assign var = "rtype" value = "" }
               {if $rel.contact_a > 0 }
             {assign var = "rtype" value = "b_a" }
           {else}	  
             {assign var = "rtype" value = "a_b" }
-          {/if}
+          {/if*}
             <tr class="{cycle values="odd-row,even-row"}">
                 <td class="label">{$rel.relation}</td>
                 <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
@@ -145,7 +145,7 @@
                 <td>{$rel.state}</td>
                 <td>{$rel.email}</td>
                 <td>{$rel.phone}</td>
-                <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a></td> 
+                <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`"}">Edit</a></td> 
             </tr>  
         {/foreach}
         {if $relationship.totalCount gt 3 }

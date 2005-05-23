@@ -266,19 +266,29 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         foreach ($allRelationshipType as $key => $varValue) {
             // there is a special relationship (Parent/Child) where we have to show both the name_a_b and name_b_a
             // in the select box. that why for relationship type id 1 we have added small tweak while building return array 
+
+            if ($key == 1 && $contact->contact_type == 'Individual') { // this is if relationship type id is 1
+                $relationshipType[$key.'_a_b'] = $varValue['name_a_b'];
+                $relationshipType[$key.'_b_a'] = $varValue['name_b_a']; 
+            }
             
             if ($varValue['contact_type_a'] == $contact->contact_type) {
-                if ($key == 1) { // this is if relationship type id is 1
-                    $relationshipType[$key.'_b_a'] = $varValue['name_a_b'];
-                    $relationshipType[$key.'_a_b'] = $varValue['name_b_a'];
-                } else if (!in_array($varValue['name_a_b'], $relationshipType)) {
-                    $relationshipType[$key.'_'.$contactSuffix] = $varValue['name_a_b'];
+                if (!in_array($varValue['name_a_b'], $relationshipType)) {
+                    if (strlen(trim($contactSuffix))) {
+                        $relationshipType[$key.'_'.$contactSuffix] = $varValue['name_a_b'];
+                    } else {
+                        $relationshipType[$key.'_a_b'] = $varValue['name_a_b'];
+                    }
                 }
             } 
             
             if ($varValue['contact_type_b'] == $contact->contact_type) {
                 if (!in_array($varValue['name_b_a'], $relationshipType)) {
-                    $relationshipType[$key.'_'.$contactSuffix] = $varValue['name_b_a'];
+                    if (strlen(trim($contactSuffix))) {
+                        $relationshipType[$key.'_'.$contactSuffix] = $varValue['name_b_a'];                    
+                    } else {
+                        $relationshipType[$key.'_b_a'] = $varValue['name_b_a'];
+                    }
                 }
             }
             
@@ -573,7 +583,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                               crm_contact.contact_type as contact_type,
                               crm_relationship.contact_id_b as contact_id_b,
                               crm_relationship.contact_id_a as contact_id_a,
-                              crm_relationship_type.name_b_a as relation";
+                              crm_relationship_type.name_a_b as name_a_b,
+                              crm_relationship_type.name_b_a as relation,
+                              crm_relationship_type.id as crm_relationship_type_id";
             
             if ($relationshipId > 0) {
                 $select1 .= " ,crm_relationship.start_date as start_date, crm_relationship.end_date as end_date, crm_relationship.is_active  as is_active";
@@ -592,8 +604,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         // add where clause 
         $where1 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
-                         AND crm_relationship.contact_id_a = ".$contactId." 
-                         AND crm_relationship.contact_id_b = crm_contact.id  ";
+                         AND crm_relationship.contact_id_b = ".$contactId." 
+                         AND crm_relationship.contact_id_a = crm_contact.id  ";
 
         if ($relationshipId > 0) {
             $where1 .= " AND crm_relationship.id = ".$relationshipId;
@@ -638,7 +650,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                               crm_contact.contact_type as contact_type,
                               crm_relationship.contact_id_b as contact_id_b,
                               crm_relationship.contact_id_a as contact_id_a,
-                              crm_relationship_type.name_a_b as relation";
+                              crm_relationship_type.name_a_b as name_a_b,
+                              crm_relationship_type.name_a_b as relation,
+                              crm_relationship_type.id as crm_relationship_type_id";
 
             if ($relationshipId > 0) {
                 $select2 .= " ,crm_relationship.start_date as start_date, crm_relationship.end_date as end_date, crm_relationship.is_active  as is_active";
@@ -655,8 +669,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         // add where clause 
         $where2 = " WHERE crm_relationship.relationship_type_id = crm_relationship_type.id 
-                         AND crm_relationship.contact_id_b = ".$contactId." 
-                         AND crm_relationship.contact_id_a = crm_contact.id";
+                         AND crm_relationship.contact_id_a = ".$contactId." 
+                         AND crm_relationship.contact_id_b = crm_contact.id";
 
         if ($relationshipId > 0) {
             $where2 .= " AND crm_relationship.id = ".$relationshipId;
@@ -710,18 +724,20 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             $values = array( );
             
             while ( $relationship->fetch() ) {
-                $values[$relationship->crm_relationship_id]['id'] = $relationship->crm_relationship_id;
-                $values[$relationship->crm_relationship_id]['cid'] = $relationship->crm_contact_id;
-                $values[$relationship->crm_relationship_id]['relation'] = $relationship->relation;
-                $values[$relationship->crm_relationship_id]['name'] = $relationship->sort_name;
-                $values[$relationship->crm_relationship_id]['email'] = $relationship->email;
-                $values[$relationship->crm_relationship_id]['phone'] = $relationship->phone;
-                $values[$relationship->crm_relationship_id]['city'] = $relationship->city;
-                $values[$relationship->crm_relationship_id]['state'] = $relationship->state;
+
+                $values[$relationship->crm_relationship_id]['id']         = $relationship->crm_relationship_id;
+                $values[$relationship->crm_relationship_id]['cid']        = $relationship->crm_contact_id;
+                $values[$relationship->crm_relationship_id]['relation']   = $relationship->relation;
+                $values[$relationship->crm_relationship_id]['name']       = $relationship->sort_name;
+                $values[$relationship->crm_relationship_id]['email']      = $relationship->email;
+                $values[$relationship->crm_relationship_id]['phone']      = $relationship->phone;
+                $values[$relationship->crm_relationship_id]['city']       = $relationship->city;
+                $values[$relationship->crm_relationship_id]['state']      = $relationship->state;
                 $values[$relationship->crm_relationship_id]['start_date'] = $relationship->start_date;
-                $values[$relationship->crm_relationship_id]['end_date'] = $relationship->end_date;
-                $values[$relationship->crm_relationship_id]['is_active'] = $relationship->is_active;
-                
+                $values[$relationship->crm_relationship_id]['end_date']   = $relationship->end_date;
+                $values[$relationship->crm_relationship_id]['is_active']  = $relationship->is_active;
+
+                /*
                 if ($relationship->crm_contact_id == $relationship->contact_id_a ) {
                     $values[$relationship->crm_relationship_id]['contact_a'] = $relationship->contact_id_a;
                     $values[$relationship->crm_relationship_id]['contact_b'] = 0;
@@ -729,10 +745,17 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                     $values[$relationship->crm_relationship_id]['contact_b'] = $relationship->contact_id_b;
                     $values[$relationship->crm_relationship_id]['contact_a'] = 0;
                 }
+  
+                */
+                
+                if ($relationship->name_a_b == $relationship->relation) {
+                    $values[$relationship->crm_relationship_id]['rtype'] = 'a_b';
+                } else {
+                    $values[$relationship->crm_relationship_id]['rtype'] = 'b_a';
+                }
             }
             return $values;
         }
-        
     }
  
 }

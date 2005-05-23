@@ -24,12 +24,12 @@
         </tr>
 
         {foreach from=$currentRelationships item=rel}
-          {assign var = "rtype" value = "" }
-          {if $rel.contact_a > 0 }
-            {assign var = "rtype" value = "b_a" }
-          {else}
+          {*assign var = "rtype" value = "" }
+          {if $rel.contact_a eq $contactId }
             {assign var = "rtype" value = "a_b" }
-          {/if}
+          {else}
+            {assign var = "rtype" value = "b_a" }
+          {/if*}
           <tr class="{cycle values="odd-row,even-row"}">
             <td class="label">{$rel.relation}</td>
             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
@@ -37,7 +37,7 @@
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
             <td>{$rel.phone}</td>
-            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=disable"}" onclick = 'return confirm("Are you sure you want to disable {$rel.relation} relationship with {$rel.name}?");'> Disable</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation} relationship with {$rel.name}?");'> Delete</a> </td>
+            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=disable"}" onclick = 'return confirm("Are you sure you want to disable {$rel.relation} relationship with {$rel.name}?");'> Disable</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation} relationship with {$rel.name}?");'> Delete</a> </td>
           </tr>
         {/foreach}
         </table>

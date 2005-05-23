@@ -87,19 +87,33 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $relationship->id = $this->_relationshipId;
 
             if ($relationship->find(true)) {
+
                 $defaults['relationship_type_id'] = $relationship->relationship_type_id."_".$this->_rtype;
 
                 $defaults['start_date'] = $relationship->start_date;
                 $defaults['end_date'] = $relationship->end_date;
 
-                $temp = explode('_', $this->_rtype);
+                
+                $contact = new CRM_Contact_DAO_Contact( );
 
+                //$temp = explode('_', $this->_rtype);
+                
+                if ($relationship->contact_id_a == $this->_contactId ) {
+                    //$cId = $relationship->contact_id_b;
+                    $contact->id = $relationship->contact_id_b;
+
+                } else {
+                    //$cId = $relationship->contact_id_a;
+                    $contact->id = $relationship->contact_id_b;
+                }
+                /*
                 $str_contact = 'contact_id_'.$temp[1];
 
                 $cId = $relationship->$str_contact;
+                */
+                
+                //$contact->id = $cId;
 
-                $contact = new CRM_Contact_DAO_Contact( );
-                $contact->id = $cId;
                 if ($contact->find(true)) {
                     $this->assign('sort_name', $contact->sort_name);                
                 }
@@ -132,7 +146,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $rtype = 'b_a';
+        $rtype = '';
         if (strlen(trim($this->_rtype))) {
             $rtype = $this->_rtype;
         }
