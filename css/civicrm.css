@@ -239,6 +239,7 @@ div.spacer {
 #crm-container th {
   padding: 8px 4px 4px 4px;
   border-bottom: 1px solid #000;
+  text-align: left;
 }
 
 #crm-container #map-field th {

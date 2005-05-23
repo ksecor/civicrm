@@ -18,7 +18,7 @@
 {foreach from=$location item=loc key=locationIndex}
 
  <div id="location[{$locationIndex}][show]" class="data-group">
-  <a href="#" onClick="hide('location[{$locationIndex}][show]'); show('location[{$locationIndex}]'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>{$loc.location_type}</label><br />
+  <a href="#" onClick="hide('location[{$locationIndex}][show]'); show('location[{$locationIndex}]'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>{$loc.location_type}{if $locationIndex eq 1} (primary location){/if}</label><br />
  </div>
 
  <div id="location[{$locationIndex}]">

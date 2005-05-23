@@ -188,14 +188,11 @@ function countSelectedCheckboxes(fldPrefix, form) {
 function checkPerformAction (fldPrefix, form, taskButton) {
     var cnt;
     var gotTask = 0;
-    
-    // If user wants to perform action on ALL records, return (no need to check further)
-    if (document.forms[form].radio_ts[1].checked) {
-        return true;
-    }
 
     // taskButton TRUE means we don't need to check the 'task' field - it's a button-driven task
-    if (taskButton == 1) { gotTask = 1; }
+    if (taskButton == 1) {
+        gotTask = 1;
+    }   
     
     else if (document.forms[form].task.selectedIndex) {
         // Doesn't matter if any rows are checked for New/Update Saved Search tasks
@@ -205,7 +202,12 @@ function checkPerformAction (fldPrefix, form, taskButton) {
         gotTask = 1;
     }
 
-    if (gotTask) {
+    if (gotTask == 1) {
+        // If user wants to perform action on ALL records and we have a task, return (no need to check further)
+        if (document.forms[form].radio_ts[1].checked) {
+            return true;
+        }
+
         cnt = countSelectedCheckboxes(fldPrefix, document.forms[form]);
         if (!cnt) {
             alert ("Please select one or more contact(s) for this action. \n\nTo use the entire set of search results, click the 'all records' radio button.");
@@ -218,7 +220,7 @@ function checkPerformAction (fldPrefix, form, taskButton) {
 }
 
 /**
- * This function is used to check if any actio is selected and also to check if any contacts are checked.
+ * This function changes the style for a checkbox block when it is selected.
  *
  * @access public
  * @param chkName - it is name of the checkbox
@@ -229,9 +231,12 @@ function checkSelectedBox (chkName, form)
 {
     var ss = document.forms[form].elements[chkName].name.substring(7,document.forms[form].elements[chkName].name.length);
     
-    var row = 'rowid'+ss;
+    var row = 'rowid' + ss;
 
     if (document.forms[form].elements[chkName].checked == true) {
+        // change 'all records' radio to 'selected' if any row is checked
+        document.forms[form].radio_ts[0].checked = true;
+        
         if (document.getElementById(row).className == 'even-row') {
             document.getElementById(row).className = 'selected even-row';
         } else {
