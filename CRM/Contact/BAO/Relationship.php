@@ -154,6 +154,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
             } else {
                 $contact_a = $contactId;
+                $relationship->is_active = 1;
             }
 
             //check if the relationship type is Head of Household then update the household's primary contact with this contact.
@@ -177,6 +178,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
             } else {
                 $contact_b = $contactId;
+                $relationship->is_active = 1;
             }
             
             //check if the relationship type is Head of Household then update the household's primary contact with this contact.
