@@ -74,7 +74,8 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
             if( in_array($categoryID, $entityCategory)) {
                 $strChecked = 'checked';
             }
-            $categoryChk[$categoryID] = $this->createElement('checkbox', $categoryID, '', '', $strChecked );
+            //$categoryChk[$categoryID] = $this->createElement('checkbox', $categoryID, '', '', $strChecked );
+            $categoryChk[$categoryID] = $this->createElement('checkbox', $categoryID, '', '', array('onclick' => "return changeRowColor('rowid$categoryID')", $strChecked => 'checked','id' => $categoryID ) );
         }
 
         $this->addGroup($categoryChk, 'categoryList');

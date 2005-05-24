@@ -267,8 +267,11 @@ div.spacer {
   border-top: 1px solid #000000;
 }
 
-#crm-container tr.selected {
+#crm-container .selected {
 //  border: 0.5px solid #000000;
+  margin: 0px;
+  padding: 3px 0px 3px 0px;
+  clear: both;
   background-color: #ffff99;
 }
 

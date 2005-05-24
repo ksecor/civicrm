@@ -156,11 +156,13 @@ function changeCheckboxVals(fldPrefix, action, form) {
                 element.checked = false; 
             } else {
                 element.checked = true;
-            }
+	    }
         }
     }
     /* function called to change the color of selected rows */
-    on_load_init_checkboxes(form.name); 
+   on_load_init_checkboxes(form.name); 
+    /*  on_load_init_check(form.name); */
+   
 
 }
 
@@ -243,7 +245,7 @@ function checkSelectedBox (chkName, form)
             document.getElementById(row).className = 'selected odd-row';
         }
 
-        } else {
+    } else {
 
         if (document.getElementById(row).className == 'selected even-row') {
             document.getElementById(row).className = 'even-row';
@@ -259,7 +261,6 @@ function checkSelectedBox (chkName, form)
  * @param form - name of form that checkboxes are part of
  *
  * @access public
- * @param form - name of form that checkboxes are part of
  * @return null
  */
 
@@ -270,6 +271,58 @@ function on_load_init_checkboxes(form)
 	fpLen = fldPrefix.length;
 	if (document.forms[form].elements[i].type == 'checkbox' && document.forms[form].elements[i].name.slice(0,fpLen) == fldPrefix ) {
 	    checkSelectedBox (document.forms[form].elements[i].name, form); 
+	}
+    }
+
+}
+
+/**
+ * Function to change the color of the class
+ * 
+ * @param form - name of the form
+ * @param rowid - id of the <tr>, <div> you want to change
+ *
+ * @access public
+ * @return null
+ */
+
+function changeRowColor (rowid, form) {
+
+    switch (document.getElementById(rowid).className) 	{
+    case 'even-row'          : 	document.getElementById(rowid).className = 'selected even-row';
+	break;
+    case 'odd-row'           : 	document.getElementById(rowid).className = 'selected odd-row';
+	break;
+    case 'selected even-row' : 	document.getElementById(rowid).className = 'even-row';
+	break;
+    case 'selected odd-row'  : 	document.getElementById(rowid).className = 'odd-row';
+	break;
+    case 'form-item'         : 	document.getElementById(rowid).className = 'selected';
+	break;
+    case 'selected'          : 	document.getElementById(rowid).className = 'form-item';
+	
+    }
+}
+
+/**
+ * This function is to show the row with  selected checkbox in different color
+ * @param form - name of form that checkboxes are part of
+ *
+ * @access public
+ * @return null
+ */
+
+function on_load_init_check(form) 
+{
+    for( i=0; i < document.forms[form].elements.length; i++) {
+
+	if (document.forms[form].elements[i].type == 'checkbox' ) {
+
+	    if (document.forms[form].elements[i].checked == true ) {
+		var ss = document.forms[form].elements[i].id;
+		var row = 'rowid' + ss;
+		changeRowColor(row, form);
+	    }
 	}
     }
 

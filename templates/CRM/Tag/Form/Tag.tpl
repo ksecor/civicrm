@@ -12,9 +12,13 @@
     </p>
     
       {foreach from=$category item="row" key = "id"}
-        <div class="form-item {if $action eq 16 AND $form.categoryList[$id].value}label{/if}">
+
+        <div class="form-item" id ="rowid{$id}">
+
          {ts}{$form.categoryList[$id].html} &nbsp;{$row}{/ts} 
+
         </div>
+
       {/foreach}
 
     {* Show Edit Tags link if in View mode *}
@@ -27,3 +31,9 @@
        <div class="form-item">{$form.buttons.html}</div>
        </fieldset>
     {/if}
+
+ <script type="text/javascript">
+ {* this function is called to change the color of selected row(s) *}
+    var fname = "{$form.formName}";	
+    on_load_init_check(fname);
+ </script>
