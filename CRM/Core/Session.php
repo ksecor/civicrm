@@ -273,13 +273,22 @@ class CRM_Core_Session {
 
         $this->createScope( self::USER_CONTEXT );
 
+        // hack, reset if too big
+        if ( count( $this->_session[$this->_key][self::USER_CONTEXT] ) > 10 ) {
+            $this->resetScope ( self::USER_CONTEXT );
+            $this->createScope( self::USER_CONTEXT );
+        }
+
         $topUC = array_pop( $this->_session[$this->_key][self::USER_CONTEXT] );
+
         // see if there is a match between the new UC and the top one. the match needs to be
         // fuzzy since we use the referer at times
-        if ( CRM_Utils_String::match( $topUC, $userContext ) ) {
+        if ( $topUC && CRM_Utils_String::match( $topUC, $userContext ) ) {
             array_push( $this->_session[$this->_key][self::USER_CONTEXT], $topUC );
         } else {
-            array_push( $this->_session[$this->_key][self::USER_CONTEXT], $topUC       );
+            if ( $topUC ) {
+                array_push( $this->_session[$this->_key][self::USER_CONTEXT], $topUC       );
+            }
             array_push( $this->_session[$this->_key][self::USER_CONTEXT], $userContext );
         }
         // CRM_Core_Error::debug( 'UC', $this->_session[$this->_key][self::USER_CONTEXT] );

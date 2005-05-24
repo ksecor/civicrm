@@ -135,10 +135,20 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     
     /*
      * csv - common search values
-     * @static
+     *
+     * @var array
      * @access protected
+     * @static
      */
     static $csv = array('contact_type', 'group', 'category');
+
+    /**
+     * have we already done this search
+     *
+     * @access protected
+     * @var boolean
+     */
+    protected $_done;
 
     /**
      * Build the common elements between the search/advanced form
@@ -158,7 +168,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         if ( $this->_context === 'smog' ) {
-            $this->_groupElement->freeze( );
+            // need to figure out how to freeze a bunch of checkboxes, hack for now
+            if ( $this->_mode != self::MODE_ADVANCED ) {
+                $this->_groupElement->freeze( );
+            }
             
             // also set the group title
             $groupValues = array( 'id' => $this->_groupID, 'title' => $this->_group[$this->_groupID] );
@@ -302,6 +315,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          */
         $this->_group    =& CRM_Core_PseudoConstant::group   ( );
         $this->_category =& CRM_Core_PseudoConstant::category( );
+        $this->_done     = false;
+
         /**
          * set the button names
          */
@@ -380,8 +395,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          *     - QILL 'qill'
          */
         
-        // hack: if this is a forced search, stuff values into FV
-        if ( $this->_force && isset( $this->_groupID ) ) {
+        if ( isset( $this->_groupID ) ) {
             $this->_formValues['group'] = $this->_groupID;
         }
 
@@ -419,6 +433,15 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     }
 
     function postProcessCommon( ) {
+        /*
+         * sometime we do a postProcess early on, so we dont need to repeat it
+         * this will most likely introduce some more bugs :(
+         */
+        if ( $this->_done ) {
+            return;
+        }
+        $this->_done = true;
+
         $this->set('type', $this->_mode );
         $this->set('formValues', $this->_formValues );
 

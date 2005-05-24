@@ -150,9 +150,11 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      */
     function postProcess() 
     {
-        if ( ! $this->_force ) {
-            // get user submitted values
-            $this->_formValues = $this->controller->exportValues($this->_name);
+        // get user submitted values
+        $this->_formValues = $this->controller->exportValues($this->_name);
+
+        if ( isset( $this->_groupID ) ) {
+            $this->_formValues['cb_group'] = array( $this->_groupID => 1 );
         }
 
         $this->postProcessCommon( );
