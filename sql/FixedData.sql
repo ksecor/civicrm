@@ -341,8 +341,8 @@ INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1113
 INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1114", "Karnataka", "KK", 1101);
 
 -- Polish States
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1115", "Mazowieckie", "MZ", 1172);
-INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1116", "Pomorskie", "PM", 1172);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1115", "mazowieckie", "MZ", 1172);
+INSERT INTO crm_state_province (id, name, abbreviation, country_id) VALUES("1116", "pomorskie", "PM", 1172);
 
 #
 # insert some data for domain, reserved location_types, and reserved relationship_types

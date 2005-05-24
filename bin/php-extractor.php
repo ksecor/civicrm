@@ -312,14 +312,13 @@ function markerError($file, $line, $marker, $tokens)
  */
 function writeHeader($file)
 {
-    $output  = "# LANGUAGE translation of Drupal (". $file .")\n";
     $output .= "# Copyright YEAR NAME <EMAIL@ADDRESS>\n";
     $output .= "# --VERSIONS--\n";
     $output .= "#\n";
     $output .= "#, fuzzy\n";
     $output .= "msgid \"\"\n";
     $output .= "msgstr \"\"\n";
-    $output .= "\"Project-Id-Version: PROJECT VERSION\\n\"\n";
+    $output .= "\"Project-Id-Version: CiviCRM 0.0\\n\"\n";
     $output .= "\"POT-Creation-Date: " . date("Y-m-d H:iO") . "\\n\"\n";
     $output .= "\"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\\n\"\n";
     $output .= "\"Last-Translator: NAME <EMAIL@ADDRESS>\\n\"\n";

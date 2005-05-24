@@ -32,7 +32,8 @@
  * $Id$
  *
  */
-class CRM_Core_I18n {
+class CRM_Core_I18n
+{
 
     /**
      * We only need one instance of this object. So we use the singleton

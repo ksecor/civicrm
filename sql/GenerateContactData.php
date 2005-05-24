@@ -162,8 +162,8 @@ class CRM_GCD {
                                        1114 => array ('Bangalore', 'Mangalore', 'Udipi'), // karnataka
                                        ),
                          1172 => array( // poland
-                                       1115 => array ('Warszawa', 'Plock'), // Mazowieckie
-                                       1116 => array ('Gdansk', 'Gdynia'), // Pomorskie 
+                                       1115 => array ('Warszawa', 'Płock'), // mazowieckie
+                                       1116 => array ('Gdańsk', 'Gdynia'), // pomorskie 
                                        ),
                          );
     

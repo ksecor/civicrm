@@ -77,3 +77,6 @@ msgstr ""
 "Na pewno wyłączyć tego dostawcę usług IM?\\n\\nUżytkownicy stracą możliwość "
 "wyboru tej wartości podczas dodawania i edytowania kontaktów IM."
 
+msgid "Relationships"
+msgstr "Powiązania"
+
