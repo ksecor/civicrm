@@ -42,11 +42,15 @@ CREATE TABLE {$table.name} (
 {/if} {* table.primaryKey *}
 
 {if $table.index}
-{foreach from=$table.index item=index}
-{if ! $first},{/if}
-{assign var='first' value=false}
-
-{if $table.UNIQUE} UNIQUE{/if} INDEX {$index.name}({$index.fieldName})
+  {foreach from=$table.index item=index}
+  {if ! $first},{/if}
+  {assign var='first' value=false}
+  {if $index.unique} UNIQUE{/if} INDEX {$index.name}(
+  {assign var='firstIndexField' value=true}
+  {foreach from=$index.field item=fieldName}
+    {if $firstIndexField}{assign var='firstIndexField' value=false}{else}, {/if}{$fieldName}
+  {/foreach}
+)
 {/foreach} {* table.index *}
 {/if} {* table.index *}
 

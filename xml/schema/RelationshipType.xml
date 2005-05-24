@@ -66,4 +66,16 @@
        <default>1</default>
        <comment>Is this relationship type currently active (i.e. can be used when creating or editing relationships)?</comment>
   </field>
+  <index>
+    <name>UI_name_a_b_domain_id</name>
+    <fieldName>name_a_b</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
+  <index>
+    <name>UI_name_b_a_domain_id</name>
+    <fieldName>name_b_a</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
 </table>

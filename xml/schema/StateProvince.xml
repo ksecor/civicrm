@@ -40,4 +40,10 @@
        <table>crm_country</table>
        <key>id</key>
   </foreignKey>
+  <index>
+    <name>UI_name_country_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>country_id</fieldName>
+    <unique>true</unique>
+  </index>
 </table>

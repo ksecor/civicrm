@@ -26,4 +26,9 @@
        <length>255</length>
        <comment>Description of Domain.</comment>
   </field>
+  <index>
+    <name>UI_name</name>
+    <fieldName>name</fieldName>
+    <unique>true</unique>
+  </index>
 </table>

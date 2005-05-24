@@ -40,4 +40,10 @@
        <table>crm_state_province</table>
        <key>id</key>
   </foreignKey>
+  <index>
+    <name>UI_name_state_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>state_province_id</fieldName>
+    <unique>true</unique>
+  </index>
 </table>

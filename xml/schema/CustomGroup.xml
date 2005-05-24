@@ -8,7 +8,7 @@
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Unique Ext Property Group ID</comment>
+      <comment>Unique Custom Group ID</comment>
   </field>
   <primaryKey>
        <name>id</name>
@@ -78,6 +78,18 @@
        <type>boolean</type>
        <comment>Is this property active?</comment>
   </field>
+  <index>
+    <name>UI_title_domain_id</name>
+    <fieldName>title</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
+  <index>
+    <name>UI_name_domain_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
 </table>
 
 

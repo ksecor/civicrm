@@ -382,18 +382,18 @@ INSERT INTO crm_category( domain_id, name, description, parent_id )
     VALUES( 1, 'Volunteer', 'Active volunteers.', NULL );
 
 
-INSERT INTO crm_im_provider(name, is_reserved, is_active) VALUES('Yahoo', 1, 1);
-INSERT INTO crm_im_provider(name, is_reserved, is_active) VALUES('MSN', 1, 1);
-INSERT INTO crm_im_provider(name, is_reserved, is_active) VALUES('AIM', 1, 1);
-INSERT INTO crm_im_provider(name, is_reserved, is_active) VALUES('Jabber', 0, 1);
-INSERT INTO crm_im_provider(name, is_reserved, is_active) VALUES('Indiatimes', 0, 0);
+INSERT INTO crm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Yahoo', 1, 1, 1);
+INSERT INTO crm_im_provider(name, domain_id, is_reserved, is_active) VALUES('MSN', 1, 1, 1);
+INSERT INTO crm_im_provider(name, domain_id, is_reserved, is_active) VALUES('AIM', 1, 1, 1);
+INSERT INTO crm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Jabber', 1, 0, 1);
+INSERT INTO crm_im_provider(name, domain_id, is_reserved, is_active) VALUES('Indiatimes', 1, 0, 0);
 
-INSERT INTO crm_mobile_provider (name, is_reserved, is_active) VALUES ('Sprint', 1, 1);
-INSERT INTO crm_mobile_provider (name, is_reserved, is_active) VALUES ('Verizon', 1, 1);
-INSERT INTO crm_mobile_provider (name, is_reserved, is_active) VALUES ('Cingular', 0, 1);
-INSERT INTO crm_mobile_provider (name, is_reserved, is_active) VALUES ('Reliance Infocom', 1, 1);
-INSERT INTO crm_mobile_provider (name, is_reserved, is_active) VALUES ('BPL Mobile', 0, 0);
-INSERT INTO crm_mobile_provider (name, is_reserved, is_active) VALUES ('Airtel', 0, 1);
+INSERT INTO crm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Sprint', 1, 1, 1);
+INSERT INTO crm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Verizon', 1, 1, 1);
+INSERT INTO crm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Cingular', 1, 0, 1);
+INSERT INTO crm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Reliance Infocom', 1, 1, 1);
+INSERT INTO crm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('BPL Mobile', 1, 0, 0);
+INSERT INTO crm_mobile_provider (name, domain_id, is_reserved, is_active) VALUES ('Airtel', 1, 0, 1);
 
 INSERT INTO crm_county (name, state_province_id) VALUES ('Alameda', 1004);
 INSERT INTO crm_county (name, state_province_id) VALUES ('Contra Costa', 1004);

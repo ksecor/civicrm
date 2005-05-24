@@ -66,5 +66,16 @@
        <table>crm_saved_search</table>
        <key>id</key>
   </foreignKey>
-
+  <index>
+    <name>UI_title_domain_id</name>
+    <fieldName>title</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
+  <index>
+    <name>UI_name_domain_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
 </table>

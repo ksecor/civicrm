@@ -34,18 +34,26 @@ $classNames = array( );
 
 echo "Extracting table information\n";
 $tables   =& getTables( $dbXML, $database );
-// print_r( $tables );
+
+// echo "\n\n\n\n\n*****************************************************************************\n\n";
+// print_r($tables);
+// exit(1);
 
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );
 
 echo "Generating sql file\n";
+
 $sql = $smarty->fetch( 'schema.tpl' );
+
+//echo "\n\n\n\n\n\n*****************************************************************************\n\n";
+//echo "sql = \n\n$sql";
+
+
 createDir( $sqlCodePath );
 $fd = fopen( $sqlCodePath . "Contacts.sql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
-
 
 $beautifier = new PHP_Beautifier(); // create a instance
 $beautifier->addFilter('ArrayNested');
@@ -279,21 +287,50 @@ function getPrimaryKey( &$primaryXML, &$fields, &$table ) {
     $table['primaryKey'] =& $primaryKey;
 }
 
-function getIndex( &$indexXML, &$fields, &$indices ) {
-    $name      = trim( (string ) $indexXML->name );
-    $fieldName = trim( (string ) $indexXML->fieldName );
+function getIndex(&$indexXML, &$fields, &$indices)
+{
+    //echo "\n\n*******************************************************\n";
+    //echo "entering getIndex\n";
 
-    /** need to make sure there is a field of type name */
-    if ( ! array_key_exists( $fieldName, $fields ) ) {
-        echo "index $name does not have a  field definition, ignoring\n";
+    $index = array();
+    $indexName = trim((string)$indexXML->name);   // empty index name is fine
+    $index['name'] = $indexName;
+    $index['field'] = array();
+
+    // populate fields
+    foreach ($indexXML->fieldName as $v) {
+        $fieldName = (string)($v);
+        $index['field'][] = $fieldName;
+    }
+
+    // check for unique index
+    if (value('unique', $indexXML)) {
+        $index['unique'] = true;
+    }
+
+    //echo "\$index = \n";
+    //print_r($index);
+
+    // field array cannot be empty
+    if (empty($index['field'])) {
+        echo "No fields defined for index $indexName\n";
         return;
     }
 
-    $index = array( 'name'      => $name,
-                    'fieldName' => $fieldName,
-                    'unique'     => value( 'unique', $indexXML ) );
-    $indices[$name] =& $index;
+    // all fieldnames have to be defined and should exist in schema.
+    foreach ($index['field'] as $fieldName) {
+        if (!$fieldName) {
+            echo "Invalid field defination for index $indexName\n";
+            return;
+        }
+        if (!array_key_exists($fieldName, $fields)) {
+            echo "Table does not contain $fieldName\n";
+            return;
+        }
+    }
+    $indices[$indexName] =& $index;
 }
+
 
 function getForeignKey( &$foreignXML, &$fields, &$foreignKeys ) {
     $name = trim( (string ) $foreignXML->name );

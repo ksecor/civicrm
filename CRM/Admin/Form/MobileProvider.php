@@ -73,6 +73,7 @@ class CRM_Admin_Form_MobileProvider extends CRM_Admin_Form
         $mobileProvider               = new CRM_Core_DAO_MobileProvider( );
         $mobileProvider->name         = $params['name'];
         $mobileProvider->is_active    = $params['is_active'];
+        $mobileProvider->domain_id    = 1; // domain 1 for now
 
         if ($this->_mode & self::MODE_UPDATE ) {
             $mobileProvider->id = $this->_id;

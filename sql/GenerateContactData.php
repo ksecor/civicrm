@@ -328,8 +328,8 @@ class CRM_GCD {
     function __construct()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        //// CRM_Core_Error::le_method();
+        //// CRM_Core_Error::ll_method();
 
         // initialize all the vars
         $this->numIndividual = self::INDIVIDUAL_PERCENT * self::NUM_CONTACT / 100;
@@ -343,8 +343,8 @@ class CRM_GCD {
     public function parseDataFile()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         $sampleData = simplexml_load_file(self::DATA_FILENAME);
 
@@ -455,8 +455,8 @@ class CRM_GCD {
     public function initID()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         // may use this function in future if needed to get
         // a consistent pattern of random numbers.
@@ -496,8 +496,8 @@ class CRM_GCD {
     public function addDomain()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         $domain = new CRM_Core_DAO_Domain();
         for ($id=2; $id<=self::NUM_DOMAIN; $id++) {
@@ -525,8 +525,8 @@ class CRM_GCD {
     public function addContact()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         // add contacts
         $contact = new CRM_Contact_DAO_Contact();
@@ -564,8 +564,8 @@ class CRM_GCD {
     public function addIndividual()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         $individual = new CRM_Contact_DAO_Individual();
         $contact = new CRM_Contact_DAO_Contact();
@@ -616,8 +616,8 @@ class CRM_GCD {
     public function addHousehold()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         $household = new CRM_Contact_DAO_Household();
         $contact = new CRM_Contact_DAO_Contact();
@@ -668,8 +668,8 @@ class CRM_GCD {
     public function addOrganization()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         $organization = new CRM_Contact_DAO_Organization();
         $contact = new CRM_Contact_DAO_Contact();       
@@ -702,8 +702,8 @@ class CRM_GCD {
     public function addRelationship()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         $relationship = new CRM_Contact_DAO_Relationship();
 
@@ -765,7 +765,7 @@ class CRM_GCD {
      *******************************************************/
     public function addLocation()
     {
-        CRM_Core_Error::le_method();
+        // CRM_Core_Error::le_method();
 
 
 //         CRM_Core_Error::debug_var('household', $this->household);
@@ -793,13 +793,13 @@ class CRM_GCD {
             $this->_addLocation(self::HOME, $contactId);
         }
 
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::ll_method();
     }
 
     private function _addLocation($locationType, $contactId)
     {
 
-        CRM_Core_Error::le_method();
+        // CRM_Core_Error::le_method();
 
         $locationDAO = new CRM_Contact_DAO_Location();
 
@@ -826,13 +826,13 @@ class CRM_GCD {
             $this->_addEmail($locationDAO->id, $sortName, ($emailId == 1));
         }
 
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::ll_method();
     }
 
     private function _addAddress($locationId)
     {
 
-        CRM_Core_Error::le_method();
+        // CRM_Core_Error::le_method();
         $addressDAO = new CRM_Contact_DAO_Address();
 
         // add addresses now currently we are adding only 1 address for each location
@@ -869,7 +869,7 @@ class CRM_GCD {
         
         $this->_insert($addressDAO);
 
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::ll_method();
     }
 
     private function _sortNameToEmail($sortName)
@@ -880,7 +880,7 @@ class CRM_GCD {
 
     private function _addPhone($locationId, $phoneType, $primary=false)
     {
-        CRM_Core_Error::le_method();
+        // CRM_Core_Error::le_method();
         if ($locationId % 3) {
             $phone = new CRM_Contact_DAO_Phone();
             $phone->location_id = $locationId;
@@ -889,12 +889,12 @@ class CRM_GCD {
             $phone->phone_type = $phoneType;
             $this->_insert($phone);
         }
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::ll_method();
     }
 
     private function _addEmail($locationId, $sortName, $primary=false)
     {
-        CRM_Core_Error::le_method();
+        // CRM_Core_Error::le_method();
         if ($locationId % 7) {
             $email = new CRM_Contact_DAO_Email();
             $email->location_id = $locationId;
@@ -906,7 +906,7 @@ class CRM_GCD {
             $email->email = $emailName . "@" . $emailDomain . "." . $tld;
             $this->_insert($email);
         }
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::ll_method();
 
     }
 
@@ -921,8 +921,8 @@ class CRM_GCD {
     public function addEntityCategory()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         $entity_category = new CRM_Contact_DAO_EntityCategory();
         
@@ -963,8 +963,8 @@ class CRM_GCD {
     public function addGroup()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         $group = new CRM_Contact_DAO_Group();
 
@@ -1044,8 +1044,8 @@ class CRM_GCD {
     public function addNote()
     {
 
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::ll_method();
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
 
         $note = new CRM_Core_DAO_Note();
         $note->table_name = 'crm_contact';

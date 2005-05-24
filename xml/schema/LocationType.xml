@@ -48,4 +48,10 @@
        <type>boolean</type>
        <comment>Is this property active?</comment>
   </field>
+  <index>
+    <name>UI_name_domain_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
 </table>

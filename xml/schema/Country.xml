@@ -45,4 +45,10 @@
        <length>4</length>
        <comment>Access prefix to call within a country to a different area</comment>
   </field>
+  <index>
+    <name>UI_name_iso_code</name>
+    <fieldName>name</fieldName>
+    <fieldName>iso_code</fieldName>
+    <unique>true</unique>
+  </index>
 </table>

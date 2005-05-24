@@ -48,4 +48,10 @@
        <table>crm_category</table>
        <key>id</key>
   </foreignKey>
+  <index>
+    <name>UI_name_domain_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
 </table>

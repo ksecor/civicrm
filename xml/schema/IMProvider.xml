@@ -23,6 +23,17 @@
        <comment>Name of IM Provider.</comment>
   </field>
   <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>crm_domain</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
        <name>is_reserved</name>
        <type>boolean</type>
        <comment>Is this entry a predefined system option?</comment>
@@ -32,4 +43,10 @@
        <type>boolean</type>
        <comment>Is this entry active?</comment>
   </field>
+  <index>
+    <name>UI_name_domain_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
 </table>
