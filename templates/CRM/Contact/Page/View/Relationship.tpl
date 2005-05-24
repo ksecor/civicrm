@@ -8,7 +8,7 @@
 {* start of code to show current relationships *}
 {if $currentRelationships}
     {* show browse table for any action *}
-      <div id="relationships">
+      <div id="current-relationships">
         <p>
         <div><label>Current Relationships</label></div>
         {strip}
@@ -37,7 +37,7 @@
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
             <td>{$rel.phone}</td>
-            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=disable"}" onclick = 'return confirm("Are you sure you want to disable {$rel.relation} relationship with {$rel.name}?");'> Disable</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation} relationship with {$rel.name}?");'> Delete</a> </td>
+            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=disable"}" onclick = 'return confirm("Are you sure you want to disable {$rel.relation|escape:"htmlall"} relationship with {$rel.name|escape:"htmlall"}?");'> Disable</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation|escape:"htmlall"} relationship with {$rel.name|escape:"htmlall"}?");'> Delete</a> </td>
           </tr>
         {/foreach}
         </table>
@@ -47,12 +47,37 @@
 {/if}
 {* end of code to show current relationships *}
 
+{if NOT ($currentRelationships or $pastRelationships or $disableRelationships) }
+
+  {if $action NEQ 1} {* show 'no relationships' message - unless already in 'add' mode. *}
+       <div class="message status">
+           <dl>
+           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
+           <dd>There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q="action=add"}">add one</a>.</dd>
+           </dl>
+      </div>
+  {/if}
+{else}
+
+  <div>
+    {if $action NEQ 1 AND $action NEQ 2}
+            <div class="action-link">
+                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add"}">&raquo; New Relationship</a>
+            </div>
+        {/if}
+  </div>
+
+{/if}
+<br />
+
 {* start of code to show past relationships *}
 {if $pastRelationships}
     {* show browse table for any action *}
-      <div id="relationships">
+      <div id="past-relationships">
         <p>
-        <div><label>Past Relationships</label></div>
+        <div class="label font-red">{ts}Past Relationships{/ts}</div>
+        <div class="description">{ts}These relationships have a past End Date.{/ts}</div>
+
         {strip}
         <table>
         <tr class="columnheader">
@@ -61,7 +86,7 @@
             <th>City</th>
             <th>State/Prov</th>
             <th>Email</th>
-            <th>Phone</th>
+            <th>End Date</th>
             <th>&nbsp;</th>
         </tr>
 
@@ -78,8 +103,8 @@
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
-            <td>{$rel.phone}</td>
-            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=disable"}" onclick = 'return confirm("Are you sure you want to disable {$rel.relation} relationship with {$rel.name}?");'> Disable</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation} relationship with {$rel.name}?");'> Delete</a> </td>
+            <td>{$rel.end_date}</td>
+            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation|escape:"htmlall"} relationship with {$rel.name|escape:"htmlall"}?");'> Delete</a> </td>
           </tr>
         {/foreach}
         </table>
@@ -92,9 +117,10 @@
 {* start of code to show disabled relationships *}
 {if $disableRelationships}
     {* show browse table for any action *}
-      <div id="relationships">
+      <div id="disabled-relationships">
         <p>
-        <div><label>Disabled Relationships</label></div>
+        <div class="label font-red">Disabled Relationships</label></div>
+        <div class="description">{ts}These relationships have been marked as disabled (no longer active).{/ts}</div>
         {strip}
         <table>
         <tr class="columnheader">
@@ -121,7 +147,7 @@
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
             <td>{$rel.phone}</td>
-            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=enable"}" onclick = 'return confirm("Are you sure you want to enable {$rel.relation} relationship with {$rel.name}?");'> Enable</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation} relationship with {$rel.name}?");'> Delete</a> </td>
+            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=enable"}" onclick = 'return confirm("Are you sure you want to enable {$rel.relation|escape:"htmlall"} relationship with {$rel.name|escape:"htmlall"}?");'> Enable</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation|escape:"htmlall"} relationship with {$rel.name|escape:"htmlall"}?");'> Delete</a> </td>
           </tr>
         {/foreach}
         </table>
@@ -130,25 +156,3 @@
       </div>    
 {/if}
 {* end of code to show disabled relationships *}
-
-{if NOT ($currentRelationships or $pastRelationships or $disableRelationships) }
-
-  {if $action NEQ 1} {* show 'no relationships' message - unless already in 'add' mode. *}
-       <div class="message status">
-           <dl>
-           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
-           <dd>There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q="action=add"}">add one</a>.</dd>
-           </dl>
-      </div>
-  {/if}
-{else}
-
-  <div>
-    {if $action NEQ 1 AND $action NEQ 2}
-            <div class="action-link">
-                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add"}">&raquo; New Relationship</a>
-            </div>
-        {/if}
-  </div>
-
-{/if}

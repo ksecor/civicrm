@@ -15,7 +15,7 @@
             {if $row.end_date}
                 <dt>End Date: </dt><dd>{$row.end_date|date_format:"%B %e, %Y"}</dd>
             {/if}
-	    <dt>Status:</dt><dd>{if $row.is_active}Enabled {else} Disabled{/if}</dd>
+            <dt>Status:</dt><dd>{if $row.is_active}Enabled {else} Disabled{/if}</dd>
             <dt></dt>
             <dd><input type="button" name='cancel' value="Done" onClick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"></dd>
             </dl>
@@ -26,33 +26,36 @@
         
 {else} {* add and update actions *}
     <fieldset><legend>{if $action eq 1}{ts}New Relationship{/ts}{else}{ts}Edit Relationship(s){/ts}{/if}</legend>
-        <div class="data-group">
-            {ts 1=$displayName 2=$form.relationship_type_id.html}<label>%1</label> &nbsp; %2 &nbsp; {/ts}{if $action EQ 2}{$sort_name}{else}...{/if}
-        </div>
-        {if $action eq 1} {* action = add *}
-            <div class="form-item">
+        <div class="form-item">
+            {if $action eq 1}
                 <div class="description">
-                    {ts}Locate target contact(s) for this relationship by entering a full or partial name, selecting the target contact type and clicking 'Search'.{/ts}
+                {ts}Select the relationship type. Then locate target contact(s) for this relationship by entering a full or partial name, selecting the target contact type and clicking 'Search'.{/ts}
                 </div>
-                <dl>
-                  <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
-                  <dt>{$form.contact_type.label}</dt><dd>{$form.contact_type.html}</dd>
-                  <dt></dt>
+            {/if}
+            <dl>
+            <dt>{$form.relationship_type_id.label}</dt><dd>{$form.relationship_type_id.html}
+            {if $action EQ 2} {* action = update *}
+                <label>{$sort_name}</label></dd>
+                </dl>
+            {else} {* action = add *}
+                </dd>
+                <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
+                <dt>{$form.contact_type.label}</dt><dd>{$form.contact_type.html}</dd>
+                <dt> </dt>
                   <dd>
-                 {$form._qf_Relationship_refresh.html}
-                 {$form._qf_Relationship_cancel.html}
+                    {$form._qf_Relationship_refresh.html}
+                    {$form._qf_Relationship_cancel.html}
                   </dd>
                 </dl>
-            </div>
 
               {if $noResult }
                  <div class="message status">{$noResult}</div>
               {else}
                  {if $contacts }
-                    <fieldset><legend>{ts}Search Results{/ts}</legend>
+                    <fieldset><legend>{ts}Mark Target Contact(s) for this Relationship{/ts}</legend>
                     <div class="description">
-                        {ts}Now mark the target contact(s) and click 'Create Relationship'.
-                        You may optionally specify start and/or end dates if this relationship is time-delimited.{/ts}
+                        {ts}Mark the target contact(s) for this relationship if it appears below. Otherwise you may
+                        modify the Target Contact Name or Contact Type and click Search again.{/ts}
                     </div>
                     {strip}
                     <table>
@@ -88,11 +91,17 @@
         {* Only show start/end date and buttons if action=update, OR if we have $contacts (results)*}
         {if $contacts OR $action EQ 2}
             <div class="form-item">
-            <dl>
-            <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
-            <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd>
-            <dt></dt><dd>{$form.buttons.html}</dd>
-            </dl>
+                <dl>
+                <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
+                <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd>
+                <dt> </dt>
+                    <dd class="description">
+                        {ts}If this relationship has start and/or end dates, specify them here.{/ts}
+                    </dd>
+                <dt></dt><dd>{$form.buttons.html}</dd>
+                </dl>
+            </div>
         {/if}
+        </div>
     </fieldset>
 {/if}

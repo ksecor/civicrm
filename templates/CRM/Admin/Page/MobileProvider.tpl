@@ -2,7 +2,9 @@
    {include file="CRM/Admin/Form/MobileProvider.tpl"}
 {else}    
     <div id="help">
-    {ts}Viewing Mobile Providers. You can create Mobile Providers as per your need{/ts}
+    {ts}When recording mobile phone numbers for contacts, it may be useful to include the Mobile Phone Service
+    Provider (e.g. Cingular, Sprint, etc.). CiviCRM is installed with the most commonly encountered service providers. Administrators
+    may define as many additional providers as needed.{/ts}
     </div>
 {/if}
 

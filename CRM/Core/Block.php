@@ -113,7 +113,7 @@ class CRM_Core_Block {
                 array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/addI?c_type=Individual' ) );
         } else if ( $id == self::SEARCH ) {
             self::$_properties[self::SEARCH]['templateValues'] =
-                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search' ) ,
+                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) ,
                        'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'reset=1' ) );
         } else if ( $id == self::MENU ) {
             self::setTemplateMenuValues( );

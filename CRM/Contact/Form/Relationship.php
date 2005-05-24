@@ -134,7 +134,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     function addRules( )
     {
-        $this->addRule('relationship_type_id', 'Please select the relationship. ', 'required' );
+        $this->addRule('relationship_type_id', 'Please select a relationship type. ', 'required' );
         $this->addRule('start_date', 'Select a valid start date.', 'qfDate' );
         $this->addRule('end_date', 'Select a valid end date.', 'qfDate' );
         $this->addFormRule(array('CRM_Contact_Form_Relationship','formRule'));
@@ -154,17 +154,17 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $rtype = $this->_rtype;
         }
         
-        $this->addElement('select', "relationship_type_id", '', array('' => '- select relationship type -') + CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $rtype));
+        $this->addElement('select', "relationship_type_id", 'Relationship Type', array('' => '- select -') + CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $rtype));
         
-        $this->addElement('select', "contact_type", 'Contact Type', CRM_Core_SelectValues::$contactType);
+        $this->addElement('select', "contact_type", 'Target Contact Type', CRM_Core_SelectValues::$contactType);
         
-        $this->addElement('text', 'name', 'Name' );
+        $this->addElement('text', 'name', 'Target Contact Name' );
 
         $this->addElement('hidden', 'csearch','0' );
 
-        $this->addElement('date', 'start_date', 'Starting:', CRM_Core_SelectValues::date( 'relative' ) );
+        $this->addElement('date', 'start_date', 'Start Date', CRM_Core_SelectValues::date( 'relative' ) );
         
-        $this->addElement('date', 'end_date', 'Ending:', CRM_Core_SelectValues::date( 'relative' ) );
+        $this->addElement('date', 'end_date', 'End Date', CRM_Core_SelectValues::date( 'relative' ) );
 
         $arraySearch = array();
         $params = array();

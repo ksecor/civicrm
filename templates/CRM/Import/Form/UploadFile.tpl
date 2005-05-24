@@ -22,7 +22,8 @@
  <fieldset><legend>{ts}Upload Data File{/ts}</legend>
     <dl>
        <dt>{$form.uploadFile.label}</dt><dd>{$form.uploadFile.html}</dd>
-       <dt><dd class="description">{ts}File format must be comma-separated-values (CSV).{/ts}</dd>
+       <dt> </dt>
+          <dd class="description">{ts}File format must be comma-separated-values (CSV).{/ts}</dd>
        <dt>{$form.skipColumnHeader.html}</dt><dd>{$form.skipColumnHeader.label}</dd>
        <dt> </dt>
           <dd class="description">

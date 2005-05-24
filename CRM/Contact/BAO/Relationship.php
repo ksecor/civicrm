@@ -95,13 +95,23 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 }
             }
             
-            CRM_Core_Session::setStatus( 'No of valid Relationship(s) are: '.$validRelationshipCount.' <br> No of invalid Relationship(s) are: '.$invalidRelationshipCount.'<br>No of contacts already in Relationship(s) are: '.$duplicateRelationshipCount );
+            $userStatus = array();
+            if ( $validRelationshipCount ) {
+                $userStatus[] = $validRelationshipCount.' new relationship record(s) created.';
+            }
+            if ( $invalidRelationshipCount ) {
+                $userStatus[] = $invalidRelationshipCount.' relationship record(s) not created due to invalid target contact type.';
+            }
+            if ( $duplicateRelationshipCount ) {
+                $userStatus[] = $duplicateRelationshipCount.' relationship record(s) not created - duplicate of existing relationship.';
+            }
+            CRM_Core_Session::setStatus( $userStatus );
             
         } else {
             
             $relationship = self::add( $params, $ids);
             
-            CRM_Core_Session::setStatus( 'Your relationship record has been saved' );
+            CRM_Core_Session::setStatus( 'Your relationship record has been saved.' );
         }
         
         CRM_Core_DAO::transaction( 'COMMIT' );
