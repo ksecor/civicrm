@@ -177,7 +177,7 @@ function getPluralString($tokens)
  *
  * @return void
  */
-function find_ts_calls($tokens, $file)
+function findTsCalls($tokens, $file)
 {
 
     global $strings;
@@ -201,16 +201,16 @@ function find_ts_calls($tokens, $file)
             switch (tsCallType($tokens)) {
 
             case TS_CALL_TYPE_SINGLE:
-                $strings[format_quoted_string($mid[1])][$file][] = $line;
+                $strings[formatQuotedString($mid[1])][$file][] = $line;
                 break;
 
             case TS_CALL_TYPE_PLURAL:
                 $plural = getPluralString($tokens);
-                $strings[format_quoted_string($mid[1]) . "\0" . format_quoted_string($plural)][$file][] = $line;
+                $strings[formatQuotedString($mid[1]) . "\0" . formatQuotedString($plural)][$file][] = $line;
                 break;
 
             case TS_CALL_TYPE_INVALID:
-                marker_error($file, $line, 'ts', $tokens);
+                markerError($file, $line, 'ts', $tokens);
                 break;
 
             default:
@@ -228,146 +228,90 @@ function find_ts_calls($tokens, $file)
 
 
 
-  set_time_limit(0);
-  if (!defined("STDERR")) {
-    define("STDERR", fopen("php://stderr", "w"));
-  }
+/**
+ * gets the exact version number from the file, so we can push that into the pot
+ *
+ * @param string $code  the string with the contents of the file
+ * @param string $file  the string with the file name
+ *
+ * @return void
+ */
+function findVersionNumber($code, $file)
+{
+    global $file_versions;
+    // Prevent CVS from replacing this pattern with actual info
+    if (preg_match('!\\$I' . 'd: ([^\\$]+) Exp \\$!', $code, $version_info)) {
+        $file_versions[$file] = $version_info[1];
+    }
+}
+
+
+
+/**
+ * formats a string for using it as a $strings array key
+ *
+ * @param string $str  the string up for formatting
+ *
+ * @return string  the string after formatting
+ */
+function formatQuotedString($str)
+{
+    $quo = substr($str, 0, 1);
+    $str = substr($str, 1, -1);
+    if ($quo == '"') {
+        $str = stripcslashes($str);
+    } else {
+        $str = strtr($str, array("\\'" => "'", "\\\\" => "\\"));
+    }
+    return addcslashes($str, "\0..\37\\\"");
+}
   
-  $argv = $GLOBALS['argv'];
-  array_shift ($argv);
-  if (!count($argv)) {
-    print "Usage: extractor.php file1 [file2 [...]]\n\n";
-    return 1;
-  }
 
 
-  $strings = $file_versions = array();
-
-  foreach ($argv as $file) {
-    $code = file_get_contents($file);
-    
-    // Extract raw tokens
-    $raw_tokens = token_get_all($code);
-
-    // Remove whitespace and HTML
-    $tokens = array();
-    $lineno = 1;
-    foreach ($raw_tokens as $tok) {
-      if ((!is_array($tok)) || (($tok[0] != T_WHITESPACE) && ($tok[0] != T_INLINE_HTML))) {
-        if (is_array($tok)) {
-          $tok[] = $lineno;
+/**
+ * writes an error string to STDERR
+ *
+ * @param string $file    the string containing the file the error's in
+ * @param string $line    the string containing the line the error's in
+ * @param string $marker  the string with the erroneous function name
+ * @param array  $tokens  the array with the function's tokens
+ *
+ * @return void
+ */
+function markerError($file, $line, $marker, $tokens)
+{
+    fwrite(STDERR, "Invalid marker content in $file:$line\n* $marker(");
+    array_shift($tokens);
+    array_shift($tokens);
+    $par = 1;
+    while (count($tokens) && $par) {
+        if (is_array($tokens[0])) {
+            fwrite(STDERR, $tokens[0][1]);
+        } else {
+            fwrite(STDERR, $tokens[0]);
+            if ($tokens[0] == "(") {
+                $par++;
+            }
+            if ($tokens[0] == ")") {
+                $par--;
+            }
         }
-        $tokens[] = $tok;
-      }
-      if (is_array($tok)) {
-        $lineno += count(split("\n", $tok[1])) - 1;
-      } else {
-        $lineno += count(split("\n", $tok)) - 1;
-      }
+        array_shift($tokens);
     }
-    
-    //find_t_calls($tokens, $file);
-    //find_watchdog_calls($tokens, $file);
-    //find_format_plural_calls($tokens, $file);
-
-    find_ts_calls($tokens, $file);
-    
-    find_perm_hook($code, $file);
-    find_node_types_hook($code, $file);
-    find_module_name($code, $file);
-    find_language_names($code, $file);
-    find_version_number($code, $file);
-    
-    add_date_strings($file);
-    add_format_interval_strings($file);
-  }
+    fwrite(STDERR, "\n\n");
+}
 
 
-  foreach ($strings as $str => $fileinfo) {
-    $occured = $filelist = array();
-    foreach ($fileinfo as $file => $lines) {
-      $occured[] = "$file:" . join(";", $lines);
-      if (isset($file_versions[$file])) {
-        $filelist[] = $file_versions[$file];
-      }
-    }
-    
-    $output = "#: " . join(" ", $occured) . "\n";
-    $filename = ((count($occured) > 1) ? 'general' : $file);
 
-    if (strpos($str, "\0") === FALSE) {
-      $output .= "msgid \"$str\"\n";
-      $output .= "msgstr \"\"\n";
-    }
-    else {
-      list ($singular, $plural) = explode("\0", $str);
-      $output .= "msgid \"$singular\"\n";
-      $output .= "msgid_plural \"$plural\"\n";
-      $output .= "msgstr[0] \"\"\n";
-      $output .= "msgstr[1] \"\"\n";
-    }
-    $output .= "\n";
-
-    store($filename, $output, $filelist);
-  }
-
-  write_files();
-
-  function write_files() {
-    $output = store(0, 0, array(), 1);
-    foreach ($output as $file => $content) {
-      if (count($content) <= 11 && $file != 'general') {
-        @$output['general'][1] = array_unique(array_merge($output['general'][1], $content[1]));
-        if (!isset($output['general'][0])) {
-          $output['general'][0] = $content[0];
-        }
-        unset($content[0]);
-        unset($content[1]);
-        foreach ($content as $msgid) {
-          $output['general'][] = $msgid;
-        }
-        unset($output[$file]);
-      }
-    }
-    foreach ($output as $file => $content) {
-      $tmp = preg_replace('<[/]?([a-z]*/)*>', '', $file);
-      $file = str_replace('.', '-', $tmp) .'.pot';
-      $filelist = $content[1]; unset($content[1]);
-      if (count($filelist) > 1) {
-        $filelist = "Generated from files:\n#  " . join("\n#  ", $filelist);
-      }
-      elseif (count($filelist) == 1) {
-        $filelist = "Generated from file: " . join("", $filelist);
-      }
-      else {
-        $filelist = "No version information was available in the source files.";
-      }
-      $fp = fopen($file, 'w');
-      fwrite($fp, str_replace("--VERSIONS--", $filelist, join("", $content)));
-      fclose($fp);
-    }
-  }
-
-  function store($file = 0, $input = 0, $filelist = array(), $get = 0) {
-    static $storage = array();
-    if (!$get) {
-      if (isset($storage[$file])) {
-       $storage[$file][1] = array_unique(array_merge($storage[$file][1], $filelist));
-       $storage[$file][] = $input;
-      }
-      else {
-        $storage[$file] = array();
-        $storage[$file][0] = write_header($file);
-        $storage[$file][1] = $filelist;
-        $storage[$file][2] = $input;
-      }
-    }
-    else {
-      return $storage;
-    }
-  }
-
-  function write_header($file) {
+/**
+ * returns the POT-file header
+ *
+ * @param string $file  the string containing the file name
+ *
+ * @return string  the string containing the POT header
+ */
+function writeHeader($file)
+{
     $output  = "# LANGUAGE translation of Drupal (". $file .")\n";
     $output .= "# Copyright YEAR NAME <EMAIL@ADDRESS>\n";
     $output .= "# --VERSIONS--\n";
@@ -384,302 +328,204 @@ function find_ts_calls($tokens, $file)
     $output .= "\"Content-Type: text/plain; charset=utf-8\\n\"\n";
     $output .= "\"Content-Transfer-Encoding: 8bit\\n\"\n";
     $output .= "\"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\\n\"\n\n";
-
     return $output;
-  }
+}
 
-  function format_quoted_string($str) {
-    $quo = substr($str, 0, 1);
-    $str = substr($str, 1, -1);
-    if ($quo == '"') {
-      $str = stripcslashes($str);
+
+
+/**
+ * stores the string information
+ *
+ * @param string  $file      the string containing the filename the string's in
+ * @param string  $input     the string containing the msgid/msgstr block
+ * @param array   $filelist  the array containing the list of the files :)
+ * @param boolean $get       the boolean switch whether the call is storing
+ *                           something or trying to get the whole storage back
+ *
+ * @return array  the array with the whole storage; only when $get == true
+ */
+function store($file = 0, $input = 0, $filelist = array(), $get = false)
+{
+    static $storage = array();
+    if (!$get) {
+        if (isset($storage[$file])) {
+            $storage[$file][1] = array_unique(array_merge($storage[$file][1], $filelist));
+            $storage[$file][] = $input;
+        } else {
+            $storage[$file] = array();
+            $storage[$file][0] = writeHeader($file);
+            $storage[$file][1] = $filelist;
+            $storage[$file][2] = $input;
+        }
     } else {
-      $str = strtr($str, array("\\'" => "'", "\\\\" => "\\"));
+        return $storage;
     }
-    return addcslashes($str, "\0..\37\\\"");
-  }
-  
-  function marker_error($file, $line, $marker, $tokens) {
-    fwrite(STDERR, "Invalid marker content in $file:$line\n* $marker(");
-    array_shift($tokens); array_shift($tokens);
-    $par = 1;
-    while (count($tokens) && $par) {
-      if (is_array($tokens[0])) {
-        fwrite(STDERR, $tokens[0][1]);
-      } else {
-        fwrite(STDERR, $tokens[0]);
-        if ($tokens[0] == "(") {
-          $par++;
+}
+
+
+
+/**
+ * writes the POT file
+ *
+ * this function writes either a $filename-$fileextension.pot file (if the
+ * extractor is invoked with only one file to parse) or general.pot file
+ * (if the extractor is called on multiple files)
+ *
+ * @return void
+ */
+function writeFiles()
+{
+
+    // read the storage
+    $output = store(0, 0, array(), true);
+
+    // iterate through the files and merge the information for the same strings
+    foreach ($output as $file => $content) {
+        if (count($content) <= 11 && $file != 'general') {
+            @$output['general'][1] = array_unique(array_merge($output['general'][1], $content[1]));
+            if (!isset($output['general'][0])) {
+                $output['general'][0] = $content[0];
+            }
+            unset($content[0]);
+            unset($content[1]);
+            foreach ($content as $msgid) {
+                $output['general'][] = $msgid;
+            }
+            unset($output[$file]);
         }
-        if ($tokens[0] == ")") {
-          $par--;
-        }
-      }
-      array_shift($tokens);
     }
-    fwrite(STDERR, "\n\n");
-  }
+
+    // create the POT file
+    foreach ($output as $file => $content) {
+        $tmp = preg_replace('<[/]?([a-z]*/)*>', '', $file);
+        $file = str_replace('.', '-', $tmp) .'.pot';
+        $filelist = $content[1]; unset($content[1]);
+        if (count($filelist) > 1) {
+            $filelist = "Generated from files:\n#  " . join("\n#  ", $filelist);
+        } elseif (count($filelist) == 1) {
+            $filelist = "Generated from file: " . join("", $filelist);
+        } else {
+            $filelist = "No version information was available in the source files.";
+        }
+        $fp = fopen($file, 'w');
+        fwrite($fp, str_replace("--VERSIONS--", $filelist, join("", $content)));
+        fclose($fp);
+    }
+
+}
+
+
+
+/*
+ * the main code
+ */
+
+set_time_limit(0);
+if (!defined("STDERR")) {
+    define("STDERR", fopen("php://stderr", "w"));
+}
   
-  /*
-    Detect all occurances of one of these sequences:
-      T_STRING("t") + "(" + T_CONSTANT_ENCAPSED_STRING + ")"
-      T_STRING("t") + "(" + T_CONSTANT_ENCAPSED_STRING + ","
-  */
-  function find_t_calls($tokens, $file) {
-    global $strings;
+$argv = $GLOBALS['argv'];
+array_shift ($argv);
+if (!count($argv)) {
+    print "Usage: extractor.php file1 [file2 [...]]\n\n";
+    return 1;
+}
+
+$strings = $file_versions = array();
+
+// let's iterate through the files provided as commandline call parameters
+foreach ($argv as $file) {
+
+    $code = file_get_contents($file);
     
-    while (count($tokens) > 3) {
-      
-      list($ctok, $par, $mid, $rig) = $tokens;
-      if (!is_array($ctok)) {
-        array_shift($tokens);
-        continue;
-      }
-      list($type, $string, $line) = $ctok;
-      
-      if (($type == T_STRING) && ($string == "t") && ($par == "(")) {
-        
-        if (in_array($rig, array(")", ","))
-            && (is_array($mid) && ($mid[0] == T_CONSTANT_ENCAPSED_STRING))) {
+    // Extract raw tokens
+    $raw_tokens = token_get_all($code);
 
-          $strings[format_quoted_string($mid[1])][$file][] = $line;
+    // Remove whitespace and HTML
+    $tokens = array();
+    $lineno = 1;
+    foreach ($raw_tokens as $tok) {
+        if ((!is_array($tok)) || (($tok[0] != T_WHITESPACE) && ($tok[0] != T_INLINE_HTML))) {
+            if (is_array($tok)) {
+                $tok[] = $lineno;
+            }
+            $tokens[] = $tok;
         }
-        
-        // t() found, but inside is something which is not a string literal
-        else {
-          marker_error($file, $line, "t", $tokens);
+        if (is_array($tok)) {
+            $lineno += count(split("\n", $tok[1])) - 1;
+        } else {
+            $lineno += count(split("\n", $tok)) - 1;
         }
-      }
-      array_shift($tokens);
     }
-  }
 
-
-
-  
-  /*
-    Detect all occurances this sequence:
-      T_STRING("format_plural") + "(" + ..anything (might be more tokens).. +
-      "," + T_CONSTANT_ENCAPSED_STRING +
-      "," + T_CONSTANT_ENCAPSED_STRING + ")"
-  */
-  function find_format_plural_calls($tokens, $file) {
-    global $strings;
+    // let's find all of the ts() calls and put the results in $strings
+    findTsCalls($tokens, $file);
     
-    while (count($tokens) > 7) {
-      
-      list($ctok, $par1) = $tokens;
-      if (!is_array($ctok)) {
-        array_shift($tokens);
-        continue;
-      }
-      list($type, $string, $line) = $ctok;
-      
-      if (($type == T_STRING) && ($string == "format_plural") && ($par1 == "(")) {
-        
-        // Eat up everything that is used as the first parameter
-        $nt = $tokens;
-        array_shift($nt); array_shift($nt);
-        $depth = 0;
-        while (!($nt[0] == "," && $depth == 0)) {
-          if ($nt[0] == "(") {
-            $depth++;
-          }
-          elseif ($nt[0] == ")") {
-            $depth--;
-          }
-          array_shift($nt);
-        }
-        
-        // Get further parameters
-        list($comma1, $singular, $comma2, $plural, $par2) = $nt;
-        
-        if (($comma2 == ",") && ($par2 == ")") &&
-            (is_array($singular) && ($singular[0] == T_CONSTANT_ENCAPSED_STRING)) &&
-            (is_array($plural) && ($plural[0] == T_CONSTANT_ENCAPSED_STRING))) {
+    // find any occurences of a file's CVS/SVN version number
+    findVersionNumber($code, $file);
 
-          $strings[format_quoted_string($singular[1]) .
-          "\0" .
-          format_quoted_string($plural[1])][$file][] = $line;
+}
+
+// let's iterate through all of the strings and build the comment lines
+foreach ($strings as $str => $fileinfo) {
+
+    $occured = $filelist = array();
+
+    foreach ($fileinfo as $file => $lines) {
+        $occured[] = "$file:" . join(";", $lines);
+        if (isset($file_versions[$file])) {
+            $filelist[] = $file_versions[$file];
         }
-        
-        // format_plural() found, but the parameters are not correct
-        else {
-          marker_error($file, $line, "format_plural", $tokens);
-        }
-      }
-      array_shift($tokens);
     }
-  }
-  
-  /*
-    Detect all occurances of this sequence:
-      T_STRING("watchdog") + "(" + T_CONSTANT_ENCAPSED_STRING + ","
-  */
-  function find_watchdog_calls($tokens, $file) {
-    global $strings;
     
-    while (count($tokens) > 3) {
-      
-      list($ctok, $par, $mid, $rig) = $tokens;
-      if (!is_array($ctok)) {
-        array_shift($tokens);
-        continue;
-      }
-      list($type, $string, $line) = $ctok;
-      
-      if (($type == T_STRING) && ($string == "watchdog") && ($par == "(")) {
-        
-        if (($rig == ",")
-            && (is_array($mid) && ($mid[0] == T_CONSTANT_ENCAPSED_STRING))) {
+    $output = "#: " . join(" ", $occured) . "\n";
+    $filename = ((count($occured) > 1) ? 'general' : $file);
 
-          $strings[format_quoted_string($mid[1])][$file][] = $line;
-        }
-        
-        // watchdog() found, but inside is something which is not a string literal
-        else {
-          marker_error($file, $line, "watchdog", $tokens);
-        }
-      }
-      array_shift($tokens);
+    // if there's no \0 inside the $str string, it's a singular
+    // else it's a plural
+    if (strpos($str, "\0") === FALSE) {
+        $output .= "msgid \"$str\"\n";
+        $output .= "msgstr \"\"\n";
+    } else {
+        list ($singular, $plural) = explode("\0", $str);
+        $output .= "msgid \"$singular\"\n";
+        $output .= "msgid_plural \"$plural\"\n";
+        $output .= "msgstr[0] \"\"\n";
+        $output .= "msgstr[1] \"\"\n";
     }
-  }
-  
-  // This will get confused if a similar pattern is found in a comment...
-  function find_perm_hook($code, $file) {
-    global $strings;
-    
-    if (preg_match('!^(.+function \\w+_perm\\(\\) \\{\s+return)([^\\}]+)\\}!Us', $code, $hook_code)) {
-      $lines = substr_count($hook_code[1], "\n") + 1;
-      preg_match_all('!(["\'])([a-z ]+)\1!', $hook_code[2], $items, PREG_PATTERN_ORDER);
-      foreach ($items[2] as $item) {
-        $strings[$item][$file][] = $lines;
-      }
-    }
-  }
-  
-  // This will also get confused if a similar pattern is found in a comment...
-  function find_node_types_hook($code, $file) {
-    global $strings;
-    
-    if (preg_match('!^(.+function \\w+_node_types\\(\\) \\{\s+return)([^\\}]+)\\}!Us', $code, $hook_code)) {
-      $lines = substr_count($hook_code[1], "\n") + 1;
-      preg_match_all('!(["\'])([0-9a-z-]+)\1!', $hook_code[2], $items, PREG_PATTERN_ORDER);
-      foreach ($items[2] as $item) {
-        $strings[$item][$file][] = $lines;
-      }
-    }
-  }
-  
-  // This will get confused if a similar pattern is found in a comment...
-  function find_module_name($code, $file) {
-    global $strings;
+    $output .= "\n";
 
-    if (preg_match('!function (\\w+)_help\\(!', $code, $module_name) &&
-        $module_name[1] != 'menu_get_active') {
-      $strings[$module_name[1]][$file][] = 0;
-    }
-  }
-  
-  function find_language_names($code, $file) {
-    global $strings;
-    
-    if (preg_match("!locale\\.inc$!", $file) &&
-        preg_match("!^(.+function _locale_get_iso639_list\\(\\) {)([^\\}]+)\\}!Us", $code, $langcodes)) {
-      $lines = substr_count($langcodes[1], "\n") + 1;
-      preg_match_all('!array\\((["\'])([^\'"]+)\1!', $langcodes[2], $items, PREG_PATTERN_ORDER);
-      foreach ($items[2] as $item) {
-        $strings[$item][$file][] = $lines;
-      }
-    }
-  }
-  
-  // Get the exact version number from the file, so we can push that into the pot
-  function find_version_number($code, $file) {
-    global $file_versions;
+    store($filename, $output, $filelist);
 
-    // Prevent CVS from replacing this pattern with actual info
-    if (preg_match('!\\$I' . 'd: ([^\\$]+) Exp \\$!', $code, $version_info)) {
-      $file_versions[$file] = $version_info[1];
-    }
-  }
-  
-  // Add date strings if locale.module is parsed
-  function add_date_strings($file) {
-    global $strings;
-  
-    if (preg_match('!(^|/)locale.module$!', $file)) {
-      for ($i = 1; $i <= 12; $i++) {
-        $stamp = mktime(0, 0, 0, $i, 1, 1971);
-        $strings[date("F", $stamp)][$file][] = 0;
-        $strings[date("M", $stamp)][$file][] = 0;
-      }
+}
 
-      for ($i = 0; $i <= 7; $i++) {
-        $stamp = $i * 86400;
-        $strings[date("D", $stamp)][$file][] = 0;
-        $strings[date("l", $stamp)][$file][] = 0;
-      }
-    }
-  }
-  
-  // Add format_interval special strings if common.inc is parsed
-  function add_format_interval_strings($file) {
-    global $strings;
-  
-    if (preg_match('!(^|/)common.inc$!', $file)) {
-      $components = array(
-        '1 year' => '%count years',
-        '1 week' => '%count weeks',
-        '1 day'  => '%count days',
-        '1 hour' => '%count hours',
-        '1 min'  => '%count min',
-        '1 sec'  => '%count sec');
-      
-      foreach($components as $singular => $plural) {
-        $strings[$singular."\0".$plural][$file][] = 0;
-      }
-    }
-  }
-  
-  return;
+writeFiles();
 
-  // These are never executed, you can run extractor.php on itself to test it
-  $a = ts("Test string 1" );
-  //$b = ts("Test string 2 %string", array("%string" => "how do you do"));
-  $c = ts('Test string 3');
-  $d = ts("Special\ncharacters");
-  $e = ts('Special\ncharacters');
-  //$f = ts("Embedded $variable");
-  $g = ts('Embedded $variable');
-  $h = ts("more \$special characters");
-  $i = ts('even more \$special characters');
-  $j = ts("Mixed 'quote' \"marks\"");
-  $k = ts('Mixed "quote" \'marks\'');
-  $l = ts('This is some repeating text');
-  $m = ts("This is some repeating text");
-  //$n = ts(embedded_function_call());
-  $o = format_plural($days, "one day", "%count days");
-  $p = format_plural(embedded_function_call($count), "one day", "%count days");
+return;
 
-  $s1 = ts('Shot’s test with a %1 variable, and %2 another one', array(1 => 'one', 2 => 'two'));
-  $s2 = ts('%3 – Shot’s plural test, %count frog', array('count' => 7, "plural" => 'Shot’s plural test, %count frogs', 3 => 'three'));
-  //$s3 = ts('Shot’s test – no count', array('plural' => 'No count here'));
-  //$s4 = ts('Shot’s test – no plural', array('count' => 42));
-  
-  function embedded_function_call() { return 12; }
-  
-  function extractor_perm() {
-    return array("access extrator data", 'administer extractor data');
-  }
-  
-  function extractor_help($section = 'default') {
-    watchdog('help', ts('Help called'));
-    return ts('This is some help');
-  }
-  
-  function extractor_node_types() {
-    return array("extractor-cooltype", "extractor-evencooler");
-  }
-  
+
+
+// These are never executed, you can run extractor.php on itself to test it
+// $b, $f, $n, $s3 and $s4 should break
+$a = ts("Test string 1" );
+//$b = ts("Test string 2 %string", array("%string" => "how do you do"));
+$c = ts('Test string 3');
+$d = ts("Special\ncharacters");
+$e = ts('Special\ncharacters');
+//$f = ts("Embedded $variable");
+$g = ts('Embedded $variable');
+$h = ts("more \$special characters");
+$i = ts('even more \$special characters');
+$j = ts("Mixed 'quote' \"marks\"");
+$k = ts('Mixed "quote" \'marks\'');
+$l = ts('This is some repeating text');
+$m = ts("This is some repeating text");
+function embedded_function_call() { return 12; }
+//$n = ts(embedded_function_call());
+$s1 = ts('Shot’s test with a %1 variable, and %2 another one', array(1 => 'one', 2 => 'two'));
+$s2 = ts('%3 – Shot’s plural test, %count frog', array('count' => 7, "plural" => 'Shot’s plural test, %count frogs', 3 => 'three'));
+//$s3 = ts('Shot’s test – no count', array('plural' => 'No count here'));
+//$s4 = ts('Shot’s test – no plural', array('count' => 42));
+
 ?>
