@@ -96,7 +96,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
 
         $strFrom = " FROM crm_contact 
-                        LEFT JOIN crm_location ON crm_contact.id = crm_location.contact_id
+                        LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
                         LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
                         LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
                         LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
@@ -183,7 +183,26 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // check for last name, as of now only working with sort name
         if ($fv['sort_name']) {
-            $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%". strtolower(addslashes($fv['sort_name'])) ."%'";
+            $name = trim($fv['sort_name']);
+            // if we have a comma in the string, search for the entire string
+            if ( strpos( $name, ',' ) !== false ) {
+                $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%'";
+            } else {
+                // split the string into pieces
+                $pieces =  explode( ' ', $name );
+                $first = true;
+                $cond  = ' ( ';
+                foreach ( $pieces as $piece ) {
+                    if ( ! $first ) {
+                        $cond .= ' OR';
+                    } else {
+                        $first = false;
+                    }
+                    $cond .= " LOWER(crm_contact.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%'";
+                }
+                $cond .= ' ) ';
+                $andArray['sort_name'] = $cond;
+            }
         }
 
         if ( $includeContactIds ) {
@@ -332,11 +351,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $lastName  = CRM_Utils_Array::value('last_name', $params, '');
             // a comma should only be present if both first_name and last name are present.            
             if ($firstName && $lastName) {
-                $sortName = "$lastName $firstName";
+                $sortName = "$lastName, $firstName";
             } else {
                 $sortName = $lastName . $firstName;
             }
-            $contact->sort_name = $sortName;
+            $contact->sort_name = trim($sortName);
         } else if ($contact->contact_type == 'Household') {
             $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
         } else {

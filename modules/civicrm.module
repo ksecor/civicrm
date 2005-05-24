@@ -398,7 +398,7 @@ static $_civicrmSession;
  */
 function civicrm_init() 
 {
-    if ( arg(0) != 'civicrm' && arg(0) != 'admin' ) {
+    if ( arg(0) != 'civicrm' && arg(0) != 'admin' && arg(0) != 'user' ) {
         return;
     }
 

@@ -53,6 +53,22 @@ class CRM_Contact_Form_Task_RemoveFromGroup extends CRM_Contact_Form_Task {
     }
 
     /**
+     * Set the default form values
+     *
+     * @access protected
+     * @return array the default array reference
+     */
+    function &setDefaultValues() {
+        $defaults = array();
+
+        if ( $this->get( 'context' ) === 'smog' ) {
+            $defaults['group_id'] = $this->get( 'gid' );
+        }
+        return $defaults;
+    }
+
+
+    /**
      * process the form after the input has been submitted and validated
      *
      * @access public
