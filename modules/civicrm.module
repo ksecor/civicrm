@@ -514,7 +514,7 @@ function civicrm_invoke()
     }
   
     // Default landing page is basic search (mostly for CiviCRM link in breadcrumb)
-    drupal_goto( CRM_System::url( 'civicrm/contact/search', 'force=1' ) );
+    drupal_goto( CRM_Utils_System::url( 'civicrm/contact/search', 'force=1' ) );
 }
 
 function civicrm_contact_invoke() 
