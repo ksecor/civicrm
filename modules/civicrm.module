@@ -390,6 +390,8 @@ function civicrm_hack_path( $path, $qs ) {
     }
 }
 
+static $_civicrmSession;
+
 /**
  * implementation of hook_init
  *
@@ -512,7 +514,7 @@ function civicrm_invoke()
     }
   
     // Default landing page is basic search (mostly for CiviCRM link in breadcrumb)
-    drupal_goto( 'civicrm/contact/search' );
+    drupal_goto( CRM_System::url( 'civicrm/contact/search', 'force=1' ) );
 }
 
 function civicrm_contact_invoke() 
@@ -528,7 +530,8 @@ function civicrm_contact_invoke()
 
     // edit contact
     if (arg(2) == 'edit') {
-        return civicrm_form( CRM_Core_Form::MODE_UPDATE );
+        $c = civicrm_form( CRM_Core_Form::MODE_UPDATE );
+        return $c;
     }
  
     // view contact

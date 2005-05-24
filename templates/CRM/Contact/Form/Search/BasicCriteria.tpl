@@ -22,7 +22,11 @@
         </span>
      </div>
      <p>
+{if $context EQ 'amtg'}
+     <span class="element-right"><a href="{crmURL p='civicrm/contact/search/advanced' q="context=amtg&amtgID=`$group.id`&reset=1"}">&raquo; Advanced Search</a></span>
+{else}
      <span class="element-right"><a href="{crmURL p='civicrm/contact/search/advanced'}">&raquo; Advanced Search</a></span>
+{/if}
      </p>
  </div>
 </fieldset>

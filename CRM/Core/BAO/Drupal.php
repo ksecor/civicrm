@@ -32,6 +32,7 @@
  */
 
 require_once 'api/crm.php';
+require_once 'CRM/Core/Session.php';
 
 /**
  * The basic class that interfaces with Drupal CMS.
@@ -50,7 +51,10 @@ class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
      * @static
      */
     static function synchronize( &$user, $update = false ) {
-        $session =& CRM_Core_Session::singleton( );
+        $session = CRM_Core_Session::singleton( );
+        if ( ! is_object( $session ) ) {
+            return;
+        }
         // have we already processed this user, if so early
         // return
         if ( ! $update && $session->get( 'userID' ) ) {

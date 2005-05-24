@@ -261,7 +261,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         $defaults['sort_name'] = $this->_formValues['sort_name'];
         foreach (self::$csv as $v) {
-            $defaults[$v] = $this->_formValues['cb_' . $v] ? key($this->_formValues['cb_' . $v]) : '';
+            if ( is_array( $this->_formValues['cb_' . $v] ) ) {
+                $defaults[$v] = array_pop( array_keys( $this->_formValues['cb_' . $v] ) );
+            } else {
+                $defaults[$v] = '';
+            }
         }
 
         if ( $this->_context === 'amtg' ) {
@@ -382,7 +386,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         $this->normalizeFormValues( );
-
         $this->postProcessCommon( );
     }
 
