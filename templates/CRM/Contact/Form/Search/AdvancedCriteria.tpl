@@ -10,10 +10,10 @@
 	<table class="form-layout">
 		<tr>
             <td class="font-size12pt">{$form.sort_name.label}</td>
-            <td>{$form.sort_name.html}<br />
-                <span class="description font-italic">
-                    Full or partial name
-                </span>
+            <td>{$form.sort_name.html}
+                <div class="description font-italic">
+                  {ts}Complete OR partial contact name.{/ts}
+                </div>
             </td>
             <td class="label">{$form.buttons.html}</td>       
         </tr>

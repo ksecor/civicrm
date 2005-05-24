@@ -13,12 +13,13 @@
  </div>
  <div class="form-item">
      <span class="horizontal-position">
-     {$form.sort_name.label}{$form.sort_name.html}
+     {$form.sort_name.label} &nbsp;{$form.sort_name.html}
      </span>
      <span class="element-right">{$form._qf_Search_refresh_search.html}</span>
      <div class="description font-italic">
         <span class="horizontal-position">
-        {ts}Full or partial name (last name, or first name, or organization name).{/ts}
+        {ts}Complete OR partial contact name. To find individuals by first AND last name, enter
+        'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
         </span>
      </div>
      <p>
