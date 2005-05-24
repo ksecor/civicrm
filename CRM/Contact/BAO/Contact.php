@@ -433,6 +433,17 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         return $contact;
     }
 
+    /**
+     *
+     * Get the values for pseudoconstants for name->value and reverse.
+     *
+     * @param array $defaults (reference).
+     * @param boolean $reverse (default false).
+     *
+     * @return none
+     * @access public
+     * @static
+     */
     static function resolveDefaults( &$defaults, $reverse = false ) {
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];

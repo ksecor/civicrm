@@ -33,6 +33,14 @@
 
 require_once 'CRM/Core/Page.php';
 
+/**
+ * Create a page for displaying Custom Groups.
+ *
+ * Heart of this class is the run method which checks
+ * for action type and then displays the appropriate
+ * page.
+ *
+ */
 class CRM_Custom_Page_Group extends CRM_Core_Page {
 
     /**
@@ -42,8 +50,17 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
      */
     private static $_actionLinks;
 
+
+    /*
+     * Get the action links for this page.
+     *
+     * @param none
+     * @return array $_actionLinks
+     *
+     */
     function &actionLinks()
     {
+        // check if variable _actionsLinks is populated
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data group?');
@@ -82,7 +99,8 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
      * Run the page.
      *
      * This method is called after the page is created. It checks for the  
-     * type of action and executes that action. 
+     * type of action and executes that action.
+     * Finally it calls the parent's run method.
      *
      * @param none
      * @return none
@@ -102,14 +120,17 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $this->edit($id, $action) ;
         } else {
+            // if action is enable or disable to the needful.
             if ($action & CRM_Core_Action::DISABLE) {
                 CRM_Core_BAO_CustomGroup::setIsActive($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
                 CRM_Core_BAO_CustomGroup::setIsActive($id, 1);
             }
+
+            // finally browse the custom groups
             $this->browse();
         }
-        // Call the parents run method
+        // parent run 
         parent::run();
     }
 
@@ -117,8 +138,8 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
     /**
      * edit custom group
      *
+     * @param int $id custom group id
      * @param string $action the action to be invoked
-
      * @return none
      * @access public
      */
@@ -148,6 +169,8 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
     function browse($action=null)
     {
         CRM_Utils_System::setTitle("Custom Groups");
+        
+        // get all custom groups sorted by weight
         $customGroup = array();
         $customGroupBAO = new CRM_Core_BAO_CustomGroup();
         $customGroupBAO->orderBy('weight');
@@ -156,13 +179,16 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         while ($customGroupBAO->fetch()) {
             $customGroup[$customGroupBAO->id] = array();
             $customGroupBAO->storeValues($customGroup[$customGroupBAO->id]);
-
+            // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
+            
+            // update enable/disable links depending on custom_group properties.
             if ($customGroupBAO->is_active) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
+            
             $customGroup[$customGroupBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('id' => $customGroupBAO->id));
         }

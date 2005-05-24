@@ -33,12 +33,21 @@
 
 require_once 'CRM/Core/Page.php';
 
+/**
+ * Create a page for displaying Custom Fields.
+ *
+ * Heart of this class is the run method which checks
+ * for action type and then displays the appropriate
+ * page.
+ *
+ */
 class CRM_Custom_Page_Field extends CRM_Core_Page {
     
     /**
      * The group id of the field
      *
      * @var int
+     * @access protected
      */
     protected $_gid;
 
@@ -46,10 +55,18 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      * The action links that we need to display for the browse screen
      *
      * @var array
+     * @access private
      */
     private static $_actionLinks;
 
 
+    /*
+     * Get the action links for this page.
+     *
+     * @param none
+     * @return array $_actionLinks
+     *
+     */
     function &actionLinks()
     {
         if (!isset(self::$_actionLinks)) {
@@ -87,7 +104,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
     }
 
     /**
-     * Browse all custom data.
+     * Browse all custom group fields.
      *
      * @param none
      * @return none
@@ -179,13 +196,15 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
-            $this->edit($action);
-        } else if ($action & CRM_Core_Action::DISABLE) {
-            CRM_Core_BAO_CustomField::setIsActive($id, 0);
-        } else if ($action & CRM_Core_Action::ENABLE) {
-            CRM_Core_BAO_CustomField::setIsActive($id, 1);
-        } 
-        $this->browse();
+            $this->edit($action);   // no browse for edit/update/view
+        } else {
+            if ($action & CRM_Core_Action::DISABLE) {
+                CRM_Core_BAO_CustomField::setIsActive($id, 0);
+            } else if ($action & CRM_Core_Action::ENABLE) {
+                CRM_Core_BAO_CustomField::setIsActive($id, 1);
+            } 
+            $this->browse();
+        }
 
         // Call the parents run method
         parent::run();

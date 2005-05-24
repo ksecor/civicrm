@@ -41,6 +41,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * the custom group id saved to the session for an update
      *
      * @var int
+     * @access protected
      */
     protected $_gid;
 
@@ -48,6 +49,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * The field id, used when editing the field
      *
      * @var int
+     * @access protected
      */
     protected $_id;
 
@@ -72,6 +74,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     /**
      * Function to set variables up before form is built
      *
+     * @param none
      * @return void
      * @access public
      */
@@ -82,9 +85,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     }
 
     /**
-    * This function sets the default values for the form. Note that in edit/view mode
+     * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
      * 
+     * @param none
      * @access public
      * @return None
      */
@@ -105,12 +109,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     /**
      * Function to actually build the form
      *
+     * @param none
      * @return None
      * @access public
      */
     public function buildQuickForm()
     {
-        
+
+        // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
 
         // label
@@ -123,7 +129,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         if ($this->_mode == CRM_Core_Form::MODE_UPDATE) { 
             $dataHTMLElement->freeze();
         }
-
 
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'), true);
@@ -165,6 +170,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     /**
      * Process the form
      *
+     * @param none
      * @return void
      * @access public
      */
@@ -173,23 +179,16 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
 
-        // set values for object properties
+        // set values for custom field properties and save
         $customField                = new CRM_Core_DAO_CustomField();
-
         $customField->label         = $params['label'];
         $customField->name          = CRM_Utils_String::titleToVar($params['label']);
-
         $customField->data_type     = self::$_dataType[$params['data_type'][0]];
         $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
-
         $customField->weight        = $params['weight'];
-
         $customField->default_value = $params['default_value'];
-
         $customField->help_post     = $params['help_post'];
-
         $customField->mask          = $params['mask'];
-
         $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
         $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
 
@@ -197,6 +196,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $customField->id = $this->_id;
         }
 
+        // need the FKEY - custom group id
         $customField->custom_group_id = $this->_gid;
         $customField->save();
         

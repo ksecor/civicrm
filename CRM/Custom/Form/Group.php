@@ -34,7 +34,7 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * form to process actions on the group aspect of Custom
+ * form to process actions on the group aspect of Custom Data
  */
 class CRM_Custom_Form_Group extends CRM_Core_Form {
 
@@ -42,18 +42,23 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * the group id saved to the session for an update
      *
      * @var int
+     * @access protected
      */
     protected $_id;
 
     /**
      * Function to set variables up before form is built
      *
+     * @param none
      * @return void
      * @access public
      */
     public function preProcess()
     {
+        // current group id
         $this->_id = $this->get('id');
+
+        // setting title for html page
         if ($this->_mode == CRM_Core_Form::MODE_UPDATE) {
             $groupTitle = CRM_Core_BAO_CustomGroup::getTitle($this->_id);
             CRM_Utils_System::setTitle("Edit $groupTitle");
@@ -66,6 +71,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * Function to actually build the form
      *
      * @return None
+     * @return none
      * @access public
      */
     public function buildQuickForm()
@@ -85,12 +91,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $extendsElement->freeze();
         }
 
-        // how do we want to display this custom data group ?
-        //$this->add('select', 'style',   ts('Display Style'), CRM_Core_SelectValues::$customGroupStyle);
-
         // help text
         $this->add('textarea', 'help_pre',  ts('Form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
-        //$this->add('textarea', 'help_post', ts('Help Post'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post'));
 
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
@@ -107,6 +109,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                                         'name'      => ts('Cancel') ),
                                 )
                           );
+
+        // views are implemented as frozen form
         if ($this->_mode & self::MODE_VIEW) {
             $this->freeze();
             $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group?reset=1&action=browse'"));
@@ -117,6 +121,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
      *
+     * @param none
      * @access public
      * @return None
      */
@@ -135,13 +140,16 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     /**
      * Process the form
      *
+     * @param none
      * @return void
      * @access public
      */
     public function postProcess()
     {
+        // get the submitted form values.
         $params = $this->controller->exportValues('Group');
 
+        // create custom group dao, populate fields and then save.
         $group = new CRM_Core_DAO_CustomGroup();
         $group->title       = $params['title'];
         $group->name        = CRM_Utils_String::titleToVar($params['title']);
