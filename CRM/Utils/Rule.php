@@ -174,7 +174,19 @@ class CRM_Utils_Rule {
         return false;
     }
 
-
+    /**
+     * Check if there is a record with the same name in the db
+     *
+     * @param string $value     the value of the field we are checking
+     * @param array  $options   the daoName and fieldName (optional )
+     *
+     * @return boolean     true if object exists
+     * @access public
+     * @static
+     */
+    static function objectExists( $value, $options ) {
+        return CRM_Core_DAO::objectExists( $value, $options[0], CRM_Utils_Array::value( 1, $options, 'name' ) );
+    }
 }
 
 ?>

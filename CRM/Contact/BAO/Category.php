@@ -142,8 +142,6 @@ class CRM_Contact_BAO_Category extends CRM_Contact_DAO_Category {
         
         return false;
     }
-
-    
 }
 
 ?>

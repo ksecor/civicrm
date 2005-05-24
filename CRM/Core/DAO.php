@@ -380,6 +380,25 @@ class CRM_Core_DAO extends DB_DataObject {
         }
         self::$_singleton->query( $type );
     }
+
+    /**
+     * Check if there is a record with the same name in the db
+     *
+     * @param string $value     the value of the field we are checking
+     * @param string $daoName   the dao object name
+     * @param string $fieldName the name of the field in the DAO
+     *
+     * @return boolean     true if object exists
+     * @access public
+     * @static
+     */
+    static function objectExists( $value, $daoName, $fieldName = 'name' ) {
+        eval( '$object = new ' . $daoName . '( );' );
+
+        $object->$fieldName = $value;
+        return $object->find( true ) ? false : true;
+    }
+
 }
 
 ?>
