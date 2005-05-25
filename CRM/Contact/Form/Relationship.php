@@ -45,6 +45,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      * max number of contacts we will display for a relationship
      */
     const MAX_RELATIONSHIPS = 50;
+          
 
     /**
      * The relationship id, used when editing the relationship

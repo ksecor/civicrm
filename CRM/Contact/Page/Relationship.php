@@ -35,7 +35,14 @@
 require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_Relationship {
-
+    /**
+     * The action links that we need to display for the browse screen
+     *
+     * @var array
+     * @static
+     */
+    static $_links;
+    
     /**
      * View details of a relationship
      *
@@ -52,7 +59,6 @@ class CRM_Contact_Page_Relationship {
         $contactId = $page->getContactId( );
         $viewRelationship = CRM_Contact_BAO_Relationship::getRelationship( $contactId, null, null, null, $relationshipId );
         $page->assign( 'viewRelationship', $viewRelationship );
-       
     }
 
    /**
@@ -66,10 +72,20 @@ class CRM_Contact_Page_Relationship {
      */
     static function browse( $page ) {
         $contactId = $page->getContactId( );
-        
-        $currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($contactId,  3);
-        $pastRelationships    = CRM_Contact_BAO_Relationship::getRelationship( $contactId, 1 );
-        $disableRelationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId, 2 );
+
+        $links =& self::links( );
+        $currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($contactId,
+                                                                              CRM_Contact_BAO_Relationship::CURRENT  ,
+                                                                              0, 0, 0,
+                                                                              $links );
+        $pastRelationships    = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
+                                                                               CRM_Contact_BAO_Relationship::PAST     ,
+                                                                               0, 0, 0,
+                                                                               $links );
+        $disableRelationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId,
+                                                                               CRM_Contact_BAO_Relationship::DISABLED ,
+                                                                               0, 0, 0,
+                                                                               $links );
         
         $page->assign( 'currentRelationships', $currentRelationships );
         $page->assign( 'pastRelationships'   , $pastRelationships );
@@ -154,6 +170,56 @@ class CRM_Contact_Page_Relationship {
         CRM_Contact_BAO_Relationship::del($relationshipId);
     }
 
+    /**
+     * Get action Links
+     *
+     * @param none
+     * @return array (reference) of action links
+     * @static
+     */
+    static function &links()
+    {
+        if ( ! isset( self::$_links ) )
+        {
+            $deleteExtra = ts('Are you sure you want to delete this relationship?');
+
+            self::$_links = array(
+                                  CRM_Core_Action::VIEW    => array(
+                                                                    'name'  => ts('View'),
+                                                                    'url'   => 'civicrm/contact/view/rel',
+                                                                    'qs'    => 'action=view&rid=%%rid%%&rtype=%%rtype%%',
+                                                                    'title' => ts('View Relationship')
+                                                                    ),
+                                  CRM_Core_Action::UPDATE  => array(
+                                                                    'name'  => ts('Edit'),
+                                                                    'url'   => 'civicrm/contact/view/rel',
+                                                                    'qs'    => 'action=update&rid=%%rid%%&rtype=%%rtype%%',
+                                                                    'title' => ts('Edit Relationship')
+                                                                    ),
+                                  CRM_Core_Action::ENABLE  => array(
+                                                                    'name'  => ts('Enable'),
+                                                                    'url'   => 'civicrm/contact/view/rel',
+                                                                    'qs'    => 'action=enable&rid=%%rid%%&rtype=%%rtype%%',
+                                                                    'title' => ts('Enable Relationship')
+                                                                    ),
+                                  CRM_Core_Action::DISABLE => array(
+                                                                    'name'  => ts('Disable'),
+                                                                    'url'   => 'civicrm/contact/view/rel',
+                                                                    'qs'    => 'action=disable&rid=%%rid%%&rtype=%%rtype%%',
+                                                                    'title' => ts('Disable Relationship')
+                                                                    ),
+                                  CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/contact/view/rel',
+                                                                    'qs'    => 'action=delete&rid=%%rid%%&rtype=%%rtype%%',
+                                                                    'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
+                                                                    'title' => ts('Delete Relationship')
+                                                                    ),
+                                  );
+        }
+        return self::$_links;
+    }
+                                  
 }
 
 ?>

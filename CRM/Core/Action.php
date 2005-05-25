@@ -181,9 +181,9 @@ class CRM_Core_Action {
      * @access public
      * @static
      */
-    static function formLink( $links, $mask, $values ) {
+    static function formLink( &$links, $mask, $values ) {
         $url = array( );
-        foreach ( $links as $m => &$link ) {
+        foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
                 $url[] = sprintf('<a href="%s" '.$link['extra'].'>%s</a>',
                                  CRM_Utils_System::url( $link['url'],

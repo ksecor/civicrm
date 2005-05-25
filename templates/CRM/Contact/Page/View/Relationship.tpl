@@ -37,7 +37,7 @@
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
             <td>{$rel.phone}</td>
-            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=disable"}" onclick = 'return confirm("Are you sure you want to disable {$rel.relation|escape:"htmlall"} relationship with {$rel.name|escape:"htmlall"}?");'> Disable</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation|escape:"htmlall"} relationship with {$rel.name|escape:"htmlall"}?");'> Delete</a> </td>
+            <td class="nowrap">{$rel.action}</td>
           </tr>
         {/foreach}
         </table>
@@ -104,7 +104,7 @@
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
             <td>{$rel.end_date}</td>
-            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation|escape:"htmlall"} relationship with {$rel.name|escape:"htmlall"}?");'> Delete</a> </td>
+            <td class="nowrap">{$rel.action}</td>
           </tr>
         {/foreach}
         </table>
@@ -147,7 +147,7 @@
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
             <td>{$rel.phone}</td>
-            <td class="nowrap"><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=view&rtype=$rtype"}">View</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=$rtype"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=enable"}" onclick = 'return confirm("Are you sure you want to enable {$rel.relation|escape:"htmlall"} relationship with {$rel.name|escape:"htmlall"}?");'> Enable</a> | <a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete {$rel.relation|escape:"htmlall"} relationship with {$rel.name|escape:"htmlall"}?");'> Delete</a> </td>
+            <td class="nowrap">{$rel.action}</td>
           </tr>
         {/foreach}
         </table>
