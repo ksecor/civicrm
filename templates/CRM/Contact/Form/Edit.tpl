@@ -138,7 +138,7 @@
  {******************************** ENDING THE DEMOGRAPHICS SECTION **************************************}
 
  {* Notes block only included for Add Contact (since it navigates from Edit form...) *}
- {if $mode eq 1}
+ {if $action eq 1}
      <div id = "notes[show]" class="data-group">
         {$notes.show}<label>Notes</label>
      </div>

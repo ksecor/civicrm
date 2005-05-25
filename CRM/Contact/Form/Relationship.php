@@ -85,7 +85,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $defaults = array( );
         $params   = array( );
 
-        if ( $this->_mode & self::MODE_UPDATE ) {
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $relationship = new CRM_Contact_DAO_Relationship( );
 
             $relationship->id = $this->_relationshipId;
@@ -198,7 +198,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         // action is taken depending upon the mode
         $ids = array( );
         $ids['contact'] = $this->_contactId;
-        if ($this->_mode & self::MODE_UPDATE ) {
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['relationship'] = $this->_relationshipId;
         }    
         

@@ -18,14 +18,14 @@
    <div>
      {* Hide export and print buttons in 'Add Members to Group' context. *}
      {if $context NEQ 'amtg'}
-        {if $mode eq 64}
+        {if $action eq 64}
           {$form._qf_Advanced_next_print.html} &nbsp; {$form._qf_Advanced_refresh_export.html} &nbsp; &nbsp; &nbsp;
         {else}
           {$form._qf_Search_next_print.html} &nbsp; {$form._qf_Search_refresh_export.html} &nbsp; &nbsp; &nbsp;
         {/if}
         {$form.task.html}
      {/if}
-     {if $mode eq 64}
+     {if $action eq 64}
        {$form._qf_Advanced_next_action.html}
      {else}
        {$form._qf_Search_next_action.html}

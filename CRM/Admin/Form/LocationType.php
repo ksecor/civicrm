@@ -81,7 +81,7 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
         $locationType->description  = $params['description'];
         $locationType->is_active    = $params['is_active'];
 
-        if ($this->_mode & self::MODE_UPDATE ) {
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
             $locationType->id = $this->_id;
         }
 

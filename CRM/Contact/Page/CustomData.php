@@ -58,15 +58,7 @@ class CRM_Contact_Page_CustomData {
 
         $controller = null;
 
-        // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE)) {
-            // both update and add are handled by 'edit'
-            $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', CRM_Core_Form::MODE_UPDATE);
-        } else {
-            $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', CRM_Core_Form::MODE_VIEW);
-        }
-
-        // create a simple controller for custom data
+        $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $action);
         $controller->setEmbedded(true);
 
         // set the userContext stack

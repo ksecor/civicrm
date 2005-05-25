@@ -186,7 +186,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         if ( $this->_context === 'smog' ) {
             // need to figure out how to freeze a bunch of checkboxes, hack for now
-            if ( $this->_mode != self::MODE_ADVANCED ) {
+            if ( $this->_action != CRM_Core_Action::ADVANCED ) {
                 $this->_groupElement->freeze( );
             }
             
@@ -372,7 +372,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->assign( 'context', $this->_context );
         
         $fv = $this->controller->exportValues($this->_name);
-        $selector = new CRM_Contact_Selector($fv, $this->_mode);
+        $selector = new CRM_Contact_Selector($fv, $this->_action);
         $controller = new CRM_Core_Selector_Controller($selector ,
                                                        $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                        $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -467,7 +467,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->_done = true;
 
-        $this->set('type', $this->_mode );
+        $this->set('type', $this->_action );
         $this->set('formValues', $this->_formValues );
 
         $buttonName = $this->controller->getButtonName( );
@@ -483,7 +483,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
 
             // create the selector, controller and run - store results in session
-            $selector = new CRM_Contact_Selector($this->_formValues, $this->_mode);
+            $selector = new CRM_Contact_Selector($this->_formValues, $this->_action);
             $controller = new CRM_Core_Selector_Controller($selector ,
                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),

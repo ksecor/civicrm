@@ -77,7 +77,7 @@ class CRM_Admin_Form_MobileProvider extends CRM_Admin_Form
         $mobileProvider->is_active    = $params['is_active'];
         $mobileProvider->domain_id    = 1; // domain 1 for now
 
-        if ($this->_mode & self::MODE_UPDATE ) {
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
             $mobileProvider->id = $this->_id;
         }
 

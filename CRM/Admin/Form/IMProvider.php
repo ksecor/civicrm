@@ -77,7 +77,7 @@ class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
         $IMProvider->is_active    = $params['is_active'];
         $IMProvider->domain_id    = 1; // domain 1 for now
         
-        if ($this->_mode & self::MODE_UPDATE ) {
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
             $IMProvider->id = $this->_id;
         }
 

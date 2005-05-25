@@ -38,8 +38,8 @@ class CRM_Group_StateMachine extends CRM_Core_StateMachine {
     /**
      * class constructor
      */
-    function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
-        parent::__construct( $controller, $mode );
+    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
+        parent::__construct( $controller, $action );
         
         $this->_pages = array(
                               'CRM_Group_Form_Edit',
@@ -48,7 +48,7 @@ class CRM_Group_StateMachine extends CRM_Core_StateMachine {
                               'CRM_Contact_Form_Task_Result',
                               );
 
-        $this->addSequentialPages( $this->_pages, $mode );
+        $this->addSequentialPages( $this->_pages, $action );
     }
 
 }

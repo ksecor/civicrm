@@ -38,11 +38,11 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
     /**
      * class constructor
      */
-    function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
-        parent::__construct( $controller, $mode );
+    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
+        parent::__construct( $controller, $action );
 
         $this->_pages = array( );
-        if ( $mode == CRM_Core_Form::MODE_ADVANCED ) {
+        if ( $action == CRM_Core_Action::ADVANCED ) {
             $this->_pages[] = 'CRM_Contact_Form_Search_Advanced';
             list( $task, $result ) = $this->taskName( $controller, 'Advanced' );
         } else {
@@ -55,7 +55,7 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             $this->_pages[] = 'CRM_Contact_Form_Task_Result';
         }
 
-        $this->addSequentialPages( $this->_pages, $mode );
+        $this->addSequentialPages( $this->_pages, $action );
     }
 
     /**

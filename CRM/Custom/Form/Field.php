@@ -126,7 +126,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         // data type, html type
         $dataHTMLElement = $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'));
         $dataHTMLElement->setOptions(array(self::$_dataType, self::$_dataToHTML));
-        if ($this->_mode == CRM_Core_Form::MODE_UPDATE) { 
+        if ($this->_action == CRM_Core_Action::UPDATE) { 
             $dataHTMLElement->freeze();
         }
 
@@ -160,7 +160,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                           );
 
         // if view mode pls freeze it with the done button.
-        if ($this->_mode & self::MODE_VIEW) {
+        if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
             $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
         }
@@ -192,7 +192,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
         $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
 
-        if ($this->_mode & self::MODE_UPDATE) {
+        if ($this->_action & CRM_Core_Action::UPDATE) {
             $customField->id = $this->_id;
         }
 

@@ -68,7 +68,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
 
         // get the submitted values of the search form
         // we'll need to get fv from either search or adv search in the future
-        if ( $this->_mode == CRM_Core_Form::MODE_ADVANCED ) {
+        if ( $this->_action == CRM_Core_Action::ADVANCED ) {
             $values = $this->controller->exportValues( 'Advanced' );
         } else {
             $values = $this->controller->exportValues( 'Search' );
@@ -101,7 +101,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
     }
 
     /**
-     * This function sets the default values for the form. Relationship that in edit/view mode
+     * This function sets the default values for the form. Relationship that in edit/view action
      * the default values are retrieved from the database
      * 
      * @access public

@@ -225,22 +225,22 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      * add pages to the controller. Note that the controller does not really care
      * the order in which the pages are added
      *
-     * @param object stateMachine  the state machine object
-     * @param int    mode          the mode in which the state machine is operating
-     *                             typicaly this will be add/view/edit
+     * @param object $stateMachine  the state machine object
+     * @param int    $action        the mode in which the state machine is operating
+     *                              typicaly this will be add/view/edit
      *
      * @return void
      * @access public
      *
      */
-    function addPages( $stateMachine, $mode = CRM_Core_Form::MODE_NONE ) {
+    function addPages( $stateMachine, $action = CRM_Core_Action::NONE ) {
         $pages = $stateMachine->getPages( );
 
         foreach ( $pages as $classPath ) {
             $stateName   = CRM_Utils_String::getClassName($classPath);
 
             $$stateName = new $classPath( $stateMachine->find( $classPath ),
-                                          $mode );
+                                          $action );
             $this->addPage( $$stateName );
             $this->addAction( $stateName, new HTML_QuickForm_Action_Direct( ) );
         }

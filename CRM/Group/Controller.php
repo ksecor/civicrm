@@ -38,16 +38,16 @@ class CRM_Group_Controller extends CRM_Core_Controller {
     /**
      * class constructor
      */
-    function __construct( $title = null, $mode = CRM_Core_Form::MODE_NONE, $modal = true ) {
+    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
         parent::__construct( $title, $modal );
 
-        $this->_stateMachine = new CRM_Group_StateMachine( $this, $mode );
+        $this->_stateMachine = new CRM_Group_StateMachine( $this, $action );
 
         // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $mode );
+        $this->addPages( $this->_stateMachine, $action );
 
         // hack for now, set Search to Basic mode
-        $this->_pages['Search']->setMode( CRM_Core_Form::MODE_BASIC );
+        $this->_pages['Search']->setMode( CRM_Core_Action::BASIC );
 
         // add all the actions
         $config = CRM_Core_Config::singleton( );

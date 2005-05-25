@@ -49,12 +49,12 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
         $this->controller->setPrint( true );
 
         // create the selector, controller and run - store results in session
-        if ( $this->_mode == CRM_Core_Form::MODE_BASIC ) {
+        if ( $this->_action == CRM_Core_Action::BASIC ) {
             $fv = $this->controller->exportValues('Search');
         } else {
             $fv = $this->controller->exportValues('Advanced');
         }
-        $selector = new CRM_Contact_Selector($fv, $this->_mode);
+        $selector = new CRM_Contact_Selector($fv, $this->_action);
         $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
         $controller->setEmbedded( true );
         $controller->run();

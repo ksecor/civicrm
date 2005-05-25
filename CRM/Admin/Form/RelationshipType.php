@@ -67,7 +67,7 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
 
         parent::buildQuickForm( );
 
-        if ( $this->_mode & self::MODE_VIEW ) {
+        if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
             $this->addElement('button', 'done', 'Done', array('onClick' => "location.href='civicrm/admin/reltype?reset=1&action=browse'"));
         }
@@ -90,7 +90,7 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
         $params = $this->exportValues();
         $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
         
-        if ($this->_mode & self::MODE_UPDATE ) {
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['relationshipType'] = $this->_id;
         }    
         

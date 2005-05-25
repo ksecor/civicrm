@@ -63,7 +63,7 @@ class CRM_Core_StateMachine {
      * the mode that the state machine is operating in
      * @var int
      */
-    protected $_mode = null;
+    protected $_action = null;
 
     /**
      * The display name for this machine
@@ -79,9 +79,9 @@ class CRM_Core_StateMachine {
      * @return object
      * @access public
      */
-    function __construct( &$controller, $mode = CRM_Core_Form::MODE_NONE ) {
+    function __construct( &$controller, $action = CRM_Core_Action::NONE ) {
         $this->_controller =& $controller;
-        $this->_mode       = $mode;
+        $this->_action     =  $action;
 
         $this->_states = array( );
     }
@@ -227,11 +227,11 @@ class CRM_Core_StateMachine {
      * of the top level array describes a state. Each state description
      * includes the name, the display name and the class name
      *
-     * @param int $mode mode of form operation.
+     * @param int $action mode of form operation.
      *
      * @return void
      */
-    function addSequentialPages(&$pages, $mode) {
+    function addSequentialPages(&$pages, $action) {
         $this->_pages =& $pages;
         $numPages = count( $pages );
         
@@ -276,13 +276,13 @@ class CRM_Core_StateMachine {
     }
 
     /**
-     * getter for mode
+     * getter for action
      *
      * @return int
      * @access public
      */
-    function getMode( ) {
-        return $this->_mode;
+    function getAction( ) {
+        return $this->_action;
     }
 
     /**

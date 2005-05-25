@@ -96,7 +96,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => ( $this->_mode == CRM_Core_Form::MODE_ADD ) ? 'Continue' : 'Save',
+                                         'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? 'Continue' : 'Save',
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
                                          'name'      => 'Cancel' ),
@@ -121,7 +121,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         $group->title        = $params['title'];
         $group->description  = $params['description'];
 
-        if ($this->_mode & self::MODE_UPDATE ) {
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
             $group->id = $this->_id;
         }
 
@@ -132,7 +132,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         /*
          * Add context to the session, in case we are adding members to the group
          */
-        if ($this->_mode & self::MODE_ADD ) {
+        if ($this->_action & CRM_Core_Action::ADD ) {
             $this->set( 'context', 'amtg' );
             $this->set( 'amtgID' , $group->id );
             

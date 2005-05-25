@@ -58,7 +58,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * The mode of operation for this form
      * @var int
      */
-    protected $_mode;
+    protected $_action;
 
     /**
      * the renderer used for this form
@@ -85,21 +85,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         ATTR_SPACING = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
     /**
-     * constants for various modes that the form can operate as
-     *
-     * @var const int
-     */
-    const
-        MODE_NONE                  =   0,
-        MODE_ADD                   =   1,
-        MODE_UPDATE                =   2,
-        MODE_VIEW                  =   4,
-        MODE_DELETE                =   8,
-        MODE_SEARCH                =  16,
-        MODE_BASIC                 =  32,
-        MODE_ADVANCED              =  64; 
-
-    /**
      * All checkboxes are defined with a common prefix. This allows us to
      * have the same javascript to check / clear all the checkboxes etc
      * If u have multiple groups of checkboxes, you will need to give them different
@@ -120,18 +105,18 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * of default convenient functions, rules and buttons
      *
      * @param object    $state     State associated with this form
-     * @param enum      $mode      The mode the form is operating in (None/Create/View/Update/Delete)
+     * @param enum      $action      The mode the form is operating in (None/Create/View/Update/Delete)
      * 
      * @return object
      * @access public
      */
 
-    function __construct($state = null, $mode = self::MODE_NONE ) {
+    function __construct($state = null, $action = CRM_Core_Action::NONE ) {
         $this->_name  = CRM_Utils_String::getClassName( get_class( $this ) );
         $this->HTML_QuickForm_Page( $this->_name );
 
-        $this->_state = $state;
-        $this->_mode  = $mode;
+        $this->_state   = $state;
+        $this->_action  = $action;
 
         $this->registerRules( );
 
@@ -484,25 +469,25 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
 
     /**
-     * getter for mode
+     * getter for action
      *
      * @return int
      * @access public
      */
-    function getMode( ) {
-        return $this->_mode;
+    function getAction( ) {
+        return $this->_action;
     }
 
     /**
-     * setter for mode
+     * setter for action
      *
-     * @param  int  $mode the mode we want to set the form
+     * @param  int  $action the mode we want to set the form
      *
      * @return void
      * @access public
      */
-    function setMode( $mode ) {
-        $this->_mode = $mode;
+    function setAction( $action ) {
+        $this->_action = $action;
     }
 
     /**

@@ -42,12 +42,13 @@ class CRM_Import_StateMachine extends CRM_Core_StateMachine {
     /**
      * class constructor
      *
-     * @param object CRM_Import_Controller
-     * @param int $mode
+     * @param object  CRM_Import_Controller
+     * @param int     $action
+     *
      * @return object CRM_Import_StateMachine
      */
-    function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
-        parent::__construct( $controller, $mode );
+    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
+        parent::__construct( $controller, $action );
         
         $this->_pages = array(
                               'CRM_Import_Form_UploadFile',
@@ -56,7 +57,7 @@ class CRM_Import_StateMachine extends CRM_Core_StateMachine {
                               'CRM_Import_Form_Summary'
                               );
         
-        $this->addSequentialPages( $this->_pages, $mode );
+        $this->addSequentialPages( $this->_pages, $action );
     }
 
 }

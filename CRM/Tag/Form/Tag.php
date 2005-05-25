@@ -82,7 +82,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         
         $this->assign('category', $allCategory);
 
-        if ( $this->_mode & CRM_Core_Action::BROWSE ) {
+        if ( $this->_action & CRM_Core_Action::BROWSE ) {
             $this->freeze();
         } else {
 
@@ -146,7 +146,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
             }
         }
         
-        if ( $this->_mode & self::MODE_UPDATE ) {
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             CRM_Core_Session::setStatus( 'Your update(s) have been saved.' );
         }
         

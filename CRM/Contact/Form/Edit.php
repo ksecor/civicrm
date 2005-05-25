@@ -87,7 +87,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      */
     function preProcess( ) {
-        if ( $this->_mode == self::MODE_ADD ) {
+        if ( $this->_action == CRM_Core_Action::ADD ) {
             $this->_contactType = CRM_Utils_Request::retrieve( 'c_type', $this, true, null, 'REQUEST' );
             $this->_contactId = null;
         } else {
@@ -123,7 +123,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $defaults = array( );
         $params   = array( );
 
-        if ( $this->_mode & self::MODE_ADD ) {
+        if ( $this->_action & CRM_Core_Action::ADD ) {
             if ( self::LOCATION_BLOCKS >= 1 ) {
                 // set the is_primary location for the first location
                 $defaults['location']    = array( );
@@ -178,13 +178,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
                                                         self::LOCATION_BLOCKS );
  
-        if ( $this->_mode & self::MODE_ADD ) {
+        if ( $this->_action & CRM_Core_Action::ADD ) {
         // notes are only included in the template for New Contact
             $this->_showHide->addShow( 'notes[show]' );
             $this->_showHide->addHide( 'notes' );
         }
 
-        if ( $this->_mode & self::MODE_UPDATE ) {
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             // is there any demographics data?
             if ( CRM_Utils_Array::value( 'gender'     , $defaults ) ||
                  CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
@@ -238,7 +238,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         /* End of locations */
         
         // add note block
-        if ($this->_mode == self::MODE_ADD) {
+        if ($this->_action & CRM_Core_Action::ADD) {
             $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
         }
 
@@ -272,7 +272,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         // action is taken depending upon the mode
         $ids = array();
-        if ($this->_mode & self::MODE_UPDATE) {
+        if ($this->_action & CRM_Core_Action::UPDATE) {
             // if update get all the valid database ids
             // from the session
             $ids = $this->get('ids');

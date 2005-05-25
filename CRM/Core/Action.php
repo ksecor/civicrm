@@ -49,14 +49,17 @@ class CRM_Core_Action {
      * @access public
      */
     const
-        ADD           = CRM_Core_Form::MODE_ADD,
-        UPDATE        = CRM_Core_Form::MODE_UPDATE,
-        VIEW          = CRM_Core_Form::MODE_VIEW,
-        DELETE        = CRM_Core_Form::MODE_DELETE,
+        NONE          =     0,
+        ADD           =     1,
+        UPDATE        =     2,
+        VIEW          =     4,
+        DELETE        =     8,
         BROWSE        =    16,
         ENABLE        =    32,
         DISABLE       =    64,
-        EXPORT        =   128;
+        EXPORT        =   128,
+        BASIC         =   256,
+        ADVANCED      =   512;
   
     /**
      * map the action names to the relevant constant. We perform

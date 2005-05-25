@@ -162,7 +162,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                 )
                           );
 
-        if ($this->_mode & self::MODE_VIEW) {
+        if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
         }
     }
@@ -197,7 +197,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     } else {
                         $defaults[$elementName] = $field['customValue']['data'];
                     }
-                } else if (($this->_mode == CRM_Core_Form::MODE_UPDATE) && isset($field['default_value']) ) {
+                } else if (($this->_action == CRM_Core_Action::UPDATE) && isset($field['default_value']) ) {
                     // use default value if present but first preference to customValue
                     if ($field['html_type'] == 'Radio') {
                     } else if ($field['html_type'] == 'Select Date') {

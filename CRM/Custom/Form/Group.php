@@ -59,7 +59,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $this->_id = $this->get('id');
 
         // setting title for html page
-        if ($this->_mode == CRM_Core_Form::MODE_UPDATE) {
+        if ($this->_action == CRM_Core_Action::UPDATE) {
             $groupTitle = CRM_Core_BAO_CustomGroup::getTitle($this->_id);
             CRM_Utils_System::setTitle("Edit $groupTitle");
         } else {
@@ -86,8 +86,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         // for update action only allowed if there are no custom values present for this group.
         $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::$customGroupExtends);
 
-        //if ($this->_mode == CRM_Core_Form::MODE_UPDATE && CRM_Core_BAO_CustomGroup::getNumValue($this->_id)) { 
-        if ($this->_mode == CRM_Core_Form::MODE_UPDATE) { 
+        if ($this->_action == CRM_Core_Action::UPDATE) { 
             $extendsElement->freeze();
         }
 
@@ -111,7 +110,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                           );
 
         // views are implemented as frozen form
-        if ($this->_mode & self::MODE_VIEW) {
+        if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
             $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group?reset=1&action=browse'"));
         }
@@ -161,7 +160,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $group->is_active   = CRM_Utils_Array::value('is_active', $params, false);
         $group->domain_id   = 1;
 
-        if ($this->_mode & self::MODE_UPDATE) {
+        if ($this->_action & CRM_Core_Action::UPDATE) {
             $group->id = $this->_id;
         }
         $group->save();

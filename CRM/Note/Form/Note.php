@@ -81,7 +81,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
     function setDefaultValues( ) {
         $defaults = array( );
 
-        if ( $this->_mode & self::MODE_UPDATE ) {
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             if ( isset( $this->_noteId ) ) {
                 $defaults['note'] = CRM_Core_BAO_Note::getNoteText( $this->_noteId );
             }
@@ -129,7 +129,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         $note->contact_id    = 1;
         $note->modified_date = date("Ymd");
 
-        if ($this->_mode & self::MODE_UPDATE ) {
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $note->id = $this->_noteId;
         } else {
             $note->table_name = $this->_tableName;

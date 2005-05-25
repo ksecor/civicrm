@@ -98,19 +98,19 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @var int
      * @access protected
      */
-    protected $_mode;
+    protected $_action;
 
 
     /**
      * Class constructor
      *
      * @param array $formValues array of parameters for query
-     * @param int   $mode - mode of search basic or advanced.
+     * @param int   $action - action of search basic or advanced.
      *
      * @return CRM_Contact_AdvancedSelector
      * @access public
      */
-    function __construct(&$formValues, $mode = CRM_Core_Form::MODE_NONE) 
+    function __construct(&$formValues, $action = CRM_Core_Action::NONE) 
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact = new CRM_Contact_BAO_Contact();
@@ -119,7 +119,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $this->_formValues =& $formValues;
 
         // type of selector
-        $this->_mode = $mode;
+        $this->_action = $action;
 
     }//end of constructor
 
@@ -240,7 +240,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
         // note the formvalues were given by CRM_Contact_Form_Search to us 
         // and contain the search criteria (parameters)
-        // note that the default mode is basic
+        // note that the default action is basic
         $result = $this->_contact->searchQuery($this->_formValues, $offset, $rowCount, $sort, false, $includeContactIds );
 
         // process the result of the query

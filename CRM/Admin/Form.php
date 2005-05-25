@@ -75,8 +75,8 @@ class CRM_Admin_Form extends CRM_Core_Form
             eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
         }
 
-        if ($this->_mode == self::MODE_DELETE) {
-            $this->assign('delName',$defaults['name']);
+        if ($this->_action == CRM_Core_Action::DELETE) {
+            $this->assign( 'delName', $defaults['name'] );
         }
 
         // its ok if there is no element called is_active

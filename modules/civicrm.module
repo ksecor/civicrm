@@ -494,7 +494,7 @@ function civicrm_invoke()
     // browse groups
     if (arg(1) == 'group') {
         if ( arg(2) == 'add' ) {
-            $controller = new CRM_Group_Controller( 'Groups', CRM_Core_Form::MODE_ADD );
+            $controller = new CRM_Group_Controller( 'Groups', CRM_Core_Action::ADD );
             $session->pushUserContext( CRM_Utils_System::url( 'civicrm/group', 'reset=1' ) );
             $controller->run( );
         } else if ( arg(2) == 'search' ) {
@@ -525,12 +525,12 @@ function civicrm_contact_invoke()
     }
 
     if (substr(arg(2),0,3) == 'add') {
-        return civicrm_form( CRM_Core_Form::MODE_ADD );
+        return civicrm_form( CRM_Core_Action::ADD );
     }
 
     // edit contact
     if (arg(2) == 'edit') {
-        $c = civicrm_form( CRM_Core_Form::MODE_UPDATE );
+        $c = civicrm_form( CRM_Core_Action::UPDATE );
         return $c;
     }
  
@@ -652,11 +652,11 @@ function civicrm_search()
     } else {
         if(arg(3) == 'advanced') {
             // advanced search
-            $mode  = CRM_Core_Form::MODE_ADVANCED;
+            $mode  = CRM_Core_Action::ADVANCED;
             $title = 'Advanced Search';
             $url   = 'civicrm/contact/search/advanced';
         } else {
-            $mode  = CRM_Core_Form::MODE_BASIC;
+            $mode  = CRM_Core_Action::BASIC;
             $title = 'Search';
             $url   = 'civicrm/contact/search';
         }

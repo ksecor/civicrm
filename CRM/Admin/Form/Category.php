@@ -48,7 +48,7 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
      */
     public function buildQuickForm( ) {
 
-        if ($this->_mode == self::MODE_DELETE) {
+        if ($this->_action == CRM_Core_Action::DELETE) {
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
                                              'name'      => ts('Delete'),
@@ -64,7 +64,7 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'name' ) );
             $this->addRule( 'name', ts('Please enter a valid name.'), 'required' );
 
-            $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_BAO_Category' ) );
+            $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_Category' ) );
 
             $this->add('text', 'description', ts('Description'), 
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Category', 'description' ) );
@@ -88,7 +88,7 @@ class CRM_Admin_Form_Category extends CRM_Admin_Form
         $params = $this->exportValues();
         $ids['category'] = $this->_id;
         
-        if ($this->_mode == self::MODE_DELETE) {
+        if ($this->_action == CRM_Core_Action::DELETE) {
             if ($this->_id  > 0 ) {
                 CRM_Contact_BAO_Category::del( $this->_id );
             }
