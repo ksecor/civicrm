@@ -164,7 +164,6 @@ function civicrm_menu($may_cache)
                          'path'  => 'civicrm/admin',
                          'title' => ts('Administer CiviCRM'),
                          'qs'    => 'reset=1',
-                         'callback' => 'civicrm_admin_invoke',
                          'access' => user_access('administer CiviCRM'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 40,
@@ -422,21 +421,12 @@ function civicrm_init()
  * exit hook, make sure we sync between drupal and crm here
  */
 function civicrm_exit( $destination = null ) {
-    if ( arg(0) != 'civicrm' && arg(0) != 'admin' && arg(0) != 'user' ) {
-        return;
-    }
-
-    $update = false;
-    if ( arg(0) == 'user' ) {
-        if ( arg(2) == 'edit' ) {
-            $update = true;
-        } else {
-            return;
-        }
+    // if the user edited the user record stuff might have changed so do a resync
+    if ( arg(0) == 'user' && arg(2) == 'edit' && ! empty( $_POST ) ) {
+        global $user;
+        CRM_Core_BAO_Drupal::synchronize( $user, true );
     }
         
-    global $user;
-    CRM_Core_BAO_Drupal::synchronize( $user, $update );
 }
 
 /**
@@ -486,9 +476,17 @@ function civicrm_invoke()
 {
     $session = CRM_Core_Session::singleton( );
 
+    // synchrozine the drupal uid with the contacts db
+    global $user;
+    CRM_Core_BAO_Drupal::synchronize( $user, false );
     // contact related functionality
     if (arg(1) == 'contact') {
         return civicrm_contact_invoke();
+    }
+
+	// admin related functionality
+    if (arg(1) == 'admin') {
+        return civicrm_admin_invoke();
     }
 
     // browse groups

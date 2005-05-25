@@ -55,6 +55,7 @@ class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
         if ( ! is_object( $session ) ) {
             return;
         }
+        
         // have we already processed this user, if so early
         // return
         if ( ! $update && $session->get( 'userID' ) ) {
@@ -63,7 +64,7 @@ class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
 
         // make sure that a contact id exists for this user id
         $drupal = new CRM_Core_DAO_Drupal( );
-        $drupal->id = $user->uid;
+        $drupal->uid = $user->uid;
         if ( ! $drupal->find( true ) ) {
             $drupal->uid = $user->uid;
 
