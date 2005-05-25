@@ -31,7 +31,7 @@ CREATE TABLE {$table.name} (
 {if ! $first},{/if}
 {assign var='first' value=false}
 
-     {$field.name} {$field.sqlType} {if $field.required}NOT NULL{/if} {if $field.autoincrement}AUTO_INCREMENT{/if} {if $field.default}DEFAULT {$field.default}{/if} {if $field.comment}COMMENT '{$field.comment}'{/if}
+     {$field.name} {$field.sqlType} {if $field.required}NOT NULL{/if} {if $field.autoincrement}AUTO_INCREMENT{/if} {if $field.default|count_characters}DEFAULT {$field.default}{/if} {if $field.comment}COMMENT '{$field.comment}'{/if}
 {/foreach} {* table.fields *}
 
 {if $table.primaryKey}

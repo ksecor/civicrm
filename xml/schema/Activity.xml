@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <name>crm_activity</name>
+  <comment>Record activities for an entity in the crm module</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>table record id</comment>
+  </field>
+  <primaryKey>
+      <name>id</name>
+      <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>entity_table</name>
+      <type>varchar</type>
+      <length>64</length>
+      <comment>physical tablename for entity being tagged, e.g. crm_contact</comment>
+  </field>
+  <field>
+      <name>entity_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to entity table specified in entity_table column</comment>
+  </field>
+  <field>
+      <name>module</name>
+      <type>varchar</type>
+      <length>64</length>
+      <comment>Display name of module which registered this activity</comment>
+  </field>
+  <field>
+      <name>callback</name>
+      <type>varchar</type>
+      <length>64</length>
+      <comment>Function to call which will return URL for viewing details</comment>
+  </field>
+  <field>
+      <name>activity_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to details item - passed to callback</comment>
+  </field>
+  <field>
+       <name>activity_summary</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>brief description of activity for summary display - as populated by registering module</comment>
+  </field>
+  <field>
+       <name>activity_date</name>
+       <type>datetime</type>
+       <default>0</default>
+       <comment>when did this activity occur</comment>
+  </field>
+  <field>
+       <name>relationship_id</name>
+       <type>int unsigned</type>
+       <comment>OPTIONAL FK to crm_relationship.id. Which relationship (of this contact) potentially triggered this activity, i.e. he donated because he was a Board Member of Org X / Employee of Org Y</comment>
+  </field>
+  <foreignKey>
+       <name>relationship_id</name>
+       <table>crm_relationship</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>group_id</name>
+       <type>int unsigned</type>
+       <comment>OPTIONAL FK to crm_group.id. Was this part of a group communication that triggered this activity?</comment>
+  </field>
+  <foreignKey>
+       <name>group_id</name>
+       <table>crm_group</table>
+       <key>id</key>
+  </foreignKey>
+</table>
