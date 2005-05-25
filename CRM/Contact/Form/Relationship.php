@@ -154,14 +154,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $checkBoxes[$id] = $this->createElement('checkbox', $id, null, '' );
             }
             $this->addGroup($checkBoxes, 'contact_check');
-            $this->assign('contacts', $searchRows );
+            $this->assign('searchRows', $searchRows );
 
-        } else if ( $searchCount === 0 ) {
-            $this->assign( 'noContacts', ' No results were found.' );
-        } else if ( $searchCount > 0 ) {
-            $this->assign( 'noResult', ' There were too many matches, please restrict your search' );
         }
+
         $this->assign( 'searchCount', $searchCount );
+        $this->assign( 'searchDone'  , $this->get( 'searchDone'   ) );
         $this->assign( 'contact_type', $this->get( 'contact_type' ) );
 
         $this->addElement( 'submit', $this->getButtonName('refresh'), 'Search', array( 'class' => 'form-submit' ) );
@@ -190,8 +188,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
+        $this->set( 'searchDone', 0 );
         if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
             $this->search( $params );
+            $this->set( 'searchDone', 1 );
             return;
         }
 
