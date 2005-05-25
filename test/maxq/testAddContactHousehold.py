@@ -14,8 +14,10 @@ class testAddContactHousehold(PyHttpTestCase):
         self.msg('Test started')
 
         drupal_path = "http://localhost/drupal"
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
+        #drupal_path = "http://sandbox.openngo.org/crm"
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
         url = "%s/" % drupal_path
+        self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -28,16 +30,18 @@ class testAddContactHousehold(PyHttpTestCase):
             ('''edit[name]''', self.userInput('Enter Drupal UserName')),
             ('''edit[pass]''', self.userInput('Enter Drupal Password')),
             ('''op''', '''Log in'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
         url = "%s/user/login" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 2 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/node''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/node''') % drupal_path)
         url = "%s/node" % drupal_path
+        self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -45,11 +49,21 @@ class testAddContactHousehold(PyHttpTestCase):
         self.assertEquals("Assert number 3 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
+        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/search''') % drupal_path)
+        url = "%s/civicrm/contact/search" % drupal_path
+        params = None
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+
         params = [
             ('''c_type''', '''Household'''),
             ('''reset''', '''1'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/addH?c_type=Household&reset=1''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/addH?c_type=Household&reset=1''') % drupal_path)
         url = "%s/civicrm/contact/addH" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
@@ -66,6 +80,7 @@ class testAddContactHousehold(PyHttpTestCase):
         # Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
+            ('''_qf_default''', '''Edit:next'''),
             ('''household_name''', '''Zope House'''),
             ('''nick_name''', '''Zope Villa'''),
             ('''privacy[do_not_email]''', '''1'''),
@@ -107,10 +122,11 @@ class testAddContactHousehold(PyHttpTestCase):
             ('''location[2][address][state_province_id]''', ''''''),
             ('''location[2][address][postal_code]''', ''''''),
             ('''location[2][address][country_id]''', ''''''),
-            ('''note''', ''''''),
+            ('''note''', '''This is Zope House. '''),
             ('''_qf_Edit_next''', '''Save'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/addH?household_name=Zope House&nick_name=Zope Villa&privacy[do_not_email]=1&preferred_communication_method=Post&location[1][location_type_id]=1&location[1][is_primary]=1&location[1][phone][1][phone_type]=Phone&location[1][phone][1][phone]=567890&location[1][phone][2][phone_type]=Mobile&location[1][phone][2][phone]=1345678090&location[1][email][1][email]=zh@yahoo.com&location[1][email][2][email]=zope_house@zope.com&location[1][im][1][provider_id]=4&location[1][im][1][name]=Nice to see u &location[1][im][2][provider_id]=&location[1][im][2][name]=&location[1][address][street_address]=23, jagjivandas colony, sector no 23, kothrud&location[1][address][supplemental_address_1]=&location[1][address][supplemental_address_2]=&location[1][address][city]=Pune&location[1][address][state_province_id]=1000&location[1][address][postal_code]=4578963&location[1][address][country_id]=1101&location[2][location_type_id]=2&location[2][phone][1][phone_type]=&location[2][phone][1][phone]=&location[2][phone][2][phone_type]=&location[2][phone][2][phone]=&location[2][email][1][email]=&location[2][email][2][email]=&location[2][im][1][provider_id]=&location[2][im][1][name]=&location[2][im][2][provider_id]=&location[2][im][2][name]=&location[2][address][street_address]=&location[2][address][supplemental_address_1]=&location[2][address][supplemental_address_2]=&location[2][address][city]=&location[2][address][state_province_id]=&location[2][address][postal_code]=&location[2][address][country_id]=&note=&_qf_Edit_next=Save''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/addH?household_name=Zope House&nick_name=Zope Villa&privacy[do_not_email]=1&preferred_communication_method=Post&location[1][location_type_id]=1&location[1][is_primary]=1&location[1][phone][1][phone_type]=Phone&location[1][phone][1][phone]=567890&location[1][phone][2][phone_type]=Mobile&location[1][phone][2][phone]=1345678090&location[1][email][1][email]=zh@yahoo.com&location[1][email][2][email]=zope_house@zope.com&location[1][im][1][provider_id]=4&location[1][im][1][name]=Nice to see u &location[1][im][2][provider_id]=&location[1][im][2][name]=&location[1][address][street_address]=23, jagjivandas colony, sector no 23, kothrud&location[1][address][supplemental_address_1]=&location[1][address][supplemental_address_2]=&location[1][address][city]=Pune&location[1][address][state_province_id]=1000&location[1][address][postal_code]=4578963&location[1][address][country_id]=1101&location[2][location_type_id]=2&location[2][phone][1][phone_type]=&location[2][phone][1][phone]=&location[2][phone][2][phone_type]=&location[2][phone][2][phone]=&location[2][email][1][email]=&location[2][email][2][email]=&location[2][im][1][provider_id]=&location[2][im][1][name]=&location[2][im][2][provider_id]=&location[2][im][2][name]=&location[2][address][street_address]=&location[2][address][supplemental_address_1]=&location[2][address][supplemental_address_2]=&location[2][address][city]=&location[2][address][state_province_id]=&location[2][address][postal_code]=&location[2][address][country_id]=&note=&_qf_Edit_next=Save''') % drupal_path)
         url = "%s/civicrm/contact/addH" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
@@ -119,25 +135,17 @@ class testAddContactHousehold(PyHttpTestCase):
         
         params = [
             ('''reset''', '''1'''),
-            ('''cid''', '''110'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=110''')% drupal_path)
+            ('''cid''', '''109'''),]
+        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=104''')% drupal_path)
         url = "%s/civicrm/contact/view" % drupal_path 
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/crm/i/Inform.gif''') % drupal_path)
-        url = "%s/crm/i/Inform.gif" % drupal_path
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-
+        self.msg("Test successfully complete")
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 

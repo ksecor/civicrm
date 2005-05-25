@@ -13,9 +13,11 @@ class testAddContactOrganization(PyHttpTestCase):
     def runTest(self):
         self.msg('Test started')
 
-        drupal_path = "http://localhost/drupal"
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
+        #drupal_path = "http://localhost/drupal"
+        drupal_path = "http://sandbox.openngo.org/crm"
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
         url = "%s/" % drupal_path
+        self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -28,16 +30,18 @@ class testAddContactOrganization(PyHttpTestCase):
             ('''edit[name]''', self.userInput('Enter Drupal UserName')),
             ('''edit[pass]''', self.userInput('Enter Drupal Password')),
             ('''op''', '''Log in'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
         url = "%s/user/login" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 2 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/node''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/node''') % drupal_path)
         url = "%s/node" % drupal_path
+        self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -45,11 +49,22 @@ class testAddContactOrganization(PyHttpTestCase):
         self.assertEquals("Assert number 3 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/search''') % drupal_path)
+        url = "%s/civicrm/contact/search" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        params = None
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+
         params = [
             ('''c_type''', '''Organization'''),
             ('''reset''', '''1'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/addO?c_type=Organization&reset=1''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/addO?c_type=Organization&reset=1''') % drupal_path)
         url = "%s/civicrm/contact/addO" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
@@ -66,6 +81,7 @@ class testAddContactOrganization(PyHttpTestCase):
         # Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
+            ('''_qf_default''', '''Edit:next'''),
             ('''organization_name''', '''Zope Organization'''),
             ('''legal_name''', '''Zope Pvt. ltd'''),
             ('''nick_name''', '''Zope Companies'''),
@@ -111,8 +127,9 @@ class testAddContactOrganization(PyHttpTestCase):
             ('''location[2][address][country_id]''', '''1101'''),
             ('''note''', '''Zope Companies welcomes you'''),
             ('''_qf_Edit_next''', '''Save'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/addO?organization_name=Zope Organization&legal_name=Zope Pvt. ltd&nick_name=Zope Companies&sic_code=20&privacy[do_not_phone]=1&preferred_communication_method=Email&location[1][location_type_id]=2&location[1][is_primary]=1&location[1][phone][1][phone_type]=Fax&location[1][phone][1][phone]=67-5677832&location[1][phone][2][phone_type]=Phone&location[1][phone][2][phone]=57834556&location[1][email][1][email]=contact_us@zope.com&location[1][email][2][email]=zope@zope.com&location[1][im][1][provider_id]=4&location[1][im][1][name]=This is zope.com&location[1][im][2][provider_id]=5&location[1][im][2][name]=Welcome to zope.com&location[1][address][street_address]=123, Zope Garden Estates, Chandivali , Khirane road, Pune &location[1][address][supplemental_address_1]=&location[1][address][supplemental_address_2]=&location[1][address][city]=Pune&location[1][address][state_province_id]=1018&location[1][address][postal_code]=452630&location[1][address][country_id]=1101&location[2][location_type_id]=1&location[2][phone][1][phone_type]=Phone&location[2][phone][1][phone]=456789&location[2][phone][2][phone_type]=&location[2][phone][2][phone]=&location[2][email][1][email]=zope_home@zope.com&location[2][email][2][email]=&location[2][im][1][provider_id]=3&location[2][im][1][name]=This is Zope Organization&location[2][im][2][provider_id]=&location[2][im][2][name]=&location[2][address][street_address]=23, Zope Villa, Parvati Nagar, Paud Road, Kothrud, Pune&location[2][address][supplemental_address_1]=&location[2][address][supplemental_address_2]=&location[2][address][city]=Pune&location[2][address][state_province_id]=1018&location[2][address][postal_code]=456230&location[2][address][country_id]=1101&note=Zope Companies welcomes you&_qf_Edit_next=Save''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/addO?organization_name=Zope Organization&legal_name=Zope Pvt. ltd&nick_name=Zope Companies&sic_code=20&privacy[do_not_phone]=1&preferred_communication_method=Email&location[1][location_type_id]=2&location[1][is_primary]=1&location[1][phone][1][phone_type]=Fax&location[1][phone][1][phone]=67-5677832&location[1][phone][2][phone_type]=Phone&location[1][phone][2][phone]=57834556&location[1][email][1][email]=contact_us@zope.com&location[1][email][2][email]=zope@zope.com&location[1][im][1][provider_id]=4&location[1][im][1][name]=This is zope.com&location[1][im][2][provider_id]=5&location[1][im][2][name]=Welcome to zope.com&location[1][address][street_address]=123, Zope Garden Estates, Chandivali , Khirane road, Pune &location[1][address][supplemental_address_1]=&location[1][address][supplemental_address_2]=&location[1][address][city]=Pune&location[1][address][state_province_id]=1018&location[1][address][postal_code]=452630&location[1][address][country_id]=1101&location[2][location_type_id]=1&location[2][phone][1][phone_type]=Phone&location[2][phone][1][phone]=456789&location[2][phone][2][phone_type]=&location[2][phone][2][phone]=&location[2][email][1][email]=zope_home@zope.com&location[2][email][2][email]=&location[2][im][1][provider_id]=3&location[2][im][1][name]=This is Zope Organization&location[2][im][2][provider_id]=&location[2][im][2][name]=&location[2][address][street_address]=23, Zope Villa, Parvati Nagar, Paud Road, Kothrud, Pune&location[2][address][supplemental_address_1]=&location[2][address][supplemental_address_2]=&location[2][address][city]=Pune&location[2][address][state_province_id]=1018&location[2][address][postal_code]=456230&location[2][address][country_id]=1101&note=Zope Companies welcomes you&_qf_Edit_next=Save''') % drupal_path)
         url = "%s/civicrm/contact/addO" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
@@ -121,34 +138,17 @@ class testAddContactOrganization(PyHttpTestCase):
         
         params = [
             ('''reset''', '''1'''),
-            ('''cid''', '''101'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=101''') % drupal_path)
+            ('''cid''', '''110'''),]
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=101''') % drupal_path)
         url = "%s/civicrm/contact/view" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/crm/i/Inform.gif''') % drupal_path )
-        url = "%s/crm/i/Inform.gif" % drupal_path
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/crm/i/Inform.gif''') % drupal_path)
-        url = "%s/crm/i/Inform.gif" % drupal_path
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-
+        self.msg("Test successfully complete")
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 

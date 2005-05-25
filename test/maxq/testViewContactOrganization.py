@@ -13,9 +13,11 @@ class testViewContactOrganization(PyHttpTestCase):
     def runTest(self):
         self.msg('Test started')
 
-        drupal_path = "http://localhost/drupal"
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
+        #drupal_path = "http://localhost/drupal"
+        drupal_path = "http://sandbox.openngo.org/crm"
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
         url = "%s/" % drupal_path
+        self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -28,16 +30,18 @@ class testViewContactOrganization(PyHttpTestCase):
             ('''edit[name]''', self.userInput('Enter Drupal UserName')),
             ('''edit[pass]''', self.userInput('Enter Drupal Password')),
             ('''op''', '''Log in'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
         url = "%s/user/login" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 2 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/node''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/node''') % drupal_path)
         url = "%s/node" % drupal_path
+        self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -45,11 +49,22 @@ class testViewContactOrganization(PyHttpTestCase):
         self.assertEquals("Assert number 3 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/search''') % drupal_path)
+        url = "%s/civicrm/contact/search" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        params = None
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+
         params = [
             ('''reset''', '''1'''),
-            ('''cid''', '''103'''),]
-        self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=103''') % drupal_path)
+            ('''cid''', '''96'''),]
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=103''') % drupal_path)
         url = "%s/civicrm/contact/view" % drupal_path
+        self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
@@ -65,7 +80,7 @@ class testViewContactOrganization(PyHttpTestCase):
         # self.assertEquals("Assert number 5 failed", 404, self.getResponseCode())
         # Validator.validateResponse(self, self.getMethod(), url, params)
         
-
+        self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 
