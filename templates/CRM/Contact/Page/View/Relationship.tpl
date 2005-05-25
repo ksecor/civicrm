@@ -62,7 +62,7 @@
   <div>
     {if $action NEQ 1 AND $action NEQ 2}
             <div class="action-link">
-                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add"}">&raquo; New Relationship</a>
+                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1"}">&raquo; New Relationship</a>
             </div>
         {/if}
   </div>

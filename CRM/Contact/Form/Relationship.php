@@ -147,7 +147,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement('date', 'end_date'  , 'End Date'  , CRM_Core_SelectValues::date( 'relative' ) );
 
         $searchRows    = $this->get( 'searchRows'    );
-        $searchMessage = $this->get( 'searchMessage' );
         $searchCount   = $this->get( 'searchCount'   );
         if ( $searchRows ) {
             $checkBoxes = array( );
@@ -157,11 +156,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $this->addGroup($checkBoxes, 'contact_check');
             $this->assign('contacts', $searchRows );
 
-        } else if ( $searchCount == 0 ) {
+        } else if ( $searchCount === 0 ) {
             $this->assign( 'noContacts', ' No results were found.' );
         } else if ( $searchCount > 0 ) {
             $this->assign( 'noResult', ' There were too many matches, please restrict your search' );
         }
+        $this->assign( 'searchCount', $searchCount );
+        $this->assign( 'contact_type', $this->get( 'contact_type' ) );
 
         $this->addElement( 'submit', $this->getButtonName('refresh'), 'Search', array( 'class' => 'form-submit' ) );
         $this->addElement( 'submit', $this->getButtonName('cancel' ), 'Cancel', array( 'class' => 'form-submit' ) );
@@ -237,6 +238,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     $relationship->contact_id_b = $this->_contactId;
                 }
 
+                $this->set( 'contact_type', $type );
                 if ( $type == 'Individual' ) {
                     $searchValues['cb_contact_type'] = array( $type => 1 ); 
                 } else if ( $type == 'Household' ) {
