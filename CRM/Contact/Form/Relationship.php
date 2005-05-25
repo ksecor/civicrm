@@ -219,22 +219,46 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         //max records that will be listed
         $searchValues = array();
         $searchValues['sort_name'] = $params['name']; 
+        $excludedContactIds = array( $this->_contactId );
+
         if ( $params['relationship_type_id'] ) {
             $relationshipType = new CRM_Contact_DAO_RelationshipType( );
             list( $rid, $direction ) = explode( '_', $params['relationship_type_id'], 2 );
             $relationshipType->id = $rid;
             if ( $relationshipType->find( true ) ) {
+                // find all the contacts which have the same relationship
+                $relationship = new CRM_Contact_DAO_Relationship( );
+                $relationship->relationship_type_id = $rid;
                 if ( $direction == 'a_b' ) {
                     $type = $relationshipType->contact_type_b;
+                    $relationship->contact_id_a = $this->_contactId;
                 } else {
                     $type = $relationshipType->contact_type_a;
+                    $relationship->contact_id_b = $this->_contactId;
                 }
+
                 if ( $type == 'Individual' ) {
                     $searchValues['cb_contact_type'] = array( $type => 1 ); 
                 } else if ( $type == 'Household' ) {
                     $searchValues['cb_contact_type'] = array( $type => 2 );
                 }  else if ( $type == 'Organization' ) {
                     $searchValues['cb_contact_type'] = array( $type => 3 );
+                }
+
+                $relationship->find( );
+                while ( $relationship->fetch( ) ) {
+                    $excludedContactIds[] = ( $direction == 'a_b' ) ? $relationship->contact_id_b : $relationship->contact_id_a;
+                }
+
+                // also do the reverse if a_b == b_a
+                if ( $relationshipType->name_a_b === $relationshipType->name_b_a ) {
+                    $relationship = new CRM_Contact_DAO_Relationship( );
+                    $relationship->relationship_type_id = $rid;
+                    $relationship->contact_id_b = $this->_contactId;
+                    $relationship->find( );
+                    while ( $relationship->fetch( ) ) {
+                        $excludedContactIds[] = $relationship->contact_id_a;
+                    }
                 }
             }
         }
@@ -252,6 +276,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
             while($result->fetch()) {
                 $contactID = $result->contact_id;
+                if ( in_array( $contactID, $excludedContactIds ) ) {
+                    continue;
+                }
+
                 $searchRows[$contactID]['id'] = $contactID;
                 $searchRows[$contactID]['name'] = $result->sort_name;
                 $searchRows[$contactID]['city'] = $result->city;

@@ -313,6 +313,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      *
      * @return null
      * @access public
+
      * @static
      */
     static function del ( $id ) 
@@ -400,9 +401,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     /**
      * this function does the validtion for valid relationship
      *
-     * @param array $params this array contains the values there are subitted by the form
+     * @param array   $params     this array contains the values there are subitted by the form
      * @param integer $contactId  this is contact id for adding relationship
-     * @param array $ids    the array that holds all the db ids  
+     * @param array   $ids        the array that holds all the db ids  
      * 
      * @return
      * @access public
@@ -418,7 +419,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         // expolode the string with _ to get the relationship type id and to know which contact has to be inserted in
         // contact_id_a and which one in contact_id_b
         
-        $temp = explode('_',$relationshipTypes);
+        $temp = explode('_', $relationshipTypes);
         
         // $temp[0] will contain the relationship type id.
         // if $temp[1] == b or $temp[2] == a then the current contact has to be inserted as contact_id_b
