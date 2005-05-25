@@ -29,7 +29,7 @@
         <div class="form-item">
             {if $action eq 1}
                 <div class="description">
-                {ts}Select the relationship type. Then locate target contact(s) for this relationship by entering a full or partial name, selecting the target contact type and clicking 'Search'.{/ts}
+                {ts}Select the relationship type. Then locate target contact(s) for this relationship by entering a complete or partial name and clicking 'Search'.{/ts}
                 </div>
             {/if}
             <dl>
@@ -47,48 +47,54 @@
                   </dd>
                 </dl>
 
-              {if $noResult }
-                 <div class="message status">{$noResult}</div>
-              {else}
-                 {if $contacts }
-                    <fieldset><legend>{ts}Mark Target Contact(s) for this Relationship{/ts}</legend>
-                    <div class="description">
-                        {ts}Mark the target contact(s) for this relationship if it appears below. Otherwise you may
-                        modify the Target Contact Name or Contact Type and click Search again.{/ts}
-                    </div>
-                    {strip}
-                    <table>
-                    <tr class="columnheader">
-                    <th>&nbsp;</th>
-                    <th>{ts}Name{/ts}</th>
-                    <th>{ts}City{/ts}</th>
-                    <th>{ts}State{/ts}</th>
-                    <th>{ts}Email{/ts}</th>
-                    <th>{ts}Phone{/ts}</th>
-                    </tr>
-                    {foreach from=$contacts item="row"}
-                    <tr class="{cycle values="odd-row,even-row"}">
-                        <td>{$form.contact_check[$row.id].html}</td>
-                        <td>{$row.type} {$row.name}</td>
-                        <td>{$row.city}</td>
-                        <td>{$row.state}</td>
-                        <td>{$row.email}</td>
-                        <td>{$row.phone}</td>
-                    </tr>
-                    {/foreach}
-                    </table>
-                    {/strip}
-                    </fieldset>
-                 {else}
-                    {if $noContacts}
-                        <div class="message status"> {$noContacts} </div>
+              {if $searchDone } {* Search button clicked *}
+                {if $searchCount}
+                    {if $searchRows} {* we've got rows to display *}
+                        <fieldset><legend>{ts}Mark Target Contact(s) for this Relationship{/ts}</legend>
+                        <div class="description">
+                            {ts}Mark the target contact(s) for this relationship if it appears below. Otherwise you may
+                            modify the search name above and click Search again.{/ts}
+                        </div>
+                        {strip}
+                        <table>
+                        <tr class="columnheader">
+                        <th>&nbsp;</th>
+                        <th>{ts}Name{/ts}</th>
+                        <th>{ts}City{/ts}</th>
+                        <th>{ts}State{/ts}</th>
+                        <th>{ts}Email{/ts}</th>
+                        <th>{ts}Phone{/ts}</th>
+                        </tr>
+                        {foreach from=$searchRows item=row}
+                        <tr class="{cycle values="odd-row,even-row"}">
+                            <td>{$form.contact_check[$row.id].html}</td>
+                            <td>{$row.type} {$row.name}</td>
+                            <td>{$row.city}</td>
+                            <td>{$row.state}</td>
+                            <td>{$row.email}</td>
+                            <td>{$row.phone}</td>
+                        </tr>
+                        {/foreach}
+                        </table>
+                        {/strip}
+                        </fieldset>
+                    {else} {* too many results - we're only displaying 50 *}
+                        </div></fieldset>
+                        {assign var=infoMessage value="Too many matching results. Please narrow your search by entering a more complete target contact name."}
+                        {include file="CRM/common/info.tpl"}
                     {/if}
-                 {/if}
-              {/if}
+                {else} {* no valid matches for name + contact_type *}
+                        </div></fieldset>
+                        {assign var=infoMessage value="No matching results for <ul><li>Name like: `$form.name.value`<li>Contact type: $contact_type</ul><br />Check your spelling, or try fewer letters for the target contact name."}
+                        {include file="CRM/common/info.tpl"}                
+                {/if} {* end if searchCount *}
+              {else}
+                </div></fieldset>
+              {/if} {* end if searchDone *}
         {/if} {* end action = add *}
 
         {* Only show start/end date and buttons if action=update, OR if we have $contacts (results)*}
-        {if $contacts OR $action EQ 2}
+        {if $searchRows OR $action EQ 2}
             <div class="form-item">
                 <dl>
                 <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
@@ -100,7 +106,6 @@
                 <dt></dt><dd>{$form.buttons.html}</dd>
                 </dl>
             </div>
+            </div></fieldset>
         {/if}
-        </div>
-    </fieldset>
 {/if}

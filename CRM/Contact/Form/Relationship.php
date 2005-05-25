@@ -142,7 +142,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                           array('' => '- select -') +
                           CRM_Contact_BAO_Relationship::getContactRelationshipType( $this->_contactId, $rtype ) );
         
-        $this->addElement('text', 'name'      , 'Target Contact Name' );
+        $this->addElement('text', 'name'      , 'Find Target Contact' );
         $this->addElement('date', 'start_date', 'Start Date', CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , 'End Date'  , CRM_Core_SelectValues::date( 'relative' ) );
 

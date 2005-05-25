@@ -41,36 +41,6 @@ div.spacer {
   height: 5px;
   }
 
-#crm-container div.status {
-  margin: 1.0em; 0 1.0em;
-  background-color: #ffff99;
-  padding: .25em .5em .25em .5em;
-  border: 1px solid #abc;
-}
-
-#crm-container #feedback-request {
-  margin-top: 3em;
-  background-color: #ffcccc;
-}
-
-#crm-container div.status ul {
-  margin: 0;
-}
-
-#crm-container div.status dt {
-  float: left;
-  clear: left;
-  width: 30px;
-}
-
-#crm-container div.messages {
-  margin: 1.0em 0em 1.0em;
-}
-
-#crm-container .action-link {
-  margin: 0.5em 0em 0.5em;
-}
-
 #crm-container input.form-submit, #crm-container select {
   vertical-align: middle;
 }
@@ -153,6 +123,36 @@ div.spacer {
 #crm-container .form-layout td.label {
   text-align: right;
   padding-right: 0.5em;
+}
+
+#crm-container div.status {
+  margin: 1.0em; 0 1.0em;
+  background-color: #ffff99;
+  padding: .25em .5em .25em .5em;
+  border: 1px solid #abc;
+}
+
+#crm-container #feedback-request {
+  margin-top: 3em;
+  background-color: #ffcccc;
+}
+
+#crm-container div.status ul {
+  margin: 0;
+}
+
+#crm-container div.status dt {
+  float: left;
+  clear: left;
+  width: 30px;
+}
+
+#crm-container div.messages {
+  margin: 1.0em 0em 1.0em;
+}
+
+#crm-container .action-link {
+  margin: 0.5em 0em 0.5em;
 }
 
 /* Data display layouts */

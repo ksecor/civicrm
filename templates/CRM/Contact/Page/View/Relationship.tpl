@@ -2,7 +2,7 @@
 
 {if $action eq 1 or $action eq 2 or $action eq 4} {* add, update or view *}
     {include file="CRM/Contact/Form/Relationship.tpl"}
-        
+    <br />
 {/if}
 
 {* start of code to show current relationships *}

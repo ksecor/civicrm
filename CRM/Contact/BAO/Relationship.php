@@ -95,15 +95,14 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 }
             }
             
-            $userStatus = array();
             if ( $validRelationshipCount ) {
-                $userStatus[] = $validRelationshipCount.' new relationship record(s) created.';
+                $userStatus = $validRelationshipCount.' new relationship record(s) created.';
             }
             if ( $invalidRelationshipCount ) {
-                $userStatus[] = $invalidRelationshipCount.' relationship record(s) not created due to invalid target contact type.';
+                $userStatus .= $invalidRelationshipCount.' relationship record(s) not created due to invalid target contact type.';
             }
             if ( $duplicateRelationshipCount ) {
-                $userStatus[] = $duplicateRelationshipCount.' relationship record(s) not created - duplicate of existing relationship.';
+                $userStatus .= $duplicateRelationshipCount.' relationship record(s) not created - duplicate of existing relationship.';
             }
             CRM_Core_Session::setStatus( $userStatus );
             
@@ -111,7 +110,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             
             $relationship = self::add( $params, $ids);
             
-            CRM_Core_Session::setStatus( 'Your relationship record has been saved.' );
+            CRM_Core_Session::setStatus( 'Your relationship record has been updated.' );
         }
         
         CRM_Core_DAO::transaction( 'COMMIT' );
@@ -463,7 +462,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         // i.e. employer relationship can exit between Individual and Organization (not between Individual and Individual)
         
         if (!CRM_Contact_BAO_Relationship::checkRelationshipType( $contact_a, $contact_b, $temp[0])) {
-            $errors = 'Please select valid relationship between two contact.';
+            $errors = 'Please select valid relationship between these two contacts.';
         } 
         return $errors;
     }
