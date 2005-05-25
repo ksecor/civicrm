@@ -33,14 +33,29 @@
 
 class CRM_Core_ShowHideBlocks {
 
+    /**
+     * The array of ids of blocks that will be shown
+     *
+     * @var array
+     */
     protected $_show;
 
+    /**
+     * The array of ids of blocks that will be hidden
+     *
+     * @var array
+     */
     protected $_hide;
 
-    protected $_hideString;
-
-    protected $_showString;
-
+    /**
+     * class constructor
+     *
+     * @param array $show initial value of show array
+     * @param array $hide initial value of hide array
+     *
+     * @return Object     the newly created object
+     * @access public
+     */
     function __construct( $show = null, $hide = null ) {
         if ( ! empty( $show ) ) {
             $this->_show = $show;
@@ -56,32 +71,46 @@ class CRM_Core_ShowHideBlocks {
 
     }
 
+    /**
+     * add the values from this class to the template
+     *
+     * @return void
+     * @access public
+     */
     function addToTemplate( ) {
-        $this->_hideString = '';
+        $hide = $show = '';
 
         $first = true;
         foreach ( array_keys( $this->_hide ) as $h ) {
             if ( ! $first ) {
-                $this->_hideString .= ',';
+                $hide .= ',';
             }
-            $this->_hideString .= "'$h'";
+            $hide .= "'$h'";
             $first = false;
         }
 
         $first = true;
         foreach ( array_keys( $this->_show ) as $s ) {
             if ( ! $first ) {
-                $this->_showString .= ',';
+                $show .= ',';
             }
-            $this->_showString .= "'$s'";
+            $show .= "'$s'";
             $first = false;
         }
 
         $template = CRM_Core_Smarty::singleton( );
-        $template->assign_by_ref( 'hideBlocks', $this->_hideString );
-        $template->assign_by_ref( 'showBlocks', $this->_showString );
+        $template->assign_by_ref( 'hideBlocks', $hide );
+        $template->assign_by_ref( 'showBlocks', $show );
     }
 
+    /**
+     * Add a value to the show array
+     * 
+     * @param string $name id to be added
+     *
+     * @return void
+     * @access public
+     */
     function addShow( $name ) {
         $this->_show[$name] = 1;
         if ( array_key_exists( $name, $this->_hide ) ) {
@@ -89,6 +118,14 @@ class CRM_Core_ShowHideBlocks {
         }
     }
 
+    /**
+     * Add a value to the hide array
+     * 
+     * @param string $name id to be added
+     *
+     * @return void
+     * @access public
+     */
     function addHide( $name ) {
         $this->_hide[$name] = 1;
         if ( array_key_exists( $name, $this->_show ) ) {
@@ -96,10 +133,32 @@ class CRM_Core_ShowHideBlocks {
         }
      }
 
-    function linkHtml( $name, $href, $text, $js ) {
+    /**
+     * create a well formatted html link from the smaller pieces
+     *
+     * @param string $name name of the link
+     * @param string $href
+     * @param string $text
+     * @param string $js
+     *
+     * @return string      the formatted html link
+     * @access public
+     */
+     static function linkHtml( $name, $href, $text, $js ) {
         return '<a name="' . $name . '" id="' . $name . '" href="' . $href . '" ' . $js . ">$text</a>";
     }
 
+    /**
+     * Create links that we can use in the form
+     *
+     * @param CRM_Core_Form $form          the form object
+     * @param string        $prefix        the attribute that we are referencing
+     * @param string        $showLinkText  the text to be shown for the show link
+     * @param string        $hideLinkText  the text to be shown for the hide link
+     *
+     * @return void
+     * @access public
+     */
     function links( $form, $prefix, $showLinkText, $hideLinkText ) {
         $showCode = "show('${prefix}'); hide('${prefix}[show]'); return false;";
         $hideCode = "hide('${prefix}'); show('${prefix}[show]'); return false;";
@@ -108,19 +167,21 @@ class CRM_Core_ShowHideBlocks {
         $values['show'] = self::linkHtml("${prefix}[show]", "#${prefix}", $showLinkText, "onclick=\"$showCode\"");
         $values['hide'] = self::linkHtml("${prefix}[hide]", "#${prefix}", $hideLinkText, "onclick=\"$hideCode\"");
         $form->assign( $prefix, $values);
-
-        /**
-         * creating and using form elements seems quite expensive, and hence we bypass QFC for this.
-         * note that we introduce a fair number of show/hide links and hence this is a decent savings.
-         * we need to figure out how to handle nested arrays, defering for now
-         *
-         *        $form->addElement('link', "${prefix}[show]", null, "#${prefix}", $showLinkText,
-         *                array( 'onclick' => "$showCode" ));
-         *        $form->addElement('link', "${prefix}[hide]", null, "#${prefix}", $hideLinkText,
-         *                          array('onclick' => "$hideCode" ));
-         **/
     }
 
+    /**
+     * Create html link elements that we can use in the form
+     *
+     * @param CRM_Core_Form $form          the form object
+     * @param int           $index         the current index of the element being processed
+     * @param int           $maxIndex      the max number of elements that will be processed
+     * @param string        $prefix        the attribute that we are referencing
+     * @param string        $showLinkText  the text to be shown for the show link
+     * @param string        $hideLinkText  the text to be shown for the hide link
+     *
+     * @return void
+     * @access public
+     */
     function linksForArray( $form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText ) {
         if ( $index == $maxIndex ) {
             $showCode = $hideCode = "return false;";

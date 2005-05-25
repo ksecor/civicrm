@@ -52,7 +52,17 @@ class CRM_Utils_Request {
     }
 
     /**
-     * get the variable information from the request.
+     * get the variable information from the request (GET/POST/SESSION
+     *
+     * @param $name    name of the variable to be retrieved
+     * @param $store   session scope where variable is stored
+     * @param $abort   is this variable required
+     * @param $default default value of the variable if not present
+     * @param $method  where should we look for the variable
+     *
+     * @return string  the value of the variable
+     * @access public
+     * @static
      *
      */
     static function retrieve( $name, $store = null, $abort = false, $default = null, $method = 'GET' ) {

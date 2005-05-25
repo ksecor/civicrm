@@ -69,11 +69,11 @@ class CRM_Contact_Page_Relationship {
         $contactId = $page->getContactId( );
         
         $currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($contactId);
-        $pastRelationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId, 1 );
+        $pastRelationships    = CRM_Contact_BAO_Relationship::getRelationship( $contactId, 1 );
         $disableRelationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId, 2 );
         
         $page->assign( 'currentRelationships', $currentRelationships );
-        $page->assign( 'pastRelationships', $pastRelationships );
+        $page->assign( 'pastRelationships'   , $pastRelationships );
         $page->assign( 'disableRelationships', $disableRelationships );
         
     }
@@ -99,10 +99,6 @@ class CRM_Contact_Page_Relationship {
         $session = CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/rel', 'action=browse' ) );
         
-        // rtype is the variable that tells type of realationship (a_b or b_a)
-        //$rtype = CRM_Utils_Request::retrieve( 'rtype', $this );
-        $rtype = CRM_Utils_Request::retrieve( 'rtype', $controller );
-
         $controller->set( 'contactId'     , $page->getContactId( ) );
         $controller->set( 'relationshipId', $relationshipId );
         $controller->process( );

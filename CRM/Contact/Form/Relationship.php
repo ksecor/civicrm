@@ -41,6 +41,10 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Contact_Form_Relationship extends CRM_Core_Form
 {
+    /**
+     * max number of contacts we will display for a relationship
+     */
+    const MAX_RELATIONSHIPS = 50;
 
     /**
      * The relationship id, used when editing the relationship
@@ -66,7 +70,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         $this->_contactId      = $this->get('contactId');
         $this->_relationshipId = $this->get('relationshipId');
-        $this->_rtype          = $this->get('rtype');
+        $this->_rtype          = CRM_Utils_Request::retrieve( 'rtype', $this );
     }
 
     /**
@@ -88,29 +92,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
             if ($relationship->find(true)) {
 
-                $defaults['relationship_type_id'] = $relationship->relationship_type_id."_".$this->_rtype;
-
-                $defaults['start_date'] = $relationship->start_date;
-                $defaults['end_date'] = $relationship->end_date;
-
+                $defaults['relationship_type_id'] = $relationship->relationship_type_id . '_' . $this->_rtype;
+                $defaults['start_date']           = $relationship->start_date;
+                $defaults['end_date'  ]           = $relationship->end_date;
                 
                 $contact = new CRM_Contact_DAO_Contact( );
-
-                /*                
-                $temp = explode('_', $this->_rtype);
-                if ($relationship->contact_id_a == $this->_contactId ) {
-                    //$cId = $relationship->contact_id_b;
-                    $contact->id = $relationship->contact_id_b;
-                } else {
-                    //$cId = $relationship->contact_id_a;
-                    $contact->id = $relationship->contact_id_b;
-                }
-                
-                $str_contact = 'contact_id_'.$temp[1];
-                $cId = $relationship->$str_contact;
-                $contact->id = $cId;
-                */
-                
                 if ($this->_rtype == 'a_b' && $relationship->contact_id_a == $this->_contactId ) {
                     $contact->id = $relationship->contact_id_b;
                 } else {
@@ -135,9 +121,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     function addRules( )
     {
         $this->addRule('relationship_type_id', 'Please select a relationship type. ', 'required' );
-        $this->addRule('start_date', 'Select a valid start date.', 'qfDate' );
-        $this->addRule('end_date', 'Select a valid end date.', 'qfDate' );
-        $this->addFormRule(array('CRM_Contact_Form_Relationship','formRule'));
+        $this->addRule('start_date'          , 'Start date is not valid.'           , 'qfDate' );
+        $this->addRule('end_date'            , 'End date is not valid.'             , 'qfDate' );
+
+        $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'formRule' ) );
     }
 
 
@@ -149,34 +136,31 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $rtype = '';
-        if (strlen(trim($this->_rtype))) {
-            $rtype = $this->_rtype;
-        }
+        $this->addElement('select',
+                          'relationship_type_id',
+                          'Relationship Type',
+                          array('' => '- select -') +
+                          CRM_Contact_BAO_Relationship::getContactRelationshipType( $this->_contactId, $rtype ) );
         
-        $this->addElement('select', "relationship_type_id", 'Relationship Type', array('' => '- select -') + CRM_Contact_BAO_Relationship::getContactRelationshipType($this->_contactId, $rtype));
-        
-        $this->addElement('select', "contact_type", 'Target Contact Type', CRM_Core_SelectValues::$contactType);
-        
-        $this->addElement('text', 'name', 'Target Contact Name' );
-
-        $this->addElement('hidden', 'csearch','0' );
-
+        $this->addElement('text', 'name'      , 'Target Contact Name' );
         $this->addElement('date', 'start_date', 'Start Date', CRM_Core_SelectValues::date( 'relative' ) );
-        
-        $this->addElement('date', 'end_date', 'End Date', CRM_Core_SelectValues::date( 'relative' ) );
+        $this->addElement('date', 'end_date'  , 'End Date'  , CRM_Core_SelectValues::date( 'relative' ) );
 
-        $arraySearch = array();
-        $params = array();
-        $arraySearch = $this->controller->exportValues( $this->_name );
- 
-        if ($this->_mode != self::MODE_UPDATE ) {
-            if (strlen(trim($arraySearch['name']))) {
-                $params['name']         = $arraySearch['name'];
-                $params['contact_type'] = $arraySearch['contact_type'];
-            
-                $this->getContactList($this, $params);
+        $searchRows    = $this->get( 'searchRows'    );
+        $searchMessage = $this->get( 'searchMessage' );
+        $searchCount   = $this->get( 'searchCount'   );
+        if ( $searchRows ) {
+            $checkBoxes = array( );
+            foreach ( $searchRows as $id => $row ) {
+                $checkBoxes[$id] = $this->createElement('checkbox', $id, null, '' );
             }
+            $this->addGroup($checkBoxes, 'contact_check');
+            $this->assign('contacts', $searchRows );
+
+        } else if ( $searchCount == 0 ) {
+            $this->assign( 'noContacts', ' No results were found.' );
+        } else if ( $searchCount > 0 ) {
+            $this->assign( 'noResult', ' There were too many matches, please restrict your search' );
         }
 
         $this->addElement( 'submit', $this->getButtonName('refresh'), 'Search', array( 'class' => 'form-submit' ) );
@@ -205,13 +189,18 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
+        if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
+            $this->search( $params );
+            return;
+        }
+
         // action is taken depending upon the mode
         $ids = array( );
         $ids['contact'] = $this->_contactId;
         if ($this->_mode & self::MODE_UPDATE ) {
             $ids['relationship'] = $this->_relationshipId;
         }    
-
+        
         CRM_Contact_BAO_Relationship::create( $params, $ids );
 
     }//end of function
@@ -226,38 +215,49 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      * @return None
      *
      */
-    function getContactList($this, &$params) {
-    
+    function search(&$params) {
         //max records that will be listed
-        $maxResultCount = 50;
-        $resultCount = 0;
-        $searchName = array();
-
-        $contactBAO = new CRM_Contact_BAO_Contact( );
-        $searchName['sort_name'] = $params['name']; 
-
-        if (strlen($params['contact_type'])) { 
-            $searchName['cb_contact_type'] = array($params['contact_type'] => 1); 
+        $searchValues = array();
+        $searchValues['sort_name'] = $params['name']; 
+        if ( $params['relationship_type_id'] ) {
+            $relationshipType = new CRM_Contact_DAO_RelationshipType( );
+            list( $rid, $direction ) = explode( '_', $params['relationship_type_id'], 2 );
+            $relationshipType->id = $rid;
+            if ( $relationshipType->find( true ) ) {
+                if ( $direction == 'a_b' ) {
+                    $type = $relationshipType->contact_type_b;
+                } else {
+                    $type = $relationshipType->contact_type_a;
+                }
+                if ( $type == 'Individual' ) {
+                    $searchValues['cb_contact_type'] = array( $type => 1 ); 
+                } else if ( $type == 'Household' ) {
+                    $searchValues['cb_contact_type'] = array( $type => 2 );
+                }  else if ( $type == 'Organization' ) {
+                    $searchValues['cb_contact_type'] = array( $type => 3 );
+                }
+            }
         }
+
         // get the count of contact
-        $resultCount = $contactBAO->searchQuery($searchName, 0, 51, $sort, true );
-                
-        if ($resultCount > $maxResultCount) {
-            $this->assign('noResult', 'Please enter appropriate search criteria.');
-        } else {
+        $contactBAO  = new CRM_Contact_BAO_Contact( );
+        $searchCount = $contactBAO->searchQuery($searchValues, 0, 0, null, true );
+        $this->set( 'searchCount', $searchCount );
+        if ( $searchCount <= self::MAX_RELATIONSHIPS ) {
             // get the result of the search
-            $result = $contactBAO->searchQuery($searchName, 0, 50, $sort, false );
+            $result = $contactBAO->searchQuery($searchValues, 0, 50, null, false );
 
             $config = CRM_Core_Config::singleton( );
+            $searchRows = array( );
 
             while($result->fetch()) {
-
-                $values[$result->contact_id]['id'] = $result->contact_id;
-                $values[$result->contact_id]['name'] = $result->sort_name;
-                $values[$result->contact_id]['city'] = $result->city;
-                $values[$result->contact_id]['state'] = $result->state;
-                $values[$result->contact_id]['email'] = $result->email;
-                $values[$result->contact_id]['phone'] = $result->phone;
+                $contactID = $result->contact_id;
+                $searchRows[$contactID]['id'] = $contactID;
+                $searchRows[$contactID]['name'] = $result->sort_name;
+                $searchRows[$contactID]['city'] = $result->city;
+                $searchRows[$contactID]['state'] = $result->state;
+                $searchRows[$contactID]['email'] = $result->email;
+                $searchRows[$contactID]['phone'] = $result->phone;
 
                 $contact_type = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type ) {
@@ -271,16 +271,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     $contact_type .= 'org.gif" alt="Organization" height="16" width="18">';
                     break;
                 }
-                $values[$result->contact_id]['type'] = $contact_type;
-                
-                $contact_chk[$result->contact_id] = $this->createElement('checkbox', $result->contact_id, null,'');                
-            
+                $searchRows[$contactID]['type'] = $contact_type;
             }
 
-            $this->addGroup($contact_chk, 'contact_check');
-            if ($resultCount == 0) $this->assign('noContacts',' No results were found.');
-
-            $this->assign('contacts', $values);
+            $this->set( 'searchRows' , $searchRows );
         }
     }
     
@@ -295,7 +289,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
    * @static
    */
     function formRule( &$params ) {
-        $errors = array( );
+        // hack, no error check for refresh
+        if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
+            return true;
+        }
+
+        $errors        = array( );
         $errorsMessage = '';
 
         $ids = array( );
@@ -303,18 +302,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $ids['contact'] = $session->get('contactId','CRM_Core_Controller_Simple');
         $ids['relationship'] = $session->get('relationshipId','CRM_Core_Controller_Simple');
 
-        if (is_array($params['contact_check'])) {
-            /*
-            foreach ( $params['contact_check'] as $key => $value) {
-                $errorsMessage .= CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $key );
-            }*/
-        } else {
+        if (! is_array($params['contact_check'])) {
             $errorsMessage .= CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids);
         }
 
-        if (strlen(trim($errorsMessage))) {
-            $errors['relationship_type_id'] = ' ';
-            CRM_Core_Session::setStatus( $errorsMessage );
+        if ( $errorsMessage ) {
+            $errors['relationship_type_id'] = $errorsMessage;
         }
 
         return empty($errors) ? true : $errors;

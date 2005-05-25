@@ -261,50 +261,49 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @return array - array reference of all relationship types with context to current contact.
      *
      */
-    function getContactRelationshipType($contactId,$contactSuffix )
+    function getContactRelationshipType( $contactId, $contactSuffix )
     {
-
         $allRelationshipType = array();
-        $relationshipType = array();
+        $relationshipType    = array();
         $allRelationshipType = CRM_Core_PseudoConstant::relationshipType();
 
         $contact = new CRM_Contact_BAO_Contact();
         
         $contact->id = $contactId;
-        $contact->find(true);
-
-        foreach ($allRelationshipType as $key => $varValue) {
-            // there is a special relationship (Parent/Child) where we have to show both the name_a_b and name_b_a
-            // in the select box. that why for relationship type id 1 we have added small tweak while building return array 
-
-            if ($key == 1 && $contact->contact_type == 'Individual') { // this is if relationship type id is 1
-                $relationshipType[$key.'_a_b'] = $varValue['name_a_b'];
-                $relationshipType[$key.'_b_a'] = $varValue['name_b_a']; 
-            }
+        if ( $contact->find(true) ) {
+            foreach ($allRelationshipType as $key => $value) {
+                // there is a special relationship (Parent/Child) where we have to show both the name_a_b and name_b_a
+                // in the select box. that why for relationship type id 1 we have added small tweak while building return array 
+                if ($key == 1 && $contact->contact_type == 'Individual') { // this is if relationship type id is 1
+                    $relationshipType[$key.'_a_b'] = $value['name_a_b'];
+                    $relationshipType[$key.'_b_a'] = $value['name_b_a']; 
+                }
             
-            if ($varValue['contact_type_a'] == $contact->contact_type) {
-                if (!in_array($varValue['name_a_b'], $relationshipType)) {
-                    if (strlen(trim($contactSuffix))) {
-                        $relationshipType[$key.'_'.$contactSuffix] = $varValue['name_a_b'];
-                    } else {
-                        $relationshipType[$key.'_a_b'] = $varValue['name_a_b'];
+                if ($value['contact_type_a'] == $contact->contact_type) {
+                    if (!in_array($value['name_a_b'], $relationshipType)) {
+                        if (strlen(trim($contactSuffix))) {
+                            $relationshipType[$key.'_'.$contactSuffix] = $value['name_a_b'];
+                        } else {
+                            $relationshipType[$key.'_a_b'] = $value['name_a_b'];
+                        }
+                    }
+                } 
+                
+                if ($value['contact_type_b'] == $contact->contact_type) {
+                    if (!in_array($value['name_b_a'], $relationshipType)) {
+                        if (strlen(trim($contactSuffix))) {
+                            $relationshipType[$key.'_'.$contactSuffix] = $value['name_b_a'];                    
+                        } else {
+                            $relationshipType[$key.'_b_a'] = $value['name_b_a'];
+                        }
                     }
                 }
-            } 
-            
-            if ($varValue['contact_type_b'] == $contact->contact_type) {
-                if (!in_array($varValue['name_b_a'], $relationshipType)) {
-                    if (strlen(trim($contactSuffix))) {
-                        $relationshipType[$key.'_'.$contactSuffix] = $varValue['name_b_a'];                    
-                    } else {
-                        $relationshipType[$key.'_b_a'] = $varValue['name_b_a'];
-                    }
-                }
+                
             }
-            
+
+            return $relationshipType;
         }
-
-        return $relationshipType;
+        return null;
     }
 
     /**

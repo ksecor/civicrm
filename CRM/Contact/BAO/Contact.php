@@ -456,8 +456,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      *
      * Get the values for pseudoconstants for name->value and reverse.
      *
-     * @param array $defaults (reference).
-     * @param boolean $reverse (default false).
+     * @param array   $defaults (reference) the default values, some of which need to be resolved.
+     * @param boolean $reverse  true if we want to resolve the values in the recerse direction (value -> name)
      *
      * @return none
      * @access public
@@ -472,7 +472,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 if ( array_key_exists( 'address', $location ) ) {
                     self::lookupValue( $location['address'], 'state_province', CRM_Core_PseudoConstant::stateProvince(), $reverse );
                     self::lookupValue( $location['address'], 'country'       , CRM_Core_PseudoConstant::country()      , $reverse );
-                    self::lookupValue( $location['address'], 'county'        , CRM_Core_SelectValues::$county           , $reverse );
+                    self::lookupValue( $location['address'], 'county'        , CRM_Core_SelectValues::$county          , $reverse );
                 }
                 if ( array_key_exists( 'im', $location ) ) {
                     $ims =& $location['im'];

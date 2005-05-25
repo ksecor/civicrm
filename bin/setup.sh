@@ -11,5 +11,5 @@ mysql -u civicrm -pMt!Everest civicrm < GeneratedData.sql
 # mysql -u civicrm -pMt!Everest civicrm < Contacts.sql
 # mysql -u civicrm -pMt!Everest civicrm < FixedData.sql
 # php GenerateContactData.php
-# mysqldump -t --compact -u civicrm -pMt\!Everest civicrm  > GeneratedData.sql
+# mysqldump -t -u civicrm -pMt\!Everest civicrm  > GeneratedData.sql
 

@@ -40,7 +40,6 @@
             {else} {* action = add *}
                 </dd>
                 <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
-                <dt>{$form.contact_type.label}</dt><dd>{$form.contact_type.html}</dd>
                 <dt> </dt>
                   <dd>
                     {$form._qf_Relationship_refresh.html}
