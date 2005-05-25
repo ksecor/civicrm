@@ -162,7 +162,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                 )
                           );
 
-        if ($this->_action & CRM_Core_Action::VIEW) {
+        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $this->freeze();
         }
     }
