@@ -34,9 +34,19 @@
 
 require_once 'CRM/Contact/DAO/SavedSearch.php';
 
+/**
+ * Business object for Saved searches
+ *
+ */
 class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch 
 {
 
+    /**
+     * class constructor
+     *
+     * @param none
+     * @return object CRM_Contact_BAO_SavedSearch
+     */
     function __construct()
     {
         parent::__construct();
@@ -46,7 +56,6 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      * query the db for all saved searches.
      *
      * @param none
-     *
      * @return array $aSavedSearch - contains the search name as value and and id as key
      *
      * @access public

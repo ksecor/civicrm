@@ -30,12 +30,17 @@
  *
  */
 
+/**
+ * class for managing a http request
+ *
+ */
 class CRM_Utils_Request {
     /**
      * We only need one instance of this object. So we use the singleton
      * pattern and cache the instance in this variable
      *
      * @var object
+     * @access private
      * @static
      */
     static private $_singleton = null;
@@ -43,9 +48,13 @@ class CRM_Utils_Request {
     /**
      * class constructor
      */
-    function __construct( ) {
+    function __construct() {
     }
 
+    /**
+     * get the variable information from the request.
+     *
+     */
     static function retrieve( $name, $store = null, $abort = false, $default = null, $method = 'GET' ) {
         $value = null;
         switch ( $method ) {

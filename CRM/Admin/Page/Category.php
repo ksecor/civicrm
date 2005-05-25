@@ -33,6 +33,9 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
+/**
+ * Page for displaying list of categories
+ */
 class CRM_Admin_Page_Category extends CRM_Core_Page_Basic 
 {
 
@@ -44,11 +47,24 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic
      */
     static $_links;
 
+    /**
+     * Get BAO
+     *
+     * @param none
+     * @return string Classname of BAO.
+     */
     function getBAOName() 
     {
         return 'CRM_Contact_BAO_Category';
     }
 
+
+    /**
+     * Get action Links
+     *
+     * @param none
+     * @return array (reference) of action links
+     */
     function &links() 
     {
         if ( ! isset( self::$_links ) ) 
@@ -75,26 +91,56 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic
         return self::$_links;
     }
 
+    /**
+     * Get name of edit form
+     *
+     * @param none
+     * @return string Classname of edit form.
+     */
     function editForm() 
     {
         return 'CRM_Admin_Form_Category';
     }
 
+    /**
+     * Get form name for edit form
+     *
+     * @param none
+     * @return string name of this page.
+     */
     function editName() 
     {
         return 'Category';
     }
 
+    /**
+     * Get form name for delete form
+     *
+     * @param none
+     * @return string name of this page.
+     */
     function deleteName() 
     {
         return 'Category';
     }
 
+    /**
+     * Get user context.
+     *
+     * @param none
+     * @return string user context.
+     */
     function userContext( $mode = null ) 
     {
         return 'civicrm/admin/category';
     }
 
+    /**
+     * Get name of delete form
+     *
+     * @param none
+     * @return string Classname of delete form.
+     */
    function deleteForm() 
    {
         return 'CRM_Admin_Form_Category';

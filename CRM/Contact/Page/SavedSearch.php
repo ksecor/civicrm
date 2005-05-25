@@ -34,6 +34,10 @@
 require_once 'CRM/Core/Page.php';
 require_once 'CRM/Contact/DAO/SavedSearch.php';
 
+/**
+ * Main page for viewing all Saved searches.
+ *
+ */
 class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
 
     /**
@@ -44,14 +48,33 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
      */
     static $_links;
 
-    function delete( $id ) {
+
+    /**
+     * delete a saved search.
+     *
+     * @param int $id - id of saved search
+     * @return none
+     *
+     */
+    function delete($id)
+    {
         $savedSearch = new CRM_Contact_DAO_SavedSearch();
         $savedSearch->id = $id;
-        $savedSearch->delete( );
+        $savedSearch->delete();
         return;
     }
 
-    function browse( ) {
+
+
+    /**
+     * Browse all saved searches.
+     *
+     * @param none
+     * @return content of the parents run method
+     *
+     */
+    function browse()
+    {
         $rows = array();
         
         $savedSearch = new CRM_Contact_DAO_SavedSearch();
@@ -69,11 +92,17 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
             $rows[] = $row;
         }
         $this->assign('rows', $rows);
-        
         return parent::run();
     }
 
-    function run( ) {
+
+    /**
+     * run this page (figure out the action needed and perform it).
+     *
+     * @param none
+     * @return none
+     */
+    function run() {
         $action = CRM_Utils_Request::retrieve( 'action', $this, false, 'browse' );
 
         $this->assign( 'action', $action );
@@ -85,6 +114,14 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
         $this->browse( );
     }
 
+
+    /**
+     * Get action Links
+     *
+     * @param none
+     * @return array (reference) of action links
+     * @static
+     */
     static function &links()
     {
 

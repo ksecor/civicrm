@@ -33,10 +33,18 @@
 
 require_once 'CRM/Core/StateMachine.php';
 
+/**
+ * State machine for managing different states of the Import process.
+ *
+ */
 class CRM_Import_StateMachine extends CRM_Core_StateMachine {
 
     /**
      * class constructor
+     *
+     * @param object CRM_Import_Controller
+     * @param int $mode
+     * @return object CRM_Import_StateMachine
      */
     function __construct( $controller, $mode = CRM_Core_Form::MODE_NONE ) {
         parent::__construct( $controller, $mode );

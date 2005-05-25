@@ -45,7 +45,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function preProcess( ) {
+    public function preProcess()
+    {
         $this->_mapperFields = $this->get( 'fields' );
         $this->_columnCount  = $this->get( 'columnCount' );
 

@@ -33,8 +33,11 @@
 
 require_once 'CRM/Core/Page.php';
 
+/**
+ * Main page for viewing Notes.
+ *
+ */
 class CRM_Contact_Page_Note {
-
     static function view( $page, $noteId ) {
         $note = new CRM_Core_DAO_Note( );
         $note->id = $noteId;

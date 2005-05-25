@@ -58,9 +58,19 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      */
     static $_links;
 
-    /* we use desc to remind us what that column is, name is used in the tpl */
+    /**
+     * we use desc to remind us what that column is, name is used in the tpl
+     *
+     * @var array
+     * @static
+     */
     static $_columnHeaders;
 
+    /**
+     * Properties of contact we're interested in displaying
+     * @var array
+     * @static
+     */
     static $_properties = array('contact_id', 'contact_type', 'sort_name', 'street_address',
                                 'city', 'state', 'postal_code', 'country',
                                 'email', 'phone' );
@@ -166,6 +176,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $params['buttonTop']    = 'PagerTopButton';
         $params['buttonBottom'] = 'PagerBottomButton';
     }//end of function
+
 
     /**
      * returns the column headers as an array of tuples:
@@ -274,7 +285,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      *
      * @param array reference $formValues submitted formValues
      *
-     * @return string string representing the query in local language
+     * @return array $qill which contains an array of strings
      * @access public
      */
   
@@ -395,16 +406,39 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         return $qill;
     }
 
-
+    
+    /**
+     * Wrapper function for getting Qill.
+     *
+     * Calls the static function getQILL to get query in local language
+     *
+     * @param none
+     * @return contents of static function.
+     * @access public
+     */
     public function getMyQILL() {
         return self::getQILL($this->_formValues);
     }
 
 
+    /**
+     * name of export file.
+     *
+     * @param string $output type of output
+     * @return string name of the file
+     */
     function getExportFileName( $output = 'csv') {
         return 'CiviCRM Contact Search';
     }
 
+    /**
+     * get colunmn headers for search selector
+     *
+     *
+     * @param none
+     * @return array $_columnHeaders
+     * @access private
+     */
     private static function &_getColumnHeaders() 
     {
         if ( ! isset( self::$_columnHeaders ) )

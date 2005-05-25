@@ -48,23 +48,6 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
      */
     public function buildQuickForm( ) 
     {
-
-        /*
-        // store the referer url
-        $rd = 0;
-        $rd = CRM_Utils_Request::retrieve( 'rd', $this, false, 0 );
-        
-        if ($rd) {
-            echo $strReturnPath = $_SERVER['HTTP_REFERER'];
-            echo "<br>======<br>"; 
-            echo $lngCrmPosition = strpos($strReturnPath, 'civicrm');
-            echo "<br>======<br>"; 
-            echo $lngActionPosition = strpos($strReturnPath, 'action');
-            $strReturnPath = substr($strReturnPath, $lngCrmPosition, $lngActionPosition);
-            echo $_SESSION['returnPath'] = $strReturnPath;
-        }
-        */
-        
         $this->applyFilter('__ALL__', 'trim');
   
         $this->add('text', 'name_a_b'       , ts('Relationship Label-A to B')       ,

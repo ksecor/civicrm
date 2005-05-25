@@ -34,6 +34,9 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
+/**
+ * Page for displaying list of location types
+ */
 class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic 
 {
     /**
@@ -44,11 +47,23 @@ class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic
      */
     static $_links;
 
+    /**
+     * Get BAO Name
+     *
+     * @param none
+     * @return string Classname of BAO.
+     */
     function getBAOName() 
     {
         return 'CRM_Core_BAO_MobileProvider';
     }
 
+    /**
+     * Get action Links
+     *
+     * @param none
+     * @return array (reference) of action links
+     */
     function &links() 
     {
 
@@ -82,16 +97,34 @@ class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic
         return self::$_links;
     }
 
+    /**
+     * Get name of edit form
+     *
+     * @param none
+     * @return string Classname of edit form.
+     */
     function editForm() 
     {
         return 'CRM_Admin_Form_MobileProvider';
     }
 
+    /**
+     * Get edit form name
+     *
+     * @param none
+     * @return string name of this page.
+     */
     function editName() 
     {
         return 'Mobile Provider';
     }
 
+    /**
+     * Get user context.
+     *
+     * @param none
+     * @return string user context.
+     */
     function userContext( $mode = null ) 
     {
         return 'civicrm/admin/mobileProvider';

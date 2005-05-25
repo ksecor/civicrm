@@ -45,7 +45,12 @@ require_once 'CRM/Contact/Selector.php';
  * contacts
  */
 class CRM_Contact_Form_Search extends CRM_Core_Form {
-
+    /*
+     * list of valid contexts
+     *
+     * @var array
+     * @static
+     */
     static $_validContext = array(
                                   'search' => 'Search',
                                   'smog'   => 'Show members of group',
@@ -56,6 +61,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * The context that we are working on
      *
      * @var string
+     * @access protected
      */
     protected $_context;
 
@@ -63,6 +69,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * the groupId retrieved from the GET vars
      *
      * @var int
+     * @access protected
      */
     protected $_groupID;
 
@@ -71,6 +78,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * retrieved from the GET vars
      *
      * @var int
+     * @access protected
      */
     protected $_amtgID;
 
@@ -78,6 +86,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * the saved search IDretrieved from the GET vars
      *
      * @var int
+     * @access protected
      */
     protected $_ssID;
 
@@ -85,6 +94,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * Are we forced to run a search
      *
      * @var int
+     * @access protected
      */
     protected $_force;
 
@@ -92,6 +102,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * name of search button
      *
      * @var string
+     * @access protected
      */
     protected $_searchButtonName;
 
@@ -99,6 +110,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * name of export button
      *
      * @var string
+     * @access protected
      */
     protected $_exportButtonName;
 
@@ -107,6 +119,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * name of export button
      *
      * @var string
+     * @access protected
      */
     protected $_actionButtonName;
 
@@ -114,6 +127,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * the group elements
      *
      * @var array
+     * @access protected
      */
     protected $_group;
     protected $_groupElement;
@@ -121,7 +135,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     /**
      * the category elements
      *
-     * @var array
+     * @var array 
+     * @access protected
      */
     protected $_category;
     protected $_categoryElement;
@@ -130,6 +145,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * form values that we will be using
      *
      * @var array
+     * @access protected
      */
     protected $_formValues;
     
@@ -156,7 +172,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @access public
      * @return void
      */
-    function buildQuickFormCommon( ) {
+    function buildQuickFormCommon()
+    {
 
         // some tasks.. what do we want to do with the selected contacts ?
         $tasks = array( '' => '- more actions -' ) + CRM_Contact_Task::$tasks;
@@ -432,6 +449,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         return;
     }
 
+
+    /**
+     * Common post processing
+     *
+     * @param none
+     * @return void
+     * @access public
+     */
     function postProcessCommon( ) {
         /*
          * sometime we do a postProcess early on, so we dont need to repeat it

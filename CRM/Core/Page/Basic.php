@@ -117,34 +117,48 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         parent::__construct($title, $mode);
     }
 
-    function run( ) {
+    /**
+     * Run the basic page (run essentially starts execution for that page).
+     *
+     * @param none
+     * @return none
+     */
+    function run()
+    {
+        // what action do we want to perform ? (store it for smarty too.. :) 
         $action = CRM_Utils_Request::retrieve( 'action', $this, false, 'browse' );
-
         $this->assign( 'action', $action );
 
+        // get 'id' if present
         $id  = CRM_Utils_Request::retrieve( 'id', $this, false, 0 );
 
-        if ( $action & (CRM_Core_Action::VIEW | CRM_Core_Action::ADD | CRM_Core_Action::UPDATE) ) {
-            $this->edit($action, $id );
-        } else if ( $action & CRM_Core_Action::DELETE ) {
-            $this->delete($action, $id );
-        } else if ( $action & CRM_Core_Action::DISABLE ) {
-            eval( $this->getBAOName( ) . "::setIsActive( $id, 0 );" );
+        if ($action & (CRM_Core_Action::VIEW | CRM_Core_Action::ADD | CRM_Core_Action::UPDATE)) {
+            $this->edit($action, $id);                               // use edit form for view, add or update
+        } else if ($action & CRM_Core_Action::DELETE) { 
+            $this->delete($action, $id );                            // delete the id
+        } else if ($action & CRM_Core_Action::DISABLE) {
+            eval($this->getBAOName( ) . "::setIsActive( $id, 0 );"); //disable
         } else if ( $action & CRM_Core_Action::ENABLE ) {
-            eval( $this->getBAOName( ) . "::setIsActive( $id, 1 );" );
+            eval($this->getBAOName( ) . "::setIsActive( $id, 1 );"); // enable
         } 
- 
-        $this->browse( );
 
-        return parent::run( );
+        // finally browse (list) the page
+        $this->browse();
+
+        return parent::run();
     }
 
-    function browse( $action = null ) {
-        $links =& $this->links( );
-        if ( $action == null ) {
-            $action = array_sum( array_keys( $links ) );
-        }
 
+    /**
+     * browse all entities.
+     *
+     * @param int $action
+     */
+    function browse($action = null) {
+        $links =& $this->links();
+        if ($action == null) {
+            $action = array_sum(array_keys($links));
+        }
         if ( $action & CRM_Core_Action::DISABLE ) {
             $action -= CRM_Core_Action::DISABLE;
         }
@@ -154,7 +168,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
         eval( '$object = new ' . $this->getBAOName( ) . '( );' );
 
-        $values = array( );
+        $values = array();
 
         /*
          * lets make sure we get the stuff sorted by name if it exists
@@ -168,12 +182,13 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
             $object->orderBy ( 'label asc' );
         }
 
-        $object->find( );
-        while ( $object->fetch( ) ) {
+        // find all objects
+        $object->find();
+        while ($object->fetch()) {
             $values[$object->id] = array( );
-            $object->storeValues( $values[$object->id] );
-
-            self::action( $object, $action, $values[$object->id], $links );
+            $object->storeValues($values[$object->id]);
+            // populate action links
+            self::action($object, $action, $values[$object->id], $links);
         }
         $this->assign( 'rows', $values );
     }
@@ -209,6 +224,13 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         }
     }
 
+    /**
+     * Edit this entity.
+     *
+     * @param int $mode - what mode for the form ?
+     * @param int $id - id of the entity (for update, view operations)
+     * @return none
+     */
     function edit( $mode, $id = null ) 
     {
         $controller = new CRM_Core_Controller_Simple( $this->editForm( ), $this->editName( ), $mode );
@@ -216,18 +238,24 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
        // set the userContext stack
         $session = CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) ) );
-        
-        if ( $id ) {
+        if ($id) {
             $controller->set( 'id'   , $id );
         }
-        $controller->set( 'BAOName', $this->getBAOName( ) );
-        $this->addValues( $controller );
+        $controller->set('BAOName', $this->getBAOName());
+        $this->addValues($controller);
         $controller->setEmbedded( true );
         $controller->process( );
         $controller->run( );
     }
 
 
+    /**
+     * delete this entity.
+     *
+     * @param int $mode - what mode for the form ?
+     * @param int $id - id of the entity (for update, view operations)
+     * @return none
+     */
     function delete( $mode, $id = null )
     {
         $controller = new CRM_Core_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), $mode );

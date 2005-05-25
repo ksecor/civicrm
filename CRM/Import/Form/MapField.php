@@ -42,6 +42,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * cache of preview data values
      *
      * @var array
+     * @access protected
      */
     protected $_dataValues;
 
@@ -49,6 +50,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * mapper fields
      *
      * @var array
+     * @access protected
      */
     protected $_mapperFields;
 
@@ -56,16 +58,19 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * number of columns in import file
      *
      * @var int
+     * @access protected
      */
     protected $_columnCount;
 
     /**
      * Function to set variables up before form is built
      *
+     * @param none
      * @return void
      * @access public
      */
-    public function preProcess( ) {
+    public function preProcess()
+    {
         $this->_mapperFields = $this->get( 'fields' );
 
         $this->_columnCount = $this->get( 'columnCount' );
@@ -86,10 +91,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
     /**
      * Function to actually build the form
      *
+     * @param none
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm()
+    {
         $this->_defaults = array( );
         $mapperKeys      = array_keys( $this->_mapperFields );
 
@@ -116,10 +123,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * Process the mapped fields and map it into the uploaded file
      * preview the file and extract some summary statistics
      *
+     * @param none
      * @return void
      * @access public
      */
-    public function postProcess( ) {
+    public function postProcess()
+    {
         $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
 
@@ -147,10 +156,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
     /**
      * Return a descriptive name for the page, used in wizard header
      *
+     * @param none
      * @return string
      * @access public
      */
-    public function getTitle( ) {
+    public function getTitle()
+    {
         return 'Match Fields';
     }
 

@@ -33,6 +33,9 @@
 
 require_once 'CRM/Core/Page/Basic.php';
 
+/**
+ * Page for displaying list of relationship types
+ */
 class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic 
 {
     /**
@@ -43,11 +46,24 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
      */
     static $_links;
 
+    /**
+     * Get BAO Name
+     *
+     * @param none
+     * @return string Classname of BAO.
+     */
     function getBAOName() 
     {
         return 'CRM_Contact_BAO_RelationshipType';
     }
 
+
+    /**
+     * Get action Links
+     *
+     * @param none
+     * @return array (reference) of action links
+     */
     function &links() 
     {
         if ( ! isset( self::$_links ) ) 
@@ -86,16 +102,34 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
         return self::$_links;
     }
 
+    /**
+     * Get name of edit form
+     *
+     * @param none
+     * @return string Classname of edit form.
+     */
     function editForm() 
     {
         return 'CRM_Admin_Form_RelationshipType';
     }
 
+    /**
+     * Get edit form name
+     *
+     * @param none
+     * @return string name of this page.
+     */
     function editName() 
     {
         return 'Relationship Types';
     }
 
+    /**
+     * Get user context.
+     *
+     * @param none
+     * @return string user context.
+     */
     function userContext(  $mode = null ) 
     {
         return 'civicrm/admin/reltype';
