@@ -250,54 +250,69 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     /**
      * Function to get get list of relationship type based on the contact type.
      *
-     * @param int contactId this is the contact id of the current contact.
-     * $param string $strContact it's  values are 'a or b' if value is 'a' then selected contact is the value of contac_id_a 
+     * @param int    $contactId this is the contact id of the current contact.
+     * @param string $strContact it's  values are 'a or b' if value is 'a' then selected contact is the value of contac_id_a 
      *               for the relationship and if value is 'b' then selected contact is the value of contac_id_b for the relationship
-     *
+     * @param string $relationshipId the id of the existing relationship if any
      * @access public
      * @static
      *
      * @return array - array reference of all relationship types with context to current contact.
      *
      */
-    function getContactRelationshipType( $contactId, $contactSuffix )
+    function getContactRelationshipType( $contactId, $contactSuffix, $relationshipId )
     {
         $allRelationshipType = array();
         $relationshipType    = array();
         $allRelationshipType = CRM_Core_PseudoConstant::relationshipType();
 
+        $otherContactType = null;
+        if ( $relationshipId ) {
+            $relationship = new CRM_Contact_DAO_Relationship( );
+            $relationship->id = $relationshipId;
+            if ($relationship->find(true)) {
+                $contact = new CRM_Contact_DAO_Contact( );
+                $contact->id = ( $relationship->contact_id_a === $contactId ) ? $relationship->contact_id_b : $relationship->contact_id_a;
+                if ($contact->find(true)) {
+                    $otherContactType = $contact->contact_type;
+                }
+            }
+        }
+
         $contact = new CRM_Contact_BAO_Contact();
-        
         $contact->id = $contactId;
         if ( $contact->find(true) ) {
+            $contactSuffix = trim( $contactSuffix );
             foreach ($allRelationshipType as $key => $value) {
-                // there is a special relationship (Parent/Child) where we have to show both the name_a_b and name_b_a
-                // in the select box. that why for relationship type id 1 we have added small tweak while building return array 
-                if ($key == 1 && $contact->contact_type == 'Individual') { // this is if relationship type id is 1
-                    $relationshipType[$key.'_a_b'] = $value['name_a_b'];
-                    $relationshipType[$key.'_b_a'] = $value['name_b_a']; 
+                if ( $value['name_a_b']       != $value['name_b_a']       &&
+                     $value['contact_type_a'] == $value['contact_type_b'] &&
+                     $value['contact_type_a'] == $contact->contact_type   &&
+                     ( ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) ) {
+                    $relationshipType[ $key . '_a_b' ] = $value['name_a_b'];
+                    $relationshipType[ $key . '_b_a' ] = $value['name_b_a'];
+                    continue;
                 }
-            
-                if ($value['contact_type_a'] == $contact->contact_type) {
-                    if (!in_array($value['name_a_b'], $relationshipType)) {
-                        if (strlen(trim($contactSuffix))) {
-                            $relationshipType[$key.'_'.$contactSuffix] = $value['name_a_b'];
+                if ( $value['contact_type_a'] == $contact->contact_type &&
+                     ( ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) ) {
+                    if ( ! in_array( $value['name_a_b'], $relationshipType ) ) {
+                        if ( $contactSuffix ) {
+                            $relationshipType[ $key . '_' . $contactSuffix ] = $value[ 'name_a_b' ];
                         } else {
-                            $relationshipType[$key.'_a_b'] = $value['name_a_b'];
+                            $relationshipType[ $key . '_a_b' ] = $value[ 'name_a_b' ];
                         }
                     }
                 } 
                 
-                if ($value['contact_type_b'] == $contact->contact_type) {
-                    if (!in_array($value['name_b_a'], $relationshipType)) {
-                        if (strlen(trim($contactSuffix))) {
-                            $relationshipType[$key.'_'.$contactSuffix] = $value['name_b_a'];                    
+                if ( $value['contact_type_b'] == $contact->contact_type &&
+                     ( ( ! $otherContactType ) || $value['contact_type_a'] == $otherContactType ) ) {
+                    if ( ! in_array( $value['name_b_a'], $relationshipType ) ) {
+                        if ( $contactSuffix ) {
+                            $relationshipType[ $key . '_' . $contactSuffix ] = $value[ 'name_b_a' ];
                         } else {
-                            $relationshipType[$key.'_b_a'] = $value['name_b_a'];
+                            $relationshipType[ $key . '_b_a' ] = $value[ 'name_b_a' ];
                         }
                     }
                 }
-                
             }
 
             return $relationshipType;
@@ -567,18 +582,13 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function getRelationship( $contactId, $status = 0, $numRelationship = 0, $count = 0, $relationshipId = 0 ) {
 
-        // debug_print_backtrace();
-
         $relationship = new CRM_Contact_DAO_Relationship( );
-     
         $select1 = $from1 = $where1 = $select2 = $from2 = $where2 = $order = $limit = '';
-        
         $select1 = "( ";
-       
+
         if ( $count ) {
             $select1 .= "SELECT count(DISTINCT crm_relationship.id) as cnt1, 0 as cnt2 ";
         } else { 
-           
             $select1 .= "SELECT crm_relationship.id as crm_relationship_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
@@ -632,11 +642,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             $where1 .= "     AND crm_relationship.end_date < '".date("Y-m-d")."'";
             break;
             
-        default: 
+        case 3:
             //this case for showing current relationship
             $where1 .= "     AND crm_relationship.is_active = 1 ";
-            // $where1 .= "     AND crm_relationship.end_date >= '".date("Y-m-d")."'";
             $where1 .= "     AND (crm_relationship.end_date >= '".date("Y-m-d")."' OR crm_relationship.end_date IS NULL)";
+            break;
+
         }
 
         $where1 .= ") UNION ";
@@ -697,7 +708,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             $where2 .= "     AND crm_relationship.end_date < '".date("Y-m-d")."'";
             break;
             
-        default: 
+        case 3:
             //this case for showing current relationship
             $where2 .= "     AND crm_relationship.is_active = 1 ";
             $where2 .= "     AND (crm_relationship.end_date >= '".date("Y-m-d")."' OR crm_relationship.end_date IS NULL)";

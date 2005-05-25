@@ -51,7 +51,6 @@ class CRM_Contact_Page_Relationship {
     {
         $contactId = $page->getContactId( );
         $viewRelationship = CRM_Contact_BAO_Relationship::getRelationship( $contactId, null, null, null, $relationshipId );
-
         $page->assign( 'viewRelationship', $viewRelationship );
        
     }
@@ -68,7 +67,7 @@ class CRM_Contact_Page_Relationship {
     static function browse( $page ) {
         $contactId = $page->getContactId( );
         
-        $currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($contactId);
+        $currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($contactId,  3);
         $pastRelationships    = CRM_Contact_BAO_Relationship::getRelationship( $contactId, 1 );
         $disableRelationships = CRM_Contact_BAO_Relationship::getRelationship( $contactId, 2 );
         

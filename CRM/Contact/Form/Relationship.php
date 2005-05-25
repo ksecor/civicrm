@@ -87,11 +87,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $relationship = new CRM_Contact_DAO_Relationship( );
-
             $relationship->id = $this->_relationshipId;
-
             if ($relationship->find(true)) {
-
                 $defaults['relationship_type_id'] = $relationship->relationship_type_id . '_' . $this->_rtype;
                 $defaults['start_date']           = $relationship->start_date;
                 $defaults['end_date'  ]           = $relationship->end_date;
@@ -140,7 +137,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                           'relationship_type_id',
                           'Relationship Type',
                           array('' => '- select -') +
-                          CRM_Contact_BAO_Relationship::getContactRelationshipType( $this->_contactId, $rtype ) );
+                          CRM_Contact_BAO_Relationship::getContactRelationshipType( $this->_contactId,
+                                                                                    $this->_rtype,
+                                                                                    $this->_relationshipId ) );
         
         $this->addElement('text', 'name'      , 'Find Target Contact' );
         $this->addElement('date', 'start_date', 'Start Date', CRM_Core_SelectValues::date( 'relative' ) );
@@ -154,6 +153,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $checkBoxes[$id] = $this->createElement('checkbox', $id, null, '' );
             }
             $this->addGroup($checkBoxes, 'contact_check');
+            $this->addRule( 'contact_check', 'Please select at least one contact.', 'required' );
             $this->assign('searchRows', $searchRows );
 
         }
@@ -324,24 +324,19 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             return true;
         }
 
-        $errors        = array( );
-        $errorsMessage = '';
-
         $ids = array( );
-        $session = CRM_Core_Session::Singleton();
-        $ids['contact'] = $session->get('contactId','CRM_Core_Controller_Simple');
-        $ids['relationship'] = $session->get('relationshipId','CRM_Core_Controller_Simple');
+        $session = CRM_Core_Session::singleton( );
+        $ids['contact'     ] = $session->get( 'contactId'     , 'CRM_Core_Controller_Simple' );
+        $ids['relationship'] = $session->get( 'relationshipId', 'CRM_Core_Controller_Simple' );
 
-        if (! is_array($params['contact_check'])) {
-            $errorsMessage .= CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids);
+        $errors        = array( );
+        if ( CRM_Utils_Array::value( 'contact_check', $params ) ) {
+            $message = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids);
+            if ( $message ) {
+                $errors['relationship_type_id'] = $message;
+            }
         }
-
-        if ( $errorsMessage ) {
-            $errors['relationship_type_id'] = $errorsMessage;
-        }
-
         return empty($errors) ? true : $errors;
-
     }
 
 }
