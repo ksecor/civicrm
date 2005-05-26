@@ -1,7 +1,7 @@
 #!/opt/php5/bin/php
 <?php
 
-
+/* $Id$ */
 
 /**
  * ts() calls extractor
@@ -379,9 +379,7 @@ function store($file = 0, $input = 0, $filelist = array(), $get = false)
 /**
  * writes the POT file
  *
- * this function writes either a $filename-$fileextension.pot file (if the
- * extractor is invoked with only one file to parse) or general.pot file
- * (if the extractor is called on multiple files)
+ * this function writes the general.pot file
  *
  * @return void
  */
@@ -393,7 +391,9 @@ function writeFiles()
 
     // iterate through the files and merge the information for the same strings
     foreach ($output as $file => $content) {
-        if (count($content) <= 11 && $file != 'general') {
+        // the original created separate .pot files for each source file
+        // that containted over 11 strings, we've dropped this rule
+        //if (count($content) <= 11 && $file != 'general') {
             @$output['general'][1] = array_unique(array_merge($output['general'][1], $content[1]));
             if (!isset($output['general'][0])) {
                 $output['general'][0] = $content[0];
@@ -404,7 +404,7 @@ function writeFiles()
                 $output['general'][] = $msgid;
             }
             unset($output[$file]);
-        }
+        //}
     }
 
     // create the POT file
