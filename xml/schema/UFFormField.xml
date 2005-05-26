@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <name>crm_uf_form_field</name>
+  <comment>User Framework form fields and their properties.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique table ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>uf_form_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which form does this field belong to.</comment>
+  </field>
+  <foreignKey>
+       <name>uf_form_id</name>
+       <table>crm_uf_form</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>field_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Name for CiviCRM field which is being exposed for sharing.</comment>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+        <default>1</default>
+       <comment>Is this field currently shareable? If false, hide the field for all sharing contexts.</comment>
+  </field>
+  <field>
+       <name>view_only</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>If true, data is displayed to user and user admin, but not editable in user forms.</comment>
+  </field>
+  <field>
+       <name>is_required</name>
+       <type>boolean</type>
+        <default>0</default>
+       <comment>Is this field required when included in a user or registration form?</comment>
+  </field>
+  <field>
+       <name>for_registration</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this field included in new user registration forms?</comment>
+  </field>
+  <field>
+       <name>visibility</name>
+       <type>enum</type>
+       <values>User and User Admin Only,Public User Pages,Public User Pages and Listings</values>
+       <default>'User and User Admin Only'</default>
+       <comment>In what context(s) is this field visible.</comment>
+  </field>
+  <field>
+       <name>listings_title</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Page title for listings page (users who share a common value for this property).</comment>
+  </field>
+</table>

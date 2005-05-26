@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <name>crm_uf_form</name>
+  <comment>User framework forms. Each record represents a form which encompasses a set of fields defined in crm_uf_form_fields table. Initially will be used for User Sharing form(s). Subsequently we anticipate using this to define other public facing forms (e.g. online donation solicitation forms, mailing list preferences, etc.).</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique table ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this form.</comment>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>crm_domain</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+        <default>1</default>
+       <comment>Is this form currently active? If false, hide all related fields for all sharing contexts.</comment>
+  </field>
+  <field>
+       <name>form_type</name>
+       <type>enum</type>
+       <values>User Sharing</values>
+       <comment>Type of form.</comment>
+  </field>
+  <field>
+       <name>title</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Form title.</comment>
+  </field>
+</table>
