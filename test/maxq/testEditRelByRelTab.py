@@ -9,7 +9,7 @@ exec 'from '+validatorPkg+' import Validator'
 
 
 # definition of test class
-class testViewContactHousehold(PyHttpTestCase):
+class testEditRelByRelTab(PyHttpTestCase):
     def runTest(self):
         self.msg('Test started')
 
@@ -60,10 +60,11 @@ class testViewContactHousehold(PyHttpTestCase):
         Validator.validateResponse(self, self.getMethod(), url, params)
 
         params = [
-            ('''reset''', '''1'''),
-            ('''cid''', '''22'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=101''') % drupal_path)
-        url = "%s/civicrm/contact/view" % drupal_path
+            ('''action''', '''update'''),
+            ('''rid''', '''129'''),
+            ('''rtype''', '''b_a'''),]
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/rel?action=update&rid=129&rtype=b_a''') % drupal_path)
+        url = "%s/civicrm/contact/view/rel" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -71,14 +72,54 @@ class testViewContactHousehold(PyHttpTestCase):
         self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        # url = "http://localhost/favicon.ico"
-        # params = None
-        # Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        # self.get(url, params)
-        # self.msg("Response code: %s" % self.getResponseCode())
-        # self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
-        # Validator.validateResponse(self, self.getMethod(), url, params)
+        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
+        #url = "http://localhost/favicon.ico"
+        #params = None
+        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        #self.get(url, params)
+        #self.msg("Response code: %s" % self.getResponseCode())
+        #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
+        #Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''_qf_default''', '''Relationship:next'''),
+            ('''relationship_type_id''', '''7_b_a'''),
+            ('''start_date[d]''', '''14'''),
+            ('''start_date[M]''', '''10'''),
+            ('''start_date[Y]''', '''1998'''),
+            ('''end_date[d]''', '''18'''),
+            ('''end_date[M]''', '''12'''),
+            ('''end_date[Y]''', '''2022'''),
+            ('''_qf_Relationship_next''', '''Save Relationship'''),]
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/rel?_qf_default=Relationship:next&relationship_type_id=7_b_a&start_date[d]=14&start_date[M]=10&start_date[Y]=1998&end_date[d]=18&end_date[M]=12&end_date[Y]=2022&_qf_Relationship_next=Save Relationship''') % drupal_path)
+        url = "%s/civicrm/contact/view/rel" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "post", url, params)
+        self.post(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        params = [
+            ('''action''', '''browse'''),]
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/rel?action=browse''') % drupal_path)
+        url = "%s/civicrm/contact/view/rel" % drupal_path
+        self.msg("Testing URL: %s" % url)
+        Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        self.get(url, params)
+        self.msg("Response code: %s" % self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
+        #url = "http://localhost/favicon.ico"
+        #self.msg("Testing URL: %s" % url)
+        #params = None
+        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        #self.get(url, params)
+        #self.msg("Response code: %s" % self.getResponseCode())
+        #self.assertEquals("Assert number 9 failed", 404, self.getResponseCode())
+        #Validator.validateResponse(self, self.getMethod(), url, params)
         
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
@@ -86,5 +127,5 @@ class testViewContactHousehold(PyHttpTestCase):
 
 # Code to load and run the test
 if __name__ == 'main':
-    test = testViewContactHousehold("testViewContactHousehold")
+    test = testEditRelByRelTab("testEditRelByRelTab")
     test.Run()

@@ -54,8 +54,8 @@ class testAdvSearchByName(PyHttpTestCase):
         self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        # self.msg("Testing URL: %s" % self.replaceURL('''http://192.168.2.9/favicon.ico'''))
-        # url = "http://192.168.2.9/favicon.ico"
+        # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
+        # url = "http://localhost/favicon.ico"
         # params = None
         # Validator.validateRequest(self, self.getMethod(), "get", url, params)
         # self.get(url, params)
@@ -84,8 +84,8 @@ class testAdvSearchByName(PyHttpTestCase):
         self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        # self.msg("Testing URL: %s" % self.replaceURL('''http://192.168.2.9/favicon.ico'''))
-        # url = "http://192.168.2.9/favicon.ico"
+        # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
+        # url = "http://localhost/favicon.ico"
         # params = None
         # Validator.validateRequest(self, self.getMethod(), "get", url, params)
         # self.get(url, params)

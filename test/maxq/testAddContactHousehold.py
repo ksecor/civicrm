@@ -67,7 +67,7 @@ class testAddContactHousehold(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
@@ -76,7 +76,7 @@ class testAddContactHousehold(PyHttpTestCase):
         # Validator.validateRequest(self, self.getMethod(), "get", url, params)
         # self.get(url, params)
         # self.msg("Response code: %s" % self.getResponseCode())
-        # self.assertEquals("Assert number 5 failed", 404, self.getResponseCode())
+        # self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
         # Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
@@ -130,7 +130,7 @@ class testAddContactHousehold(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 6 failed", 302, self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
@@ -142,7 +142,7 @@ class testAddContactHousehold(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         self.msg("Test successfully complete")

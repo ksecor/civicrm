@@ -68,7 +68,7 @@ class testEditContactIndividual(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
@@ -77,7 +77,7 @@ class testEditContactIndividual(PyHttpTestCase):
         # Validator.validateRequest(self, self.getMethod(), "get", url, params)
         # self.get(url, params)
         # self.msg("Response code: %s" % self.getResponseCode())
-        # self.assertEquals("Assert number 5 failed", 404, self.getResponseCode())
+        # self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
         # Validator.validateResponse(self, self.getMethod(), url, params)
 
         params = [
@@ -146,13 +146,13 @@ class testEditContactIndividual(PyHttpTestCase):
             ('''birth_date[M]''', '''2'''),
             ('''birth_date[Y]''', '''1979'''),
             ('''_qf_Edit_next''', '''Save'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://192.168.2.9/drupal/civicrm/contact/edit?_qf_default=Edit:next&prefix=Dr&first_name=Brzęczysław&last_name=Grant&suffix=Sr&greeting_type=Formal&job_title=&__privacy[do_not_phone]=1&privacy[do_not_phone]=1&__privacy[do_not_email]=1&privacy[do_not_email]=1&privacy[do_not_mail]=&preferred_communication_method=Email&location[1][location_type_id]=1&location[1][is_primary]=1&location[1][phone][1][phone_type]=Phone&location[1][phone][1][phone]=68306424&location[1][phone][2][phone_type]=Mobile&location[1][phone][2][phone]=73314949&location[1][phone][3][phone_type]=&location[1][phone][3][phone]=&location[1][email][1][email]=GrantBrzczysaw@npo.net.in&location[1][email][2][email]=GrantBrzczysaw@brown.edu&location[1][email][3][email]=&location[1][im][1][provider_id]=4&location[1][im][1][name]=Hello&location[1][im][2][provider_id]=&location[1][im][2][name]=&location[1][im][3][provider_id]=&location[1][im][3][name]=&location[1][address][street_address]=NE 340R Second Path W&location[1][address][supplemental_address_1]=C/o PO Plus&location[1][address][supplemental_address_2]=&location[1][address][city]=Albany&location[1][address][state_province_id]=1031&location[1][address][postal_code]=448795&location[1][address][country_id]=1228&location[2][location_type_id]=1&location[2][phone][1][phone_type]=&location[2][phone][1][phone]=&location[2][phone][2][phone_type]=&location[2][phone][2][phone]=&location[2][phone][3][phone_type]=&location[2][phone][3][phone]=&location[2][email][1][email]=&location[2][email][2][email]=&location[2][email][3][email]=&location[2][im][1][provider_id]=&location[2][im][1][name]=&location[2][im][2][provider_id]=&location[2][im][2][name]=&location[2][im][3][provider_id]=&location[2][im][3][name]=&location[2][address][street_address]=&location[2][address][supplemental_address_1]=&location[2][address][supplemental_address_2]=&location[2][address][city]=&location[2][address][state_province_id]=&location[2][address][postal_code]=&location[2][address][country_id]=&gender[gender]=Male&birth_date[d]=24&birth_date[M]=2&birth_date[Y]=1979&_qf_Edit_next=Save'''))
+        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/drupal/civicrm/contact/edit?_qf_default=Edit:next&prefix=Dr&first_name=Brzęczysław&last_name=Grant&suffix=Sr&greeting_type=Formal&job_title=&__privacy[do_not_phone]=1&privacy[do_not_phone]=1&__privacy[do_not_email]=1&privacy[do_not_email]=1&privacy[do_not_mail]=&preferred_communication_method=Email&location[1][location_type_id]=1&location[1][is_primary]=1&location[1][phone][1][phone_type]=Phone&location[1][phone][1][phone]=68306424&location[1][phone][2][phone_type]=Mobile&location[1][phone][2][phone]=73314949&location[1][phone][3][phone_type]=&location[1][phone][3][phone]=&location[1][email][1][email]=GrantBrzczysaw@npo.net.in&location[1][email][2][email]=GrantBrzczysaw@brown.edu&location[1][email][3][email]=&location[1][im][1][provider_id]=4&location[1][im][1][name]=Hello&location[1][im][2][provider_id]=&location[1][im][2][name]=&location[1][im][3][provider_id]=&location[1][im][3][name]=&location[1][address][street_address]=NE 340R Second Path W&location[1][address][supplemental_address_1]=C/o PO Plus&location[1][address][supplemental_address_2]=&location[1][address][city]=Albany&location[1][address][state_province_id]=1031&location[1][address][postal_code]=448795&location[1][address][country_id]=1228&location[2][location_type_id]=1&location[2][phone][1][phone_type]=&location[2][phone][1][phone]=&location[2][phone][2][phone_type]=&location[2][phone][2][phone]=&location[2][phone][3][phone_type]=&location[2][phone][3][phone]=&location[2][email][1][email]=&location[2][email][2][email]=&location[2][email][3][email]=&location[2][im][1][provider_id]=&location[2][im][1][name]=&location[2][im][2][provider_id]=&location[2][im][2][name]=&location[2][im][3][provider_id]=&location[2][im][3][name]=&location[2][address][street_address]=&location[2][address][supplemental_address_1]=&location[2][address][supplemental_address_2]=&location[2][address][city]=&location[2][address][state_province_id]=&location[2][address][postal_code]=&location[2][address][country_id]=&gender[gender]=Male&birth_date[d]=24&birth_date[M]=2&birth_date[Y]=1979&_qf_Edit_next=Save'''))
         url = "%s/civicrm/contact/edit" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 6 failed", 302, self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
@@ -164,7 +164,7 @@ class testEditContactIndividual(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         self.msg('Test successfully complete.')
