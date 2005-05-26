@@ -33,6 +33,11 @@
 
 require_once 'CRM/Core/Page.php';
 
+
+/**
+ * Main page for viewing contact.
+ *
+ */
 class CRM_Contact_Page_View extends CRM_Core_Page {
     /**
      * constants for various modes that the page can operate as
@@ -50,23 +55,37 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     /**
      * the contact id of the contact being viewed
      * @int
+     * @access protected
      */
     protected $_contactId;
 
-    function run( ) {
 
+
+    /**
+     * Heart of the viewing process. The runner gets all the meta data for
+     * the contact and calls the appropriate type of page to view.
+     *
+     * @param none
+     * @return none
+     * @access public
+     *
+     */
+    function run()
+    {
+        // get the contact id from session or store
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $this, true );
-        $this->getContactDetails( );
+        $this->getContactDetails();
 
-        $prevMode = $this->get( 'mode' );
+        $prevMode = $this->get('mode');
         // if we have switched modes we set the action to browse always
         // this is primarily because we retain state across tabs but want
         // to reset the action
-        if ( isset( $prevMode ) && $prevMode != $this->_mode ) {
-            $this->set( 'action', 16 );
+        if (isset($prevMode) && $prevMode != $this->_mode) {
+            $this->set('action', CRM_Core_Action::BROWSE);
         }
-        $this->set( 'mode', $this->_mode );
+        $this->set('mode', $this->_mode);
 
+        // call the appropriate run method for other detailed page views.
         if ( $this->_mode == self::MODE_NONE ) {
             $this->runModeNone( );
         } else if ( $this->_mode == self::MODE_NOTE ) {
@@ -80,11 +99,20 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         } else if ( $this->_mode == self::MODE_CD ) {
             CRM_Contact_Page_CustomData::run( $this );
         }
-
         return parent::run( );
     }
 
-    function getContactDetails( ) {
+
+    /**
+     * Get meta details of the contact. (display name for one) and 
+     * set it in the session for usage by other tabs.
+     *
+     * @param none
+     * @return none
+     * @access public
+     */
+    function getContactDetails()
+    {
         $config = CRM_Core_Config::singleton( );
         $displayName = $this->get( 'displayName' );
              
@@ -92,7 +120,6 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         // so if the display name is cached, we can skip the other processing
         if ( isset( $displayName ) && $this->_mode != self::MODE_NONE ) {
             $this->assign( 'displayName', $displayName );
-         
             $contactImage = $this->get( 'contactImage' );
             // Set dynamic page title = contactImage + displayname>
             CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
@@ -137,7 +164,15 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         }
     }
 
-    function runModeNone( ) {
+    /**
+     * Main view page for a contact. 
+     *
+     * @param none
+     * @return none
+     * @access public
+     */
+    function runModeNone()
+    {
         $params   = array( );
         $defaults = array( );
         $ids      = array( );
@@ -176,8 +211,15 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
     }
 
 
-    function setShowHide( &$defaults ) {
 
+    /**
+     * Show hide blocks based on default values.
+     *
+     * @param array (reference) $defaults
+     * @return none
+     * @access public
+     */
+    function setShowHide( &$defaults ) {
         $showHide = new CRM_Core_ShowHideBlocks(array('commPrefs'       => 1,
                                                  'notes[show]'          => 1,
                                                  'relationships[show]'  => 1,
@@ -233,10 +275,18 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $showHide->addToTemplate( );
     }
 
-    function getContactId( ) {
+
+    /**
+     * get contact id for this page.
+     *
+     * @param none
+     * @return int - contact id
+     * @access public
+     */
+    function getContactId()
+    {
         return $this->_contactId;
     }
-
 }
 
 ?>

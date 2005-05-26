@@ -37,6 +37,14 @@ require_once 'CRM/Core/State.php' ;
 
 require_once 'CRM/Utils/String.php';
 
+/**
+ * Core StateMachine. All statemachines subclass for the core one 
+ * for functionality specific to their needs.
+ *
+ * A statemachine keeps track of differnt states and forms for a 
+ * html quickform controller.
+ *
+ */
 class CRM_Core_StateMachine {
 
     /**

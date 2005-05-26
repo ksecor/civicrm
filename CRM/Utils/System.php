@@ -31,6 +31,11 @@
  *
  */
 
+
+/**
+ * System wide utilities.
+ *
+ */
 class CRM_Utils_System {
 
     /**
