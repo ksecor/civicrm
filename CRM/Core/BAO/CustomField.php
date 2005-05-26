@@ -33,6 +33,11 @@
 
 require_once 'CRM/Core/DAO/CustomField.php';
 
+
+/**
+ * Business objects for managing custom data fields.
+ *
+ */
 class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
 
     /**

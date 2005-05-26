@@ -33,6 +33,10 @@
 
 require_once 'CRM/Core/DAO/CustomGroup.php';
 
+/**
+ * Business object for managing custom data groups
+ *
+ */
 class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
     /**
@@ -93,7 +97,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      *
      * @param string $entity   - of the contact whose contact type is needed
      * @param int    $entityId - optional - id of entity if we need to populate the tree with custom values. 
-     *
      * @return array $groupTree - array consisting of all groups and fields and optionally populated with custom data values.
      *
      * @access public
@@ -128,10 +131,19 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // from, where, order by
         $strFrom = " FROM crm_custom_field, crm_custom_group";
-        $strWhere = " WHERE crm_custom_group.extends = '$entity'
-                            AND crm_custom_field.custom_group_id = crm_custom_group.id
+
+        // if entity is either individual, organization or household pls get
+        // custom groups for 'contact' too.
+        if ($entity == "Individual" || $entity == 'Organization' || $entity == 'Household') {
+            $in = "'$entity', 'Contact'";
+        } else {
+            $in = "'$entity'";
+        }
+
+        $strWhere = " WHERE crm_custom_field.custom_group_id = crm_custom_group.id
                             AND crm_custom_group.is_active = 1
-                            AND crm_custom_field.is_active = 1";
+                            AND crm_custom_field.is_active = 1
+                            AND crm_custom_group.extends IN ($in)";
 
         $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
 
@@ -181,14 +193,13 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     }
 
     /**
-     * Get custom data for a contact.
+     * Populates the GroupTree with custom data for the specified entity id
      *
-     * @param int $id - id of the contact whose custom data is needed
-     *
-     * @return array customData
+     * @param array reference $groupTree
+     * @param int $id - id of the entity.
+     * @return none
      *
      * @access public
-     *
      * @static
      *
      */
@@ -266,7 +277,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     }
 
 
-
     /**
      * Update custom data.
      *
@@ -277,11 +287,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      *
      * @param array reference &$groupTree - array of all custom groups, fields and values.
      * @param int $id - id of the contact whose custom data is to be updated
-     *
      * @return none
      *
      * @access public
-     *
      * @static
      *
      */
@@ -360,11 +368,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * This method returns the number of entries in the crm_custom_value table for this particular group.
      *
      * @param int $groupId - id of group.
-     *
      * @return int $numValue - number of custom data values for this group.
      *
      * @access public
-     *
      * @static
      *
      */

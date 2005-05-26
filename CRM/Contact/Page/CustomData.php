@@ -33,6 +33,10 @@
 
 require_once 'CRM/Core/Page.php';
 
+/**
+ * Page for displaying custom data
+ *
+ */
 class CRM_Contact_Page_CustomData {
     /**
      * Run the page.
