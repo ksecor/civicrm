@@ -113,14 +113,27 @@ function tsCallType($tokens)
 
         }
 
-        // what should we do next...
-        if ($tokens[$i + 3] == ')' or ($tokens[$i + 3] == ',' and $tokens[$i + 4] == ')')) {
-            // ...we've reached the last element of the ts()'s array(...)
-            break;
-        } else {
-            // ...let's go to the next element of the ts()'s array(...)
-            $i += 4;
+        // let's find where is the next ts()'s array(...) element
+        $i += 3;
+        // counter for paren pairs *inside* the element's value
+        $parenCount = 0;
+        while ($i < count($tokens) and ($parenCount > 0 or $tokens[$i] != ',')) {
+            if ($parenCount < 1 and ($tokens[$i] == ')' or ($tokens[$i] == ',' and $tokens[$i + 1] == ')'))) {
+                // we've reached the last element of the ts()'s array(...)
+                break 2;
+            } else {
+                // we're still parsing the current element's value, as it can be multi-token:
+                // ts('string with a %1 variable', array(1 => $object->method())
+                $i++;
+            }
+            if ($tokens[$i] == '(') {
+                $parenCount++;
+            } elseif ($tokens[$i] == ')') {
+                $parenCount--;
+            }
         }
+        // let's move to the first token of the next element
+        $i++;
 
     }
 
@@ -397,8 +410,10 @@ function writeFiles()
     // create the POT file
     foreach ($output as $file => $content) {
         $tmp = preg_replace('<[/]?([a-z]*/)*>', '', $file);
-        $file = str_replace('.', '-', $tmp) .'.pot';
-        $filelist = $content[1]; unset($content[1]);
+        $tmp = preg_replace('/^\.+/', '', $tmp);
+        $file = str_replace('.', '-', $tmp) . '.pot';
+        $filelist = $content[1];
+        unset($content[1]);
         if (count($filelist) > 1) {
             $filelist = "Generated from files:\n#  " . join("\n#  ", $filelist);
         } elseif (count($filelist) == 1) {
@@ -522,9 +537,10 @@ $l = ts('This is some repeating text');
 $m = ts("This is some repeating text");
 function embedded_function_call() { return 12; }
 //$n = ts(embedded_function_call());
-$s1 = ts('Shot’s test with a %1 variable, and %2 another one', array(1 => 'one', 2 => 'two'));
-$s2 = ts('%3 – Shot’s plural test, %count frog', array('count' => 7, "plural" => 'Shot’s plural test, %count frogs', 3 => 'three'));
-//$s3 = ts('Shot’s test – no count', array('plural' => 'No count here'));
-//$s4 = ts('Shot’s test – no plural', array('count' => 42));
+$s1 = ts('a test with a %1 variable, and %2 another one', array(1 => 'one', 2 => 'two'));
+$s2 = ts('%3 – a plural test, %count frog', array('count' => 7, "plural" => 'a plural test, %count frogs', 3 => 'three'));
+//$s3 = ts('a test – no count', array('plural' => 'No count here'));
+//$s4 = ts('a test – no plural', array('count' => 42));
+$s5 = ts('a test for multitoken element value', array(1 => $c . $d));
 
 ?>
