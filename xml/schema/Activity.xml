@@ -27,6 +27,12 @@
       <comment>FK to entity table specified in entity_table column</comment>
   </field>
   <field>
+      <name>activity_type</name>
+      <type>varchar</type>
+      <length>64</length>
+      <comment>sortable label for this activity assigned be registering module or user (e.g. Phone Call)</comment>
+  </field>
+  <field>
       <name>module</name>
       <type>varchar</type>
       <length>64</length>
@@ -52,7 +58,7 @@
   </field>
   <field>
        <name>activity_date</name>
-       <type>datetime</type>
+       <type>date</type>
        <default>0</default>
        <comment>when did this activity occur</comment>
   </field>

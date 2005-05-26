@@ -344,6 +344,13 @@ function civicrm_menu($may_cache)
                          );
 
         $items[] = array(
+                         'path'  => 'civicrm/contact/view/activity',
+                         'title' => ts('Activity'),
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => 6
+                         );
+
+        $items[] = array(
                          'path'  => 'civicrm/group',
                          'title' => ts('Manage Groups'),
                          'qs'     => 'reset=1',
@@ -569,6 +576,11 @@ function civicrm_contact_invoke()
             return $view->run( );
         }
 
+        // view activities
+        if (arg(3) == 'activity') {
+            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_ACTIVITY);
+            return $view->run( );
+        }
     }
 
     // search

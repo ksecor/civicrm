@@ -50,7 +50,8 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         MODE_GROUP                 =   2,
         MODE_REL                   =   4,
         MODE_TAG                   =   8,
-        MODE_CD                    =  16;
+        MODE_CD                    =  16,
+        MODE_ACTIVITY              =  32;
 
     /**
      * the contact id of the contact being viewed
@@ -98,6 +99,8 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             CRM_Contact_Page_GroupContact::run( $this );
         } else if ( $this->_mode == self::MODE_CD ) {
             CRM_Contact_Page_CustomData::run( $this );
+        } else if ( $this->_mode == self::MODE_ACTIVITY ) {
+            CRM_Contact_Page_Activity::run( $this );
         }
         return parent::run( );
     }
