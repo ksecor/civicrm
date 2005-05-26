@@ -13,8 +13,8 @@ class testAddContactHousehold(PyHttpTestCase):
     def runTest(self):
         self.msg('Test started')
 
-        drupal_path = "http://localhost/drupal"
-        #drupal_path = "http://sandbox.openngo.org/crm"
+        #drupal_path = "http://localhost/drupal"
+        drupal_path = "http://sandbox.openngo.org/crm"
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
         url = "%s/" % drupal_path
         self.msg("Testing URL: %s" % url)
@@ -101,7 +101,7 @@ class testAddContactHousehold(PyHttpTestCase):
             ('''location[1][address][supplemental_address_1]''', ''''''),
             ('''location[1][address][supplemental_address_2]''', ''''''),
             ('''location[1][address][city]''', '''Pune'''),
-            ('''location[1][address][state_province_id]''', '''1000'''),
+            ('''location[1][address][state_province_id]''', '''1113'''),
             ('''location[1][address][postal_code]''', '''4578963'''),
             ('''location[1][address][country_id]''', '''1101'''),
             ('''location[2][location_type_id]''', '''2'''),
@@ -135,7 +135,7 @@ class testAddContactHousehold(PyHttpTestCase):
         
         params = [
             ('''reset''', '''1'''),
-            ('''cid''', '''109'''),]
+            ('''cid''', '''108'''),]
         self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=104''')% drupal_path)
         url = "%s/civicrm/contact/view" % drupal_path 
         self.msg("Testing URL: %s" % url)

@@ -104,7 +104,7 @@ class testAddContactOrganization(PyHttpTestCase):
             ('''location[1][address][supplemental_address_1]''', ''''''),
             ('''location[1][address][supplemental_address_2]''', ''''''),
             ('''location[1][address][city]''', '''Pune'''),
-            ('''location[1][address][state_province_id]''', '''1018'''),
+            ('''location[1][address][state_province_id]''', '''1113'''),
             ('''location[1][address][postal_code]''', '''452630'''),
             ('''location[1][address][country_id]''', '''1101'''),
             ('''location[2][location_type_id]''', '''1'''),
@@ -122,7 +122,7 @@ class testAddContactOrganization(PyHttpTestCase):
             ('''location[2][address][supplemental_address_1]''', ''''''),
             ('''location[2][address][supplemental_address_2]''', ''''''),
             ('''location[2][address][city]''', '''Pune'''),
-            ('''location[2][address][state_province_id]''', '''1018'''),
+            ('''location[2][address][state_province_id]''', '''1113'''),
             ('''location[2][address][postal_code]''', '''456230'''),
             ('''location[2][address][country_id]''', '''1101'''),
             ('''note''', '''Zope Companies welcomes you'''),
@@ -138,7 +138,7 @@ class testAddContactOrganization(PyHttpTestCase):
         
         params = [
             ('''reset''', '''1'''),
-            ('''cid''', '''110'''),]
+            ('''cid''', '''112'''),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=101''') % drupal_path)
         url = "%s/civicrm/contact/view" % drupal_path
         self.msg("Testing URL: %s" % url)

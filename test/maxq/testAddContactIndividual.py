@@ -96,7 +96,7 @@ class addIndividual_complete(PyHttpTestCase):
             ('''location[1][address][supplemental_address_1]''', ''''''),
             ('''location[1][address][supplemental_address_2]''', ''''''),
             ('''location[1][address][city]''', '''Pune'''),
-            ('''location[1][address][state_province_id]''', '''1106'''),
+            ('''location[1][address][state_province_id]''', '''1113'''),
             ('''location[1][address][postal_code]''', '''7689385'''),
             ('''location[1][address][country_id]''', '''1101'''),
             ('''location[2][location_type_id]''', '''2'''),
@@ -134,7 +134,7 @@ class addIndividual_complete(PyHttpTestCase):
         
         params = [
             ('''reset''', '''1'''),
-            ('''cid''', '''108'''),]
+            ('''cid''', '''104'''),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=102''') % drupal_path)
         url = "%s/civicrm/contact/view" % drupal_path
         self.msg("Testing URL: %s" % url)
