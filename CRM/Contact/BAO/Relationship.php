@@ -558,8 +558,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function &getValues( &$params, &$values, &$ids ) {
 
-        //$currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], 'In' , 3 );
-        $values['relationship']['data']       =& CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , 3 );
+        $values['relationship']['data'] =& 
+            CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , 3 );
         
         // get the total count of relationships
         $values['relationship']['totalCount'] = CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , null, true );
@@ -587,9 +587,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $select = '( ';
         if ( $count ) {
             if ( $direction == 'a_b' ) {
-                $select = 'SELECT count(DISTINCT crm_relationship.id) as cnt1, 0 as cnt2 ';
+                $select .= ' SELECT count(DISTINCT crm_relationship.id) as cnt1, 0 as cnt2 ';
             } else {
-                $select = 'SELECT 0 as cnt1, count(DISTINCT crm_relationship.id) as cnt2 ';
+                $select .= ' SELECT 0 as cnt1, count(DISTINCT crm_relationship.id) as cnt2 ';
             }
         } else {
             $select .= ' SELECT crm_relationship.id as crm_relationship_id,
@@ -687,7 +687,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         $relationship = new CRM_Contact_DAO_Relationship( );
         $relationship->query($queryString);
-      
         $row = array();
         if ( $count ) {
             $relationshipCount = 0;
