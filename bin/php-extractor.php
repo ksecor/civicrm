@@ -253,7 +253,7 @@ function findVersionNumber($code, $file)
 {
     global $file_versions;
     // Prevent CVS from replacing this pattern with actual info
-    if (preg_match('!\\$I' . 'd: ([^\\$]+) Exp \\$!', $code, $version_info)) {
+    if (preg_match('!\\$I' . 'd: ([^\\$]+) \\$!', $code, $version_info)) {
         $file_versions[$file] = $version_info[1];
     }
 }
@@ -350,7 +350,7 @@ function writeHeader($file)
  *
  * @param string  $file      the string containing the filename the string's in
  * @param string  $input     the string containing the msgid/msgstr block
- * @param array   $filelist  the array containing the list of the files :)
+ * @param array   $filelist  the array containing the version info of the files
  * @param boolean $get       the boolean switch whether the call is storing
  *                           something or trying to get the whole storage back
  *
@@ -394,6 +394,7 @@ function writeFiles()
         // the original created separate .pot files for each source file
         // that containted over 11 strings, we've dropped this rule
         //if (count($content) <= 11 && $file != 'general') {
+        if ($file != 'general') {
             @$output['general'][1] = array_unique(array_merge($output['general'][1], $content[1]));
             if (!isset($output['general'][0])) {
                 $output['general'][0] = $content[0];
@@ -404,7 +405,7 @@ function writeFiles()
                 $output['general'][] = $msgid;
             }
             unset($output[$file]);
-        //}
+        }
     }
 
     // create the POT file
