@@ -96,7 +96,7 @@
   <field>
        <name>is_deceased</name>
        <type>boolean</type>
-       <default>'false'</default>
+       <default>0</default>
   </field>
   <field>
       <name>phone_to_household_id</name>

@@ -2,10 +2,6 @@
     {include file="CRM/Custom/Form/Field.tpl"}
 {else}
     {if $customField}
-    <hr>
-    {ts 1=$groupTitle}Viewing custom fields for custom group "%1"{/ts}
-    <hr>
-
     <div id="field_page">
      <p>
         <div class="form-item">

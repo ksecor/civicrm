@@ -60,7 +60,7 @@
   <field>
        <name>is_active</name>
        <type>boolean</type>
-       <default>true</default>
+       <default>1</default>
        <comment>is the relationship active ?</comment>
   </field>
 </table>

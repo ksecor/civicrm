@@ -46,7 +46,7 @@
   <field>
        <name>is_primary</name>
        <type>boolean</type>
-       <default>'false'</default>
+       <default>0</default>
        <comment>Is this the primary location for the contact. (allow only ONE primary location / contact.)</comment>
   </field>
 </table>

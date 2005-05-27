@@ -82,17 +82,17 @@
   <field>
        <name>do_not_phone</name>
        <type>boolean</type>
-       <default>'false'</default>
+       <default>0</default>
   </field>
   <field>
        <name>do_not_email</name>
        <type>boolean</type>
-       <default>'false'</default>
+       <default>0</default>
   </field>
   <field>
        <name>do_not_mail</name>
        <type>boolean</type>
-       <default>'false'</default>
+       <default>0</default>
 
   </field>
   <field>

@@ -193,7 +193,7 @@ function civicrm_menu($may_cache)
         
         $items[] = array(
                          'path'   => 'civicrm/admin/custom/group',
-                         'title'  => ts('Custom Data Groups'),
+                         'title'  => ts('Custom Data'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => -5
@@ -462,10 +462,13 @@ function civicrm_admin_invoke()
         } else if ( arg(2) == 'custom' ) {
             // handle external properties
             if ( arg(3) == 'group' ) {
-                if ( arg(4) != 'field' ) {	
+                if ( arg(4) != 'field' ) {
                     $view = new CRM_Custom_Page_Group( 'Custom Data Group' );
                 } else {
-                    $view = new CRM_Custom_Page_Field( 'Custom Data  Field' );
+                    $breadcrumb = drupal_get_breadcrumb();
+                    $breadcrumb[] = '<a href="civicrm/admin/custom/group">Custom Data</a>';
+                    drupal_set_breadcrumb( $breadcrumb );
+                    $view = new CRM_Custom_Page_Field( 'Custom Data Field' );
                 }
             }
         } else {

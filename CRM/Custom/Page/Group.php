@@ -168,7 +168,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
      */
     function browse($action=null)
     {
-        CRM_Utils_System::setTitle("Custom Groups");
         
         // get all custom groups sorted by weight
         $customGroup = array();

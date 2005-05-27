@@ -42,7 +42,7 @@
   <field>
        <name>is_primary</name>
        <type>boolean</type>
-       <default>'false'</default>
+       <default>0</default>
        <comment>Is this the primary phone for this contact and location.</comment>
   </field>
   <field>
