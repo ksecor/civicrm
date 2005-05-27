@@ -1,8 +1,8 @@
 #!/opt/local/bin/php
 <?php
 
-require_once '/home/kurund/svn/crm/modules/config.inc.php';
-require_once 'CRM/Core/Error.php';
+ini_set( 'include_path', ".:../packages" );
+
 require_once 'PHP/Beautifier.php';
 
 function createDir( $dir, $perm = 0755 ) {
@@ -22,21 +22,11 @@ class PHP_DownGrade {
     
     function __construct($file)
     {
-
-        CRM_Core_Error::le_method();
-
+        echo "open $file\n";
         $this->constants = array( );
         $this->statics   = array( );
-       
-        $this->argcount  = array( );
         $this->tokens = token_get_all(file_get_contents($file));
-      
-        $this->staticcount=0;
-        $this->statvar = array( );
-
-       
         foreach(array_keys($this->tokens) as $i) {
-         
             if (is_string($this->tokens[$i])) {
                 $this->tokens[$i] = array(ord($this->tokens[$i]) ,$this->tokens[$i] );
             }
@@ -44,11 +34,8 @@ class PHP_DownGrade {
                 $this->tokens[$i][0] = self::T_SELF;
             }
         }
-         CRM_Core_Error::debug_var('tokens', $this->tokens);
-
-        CRM_Core_Error::ll_method();
-        // for($j=0;$j<count($this->tokens);$j++)
-        //    echo "\n".$this->tokens[$j][1];
+        // $this->dump( );
+        
     }
     
     function toPHP4() {
@@ -57,11 +44,11 @@ class PHP_DownGrade {
         $this->funcdefs(); 
         
         $this->exceptions();
-        // $this->dereferences();
+        //$this->dereferences();
         
         //$this->cloning();
         return $this->toString();
-   }
+    }
     
     
     /**
@@ -73,7 +60,6 @@ class PHP_DownGrade {
   
     function findStart()
     {
-        CRM_Core_Error::le_method();
         for($i=0;$i<count($this->tokens);$i++) {
             
             switch ($this->tokens[$i][0]) {
@@ -93,21 +79,8 @@ class PHP_DownGrade {
     
     function classdef() 
     {
-        
-        CRM_Core_Error::le_method();
         for($i=0;$i<count($this->tokens);$i++) {
-            // to remove the final keywaord
-            if(strcmp($this->tokens[$i][1],"final")==0)
-                $this->tokens[$i][1]="";
-
-            // to remove implement keyword
-            if(strcmp($this->tokens[$i][1],"implements")==0)
-                while(strcmp($this->tokens[$i][1],"{")!=0)
-                    {
-                        $this->tokens[$i][1]="";
-                        $i++;
-                    }
-
+            
             switch ($this->tokens[$i][0]) {
             case T_CLASS:
                 $i++;
@@ -115,7 +88,6 @@ class PHP_DownGrade {
                     $i++;
                 }
                 $class = $this->tokens[$i][1];
-               
                 $i++;
                 break;
             
@@ -162,40 +134,31 @@ class PHP_DownGrade {
                 $i++;
                 break;
 
-            
             case T_PRIVATE: 
             case T_PUBLIC:
             case T_PROTECTED:
-            case T_STATIC:
-               
                 $start = $i;
                 // what can follow :
                 // T_STATIC  = static var..
                 // T_VARIABLE = var definition.
                 // T_FUNCTION 
-                //$i++;
+                $i++;
                 $static = false;
-                while($i) {
+                while($i++) {
                     switch($this->tokens[$i][0]) {
                     case T_STATIC:
                         $static = $i;
-                        if(isset($class))
                         $this->tokens[$i][1] = ''; // strip statics..
                         break;
                     case T_VARIABLE:
                         if ($static) {
                             // we need ot strip it out totally and use $GLOBALS[_classname][...]
-                            if(isset($class))
-                                {
-                                    $i= $this->convertToStatic($class,$i);
-                                    for($ii = $start;$ii<$i+1;$ii++) {
-                                        $this->tokens[$ii][1] = ''; 
-                                   
+                            $i= $this->convertToStatic($class,$i);
+                            for($ii = $start;$ii<$i+1;$ii++) {
+                                $this->tokens[$ii][1] = ''; 
+                            } 
                                     
-                                        
-                                    }
-                                     $this->tokens[$static][1] = '';
-                                }
+                            $this->tokens[$static][1] = ''; 
                             break 3;
                         }
                         $this->tokens[$start][1] = 'var'; // change it to var.
@@ -208,7 +171,6 @@ class PHP_DownGrade {
                         break 3;
                     }
                     // hopefully we wont loop forever!
-                    $i++;
                 }
                 
             case self::T_SELF:
@@ -260,18 +222,15 @@ class PHP_DownGrade {
                     }
                 }
                      
-                $this->tokens[$i][1];
+                
             }
-          
         }
         // print_r($this->constants);
         
         
     }
     
-    function convertToStatic($class,$i) 
-        {
-        CRM_Core_Error::le_method();
+    function convertToStatic($class,$i) {
         $name  = substr($this->tokens[$i][1],1);
         
         
@@ -294,42 +253,15 @@ class PHP_DownGrade {
             $i++;
         }
         $this->statics[$class][$name] = $value;
-       
-        $this->statvar[$this->staticcount]=$name;
-        //echo "\n".$this->statvar[$this->staticcount];
-
-        $this->staticcount++;
-     
-          
-      
         return $i;
     
     }
     
     
     function funcdefs() {
-
-        CRM_Core_Error::le_method();   
+    
         for($i=0;$i<count($this->tokens);$i++) {
-
-            //to remove static keyword in front of function
-            if(strcmp($this->tokens[$i][1],"static")==0)
-                {
-                    
-                    $j=$i+1;
-                    while($this->tokens[$j][0] ==T_WHITESPACE) 
-                        $j++;
-                   
-                   
-                    
-                    if(strcmp($this->tokens[$j][1],"function")==0)
-                        $this->tokens[$i][1]="";
-                        
-                
-                }
-            //to remove final keyword.
-            if(strcmp($this->tokens[$i][1],"final")==0)
-                $this->tokens[$i][1]="";
+            
                 
             switch ($this->tokens[$i][0]) {
             case T_CLASS:
@@ -362,19 +294,17 @@ class PHP_DownGrade {
                     $this->tokens[$i+1][1] = '';
                 }
 
-                case T_FUNCTION:
-                  $i++;
-                while($this->tokens[$i][1]==T_WHITESPACE)
-                {
-                    // echo "In the while loop";
+            case T_FUNCTION:
+                $i++;
+                while($this->tokens[$i][0] != T_STRING) {
                     $i++;
                 }
-                $func = $this->tokens[$i+1][1];
+                $func = $this->tokens[$i][1];
                 if ($func == '__construct') {
-                    $this->tokens[$i+1][1] = $class;
+                    $this->tokens[$i][1] = $class;
                 }
                 // mmh what about __destruct ! = ignore!!
-                /* while($this->tokens[$i][1] != '(') {
+                while($this->tokens[$i][1] != '(') {
                     $i++;
                 }
                 while($i++) {
@@ -390,10 +320,10 @@ class PHP_DownGrade {
                         }
                         $i++;
                     case T_STRING:
-                        // $this->tokens[$i][1] = '';
+                        $this->tokens[$i][1] = '';
                         break;
                     }
-                }*/
+                }
             }
         }
                 
@@ -405,7 +335,6 @@ class PHP_DownGrade {
     
     function exceptions() 
     {
-        CRM_Core_Error::le_method();
         for($i=0;$i<count($this->tokens);$i++) {
             switch ($this->tokens[$i][0]) {
             case T_THROW:
@@ -443,140 +372,33 @@ class PHP_DownGrade {
     
     function toString() 
     {
-        //to remove interface defination.
-        for($j=0;$j<count($this->tokens);$j++)
-            {
-                if(strcmp($this->tokens[$j][1],"interface")==0)
-                    {
-                        do
-                            {
-                                $this->tokens[$j][1]="";
-                                $j++;
-                            }while(strcmp($this->tokens[$j][1],"}")!=0);
-                        $this->tokens[$j][1]="";
-                    }
-                
-            }
-       
-            //TO CHNAGE THE NAMES OF STATIC VARIABLES
-
-        foreach($this->statvar as $name)
-                 for($j=0;$j<count($this->tokens);$j++)
-                {
-                      if(strcmp($this->tokens[$j][1],"$".$name)==0 ||strcmp($this->tokens[$j][1],$name)==0)
-                          {
-                              $k=$j;       
-                              $k--;
-                              $l=$k+1;
-                              $flag=0; 
-                              do
-                                  {
-                                      
-                                      if((strcmp($this->tokens[$l][1],"::")==0))
-                                      {
-                                         $flag=1;
-                                      }
-                                    
-                                      $l--;
-                                  }while($this->tokens[$l][0] != T_STRING);
-                              if($flag==1)
-                                  {
-                                      $count = 2;
-                                      while($count >0)
-                                          {   
-                                              if($this->tokens[$k][0]!=T_WHITESPACE)
-                                                  { 
-                                                      // echo "enternig into if"; 
-                                                      $this->tokens[$k][1]="";
-                                                      $count--;
-                                                  }
-                                              $k--;
-                                                     
-                                          }  
-                                  }  
-                          }                            
-                }
-            
-        foreach( $this->statics as $class => $consts) 
-                 {
-                     foreach($consts as $name =>$val) 
-                         {
-                             for($j=0;$j<count($this->tokens);$j++)
-                                 {
-                                     if(strcmp($this->tokens[$j][1],"$".$name)==0)
-                                     $this->tokens[$j][1]=  "\$GLOBALS['_".strtoupper($class) . "']['{$name}']";
-                                 }
-                         }
-                 }
-
-
-        //to change calls of parent constructor
-        for($j=0;$j<count($this->tokens);$j++)
-            {
-                if(strcmp($this->tokens[$j][1],"parent")==0)
-                    {
-                        $back=$j;
-                        while(strcmp($this->tokens[$back][1],"extends")!=0)
-                            $back--;
-
-                        $back++;
-                        while($this->tokens[$back][0] ==T_WHITESPACE) 
-                             $back++;
-                        
-                        $classname=$this->tokens[$back][1];
-                        
-                        $k=$j;
-                        while(strcmp($this->tokens[$k][1],";")!=0) 
-                            { 
-                                if(strcmp($this->tokens[$k][1],"__construct")==0)
-                                $this->tokens[$k][1]=$classname;
-
-                                $k++;
-                            }
-                        
-                    }
-            }
-
-
-        //======================================================================================= 
-        CRM_Core_Error::le_method();
         $ret = '';
         for($i=0;$i<count($this->tokens);$i++) {
             if ($i == $this->start) {
                 foreach( $this->constants as $class => $consts) {
                     $ret ."\n";
                     foreach($consts as $name =>$val) {
-                        // echo $consts;
                         $ret .= "define( '".strtoupper($class) . "_{$name}',$val);\n";
                     }
                 }
                 foreach( $this->statics as $class => $consts) {
                     $ret ."\n";
                     foreach($consts as $name =>$val) {
-                        {
-                            
-                            $ret .= "\$GLOBALS['_".strtoupper($class) . "']['{$name}'] = $val;\n";
-                        }
+                        $ret .= "\$GLOBALS['_".strtoupper($class) . "']['{$name}'] = $val;\n";
                     }
                 }
             }
-        
-         
-           
-            
             $ret .= $this->tokens[$i][1];
+            
             
         }
         return $ret;
     }
-
-
     
     
-
     function dump() {
         foreach(array_keys($this->tokens) as $i) {
-            // echo token_name($this->tokens[$i][0]) .':' . $this->tokens[$i][0]  . ':' . $this->tokens[$i][1] . "\n";
+            echo token_name($this->tokens[$i][0]) .':' . $this->tokens[$i][0]  . ':' . $this->tokens[$i][1] . "\n";
         }
     }
     
@@ -588,19 +410,9 @@ class PHP_DownGrade {
     
 }
 
-
-// start of code to convert files recursively ---
-// this code is to convert the whole directory from php5 to php4
-
-$rootDir = "/home/kurund/svn/php4/crm/CRM";
-$destDir = "/home/kurund/svn/php4/crm/CRM.4";
-
-//$rootDir = "/home/kurund/svn/php4/crm/modules";
-//$destDir = "/home/kurund/svn/php4/crm/modules.4";
-
-//$rootDir = "/home/kurund/svn/php4/crm/api";
-//$destDir = "/home/kurund/svn/php4/crm/api.4";
-
+/**
+$rootDir = "../CRM";
+$destDir = "../../crm.php4/CRM";
 
 $dir = new RecursiveIteratorIterator(
                                      new RecursiveDirectoryIterator($rootDir), true);
@@ -618,10 +430,7 @@ foreach ( $dir as $file ) {
         fclose( $fd );
     }
 }
+**/
 
-// end of code to convert files recursively --
-
-
-// use this code if single file has to be converted from php5 to php4  and comment the above block
-//$sam = new PHP_DownGrade($argv[1]);
-//echo $sam->toPHP4();
+$x = new PHP_DownGrade($argv[1]);
+echo $x->toPHP4();
