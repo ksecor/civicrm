@@ -66,6 +66,40 @@ cd ../test/maxq
 
 #maxq -r -q testAdminAddTags.py
 
-maxq -r -q testAdminEditTags.py
+#maxq -r -q testAdminEditTags.py
 
-maxq -r -q testAdminDeleteTags.py
+#maxq -r -q testAdminDeleteTags.py
+
+#maxq -r -q testAdminAddMobileProvider.py
+
+#maxq -r -q testAdminEditMobileProvider.py
+
+#maxq -r -q testAdminEnableDisableMobileProvider.py
+
+#maxq -r -q testAdminAddIMProvider.py
+
+#maxq -r -q testAdminEditIMProvider.py
+
+#maxq -r -q testAdminEnableDisableIMProvider.py
+
+#maxq -r -q testAdminViewRel.py
+
+#maxq -r -q testAdminAddRel.py
+
+#maxq -r -q testAdminEditRel.py
+
+#maxq -r -q testAdminEnableDisableRel.py
+
+#maxq -r -q testAdminViewCustomDataField.py
+
+#maxq -r -q testAdminAddCustomDataField.py
+
+#maxq -r -q testAdminEditCustomDataField.py
+
+#maxq -r -q testAdminEnableDisableCustomDataField.py
+
+#maxq -r -q testAdminAddCustomDataGroup.py
+
+#maxq -r -q testAdminEditCustomDataGroup.py
+
+#maxq -r -q testAdminEnableDisableCustomDataGroup.py

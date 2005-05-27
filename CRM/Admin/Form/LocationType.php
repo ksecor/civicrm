@@ -52,7 +52,7 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
         $this->add('text', 'name'       , ts('Name')       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid location type name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_LocationType' ) );
+        // $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_LocationType' ) );
 
         $this->add('text', 'description', ts('Description'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
