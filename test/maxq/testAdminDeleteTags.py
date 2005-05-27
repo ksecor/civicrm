@@ -9,7 +9,7 @@ exec 'from '+validatorPkg+' import Validator'
 
 
 # definition of test class
-class testAddNoteByContactTab(PyHttpTestCase):
+class testAdminDeleteTags(PyHttpTestCase):
     def runTest(self):
         self.msg('Test started')
 
@@ -59,8 +59,8 @@ class testAddNoteByContactTab(PyHttpTestCase):
         self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view''') % drupal_path)
-        url = "%s/civicrm/contact/view" % drupal_path
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin''') % drupal_path)
+        url = "%s/civicrm/admin" % drupal_path
         self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
@@ -79,9 +79,10 @@ class testAddNoteByContactTab(PyHttpTestCase):
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
-            ('''action''', '''add'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note?action=add''') % drupal_path)
-        url = "%s/civicrm/contact/view/note" % drupal_path
+            ('''action''', '''delete'''),
+            ('''id''', '''6'''),]
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/category?action=delete&id=6''') % drupal_path)
+        url = "%s/civicrm/admin/category" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -99,22 +100,22 @@ class testAddNoteByContactTab(PyHttpTestCase):
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
-            ('''_qf_default''', '''Note:next'''),
-            ('''note''', '''Test Note from Contact tab'''),
-            ('''_qf_Note_next''', '''Save'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note?_qf_default=Note:next&note=Test Note from Contact tab&_qf_Note_next=Save''') % drupal_path)
-        url = "%s/civicrm/contact/view/note" % drupal_path
+            ('''_qf_default''', '''Category:next'''),
+            ('''_qf_Category_next''', '''Delete'''),]
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/category?_qf_default=Category:next&_qf_Category_next=Delete''') % drupal_path)
+        url = "%s/civicrm/admin/category" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
+            ('''reset''', '''1'''),
             ('''action''', '''browse'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note?action=browse''') % drupal_path)
-        url = "%s/civicrm/contact/view/note" % drupal_path
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/category?reset=1&action=browse''') % drupal_path)
+        url = "%s/civicrm/admin/category" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -137,5 +138,5 @@ class testAddNoteByContactTab(PyHttpTestCase):
 
 # Code to load and run the test
 if __name__ == 'main':
-    test = testAddNoteByContactTab("testAddNoteByContactTab")
+    test = testAdminDeleteTags("testAdminDeleteTags")
     test.Run()

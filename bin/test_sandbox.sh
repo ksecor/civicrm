@@ -50,14 +50,22 @@ cd ../test/maxq
 
 #maxq -r -q testTagsAllByTagsTab.py
 
-maxq -r -q testViewNoteByNoteTab.py
+#maxq -r -q testViewNoteByNoteTab.py
 
-maxq -r -q testAddNoteByNoteTab.py
+#maxq -r -q testAddNoteByNoteTab.py
 
-maxq -r -q testEditNoteByNoteTab.py
+#maxq -r -q testEditNoteByNoteTab.py
 
-maxq -r -q testDeleteNoteByNoteTab.py
+#maxq -r -q testDeleteNoteByNoteTab.py
 
-maxq -r -q testAddNoteByContactTab.py
+#maxq -r -q testAddNoteByContactTab.py
 
-maxq -r -q testEditNoteByContactTab.py
+#maxq -r -q testEditNoteByContactTab.py
+
+#maxq -r -q testCustomDataAllByTab.py
+
+#maxq -r -q testAdminAddTags.py
+
+maxq -r -q testAdminEditTags.py
+
+maxq -r -q testAdminDeleteTags.py
