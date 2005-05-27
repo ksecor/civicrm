@@ -95,6 +95,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
+        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+
 
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );

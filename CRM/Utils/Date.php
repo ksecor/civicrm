@@ -32,24 +32,32 @@
  */
 
 /**
- *
+ * Date utilties
  */
 class CRM_Utils_Date {
 
-    static function format( $date ) {
-        if ( ! $date ) {
+    /**
+     * format a date by padding it with leading '0'.
+     *
+     * @param array $date ('Y', 'M', 'd')
+     * @return string - formatted string for date
+     *
+     * @access public
+     * @static
+     */
+    static function format($date)
+    {
+        if (!$date) {
             return null;
         }
 
-        if ( empty( $date['Y'] ) || empty( $date['M'] ) || empty( $date['d'] ) ) {
+        if (empty($date['Y']) || empty($date['M']) || empty($date['d'])) {
             return null;
         }
 
-        $date['M'] = ( $date['M'] < 10 ) ? '0' . $date['M'] : $date['M'];
-        $date['d'] = ( $date['d'] < 10 ) ? '0' . $date['d'] : $date['d'];
+        $date['M'] = ($date['M'] < 10) ? '0' . $date['M'] : $date['M'];
+        $date['d'] = ($date['d'] < 10) ? '0' . $date['d'] : $date['d'];
         return $date['Y'] . $date['M'] . $date['d'];
     }
-
 }
-
 ?>

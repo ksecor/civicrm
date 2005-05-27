@@ -1,10 +1,6 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
-    {include file="CRM/Custom/Form/Group.tpl"}
-
+    {include file="CRM/Activity/Form/Activity.tpl"}
 {else}
-    <div id="help">{ts}Custom Data Groups are used to collect and store additional data not included in the
-    standard CiviCRM forms. You can create one or many groups - each one containing a related set of custom data fields.{/ts}</div>
-
     {if $rows}
     <div id="notes">
     <p>
@@ -45,7 +41,7 @@
        {if $action ne 1} {* When we are adding an item, we should not display this message *}
        <div class="message status">
        <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-         {ts}No custom data groups have been created yet. You can {/ts}<a href="{crmURL p='civicrm/admin/custom/group' q='action=add&reset=1'}">{ts}add one{/ts}</a>.
+         {ts}No activities created yet. You can {/ts}<a href="{crmURL p='civicrm/contact/view/activity' q='action=add'}">{ts}add one{/ts}</a>.
        </div>
        {/if}
     {/if}

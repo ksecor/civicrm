@@ -69,7 +69,7 @@ class CRM_Contact_Page_Activity {
 
     static function edit($page, $mode, $activityTableId = null)
     {
-        $controller = new CRM_Core_Controller_Simple('CRM_Note_Form_Note', 'Contact Notes', $mode);
+        $controller = new CRM_Core_Controller_Simple('CRM_Activity_Form_Activity', 'Contact Activity', $mode);
         $controller->setEmbedded(true);
 
         // set the userContext stack
@@ -77,7 +77,8 @@ class CRM_Contact_Page_Activity {
         $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse'));
 
         $controller->reset();
-        $controller->set('entityId', $page->getContactId());
+        $controller->set('tableName', 'crm_contact');
+        $controller->set('tableId', $page->getContactId());
         $controller->set('activityTableId', $activityTableId);
 
         $controller->process();
@@ -85,32 +86,34 @@ class CRM_Contact_Page_Activity {
     }
 
 
+    /**
+     * perform actions and display for activities.
+     *
+     * @param object CRM_Contact_Page_View
+     * @return none
+     *
+     * @access public
+     * @static
+     */
     static function run($page)
     {
+        // get contactid and action for current page
         $contactId = $page->getContactId();
         $page->assign('contactId', $contactId);
-
         $action = CRM_Utils_Request::retrieve('action', $page, false, 'browse');
         $page->assign('action', $action);
-
-        $activityTableId = CRM_Utils_Request::retrieve( 'activityTableId', $page, false, 0 );
+        
+        // used for edit, view purpose
+        $activityTableId = CRM_Utils_Request::retrieve('activityTableId', $page, false, 0);
 
         if ($action & CRM_Core_Action::VIEW) {
-            self::view($page, $activityTableId);
+            self::view($page, $activityTableId); // view activity
         } else if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            self::edit($page, $action, $activityTableId);
+            self::edit($page, $action, $activityTableId); // add / update
         } else if ($action & CRM_Core_Action::DELETE) {
-            self::delete( $activityTableId );
+            CRM_Core_BAO_Activity::delete($activityTableId);
         }
         self::browse($page);
     }
-
-
-    static function delete($activityTableId)
-    {
-        CRM_Core_BAO_Note::del($activityTableId);
-    }
-
 }
-
 ?>

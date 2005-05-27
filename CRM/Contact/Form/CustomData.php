@@ -127,11 +127,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
                 case 'Radio':
                     $choice = array();
-                    $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 'Yes', 'yes', $field['attributes']);
-                    $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 'No' , 'no' , $field['attributes']);
+                    $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('Yes'), 'yes', $field['attributes']);
+                    $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('No') , 'no' , $field['attributes']);
                     $this->addGroup($choice, $elementName, $field['label']);
                     if ($field['is_required']) {
-                        $this->addRule($elementName, $field['label'] . " is a required field." , 'required');
+                        $this->addRule($elementName, $field['label'] . ts(" is a required field.") , 'required');
                     }
                     break;
                 case 'Select':
@@ -142,11 +142,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 
                 // integers will have numeric rule applied to them.
                 if ($field['data_type'] == 'Int') {
-                    $this->addRule($elementName, ' is a numeric field' , 'numeric');
+                    $this->addRule($elementName, ts(' is a numeric field'), 'numeric');
                 }
                 // apply date validation rules
                 if ($field['data_type'] == 'Date') {
-                    $this->addRule($elementName, ' is not a valid date' , 'qfDate');
+                    $this->addRule($elementName, ts(' is not a valid date'), 'qfDate');
                 }
             }
         }

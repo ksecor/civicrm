@@ -10,6 +10,8 @@
 {include file="CRM/Contact/Page/View/Tag.tpl"}
 {elseif $mode eq 16}
 {include file="CRM/Contact/Page/View/CustomData.tpl"}
+{elseif $mode eq 32}
+{include file="CRM/Contact/Page/View/Activity.tpl"}
 {/if}
 
 
