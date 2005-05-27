@@ -106,9 +106,7 @@ class CRM_Utils_Rule {
         if ($date['M']) $mnt = $date['M'];
         if ($date['Y']) $year = $date['Y'];
 
-        //        if ( ! empty( $date['M'] ) || ! empty( $date['d'] ) || ! empty( $data['Y'] ) ) {
         if ( ! empty( $day ) || ! empty( $mnt ) || ! empty( $year ) ) {
-            
             return checkdate( $mnt, $day, $year );
         }
         return true;

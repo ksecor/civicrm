@@ -201,10 +201,24 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $ids['contact'] = $this->_contactId;
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['relationship'] = $this->_relationshipId;
+            
+            $relation = CRM_Contact_BAO_Relationship::getContactIds( $this->_relationshipId );
+            $ids['contactTarget'] = ( $relation->contact_id_a == $this->_contactId ) ?
+                $relation->contact_id_b : $relation->contact_id_a;
         }    
         
-        CRM_Contact_BAO_Relationship::create( $params, $ids );
-
+        list( $valid, $invalid, $duplicate ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
+        $status = '';
+        if ( $valid ) {
+            $status .= " $valid new relationship record(s) created.";
+        }
+        if ( $invalid ) {
+            $status .= " $invalid relationship record(s) not created due to invalid target contact type.";
+        }
+        if ( $duplicate ) {
+            $status .= " $duplicate relationship record(s) not created - duplicate of existing relationship.";
+        }
+        CRM_Core_Session::setStatus( $status );
     }//end of function
 
 
@@ -332,9 +346,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
         $errors        = array( );
         if ( CRM_Utils_Array::value( 'contact_check', $params ) ) {
-            $message = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids);
-            if ( $message ) {
-                $errors['relationship_type_id'] = $message;
+            foreach ( $params['contact_check'] as $cid => $dontCare ) {
+                $message = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $cid);
+                if ( $message ) {
+                    $errors['relationship_type_id'] = $message;
+                    break;
+                }
             }
         }
         return empty($errors) ? true : $errors;
