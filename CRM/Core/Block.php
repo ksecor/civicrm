@@ -141,7 +141,7 @@ class CRM_Core_Block {
                                           'title' => 'New Group' ) );
 
         $values = array( );
-        foreach ( $shortCuts as &$short ) {
+        foreach ( $shortCuts as $short ) {
             $value = array( );
             $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['qs'] );
             $value['title'] = $short['title'];

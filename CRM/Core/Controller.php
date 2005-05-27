@@ -186,7 +186,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
                               'submit'    => 'CRM_Core_QuickForm_Action_Submit' ,
                               );
 
-        foreach ( $names as $name => &$classPath ) {
+        foreach ( $names as $name => $classPath ) {
             $this->addAction( $name, new $classPath( $this->_stateMachine ) );
         }
     

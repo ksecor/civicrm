@@ -337,7 +337,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     if ( array_key_exists( 'email', $fields['location'][$locationId] ) &&
                          is_array( $fields['location'][$locationId]['email'] )         &&
                          empty( $primaryEmail ) ) {
-                        foreach ( $fields['location'][$locationId]['email'] as $idx => &$email ) {
+                        foreach ( $fields['location'][$locationId]['email'] as $idx => $email ) {
                             if ( array_key_exists( 'email', $email ) ) {
                                 $primaryEmail = $email['email'];
                                 break;
@@ -362,7 +362,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
     static function locationDataExists( &$fields ) {
         static $skipFields = array( 'location_type_id', 'is_primary', 'phone_type', 'provider_id' );
-        foreach ( $fields as $name => &$value ) {
+        foreach ( $fields as $name => $value ) {
             $skipField = false;
             foreach ( $skipFields as $skip ) {
                 if ( strpos( "[$skip]", $name ) !== false ) {

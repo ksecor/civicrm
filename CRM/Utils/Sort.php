@@ -124,7 +124,7 @@ class CRM_Utils_Sort {
         $this->_vars      = array( );
         $this->_response  = array();
 
-        foreach ( $vars as $weight => &$value ) {
+        foreach ( $vars as $weight => $value ) {
             $this->_vars[$weight] = array(
                                           'name'      => $value['sort'],
                                           'direction' => $value['direction'],

@@ -210,7 +210,7 @@ class CRM_Core_Action {
      * @static
      */
     static function &replace( &$str, &$values ) {
-        foreach ( $values as $n => &$v ) {
+        foreach ( $values as $n => $v ) {
             $str = str_replace( "%%$n%%", $v, $str );
         }
         return $str;

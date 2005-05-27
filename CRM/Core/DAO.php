@@ -258,7 +258,7 @@ class CRM_Core_DAO extends DB_DataObject {
     function copyValues( &$params ) {
         $fields =& $this->fields( );
         $allNull = true;
-        foreach ( $fields as $name => &$value ) {
+        foreach ( $fields as $name => $value ) {
             if ( array_key_exists( $name, $params ) ) {
                 // if there is no value then make the variable NULL
                 if ( $params[$name] == '' ) {
@@ -284,7 +284,7 @@ class CRM_Core_DAO extends DB_DataObject {
      */
     function storeValues( &$values ) {
         $fields =& $this->fields( );
-        foreach ( $fields as $name => &$value ) {
+        foreach ( $fields as $name => $value ) {
             if ( isset( $this->$name ) ) {
                 $values[$name] = $this->$name;
             }
@@ -352,7 +352,7 @@ class CRM_Core_DAO extends DB_DataObject {
             $field = CRM_Utils_Array::value( $fieldName, $fields );
             return self::makeAttribute( $field );
         } else {
-            foreach ($fields as $name => &$field) {
+            foreach ($fields as $name => $field) {
                 $attribute = self::makeAttribute( $field );
                 $attributes = array( );
                 if ( $attribute ) {
