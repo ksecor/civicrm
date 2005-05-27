@@ -11,11 +11,11 @@
     {/if}
     </p>
     
-      {foreach from=$category item="row" key = "id"}
+      {foreach from=$tag item="row" key = "id"}
 
         <div class="form-item" id ="rowid{$id}">
 
-         {ts}{$form.categoryList[$id].html} &nbsp;{$row}{/ts} 
+         {ts}{$form.tagList[$id].html} &nbsp;{$row}{/ts} 
 
         </div>
 

@@ -78,11 +78,11 @@ class CRM_Core_PseudoConstant {
     private static $country;
 
     /**
-     * category
+     * tag
      * @var array
      * @static
      */
-    private static $category;
+    private static $tag;
 
     /**
      * group
@@ -235,8 +235,8 @@ class CRM_Core_PseudoConstant {
     /**
      * Get all the categories from database.
      *
-     * The static array category is returned, and if it's
-     * called the first time, the <b>Category DAO</b> is used 
+     * The static array tag is returned, and if it's
+     * called the first time, the <b>Tag DAO</b> is used 
      * to get all the categories.
      *
      * Note: any database errors will be trapped by the DAO.
@@ -248,12 +248,12 @@ class CRM_Core_PseudoConstant {
      * @return array - array reference of all categories.
      *
      */
-    public static function &category()
+    public static function &tag()
     {
-        if (!self::$category) {
-            self::populate( self::$category, 'CRM_Contact_DAO_Category', true );
+        if (!self::$tag) {
+            self::populate( self::$tag, 'CRM_Contact_DAO_Tag', true );
         }
-        return self::$category;
+        return self::$tag;
     }
 
     /**

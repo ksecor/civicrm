@@ -122,7 +122,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
               [1] => 1
               )
              
-             [cb_category] => Array
+             [cb_tag] => Array
              (
               [1] => 1
               [5] => 1
@@ -169,15 +169,15 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $strFrom .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
         }
 
-        // check for category restriction
-        if ($fv['cb_category']) {
-            $andArray['category'] .= "(category_id IN (";
-            foreach ($fv['cb_category'] as $k => $v) {
-                $andArray['category'] .= "$k,"; 
+        // check for tag restriction
+        if ($fv['cb_tag']) {
+            $andArray['tag'] .= "(tag_id IN (";
+            foreach ($fv['cb_tag'] as $k => $v) {
+                $andArray['tag'] .= "$k,"; 
             }
-            $andArray['category'] = rtrim($andArray['category'], ",");
-            $andArray['category'] .= "))"; 
-            $strFrom .= " LEFT JOIN crm_entity_category ON crm_contact.id = crm_entity_category.entity_id ";
+            $andArray['tag'] = rtrim($andArray['tag'], ",");
+            $andArray['tag'] .= "))"; 
+            $strFrom .= " LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id ";
         }
 
 

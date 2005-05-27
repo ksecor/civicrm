@@ -183,7 +183,7 @@ class CRM_Utils_Rule {
      * @static
      */
     static function objectExists( $value, $options ) {
-        return CRM_Core_DAO::objectExists( $value, $options[0], CRM_Utils_Array::value( 1, $options, 'name' ) );
+        return CRM_Core_DAO::objectExists( $value, $options[0], $options[1], CRM_Utils_Array::value( 2, $options, 'name' ) );
     }
 }
 

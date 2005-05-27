@@ -41,7 +41,7 @@
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
-       <comment>Optional verbose description of the category.</comment>
+       <comment>Optional verbose description of the group.</comment>
   </field>
   <field>
       <name>group_type</name>

@@ -36,7 +36,7 @@ require_once 'CRM/Core/Page/Basic.php';
 /**
  * Page for displaying list of categories
  */
-class CRM_Admin_Page_Category extends CRM_Core_Page_Basic 
+class CRM_Admin_Page_Tag extends CRM_Core_Page_Basic 
 {
 
     /**
@@ -55,7 +55,7 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Contact_BAO_Category';
+        return 'CRM_Contact_BAO_Tag';
     }
 
 
@@ -70,21 +70,21 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic
         if ( ! isset( self::$_links ) ) 
         {
             // helper variable for nicer formatting
-            $deleteExtra = ts('Are you sure you want to delete this category?\n\nThis category will be removed from any currently tagged contacts, and users will no longer be able to assign contacts to this category.');
+            $deleteExtra = ts('Are you sure you want to delete this tag?\n\nThis tag will be removed from any currently tagged contacts, and users will no longer be able to assign contacts to this tag.');
 
 	    self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/category',
+                                                                    'url'   => 'civicrm/admin/tag',
                                                                     'qs'    => 'action=update&id=%%id%%',
-                                                                    'title' => ts('Edit Category') 
+                                                                    'title' => ts('Edit Tag') 
                                                                    ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/admin/category',
+                                                                    'url'   => 'civicrm/admin/tag',
                                                                     'qs'    => 'action=delete&id=%%id%%',
                                                                     'extra'    => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
-                                                                    'title' => ts('Delete Category'), 
+                                                                    'title' => ts('Delete Tag'), 
                                                                    ),
                                  );
         }
@@ -99,7 +99,7 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic
      */
     function editForm() 
     {
-        return 'CRM_Admin_Form_Category';
+        return 'CRM_Admin_Form_Tag';
     }
 
     /**
@@ -110,7 +110,7 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic
      */
     function editName() 
     {
-        return 'Category';
+        return 'Tag';
     }
 
     /**
@@ -121,7 +121,7 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic
      */
     function deleteName() 
     {
-        return 'Category';
+        return 'Tag';
     }
 
     /**
@@ -132,7 +132,7 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic
      */
     function userContext( $mode = null ) 
     {
-        return 'civicrm/admin/category';
+        return 'civicrm/admin/tag';
     }
 
     /**
@@ -143,7 +143,7 @@ class CRM_Admin_Page_Category extends CRM_Core_Page_Basic
      */
    function deleteForm() 
    {
-        return 'CRM_Admin_Form_Category';
+        return 'CRM_Admin_Form_Tag';
    }
 }
 

@@ -1,5 +1,5 @@
 {if $action eq 1 or $action eq 2 or $action eq 8}
-   {include file="CRM/Admin/Form/Category.tpl"}	
+   {include file="CRM/Admin/Form/Tag.tpl"}	
 {else}
     <div id="help">
         {ts}Tags can be assigned to any contact record, and are a convenient way to find contacts.

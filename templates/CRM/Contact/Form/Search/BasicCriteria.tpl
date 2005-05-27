@@ -9,7 +9,7 @@
  <div class="form-item">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
      <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
-     <span class="element-right">{$form.category.label}{$form.category.html}</span>
+     <span class="element-right">{$form.tag.label}{$form.tag.html}</span>
  </div>
  <div class="form-item">
      <span class="horizontal-position">

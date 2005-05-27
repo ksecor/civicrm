@@ -133,13 +133,13 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     protected $_groupElement;
 
     /**
-     * the category elements
+     * the tag elements
      *
      * @var array 
      * @access protected
      */
-    protected $_category;
-    protected $_categoryElement;
+    protected $_tag;
+    protected $_tagElement;
 
     /**
      * form values that we will be using
@@ -156,7 +156,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @access protected
      * @static
      */
-    static $csv = array('contact_type', 'group', 'category');
+    static $csv = array('contact_type', 'group', 'tag');
 
     /**
      * have we already done this search
@@ -271,8 +271,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_groupElement = $this->add('select', 'group', 'in', $group);
 
         // add select for categories
-        $category = array('' => ' - any tag - ') + $this->_category;
-        $this->_categoryElement = $this->add('select', 'category', 'Tagged', $category);
+        $tag = array('' => ' - any tag - ') + $this->_tag;
+        $this->_tagElement = $this->add('select', 'tag', 'Tagged', $tag);
 
         // text for sort_name
         $this->add('text', 'sort_name', 'Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
@@ -331,7 +331,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * set the varios class variables
          */
         $this->_group    =& CRM_Core_PseudoConstant::group   ( );
-        $this->_category =& CRM_Core_PseudoConstant::category( );
+        $this->_tag =& CRM_Core_PseudoConstant::tag( );
         $this->_done     = false;
 
         /**
@@ -441,11 +441,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         unset( $this->_formValues['group'] );
 
-        $category = CRM_Utils_Array::value( 'category', $this->_formValues );
-        if ( $category ) {
-            $this->_formValues['cb_category'][$category] = 1;
+        $tag = CRM_Utils_Array::value( 'tag', $this->_formValues );
+        if ( $tag ) {
+            $this->_formValues['cb_tag'][$tag] = 1;
         }
-        unset( $this->_formValues['category'] );
+        unset( $this->_formValues['tag'] );
         return;
     }
 

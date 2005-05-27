@@ -9,7 +9,7 @@
     {else}
         <label>{$sort_name}</label>
     {/if}
-    {if $contactCategory}<br />{$contactCategory}{/if}
+    {if $contactTag}<br />{$contactTag}{/if}
    </div>
 </div>
 
@@ -175,7 +175,7 @@
 	<table>
         <tr class="columnheader">
 		<th>Group</th>
-		<th>Category</th>
+		<th>Tag</th>
 		<th>Status</th>
 		<th>Date Added</th>
 	</tr>

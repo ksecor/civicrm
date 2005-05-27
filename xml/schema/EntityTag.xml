@@ -2,7 +2,7 @@
 
 <table>
   <base>CRM/Contact</base>
-  <name>crm_entity_category</name>
+  <name>crm_entity_tag</name>
   <comment>Tag entities (Contacts, Groups, Actions) to categories.</comment>
   <field>
       <name>id</name>
@@ -27,14 +27,14 @@
       <comment>FK to entity table specified in entity_table column.</comment>
   </field>
   <field>
-      <name>category_id</name>
+      <name>tag_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to crm_category</comment>
+      <comment>FK to crm_tag</comment>
   </field>
   <foreignKey>
-       <name>category_id</name>
-       <table>crm_category</table>
+       <name>tag_id</name>
+       <table>crm_tag</table>
        <key>id</key>
   </foreignKey>
 </table>

@@ -31,7 +31,7 @@
  *
  */
 
-class CRM_Contact_BAO_Category extends CRM_Contact_DAO_Category {
+class CRM_Contact_BAO_Tag extends CRM_Contact_DAO_Tag {
 
     /**
      * class constructor
@@ -50,24 +50,24 @@ class CRM_Contact_BAO_Category extends CRM_Contact_DAO_Category {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Contact_BAO_Category object
+     * @return object CRM_Contact_BAO_Tag object
      * @access public
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $category = new CRM_Contact_DAO_Category( );
-        $category->copyValues( $params );
-        if ( $category->find( true ) ) {
-            $category->storeValues( $defaults );
-            return $category;
+        $tag = new CRM_Contact_DAO_Tag( );
+        $tag->copyValues( $params );
+        if ( $tag->find( true ) ) {
+            $tag->storeValues( $defaults );
+            return $tag;
         }
         return null;
     }
 
     /**
-     * Function to delete the category 
+     * Function to delete the tag 
      *
-     * @param int $id category id
+     * @param int $id tag id
      *
      * @return null
      * @access public
@@ -75,18 +75,18 @@ class CRM_Contact_BAO_Category extends CRM_Contact_DAO_Category {
      *
      */
     static function del ( $id ) {
-        // delete all crm_entity_category records with the selected category id
-        $entityCategory = new CRM_Contact_DAO_EntityCategory( );
-        $entityCategory->category_id = $id;
-        $entityCategory->find();
-        while ( $entityCategory->fetch() ) {
-            $entityCategory->delete();
+        // delete all crm_entity_tag records with the selected tag id
+        $entityTag = new CRM_Contact_DAO_EntityTag( );
+        $entityTag->tag_id = $id;
+        $entityTag->find();
+        while ( $entityTag->fetch() ) {
+            $entityTag->delete();
         }
         
-        // delete from category table
-        $category = new CRM_Contact_DAO_Category( );
-        $category->id = $id;
-        $category->delete();
+        // delete from tag table
+        $tag = new CRM_Contact_DAO_Tag( );
+        $tag->id = $id;
+        $tag->delete();
 
         
     }
@@ -101,7 +101,7 @@ class CRM_Contact_BAO_Category extends CRM_Contact_DAO_Category {
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param array  $ids            the array that holds all the db ids
      *
-     * @return object CRM_Contact_BAO_Category object
+     * @return object CRM_Contact_BAO_Tag object
      * @access public
      * @static
      */
@@ -110,19 +110,19 @@ class CRM_Contact_BAO_Category extends CRM_Contact_DAO_Category {
             return null;
         }
 
-        $category               = new CRM_Contact_DAO_Category( );
-        $category->domain_id    = 1;
+        $tag               = new CRM_Contact_DAO_Tag( );
+        $tag->domain_id    = 1;
 
-        $category->copyValues( $params );
+        $tag->copyValues( $params );
 
-        $category->id = CRM_Utils_Array::value( 'category', $ids );
+        $tag->id = CRM_Utils_Array::value( 'tag', $ids );
 
-        $category->save( );
+        $tag->save( );
         
-        CRM_Core_Session::setStatus( ts('The category \'%1\' has been saved.',
-                                      array( 1 => $category->name ) ) );
+        CRM_Core_Session::setStatus( ts('The tag \'%1\' has been saved.',
+                                      array( 1 => $tag->name ) ) );
         
-        return $category;
+        return $tag;
     }
 
     /**

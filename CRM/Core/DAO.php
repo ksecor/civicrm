@@ -386,17 +386,23 @@ class CRM_Core_DAO extends DB_DataObject {
      *
      * @param string $value     the value of the field we are checking
      * @param string $daoName   the dao object name
+     * @param string $daoID     the id of the object being updated. u can change your name
+     *                          as long as there is no conflict
      * @param string $fieldName the name of the field in the DAO
      *
      * @return boolean     true if object exists
      * @access public
      * @static
      */
-    static function objectExists( $value, $daoName, $fieldName = 'name' ) {
+    static function objectExists( $value, $daoName, $daoID, $fieldName = 'name' ) {
         eval( '$object = new ' . $daoName . '( );' );
 
         $object->$fieldName = $value;
-        return $object->find( true ) ? false : true;
+        if ( $object->find( true ) ) {
+            return ( $daoID && $object->id == $daoID ) ? true : false;
+        } else {
+            return true;
+        }
     }
 
 }

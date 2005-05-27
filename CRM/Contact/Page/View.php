@@ -193,19 +193,19 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         }
 
         // get the list of all the categories
-        $category =& CRM_Core_PseudoConstant::category();
+        $tag =& CRM_Core_PseudoConstant::tag();
         // get categories for the contact id
-        $entityCategory =& CRM_Contact_BAO_EntityCategory::getCategory('crm_contact', $this->_contactId);
+        $entityTag =& CRM_Contact_BAO_EntityTag::getTag('crm_contact', $this->_contactId);
 
-        if (is_array($entityCategory)){
+        if (is_array($entityTag)){
             $strCategories = '';
-            foreach ($entityCategory as $lngKey ) {
-                $strCategories .= $category[$lngKey];
+            foreach ($entityTag as $lngKey ) {
+                $strCategories .= $tag[$lngKey];
                 $strCategories .= ", ";
             }
         }
         
-        $defaults['contactCategory'] = substr($strCategories, 0, (strlen(trim($strCategories))-1));
+        $defaults['contactTag'] = substr($strCategories, 0, (strlen(trim($strCategories))-1));
         
         $this->assign( $defaults );
         $this->set( 'displayName', $displayName );

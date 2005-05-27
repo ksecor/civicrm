@@ -23,7 +23,7 @@
 */
 
 /**
- * This class contains functions for managing Category(tag) for a contact
+ * This class contains functions for managing Tag(tag) for a contact
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -32,38 +32,38 @@
  *
  */
 
-class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory 
+class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag 
 {
 
     /**
      *
-     * Given a contact id, it returns an array of category id's the 
+     * Given a contact id, it returns an array of tag id's the 
      * contact belongs to.
      *
      * @param string $entityTable name of the entity table usually 'crm_contact'
      * @param int $entityID id of the entity usually the contactID.
-     * @returns array() reference $category array of catagory id's the contact belongs to.
+     * @returns array() reference $tag array of catagory id's the contact belongs to.
      *
      * @access public
      * @static
      */
-    static function &getCategory($entityTable = 'crm_contact', $entityID) 
+    static function &getTag($entityTable = 'crm_contact', $entityID) 
     {
-        $category = array();
+        $tag = array();
 
-        $entityCategory = new CRM_Contact_BAO_EntityCategory();
-        $entityCategory->entity_table = $entityTable;
-        $entityCategory->entity_id = $entityID;
-        $entityCategory->find();
+        $entityTag = new CRM_Contact_BAO_EntityTag();
+        $entityTag->entity_table = $entityTable;
+        $entityTag->entity_id = $entityID;
+        $entityTag->find();
 
-        while ($entityCategory->fetch()) {
-            $category[$entityCategory->category_id] = $entityCategory->category_id;
+        while ($entityTag->fetch()) {
+            $tag[$entityTag->tag_id] = $entityTag->tag_id;
         } 
-        return $category;        
+        return $tag;        
     }
 
     /**
-     * takes an associative array and creates a entityCategory object
+     * takes an associative array and creates a entityTag object
      *
      * the function extract all the params it needs to initialize the create a
      * group object. the params array could contain additional unused name/value
@@ -71,7 +71,7 @@ class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      *
-     * @return object CRM_Contact_BAO_EntityCategory object
+     * @return object CRM_Contact_BAO_EntityTag object
      * @access public
      * @static
      */
@@ -83,10 +83,10 @@ class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory
             return null;
         }
 
-        $entityCategory = new CRM_Contact_BAO_EntityCategory( );
-        $entityCategory->copyValues( $params );
-        $entityCategory->save( );
-        return $entityCategory;
+        $entityTag = new CRM_Contact_BAO_EntityTag( );
+        $entityTag->copyValues( $params );
+        $entityTag->save( );
+        return $entityTag;
     }
 
     /**
@@ -100,25 +100,25 @@ class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory
      */
     static function dataExists( &$params ) 
     {
-        return ($params['category_id'] == 0) ? false : true;
+        return ($params['tag_id'] == 0) ? false : true;
      }
 
     /**
-     * Function to delete the category for a contact
+     * Function to delete the tag for a contact
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      *
-     * @return object CRM_Contact_BAO_EntityCategory object
+     * @return object CRM_Contact_BAO_EntityTag object
      * @access public
      * @static
      *
      */
     static function del( &$params ) 
     {
-        $entityCategory = new CRM_Contact_BAO_EntityCategory( );
-        $entityCategory->copyValues( $params );
-        $entityCategory->delete( );
-        return $entityCategory;
+        $entityTag = new CRM_Contact_BAO_EntityTag( );
+        $entityTag->copyValues( $params );
+        $entityTag->delete( );
+        return $entityTag;
     }
 
 
@@ -126,24 +126,24 @@ class CRM_Contact_BAO_EntityCategory extends CRM_Contact_DAO_EntityCategory
      * Given an array of contact ids, add all the contacts to the tags 
      *
      * @param array  $contactIds (reference ) the array of contact ids to be added
-     * @param int    $categoryId the id of the category
+     * @param int    $tagId the id of the tag
      *
      * @return array             (total, added, notAdded) count of contacts added to group
      * @access public
      * @static
      */
-    static function addContactsToTag( &$contactIds, $categoryId ) {
+    static function addContactsToTag( &$contactIds, $tagId ) {
         $numContactsAdded    = 0;
         $numContactsNotAdded = 0;
 
         foreach ( $contactIds as $contactId ) {
-            $category = new CRM_Contact_DAO_EntityCategory( );
+            $tag = new CRM_Contact_DAO_EntityTag( );
             
-            $category->entity_id    = $contactId;
-            $category->entity_table = 'crm_contact';
-            $category->category_id  = $categoryId;
-            if ( ! $category->find( ) ) {
-                $category->save( );
+            $tag->entity_id    = $contactId;
+            $tag->entity_table = 'crm_contact';
+            $tag->tag_id  = $tagId;
+            if ( ! $tag->find( ) ) {
+                $tag->save( );
                 $numContactsAdded++;
             } else {
                 $numContactsNotAdded++;

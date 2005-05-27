@@ -369,16 +369,16 @@ INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, c
 INSERT INTO crm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( 1, 'Household Member of', 'Household Member is', 'Household membership.','Individual','Household', 0 );
 
--- Sample Categories
-INSERT INTO crm_category( domain_id, name, description, parent_id )
+-- Sample Tags
+INSERT INTO crm_tag( domain_id, name, description, parent_id )
     VALUES( 1, 'Non-profit', 'Any not-for-profit organization.', NULL );
-INSERT INTO crm_category( domain_id, name, description, parent_id )
+INSERT INTO crm_tag( domain_id, name, description, parent_id )
     VALUES( 1, 'Company', 'For-profit organization.', NULL );
-INSERT INTO crm_category( domain_id, name, description, parent_id )
+INSERT INTO crm_tag( domain_id, name, description, parent_id )
     VALUES( 1, 'Government Entity', 'Any governmental entity.', NULL );
-INSERT INTO crm_category( domain_id, name, description, parent_id )
+INSERT INTO crm_tag( domain_id, name, description, parent_id )
     VALUES( 1, 'Major Donor', 'High-value supporter of our organization.', NULL );
-INSERT INTO crm_category( domain_id, name, description, parent_id )
+INSERT INTO crm_tag( domain_id, name, description, parent_id )
     VALUES( 1, 'Volunteer', 'Active volunteers.', NULL );
 
 

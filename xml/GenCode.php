@@ -94,6 +94,9 @@ function convertName( $name, $skipDBPrefix = true, $pre = '', $post = '' ) {
         if ( strtolower( $names[$i] ) == 'im' ) {
             $names[$i] = 'IM';
         }
+        if ( strtolower( $names[$i] ) == 'uf' ) {
+            $names[$i] = 'UF';
+        }
         $fileName .= ucfirst( $names[$i] );
     }
     return $pre . $fileName . $post;

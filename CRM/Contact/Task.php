@@ -49,7 +49,7 @@ class CRM_Contact_Task {
     static $tasks = array(
                           1   => 'Add Contacts to a Group',
                           2   => 'Remove Contacts from a Group',
-                          4   => 'Tag Contacts (assign category)',
+                          4   => 'Tag Contacts (assign tags)',
                           8   => 'Delete Contacts',
                           16  => 'New Saved Search',
                           );

@@ -52,7 +52,7 @@ class CRM_Admin_Form_MobileProvider extends CRM_Admin_Form
         $this->add('text', 'name'       , ts('Name')       ,
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_MobileProvider', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_MobileProvider' ) );
+        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_MobileProvider', $this->_id ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 

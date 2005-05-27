@@ -913,42 +913,42 @@ class CRM_GCD {
 
     /*******************************************************
      *
-     * addCategoryEntity()
+     * addTagEntity()
      *
-     * This method populates the crm_entity_category table
+     * This method populates the crm_entity_tag table
      *
      *******************************************************/
-    public function addEntityCategory()
+    public function addEntityTag()
     {
 
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $entity_category = new CRM_Contact_DAO_EntityCategory();
+        $entity_tag = new CRM_Contact_DAO_EntityTag();
         
         // add categories 1,2,3 for Organizations.
         for ($i=0; $i<$this->numOrganization; $i+=2) {
             $org_id = $this->organization[$i];
             // echo "org_id = $org_id\n";
-            $entity_category->entity_table = 'crm_contact';
-            $entity_category->entity_id = $this->organization[$i];
-            $entity_category->category_id = mt_rand(1, 3);
-            $this->_insert($entity_category);
+            $entity_tag->entity_table = 'crm_contact';
+            $entity_tag->entity_id = $this->organization[$i];
+            $entity_tag->tag_id = mt_rand(1, 3);
+            $this->_insert($entity_tag);
         }
 
         // add categories 4,5 for Individuals.        
         for ($i=0; $i<$this->numIndividual; $i+=2) {
-            $entity_category->entity_table = 'crm_contact';
-            $entity_category->entity_id = $this->individual[$i];
-            if(($entity_category->entity_id)%3) {
-                $entity_category->category_id = mt_rand(4, 5);
-                $this->_insert($entity_category);
+            $entity_tag->entity_table = 'crm_contact';
+            $entity_tag->entity_id = $this->individual[$i];
+            if(($entity_tag->entity_id)%3) {
+                $entity_tag->tag_id = mt_rand(4, 5);
+                $this->_insert($entity_tag);
             } else {
                 // some of the individuals are in both categories (4 and 5).
-                $entity_category->category_id = 4;
-                $this->_insert($entity_category);                
-                $entity_category->category_id = 5;
-                $this->_insert($entity_category);                
+                $entity_tag->tag_id = 4;
+                $this->_insert($entity_tag);                
+                $entity_tag->tag_id = 5;
+                $this->_insert($entity_tag);                
             }
         }
     }
@@ -957,7 +957,7 @@ class CRM_GCD {
      *
      * addGroup()
      *
-     * This method populates the crm_entity_category table
+     * This method populates the crm_entity_tag table
      *
      *******************************************************/
     public function addGroup()
@@ -1080,7 +1080,7 @@ $obj1->addHousehold();
 $obj1->addOrganization();
 $obj1->addRelationship();
 $obj1->addLocation();
-$obj1->addEntityCategory();
+$obj1->addEntityTag();
 $obj1->addGroup();
 $obj1->addNote();
 

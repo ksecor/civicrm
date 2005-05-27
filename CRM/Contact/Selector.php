@@ -328,12 +328,12 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $qill[] = $str;
         }
         
-        // check for category restriction
-        if ($fv['cb_category']) {
-            $category =& CRM_Core_PseudoConstant::category();
+        // check for tag restriction
+        if ($fv['cb_tag']) {
+            $tag =& CRM_Core_PseudoConstant::tag();
             $str = 'Tagged as -';
-            foreach ($fv['cb_category'] as $k => $v) {
-                $str .= ' "' . $category[$k] . '" or';
+            foreach ($fv['cb_tag'] as $k => $v) {
+                $str .= ' "' . $tag[$k] . '" or';
             }
             $str = preg_replace($patternOr, $replacement, $str);
             $qill[] = $str;

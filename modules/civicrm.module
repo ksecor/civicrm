@@ -170,7 +170,7 @@ function civicrm_menu($may_cache)
                          );
         
        $items[] = array(
-                         'path'  => 'civicrm/admin/category',
+                         'path'  => 'civicrm/admin/tag',
                          'title' => ts('Tags'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => -10
@@ -456,9 +456,9 @@ function civicrm_admin_invoke()
         } else if (arg(2) == 'reltype') {
             // relationship type
             $view = new CRM_Admin_Page_RelationshipType( 'View Relationship Types' );
-        } else if (arg(2) == 'category') {
-            // category
-            $view = new CRM_Admin_Page_Category( 'View Categories' );
+        } else if (arg(2) == 'tag') {
+            // tag
+            $view = new CRM_Admin_Page_Tag( 'View Tags' );
         } else if ( arg(2) == 'custom' ) {
             // handle external properties
             if ( arg(3) == 'group' ) {
@@ -473,7 +473,7 @@ function civicrm_admin_invoke()
             }
         } else {
             // Categories is default local task
-            $view = new CRM_Admin_Page_Category( 'View Categories' );
+            $view = new CRM_Admin_Page_Tag( 'View Tags' );
         }
         
         if ( $view ) {
