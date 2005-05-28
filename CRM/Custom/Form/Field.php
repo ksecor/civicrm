@@ -100,6 +100,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_CustomField::retrieve($params, $defaults);
             $this->_gid = $defaults['custom_group_id'];
+            
+            if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
+                $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'], self::$_dataType   ),
+                                                '1' => 0 );
+            }
         } else {
             $defaults['is_active'] = 1;
         }
@@ -159,6 +164,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                                 )
                           );
 
+        // add a form rule to check default value
+        $this->addFormRule( array( 'CRM_Custom_Form_Field', 'formRule' ) );
+
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
@@ -166,7 +174,45 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         }
     }
 
-    
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields ) {
+        $default = CRM_Utils_Array::value( 'default_value', $fields );
+        $errors  = array( );
+
+        if ( $default ) {
+            $dataType = self::$_dataType[$fields['data_type'][0]];
+            switch ( $dataType ) {
+            case 'Int':
+                if ( ! CRM_Utils_Rule::integer( $default ) ) {
+                    $errors['default_value'] = 'Please enter a valid integer as default value';
+                }
+                break;
+
+            case 'Float':
+            case 'Money':
+                if ( ! CRM_Utils_Rule::numeric( $default ) ) {
+                    $errors['default_value'] = 'Please enter a valid number as default value';
+                }
+                break;
+
+            case 'Date':
+                if ( ! CRM_Utils_Rule::date( $default ) ) {
+                    $errors['default_value'] = 'Please enter a valid date as default value';
+                }
+                break;
+            }
+        }
+        return empty($errors) ? true : $errors;
+    }
+
     /**
      * Process the form
      *
@@ -191,6 +237,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->mask          = $params['mask'];
         $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
         $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
+        if ( strtolower( $customField->html_type ) == 'textarea' ) {
+            $customField->attributes = 'rows=4, cols=80';
+        }
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $customField->id = $this->_id;
@@ -198,6 +247,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // need the FKEY - custom group id
         $customField->custom_group_id = $this->_gid;
+
         $customField->save();
         
         CRM_Core_Session::setStatus(ts('Your custom field - \' %1 \' has been saved', array(1 => $customField->label)));

@@ -116,7 +116,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 switch($field['html_type']) {
 
                 case 'Text':
-
                 case 'TextArea':
                     $element = $this->add(strtolower($field['html_type']), $elementName, $field['label'],
                                           $field['attributes'], $field['is_required']);
@@ -125,6 +124,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 case 'Select Date':
                     $this->add('date', $elementName, $field['label'], CRM_Core_SelectValues::date( 'custom' ), $field['required']);
                     break;
+
                 case 'Radio':
                     $choice = array();
                     $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('Yes'), 'yes', $field['attributes']);
@@ -134,19 +134,27 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                         $this->addRule($elementName, $field['label'] . ts(" is a required field.") , 'required');
                     }
                     break;
+
                 case 'Select':
                 case 'CheckBox':
                 case 'Select State / Province':
                 case 'Select Country':
                 }
                 
-                // integers will have numeric rule applied to them.
-                if ($field['data_type'] == 'Int') {
-                    $this->addRule($elementName, ts(' is a numeric field'), 'numeric');
-                }
-                // apply date validation rules
-                if ($field['data_type'] == 'Date') {
-                    $this->addRule($elementName, ts(' is not a valid date'), 'qfDate');
+                switch ( $field['data_type'] ) {
+                case 'Int':
+                    // integers will have numeric rule applied to them.
+                    $this->addRule($elementName, $field['label'] . ts(' is not an integer'), 'integer');
+                    break;
+
+                case 'Date':
+                    $this->addRule($elementName, $field['label'] . ts(' is not a valid date'), 'qfDate');
+                    break;
+
+                case 'Float':
+                case 'Money':
+                    $this->addRule($elementName, $field['label'] . ts(' is not a number'), 'numeric');
+                    break;
                 }
             }
         }
@@ -177,8 +185,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
-
-        //CRM_Core_Error::debug_var('_groupTree', $this->_groupTree);
 
         foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];

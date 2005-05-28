@@ -124,6 +124,10 @@ class CRM_Utils_Rule {
         return false;
     }
 
+    static function numeric($value) {
+        return preg_match( '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/', $value ) ? true : false;
+    }
+
     static function string($value, $maxLength = 0) {
         if (is_string($value) &&
             ($maxLength === 0 || strlen($value) <= $maxLength)) {

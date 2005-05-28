@@ -315,6 +315,16 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     }
 
 
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     * @param array $errors list of errors to be posted back to the form
+     *
+     * @return void
+     * @static
+     * @access public
+     */
     static function formRule(&$fields, &$errors)
     {
         $primaryEmail = null;

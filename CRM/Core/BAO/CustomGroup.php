@@ -114,7 +114,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         // using tableData to build the queryString 
         $tableData = array(
-                           'crm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 
+                           'crm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                        'is_required', 'help_post'),
                            'crm_custom_group' => array('id', 'title', 'help_pre'),
                            );
@@ -263,6 +263,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_int_data;
                 break;
             case 'Float':
+            case 'Money':
                 $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_float_data;
                 break;
             case 'Memo':
@@ -321,7 +322,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customValueDAO->id = $field['customValue']['id'];
                     }
 
-                    // $data = $field['customValue']['data'] ? $field['customValue']['data'] : null;
                     $data = $field['customValue']['data'];
 
                     // since custom data is empty, delete it from db.
@@ -330,7 +330,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                     // and accidental deletion of data.
                     // especially true in the case of radio buttons where we are using the values
                     // 1 - true and 0 for false.
-                    if (!strlen($data)) {
+                    if (! strlen(trim($data) ) ) {
                         $customValueDAO->delete();
                         continue;
                     }
@@ -345,6 +345,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customValueDAO->int_data = $data;
                         break;
                     case 'Float':
+                    case 'Money':
                         $customValueDAO->float_data = $data;
                         break;
                     case 'Memo':
@@ -354,6 +355,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         $customValueDAO->date_data = $data;
                         break;
                     }
+
                     // insert/update of custom value
                     $customValueDAO->save();
                 }
