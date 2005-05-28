@@ -131,6 +131,9 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
+            $customField[$customFieldBAO->id]['data_type'] =
+                CRM_Core_BAO_CustomField::$_dataType[$customField[$customFieldBAO->id]['data_type']];
+
             $customField[$customFieldBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('id' => $customFieldBAO->id));
         }

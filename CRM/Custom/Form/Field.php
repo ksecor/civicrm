@@ -60,7 +60,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @var array
      * @static
      */
-    private static $_dataType   = array('String', 'Int', 'Float', 'Money', 'Memo', 'Date', 'Boolean');
+    private static $_dataTypeValues;
+    private static $_dataTypeKeys;
+    
     private static $_dataToHTML = array(
                                         array('Text'),
                                         array('Text'),
@@ -80,6 +82,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function preProcess()
     {
+        if ( ! isset( self::$_dataTypeKeys ) ) {
+            self::$_dataTypeKeys   = array_keys  ( CRM_Core_BAO_CustomField::$_dataType );
+            self::$_dataTypeValues = array_values( CRM_Core_BAO_CustomField::$_dataType );
+        }
+
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);
     }
@@ -102,7 +109,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->_gid = $defaults['custom_group_id'];
             
             if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
-                $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'], self::$_dataType   ),
+                $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'], self::$_dataTypeKeys ),
                                                 '1' => 0 );
             }
         } else {
@@ -126,11 +133,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
-        $this->addRule('label', ts('Please enter label for this field.'), 'title');
+        $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 
         // data type, html type
         $dataHTMLElement = $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'));
-        $dataHTMLElement->setOptions(array(self::$_dataType, self::$_dataToHTML));
+        $dataHTMLElement->setOptions(array( self::$_dataTypeValues, self::$_dataToHTML));
         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $dataHTMLElement->freeze();
         }
@@ -188,7 +195,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $errors  = array( );
 
         if ( $default ) {
-            $dataType = self::$_dataType[$fields['data_type'][0]];
+            $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             switch ( $dataType ) {
             case 'Int':
                 if ( ! CRM_Utils_Rule::integer( $default ) ) {
@@ -229,7 +236,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField                = new CRM_Core_DAO_CustomField();
         $customField->label         = $params['label'];
         $customField->name          = CRM_Utils_String::titleToVar($params['label']);
-        $customField->data_type     = self::$_dataType[$params['data_type'][0]];
+        $customField->data_type     = self::$_dataTypeKeys[$params['data_type'][0]];
         $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
         $customField->weight        = $params['weight'];
         $customField->default_value = $params['default_value'];

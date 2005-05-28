@@ -41,12 +41,18 @@ require_once 'CRM/Core/DAO/CustomField.php';
 class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
 
     /**
-     * class constructor
+     * Array for valid combinations of data_type & descriptions
+     *
+     * @var array
+     * @static
      */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
+    public static $_dataType   = array( 'String'  => 'Alphanumeric',
+                                        'Int'     => 'Integer',
+                                        'Float'   => 'Number',
+                                        'Money'   => 'Money',
+                                        'Memo'    => 'Note',
+                                        'Date'    => 'Date',
+                                        'Boolean' => 'Yes or No' );
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
