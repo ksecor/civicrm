@@ -72,6 +72,7 @@ div.spacer {
   clear: left;
   width: 22%;
   text-align: right;
+  vertical-align: top;
   font-weight: bold;
   white-space: nowrap;
   padding: 5px 15px 5px 0px;

@@ -10,14 +10,14 @@
             <div class="form-item">
                 {foreach from=$groupTree item=cd key=group_id}
                 <fieldset><legend>{$cd.title}</legend>
+                    <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}
                     {assign var="name" value=`$cd_value.name`} 
                     {assign var="element_name value=$group_id|cat:_|cat:$field_id|cat:_|cat:$cd_value.name}
-                    <dl>
                     <dt>{$cd_value.label}</dt>
-                    <dd>{$form.$element_name.html}</dd>
-                    </dl>
+                    <dd>&nbsp;{$form.$element_name.html}</dd>
                     {/foreach}
+                    </dl>
                 </fieldset>
                 {/foreach}
                 

@@ -181,12 +181,10 @@ class CRM_Core_SelectValues {
      * @static
      */
     public static $customGroupExtends = array(
-                                              'Contact'      => 'Contact',
-                                              'Individual'   => 'Individual',
-                                              'Household'    => 'Household',
-                                              'Organization' => 'Organization',
-                                              'Location'     => 'Location',
-                                              'Address'      => 'Address',
+                                              'Contact'      => '-all contact types-',
+                                              'Individual'   => 'Individuals',
+                                              'Household'    => 'Households',
+                                              'Organization' => 'Organizations',
                                               );
 
 

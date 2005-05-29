@@ -88,6 +88,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $extendsElement->freeze();
+            $this->assign('gid', $this->_id);
         }
 
         // help text
@@ -166,7 +167,12 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             $group->id = $this->_id;
         }
         $group->save();
-        CRM_Core_Session::setStatus('Your Group "' . $group->title . '" has been saved');
+        if ($this->_action & CRM_Core_Action::UPDATE) {
+            CRM_Core_Session::setStatus('Your Group "' . $group->title . '" has been saved.');
+        } else {
+            $url = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $group->id);
+            CRM_Core_Session::setStatus('Your Group "' . $group->title . '" has been added. You can <a href="'. $url .'">add custom fields</a> to this group now.');
+        }
     }
 }
 ?>

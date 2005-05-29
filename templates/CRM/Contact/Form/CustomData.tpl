@@ -3,14 +3,14 @@
 {foreach from=$groupTree item=cd_edit key=group_id}
     <p>
     <fieldset><legend>{$cd_edit.title}</legend>
-    {if $cd_edit.help_pre}<div class="message help">{$cd_edit.help_pre}</div>{/if}
+    {if $cd_edit.help_pre}<div class="message help">{$cd_edit.help_pre}</div><br />{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
         {assign var="name" value=`$element.name`} 
         {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}
-        <dt>{$form.$element_name.label}</dt><dd>{$form.$element_name.html}</dd>
+        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>
         {if $element.help_post}
-            <dt> </dt><dd class="description">{$element.help_post}</dd>
+            <dt>&nbsp;</dt><dd class="description">{$element.help_post}</dd>
         {/if}
     {/foreach}
     </dl>

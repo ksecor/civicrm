@@ -12,7 +12,7 @@
         {strip}
         <table>
         <tr class="columnheader">
-            <th>{ts}Form Title{/ts}</th>
+            <th>{ts}Group Title{/ts}</th>
             <th>{ts}Status?{/ts}</th>
             <th>{ts}Used For{/ts}</th>
             <th>{ts}Weight{/ts}</th>
@@ -22,7 +22,7 @@
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{$row.extends}</td>
+            <td>{if $row.extends eq 'Contact'}{ts}All Contact Types{/ts}{else}{$row.extends}s{/if}</td>
             <td>{$row.weight}</td>
             <td>{$row.action}</td>
         </tr>

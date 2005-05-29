@@ -182,6 +182,8 @@ class CRM_Contact_Page_Relationship {
         if ( ! isset( self::$_links ) )
         {
             $deleteExtra = ts('Are you sure you want to delete this relationship?');
+            $disableExtra = ts('Are you sure you want to disable this relationship?');
+            $enableExtra = ts('Are you sure you want to re-enable this relationship?');
 
             self::$_links = array(
                                   CRM_Core_Action::VIEW    => array(
@@ -200,12 +202,14 @@ class CRM_Contact_Page_Relationship {
                                                                     'name'  => ts('Enable'),
                                                                     'url'   => 'civicrm/contact/view/rel',
                                                                     'qs'    => 'action=enable&rid=%%rid%%&rtype=%%rtype%%',
+                                                                    'extra' => 'onclick = "return confirm(\'' . $enableExtra . '\');"',
                                                                     'title' => ts('Enable Relationship')
                                                                     ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
                                                                     'url'   => 'civicrm/contact/view/rel',
                                                                     'qs'    => 'action=disable&rid=%%rid%%&rtype=%%rtype%%',
+                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                     'title' => ts('Disable Relationship')
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(

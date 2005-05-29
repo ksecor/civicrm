@@ -144,16 +144,16 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 switch ( $field['data_type'] ) {
                 case 'Int':
                     // integers will have numeric rule applied to them.
-                    $this->addRule($elementName, $field['label'] . ts(' is not an integer'), 'integer');
+                    $this->addRule($elementName, $field['label'] . ts(' must be an integer (whole number).'), 'integer');
                     break;
 
                 case 'Date':
-                    $this->addRule($elementName, $field['label'] . ts(' is not a valid date'), 'qfDate');
+                    $this->addRule($elementName, $field['label'] . ts(' is not a valid date.'), 'qfDate');
                     break;
 
                 case 'Float':
                 case 'Money':
-                    $this->addRule($elementName, $field['label'] . ts(' is not a number'), 'numeric');
+                    $this->addRule($elementName, $field['label'] . ts(' must be a number (with or without decimal point).'), 'numeric');
                     break;
                 }
             }
