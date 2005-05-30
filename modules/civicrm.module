@@ -486,7 +486,7 @@ function civicrm_invoke()
 {
     $session = CRM_Core_Session::singleton( );
 
-    // synchrozine the drupal uid with the contacts db
+    // synchronize the drupal uid with the contacts db
     global $user;
     CRM_Core_BAO_Drupal::synchronize( $user, false );
     // contact related functionality
@@ -522,7 +522,7 @@ function civicrm_invoke()
     }
   
     // Default landing page is basic search (mostly for CiviCRM link in breadcrumb)
-    drupal_goto( CRM_Utils_System::url( 'civicrm/contact/search', 'force=1', false ) );
+    drupal_goto( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1', false ) );
 }
 
 function civicrm_contact_invoke() 
@@ -538,12 +538,18 @@ function civicrm_contact_invoke()
 
     // edit contact
     if (arg(2) == 'edit') {
+        $breadcrumb = drupal_get_breadcrumb();
+        $breadcrumb[] = '<a href="civicrm/contact/search?force=1">Search Results</a>';
+        drupal_set_breadcrumb( $breadcrumb );
         $c = civicrm_form( CRM_Core_Action::UPDATE );
         return $c;
     }
  
     // view contact
     if (arg(2) == 'view') {
+        $breadcrumb = drupal_get_breadcrumb();
+        $breadcrumb[] = '<a href="civicrm/contact/search?force=1">Search Results</a>';
+        drupal_set_breadcrumb( $breadcrumb );
         if (arg(3) == '') {
             $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_NONE );
             return $view->run( );
