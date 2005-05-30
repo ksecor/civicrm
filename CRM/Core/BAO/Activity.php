@@ -81,11 +81,73 @@ class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
      * @access public
      * @static
      */
-    static function delete($activityTableId)
+    static function del($activityTableId)
     {
         $activity = new CRM_Core_DAO_Activity();
         $activity->id = $activityTableId;
         $activity->delete();
+    }
+
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params        input parameters to find object
+     * @param array $values        output values of the object
+     *
+     * @return array (reference)   the values that could be potentially assigned to smarty
+     * @access public
+     * @static
+     */
+    static function &getValues(&$params, &$values)
+    {
+        // get top 3 activities
+        $values['activity']['data']  =& CRM_Core_BAO_Activity::getActivity($params['contact_id'], 3);
+
+        // get the total number of activities
+        $values['activity']['totalCount'] = CRM_Core_BAO_Activity::getActivity($params['contact_id'], null, true);
+
+        //CRM_Core_Error::debug_var('values', $values);
+        
+        return $values;
+    }
+
+    /**
+     * function to get the list of activities for contact.
+     *
+     * @param int     $contactId       contact id 
+     * @param int     $numActivity     number of activies for a contact that should be shown
+     * @param boolean $count           true if we are interested only in the count
+     *
+     * @return array (reference)|int   $values the relevant data object values for the contact or
+                                       the total count when $count is true
+     *
+     * @access public
+     * @static
+     */
+    static function &getActivity($contactId, $numActivity=null, $count=false)
+    {
+        $activityDAO = new CRM_Core_DAO_Activity();
+        $activityDAO->entity_table = 'crm_contact';
+        $activityDAO->entity_id = $contactId;
+
+        if ($count) {
+            return $activityDAO->count();
+        } else {
+            $activityDAO->selectAdd();
+            $activityDAO->selectAdd('id, activity_type, activity_summary, activity_date');
+            $activityDAO->orderBy('activity_date desc');
+            $activityDAO->limit($numActivity);
+            $values = array();
+            $activityDAO->find();
+            while($activityDAO->fetch()) {
+                $id = $activityDAO->id;
+                $values[$id]['activity_type'] = $activityDAO->activity_type;
+                $values[$id]['activity_summary'] = $activityDAO->activity_summary;
+                $values[$id]['activity_date'] = $activityDAO->activity_date;
+            }
+            return $values;
+        }
     }
 }
 ?>

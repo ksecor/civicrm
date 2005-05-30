@@ -77,13 +77,13 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
     function preProcess()
     {
 
-        CRM_Core_Error::le_method();
+        //CRM_Core_Error::le_method();
 
         $this->_tableName = $this->get('tableName');
         $this->_tableId   = $this->get('tableId');
         $this->_activityTableId  = $this->get('activityTableId');
 
-        CRM_Core_Error::ll_method();
+        //CRM_Core_Error::ll_method();
     }
 
 
@@ -149,7 +149,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->exportValues();
 
-        CRM_Core_Error::debug_var('params', $params);
+        // CRM_Core_Error::debug_var('params', $params);
 
         // populate activity DAO and save it
         $activity = new CRM_Core_DAO_Activity();
@@ -170,7 +170,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $activity->activity_date  = CRM_Utils_Date::format($params['activity_date']);
         $activity->save();
         CRM_Core_Session::setStatus(ts("Your Activity has been saved."));
-    }//end of function
+    }
 }
 
 ?>

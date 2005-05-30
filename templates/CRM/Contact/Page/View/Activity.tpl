@@ -1,26 +1,22 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
     {include file="CRM/Activity/Form/Activity.tpl"}
 {else}
-    {if $rows}
+    {if $activity}
     <div id="notes">
     <p>
         <div class="form-item">
         {strip}
         <table>
         <tr class="columnheader">
-            <th>{ts}Form Title{/ts}</th>
-            <th>{ts}Status?{/ts}</th>
-            <th>{ts}Used For{/ts}</th>
-            <th>{ts}Weight{/ts}</th>
-            <th></th>
+            <th>{ts}Activity Type{/ts}</th>
+            <th>{ts}Description{/ts}</th>
+            <th>{ts}Activity Date{/ts}</th>
         </tr>
-        {foreach from=$rows item=row}
-        <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-            <td>{$row.title}</td>
-            <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{$row.extends}</td>
-            <td>{$row.weight}</td>
-            <td>{$row.action}</td>
+        {foreach from=$activity item=row}
+        <tr class="{cycle values="odd-row,even-row"}">
+            <td>{$row.activity_type}</td>
+            <td>{$row.activity_summary}</td>
+            <td>{$row.activity_date|crmDate}</td>
         </tr>
         {/foreach}
         </table>
@@ -28,7 +24,7 @@
         {if NOT ($action eq 1 or $action eq 2) }
         <p>
         <div class="action-link">
-        <a href="{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}">&raquo;  {ts}New Custom Data Group{/ts}</a>
+        <a href="{crmURL p='civicrm/contact/view/activity' q="action=add"}">&raquo;  {ts}New Activity{/ts}</a>
         </div>
         </p>
         {/if}

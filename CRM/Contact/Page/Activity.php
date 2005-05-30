@@ -40,6 +40,16 @@ require_once 'CRM/Core/Page.php';
 class CRM_Contact_Page_Activity {
 
 
+    /**
+     * View a single activity
+     *
+     * @param object $page - CRM_Contact_Page_View - main view page object
+     * @param int $activityTableId - id of the activity table
+     * @return none
+     *
+     * @access public
+     * @static
+     */
     static function view($page, $activityTableId)
     {
         $activityDAO = new CRM_Core_DAO_Activity();
@@ -52,21 +62,33 @@ class CRM_Contact_Page_Activity {
         self::browse($page);
     }
 
+    /**
+     * Browse all activities for a particular contact
+     *
+     * @param object $page - CRM_Contact_Page_View - main view page object
+     * @return none
+     *
+     * @access public
+     * @static
+     */
     static function browse($page)
     {
-        $activityDAO = new CRM_Core_DAO_Activity();
-        $activityDAO->entity_id = $page->getContactId();
-        $activityDAO->orderBy('activity_date desc');
-
-        $values = array();
-        $activityDAO->find();
-        while ($activityDAO->fetch()) {
-            $values[$activityDAO->id] = array();
-            $activityDAO->storeValues($values[$activityDAO->id]);
-        }
+        $values = CRM_Core_BAO_Activity::getActivity($page->getContactId());
         $page->assign('activity', $values);
     }
 
+
+    /**
+     * Add, Update or View a single activity
+     *
+     * @param object $page - CRM_Contact_Page_View - main view page object
+     * @param int $mode - CRM_Core_Action::ADD | CRM_Core_Action::UPDATE | CRM_Core_Action::VIEW  
+     * @param int $activityTableId - optional - id for update and view mode
+     * @return none
+     *
+     * @access public
+     * @static
+     */
     static function edit($page, $mode, $activityTableId = null)
     {
         $controller = new CRM_Core_Controller_Simple('CRM_Activity_Form_Activity', 'Contact Activity', $mode);

@@ -198,6 +198,41 @@
  </fieldset>
 </div>
 
+<div id="activities[show]" class="data-group">
+  {if $activity.totalCount}
+    <a href="#" onClick="hide('activities[show]'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Activities</label> ({$activity.totalCount})<br />
+  {else}
+    <dl><dt>Activities</dt><dd>No activities. Use the <a href="{crmURL p='civicrm/contact/view/activity' q='action=add'}">Activity tab</a> to add them.</dd></dl>
+  {/if}
+</div>
+
+<div id="activities">
+ <fieldset><legend><a href="#" onClick="hide('activities'); show('activities[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Activities{if $activity.totalCount GT 3} (3 of {$activity.totalCount}){/if}</legend>
+	{strip}
+	<table>
+        <tr class="columnheader">
+		<th>Activity Type</th>
+		<th>Description</th>
+		<th>Activity Date</th>
+	</tr>
+    {foreach from=$activity.data item=row}
+        <tr class="{cycle values="odd-row,even-row"}">
+        	<td>{$row.activity_type}</td>
+	    	<td>{$row.activity_summary}</td>	
+                <td>{$row.activity_date|crmDate}</td>
+        </tr>
+    {/foreach}
+    {if $activity.totalCount gt 3 }
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q='action=browse'}">&raquo; View All Activities...</a></td></tr>
+    {/if}
+    </table>
+	{/strip}
+   <div class="action-link">
+       <a href="{crmURL p='civicrm/contact/view/activity' q='action=add'}">&raquo; New Activities</a>
+   </div>
+ </fieldset>
+</div>
+
 <div id="notes[show]" class="data-group">
   {if $noteTotalCount}
     <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Contact Notes</label> ({$noteTotalCount})<br />
