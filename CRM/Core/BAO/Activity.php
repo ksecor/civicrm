@@ -102,10 +102,11 @@ class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
     static function &getValues(&$params, &$values)
     {
         // get top 3 activities
-        $values['activity']['data']  =& CRM_Core_BAO_Activity::getActivity($params['contact_id'], 3);
+        //$values['activity']['data']  =& CRM_Core_BAO_Activity::getActivity($params['contact_id'], 3);
+        $values['activity']['data']  =& CRM_Core_BAO_Activity::getActivity($params['contact_id'], 0, 3);
 
         // get the total number of activities
-        $values['activity']['totalCount'] = CRM_Core_BAO_Activity::getActivity($params['contact_id'], null, true);
+        $values['activity']['totalCount'] = CRM_Core_BAO_Activity::getNumActivity($params['contact_id']);
 
         //CRM_Core_Error::debug_var('values', $values);
         
@@ -116,8 +117,9 @@ class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
      * function to get the list of activities for contact.
      *
      * @param int     $contactId       contact id 
-     * @param int     $numActivity     number of activies for a contact that should be shown
-     * @param boolean $count           true if we are interested only in the count
+     * @param int     $offset          which row to start from ?
+     * @param int     $rowCount        how many rows to fetch
+     * @param object  $sort            object describing sort order for sql query.
      *
      * @return array (reference)|int   $values the relevant data object values for the contact or
                                        the total count when $count is true
@@ -125,29 +127,53 @@ class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
      * @access public
      * @static
      */
-    static function &getActivity($contactId, $numActivity=null, $count=false)
+    static function &getActivity($contactId, $offset=null, $rowCount=null, $sort=null)
     {
         $activityDAO = new CRM_Core_DAO_Activity();
         $activityDAO->entity_table = 'crm_contact';
         $activityDAO->entity_id = $contactId;
 
-        if ($count) {
-            return $activityDAO->count();
+        // selection criteria
+        $activityDAO->selectAdd();
+        $activityDAO->selectAdd('id, activity_type, activity_summary, activity_date');
+
+        // default of user specified sort order ?
+        if ($sort) {
+            $activityDAO->orderBy($sort->orderBy());
         } else {
-            $activityDAO->selectAdd();
-            $activityDAO->selectAdd('id, activity_type, activity_summary, activity_date');
-            $activityDAO->orderBy('activity_date desc');
-            $activityDAO->limit($numActivity);
-            $values = array();
-            $activityDAO->find();
-            while($activityDAO->fetch()) {
-                $id = $activityDAO->id;
-                $values[$id]['activity_type'] = $activityDAO->activity_type;
-                $values[$id]['activity_summary'] = $activityDAO->activity_summary;
-                $values[$id]['activity_date'] = $activityDAO->activity_date;
-            }
-            return $values;
+            $activityDAO->orderBy('activity_date desc'); // default sort order
         }
+        
+        // how many rows to get ?
+        $activityDAO->limit($offset, $rowCount);
+
+        // fire query, get rows, populate array and return it please.
+        $values = array();
+        $activityDAO->find();
+        while($activityDAO->fetch()) {
+            $id = $activityDAO->id;
+            $values[$id]['activity_type'] = $activityDAO->activity_type;
+            $values[$id]['activity_summary'] = $activityDAO->activity_summary;
+            $values[$id]['activity_date'] = $activityDAO->activity_date;
+        }
+        return $values;
+    }
+
+    /**
+     * function to get number of activities for a contact.
+     *
+     * @param  int $contactId   contact id 
+     * @return int $numActivity number of activities
+     *
+     * @access public
+     * @static
+     */
+    static function &getNumActivity($contactId)
+    {
+        $activityDAO = new CRM_Core_DAO_Activity();
+        $activityDAO->entity_table = 'crm_contact';
+        $activityDAO->entity_id = $contactId;
+        return $activityDAO->count();
     }
 }
 ?>
