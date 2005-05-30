@@ -166,6 +166,7 @@ function _crm_format_params( &$params, &$values ) {
         eval( '$fields =& CRM_Contact_DAO_' . $block . '::fields( );' );
         if ( _crm_store_values( $fields, $params, $values['location'][1][$name][1] ) ) {
             $locationTypeNeeded = true;
+            $values['location'][1][$name][1]['is_primary'] = 1;
         }
     }
 
@@ -173,11 +174,6 @@ function _crm_format_params( &$params, &$values ) {
     if ( array_key_exists( 'email', $params ) &&
          ! CRM_Utils_Rule::email( $params['email'] ) ) {
         return _crm_error( "Email not valid " . $params['email'] );
-    }
-
-    if ( $locationTypeNeeded &&
-         ! array_key_exists( 'location_type_id', $values['location'][1] ) ) {
-        return _crm_error( "Location Type not defined" );
     }
 
     if ( array_key_exists( 'phone', $params ) &&
@@ -193,6 +189,15 @@ function _crm_format_params( &$params, &$values ) {
     if ( array_key_exists( 'im_provider', $params ) ) {
         $values['location'][1]['im'][1]['provider'] = $params['im_provider'];
         $locationTypeNeeded = true;
+    }
+
+    if ( $locationTypeNeeded &&
+         ! array_key_exists( 'location_type_id', $values['location'][1] ) ) {
+        return _crm_error( "Location Type not defined" );
+    }
+
+    if ( $locationTypeNeeded ) {
+        $values['location'][1]['is_primary'] = true;
     }
 
     CRM_Contact_BAO_Contact::resolveDefaults( $values, true );
