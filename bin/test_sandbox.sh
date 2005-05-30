@@ -8,98 +8,101 @@ cd ../test/maxq
 ## The -r mode is for running maxq..hence please do not remove it
 ## The -q mode is for quite mode while testing..
 ## Instead of -q (quite mode), one can give -d(debug mode)
-## For all other options, fire $ masq --help   
+## For all other options, fire $ maxq --help   
 
-#maxq -r -q testViewContactIndividual.py 
 
-#maxq -r -q testViewContactHousehold.py 
+#############################
+# Test for Viewing Contacts # 
+#############################
 
-#maxq -r -q testViewContactOrganization.py 
+maxq -q -r testViewContactIndividual.py testViewContactHousehold.py testViewContactOrganization.py
 
-#maxq -r -q testAddContactIndividual.py 
+############################
+# Test for Adding Contacts # 
+############################
 
-#maxq -r -q testAddContactHousehold.py 
+maxq -r -q testAddContactIndividual.py testAddContactHousehold.py testAddContactOrganization.py
 
-#maxq -r -q testAddOrganization.py 
+#############################
+# Test for Editing Contacts # 
+#############################
 
-#maxq -r -q testEditContactIndividual.py
+maxq -r -q testEditContactIndividual.py testEditContactHousehold.py testEditContactOrganization.py
 
-#maxq -r -q testEditContactHousehold.py
+#############################################
+# Test for Relationship By Relationship Tab # 
+#############################################
 
-#maxq -r -q testEditContactOrganization.py
+maxq -r -q testViewRelByRelTab.py testEditRelByRelTab.py testAddRelByRelTab.py testDeleteRelByRelTab.py testDisableEnableRelByRelTab.py
 
-#maxq -r -q testViewRelByRelTab.py
+########################################
+# Test for Relationship By Contact Tab # 
+########################################
 
-#maxq -r -q testEditRelByRelTab.py
+maxq -r -q testViewRelByContactTab.py testEditRelByContactTab.py testAddRelByContactTab.py
 
-#maxq -r -q testAddRelByRelTab.py
+###############################
+# Test for Group By Group Tab # 
+###############################
 
-#maxq -r -q testDeleteRelByRelTab.py
+maxq -r -q testGroupAllByGroupTab.py testGroupAllByContactTab.py
 
-#maxq -r -q testDisableEnableRelByRelTab.py
+#############################
+# Test for Tags By Tags Tab # 
+#############################
 
-#maxq -r -q testViewRelByContactTab.py
+maxq -r -q testTagsAllByTagsTab.py
 
-#maxq -r -q testEditRelByContactTab.py
+##############################
+# Test for Notes By Note Tab # 
+##############################
 
-#maxq -r -q testAddRelByContactTab.py
+maxq -r -q testViewNoteByNoteTab.py testAddNoteByNoteTab.py testEditNoteByNoteTab.py testDeleteNoteByNoteTab.py
 
-#maxq -r -q testGroupAllByGroupTab.py
+#################################
+# Test for Notes By Contact Tab # 
+#################################
 
-#maxq -r -q testGroupAllByContactTab.py
+maxq -r -q testAddNoteByContactTab.py testEditNoteByContactTab.py
 
-#maxq -r -q testTagsAllByTagsTab.py
+########################
+# Test for Custom Data # 
+########################
 
-#maxq -r -q testViewNoteByNoteTab.py
+maxq -r -q testCustomDataAllByTab.py
 
-#maxq -r -q testAddNoteByNoteTab.py
+#######################
+# Test for Admin Tags # 
+#######################
 
-#maxq -r -q testEditNoteByNoteTab.py
+maxq -r -q testAdminAddTags.py testAdminEditTags.py testAdminDeleteTags.py
 
-#maxq -r -q testDeleteNoteByNoteTab.py
+##################################
+# Test for Admin Mobile Provider # 
+##################################
 
-#maxq -r -q testAddNoteByContactTab.py
+maxq -r -q testAdminAddMobileProvider.py testAdminEditMobileProvider.py testAdminEnableDisableMobileProvider.py
 
-#maxq -r -q testEditNoteByContactTab.py
+##############################
+# Test for Admin IM Provider # 
+##############################
 
-#maxq -r -q testCustomDataAllByTab.py
+maxq -r -q testAdminAddIMProvider.py testAdminEditIMProvider.py testAdminEnableDisableIMProvider.py
 
-#maxq -r -q testAdminAddTags.py
+#####################################
+# Test for Admin Relationship Types # 
+#####################################
 
-#maxq -r -q testAdminEditTags.py
+maxq -r -q testAdminViewRel.py testAdminAddRel.py testAdminEditRel.py testAdminEnableDisableRel.py
 
-#maxq -r -q testAdminDeleteTags.py
+####################################
+# Test for Admin Custom Data Field # 
+####################################
 
-#maxq -r -q testAdminAddMobileProvider.py
+maxq -r -q testAdminViewCustomDataField.py testAdminAddCustomDataField.py testAdminEditCustomDataField.py testAdminEnableDisableCustomDataField.py
 
-#maxq -r -q testAdminEditMobileProvider.py
+####################################
+# Test for Admin Custom Data Group # 
+####################################
 
-#maxq -r -q testAdminEnableDisableMobileProvider.py
-
-#maxq -r -q testAdminAddIMProvider.py
-
-#maxq -r -q testAdminEditIMProvider.py
-
-#maxq -r -q testAdminEnableDisableIMProvider.py
-
-#maxq -r -q testAdminViewRel.py
-
-#maxq -r -q testAdminAddRel.py
-
-#maxq -r -q testAdminEditRel.py
-
-#maxq -r -q testAdminEnableDisableRel.py
-
-#maxq -r -q testAdminViewCustomDataField.py
-
-#maxq -r -q testAdminAddCustomDataField.py
-
-#maxq -r -q testAdminEditCustomDataField.py
-
-#maxq -r -q testAdminEnableDisableCustomDataField.py
-
-#maxq -r -q testAdminAddCustomDataGroup.py
-
-#maxq -r -q testAdminEditCustomDataGroup.py
-
-#maxq -r -q testAdminEnableDisableCustomDataGroup.py
+maxq -r -q testAdminAddCustomDataGroup.py testAdminEditCustomDataGroup.py testAdminEnableDisableCustomDataGroup.py
