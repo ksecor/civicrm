@@ -71,14 +71,13 @@ function do_file($file)
     
     for ($i=0; $i < count($matches[0]); $i++) {
         $output = array();
+        $output[] = "#: $file";
         if (preg_match('/plural\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
-            //print 'ngettext("' . fs($matches[3][$i]) . '","' . fs($match[1]) . '",x);' . "\n";
             $output[] = 'msgid "' . fs($matches[3][$i]) . '"';
             $output[] = 'msgid_plural "' . fs($match[1]) . '"';
             $output[] = 'msgstr[0] ""';
             $output[] = 'msgstr[1] ""';
         } else {
-            //print 'gettext("' . fs($matches[3][$i]) . '");' . "\n";
             $output[] = 'msgid "' . fs($matches[3][$i]) . '"';
             $output[] = 'msgstr ""';
         }

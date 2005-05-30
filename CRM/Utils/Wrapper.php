@@ -60,7 +60,7 @@ class CRM_Utils_Wrapper
      * @param string $formLabel   label for the above form
      * @param int    $mode        mode of operation.
      *
-     * @returns none.
+     * @return none.
      * @access public
      */
     function run($formName, $formLabel, $mode ) {

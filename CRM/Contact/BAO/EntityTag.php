@@ -42,7 +42,7 @@ class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag
      *
      * @param string $entityTable name of the entity table usually 'crm_contact'
      * @param int $entityID id of the entity usually the contactID.
-     * @returns array() reference $tag array of catagory id's the contact belongs to.
+     * @return array() reference $tag array of catagory id's the contact belongs to.
      *
      * @access public
      * @static
