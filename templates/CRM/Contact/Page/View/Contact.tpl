@@ -219,7 +219,7 @@
        {foreach from=$note item=note}
        <tr class="{cycle values="odd-row,even-row"}">
             <td>
-                {$note.note|truncate:80:"...":true}
+                {$note.note|mb_truncate:80:"...":true}
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}

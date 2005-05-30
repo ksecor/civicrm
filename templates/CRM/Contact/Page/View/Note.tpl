@@ -39,7 +39,7 @@
        {foreach from=$notes item=note}
          <tr class="{cycle values="odd-row,even-row"}">
             <td>
-                {$note.note|truncate:80:"...":true}
+                {$note.note|mb_truncate:80:"...":true}
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}
@@ -47,7 +47,7 @@
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">View</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete  {$note.note|truncate:15:"...":true} ?");'> Delete</a>
+            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">View</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete  {$note.note|mb_truncate:15:"...":true} ?");'> Delete</a>
             </td>	
          </tr>
        {/foreach}

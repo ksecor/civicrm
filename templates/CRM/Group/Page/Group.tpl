@@ -13,7 +13,7 @@
      <tr class="{cycle values="odd-row,even-row"}">
         <td>{$row.title}</td>	
         <td>
-            {$row.description|truncate:80:"...":true}
+            {$row.description|mb_truncate:80:"...":true}
         </td>
         <td>{$row.action}</td>
      </tr>
