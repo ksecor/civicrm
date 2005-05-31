@@ -57,8 +57,9 @@ require_once 'CRM/Core/Error.php';
  *
  * @return a &lt;style&gt; tag that indicates what file browsers should import
  */
-function civicrm_html_head() {
-	$config = CRM_Core_Config::singleton( );
+function civicrm_html_head()
+{
+    $config = CRM_Core_Config::singleton();
     return '<style type="text/css">@import url(' . $config->resourceBase . 'css/civicrm.css);</style>';
 }
 
@@ -94,14 +95,14 @@ function civicrm_help($section)
  * This ensures that they are available to enable on the user role
  * administration pages.
  */
-function civicrm_perm() 
+function civicrm_perm()
 {
     // static permissions
     $cPerm = array('add contacts', 'view all contacts', 'edit all contacts', 'edit groups', 'administer CiviCRM');
 
     // dynamic permissions - access by group (title)
     $groups =& CRM_Core_PseudoConstant::allGroup();
-    foreach ( $groups as $title ) {
+    foreach ($groups as $title) {
         $cPerm[] = 'view ' . $title;
         $cPerm[] = 'edit ' . $title;
     }
@@ -111,14 +112,14 @@ function civicrm_perm()
 
 /**
  * Implementation of hook_block().
-*
+ *
  * This hook both declares to Drupal what blocks are provided by the module, and
  * generates the contents of the blocks themselves.
  */
 
 function civicrm_block($op='list', $delta='0')
 {
-    if ( arg(0) != 'civicrm' && arg(0) != 'admin' ) {
+    if (arg(0) != 'civicrm' && arg(0) != 'admin') {
         return;
     }
 
@@ -127,9 +128,9 @@ function civicrm_block($op='list', $delta='0')
     if ($user->uid) {
         $menu_arr = civicrm_menu(true);
         if ($op == 'list') {
-            return CRM_Core_Block::getInfo( );
+            return CRM_Core_Block::getInfo();
         } else {
-            return CRM_Core_Block::getContent ( $delta );
+            return CRM_Core_Block::getContent ($delta);
         }
     }
 }
@@ -150,7 +151,7 @@ function civicrm_block($op='list', $delta='0')
  * find a match, and execute civicrm_foo().
  *
  */
-function civicrm_menu($may_cache) 
+function civicrm_menu($may_cache)
 {
     $items = array();
     
@@ -162,34 +163,33 @@ function civicrm_menu($may_cache)
     if ($may_cache) {
         // This is the minimum information you can provide for a menu item.
         $items[] = array(
-                         'path'  => 'civicrm/admin',
-                         'title' => ts('Administer CiviCRM'),
-                         'qs'    => 'reset=1',
+                         'path'   => 'civicrm/admin',
+                         'title'  => ts('Administer CiviCRM'),
+                         'qs'     => 'reset=1',
                          'access' => user_access('administer CiviCRM'),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 40,
                          );
         
-       $items[] = array(
-                         'path'  => 'civicrm/admin/tag',
-                         'title' => ts('Tags'),
+        $items[] = array(
+                         'path'   => 'civicrm/admin/tag',
+                         'title'  => ts('Tags'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => -10
                          );
 
-       $items[] = array(
-                        'path'  => 'civicrm/admin/reltype',
-                        'title' => ts('Relationship Types'),
-                        'type'   => MENU_LOCAL_TASK,
-                        'weight' => -8
-                        );
+        $items[] = array(
+                         'path'   => 'civicrm/admin/reltype',
+                         'title'  => ts('Relationship Types'),
+                         'type'   => MENU_LOCAL_TASK,
+                         'weight' => -8
+                         );
 
         $items[] = array(
-                         'path'  => 'civicrm/admin/locationType',
-                         'title' => ts('Location Types'),
+                         'path'   => 'civicrm/admin/locationType',
+                         'title'  => ts('Location Types'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => -6
-
                          );
         
         $items[] = array(
@@ -199,7 +199,7 @@ function civicrm_menu($may_cache)
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => -5
                          );
-  
+
         $items[] = array(
                          'path'   => 'civicrm/admin/custom/group/field',
                          'title'  => ts('Custom Data Fields'),
@@ -208,163 +208,163 @@ function civicrm_menu($may_cache)
                          'weight' => 3
                          );
         $items[] = array(
-                         'path'  => 'civicrm/admin/IMProvider',
-                         'title' => ts('IM Services'),
+                         'path'   => 'civicrm/admin/IMProvider',
+                         'title'  => ts('IM Services'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => -4
                          );
 
        $items[] = array(
-                         'path'  => 'civicrm/admin/mobileProvider',
-                         'title' => ts('Mobile Providers'),
+                         'path'   => 'civicrm/admin/mobileProvider',
+                         'title'  => ts('Mobile Providers'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => -2
                          );
-     
+    
         $items[] = array(
-                         'path'  => 'civicrm',
-                         'title' => ts('CiviCRM'),
+                         'path'     => 'civicrm',
+                         'title'    => ts('CiviCRM'),
                          'access'   => true,
                          'callback' => 'civicrm_invoke',
-                         'type'   => MENU_CALLBACK,
+                         'type'     => MENU_CALLBACK,
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/contact/search',
-                         'title' => ts('Contacts'),
-                         'qs'    => 'reset=1',
+                         'path'   => 'civicrm/contact/search',
+                         'title'  => ts('Contacts'),
+                         'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 10,
                          );
         
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/basic',
-                         'title' => ts('Find Contacts'),
-                         'qs'    => 'reset=1',
+                         'path'   => 'civicrm/contact/search/basic',
+                         'title'  => ts('Find Contacts'),
+                         'qs'     => 'reset=1',
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => 0
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/advanced',
-                         'title' => ts('Advanced Search'),
+                         'path'   => 'civicrm/contact/search/advanced',
+                         'title'  => ts('Advanced Search'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
         $items[] = array(
-                         'path'  => 'civicrm/contact/search/saved',
-                         'title' => ts('Saved Searches'),
-                         'qs'    => 'reset=1',
+                         'path'   => 'civicrm/contact/search/saved',
+                         'title'  => ts('Saved Searches'),
+                         'qs'     => 'reset=1',
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
                          );
 
-       $items[] = array(
-                         'path'  => 'civicrm/contact/addI',
-                         'title' => ts('New Individual'),
-                         'qs'    => 'reset=1',
-                         'access' => user_access('add contacts'),
-                         'type'  => MENU_CALLBACK,
-                         'weight' => 1
-                         );    
-        
-       $items[] = array(
-                         'path'  => 'civicrm/contact/addO',
-                         'title' => ts('New Organization'),
+        $items[] = array(
+                         'path'   => 'civicrm/contact/addI',
+                         'title'  => ts('New Individual'),
                          'qs'     => 'reset=1',
                          'access' => user_access('add contacts'),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
-                         );    
-        
-       $items[] = array(
-                         'path'  => 'civicrm/contact/addH',
-                         'title' => ts('New Household'),
-                         'qs'     => 'reset=1',
-                         'access' => user_access('add contacts'),
-                         'type'   => MENU_CALLBACK,
-                         'weight' => 1
-                         );    
-        
-       $items[] = array(
-                         'path'  => 'civicrm/contact/edit',
-                         'title' => ts('Edit Contact Name and Location'),
-                         'type'   => MENU_CALLBACK,
-                         'weight' => 1
-                         );    
+                         );
         
         $items[] = array(
-                         'path'  => 'civicrm/contact/view',
-                         'title' => ts('View Contact'),
+                         'path'   => 'civicrm/contact/addO',
+                         'title'  => ts('New Organization'),
+                         'qs'     => 'reset=1',
+                         'access' => user_access('add contacts'),
+                         'type'   => MENU_CALLBACK,
+                         'weight' => 1
+                         );
+        
+        $items[] = array(
+                         'path'   => 'civicrm/contact/addH',
+                         'title'  => ts('New Household'),
+                         'qs'     => 'reset=1',
+                         'access' => user_access('add contacts'),
+                         'type'   => MENU_CALLBACK,
+                         'weight' => 1
+                         );
+        
+        $items[] = array(
+                         'path'   => 'civicrm/contact/edit',
+                         'title'  => ts('Edit Contact Name and Location'),
+                         'type'   => MENU_CALLBACK,
+                         'weight' => 1
+                         );
+        
+        $items[] = array(
+                         'path'   => 'civicrm/contact/view',
+                         'title'  => ts('View Contact'),
                          'type'   => MENU_CALLBACK
                          );
 
-         $items[] = array(
-                         'path'  => 'civicrm/contact/view/basic',
-                         'title' => ts('Contact Summary'),
+        $items[] = array(
+                         'path'   => 'civicrm/contact/view/basic',
+                         'title'  => ts('Contact Summary'),
                          'type'   => MENU_DEFAULT_LOCAL_TASK,
                          'weight' => 0
-                        );
+                         );
 
         $items[] = array(
-                         'path'  => 'civicrm/contact/view/rel',
-                         'title' => ts('Relationships'),
+                         'path'   => 'civicrm/contact/view/rel',
+                         'title'  => ts('Relationships'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 1
                          );
         
         $items[] = array(
-                         'path'  => 'civicrm/contact/view/note',
-                         'title' => ts('Notes'),
+                         'path'   => 'civicrm/contact/view/note',
+                         'title'  => ts('Notes'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 3
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/contact/view/group',
-                         'title' => ts('Groups'),
+                         'path'   => 'civicrm/contact/view/group',
+                         'title'  => ts('Groups'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 2
                          );
         
         $items[] = array(
-                         'path'  => 'civicrm/contact/view/tag',
-                         'title' => ts('Tags'),
+                         'path'   => 'civicrm/contact/view/tag',
+                         'title'  => ts('Tags'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 4
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/contact/view/cd',
-                         'title' => ts('Custom Data'),
+                         'path'   => 'civicrm/contact/view/cd',
+                         'title'  => ts('Custom Data'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 5
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/contact/view/activity',
-                         'title' => ts('Activity'),
+                         'path'   => 'civicrm/contact/view/activity',
+                         'title'  => ts('Activity'),
                          'type'   => MENU_LOCAL_TASK,
                          'weight' => 6
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/group',
-                         'title' => ts('Manage Groups'),
+                         'path'   => 'civicrm/group',
+                         'title'  => ts('Manage Groups'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 20,
                          );
 
         $items[] = array(
-                         'path'  => 'civicrm/group/search',
-                         'title' => ts('Group Members'),
+                         'path'   => 'civicrm/group/search',
+                         'title'  => ts('Group Members'),
                          'type'   => MENU_CALLBACK,
                          );
         
         $items[] = array(
-                         'path'  => 'civicrm/group/add',
-                         'title' => ts('Create New Group'),
+                         'path'   => 'civicrm/group/add',
+                         'title'  => ts('Create New Group'),
                          'type'   => MENU_CALLBACK,
                          );
         
@@ -382,11 +382,12 @@ function civicrm_menu($may_cache)
    return $items;
 }
 
-function civicrm_hack_path( $path, $qs ) {
-	$items = explode( '/', $path );
-    $len   = count( $items ) ;
-    if ( arg( $len - 1 ) != $items[$len - 1] ) {
-        return CRM_Utils_System::url( $path, $qs, false );
+function civicrm_hack_path($path, $qs)
+{
+    $items = explode('/', $path);
+    $len   = count($items) ;
+    if (arg($len - 1) != $items[$len - 1]) {
+        return CRM_Utils_System::url($path, $qs, false);
     } else {
         return $path;
     }
@@ -398,9 +399,9 @@ static $_civicrmSession;
  * implementation of hook_init
  *
  */
-function civicrm_init() 
+function civicrm_init()
 {
-    if ( arg(0) != 'civicrm' && arg(0) != 'admin' && arg(0) != 'user' ) {
+    if (arg(0) != 'civicrm' && arg(0) != 'admin' && arg(0) != 'user') {
         return;
     }
 
@@ -423,11 +424,12 @@ function civicrm_init()
 /**
  * exit hook, make sure we sync between drupal and crm here
  */
-function civicrm_exit( $destination = null ) {
+function civicrm_exit($destination = null)
+{
     // if the user edited the user record stuff might have changed so do a resync
-    if ( arg(0) == 'user' && arg(2) == 'edit' && ! empty( $_POST ) ) {
+    if (arg(0) == 'user' && arg(2) == 'edit' && ! empty($_POST)) {
         global $user;
-        CRM_Core_BAO_Drupal::synchronize( $user, true );
+        CRM_Core_BAO_Drupal::synchronize($user, true);
     }
         
 }
@@ -435,156 +437,156 @@ function civicrm_exit( $destination = null ) {
 /**
  * Menu callbacks; dispatches control to the appropriate handler
  */
-function civicrm_admin_invoke() 
+function civicrm_admin_invoke()
 {
     // Admin classes
     if (arg(1) == 'admin') {
         $view = null;
         
         if (arg(2) == 'locationType') {
-            $view = new CRM_Admin_Page_LocationType( 'View Location Types' );
+            $view = new CRM_Admin_Page_LocationType(ts('View Location Types'));
         } else if (arg(2) == 'IMProvider') {
             // IM provider
-            $view = new CRM_Admin_Page_IMProvider( 'View Instant Messenger Providers' );
+            $view = new CRM_Admin_Page_IMProvider(ts('View Instant Messenger Providers'));
         } else if (arg(2) == 'mobileProvider') {
             // Mobile provider
-            $view = new CRM_Admin_Page_MobileProvider( 'View Mobile Providers' );
+            $view = new CRM_Admin_Page_MobileProvider(ts('View Mobile Providers'));
         } else if (arg(2) == 'reltype') {
             // relationship type
-            $view = new CRM_Admin_Page_RelationshipType( 'View Relationship Types' );
+            $view = new CRM_Admin_Page_RelationshipType(ts('View Relationship Types'));
         } else if (arg(2) == 'tag') {
             // tag
-            $view = new CRM_Admin_Page_Tag( 'View Tags' );
-        } else if ( arg(2) == 'custom' ) {
+            $view = new CRM_Admin_Page_Tag(ts('View Tags'));
+        } else if (arg(2) == 'custom') {
             // handle external properties
-            if ( arg(3) == 'group' ) {
-                if ( arg(4) != 'field' ) {
-                    $view = new CRM_Custom_Page_Group( 'Custom Data Group' );
+            if (arg(3) == 'group') {
+                if (arg(4) != 'field') {
+                    $view = new CRM_Custom_Page_Group(ts('Custom Data Group'));
                 } else {
                     $breadcrumb = drupal_get_breadcrumb();
-                    $breadcrumb[] = '<a href="civicrm/admin/custom/group">Custom Data</a>';
-                    drupal_set_breadcrumb( $breadcrumb );
-                    $view = new CRM_Custom_Page_Field( 'Custom Data Field' );
+                    $breadcrumb[] = ts('<a href="%1">Custom Data</a>', array(1 => 'civicrm/admin/custom/group'));
+                    drupal_set_breadcrumb($breadcrumb);
+                    $view = new CRM_Custom_Page_Field(ts('Custom Data Field'));
                 }
             }
         } else {
             // Categories is default local task
-            $view = new CRM_Admin_Page_Tag( 'View Tags' );
+            $view = new CRM_Admin_Page_Tag(ts('View Tags'));
         }
         
-        if ( $view ) {
-            $view->run( );
+        if ($view) {
+            $view->run();
         }
     }
 }
 
 function civicrm_invoke()
 {
-    $session = CRM_Core_Session::singleton( );
+    $session = CRM_Core_Session::singleton();
 
     // synchronize the drupal uid with the contacts db
     global $user;
-    CRM_Core_BAO_Drupal::synchronize( $user, false );
+    CRM_Core_BAO_Drupal::synchronize($user, false);
     // contact related functionality
     if (arg(1) == 'contact') {
         return civicrm_contact_invoke();
     }
 
-	// admin related functionality
+    // admin related functionality
     if (arg(1) == 'admin') {
         return civicrm_admin_invoke();
     }
 
     // browse groups
     if (arg(1) == 'group') {
-        if ( arg(2) == 'add' ) {
-            $controller = new CRM_Group_Controller( 'Groups', CRM_Core_Action::ADD );
-            $session->pushUserContext( CRM_Utils_System::url( 'civicrm/group', 'reset=1' ) );
-            $controller->run( );
-        } else if ( arg(2) == 'search' ) {
+        if (arg(2) == 'add') {
+            $controller = new CRM_Group_Controller(ts('Groups'), CRM_Core_Action::ADD);
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/group', 'reset=1'));
+            $controller->run();
+        } else if (arg(2) == 'search') {
             // this is really a search, including here to get drupal customizations
-            civicrm_search( );
+            civicrm_search();
         } else {
-            $view = new CRM_Group_Page_Group( 'View Groups' );
-            $view->run( );
+            $view = new CRM_Group_Page_Group(ts('View Groups'));
+            $view->run();
         }
         return;
     }
 
     //  import wizard
     if (arg(1) == 'import') {
-        $controller = new CRM_Import_Controller( 'Import Contacts' );
-        return $controller->run( );
+        $controller = new CRM_Import_Controller(ts('Import Contacts'));
+        return $controller->run();
     }
-  
+
     // Default landing page is basic search (mostly for CiviCRM link in breadcrumb)
-    drupal_goto( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1', false ) );
+    drupal_goto(CRM_Utils_System::url('civicrm/contact/search', 'reset=1', false));
 }
 
-function civicrm_contact_invoke() 
+function civicrm_contact_invoke()
 {
     // make sure we are in contact menu
-    if ( arg(1) != 'contact' ) {
+    if (arg(1) != 'contact') {
         return;
     }
 
     if (substr(arg(2),0,3) == 'add') {
-        return civicrm_form( CRM_Core_Action::ADD );
+        return civicrm_form(CRM_Core_Action::ADD);
     }
 
     // edit contact
     if (arg(2) == 'edit') {
         $breadcrumb = drupal_get_breadcrumb();
-        $breadcrumb[] = '<a href="civicrm/contact/search?force=1">Search Results</a>';
+        $breadcrumb[] = ts('<a href="%1">Search Results</a>', array(1 => 'civicrm/contact/search?force=1'));
         drupal_set_breadcrumb( $breadcrumb );
-        $c = civicrm_form( CRM_Core_Action::UPDATE );
+        $c = civicrm_form(CRM_Core_Action::UPDATE);
         return $c;
     }
  
     // view contact
     if (arg(2) == 'view') {
         $breadcrumb = drupal_get_breadcrumb();
-        $breadcrumb[] = '<a href="civicrm/contact/search?force=1">Search Results</a>';
+        $breadcrumb[] = ts('<a href="%1">Search Results</a>', array(1 => 'civicrm/contact/search?force=1'));
         drupal_set_breadcrumb( $breadcrumb );
         if (arg(3) == '') {
-            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_NONE );
-            return $view->run( );
+            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_NONE);
+            return $view->run();
         }
 
         // view contact notes
         if (arg(3) == 'note') {
-            $view = new CRM_Contact_Page_View( '',CRM_Contact_Page_View::MODE_NOTE );
-            return $view->run( );
+            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_NOTE);
+            return $view->run();
         }
         
         // view contact relationships
         if (arg(3) == 'rel') {
-            $view = new CRM_Contact_Page_View( '',CRM_Contact_Page_View::MODE_REL );
-            return $view->run( );
+            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_REL);
+            return $view->run();
         }
         
         // view contact groups
         if (arg(3) == 'group') {
-            $view = new CRM_Contact_Page_View( '',CRM_Contact_Page_View::MODE_GROUP );
-            return $view->run( );
+            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_GROUP);
+            return $view->run();
         }
         
         // view contact tags
         if (arg(3) == 'tag') {
-            $view = new CRM_Contact_Page_View( '',CRM_Contact_Page_View::MODE_TAG  );
-            return $view->run( );
+            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_TAG );
+            return $view->run();
         }
 
         // view custom data
         if (arg(3) == 'cd') {
-            $view = new CRM_Contact_Page_View( '',CRM_Contact_Page_View::MODE_CD  );
-            return $view->run( );
+            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_CD );
+            return $view->run();
         }
 
         // view activities
         if (arg(3) == 'activity') {
             $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_ACTIVITY);
-            return $view->run( );
+            return $view->run();
         }
     }
 
@@ -600,12 +602,12 @@ function civicrm_contact_invoke()
         }
     }
 
-    echo "We landed in a bad place, please fix<p>";
+    echo ts('We landed in a bad place, please fix<p>');
     return;
 } // end of function civicrm_invoke
 
 
-function civicrm_load($queryArgs) 
+function civicrm_load($queryArgs)
 {
 }
 
@@ -614,32 +616,34 @@ function civicrm_load($queryArgs)
  *
  * @return this returns the form and or display content
  */
-function civicrm_form( $mode )
+function civicrm_form($mode)
 {
-    CRM_Utils_System::setUserContext( array( 'civicrm/contact/search', 'civicrm/contact/view' ) );
+    CRM_Utils_System::setUserContext(array('civicrm/contact/search', 'civicrm/contact/view'));
     $wrapper = new CRM_Utils_Wrapper();
-    $wrapper->run('CRM_Contact_Form_Edit', 'Contact Page', $mode );
+    $wrapper->run('CRM_Contact_Form_Edit', ts('Contact Page'), $mode);
 }
 
 
 /**
  * Temporary function to load static templates for prototyping
  */
-function fetch_tpl( $tpl ) {
+function fetch_tpl($tpl)
+{
     $baseDir = 'CRM' . DIRECTORY_SEPARATOR;
     
     $fileName = $baseDir . $tpl;
     
     $config  = CRM_Core_Config::singleton ();
     $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
-    echo CRM_Utils_System::theme( 'page', $template->fetch( $fileName ) );
+    echo CRM_Utils_System::theme('page', $template->fetch($fileName));
     
 }
 
-function civicrm_assign( $var, $value = null) {
+function civicrm_assign($var, $value = null)
+{
     static $template = null;
     
-    if ( ! isset( $template ) ) {
+    if (! isset($template)) {
         $config  = CRM_Core_Config::singleton ();
         $template = SmartyTemplate::singleton($config->templateDir, $config->templateCompileDir);
     }
@@ -655,9 +659,9 @@ function civicrm_assign( $var, $value = null) {
  *
  * @return this returns the display content
  */
-function civicrm_search() 
+function civicrm_search()
 {
-    $session = CRM_Core_Session::singleton( );
+    $session = CRM_Core_Session::singleton();
 
     if (arg(3) == 'saved') {
         // browse saved searches
@@ -668,16 +672,16 @@ function civicrm_search()
         if(arg(3) == 'advanced') {
             // advanced search
             $mode  = CRM_Core_Action::ADVANCED;
-            $title = 'Advanced Search';
+            $title = ts('Advanced Search');
             $url   = 'civicrm/contact/search/advanced';
         } else {
             $mode  = CRM_Core_Action::BASIC;
-            $title = 'Search';
+            $title = ts('Search');
             $url   = 'civicrm/contact/search';
         }
-        $controller = new CRM_Contact_Controller_Search( $title, $mode );
-        $session->pushUserContext( CRM_Utils_System::url( $url, 'force=1' ) );
-        $controller->run( );
+        $controller = new CRM_Contact_Controller_Search($title, $mode);
+        $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
+        $controller->run();
     }
 
 } // end of function civicrm_search
@@ -689,7 +693,7 @@ function civicrm_search()
  * lists all contacts from db.
  *
  */
-function civicrm_delete($id) 
+function civicrm_delete($id)
 {
 } // end of function civicrm_delete
 
