@@ -329,7 +329,7 @@ function writeHeader($file)
     $output .= "# Copyright (C) 2005 David A. Lobo\n";
     $output .= "# This file is distributed under the same license as the CiviCRM package.\n";
     $output .= "# Piotr Szotkowski <shot@caltha.pl>, 2005.\n";
-    $output .= "# --VERSIONS--\n";
+    //$output .= "# --VERSIONS--\n";
     $output .= "#\n";
     $output .= "#, fuzzy\n";
     $output .= "msgid \"\"\n";
@@ -420,13 +420,13 @@ function writeFiles()
         $file = str_replace('.', '-', $tmp) . '.pot';
         $filelist = $content[1];
         unset($content[1]);
-        if (count($filelist) > 1) {
-            $filelist = "Generated from files:\n#  " . join("\n#  ", $filelist);
-        } elseif (count($filelist) == 1) {
-            $filelist = "Generated from file: " . join("", $filelist);
-        } else {
-            $filelist = "No version information was available in the source files.";
-        }
+        //if (count($filelist) > 1) {
+        //    $filelist = "Generated from files:\n#  " . join("\n#  ", $filelist);
+        //} elseif (count($filelist) == 1) {
+        //    $filelist = "Generated from file: " . join("", $filelist);
+        //} else {
+        //    $filelist = "No version information was available in the source files.";
+        //}
         $fp = fopen($file, 'w');
         fwrite($fp, str_replace("--VERSIONS--", $filelist, join("", $content)));
         fclose($fp);
