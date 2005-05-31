@@ -1,17 +1,9 @@
+#!/opt/local/bin/php
 <?php
 
-
-$homeDir = $GLOBALS['_ENV']['HOME'];
-
-require_once "$homeDir/svn/crm/modules/config.inc.php";
+require_once '/home/kurund/svn/crm/modules/config.inc.php';
 require_once 'CRM/Core/Error.php';
 require_once 'PHP/Beautifier.php';
-
-//print_r($GLOBALS['HOME']);
-//print_r($GLOBALS);
-//print_r($GLOBALS['_ENV']['HOME']);
-//exit(1);
-
 
 function createDir( $dir, $perm = 0755 ) {
     if ( ! is_dir( $dir ) ) {
@@ -40,10 +32,7 @@ class PHP_DownGrade {
         $this->tokens = token_get_all(file_get_contents($file));
       
         $this->staticcount=0;
-        
         $this->statvar = array( );
-        $this->filenames = array( );
-        $this->filecount =0;
 
        
         foreach(array_keys($this->tokens) as $i) {
@@ -454,63 +443,6 @@ class PHP_DownGrade {
     
     function toString() 
     {
-        //for include files  
-        $flag = 0;
-        for($j=0;$j<count($this->tokens);$j++)
-            {
-                if(strcmp($this->tokens[$j][1],"::")==0)
-                    {
-                        $back=$j;
-                        while($this->tokens[$back][0]!=T_STRING)
-                            $back--;
-                        
-                       
-                        for($f=0;$f<count($this->filenames);$f++)
-                            {
-                                if(strcmp($this->tokens[$back][1],$this->filenames[$f])==0)
-                                   $flag = 1;
-                            }
-                        
-                        if($flag==0)
-                            {
-                                //    echo $this->tokens[$back][1];
-                                //if(strcmp($this->tokens[$back][1],"self")!=0 && strcmp($this->tokens[$back][1],"parent")!=0)
-                                    { 
-                                        $this->filenames[$this->filecount]=$this->tokens[$back][1];
-                                        $this->filecount++;
-                                    }
-                            }
-                        $flag = 0;
-                    }
-                
-                if(strcmp($this->tokens[$j][1],"extends")==0)
-                    {
-                        $back=$j;
-                        while($this->tokens[$back][0]!=T_STRING)
-                            $back++;
-                        
-                       
-                        for($f=0;$f<count($this->filenames);$f++)
-                            {
-                                if(strcmp($this->tokens[$back][1],$this->filenames[$f])==0)
-                                   $flag = 1;
-                            }
-                        
-                        if($flag==0)
-                            {
-                                //    echo $this->tokens[$back][1];
-                                $this->filenames[$this->filecount]=$this->tokens[$back][1];
-                                $this->filecount++;
-                                
-                            }
-                        $flag = 0;
-                    }
-                
-                
-            }
-
-        print_r($this->filenames);
-       
         //to remove interface defination.
         for($j=0;$j<count($this->tokens);$j++)
             {
@@ -660,8 +592,8 @@ class PHP_DownGrade {
 // start of code to convert files recursively ---
 // this code is to convert the whole directory from php5 to php4
 
-//$rootDir = "$homeDir/svn/crm/CRM";
-//$destDir = "$homeDir/svn/crm.php4/CRM";
+$rootDir = "/home/kurund/svn/php4/crm/CRM";
+$destDir = "/home/kurund/svn/php4/crm/CRM.4";
 
 //$rootDir = "/home/kurund/svn/php4/crm/modules";
 //$destDir = "/home/kurund/svn/php4/crm/modules.4";
@@ -670,7 +602,7 @@ class PHP_DownGrade {
 //$destDir = "/home/kurund/svn/php4/crm/api.4";
 
 
-/*$dir = new RecursiveIteratorIterator(
+$dir = new RecursiveIteratorIterator(
                                      new RecursiveDirectoryIterator($rootDir), true);
 
 foreach ( $dir as $file ) {
@@ -685,11 +617,11 @@ foreach ( $dir as $file ) {
         fputs( $fd, $php4 );
         fclose( $fd );
     }
-}*/
+}
 
 // end of code to convert files recursively --
 
 
 // use this code if single file has to be converted from php5 to php4  and comment the above block
-$sam = new PHP_DownGrade($argv[1]);
-echo $sam->toPHP4();
+//$sam = new PHP_DownGrade($argv[1]);
+//echo $sam->toPHP4();
