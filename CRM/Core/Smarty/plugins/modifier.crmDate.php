@@ -41,13 +41,26 @@
  */
 function smarty_modifier_crmDate($dateString)
 {
-    $matches = array();
-    $pattern = "/(\d{4})-(\d{2})-(\d{2})/";
-    if (preg_match($pattern, $dateString, $matches)) {
-        $months = array(1 => ts('January'), ts('February'), ts('March'), ts('April'), ts('May'), ts('June'), ts('July'), ts('August'), ts('September'), ts('October'), ts('November'), ts('December'));
-        return($months[(int)$matches[2]] . " " . ((int)$matches[3]) . ", " . $matches[1]);
-    } else {
-        return "Invalid Date";
+    if ( $dateString ) {
+        $matches = array();
+        $pattern = "/(\d{4})-(\d{2})-(\d{2})/";
+        if (preg_match($pattern, $dateString, $matches)) {
+            $months = array(1 => ts('January'), ts('February'), ts('March'), ts('April'), ts('May'), ts('June'), ts('July'), ts('August'), ts('September'), ts('October'), ts('November'), ts('December'));
+            $fDate = '';
+            if ( (int)$matches[2] > 0 ) {
+                $fDate .= $months[(int)$matches[2]];
+                // validation allows month w/o day, but NOT day w/o month
+                if ( (int)$matches[3] > 0 ) {
+                    $fDate .= (int)$matches[3];
+                }
+                $fDate .= ", ";
+            }
+            $fDate .= $matches[1];
+            return $fDate;
+            // return($months[(int)$matches[2]] . " " . ((int)$matches[3]) . ", " . $matches[1]);
+        } else {
+            return "Invalid Date";
+        }
     }
 }
 ?>
