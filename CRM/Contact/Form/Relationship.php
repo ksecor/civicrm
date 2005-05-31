@@ -91,8 +91,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $relationship->id = $this->_relationshipId;
             if ($relationship->find(true)) {
                 $defaults['relationship_type_id'] = $relationship->relationship_type_id . '_' . $this->_rtype;
-                $defaults['start_date']           = $relationship->start_date;
-                $defaults['end_date'  ]           = $relationship->end_date;
+                $defaults['start_date']           = CRM_Utils_Date::unformat( $relationship->start_date );
+                $defaults['end_date'  ]           = CRM_Utils_Date::unformat( $relationship->end_date   );
                 
                 $contact = new CRM_Contact_DAO_Contact( );
                 if ($this->_rtype == 'a_b' && $relationship->contact_id_a == $this->_contactId ) {

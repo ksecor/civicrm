@@ -111,9 +111,11 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         if ( $individual->find(true) ) {
             $ids['individual'] = $individual->id;
             $individual->storeValues( $values );
-
             if ( isset( $individual->gender ) ) {
                 $values['gender'] = array( 'gender' => $individual->gender );
+            }
+            if ( isset( $individual->birth_date ) ) {
+                $values['birth_date'] = CRM_Utils_Date::unformat( $individual->birth_date );
             }
      
             return $individual;

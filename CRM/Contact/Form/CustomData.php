@@ -196,9 +196,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                         $defaults[$elementName] = $field['customValue']['data'] ? 'yes' : 'no';
                     } else if ($field['html_type'] == 'Select Date') {
                         if ($date = $field['customValue']['data']) {
-                            $defaults[$elementName]['Y'] = substr($date, 0, 4);
-                            $defaults[$elementName]['M'] = substr($date, 5, 2);
-                            $defaults[$elementName]['d'] = substr($date, 8, 2);
+                            $defaults[$elementName] = CRM_Utils_Date::unformat( $date );
                         }
                     } else {
                         $defaults[$elementName] = $field['customValue']['data'];

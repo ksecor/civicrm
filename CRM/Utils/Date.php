@@ -47,11 +47,7 @@ class CRM_Utils_Date {
      */
     static function format( $date, $strict = false )
     {
-        if ( ! $date || ! is_array( $date ) ) {
-            return null;
-        }
-
-        if ( empty( $date['Y'] ) ) {
+        if ( ! $date || ! is_array( $date || ! $date['Y'] ) ) {
             return null;
         }
 
@@ -67,9 +63,40 @@ class CRM_Utils_Date {
             $date['d'] = '00';
         }
 
-        $d = $date['Y'] . $date['M'] . $date['d'];
         return $date['Y'] . $date['M'] . $date['d'];
     }
+
+    /**
+     * given a string in mysql format, transform the string 
+     * into qf format
+     *
+     * @param string $date a mysql type date string
+     *
+     * @return array       a qf formatted date array
+     * @static
+     * @access public
+     */     
+    static function unformat( $date ) {
+        list( $year, $mon, $date ) = explode( '-', $date, 3 );
+
+        $value = array( );
+        $value['Y'] = $value['M'] = $value['d'] = null;
+
+        if ( is_numeric( $year ) && $year > 0 ) {
+            $value['Y'] = $year;
+        }
+
+        if ( is_numeric( $mon ) && $mon > 0 ) {
+            $value['M'] = $mon;
+        }
+
+        if ( is_numeric( $day ) && $day > 0 ) {
+            $value['d'] = $day;
+        }
+
+        return $value;
+    }
+
 }
 
 ?>
