@@ -66,7 +66,7 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
     public function buildQuickForm( ) {
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Done',
+                                         'name'      => ts('Done'),
                                          'isDefault' => true   ),
                                  )
                            );
@@ -79,7 +79,7 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
      * @access public
      */
     public function getTitle( ) {
-        return 'Summary';
+        return ts('Summary');
     }
 
 }

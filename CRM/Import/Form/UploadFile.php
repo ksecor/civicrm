@@ -45,21 +45,21 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->addElement( 'file', 'uploadFile', 'Import Data File', 'size=30 maxlength=60' );
+        $this->addElement( 'file', 'uploadFile', ts('Import Data File'), 'size=30 maxlength=60' );
 
-        $this->addRule( 'uploadFile', 'File size should be less than 1 MByte', 'maxfilesize', 1024 * 1024 );
+        $this->addRule( 'uploadFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->setMaxFileSize( 1024 * 1024 );
-        $this->addRule( 'uploadFile', 'Input file must be either CSV or XML format', 'asciiFile' );
+        $this->addRule( 'uploadFile', ts('Input file must be either CSV or XML format'), 'asciiFile' );
 
-        $this->addElement( 'checkbox', 'skipColumnHeader', 'First row contains column headers' );
+        $this->addElement( 'checkbox', 'skipColumnHeader', ts('First row contains column headers') );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'upload',
-                                         'name'      => 'Continue >>',
+                                         'name'      => ts('Continue >>'),
                                          'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
     }
@@ -95,7 +95,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
      * @access public
      */
     public function getTitle( ) {
-        return 'Upload Data';
+        return ts('Upload Data');
     }
 
 }

@@ -16,5 +16,5 @@
    </ul>
 </div>
 
-<h2>{$wizard.currentStepTitle} (step {$wizard.currentStepNumber} of {$wizard.stepCount})</h2>
+<h2>{$wizard.currentStepTitle} {ts 1=$wizard.currentStepNumber 2=$wizard.stepCount}(step %1 of %2){/ts}</h2>
 

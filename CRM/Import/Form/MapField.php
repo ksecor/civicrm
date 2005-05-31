@@ -108,13 +108,13 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
-                                         'name'      => '<< Previous' ),
+                                         'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Continue >>',
+                                         'name'      => ts('Continue >>'),
                                          'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
     }
@@ -162,7 +162,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      */
     public function getTitle()
     {
-        return 'Match Fields';
+        return ts('Match Fields');
     }
 
     
