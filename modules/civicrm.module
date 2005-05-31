@@ -98,7 +98,7 @@ function civicrm_help($section)
 function civicrm_perm()
 {
     // static permissions
-    $cPerm = array('add contacts', 'view all contacts', 'edit all contacts', 'edit groups', 'administer CiviCRM');
+    $cPerm = array('add contacts', 'view all contacts', 'edit all contacts', 'edit groups', 'administer CiviCRM', 'access CiviCRM' );
 
     // dynamic permissions - access by group (title)
     $groups =& CRM_Core_PseudoConstant::allGroup();
@@ -224,7 +224,7 @@ function civicrm_menu($may_cache)
         $items[] = array(
                          'path'     => 'civicrm',
                          'title'    => ts('CiviCRM'),
-                         'access'   => true,
+                         'access'   => user_access( 'access CiviCRM' ),
                          'callback' => 'civicrm_invoke',
                          'type'     => MENU_CALLBACK,
                          );

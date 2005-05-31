@@ -182,17 +182,6 @@ class CRM_Core_Action {
      * @static
      */
     static function formLink( &$links, $mask, $values ) {
-        // this is quite since we do it for every row, we can optimize by moving it out of the
-        // loop
-        $mode = CRM_Core_Drupal::getMode( );
-        if ( $mode == 'view' ) {
-            if ( $mask ) {
-                $mask = $mask & ( self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE );
-            } else {
-                $mask = self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE;
-            }
-        }
-
         $url = array( );
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
@@ -225,6 +214,25 @@ class CRM_Core_Action {
             $str = str_replace( "%%$n%%", $v, $str );
         }
         return $str;
+    }
+
+    /**
+     * get the mask for a permission (view, edit or null)
+     *
+     * @param string the permission
+     *
+     * @return int   the mask for the above permission
+     * @static
+     * @access public
+     */
+    static public function mask( $permission ) {
+        if ( $permission == 'view' ) {
+            return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE;
+        } else if ( $permission == 'edit' ) {
+            return 1023; // make sure we make this 2^n -1 if we add more actions;
+        } else {
+            return null;
+        }
     }
 
 }

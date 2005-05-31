@@ -53,11 +53,11 @@ class CRM_Core_Drupal {
     static protected $_editPermissionedGroups;
 
     /**
-     * am in in view mode or edit mode?
+     * am in in view permission or edit permission?
      * @var boolean
      */
-    static protected $_viewMode;
-    static protected $_editMode;
+    static protected $_viewPermission;
+    static protected $_editPermission;
 
     /**
      * Get all groups from database, filtered by permissions
@@ -77,42 +77,39 @@ class CRM_Core_Drupal {
             $groups =& CRM_Core_PseudoConstant::allGroup( );
 
             self::$_editAdminUser = self::$_viewAdminUser = false;
-            self::$_editMode = self::$_viewMode = false;
-
-            if ( user_access( 'edit all contacts' ) ) {
-                self::$_editAdminUser = true;
-                self::$_editMode      = true;
-                self::$_editPermissionedGroups = $groups;
-                self::$_viewPermissionedGroups = $groups;
-                foreach ( $groups as $id => $name ) {
-                    self::$_editPermissionedGroups[$id] = $name;
-                    self::$_viewPermissionedGroups[$id] = $name;
-                }
-            } else if ( user_access( 'view all contacts' ) ) {
-                self::$_viewAdminUser = true;
-                self::$_viewMode      = true;
-                self::$_viewPermissionedGroups = $groups;
-                foreach ( $groups as $id => $name ) {
-                    self::$_viewPermissionedGroups[$id] = $name;
-                }
-            }
+            self::$_editPermission = self::$_viewPermission = false;
 
             self::$_editPermissionedGroups = array( );
             self::$_viewPermissionedGroups = array( );
+
+            if ( user_access( 'edit all contacts' ) ) {
+                // this is the most powerful permission, so we return
+                // immediately rather than dilute it further
+                self::$_editAdminUser = true;
+                self::$_editPermission      = true;
+                self::$_editPermissionedGroups = $groups;
+                self::$_viewPermissionedGroups = $groups;
+                return;
+            } else if ( user_access( 'view all contacts' ) ) {
+                self::$_viewAdminUser = true;
+                self::$_viewPermission      = true;
+                self::$_viewPermissionedGroups = $groups;
+            }
+
             foreach ( $groups as $id => $name ) {
                 if ( user_access( 'edit ' . $name ) ) {
                     self::$_editPermissionedGroups[$id] = $name;
                     self::$_viewPermissionedGroups[$id] = $name;
-                    self::$_editMode      = true;
+                    self::$_editPermission      = true;
                 } else if ( user_access( 'view ' . $name ) ) {
                     self::$_viewPermissionedGroups[$id] = $name;
-                    self::$_viewMode      = true;
+                    self::$_viewPermission      = true;
                 } 
             }
 
             // if we have view permissions only for any list, then we downgrade to view
-            if ( self::$_viewMode && self::$_editMode ) {
-                self::$_editMode = false;
+            if ( self::$_viewPermission && self::$_editPermission ) {
+                self::$_editPermission = false;
             }
         }
 
@@ -143,18 +140,18 @@ class CRM_Core_Drupal {
     }
 
     /**
-     * get the current mode of this user
+     * get the current permission of this user
      *
-     * @return string the mode of the user (edit or view or null)
+     * @return string the permission of the user (edit or view or null)
      */
-    public static function getMode( ) {
+    public static function getPermission( ) {
         if (! isset( self::$_viewPermissionedGroups ) ) {
             self::group( );
         }
 
-        if ( self::$_editMode ) {
+        if ( self::$_editPermission ) {
             return 'edit';
-        } else if ( self::$_viewMode ) {
+        } else if ( self::$_viewPermission ) {
             return 'view';
         }
         return null;

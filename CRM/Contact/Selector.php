@@ -246,6 +246,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // process the result of the query
         $rows = array( );
 
+        $permission = CRM_Core_Drupal::getPermission( );
+        $mask = CRM_Core_Action::mask( CRM_Core_Drupal::getPermission( ) );
+
         while ($result->fetch()) {
             $row = array();
 
@@ -256,7 +259,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
-                $row['action']   = CRM_Core_Action::formLink( self::links(), null, array( 'id' => $result->contact_id ) );
+                $row['action']   = CRM_Core_Action::formLink( self::links(), $mask, array( 'id' => $result->contact_id ) );
                 $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {
                 case 'Individual' :
