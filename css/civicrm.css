@@ -33,6 +33,10 @@
   margin-bottom: 1em;
 }
 
+#crm-container .add-remove-link {
+  font-size: .9em;
+}
+
 /*
 ** CRM form field layout classes (from www.realworldstyle.com)
 */

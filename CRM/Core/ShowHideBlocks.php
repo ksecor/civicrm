@@ -183,6 +183,8 @@ class CRM_Core_ShowHideBlocks {
      * @access public
      */
     function linksForArray( $form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText ) {
+        static $showIcon, $hideIcon;
+        
         if ( $index == $maxIndex ) {
             $showCode = $hideCode = "return false;";
         } else {
@@ -191,9 +193,14 @@ class CRM_Core_ShowHideBlocks {
             $hideCode = "hide('${prefix}[${next}][show]'); hide('${prefix}[${next}]'); return false;";
         }
 
-        $form->addElement('link', "${prefix}[${index}][show]", null, "#${prefix}[${index}]", $showLinkText,
+        if ( !isset ($showIcon)) {
+            $config = CRM_Core_Config::singleton( );
+            $showIcon = '<img src="'.$config->resourceBase.'i/TreePlus.gif" class="action-icon" alt="another field">';
+            $hideIcon = '<img src="'.$config->resourceBase.'i/TreeMinus.gif" class="action-icon" alt="remove field">';
+        }
+        $form->addElement('link', "${prefix}[${index}][show]", null, "#${prefix}[${index}]", $showIcon . $showLinkText,
                           array( 'onclick' => "hide('${prefix}[${index}][show]'); show('${prefix}[${index}]');" . $showCode));
-        $form->addElement('link', "${prefix}[${index}][hide]", null, "#${prefix}[${index}]", $hideLinkText,
+        $form->addElement('link', "${prefix}[${index}][hide]", null, "#${prefix}[${index}]", $hideIcon . $hideLinkText,
                           array('onclick' => "hide('${prefix}[${index}]'); show('${prefix}[${index}][show]');" . $hideCode));
     }
 

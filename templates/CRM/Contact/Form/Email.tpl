@@ -4,7 +4,6 @@
 {* @var $lid Contains the current location id in evaluation, and assigned in the Location.tpl file *}
 {* @var $width Contains the width setting for the first column in the table *} 
 
-<fieldset>
 	<!----------- Primary EMAIL BLOCK--------- -->
     <div class="form-item">
         <span class="labels">
@@ -12,6 +11,10 @@
         </span>
         <span class="fields">
             {$form.location.$index.email.1.email.html}
+            <!-- Link to add a field.-->
+            <span id="location[{$index}][email][2][show]" class="add-remove-link">
+                {$form.location.$index.email.2.show.html}
+            </span>
         </span>
     </div>
     <!-- Spacer div contains floated elements -->
@@ -20,26 +23,26 @@
     {section name = innerLoop start = 2 loop = $blockCount}
        {assign var=innerIndex value=$smarty.section.innerLoop.index}
 
-       <!-- Link to EXPAND additional email block.-->
-       <div id="location[{$index}][email][{$innerIndex}][show]" class="show-section">
-        {$form.location.$index.email.$innerIndex.show.html}
-       </div>
-
-         <!-- Additional email block.-->
+        <!-- Email block {$innerIndex}.-->
         <div id="location[{$index}][email][{$innerIndex}]" class="form-item">
             <span class="labels">
              {$form.location.$index.email.$innerIndex.email.label}
             </span>
             <span class="fields">
-             {$form.location.$index.email.$innerIndex.email.html}
+              {$form.location.$index.email.$innerIndex.email.html}
+              <!-- Link to add another field.-->
+              {if $innerIndex LT $blockCount}
+                {assign var=j value=$innerIndex+1}
+                <div id="location[{$index}][email][{$j}][show]" class="add-remove-link">
+                    {$form.location.$index.email.$j.show.html}
+                </div>
+              {/if}
+            </span>
+            <!-- Link to hide this field -->
+            <span id="location[{$index}][email][{$innerIndex}][hide]" class="add-remove-link element-right">
+                {$form.location.$index.email.$innerIndex.hide.html}
             </span>
             <!-- Spacer div contains floated elements -->
             <div class="spacer"></div>
-
-            <!-- Link to HIDE this email block.-->
-            <div id="location[{$index}][email][{$innerIndex}][hide]" class="hide-section">
-             {$form.location.$index.email.$innerIndex.hide.html}
-            </div>
         </div>
 	{/section}
-</fieldset>

@@ -34,7 +34,7 @@ class CRM_Utils_Rule {
             return false;
         }
     
-        // make sure it include valid characters, alpha numeric and underscores
+        // Make sure it include valid characters, alpha numeric and underscores
         if ( ! preg_match('/^[a-z][\w\s\'\&\,\$\#\-\.\"]+$/i', $str ) ) {
             return false;
         }
@@ -112,6 +112,10 @@ class CRM_Utils_Rule {
      * @access public
      */
     static function qfDate($date) {
+	if ( ! $date['d'] && ! $date['M'] && ! $date['Y'] ) {
+	    return true;
+        }
+
         $day = $mnt = 1;
         $year = 0;
         if ($date['d']) $day = $date['d'];

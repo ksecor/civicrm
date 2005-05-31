@@ -9,19 +9,16 @@
  {assign var=index value=$smarty.section.locationLoop.index}
 
 {if $index > 1}
- <div id="location[{$index}][show]" class="show-section">
-    {$form.location.$index.show.html}
+ <div id="location[{$index}][show]" class="data-group label">
+    {$form.location.$index.show.html} Additional Location
  </div>
 {/if}
 
 <div id="location[{$index}]">
 	<fieldset>
-    {if $index > 1}
-    <legend>Additional Location</legend>
-    {else}
-    <legend>Primary Location</legend>
-    {/if}
-    
+    <legend>{$form.location.$index.hide.html}
+        {if $index EQ 1}{ts}Primary Location{/ts}{else}{ts}Additional Location{/ts}{/if}
+    </legend>
     <div class="form-item">
         <!-- Location type drop-down (e.g. Home, Work...) -->
         {$form.location.$index.location_type_id.html}
@@ -50,12 +47,6 @@
         {* Plugging the address block *}
         {include file="CRM/Contact/Form/Address.tpl"} 
     <div>
-
-  {if $index != 1}
-  <div id="location[{$index}][hide]" class="hide-section">
-    {$form.location.$index.hide.html}
-  </div>
-  {/if}
 
    </fieldset>
 </div> <!-- End of Location block div -->

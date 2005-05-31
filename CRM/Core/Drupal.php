@@ -89,7 +89,7 @@ class CRM_Core_Drupal {
                 self::$_editPermission      = true;
                 self::$_editPermissionedGroups = $groups;
                 self::$_viewPermissionedGroups = $groups;
-                return;
+                return self::$_viewPermissionedGroups;
             } else if ( user_access( 'view all contacts' ) ) {
                 self::$_viewAdminUser = true;
                 self::$_viewPermission      = true;

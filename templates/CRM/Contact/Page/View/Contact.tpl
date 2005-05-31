@@ -102,7 +102,7 @@
    </div>
    <div class="col2">
 {*    <label>Date of Birth:</label> {$birth_date|date_format:"%B %e, %Y"} *}
-    <label>Date of Birth:</label> {$birth_date|crmDate} 
+    <label>Date of Birth:</label> {$birth_date|crmDate} - actual: {$birth_date} 
    </div>
   </fieldset>
  </div>

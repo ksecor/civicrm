@@ -52,9 +52,9 @@ class CRM_Contact_Form_Phone
     static function buildPhoneBlock(&$form, &$location, $locationId, $count) {
 
         for ($i = 1; $i <= $count; $i++) {
-            $label = ($i == 1) ? 'Preferred Phone:' : 'Additional Phone:';
+            $label = ($i == 1) ? 'Phone (preferred)' : 'Phone';
 
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", 'add another phone field', 'remove this phone field');
+            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", 'another phone', 'hide this phone');
 
             $location[$locationId]['phone'][$i]['phone_type'] = $form->addElement('select',
                                                                                   "location[$locationId][phone][$i][phone_type]",
