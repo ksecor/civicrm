@@ -111,7 +111,10 @@ class CRM_Core_Page {
      */
     function __construct($title = null, $mode = null)
     {
-        $this->_name  = get_class( $this );
+        $this->_name = CRM_Utils_System::getClassName($this);
+
+        CRM_Core_Error::debug_var('className', $this->_name);
+
         $this->_title = $title;
         $this->_mode  = $mode;
         
@@ -217,9 +220,12 @@ class CRM_Core_Page {
      * @access public
      */
     function getTemplateFileName() {
-        $className    = get_class( $this );
-        $templateName = str_replace( '_', DIRECTORY_SEPARATOR, $className ) . '.tpl';
-        return $templateName;
+        
+        $templateFileName = CRM_Utils_System::classNameToFile($this->_name, false);
+        
+        CRM_Core_Error::debug_var('templateFileName', $templateFileName);
+
+        return CRM_Utils_System::classNameToFile($this->_name, false);
     }
 
     /**

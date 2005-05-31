@@ -39,6 +39,48 @@
 class CRM_Utils_System {
 
     /**
+     * special cases for php4
+     * @var array
+     * @static
+     */
+    public static $php4SpecialClassName = array(
+                                                'crm'                => 'CRM',
+                                                'addtogroup'         => 'AddToGroup',
+                                                'addtohousehold'     => 'AddToHousehold',
+                                                'addtotag'           => 'AddToTag',
+                                                'api'                => 'API',
+                                                'bao'                => 'BAO',
+                                                'customdata'         => 'CustomData',
+                                                'customfield'        => 'CustomField',
+                                                'customgroup'        => 'CustomGroup',
+                                                'customvalue'        => 'CustomValue',
+                                                'dao'                => 'DAO',
+                                                'dynamicgroup'       => 'DynamicGroup',
+                                                'entitycategory'     => 'EntityCategory',
+                                                'entitytag'          => 'EntityTag',
+                                                'geocoord'           => 'GeoCoord',
+                                                'groupcontact'       => 'GroupContact',
+                                                'groupmember'        => 'GroupMember',
+                                                'im'                 => 'IM',
+                                                'improvider'         => 'IMProvider',
+                                                'locationtype'       => 'LocationType',
+                                                'mapfield'           => 'MapField',
+                                                'mobileprovider'     => 'MobileProvider',
+                                                'pseudoconstant'     => 'PseudoConstant',
+                                                'relationshiptype'   => 'RelationshipType',
+                                                'removefromgroup'    => 'RemoveFromGroup',
+                                                'savedsearch'        => 'SavedSearch',
+                                                'savesearch'         => 'SaveSearch',
+                                                'selectvalues'       => 'SelectValues',
+                                                'showhideblocks'     => 'ShowHideBlocks',
+                                                'statemachine'       => 'StateMachine',
+                                                'stateprovince'      => 'StateProvince',
+                                                'ufformfield'        => 'UFFormField',
+                                                'ufform'             => 'UFForm',
+                                                'uploadfile'         => 'UploadFile',
+                                                );
+    
+    /**
      * Compose a new url string from the current url string
      * Used by all the framework components, specifically,
      * pager, sort and qfc
@@ -49,7 +91,7 @@ class CRM_Utils_System {
      * @access public
      */
     static function makeURL( $urlVar ) {
-         return self::url( $_GET['q'], self::getLinksUrl( $urlVar ) );
+        return self::url( $_GET['q'], self::getLinksUrl( $urlVar ) );
     }
 
     /**
@@ -255,7 +297,97 @@ class CRM_Utils_System {
         }
     }
 
+    
+    /**
+     * Create a class name to file location within the CRM tree
+     *
+     * This is used primarily by the PHP4 code since the
+     * get_class($this) in php4 returns the class name in lowercases.
+     *
+     * We need to do some conversions before we can use the lower case class names.
+     *
+     * @param  string $className - class name of a crm
+     * @param  boolean $phpFile - whether we need a php extension or template extension
+     * @return string $fileName  - full file name of the class
+     *
+     * @access public
+     * @static
+     */
+    static function classNameToFile($className, $phpFile=true) {
+        
+        // get all components of the class name
+        $classNameComponent = explode("_", $className);
+
+        if (self::isPHP4()) {
+            foreach ($classNameComponent as &$v) {
+                if (array_key_exists($v, self::$php4SpecialClassName)) {
+                    $v = self::$php4SpecialClassName[$v];        // special case hence replace
+                } else {
+                    $v = ucfirst($v);                            // regular component so just upcase first character
+                }
+            }
+        }
+
+        // create the file name
+        $fileName = implode(DIRECTORY_SEPARATOR, $classNameComponent);
+        if ($phpFile) {
+            $fileName .= ".php";    // for php files
+        } else {
+            $fileName .= ".tpl";    // for templates
+        }
+        return $fileName;
+    }
+
+    /**
+     * gets a class name for an object
+     *
+     * This is used primarily by the PHP4 code since the
+     * get_class($this) in php4 returns the class name in lowercases.
+     *
+     * We need to do some conversions before we can use the lower case class names.
+     *
+     * @param  object $object     - object whose class name is needed
+     * @return string $className  - class name as per PHP4
+     *
+     * @access public
+     * @static
+     */
+    static function getClassName($object)
+    {
+        $className = get_class($object);
+        if (!self::isPHP4()) {
+            return $className;
+        }
+        
+        // get all components of the class name
+        $classNameComponent = explode("_", $className);
+        foreach ($classNameComponent as &$v) {
+            if (array_key_exists($v, self::$php4SpecialClassName)) {
+                $v = self::$php4SpecialClassName[$v];                   // special case hence replace
+            } else {
+                $v = ucfirst($v);                            // regular component so just upcase first character
+            }
+        }
+
+        // create the file name
+        $className = implode('_', $classNameComponent);
+        return $className;
+    }
+
+    /**
+     * check if PHP4 ?
+     *
+     * @param none
+     * @return boolean true if php4 false otherwise
+     * @access public
+     * @static
+     */
+    static function isPHP4()
+    {
+        return (substr(phpversion(), 0, 1) == 4) ? true:false;
+    }
 }
+
 
 /**
  * Allow PHP5 to autoload classes automatically

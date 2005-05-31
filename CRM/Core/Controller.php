@@ -105,8 +105,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      */
     function __construct( $title = null, $modal = true ) {
-        $this->HTML_QuickForm_Controller( get_class( $this ), $modal );
-
+        $this->HTML_QuickForm_Controller(CRM_Utils_System::getClassName($this), $modal);
         $this->_title = $title;
 
         // let the constructor initialize this, should happen only once

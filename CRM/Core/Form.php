@@ -112,9 +112,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      */
 
     function __construct($state = null, $action = CRM_Core_Action::NONE ) {
-        $this->_name  = CRM_Utils_String::getClassName( get_class( $this ) );
+        //$this->_name  = CRM_Utils_String::getClassName( get_class( $this ) );
+        $this->_name  = CRM_Utils_System::getClassName($this);
         $this->HTML_QuickForm_Page( $this->_name );
-
+    
         $this->_state   = $state;
         $this->_action  = $action;
 
@@ -419,9 +420,16 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */
     function getTemplateFileName() {
-        $className    = get_class( $this );
-        $templateName = str_replace( '_', DIRECTORY_SEPARATOR, $className ) . '.tpl';
-        return $templateName;
+        //$className    = get_class( $this );
+        //$templateName = str_replace( '_', DIRECTORY_SEPARATOR, $className ) . '.tpl';
+        $className    = CRM_Utils_System::getClassName($this);
+        $templateName = CRM_Utils_System::classNameToFile($className, false);
+
+        CRM_Core_Error::debug_var('className', $className);
+        CRM_Core_Error::debug_var('templateName', $templateName);
+
+        return CRM_Utils_System::classNameToFile($className, false);
+        //return CRM_Utils_System::classNameToFile($this->_name, false);
     }
 
     /**
