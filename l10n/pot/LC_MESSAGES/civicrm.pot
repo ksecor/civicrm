@@ -1,0 +1,85 @@
+# CiviCRM POT file
+# Copyright (C) 2005 David A. Lobo
+# This file is distributed under the same license as the CiviCRM package.
+# Piotr Szotkowski <shot@caltha.pl>, 2005.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: civicrm 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-05-16 17:25+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+msgid " - any group - "
+msgstr ""
+
+msgid " - %count group - "
+msgid_plural " - %count groups - "
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Full or partial name (last name, or first name, or organization name)."
+msgstr ""
+
+msgid "Found %count group member"
+msgid_plural "Found %count group members"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Found %count contact"
+msgid_plural "Found %count contacts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "IM Provider"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "City"
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "Postal"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Address"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid ""
+"Are you sure you want to disable this IM Service Provider?\\n\\nUsers "
+"will no longer be able to select this value when adding or editing contact "
+"IM screen names."
+msgstr ""
+
+msgid "Relationships"
+msgstr ""
+
+msgid "Relationship Types"
+msgstr ""
+

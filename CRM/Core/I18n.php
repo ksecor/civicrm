@@ -65,7 +65,7 @@ class CRM_Core_I18n
      *
      * @param   string Source string
      * @param   mixed  Arguments, can be passed in an array or through single variables.
-     * @returns string Modified string
+     * @return  string Modified string
      */
     function strarg($str)
     {
