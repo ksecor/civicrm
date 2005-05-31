@@ -11,7 +11,7 @@
  *
  * Extracts translatable strings from specified function calls, plus adds some
  * file specific strings. Only literal strings with no embedded variables can
- * be extracted. Outputs a POT file on STDOUT, errors on STDERR
+ * be extracted. Outputs a POT file to general.pot, errors on STDERR
  *
  * @author Jacobo Tarrio <jtarrio [at] alfa21.com>
  * @author Gabor Hojtsy <goba [at] php.net>
@@ -242,7 +242,7 @@ function findTsCalls($tokens, $file)
 
 
 /**
- * gets the exact version number from the file, so we can push that into the pot
+ * gets the exact version number from the file, so we can push that into the POT
  *
  * @param string $code  the string with the contents of the file
  * @param string $file  the string with the file name
@@ -317,7 +317,7 @@ function markerError($file, $line, $marker, $tokens)
 
 
 /**
- * returns the POT-file header
+ * returns the POT file header
  *
  * @param string $file  the string containing the file name
  *
@@ -325,21 +325,25 @@ function markerError($file, $line, $marker, $tokens)
  */
 function writeHeader($file)
 {
-    $output .= "# Copyright YEAR NAME <EMAIL@ADDRESS>\n";
+    $output .= "# CiviCRM POT file\n";
+    $output .= "# Copyright (C) 2005 David A. Lobo\n";
+    $output .= "# This file is distributed under the same license as the CiviCRM package.\n";
+    $output .= "# Piotr Szotkowski <shot@caltha.pl>, 2005.\n";
     $output .= "# --VERSIONS--\n";
     $output .= "#\n";
     $output .= "#, fuzzy\n";
     $output .= "msgid \"\"\n";
     $output .= "msgstr \"\"\n";
-    $output .= "\"Project-Id-Version: CiviCRM 0.0\\n\"\n";
-    $output .= "\"POT-Creation-Date: " . date("Y-m-d H:iO") . "\\n\"\n";
-    $output .= "\"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\\n\"\n";
-    $output .= "\"Last-Translator: NAME <EMAIL@ADDRESS>\\n\"\n";
-    $output .= "\"Language-Team: LANGUAGE <EMAIL@ADDRESS>\\n\"\n";
-    $output .= "\"MIME-Version: 1.0\\n\"\n";
-    $output .= "\"Content-Type: text/plain; charset=utf-8\\n\"\n";
-    $output .= "\"Content-Transfer-Encoding: 8bit\\n\"\n";
-    $output .= "\"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\\n\"\n\n";
+    $output .= "Project-Id-Version: CiviCRM 0.1\\n\"\n";
+    $output .= "Report-Msgid-Bugs-To: \\n\"\n";
+    $output .= "POT-Creation-Date: " . date("Y-m-d H:iO") . "\\n\"\n";
+    $output .= "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n\"\n";
+    $output .= "Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n\"\n";
+    $output .= "Language-Team: LANGUAGE <LL@li.org>\\n\"\n";
+    $output .= "MIME-Version: 1.0\\n\"\n";
+    $output .= "Content-Type: text/plain; charset=CHARSET\\n\"\n";
+    $output .= "Content-Transfer-Encoding: 8bit\\n\"\n";
+    $output .= "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\\n\"\n";
     return $output;
 }
 
