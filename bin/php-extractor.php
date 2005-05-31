@@ -334,16 +334,17 @@ function writeHeader($file)
     $output .= "#, fuzzy\n";
     $output .= "msgid \"\"\n";
     $output .= "msgstr \"\"\n";
-    $output .= "Project-Id-Version: CiviCRM 0.1\\n\"\n";
-    $output .= "Report-Msgid-Bugs-To: \\n\"\n";
-    $output .= "POT-Creation-Date: " . date("Y-m-d H:iO") . "\\n\"\n";
-    $output .= "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n\"\n";
-    $output .= "Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n\"\n";
-    $output .= "Language-Team: LANGUAGE <LL@li.org>\\n\"\n";
-    $output .= "MIME-Version: 1.0\\n\"\n";
-    $output .= "Content-Type: text/plain; charset=CHARSET\\n\"\n";
-    $output .= "Content-Transfer-Encoding: 8bit\\n\"\n";
-    $output .= "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\\n\"\n";
+    $output .= "\"Project-Id-Version: CiviCRM 0.1\\n\"\n";
+    $output .= "\"Report-Msgid-Bugs-To: \\n\"\n";
+    $output .= "\"POT-Creation-Date: " . date("Y-m-d H:iO") . "\\n\"\n";
+    $output .= "\"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n\"\n";
+    $output .= "\"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n\"\n";
+    $output .= "\"Language-Team: LANGUAGE <LL@li.org>\\n\"\n";
+    $output .= "\"MIME-Version: 1.0\\n\"\n";
+    $output .= "\"Content-Type: text/plain; charset=CHARSET\\n\"\n";
+    $output .= "\"Content-Transfer-Encoding: 8bit\\n\"\n";
+    $output .= "\"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\\n\"\n";
+    $output .= "\n";
     return $output;
 }
 
