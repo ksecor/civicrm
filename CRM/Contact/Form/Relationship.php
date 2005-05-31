@@ -154,7 +154,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $checkBoxes[$id] = $this->createElement('checkbox', $id, null, '' );
             }
             $this->addGroup($checkBoxes, 'contact_check');
-            $this->addRule( 'contact_check', 'Please select at least one contact.', 'required' );
             $this->assign('searchRows', $searchRows );
 
         }
@@ -345,7 +344,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $ids['relationship'] = $session->get( 'relationshipId', 'CRM_Core_Controller_Simple' );
 
         $errors        = array( );
-        if ( CRM_Utils_Array::value( 'contact_check', $params ) ) {
+        if ( CRM_Utils_Array::value( 'contact_check', $params ) && is_array( $params['contact_check'] ) ) {
             foreach ( $params['contact_check'] as $cid => $dontCare ) {
                 $message = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $cid);
                 if ( $message ) {
@@ -353,6 +352,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     break;
                 }
             }
+        } else {
+            $errors['contact_check'] = 'Please select at least one contact.';
         }
         return empty($errors) ? true : $errors;
     }

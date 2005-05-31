@@ -84,10 +84,17 @@ class CRM_Core_Drupal {
                 self::$_editMode      = true;
                 self::$_editPermissionedGroups = $groups;
                 self::$_viewPermissionedGroups = $groups;
+                foreach ( $groups as $id => $name ) {
+                    self::$_editPermissionedGroups[$id] = $name;
+                    self::$_viewPermissionedGroups[$id] = $name;
+                }
             } else if ( user_access( 'view all contacts' ) ) {
                 self::$_viewAdminUser = true;
                 self::$_viewMode      = true;
                 self::$_viewPermissionedGroups = $groups;
+                foreach ( $groups as $id => $name ) {
+                    self::$_viewPermissionedGroups[$id] = $name;
+                }
             }
 
             self::$_editPermissionedGroups = array( );
