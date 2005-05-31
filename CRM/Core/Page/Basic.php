@@ -94,6 +94,19 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     }
 
     /**
+     * allow objects to be added based on permission
+     *
+     * @param int $id   the id of the object
+     * @param int $name the name or title of the object
+     *
+     * @return string   permission value if permission is granted, else null
+     * @access public
+     */
+    public function checkPermission( $id, $name ) {
+        return 'edit';
+    }
+
+    /**
      * allows the derived class to add some more state variables to
      * the controller. By default does nothing, and hence is abstract
      *
@@ -174,21 +187,29 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
          * lets make sure we get the stuff sorted by name if it exists
          */
         $fields =& $object->fields( );
-        if ( CRM_Utils_Array::value( 'name', $fields ) ) {
-            $object->orderBy ( 'name asc' );
-        } else if ( CRM_Utils_Array::value( 'title', $fields ) ) {
-            $object->orderBy ( 'title asc' );
+        $key = '';
+        if ( CRM_Utils_Array::value( 'title', $fields ) ) {
+            $key = 'title';
         }  else if ( CRM_Utils_Array::value( 'label', $fields ) ) {
-            $object->orderBy ( 'label asc' );
+            $key = 'label';
+        } else if ( CRM_Utils_Array::value( 'name', $fields ) ) {
+            $key = 'name';
+        }
+
+        if ( $key ) {
+            $object->orderBy ( $key . ' asc' );
         }
 
         // find all objects
         $object->find();
         while ($object->fetch()) {
-            $values[$object->id] = array( );
-            $object->storeValues($values[$object->id]);
-            // populate action links
-            self::action($object, $action, $values[$object->id], $links);
+            $permission = $this->checkPermission( $object->id, $object->$key );
+            if ( $permission ) {
+                $values[$object->id] = array( );
+                $object->storeValues($values[$object->id]);
+                // populate action links
+                self::action( $object, $action, $values[$object->id], $links, $permission );
+            }
         }
         $this->assign( 'rows', $values );
     }
@@ -202,26 +223,32 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      * @param int     $action the base set of actions
      * @param array   $values the array of values that we send to the template
      * @param array   $links  the array of links
+     * @param string  $permission the permission assigned to this object
      *
      * @return void
      * @access private
      */
-    function action( $object, $action, &$values, &$links ) {
+    function action( $object, $action, &$values, &$links, $permission ) {
         $values['class'] = '';
         if ( array_key_exists( 'is_reserved', $object ) && $object->is_reserved ) {
             $newAction = 0;
             $values['action'] = '';
             $values['class'] = 'reserved';
-        } else if ( array_key_exists( 'is_active', $object ) ) {
-            if ( $object->is_active ) {
-                $newAction = $action + CRM_Core_Action::DISABLE;
-            } else {
-                $newAction = $action + CRM_Core_Action::ENABLE;
-            }
-            $values['action'] = CRM_Core_Action::formLink( $links, $newAction, array( 'id' => $object->id ) );
-        } else {
-            $values['action'] = CRM_Core_Action::formLink( $links, $action, array( 'id' => $object->id ) );
+            return;
         }
+
+        $newAction = $action;
+        if ( array_key_exists( 'is_active', $object ) ) {
+            if ( $object->is_active ) {
+                $newAction += CRM_Core_Action::DISABLE;
+            } else {
+                $newAction += CRM_Core_Action::ENABLE;
+            }
+        }
+        
+        // make sure we only allow those actions that the user is permissioned for
+        $newAction = $newAction & CRM_Core_Action::mask( $permission );
+        $values['action'] = CRM_Core_Action::formLink( $links, $newAction, array( 'id' => $object->id ) );
     }
 
     /**

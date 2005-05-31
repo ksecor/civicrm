@@ -45,19 +45,31 @@ class CRM_Utils_Date {
      * @access public
      * @static
      */
-    static function format($date)
+    static function format( $date, $strict = false )
     {
-        if (!$date) {
+        if ( ! $date || ! is_array( $date ) ) {
             return null;
         }
 
-        if (empty($date['Y']) || empty($date['M']) || empty($date['d'])) {
+        if ( empty( $date['Y'] ) ) {
             return null;
         }
 
-        $date['M'] = ($date['M'] < 10) ? '0' . $date['M'] : $date['M'];
-        $date['d'] = ($date['d'] < 10) ? '0' . $date['d'] : $date['d'];
+        if ( $date['M'] ) {
+            $date['M'] = ($date['M'] < 10) ? '0' . $date['M'] : $date['M'];
+        } else {
+            $date['M'] = '00';
+        }
+
+        if ( $date['d'] ) {
+            $date['d'] = ($date['d'] < 10) ? '0' . $date['d'] : $date['d'];
+        } else {
+            $date['d'] = '00';
+        }
+
+        $d = $date['Y'] . $date['M'] . $date['d'];
         return $date['Y'] . $date['M'] . $date['d'];
     }
 }
+
 ?>

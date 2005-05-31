@@ -514,7 +514,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         $order = $limit = '';
         if (! $count ) {
-            $order = ' ORDER BY crm_relationship_id ';
+            $order = ' ORDER BY crm_relationship_type_id, sort_name ';
 
             if ( $numRelationship) {
                 $limit = " LIMIT 0, $numRelationship";

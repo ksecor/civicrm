@@ -974,6 +974,7 @@ class CRM_GCD {
 
         for ($i=0; $i<$numGroup; $i++) {
             $group->domain_id = $this->_getRandomElement($this->domain);
+            $group->name  = $this->group[$i];
             $group->title = $this->group[$i];
             $group->type = 'static';
             $this->_insert($group);

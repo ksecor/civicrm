@@ -234,6 +234,7 @@ function civicrm_menu($may_cache)
                          'title'  => ts('Contacts'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
+                         'access'   => user_access( 'access CiviCRM' ),
                          'weight' => 10,
                          );
         
@@ -353,6 +354,7 @@ function civicrm_menu($may_cache)
                          'title'  => ts('Manage Groups'),
                          'qs'     => 'reset=1',
                          'type'   => MENU_NORMAL_ITEM,
+                         'access'   => user_access( 'access CiviCRM' ),
                          'weight' => 20,
                          );
 

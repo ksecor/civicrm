@@ -100,11 +100,30 @@ class CRM_Utils_Rule {
         return $default;
     }
 
+    /**
+     * check the validity of the date (in qf format)
+     * note that only a year is valid, or a mon-year is
+     * also valid in addition to day-mon-year
+     *
+     * @param array $date
+     *
+     * @return bool true if valid date
+     * @static
+     * @access public
+     */
     static function qfDate($date) {
-        $day = $mnt = $year = 0;
+        $day = $mnt = 1;
+        $year = 0;
         if ($date['d']) $day = $date['d'];
         if ($date['M']) $mnt = $date['M'];
         if ($date['Y']) $year = $date['Y'];
+
+        // if we have day we need mon, and if we have mon we need year
+        if ( ( $date['d'] && ! $date['M'] ) ||
+             ( $date['d'] && ! $date['Y'] ) ||
+             ( $date['M'] && ! $date['Y'] ) ) {
+            return false;
+        }
 
         if ( ! empty( $day ) || ! empty( $mnt ) || ! empty( $year ) ) {
             return checkdate( $mnt, $day, $year );

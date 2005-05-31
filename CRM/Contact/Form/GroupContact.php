@@ -59,8 +59,8 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
     function preProcess( ) 
     {
 
-        $this->_contactId   = $this->get('contactId');
-        $this->_groupContactId    = $this->get('groupContactId');
+        $this->_contactId      = $this->get('contactId');
+        $this->_groupContactId = $this->get('groupContactId');
     }
 
     /**
@@ -99,26 +99,23 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $aGroup = $aGroupContact = array ();
         // get the list of all the groups
-        $aGroup = CRM_Contact_BAO_GroupContact::getGroupList();
+        $allGroups = CRM_Core_PseudoConstant::group( );
 
         // get the list of groups for the contact
-        $aGroupContact = CRM_Contact_BAO_GroupContact::getGroupList($this->_contactId);
+        $currentGroups = CRM_Contact_BAO_GroupContact::getGroupList($this->_contactId);
         
-        if (is_array($aGroupContact)) {
-            $aGrouplist = array_diff ($aGroup,$aGroupContact);
+        if ( is_array( $currentGroups ) ) {
+            $groupList = array_diff( $allGroups, $currentGroups );
         } else {
-            $aGrouplist = $aGroup;
+            $groupList = $allGroups;
         }
 
-        $aGrouplist[0] = "- select group -" ;
+        $groupList[0] = "- select group -" ;
+        asort($groupList);
 
-        asort($aGrouplist);
-
-        if (count($aGrouplist) > 1) {
-            $this->addElement('select', 'group_id', 'Add to a group', $aGrouplist );
-            $this->addElement('checkbox', 'antichk', 'Anti-spam \'disclaimer\' (tbd)');
+        if ( count( $groupList ) > 1 ) {
+            $this->addElement('select'  , 'group_id', 'Add to a group', $groupList );
             
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
@@ -141,9 +138,9 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         $params = $this->exportValues();
         
         $params['contact_id'] = $this->_contactId;
-        $params['status'] = "In";
-        $params['in_method'] = "Admin";
-        $params['in_date'] = date("Ymd");
+        $params['status']     = 'In';
+        $params['in_method']  = 'Admin';
+        $params['in_date']    = date('Ymd');
         
         CRM_Contact_BAO_GroupContact::add($params);
        

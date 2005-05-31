@@ -90,6 +90,27 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
         return 'reset=1&action=browse';
     }
 
+    /**
+     * make sure that the user has permission to access this group
+     *
+     * @param int $id   the id of the object
+     * @param int $name the name or title of the object
+     *
+     * @return string   the permission that the user has (or null)
+     * @access public
+     */
+    function checkPermission( $id, $title ) {
+        if ( user_access( 'edit ' . $title ) ) {
+            return 'edit';
+        }
+
+        if ( user_access( 'view ' . $title ) ) {
+            return 'view';
+        } 
+        
+        return null;
+    }
+
 }
 
 ?>

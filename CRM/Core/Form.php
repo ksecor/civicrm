@@ -112,8 +112,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      */
 
     function __construct($state = null, $action = CRM_Core_Action::NONE ) {
-        //$this->_name  = CRM_Utils_String::getClassName( get_class( $this ) );
-        $this->_name  = CRM_Utils_System::getClassName($this);
+        $this->_name  = CRM_Utils_String::getClassName( CRM_Utils_System::getClassName($this) );
         $this->HTML_QuickForm_Page( $this->_name );
     
         $this->_state   = $state;

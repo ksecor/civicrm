@@ -220,11 +220,6 @@ class CRM_Core_Page {
      * @access public
      */
     function getTemplateFileName() {
-        
-        $templateFileName = CRM_Utils_System::classNameToFile($this->_name, false);
-        
-        CRM_Core_Error::debug_var('templateFileName', $templateFileName);
-
         return CRM_Utils_System::classNameToFile($this->_name, false);
     }
 

@@ -75,7 +75,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     function searchQuery(&$fv, $offset, $rowCount, $sort, $count = false, $includeContactIds = false)
     {
-        $strSelect = $strFrom = $strWhere = $strOrder = $strLimit = '';
+        $strSelect = $strFrom = $where = $order = $limit = '';
 
         // stores all the "AND" clauses
         $andArray = array();
@@ -276,28 +276,28 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         // final AND ing of the entire query.
         foreach ($andArray as $v) {
-            $strWhere .= " AND ($v) ";
+            $where .= " AND ($v) ";
         }
 
-        $strWhere = preg_replace("/AND|OR/", "WHERE", $strWhere, 1);
+        $where = preg_replace("/AND|OR/", "WHERE", $where, 1);
 
-        if ( empty( $strWhere ) ) {
-            $strWhere = ' WHERE ' . CRM_Core_Drupal::groupClause( ) . ' ';
+        if ( empty( $where ) ) {
+            $where = ' WHERE ' . CRM_Core_Drupal::groupClause( ) . ' ';
         } else {
-            $strWhere = $strWhere . ' AND ' . CRM_Core_Drupal::groupClause( ) . ' ';
+            $where = $where . ' AND ' . CRM_Core_Drupal::groupClause( ) . ' ';
         }
 
         if (!$count) {
             if ($sort) {
-                $strOrder = " ORDER BY " . $sort->orderBy(); 
+                $order = " ORDER BY " . $sort->orderBy(); 
             }
             if ( $rowCount > 0 ) {
-                $strLimit = " LIMIT $offset, $rowCount ";
+                $limit = " LIMIT $offset, $rowCount ";
             }
         }
 
         // building the query string
-        $queryString = $strSelect . $strFrom . $strWhere . $strOrder . $strLimit;
+        $queryString = $strSelect . $strFrom . $where . $order . $limit;
 
         $this->query($queryString);
 

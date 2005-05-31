@@ -85,8 +85,8 @@ class CRM_Contact_Page_GroupContact {
 
         $controller->reset( );
 
-        $controller->set( 'contactId'  , $page->getContactId( ) );
-        $controller->set( 'groupId'   , $groupId );
+        $controller->set( 'contactId', $page->getContactId( ) );
+        $controller->set( 'groupId'  , $groupId );
  
         $controller->process( );
         $controller->run( );
