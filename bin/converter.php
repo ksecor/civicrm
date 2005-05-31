@@ -41,9 +41,11 @@ class PHP_DownGrade {
       
         $this->staticcount=0;
         
-        $this->statvar = array( );
-        $this->filenames = array( );
-        $this->filecount =0;
+        $this->statvar    = array( );
+        $this->filenames  = array( );
+        $this->classarray = array( );
+        $this->filecount  = 0;
+        $this->classcount = 0;
 
        
         foreach(array_keys($this->tokens) as $i) {
@@ -349,6 +351,8 @@ class PHP_DownGrade {
                     $i++;
                 }
                 $class = $this->tokens[$i][1];
+                $this->classarray[$this->classcount]=$class;
+                $this->classcount++;
                 $i++;
                 break;
 
@@ -454,17 +458,19 @@ class PHP_DownGrade {
     
     function toString() 
     {
+        
         //for include files  
         $flag = 0;
         for($j=0;$j<count($this->tokens);$j++)
             {
+               
                 if(strcmp($this->tokens[$j][1],"::")==0)
                     {
                         $back=$j;
-                        while($this->tokens[$back][0]!=T_STRING)
+                        while($this->tokens[$back][0]=="")
                             $back--;
                         
-                       
+                        $back--;
                         for($f=0;$f<count($this->filenames);$f++)
                             {
                                 if(strcmp($this->tokens[$back][1],$this->filenames[$f])==0)
@@ -473,8 +479,8 @@ class PHP_DownGrade {
                         
                         if($flag==0)
                             {
-                                //    echo $this->tokens[$back][1];
-                                //if(strcmp($this->tokens[$back][1],"self")!=0 && strcmp($this->tokens[$back][1],"parent")!=0)
+                               
+                                if(strcmp($this->tokens[$back][1],"parent")!=0)
                                     { 
                                         $this->filenames[$this->filecount]=$this->tokens[$back][1];
                                         $this->filecount++;
@@ -483,7 +489,7 @@ class PHP_DownGrade {
                         $flag = 0;
                     }
                 
-                if(strcmp($this->tokens[$j][1],"extends")==0)
+                if(strcmp($this->tokens[$j][1],"extends")==0 ||strcmp($this->tokens[$j][1],"new")==0)
                     {
                         $back=$j;
                         while($this->tokens[$back][0]!=T_STRING)
@@ -498,18 +504,19 @@ class PHP_DownGrade {
                         
                         if($flag==0)
                             {
-                                //    echo $this->tokens[$back][1];
+                                //echo $this->tokens[$back][1];
                                 $this->filenames[$this->filecount]=$this->tokens[$back][1];
                                 $this->filecount++;
                                 
                             }
                         $flag = 0;
                     }
+
                 
                 
             }
 
-        print_r($this->filenames);
+         print_r($this->filenames);
        
         //to remove interface defination.
         for($j=0;$j<count($this->tokens);$j++)
@@ -627,6 +634,20 @@ class PHP_DownGrade {
                         }
                     }
                 }
+                $ret.="\n";
+                foreach($this->filenames as $file)
+                    {
+                        foreach($this->classarray as $class)
+                            {
+                                if($class!=$file)
+                                    {
+                                $file=str_replace("_","/",$file);
+                                $file="require_once '".$file.".php"."';";
+                                // echo "\n".$file;
+                                $ret.=$file."\n";
+                                    }
+                            }
+                    }
             }
         
          
