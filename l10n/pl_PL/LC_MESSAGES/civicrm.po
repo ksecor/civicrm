@@ -80,3 +80,6 @@ msgstr ""
 msgid "Relationships"
 msgstr "Powiązania"
 
+msgid "Relationship Types"
+msgstr "Rodzaje powiązań"
+
