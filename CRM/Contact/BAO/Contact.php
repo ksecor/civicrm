@@ -101,7 +101,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                         LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
                         LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
                         LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
-                        LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
+                        LEFT JOIN crm_country ON crm_address.country_id = crm_country.id 
+                        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
 
         /*
          * sample formValues for query 
@@ -155,28 +156,13 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         
         // check for group restriction
         if ($fv['cb_group']) {
-            $andArray['group'] = "(group_id IN (";
-            foreach ($fv['cb_group']  as $k => $v) {
-                // going with the OR case for this version
-                // i.e. it'll select all contacts who are members of group 1 OR group 2
-                // if we want all contacts who are members of group 1 AND group 2 then'll
-                // we'll have to use self joins
-                $andArray['group'] .= "$k,"; 
-            }
-            $andArray['group'] = rtrim($andArray['group'], ",");
-            $andArray['group'] .= "))";
+            $andArray['group'] = "(group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
             $andArray['groupStatus'] = 'crm_group_contact.status = "In"';
-            $strFrom .= " LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
         }
 
         // check for tag restriction
         if ($fv['cb_tag']) {
-            $andArray['tag'] .= "(tag_id IN (";
-            foreach ($fv['cb_tag'] as $k => $v) {
-                $andArray['tag'] .= "$k,"; 
-            }
-            $andArray['tag'] = rtrim($andArray['tag'], ",");
-            $andArray['tag'] .= "))"; 
+            $andArray['tag'] .= "(tag_id IN (" . implode( ',', array_keys($fv['cb_tag']) ) . '))';
             $strFrom .= " LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id ";
         }
 
@@ -239,7 +225,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $andArray['country'] = " crm_address.country_id = " . $fv['country'];
         }
 
-
         // postal code processing
         if ($fv['postal_code'] || $fv['postal_code_low'] || $fv['postal_code_high']) {
 
@@ -281,12 +266,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         if ( $fv['cb_location_type'] ) {
             // processing for location type - check if any locations checked
-            $andArray['location_type'] = "(crm_location.location_type_id IN (";
-            foreach ($fv['cb_location_type']  as $k => $v) {
-                $andArray['location_type'] .= "$k,"; 
-            }
-            $andArray['location_type'] = rtrim($andArray['location_type'], ",");
-            $andArray['location_type'] .= "))";
+            $andArray['location_type'] = "(crm_location.location_type_id IN (" . implode( ',', array_keys($fv['cb_location_type']) ) . '))';
         }
         
         // processing for primary location
@@ -300,6 +280,12 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
 
         $strWhere = preg_replace("/AND|OR/", "WHERE", $strWhere, 1);
+
+        if ( empty( $strWhere ) ) {
+            $strWhere = ' WHERE ' . CRM_Core_Drupal::groupClause( ) . ' ';
+        } else {
+            $strWhere = $strWhere . ' AND ' . CRM_Core_Drupal::groupClause( ) . ' ';
+        }
 
         if (!$count) {
             if ($sort) {

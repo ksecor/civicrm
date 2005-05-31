@@ -257,7 +257,31 @@ class CRM_Core_PseudoConstant {
     }
 
     /**
-     * Get all groups from database.
+    * Get all groups from database
+    *
+    * The static array group is returned, and if it's
+    * called the first time, the <b>Group DAO</b> is used
+    * to get all the groups.
+    *
+    * Note: any database errors will be trapped by the DAO.
+    *
+    * @access public
+    * @static
+    *
+    * @param none
+    * @return array - array reference of all groups.
+    *
+    */
+    public static function &allGroup()
+    {
+        if (!self::$group) {
+            self::populate( self::$group, 'CRM_Contact_DAO_Group', true, 'title' );
+        }
+        return self::$group;
+    }
+
+    /**
+     * Get all permissioned groups from database
      *
      * The static array group is returned, and if it's
      * called the first time, the <b>Group DAO</b> is used 
@@ -274,10 +298,7 @@ class CRM_Core_PseudoConstant {
      */
     public static function &group()
     {
-        if (!self::$group) {
-            self::populate( self::$group, 'CRM_Contact_DAO_Group', true, 'title' );
-        }
-        return self::$group;
+        return CRM_Core_Drupal::group( );
     }
 
 

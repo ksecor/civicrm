@@ -191,41 +191,20 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             }
         }
 
-        $contact = new CRM_Contact_BAO_Contact();
+        $contact     = new CRM_Contact_BAO_Contact();
         $contact->id = $contactId;
         if ( $contact->find(true) ) {
-            $contactSuffix = trim( $contactSuffix );
             foreach ($allRelationshipType as $key => $value) {
-
-                if ( $value['name_a_b']       != $value['name_b_a']       &&
-                     $value['contact_type_a'] == $value['contact_type_b'] &&
-                     $value['contact_type_a'] == $contact->contact_type   &&
-                     ( ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) ) {
-                    $relationshipType[ $key . '_a_b' ] = $value['name_a_b'];
-                    $relationshipType[ $key . '_b_a' ] = $value['name_b_a'];
-                    continue;
-                }
-
-                if ( $value['contact_type_a'] == $contact->contact_type &&
-                     ( ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) ) {
-                    if ( ! in_array( $value['name_a_b'], $relationshipType ) ) {
-                        if ( $contactSuffix ) {
-                            $relationshipType[ $key . '_' . $contactSuffix ] = $value[ 'name_a_b' ];
-                        } else {
-                            $relationshipType[ $key . '_a_b' ] = $value[ 'name_a_b' ];
-                        }
-                    }
+                // the cotact type is required or matches
+                if ( ( ( ! $value['contact_type_a'] ) || $value['contact_type_a'] == $contact->contact_type ) &&
+                     // the other contact type is required or present or matches
+                     ( ( ! $value['contact_type_b'] ) || ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) ) {
+                    $relationshipType[ $key . '_a_b' ] = $value[ 'name_a_b' ];
                 } 
                 
-                if ( $value['contact_type_b'] == $contact->contact_type &&
-                     ( ( ! $otherContactType ) || $value['contact_type_a'] == $otherContactType ) ) {
-                    if ( ! in_array( $value['name_b_a'], $relationshipType ) ) {
-                        if ( $contactSuffix ) {
-                            $relationshipType[ $key . '_' . $contactSuffix ] = $value[ 'name_b_a' ];
-                        } else {
-                            $relationshipType[ $key . '_b_a' ] = $value[ 'name_b_a' ];
-                        }
-                    }
+                if ( ( ( ! $value['contact_type_b'] ) || $value['contact_type_b'] == $contact->contact_type ) &&
+                     ( ( ! $value['contact_type_a'] ) || ( ! $otherContactType ) || $value['contact_type_a'] == $otherContactType ) ) {
+                    $relationshipType[ $key . '_b_a' ] = $value[ 'name_b_a' ];
                 }
             }
 
@@ -312,13 +291,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $relationshipType->selectAdd('contact_type_a, contact_type_b');
         $relationshipType->find(true);
         
-        $relationshipTypeArray1 = array($relationshipType->contact_type_a, $relationshipType->contact_type_b );
-        
         $contact_type_a = CRM_Contact_BAO_Contact::getContactType( $contact_a );
         $contact_type_b = CRM_Contact_BAO_Contact::getContactType( $contact_b );
 
-        return ( $relationshipType->contact_type_a == $contact_type_a &&
-                 $relationshipType->contact_type_b == $contact_type_b ) ? true : false;
+        if ( ( ( ! $relationshipType->contact_type_a ) || ( $relationshipType->contact_type_a == $contact_type_a ) ) &&
+             ( ( ! $relationshipType->contact_type_b ) || ( $relationshipType->contact_type_b == $contact_type_b ) ) ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

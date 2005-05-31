@@ -182,6 +182,17 @@ class CRM_Core_Action {
      * @static
      */
     static function formLink( &$links, $mask, $values ) {
+        // this is quite since we do it for every row, we can optimize by moving it out of the
+        // loop
+        $mode = CRM_Core_Drupal::getMode( );
+        if ( $mode == 'view' ) {
+            if ( $mask ) {
+                $mask = $mask & ( self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE );
+            } else {
+                $mask = self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE;
+            }
+        }
+
         $url = array( );
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {

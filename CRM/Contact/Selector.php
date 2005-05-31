@@ -256,8 +256,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
-                $row['action'] = CRM_Core_Action::formLink( self::links(), null, array( 'id' => $result->contact_id ) );
-                $contact_type  = '<img src="' . $config->resourceBase . 'i/contact_';
+                $row['action']   = CRM_Core_Action::formLink( self::links(), null, array( 'id' => $result->contact_id ) );
+                $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {
                 case 'Individual' :
                     $contact_type .= 'ind.gif" alt="Individual">';
@@ -268,7 +268,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 case 'Organization' :
                     $contact_type .= 'org.gif" alt="Organization" height="16" width="18">';
                     break;
-                    
                 }
                 $row['contact_type'] = $contact_type;
             }
