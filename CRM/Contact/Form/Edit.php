@@ -243,7 +243,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         $config  = CRM_Core_Config::singleton( );
-        CRM_Core_ShowHideBlocks::links( $this, 'notes', '<img src="'.$config->resourceBase.'i/TreePlus.gif" class="action-icon" alt="open section">' , '<img src="'.$config->resourceBase.'i/TreeMinus.gif" class="action-icon" alt="close section">' );
+        CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
             
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -311,7 +311,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $form->addGroup($privacy, 'privacy', 'Privacy');
 
         // preferred communication method 
-        $form->add('select', 'preferred_communication_method', 'Prefers:', CRM_Core_SelectValues::$pcm);
+        $form->add('select', 'preferred_communication_method', 'Prefers', CRM_Core_SelectValues::$pcm);
     }
 
 

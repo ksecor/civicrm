@@ -3,7 +3,7 @@
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 {* @var location.$index Contains the current location id, and assigned in the Location.tpl file *}
  
-<fieldset>
+<fieldset><legend>{ts}Mailing Address{/ts}</legend>
 <div class="form-item">
     <span class="labels">
     {$form.location.$index.address.street_address.label}

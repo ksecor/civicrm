@@ -2,10 +2,9 @@
  
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 {* @var location.$index Contains the current location id, assigned in the Location.tpl file *}
-{* @var $blockCount Contains the max number of IM field sets to offer. *} 
+{* @var $blockCount Contains the max number of im field sets to offer. *} 
 
-<fieldset>
-	<!----------- Display Primary IM BLOCK ----------->	
+	<!----------- Display Primary im BLOCK ----------->	
     <div class="form-item">
         <span class="labels">
             {$form.location.$index.im.1.provider_id.label}
@@ -13,7 +12,11 @@
         <span class="fields">
             {$form.location.$index.im.1.provider_id.html}
             {$form.location.$index.im.1.name.html}
-            <div class="description font-italic">Select IM service provider, and enter screen-name / user id.</div>
+            <div class="description font-italic">Select im service provider, and enter screen-name / user id.</div>
+            <!-- Link to add a field.-->
+            <span id="location[{$index}][im][2][show]" class="add-remove-link">
+                {$form.location.$index.im.2.show.html}
+            </span>
         </span>
     </div>
     <!-- Spacer div contains floated elements -->
@@ -22,12 +25,7 @@
     {section name = innerLoop start = 2 loop = $blockCount}
        {assign var=innerIndex value=$smarty.section.innerLoop.index}
 
-    <!-- Link to EXPAND Additional IM block -->
-       <div id="location[{$index}][im][{$innerIndex}][show]" class="show-section">
-        {$form.location.$index.im.$innerIndex.show.html}
-       </div>
-
-    <!-- Display Additional IM block fields -->
+    <!--  im block {$innerIndex} -->
     <div id="location[{$index}][im][{$innerIndex}]" class="form-item">
         <span class="labels">
             {$form.location.$index.im.$innerIndex.provider_id.label}
@@ -35,15 +33,20 @@
         <span class="fields">
             {$form.location.$index.im.$innerIndex.provider_id.html}
             {$form.location.$index.im.$innerIndex.name.html}
+            <!-- Link to add another field.-->
+            {if $innerIndex LT $blockCount}
+            {assign var=j value=$innerIndex+1}
+            <div id="location[{$index}][im][{$j}][show]" class="add-remove-link">
+                {$form.location.$index.im.$j.show.html}
+            </div>
+            {/if}
+        </span>
+		<!-- Link to hide this field -->
+        <span id="location[{$index}][im][{$innerIndex}][hide]" class="add-remove-link element-right">
+            {$form.location.$index.im.$innerIndex.hide.html}
         </span>
         <!-- Spacer div contains floated elements -->
         <div class="spacer"></div>
 
-        <!-- Link to hide this IM block -->
-       <div id="location[{$index}][im][{$innerIndex}][hide]" class="hide-section">
-        {$form.location.$index.im.$innerIndex.hide.html}
-       </div>
-
     </div>
     {/section}
-</fieldset>

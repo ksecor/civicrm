@@ -8,11 +8,9 @@
  {section name = locationLoop start = 1 loop = $locationCount}
  {assign var=index value=$smarty.section.locationLoop.index}
 
-{if $index > 1}
  <div id="location[{$index}][show]" class="data-group label">
-    {$form.location.$index.show.html} Additional Location
+    {$form.location.$index.show.html} {if $index EQ 1}{ts}Primary Location{/ts}{else}{ts}Additional Location{/ts}{/if}
  </div>
-{/if}
 
 <div id="location[{$index}]">
 	<fieldset>
@@ -28,27 +26,19 @@
 
     </div>
 
-    <div>
-        {* Display the phone block(s) *}
-        {include file="CRM/Contact/Form/Phone.tpl"}
-    </div>
+    {* Display the phone block(s) *}
+    {include file="CRM/Contact/Form/Phone.tpl"}
 
-    <div>
-        {* Display the email block(s) *}
-        {include file="CRM/Contact/Form/Email.tpl"}
-    </div>
+    {* Display the email block(s) *}
+    {include file="CRM/Contact/Form/Email.tpl"}
 
-    <div>
-        {* Display the instant messenger block(s) *}
-        {include file="CRM/Contact/Form/IM.tpl"}
-    </div>
- 
-    <div>
-        {* Plugging the address block *}
-        {include file="CRM/Contact/Form/Address.tpl"} 
-    <div>
+    {* Display the instant messenger block(s) *}
+    {include file="CRM/Contact/Form/IM.tpl"}
 
-   </fieldset>
+    {* Display the address block *}
+    {include file="CRM/Contact/Form/Address.tpl"} 
+
+    </fieldset>
 </div> <!-- End of Location block div -->
 {/section}
 

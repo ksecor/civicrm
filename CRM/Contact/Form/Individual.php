@@ -67,10 +67,10 @@ class CRM_Contact_Form_Individual {
         $form->addElement('select', 'suffix', null, CRM_Core_SelectValues::$suffixName);
         
         // greeting type
-        $form->addElement('select', 'greeting_type', ts('Greeting type:'), CRM_Core_SelectValues::$greeting);
+        $form->addElement('select', 'greeting_type', ts('Greeting type'), CRM_Core_SelectValues::$greeting);
         
         // job title
-        $form->addElement('text', 'job_title', ts('Job title:'), $attributes['job_title']);
+        $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title']);
         
         // radio button for gender
         $genderOptions = array( );
@@ -85,7 +85,7 @@ class CRM_Contact_Form_Individual {
         $form->addRule('birth_date', ts('Select a valid date.'), 'qfDate');
 
         $config = CRM_Core_Config::singleton();
-        CRM_Core_ShowHideBlocks::links($this, 'demographics', '<img src="' . $config->resourceBase . 'i/TreePlus.gif" class="action-icon" alt="' . ts('open section') . '">' , '<img src="' . $config->resourceBase . 'i/TreeMinus.gif" class="action-icon" alt="' . ts('close section') . '">');
+        CRM_Core_ShowHideBlocks::links($this, 'demographics', '' , '');
     }
 
     static function formRule( &$fields ) {

@@ -41,22 +41,21 @@
  * @access public
  * @param formname Name of the form.
  * @param locid Serial number of the location block.
+ * @param maxLocs How many location blocks are offered
  * @return none
  */
-function location_is_primary_onclick(formname, locid) {
+function location_is_primary_onclick(formname, locid, maxLocs) {
+    if (locid == 1) {
+        // don't need to confirm selecting 1st location as primary
+        return;
+    }
+    
     var changedKey = 'location[' + locid + '][is_primary]';
-    switch(locid) {
-
-    case 1: 
-        var notPrimary = new Array(2,3); 
-    break;
-            
-    case 2: 
-        var notPrimary = new Array(1,3);
-    break;
-	
-    case 3:  
-        var notPrimary = new Array(1,2);
+    var notPrimary = [];
+    for (var j = 1; j <= maxLocs; j++) {
+        if (j != locid) {
+            notPrimary.push(j);
+        }
     }
 
     if (document.forms[formname].elements[changedKey].checked) {

@@ -5,21 +5,21 @@
 <fieldset><legend>Communication Preferences</legend>
 <div class="form-item">
     <span class="labels">
-    <label>Privacy:</label>
+        {$form.privacy.label}
     </span>
     <span class="fields">
-    {$form.privacy.html}
+        {$form.privacy.html}
     </span>
 </div>
 
 <div class="form-item">
     <span class="labels">
-    <label>
-    {$form.preferred_communication_method.label}
+        {$form.preferred_communication_method.label}
     </span>
     <span class="fields">
-    {$form.preferred_communication_method.html}
-    </label>
+        <label>
+        {$form.preferred_communication_method.html}
+        </label>
     <div class="description font-italic">Select the preferred method of communicating with this contact.</div>
     </span>
 </div>

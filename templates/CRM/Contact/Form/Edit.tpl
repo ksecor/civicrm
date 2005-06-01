@@ -11,7 +11,7 @@
  <div id="name">
  <fieldset><legend>Name and Greeting</legend>
     <div class="form-item">
-        <span class="labels"><label>First/Last:</label></span>
+        <span class="labels"><label>First/Last</label></span>
         <span class="fields">
             {$form.prefix.html}
             {$form.first_name.html}
@@ -44,17 +44,15 @@
 {elseif $contact_type eq 'Household'}
 <div id="name">
  <fieldset><legend>Household</legend>
-    <!-- <div class="spacer"></div> -->
-
     <div class="form-item">
-        <span class="labels"><label>{$form.household_name.label}</label></span>
+        <span class="labels">{$form.household_name.label}</span>
         <span class="fields">
             {$form.household_name.html}
         </span>
     </div>
 
     <div class="form-item">
-        <span class="labels"><label>{$form.nick_name.label}</label></span>
+        <span class="labels">{$form.nick_name.label}</span>
         <span class="fields">
             {$form.nick_name.html}
         </span>
@@ -67,30 +65,29 @@
 {elseif $contact_type eq 'Organization'}
 <div id="name">
  <fieldset><legend>Organization</legend>
-    <!-- <div class="spacer"></div> -->
     <div class="form-item">
-        <span class="labels"><label>{$form.organization_name.label}</label></span>
+        <span class="labels">{$form.organization_name.label}</span>
         <span class="fields">
             {$form.organization_name.html}
         </span>
     </div>
 
     <div class="form-item">
-        <span class="labels"><label>{$form.legal_name.label}</label></span>
+        <span class="labels">{$form.legal_name.label}</span>
         <span class="fields">
             {$form.legal_name.html}
         </span>
     </div>
 
     <div class="form-item">
-        <span class="labels"><label>{$form.nick_name.label}</label></span>
+        <span class="labels">{$form.nick_name.label}</span>
         <span class="fields">
             {$form.nick_name.html}
         </span>
     </div>
 
     <div class="form-item">
-        <span class="labels"><label>{$form.sic_code.label}</label></span>
+        <span class="labels">{$form.sic_code.label}</span>
         <span class="fields">
             {$form.sic_code.html}
         </span>
@@ -105,12 +102,12 @@
  {include file="CRM/Contact/Form/Location.tpl"}
 
 {if $contact_type eq 'Individual'}
- <div id = "demographics[show]" class="data-group">
-    {$demographics.show}<label>Demographics</label>
+ <div id = "demographics[show]" class="data-group label">
+    {$demographics.show}{ts}Demographics{/ts}
  </div>
 
  <div id="demographics">
- <fieldset><legend>{$demographics.hide}Demographics</legend>
+ <fieldset><legend>{$demographics.hide}{ts}Demographics{/ts}</legend>
     <div class="form-item">
         <span class="labels">
         {$form.gender.label}
