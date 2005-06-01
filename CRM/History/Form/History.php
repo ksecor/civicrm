@@ -35,13 +35,13 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * This class generates form components for Activities
+ * This class generates form components for History
  * 
  */
-class CRM_Activity_Form_Activity extends CRM_Core_Form
+class CRM_History_Form_History extends CRM_Core_Form
 {
     /**
-     * The table name, used when editing/creating an activity
+     * The table name, used when editing/creating an history
      *
      * @var string
      * @access protected
@@ -49,7 +49,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
     protected $_tableName;
 
     /**
-     * The table id, used when editing/creating an activity
+     * The table id, used when editing/creating an history
      *
      * @var int
      * @access protected
@@ -57,12 +57,12 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
     protected $_tableId;
     
     /**
-     * The activity table id, used when editing the activity
+     * The history table id, used when editing the history
      *
      * @var int
      * @access protected
      */
-    protected $_activityTableId;
+    protected $_historyTableId;
 
     
     /**
@@ -81,7 +81,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
         $this->_tableName = $this->get('tableName');
         $this->_tableId   = $this->get('tableId');
-        $this->_activityTableId  = $this->get('activityTableId');
+        $this->_historyTableId  = $this->get('historyTableId');
 
         //CRM_Core_Error::ll_method();
     }
@@ -97,9 +97,9 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
     function setDefaultValues()
     {
         $defaults = array();
-        if (isset($this->_activityTableId)) {
-            $params = array('id' => $this->_activityTableId);
-            CRM_Core_BAO_Activity::retreive($params, $defaults);
+        if (isset($this->_historyTableId)) {
+            $params = array('id' => $this->_historyTableId);
+            CRM_Core_BAO_History::retreive($params, $defaults);
         }
         return $defaults;
     }
@@ -114,11 +114,11 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
     public function buildQuickForm()
     {
         // form elements
-        $this->add('text', 'activity_type', ts('Activity Type'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Activity', 'activity_type'));
-        $this->add('text', 'module', ts('Module'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Activity', 'module'));
-        $this->add('text', 'callback', ts('Callback'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Activity', 'callback'));
-        $this->add('text', 'activity_id', ts('Activity ID'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Activity', 'activity_id'), true);
-        $this->add('text', 'activity_summary', ts('Activity Summary'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Activity', 'activity_summary'));
+        $this->add('text', 'activity_type', ts('Activity Type'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_History', 'activity_type'));
+        $this->add('text', 'module', ts('Module'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_History', 'module'));
+        $this->add('text', 'callback', ts('Callback'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_History', 'callback'));
+        $this->add('text', 'activity_id', ts('Activity ID'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_History', 'activity_id'), true);
+        $this->add('text', 'activity_summary', ts('Activity Summary'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_History', 'activity_summary'));
         $this->add('date', 'activity_date', ts('Activity Date'), CRM_Core_SelectValues::date('relative'));
 
         // some rules
@@ -149,27 +149,19 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->exportValues();
 
-        // CRM_Core_Error::debug_var('params', $params);
-
-        // populate activity DAO and save it
-        $activity = new CRM_Core_DAO_Activity();
-        $activity->id               = $this->_activityTableId;
-        $activity->entity_table     = $this->_tableName;
-        $activity->entity_id        = $this->_tableId;
-        $activity->activity_type    = $params['activity_type'];
-        $activity->module           = $params['module'];
-        $activity->callback         = $params['callback'];
-        $activity->activity_id      = $params['activity_id'];
-        $activity->activity_summary = $params['activity_summary'];
-
-        // need to pad Month and day
-        //$params['activity_date']['M'] = ($params['activity_date']['M'] < 10) ? '0' . $params['activity_date']['M'] : $params['activity_date']['M'];
-        //$params['activity_date']['d'] = ($params['activity_date']['d'] < 10) ? '0' . $params['activity_date']['d'] : $params['activity_date']['d'];
-
-        //$activity->activity_date    = $params['activity_date']['Y'] . $params['activity_date']['M'] . $params['activity_date']['d']; 
-        $activity->activity_date  = CRM_Utils_Date::format($params['activity_date']);
-        $activity->save();
-        CRM_Core_Session::setStatus(ts("Your Activity has been saved."));
+        // populate history DAO and save it
+        $historyDAO = new CRM_Core_DAO_History();
+        $historyDAO->id               = $this->_historyTableId;
+        $historyDAO->entity_table     = $this->_tableName;
+        $historyDAO->entity_id        = $this->_tableId;
+        $historyDAO->activity_type    = $params['activity_type'];
+        $historyDAO->module           = $params['module'];
+        $historyDAO->callback         = $params['callback'];
+        $historyDAO->activity_id      = $params['activity_id'];
+        $historyDAO->activity_summary = $params['activity_summary'];
+        $historyDAO->activity_date  = CRM_Utils_Date::format($params['activity_date']);
+        $historyDAO->save();
+        CRM_Core_Session::setStatus(ts("Your History has been saved."));
     }
 }
 
