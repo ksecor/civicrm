@@ -113,12 +113,14 @@ class CRM_Core_Selector_Base {
      */
     function &getSortOrder( $action ) {
         $columnHeaders =& $this->getColumnHeaders( null );
+
         if ( ! isset( $this->_order ) ) {
             $this->_order = array( );
             $start  = 2;
             $firstElementNotFound = true;
             //foreach ( $columnHeaders as &$header ) {
-            foreach ( $columnHeaders as $header ) {
+            foreach ( $columnHeaders as $key => $header ) {
+                $header = & $columnHeaders[$key]; 
                 if ( array_key_exists( 'sort', $header ) ) {
                     if ( $firstElementNotFound && $header['direction'] != CRM_UTILS_SORT_DONTCARE ) {
                         $this->_order[1] =& $header;

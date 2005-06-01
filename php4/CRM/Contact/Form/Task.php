@@ -79,7 +79,10 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
         }
         
         $this->_task = $values['task'];
-        $this->assign( 'taskName', CRM_Contact_Task::$tasks[$this->_task] );
+        //$this->assign( 'taskName', CRM_Contact_Task::$tasks[$this->_task] );
+        
+        $this->assign( 'taskName', $GLOBALS['_CRM_CONTACT_TASK']['tasks'][$this->_task] );
+
 
         // all contacts or action = save a search
         if (($values['radio_ts'] == 'ts_all') || ($this->_task == CRM_CONTACT_TASK_SAVE_SEARCH)) {

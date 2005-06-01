@@ -2,7 +2,7 @@
 
 
 global $user_home;
-$user_home = '/home/anil/svn/crm/php4/';
+$user_home = '/home/kurund/svn/crm/php4/';
 
 define( 'CRM_SMARTYDIR' , $user_home . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR );
 define( 'CRM_HTTPBASE'    , '/drupal/'                     );

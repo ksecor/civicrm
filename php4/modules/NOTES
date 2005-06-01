@@ -71,9 +71,42 @@
 30 - Parse error: parse error, unexpected '&', expecting T_VARIABLE or '$' in /home/anil/svn/crm/php4/CRM/Core/Selector/Base.php on line 120
 
 
+Following error after commenting the call to drupal BAO. 
+
+1 - Parse error: parse error, unexpected T_STATIC, expecting T_OLD_FUNCTION or T_FUNCTION or T_VAR or '}' in /home/kurund/svn/crm/php4/CRM/Contact/Task.php on line 58
+
+2 - Parse error: parse error, unexpected ')', expecting '(' in /home/kurund/svn/crm/php4/CRM/Contact/Form/Task.php on line 82
+
+3 - Fatal error: Cannot instantiate non-existent class: crm_core_quickform_action_display in /home/kurund/svn/crm/php4/CRM/Core/Controller.php on line 203
+
+4 - Fatal error: Call to a member function on a non-object in /home/kurund/svn/crm/php4/CRM/Core/Form.php on line 524
 
 
+5 - Could not find a valid sort directional element
 
+BT
+
+Array
+(
+    [0] => Array
+        (
+            [file] => /home/kurund/svn/crm/php4/CRM/Core/Selector/Base.php
+            [line] => 132
+            [function] => fatal
+            [class] => crm_core_error
+            [type] => ::
+        )
+
+    [1] => Array
+        (
+            [file] => /home/kurund/svn/crm/php4/CRM/Core/Selector/Controller.php
+            [line] => 211
+            [function] => getsortorder
+            [class] => crm_contact_selector
+            [type] => ->
+        )
+
+6. Fatal error: Unsupported operand types in /home/kurund/svn/crm/php4/CRM/Contact/Form/Search.php on line 287
 
 ================== RUNTIME =================================
 

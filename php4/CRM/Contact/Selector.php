@@ -452,8 +452,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base {
      */
       function &_getColumnHeaders() 
     {
-        if ( ! isset( $GLOBALS['_CRM_CONTACT_SELECTOR']['_columnHeaders'] ) )
-        {
+        //  if ( ! isset( $GLOBALS['_CRM_CONTACT_SELECTOR']['_columnHeaders'] ) )  {
             $GLOBALS['_CRM_CONTACT_SELECTOR']['_columnHeaders'] = array(
                                           array('desc' => ts('Select') ),
                                           array('desc' => ts('Contact Type') ),
@@ -491,7 +490,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base {
                                     array('name' => ts('Phone') ),
                                     array('desc' => ts('Actions') ),
                                     );
-        }
+            //  }
         return $GLOBALS['_CRM_CONTACT_SELECTOR']['_columnHeaders'];
     }
 

@@ -36,6 +36,14 @@
  * used by the search forms
  *
  */
+$GLOBALS['_CRM_CONTACT_TASK']['tasks'] =  array(
+                          1   => 'Add Contacts to a Group',
+                          2   => 'Remove Contacts from a Group',
+                          4   => 'Tag Contacts (assign tags)',
+                          8   => 'Delete Contacts',
+                          16  => 'New Saved Search',
+                          );
+
 define( 'CRM_CONTACT_TASK_GROUP_CONTACTS',1);
 define( 'CRM_CONTACT_TASK_REMOVE_CONTACTS',2);
 define( 'CRM_CONTACT_TASK_TAG_CONTACTS',4);
@@ -55,13 +63,7 @@ class CRM_Contact_Task {
                 
                    
             
-                static $tasks = array(
-                          1   => 'Add Contacts to a Group',
-                          2   => 'Remove Contacts from a Group',
-                          4   => 'Tag Contacts (assign tags)',
-                          8   => 'Delete Contacts',
-                          16  => 'New Saved Search',
-                          );
+                
 
     
 

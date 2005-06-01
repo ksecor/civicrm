@@ -135,9 +135,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->registerRules( );
 
         // let the constructor initialize this, should happen only once
-        if ( ! isset( $GLOBALS['_CRM_CORE_FORM']['_template'] ) ) {
+        //if ( ! isset( $GLOBALS['_CRM_CORE_FORM']['_template'] ) ) {
             $GLOBALS['_CRM_CORE_FORM']['_template'] = CRM_Core_Smarty::singleton( );
-        }
+            //}
     }
 
     /**

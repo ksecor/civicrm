@@ -190,9 +190,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     {
 
         // some tasks.. what do we want to do with the selected contacts ?
-        $tasks = array( '' => '- more actions -' ) + CRM_Contact_Task::$tasks;
+        $tasks = array( '' => '- more actions -' ) + $GLOBALS['_CRM_CONTACT_TASK']['tasks'];
         if ( isset( $this->_ssID ) ) {
-            $tasks = $tasks + CRM_Contact_Task::$optionalTasks;
+            $tasks = $tasks + $GLOBALS['_CRM_CONTACT_TASK']['optionalTasks'];
 
             $savedSearchValues = array( 'id' => $this->_ssID, 'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID ) );
             $this->assign_by_ref( 'savedSearch', $savedSearchValues );
@@ -244,7 +244,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          */
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
-            foreach ( $rows as &$row ) {
+            foreach ( $rows as $row ) {
                 //$this->addElement( 'checkbox', $row['checkbox'] );
                 $this->addElement( 'checkbox', $row['checkbox'], null, null, array( 'onclick' => "return checkSelectedBox('".$row[checkbox]."', '".$this->getName()."');" ) );
             }
@@ -281,10 +281,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         CRM_Core_Error::le_method();
 
-        $this->add('select', 'contact_type', 'Find... ', CRM_Core_SelectValues::$contactType);
+        $this->add('select', 'contact_type', 'Find... ', $GLOBALS['_CRM_CORE_SELECTVALUES']['contactType']);
 
         // add select for groups
         $group               = array('' => ts(' - any group - ')) + $this->_group;
+        
         $this->_groupElement = $this->add('select', 'group', 'in', $group);
 
         // add select for categories
