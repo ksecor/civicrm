@@ -280,12 +280,12 @@ function _crm_update_contact( $contact, $values ) {
  * to ensure that the params are valid
  *
  * @param array  $params       Associative array of property name/value
- *                             pairs to insert in new activity history.
+ *                             pairs to insert in new history.
  *
  * @return bool|CRM_Utils_Error
  * @access public
  */
-function _crm_check_activity_history_params(&$params)
+function _crm_check_history_params(&$params)
 {
     static $required = array('entity_id', 'activity_id');
     
@@ -303,7 +303,7 @@ function _crm_check_activity_history_params(&$params)
     }
 
     if (!$valid) {
-        return _crm_error("Required fields $error not found for activity_history");
+        return _crm_error("Required fields $error not found for history");
     }
     return true;
 }

@@ -23,7 +23,7 @@
 */
 
 /**
- * Definition of the Activity part of the CRM API. 
+ * Definition of the History part of the CRM API. 
  * More detailed documentation can be found 
  * {@link http://objectledge.org/confluence/display/CRM/CRM+v1.0+Public+APIs
  * here}
@@ -57,34 +57,34 @@ require_once 'CRM/Utils/Array.php';
 
 
 /**
- * Create a new Activity History.
+ * Create a new History.
  *
- * Creates a new activity history record and returns the newly created
- * Activity object. Minimum required data values are entity_id,
+ * Creates a new history record and returns the newly created
+ * History object. Minimum required data values are entity_id,
  *                  and activity_id
  *
  * @param array  $params       Associative array of property name/value
- *                             pairs to insert in new activity.
+ *                             pairs to insert in new history.
  *
- * @return CRM_Core_BAO_ActivityHistory|CRM_Error Newly created ActivityHistory object
+ * @return CRM_Core_BAO_History|CRM_Error Newly created History object
  *
  * @access public
  */
-function &crm_create_activity_history(&$params)
+function &crm_create_history(&$params)
 {
     // return error if we do not get any params
     if (empty($params)) {
         return _crm_error("Input Parameters empty");
     }
 
-    $error = _crm_check_activity_history_params($params);
+    $error = _crm_check_history_params($params);
     if ($error instanceof CRM_Core_Error) {
         return $error;
     }
 
     $ids = array();
 
-    $contact = CRM_Core_BAO_ActivityHistory::create($params);
+    $contact = CRM_Core_BAO_History::create($params);
     return $contact;
 }
 
