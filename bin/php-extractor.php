@@ -11,7 +11,7 @@
  *
  * Extracts translatable strings from specified function calls, plus adds some
  * file specific strings. Only literal strings with no embedded variables can
- * be extracted. Outputs a POT file to general.pot, errors on STDERR
+ * be extracted. Outputs a POT file on STDOUT, errors on STDERR
  *
  * @author Jacobo Tarrio <jtarrio [at] alfa21.com>
  * @author Gabor Hojtsy <goba [at] php.net>
@@ -427,9 +427,10 @@ function writeFiles()
         //} else {
         //    $filelist = "No version information was available in the source files.";
         //}
-        $fp = fopen($file, 'w');
-        fwrite($fp, str_replace("--VERSIONS--", $filelist, join("", $content)));
-        fclose($fp);
+        //$fp = fopen($file, 'w');
+        //fwrite($fp, str_replace("--VERSIONS--", $filelist, join("", $content)));
+        print str_replace("--VERSIONS--", $filelist, join("", $content));
+        //fclose($fp);
     }
 
 }
