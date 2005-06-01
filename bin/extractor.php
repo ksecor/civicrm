@@ -15,8 +15,8 @@
  * @license http://affero.org/oagpl.html  Affero General Public License
  */
 
-$phpPot = `find ../CRM -iname "*.php" | xargs ./php-extractor.php`;
-$smartyPot = `./smarty-extractor.php ..`;
+$phpPot = `find CRM -iname "*.php" | sort | xargs ./bin/php-extractor.php`;
+$smartyPot = `find templates -iname "*.tpl" | sort | xargs ./bin/smarty-extractor.php`;
 
 $originalArray = explode("\n", $phpPot . $smartyPot);
 
