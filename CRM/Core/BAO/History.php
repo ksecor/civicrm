@@ -31,13 +31,13 @@
  *
  */
 
-require_once 'CRM/Core/DAO/Activity.php';
+require_once 'CRM/Core/DAO/History.php';
 
 /**
- * Business object for managing activities
+ * Business object for managing history
  *
  */
-class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
+class CRM_Core_BAO_History extends CRM_Core_DAO_History {
 
     /**
      * class constructor
@@ -56,36 +56,36 @@ class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_Activity object
+     * @return object CRM_Core_BAO_History object
      * @access public
      * @static
      */
     static function retrieve(&$params, &$defaults)
     {
-        $activity = new CRM_Core_DAO_Activity();
-        $activity->copyValues($params);
-        if ($activity->find(true)) {
-            $activity->storeValues($defaults);
-            return $activity;
+        $historyDAO = new CRM_Core_DAO_History();
+        $historyDAO->copyValues($params);
+        if ($historyDAO->find(true)) {
+            $historyDAO->storeValues($defaults);
+            return $historyDAO;
         }
         return null;
     }
 
 
     /**
-     * Delete an activity record from the database
+     * Delete an history record from the database
      *
-     * @param int $activityTableId
+     * @param int $historyTableId
      * @return none
      *
      * @access public
      * @static
      */
-    static function del($activityTableId)
+    static function del($historyTableId)
     {
-        $activity = new CRM_Core_DAO_Activity();
-        $activity->id = $activityTableId;
-        $activity->delete();
+        $historyDAO = new CRM_Core_DAO_History();
+        $historyDAO->id = $historyTableId;
+        $historyDAO->delete();
     }
 
     /**
@@ -101,12 +101,12 @@ class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
      */
     static function &getValues(&$params, &$values)
     {
-        // get top 3 activities
-        //$values['activity']['data']  =& CRM_Core_BAO_Activity::getActivity($params['contact_id'], 3);
-        $values['activity']['data']  =& CRM_Core_BAO_Activity::getActivity($params['contact_id'], 0, 3);
+        // get top 3 histories
+        //$values['history']['data']  =& CRM_Core_BAO_History::getHistory($params['contact_id'], 3);
+        $values['history']['data']  =& CRM_Core_BAO_History::getHistory($params['contact_id'], 0, 3);
 
-        // get the total number of activities
-        $values['activity']['totalCount'] = CRM_Core_BAO_Activity::getNumActivity($params['contact_id']);
+        // get the total number of histories
+        $values['history']['totalCount'] = CRM_Core_BAO_History::getNumHistory($params['contact_id']);
 
         //CRM_Core_Error::debug_var('values', $values);
         
@@ -114,7 +114,7 @@ class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
     }
 
     /**
-     * function to get the list of activities for contact.
+     * function to get the list of history for contact.
      *
      * @param int     $contactId       contact id 
      * @param int     $offset          which row to start from ?
@@ -127,53 +127,53 @@ class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
      * @access public
      * @static
      */
-    static function &getActivity($contactId, $offset=null, $rowCount=null, $sort=null)
+    static function &getHistory($contactId, $offset=null, $rowCount=null, $sort=null)
     {
-        $activityDAO = new CRM_Core_DAO_Activity();
-        $activityDAO->entity_table = 'crm_contact';
-        $activityDAO->entity_id = $contactId;
+        $historyDAO = new CRM_Core_DAO_History();
+        $historyDAO->entity_table = 'crm_contact';
+        $historyDAO->entity_id = $contactId;
 
         // selection criteria
-        $activityDAO->selectAdd();
-        $activityDAO->selectAdd('id, activity_type, activity_summary, activity_date');
+        $historyDAO->selectAdd();
+        $historyDAO->selectAdd('id, activity_type, activity_summary, activity_date');
 
         // default of user specified sort order ?
         if ($sort) {
-            $activityDAO->orderBy($sort->orderBy());
+            $historyDAO->orderBy($sort->orderBy());
         } else {
-            $activityDAO->orderBy('activity_date desc'); // default sort order
+            $historyDAO->orderBy('activity_date desc'); // default sort order
         }
         
         // how many rows to get ?
-        $activityDAO->limit($offset, $rowCount);
+        $historyDAO->limit($offset, $rowCount);
 
         // fire query, get rows, populate array and return it please.
         $values = array();
-        $activityDAO->find();
-        while($activityDAO->fetch()) {
-            $id = $activityDAO->id;
-            $values[$id]['activity_type'] = $activityDAO->activity_type;
-            $values[$id]['activity_summary'] = $activityDAO->activity_summary;
-            $values[$id]['activity_date'] = $activityDAO->activity_date;
+        $historyDAO->find();
+        while($historyDAO->fetch()) {
+            $id = $historyDAO->id;
+            $values[$id]['activity_type'] = $historyDAO->activity_type;
+            $values[$id]['activity_summary'] = $historyDAO->activity_summary;
+            $values[$id]['activity_date'] = $historyDAO->activity_date;
         }
         return $values;
     }
 
     /**
-     * function to get number of activities for a contact.
+     * function to get number of histories for a contact.
      *
      * @param  int $contactId   contact id 
-     * @return int $numActivity number of activities
+     * @return int $numHistory number of histories
      *
      * @access public
      * @static
      */
-    static function &getNumActivity($contactId)
+    static function &getNumHistory($contactId)
     {
-        $activityDAO = new CRM_Core_DAO_Activity();
-        $activityDAO->entity_table = 'crm_contact';
-        $activityDAO->entity_id = $contactId;
-        return $activityDAO->count();
+        $historyDAO = new CRM_Core_DAO_History();
+        $historyDAO->entity_table = 'crm_contact';
+        $historyDAO->entity_id = $contactId;
+        return $historyDAO->count();
     }
 
 
@@ -185,15 +185,15 @@ class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
      *
      * @param array $params (reference) an assoc array of name/value pairs
      *
-     * @return object CRM_Core_BAO_ActivityHistory object 
+     * @return object CRM_Core_BAO_HistoryHistory object 
      * @access public
      * @static
      */
     static function create(&$params)
     {
-        $ahBAO = new CRM_Core_BAO_ActivityHistory();
-        $ahBAO->copyValues($params);
-        return $ahBAO->save();
+        $historyBAO = new CRM_Core_BAO_History();
+        $historyBAO->copyValues($params);
+        return $historyBAO->save();
     }
 }
 ?>

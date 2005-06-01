@@ -43,10 +43,10 @@ require_once 'CRM/Contact/BAO/Contact.php';
 
 
 /**
- * This class is used to retrieve and display activities.
+ * This class is used to retrieve and display history.
  *
  */
-class CRM_Activity_Selector extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
+class CRM_History_Selector extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
 {
     /**
      * This defines two actions- View and Edit.
@@ -72,19 +72,19 @@ class CRM_Activity_Selector extends CRM_Core_Selector_Base implements CRM_Core_S
     static $_properties = array('activity_type', 'activity_summary', 'activity_date');
 
     /**
-     * contactId - contact id of contact whose activities are displayed
+     * contactId - contact id of contact whose history are displayed
      *
      * @var int
      * @access protected
      */
-    protected $_activity;
+    protected $_history;
 
     /**
      * Class constructor
      *
-     * @param int $contactId - contact whose activities we want to display
+     * @param int $contactId - contact whose history we want to display
      *
-     * @return CRM_Activity_Selector
+     * @return CRM_History_Selector
      * @access public
      */
     function __construct($contactId) 
@@ -137,7 +137,7 @@ class CRM_Activity_Selector extends CRM_Core_Selector_Base implements CRM_Core_S
      */
     function getPagerParams($action, &$params) 
     {
-        $params['status']       = "Activity %%StatusMessage%%";
+        $params['status']       = "History %%StatusMessage%%";
         $params['csvString']    = null;
         $params['rowCount']     = CRM_Utils_Pager::ROWCOUNT;
 
@@ -181,7 +181,7 @@ class CRM_Activity_Selector extends CRM_Core_Selector_Base implements CRM_Core_S
      */
     function getTotalCount($action)
     {
-        return CRM_Core_BAO_Activity::getNumActivity($this->_contactId);
+        return CRM_Core_BAO_History::getNumHistory($this->_contactId);
     }
 
 
@@ -199,7 +199,7 @@ class CRM_Activity_Selector extends CRM_Core_Selector_Base implements CRM_Core_S
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $config = CRM_Core_Config::singleton();
 
-        $rows = CRM_Core_BAO_Activity::getActivity($this->_contactId, $offset, $rowCount, $sort);
+        $rows = CRM_Core_BAO_History::getHistory($this->_contactId, $offset, $rowCount, $sort);
 
         CRM_Core_Error::debug_var('rows', $rows);
 
