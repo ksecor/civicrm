@@ -1,5 +1,7 @@
 $Id$
 
+$license$
+
 
 we should write a script to convert php4 to php5. here are some of the things we need to do:
 
