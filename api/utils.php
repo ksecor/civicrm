@@ -273,4 +273,39 @@ function _crm_update_contact( $contact, $values ) {
     return $contact;
 }
 
+/**
+ * This function ensures that we have the right input parameters
+ *
+ * We also need to make sure we run all the form rules on the params list
+ * to ensure that the params are valid
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new activity history.
+ *
+ * @return bool|CRM_Utils_Error
+ * @access public
+ */
+function _crm_check_activity_history_params(&$params)
+{
+    static $required = array('entity_id', 'activity_id');
+    
+    // cannot create a contact with empty params
+    if (empty($params)) {
+        return _crm_error('Input Parameters empty');
+    }
+
+    $valid = false;
+    foreach ($required as $requiredField) {
+        if (!CRM_Utils_Array::value($requiredField, $params)) {
+            $valid = false;
+            $error .= "$requiredField "; 
+        }
+    }
+
+    if (!$valid) {
+        return _crm_error("Required fields $error not found for activity_history");
+    }
+    return true;
+}
+
 ?>

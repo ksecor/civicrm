@@ -57,38 +57,34 @@ require_once 'CRM/Utils/Array.php';
 
 
 /**
- * Create a new Activity.
+ * Create a new Activity History.
  *
- * Creates a new activity record and returns the newly created
+ * Creates a new activity history record and returns the newly created
  * Activity object. Minimum required data values are entity_id,
  *                  and activity_id
  *
  * @param array  $params       Associative array of property name/value
  *                             pairs to insert in new activity.
  *
- * @return CRM_Core_BAO_Activity|CRM_Error Newly created Activity object
+ * @return CRM_Core_BAO_ActivityHistory|CRM_Error Newly created ActivityHistory object
  *
  * @access public
  */
-function &crm_create_activity(&$params)
+function &crm_create_activity_history(&$params)
 {
-
     // return error if we do not get any params
     if (empty($params)) {
         return _crm_error("Input Parameters empty");
     }
 
-    $error = _crm_check_activity_params($params);
+    $error = _crm_check_activity_history_params($params);
     if ($error instanceof CRM_Core_Error) {
         return $error;
     }
-    $error = _crm_format_params($params, $values);
-    if ( $error instanceof CRM_Core_Error ) {
-        return $error;
-    }
-    $ids     = array( );
 
-    $contact = CRM_Contact_BAO_Contact::create( $values, $ids, 1 );
+    $ids = array();
+
+    $contact = CRM_Core_BAO_ActivityHistory::create($params);
     return $contact;
 }
 

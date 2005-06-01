@@ -73,8 +73,19 @@ class CRM_Contact_Page_Activity {
      */
     static function browse($page)
     {
-        $values = CRM_Core_BAO_Activity::getActivity($page->getContactId());
-        $page->assign('activity', $values);
+        //$values = CRM_Core_BAO_Activity::getActivity($page->getContactId());
+        //$page->assign('activity', $values);
+
+        // create the selector, controller and run - store results in session
+        $output = CRM_Core_Selector_Controller::SESSION;
+
+        $selector   = new CRM_Activity_Selector($page->getContactId());
+        $controller = new CRM_Core_Selector_Controller($selector ,
+                                                       $page->get(CRM_Utils_Pager::PAGE_ID),
+                                                       $page->get(CRM_Utils_Sort::SORT_ID),
+                                                       CRM_Core_Action::VIEW, $page, $output);
+        $controller->setEmbedded(true);
+        $controller->run();
     }
 
 

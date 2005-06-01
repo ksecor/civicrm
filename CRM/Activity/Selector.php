@@ -175,13 +175,13 @@ class CRM_Activity_Selector extends CRM_Core_Selector_Base implements CRM_Core_S
     /**
      * Returns total number of rows for the query.
      *
-     * @param none
+     * @param string $action - action being performed
      * @return int Total number of rows 
      * @access public
      */
-    function getTotalCount()
+    function getTotalCount($action)
     {
-        return CRM_Core_BAO_Activity::getActivity($this->_contactId, null, true);
+        return CRM_Core_BAO_Activity::getNumActivity($this->_contactId);
     }
 
 
@@ -197,52 +197,41 @@ class CRM_Activity_Selector extends CRM_Core_Selector_Base implements CRM_Core_S
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $config = CRM_Core_Config::singleton( );
+        $config = CRM_Core_Config::singleton();
 
-        if ( ( $output == CRM_Core_Selector_Controller::EXPORT || $output == CRM_Core_Selector_Controller::SCREEN ) &&
-             $this->_formValues['radio_ts'] == 'ts_sel' ) {
-            $includeContactIds = true;
-        } else {
-            $includeContactIds = false;
-        }
+        $rows = CRM_Core_BAO_Activity::getActivity($this->_contactId, $offset, $rowCount, $sort);
 
-        // note the formvalues were given by CRM_Contact_Form_Search to us 
-        // and contain the search criteria (parameters)
-        // note that the default action is basic
-        $result = $this->_contact->searchQuery($this->_formValues, $offset, $rowCount, $sort, false, $includeContactIds );
+        CRM_Core_Error::debug_var('rows', $rows);
 
-        // process the result of the query
-        $rows = array( );
+//         while ($result->fetch()) {
+//             $row = array();
 
-        while ($result->fetch()) {
-            $row = array();
+//             // the columns we are interested in
+//             foreach (self::$_properties as $property) {
+//                 $row[$property] = $result->$property;
+//             }
 
-            // the columns we are interested in
-            foreach (self::$_properties as $property) {
-                $row[$property] = $result->$property;
-            }
-
-            if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
-                $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
-                $row['action'] = CRM_Core_Action::formLink( self::actionLinks(), null, array( 'id' => $result->contact_id ) );
-                $contact_type  = '<img src="' . $config->resourceBase . 'i/contact_';
-                switch ($result->contact_type) {
-                case 'Individual' :
-                    $contact_type .= 'ind.gif" alt="Individual">';
-                    break;
-                case 'Household' :
-                    $contact_type .= 'house.png" alt="Household" height="16" width="16">';
-                    break;
-                case 'Organization' :
-                    $contact_type .= 'org.gif" alt="Organization" height="16" width="18">';
-                    break;
+//             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
+//                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
+//                 $row['action'] = CRM_Core_Action::formLink( self::actionLinks(), null, array( 'id' => $result->contact_id ) );
+//                 $contact_type  = '<img src="' . $config->resourceBase . 'i/contact_';
+//                 switch ($result->contact_type) {
+//                 case 'Individual' :
+//                     $contact_type .= 'ind.gif" alt="Individual">';
+//                     break;
+//                 case 'Household' :
+//                     $contact_type .= 'house.png" alt="Household" height="16" width="16">';
+//                     break;
+//                 case 'Organization' :
+//                     $contact_type .= 'org.gif" alt="Organization" height="16" width="18">';
+//                     break;
                     
-                }
-                $row['contact_type'] = $contact_type;
-            }
+//                 }
+//                 $row['contact_type'] = $contact_type;
+//             }
 
-            $rows[] = $row;
-        }
+//             $rows[] = $row;
+//         }
         return $rows;
     }
     

@@ -175,5 +175,25 @@ class CRM_Core_BAO_Activity extends CRM_Core_DAO_Activity {
         $activityDAO->entity_id = $contactId;
         return $activityDAO->count();
     }
+
+
+
+    /**
+     * takes an associative array and creates an actvity history object
+     *
+     * This function is invoked from within the web form layer and also from the api layer
+     *
+     * @param array $params (reference) an assoc array of name/value pairs
+     *
+     * @return object CRM_Core_BAO_ActivityHistory object 
+     * @access public
+     * @static
+     */
+    static function create(&$params)
+    {
+        $ahBAO = new CRM_Core_BAO_ActivityHistory();
+        $ahBAO->copyValues($params);
+        return $ahBAO->save();
+    }
 }
 ?>
