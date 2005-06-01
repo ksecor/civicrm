@@ -278,6 +278,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     function buildQuickForm( ) 
     {
+
+        CRM_Core_Error::le_method();
+
         $this->add('select', 'contact_type', 'Find... ', CRM_Core_SelectValues::$contactType);
 
         // add select for groups
@@ -292,6 +295,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->add('text', 'sort_name', 'Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
         $this->buildQuickFormCommon( );
+
+        CRM_Core_Error::ll_method();
     }
 
     /**

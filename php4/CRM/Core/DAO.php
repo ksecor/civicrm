@@ -246,12 +246,29 @@ class CRM_Core_DAO extends DB_DataObject {
     }
 
     function save( ) {
+        CRM_Core_Error::le_method();
+
         if ($this->id) {
+
+            CRM_Core_Error::debug_log_message("Breakpoint 10");
+
             $this->update();
+
         } else {
+
+            CRM_Core_Error::debug_log_message("Breakpoint 20");
+
+            CRM_Core_Error::debug_var('this', $this);
+
             $this->insert();
+
+
         }
+
+        CRM_Core_Error::debug_log_message("Breakpoint 30");
+
         return $this;
+
     }
 
     /**

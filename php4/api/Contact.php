@@ -119,16 +119,23 @@ require_once 'CRM/Utils/Array.php';
  */
 function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
 
+    CRM_Core_Error::le_method();
+
     // return error if we do not get any params
     if ( empty( $params ) ) {
         return _crm_error( "Input Parameters empty" );
     }
+
+    CRM_Core_Error::debug_log_message("Breakpoint 10");
 
     $error = _crm_check_params( $params, $contact_type );
     //    if ( $error instanceof CRM_Core_Error ) {
     if ( is_a($error, CRM_Core_Error )) {
         return $error;
     }
+
+    CRM_Core_Error::debug_log_message("Breakpoint 20");
+
     $values  = array( );
     $values['contact_type'] = $contact_type;
     $error = _crm_format_params( $params, $values );
@@ -137,6 +144,8 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
         return $error;
     }
     $ids     = array( );
+
+    CRM_Core_Error::debug_log_message("Breakpoint 30");
 
     $contact = CRM_Contact_BAO_Contact::create( $values, $ids, 1 );
     return $contact;

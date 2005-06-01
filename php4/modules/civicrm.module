@@ -428,6 +428,9 @@ static $_civicrmSession;
  */
 function civicrm_init()
 {
+
+    CRM_Core_Error::le_method();
+
     if (arg(0) != 'civicrm' && arg(0) != 'admin' && arg(0) != 'user') {
         return;
     }
@@ -446,6 +449,8 @@ function civicrm_init()
 
     // set error handling
     PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Core_Error', 'handle'));
+
+    CRM_Core_Error::ll_method();
 }
 
 /**
@@ -509,11 +514,21 @@ function civicrm_admin_invoke()
 
 function civicrm_invoke()
 {
+
+    CRM_Core_Error::le_method();
+
     $session = CRM_Core_Session::singleton();
+
+    CRM_Core_Error::debug_log_message("Breakpoint 10");
 
     // synchronize the drupal uid with the contacts db
     global $user;
+
     CRM_Core_BAO_Drupal::synchronize($user, false);
+
+    CRM_Core_Error::debug_log_message("Breakpoint 20");
+
+
     // contact related functionality
     if (arg(1) == 'contact') {
         return civicrm_contact_invoke();
@@ -552,6 +567,9 @@ function civicrm_invoke()
 
 function civicrm_contact_invoke()
 {
+
+    CRM_Core_Error::le_method();
+
     // make sure we are in contact menu
     if (arg(1) != 'contact') {
         return;
@@ -688,6 +706,8 @@ function civicrm_assign($var, $value = null)
  */
 function civicrm_search()
 {
+    CRM_Core_Error::le_method();
+
     $session = CRM_Core_Session::singleton();
 
     if (arg(3) == 'saved') {

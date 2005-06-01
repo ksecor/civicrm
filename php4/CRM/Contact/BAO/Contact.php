@@ -343,7 +343,12 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
      function add(&$params, &$ids)
     {
+
+        CRM_Core_Error::le_method();
+
         $contact = new CRM_Contact_BAO_Contact();
+
+        CRM_Core_Error::debug_log_message("Breakpoint 10");        
         
         $contact->copyValues($params);
 
@@ -373,6 +378,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
         $contact->domain_id = CRM_Utils_Array::value('domain' , $ids, 1);
         $contact->id        = CRM_Utils_Array::value('contact', $ids);
+
+        CRM_Core_Error::debug_log_message("Breakpoint 20");
 
         return $contact->save();
     }
@@ -431,9 +438,15 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
      function create(&$params, &$ids, $maxLocationBlocks)
     {
+        CRM_Core_Error::le_method();
+
         CRM_Core_DAO::transaction('BEGIN');
         
+        CRM_Core_Error::debug_log_message("Breakpoint 10");        
+
         $contact = CRM_Contact_BAO_Contact::add($params, $ids);
+
+        CRM_Core_Error::debug_log_message("Breakpoint 20");        
         
         $params['contact_id'] = $contact->id;
 

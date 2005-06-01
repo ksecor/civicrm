@@ -56,6 +56,9 @@ class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
      * @static
      */
      function synchronize( &$user, $update = false ) {
+
+         CRM_Core_Error::le_method();
+
         $session = CRM_Core_Session::singleton( );
         if ( ! is_object( $session ) ) {
             return;
@@ -68,7 +71,11 @@ class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
         }
 
         // make sure that a contact id exists for this user id
+
+        CRM_Core_Error::debug_log_message("Breakpoint 10");
         $drupal = new CRM_Core_DAO_Drupal( );
+
+
         $drupal->uid = $user->uid;
         if ( ! $drupal->find( true ) ) {
             $drupal->uid = $user->uid;
@@ -81,22 +88,48 @@ LEFT JOIN crm_email    ON crm_location.id = crm_email.location_id
 WHERE     crm_email.email = '" . $user->mail . "'";
   
             $dao = new CRM_Core_DAO( );
+
+            CRM_Core_Error::debug_log_message("Breakpoint 20");
+
             $dao->query( $query );
+
+            CRM_Core_Error::debug_log_message("Breakpoint 30");
+
             if ( $dao->fetch( ) ) {
+
+                CRM_Core_Error::debug_log_message("Breakpoint 40");
+
                 $drupal->contact_id = $dao->contact_id;
                 $drupal->domain_id  = $dao->domain_id ;
+
             } else {
+
+                CRM_Core_Error::debug_log_message("Breakpoint 50");
+
                 $params= array( 'email' => $user->mail, 'location_type' => 'Home' );
                 $contact =& crm_create_contact( $params, 'Individual' );
                 //if ( $contact instanceof CRM_Core_Error ) {
                 if (is_a($contact, CRM_Core_Error)) {
+                    
+                    CRM_Core_Error::debug_log_message("Breakpoint 60");
+
                     CRM_Core_Error::debug( 'error', $contact );
                     exit(1);
                 }
+
+                CRM_Core_Error::debug_log_message("Breakpoint 70");
+
+
                 $drupal->contact_id = $contact->id;
                 $drupal->domain_id  = $contact->domain_id ;
             }
+
+            CRM_Core_Error::debug_log_message("Breakpoint 80");
+
             $drupal->save();
+            CRM_Core_Error::debug_log_message("Breakpoint 90");
+
+
         }
 
         $session->set( 'userID'  , $drupal->contact_id );

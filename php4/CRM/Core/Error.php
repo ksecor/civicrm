@@ -298,7 +298,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      *
      * @static
      */
-     function le_method()
+    function le_method()
     {
         $array1 = debug_backtrace();
         $string1 = "entering method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "() in " . $array1[0]['file']; 
