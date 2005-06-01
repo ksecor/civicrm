@@ -459,7 +459,34 @@ class PHP_DownGrade {
     function toString() 
     {
         
-        //for include files  
+             //To remove "&" in foreach statement
+        /*for($j=0;$j<count($this->tokens);$j++)
+            {
+                if(strcmp($this->tokens[$j][1],"foreach")==0)
+                    {
+                        $next=$j;
+                        while($this->tokens[$next][1]!=')'){
+                            if($this->tokens[$next][1]=="&")
+                                {
+                                    $this->tokens[$next][1]="";
+                                }
+                            $next++;
+                        }
+
+                    }
+            }*/
+       
+        //To remove abstact keyword
+        
+        for($j=0;$j<count($this->tokens);$j++)
+            {
+                if(strcmp($this->tokens[$j][1],"abstract")==0)
+                    {
+                        $this->tokens[$j][1]="";
+                    }
+            }
+
+        //For include files  
         $flag = 0;
         for($j=0;$j<count($this->tokens);$j++)
             {
@@ -499,7 +526,7 @@ class PHP_DownGrade {
                         for($f=0;$f<count($this->filenames);$f++)
                             {
                                 if(strcmp($this->tokens[$back][1],$this->filenames[$f])==0)
-                                   $flag = 1;
+                                    $flag = 1;
                             }
                         
                         if($flag==0)
@@ -515,10 +542,11 @@ class PHP_DownGrade {
                 
                 
             }
-
-         print_r($this->filenames);
+        
        
-        //to remove interface defination.
+       
+       
+        //To remove interface defination.
         for($j=0;$j<count($this->tokens);$j++)
             {
                 if(strcmp($this->tokens[$j][1],"interface")==0)
@@ -533,7 +561,7 @@ class PHP_DownGrade {
                 
             }
        
-            //TO CHNAGE THE NAMES OF STATIC VARIABLES
+        //TO CHNAGE THE NAMES OF STATIC VARIABLES
 
         foreach($this->statvar as $name)
                  for($j=0;$j<count($this->tokens);$j++)
@@ -585,7 +613,7 @@ class PHP_DownGrade {
                  }
 
 
-        //to change calls of parent constructor
+        //To change calls of parent constructor
         for($j=0;$j<count($this->tokens);$j++)
             {
                 if(strcmp($this->tokens[$j][1],"parent")==0)
@@ -616,6 +644,8 @@ class PHP_DownGrade {
         //======================================================================================= 
         CRM_Core_Error::le_method();
         $ret = '';
+        //echo "---------------------------------";
+        //echo"\n".$this->start;
         for($i=0;$i<count($this->tokens);$i++) {
             if ($i == $this->start) {
                 foreach( $this->constants as $class => $consts) {
@@ -635,19 +665,33 @@ class PHP_DownGrade {
                     }
                 }
                 $ret.="\n";
+               
                 foreach($this->filenames as $file)
                     {
-                        foreach($this->classarray as $class)
+                        
+                        if(count($this->classarray)!=0)
                             {
-                                if($class!=$file)
+                                foreach($this->classarray as $class)
                                     {
+                                        if($class!=$file)
+                                            {
+                                                $file=str_replace("_","/",$file);
+                                                $file="require_once '".$file.".php"."';";
+                                                // echo "\n".$file;
+                                                $ret.=$file."\n";
+                                            }
+                                    }
+                            }
+                        else
+                            {
                                 $file=str_replace("_","/",$file);
                                 $file="require_once '".$file.".php"."';";
                                 // echo "\n".$file;
                                 $ret.=$file."\n";
-                                    }
                             }
                     }
+
+
             }
         
          
@@ -681,36 +725,34 @@ class PHP_DownGrade {
 // start of code to convert files recursively ---
 // this code is to convert the whole directory from php5 to php4
 
-//$rootDir = "$homeDir/svn/crm/CRM";
-//$destDir = "$homeDir/svn/crm.php4/CRM";
+//$directory = array('CRM', 'modules', 'api');
+$directory = array('api');
 
-//$rootDir = "/home/kurund/svn/php4/crm/modules";
-//$destDir = "/home/kurund/svn/php4/crm/modules.4";
+foreach ($directory as $v) {
+    $rootDir = "$homeDir/svn/crm/$v";
+    $destDir = "$homeDir/svn/crm/php4/$v";
 
-//$rootDir = "/home/kurund/svn/php4/crm/api";
-//$destDir = "/home/kurund/svn/php4/crm/api.4";
-
-
-/*$dir = new RecursiveIteratorIterator(
-                                     new RecursiveDirectoryIterator($rootDir), true);
-
-foreach ( $dir as $file ) {
-    if ( substr( $file, -4, 4 ) == '.php' ) {
-        echo str_repeat("--", $dir->getDepth()) . ' ' . $file->getPath( ) . " $file\n";
-        $x    = new PHP_DownGrade($file->getPath( ) . '/' . $file);
-        $php4 = $x->toPHP4( );
-        
-        $php4Dir  = str_replace( $rootDir, $destDir, $file->getPath( ) );
-        createDir( $php4Dir );
-        $fd   = fopen( $php4Dir . '/' . $file, "w" );
-        fputs( $fd, $php4 );
-        fclose( $fd );
+    $dir = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootDir), true);
+    foreach ( $dir as $file ) {
+        if ( substr( $file, -4, 4 ) == '.php' ) {
+            echo str_repeat("--", $dir->getDepth()) . ' ' . $file->getPath( ) . " $file\n";
+            $x    = new PHP_DownGrade($file->getPath( ) . '/' . $file);
+            $php4 = $x->toPHP4( );
+            
+            $php4Dir  = str_replace( $rootDir, $destDir, $file->getPath( ) );
+            createDir( $php4Dir );
+            $fd   = fopen( $php4Dir . '/' . $file, "w" );
+            fputs( $fd, $php4 );
+            fclose( $fd );
+        }
     }
-}*/
+}
+
+
 
 // end of code to convert files recursively --
 
 
 // use this code if single file has to be converted from php5 to php4  and comment the above block
-$sam = new PHP_DownGrade($argv[1]);
-echo $sam->toPHP4();
+//$sam = new PHP_DownGrade($argv[1]);
+//echo $sam->toPHP4();
