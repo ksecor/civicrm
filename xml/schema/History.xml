@@ -2,8 +2,8 @@
 
 <table>
   <base>CRM/Core</base>
-  <name>crm_activity</name>
-  <comment>Record activities for an entity in the crm module</comment>
+  <name>crm_activity_history</name>
+  <comment>Record activity history for an entity in the crm module</comment>
   <field>
       <name>id</name>
       <type>int unsigned</type>
