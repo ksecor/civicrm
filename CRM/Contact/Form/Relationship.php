@@ -122,7 +122,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addRule('start_date'          , 'Start date is not valid.'           , 'qfDate' );
         $this->addRule('end_date'            , 'End date is not valid.'             , 'qfDate' );
 
-        $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'formRule' ) );
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'formRule' ) );
+        }
     }
 
 
@@ -332,7 +334,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
    * @access public
    * @static
    */
-    function formRule( &$params ) {
+    static function formRule( &$params ) {
         // hack, no error check for refresh
         if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
             return true;
@@ -355,6 +357,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         } else {
             $errors['contact_check'] = 'Please select at least one contact.';
         }
+
         return empty($errors) ? true : $errors;
     }
 

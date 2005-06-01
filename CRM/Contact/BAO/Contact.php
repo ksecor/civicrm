@@ -450,6 +450,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @static
      */
     static function resolveDefaults( &$defaults, $reverse = false ) {
+        // hack for birth_date
+        if ( CRM_Utils_Array::value( 'birth_date', $defaults ) ) {
+            $defaults['birth_date'] = CRM_Utils_Date::format( $defaults['birth_date'], '-' );
+        }
+
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
             foreach ( $locations as $index => &$location ) {

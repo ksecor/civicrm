@@ -110,7 +110,7 @@ class CRM_Core_Block {
             self::setTemplateShortcutValues( );
         } else if ( $id == self::ADD ) {
             self::$_properties[self::ADD   ]['templateValues'] =
-                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/addI?c_type=Individual' ) );
+                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&c_type=Individual' ) );
         } else if ( $id == self::SEARCH ) {
             self::$_properties[self::SEARCH]['templateValues'] =
                 array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) ,

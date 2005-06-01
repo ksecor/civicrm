@@ -249,6 +249,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                  array ( 'type'      => 'next',
                                          'name'      => 'Save',
                                          'isDefault' => true   ),
+                                 array ( 'type'      => 'next',
+                                         'name'      => 'Save and New' ),
                                  array ( 'type'      => 'reset',
                                          'name'      => 'Reset'),
                                  array ( 'type'       => 'cancel',
@@ -284,7 +286,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         // here we replace the user context with the url to view this contact
         $session = CRM_Core_Session::singleton();
         CRM_Core_Session::setStatus('Your ' . $contact->contact_type . ' contact record has been saved');
-        $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
+
+        // hack: figure out a nice way to do this
+        if ( $_POST['_qf_Edit_next'] == 'Save and New' ) {
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add' . $contact->contact_type[0], 'reset=1&c_type=' . $contact->contact_type ) );
+        } else {
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
+        }
     }
 
     /**

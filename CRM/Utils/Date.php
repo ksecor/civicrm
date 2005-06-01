@@ -39,15 +39,16 @@ class CRM_Utils_Date {
     /**
      * format a date by padding it with leading '0'.
      *
-     * @param array $date ('Y', 'M', 'd')
+     * @param array  $date ('Y', 'M', 'd')
+     * @param string $separator the seperator to use when formatting the date
      * @return string - formatted string for date
      *
      * @access public
      * @static
      */
-    static function format( $date, $strict = false )
+    static function format( $date, $separator = '' )
     {
-        if ( ! $date || ! is_array( $date || ! $date['Y'] ) ) {
+        if ( ! $date || ! is_array( $date ) || ( ! $date['Y'] ) ) {
             return null;
         }
 
@@ -62,8 +63,8 @@ class CRM_Utils_Date {
         } else {
             $date['d'] = '00';
         }
-
-        return $date['Y'] . $date['M'] . $date['d'];
+        
+        return $date['Y'] . $separator . $date['M'] . $separator . $date['d'];
     }
 
     /**
@@ -76,8 +77,8 @@ class CRM_Utils_Date {
      * @static
      * @access public
      */     
-    static function unformat( $date ) {
-        list( $year, $mon, $date ) = explode( '-', $date, 3 );
+    static function unformat( $date, $separator = '-' ) {
+        list( $year, $mon, $date ) = explode( $separator, $date, 3 );
 
         $value = array( );
         $value['Y'] = $value['M'] = $value['d'] = null;

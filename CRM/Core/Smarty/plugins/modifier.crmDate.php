@@ -41,26 +41,29 @@
  */
 function smarty_modifier_crmDate($dateString)
 {
-    if ( $dateString ) {
-        $matches = array();
-        $pattern = "/(\d{4})-(\d{2})-(\d{2})/";
-        if (preg_match($pattern, $dateString, $matches)) {
-            $months = array(1 => ts('January'), ts('February'), ts('March'), ts('April'), ts('May'), ts('June'), ts('July'), ts('August'), ts('September'), ts('October'), ts('November'), ts('December'));
-            $fDate = '';
-            if ( (int)$matches[2] > 0 ) {
-                $fDate .= $months[(int)$matches[2]];
-                // validation allows month w/o day, but NOT day w/o month
-                if ( (int)$matches[3] > 0 ) {
-                    $fDate .= (int)$matches[3];
-                }
-                $fDate .= ", ";
-            }
-            $fDate .= $matches[1];
-            return $fDate;
-            // return($months[(int)$matches[2]] . " " . ((int)$matches[3]) . ", " . $matches[1]);
-        } else {
-            return "Invalid Date";
-        }
+    // this is bad and we should reuse something from qf date which has all the translations, including polish
+    static $months;
+    if ( ! isset( $months ) ) {
+        $months = array(1 => ts('January'), ts('February'), ts('March'), ts('April'), ts('May'), ts('June'), ts('July'), ts('August'), ts('September'), ts('October'), ts('November'), ts('December'));
     }
+
+    if ( $dateString ) {
+        list( $year, $mon, $day ) = explode( '-', $dateString, 3 );
+
+        $fDate = '';
+        if ( $mon > 0 ) {
+            $fDate .= $months[$mon];
+
+            // validation allows month w/o day, but NOT day w/o month
+            if ( $day > 0 ) {
+                $fDate .= $day;
+            }
+            $fDate .= ", ";
+        }
+        $fDate .= $year;
+        return $fDate;
+    }
+    return 'NO DATE SPECIFIED';
 }
+
 ?>
