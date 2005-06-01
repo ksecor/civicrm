@@ -279,12 +279,13 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     function buildQuickForm( ) 
     {
 
-        CRM_Core_Error::le_method();
-
         $this->add('select', 'contact_type', 'Find... ', $GLOBALS['_CRM_CORE_SELECTVALUES']['contactType']);
 
         // add select for groups
-        $group               = array('' => ts(' - any group - ')) + $this->_group;
+        
+        //$group               = array('' => ts(' - any group - ')) + $this->_group;
+        
+        $group               = array_merge(array('' => ts(' - any group - ')), $this->_group);
         
         $this->_groupElement = $this->add('select', 'group', 'in', $group);
 
@@ -297,7 +298,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         $this->buildQuickFormCommon( );
 
-        CRM_Core_Error::ll_method();
     }
 
     /**
@@ -351,6 +351,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * set the varios class variables
          */
         $this->_group    =& CRM_Core_PseudoConstant::group   ( );
+
         $this->_tag =& CRM_Core_PseudoConstant::tag( );
         $this->_done     = false;
 

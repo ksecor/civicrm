@@ -31,7 +31,6 @@
  *
  */
 
-
 require_once 'CRM/Core/State.php';
 require_once 'CRM/Utils/String.php';
 require_once 'CRM/Core/Config.php';

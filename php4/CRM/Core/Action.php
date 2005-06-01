@@ -177,9 +177,9 @@ class CRM_Core_Action {
      *
      */
      function description( $mask ) {
-        if ( ! isset( $GLOBALS['_CRM_CORE_ACTION']['_description'] ) ) {
+         // if ( ! isset( $GLOBALS['_CRM_CORE_ACTION']['_description'] ) ) {
             $GLOBALS['_CRM_CORE_ACTION']['_description'] = array_flip( $GLOBALS['_CRM_CORE_ACTION']['_names'] );
-        }
+            //}
         
         return CRM_Utils_Array::value( $mask, $GLOBALS['_CRM_CORE_ACTION']['_description'], 'NO DESCRIPTION SET' );
     }

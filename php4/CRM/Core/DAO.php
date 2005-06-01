@@ -162,20 +162,21 @@ class CRM_Core_DAO extends DB_DataObject {
      * @access protected
      */
     function initialize() {
+
         $links = $this->links();
         if ( empty( $links ) ) {
             return;
         }
-
+        
         $this->_connect();
     
-        if ( !isset($GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database]) ) {
+        //if ( !isset($GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database]) ) {
             $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database] = array();
-        }
+            //}
 	    
-        if ( ! array_key_exists( $this->__table, $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database] ) ) {
+            // if ( ! array_key_exists( $this->__table, $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database] ) ) {
             $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->__table] = $links;
-        }
+            //}
     }
 	
     /**
@@ -186,9 +187,9 @@ class CRM_Core_DAO extends DB_DataObject {
      */
     function keys() {
         
-        if ( !isset ($GLOBALS['_CRM_CORE_DAO']['keys']) ) {
+        // if ( !isset ($GLOBALS['_CRM_CORE_DAO']['keys']) ) {
             $GLOBALS['_CRM_CORE_DAO']['keys'] = array('id');
-        }
+            //}
         return $GLOBALS['_CRM_CORE_DAO']['keys'];
     }
     
@@ -201,9 +202,9 @@ class CRM_Core_DAO extends DB_DataObject {
      */
     function sequenceKey() {
         
-        if ( !isset ($GLOBALS['_CRM_CORE_DAO']['keys']) ) {
+        // if ( !isset ($GLOBALS['_CRM_CORE_DAO']['keys']) ) {
             $GLOBALS['_CRM_CORE_DAO']['keys'] = array('id', true);
-        }
+            //}
         return $GLOBALS['_CRM_CORE_DAO']['keys'];
     }
 

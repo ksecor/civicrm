@@ -143,12 +143,12 @@ require_once 'CRM/Core/DAO.php';
         */
         function &links() 
         {
-            if (!isset($GLOBALS['_CRM_CONTACT_DAO_GROUP']['_links'])) {
+            //if (!isset($GLOBALS['_CRM_CONTACT_DAO_GROUP']['_links'])) {
                 $GLOBALS['_CRM_CONTACT_DAO_GROUP']['_links'] = array(
                     'domain_id'=>'crm_domain:id',
                     'saved_search_id'=>'crm_saved_search:id',
                 );
-            }
+                // }
             return $GLOBALS['_CRM_CONTACT_DAO_GROUP']['_links'];
         }
         /**
@@ -159,7 +159,7 @@ require_once 'CRM/Core/DAO.php';
         */
         function &fields() 
         {
-            if (!isset($GLOBALS['_CRM_CONTACT_DAO_GROUP']['_fields'])) {
+            // if (!isset($GLOBALS['_CRM_CONTACT_DAO_GROUP']['_fields'])) {
                 $GLOBALS['_CRM_CONTACT_DAO_GROUP']['_fields'] = array(
                     'id'=>array(
                         'type'=>CRM_UTILS_TYPE_T_INT,
@@ -201,7 +201,7 @@ require_once 'CRM/Core/DAO.php';
                         'type'=>CRM_UTILS_TYPE_T_INT,
                     ) ,
                 );
-            }
+                // }
             return $GLOBALS['_CRM_CONTACT_DAO_GROUP']['_fields'];
         }
         /**
@@ -222,6 +222,7 @@ require_once 'CRM/Core/DAO.php';
         */
         function &import($prefix = false) 
         {
+
             if (!isset($GLOBALS['_CRM_CONTACT_DAO_GROUP']['_import'])) {
                 $GLOBALS['_CRM_CONTACT_DAO_GROUP']['_import'] = array();
                 $fields = &CRM_Contact_DAO_Group::fields();

@@ -131,7 +131,7 @@ require_once 'CRM/Core/DAO.php';
         */
         function &fields() 
         {
-            if (!isset($GLOBALS['_CRM_CORE_DAO_DRUPAL']['_fields'])) {
+            //  if (!isset($GLOBALS['_CRM_CORE_DAO_DRUPAL']['_fields'])) {
                 $GLOBALS['_CRM_CORE_DAO_DRUPAL']['_fields'] = array(
                     'id'=>array(
                         'type'=>CRM_UTILS_TYPE_T_INT,
@@ -151,7 +151,7 @@ require_once 'CRM/Core/DAO.php';
                         'required'=>true,
                     ) ,
                 );
-            }
+                //  }
             return $GLOBALS['_CRM_CORE_DAO_DRUPAL']['_fields'];
         }
         /**

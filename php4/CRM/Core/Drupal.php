@@ -80,7 +80,8 @@ class CRM_Core_Drupal {
      *
      */
       function &group( ) {
-        if ( ! isset( $GLOBALS['_CRM_CORE_DRUPAL']['_viewPermissionedGroups'] ) ) {
+          
+          //if ( ! isset( $GLOBALS['_CRM_CORE_DRUPAL']['_viewPermissionedGroups'] ) ) {
             $session =& CRM_Core_Session::singleton( );
         
             $groups =& CRM_Core_PseudoConstant::allGroup( );
@@ -120,7 +121,7 @@ class CRM_Core_Drupal {
             if ( $GLOBALS['_CRM_CORE_DRUPAL']['_viewPermission'] && $GLOBALS['_CRM_CORE_DRUPAL']['_editPermission'] ) {
                 $GLOBALS['_CRM_CORE_DRUPAL']['_editPermission'] = false;
             }
-        }
+            //}
 
         return $GLOBALS['_CRM_CORE_DRUPAL']['_viewPermissionedGroups'];
     }
