@@ -415,11 +415,14 @@ function writeFiles()
 
     // create the POT file
     foreach ($output as $file => $content) {
+
         $tmp = preg_replace('<[/]?([a-z]*/)*>', '', $file);
         $tmp = preg_replace('/^\.+/', '', $tmp);
         $file = str_replace('.', '-', $tmp) . '.pot';
         $filelist = $content[1];
         unset($content[1]);
+
+        // source file and version information (from the Id tags)
         //if (count($filelist) > 1) {
         //    $filelist = "Generated from files:\n#  " . join("\n#  ", $filelist);
         //} elseif (count($filelist) == 1) {
@@ -427,10 +430,12 @@ function writeFiles()
         //} else {
         //    $filelist = "No version information was available in the source files.";
         //}
+
+        // writing the final POT to the proper file(s) / STDOUT
         //$fp = fopen($file, 'w');
-        //fwrite($fp, str_replace("--VERSIONS--", $filelist, join("", $content)));
-        print str_replace("--VERSIONS--", $filelist, join("", $content));
+        fwrite(STDOUT, str_replace("--VERSIONS--", $filelist, join("", $content)));
         //fclose($fp);
+
     }
 
 }
