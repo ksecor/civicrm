@@ -55,7 +55,7 @@ require_once 'CRM/Import/Field.php';
     
           
           
-           protected $_fileName;
+    var $_fileName;
 
     /**#@+
      * @access protected
@@ -162,7 +162,7 @@ require_once 'CRM/Import/Field.php';
         $this->_maxLinesToProcess = 0;
     }
 
-     function init();
+     //function init();
 
     function run( $fileName,
                   $seperator = ',',
@@ -289,11 +289,11 @@ require_once 'CRM/Import/Field.php';
         return $this->fini();
     }
 
-     function preview( &$values );
-     function summary( &$values );
-     function import ( &$values );
+     //function preview( &$values );
+     //function summary( &$values );
+     //function import ( &$values );
 
-     function fini();
+     //function fini();
 
     /**
      * Given a list of the importable field keys that the user has selected
@@ -351,7 +351,8 @@ require_once 'CRM/Import/Field.php';
 
     function getSelectValues() {
         $values = array();
-        foreach ( $this->_fields as $name => &$field ) {
+        foreach ( $this->_fields as $name => $field ) {
+            $field=&$this->fields[$name];
             $values[$name] = $field->_title;
         }
         return $values;

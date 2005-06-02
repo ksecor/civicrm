@@ -69,8 +69,8 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
      */
     function &links() 
     {
-        if ( ! isset( $GLOBALS['_CRM_ADMIN_PAGE_RELATIONSHIPTYPE']['_links'] ) ) 
-        {
+        // if ( ! isset( $GLOBALS['_CRM_ADMIN_PAGE_RELATIONSHIPTYPE']['_links'] ) ) 
+        //  {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this relationship type?\n\nUsers will no longer be able to select this value when adding or editing relationships between contacts.');
 
@@ -101,7 +101,7 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
                                                                     'title' => ts('Enable Relationship Type') 
                                                                    ),
                                  );
-        }
+        // }
         return $GLOBALS['_CRM_ADMIN_PAGE_RELATIONSHIPTYPE']['_links'];
     }
 

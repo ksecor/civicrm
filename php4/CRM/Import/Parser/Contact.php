@@ -149,7 +149,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         
         $params['location_type_id'] = 1;
 
-        if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Core_Error ) {
+        if ( is_a(crm_create_contact( $params, 'Individual' ), CRM_Core_Error )) {
             return CRM_IMPORT_PARSER_CONTACT_ERROR;
         }
         return CRM_IMPORT_PARSER_CONTACT_VALID;

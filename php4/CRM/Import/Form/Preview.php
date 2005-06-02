@@ -36,7 +36,7 @@ require_once 'CRM/Core/Form.php';
 require_once 'CRM/Utils/Rule.php';
 require_once 'CRM/Import/Parser/Contact.php';
 require_once 'CRM/Core/Error.php';
-require_once 'CRM/Config.php';
+//require_once 'CRM/Config.php';
 require_once 'CRM/Core/Form.php';
 
 /**

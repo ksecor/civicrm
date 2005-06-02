@@ -187,8 +187,9 @@ require_once 'CRM/Core/Page.php';
         if ( $action & CRM_CORE_ACTION_ENABLE ) {
             $action -= CRM_CORE_ACTION_ENABLE;
         }
-
-        eval( '$object = new ' . $this->getBAOName( ) . '( );' );
+        $class = $this->getBAOName( );
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $class) . ".php");
+        eval( '$object = new ' . $class . '( );' );
 
         $values = array();
 
