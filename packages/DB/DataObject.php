@@ -3235,12 +3235,10 @@ class DB_DataObject extends DB_DataObject_Overload
     {
         global $_DB_DATAOBJECT;
         $this->_connect();
-         if (!isset($_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid])) {
+        if (!isset($_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid])) {
             return  false;
         }
-         echo "++++++++++++++++++";
-         echo $_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid];
-         return $_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid];
+        return $_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid];
     }
 
     /**
