@@ -2,8 +2,8 @@
  {if $groupCount eq 0 }  		
   <div class="messages status">
     <dl>
-      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
-      <dd>This contact does not currently belong to any groups.</dd>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+      <dd>{ts}This contact does not currently belong to any groups.{/ts}</dd>
     </dl>
   </div>	
  {/if}
@@ -11,23 +11,23 @@
   	{if $groupIn }
         
 	<div class="form-item">
-	<div><label>Current Group Memberships</label></div>
+	<div><label>{ts}Current Group Memberships{/ts}</label></div>
 	
 	<div>
 	{strip}
 	<table>
         <tr class="columnheader">
-		<th>Group</th>
-		<th>Status</th>
-		<th>Date Added</th>
+		<th>{ts}Group{/ts}</th>
+		<th>{ts}Status{/ts}</th>
+		<th>{ts}Date Added{/ts}</th>
 		<th></th>
 	</tr>
        	{foreach from=$groupIn item=row}
         <tr class="{cycle values="odd-row,even-row"}">
         	<td class="label">{$row.title}</td>
-	    	<td>Added (by {$row.in_method})</td> 
+	    	<td>{ts 1=$row.in_method}Added (by %1){/ts}</td> 
             <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
-	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.title}?');">[ Remove ]</a></td> 
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$displayName 2=$row.title}Are you sure you want to remove %1 from %2?{/ts}');">{ts}[ Remove ]{/ts}</a></td> 
         </tr>
      	{/foreach}
         </table>
@@ -40,24 +40,24 @@
 
        	{if $groupPending }
 	<div class="form-item">
-        <div class="label">Pending  Memberships </div> 
-        <div class="description">Membership in these group(s) is pending confirmation by this contact.</div>
+        <div class="label">{ts}Pending Memberships{/ts}</div> 
+        <div class="description">{ts}Membership in these group(s) is pending confirmation by this contact.{/ts}</div>
 		
 	<div>
 	{strip}
 	<table>
 	<tr class="columnheader">
-		<th>Group</th>
-		<th>Status</th>
-		<th>Date Pending</th>
+		<th>{ts}Group{/ts}</th>
+		<th>{ts}Status{/ts}</th>
+		<th>{ts}Date Pending{/ts}</th>
 		<th></th>
 	</tr>
    	{foreach from=$groupPending item=row}
         <tr class="{cycle values="odd-row,even-row"}">
             <td class="label">{$row.title}</td>
-            <td>Pending (by {$row.pending_method})</td> 
+            <td>{ts 1=$row.pending_method}Pending (by %1){/ts}</td> 
             <td>{$row.pending_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('Are you sure you want to remove {$displayName} from {$row.title}?');">[ Remove ]</a></td> 
+            <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$displayName 2=$row.title}Are you sure you want to remove %1 from %2?{/ts}');">{ts}[ Remove ]{/ts}</a></td> 
     	</tr>
      	{/foreach}
 	</table>
@@ -73,26 +73,26 @@
        	
 	{if $groupOut }
 	<div class="form-item">
-	<div class="label font-red">Past Memberships</div>
-    <div class="description">{$displayName} is no longer a member of these group(s).</div>
+	<div class="label font-red">{ts}Past Memberships{/ts}</div>
+    <div class="description">{ts 1=$displayName}%1 is no longer a member of these group(s).{/ts}</div>
 	
 	<div>
         {strip}
 	<table>
 	<tr class="columnheader">
-		<th>Group</th>
-		<th>Status</th>
-        <th>Date Added</th>
-		<th>Date Removed</th>
+		<th>{ts}Group{/ts}</th>
+		<th>{ts}Status{/ts}</th>
+        <th>{ts}Date Added{/ts}</th>
+		<th>{ts}Date Removed{/ts}</th>
 		<th></th>
 	</tr>
         {foreach from=$groupOut item=row}
         <tr class="{cycle values="odd-row,even-row"}">
             <td class="label">{$row.title}</td>
-	    	<td>Removed (by {$row.out_method})</td> 
+	    	<td>{ts 1=$row.out_method}Removed (by %1){/ts}</td> 
             <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
             <td>{$row.out_date|date_format:"%B %e, %Y"}</td>
-	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=i"}" onclick ="return confirm('Are you sure you want to add {$displayName} back into {$row.title}?');">[ Rejoin Group ]</a></td>
+	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=i"}" onclick ="return confirm('{ts 1=$displayName 2=$row.title}Are you sure you want to add %1 back into %2?{/ts}');">{ts}[ Rejoin Group ]{/ts}</a></td>
     	</tr>
      	{/foreach}
    	</table>

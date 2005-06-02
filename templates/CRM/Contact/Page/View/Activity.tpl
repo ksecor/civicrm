@@ -36,8 +36,9 @@
     {else}
        {if $action ne 1} {* When we are adding an item, we should not display this message *}
        <div class="message status">
-       <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-         {ts}No activities created yet. You can {/ts}<a href="{crmURL p='civicrm/contact/view/activity' q='action=add'}">{ts}add one{/ts}</a>.
+       <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"> &nbsp;
+         {capture assign=crmURL}{crmURL p='civicrm/contact/view/activity' q='action=add'}{/capture}
+         {ts 1=$crmURL}No activities created yet. You can <a href="%1">}add one</a>.{/ts}
        </div>
        {/if}
     {/if}

@@ -2,18 +2,18 @@
     {if $notes}
         <p>
         <fieldset>
-          <legend>View Note</legend>
+          <legend>{ts}View Note{/ts}</legend>
           <div class="form-item">
-            <label>Date:</label> {$note.modified_date|date_format:"%B %e, %Y"}
+            <label>{ts}Date:{/ts}</label> {$note.modified_date|date_format:"%B %e, %Y"}
             <p>{$note.note}</p>
-            <input type="button" name='cancel' value="Done" onClick="location.href='{crmURL p='civicrm/contact/view/note' q='action=browse'}';">        
+            <input type="button" name='cancel' value="{ts}Done{/ts}" onClick="location.href='{crmURL p='civicrm/contact/view/note' q='action=browse'}';">        
           </div>
         </fieldset>
         </p>
     {/if}
 {elseif $action eq 1 or $action eq 2} {* action is add or update *}
     <p>
-    <fieldset><legend>{if $action eq 1}New{else}Edit{/if} Note</legend>
+    <fieldset><legend>{if $action eq 1}{ts}New Note{/ts}{else}{ts}Edit Note{/ts}{/if}</legend>
     <div class="form-item">
         {$form.note.html}
         <br/>
@@ -28,12 +28,12 @@
 <div id="notes">
     <div class="form-item">
     <p>
-    <div class="label">Existing Notes</div>
+    <div class="label">{ts}Existing Notes{/ts}</div>
     {strip}
        <table>
        <tr class="columnheader">
-	<th>Note</th>
-	<th>Date</th>
+	<th>{ts}Note{/ts}</th>
+	<th>{ts}Date{/ts}</th>
 	<th></th>
        </tr>
        {foreach from=$notes item=note}
@@ -43,12 +43,12 @@
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}
-		  <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">(more)</a>
+		  <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">View</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">Edit</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=delete"}" onclick = 'return confirm("Are you sure you want to delete  {$note.note|mb_truncate:15:"...":true} ?");'> Delete</a>
-            </td>	
+            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">{ts}View{/ts}</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">{ts}Edit{/ts}</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=delete"}" onclick = 'return confirm("{ts 1=$note.note|mb_truncate:15:"...":true}Are you sure you want to delete %1?{/ts}");'> {ts}Delete{/ts}</a>
+            </td>
          </tr>
        {/foreach}
        </table>
@@ -56,7 +56,7 @@
 
        {if $action eq 16 or $action eq 4 or $action eq 8}
        <div class="action-link">
-    	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">&raquo; New Note</a>
+    	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">&raquo; {ts}New Note{/ts}</a>
        </div>
        {/if}
     </div>
@@ -66,8 +66,9 @@
 {else}
    <div class="message status">
     <dl>
-        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
-        <dd>There are no Notes for this contact. You can <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">add one</a>.</dd>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+        {capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q='action=add'}{/capture}
+        <dd>{ts 1=$crmURL}There are no Notes for this contact. You can <a href="%1">add one</a>.{/ts}</dd>
     </dl>
    </div>
 {/if}

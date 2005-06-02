@@ -10,16 +10,16 @@
     {* show browse table for any action *}
       <div id="current-relationships">
         <p>
-        <div><label>Current Relationships</label></div>
+        <div><label>{ts}Current Relationships{/ts}</label></div>
         {strip}
         <table>
         <tr class="columnheader">
-            <th>Relationship</th>
+            <th>{ts}Relationship{/ts}</th>
             <th></th>
-            <th>City</th>
-            <th>State/Prov</th>
-            <th>Email</th>
-            <th>Phone</th>
+            <th>{ts}City{/ts}</th>
+            <th>{ts}State/Prov{/ts}</th>
+            <th>{ts}Email{/ts}</th>
+            <th>{ts}Phone{/ts}</th>
             <th>&nbsp;</th>
         </tr>
 
@@ -43,7 +43,7 @@
         </table>
         {/strip}
         </p>
-      </div>    
+      </div>
 {/if}
 {* end of code to show current relationships *}
 
@@ -52,8 +52,9 @@
   {if $action NEQ 1} {* show 'no relationships' message - unless already in 'add' mode. *}
        <div class="message status">
            <dl>
-           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
-           <dd>There are no Relationships entered for this contact. You can <a href="{crmURL p='civicrm/contact/view/rel' q="action=add"}">add one</a>.</dd>
+           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+           {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add"}{/capture}
+           <dd>{ts 1=$crmURL}There are no Relationships entered for this contact. You can <a href="%1">add one</a>.{/ts}</dd>
            </dl>
       </div>
   {/if}
@@ -62,7 +63,7 @@
   <div>
     {if $action NEQ 1 AND $action NEQ 2}
             <div class="action-link">
-                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1"}">&raquo; New Relationship</a>
+                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1"}">&raquo; {ts}New Relationship{/ts}</a>
             </div>
         {/if}
   </div>
@@ -81,12 +82,12 @@
         {strip}
         <table>
         <tr class="columnheader">
-            <th>Relationship</th>
+            <th>{ts}Relationship{/ts}</th>
             <th></th>
-            <th>City</th>
-            <th>State/Prov</th>
-            <th>Email</th>
-            <th>End Date</th>
+            <th>{ts}City{/ts}</th>
+            <th>{ts}State/Prov{/ts}</th>
+            <th>{ts}Email{/ts}</th>
+            <th>{ts}End Date{/ts}</th>
             <th>&nbsp;</th>
         </tr>
 
@@ -119,17 +120,17 @@
     {* show browse table for any action *}
       <div id="disabled-relationships">
         <p>
-        <div class="label font-red">Disabled Relationships</label></div>
+        <div class="label font-red">{ts}Disabled Relationships{/ts}</div>
         <div class="description">{ts}These relationships have been marked as disabled (no longer active).{/ts}</div>
         {strip}
         <table>
         <tr class="columnheader">
-            <th>Relationship</th>
+            <th>{ts}Relationship{/ts}</th>
             <th></th>
-            <th>City</th>
-            <th>State/Prov</th>
-            <th>Email</th>
-            <th>Phone</th>
+            <th>{ts}City{/ts}</th>
+            <th>{ts}State/Prov{/ts}</th>
+            <th>{ts}Email{/ts}</th>
+            <th>{ts}Phone{/ts}</th>
             <th>&nbsp;</th>
         </tr>
 

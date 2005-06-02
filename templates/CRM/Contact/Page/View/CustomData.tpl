@@ -22,14 +22,14 @@
                 {/foreach}
                 
                 <div class="action-link">
-                <a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update"}">&raquo; Edit custom data</a>
+                <a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update"}">&raquo; {ts}Edit custom data{/ts}</a>
                 </div>
             </div>
         {else}
             <div class="message status">
                 <dl>
-                    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
-                    <dd>Custom Data fields are not currently used for this type of contact.</dd>
+                    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+                    <dd>{ts}Custom Data fields are not currently used for this type of contact.{/ts}</dd>
                 </dl>
             </div>
         {/if}    

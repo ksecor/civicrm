@@ -9,26 +9,26 @@
     <div class="form-item">
     {if $groupCount > 0 }  	
        <table>
-       <tr class="columnheader"><th>Group Listings</th><th>In Date</th><th>Out Date</th><th></th></tr>
+       <tr class="columnheader"><th>{ts}Group Listings{/ts}</th><th>{ts}In Date{/ts}</th><th>{ts}Out Date{/ts}</th><th></th></tr>
        {foreach from=$groupContact item=row}
          <tr class="{cycle values="odd-row,even-row"}">
             <td> {$row.name}</td>
             <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
             <td>{$row.out_date|date_format:"%B %e, %Y"}</td>
-	    <td><a href="#">View</a></td>   
+	    <td><a href="#">{ts}View{/ts}</a></td>
          </tr>
        {/foreach}
        </table>
      {else}
      <div class="message status">	
-     <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
-      This contact does not belong to any groups.
+     <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"> &nbsp;
+      {ts}This contact does not belong to any groups.{/ts}
      </div>	
      {/if}
     </div>
  </p>
   <span class="float-right">
-   <a href="#">Add this contact to one or more groups...</a>
+   <a href="#">{ts}Add this contact to one or more groups...{/ts}</a>
   </span>
 
 </div>
