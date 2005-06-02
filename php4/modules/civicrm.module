@@ -33,7 +33,7 @@
  */
 
 
-
+include_once 'config.inc.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/PseudoConstant.php';
 require_once 'CRM/Core/Block.php';
@@ -55,7 +55,6 @@ require_once 'CRM/Contact/Page/View.php';
 require_once 'CRM/Utils/Wrapper.php';
 require_once 'CRM/Contact/Page/SavedSearch.php';
 require_once 'CRM/Contact/Controller/Search.php';
-include_once 'config.inc.php';
 
 require_once 'PEAR.php';
 
