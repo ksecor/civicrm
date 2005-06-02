@@ -840,24 +840,26 @@ class DB_DataObject extends DB_DataObject_Overload
         // we need to write to the connection (For nextid) - so us the real
         // one not, a copyied on (as ret-by-ref fails with overload!)
         
-        if (!isset($_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5])) {
+         if (!isset($_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5])) {
+             
             $this->_connect();
-        }
-        
+
+           }
+       
         $quoteIdentifiers  = !empty($_DB_DATAOBJECT['CONFIG']['quote_identifiers']);
         
         $DB = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
-         
-        $items =  isset($_DB_DATAOBJECT['INI'][$this->_database][$this->__table]) ?   
+        
+        $items = isset($_DB_DATAOBJECT['INI'][$this->_database][$this->__table]) ?   
             $_DB_DATAOBJECT['INI'][$this->_database][$this->__table] : $this->table();
-            
+         
         if (!$items) {
             $this->raiseError("insert:No table definition for {$this->__table}",
                 DB_DATAOBJECT_ERROR_INVALIDCONFIG);
             return false;
         }
         $options = &$_DB_DATAOBJECT['CONFIG'];
-
+      
 
         $datasaved = 1;
         $leftq     = '';
@@ -1034,6 +1036,7 @@ class DB_DataObject extends DB_DataObject_Overload
             }
             return true;
         }
+
         $this->raiseError("insert: No Data specifed for query", DB_DATAOBJECT_ERROR_NODATA);
         return false;
     }
@@ -1754,7 +1757,9 @@ class DB_DataObject extends DB_DataObject_Overload
         
         // for temporary storage of database fields..
         // note this is not declared as we dont want to bloat the print_r output
+       
         $args = func_get_args();
+       
         if (count($args)) {
             $this->_database_fields = $args[0];
         }
@@ -3230,10 +3235,12 @@ class DB_DataObject extends DB_DataObject_Overload
     {
         global $_DB_DATAOBJECT;
         $this->_connect();
-        if (!isset($_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid])) {
+         if (!isset($_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid])) {
             return  false;
         }
-        return $_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid];
+         echo "++++++++++++++++++";
+         echo $_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid];
+         return $_DB_DATAOBJECT['RESULTS'][$this->_DB_resultid];
     }
 
     /**
