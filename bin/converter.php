@@ -482,7 +482,21 @@ class PHP_DownGrade {
             {
                 if(strcmp($this->tokens[$j][1],"abstract")==0)
                     {
-                        $this->tokens[$j][1]="";
+                        $next = $j;
+                        $next++;
+                          while($this->tokens[$next][0]==T_WHITESPACE)
+                            $next++;
+                          
+                          //echo "\n".$this->tokens[$next][1];
+                          
+                          if($this->tokens[$next][1]=="function")
+                              {
+                                  $this->tokens[$j][1]="// ".$this->tokens[$j][1];
+                              }
+                          else
+                              {
+                                  $this->tokens[$j][1]="";
+                              }
                     }
             }
 
@@ -676,18 +690,25 @@ class PHP_DownGrade {
                                         if($class!=$file)
                                             {
                                                 $file=str_replace("_","/",$file);
+                                                $strFile = $file . ".php"; 
                                                 $file="require_once '".$file.".php"."';";
-                                                // echo "\n".$file;
-                                                $ret.=$file."\n";
+
+                                                if(file_exists('../'.$strFile)) {
+                                                    // echo "\n".$file;
+                                                    $ret.=$file."\n"; 
+                                                }
                                             }
                                     }
                             }
                         else
                             {
                                 $file=str_replace("_","/",$file);
+                                $strFile = $file . ".php"; 
                                 $file="require_once '".$file.".php"."';";
                                 // echo "\n".$file;
-                                $ret.=$file."\n";
+                                if(file_exists('../'.$strFile)) {
+                                    $ret.=$file."\n";
+                                }
                             }
                     }
 
@@ -726,7 +747,7 @@ class PHP_DownGrade {
 // this code is to convert the whole directory from php5 to php4
 
 //$directory = array('CRM', 'modules', 'api');
-$directory = array('api');
+/*$directory = array('api');
 
 foreach ($directory as $v) {
     $rootDir = "$homeDir/svn/crm/$v";
@@ -748,11 +769,11 @@ foreach ($directory as $v) {
     }
 }
 
-
+*/
 
 // end of code to convert files recursively --
 
 
 // use this code if single file has to be converted from php5 to php4  and comment the above block
-//$sam = new PHP_DownGrade($argv[1]);
-//echo $sam->toPHP4();
+$sam = new PHP_DownGrade($argv[1]);
+echo $sam->toPHP4();
