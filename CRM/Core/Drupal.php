@@ -106,11 +106,6 @@ class CRM_Core_Drupal {
                     self::$_viewPermission      = true;
                 } 
             }
-
-            // if we have view permissions only for any list, then we downgrade to view
-            if ( self::$_viewPermission && self::$_editPermission ) {
-                self::$_editPermission = false;
-            }
         }
 
         return self::$_viewPermissionedGroups;
@@ -123,18 +118,29 @@ class CRM_Core_Drupal {
      * @return string the group where clause for this user
      * @access public
      */
-    public static function groupClause( ) {
+    public static function groupClause( $type = 'view' ) {
         if (! isset( self::$_viewPermissionedGroups ) ) {
             self::group( );
         }
 
-        if ( self::$_editAdminUser || self::$_viewAdminUser ) {
-            $clause = ' ( 1 ) ';
-        } else if ( empty( self::$_viewPermissionedGroups ) ) {
-            $clause = ' ( 0 ) ';
+        if ( $type == 'edit' ) {
+            if ( self::$_editAdminUser ) {
+                $clause = ' ( 1 ) ';
+            } else if ( empty( self::$_editPermissionedGroups ) ) {
+                $clause = ' ( 0 ) ';
+            } else {
+                $groups = implode( ', ', self::$_editPermissionedGroups );
+                $clause = ' ( group_id IN (' . implode( ', ', array_keys( self::$_editPermissionedGroups ) ) . ') ) ';
+            }
         } else {
-            $groups = implode( ', ', self::$_viewPermissionedGroups );
-            $clause = ' ( group_id IN (' . implode( ', ', array_keys( self::$_viewPermissionedGroups ) ) . ') ) ';
+            if ( self::$_viewAdminUser ) {
+                $clause = ' ( 1 ) ';
+            } else if ( empty( self::$_viewPermissionedGroups ) ) {
+                $clause = ' ( 0 ) ';
+            } else {
+                $groups = implode( ', ', self::$_viewPermissionedGroups );
+                $clause = ' ( group_id IN (' . implode( ', ', array_keys( self::$_viewPermissionedGroups ) ) . ') ) ';
+            }
         }
         return $clause;
     }

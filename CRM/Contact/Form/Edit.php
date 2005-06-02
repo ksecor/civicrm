@@ -106,6 +106,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     CRM_Core_Error::fatal( "contact does not exist: $this->_contactId" );
                 }
                 $this->_contactType = $contact->contact_type;
+                
+                // check for permissions
+                if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, 'edit' ) ) {
+                    CRM_Core_Error::fatal( "You do not have the necessary permission to edit this contact." );
+                }
                 return;
             }
             CRM_Core_Error::fatal( "Could not get a contact_id and/or contact_type" );
@@ -122,7 +127,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     function setDefaultValues( ) {
         $defaults = array( );
         $params   = array( );
-
+        
         if ( $this->_action & CRM_Core_Action::ADD ) {
             if ( self::LOCATION_BLOCKS >= 1 ) {
                 // set the is_primary location for the first location
@@ -151,10 +156,18 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)
             $this->_contactType = CRM_Utils_Array::value( 'contact_type', $defaults );
+            
+            CRM_Core_Error::debug( 'p', $params );
+            
         }
         
-        $this->setShowHide( $defaults );
-
+        // use most recently posted values if any to display show hide blocks
+        $params = $this->controller->exportValues( );
+        if ( ! empty( $params ) ) {
+            $this->setShowHide( $params );
+        } else {
+            $this->setShowHide( $defaults );
+        }
         return $defaults;
     }
 
@@ -179,20 +192,20 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                                         self::LOCATION_BLOCKS );
  
         if ( $this->_action & CRM_Core_Action::ADD ) {
-        // notes are only included in the template for New Contact
+            // notes are only included in the template for New Contact
             $this->_showHide->addShow( 'notes[show]' );
             $this->_showHide->addHide( 'notes' );
         }
 
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            // is there any demographics data?
-            if ( CRM_Utils_Array::value( 'gender'     , $defaults ) ||
-                 CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
-                 CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
-                $this->_showHide->addShow( 'demographics' );
-                $this->_showHide->addHide( 'demographics[show]' );
-            }
+        // is there any demographics data?
+        if ( CRM_Utils_Array::value( 'gender'     , $defaults ) ||
+             CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
+             CRM_Utils_Array::value( 'birth_date' , $defaults ) ) {
+            $this->_showHide->addShow( 'demographics' );
+            $this->_showHide->addHide( 'demographics[show]' );
+        }
 
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        CRM_Utils_Array::value( 'location', $defaults ),
                                                        self::LOCATION_BLOCKS );

@@ -61,6 +61,24 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         parent::__construct();
     }
 
+    static function permissionedContact( $id, $type = 'view' ) {
+        $query = ' SELECT count(DISTINCT crm_contact.id)
+                   FROM crm_contact
+                       LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                       LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
+                       LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+                       LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                       LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
+                       LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
+                       LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id
+                   WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Drupal::groupClause( $type ) . ' ';
+
+        $dao = new CRM_Core_DAO( );
+        $dao->query($query);
+        $row = $dao->getDatabaseResult()->fetchRow();
+        return ( $row[0] > 0 ) ? true : false;
+    }
+
     /**
      * create and query the db for an advanced contact search
      *
@@ -308,8 +326,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         return $this;
     }
-
-
 
     /**
      * takes an associative array and creates a contact object
