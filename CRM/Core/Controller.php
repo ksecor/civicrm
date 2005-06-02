@@ -173,19 +173,26 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      */
     function addActions( $uploadDirectory = null, $uploadNames = null ) {
-        static $names = array(
-                              'display'   => 'CRM_Core_QuickForm_Action_Display',
-                              'next'      => 'CRM_Core_QuickForm_Action_Next'   ,
-                              'back'      => 'CRM_Core_QuickForm_Action_Back'   ,
-                              'process'   => 'CRM_Core_QuickForm_Action_Process',
-                              'cancel'    => 'CRM_Core_QuickForm_Action_Cancel' ,
-                              'refresh'   => 'CRM_Core_QuickForm_Action_Refresh',
-                              'done'      => 'CRM_Core_QuickForm_Action_Done'   ,
-                              'jump'      => 'CRM_Core_QuickForm_Action_Jump'   ,
-                              'submit'    => 'CRM_Core_QuickForm_Action_Submit' ,
-                              );
 
-        foreach ( $names as $name => $classPath ) {
+        // statics dont work well with php4 - since they are converted to global variables
+        // it makes the code heavier.
+        //static $names = array(
+        $names = array(
+                       'display'   => 'CRM_Core_QuickForm_Action_Display',
+                       'next'      => 'CRM_Core_QuickForm_Action_Next'   ,
+                       'back'      => 'CRM_Core_QuickForm_Action_Back'   ,
+                       'process'   => 'CRM_Core_QuickForm_Action_Process',
+                       'cancel'    => 'CRM_Core_QuickForm_Action_Cancel' ,
+                       'refresh'   => 'CRM_Core_QuickForm_Action_Refresh',
+                       'done'      => 'CRM_Core_QuickForm_Action_Done'   ,
+                       'jump'      => 'CRM_Core_QuickForm_Action_Jump'   ,
+                       'submit'    => 'CRM_Core_QuickForm_Action_Submit' ,
+                       );
+
+        foreach ($names as $name => $classPath) {
+            if (CRM_Utils_System::isPHP4()) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $classPath) . 'php');
+            }
             $this->addAction( $name, new $classPath( $this->_stateMachine ) );
         }
     
@@ -237,9 +244,11 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
         foreach ( $pages as $classPath ) {
             $stateName   = CRM_Utils_String::getClassName($classPath);
+            if (CRM_Utils_System::isPHP4()) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, $classPath) . 'php');
+            }
 
-            $$stateName = new $classPath( $stateMachine->find( $classPath ),
-                                          $action );
+            $$stateName = new $classPath($stateMachine->find($classPath), $action);
             $this->addPage( $$stateName );
             $this->addAction( $stateName, new HTML_QuickForm_Action_Direct( ) );
         }
