@@ -70,8 +70,8 @@ class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic
     function &links() 
     {
 
-        if ( ! isset( $GLOBALS['_CRM_ADMIN_PAGE_MOBILEPROVIDER']['_links'] ) ) 
-        {
+        //if ( ! isset( $GLOBALS['_CRM_ADMIN_PAGE_MOBILEPROVIDER']['_links'] ) ) 
+        //{
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this Mobile Phone Service Provider?\n\nUsers will no longer be able to select this value when adding or editing contact phone numbers.');
 
@@ -96,7 +96,7 @@ class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic
                                                                     'title' => ts('Enable Mobile Phone Service Provider') 
                                                                    )
                                  );
-        }
+        //}
         return $GLOBALS['_CRM_ADMIN_PAGE_MOBILEPROVIDER']['_links'];
     }
 

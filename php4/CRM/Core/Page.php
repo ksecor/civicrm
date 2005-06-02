@@ -122,10 +122,10 @@ class CRM_Core_Page {
         $this->_mode  = $mode;
         
         // let the constructor initialize this, should happen only once
-        if ( ! isset( $GLOBALS['_CRM_CORE_PAGE']['_template'] ) ) {
+        // if ( ! isset( $GLOBALS['_CRM_CORE_PAGE']['_template'] ) ) {
             $GLOBALS['_CRM_CORE_PAGE']['_template'] = CRM_Core_Smarty::singleton( );
             $GLOBALS['_CRM_CORE_PAGE']['_session']  = CRM_Core_Session::singleton( );
-        }
+            // }
 
         // if the request has a reset value, initialize the controller session
         if ( $_GET['reset'] ) {

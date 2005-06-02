@@ -70,8 +70,8 @@ class CRM_Admin_Page_Tag extends CRM_Core_Page_Basic
      */
     function &links() 
     {
-        if ( ! isset( $GLOBALS['_CRM_ADMIN_PAGE_TAG']['_links'] ) ) 
-        {
+        // if ( ! isset( $GLOBALS['_CRM_ADMIN_PAGE_TAG']['_links'] ) ) 
+        //{
             // helper variable for nicer formatting
             $deleteExtra = ts('Are you sure you want to delete this tag?\n\nThis tag will be removed from any currently tagged contacts, and users will no longer be able to assign contacts to this tag.');
 
@@ -90,7 +90,7 @@ class CRM_Admin_Page_Tag extends CRM_Core_Page_Basic
                                                                     'title' => ts('Delete Tag'), 
                                                                    ),
                                  );
-        }
+        //}
         return $GLOBALS['_CRM_ADMIN_PAGE_TAG']['_links'];
     }
 

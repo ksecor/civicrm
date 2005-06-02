@@ -17,6 +17,7 @@ abstract class samclass
         CRM_Core_Contact::aaa();
         parent::bb();
         self::zzz();
+        test_log::log();
         
         parent::__construct();
         self::$num =100;
@@ -25,7 +26,9 @@ abstract class samclass
             {
             }
         
-    } 
+    }
+
+    abstract function aa();
    
 
 }

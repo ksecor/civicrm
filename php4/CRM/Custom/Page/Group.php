@@ -70,7 +70,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
     function &actionLinks()
     {
         // check if variable _actionsLinks is populated
-        if (!isset($GLOBALS['_CRM_CUSTOM_PAGE_GROUP']['_actionLinks'])) {
+        //if (!isset($GLOBALS['_CRM_CUSTOM_PAGE_GROUP']['_actionLinks'])) {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data group?');
             $GLOBALS['_CRM_CUSTOM_PAGE_GROUP']['_actionLinks'] = array(
@@ -100,7 +100,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
                                                                           'title' => ts('Enable Custom Group'),
                                                                           ),
                                         );
-        }
+            // }
         return $GLOBALS['_CRM_CUSTOM_PAGE_GROUP']['_actionLinks'];
     }
 
