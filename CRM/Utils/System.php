@@ -322,7 +322,7 @@ class CRM_Utils_System {
         // we are in php4 now
         // get all components of the class name
         $classNameComponent = explode("_", $className);
-        foreach ($classNameComponent as $v) {
+        foreach ($classNameComponent as $k => $v) {
             $v =& $classNameComponent[$k];
             if (array_key_exists($v, self::$php4SpecialClassName)) {
                 $v = self::$php4SpecialClassName[$v]; // special case hence replace
