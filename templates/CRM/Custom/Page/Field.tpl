@@ -41,7 +41,7 @@
         {if $action eq 16}
         <div class="message status">
         <dl>
-        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
         <dd>{ts 1=$groupTitle}There are no custom fields for custom group "%1",{/ts} <a href="{crmURL p='civicrm/admin/custom/group/field q="action=add&gid=$gid"}">{ts}add one{/ts}</a>.</dd>
         </dl>
         </div>

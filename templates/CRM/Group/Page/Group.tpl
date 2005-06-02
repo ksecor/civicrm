@@ -5,8 +5,8 @@
    {strip}
    <table>
    <tr class="columnheader">
-    <th>Name</th>
-    <th>Description</th>
+    <th>{ts}Name{/ts}</th>
+    <th>{ts}Description{/ts}</th>
     <th></th>
    </tr>
    {foreach from=$rows item=row}
@@ -31,7 +31,7 @@
 
 {if $action ne 1 and $action ne 2 and $action ne 8}
     <div class="action-link">
-        <a href="{crmURL p='civicrm/group/add' q='reset=1'}">{ts}&raquo; New Group{/ts}</a>
+        <a href="{crmURL p='civicrm/group/add' q='reset=1'}">{ts}&raquo; {ts}New Group{/ts}{/ts}</a>
     </div>
 {/if} {* action ne add or edit *}
 </p>

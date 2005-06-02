@@ -6,29 +6,30 @@
  
  <div id="help">
     <p>
-    <strong>Import has completed successfully.</strong> The information below summarizes the
-    results.
+    {ts}<strong>Import has completed successfully.</strong> The information below summarizes the
+    results.{/ts}
     </p>
     
     {if $invalidRowCount }
         <p>
-        CiviCRM has detected invalid data and/or formatting errors in {$invalidRowCount} records.
-        These records have not been imported. You can <a href = "{crmURL p=`$errorFile`}">download</a> a file with just
-        these problem records - {$downloadErrorRecords}. You may then correct them and import
-        the new file with the corrected data.
+        {capture assign=crmURL}{crmURL p=`$errorFile`}{/capture}
+        {ts 1=$invalidRowCount 2=$crmURL 3=$downloadErrorRecords}CiviCRM has detected invalid data and/or formatting errors in %1 records.
+        These records have not been imported. You can <a href = "%2">download</a> a file with just
+        these problem records - %3. You may then correct them and import
+        the new file with the corrected data.{/ts}
         </p>
     {/if}
 
     {if $duplicateRowCount}
         <p>
-        CiviCRM has detected {$duplicateRowCount} records with duplicate email addresses within
+        {ts 1=$duplicateRowCount}CiviCRM has detected %1 records with duplicate email addresses within
         this data file or relative to existing contact records. These records have not been
-        imported. CiviCRM does not allow multiple contact records to have the same email address.
+        imported. CiviCRM does not allow multiple contact records to have the same email address.{/ts}
         </p>
         <p>
-        You can download a file with just these problem records - {$downloadErrorRecords}.
+        {ts 1=$downloadErrorRecords}You can download a file with just these problem records - %1.
         You may then review these records to determine if they are actually duplicates, and
-        correct the email addresses for those that are not.
+        correct the email addresses for those that are not.{/ts}
         </p>
     {/if}
     
@@ -36,28 +37,28 @@
     
  {* Summary of Import Results (record counts) *}
  <table id="summary-counts" class="report">
-    <tr><td class="label">Total Rows</td>
+    <tr><td class="label">{ts}Total Rows{/ts}</td>
         <td class="data">{$totalRowCount}</td>
-        <td class="explanation">Total rows (contact records) in uploaded file.</td>
+        <td class="explanation">{ts}Total rows (contact records) in uploaded file.{/ts}</td>
     </tr>
 
-    <tr><td class="label">Invalid Rows (skipped)</td>
+    <tr><td class="label">{ts}Invalid Rows (skipped){/ts}</td>
         <td class="data">{$invalidRowCount}</td>
-        <td class="explanation">Rows with invalid data (NOT imported).
+        <td class="explanation">{ts}Rows with invalid data (NOT imported).{/ts}
             <p>{$downloadErrorRecords}</p>
         </td>
     </tr>
     
-    <tr><td class="label">Duplicate Rows (skipped)</td>
+    <tr><td class="label">{ts}Duplicate Rows (skipped){/ts}</td>
         <td class="data">{$duplicateRowCount}</td>
-        <td class="explanation">Rows with duplicate email addresses (NOT imported).
+        <td class="explanation">{ts}Rows with duplicate email addresses (NOT imported).{/ts}
             <p>{$downloadDuplicateRecords}</p>
         </td>
     </tr>
 
-    <tr><td class="label">Records Imported</td>
+    <tr><td class="label">{ts}Records Imported{/ts}</td>
         <td class="data">{$validRowCount}</td>
-        <td class="explanation">Rows imported successfully.</td>
+        <td class="explanation">{ts}Rows imported successfully.{/ts}</td>
     </tr>
  </table>
  

@@ -9,14 +9,14 @@
                    { if $smarty.section.rows.iteration == 1 }
                      <th>Column Headers</th>
                    {else}
-                     <th>Import Data (row {$smarty.section.rows.iteration})</th>
+                     <th>{ts 1=$smarty.section.rows.iteration}Import Data (row %1){/ts}</th>
                    {/if}
 	        {else}
-                  <th>Import Data (row {$smarty.section.rows.iteration})</th>
+                  <th>{ts 1=$smarty.section.rows.iteration}Import Data (row %1){/ts}</th>
                 {/if}
             {/section}
             
-            <th>Matching CiviCRM Field</th>
+            <th>{ts}Matching CiviCRM Field{/ts}</th>
         </tr>
         
         {*Loop on columns parsed from the import data rows*}

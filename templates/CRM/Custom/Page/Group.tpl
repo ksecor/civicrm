@@ -44,7 +44,7 @@
     {else}
        {if $action ne 1} {* When we are adding an item, we should not display this message *}
        <div class="message status">
-       <img src="{$config->resourceBase}i/Inform.gif" alt="status"> &nbsp;
+       <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"> &nbsp;
          {ts}No custom data groups have been created yet. You can {/ts}<a href="{crmURL p='civicrm/admin/custom/group' q='action=add&reset=1'}">{ts}add one{/ts}</a>.
        </div>
        {/if}
