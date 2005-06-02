@@ -8,7 +8,7 @@
 
 {if count($form.errors) gt 0}
    <div class="messages error">
-   Please correct the following errors in the form fields below:
+   {ts}Please correct the following errors in the form fields below:{/ts}
    <ul id="errorList">
    {foreach from=$form.errors key=name item=error}
       {if is_array($error)}

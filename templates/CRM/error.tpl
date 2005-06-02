@@ -15,12 +15,12 @@
 
 <div class="message status">
   <dl>
-  <dt><img src="{$config->resourceBase}i/Error.gif" alt="unrecoverable error"></dt>
+  <dt><img src="{$config->resourceBase}i/Error.gif" alt="{ts}unrecoverable error{/ts}"></dt>
   <dd>
-      Sorry. A non-recoverable error has occurred.
+      {ts}Sorry. A non-recoverable error has occurred.{/ts}
       <p>$errorMsg</p>
-      <p>Error Code: {$errorCode}</p>
-      <p><a href="{$config->mainMenu}" title="Main Menu">Return to CiviCRM menu.</a></p>
+      <p>{ts}Error Code:{/ts} {$errorCode}</p>
+      <p><a href="{$config->mainMenu}" title="{ts}Main Menu{/ts}">{ts}Return to CiviCRM menu.{/ts}</a></p>
   </dd>
   </dl>
 </div>
