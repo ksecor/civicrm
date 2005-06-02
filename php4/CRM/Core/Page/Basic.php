@@ -159,8 +159,10 @@ require_once 'CRM/Core/Page.php';
         } else if ($action & CRM_CORE_ACTION_DELETE) { 
             $this->delete($action, $id );                            // delete the id
         } else if ($action & CRM_CORE_ACTION_DISABLE) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR,$this->getBAOName( )) . ".php");
             eval($this->getBAOName( ) . "::setIsActive( $id, 0 );"); //disable
         } else if ( $action & CRM_CORE_ACTION_ENABLE ) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR,$this->getBAOName( )) . ".php");
             eval($this->getBAOName( ) . "::setIsActive( $id, 1 );"); // enable
         } 
 

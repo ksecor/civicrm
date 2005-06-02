@@ -79,7 +79,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      */
     function &actionLinks()
     {
-        if (!isset($GLOBALS['_CRM_CUSTOM_PAGE_FIELD']['_actionLinks'])) {
+        // if (!isset($GLOBALS['_CRM_CUSTOM_PAGE_FIELD']['_actionLinks'])) {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data field?');
             $GLOBALS['_CRM_CUSTOM_PAGE_FIELD']['_actionLinks'] = array(
@@ -109,7 +109,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                                                                           'title' => ts('Enable Custom Group'),
                                                                           ),
                                         );
-        }
+            // }
         return $GLOBALS['_CRM_CUSTOM_PAGE_FIELD']['_actionLinks'];
     }
 

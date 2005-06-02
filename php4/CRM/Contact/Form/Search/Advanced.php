@@ -62,7 +62,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     {
         // add checkboxes for contact type
         $cb_contact_type = array( );
-        foreach (CRM_Core_SelectValues::$contactType as $k => $v) {
+        foreach ($GLOBALS['_CRM_CORE_SELECTVALUES']['contactType']as $k => $v) {
             if ( ! empty( $k ) ) {
                 $cb_contact_type[] = HTML_QuickForm::createElement('checkbox', $k, null, $v);
             }
