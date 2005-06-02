@@ -37,15 +37,16 @@ $GLOBALS['_CRM_CONTACT_BAO_CONTACT']['misc'] =  array( 'Household', 'Organizatio
 
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Core/Drupal.php';
-require_once 'CRM/Utils/Array.php';
 require_once 'CRM/Core/DAO.php';
+require_once 'CRM/Utils/Array.php';
+require_once 'CRM/Utils/System.php';
 require_once 'CRM/Contact/BAO/Location.php';
 require_once 'CRM/Core/BAO/Note.php';
+require_once 'CRM/Utils/Date.php';
 require_once 'CRM/Core/PseudoConstant.php';
 require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Contact/BAO/Relationship.php';
 require_once 'CRM/Contact/BAO/GroupContact.php';
-require_once 'CRM/Core/BAO/Activity.php';
 require_once 'CRM/Contact/BAO/Individual.php';
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Contact/DAO/Location.php';
@@ -74,6 +75,27 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     function CRM_Contact_BAO_Contact()
     {
         parent::CRM_Contact_DAO_Contact();
+    }
+
+     function permissionedContact( $id, $type = 'view' ) {
+        $query = ' SELECT count(DISTINCT crm_contact.id)
+                   FROM crm_contact
+                       LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                       LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
+                       LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+                       LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                       LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
+                       LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
+                       LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id
+                   WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Drupal::groupClause( $type ) . ' ';
+
+        $dao = new CRM_Core_DAO( );
+        $dao->query($query);
+        //$row = $dao->getDatabaseResult()->fetchRow();
+        $result = $this->getDatabaseResult();
+        $row = $result->fetchRow();
+
+        return ( $row[0] > 0 ) ? true : false;
     }
 
     /**
@@ -304,7 +326,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         if (!$count) {
             if ($sort) {
-                $order = " ORDER BY " . $sort->orderBy(); 
+                #$order = " ORDER BY " . $sort->orderBy(); 
             }
             if ( $rowCount > 0 ) {
                 $limit = " LIMIT $offset, $rowCount ";
@@ -320,12 +342,12 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             //$row = $this->getDatabaseResult()->fetchRow();
             $result = $this->getDatabaseResult();
             $row = $result->fetchRow();
+
             return $row[0];
         }
+
         return $this;
     }
-
-
 
     /**
      * takes an associative array and creates a contact object
@@ -343,12 +365,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
      function add(&$params, &$ids)
     {
-
-        CRM_Core_Error::le_method();
-
         $contact = new CRM_Contact_BAO_Contact();
-
-        CRM_Core_Error::debug_log_message("Breakpoint 10");        
         
         $contact->copyValues($params);
 
@@ -378,8 +395,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
         $contact->domain_id = CRM_Utils_Array::value('domain' , $ids, 1);
         $contact->id        = CRM_Utils_Array::value('contact', $ids);
-
-        CRM_Core_Error::debug_log_message("Breakpoint 20");
 
         return $contact->save();
     }
@@ -438,19 +453,16 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
      function create(&$params, &$ids, $maxLocationBlocks)
     {
-        CRM_Core_Error::le_method();
-
         CRM_Core_DAO::transaction('BEGIN');
         
-        CRM_Core_Error::debug_log_message("Breakpoint 10");        
-
         $contact = CRM_Contact_BAO_Contact::add($params, $ids);
-
-        CRM_Core_Error::debug_log_message("Breakpoint 20");        
         
         $params['contact_id'] = $contact->id;
 
         // invoke the add operator on the contact_type class
+        if (CRM_Utils_System::isPHP4()) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
+        }
         eval('$contact->contact_type_object = CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
 
         $location = array();
@@ -479,59 +491,30 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @static
      */
      function resolveDefaults( &$defaults, $reverse = false ) {
+        // hack for birth_date
+        if ( CRM_Utils_Array::value( 'birth_date', $defaults ) ) {
+            $defaults['birth_date'] = CRM_Utils_Date::format( $defaults['birth_date'], '-' );
+        }
+
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
-
-
-            /*
-            foreach ( $locations as $index => &$location ) {
+            foreach ( $locations as $index => $location ) {
+                $location =& $locations[$index];
                 // self::lookupValue( $location, 'location_type', CRM_Core_SelectValues::$locationType, $reverse );
                 CRM_Contact_BAO_Contact::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
                 if ( array_key_exists( 'address', $location ) ) {
                     CRM_Contact_BAO_Contact::lookupValue( $location['address'], 'state_province', CRM_Core_PseudoConstant::stateProvince(), $reverse );
                     CRM_Contact_BAO_Contact::lookupValue( $location['address'], 'country'       , CRM_Core_PseudoConstant::country()      , $reverse );
-                    CRM_Contact_BAO_Contact::lookupValue( $location['address'], 'county'        , CRM_Core_SelectValues::$county          , $reverse );
+                    CRM_Contact_BAO_Contact::lookupValue( $location['address'], 'county'        , $GLOBALS['_CRM_CORE_SELECTVALUES']['county']          , $reverse );
                 }
                 if ( array_key_exists( 'im', $location ) ) {
                     $ims =& $location['im'];
-                    foreach ( $ims as $innerIndex => &$im ) {
-                        CRM_Contact_BAO_Contact::lookupValue( $im, 'provider', CRM_Core_PseudoConstant::IMProvider(), $reverse );
-                    }
-                }
-            }
-            */
-
-            
-            foreach ( $locations as $index => $location ) {
-                // self::lookupValue( $location, 'location_type', CRM_Core_SelectValues::$locationType, $reverse );
-                $location =& $locations[$index];
-                CRM_Contact_BAO_Contact::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
-                if (array_key_exists('address', $location)) {
-                    CRM_Contact_BAO_Contact::lookupValue( $location['address'], 'state_province', CRM_Core_PseudoConstant::stateProvince(), $reverse );
-                    CRM_Contact_BAO_Contact::lookupValue( $location['address'], 'country'       , CRM_Core_PseudoConstant::country()      , $reverse );
-                    //CRM_Contact_BAO_Contact::lookupValue( $location['address'], 'county', CRM_Core_SelectValues::$county          , $reverse );
-                    CRM_Contact_BAO_Contact::lookupValue($location['address'], 'county', $GLOBALS['_CRM_CORE_SELECTVALUES']['county'], $reverse );
-                }
-                if ( array_key_exists( 'im', $location ) ) {
-                    $ims =& $location['im'];
-                    
-                    /*
-                    foreach ( $ims as $innerIndex => &$im ) {
-                        CRM_Contact_BAO_Contact::lookupValue( $im, 'provider', CRM_Core_PseudoConstant::IMProvider(), $reverse );
-                    }
-                    */
                     foreach ( $ims as $innerIndex => $im ) {
                         $im =& $ims[$innerIndex];
                         CRM_Contact_BAO_Contact::lookupValue( $im, 'provider', CRM_Core_PseudoConstant::IMProvider(), $reverse );
                     }
-
                 }
             }
-
-
-
-
-
         }
     }
 
@@ -580,13 +563,16 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
 
         unset($params['id']);
+        if (CRM_Utils_System::isPHP4()) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
+        }
         eval( '$contact->contact_type_object = CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
 
         $contact->location     =& CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 3 );
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
-        $contact->activity     =& CRM_Core_BAO_Activity::getValues($params, $defaults, $ids);
+        // $contact->activity     =& CRM_Core_BAO_Activity::getValues($params, $defaults, $ids);
 
         return $contact;
     }
@@ -641,6 +627,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // fix household and org primary contact ids
         
         foreach ( $GLOBALS['_CRM_CONTACT_BAO_CONTACT']['misc'] as $name ) {
+            if (CRM_Utils_System::isPHP4()) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
+            }
             eval( '$object = new CRM_Contact_DAO_' . $name . '( );' );
             $object->primary_contact_id = $id;
             $object->find( );
@@ -655,6 +644,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact = new CRM_Contact_DAO_Contact();
         $contact->id = $id;
         if ($contact->find(true)) {
+            if (CRM_Utils_System::isPHP4()) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
+            }
             eval( '$object = new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
             $object->contact_id = $contact->id;
             $object->delete( );

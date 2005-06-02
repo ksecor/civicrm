@@ -243,6 +243,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->assign( 'blockCount'   , CRM_CONTACT_FORM_LOCATION_BLOCKS + 1 );
         $this->assign( 'contact_type' , $this->_contactType );
 
+        require_once( 'CRM/Contact/Form/' . $this->_contactType . '.php');
         eval( 'CRM_Contact_Form_' . $this->_contactType . '::buildQuickForm( $this );' );
         
         // add the communications block
@@ -364,6 +365,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                          is_array( $fields['location'][$locationId]['email'] )         &&
                          empty( $primaryEmail ) ) {
                         foreach ( $fields['location'][$locationId]['email'] as $idx => $email ) {
+                            $email =& $fields['location'][$locationId]['email'][$idx];
                             if ( array_key_exists( 'email', $email ) ) {
                                 $primaryEmail = $email['email'];
                                 break;
@@ -389,6 +391,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      function locationDataExists( &$fields ) {
         
         foreach ( $fields as $name => $value ) {
+            $value =& $fields[$name];
             $skipField = false;
             foreach ( $GLOBALS['_CRM_CONTACT_FORM_EDIT']['skipFields'] as $skip ) {
                 if ( strpos( "[$skip]", $name ) !== false ) {

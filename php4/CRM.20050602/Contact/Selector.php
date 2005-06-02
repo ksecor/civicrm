@@ -300,7 +300,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base {
      * @access public
      */
   
-      function getQILL(&$fv)
+    function getQILL(&$fv)
     {
         // query in local language
         $qill = array( );

@@ -122,12 +122,12 @@ require_once 'CRM/Core/DAO.php';
         */
         function &links() 
         {
-            if (!isset($GLOBALS['_CRM_CONTACT_DAO_TAG']['_links'])) {
+            // if (!isset($GLOBALS['_CRM_CONTACT_DAO_TAG']['_links'])) {
                 $GLOBALS['_CRM_CONTACT_DAO_TAG']['_links'] = array(
                     'domain_id'=>'crm_domain:id',
                     'parent_id'=>'crm_tag:id',
                 );
-            }
+                //  }
             return $GLOBALS['_CRM_CONTACT_DAO_TAG']['_links'];
         }
         /**
@@ -138,7 +138,7 @@ require_once 'CRM/Core/DAO.php';
         */
         function &fields() 
         {
-            if (!isset($GLOBALS['_CRM_CONTACT_DAO_TAG']['_fields'])) {
+            // if (!isset($GLOBALS['_CRM_CONTACT_DAO_TAG']['_fields'])) {
                 $GLOBALS['_CRM_CONTACT_DAO_TAG']['_fields'] = array(
                     'id'=>array(
                         'type'=>CRM_UTILS_TYPE_T_INT,
@@ -164,7 +164,7 @@ require_once 'CRM/Core/DAO.php';
                         'type'=>CRM_UTILS_TYPE_T_INT,
                     ) ,
                 );
-            }
+                //  }
             return $GLOBALS['_CRM_CONTACT_DAO_TAG']['_fields'];
         }
         /**

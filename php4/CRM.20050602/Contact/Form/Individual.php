@@ -63,6 +63,9 @@ class CRM_Contact_Form_Individual {
         
         // prefix
         $form->addElement('select', 'prefix', null,$GLOBALS['_CRM_CORE_SELECTVALUES']['prefixName']);
+
+        $form->addElement('select', 'prefix', null);
+
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
 
         // first_name
