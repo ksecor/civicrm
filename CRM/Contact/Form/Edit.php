@@ -156,9 +156,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)
             $this->_contactType = CRM_Utils_Array::value( 'contact_type', $defaults );
-            
-            CRM_Core_Error::debug( 'p', $params );
-            
         }
         
         // use most recently posted values if any to display show hide blocks

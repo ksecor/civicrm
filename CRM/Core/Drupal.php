@@ -85,8 +85,8 @@ class CRM_Core_Drupal {
             if ( user_access( 'edit all contacts' ) ) {
                 // this is the most powerful permission, so we return
                 // immediately rather than dilute it further
-                self::$_editAdminUser = true;
-                self::$_editPermission      = true;
+                self::$_editAdminUser          = self::$_viewAdminUser  = true;
+                self::$_editPermission         = self::$_viewPermission = true;
                 self::$_editPermissionedGroups = $groups;
                 self::$_viewPermissionedGroups = $groups;
                 return self::$_viewPermissionedGroups;

@@ -53,12 +53,14 @@ class CRM_Utils_Date {
         }
 
         if ( $date['M'] ) {
+            $date['M'] = (int ) $date['M'];
             $date['M'] = ($date['M'] < 10) ? '0' . $date['M'] : $date['M'];
         } else {
             $date['M'] = '00';
         }
 
         if ( $date['d'] ) {
+            $date['d'] = (int ) $date['d'];
             $date['d'] = ($date['d'] < 10) ? '0' . $date['d'] : $date['d'];
         } else {
             $date['d'] = '00';
@@ -78,7 +80,7 @@ class CRM_Utils_Date {
      * @access public
      */     
     static function unformat( $date, $separator = '-' ) {
-        list( $year, $mon, $date ) = explode( $separator, $date, 3 );
+        list( $year, $mon, $day ) = explode( $separator, $date, 3 );
 
         $value = array( );
         $value['Y'] = $value['M'] = $value['d'] = null;
@@ -94,7 +96,7 @@ class CRM_Utils_Date {
         if ( is_numeric( $day ) && $day > 0 ) {
             $value['d'] = $day;
         }
-
+        
         return $value;
     }
 
