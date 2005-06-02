@@ -33,6 +33,8 @@
 
 require_once 'CRM/Core/Page.php';
 
+
+
 abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     
     /**
@@ -45,8 +47,9 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      * @return string
      * @access public
      */
+
     abstract function getBAOName( );
-    
+
     /**
      * an array of action links
      *

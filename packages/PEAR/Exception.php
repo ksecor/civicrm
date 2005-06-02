@@ -120,7 +120,8 @@ class PEAR_Exception extends Exception
         if (is_int($p2)) {
             $code = $p2;
             $this->cause = null;
-        } elseif ($p2 instanceof Exception || is_array($p2)) {
+            //} elseif ($p2 instanceof Exception || is_array($p2)) {
+        } elseif (is_a($p2, Exception) || is_array($p2)) {
             $code = $p3;
             if (is_array($p2) && isset($p2['message'])) {
                 // fix potential problem of passing in a single warning
@@ -234,12 +235,14 @@ class PEAR_Exception extends Exception
                 $cause['line'] = $trace[0]['line'];
             }
         }
-        if ($this->cause instanceof PEAR_Exception) {
+        //if ($this->cause instanceof PEAR_Exception) {
+        if (is_a($this->cause, PEAR_Exception) {
             $this->cause->getCauseMessage($causes);
         }
         if (is_array($this->cause)) {
             foreach ($this->cause as $cause) {
-                if ($cause instanceof PEAR_Exception) {
+                //if ($cause instanceof PEAR_Exception) {
+                if (is_a($cause, PEAR_Exception)) {
                     $cause->getCauseMessage($causes);
                 } elseif (is_array($cause) && isset($cause['message'])) {
                     // PEAR_ErrorStack warning
