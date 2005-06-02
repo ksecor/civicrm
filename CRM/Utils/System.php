@@ -297,46 +297,6 @@ class CRM_Utils_System {
         }
     }
 
-    
-    /**
-     * Create a class name to file location within the CRM tree
-     *
-     * This is used primarily by the PHP4 code since the
-     * get_class($this) in php4 returns the class name in lowercases.
-     *
-     * We need to do some conversions before we can use the lower case class names.
-     *
-     * @param  string $className - class name of a crm
-     * @param  boolean $phpFile - whether we need a php extension or template extension
-     * @return string $fileName  - full file name of the class
-     *
-     * @access public
-     * @static
-     */
-    static function classNameToFile($className, $phpFile=true) {
-        
-        // get all components of the class name
-        $classNameComponent = explode("_", $className);
-
-        if (self::isPHP4()) {
-            foreach ($classNameComponent as &$v) {
-                if (array_key_exists($v, self::$php4SpecialClassName)) {
-                    $v = self::$php4SpecialClassName[$v];        // special case hence replace
-                } else {
-                    $v = ucfirst($v);                            // regular component so just upcase first character
-                }
-            }
-        }
-
-        // create the file name
-        $fileName = implode(DIRECTORY_SEPARATOR, $classNameComponent);
-        if ($phpFile) {
-            $fileName .= ".php";    // for php files
-        } else {
-            $fileName .= ".tpl";    // for templates
-        }
-        return $fileName;
-    }
 
     /**
      * gets a class name for an object
@@ -346,8 +306,8 @@ class CRM_Utils_System {
      *
      * We need to do some conversions before we can use the lower case class names.
      *
-     * @param  object $object     - object whose class name is needed
-     * @return string $className  - class name as per PHP4
+     * @param  object $object      - object whose class name is needed
+     * @return string $className   - class name
      *
      * @access public
      * @static
@@ -358,21 +318,25 @@ class CRM_Utils_System {
         if (!self::isPHP4()) {
             return $className;
         }
-        
+
+        // we are in php4 now
         // get all components of the class name
         $classNameComponent = explode("_", $className);
-        foreach ($classNameComponent as &$v) {
+        foreach ($classNameComponent as $v) {
+            $v =& $classNameComponent[$k];
             if (array_key_exists($v, self::$php4SpecialClassName)) {
-                $v = self::$php4SpecialClassName[$v];                   // special case hence replace
+                $v = self::$php4SpecialClassName[$v]; // special case hence replace
             } else {
-                $v = ucfirst($v);                            // regular component so just upcase first character
+                $v = ucfirst($v); // regular component so just upcase first character
             }
+            unset($v);
         }
 
-        // create the file name
+        // create the class name
         $className = implode('_', $classNameComponent);
         return $className;
     }
+
 
     /**
      * check if PHP4 ?

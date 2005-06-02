@@ -92,11 +92,7 @@ class CRM_Core_Selector_Base {
      */
     function getTemplateFileName($action = null)
     {
-        // return str_replace('_', '/', get_class( $this ) ) . '.tpl';
-        // return str_replace('_', '/', CRM_System_Utils::getClassName($this)) . '.tpl';
-        $className = CRM_Utils_System::getClassName($this);
-        $fileName  = CRM_Utils_System::classNameToFile($className, false);
-        return $fileName;
+        return (str_replace('_', DIRECTORY_SEPARATOR, CRM_Utils_System::getClassName($this)) . ".tpl");
     }
 
     /**

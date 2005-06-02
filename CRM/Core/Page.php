@@ -112,9 +112,6 @@ class CRM_Core_Page {
     function __construct($title = null, $mode = null)
     {
         $this->_name = CRM_Utils_System::getClassName($this);
-
-        CRM_Core_Error::debug_var('className', $this->_name);
-
         $this->_title = $title;
         $this->_mode  = $mode;
         
@@ -220,7 +217,7 @@ class CRM_Core_Page {
      * @access public
      */
     function getTemplateFileName() {
-        return CRM_Utils_System::classNameToFile($this->_name, false);
+        return (str_replace('_', DIRECTORY_SEPARATOR, $this->_name) . '.tpl');
     }
 
     /**
