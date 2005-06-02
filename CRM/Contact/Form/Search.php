@@ -230,7 +230,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          */
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
-            foreach ( $rows as &$row ) {
+            // does not work in php4 . pls revert when done with php4
+            //foreach ( $rows as &$row ) {
+            foreach ($rows as $row) {
                 //$this->addElement( 'checkbox', $row['checkbox'] );
                 $this->addElement( 'checkbox', $row['checkbox'], null, null, array( 'onclick' => "return checkSelectedBox('".$row[checkbox]."', '".$this->getName()."');" ) );
             }

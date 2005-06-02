@@ -343,7 +343,9 @@ abstract class CRM_Import_Parser {
 
     function getSelectValues() {
         $values = array();
-        foreach ( $this->_fields as $name => &$field ) {
+        // does not work for php4 - we shld revert back to this one after we stop developing for php4        
+        //foreach ( $this->_fields as $name => &$field ) {
+        foreach ($this->_fields as $name => $field ) {
             $values[$name] = $field->_title;
         }
         return $values;

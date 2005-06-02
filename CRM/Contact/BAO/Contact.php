@@ -75,7 +75,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         $dao = new CRM_Core_DAO( );
         $dao->query($query);
-        $row = $dao->getDatabaseResult()->fetchRow();
+        
+        // does not work for php4
+        // $row = $dao->getDatabaseResult()->fetchRow();
+        $result = $dao->getDatabaseResult();
+        $row    = $result->fetchRow();
         return ( $row[0] > 0 ) ? true : false;
     }
 
@@ -320,7 +324,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $this->query($queryString);
 
         if ($count) {
-            $row = $this->getDatabaseResult()->fetchRow();
+            // does not work for php4
+            //$row = $this->getDatabaseResult()->fetchRow();
+            $result = $this->getDatabaseResult();
+            $row    = $result->fetchRow();
             return $row[0];
         }
 
@@ -476,20 +483,30 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
-            foreach ( $locations as $index => &$location ) {
-                // self::lookupValue( $location, 'location_type', CRM_Core_SelectValues::$locationType, $reverse );
+
+            // does not work for php4
+            //foreach ( $locations as $index => &$location ) {
+            foreach ($locations as $index => $location) {                
+                $location =& $locations[$index];
                 self::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
-                if ( array_key_exists( 'address', $location ) ) {
+
+                if (array_key_exists( 'address', $location ) ) {
                     self::lookupValue( $location['address'], 'state_province', CRM_Core_PseudoConstant::stateProvince(), $reverse );
                     self::lookupValue( $location['address'], 'country'       , CRM_Core_PseudoConstant::country()      , $reverse );
                     self::lookupValue( $location['address'], 'county'        , CRM_Core_SelectValues::$county          , $reverse );
                 }
-                if ( array_key_exists( 'im', $location ) ) {
+
+                if (array_key_exists('im', $location)) {
                     $ims =& $location['im'];
-                    foreach ( $ims as $innerIndex => &$im ) {
+                    // does not work for php4
+                    //foreach ( $ims as $innerIndex => &$im ) {
+                    foreach ($ims as $innerIndex => $im) {
+                        $im =& $ims[$innerIndex];
                         self::lookupValue( $im, 'provider', CRM_Core_PseudoConstant::IMProvider(), $reverse );
+                        unset($im);
                     }
                 }
+                unset($location);
             }
         }
     }
@@ -543,7 +560,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
         }
         eval( '$contact->contact_type_object = CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
-
+    
         $contact->location     =& CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 3 );
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );

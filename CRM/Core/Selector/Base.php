@@ -58,7 +58,9 @@ class CRM_Core_Selector_Base {
     function getActionAttribute( $match, $attribute = 'name' ) {
         $links =& $this->links();
 
-        foreach ( $link as $action => &$item ) {
+        // does not work for php4 .. pls revert when done with php4
+        //foreach ( $link as $action => &$item ) {
+        foreach ( $link as $action => $item ) {
             if ( $match & $action ) {
                 return $item[$attribute];
             }
@@ -109,8 +111,11 @@ class CRM_Core_Selector_Base {
             $this->_order = array( );
             $start  = 2;
             $firstElementNotFound = true;
-            foreach ( $columnHeaders as &$header ) {
-                if ( array_key_exists( 'sort', $header ) ) {
+            // does not work for php4...
+            //foreach ( $columnHeaders as &$header ) {
+            foreach ($columnHeaders as $k => $header) {
+                $header =& $columnHeaders[$k];
+                if (array_key_exists( 'sort', $header)) {
                     if ( $firstElementNotFound && $header['direction'] != CRM_Utils_Sort::DONTCARE ) {
                         $this->_order[1] =& $header;
                         $firstElementNotFound = false;
@@ -118,6 +123,7 @@ class CRM_Core_Selector_Base {
                         $this->_order[$start++] =& $header;
                     }
                 }
+                unset($header);
             }
             if ( $firstElementNotFound ) {
                 CRM_Core_Error::fatal( "Could not find a valid sort directional element" );

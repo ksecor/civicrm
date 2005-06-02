@@ -275,7 +275,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $groupContact->query($sql);
 
         if ( $count ) {
-            $row = $groupContact->getDatabaseResult()->fetchRow();
+            // does not work for php4
+            //$row = $groupContact->getDatabaseResult()->fetchRow();
+            $result = $groupContact->getDatabaseResult();
+            $row    = $result->fetchRow();
             return $row[0];
         } else {
             $values = array( );

@@ -121,8 +121,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         // dummy dao needed
         $crmDAO = new CRM_Core_DAO();
         $crmDAO->query($queryString);
-        $resultRow = $crmDAO->getDatabaseResult()->fetchRow();
-        return $resultRow[0];
+        // does not work for php4
+        //$row = $crmDAO->getDatabaseResult()->fetchRow();
+        $result = $crmDAO->getDatabaseResult();
+        $row    = $result->fetchRow();
+        return $row[0];
     }
 }
 ?>
