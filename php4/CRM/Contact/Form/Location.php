@@ -31,6 +31,16 @@
  * $Id$
  *
  */
+$GLOBALS['_CRM_CONTACT_FORM_LOCATION']['_commPrefs'] =  array( 'phone', 'email', 'im' );
+
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/PseudoConstant.php';
+require_once 'CRM/Contact/Form/Address.php';
+require_once 'CRM/Contact/Form/Phone.php';
+require_once 'CRM/Contact/Form/Email.php';
+require_once 'CRM/Contact/Form/IM.php';
+require_once 'CRM/Core/ShowHideBlocks.php';
+require_once 'CRM/Utils/Array.php';
 define( 'CRM_CONTACT_FORM_LOCATION_BLOCKS',3);
 
 require_once 'CRM/Core/Form.php';
@@ -57,7 +67,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @var int
      * @const
      */
-       static $_commPrefs = array( 'phone', 'email', 'im' );
+     
 
      function &buildLocationBlock($form, $maxLocationBlocks) 
     {

@@ -36,7 +36,7 @@ $GLOBALS['_CRM_CONTACT_DAO_INDIVIDUAL']['_import'] = '';
 
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Utils/Array.php';
-require_once 'CRM/Core/DAO.php';
+
     require_once 'CRM/Utils/Type.php';
     class CRM_Contact_DAO_Individual extends CRM_Core_DAO {
 

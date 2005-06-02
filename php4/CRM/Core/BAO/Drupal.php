@@ -106,8 +106,10 @@ WHERE     crm_email.email = '" . $user->mail . "'";
 
                 CRM_Core_Error::debug_log_message("Breakpoint 50");
 
-                $params= array( 'email' => $user->mail, 'location_type' => 'Home' );
+                $params= array( 'email' => $user->mail, 'location_type' => 'Home' ); 
+               
                 $contact =& crm_create_contact( $params, 'Individual' );
+                
                 //if ( $contact instanceof CRM_Core_Error ) {
                 if (is_a($contact, CRM_Core_Error)) {
                     
