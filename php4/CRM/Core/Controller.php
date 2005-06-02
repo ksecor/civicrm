@@ -197,12 +197,10 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      */
     function addActions( $uploadDirectory = null, $uploadNames = null ) {
-        
 
-        foreach ( $GLOBALS['_CRM_CORE_CONTROLLER']['names'] as $name1 => $varValue ) {
-            foreach ( $varValue as $name => $classPath ) {
-                $this->addAction( $name, new $classPath( $this->_stateMachine ) );
-            }
+        foreach ( $GLOBALS['_CRM_CORE_CONTROLLER']['names'] as $name => $classPath ) {
+            require_once 'CRM/Core/QuickForm/Action/'. ucfirst($name). '.php';
+            $this->addAction( $name, new $classPath( $this->_stateMachine ) );
         }
     
         if ( ! empty( $uploadDirectory ) ) {
