@@ -1,6 +1,6 @@
 <fieldset>
 <legend>
-Choose Household and Relationship that you would like to add the below contacts to.
+{ts}Choose Household and Relationship that you would like to add the below contacts to.{/ts}
 </legend>
 
 <div class="form-item">

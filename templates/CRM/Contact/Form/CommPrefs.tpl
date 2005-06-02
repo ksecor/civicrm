@@ -2,7 +2,7 @@
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
 <div id="commPrefs">
-<fieldset><legend>Communication Preferences</legend>
+<fieldset><legend>{ts}Communication Preferences{/ts}</legend>
 <div class="form-item">
     <span class="labels">
         {$form.privacy.label}
@@ -20,7 +20,7 @@
         <label>
         {$form.preferred_communication_method.html}
         </label>
-    <div class="description font-italic">Select the preferred method of communicating with this contact.</div>
+    <div class="description font-italic">{ts}Select the preferred method of communicating with this contact.{/ts}</div>
     </span>
 </div>
 <!-- Spacer div forces fieldset to contain floated elements -->

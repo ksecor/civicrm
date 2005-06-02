@@ -4,7 +4,7 @@ Number of selected contacts: {$totalSelectedContacts}
 <div class="form-item">
 <table width="30%">
   <tr class="columnheader">
-    <th>Name</th>
+    <th>{ts}Name{/ts}</th>
   </tr>
 {foreach from=$rows item=row}
 <tr class="{cycle values="odd-row,even-row"}">

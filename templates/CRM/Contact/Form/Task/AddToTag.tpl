@@ -1,7 +1,7 @@
 <div class="form-item">
 <fieldset>
 <legend>
-Tag Contact(s)
+{ts}Tag Contact(s){/ts}
 </legend>
 <dl>
 <dt>{$form.tag_id.label}</dt><dd>{$form.tag_id.html}</dd>

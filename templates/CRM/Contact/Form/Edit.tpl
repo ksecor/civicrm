@@ -9,9 +9,9 @@
 
 {if $contact_type eq 'Individual'}
  <div id="name">
- <fieldset><legend>Name and Greeting</legend>
+ <fieldset><legend>{ts}Name and Greeting{/ts}</legend>
     <div class="form-item">
-        <span class="labels"><label>First/Last</label></span>
+        <span class="labels"><label>{ts}First/Last{/ts}</label></span>
         <span class="fields">
             {$form.prefix.html}
             {$form.first_name.html}
@@ -43,7 +43,7 @@
  </div>
 {elseif $contact_type eq 'Household'}
 <div id="name">
- <fieldset><legend>Household</legend>
+ <fieldset><legend>{ts}Household{/ts}</legend>
     <div class="form-item">
         <span class="labels">{$form.household_name.label}</span>
         <span class="fields">
@@ -64,7 +64,7 @@
  </div>
 {elseif $contact_type eq 'Organization'}
 <div id="name">
- <fieldset><legend>Organization</legend>
+ <fieldset><legend>{ts}Organization{/ts}</legend>
     <div class="form-item">
         <span class="labels">{$form.organization_name.label}</span>
         <span class="fields">
@@ -137,11 +137,11 @@
  {* Notes block only included for Add Contact (since it navigates from Edit form...) *}
  {if $action eq 1}
      <div id = "notes[show]" class="data-group">
-        {$notes.show}<label>Notes</label>
+        {$notes.show}<label>{ts}Notes{/ts}</label>
      </div>
 
      <div id = "notes">
-         <fieldset><legend>{$notes.hide}Contact Notes</legend>
+         <fieldset><legend>{$notes.hide}{ts}Contact Notes{/ts}</legend>
             <div class="form-item">
                 {$form.note.html}
             </div>

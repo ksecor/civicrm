@@ -1,6 +1,6 @@
 {* this template is used for adding/editing a tag (admin)  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Tag{/ts}{elseif $action eq 2}{ts}Edit Tag{/ts}{else} {ts}Delete Tag{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Tag{/ts}{elseif $action eq 2}{ts}Edit Tag{/ts}{else}{ts}Delete Tag{/ts}{/if}</legend>
 
    <dl>
    {if $action eq 1 or $action eq 2 }

@@ -3,7 +3,7 @@
  <div id="search-status">
     <ul>
         {foreach from=$qill item=criteria}
-            <li>{$criteria}
+            <li>{$criteria}</li>
         {/foreach}
     </ul>
     <br />

@@ -3,7 +3,7 @@
     {assign var="status" value=$session->getStatus(true)}
     <div class="messages status">
       <dl>
-      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
       <dd>
         {if is_array($status)}
             {foreach name=statLoop item=statItem from=$status}
@@ -11,7 +11,7 @@
                     <h3>{$statItem}</h3>
                     <ul>
                 {else}
-                    <li>{$statItem}
+                    <li>{$statItem}</li>
                 {/if}
                 </ul>
             {/foreach}

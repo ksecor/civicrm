@@ -12,7 +12,7 @@
         <span class="fields">
             {$form.location.$index.im.1.provider_id.html}
             {$form.location.$index.im.1.name.html}
-            <div class="description font-italic">Select im service provider, and enter screen-name / user id.</div>
+            <div class="description font-italic">{ts}Select im service provider, and enter screen-name / user id.{/ts}</div>
             <!-- Link to add a field.-->
             <span id="location[{$index}][im][2][show]" class="add-remove-link">
                 {$form.location.$index.im.2.show.html}
