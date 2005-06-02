@@ -72,7 +72,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      */
     function init( ) {
         $fields =& CRM_Import_Parser_Contact::importableFields( );
-        foreach ( $fields as $name => &$field ) {
+        //foreach ( $fields as $name => &$field ) {
+        foreach ( $fields as $name => $field ) {
+            $field =& $fields[$name]; 
             $this->addField( $name, $field['title'], $field['type'] );
         }
         $this->setActiveFields( $this->_mapperKeys );
