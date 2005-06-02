@@ -745,9 +745,9 @@ class PHP_DownGrade {
 
 // start of code to convert files recursively ---
 // this code is to convert the whole directory from php5 to php4
-
-//$directory = array('CRM', 'modules', 'api');
-/*$directory = array('api');
+/*
+$directory = array('CRM', 'modules', 'api');
+//$directory = array('api');
 
 foreach ($directory as $v) {
     $rootDir = "$homeDir/svn/crm/$v";
@@ -769,11 +769,14 @@ foreach ($directory as $v) {
     }
 }
 
-*/
+
 
 // end of code to convert files recursively --
 
-
+*/
 // use this code if single file has to be converted from php5 to php4  and comment the above block
 $sam = new PHP_DownGrade($argv[1]);
 echo $sam->toPHP4();
+
+
+?>

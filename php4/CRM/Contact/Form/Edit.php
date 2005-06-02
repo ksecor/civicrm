@@ -32,6 +32,23 @@
  *
  */
 
+define( 'CRM_CONTACT_FORM_EDIT_LOCATION_BLOCKS',2);
+$GLOBALS['_CRM_CONTACT_FORM_EDIT']['skipFields'] =  array( 'location_type_id', 'is_primary', 'phone_type', 'provider_id' );
+
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Utils/Request.php';
+require_once 'CRM/Utils/Array.php';
+require_once 'CRM/Contact/DAO/Contact.php';
+require_once 'CRM/Core/Error.php';
+require_once 'CRM/Contact/BAO/Contact.php';
+require_once 'CRM/Core/PseudoConstant.php';
+require_once 'CRM/Core/ShowHideBlocks.php';
+require_once 'CRM/Contact/Form/Location.php';
+require_once 'CRM/Utils/System.php';
+require_once 'CRM/Contact/Form/Note.php';
+require_once 'CRM/Core/Config.php';
+require_once 'CRM/Core/Session.php';
+require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/SelectValues.php';
 
@@ -57,28 +74,26 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @var int
      * @const
      */
-    const LOCATION_BLOCKS = 2;
-
-    /**
+       /**
      * The contact type of the form
      *
      * @var string
      */
-    protected $_contactType;
+    var $_contactType;
 
     /**
      * The contact id, used when editing the form
      *
      * @var int
      */
-    protected $_contactId;
+    var $_contactId;
 
     /**
      * what blocks should we show and hide.
      *
      * @var CRM_Core_ShowHideBlocks
      */
-    protected $_showHide;
+    var $_showHide;
     
     /**
      * build all the data structures needed to build the form
@@ -87,7 +102,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      */
     function preProcess( ) {
-        if ( $this->_action == CRM_Core_Action::ADD ) {
+        if ( $this->_action == CRM_CORE_ACTION_ADD ) {
             $this->_contactType = CRM_Utils_Request::retrieve( 'c_type', $this, true, null, 'REQUEST' );
             $this->_contactId = null;
         } else {
@@ -128,8 +143,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $defaults = array( );
         $params   = array( );
         
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            if ( self::LOCATION_BLOCKS >= 1 ) {
+        if ( $this->_action & CRM_CORE_ACTION_ADD ) {
+            if ( CRM_CONTACT_FORM_EDIT_LOCATION_BLOCKS>= 1 ) {
                 // set the is_primary location for the first location
                 $defaults['location']    = array( );
                 
@@ -137,7 +152,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 sort( $locationTypeKeys );
 
                 // also set the location types for each location block
-                for ( $i = 0; $i < self::LOCATION_BLOCKS; $i++ ) {
+                for ( $i = 0; $i < CRM_CONTACT_FORM_EDIT_LOCATION_BLOCKS; $i++ ) {
                     $defaults['location'][$i+1] = array( );
                     $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
                 }
@@ -189,9 +204,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         // first do the defaults showing
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide,
-                                                        self::LOCATION_BLOCKS );
+                                                        CRM_CONTACT_FORM_EDIT_LOCATION_BLOCKS);
  
-        if ( $this->_action & CRM_Core_Action::ADD ) {
+        if ( $this->_action & CRM_CORE_ACTION_ADD ) {
             // notes are only included in the template for New Contact
             $this->_showHide->addShow( 'notes[show]' );
             $this->_showHide->addHide( 'notes' );
@@ -205,10 +220,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->_showHide->addHide( 'demographics[show]' );
         }
 
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+        if ( $this->_action & CRM_CORE_ACTION_UPDATE ) {
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        CRM_Utils_Array::value( 'location', $defaults ),
-                                                       self::LOCATION_BLOCKS );
+                                                       CRM_CONTACT_FORM_EDIT_LOCATION_BLOCKS);
         }
         
         $this->_showHide->addToTemplate( );
@@ -233,11 +248,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+     function buildQuickForm( ) {
         // assign a few constants used by all display elements
         // we can obsolete this when smarty can access class constans directly
-        $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1 );
-        $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
+        $this->assign( 'locationCount', CRM_CONTACT_FORM_EDIT_LOCATION_BLOCKS+ 1 );
+        $this->assign( 'blockCount'   , CRM_CONTACT_FORM_LOCATION_BLOCKS + 1 );
         $this->assign( 'contact_type' , $this->_contactType );
 
         if (CRM_Utils_System::isPHP4()) {
@@ -246,15 +261,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         eval( 'CRM_Contact_Form_' . $this->_contactType . '::buildQuickForm( $this );' );
         
         // add the communications block
-        self::buildCommunicationBlock($this);
+        CRM_Contact_Form_Edit::buildCommunicationBlock($this);
 
         /* Entering the compact location engine */ 
-        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, self::LOCATION_BLOCKS, $this->_showHideBlocks);
+        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, CRM_CONTACT_FORM_EDIT_LOCATION_BLOCKS, $this->_showHideBlocks);
 
         /* End of locations */
         
         // add note block
-        if ($this->_action & CRM_Core_Action::ADD) {
+        if ($this->_action & CRM_CORE_ACTION_ADD) {
             $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
         }
 
@@ -283,21 +298,21 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      * @return None
      */
-    public function postProcess() 
+     function postProcess() 
     {
         // store the submitted values in an array
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
         $ids = array();
-        if ($this->_action & CRM_Core_Action::UPDATE) {
+        if ($this->_action & CRM_CORE_ACTION_UPDATE) {
             // if update get all the valid database ids
             // from the session
             $ids = $this->get('ids');
         }
 
         $params['contact_type'] = $this->_contactType;
-        $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
+        $contact = CRM_Contact_BAO_Contact::create($params, $ids, CRM_CONTACT_FORM_EDIT_LOCATION_BLOCKS);
 
         // here we replace the user context with the url to view this contact
         $session = CRM_Core_Session::singleton();
@@ -320,7 +335,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      * @static
      */
-    public static function buildCommunicationBlock($form)
+      function buildCommunicationBlock($form)
     {
         // since the pcm - preferred comminication method is logically
         // grouped hence we'll use groups of HTML_QuickForm
@@ -349,7 +364,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @static
      * @access public
      */
-    static function formRule(&$fields, &$errors)
+     function formRule(&$fields, &$errors)
     {
         $primaryEmail = null;
 
@@ -379,7 +394,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         }
                     }
                 }
-                if ( self::locationDataExists( $fields['location'][$locationId] ) ) {
+                if ( CRM_Contact_Form_Edit::locationDataExists( $fields['location'][$locationId] ) ) {
                     $dataExists = true;
                     if ( ! CRM_Utils_Array::value( 'location_type_id', $fields['location'][$locationId] ) ) {
                         $errors["location[$locationId][location_type_id]"] = 'The Location Type should be set if there is any location information';
@@ -394,11 +409,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         return $primaryEmail;
     }
 
-    static function locationDataExists( &$fields ) {
-        static $skipFields = array( 'location_type_id', 'is_primary', 'phone_type', 'provider_id' );
+     function locationDataExists( &$fields ) {
+        
         foreach ( $fields as $name => &$value ) {
             $skipField = false;
-            foreach ( $skipFields as $skip ) {
+            foreach ( $GLOBALS['_CRM_CONTACT_FORM_EDIT']['skipFields'] as $skip ) {
                 if ( strpos( "[$skip]", $name ) !== false ) {
                     $skipField = true;
                     break;
@@ -408,7 +423,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 continue;
             }
             if ( is_array( $value ) ) {
-                if ( self::locationDataExists( $value ) ) {
+                if ( CRM_Contact_Form_Edit::locationDataExists( $value ) ) {
                     return true;
                 }
             } else {
