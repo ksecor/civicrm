@@ -17,7 +17,7 @@
             {/if}
             <dt>Status:</dt><dd>{if $row.is_active}Enabled {else} Disabled{/if}</dd>
             <dt></dt>
-            <dd><input type="button" name='cancel' value="Done" onClick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"></dd>
+            <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onClick="location.href='{crmURL p='civicrm/contact/view/rel' q='action=browse'}';"></dd>
             </dl>
             {/foreach}
         </div>
@@ -80,12 +80,12 @@
                         </fieldset>
                     {else} {* too many results - we're only displaying 50 *}
                         </div></fieldset>
-                        {assign var=infoMessage value="Too many matching results. Please narrow your search by entering a more complete target contact name."}
+                        {capture assign=infoMessage}{ts}Too many matching results. Please narrow your search by entering a more complete target contact name.{/ts}{/capture}
                         {include file="CRM/common/info.tpl"}
                     {/if}
                 {else} {* no valid matches for name + contact_type *}
                         </div></fieldset>
-                        {assign var=infoMessage value="No matching results for <ul><li>Name like: `$form.name.value`<li>Contact type: $contact_type</ul><br />Check your spelling, or try fewer letters for the target contact name."}
+                        {capture assign=infoMessage}{ts 1=$form.name.value 2=$contact_type}No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></ul><br />Check your spelling, or try fewer letters for the target contact name.{/ts}{/capture}
                         {include file="CRM/common/info.tpl"}                
                 {/if} {* end if searchCount *}
               {else}
