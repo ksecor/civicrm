@@ -351,6 +351,9 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      */
     function getAttribute( $class, $fieldName = null) {
+        if (CRM_Utils_System::isPHP4()) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $class) . ".php");
+        }
         eval('$fields =& ' . $class . '::fields( );');
         if ( $fieldName != null ) {
             $field = CRM_Utils_Array::value( $fieldName, $fields );
@@ -399,8 +402,10 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      */
     static function objectExists( $value, $daoName, $daoID, $fieldName = 'name' ) {
+        if (CRM_Utils_System::isPHP4()) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        }
         eval( '$object = new ' . $daoName . '( );' );
-
         $object->$fieldName = $value;
         if ( $object->find( true ) ) {
             return ( $daoID && $object->id == $daoID ) ? true : false;

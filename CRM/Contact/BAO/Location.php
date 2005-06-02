@@ -216,13 +216,15 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      */
     static function deleteLocationBlocks( $locationId ) {
         static $blocks = array( 'Address', 'Phone', 'Email', 'IM' );
-        foreach ( $blocks as $name ) {
+        foreach ($blocks as $name) {
+            if (CRM_Utils_System::isPHP4()) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
+            }
             eval( '$object = new CRM_Contact_DAO_' . $name . '( );' );
             $object->location_id = $locationId;
             $object->delete( );
         }
     }
-
 }
 
 ?>

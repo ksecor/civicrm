@@ -119,6 +119,9 @@ class CRM_Core_PseudoConstant {
      * @static
      */
     private static function populate( &$var, $name, $all = false, $retrieve = 'name' ) {
+        if (CRM_Utils_System::isPHP4()) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
+        }
         eval( '$object = new ' . $name . '( );' );
         $object->selectAdd( );
         $object->selectAdd( "id, $retrieve" );

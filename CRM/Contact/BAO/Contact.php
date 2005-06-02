@@ -438,6 +438,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $params['contact_id'] = $contact->id;
 
         // invoke the add operator on the contact_type class
+        if (CRM_Utils_System::isPHP4()) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
+        }
         eval('$contact->contact_type_object = CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
 
         $location = array();
@@ -536,6 +539,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
 
         unset($params['id']);
+        if (CRM_Utils_System::isPHP4())
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
+        }
         eval( '$contact->contact_type_object = CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
 
         $contact->location     =& CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 3 );
@@ -597,6 +603,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // fix household and org primary contact ids
         static $misc = array( 'Household', 'Organization' );
         foreach ( $misc as $name ) {
+            if (CRM_Utils_System::isPHP4()) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
+            }
             eval( '$object = new CRM_Contact_DAO_' . $name . '( );' );
             $object->primary_contact_id = $id;
             $object->find( );
@@ -611,6 +620,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact = new CRM_Contact_DAO_Contact();
         $contact->id = $id;
         if ($contact->find(true)) {
+            if (CRM_Utils_System::isPHP4()) {
+                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
+            }
             eval( '$object = new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
             $object->contact_id = $contact->id;
             $object->delete( );
