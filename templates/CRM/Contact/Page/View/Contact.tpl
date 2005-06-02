@@ -1,7 +1,7 @@
 {* View Contact Summary *}
 <div id="name" class="data-group">
    <div class="float-right">
-        <a href="{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}">&raquo; Edit address, phone, email...</a>&nbsp;&nbsp;&nbsp;
+        <a href="{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}">&raquo; {ts}Edit address, phone, email...{/ts}</a>&nbsp;&nbsp;&nbsp;
    </div>
    <div>
     {if $contact_type eq 'Individual'}
@@ -18,12 +18,12 @@
 {foreach from=$location item=loc key=locationIndex}
 
  <div id="location[{$locationIndex}][show]" class="data-group">
-  <a href="#" onClick="hide('location[{$locationIndex}][show]'); show('location[{$locationIndex}]'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>{$loc.location_type}{if $locationIndex eq 1} (primary location){/if}</label><br />
+  <a href="#" onClick="hide('location[{$locationIndex}][show]'); show('location[{$locationIndex}]'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{$loc.location_type}{if $locationIndex eq 1} (primary location){/if}</label><br />
  </div>
 
  <div id="location[{$locationIndex}]">
   <fieldset>
-   <legend{if $locationIndex eq 1} class="label"{/if}><a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>{$loc.location_type}{if $locationIndex eq 1} (primary location){/if}<legend/>
+   <legend{if $locationIndex eq 1} class="label"{/if}><a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{$loc.location_type}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}<legend/>
 
   <div class="col1">
     {if $loc.address.street_address}{$loc.address.street_address}<br />{/if}
@@ -47,7 +47,7 @@
    {foreach from=$loc.email item=email}
       {if $email.email}
         {if $email.is_primary eq 1}<strong>{/if}
-        Email: {$email.email}
+        {ts}Email:{/ts} {$email.email}
         {if $email.is_primary eq 1}</strong>{/if}
         <br />
       {/if}
@@ -56,7 +56,7 @@
    {foreach from=$loc.im item=im key=imKey}
      {if $im.name or $im.provider}
         {if $im.is_primary eq 1}<strong>{/if}
-        Instant Messenger: {if $im.name}{$im.name}{/if} {if $im.provider}( {$im.provider} ) {/if}
+        {ts}Instant Messenger:{/ts} {if $im.name}{$im.name}{/if} {if $im.provider}( {$im.provider} ) {/if}
         {if $im.is_primary eq 1}</strong>{/if}
         <br />
      {/if}
@@ -66,14 +66,14 @@
 {/foreach}
 
  <div id="commPrefs[show]" class="data-group">
-  <a href="#" onClick="hide('commPrefs[show]'); show('commPrefs'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Communications Preferences</label><br />
+  <a href="#" onClick="hide('commPrefs[show]'); show('commPrefs'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Communications Preferences{/ts}</label><br />
  </div>
 
 <div id="commPrefs">
  <fieldset>
-  <legend><a href="#" onClick="hide('commPrefs'); show('commPrefs[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Communications Preferences</legend>
+  <legend><a href="#" onClick="hide('commPrefs'); show('commPrefs[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Communications Preferences{/ts}</legend>
   <div class="col1">
-    <label>Privacy:</label>
+    <label>{ts}Privacy:{/ts}</label>
     <span class="font-red">
     {foreach from=$privacy item=privacy_val key=privacy_label}
       {if $privacy_val eq 1}{$privacy_label|replace:"_":" "|upper} &nbsp; {/if}
@@ -81,28 +81,28 @@
     </span>
   </div>
   <div class="col2">
-    <label>Prefers:</label> {$preferred_communication_method}
+    <label>{ts}Prefers:{/ts}</label> {$preferred_communication_method}
   </div>
  </fieldset>
 </div>
 
  {if $contact_type eq 'Individual'}
  <div id="demographics[show]" class="data-group">
-  <a href="#" onClick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Demographics</label><br />
+  <a href="#" onClick="hide('demographics[show]'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Demographics{/ts}</label><br />
  </div>
 
  <div id="demographics">
   <fieldset>
-   <legend><a href="#" onClick="hide('demographics'); show('demographics[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Demographics</legend>
+   <legend><a href="#" onClick="hide('demographics'); show('demographics[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Demographics{/ts}</legend>
    <div class="col1">
-    <label>Gender:</label> {$gender.gender}<br />
+    <label>{ts}Gender:{/ts}</label> {$gender.gender}<br />
     {if $is_deceased eq 1}
-        <label>Contact is Deceased</label>
+        <label>{ts}Contact is Deceased{/ts}</label>
     {/if}
    </div>
    <div class="col2">
-{*    <label>Date of Birth:</label> {$birth_date|date_format:"%B %e, %Y"} *}
-    <label>Date of Birth:</label> {$birth_date|crmDate} - actual: {$birth_date} 
+{*    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|date_format:"%B %e, %Y"} *}
+    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate} - actual: {$birth_date} 
    </div>
   </fieldset>
  </div>
@@ -110,25 +110,25 @@
 
 <div id="relationships[show]" class="data-group">
   {if $relationship.totalCount}
-    <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Relationships</label> ({$relationship.totalCount})<br />
+    <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Relationships{/ts}</label> ({$relationship.totalCount})<br />
   {else}
-    <dl><dt>Relationships</dt><dd>No relationships. Use the <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">Relationships tab</a> to add them.</dd></dl>
+    <dl><dt>{ts}Relationships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q='action=add'}{/capture}{ts 1=$crmURL}No relationships. Use the <a href="%1">Relationships tab</a> to add them.{/ts}</dd></dl>
   {/if}
 </div>
 
 {* Relationships block display property is always hidden (non) if there are no relationships *}
 <div id="relationships">
  {if $relationship.totalCount}
- <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Relationships {if $relationship.totalCount GT 3} (3 of {$relationship.totalCount}){/if}</legend>
+ <fieldset><legend><a href="#" onClick="hide('relationships'); show('relationships[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $relationship.totalCount GT 3}{ts 1=$relationship.totalCount}Relationships (3 of %1){/ts}{else}{ts}Relationships{/ts}{/if}</legend>
     {strip}
         <table>
         <tr class="columnheader">
-            <th>Relationship</th>
+            <th>{ts}Relationship{/ts}</th>
             <th></th>
-            <th>City</th>
-            <th>State</th>
-            <th>Email</th>
-            <th>Phone</th>
+            <th>{ts}City{/ts}</th>
+            <th>{ts}State{/ts}</th>
+            <th>{ts}Email{/ts}</th>
+            <th>{ts}Phone{/ts}</th>
             <th>&nbsp;</th>
         </tr>
 
@@ -146,16 +146,16 @@
                 <td>{$rel.state}</td>
                 <td>{$rel.email}</td>
                 <td>{$rel.phone}</td>
-                <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`"}">Edit</a></td> 
+                <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`"}">{ts}Edit{/ts}</a></td> 
             </tr>  
         {/foreach}
         {if $relationship.totalCount gt 3 }
-            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/rel' q='action=browse'}">&raquo; View All Relationships...</a></td></tr>
+            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/rel' q='action=browse'}">&raquo; {ts}View All Relationships...{/ts}</a></td></tr>
         {/if}
         </table>
 	{/strip}
    <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">&raquo; New Relationship</a>
+       <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">&raquo; {ts}New Relationship{/ts}</a>
    </div>
  </fieldset>
  {/if}
@@ -163,92 +163,92 @@
 
 <div id="groups[show]" class="data-group">
   {if $group.totalCount}
-    <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Group Memberships</label> ({$group.totalCount})<br />
+    <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Group Memberships{/ts}</label> ({$group.totalCount})<br />
   {else}
-    <dl><dt>Group Memberships</dt><dd>No group memberships. Use the <a href="{crmURL p='civicrm/contact/view/group' q='action=add'}">Groups tab</a> to add them.</dd></dl>
+    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=$crmURL}{crmURL p='civicrm/contact/view/group' q='action=add'}{/capture}{ts 1=$crmURL}No group memberships. Use the <a href="%1">Groups tab</a> to add them.{/ts}</dd></dl>
   {/if}
 </div>
 
 <div id="groups">
- <fieldset><legend><a href="#" onClick="hide('groups'); show('groups[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Group Memberships{if $group.totalCount GT 3} (3 of {$group.totalCount}){/if}</legend>
+ <fieldset><legend><a href="#" onClick="hide('groups'); show('groups[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $group.totalCount GT 3}{ts 1=$group.totalCount}Group Memberships (3 of %1){/ts}{else}{ts}Group Memberships{/ts}{/if}</legend>
 	{strip}
 	<table>
         <tr class="columnheader">
-		<th>Group</th>
-		<th>Tag</th>
-		<th>Status</th>
-		<th>Date Added</th>
+		<th>{ts}Group{/ts}</th>
+		<th>{ts}Tag{/ts}</th>
+		<th>{ts}Status{/ts}</th>
+		<th>{ts}Date Added{/ts}</th>
 	</tr>
     {foreach from=$group.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">
         	<td>{$row.title}</td>
 	    	<td></td>	
-	    	<td>Added (by {$row.in_method})</td> 
+	    	<td>{ts 1=$row.in_method}Added (by %1){/ts}</td> 
             <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
         </tr>
     {/foreach}
     {if $group.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/group' q='action=browse'}">&raquo; View All Group Memberships...</a></td></tr>
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/group' q='action=browse'}">&raquo; {ts}View All Group Memberships...{/ts}</a></td></tr>
     {/if}
     </table>
 	{/strip}
    <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/group'}">&raquo; New Group Membership</a>
+       <a href="{crmURL p='civicrm/contact/view/group'}">&raquo; {ts}New Group Membership{/ts}</a>
    </div>
  </fieldset>
 </div>
 
 <div id="activities[show]" class="data-group">
   {if $activity.totalCount}
-    <a href="#" onClick="hide('activities[show]'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Activities</label> ({$activity.totalCount})<br />
+    <a href="#" onClick="hide('activities[show]'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Activities{/ts}</label> ({$activity.totalCount})<br />
   {else}
-    <dl><dt>Activities</dt><dd>No activities. Use the <a href="{crmURL p='civicrm/contact/view/activity' q='action=add'}">Activity tab</a> to add them.</dd></dl>
+    <dl><dt>{ts}Activities{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/activity' q='action=add'}{/capture}{ts 1=$crmURL}No activities. Use the <a href="%1">Activity tab</a> to add them.{/ts}</dd></dl>
   {/if}
 </div>
 
 <div id="activities">
- <fieldset><legend><a href="#" onClick="hide('activities'); show('activities[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a>Activities{if $activity.totalCount GT 3} (3 of {$activity.totalCount}){/if}</legend>
+ <fieldset><legend><a href="#" onClick="hide('activities'); show('activities[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $activity.totalCount GT 3}{ts 1=$activity.totalCount}Activities (3 of %1){/ts}{else}{ts}Activities{/ts}{/if}</legend>
 	{strip}
 	<table>
         <tr class="columnheader">
-		<th>Activity Type</th>
-		<th>Description</th>
-		<th>Activity Date</th>
+		<th>{ts}Activity Type{/ts}</th>
+		<th>{ts}Description{/ts}</th>
+		<th>{ts}Activity Date{/ts}</th>
 	</tr>
     {foreach from=$activity.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">
         	<td>{$row.activity_type}</td>
 	    	<td>{$row.activity_summary}</td>	
-                <td>{$row.activity_date|crmDate}</td>
+            <td>{$row.activity_date|crmDate}</td>
         </tr>
     {/foreach}
     {if $activity.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q='action=browse'}">&raquo; View All Activities...</a></td></tr>
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q='action=browse'}">&raquo; {ts}View All Activities...{/ts}</a></td></tr>
     {/if}
     </table>
 	{/strip}
    <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/activity' q='action=add'}">&raquo; New Activities</a>
+       <a href="{crmURL p='civicrm/contact/view/activity' q='action=add'}">&raquo; {ts}New Activities{/ts}</a>
    </div>
  </fieldset>
 </div>
 
 <div id="notes[show]" class="data-group">
   {if $noteTotalCount}
-    <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Contact Notes</label> ({$noteTotalCount})<br />
+    <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Contact Notes{/ts}</label> ({$noteTotalCount})<br />
   {else}
-    <dl><dt>Contact Notes</dt><dd>No notes. Use the <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">Notes tab</a> to add them.</dd></dl>
+    <dl><dt>{ts}Contact Notes{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q='action=add'}{/capture}{ts 1=$crmURL}No notes. Use the <a href="%1">Notes tab</a> to add them.{/ts}</dd></dl>
   {/if}
 </div>
 
 <div id="notes">
 {if $note}
-  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a> Contact Notes{if $noteTotalCount GT 3} (3 of {$noteTotalCount}){/if}</legend></legend>
+  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $noteTotalCount GT 3}{ts 1=$noteTotalCount}Contact Notes (3 of %1){/ts}{else}{ts}Contact Notes{/ts}{/if}</legend></legend>
        {strip}
        <table>
        <tr class="columnheader">
-    	<th>Note</th>
-	    <th>Date</th>
+    	<th>{ts}Note{/ts}</th>
+	    <th>{ts}Date{/ts}</th>
 	    <th></th>
        </tr>
        {foreach from=$note item=note}
@@ -258,21 +258,21 @@
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}
-                    <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">(more)</a>
+                    <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">Edit</a></td> 
+            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">{ts}Edit{/ts}</a></td> 
        </tr>  
        {/foreach}
        {if $noteTotalCount gt 3 }
-            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/note' q='action=browse'}">&raquo; View All Notes...</a></td></tr>
+            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/note' q='action=browse'}">&raquo; {ts}View All Notes...{/ts}</a></td></tr>
        {/if}
        </table>
        {/strip}
        
        <div class="action-link">
-         <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">&raquo; New Note</a>
+         <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">&raquo; {ts}New Note{/ts}</a>
        </div>
  </fieldset>
 {/if}

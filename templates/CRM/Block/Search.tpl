@@ -2,19 +2,19 @@
     <form action="{$postURL}" method="post">
     <div class="form-item">
         <select name="contact_type" size="1" class="form-select">
-            <option value="">-all contacts-</option>
-            <option value="Individual">Individuals</option>
-            <option value="Organization">Organizations</option>
-            <option value="Household">Households</option>
+            <option value="">{ts}-all contacts-{/ts}</option>
+            <option value="Individual">{ts}Individuals{/ts}</option>
+            <option value="Organization">{ts}Organizations{/ts}</option>
+            <option value="Household">{ts}Households{/ts}</option>
         </select>
     </div>
     <div class="form-item">
         <!-- <label for="quick_search">Name:</label> -->
-        <input type="text" name="sort_name" class="form-text required" value="-exact or partial name-" onFocus="clearFldVal(this);" />
+        <input type="text" name="sort_name" class="form-text required" value="{ts}-exact or partial name-{/ts}" onFocus="clearFldVal(this);" />
         <br />
-        <input type="submit" name="_qf_Search_refresh" value="Search" class="form-submit" />
+        <input type="submit" name="_qf_Search_refresh" value="{ts}Search{/ts}" class="form-submit" />
         <br />
-        <a href="{$advancedSearchURL}" title="Go to Advanced Search">&raquo; Advanced Search</a>
+        <a href="{$advancedSearchURL}" title="{ts}Go to Advanced Search{/ts}">&raquo; {ts}Advanced Search{/ts}</a>
     </div>
     </form>
 </div>
