@@ -1,27 +1,30 @@
 {* No matches for submitted search request or viewing an empty group. *}
 <div class="messages status">
   <dl>
-    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="status"></dt>
+    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
     <dd>
         {if $context EQ 'smog'}
-            {$group.title} currently has no members. You can <a href="{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}">add members here.</a>
+            {capture assign=crmURL}{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}{/capture}{ts 1=$group.title 2=$crmURL}%1 currently has no members. You can <a href="%2">add members here.</a>{/ts}
         {else}
-            No matches found {if $qill}for:
+            {if $qill}{ts}No matches found for:{/ts}
             <ul>
             {foreach from=$qill item=criteria}
-                <li>{$criteria}
+                <li>{$criteria}</li>
             {/foreach}
             </ul>
             <br />
+            {else}
+            {ts}No matches found{/ts}
             {/if}
-            Suggestions:
+            {ts}Suggestions:{/ts}
             <ul>
-            <li>check your spelling
-            <li>try a different spelling or use fewer letters</li>
-            <li>if you are searching within a Group or for Tagged contacts, try 'any group' or 'any tag'</li>
-            <li>add a <a href="{crmURL p='civicrm/contact/addI' q='c_type=Individual&reset=1'}">New Individual</a>,
-            <a href="{crmURL p='civicrm/contact/addO' q='c_type=Organization&reset=1'}">Organization</a> or
-            <a href="{crmURL p='civicrm/contact/addH' q='c_type=Household&reset=1'}">Household</a></li>
+            <li>{ts}check your spelling{/ts}</li>
+            <li>{ts}try a different spelling or use fewer letters{/ts}</li>
+            <li>{ts}if you are searching within a Group or for Tagged contacts, try 'any group' or 'any tag'{/ts}</li>
+            {capture assign=crmURLI}{crmURL p='civicrm/contact/addI' q='c_type=Individual&reset=1'}{/capture}
+            {capture assign=crmURLO}{crmURL p='civicrm/contact/addO' q='c_type=Organization&reset=1'}{/capture}
+            {capture assign=crmURLH}{crmURL p='civicrm/contact/addH' q='c_type=Household&reset=1'}{/capture}
+            <li>{ts 1=$crmURLI 2=$crmURLO 3=$crmURLH}add a <a href="%1">New Individual</a>, <a href="%2">Organization</a> or <a href="%3">Household</a>{/ts}</li>
             </ul>
         {/if}
     </dd>

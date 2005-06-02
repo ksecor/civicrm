@@ -1,16 +1,18 @@
 {* Form elements for displaying and running action tasks on search results *}
 
  <div id="search-status">
-  {if $savedSearch.name}{$savedSearch.name} (saved search) - {/if}
+  {if $savedSearch.name}{$savedSearch.name} {ts}(saved search){/ts} - {/if}
     {if $context EQ 'smog'}
       {ts count=$pager->_totalItems plural='Found %count group members'}Found %count group member{/ts}
    {else}
       {ts count=$pager->_totalItems plural='Found %count contacts'}Found %count contact{/ts}
   {/if}
-  {if $qill}<ul>
+  {if $qill}
+    <ul>
     {foreach from=$qill item=criteria}
-      <li>{$criteria}
+      <li>{$criteria}</li>
     {/foreach}
+    </ul>
   {/if}
  </div>
 
@@ -31,11 +33,11 @@
        {$form._qf_Search_next_action.html}
      {/if}
      <br />
-     {$form.radio_ts.ts_sel.html}<b> selected record(s) only</b>&nbsp; {$form.radio_ts.ts_all.html} <b> all {$pager->_totalItems} record(s)</b> 
+     {$form.radio_ts.ts_sel.html} <b>{ts}selected records only{/ts}</b>&nbsp; {$form.radio_ts.ts_all.html} <b>{ts count=$pager->_totalItems plural='all %count records'}the found record{/ts}</b>
    </div>
-   <div class="float-right">Select: 
-    <a onclick="changeCheckboxVals('mark_x_','select'  , {$form.formName} ); return false;" name="select_all"  href="#">All</a> |
-    <a onclick="changeCheckboxVals('mark_x_','deselect', {$form.formName} ); return false;" name="select_none" href="#">None</a>
+   <div class="float-right">{ts}Select:{/ts} 
+    <a onclick="changeCheckboxVals('mark_x_','select'  , {$form.formName} ); return false;" name="select_all"  href="#">{ts}All{/ts}</a> |
+    <a onclick="changeCheckboxVals('mark_x_','deselect', {$form.formName} ); return false;" name="select_none" href="#">{ts}None{/ts}</a>
   </div>
  </div>  
  <p>

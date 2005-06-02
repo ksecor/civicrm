@@ -1,9 +1,9 @@
 {* Advanced Search Criteria Fieldset *}
 <fieldset>
-    <legend><span id="searchForm[hide]"><a href="#" onClick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="close section"></a></span>
-        {if $context EQ 'smog'}Find Members of this Group
-        {elseif $context EQ 'amtg'}Find Contacts to Add to this Group
-        {else}Search Criteria{/if}
+    <legend><span id="searchForm[hide]"><a href="#" onClick="hide('searchForm','searchForm[hide]'); show('searchForm[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a></span>
+        {if $context EQ 'smog'}{ts}Find Members of this Group{/ts}
+        {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
+        {else}{ts}Search Criteria{/ts}{/if}
     </legend>
   <div class="form-item">
     {strip}
@@ -18,10 +18,10 @@
             <td class="label">{$form.buttons.html}</td>       
         </tr>
 		<tr>
-            <td><label>Contact Type(s)</label><br />
+            <td><label>{ts}Contact Type(s){/ts}</label><br />
                 {$form.cb_contact_type.html}
             </td>
-            <td><label>In Group(s)</label><br />
+            <td><label>{ts}In Group(s){/ts}</label><br />
                 <div class="listing-box">
                     {foreach from=$form.cb_group item="cb_group_val"}
                     <div class="{cycle values="odd-row,even-row"}">
@@ -30,7 +30,7 @@
                     {/foreach}
                 </div>
             </td>
-            <td><label>Tag(s)</label><br />
+            <td><label>{ts}Tag(s){/ts}</label><br />
                 <div class="listing-box">
                     {foreach from=$form.cb_tag item="cb_tag_val"} 
                     <div class="{cycle values="odd-row,even-row"}">
@@ -41,7 +41,7 @@
             </td>
 		</tr>
     </table>
-    <fieldset><legend>Location Criteria</legend>
+    <fieldset><legend>{ts}Location Criteria{/ts}</legend>
     <table class="form-layout">
         <tr>
             <td class="label">{$form.street_name.label}</td>
@@ -57,7 +57,7 @@
         </tr>
         <tr>
             <td class="label">{$form.postal_code.label}</td>
-            <td>{$form.postal_code.html}&nbsp;&nbsp;<label>OR</label></td> 
+            <td>{$form.postal_code.html}&nbsp;&nbsp;<label>{ts}OR{/ts}</label></td> 
             <td class="label">{$form.postal_code_low.label}</span>
             <td>{$form.postal_code_low.html|crmReplace:class:six}
                 {$form.postal_code_high.label}
@@ -76,7 +76,7 @@
             <td colspan="2">
                 {$form.cb_primary_location.html}<br />
                 <span class="description font-italic">
-                Ignore any contact locations not marked as primary for this search.
+                {ts}Ignore any contact locations not marked as primary for this search.{/ts}
                 </span>
             </td>
             <td class="label">{$form.buttons.html}</td>

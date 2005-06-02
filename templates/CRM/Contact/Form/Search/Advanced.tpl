@@ -6,7 +6,7 @@
 {assign var="hideBlocks" value="'searchForm[show]','searchForm[hide]'"}
 
 <div id="searchForm[show]" class="form-item">
-  <a href="#" onClick="hide('searchForm[show]'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="open section"></a><label>Advanced Search Criteria</label>
+  <a href="#" onClick="hide('searchForm[show]'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Advanced Search Criteria{/ts}</label>
 </div>
 
 <div id="searchForm">
