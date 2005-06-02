@@ -88,3 +88,9 @@ msgstr "Powiązania"
 msgid "Relationship Types"
 msgstr "Rodzaje powiązań"
 
+msgid "This group currently has one member in it."
+msgid_plural "This group currently has %count members in it."
+msgstr[0] "Do tej grupy należy jeden członek."
+msgstr[1] "Do tej grupy należy %count członków."
+msgstr[2] "Do tej grupy należy %count członków."
+

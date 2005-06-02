@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-02 12:31+0200\n"
+"POT-Creation-Date: 2005-06-02 17:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: CRM/Admin/Form/IMProvider.php:52 CRM/Admin/Form/LocationType.php:52 CRM/Admin/Form/MobileProvider.php:52 CRM/Admin/Form/Tag.php:63 CRM/Contact/DAO/Group.php:167 CRM/Contact/DAO/Tag.php:146 CRM/Contact/Selector.php:452 CRM/Core/DAO/CustomField.php:223 CRM/Core/DAO/CustomGroup.php:180 CRM/Core/DAO/Domain.php:112 CRM/Core/DAO/MobileProvider.php:141 CRM/History/Selector.php:407 templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Contact/Form/Relationship.tpl
+#: CRM/Admin/Form/IMProvider.php:52 CRM/Admin/Form/LocationType.php:52 CRM/Admin/Form/MobileProvider.php:52 CRM/Admin/Form/Tag.php:63 CRM/Contact/DAO/Group.php:167 CRM/Contact/DAO/Tag.php:146 CRM/Contact/Selector.php:452 CRM/Core/DAO/CustomField.php:223 CRM/Core/DAO/CustomGroup.php:180 CRM/Core/DAO/Domain.php:112 CRM/Core/DAO/MobileProvider.php:141 CRM/History/Selector.php:407 templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Form/Task.tpl templates/CRM/Group/Page/Group.tpl
 msgid "Name"
 msgstr ""
 
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Enabled?"
 msgstr ""
 
-#: CRM/Admin/Form/LocationType.php:57 CRM/Admin/Form/RelationshipType.php:64 CRM/Admin/Form/Tag.php:69 CRM/Contact/DAO/Group.php:179 CRM/Contact/DAO/LocationType.php:159 CRM/Contact/DAO/RelationshipType.php:185 CRM/Contact/DAO/SavedSearch.php:171 CRM/Contact/DAO/Tag.php:152 CRM/Core/DAO/Domain.php:118 CRM/Core/DAO/Validation.php:168 templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Tag.tpl templates/CRM/Contact/Page/View/Activity.tpl templates/CRM/Contact/Page/View/Contact.tpl
+#: CRM/Admin/Form/LocationType.php:57 CRM/Admin/Form/RelationshipType.php:64 CRM/Admin/Form/Tag.php:69 CRM/Contact/DAO/Group.php:179 CRM/Contact/DAO/LocationType.php:159 CRM/Contact/DAO/RelationshipType.php:185 CRM/Contact/DAO/SavedSearch.php:171 CRM/Contact/DAO/Tag.php:152 CRM/Core/DAO/Domain.php:118 CRM/Core/DAO/Validation.php:168 templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Tag.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/Activity.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Group/Page/Group.tpl
 msgid "Description"
 msgstr ""
 
@@ -45,11 +45,11 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: CRM/Admin/Form/Tag.php:54 CRM/Admin/Page/Tag.php:83 CRM/Contact/Page/Relationship.php:216 CRM/Contact/Page/SavedSearch.php:141
+#: CRM/Admin/Form/Tag.php:54 CRM/Admin/Page/Tag.php:83 CRM/Contact/Page/Relationship.php:216 CRM/Contact/Page/SavedSearch.php:141 templates/CRM/Contact/Page/View/Note.tpl
 msgid "Delete"
 msgstr ""
 
-#: CRM/Admin/Page/IMProvider.php:75 CRM/Admin/Page/LocationType.php:76 CRM/Admin/Page/MobileProvider.php:77 CRM/Admin/Page/RelationshipType.php:82 CRM/Admin/Page/Tag.php:77 CRM/Contact/Page/Relationship.php:196 CRM/Contact/Selector.php:153 CRM/Custom/Page/Field.php:77 CRM/History/Selector.php:121 templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl
+#: CRM/Admin/Page/IMProvider.php:75 CRM/Admin/Page/LocationType.php:76 CRM/Admin/Page/MobileProvider.php:77 CRM/Admin/Page/RelationshipType.php:82 CRM/Admin/Page/Tag.php:77 CRM/Contact/Page/Relationship.php:196 CRM/Contact/Selector.php:153 CRM/Custom/Page/Field.php:77 CRM/History/Selector.php:121 templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "Edit"
 msgstr ""
 
@@ -61,11 +61,11 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: CRM/Admin/Page/RelationshipType.php:76 CRM/Contact/Page/Relationship.php:190 CRM/Contact/Selector.php:147 CRM/Custom/Page/Field.php:83 CRM/History/Selector.php:115
+#: CRM/Admin/Page/RelationshipType.php:76 CRM/Contact/Page/Relationship.php:190 CRM/Contact/Selector.php:147 CRM/Custom/Page/Field.php:83 CRM/History/Selector.php:115 templates/CRM/Contact/Page/View/Group.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "View"
 msgstr ""
 
-#: CRM/Contact/DAO/Address.php:356 CRM/Contact/Import/Base.php:22 CRM/Contact/Selector.php:458 CRM/History/Selector.php:413 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Contact.tpl
+#: CRM/Contact/DAO/Address.php:356 CRM/Contact/Import/Base.php:22 CRM/Contact/Selector.php:458 CRM/History/Selector.php:413 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "City"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Postal Code"
 msgstr ""
 
-#: CRM/Contact/DAO/Address.php:408 CRM/Core/DAO/Note.php:159 templates/CRM/Contact/Page/View/Contact.tpl
+#: CRM/Contact/DAO/Address.php:408 CRM/Core/DAO/Note.php:159 templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "Note"
 msgstr ""
 
@@ -85,7 +85,7 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: CRM/Contact/DAO/Email.php:138 CRM/Contact/Import/Base.php:26 CRM/Contact/Selector.php:478 CRM/History/Selector.php:433 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Contact.tpl
+#: CRM/Contact/DAO/Email.php:138 CRM/Contact/Import/Base.php:26 CRM/Contact/Selector.php:478 CRM/History/Selector.php:433 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Email"
 msgstr ""
 
@@ -129,15 +129,15 @@ msgstr ""
 msgid "Gender"
 msgstr ""
 
-#: CRM/Contact/DAO/Phone.php:153 CRM/Contact/Import/Base.php:27 CRM/Contact/Selector.php:482 CRM/History/Selector.php:437 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Contact.tpl
+#: CRM/Contact/DAO/Phone.php:153 CRM/Contact/Import/Base.php:27 CRM/Contact/Selector.php:482 CRM/History/Selector.php:437 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Phone"
 msgstr ""
 
-#: CRM/Contact/Import/Base.php:23 CRM/Contact/Selector.php:463 CRM/Core/DAO/StateProvince.php:134 CRM/History/Selector.php:418 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Contact.tpl
+#: CRM/Contact/Import/Base.php:23 CRM/Contact/Selector.php:463 CRM/Core/DAO/StateProvince.php:134 CRM/History/Selector.php:418 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/View/Contact.tpl
 msgid "State"
 msgstr ""
 
-#: CRM/Contact/Import/Base.php:24 CRM/Contact/Selector.php:473 CRM/Core/DAO/Country.php:133 CRM/Core/DAO/County.php:134 CRM/History/Selector.php:428
+#: CRM/Contact/Import/Base.php:24 CRM/Contact/Selector.php:473 CRM/Core/DAO/Country.php:133 CRM/Core/DAO/County.php:134 CRM/History/Selector.php:428 templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
 msgstr ""
 
@@ -153,11 +153,11 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: CRM/Contact/Selector.php:456 CRM/History/Selector.php:411
+#: CRM/Contact/Selector.php:456 CRM/History/Selector.php:411 templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Address"
 msgstr ""
 
-#: CRM/Contact/Selector.php:468 CRM/History/Selector.php:423
+#: CRM/Contact/Selector.php:468 CRM/History/Selector.php:423 templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
 msgstr ""
 
@@ -209,7 +209,7 @@ msgstr ""
 msgid " is a numeric field"
 msgstr ""
 
-#: CRM/Custom/Form/Field.php:180 CRM/Custom/Form/Group.php:118 CRM/Import/Form/Summary.php:69
+#: CRM/Custom/Form/Field.php:180 CRM/Custom/Form/Group.php:118 CRM/Import/Form/Summary.php:69 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "Done"
 msgstr ""
 
@@ -453,7 +453,7 @@ msgstr ""
 msgid "Hash"
 msgstr ""
 
-#: CRM/Contact/DAO/GroupContact.php:185 templates/CRM/Contact/Page/View/Contact.tpl
+#: CRM/Contact/DAO/GroupContact.php:185 templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Status"
 msgstr ""
 
@@ -461,11 +461,11 @@ msgstr ""
 msgid "Pending Date"
 msgstr ""
 
-#: CRM/Contact/DAO/GroupContact.php:193
+#: CRM/Contact/DAO/GroupContact.php:193 templates/CRM/Contact/Page/View/Group.tpl
 msgid "In Date"
 msgstr ""
 
-#: CRM/Contact/DAO/GroupContact.php:197
+#: CRM/Contact/DAO/GroupContact.php:197 templates/CRM/Contact/Page/View/Group.tpl
 msgid "Out Date"
 msgstr ""
 
@@ -533,7 +533,7 @@ msgstr ""
 msgid "Start Date"
 msgstr ""
 
-#: CRM/Contact/DAO/Relationship.php:173
+#: CRM/Contact/DAO/Relationship.php:173 templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "End Date"
 msgstr ""
 
@@ -661,7 +661,7 @@ msgstr ""
 msgid "Are you sure you want to re-enable this relationship?"
 msgstr ""
 
-#: CRM/Contact/Page/Relationship.php:193
+#: CRM/Contact/Page/Relationship.php:193 templates/CRM/Contact/Form/Relationship.tpl
 msgid "View Relationship"
 msgstr ""
 
@@ -1137,16 +1137,64 @@ msgstr ""
 msgid "Go to Advanced Search"
 msgstr ""
 
-#: templates/CRM/Block/Search.tpl
+#: templates/CRM/Block/Search.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "Advanced Search"
+msgstr ""
+
+#: templates/CRM/common/info.tpl templates/CRM/common/status.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Contact/Form/Task/Delete.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/Activity.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/Group.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Group/Form/Delete.tpl templates/CRM/print.tpl
+msgid "status"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Address.tpl
 msgid "Mailing Address"
 msgstr ""
 
+#: templates/CRM/Contact/Form/Address.tpl
+msgid "Street number, street name, apartment/unit/suite - OR P.O. box"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Address.tpl templates/CRM/Contact/Form/Address.tpl
+msgid "Supplemental address info, e.g. c/o, department name, building name, etc."
+msgstr ""
+
+#: templates/CRM/Contact/Form/CommPrefs.tpl
+msgid "Communication Preferences"
+msgstr ""
+
+#: templates/CRM/Contact/Form/CommPrefs.tpl
+msgid "Select the preferred method of communicating with this contact."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Edit.tpl
+msgid "Name and Greeting"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Edit.tpl
+msgid "First/Last"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Edit.tpl
+msgid "Household"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Edit.tpl
+msgid "Organization"
+msgstr ""
+
 #: templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Demographics"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Edit.tpl
+msgid "Notes"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Edit.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl
+msgid "Contact Notes"
+msgstr ""
+
+#: templates/CRM/Contact/Form/IM.tpl
+msgid "Select im service provider, and enter screen-name / user id."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Location.tpl templates/CRM/Contact/Form/Location.tpl
@@ -1157,7 +1205,27 @@ msgstr ""
 msgid "Additional Location"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Contact.tpl
+#: templates/CRM/Contact/Form/Relationship.tpl
+msgid "Start Date:"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+msgid "End Date:"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+msgid "Status:"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+msgid "Enabled"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+msgid "Disabled"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "New Relationship"
 msgstr ""
 
@@ -1178,15 +1246,103 @@ msgid "Mark the target contact(s) for this relationship if it appears below. Oth
 msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl
+msgid "Too many matching results. Please narrow your search by entering a more complete target contact name."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+msgid "No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></ul><br />Check your spelling, or try fewer letters for the target contact name."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Relationship.tpl
 msgid "If this relationship has start and/or end dates, specify them here."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl
+msgid "close section"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+msgid "Find Members of this Group"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+msgid "Find Contacts to Add to this Group"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+msgid "Search Criteria"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Complete OR partial contact name."
 msgstr ""
 
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+msgid "Contact Type(s)"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+msgid "In Group(s)"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+msgid "Tag(s)"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+msgid "Location Criteria"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+msgid "OR"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
+msgid "Ignore any contact locations not marked as primary for this search."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Advanced.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl
+msgid "open section"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/Advanced.tpl
+msgid "Advanced Search Criteria"
+msgstr ""
+
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "Complete OR partial contact name. To find individuals by first AND last name, enter\n        'lastname, firstname'. Example: 'Doe, Jane'."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+msgid "%1 currently has no members. You can <a href=\"%2\">add members here.</a>"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+msgid "No matches found for:"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+msgid "No matches found"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+msgid "Suggestions:"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+msgid "check your spelling"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+msgid "try a different spelling or use fewer letters"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+msgid "if you are searching within a Group or for Tagged contacts, try 'any group' or 'any tag'"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+msgid "add a <a href=\"%1\">New Individual</a>, <a href=\"%2\">Organization</a> or <a href=\"%3\">Household</a>"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
@@ -1206,6 +1362,10 @@ msgid "Use the Search Criteria form to find contacts by name, type of contact, g
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
+msgid "(saved search)"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Found %count group member"
 msgid_plural "Found %count group members"
 msgstr[0] ""
@@ -1217,31 +1377,97 @@ msgid_plural "Found %count contacts"
 msgstr[0] ""
 msgstr[1] ""
 
+#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
+msgid "selected records only"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
+msgid "the found record"
+msgid_plural "all %count records"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
+msgid "Select:"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
+msgid "All"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Search/ResultTasks.tpl
+msgid "None"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/AddToGroup.tpl
+msgid "Add Members to a Group"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/AddToGroup.tpl templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Group"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+msgid "Choose Household and Relationship that you would like to add the below contacts to."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/AddToTag.tpl
+msgid "Tag Contact(s)"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Delete.tpl
+msgid "Are you sure you want to Delete the selected contacts. A Delete operation cannot be undone."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/Print.tpl
+msgid "There are no records selected for Print."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl
+msgid "Remove Members"
+msgstr ""
+
+#: templates/CRM/Contact/Page/SavedSearch.tpl
+msgid "Saved Search"
+msgstr ""
+
+#: templates/CRM/Contact/Page/SavedSearch.tpl
+msgid "Criteria"
+msgstr ""
+
+#: templates/CRM/Contact/Page/SavedSearch.tpl
+msgid "There are currently no Saved Searches. To create a Saved search:"
+msgstr ""
+
+#: templates/CRM/Contact/Page/SavedSearch.tpl
+msgid "Use <a href=\"%1\">Find</a> or <a href=\"%2\"> Advanced Search</a> form to enter search criteria"
+msgstr ""
+
+#: templates/CRM/Contact/Page/SavedSearch.tpl
+msgid "Run and refine the search criteria as necessary"
+msgstr ""
+
+#: templates/CRM/Contact/Page/SavedSearch.tpl
+msgid "Select 'New Saved Search' from the '-more actions' drop-down menu and click 'Go'"
+msgstr ""
+
+#: templates/CRM/Contact/Page/SavedSearch.tpl
+msgid "Enter a name and description for your Saved Search"
+msgstr ""
+
 #: templates/CRM/Contact/Page/View/Activity.tpl
 msgid "New Activity"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Activity.tpl
-msgid "No activities created yet. You can "
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/Activity.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
-msgid "add one"
+msgid "No activities created yet. You can <a href=\"%1\">}add one</a>."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Edit address, phone, email..."
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl
-msgid "open section"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl
-msgid "close section"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/Contact.tpl
+#: templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl
 msgid "(primary location)"
 msgstr ""
 
@@ -1285,7 +1511,7 @@ msgstr ""
 msgid "Relationships (3 of %1)"
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Contact.tpl
+#: templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Relationship"
 msgstr ""
 
@@ -1305,15 +1531,11 @@ msgstr ""
 msgid "Group Memberships (3 of %1)"
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Contact.tpl
-msgid "Group"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/Contact.tpl
+#: templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Date Added"
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Contact.tpl
+#: templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Added (by %1)"
 msgstr ""
 
@@ -1345,10 +1567,6 @@ msgstr ""
 msgid "New Activities"
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl
-msgid "Contact Notes"
-msgstr ""
-
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "No notes. Use the <a href=\"%1\">Notes tab</a> to add them."
 msgstr ""
@@ -1357,11 +1575,11 @@ msgstr ""
 msgid "Contact Notes (3 of %1)"
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Contact.tpl
+#: templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date"
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Contact.tpl
+#: templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "(more)"
 msgstr ""
 
@@ -1369,8 +1587,120 @@ msgstr ""
 msgid "View All Notes..."
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Contact.tpl
+#: templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "New Note"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/CustomData.tpl
+msgid "Edit custom data"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/CustomData.tpl
+msgid "Custom Data fields are not currently used for this type of contact."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "This contact does not currently belong to any groups."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Current Group Memberships"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Are you sure you want to remove %1 from %2?"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "[ Remove ]"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Pending Memberships"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Membership in these group(s) is pending confirmation by this contact."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Date Pending"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Pending (by %1)"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Past Memberships"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "%1 is no longer a member of these group(s)."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Date Removed"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Removed (by %1)"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "Are you sure you want to add %1 back into %2?"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/GroupContact.tpl
+msgid "[ Rejoin Group ]"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Group.tpl
+msgid "Group Listings"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Group.tpl
+msgid "This contact does not belong to any groups."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Group.tpl
+msgid "Add this contact to one or more groups..."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Note.tpl
+msgid "View Note"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Note.tpl
+msgid "Date:"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Note.tpl
+msgid "Edit Note"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Note.tpl
+msgid "Existing Notes"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Note.tpl
+msgid "Are you sure you want to delete %1?"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Note.tpl
+msgid "There are no Notes for this contact. You can <a href=\"%1\">add one</a>."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Relationship.tpl
+msgid "Current Relationships"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Contact/Page/View/Relationship.tpl
+msgid "State/Prov"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Relationship.tpl
+msgid "There are no Relationships entered for this contact. You can <a href=\"%1\">add one</a>."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
@@ -1379,6 +1709,10 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "These relationships have a past End Date."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Relationship.tpl
+msgid "Disabled Relationships"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
@@ -1449,6 +1783,10 @@ msgstr ""
 msgid "There are no custom fields for custom group \"%1\","
 msgstr ""
 
+#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
+msgid "add one"
+msgstr ""
+
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Custom Data Groups are used to collect and store additional data not included in the\n    standard CiviCRM forms. You can create one or many groups - each one containing a related set of custom data fields."
 msgstr ""
@@ -1469,8 +1807,150 @@ msgstr ""
 msgid "No custom data groups have been created yet. You can "
 msgstr ""
 
+#: templates/CRM/error.tpl
+msgid "unrecoverable error"
+msgstr ""
+
+#: templates/CRM/error.tpl
+msgid "Sorry. A non-recoverable error has occurred."
+msgstr ""
+
+#: templates/CRM/error.tpl
+msgid "Error Code:"
+msgstr ""
+
+#: templates/CRM/error.tpl
+msgid "Main Menu"
+msgstr ""
+
+#: templates/CRM/error.tpl
+msgid "Return to CiviCRM menu."
+msgstr ""
+
+#: templates/CRM/formCommon.tpl templates/CRM/form.tpl
+msgid "Please correct the following errors in the form fields below:"
+msgstr ""
+
+#: templates/CRM/Group/Form/Delete.tpl
+msgid "Are you sure you want to delete the group %1?"
+msgstr ""
+
+#: templates/CRM/Group/Form/Delete.tpl
+msgid "This group currently has one member in it."
+msgid_plural "This group currently has %count members in it."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Group/Form/Edit.tpl
+msgid "You can edit the Name and Description for this group here. Click <a href=\"%1\">Show Group Members</a>\n        from Manage Groups to view, add or remove contacts in this group."
+msgstr ""
+
+#: templates/CRM/Group/Form/Edit.tpl
+msgid "Enter a unique name and a description for your new group here. Then click 'Continue' to\n        find contacts to add to your new group."
+msgstr ""
+
+#: templates/CRM/Group/Form/Edit.tpl
+msgid "Group Name and Description"
+msgstr ""
+
 #: templates/CRM/Group/Page/Group.tpl
-msgid "&raquo; New Group"
+msgid "New Group"
+msgstr ""
+
+#: templates/CRM/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
+msgid "Import Data (row %1)"
+msgstr ""
+
+#: templates/CRM/Import/Form/MapTable.tpl
+msgid "Matching CiviCRM Field"
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl
+msgid "The information below previews the results of importing your data in CiviCRM.\n    Review the totals to ensure that they represent your expected results."
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl
+msgid "CiviCRM has detected email and/or phone formatting errors in %1 records.\n        If you continue, these records will be skipped. OR, you can download a file with just\n        these problem records - %2. Then correct them in the original\n        import file, cancel this import and begin again at step 1."
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl
+msgid "CiviCRM has detected %1 records with duplicate email addresses within\n        this data file. If you continue, these records will be skipped. OR, you can download a file with just\n        these problem records - %2. Then correct them in the original\n        import file, cancel this import and begin again at step 1."
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl
+msgid "Click 'Import Now' if you are ready to proceed."
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Total Rows"
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Total rows (contact records) in uploaded file."
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl
+msgid "Rows with Errors"
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl
+msgid "Rows with invalid email or phone formatting.\n            These rows will be skipped (not imported)."
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl
+msgid "Duplicate Rows"
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl
+msgid "Rows with duplicate emails within this file.\n            These rows will be skipped (not imported)."
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl
+msgid "Valid Rows"
+msgstr ""
+
+#: templates/CRM/Import/Form/Preview.tpl
+msgid "Total rows to be imported."
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "<strong>Import has completed successfully.</strong> The information below summarizes the\n    results."
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "CiviCRM has detected invalid data and/or formatting errors in %1 records.\n        These records have not been imported. You can <a href = \"%2\">download</a> a file with just\n        these problem records - %3. You may then correct them and import\n        the new file with the corrected data."
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "CiviCRM has detected %1 records with duplicate email addresses within\n        this data file or relative to existing contact records. These records have not been\n        imported. CiviCRM does not allow multiple contact records to have the same email address."
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "You can download a file with just these problem records - %1.\n        You may then review these records to determine if they are actually duplicates, and\n        correct the email addresses for those that are not."
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "Invalid Rows (skipped)"
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "Rows with invalid data (NOT imported)."
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "Duplicate Rows (skipped)"
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "Rows with duplicate email addresses (NOT imported)."
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "Records Imported"
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "Rows imported successfully."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
@@ -1493,6 +1973,22 @@ msgstr ""
 msgid "Check this box if the first row of your file consists of field names (Example: \"First Name\",\"Last Name\",\"Email\")"
 msgstr ""
 
+#: templates/CRM/index.tpl
+msgid "\n     We are now soliciting bug reports. If you find a bug, please review the\n     open issues in our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>,\n     and 'Create a New Issue' if the bug isn't already in the UNRESOLVED list."
+msgstr ""
+
+#: templates/CRM/index.tpl
+msgid "Please add your\n     comments on the look and feel of these pages, along with workflow issues,\n     on the <a href=\"%1\">CiviCRM Comments Page</a>."
+msgstr ""
+
+#: templates/CRM/pager.tpl templates/CRM/pager.tpl
+msgid "Go"
+msgstr ""
+
+#: templates/CRM/pager.tpl
+msgid "Rows per page:"
+msgstr ""
+
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Tags"
 msgstr ""
@@ -1501,7 +1997,7 @@ msgstr ""
 msgid "Current tags for <strong>%1</strong> are highlighted. You can\n        add or remove tags from"
 msgstr ""
 
-#: templates/CRM/Tag/Form/Tag.tpl
+#: templates/CRM/Tag/Form/Tag.tpl templates/CRM/Tag/Form/Tag.tpl
 msgid "Edit Tags"
 msgstr ""
 
