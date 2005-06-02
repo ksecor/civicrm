@@ -350,7 +350,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $form->addGroup($privacy, 'privacy', 'Privacy');
 
         // preferred communication method 
-        $form->add('select', 'preferred_communication_method', 'Prefers', CRM_Core_SelectValues::$pcm);
+        $form->add('select', 'preferred_communication_method', 'Prefers', $GLOBALS['_CRM_CORE_SELECTVALUES']['pcm']);
     }
 
 
@@ -386,7 +386,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     if ( array_key_exists( 'email', $fields['location'][$locationId] ) &&
                          is_array( $fields['location'][$locationId]['email'] )         &&
                          empty( $primaryEmail ) ) {
-                        foreach ( $fields['location'][$locationId]['email'] as $idx => &$email ) {
+                        foreach ( $fields['location'][$locationId]['email'] as $idx => $email ) {
                             if ( array_key_exists( 'email', $email ) ) {
                                 $primaryEmail = $email['email'];
                                 break;
@@ -411,7 +411,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
      function locationDataExists( &$fields ) {
         
-        foreach ( $fields as $name => &$value ) {
+        foreach ( $fields as $name => $value ) {
             $skipField = false;
             foreach ( $GLOBALS['_CRM_CONTACT_FORM_EDIT']['skipFields'] as $skip ) {
                 if ( strpos( "[$skip]", $name ) !== false ) {

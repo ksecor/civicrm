@@ -61,7 +61,7 @@ class CRM_Contact_Form_Individual {
         $form->applyFilter('__ALL__','trim');
         
         // prefix
-        $form->addElement('select', 'prefix', null, CRM_Core_SelectValues::$prefixName);
+        $form->addElement('select', 'prefix', null, $GLOBALS['_CRM_CORE_SELECTVALUES']['prefixName']);
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
 
@@ -72,10 +72,10 @@ class CRM_Contact_Form_Individual {
         $form->addElement('text', 'last_name', ts('Last Name'), $attributes['last_name'] );
         
         // suffix
-        $form->addElement('select', 'suffix', null, CRM_Core_SelectValues::$suffixName);
+        $form->addElement('select', 'suffix', null, $GLOBALS['_CRM_CORE_SELECTVALUES']['suffixName']);
         
         // greeting type
-        $form->addElement('select', 'greeting_type', ts('Greeting type'), CRM_Core_SelectValues::$greeting);
+        $form->addElement('select', 'greeting_type', ts('Greeting type'), $GLOBALS['_CRM_CORE_SELECTVALUES']['greeting']);
         
         // job title
         $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title']);

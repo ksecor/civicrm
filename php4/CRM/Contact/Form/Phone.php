@@ -63,7 +63,7 @@ class CRM_Contact_Form_Phone
             $location[$locationId]['phone'][$i]['phone_type'] = $form->addElement('select',
                                                                                   "location[$locationId][phone][$i][phone_type]",
                                                                                   null,
-                                                                                  CRM_Core_SelectValues::$phoneType);
+                                                                                  $GLOBALS['_CRM_CORE_SELECTVALUES']['phoneType']);
 
             $location[$locationId]['phone'][$i]['phone']      = $form->addElement('text',
                                                                                   "location[$locationId][phone][$i][phone]", 
