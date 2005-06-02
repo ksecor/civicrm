@@ -39,7 +39,7 @@ require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/DAO/CustomGroup.php';
 require_once 'CRM/Utils/String.php';
-require_once 'extends.php';
+//require_once 'extends.php';
 require_once 'CRM/Utils/Array.php';
 require_once 'CRM/Core/Session.php';
 require_once 'CRM/Core/Form.php';
@@ -95,7 +95,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         // which entity is this custom data group for ?
         // for update action only allowed if there are no custom values present for this group.
-        $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::$customGroupExtends);
+        $extendsElement = $this->add('select', 'extends', ts('Used For'),$GLOBALS['_CRM_CORE_SELECTVALUES']['customGroupExtends']);
 
         if ($this->_action == CRM_CORE_ACTION_UPDATE) { 
             $extendsElement->freeze();
