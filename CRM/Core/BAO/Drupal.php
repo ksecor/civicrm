@@ -83,7 +83,9 @@ WHERE     crm_email.email = '" . $user->mail . "'";
             } else {
                 $params= array( 'email' => $user->mail, 'location_type' => 'Home' );
                 $contact =& crm_create_contact( $params, 'Individual' );
-                if ( $contact instanceof CRM_Core_Error ) {
+                // does not work for php4 
+                //if ( $contact instanceof CRM_Core_Error ) {
+                if (is_a($contact, CRM_Core_Error)) {
                     CRM_Core_Error::debug( 'error', $contact );
                     exit(1);
                 }
