@@ -59,6 +59,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @const
      */
 
+
      function &buildLocationBlock($form, $maxLocationBlocks) 
     {
         $location = array();

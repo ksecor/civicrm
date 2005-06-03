@@ -95,10 +95,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
      function preProcess()
     {
-        if ( ! isset( $GLOBALS['_CRM_CUSTOM_FORM_FIELD']['_dataTypeKeys'] ) ) {
-            $GLOBALS['_CRM_CUSTOM_FORM_FIELD']['_dataTypeKeys']   = array_keys  ( CRM_Core_BAO_CustomField::$_dataType );
-            $GLOBALS['_CRM_CUSTOM_FORM_FIELD']['_dataTypeValues'] = array_values( CRM_Core_BAO_CustomField::$_dataType );
-        }
+        //    if ( ! isset( $GLOBALS['_CRM_CUSTOM_FORM_FIELD']['_dataTypeKeys'] ) ) {
+            $GLOBALS['_CRM_CUSTOM_FORM_FIELD']['_dataTypeKeys']   = array_keys  ($GLOBALS['_CRM_CORE_BAO_CUSTOMFIELD']['_dataType']);
+            $GLOBALS['_CRM_CUSTOM_FORM_FIELD']['_dataTypeValues'] = array_values($GLOBALS['_CRM_CORE_BAO_CUSTOMFIELD']['_dataType']);
+            // }
 
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , $this);

@@ -12,7 +12,10 @@ require_once 'PHP/Beautifier.php';
 //print_r($GLOBALS['_ENV']['HOME']);
 //exit(1);
 
-
+ /**
+  * This function creates destination directory
+  *  
+  */
 function createDir( $dir, $perm = 0755 ) {
     if ( ! is_dir( $dir ) ) {
         mkdir( $dir, $perm, true );

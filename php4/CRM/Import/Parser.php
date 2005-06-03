@@ -55,7 +55,7 @@ require_once 'CRM/Import/Field.php';
     
           
           
-           protected $_fileName;
+     var $_fileName;
 
     /**#@+
      * @access protected
