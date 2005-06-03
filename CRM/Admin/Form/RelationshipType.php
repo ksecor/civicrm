@@ -69,7 +69,7 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
 
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
-            $this->addElement('button', 'done', 'Done', array('onClick' => "location.href='civicrm/admin/reltype?reset=1&action=browse'"));
+            $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/reltype?reset=1&action=browse'"));
         }
   
     }

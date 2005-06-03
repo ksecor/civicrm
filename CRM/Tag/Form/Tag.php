@@ -88,10 +88,10 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
 
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
-                                             'name'      => 'Update Tags',
+                                             'name'      => ts('Update Tags'),
                                              'isDefault' => true   ),
                                      array ( 'type'       => 'cancel',
-                                             'name'      => 'Cancel' ),
+                                             'name'      => ts('Cancel') ),
                                      )
                                );
         }

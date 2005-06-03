@@ -118,9 +118,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     function addRules( )
     {
-        $this->addRule('relationship_type_id', 'Please select a relationship type. ', 'required' );
-        $this->addRule('start_date'          , 'Start date is not valid.'           , 'qfDate' );
-        $this->addRule('end_date'            , 'End date is not valid.'             , 'qfDate' );
+        $this->addRule('relationship_type_id', ts('Please select a relationship type.'), 'required' );
+        $this->addRule('start_date'          , ts('Start date is not valid.')           , 'qfDate' );
+        $this->addRule('end_date'            , ts('End date is not valid.')             , 'qfDate' );
 
         if ( $this->_action & CRM_Core_Action::ADD ) {
             $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'formRule' ) );
@@ -138,15 +138,15 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         $this->addElement('select',
                           'relationship_type_id',
-                          'Relationship Type',
-                          array('' => '- select -') +
+                          ts('Relationship Type'),
+                          array('' => ts('- select -')) +
                           CRM_Contact_BAO_Relationship::getContactRelationshipType( $this->_contactId,
                                                                                     $this->_rtype,
                                                                                     $this->_relationshipId ) );
         
-        $this->addElement('text', 'name'      , 'Find Target Contact' );
-        $this->addElement('date', 'start_date', 'Start Date', CRM_Core_SelectValues::date( 'relative' ) );
-        $this->addElement('date', 'end_date'  , 'End Date'  , CRM_Core_SelectValues::date( 'relative' ) );
+        $this->addElement('text', 'name'      , ts('Find Target Contact') );
+        $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
+        $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
 
         $searchRows    = $this->get( 'searchRows'    );
         $searchCount   = $this->get( 'searchCount'   );
@@ -164,15 +164,15 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->assign( 'searchDone'  , $this->get( 'searchDone'   ) );
         $this->assign( 'contact_type', $this->get( 'contact_type' ) );
 
-        $this->addElement( 'submit', $this->getButtonName('refresh'), 'Search', array( 'class' => 'form-submit' ) );
-        $this->addElement( 'submit', $this->getButtonName('cancel' ), 'Cancel', array( 'class' => 'form-submit' ) );
+        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Search'), array( 'class' => 'form-submit' ) );
+        $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Save Relationship',
+                                         'name'      => ts('Save Relationship'),
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
         

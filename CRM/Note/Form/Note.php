@@ -98,15 +98,15 @@ class CRM_Note_Form_Note extends CRM_Core_Form
      */
     public function buildQuickForm( ) {
 
-        $note = $this->add('textarea', 'note', 'Notes', CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note', 'note' ) );
-        $this->addRule( 'note', 'Please enter note text.', 'required' );
+        $note = $this->add('textarea', 'note', ts('Notes'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note', 'note' ) );
+        $this->addRule( 'note', ts('Please enter note text.'), 'required' );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Save',
+                                         'name'      => ts('Save'),
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
         

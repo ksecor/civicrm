@@ -62,18 +62,18 @@ class CRM_Group_Form_DynamicGroup extends CRM_Core_Form {
         
         $aSavedResults = $savedSearch->getAll();
         
-        $this->addElement('select', 'saved_search_id', 'Saved Search: ', $aSavedResults);
+        $this->addElement('select', 'saved_search_id', ts('Saved Search: '), $aSavedResults);
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Done',
+                                         'name'      => ts('Done'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'back',
-                                         'name'      => 'Previous' ),
+                                         'name'      => ts('Previous') ),
                                  array ( 'type'      => 'reset',
-                                         'name'      => 'Reset'),
+                                         'name'      => ts('Reset')),
                                  array ( 'type'      => 'cancel',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
     }

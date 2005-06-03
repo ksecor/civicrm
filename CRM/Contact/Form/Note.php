@@ -36,7 +36,7 @@
 Class CRM_Contact_Form_Note
 {
     static function buildNoteBlock(&$form) {
-        $form->add('textarea', 'note', 'Notes:', array('cols' => '82',));    
+        $form->add('textarea', 'note', ts('Notes:'), array('cols' => '82',));    
     }
 
 }

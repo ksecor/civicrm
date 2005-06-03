@@ -75,12 +75,12 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $template = CRM_Core_Smarty::singleton( );
         $template->assign('qill', $qill);
 
-        $this->add('text', 'name', 'Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name'), true);
-        $this->addElement('text', 'description', 'Description', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name'), true);
+        $this->addElement('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
         if ( isset( $this->_id ) ) {
-            $this->addDefaultButtons( 'Update Saved Search' );
+            $this->addDefaultButtons( ts('Update Saved Search') );
         } else {
-            $this->addDefaultButtons( 'Save Search' );
+            $this->addDefaultButtons( ts('Save Search') );
         }
     }
 

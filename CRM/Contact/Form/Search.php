@@ -208,14 +208,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // also set the group title and freeze the action task with Add Members to Group
             $groupValues = array( 'id' => $this->_amtgID, 'title' => $this->_group[$this->_amtgID] );
             $this->assign_by_ref( 'group', $groupValues );
-            $this->add('submit', $this->_actionButtonName, 'Add Contacts to ' . $this->_group[$this->_amtgID],
+            $this->add('submit', $this->_actionButtonName, ts('Add Contacts to %1', array(1 => $this->_group[$this->_amtgID])),
                        array( 'class' => 'form-submit',
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
             $this->add('hidden','task', CRM_Contact_Task::GROUP_CONTACTS );
 
         } else {
-            $this->add('select', 'task'   , 'Actions: '    , $tasks    );
-            $this->add('submit', $this->_actionButtonName, 'Go',
+            $this->add('select', 'task'   , ts('Actions: ')    , $tasks    );
+            $this->add('submit', $this->_actionButtonName, ts('Go'),
                        array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) );
         }
@@ -241,16 +241,16 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // add buttons
         $this->addButtons( array(
                                  array ( 'type'      => 'refresh',
-                                         'name'      => 'Search' ,
+                                         'name'      => ts('Search') ,
                                          'isDefault' => true     )
                                  )        
                            );
 
-        $this->add('submit', $this->_searchButtonName, 'Search', array( 'class' => 'form-submit' ) );
-        $this->add('submit', $this->_exportButtonName, 'Export',
+        $this->add('submit', $this->_searchButtonName, ts('Search'), array( 'class' => 'form-submit' ) );
+        $this->add('submit', $this->_exportButtonName, ts('Export'),
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
-        $this->add('submit', $this->_printButtonName, 'Print',
+        $this->add('submit', $this->_printButtonName, ts('Print'),
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
         
@@ -266,18 +266,18 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     function buildQuickForm( ) 
     {
-        $this->add('select', 'contact_type', 'Find... ', CRM_Core_SelectValues::$contactType);
+        $this->add('select', 'contact_type', ts('Find... '), CRM_Core_SelectValues::$contactType);
 
         // add select for groups
         $group               = array('' => ts(' - any group - ')) + $this->_group;
-        $this->_groupElement = $this->add('select', 'group', 'in', $group);
+        $this->_groupElement = $this->add('select', 'group', ts('in'), $group);
 
         // add select for categories
         $tag = array('' => ' - any tag - ') + $this->_tag;
-        $this->_tagElement = $this->add('select', 'tag', 'Tagged', $tag);
+        $this->_tagElement = $this->add('select', 'tag', ts('Tagged'), $tag);
 
         // text for sort_name
-        $this->add('text', 'sort_name', 'Name', CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->add('text', 'sort_name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
         $this->buildQuickFormCommon( );
     }

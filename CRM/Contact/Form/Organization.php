@@ -55,16 +55,16 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         $form->applyFilter('__ALL__','trim');
         
         // Organization_name
-        $form->add('text', 'organization_name', 'Organization Name', $attributes['organization_name']);
+        $form->add('text', 'organization_name', ts('Organization Name'), $attributes['organization_name']);
         
         // legal_name
-        $form->addElement('text', 'legal_name', 'Legal Name', $attributes['legal_name']);
+        $form->addElement('text', 'legal_name', ts('Legal Name'), $attributes['legal_name']);
 
         // nick_name
-        $form->addElement('text', 'nick_name', 'Nick Name', $attributes['nick_name']);
+        $form->addElement('text', 'nick_name', ts('Nick Name'), $attributes['nick_name']);
 
         // sic_code
-        $form->addElement('text', 'sic_code', 'SIC Code', $attributes['sic_code']);
+        $form->addElement('text', 'sic_code', ts('SIC Code'), $attributes['sic_code']);
     }
 
     static function formRule( &$fields ) {

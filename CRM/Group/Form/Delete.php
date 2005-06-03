@@ -81,10 +81,10 @@ class CRM_Group_Form_Delete extends CRM_Core_Form {
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Delete Group',
+                                         'name'      => ts('Delete Group'),
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
     }
@@ -97,7 +97,7 @@ class CRM_Group_Form_Delete extends CRM_Core_Form {
      */
     public function postProcess( ) {
         CRM_Contact_BAO_Group::discard( $this->_id );
-        CRM_Core_Session::setStatus( 'The Group "' . $this->_title . '" has been deleted' );        
+        CRM_Core_Session::setStatus( ts('The Group "%1" has been deleted.', array(1 => $this->_title)) );        
     }
 }
 

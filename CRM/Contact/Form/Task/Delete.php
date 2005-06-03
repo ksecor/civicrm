@@ -45,7 +45,7 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
      * @return void
      */
     function buildQuickForm( ) {
-        $this->addDefaultButtons( 'Delete Contacts', 'done' );
+        $this->addDefaultButtons( ts('Delete Contacts'), 'done' );
     }
 
     /**

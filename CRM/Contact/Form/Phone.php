@@ -52,9 +52,9 @@ class CRM_Contact_Form_Phone
     static function buildPhoneBlock(&$form, &$location, $locationId, $count) {
 
         for ($i = 1; $i <= $count; $i++) {
-            $label = ($i == 1) ? 'Phone (preferred)' : 'Phone';
+            $label = ($i == 1) ? ts('Phone (preferred)') : ts('Phone');
 
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", 'another phone', 'hide this phone');
+            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][phone]", ts('another phone'), ts('hide this phone'));
 
             $location[$locationId]['phone'][$i]['phone_type'] = $form->addElement('select',
                                                                                   "location[$locationId][phone][$i][phone_type]",
@@ -68,7 +68,7 @@ class CRM_Contact_Form_Phone
                                                                                                         'phone'));
 
             // TODO: set this up as a group, we need a valid phone_type_id if we have a  phone number
-            $form->addRule( "location[$locationId][phone][$i][phone]", 'Phone number is not valid.', 'phone' );
+            $form->addRule( "location[$locationId][phone][$i][phone]", ts('Phone number is not valid.'), 'phone' );
         }
     }
 

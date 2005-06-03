@@ -260,14 +260,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Save',
+                                         'name'      => ts('Save'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Save and New' ),
+                                         'name'      => ts('Save and New') ),
                                  array ( 'type'      => 'reset',
-                                         'name'      => 'Reset'),
+                                         'name'      => ts('Reset')),
                                  array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
 
@@ -329,10 +329,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_email', null, 'Do not contact by email');
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_mail' , null, 'Do not contact by postal mail');
 
-        $form->addGroup($privacy, 'privacy', 'Privacy');
+        $form->addGroup($privacy, 'privacy', ts('Privacy'));
 
         // preferred communication method 
-        $form->add('select', 'preferred_communication_method', 'Prefers', CRM_Core_SelectValues::$pcm);
+        $form->add('select', 'preferred_communication_method', ts('Prefers'), CRM_Core_SelectValues::$pcm);
     }
 
 

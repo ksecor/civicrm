@@ -101,7 +101,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $mapperKeys      = array_keys( $this->_mapperFields );
 
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-            $this->add( 'select', "mapper[$i]", "Mapper for Field $i", $this->_mapperFields );
+            $this->add( 'select', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), $this->_mapperFields );
             $this->_defaults["mapper[$i]"] = $mapperKeys[$i];
         }
         $this->setDefaults( $this->_defaults );

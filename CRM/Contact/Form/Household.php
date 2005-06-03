@@ -54,10 +54,10 @@ class CRM_Contact_Form_Household {
         $form->applyFilter('__ALL__','trim');  
       
         // household_name
-        $form->add('text', 'household_name', 'Household Name', $attributes['household_name']);
+        $form->add('text', 'household_name', ts('Household Name'), $attributes['household_name']);
         
         // nick_name
-        $form->addElement('text', 'nick_name', 'Nick Name', $attributes['nick_name']);
+        $form->addElement('text', 'nick_name', ts('Nick Name'), $attributes['nick_name']);
     }
 
     static function formRule( &$fields ) {

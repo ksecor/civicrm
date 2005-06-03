@@ -87,21 +87,21 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
     public function buildQuickForm( ) {
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'title'       , 'Name: ' ,
+        $this->add('text', 'title'       , ts('Name: ') ,
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
-        $this->addRule( 'title', 'Group name is required.', 'required' );
+        $this->addRule( 'title', ts('Group name is required.'), 'required' );
         $this->addRule( 'title', ts('Name already exists in Database.'),
                         'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
 
-        $this->add('text', 'description', 'Description: ', 
+        $this->add('text', 'description', ts('Description: '), 
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? 'Continue' : 'Save',
+                                         'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
                                          'isDefault' => true   ),
                                  array ( 'type'       => 'cancel',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
     }

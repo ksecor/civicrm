@@ -115,11 +115,11 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         asort($groupList);
 
         if ( count( $groupList ) > 1 ) {
-            $this->addElement('select'  , 'group_id', 'Add to a group', $groupList );
+            $this->addElement('select'  , 'group_id', ts('Add to a group'), $groupList );
             
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
-                                             'name'      => 'Add',
+                                             'name'      => ts('Add'),
                                              'isDefault' => true   ),
                                      )
                                );

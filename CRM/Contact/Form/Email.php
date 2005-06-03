@@ -53,14 +53,14 @@ class CRM_Contact_Form_Email
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Email (preferred)' : 'Email';
 
-            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][email]", 'another email', 'hide this email');
+            CRM_Core_ShowHideBlocks::linksForArray( $form, $i, $count, "location[$locationId][email]", 'another email', ts('hide this email'));
             
             $location[$locationId]['email'][$i]['email'] = $form->addElement('text', 
                                                                              "location[$locationId][email][$i][email]",
                                                                              $label,
                                                                              CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Email',
                                                                                                    'email'));
-            $form->addRule( "location[$locationId][email][$i][email]", 'Email is not valid.', 'email' );
+            $form->addRule( "location[$locationId][email][$i][email]", ts('Email is not valid.'), 'email' );
         }
     }
 }

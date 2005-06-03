@@ -131,7 +131,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('No') , 'no' , $field['attributes']);
                     $this->addGroup($choice, $elementName, $field['label']);
                     if ($field['is_required']) {
-                        $this->addRule($elementName, $field['label'] . ts(" is a required field.") , 'required');
+                        $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
                     }
                     break;
 
@@ -144,16 +144,16 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 switch ( $field['data_type'] ) {
                 case 'Int':
                     // integers will have numeric rule applied to them.
-                    $this->addRule($elementName, $field['label'] . ts(' must be an integer (whole number).'), 'integer');
+                    $this->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $field['label'])), 'integer');
                     break;
 
                 case 'Date':
-                    $this->addRule($elementName, $field['label'] . ts(' is not a valid date.'), 'qfDate');
+                    $this->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field['label'])), 'qfDate');
                     break;
 
                 case 'Float':
                 case 'Money':
-                    $this->addRule($elementName, $field['label'] . ts(' must be a number (with or without decimal point).'), 'numeric');
+                    $this->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $field['label'])), 'numeric');
                     break;
                 }
             }
@@ -161,12 +161,12 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
-                                        'name'      => 'Save',
+                                        'name'      => ts('Save'),
                                         'isDefault' => true   ),
                                 array ( 'type'      => 'reset',
-                                        'name'      => 'Reset'),
+                                        'name'      => ts('Reset')),
                                 array ( 'type'       => 'cancel',
-                                        'name'      => 'Cancel' ),
+                                        'name'      => ts('Cancel') ),
                                 )
                           );
 

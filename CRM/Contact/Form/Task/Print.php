@@ -77,11 +77,11 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
         // 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => 'Print Contact List',
+                                         'name'      => ts('Print Contact List'),
                                          'js'        => array( 'onclick' => 'window.print()' ),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'back',
-                                         'name'      => 'Done' ),
+                                         'name'      => ts('Done') ),
                                  )
                            );
     }

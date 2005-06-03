@@ -61,9 +61,9 @@ class CRM_Contact_Form_Task_AddToTag extends CRM_Contact_Form_Task {
     function buildQuickForm( ) {
         // add select for tag
         $this->_tags = array( '' => ' - select tag - ') + CRM_Core_PseudoConstant::tag( );
-        $this->add('select', 'tag_id', 'Select Tag', $this->_tags, true);
+        $this->add('select', 'tag_id', ts('Select Tag'), $this->_tags, true);
 
-        $this->addDefaultButtons( 'Tag Contacts' );
+        $this->addDefaultButtons( ts('Tag Contacts') );
     }
 
     /**

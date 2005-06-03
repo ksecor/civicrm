@@ -83,7 +83,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
     function buildQuickForm( ) {
         // add select for groups
         $group = array( '' => ' - select group - ') + CRM_Core_PseudoConstant::group( );
-        $groupElement = $this->add('select', 'group_id', 'Select Group', $group, true);
+        $groupElement = $this->add('select', 'group_id', ts('Select Group'), $group, true);
         $this->_title  = $group[$this->_id];
 
         if ( $this->_context === 'amtg' ) {
@@ -102,7 +102,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
             CRM_Utils_System::setTitle( 'Add Members to A Group ');
         }
 
-        $this->addDefaultButtons( 'Add To Group' );
+        $this->addDefaultButtons( ts('Add To Group') );
     }
 
     /**

@@ -133,7 +133,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $this->addDefaultButtons('Confirm Action');        
+        $this->addDefaultButtons(ts('Confirm Action'));        
     }
 
        
@@ -162,7 +162,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
                                          'name'      => $title,
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'back',
-                                         'name'      => 'Cancel' ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
     }

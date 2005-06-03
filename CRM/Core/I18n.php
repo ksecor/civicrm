@@ -158,7 +158,7 @@ class CRM_Core_I18n
         //     $text = str_replace('\'','\\\'',stripslashes($text));
         // }
 
-        return $text;
+        return '⎰' . $text . '⎱';
     }
 
     /**

@@ -43,7 +43,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
         
-        $sel =& $this->addElement('hierselect', 'status', 'Household:', null, ' / ');
+        $sel =& $this->addElement('hierselect', 'status', ts('Household:'), null, ' / ');
         
         //build the country array
         $aCountry = CRM_Core_PseudoConstant::country();
@@ -107,9 +107,9 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
         //$sel->setOptions(array($aStateProvince, $aHousehold));
 
 
-        //$this->add('select', 'status', 'Status of the Contact', CRM_Core_SelectValues::$groupContactStatus, true);
+        //$this->add('select', 'status', ts('Status of the Contact'), CRM_Core_SelectValues::$groupContactStatus, true);
 
-        $this->addDefaultButtons( 'Add To Household' );
+        $this->addDefaultButtons( ts('Add To Household') );
     }
 
     /**
