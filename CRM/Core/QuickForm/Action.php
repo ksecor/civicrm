@@ -32,6 +32,7 @@
  * $Id$
  *
  */
+require_once 'HTML/QuickForm/Action.php' ;
 
 class CRM_Core_QuickForm_Action extends HTML_QuickForm_Action {
     /**
