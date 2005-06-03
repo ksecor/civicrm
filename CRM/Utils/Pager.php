@@ -27,7 +27,7 @@
  *
  * This class extends the PEAR pager object by substituting standard default pager arguments
  * We also extract the pageId from either the GET variables or the POST variable (since we
- * use a POST to jump to a specific page. At some point we should evaluate if we want
+ * use a POST to jump to a specific page). At some point we should evaluate if we want
  * to use Pager_Jumping instead. We've changed the format to allow navigation by jumping
  * to a page and also First, Prev CURRENT Next Last
  *
@@ -151,7 +151,8 @@ class CRM_Utils_Pager extends Pager_Sliding {
         $params['separator']  = '';
         $params['spacesBeforeSeparator'] = 1;
         $params['spacesAfterSeparator']  = 1;
-
+        $params['extraVars']             = array( 'force' => 1 );
+        $params['excludeVars']           = array( 'reset' => 1 );
 
         // set previous and next text labels
         $params['prevImg']    = ' &lt; Previous';

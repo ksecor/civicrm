@@ -277,7 +277,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 if ( $value == 1 ) {
                     $andArray[$field] = " ( LOWER(crm_address." . $field .  ") LIKE '%" . strtolower( addslashes( $fv[$field] ) ) . "%' )";
                 } else { 
-                    $andArray[$field] = ' ( crm_address.' . $field .  ' = ' . $fv[$field] . ') ';
+                    $andArray[$field] = ' ( crm_address.' . $field .  '_id = ' . $fv[$field] . ') ';
                 }
             }
         }

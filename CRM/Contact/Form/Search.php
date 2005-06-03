@@ -333,15 +333,15 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * set the varios class variables
          */
         $this->_group    =& CRM_Core_PseudoConstant::group   ( );
-        $this->_tag =& CRM_Core_PseudoConstant::tag( );
-        $this->_done     = false;
+        $this->_tag      =& CRM_Core_PseudoConstant::tag( );
+        $this->_done     =  false;
 
         /**
          * set the button names
          */
         $this->_searchButtonName = $this->getButtonName( 'refresh', 'search' );
         $this->_exportButtonName = $this->getButtonName( 'refresh', 'export' );
-        $this->_printButtonName = $this->getButtonName( 'next'    , 'print' );
+        $this->_printButtonName  = $this->getButtonName( 'next'    , 'print' );
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' );
 
         /*
@@ -358,10 +358,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_amtgID  = CRM_Utils_Request::retrieve( 'amtgID', $this );
         $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID'  , $this );
 
-        if ( isset( $this->_ssID ) ) {
+        $this->_formValues = $this->get( 'formValues' );
+
+        // we only retrieve the saved search values if out current values are null
+        if ( empty( $this->_formValues ) && isset( $this->_ssID ) ) {
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
-        } else {
-            $this->_formValues = $this->get( 'formValues' );
         }
 
         /*
@@ -380,8 +381,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                                        $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                        CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
         $controller->setEmbedded( true );
-        if ( $controller->hasChanged( $this->_reset ) ||
-             $this->_force ) {
+        //        if ( $controller->hasChanged( $this->_reset ) ||
+        if ( $this->_force ) {
             $this->postProcess( );
             /*
              * Note that we repeat this, since the search creates and stores
@@ -472,8 +473,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->_done = true;
 
-        $this->set('type', $this->_action );
-        $this->set('formValues', $this->_formValues );
+        $this->set( 'type'      , $this->_action );
+        $this->set( 'formValues', $this->_formValues );
 
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {

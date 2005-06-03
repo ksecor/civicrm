@@ -152,15 +152,17 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     {
         // get user submitted values
         $this->_formValues = $this->controller->exportValues( $this->_name );
-        // CRM_Core_Error::debug( 'F', $this->_formValues );
-        // CRM_Core_Error::debug( 'P', $_POST );
 
-        if ( isset( $this->_groupID ) ) {
-            $this->_formValues['cb_group'] = array( $this->_groupID => 1 );
-        } else if ( isset( $this->_ssID ) && empty( $_POST ) ) {
+        // retrieve ssID values only if formValues is null, i.e. form has never been posted
+        if ( empty( $this->_formValues ) && isset( $this->_ssID ) ) {
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
 
+        if ( isset( $this->_groupID ) ) {
+            $this->_formValues['cb_group'] = array( $this->_groupID => 1 );
+        }
+
+        // CRM_Core_Error::debug( 'F', $this->_formValues );
         $this->postProcessCommon( );
     }
 
