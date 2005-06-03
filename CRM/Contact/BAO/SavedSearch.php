@@ -104,14 +104,31 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      * @static
      */
     static function getFormValues( $id ) {
-        $savedSearch = new CRM_Contact_DAO_SavedSearch( );
-        $savedSearch->id = $id;
-        $savedSearch->selectAdd();
-        $savedSearch->selectAdd('id, form_values');
-        if($savedSearch->find(true)) {
+        $fv = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'form_values' );
+        if ( $fv ) {
             // make sure u unserialize - since it's stored in serialized form
-            return unserialize($savedSearch->form_values);
+            return unserialize( $fv );
         }
+        return null;
+    }
+
+    /**
+     * get the where clause for a saved search
+     *
+     * @param int $id saved search id
+     *
+     * @return string the where clause for this saved search
+     * @access public
+     * @static
+     */
+    static function whereClause( $id ) {
+        $fv = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'form_values' );
+        if ( $fv ) {
+            $fv = unserialize( $fv );
+            return CRM_Contact_BAO_Contact::whereClause( $fv, $false );
+        }
+        return null;
+
     }
 
     /**
@@ -124,15 +141,7 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      * @static
      */
     static function getName( $id ) {
-        $savedSearch = new CRM_Contact_DAO_SavedSearch( );
-        $savedSearch->id = $id;
-        $savedSearch->selectAdd();
-        $savedSearch->selectAdd('id, name');
-        if($savedSearch->find(true)) {
-            // make sure u unserialize - since it's stored in serialized form
-            return $savedSearch->name;
-        }
-        return null;
+        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'name' );
     }
 
 }

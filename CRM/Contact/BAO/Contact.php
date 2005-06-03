@@ -71,7 +71,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                        LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
                        LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
                        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id
-                   WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Drupal::groupClause( $type ) . ' ';
+                   WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Drupal::whereClause( $type ) . ' ';
 
         $dao = new CRM_Core_DAO( );
         $dao->query($query);
@@ -84,7 +84,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     }
 
     /**
-     * create and query the db for an advanced contact search
+     * create and query the db for an contact search
      *
      * @param array    $formValues array of reference of the form values submitted
      * @param int      $action   the type of action links
@@ -97,15 +97,12 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     function searchQuery(&$fv, $offset, $rowCount, $sort, $count = false, $includeContactIds = false)
     {
-        $strSelect = $strFrom = $where = $order = $limit = '';
-
-        // stores all the "AND" clauses
-        $andArray = array();
+        $select = $from = $where = $order = $limit = '';
 
         if($count) {
-            $strSelect = "SELECT count(DISTINCT crm_contact.id) ";
+            $select = "SELECT count(DISTINCT crm_contact.id) ";
         } else {
-            $strSelect = "SELECT DISTINCT crm_contact.id as contact_id,
+            $select = "SELECT DISTINCT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
@@ -117,14 +114,62 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                               crm_contact.contact_type as contact_type";
         }
 
-        $strFrom = " FROM crm_contact 
+        $from = " FROM crm_contact 
                         LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
                         LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
                         LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
                         LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
                         LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
                         LEFT JOIN crm_country ON crm_address.country_id = crm_country.id 
-                        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ";
+                        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id
+                        LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id ";
+
+        $where = self::whereClause( $fv, $includeContactIds );
+
+        if ( empty( $where ) ) {
+            $where = ' WHERE ' . CRM_Core_Drupal::whereClause( ) . ' ';
+        } else {
+            $where = ' WHERE ' . $where . ' AND ' . CRM_Core_Drupal::whereClause( ) . ' ';
+        }
+
+        if (!$count) {
+            if ($sort) {
+                $order = " ORDER BY " . $sort->orderBy(); 
+            }
+            if ( $rowCount > 0 ) {
+                $limit = " LIMIT $offset, $rowCount ";
+            }
+        }
+
+        // building the query string
+        $queryString = $select . $from . $where . $order . $limit;
+
+        // CRM_Core_Error::debug( 'qs', $queryString );
+        $this->query($queryString);
+
+        if ($count) {
+            // does not work for php4
+            //$row = $this->getDatabaseResult()->fetchRow();
+            $result = $this->getDatabaseResult();
+            $row    = $result->fetchRow();
+            return $row[0];
+        }
+
+        return $this;
+    }
+
+    /**
+     * create the where clause for a contact search
+     *
+     * @param array    $formValues array of reference of the form values submitted
+     * @param boolean  $includeContactIds should we include contact ids?
+     *
+     * @return string  the where clause without the permissions hook (important)
+     * @access public
+     */
+    static function whereClause( &$fv, $includeContactIds = false)
+    {
+        $where = '';
 
         /*
          * sample formValues for query 
@@ -165,6 +210,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         */
 
 
+        // stores all the "AND" clauses
+        $andArray = array();
+
         // check for contact type restriction
         if ($fv['cb_contact_type']) {
             $andArray['contact_type'] = "(contact_type IN (";
@@ -179,22 +227,20 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // check for group restriction
         if ($fv['cb_group']) {
             $andArray['group'] = "(group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
-            $andArray['groupStatus'] = 'crm_group_contact.status = "In"';
+            $andArray['groupStatus'] = '(crm_group_contact.status = "In")';
         }
-
+        
         // check for tag restriction
         if ($fv['cb_tag']) {
             $andArray['tag'] .= "(tag_id IN (" . implode( ',', array_keys($fv['cb_tag']) ) . '))';
-            $strFrom .= " LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id ";
         }
-
-
+        
         // check for last name, as of now only working with sort name
         if ($fv['sort_name']) {
             $name = trim($fv['sort_name']);
             // if we have a comma in the string, search for the entire string
             if ( strpos( $name, ',' ) !== false ) {
-                $andArray['sort_name'] = " LOWER(crm_contact.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%'";
+                $cond = " LOWER(crm_contact.sort_name) LIKE '%" . strtolower(addslashes($name)) . "%'";
             } else {
                 // split the string into pieces
                 $pieces =  explode( ' ', $name );
@@ -209,8 +255,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                     $cond .= " LOWER(crm_contact.sort_name) LIKE '%" . strtolower(addslashes(trim($piece))) . "%'";
                 }
                 $cond .= ' ) ';
-                $andArray['sort_name'] = $cond;
             }
+            $andArray['sort_name'] = "( $cond )";
         }
 
         if ( $includeContactIds ) {
@@ -221,69 +267,43 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 }
             }
             if ( ! empty( $contactIds ) ) {
-                $andArray['cid'] = " crm_contact.id in (" . implode( ',', $contactIds ) . ")";
+                $andArray['cid'] = " ( crm_contact.id in (" . implode( ',', $contactIds ) . " ) ) ";
             }
         }
-
-        // street_name
-        if ($fv['street_name']) {
-            $andArray['street_name'] = " LOWER(crm_address.street_name) LIKE '%". strtolower(addslashes($fv['street_name'])) ."%'";
-        }
-
-
-        // city_name
-        if ($fv['city']) {
-            $andArray['city'] = " LOWER(crm_address.city) LIKE '%". strtolower(addslashes($fv['city'])) ."%'";
-        }
-
-
-        // state
-        if ($fv['state_province']) {
-            $andArray['state_province'] = " crm_address.state_province_id = " . $fv['state_province'];
-        }
-
-        // country
-        if ($fv['country']) {
-            $andArray['country'] = " crm_address.country_id = " . $fv['country'];
+        
+        $fields = array( 'street_name'=> 1, 'city' => 1, 'state_province' => 2, 'country' => 2 );
+        foreach ( $fields as $field => $value ) {
+            if ( $fv[$field] ) {
+                if ( $value == 1 ) {
+                    $andArray[$field] = " ( LOWER(crm_address." . $field .  ") LIKE '%" . strtolower( addslashes( $fv[$field] ) ) . "%' )";
+                } else { 
+                    $andArray[$field] = ' ( crm_address.' . $field .  ' = ' . $fv[$field] . ') ';
+                }
+            }
         }
 
         // postal code processing
         if ($fv['postal_code'] || $fv['postal_code_low'] || $fv['postal_code_high']) {
 
             // we need to do postal code processing
-            $pcORArray = array();
-            $pcANDArray = array();
-            $pcORString = "";
-            $pcANDString = "";
+            $pcORArray   = array();
+            $pcANDArray  = array();
 
             if ($fv['postal_code']) {
-                $pcORArray[] = "crm_address.postal_code = " . $fv['postal_code'];
+                $pcORArray[] = ' ( crm_address.postal_code = ' . $fv['postal_code'] . ' ) ';
             }
             if ($fv['postal_code_low']) {
-                $pcANDArray[] = "crm_address.postal_code >= " . $fv['postal_code_low'];
+                $pcANDArray[] = ' ( crm_address.postal_code >= ' . $fv['postal_code_low'] . ' ) ';
             }
             if ($fv['postal_code_high']) {
-                $pcANDArray[] = "crm_address.postal_code <= " . $fv['postal_code_high'];
+                $pcANDArray[] = ' ( crm_address.postal_code <= ' . $fv['postal_code_high'] . ' ) ';
             }            
 
-            // add the next element to the OR Array
-            foreach ($pcANDArray as $v) {
-                $pcANDString .= " AND ($v) ";
+            if ( ! empty( $pcANDArray ) ) {
+                $pcORArray[] = ' ( ' . implode( ' AND ', $pcANDArray ) . ' ) ';
             }
 
-            $pcANDString = preg_replace("/AND/", "", $pcANDString, 1);
-
-            if ($pcANDString) {
-                $pcORArray[] = $pcANDString;
-            }
-
-            // add the next element to the OR Array
-            foreach ($pcORArray as $v) {
-                $pcORString .= " OR ($v) ";
-            }
-
-            $pcORString = preg_replace("/OR/", "", $pcORString, 1);
-            $andArray['postal_code'] = $pcORString;
+            $andArray['postal_code'] = ' ( ' . implode( ' OR ', $pcORArray ) . ' ) ';
         }
 
         if ( $fv['cb_location_type'] ) {
@@ -293,45 +313,15 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         
         // processing for primary location
         if ($fv['cb_primary_location']) {
-            $andArray['cb_primary_location'] = "crm_location.is_primary = 1";
+            $andArray['cb_primary_location'] = ' ( crm_location.is_primary = 1 ) ';
         }
 
         // final AND ing of the entire query.
-        foreach ($andArray as $v) {
-            $where .= " AND ($v) ";
+        if ( !empty( $andArray ) ) {
+            $where = ' ( ' . implode( ' AND ', $andArray ) . ' ) ';
         }
 
-        $where = preg_replace("/AND|OR/", "WHERE", $where, 1);
-
-        if ( empty( $where ) ) {
-            $where = ' WHERE ' . CRM_Core_Drupal::groupClause( ) . ' ';
-        } else {
-            $where = $where . ' AND ' . CRM_Core_Drupal::groupClause( ) . ' ';
-        }
-
-        if (!$count) {
-            if ($sort) {
-                $order = " ORDER BY " . $sort->orderBy(); 
-            }
-            if ( $rowCount > 0 ) {
-                $limit = " LIMIT $offset, $rowCount ";
-            }
-        }
-
-        // building the query string
-        $queryString = $strSelect . $strFrom . $where . $order . $limit;
-
-        $this->query($queryString);
-
-        if ($count) {
-            // does not work for php4
-            //$row = $this->getDatabaseResult()->fetchRow();
-            $result = $this->getDatabaseResult();
-            $row    = $result->fetchRow();
-            return $row[0];
-        }
-
-        return $this;
+        return $where;
     }
 
     /**
@@ -445,9 +435,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $params['contact_id'] = $contact->id;
 
         // invoke the add operator on the contact_type class
-        if (CRM_Utils_System::isPHP4()) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $params['contact_type']) . ".php");
         eval('$contact->contact_type_object = CRM_Contact_BAO_' . $params['contact_type'] . '::add($params, $ids);');
 
         $location = array();
@@ -664,12 +652,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     public static function getContactType($id)
     {
-        $contact = new CRM_Contact_BAO_Contact();
-        $contact->id = $id;
-        if ($contact->find(true)) {
-            return $contact->contact_type;
-        }        
-        return "";
+        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type' );
     }
 }
 

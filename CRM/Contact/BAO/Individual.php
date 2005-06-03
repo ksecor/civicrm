@@ -83,6 +83,11 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         $date = CRM_Utils_Array::value('birth_date', $params);
         $individual->birth_date = CRM_Utils_Date::format( CRM_Utils_Array::value('birth_date', $params) );
 
+        // hack to make db_do save a null value to a field
+        if ( ! $individual->birth_date ) {
+            $individual->birth_date = 'NULL';
+        }
+
         if (!array_key_exists('is_deceased', $params)) {
             $individual->is_deceased = 0;
         }

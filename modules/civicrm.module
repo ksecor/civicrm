@@ -102,7 +102,13 @@ function civicrm_perm()
 
     // dynamic permissions - access by group (title)
     $groups =& CRM_Core_PseudoConstant::allGroup();
-    foreach ($groups as $title) {
+    foreach ( $groups as $title ) {
+        $cPerm[] = 'view ' . $title;
+        $cPerm[] = 'edit ' . $title;
+    }
+
+    $savedSearches =& CRM_Core_PseudoConstant::allSavedSearch( );
+    foreach ( $savedSearches as $title ) {
         $cPerm[] = 'view ' . $title;
         $cPerm[] = 'edit ' . $title;
     }
@@ -620,9 +626,6 @@ function civicrm_load($queryArgs)
  */
 function civicrm_form($mode)
 {
-	if ( $mode == CRM_Core_Action::UPDATE ) {
-    }
-
     CRM_Utils_System::setUserContext(array('civicrm/contact/search', 'civicrm/contact/view'));
     $wrapper = new CRM_Utils_Wrapper();
     $wrapper->run('CRM_Contact_Form_Edit', ts('Contact Page'), $mode);

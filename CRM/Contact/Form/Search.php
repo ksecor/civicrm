@@ -308,7 +308,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         // note that we do this so we over-ride the default/post/submitted values to get
         // consisten behavior between search and advanced search
-        $this->setConstants( $defaults );
+        // $this->setConstants( $defaults );
         return $defaults;
     }
 
@@ -416,7 +416,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         
         if ( isset( $this->_groupID ) ) {
             $this->_formValues['group'] = $this->_groupID;
-        } else if ( isset( $this->_ssID ) ) {
+        } else if ( isset( $this->_ssID ) && empty( $_POST ) ) {
+            // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
 

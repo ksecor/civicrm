@@ -127,7 +127,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         // note that we do this so we over-ride the default/post/submitted values to get
         // consisten behavior between search and advanced search
-        $this->setConstants( $defaults );
+        // $this->setConstants( $defaults );
         return $defaults;
     }
 
@@ -151,11 +151,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     function postProcess() 
     {
         // get user submitted values
-        $this->_formValues = $this->controller->exportValues($this->_name);
+        $this->_formValues = $this->controller->exportValues( $this->_name );
+        // CRM_Core_Error::debug( 'F', $this->_formValues );
+        // CRM_Core_Error::debug( 'P', $_POST );
 
         if ( isset( $this->_groupID ) ) {
             $this->_formValues['cb_group'] = array( $this->_groupID => 1 );
-        } else if ( isset( $this->_ssID ) ) {
+        } else if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
 

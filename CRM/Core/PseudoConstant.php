@@ -90,7 +90,13 @@ class CRM_Core_PseudoConstant {
      * @static
      */
     private static $group;
-    
+
+    /**
+     * saved search
+     * @var array
+     * @static
+     */
+    private static $savedSearch;
 
     /**
      * relationshipType
@@ -119,9 +125,7 @@ class CRM_Core_PseudoConstant {
      * @static
      */
     private static function populate( &$var, $name, $all = false, $retrieve = 'name' ) {
-        if (CRM_Utils_System::isPHP4()) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object = new ' . $name . '( );' );
         $object->selectAdd( );
         $object->selectAdd( "id, $retrieve" );
@@ -304,8 +308,43 @@ class CRM_Core_PseudoConstant {
         return CRM_Core_Drupal::group( );
     }
 
+    /**
+     * Get all saved searches from database
+     *
+     * The static array saved searched is returned, and if it's
+     * called the first time, the <b>Saved Search DAO</b> is used
+     * to get all the groups.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @param none
+     * @return array - array reference of all saved searches
+     *
+     */
+    public static function &allSavedSearch()
+    {
+        if (!self::$savedSearch) {
+            self::populate( self::$savedSearch, 'CRM_Contact_DAO_SavedSearch', true, 'name' );
+        }
+        return self::$savedSearch;
+    }
 
-
+    /**
+     * Get all permissioned saved searched from database
+     *
+     * @access public
+     *
+     * @param none
+     * @return array - array reference of all groups.
+     * @static
+     */
+    public static function &savedSearch()
+    {
+        return CRM_Core_Drupal::savedSearch( );
+    }
 
     /**
      * Get all Relationship Types  from database.

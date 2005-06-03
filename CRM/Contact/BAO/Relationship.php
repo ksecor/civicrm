@@ -134,7 +134,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $relationship->relationship_type_id = $type;
         $relationship->is_active            = 1;
         $relationship->start_date           = CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
+        if ( ! $relationship->start_date ) {
+            $relationship->start_date = 'NULL';
+        }
+
         $relationship->end_date             = CRM_Utils_Date::format( CRM_Utils_Array::value( 'end_date'  , $params ) );
+        if ( ! $relationship->end_date ) {
+            $relationship->end_date = 'NULL';
+        }
+
         $relationship->id = CRM_Utils_Array::value( 'relationship', $ids );
         
         return  $relationship->save( );

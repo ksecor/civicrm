@@ -247,9 +247,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
                     
                 case 'Select Date':
-                    $v['M'] = ( $v['M'] < 10 ) ? '0' . $v['M'] : $v['M'];
-                    $v['d'] = ( $v['d'] < 10 ) ? '0' . $v['d'] : $v['d'];
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v['Y'] . $v['M'] . $v['d'];
+                    $date = CRM_Utils_Date::format( $v );
+                    if ( ! $date ) {
+                        $date = 'NULL';
+                    }
+                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
                     break;
                     
                 default:

@@ -402,9 +402,7 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      */
     static function objectExists( $value, $daoName, $daoID, $fieldName = 'name' ) {
-        if (CRM_Utils_System::isPHP4()) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object = new ' . $daoName . '( );' );
         $object->$fieldName = $value;
         if ( $object->find( true ) ) {
@@ -413,6 +411,18 @@ class CRM_Core_DAO extends DB_DataObject {
             return true;
         }
     }
+
+    static function getFieldValue( $daoName, $id, $fieldName = 'name' ) {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object = new ' . $daoName . '( );' );
+        $object->id    = $id;
+        $object->selectAdd( );
+        $object->selectAdd( 'id, ' . $fieldName );
+        if ( $object->find( true ) ) {
+            return $object->$fieldName;
+        }
+        return null;
+     }
 
 }
 
