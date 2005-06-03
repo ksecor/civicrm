@@ -83,7 +83,7 @@ class CRM_Admin_Form_MobileProvider extends CRM_Admin_Form
 
         $mobileProvider->save( );
 
-        CRM_Core_Session::setStatus( ts('The Mobile Provider \' %1 \' has been saved.',
+        CRM_Core_Session::setStatus( ts('The Mobile Provider "%1" has been saved.',
 					array( 1 => $mobileProvider->name ) ) );
     }//end of function
 

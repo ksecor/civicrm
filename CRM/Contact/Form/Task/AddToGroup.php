@@ -82,7 +82,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
         // add select for groups
-        $group = array( '' => ' - select group - ') + CRM_Core_PseudoConstant::group( );
+        $group = array( '' => ts(' - select group - ')) + CRM_Core_PseudoConstant::group( );
         $groupElement = $this->add('select', 'group_id', ts('Select Group'), $group, true);
         $this->_title  = $group[$this->_id];
 
@@ -96,10 +96,10 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
          
         // Set dynamic page title for 'Add Members Group (confirm)'
         if ( $this->_id ) {
-            CRM_Utils_System::setTitle( 'Add Members: ' . $this->_title );
+            CRM_Utils_System::setTitle( ts('Add Members: %1', array(1 => $this->_title)) );
         }
         else {
-            CRM_Utils_System::setTitle( 'Add Members to A Group ');
+            CRM_Utils_System::setTitle( ts('Add Members to A Group') );
         }
 
         $this->addDefaultButtons( ts('Add To Group') );
@@ -132,14 +132,14 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
 
         list( $total, $added, $notAdded ) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $this->_contactIds, $groupId );
         $status = array(
-                        'Added Contact(s) to '         . $group[$groupId],
-                        'Total Selected Contact(s): '  . $total
+                        ts('Added Contact(s) to %1', array(1 => $group[$groupId])),
+                        ts('Total Selected Contact(s): %1', array(1 => $total))
                         );
         if ( $added ) {
-            $status[] = 'Total Contact(s) added to group: ' . $added;
+            $status[] = ts('Total Contact(s) added to group: %1', array(1 => $added));
         }
         if ( $notAdded ) {
-            $status[] = 'Total Contact(s) already in group: ' . $notAdded;
+            $status[] = ts('Total Contact(s) already in group: %1', array(1 => $notAdded));
         }
         CRM_Core_Session::setStatus( $status );
         

@@ -111,7 +111,7 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
             $groupList = $allGroups;
         }
 
-        $groupList[0] = "- select group -" ;
+        $groupList[0] = ts('- select group -') ;
         asort($groupList);
 
         if ( count( $groupList ) > 1 ) {
@@ -144,7 +144,7 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         
         CRM_Contact_BAO_GroupContact::add($params);
        
-        CRM_Core_Session::setStatus( 'Contact has been added to the selected group.' );
+        CRM_Core_Session::setStatus( ts('Contact has been added to the selected group.') );
     }//end of function
 
 

@@ -298,7 +298,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         // here we replace the user context with the url to view this contact
         $session = CRM_Core_Session::singleton();
-        CRM_Core_Session::setStatus('Your ' . $contact->contact_type . ' contact record has been saved');
+        CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type)));
 
         // hack: figure out a nice way to do this
         if ( $_POST['_qf_Edit_next'] == 'Save and New' ) {

@@ -161,7 +161,7 @@ class CRM_History_Form_History extends CRM_Core_Form
         $historyDAO->activity_summary = $params['activity_summary'];
         $historyDAO->activity_date  = CRM_Utils_Date::format($params['activity_date']);
         $historyDAO->save();
-        CRM_Core_Session::setStatus(ts("Your History has been saved."));
+        CRM_Core_Session::setStatus(ts('Your History has been saved.'));
     }
 }
 

@@ -137,7 +137,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         }
         $note->save( );
 
-        CRM_Core_Session::setStatus( "Your Note has been saved." );
+        CRM_Core_Session::setStatus( ts('Your Note has been saved.') );
     }//end of function
 
 

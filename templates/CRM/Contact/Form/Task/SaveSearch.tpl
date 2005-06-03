@@ -1,5 +1,5 @@
 <fieldset>
-<legend>Saved Search</legend>
+<legend>{ts}Saved Search{/ts}</legend>
  <div id="search-status">
     <ul>
         {foreach from=$qill item=criteria}

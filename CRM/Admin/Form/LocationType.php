@@ -87,7 +87,7 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
 
         $locationType->save( );
 
-        CRM_Core_Session::setStatus( ts('The location type \' %1 \' has been saved.',
+        CRM_Core_Session::setStatus( ts('The location type "%1" has been saved.',
                                         array( 1 => $locationType->name )) );
     }//end of function
 

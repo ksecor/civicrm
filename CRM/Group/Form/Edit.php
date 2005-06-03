@@ -129,7 +129,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
         $group->save( );
 
-        CRM_Core_Session::setStatus( 'The Group "' . $group->name . '" has been saved' );        
+        CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->name)) );        
 
         /*
          * Add context to the session, in case we are adding members to the group

@@ -45,10 +45,10 @@ class CRM_Contact_Form_Task_RemoveFromGroup extends CRM_Contact_Form_Task {
      */
     function buildQuickForm( ) {
         // add select for groups
-        $group = array( '' => ' - select group - ') + CRM_Core_PseudoConstant::group( );
+        $group = array( '' => ts(' - select group - ')) + CRM_Core_PseudoConstant::group( );
         $groupElement = $this->add('select', 'group_id', ts('Select Group'), $group, true);
 
-        CRM_Utils_System::setTitle( 'Remove Members from Group ');
+        CRM_Utils_System::setTitle( ts('Remove Members from Group') );
         $this->addDefaultButtons( ts('Remove From Group') );
     }
 
@@ -80,14 +80,14 @@ class CRM_Contact_Form_Task_RemoveFromGroup extends CRM_Contact_Form_Task {
 
         list( $total, $removed, $notRemoved ) = CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $this->_contactIds, $groupId );
         $status = array(
-                        'Removed Contact(s) from '     . $group[$groupId],
-                        'Total Selected Contact(s): '  . $total
+                        ts('Removed Contact(s) from %1', array(1 => $group[$groupId])),
+                        ts('Total Selected Contact(s): %1', array(1 => $total))
                         );
         if ( $removed ) {
-            $status[] = 'Total Contact(s) removed from group: ' . $removed;
+            $status[] = ts('Total Contact(s) removed from group: %1', array(1 => $removed));
         }
         if ( $notRemoved ) {
-            $status[] = 'Total Contact(s) not in group: ' . $notRemoved;
+            $status[] = ts('Total Contact(s) not in group: %1', array(1 => $notRemoved));
         }
         CRM_Core_Session::setStatus( $status );
 

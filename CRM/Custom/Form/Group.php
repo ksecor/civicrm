@@ -61,9 +61,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $groupTitle = CRM_Core_BAO_CustomGroup::getTitle($this->_id);
-            CRM_Utils_System::setTitle("Edit $groupTitle");
+            CRM_Utils_System::setTitle(ts('Edit %1', array(1 => $groupTitle)));
         } else {
-            CRM_Utils_System::setTitle("New Custom Data Group");
+            CRM_Utils_System::setTitle(ts('New Custom Data Group'));
         }
     }
 
@@ -168,10 +168,10 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         }
         $group->save();
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            CRM_Core_Session::setStatus('Your Group "' . $group->title . '" has been saved.');
+            CRM_Core_Session::setStatus(ts('Your Group "%1" has been saved.', array(1 => $group->title)));
         } else {
             $url = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $group->id);
-            CRM_Core_Session::setStatus('Your Group "' . $group->title . '" has been added. You can <a href="'. $url .'">add custom fields</a> to this group now.');
+            CRM_Core_Session::setStatus(ts('Your Group "%1" has been added. You can <a href="%2">add custom fields</a> to this group now.', array(1 => $group->title, 2 => $url)));
         }
     }
 }

@@ -119,8 +119,7 @@ class CRM_Contact_BAO_Tag extends CRM_Contact_DAO_Tag {
 
         $tag->save( );
         
-        CRM_Core_Session::setStatus( ts('The tag \'%1\' has been saved.',
-                                      array( 1 => $tag->name ) ) );
+        CRM_Core_Session::setStatus( ts('The tag "%1" has been saved.', array(1 => $tag->name)) );
         
         return $tag;
     }

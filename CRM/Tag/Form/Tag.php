@@ -147,7 +147,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
         }
         
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            CRM_Core_Session::setStatus( 'Your update(s) have been saved.' );
+            CRM_Core_Session::setStatus( ts('Your update(s) have been saved.') );
         }
         
     }//end of function

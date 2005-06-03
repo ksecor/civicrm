@@ -257,7 +257,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         $customField->save();
         
-        CRM_Core_Session::setStatus(ts('Your custom field - \' %1 \' has been saved', array(1 => $customField->label)));
+        CRM_Core_Session::setStatus(ts('Your custom field "%1" has been saved', array(1 => $customField->label)));
     }
 }
 ?>
