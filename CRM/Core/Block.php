@@ -166,6 +166,11 @@ class CRM_Core_Block {
                 $value['url'  ] = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'qs', $item ) );
                 $value['title'] = $item['title'];
                 $value['class'] = 'leaf';
+                if ( strpos( $_REQUEST['q'], $item['path'] ) === 0 ) {
+                    $value['active'] = 'class="active"';
+                } else {
+                    $value['active'] = '';
+                }
                 $values[$item['weight']] = $value;
             }
         }

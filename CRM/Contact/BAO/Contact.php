@@ -127,9 +127,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $where = self::whereClause( $fv, $includeContactIds );
 
         if ( empty( $where ) ) {
-            $where = ' WHERE ' . CRM_Core_Drupal::whereClause( ) . ' ';
+            $where = ' WHERE ' . CRM_Core_Drupal::whereClause( 'view' ) . ' ';
         } else {
-            $where = ' WHERE ' . $where . ' AND ' . CRM_Core_Drupal::whereClause( ) . ' ';
+            $where = ' WHERE ' . $where . ' AND ' . CRM_Core_Drupal::whereClause( 'view' ) . ' ';
         }
 
         if (!$count) {

@@ -125,7 +125,7 @@ function civicrm_perm()
 
 function civicrm_block($op='list', $delta='0')
 {
-    if (arg(0) != 'civicrm' && arg(0) != 'admin') {
+    if ( ( arg(0) != 'civicrm' && arg(0) != 'admin' ) || ( ! user_access( 'access CiviCRM' ) ) ) {
         return;
     }
 
@@ -172,7 +172,7 @@ function civicrm_menu($may_cache)
                          'path'   => 'civicrm/admin',
                          'title'  => ts('Administer CiviCRM'),
                          'qs'     => 'reset=1',
-                         'access' => user_access('administer CiviCRM'),
+                         'access' => user_access('administer CiviCRM') && user_access( 'access CiviCRM' ),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 40,
                          );
@@ -270,7 +270,7 @@ function civicrm_menu($may_cache)
                          'path'   => 'civicrm/contact/addI',
                          'title'  => ts('New Individual'),
                          'qs'     => 'reset=1',
-                         'access' => user_access('add contacts'),
+                         'access' => user_access('add contacts') && user_access( 'access CiviCRM' ),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );
@@ -279,7 +279,7 @@ function civicrm_menu($may_cache)
                          'path'   => 'civicrm/contact/addO',
                          'title'  => ts('New Organization'),
                          'qs'     => 'reset=1',
-                         'access' => user_access('add contacts'),
+                         'access' => user_access('add contacts') && user_access( 'access CiviCRM' ),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );
@@ -288,7 +288,7 @@ function civicrm_menu($may_cache)
                          'path'   => 'civicrm/contact/addH',
                          'title'  => ts('New Household'),
                          'qs'     => 'reset=1',
-                         'access' => user_access('add contacts'),
+                         'access' => user_access('add contacts') && user_access( 'access CiviCRM' ),
                          'type'   => MENU_CALLBACK,
                          'weight' => 1
                          );
@@ -380,14 +380,14 @@ function civicrm_menu($may_cache)
                          'path'   => 'civicrm/import',
                          'title'  => ts('Import Contacts'),
                          'qs'     => 'reset=1',
-                         'access' => user_access('administer CiviCRM'),
+                         'access' => user_access('administer CiviCRM') && user_access( 'access CiviCRM' ),
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 30,
                          );
  
-     }
+    }
 
-   return $items;
+    return $items;
 }
 
 function civicrm_hack_path($path, $qs)
@@ -409,11 +409,11 @@ static $_civicrmSession;
  */
 function civicrm_init()
 {
-    if (arg(0) != 'civicrm' && arg(0) != 'admin' && arg(0) != 'user') {
+    if ( arg(0) != 'civicrm' && arg(0) != 'admin' && arg(0) != 'user' ) {
         return;
     }
 
-    // menu_rebuild();
+    menu_rebuild();
 
     $config = CRM_Core_Config::singleton();
     CRM_Core_DAO::init($config->dsn, $config->daoDebug);
