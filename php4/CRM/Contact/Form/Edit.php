@@ -266,6 +266,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         /* Entering the compact location engine */ 
         $location =& CRM_Contact_Form_Location::buildLocationBlock($this, CRM_CONTACT_FORM_EDIT_LOCATION_BLOCKS, $this->_showHideBlocks);
 
+        CRM_Contact_Form_Location::buildLocationBlock($this, CRM_CONTACT_FORM_EDIT_LOCATION_BLOCKS, $this->_showHideBlocks);
+
         /* End of locations */
         
         // add note block
@@ -335,7 +337,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      * @static
      */
-      function buildCommunicationBlock($form)
+      function buildCommunicationBlock(&$form)
     {
         // since the pcm - preferred comminication method is logically
         // grouped hence we'll use groups of HTML_QuickForm

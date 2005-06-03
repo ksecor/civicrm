@@ -52,7 +52,7 @@ class CRM_Contact_Form_Address
      * @access public
      * @static
      */
-     function buildAddressBlock($form, &$location, $locationId)
+     function buildAddressBlock(&$form, &$location, $locationId)
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Address');
         $location[$locationId]['address']['street_address']         =

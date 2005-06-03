@@ -317,7 +317,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @access public
      * @static
      */
-    public static function buildCommunicationBlock($form)
+    public static function buildCommunicationBlock(&$form)
     {
         // since the pcm - preferred comminication method is logically
         // grouped hence we'll use groups of HTML_QuickForm

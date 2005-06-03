@@ -52,7 +52,7 @@ class CRM_Contact_Form_Email
      * @access public
      * @static
      */
-     function buildEmailBlock($form, &$location, $locationId, $count) {
+     function buildEmailBlock(&$form, &$location, $locationId, $count) {
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Email (preferred)' : 'Email';
 

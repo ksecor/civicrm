@@ -50,7 +50,7 @@ class CRM_Contact_Form_IM
      * @access public
      * @static
      */
-    static function buildIMBlock($form, &$location, $locationId, $count) {
+    static function buildIMBlock(&$form, &$location, $locationId, $count) {
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? 'Instant Messenger (preferred)' : 'Instant Messenger';
 

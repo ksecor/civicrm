@@ -52,7 +52,7 @@ class CRM_Contact_Form_Household {
      * @access public
      * @return None
      */
-     function buildQuickForm( $form ) {
+     function buildQuickForm( &$form ) {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Household');
         
         $this->applyFilter('__ALL__','trim');  

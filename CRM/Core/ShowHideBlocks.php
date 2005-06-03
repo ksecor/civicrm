@@ -180,7 +180,7 @@ class CRM_Core_ShowHideBlocks {
      * @return void
      * @access public
      */
-    function links( $form, $prefix, $showLinkText, $hideLinkText ) {
+    function links( &$form, $prefix, $showLinkText, $hideLinkText ) {
         $showCode = "show('${prefix}'); hide('${prefix}[show]'); return false;";
         $hideCode = "hide('${prefix}'); show('${prefix}[show]'); return false;";
         

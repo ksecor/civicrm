@@ -48,16 +48,16 @@ class CRM_Contact_Form_Household {
      * @access public
      * @return None
      */
-    public function buildQuickForm( $form ) {
+    public function buildQuickForm( &$form ) {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Household');
         
-        $this->applyFilter('__ALL__','trim');  
+        $form->applyFilter('__ALL__','trim');  
       
         // household_name
-        $this->add('text', 'household_name', 'Household Name', $attributes['household_name']);
+        $form->add('text', 'household_name', 'Household Name', $attributes['household_name']);
         
         // nick_name
-        $this->addElement('text', 'nick_name', 'Nick Name', $attributes['nick_name']);
+        $form->addElement('text', 'nick_name', 'Nick Name', $attributes['nick_name']);
     }
 
     static function formRule( &$fields ) {

@@ -48,7 +48,7 @@ class CRM_Contact_Form_Individual {
      * @access public
      * @return None 
      */
-    public function buildQuickForm( $form )
+    public function buildQuickForm( &$form )
     {
         $form->applyFilter('__ALL__','trim');
         
