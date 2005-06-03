@@ -2,7 +2,7 @@
 
 <table>
   <base>CRM/Core</base>
-  <name>crm_history</name>
+  <name>crm_activity_history</name>
   <comment>Record history for an entity in the crm module</comment>
   <field>
       <name>id</name>
