@@ -104,7 +104,7 @@
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
-            <td>{$rel.end_date|date_format:"%B %e, %Y"}</td>
+            <td>{$rel.end_date|crmDate}</td>
             <td class="nowrap">{$rel.action}</td>
           </tr>
         {/foreach}

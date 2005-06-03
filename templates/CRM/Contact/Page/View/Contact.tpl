@@ -26,15 +26,6 @@
    <legend{if $locationIndex eq 1} class="label"{/if}><a href="#" onClick="hide('location[{$locationIndex}]'); show('location[{$locationIndex}][show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{$loc.location_type}{if $locationIndex eq 1} {ts}(primary location){/ts}{/if}</legend>
 
   <div class="col1">
-    {if $loc.address.street_address}{$loc.address.street_address}<br />{/if}
-    {if $loc.address.supplemental_address_1}{$loc.address.supplemental_address_1}<br />{/if}
-    {if $loc.address.city OR $loc.address.state_province OR $loc.address.postal_code}
-        {if $loc.address.city}{$loc.address.city},{/if} {$loc.address.state_province} {$loc.address.postal_code}<br />
-    {/if}
-    {$loc.address.country}
-  </div>
-  
-  <div class="col2">
    {foreach from=$loc.phone item=phone}
      {if $phone.phone}
         {if $phone.is_primary eq 1}<strong>{/if}
@@ -61,6 +52,17 @@
         <br />
      {/if}
    {/foreach}
+   </div>
+
+   <div class="col2">
+    {if $loc.address.street_address}{$loc.address.street_address}<br />{/if}
+    {if $loc.address.supplemental_address_1}{$loc.address.supplemental_address_1}<br />{/if}
+    {if $loc.address.city OR $loc.address.state_province OR $loc.address.postal_code}
+        {if $loc.address.city}{$loc.address.city},{/if} {$loc.address.state_province} {$loc.address.postal_code}<br />
+    {/if}
+    {$loc.address.country}
+  </div>
+
   </fieldset>
  </div>
 {/foreach}
@@ -101,8 +103,7 @@
     {/if}
    </div>
    <div class="col2">
-{*    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|date_format:"%B %e, %Y"} *}
-    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate} - actual: {$birth_date} 
+    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}
    </div>
   </fieldset>
  </div>
@@ -165,7 +166,7 @@
   {if $group.totalCount}
     <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Group Memberships{/ts}</label> ({$group.totalCount})<br />
   {else}
-    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=$crmURL}{crmURL p='civicrm/contact/view/group' q='action=add'}{/capture}{ts 1=$crmURL}No group memberships. Use the <a href="%1">Groups tab</a> to add them.{/ts}</dd></dl>
+    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q='action=add'}{/capture}{ts 1=$crmURL}No group memberships. Use the <a href="%1">Groups tab</a> to add them.{/ts}</dd></dl>
   {/if}
 </div>
 

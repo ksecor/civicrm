@@ -28,7 +28,6 @@
 <div id="notes">
     <div class="form-item">
     <p>
-    <div class="label">{ts}Existing Notes{/ts}</div>
     {strip}
        <table>
        <tr class="columnheader">

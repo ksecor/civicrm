@@ -52,18 +52,18 @@ function smarty_modifier_crmDate($dateString)
 
         $fDate = '';
         if ( $mon > 0 ) {
-            $fDate .= $months[(int ) $mon] . ' ';
+            $fDate .= $months[(int ) $mon];
 
             // validation allows month w/o day, but NOT day w/o month
             if ( $day > 0 ) {
-                $fDate .= $day;
+                $fDate .= ' ' . $day;
             }
             $fDate .= ", ";
         }
         $fDate .= $year;
         return $fDate;
     }
-    return 'NO DATE SPECIFIED';
+    return '';
 }
 
 ?>

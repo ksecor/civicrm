@@ -10,10 +10,10 @@
             <dt>{$row.relation}</dt> 
             <dd class="label">{$row.name}</dd>
             {if $row.start_date}
-                <dt>{ts}Start Date:{/ts}</dt><dd>{$row.start_date|date_format:"%B %e, %Y"}</dd>
+                <dt>{ts}Start Date:{/ts}</dt><dd>{$row.start_date|crmDate}</dd>
             {/if}
             {if $row.end_date}
-                <dt>{ts}End Date:{/ts}</dt><dd>{$row.end_date|date_format:"%B %e, %Y"}</dd>
+                <dt>{ts}End Date:{/ts}</dt><dd>{$row.end_date|crmDate}</dd>
             {/if}
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
             <dt></dt>
