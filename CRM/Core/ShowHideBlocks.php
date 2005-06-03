@@ -204,7 +204,7 @@ class CRM_Core_ShowHideBlocks {
      * @return void
      * @access public
      */
-    function linksForArray( $form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText ) {
+    function linksForArray( &$form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText ) {
         if ( $index == $maxIndex ) {
             $showCode = $hideCode = "return false;";
         } else {
