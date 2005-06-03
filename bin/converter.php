@@ -14,6 +14,9 @@ require_once 'PHP/Beautifier.php';
 
  /**
   * This function creates destination directory
+  *
+  * @param $dir directory name to be created
+  * @param $peram mode for that directory
   *  
   */
 function createDir( $dir, $perm = 0755 ) {
@@ -22,8 +25,6 @@ function createDir( $dir, $perm = 0755 ) {
     }
 }
 
-// lets see if this is feasible..!
-// proof of concept : php5 -> php4 code conversion...
 
 class PHP_DownGrade {
     
@@ -31,6 +32,13 @@ class PHP_DownGrade {
     
     const T_SELF = 999;
     
+    /**
+     * This constructor creates array of tokens.
+     * Here tokens form files are separated snd stored in array $this->tokens
+     *  
+     *@param $file 
+     */
+
     function __construct($file)
     {
 
@@ -60,12 +68,15 @@ class PHP_DownGrade {
                 $this->tokens[$i][0] = self::T_SELF;
             }
         }
-         CRM_Core_Error::debug_var('tokens', $this->tokens);
-
-        CRM_Core_Error::ll_method();
-        // for($j=0;$j<count($this->tokens);$j++)
-        //    echo "\n".$this->tokens[$j][1];
+        
     }
+    
+      
+    /**
+     * This method calls other methods in class.
+     * 
+     * @return  none
+     */
     
     function toPHP4() {
         $this->findStart();
@@ -106,17 +117,24 @@ class PHP_DownGrade {
             }
         }
     }
+    /**
+     * This method replaces all constants by define,statics by GLOBLAS.
+     * and removes public,private,protected keywords
+     * and replaces self varialbls with proper variable names 
+     *
+     * @return   none
+     */
     
     function classdef() 
     {
         
         CRM_Core_Error::le_method();
         for($i=0;$i<count($this->tokens);$i++) {
-            // to remove the final keywaord
+            // Remove the final keywaord
             if(strcmp($this->tokens[$i][1],"final")==0)
                 $this->tokens[$i][1]="";
 
-            // to remove implement keyword
+            // Remove implement keyword
             if(strcmp($this->tokens[$i][1],"implements")==0)
                 while(strcmp($this->tokens[$i][1],"{")!=0)
                     {
@@ -189,7 +207,7 @@ class PHP_DownGrade {
                 // T_STATIC  = static var..
                 // T_VARIABLE = var definition.
                 // T_FUNCTION 
-                //$i++;
+               
                 $static = false;
                 while($i) {
                     switch($this->tokens[$i][0]) {
@@ -275,16 +293,20 @@ class PHP_DownGrade {
                         break 2;
                     }
                 }
-                     
+                
                 $this->tokens[$i][1];
             }
           
         }
-        // print_r($this->constants);
-        
         
     }
     
+    /**
+     * This method  constructs an array of static variables,with thre class names and values.
+     * 
+     * @param $class class name in which this static variable is reside
+     * @param $i     satatic variables position in tokens array
+     */
     function convertToStatic($class,$i) 
         {
         CRM_Core_Error::le_method();
@@ -310,10 +332,7 @@ class PHP_DownGrade {
             $i++;
         }
         $this->statics[$class][$name] = $value;
-       
         $this->statvar[$this->staticcount]=$name;
-        //echo "\n".$this->statvar[$this->staticcount];
-
         $this->staticcount++;
      
           
@@ -321,7 +340,12 @@ class PHP_DownGrade {
         return $i;
     
     }
-    
+    /**
+     * This function handles removing of static variables, final keyword
+     * constructor part converesion
+     * 
+     * @return  none
+     */
     
     function funcdefs() {
 
@@ -384,7 +408,7 @@ class PHP_DownGrade {
                   $i++;
                 while($this->tokens[$i][1]==T_WHITESPACE)
                 {
-                    // echo "In the while loop";
+                    
                     $i++;
                 }
                 $func = $this->tokens[$i+1][1];
@@ -420,7 +444,11 @@ class PHP_DownGrade {
     }
     
     
-    
+    /**
+     * Funtion that take care of Exception conversion
+     *
+     * @return none
+     */
     function exceptions() 
     {
         CRM_Core_Error::le_method();
@@ -458,29 +486,14 @@ class PHP_DownGrade {
     }
     
     
-    
+    /**
+     * Function to add static,constant variables at staring of the program.
+     * it also add which file are need at top by require_once
+     *
+     */
     function toString() 
     {
-        
-             //To remove "&" in foreach statement
-        /*for($j=0;$j<count($this->tokens);$j++)
-            {
-                if(strcmp($this->tokens[$j][1],"foreach")==0)
-                    {
-                        $next=$j;
-                        while($this->tokens[$next][1]!=')'){
-                            if($this->tokens[$next][1]=="&")
-                                {
-                                    $this->tokens[$next][1]="";
-                                }
-                            $next++;
-                        }
-
-                    }
-            }*/
-       
-        //To remove abstact keyword
-        
+        //To remove abstact keyword     
         for($j=0;$j<count($this->tokens);$j++)
             {
                 if(strcmp($this->tokens[$j][1],"abstract")==0)
@@ -578,7 +591,7 @@ class PHP_DownGrade {
                 
             }
        
-        //TO CHNAGE THE NAMES OF STATIC VARIABLES
+        //TO CHNAGE THE NAMES OF STATIC VARIABLES out side of class
 
         foreach($this->statvar as $name)
                  for($j=0;$j<count($this->tokens);$j++)
