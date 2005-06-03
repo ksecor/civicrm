@@ -42,6 +42,8 @@ require_once 'PEAR.php';
 
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Utils/Array.php';
+require_once 'CRM/Core/BAO/History.php';
+
 
 /**
  * Most API functions take in associative arrays ( name => value pairs
@@ -57,7 +59,7 @@ require_once 'CRM/Utils/Array.php';
 
 
 /**
- * Create a new History.
+ * Create a new Activity History.
  *
  * Creates a new history record and returns the newly created
  * History object. Minimum required data values are entity_id,
@@ -70,14 +72,14 @@ require_once 'CRM/Utils/Array.php';
  *
  * @access public
  */
-function &crm_create_history(&$params)
+function &crm_create_activity_history(&$params)
 {
     // return error if we do not get any params
     if (empty($params)) {
         return _crm_error("Input Parameters empty");
     }
 
-    $error = _crm_check_history_params($params);
+    $error = _crm_check_history_params($params, 'Activity');
     // does not work for php4
     //if ($error instanceof CRM_Core_Error) {
     if (is_a($error, CRM_Core_Error)) {
@@ -86,151 +88,33 @@ function &crm_create_history(&$params)
 
     $ids = array();
 
-    $contact = CRM_Core_BAO_History::create($params);
-    return $contact;
+    $history = CRM_Core_BAO_History::create($params, 'Activity');
+
+    return $history;
 }
 
 /**
- * Get an existing contact.
+ * Get an existing History
  *
- * Returns a single existing Contact object which matches ALL property
+ * Returns a single existing History object which matches ALL property
  * values passed in $params. An error object is returned if there is
- * no match, or more than one match. This API can be used to retrieve
- * the CRM internal identifier (contact_id) based on a unique property
- * (e.g. email address). It can also be used to retrieve any desired
- * contact properties based on a known contact_id. Available
- * properties for each type of Contact are listed in the {@link
- * http://objectledge.org/confluence/display/CRM/Data+Model#DataModel-ContactRef
- * CRM Data Model.} Modules may also invoke crm_get_class_properties()
- * to retrieve all available property names, including extended
- * (i.e. custom) properties.contact of the specific type that matches
- * the input params  
- *
- * <b>Primary Location and Communication Info</b>
- *
- * <ul>
- * <li>Primary location properties (email address, phone, postal address,
- * etc.) are available in the Contact data objects. Primary email and
- * phone number are returned by default. Postal address fields and
- * primary instant messenger identifier are returned when specified in
- * $return_properties. For contacts with multiple locations, use
- * crm_get_locations() to retrieve additional location data.</li> 
- * </ul>
- *
- * @see crm_get_class_properties()
- * @see crm_get_locations()
- *
- * @example api/Contact.php
+ * no match, or more than one match. 
  *
  * @param array $params           Associative array of property name/value
  *                                pairs to attempt to match on.
+ *
  * @param array $returnProperties Which properties should be included in the
  *                                returned Contact object. If NULL, the default
  *                                set of properties will be included.
  *
- * @return CRM_Contact|CRM_Core_Error  Return the Contact Object if found, else
- *                                Error Object
+ * @return CRM_Core_DAO_$typeHistory|CRM_Core_Error  Return the Contact Object if found, else Error Object
  *
  * @access public
  *
  */
-function &crm_get_contact( $params, $returnProperties = null ) {
-    if ( empty( $params ) || ! is_array( $params ) || ! array_key_exists( 'contact_id', $params ) ) {
-        return _crm_error( 'Contact ID not present in params' );
-    }
+function &crm_get_activity_history($params, $sort, $offset, $numRow)
+{
 
-    $params['id'] = $params['contact_id'];
-    $ids          = array( );
-    $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
-    //if ( $contact == null || $contact instanceof CRM_Core_Error || ! $contact->id ) {
-    if ( $contact == null || is_a($contact, CRM_Core_Error) || ! $contact->id ) {
-        return _crm_error( 'Did not find contact object for ' . $params['contact_id'] );
-    }
-
-    unset($params['id']);
-
-    if (CRM_Utils_System::isPHP4()) {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
-    }
-    $contact->contact_type_object =
-        eval( 'return CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
-
-    $contact->location = CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 1 );
-    return $contact;
-}
-
-/**
- * Update a specified contact.
- *
- * Updates a contact with the values passed in the 'params' array. An
- * error is returned if an invalid contact is passed, or an invalid
- * property name or property value is included in 'params'. An error
- * is also returned if the processing the update would violate data
- * integrity rules, e.g. if a primary 'email' value is passed which is
- * the same as the primary email of another contact.
- *
- * <b>Clearing Property Values with Update APIs</b>
- * 
- * <ul>
- * <li>For any CRM 'update' API...to clear the value of an existing
- * property (i.e. set it to empty) - pass the property name in the
- * $params array with a NULL value.</li>
- * </ul>
- *
- * @param CRM_Contact $contact A valid Contact object
- * @param array       $params  Associative array of property
- *                             name/value pairs to be updated. 
- *  
- * @return CRM_Contact|CRM_Core_Error  Return the updated Contact Object else
- *                                Error Object (if integrity violation)
- *
- * @access public
- *
- */
-function &crm_update_contact( &$contact, $params ) {
-    $values = array( );
-
-    if ( ! isset( $contact->id ) || ! isset( $contact->contact_type ) ) {
-        return _crm_error( 'Invalid contact object passed in' );
-    }
-
-    $values['contact_type'] = $contact->contact_type;
-    $error = _crm_format_params( $params, $values );
-    //if ( $error instanceof CRM_Core_Error ) {
-    if (is_a($error, CRM_Core_Error)) {
-        return $error;
-    }
-
-    $error = _crm_update_contact( $contact, $values );
-    //if ( $error instanceof CRM_Core_Error ) {
-    if (is_a($error, CRM_Core_Error)) {
-        return $error;
-    }
-
-    return $contact;
-}
-
-
-/**
- * Delete a specified contact.
- *
- * <b>Versioning and Un-delete</b>
- *
- * <ul>
- * <li>CRM will implement a 'Versioning' utility which will include
- * structural support for 'un-delete' operations. The API and UI
- * interfaces for 'un-delete' will probably be available in v1.x.</li>
- * </ul>
- *
- * @param CRM_Contact $contact Contact object to be deleted
- *
- * @return void|CRM_Core_Error  An error if 'contact' is invalid,
- *                         permissions are insufficient, etc.
- *
- * @access public
- *
- */
-function crm_delete_contact( &$contact ) {
 }
 
 ?>

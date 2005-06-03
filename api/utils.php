@@ -301,7 +301,7 @@ function _crm_update_contact( $contact, $values ) {
  * @return bool|CRM_Utils_Error
  * @access public
  */
-function _crm_check_history_params(&$params)
+function _crm_check_history_params(&$params, $type='Activity')
 {
     static $required = array('entity_id', 'activity_id');
     

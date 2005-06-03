@@ -16,7 +16,8 @@ class UnitTests extends GroupTest {
     function __construct( ) {
         parent::__construct( 'Unit Tests for CRM' );
         
-        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateContact.php' );
+        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateContact.php' );
+        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateActivityHistory.php' );
         /**
         $this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetContact.php'    );
         $this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateContact.php' );

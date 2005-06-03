@@ -45,6 +45,8 @@ require_once 'CRM/Core/Error.php';
 require_once 'api/utils.php';
 
 require_once 'api/Contact.php';
+require_once 'api/History.php';
+
 
 /**
  * Create an additional location for an existing contact
