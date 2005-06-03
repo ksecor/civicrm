@@ -75,7 +75,7 @@ class CRM_Utils_Pager extends Pager_Sliding {
      */
     function __construct( $params ) {
         if( $params['status'] === null ) {
-            $params['status'] = "Contacts %%StatusMessage%%";
+            $params['status'] = ts('Contacts %%StatusMessage%%');
         }
 
         $this->initialize( $params );
@@ -119,8 +119,8 @@ class CRM_Utils_Pager extends Pager_Sliding {
          * page variable, but a different form element for one at the bottom
          *
          */
-        $this->_response['titleTop']    = 'Page <input size=2 maxlength=3 name="' . self::PAGE_ID . '" type="text" value="' . $this->_response['currentPage'] . '" /> of ' . $this->_response['numPages'];
-        $this->_response['titleBottom']    = 'Page <input size=2 maxlength=3 name="' . self::PAGE_ID_BOTTOM . '" type="text" value="' . $this->_response['currentPage'] . '" /> of ' . $this->_response['numPages'];
+        $this->_response['titleTop']    = ts('Page %1 of %2', array(1 => '<input size=2 maxlength=3 name="' . self::PAGE_ID . '" type="text" value="' . $this->_response['currentPage'] . '" />', 2 => $this->_response['numPages']));
+        $this->_response['titleBottom']    = ts('Page %1 of %2', array(1 => '<input size=2 maxlength=3 name="' . self::PAGE_ID_BOTTOM . '" type="text" value="' . $this->_response['currentPage'] . '" />', 2 => $this->_response['numPages']));
 
     }
 
@@ -155,17 +155,17 @@ class CRM_Utils_Pager extends Pager_Sliding {
         $params['excludeVars']           = array( 'reset' => 1 );
 
         // set previous and next text labels
-        $params['prevImg']    = ' &lt; Previous';
-        $params['nextImg']    = 'Next &gt; ';
+        $params['prevImg']    = ts(' &lt; Previous');
+        $params['nextImg']    = ts('Next &gt; ');
 
 
         // set first and last text fragments
         $params['firstPagePre']  = '';
-        $params['firstPageText'] = ' &lt;&lt; First';
+        $params['firstPageText'] = ts(' &lt;&lt; First');
         $params['firstPagePost'] = '';
 
         $params['lastPagePre']   = '';
-        $params['lastPageText']  = 'Last &gt;&gt; ';
+        $params['lastPageText']  = ts('Last &gt;&gt; ');
         $params['lastPagePost']  = '';
 
         $params['currentPage'] = $this->getPageID      ( $params['pageID'], $params );

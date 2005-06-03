@@ -83,7 +83,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->addElement('select', 'state_province', ts('State/Province'), $stateProvince);
 
         // select for country
-        $country = array('' => ' - any country - ') + CRM_Core_PseudoConstant::country( );
+        $country = array('' => ts(' - any country - ')) + CRM_Core_PseudoConstant::country( );
         $this->addElement('select', 'country', ts('Country'), $country);
 
         // add text box for postal code

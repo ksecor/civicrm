@@ -156,13 +156,13 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $contactImage  = '<img src="' . $config->resourceBase . 'i/contact_';
         switch ($defaults['contact_type']) {
             case 'Individual' :
-                $contactImage .= 'ind.gif" alt="Individual">';
+                $contactImage .= 'ind.gif" alt="' . ts('Individual') . '">';
                 break;
             case 'Household' :
-                $contactImage .= 'house.png" alt="Household" height="16" width="16">';
+                $contactImage .= 'house.png" alt="' . ts('Household') . '" height="16" width="16">';
                 break;
             case 'Organization' :
-                $contactImage .= 'org.gif" alt="Organization" height="16" width="18">';
+                $contactImage .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18">';
                 break;
         }
         $this->set( 'contactImage', $contactImage );

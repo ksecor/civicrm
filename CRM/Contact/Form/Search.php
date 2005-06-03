@@ -273,7 +273,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_groupElement = $this->add('select', 'group', ts('in'), $group);
 
         // add select for categories
-        $tag = array('' => ' - any tag - ') + $this->_tag;
+        $tag = array('' => ts(' - any tag - ')) + $this->_tag;
         $this->_tagElement = $this->add('select', 'tag', ts('Tagged'), $tag);
 
         // text for sort_name
