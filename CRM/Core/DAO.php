@@ -424,6 +424,34 @@ class CRM_Core_DAO extends DB_DataObject {
         return null;
      }
 
-}
 
+    /**
+     * Get sort string
+     *
+     * @param array|object $sort either array or CRM_Utils_Sort
+     * @param string $default - default sort value
+     *
+     * @return string - sortString
+     * @access public
+     * @static
+     */
+    static function getSortString($sort, $default='')
+    {
+
+        // check if sort is of type CRM_Utils_Sort
+        // if ($sort instanceof CRM_Utils_Sort) {
+        if (is_a($sort, CRM_Utils_Sort)) {
+            return $sort->orderBy();
+        }
+
+        // is it an array specified as $field => $sortDirection ?
+        if(is_array($sort)){
+            foreach ($sort as $k => $v) {
+                $sortString .= "$k $v,";
+            }
+            return(rtrim($sortString, ','));
+        } 
+        return $default;
+    }
+}
 ?>

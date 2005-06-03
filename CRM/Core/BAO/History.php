@@ -31,13 +31,13 @@
  *
  */
 
-require_once 'CRM/Core/DAO/History.php';
 
 /**
  * Business object for managing history
+ * This BAO manages all types of histories like locationType, RelationshipType, Activity etc.
  *
  */
-class CRM_Core_BAO_History extends CRM_Core_DAO_History {
+class CRM_Core_BAO_History {
 
     /**
      * class constructor
@@ -55,14 +55,16 @@ class CRM_Core_BAO_History extends CRM_Core_DAO_History {
      *
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
+     * @param string $type - which history do we want ?
      *
      * @return object CRM_Core_BAO_History object
      * @access public
      * @static
      */
-    static function retrieve(&$params, &$defaults)
+    static function retrieve(&$params, &$defaults, $type='Activity')
     {
-        $historyDAO = new CRM_Core_DAO_History();
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
+        eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->copyValues($params);
         if ($historyDAO->find(true)) {
             $historyDAO->storeValues($defaults);
@@ -81,9 +83,10 @@ class CRM_Core_BAO_History extends CRM_Core_DAO_History {
      * @access public
      * @static
      */
-    static function del($historyTableId)
+    static function del($historyTableId, $type='Ativity')
     {
-        $historyDAO = new CRM_Core_DAO_History();
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
+        eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->id = $historyTableId;
         $historyDAO->delete();
     }
@@ -99,54 +102,49 @@ class CRM_Core_BAO_History extends CRM_Core_DAO_History {
      * @access public
      * @static
      */
-    static function &getValues(&$params, &$values)
+    static function &getValues(&$params, &$values, $type='Activity')
     {
+
         // get top 3 histories
-        //$values['history']['data']  =& CRM_Core_BAO_History::getHistory($params['contact_id'], 3);
-        $values['history']['data']  =& CRM_Core_BAO_History::getHistory($params['contact_id'], 0, 3);
+        $values['history']['data']  =& CRM_Core_BAO_History::getHistory($params, 0, 3);
 
         // get the total number of histories
-        $values['history']['totalCount'] = CRM_Core_BAO_History::getNumHistory($params['contact_id']);
+        $values['history']['totalCount'] = CRM_Core_BAO_History::getNumHistory($params['entity_id']);
 
-        //CRM_Core_Error::debug_var('values', $values);
-        
         return $values;
     }
 
     /**
-     * function to get the list of history for contact.
+     * function to get the list of history for an entity.
      *
-     * @param int     $contactId       contact id 
+     * @param array reference $params  array of parameters 
      * @param int     $offset          which row to start from ?
      * @param int     $rowCount        how many rows to fetch
-     * @param object  $sort            object describing sort order for sql query.
+     * @param object|array  $sort      object or array describing sort order for sql query.
+     * @param type    $type            type of history we're interested in
      *
-     * @return array (reference)|int   $values the relevant data object values for the contact or
-                                       the total count when $count is true
+     * @return array (reference)      $values the relevant data object values for history
      *
      * @access public
      * @static
      */
-    static function &getHistory($contactId, $offset=null, $rowCount=null, $sort=null)
+    static function &getHistory(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity')
     {
-        $historyDAO = new CRM_Core_DAO_History();
-        $historyDAO->entity_table = 'crm_contact';
-        $historyDAO->entity_id = $contactId;
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
+        eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
+        
+        $historyDAO->storeValues($params);
 
         // selection criteria
         $historyDAO->selectAdd();
         $historyDAO->selectAdd('id, activity_type, activity_summary, activity_date');
 
-        // default of user specified sort order ?
-        if ($sort) {
-            $historyDAO->orderBy($sort->orderBy());
-        } else {
-            $historyDAO->orderBy('activity_date desc'); // default sort order
-        }
-        
+        // sort order
+        $historyDAO->orderBy(CRM_Core_DAO::getSortString($sort, "activity_date desc"));
+
         // how many rows to get ?
         $historyDAO->limit($offset, $rowCount);
-
+        
         // fire query, get rows, populate array and return it please.
         $values = array();
         $historyDAO->find();
@@ -162,20 +160,21 @@ class CRM_Core_BAO_History extends CRM_Core_DAO_History {
     /**
      * function to get number of histories for a contact.
      *
-     * @param  int $contactId   contact id 
+     * @param  int $entityId   entity id 
+     * @param  int $type       type of activity
      * @return int $numHistory number of histories
      *
      * @access public
      * @static
      */
-    static function &getNumHistory($contactId)
+    static function &getNumHistory($entityId, $type='Activity')
     {
-        $historyDAO = new CRM_Core_DAO_History();
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
+        eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->entity_table = 'crm_contact';
         $historyDAO->entity_id = $contactId;
         return $historyDAO->count();
     }
-
 
 
     /**
@@ -189,9 +188,10 @@ class CRM_Core_BAO_History extends CRM_Core_DAO_History {
      * @access public
      * @static
      */
-    static function create(&$params)
+    static function create(&$params, $type='Activity')
     {
-        $historyBAO = new CRM_Core_BAO_History();
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
+        eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
         $historyBAO->copyValues($params);
         return $historyBAO->save();
     }
