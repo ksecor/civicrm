@@ -54,12 +54,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      *
      */
     static function getNoteText( $id ) {
-        $note = new CRM_Core_DAO_Note( );
-        $note->id = $id;
-        if ( $note->find( true ) ) {
-            return $note->note;
-        }
-        return null;
+        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $id, 'note' );
     }
 
     /**

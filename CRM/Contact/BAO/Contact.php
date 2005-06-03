@@ -62,16 +62,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     }
 
     static function permissionedContact( $id, $type = 'view' ) {
-        $query = ' SELECT count(DISTINCT crm_contact.id)
-                   FROM crm_contact
-                       LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-                       LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
-                       LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
-                       LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                       LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
-                       LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
-                       LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id
-                   WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Drupal::whereClause( $type ) . ' ';
+        $query = ' SELECT count(DISTINCT crm_contact.id) ' . self::fromClause( ) .
+                  ' WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Drupal::whereClause( $type ) . ' ';
 
         $dao = new CRM_Core_DAO( );
         $dao->query($query);
@@ -114,15 +106,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                               crm_contact.contact_type as contact_type";
         }
 
-        $from = " FROM crm_contact 
-                        LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-                        LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
-                        LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
-                        LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                        LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
-                        LEFT JOIN crm_country ON crm_address.country_id = crm_country.id 
-                        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id
-                        LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id ";
+        $from = self::fromClause( );
 
         $where = self::whereClause( $fv, $includeContactIds );
 
@@ -159,6 +143,26 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     }
 
     /**
+     * create the from clause
+     *
+     * @return string the from clause
+     * @access public
+     * @static
+     */
+    static function fromClause( ) {
+        return " FROM crm_contact
+                        LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                        LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
+                        LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+                        LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                        LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
+                        LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
+                        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id
+                        LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id ";
+    }
+
+
+    /**
      * create the where clause for a contact search
      *
      * @param array    $formValues array of reference of the form values submitted
@@ -166,6 +170,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      *
      * @return string  the where clause without the permissions hook (important)
      * @access public
+     * @static
      */
     static function whereClause( &$fv, $includeContactIds = false)
     {
