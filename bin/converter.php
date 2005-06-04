@@ -488,6 +488,36 @@ class PHP_DownGrade {
      */
     function toString() 
     {
+
+        //To Replace SelectValues
+   for($i=0;$i<count($this->tokens);$i++){
+            if($this->tokens[$i][1]=="CRM_Core_SelectValues"){
+                $j=$i+1;
+                $count=2;
+                $str="CRM_Core_SelectValues";
+                while($count>0){
+                    $str.=$this->tokens[$j][1];
+                    $j++;
+                    $count--;
+                }
+               
+                $pattern1 = '/(CRM_Core_SelectValues)::\$(\w+)/';
+                $replacement1 = "\$GLOBALS['_CRM_CORE_SELECTVALUES']['\$2']";
+                
+             
+                
+                
+                $this->tokens[$i][1]= preg_replace($pattern1, $replacement1, $str);
+                $i++;
+                $this->tokens[$i][1]="";
+                $i++;
+                $this->tokens[$i][1]="";
+               
+            
+            }
+        }
+        
+  
         //To remove abstact keyword     
         for($j=0;$j<count($this->tokens);$j++)
             {
