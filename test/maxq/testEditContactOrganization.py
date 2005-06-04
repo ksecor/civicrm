@@ -146,7 +146,7 @@ class testEditContactOrganization(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [

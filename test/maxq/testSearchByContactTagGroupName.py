@@ -11,7 +11,7 @@ exec 'from '+validatorPkg+' import Validator'
 
 
 # definition of test class
-class testSearchAll(PyHttpTestCase):
+class testSearchByContactCategoryGroupName(PyHttpTestCase):
     def runTest(self):
         self.msg('Test started')
 
@@ -83,11 +83,13 @@ class testSearchAll(PyHttpTestCase):
         
         params = [
             ('''_qf_default''', '''Search:refresh'''),
-            ('''contact_type''', ''''''),
-            ('''group''', ''''''),
-            ('''tag''', ''''''),
-            ('''sort_name''', ''''''),
-            ('''_qf_Search_refresh''', '''Search'''),]
+            ('''contact_type''', '''Individual'''),
+            ('''group''', '''1'''),
+            ('''tag''', '''4'''),
+            ('''sort_name''', '''A'''),
+            ('''_qf_Search_refresh''', '''Search'''),
+            ('''task''', ''''''),
+            ('''radio_ts''', '''ts_sel'''),]
         url = "%s/civicrm/contact/search" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
@@ -96,49 +98,41 @@ class testSearchAll(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        # self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        # url = "http://localhost/favicon.ico"
-        # params = None
-        # Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        # self.get(url, params)
-        # self.msg("Response code: %s" % self.getResponseCode())
-        # self.assertEquals("Assert number 8 failed", 404, self.getResponseCode())
-        # Validator.validateResponse(self, self.getMethod(), url, params)
-        
         db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.HOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
-       
-        name    = '%s' % params[4][1]
-        contact = '%s' % params[1][1]
-        group   = '%s' % params[2][1]
-        tag     = '%s' % params[3][1]
-               
-        query   = 'SELECT count(DISTINCT crm_contact.id) FROM crm_contact \
+        
+        name       = '%s' % params[4][1]
+        contact    = '%s' % params[1][1]
+        groupQuery = 'select name from crm_group where id=%s' % params[2][1]
+        group      = db.loadVal(groupQuery)
+        tagQuery   = 'select name from crm_tag where id=%s' % params[3][1]
+        tag        = db.loadVal(tagQuery)
+
+        query = 'SELECT count(DISTINCT crm_contact.id)  FROM crm_contact \
         LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1) \
         LEFT JOIN crm_address ON crm_location.id = crm_address.location_id \
         LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1) \
         LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1) \
         LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id \
         LEFT JOIN crm_country ON crm_address.country_id = crm_country.id \
-        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id '
-        #WHERE (crm_contact.sort_name LIKE \'%%%s%%\') AND crm_contact.contact_type=\'%s\' AND  1  % (name, contact)
-        
+        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id \
+        LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id \
+        WHERE contact_type=\'%s\' AND ( group_id=%s AND crm_group_contact.status=\'In\' ) AND tag_id=%s AND crm_contact.sort_name LIKE \'%%%s%%\' AND 1' % (contact, params[2][1], params[3][1], name)
+ 
         noOfContact = db.loadVal(query)
-        if noOfContact == '1' :
-            string = "Found %s contact" % noOfContact
-        else :
-            string = "Found %s contacts" % noOfContact
-
+        print noOfContact
+        string = "Found %s contacts" % noOfContact
+        print string
         db.close()
         
         params = [
             ('''_qf_Search_display''', '''true'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/drupal/civicrm/contact/search?_qf_Search_display=true''') % drupal_path)
+        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/search?_qf_Search_display=true''') % drupal_path)
         url = "%s/civicrm/contact/search" % drupal_path
         self.msg("Testing URL %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
         print ("*********************************************************************************")
@@ -149,6 +143,7 @@ class testSearchAll(PyHttpTestCase):
         self.msg ("%s : %s" % ("Sort Name   ", name))
         print ("*********************************************************************************")
 
+        
         if self.responseContains(string) :
             print ("*********************************************************************************")
             self.msg ("Search \"%s\"" % string)
@@ -164,10 +159,11 @@ class testSearchAll(PyHttpTestCase):
             self.msg("The Response does not match with the result from the database ")
             print ("*********************************************************************************")            
 
+
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 
 # Code to load and run the test
 if __name__ == 'main':
-    test = testSearchAll("testSearchAll")
+    test = testSearchByContactCategoryGroupName("testSearchByContactCategoryGroupName")
     test.Run()
