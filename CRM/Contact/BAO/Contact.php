@@ -524,8 +524,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
 
         $look = $reverse ? array_flip( $lookup ) : $lookup;
-        if ( ! array_key_exists( $defaults[$src], $look ) ) {
-            return;
+        
+        if(is_array($look)) {
+            if ( ! array_key_exists( $defaults[$src], $look ) ) {
+                return;
+            }
         }
         $defaults[$dst] = $look[$defaults[$src]];
     }
