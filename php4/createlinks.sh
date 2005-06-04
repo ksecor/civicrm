@@ -19,5 +19,5 @@ if test -L civicrm.module   # check if link exists
     echo link civicrm.module already exists. skipping it ...
 else
     echo creating link civicrm.module ...
-    ln -s civicrm.module.hide civicrm.module
+    ln -s civicrm.module.php4 civicrm.module
 fi
