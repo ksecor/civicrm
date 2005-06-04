@@ -18,6 +18,10 @@ php converter.php ../php4/CRM/Contact/Form/Location.php > /tmp/Location.php
 
 mv /tmp/Location.php ../php4/CRM/Contact/Form/Location.php
 
+php converter.php ../php4/CRM/Import/Parser.php > /tmp/Parser.php
+
+mv /tmp/Parser.php ../php4/CRM/Import/Parser.php
+
 
 echo End of code conversion from php5 to php4....
 
