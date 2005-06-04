@@ -717,7 +717,7 @@ class PHP_DownGrade {
 
 
         //======================================================================================= 
-        CRM_Core_Error::le_method();
+
         $ret = '';
         
         for($i=0;$i<count($this->tokens);$i++) {
@@ -739,7 +739,20 @@ class PHP_DownGrade {
                     }
                 }
                 $ret.="\n";
-               
+                
+                if($this->tokens[$i][1]=="include_once")
+                    {
+                        
+                        do
+                            {
+                                $ret .= $this->tokens[$i][1];
+                                $i++;
+                            } while($this->tokens[$i][1]!=";");
+                        $ret .=";";
+                        $this->tokens[$i][1]="";
+                    }
+                
+                $ret .="\n";
                 foreach($this->filenames as $file)
                     {
                         
@@ -804,10 +817,9 @@ class PHP_DownGrade {
 
 
 if (isset($argv[1])) {
-
     // use this code if single file has to be converted from php5 to php4  and comment the above block
     $sam = new PHP_DownGrade($argv[1]);
-    $sam->toPHP4();
+    echo $sam->toPHP4();
   
 } else {
 
@@ -839,6 +851,5 @@ if (isset($argv[1])) {
     // end of code to convert files recursively --
    
 }
-
 
 ?>
