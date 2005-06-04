@@ -7,11 +7,6 @@ require_once "$homeDir/svn/crm/modules/config.inc.php";
 require_once 'CRM/Core/Error.php';
 require_once 'PHP/Beautifier.php';
 
-//print_r($GLOBALS['HOME']);
-//print_r($GLOBALS);
-//print_r($GLOBALS['_ENV']['HOME']);
-//exit(1);
-
  /**
   * This function creates destination directory
   *
@@ -316,7 +311,7 @@ class PHP_DownGrade {
         $i++;
         while($this->tokens[$i][1] != '=') {
             if ($this->tokens[$i][1] == ';') {
-                $this->statics[$class][$name] = "''";
+                $this->statics[$class][$name] = "null";
                 return $i;
             }
             $i++;
@@ -674,8 +669,7 @@ class PHP_DownGrade {
         //======================================================================================= 
         CRM_Core_Error::le_method();
         $ret = '';
-        //echo "---------------------------------";
-        //echo"\n".$this->start;
+        
         for($i=0;$i<count($this->tokens);$i++) {
             if ($i == $this->start) {
                 foreach( $this->constants as $class => $consts) {
@@ -710,7 +704,7 @@ class PHP_DownGrade {
                                                 $file="require_once '".$file.".php"."';";
 
                                                 if(file_exists('../'.$strFile)) {
-                                                    // echo "\n".$file;
+                                                    
                                                     $ret.=$file."\n"; 
                                                 }
                                             }
@@ -721,7 +715,7 @@ class PHP_DownGrade {
                                 $file=str_replace("_","/",$file);
                                 $strFile = $file . ".php"; 
                                 $file="require_once '".$file.".php"."';";
-                                // echo "\n".$file;
+                                
                                 if(file_exists('../'.$strFile)) {
                                     $ret.=$file."\n";
                                 }
@@ -761,8 +755,8 @@ class PHP_DownGrade {
 
 // start of code to convert files recursively ---
 // this code is to convert the whole directory from php5 to php4
-/*
-$directory = array('CRM', 'modules', 'api');
+
+/*$directory = array('CRM', 'modules', 'api');
 //$directory = array('api');
 
 foreach ($directory as $v) {
@@ -784,12 +778,11 @@ foreach ($directory as $v) {
         }
     }
 }
-
+*/
 
 
 // end of code to convert files recursively --
 
-*/
 // use this code if single file has to be converted from php5 to php4  and comment the above block
 $sam = new PHP_DownGrade($argv[1]);
 echo $sam->toPHP4();

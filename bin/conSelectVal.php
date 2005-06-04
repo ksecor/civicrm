@@ -1,5 +1,18 @@
 <?php
 
+$homeDir = $GLOBALS['_ENV']['HOME'];
+
+require_once "$homeDir/svn/crm/modules/config.inc.php";
+require_once 'CRM/Core/Error.php';
+require_once 'PHP/Beautifier.php';
+
+function createDir( $dir, $perm = 0755 ) {
+    if ( ! is_dir( $dir ) ) {
+        mkdir( $dir, $perm, true );
+    }
+}
+
+
 class PHP_DownGrade
 {
     public $tokens = array( );
@@ -22,7 +35,7 @@ class PHP_DownGrade
 
     function convert()
     {
-        
+        $ret ="";
         for($i=0;$i<count($this->tokens);$i++){
             if($this->tokens[$i][1]=="CRM_Core_SelectValues"){
                 $j=$i+1;
@@ -59,12 +72,12 @@ class PHP_DownGrade
     
 }
 
-/*
+
 $directory = array('CRM', 'modules', 'api');
 //$directory = array('api');
 
 foreach ($directory as $v) {
-    $rootDir = "$homeDir/svn/crm/$v";
+    $rootDir = "$homeDir/svn/crm/php4/$v";
     $destDir = "$homeDir/svn/crm/php4/$v";
 
     $dir = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootDir), true);
@@ -83,11 +96,11 @@ foreach ($directory as $v) {
     }
 }
 
-*/
 
 
-$sam = new PHP_DownGrade($argv[1]);
-echo $sam->convert();
+
+//$sam = new PHP_DownGrade($argv[1]);
+//echo $sam->convert();
     //echo $sam->toPHP4();
     
 ?>
