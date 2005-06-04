@@ -983,11 +983,7 @@ class DB_DataObject extends DB_DataObject_Overload
                 return 0;
             }
             
-            
-            CRM_Core_Error::debug( "$key, $userNative", $dbtype );
-            
             // now do we have an integer key!
-            
             if ($key && $useNative) {
                 switch ($dbtype) {
                     case 'mysql':
