@@ -47,7 +47,7 @@ class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
      * @access public
      */
     function preProcess( ) {
-        $session = CRM_Core_Session::singleton( );
+        $session =& CRM_Core_Session::singleton( );
 
         $context = $this->get( 'context' );
         if ( $context == 'smog' || $context == 'amtg' ) {

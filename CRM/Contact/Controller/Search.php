@@ -60,7 +60,7 @@ class CRM_Contact_Controller_Search extends CRM_Core_Controller {
         $this->addPages( $this->_stateMachine, $action );
 
         // add all the actions
-        $config = CRM_Core_Config::singleton( );
+        $config =& CRM_Core_Config::singleton( );
         $this->addActions( );
     }
 

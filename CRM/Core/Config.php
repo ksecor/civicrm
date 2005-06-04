@@ -161,7 +161,7 @@ class CRM_Core_Config {
      * @static
      *
      */
-    static function singleton($key = 'crm') {
+    static function &singleton($key = 'crm') {
         if (self::$_singleton === null ) {
             self::$_singleton = new CRM_Core_Config($key);
         }

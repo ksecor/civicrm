@@ -38,7 +38,7 @@ define( 'CRM_CORE_DAO_IS_NULL',2);
 define( 'CRM_CORE_DAO_DB_DAO_NOTNULL',128);
 $GLOBALS['_CRM_CORE_DAO']['_factory'] =  null;
 $GLOBALS['_CRM_CORE_DAO']['_singleton'] =  null;
-$GLOBALS['_CRM_CORE_DAO']['keys'] = '';
+$GLOBALS['_CRM_CORE_DAO']['keys'] = null;
 
 require_once 'CRM/Utils/Array.php';
 require_once 'CRM/Utils/System.php';
@@ -199,7 +199,7 @@ class CRM_Core_DAO extends DB_DataObject {
      * @return array
      */
     function sequenceKey() {
-        
+
         if ( !isset ($GLOBALS['_CRM_CORE_DAO']['keys']) ) {
             $GLOBALS['_CRM_CORE_DAO']['keys'] = array('id', true);
         }
@@ -292,10 +292,11 @@ class CRM_Core_DAO extends DB_DataObject {
     function storeValues( &$values ) {
         $fields =& $this->fields( );
         foreach ( $fields as $name => $value ) {
-            if ( isset( $this->$name ) ) {
+            if ( $this->$name ) {
                 $values[$name] = $this->$name;
             }
         }
+        return $values;
     }
 
     /**

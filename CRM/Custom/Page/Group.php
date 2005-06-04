@@ -149,7 +149,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Group', ts('Custom Group'), $action);
 
         // set the userContext stack
-        $session = CRM_Core_Session::singleton();
+        $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/', 'action=browse'));
         $controller->set('id', $id);
         $controller->setEmbedded(true);

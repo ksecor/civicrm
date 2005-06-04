@@ -165,7 +165,7 @@ class CRM_Core_Config {
      * @static
      *
      */
-     function singleton($key = 'crm') {
+     function &singleton($key = 'crm') {
         if ($GLOBALS['_CRM_CORE_CONFIG']['_singleton'] === null ) {
             $GLOBALS['_CRM_CORE_CONFIG']['_singleton'] = new CRM_Core_Config($key);
         }

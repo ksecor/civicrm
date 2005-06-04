@@ -196,7 +196,6 @@ require_once 'CRM/Core/Page.php';
 
         eval( '$object = new ' . $this->getBAOName( ) . '( );' );
 
-        $values = array();
 
         /*
          * lets make sure we get the stuff sorted by name if it exists
@@ -215,17 +214,21 @@ require_once 'CRM/Core/Page.php';
             $object->orderBy ( $key . ' asc' );
         }
 
+        $values = array();
+
         // find all objects
         $object->find();
         while ($object->fetch()) {
             $permission = $this->checkPermission( $object->id, $object->$key );
             if ( $permission ) {
-                $values[$object->id] = array( );
-                $object->storeValues($values[$object->id]);
+                $value = array( 'id' => $object->id );
+                $value = $object->storeValues($value);
                 // populate action links
-                CRM_Core_Page_Basic::action( $object, $action, $values[$object->id], $links, $permission );
+                CRM_Core_Page_Basic::action( $object, $action, $value, $links, $permission );
+                $values[$object->id] = $value;
             }
         }
+
         $this->assign( 'rows', $values );
     }
 

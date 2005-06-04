@@ -50,7 +50,7 @@ class CRM_Group_Controller extends CRM_Core_Controller {
         $this->_pages['Search']->setAction( CRM_Core_Action::BASIC );
 
         // add all the actions
-        $config = CRM_Core_Config::singleton( );
+        $config =& CRM_Core_Config::singleton( );
         $this->addActions( );
     }
 

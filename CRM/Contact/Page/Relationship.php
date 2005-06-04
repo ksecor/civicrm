@@ -111,7 +111,7 @@ class CRM_Contact_Page_Relationship {
         $controller->setEmbedded( true );
 
         // set the userContext stack
-        $session = CRM_Core_Session::singleton();
+        $session =& CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/rel', 'action=browse' ) );
         
         $controller->set( 'contactId'     , $page->getContactId( ) );

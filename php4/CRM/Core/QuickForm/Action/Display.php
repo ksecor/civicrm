@@ -120,11 +120,11 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
      * @access public
      */
     function _renderForm(&$page) {
-        $config  = CRM_Core_Config::singleton ();
-        $session = CRM_Core_Session::singleton();
+        $config  =& CRM_Core_Config::singleton ();
+        $session =& CRM_Core_Session::singleton();
 
         $this->_setRenderTemplates($page);
-        $template = CRM_Core_Smarty::singleton( );
+        $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'form'   ,  $page->toSmarty());
         $template->assign( 'isForm' , 1 );
 

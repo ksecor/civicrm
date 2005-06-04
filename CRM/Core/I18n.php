@@ -52,7 +52,7 @@ class CRM_Core_I18n
     function __construct()
     {
         if (function_exists('gettext')) {
-            $config = CRM_Core_Config::singleton();
+            $config =& CRM_Core_Config::singleton();
             setlocale(LC_MESSAGES, $config->lcMessages);
             bindtextdomain($config->gettextDomain, $config->gettextResourceDir);
             bind_textdomain_codeset($config->gettextDomain, $config->gettextCodeset);
@@ -167,7 +167,7 @@ class CRM_Core_I18n
      * Method providing static instance of SmartTemplate, as
      * in Singleton pattern.
      */
-    static function singleton()
+    static function &singleton()
     {
         if (!isset(self::$_singleton)) {
             self::$_singleton = new CRM_Core_I18n();
@@ -180,7 +180,7 @@ class CRM_Core_I18n
 // function defined in global scope so it will be available everywhere
 function ts($text, $params = array())
 {
-    $i18n = CRM_Core_I18n::singleton();
+    $i18n =& CRM_Core_I18n::singleton();
     return $i18n->crm_translate($text, $params);
 }
 

@@ -255,7 +255,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $note =& CRM_Contact_Form_Note::buildNoteBlock($this);
         }
 
-        $config  = CRM_Core_Config::singleton( );
+        $config  =& CRM_Core_Config::singleton( );
         CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
             
         $this->addButtons( array(
@@ -297,7 +297,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
 
         // here we replace the user context with the url to view this contact
-        $session = CRM_Core_Session::singleton();
+        $session =& CRM_Core_Session::singleton();
         CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type)));
 
         // hack: figure out a nice way to do this

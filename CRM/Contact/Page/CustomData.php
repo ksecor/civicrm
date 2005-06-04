@@ -66,7 +66,7 @@ class CRM_Contact_Page_CustomData {
         $controller->setEmbedded(true);
 
         // set the userContext stack
-        $session = CRM_Core_Session::singleton();
+        $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view/cd', 'action=browse'));
         $controller->set('tableName' , 'crm_contact');
         $controller->set('tableId'   , $page->getContactId());

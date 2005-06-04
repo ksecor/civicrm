@@ -95,7 +95,9 @@ class CRM_Core_Drupal {
                 // this is the most powerful permission, so we return
                 // immediately rather than dilute it further
                 $GLOBALS['_CRM_CORE_DRUPAL']['_editAdminUser'] = true;
+                $GLOBALS['_CRM_CORE_DRUPAL']['_viewAdminUser'] = true;
                 $GLOBALS['_CRM_CORE_DRUPAL']['_editPermission']      = true;
+                $GLOBALS['_CRM_CORE_DRUPAL']['_viewPermission']      = true;
                 $GLOBALS['_CRM_CORE_DRUPAL']['_editPermissionedGroups'] = $groups;
                 $GLOBALS['_CRM_CORE_DRUPAL']['_viewPermissionedGroups'] = $groups;
                 return $GLOBALS['_CRM_CORE_DRUPAL']['_viewPermissionedGroups'];

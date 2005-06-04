@@ -6,10 +6,5 @@ do
   ln -s ~/svn/crm/$fileLink $fileLink
 done
 
-#     ln -s ../../crm/css css	
-#     ln -s ../../crm/i i
-#     ln -s ../../crm/js js
-#     ln -s ../../crm/l10n l10n
-#     ln -s ../../crm/packages packages
-#     ln -s ../../crm/PEAR PEAR
-#     ln -s ../../crm/templates templates
+cd modules
+ln -s civicrm.module.hide civicrm.module

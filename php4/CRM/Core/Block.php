@@ -215,7 +215,7 @@ class CRM_Core_Block {
      * @access public
      */
      function fetch( $id, $fileName, $properties ) {
-        $template = CRM_Core_Smarty::singleton( );
+        $template =& CRM_Core_Smarty::singleton( );
 
         if ( $properties ) {
             $template->assign( $properties );

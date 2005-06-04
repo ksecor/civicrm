@@ -289,7 +289,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             // get the result of the search
             $result = $contactBAO->searchQuery($searchValues, 0, 50, null, false );
 
-            $config = CRM_Core_Config::singleton( );
+            $config =& CRM_Core_Config::singleton( );
             $searchRows = array( );
 
             while($result->fetch()) {
@@ -341,7 +341,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
 
         $ids = array( );
-        $session = CRM_Core_Session::singleton( );
+        $session =& CRM_Core_Session::singleton( );
         $ids['contact'     ] = $session->get( 'contactId'     , 'CRM_Core_Controller_Simple' );
         $ids['relationship'] = $session->get( 'relationshipId', 'CRM_Core_Controller_Simple' );
 

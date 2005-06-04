@@ -194,7 +194,7 @@ class CRM_Core_Selector_Controller {
 
         // let the constructor initialize this, should happen only once
         if ( ! isset( self::$_template ) ) {
-            self::$_template = CRM_Core_Smarty::singleton( );
+            self::$_template =& CRM_Core_Smarty::singleton( );
         }
 
         $this->_sortOrder =& $this->_object->getSortOrder($action);

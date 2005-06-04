@@ -83,7 +83,7 @@ class CRM_Core_Smarty extends Smarty {
      * Method providing static instance of SmartTemplate, as
      * in Singleton pattern.
      */
-     function singleton( ) {
+     function &singleton( ) {
         if ( ! isset( $GLOBALS['_CRM_CORE_SMARTY']['_singleton'] ) ) {
             $GLOBALS['_CRM_CORE_SMARTY']['_singleton'] = new CRM_Core_Smarty( CRM_TEMPLATEDIR, CRM_TEMPLATE_COMPILEDIR );
         }

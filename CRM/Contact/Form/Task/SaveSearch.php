@@ -72,8 +72,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $qill = CRM_Contact_Selector::getQILL($this->get( 'formValues' ));
 
         // need to save qill for the smarty template
-        $template = CRM_Core_Smarty::singleton( );
-        $template->assign('qill', $qill);
+        $this->assign('qill', $qill);
 
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name'), true);
         $this->addElement('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));

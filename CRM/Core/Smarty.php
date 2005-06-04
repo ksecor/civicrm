@@ -65,8 +65,8 @@ class CRM_Core_Smarty extends Smarty {
         $this->plugins_dir  = array ( CRM_SMARTYDIR . 'plugins', CRM_PLUGINSDIR );
 
         // add the session and the config here
-        $config  = CRM_Core_Config::singleton ();
-        $session = CRM_Core_Session::singleton();
+        $config  =& CRM_Core_Config::singleton ();
+        $session =& CRM_Core_Session::singleton();
 
         $this->assign_by_ref( 'config' , $config  );
         $this->assign_by_ref( 'session', $session );
@@ -79,7 +79,7 @@ class CRM_Core_Smarty extends Smarty {
      * Method providing static instance of SmartTemplate, as
      * in Singleton pattern.
      */
-    static function singleton( ) {
+    static function &singleton( ) {
         if ( ! isset( self::$_singleton ) ) {
             self::$_singleton = new CRM_Core_Smarty( CRM_TEMPLATEDIR, CRM_TEMPLATE_COMPILEDIR );
         }

@@ -39,8 +39,8 @@ class CRM_Contact_Page_Tag {
         $controller->setEmbedded( true );
         
         // set the userContext stack
-        $session = CRM_Core_Session::singleton();
-        $config  = CRM_Core_Config::singleton();
+        $session =& CRM_Core_Session::singleton();
+        $config  =& CRM_Core_Config::singleton();
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/tag', 'action=browse' ) );
 
         $controller->reset( );

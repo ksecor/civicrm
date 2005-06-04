@@ -110,8 +110,8 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
         // let the constructor initialize this, should happen only once
         if ( ! isset( self::$_template ) ) {
-            self::$_template = CRM_Core_Smarty::singleton( );
-            self::$_session  = CRM_Core_Session::singleton( );
+            self::$_template =& CRM_Core_Smarty::singleton( );
+            self::$_session  =& CRM_Core_Session::singleton( );
         }
 
         // if the request has a reset value, initialize the controller session

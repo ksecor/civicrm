@@ -51,7 +51,7 @@ class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
      * @static
      */
     static function synchronize( &$user, $update = false ) {
-        $session = CRM_Core_Session::singleton( );
+        $session =& CRM_Core_Session::singleton( );
         if ( ! is_object( $session ) ) {
             return;
         }

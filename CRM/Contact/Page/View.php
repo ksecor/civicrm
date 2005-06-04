@@ -122,7 +122,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
      */
     function getContactDetails()
     {
-        $config = CRM_Core_Config::singleton( );
+        $config =& CRM_Core_Config::singleton( );
         $displayName = $this->get( 'displayName' );
              
         // for all other tabs, we only need the displayName

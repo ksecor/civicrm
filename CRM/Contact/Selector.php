@@ -229,7 +229,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $config = CRM_Core_Config::singleton( );
+        $config =& CRM_Core_Config::singleton( );
 
         if ( ( $output == CRM_Core_Selector_Controller::EXPORT || $output == CRM_Core_Selector_Controller::SCREEN ) &&
              $this->_formValues['radio_ts'] == 'ts_sel' ) {

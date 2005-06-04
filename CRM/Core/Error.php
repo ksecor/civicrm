@@ -83,7 +83,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @static
      *
      */
-    function singleton( $key = 'CRM' ) {
+    function &singleton( $key = 'CRM' ) {
         if (self::$_singleton === null ) {
             self::$_singleton = new CRM_Core_Error( $key );
         }
@@ -118,7 +118,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     public static function handle($pearError)
     {
         // setup smarty with config, session and template location.
-        $template = CRM_Core_Smarty::singleton( );
+        $template =& CRM_Core_Smarty::singleton( );
         
         // create the error array
         $error = array();

@@ -138,7 +138,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $this->set( 'context', 'amtg' );
             $this->set( 'amtgID' , $group->id );
             
-            $session = CRM_Core_Session::singleton( );
+            $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext( CRM_Utils_System::url( 'civicrm/group/search', 'reset=1&force=1&context=smog&gid=' . $group->id ) );
         }
     }

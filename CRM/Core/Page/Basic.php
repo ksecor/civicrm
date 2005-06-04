@@ -218,6 +218,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
                 self::action( $object, $action, $values[$object->id], $links, $permission );
             }
         }
+
         $this->assign( 'rows', $values );
     }
 
@@ -270,7 +271,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         $controller = new CRM_Core_Controller_Simple( $this->editForm( ), $this->editName( ), $mode );
 
        // set the userContext stack
-        $session = CRM_Core_Session::singleton();
+        $session =& CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) ) );
         if ($id) {
             $controller->set( 'id'   , $id );
@@ -295,7 +296,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         $controller = new CRM_Core_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), $mode );
 
         // set the userContext stack
-        $session = CRM_Core_Session::singleton();
+        $session =& CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ),
                                                           $this->userContextParams( $mode ) ) );
 

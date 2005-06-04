@@ -184,7 +184,7 @@ class CRM_Utils_System {
      *
      */
     function url($path = null, $query = null, $absolute = true, $fragment = null ) {
-        $config        = CRM_Core_Config::singleton( );
+        $config        =& CRM_Core_Config::singleton( );
         static $script = 'index.php';
 
         if (isset($fragment)) {
