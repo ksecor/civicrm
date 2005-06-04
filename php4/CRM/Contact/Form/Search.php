@@ -34,6 +34,23 @@
 /**
  * Files required
  */
+$GLOBALS['_CRM_CONTACT_FORM_SEARCH']['_validContext'] =  array(
+                                  'search' => 'Search',
+                                  'smog'   => 'Show members of group',
+                                  'amtg'   => 'Add members to group',
+                                  );
+$GLOBALS['_CRM_CONTACT_FORM_SEARCH']['csv'] =  array('contact_type', 'group', 'tag');
+
+
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Contact/BAO/SavedSearch.php';
+require_once 'CRM/Utils/System.php';
+require_once 'CRM/Core/DAO.php';
+require_once 'CRM/Core/PseudoConstant.php';
+require_once 'CRM/Utils/Request.php';
+require_once 'CRM/Utils/Array.php';
+require_once 'CRM/Contact/Selector.php';
+require_once 'CRM/Core/Selector/Controller.php';
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/Session.php';
 require_once 'CRM/Core/PseudoConstant.php';
@@ -52,11 +69,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var array
      * @static
      */
-    static $_validContext = array(
-                                  'search' => 'Search',
-                                  'smog'   => 'Show members of group',
-                                  'amtg'   => 'Add members to group',
-                                  );
+    
 
     /**
      * The context that we are working on
@@ -64,7 +77,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var string
      * @access protected
      */
-    protected $_context;
+    var $_context;
 
     /**
      * the groupId retrieved from the GET vars
@@ -72,7 +85,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var int
      * @access protected
      */
-    protected $_groupID;
+    var $_groupID;
 
     /**
      * the Group ID belonging to Add Member to group ID
@@ -81,7 +94,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var int
      * @access protected
      */
-    protected $_amtgID;
+    var $_amtgID;
 
     /**
      * the saved search IDretrieved from the GET vars
@@ -89,7 +102,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var int
      * @access protected
      */
-    protected $_ssID;
+    var $_ssID;
 
     /**
      * Are we forced to run a search
@@ -97,7 +110,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var int
      * @access protected
      */
-    protected $_force;
+    var $_force;
 
     /**
      * name of search button
@@ -105,7 +118,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var string
      * @access protected
      */
-    protected $_searchButtonName;
+    var $_searchButtonName;
 
     /**
      * name of export button
@@ -113,7 +126,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var string
      * @access protected
      */
-    protected $_exportButtonName;
+    var $_exportButtonName;
 
     
     /**
@@ -122,7 +135,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var string
      * @access protected
      */
-    protected $_actionButtonName;
+    var $_actionButtonName;
 
     /**
      * the group elements
@@ -130,8 +143,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var array
      * @access protected
      */
-    protected $_group;
-    protected $_groupElement;
+    var $_group;
+    var $_groupElement;
 
     /**
      * the tag elements
@@ -139,8 +152,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var array 
      * @access protected
      */
-    protected $_tag;
-    protected $_tagElement;
+    var $_tag;
+    var $_tagElement;
 
     /**
      * form values that we will be using
@@ -148,7 +161,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var array
      * @access protected
      */
-    protected $_formValues;
+    var $_formValues;
     
     /*
      * csv - common search values
@@ -157,7 +170,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @access protected
      * @static
      */
-    static $csv = array('contact_type', 'group', 'tag');
+    
 
     /**
      * have we already done this search
@@ -165,7 +178,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @access protected
      * @var boolean
      */
-    protected $_done;
+    var $_done;
 
     /**
      * Build the common elements between the search/advanced form
@@ -177,9 +190,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     {
 
         // some tasks.. what do we want to do with the selected contacts ?
-        $tasks = array( '' => ts('- more actions -') ) + CRM_Contact_Task::$tasks;
+        $tasks = array( '' => ts('- more actions -') ) + $GLOBALS['_CRM_CONTACT_TASK']['tasks'];
         if ( isset( $this->_ssID ) ) {
-            $tasks = $tasks + CRM_Contact_Task::$optionalTasks;
+            $tasks = $tasks + $GLOBALS['_CRM_CONTACT_TASK']['optionalTasks'];
 
             $savedSearchValues = array( 'id' => $this->_ssID, 'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID ) );
             $this->assign_by_ref( 'savedSearch', $savedSearchValues );
@@ -187,7 +200,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         if ( $this->_context === 'smog' ) {
             // need to figure out how to freeze a bunch of checkboxes, hack for now
-            if ( $this->_action != CRM_Core_Action::ADVANCED ) {
+            if ( $this->_action != CRM_CORE_ACTION_ADVANCED ) {
                 $this->_groupElement->freeze( );
             }
             
@@ -212,7 +225,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $this->add('submit', $this->_actionButtonName, ts('Add Contacts to %1', array(1 => $this->_group[$this->_amtgID])),
                        array( 'class' => 'form-submit',
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
-            $this->add('hidden','task', CRM_Contact_Task::GROUP_CONTACTS );
+            $this->add('hidden','task', CRM_CONTACT_TASK_GROUP_CONTACTS );
 
         } else {
             $this->add('select', 'task'   , ts('Actions: ')    , $tasks    );
@@ -267,7 +280,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     function buildQuickForm( ) 
     {
-        $this->add('select', 'contact_type', ts('Find... '), CRM_Core_SelectValues::$contactType);
+        $this->add('select', 'contact_type', ts('Find... '), $GLOBALS['_CRM_CORE_SELECTVALUES']['contactType']);
 
         // add select for groups
         $group               = array('' => ts(' - any group - ')) + $this->_group;
@@ -293,7 +306,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $defaults = array();
 
         $defaults['sort_name'] = $this->_formValues['sort_name'];
-        foreach (self::$csv as $v) {
+        foreach ($GLOBALS['_CRM_CONTACT_FORM_SEARCH']['csv'] as $v) {
             if ( is_array( $this->_formValues['cb_' . $v] ) ) {
                 $defaults[$v] = array_pop( array_keys( $this->_formValues['cb_' . $v] ) );
             } else {
@@ -302,9 +315,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
         if ( $this->_context === 'amtg' ) {
-            $defaults['task'] = CRM_Contact_Task::GROUP_CONTACTS;
+            $defaults['task'] = CRM_CONTACT_TASK_GROUP_CONTACTS;
         } else {
-            $defaults['task'] = CRM_Contact_Task::PRINT_CONTACTS;
+            $defaults['task'] = CRM_CONTACT_TASK_PRINT_CONTACTS;
         }
 
         // note that we do this so we over-ride the default/post/submitted values to get
@@ -370,7 +383,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * assign context to drive the template display, make sure context is valid
          */
         $this->_context = CRM_Utils_Request::retrieve( 'context', $this, false, 'search' );
-        if ( ! CRM_Utils_Array::value( $this->_context, self::$_validContext ) ) {
+        if ( ! CRM_Utils_Array::value( $this->_context, $GLOBALS['_CRM_CONTACT_FORM_SEARCH']['_validContext'] ) ) {
             $this->_context = 'search';
             $this->set( 'context', $this->_context );
         }
@@ -378,9 +391,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         
         $selector = new CRM_Contact_Selector($this->_formValues, $this->_action);
         $controller = new CRM_Core_Selector_Controller($selector ,
-                                                       $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                       $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                       CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
+                                                       $this->get( CRM_UTILS_PAGER_PAGE_ID ),
+                                                       $this->get( CRM_UTILS_SORT_SORT_ID  ),
+                                                       CRM_CORE_ACTION_VIEW, $this, CRM_CORE_SELECTOR_CONTROLLER_TRANSFER );
         $controller->setEmbedded( true );
         //        if ( $controller->hasChanged( $this->_reset ) ||
         if ( $this->_force ) {
@@ -391,9 +404,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
              * like totalCount etc
              */
             $controller = new CRM_Core_Selector_Controller($selector ,
-                                                           $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                           $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                           CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
+                                                           $this->get( CRM_UTILS_PAGER_PAGE_ID ),
+                                                           $this->get( CRM_UTILS_SORT_SORT_ID  ),
+                                                           CRM_CORE_ACTION_VIEW, $this, CRM_CORE_SELECTOR_CONTROLLER_TRANSFER );
             $controller->setEmbedded( true );
         }
         $controller->moveFromSessionToTemplate( );
@@ -484,17 +497,17 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         } else {
             // do export stuff
             if ( $buttonName == $this->_exportButtonName ) {
-                $output = CRM_Core_Selector_Controller::EXPORT;
+                $output = CRM_CORE_SELECTOR_CONTROLLER_EXPORT;
             } else {
-                $output = CRM_Core_Selector_Controller::SESSION;
+                $output = CRM_CORE_SELECTOR_CONTROLLER_SESSION;
             }
 
             // create the selector, controller and run - store results in session
             $selector = new CRM_Contact_Selector($this->_formValues, $this->_action);
             $controller = new CRM_Core_Selector_Controller($selector ,
-                                                           $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                           $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                           CRM_Core_Action::VIEW, $this, $output );
+                                                           $this->get( CRM_UTILS_PAGER_PAGE_ID ),
+                                                           $this->get( CRM_UTILS_SORT_SORT_ID  ),
+                                                           CRM_CORE_ACTION_VIEW, $this, $output );
             $controller->setEmbedded( true );
             $controller->run();
         }
@@ -505,7 +518,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * Add a form rule for this form. If Go is pressed then we must select some checkboxes
      * and an action
      */
-    static function formRule( &$fields ) {
+     function formRule( &$fields ) {
         // check actionName and if next, then do not repeat a search, since we are going to the next page
         
         if ( array_key_exists( '_qf_Search_next', $fields ) ) {
@@ -513,7 +526,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                 return array( 'task' => 'Please select a valid action.' );
             }
 
-            if(CRM_Utils_Array::value('task', $fields) == CRM_Contact_Task::SAVE_SEARCH) {
+            if(CRM_Utils_Array::value('task', $fields) == CRM_CONTACT_TASK_SAVE_SEARCH) {
                 // dont need to check for selection of contacts for saving search
                 return true;
             }
@@ -524,7 +537,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
 
             foreach ( $fields as $name => $dontCare ) {
-                if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
+                if ( substr( $name, 0, CRM_CONTACT_FORM_SEARCH_CB_PREFIX_LEN) == CRM_CONTACT_FORM_SEARCH_CB_PREFIX) {
                     return true;
                 }
             }

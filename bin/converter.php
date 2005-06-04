@@ -512,7 +512,7 @@ class PHP_DownGrade {
      */
     function toString() 
     {
-        $classNames = array('CRM_Core_SelectValues', 'CRM_Core_Custom_Field','CRM_Contact_Task');
+        $classNames = array('CRM_Core_SelectValues', 'CRM_Core_Custom_Field','CRM_Contact_Task','CRM_Core_BAO_CustomField');
         //To Replace SelectValues
          for($i=0; $i < count($this->tokens); $i++) {
              foreach($classNames as $string) {

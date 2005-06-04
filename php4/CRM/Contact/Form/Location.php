@@ -31,6 +31,28 @@
  * $Id$
  *
  */
+$GLOBALS['_CRM_CONTACT_FORM_LOCATION']['_commPrefs'] =  array( 'phone', 'email', 'im' );
+
+
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/PseudoConstant.php';
+require_once 'CRM/Contact/Form/Address.php';
+require_once 'CRM/Contact/Form/Phone.php';
+require_once 'CRM/Contact/Form/Email.php';
+require_once 'CRM/Contact/Form/IM.php';
+require_once 'CRM/Core/ShowHideBlocks.php';
+require_once 'CRM/Utils/Array.php';
+define( 'CRM_CONTACT_FORM_LOCATION_BLOCKS',3);
+
+
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/PseudoConstant.php';
+require_once 'CRM/Contact/Form/Address.php';
+require_once 'CRM/Contact/Form/Phone.php';
+require_once 'CRM/Contact/Form/Email.php';
+require_once 'CRM/Contact/Form/IM.php';
+require_once 'CRM/Core/ShowHideBlocks.php';
+require_once 'CRM/Utils/Array.php';
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Contact/Form/Phone.php';
@@ -47,11 +69,9 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @var int
      * @const
      */
-    const BLOCKS = 3;
+       
 
-    static $_commPrefs = array( 'phone', 'email', 'im' );
-
-    static function &buildLocationBlock(&$form, $maxLocationBlocks) 
+     function &buildLocationBlock(&$form, $maxLocationBlocks) 
     {
         $location = array();
         
@@ -61,9 +81,9 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
 
-            CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, self::BLOCKS); 
-            CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, self::BLOCKS); 
-            CRM_Contact_Form_IM::buildIMBlock      ($form, $location, $locationId, self::BLOCKS); 
+            CRM_Contact_Form_Phone::buildPhoneBlock($form, $location, $locationId, CRM_CONTACT_FORM_LOCATION_BLOCKS); 
+            CRM_Contact_Form_Email::buildEmailBlock($form, $location, $locationId, CRM_CONTACT_FORM_LOCATION_BLOCKS); 
+            CRM_Contact_Form_IM::buildIMBlock      ($form, $location, $locationId, CRM_CONTACT_FORM_LOCATION_BLOCKS); 
 
             CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '');
 
@@ -85,8 +105,8 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                 }
             }
             
-            foreach ( self::$_commPrefs as $block ) {
-                for ( $blockId = 1; $blockId <= self::BLOCKS; $blockId++ ) {
+            foreach ( $GLOBALS['_CRM_CONTACT_FORM_LOCATION']['_commPrefs'] as $block ) {
+                for ( $blockId = 1; $blockId <= CRM_CONTACT_FORM_LOCATION_BLOCKS; $blockId++ ) {
                     if ( $blockId != 1 ) {
                         $showHide->addHide( "location[$locationId][$block][$blockId]");
                         if ( $blockId == 2 ) {
@@ -129,8 +149,8 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             }
 
             $commPrefs = array( 'phone', 'email', 'im' );
-            foreach ( self::$_commPrefs as $block ) {
-                self::updateShowHideSubBlocks( $showHide, $block, "location[$locationId]",
+            foreach ( $GLOBALS['_CRM_CONTACT_FORM_LOCATION']['_commPrefs'] as $block ) {
+                CRM_Contact_Form_Location::updateShowHideSubBlocks( $showHide, $block, "location[$locationId]",
                                                CRM_Utils_Array::value( $block, $values[$locationId] ) );
             }
         }
@@ -155,7 +175,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
 
             $showHide->addShow( "${prefix}[$name][$blockId]" );
             $showHide->addHide( "${prefix}[$name][$blockId][show]" );
-            if ( $blockId < self::BLOCKS ) {
+            if ( $blockId < CRM_CONTACT_FORM_LOCATION_BLOCKS) {
                 $nextBlockId = $blockId + 1;
                 $showHide->addShow( "${prefix}[$name][$nextBlockId][show]" );
             }
