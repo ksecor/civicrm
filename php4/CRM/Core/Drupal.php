@@ -34,12 +34,12 @@
 /**
  *
  */
-$GLOBALS['_CRM_CORE_DRUPAL']['_viewAdminUser'] = '';
-$GLOBALS['_CRM_CORE_DRUPAL']['_editAdminUser'] = '';
-$GLOBALS['_CRM_CORE_DRUPAL']['_viewPermissionedGroups'] = '';
-$GLOBALS['_CRM_CORE_DRUPAL']['_editPermissionedGroups'] = '';
-$GLOBALS['_CRM_CORE_DRUPAL']['_viewPermission'] = '';
-$GLOBALS['_CRM_CORE_DRUPAL']['_editPermission'] = '';
+$GLOBALS['_CRM_CORE_DRUPAL']['_viewAdminUser'] = null;
+$GLOBALS['_CRM_CORE_DRUPAL']['_editAdminUser'] = null;
+$GLOBALS['_CRM_CORE_DRUPAL']['_viewPermissionedGroups'] = null;
+$GLOBALS['_CRM_CORE_DRUPAL']['_editPermissionedGroups'] = null;
+$GLOBALS['_CRM_CORE_DRUPAL']['_viewPermission'] = null;
+$GLOBALS['_CRM_CORE_DRUPAL']['_editPermission'] = null;
 
 require_once 'CRM/Core/Session.php';
 require_once 'CRM/Core/PseudoConstant.php';

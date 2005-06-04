@@ -32,7 +32,7 @@
  *
  */
 
-$GLOBALS['_CRM_CONTACT_SELECTOR']['_links'] = '';
+$GLOBALS['_CRM_CONTACT_SELECTOR']['_links'] = null;
 $GLOBALS['_CRM_CONTACT_SELECTOR']['_columnHeaders'] = '';
 $GLOBALS['_CRM_CONTACT_SELECTOR']['_properties'] =  array('contact_id', 'contact_type', 'sort_name', 'street_address',
                                 'city', 'state', 'postal_code', 'country',
@@ -258,6 +258,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base {
         $permission = CRM_Core_Drupal::getPermission( );
         $mask = CRM_Core_Action::mask( CRM_Core_Drupal::getPermission( ) );
 
+        $links =& CRM_Contact_Selector::links();
+
         while ($result->fetch()) {
             $row = array();
 
@@ -268,7 +270,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base {
 
             if ( $output != CRM_CORE_SELECTOR_CONTROLLER_EXPORT && $output != CRM_CORE_SELECTOR_CONTROLLER_SCREEN ) {
                 $row['checkbox'] = CRM_CORE_FORM_CB_PREFIX . $result->contact_id;
-                $row['action']   = CRM_Core_Action::formLink( CRM_Contact_Selector::links(), $mask, array( 'id' => $result->contact_id ) );
+                $row['action']   = CRM_Core_Action::formLink( $links, $mask, array( 'id' => $result->contact_id ) );
+
                 $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {
                 case 'Individual' :
