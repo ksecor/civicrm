@@ -56,6 +56,12 @@
        <comment>Is this field included in new user registration forms?</comment>
   </field>
   <field>
+       <name>match_key</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this field part of the key for matching users to contacts?</comment>
+  </field>
+  <field>
        <name>visibility</name>
        <type>enum</type>
        <values>User and User Admin Only,Public User Pages,Public User Pages and Listings</values>
