@@ -973,8 +973,6 @@ class DB_DataObject extends DB_DataObject_Overload
             $table = ($quoteIdentifiers ? $DB->quoteIdentifier($this->__table)    : $this->__table);
             
             $r = $this->_query("INSERT INTO {$table} ($leftq) VALUES ($rightq) ");
- 
-            
             
             if (PEAR::isError($r)) {
                 $this->raiseError($r);
@@ -986,6 +984,8 @@ class DB_DataObject extends DB_DataObject_Overload
             }
             
             
+            CRM_Core_Error::debug( "$key, $userNative", $dbtype );
+            
             // now do we have an integer key!
             
             if ($key && $useNative) {
@@ -996,6 +996,7 @@ class DB_DataObject extends DB_DataObject_Overload
                         $this->$key = $method(
                             $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5]->connection
                         );
+
                         break;
                     
                     case 'mssql':
