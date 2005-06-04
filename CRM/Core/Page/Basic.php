@@ -236,7 +236,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      * @return void
      * @access private
      */
-    function action( $object, $action, &$values, &$links, $permission ) {
+    function action( &$object, $action, &$values, &$links, $permission ) {
         $values['class'] = '';
         if ( array_key_exists( 'is_reserved', $object ) && $object->is_reserved ) {
             $newAction = 0;

@@ -299,6 +299,15 @@ class CRM_Core_DAO extends DB_DataObject {
         return $values;
     }
 
+    function storeValuesHack( &$object, &$values ) {
+        $fields =& $object->fields( );
+        foreach ( $fields as $name => $value ) {
+            if ( $object->$name ) {
+                $values[$name] = $object->$name;
+            }
+        }
+    }
+
     /**
      * create an attribute for this specific field. We only do this for strings and text
      *

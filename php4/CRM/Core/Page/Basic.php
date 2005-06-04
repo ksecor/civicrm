@@ -221,11 +221,11 @@ require_once 'CRM/Core/Page.php';
         while ($object->fetch()) {
             $permission = $this->checkPermission( $object->id, $object->$key );
             if ( $permission ) {
-                $value = array( 'id' => $object->id );
-                $value = $object->storeValues($value);
-                // populate action links
-                CRM_Core_Page_Basic::action( $object, $action, $value, $links, $permission );
-                $values[$object->id] = $value;
+                $values[$object->id] = array();
+                CRM_Core_Page_Basic::action( $object, $action, $values[$object->id], $links, $permission ); 
+                // $object->storeValues($values[$object->id]);
+                CRM_Core_DAO::storeValuesHack($object, $values[$object->id]);
+               // populate action links
             }
         }
 
