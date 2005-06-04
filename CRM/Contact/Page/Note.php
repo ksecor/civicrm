@@ -43,7 +43,8 @@ class CRM_Contact_Page_Note {
         $note->id = $noteId;
         if ( $note->find( true ) ) {
             $values = array( );
-            $note->storeValues( $values );
+            //$note->storeValues( $values ); this is not working in php4
+            $note->storeValues( &$values );
             $page->assign( 'note', $values );
         }
         
@@ -61,7 +62,8 @@ class CRM_Contact_Page_Note {
         $note->find( );
         while ( $note->fetch( ) ) {
             $values[$note->id] = array( );
-            $note->storeValues( $values[$note->id] );
+            //$note->storeValues( $values[$note->id] ); this is not working in php4
+            $note->storeValues( &$values[$note->id] );
         }
         $page->assign( 'notes', $values );
     }

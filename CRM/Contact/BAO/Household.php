@@ -91,8 +91,8 @@ class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
         $household->copyValues( $params );
         if ( $household->find(true) ) {
             $ids['household'] = $household->id;
-            $household->storeValues( $values );
-
+            //$household->storeValues( $values ); this is not working in php4
+            $household->storeValues( &$values );
             return $household;
         }
         return null;

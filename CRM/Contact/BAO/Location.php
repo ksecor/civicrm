@@ -158,13 +158,17 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
                 $params['location_id'] = $location->id;
                 if ($flatten) {
                     $ids['location'] = $location->id;
-                    $location->storeValues( $values );
+                    //$location->storeValues( $values ); this is not working in php4
+                    $location->storeValues( &$values );
+                    
                     self::getBlocks( $params, $values, $ids, 0, $location );
                 } else {
                     $values['location'][$i+1] = array();
                     $ids['location'][$i+1]    = array();
                     $ids['location'][$i+1]['id'] = $location->id;
-                    $location->storeValues( $values['location'][$i+1] );
+                    //$location->storeValues( $values['location'][$i+1] ); this is not working in php4
+                    $location->storeValues( &$values['location'][$i+1] );
+
                     self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1],
                                      CRM_Contact_Form_Location::BLOCKS, $location );
                 }

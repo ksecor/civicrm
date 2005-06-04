@@ -58,7 +58,8 @@ class CRM_Contact_BAO_LocationType extends CRM_Contact_DAO_LocationType {
         $locationType = new CRM_Contact_DAO_LocationType( );
         $locationType->copyValues( $params );
         if ( $locationType->find( true ) ) {
-            $locationType->storeValues( $defaults );
+            //$locationType->storeValues( $defaults ); this is not working in php4
+            $locationType->storeValues( &$defaults );
             return $locationType;
         }
         return null;

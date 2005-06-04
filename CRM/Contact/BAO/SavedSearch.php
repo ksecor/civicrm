@@ -88,7 +88,8 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
         $savedSearch = new CRM_Contact_DAO_SavedSearch( );
         $savedSearch->copyValues( $params );
         if ( $savedSearch->find( true ) ) {
-            $savedSearch->storeValues( $defaults );
+            //$savedSearch->storeValues( $defaults ); this is not working in php4
+            $savedSearch->storeValues( &$defaults );
             return $savedSearch;
         }
         return null;

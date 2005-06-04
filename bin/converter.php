@@ -320,8 +320,32 @@ class PHP_DownGrade {
         $i++;
         
         $value = '';
+        // echo $class;
         while($this->tokens[$i][1] != ';') {
+              
+            /*if($this->tokens[$i][0] == self::T_SELF) {
+                $this->tokens[$i][1] = strtoupper($class);
+            } 
+            if($this->tokens[$i][1] == "::") {
+               
+                $back = $i+1;
+                echo $this->tokens[$back][1];
+                $this->tokens[$back][1] = strtoupper($this->tokens[$back][1]);
+                $this->tokens[$i][1] = '_';
+               
+            }*/
+            if($this->tokens[$i+1][1] == "::") {
+              $this->tokens[$i][1] = strtoupper($this->tokens[$i][1]);  
+            }
             
+            if($this->tokens[$i][0] == self::T_SELF) {
+                $this->tokens[$i][1] = strtoupper($class);
+            } 
+            if($this->tokens[$i][1] == "::") {
+           
+                $this->tokens[$i][1] = '_';
+            }
+
             $value .= $this->tokens[$i][1];
             $this->tokens[$i][1] = '';
             $i++;
@@ -488,35 +512,31 @@ class PHP_DownGrade {
      */
     function toString() 
     {
-
+        $classNames = array('CRM_Core_SelectValues', 'CRM_Core_Custom_Field','CRM_Contact_Task');
         //To Replace SelectValues
-   for($i=0;$i<count($this->tokens);$i++){
-            if($this->tokens[$i][1]=="CRM_Core_SelectValues"){
-                $j=$i+1;
-                $count=2;
-                $str="CRM_Core_SelectValues";
-                while($count>0){
-                    $str.=$this->tokens[$j][1];
-                    $j++;
-                    $count--;
-                }
-               
-                $pattern1 = '/(CRM_Core_SelectValues)::\$(\w+)/';
-                $replacement1 = "\$GLOBALS['_CRM_CORE_SELECTVALUES']['\$2']";
-                
-             
-                
-                
-                $this->tokens[$i][1]= preg_replace($pattern1, $replacement1, $str);
-                $i++;
-                $this->tokens[$i][1]="";
-                $i++;
-                $this->tokens[$i][1]="";
-               
-            
-            }
-        }
-        
+         for($i=0; $i < count($this->tokens); $i++) {
+             foreach($classNames as $string) {
+                 if($this->tokens[$i][1] == $string ) {
+                     $j = $i+1;
+                     $count = 2;
+                     $str = $string;
+                     while($count>0) {
+                         $str.= $this->tokens[$j][1];
+                         $j++;
+                         $count--;
+                     }
+                     $pattern = '/('. $string .')::\$(\w+)/e';
+                     $replacement = "'$' . 'GLOBALS[\'_' .    strtoupper(\\1)  . '\'][\'' . \\2 .'\']'";
+                     $this->tokens[$i][1]= @preg_replace($pattern, $replacement, $str);
+                     $i++;
+                     $this->tokens[$i][1]="";
+                     $i++;
+                     $this->tokens[$i][1]="";
+
+                 }
+             }
+         }
+         
   
         //To remove abstact keyword     
         for($j=0;$j<count($this->tokens);$j++)
@@ -693,7 +713,7 @@ class PHP_DownGrade {
                             }
                         
                     }
-            }
+         }
 
 
         //======================================================================================= 
@@ -783,39 +803,42 @@ class PHP_DownGrade {
 }
 
 
-// start of code to convert files recursively ---
-// this code is to convert the whole directory from php5 to php4
+if (isset($argv[1])) {
 
-/*$directory = array('CRM', 'modules', 'api');
-//$directory = array('api');
+    // use this code if single file has to be converted from php5 to php4  and comment the above block
+    $sam = new PHP_DownGrade($argv[1]);
+    $sam->toPHP4();
+  
+} else {
 
-foreach ($directory as $v) {
-    $rootDir = "$homeDir/svn/crm/$v";
-    $destDir = "$homeDir/svn/crm/php4/$v";
-
-    $dir = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootDir), true);
-    foreach ( $dir as $file ) {
-        if ( substr( $file, -4, 4 ) == '.php' ) {
-            echo str_repeat("--", $dir->getDepth()) . ' ' . $file->getPath( ) . " $file\n";
-            $x    = new PHP_DownGrade($file->getPath( ) . '/' . $file);
-            $php4 = $x->toPHP4( );
-            
-            $php4Dir  = str_replace( $rootDir, $destDir, $file->getPath( ) );
-            createDir( $php4Dir );
-            $fd   = fopen( $php4Dir . '/' . $file, "w" );
-            fputs( $fd, $php4 );
-            fclose( $fd );
+    // start of code to convert files recursively ---
+    // this code is to convert the whole directory from php5 to php4
+    
+    $directory = array('CRM', 'modules', 'api');
+    
+    foreach ($directory as $v) {
+        $rootDir = "$homeDir/svn/crm/$v";
+        $destDir = "$homeDir/svn/crm/php4/$v";
+        
+        $dir = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootDir), true);
+        foreach ( $dir as $file ) {
+            if ( substr( $file, -4, 4 ) == '.php' ) {
+                str_repeat("--", $dir->getDepth()) . ' ' . $file->getPath( ) . " $file\n";
+                $x    = new PHP_DownGrade($file->getPath( ) . '/' . $file);
+                $php4 = $x->toPHP4( );
+                
+                $php4Dir  = str_replace( $rootDir, $destDir, $file->getPath( ) );
+                createDir( $php4Dir );
+                $fd   = fopen( $php4Dir . '/' . $file, "w" );
+                fputs( $fd, $php4 );
+                fclose( $fd );
+            }
         }
     }
+
+    // end of code to convert files recursively --
+   
 }
-*/
-
-
-// end of code to convert files recursively --
-
-// use this code if single file has to be converted from php5 to php4  and comment the above block
-$sam = new PHP_DownGrade($argv[1]);
-echo $sam->toPHP4();
 
 
 ?>

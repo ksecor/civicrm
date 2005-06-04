@@ -43,9 +43,9 @@ class CRM_Core_BAO_History {
      * class constructor
      */
     function __construct( ) {
-        parent::__construct( );
+        //parent::__construct( );
     }
-
+    
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
@@ -67,7 +67,8 @@ class CRM_Core_BAO_History {
         eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->copyValues($params);
         if ($historyDAO->find(true)) {
-            $historyDAO->storeValues($defaults);
+            //$historyDAO->storeValues($defaults); //this is not working in php4
+            $historyDAO->storeValues(&$defaults);
             return $historyDAO;
         }
         return null;
@@ -133,7 +134,8 @@ class CRM_Core_BAO_History {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
         eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
         
-        $historyDAO->storeValues($params);
+        //$historyDAO->storeValues($params); this is not working in php4
+        $historyDAO->storeValues(&$params);
 
         // selection criteria
         $historyDAO->selectAdd();

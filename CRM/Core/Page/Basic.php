@@ -213,7 +213,8 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
             $permission = $this->checkPermission( $object->id, $object->$key );
             if ( $permission ) {
                 $values[$object->id] = array( );
-                $object->storeValues($values[$object->id]);
+                //$object->storeValues($values[$object->id]); //this is not working in php4
+                $object->storeValues(&$values[$object->id]);
                 // populate action links
                 self::action( $object, $action, $values[$object->id], $links, $permission );
             }

@@ -143,7 +143,8 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
             $values['note'][$note->id] = array();
             $ids['note'][] = $note->id;
             
-            $note->storeValues( $values['note'][$note->id] );
+            //$note->storeValues( $values['note'][$note->id] ); this is not working in php4
+            $note->storeValues( &$values['note'][$note->id] );
 
             $notes[] = $note;
 

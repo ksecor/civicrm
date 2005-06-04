@@ -58,7 +58,8 @@ class CRM_Contact_BAO_Tag extends CRM_Contact_DAO_Tag {
         $tag = new CRM_Contact_DAO_Tag( );
         $tag->copyValues( $params );
         if ( $tag->find( true ) ) {
-            $tag->storeValues( $defaults );
+            //$tag->storeValues( $defaults ); this is not woking in php4
+            $tag->storeValues( &$defaults );
             return $tag;
         }
         return null;

@@ -91,7 +91,8 @@ class CRM_Contact_BAO_Organization extends CRM_Contact_DAO_Organization
         $organization->copyValues( $params );
         if ( $organization->find(true) ) {
             $ids['organization'] = $organization->id;
-            $organization->storeValues( $values );
+            //$organization->storeValues( $values ); this is not working in php4
+            $organization->storeValues( &$values );
 
             return $organization;
         }

@@ -70,11 +70,13 @@ class CRM_Contact_BAO_Block {
         for ($i = 0; $i < $blockCount; $i++) {
             if ($block->fetch()) {
                 if ( $flatten ) {
-                    $block->storeValues( $values );
+                    //$block->storeValues( $values ); this is not working in php4
+                    $block->storeValues( &$values );
                     $ids[$blockName] = $block->id;
                 } else {
                     $values[$blockName][$i+1] = array();
-                    $block->storeValues( $values[$blockName][$i+1] );
+                    //$block->storeValues( $values[$blockName][$i+1] ); this is not working in php4
+                    $block->storeValues( &$values[$blockName][$i+1] );
                     $ids[$blockName][$i+1] = $block->id;
                 }
                 $blocks[$i + 1] = $block;
