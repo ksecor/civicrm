@@ -16,37 +16,50 @@ cd ../test/maxq
 # Test for Viewing Contacts # 
 #############################
 
-maxq -q -r testViewContactIndividual.py testViewContactHousehold.py testViewContactOrganization.py
+maxq -q -r testViewContactIndividual.py 
+maxq -q -r testViewContactHousehold.py 
+maxq -q -r testViewContactOrganization.py
 
 ############################
 # Test for Adding Contacts # 
 ############################
 
-maxq -q -r testAddContactIndividual.py testAddContactHousehold.py testAddContactOrganization.py
+maxq -q -r testAddContactIndividual.py 
+maxq -q -r testAddContactHousehold.py 
+maxq -q -r testAddContactOrganization.py
 
 #############################
 # Test for Editing Contacts # 
 #############################
 
-maxq -q -r testEditContactIndividual.py testEditContactHousehold.py testEditContactOrganization.py
+maxq -q -r testEditContactIndividual.py 
+maxq -q -r testEditContactHousehold.py 
+maxq -q -r testEditContactOrganization.py
 
 #############################################
 # Test for Relationship By Relationship Tab # 
 #############################################
 
-maxq -q -r testViewRelByRelTab.py testEditRelByRelTab.py testAddRelByRelTab.py testDeleteRelByRelTab.py testDisableEnableRelByRelTab.py
+maxq -q -r testViewRelByRelTab.py 
+maxq -q -r testEditRelByRelTab.py 
+maxq -q -r testAddRelByRelTab.py 
+maxq -q -r testDeleteRelByRelTab.py 
+maxq -q -r testDisableEnableRelByRelTab.py
 
 ########################################
 # Test for Relationship By Contact Tab # 
-########################################
+#########################################
 
-maxq -q -r testViewRelByContactTab.py testEditRelByContactTab.py testAddRelByContactTab.py
+maxq -q -r testViewRelByContactTab.py 
+maxq -q -r testEditRelByContactTab.py 
+maxq -q -r testAddRelByContactTab.py
 
 ###############################
 # Test for Group By Group Tab # 
 ###############################
 
-maxq -q -r testGroupAllByGroupTab.py testGroupAllByContactTab.py
+maxq -q -r testGroupAllByGroupTab.py 
+maxq -q -r testGroupAllByContactTab.py
 
 #############################
 # Test for Tags By Tags Tab # 
@@ -58,13 +71,17 @@ maxq -q -r testTagsAllByTagsTab.py
 # Test for Notes By Note Tab # 
 ##############################
 
-maxq -q -r testViewNoteByNoteTab.py testAddNoteByNoteTab.py testEditNoteByNoteTab.py testDeleteNoteByNoteTab.py
+maxq -q -r testViewNoteByNoteTab.py 
+maxq -q -r testAddNoteByNoteTab.py 
+maxq -q -r testEditNoteByNoteTab.py 
+maxq -q -r testDeleteNoteByNoteTab.py
 
 #################################
 # Test for Notes By Contact Tab # 
 #################################
 
-maxq -q -r testAddNoteByContactTab.py testEditNoteByContactTab.py
+maxq -q -r testAddNoteByContactTab.py 
+maxq -q -r testEditNoteByContactTab.py
 
 ########################
 # Test for Custom Data # 
@@ -76,46 +93,75 @@ maxq -r -q testCustomDataAllByTab.py
 # Test for Admin Tags # 
 #######################
 
-maxq -q -r testAdminAddTags.py testAdminEditTags.py testAdminDeleteTags.py
+maxq -q -r testAdminAddTags.py 
+maxq -q -r testAdminEditTags.py 
+maxq -q -r testAdminDeleteTags.py
+
+################################
+# Test for Admin Location Type # 
+################################
+
+maxq -q -r testAdminAddLocationType.py 
+maxq -q -r testAdminEditLocationType.py 
+maxq -q -r testAdminEnableDisableLocationType.py
 
 ##################################
 # Test for Admin Mobile Provider # 
 ##################################
 
-maxq -q -r testAdminAddMobileProvider.py testAdminEditMobileProvider.py testAdminEnableDisableMobileProvider.py
+maxq -q -r testAdminAddMobileProvider.py 
+maxq -q -r testAdminEditMobileProvider.py 
+maxq -q -r testAdminEnableDisableMobileProvider.py
 
 ##############################
 # Test for Admin IM Provider # 
 ##############################
 
-maxq -q -r testAdminAddIMProvider.py testAdminEditIMProvider.py testAdminEnableDisableIMProvider.py
+maxq -q -r testAdminAddIMProvider.py 
+maxq -q -r testAdminEditIMProvider.py 
+maxq -q -r testAdminEnableDisableIMProvider.py
 
 #####################################
 # Test for Admin Relationship Types # 
 #####################################
 
-maxq -q -r testAdminViewRel.py testAdminAddRel.py testAdminEditRel.py testAdminEnableDisableRel.py
+maxq -q -r testAdminViewRel.py 
+maxq -q -r testAdminAddRel.py 
+maxq -q -r testAdminEditRel.py 
+maxq -q -r testAdminEnableDisableRel.py
 
 ####################################
 # Test for Admin Custom Data Field # 
 ####################################
 
-maxq -q -r testAdminViewCustomDataField.py testAdminAddCustomDataField.py testAdminEditCustomDataField.py testAdminEnableDisableCustomDataField.py
+maxq -q -r testAdminViewCustomDataField.py 
+maxq -q -r testAdminAddCustomDataField.py 
+maxq -q -r testAdminEditCustomDataField.py 
+maxq -q -r testAdminEnableDisableCustomDataField.py
 
 ####################################
 # Test for Admin Custom Data Group # 
 ####################################
 
-maxq -q -r testAdminAddCustomDataGroup.py testAdminEditCustomDataGroup.py testAdminEnableDisableCustomDataGroup.py
+maxq -q -r testAdminAddCustomDataGroup.py 
+maxq -q -r testAdminEditCustomDataGroup.py 
+maxq -q -r testAdminEnableDisableCustomDataGroup.py
 
 ##########################
 # Test for Basic Search  # 
 ##########################
 
-maxq -q -r testSearchByLNameIndividual.py testSearchByHNameHousehold.py testSearchByONameOraganization.py testSearchByNoCriteria.py testSearchByGroup.py testSearchByContactTagGroupName.py 
+maxq -q -r testSearchByLNameIndividual.py 
+maxq -q -r testSearchByHNameHousehold.py 
+maxq -q -r testSearchByONameOraganization.py 
+maxq -q -r testSearchByNoCriteria.py 
+maxq -q -r testSearchByGroup.py 
+maxq -q -r testSearchByContactTagGroupName.py 
 
 #############################
 # Test for Advanced Search  # 
 #############################
 
-maxq -q -r testAdvSearchByAllCriteria.py testAdvSearchByContactName.py testAdvSearchByContactGroupCategory.py 
+maxq -q -r testAdvSearchByAllCriteria.py 
+maxq -q -r testAdvSearchByContactName.py 
+maxq -q -r testAdvSearchByContactGroupCategory.py 
