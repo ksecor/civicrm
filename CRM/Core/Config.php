@@ -37,6 +37,8 @@
  */
 
 require_once 'Log.php';
+require_once 'Mail.php';
+
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Utils/System.php';
 require_once 'CRM/Contact/DAO/Factory.php';
@@ -137,12 +139,23 @@ class CRM_Core_Config {
      */
     public $gettextResourceDir = './l10n';
 
+    /**
+     * Default smtp server and port
+     */
+    public $smtpServer         = 'smtp.sbcglobal.net';
+    public $smtpPort           = 25;
 
     /**
      * The handle to the log that we are using
      * @var object
      */
     private static $_log = null;
+
+    /**
+     * the handle on the mail handler that we are using
+     * @var object
+     */
+    private static $_mail = null;
 
     /**
      * We only need one instance of this object. So we use the singleton
@@ -220,21 +233,25 @@ class CRM_Core_Config {
             $this->cleanURL = CRM_CLEANURL;
         }
 
-	if ( defined( 'CRM_LC_MESSAGES' ) ) {
-	    $this->lcMessages = CRM_LC_MESSAGES;
-	}
+        if ( defined( 'CRM_LC_MESSAGES' ) ) {
+            $this->lcMessages = CRM_LC_MESSAGES;
+        }
+        
+        if ( defined( 'CRM_GETTEXT_CODESET' ) ) {
+            $this->gettextCodeset = CRM_GETTEXT_CODESET;
+        }
+        
+        if ( defined( 'CRM_GETTEXT_DOMAIN' ) ) {
+            $this->gettextDomain = CRM_GETTEXT_DOMAIN;
+        }
+        
+        if ( defined( 'CRM_GETTEXT_RESOURCE_DIR' ) ) {
+            $this->gettextResourceDir = CRM_GETTEXT_RESOURCE_DIR;
+        }
 
-	if ( defined( 'CRM_GETTEXT_CODESET' ) ) {
-	    $this->gettextCodeset = CRM_GETTEXT_CODESET;
-	}
-
-	if ( defined( 'CRM_GETTEXT_DOMAIN' ) ) {
-	    $this->gettextDomain = CRM_GETTEXT_DOMAIN;
-	}
-
-	if ( defined( 'CRM_GETTEXT_RESOURCE_DIR' ) ) {
-	    $this->gettextResourceDir = CRM_GETTEXT_RESOURCE_DIR;
-	}
+        if ( defined( 'CRM_SMTPSERVER' ) ) {
+            $this->smtpServer = CRM_SMTPSERVER;
+        }
 
         // initialize the framework
         $this->init();
@@ -276,6 +293,17 @@ class CRM_Core_Config {
         }
 
         return self::$_log;
+    }
+
+    static function &getMailer( ) {
+        if ( ! isset( self::$_mail ) ) {
+            $params['host'] = self::$_singleton->smtpServer;
+            $params['port'] = self::$_singleton->smtpPort;
+            $params['auth'] = false;
+
+            self::$_mail =& Mail::factory( 'smtp', $params );
+        }
+        return self::$_mail;
     }
 
 } // end CRM_Core_Config

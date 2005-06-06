@@ -44,14 +44,16 @@ class CRM_Contact_Task {
         DELETE_CONTACTS     =   8,
         SAVE_SEARCH         =  16,
         SAVE_SEARCH_UPDATE  =  32,
-        PRINT_CONTACTS      =  64;
+        PRINT_CONTACTS      =  64,
+        EMAIL_CONTACTS      = 128;
 
     static $tasks = array(
-                          1   => 'Add Contacts to a Group',
-                          2   => 'Remove Contacts from a Group',
-                          4   => 'Tag Contacts (assign tags)',
-                          8   => 'Delete Contacts',
-                          16  => 'New Saved Search',
+                            1   => 'Add Contacts to a Group',
+                            2   => 'Remove Contacts from a Group',
+                            4   => 'Tag Contacts (assign tags)',
+                          128   => 'Email Contacts',
+                            8   => 'Delete Contacts',
+                           16  => 'New Saved Search',
                           );
 
     static $optionalTasks = array(

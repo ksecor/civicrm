@@ -120,13 +120,15 @@ class CRM_Note_Form_Note extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        $session =& CRM_Core_Session::singleton( );
+
         // store the submitted values in an array
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
         $note                = new CRM_Core_DAO_Note( );
         $note->note          = $params['note'];
-        $note->contact_id    = 1;
+        $note->contact_id    = $session->get( 'userID' );
         $note->modified_date = date("Ymd");
 
         if ( $this->_action & CRM_Core_Action::UPDATE ) {

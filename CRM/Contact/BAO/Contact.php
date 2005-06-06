@@ -138,6 +138,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             //$row = $this->getDatabaseResult()->fetchRow();
             $result = $this->getDatabaseResult();
             $row    = $result->fetchRow();
+            // CRM_Core_Error::debug( 'qs', $row );
             return $row[0];
         }
 
@@ -591,6 +592,30 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             }
         }
         return null;
+    }
+
+    /**
+     * function to get the display name of a contact
+     *
+     * @param  int    $id id of the contact
+     *
+     * @return null|string     display name of the contact if found
+     * @static
+     * @access public
+     */
+    static function getEmailDetails( $id ) {
+        $displayName = self::displayName( $id );
+
+        $sql = ' SELECT    crm_email.email
+                 FROM      crm_contact
+                 LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                 LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                 WHERE     crm_contact.id = ' . $id;
+        $dao = new CRM_Core_DAO( );
+        $dao->query( $sql );
+        $result = $dao->getDatabaseResult();
+        $row    = $result->fetchRow();
+        return array( $displayName, $row[0] );
     }
 
     /**

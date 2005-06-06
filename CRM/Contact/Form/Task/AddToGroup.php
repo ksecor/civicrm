@@ -32,7 +32,7 @@
  */
 
 /**
- * This class provides the functionality to delete a group of
+ * This class provides the functionality to group 
  * contacts. This class provides functionality for the actual
  * addition of contacts to groups.
  */
