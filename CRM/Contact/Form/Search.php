@@ -524,7 +524,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             }
 
             foreach ( $fields as $name => $dontCare ) {
-                if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
+                if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
                     return true;
                 }
             }

@@ -91,8 +91,8 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             // selected contacts only
             // need to perform action on only selected contacts
             foreach ( $values as $name => $value ) {
-                if ( substr( $name, 0, self::CB_PREFIX_LEN ) == self::CB_PREFIX ) {
-                    $this->_contactIds[] = substr( $name, self::CB_PREFIX_LEN );
+                if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                    $this->_contactIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
             }
         }
