@@ -50,16 +50,23 @@ class CRM_History_Selector_Controller extends CRM_Core_Selector_Controller {
     function __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE)
     {
         CRM_Core_Error::le_method();
-        CRM_Core_Error::debug_var('store', $store);
-        parent:: __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE);
-        CRM_Core_Error::debug_var('store', $store);
+        CRM_Core_Error::debug_var('object', $object);
+        parent:: __construct($object, $pageID, $sortID, $action, $store, $output = self::TEMPLATE);
+        //CRM_Core_Error::debug_var('store', $store);
+        CRM_Core_Error::ll_method();
     }
 
 
     function run()
     {
+
+        CRM_Core_Error::le_method();
+
+        CRM_Core_Error::debug_var('this', $this);
+
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $this->_output );
-        if ( $this->_output == self::EXPORT || $this->_output == self::SCREEN ) {
+
+        if ($this->_output == self::EXPORT || $this->_output == self::SCREEN ) {
             $rows          =& $this->_object->getRows( $this->_action,
                                                        0, 0,
                                                        $this->_sort,
