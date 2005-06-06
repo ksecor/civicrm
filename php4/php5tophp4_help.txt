@@ -1,49 +1,9 @@
-﻿Instructions for setting up crm in PHP- 4 
+1. Run the script:
+    /crm/bin/php5tophp4.sh
+2. Modify:
+   /crm/php4/CRM/module/config.inc.php according to your local setting
 
-cd ~/svn/privrepos/kurund/trunk/
-mkdir php4
-cd php4
-copy CRM, api, modules folders from you  crm folder
-cp -R  /~svn/crm/CRM  .
-cp -R  /~svn/crm/modules  .
-cp -R  /~svn/crm/api  .
+3.  Got to /home/kurund/svn/crm/php4/CRM/Group/Page/Group.php on line 
+63  and  remove '---'
 
-remove all .svn folder from all the copied folders
-
-created the symbolic links in php4/crm
-run the script createlinks.sh
- 
-setup the crm and check if  it works on under php 5.
-
-After that run same crm under php 4. (it should give some error)
-
-use the /~svn/crm/bin/converter.php  to converter php5 to php4
-
-currently only *.php file can be converted to php4
-
-Using converter you can convert single file or entire folder. (instructions are in the script)
-eg:
-- for single file coversion:
- php converter.php  php5filename > php4filename
-
-for converting entire folder
-php converter.php
-
-
-using convertor convert  CRM, api  and modules folder. 
-note: file that donot have .php extension  should be converted manually.(single file). 
-
-
-List of file where manual changes that need to done.
-
-cd ~/svn/privrepos/kurund/trunk/php4/crm
-
-CRM/Core/Action.php
-CRM/Core/Block.php
-CRM/Core/Config.php
-CRM/Contact/Form/Edit.php
-CRM/Contact/Form/Location.php
-CRM/Contact/Form/Phone.php
-CRM/Utils/Type.php
-
-above list is not complete still working on it...
+4.  Install crm module.

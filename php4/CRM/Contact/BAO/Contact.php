@@ -48,13 +48,15 @@ require_once 'CRM/Utils/System.php';
 require_once 'CRM/Contact/BAO/Relationship.php';
 require_once 'CRM/Contact/BAO/GroupContact.php';
 require_once 'CRM/Contact/BAO/Individual.php';
+require_once 'CRM/Core/DAO/Note.php';
+require_once 'CRM/Core/Form.php';
+
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Contact/DAO/Location.php';
 require_once 'CRM/Contact/DAO/Address.php';
 require_once 'CRM/Contact/DAO/Phone.php';
 require_once 'CRM/Contact/DAO/Email.php';
 
-require_once 'CRM/Core/DAO/Note.php';
 
 
 /**
@@ -540,7 +542,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
 
         $look = $reverse ? array_flip( $lookup ) : $lookup;
-        if (is_array($look)) {
+        
+        if(is_array($look)) {
             if ( ! array_key_exists( $defaults[$src], $look ) ) {
                 return;
             }

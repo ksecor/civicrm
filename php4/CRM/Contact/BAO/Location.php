@@ -45,6 +45,8 @@ require_once 'CRM/Contact/DAO/Location.php';
 
 require_once 'CRM/Contact/BAO/Block.php';
 
+require_once 'CRM/Contact/Form/Location.php';
+
 /**
  * BAO object for crm_location table
  */

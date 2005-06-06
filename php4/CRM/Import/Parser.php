@@ -23,6 +23,9 @@
 */
 
 
+
+
+require_once 'CRM/Import/Field.php';
 define( 'CRM_IMPORT_PARSER_MAX_ERRORS',25);
 define( 'CRM_IMPORT_PARSER_MAX_WARNINGS',25);
 define( 'CRM_IMPORT_PARSER_VALID',1);
@@ -55,8 +58,8 @@ require_once 'CRM/Import/Field.php';
      */
     
           
-     
-     var $_fileName;
+          
+           var $_fileName;
 
     /**#@+
      * @access protected
