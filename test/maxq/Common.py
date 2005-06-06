@@ -13,6 +13,8 @@ PASSWORD    = '''manish'''
 HOST        = "localhost"
 DRUPAL_PATH = "http://" + HOST  + "/drupal"
 
+
+
 # Constants For sandbox.openngo.org
 #
 # The following constants are for carrying out tests on sandbox.openngo.org  
@@ -26,10 +28,13 @@ DRUPAL_PATH = "http://" + HOST  + "/drupal"
 #DRUPAL_PATH = "http://" + HOST  + "/crm"
 
 
+
 # Following constant declares the database driver
 # needed for database connection while carrying test.
 MSQLDRIVER  = "org.gjt.mm.mysql.Driver"
 #MSQLDRIVER  = "com.mysql.jdbc.Driver"
+
+
 
 # Following constants are database specific constants.
 DBNAME      = "civicrm"

@@ -113,3 +113,9 @@ maxq -q -r testAdminAddCustomDataGroup.py testAdminEditCustomDataGroup.py testAd
 ##########################
 
 maxq -q -r testSearchByLNameIndividual.py testSearchByHNameHousehold.py testSearchByONameOraganization.py testSearchByNoCriteria.py testSearchByGroup.py testSearchByContactTagGroupName.py 
+
+#############################
+# Test for Advanced Search  # 
+#############################
+
+maxq -q -r testAdvSearchByAllCriteria.py testAdvSearchByContactName.py testAdvSearchByContactGroupCategory.py 
