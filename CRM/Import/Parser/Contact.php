@@ -170,7 +170,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             self::$_importableFields = array();
             
             self::$_importableFields = array_merge(self::$_importableFields,
-                                                   array('' => array( 'title' => '-do not import-')) );
+                                                   array('' => array( 'title' => ts('-do not import-'))) );
             
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Individual::import( ) );
