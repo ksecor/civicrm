@@ -148,9 +148,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         // get 'id' if present
         $id  = CRM_Utils_Request::retrieve( 'id', $this, false, 0 );
 
-        if (CRM_Utils_System::isPHP4()) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
 
         if ($action & (CRM_Core_Action::VIEW | CRM_Core_Action::ADD | CRM_Core_Action::UPDATE)) {
             $this->edit($action, $id);                               // use edit form for view, add or update

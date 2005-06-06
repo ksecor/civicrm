@@ -351,9 +351,7 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      */
     function getAttribute( $class, $fieldName = null) {
-        if (CRM_Utils_System::isPHP4()) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $class) . ".php");
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $class) . ".php");
         eval('$fields =& ' . $class . '::fields( );');
         if ( $fieldName != null ) {
             $field = CRM_Utils_Array::value( $fieldName, $fields );

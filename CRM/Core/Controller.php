@@ -190,9 +190,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
                        );
 
         foreach ($names as $name => $classPath) {
-            if (CRM_Utils_System::isPHP4()) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, $classPath) . '.php');
-            }
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $classPath) . '.php');
             $this->addAction( $name, new $classPath( $this->_stateMachine ) );
         }
     
@@ -244,10 +242,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
         foreach ( $pages as $classPath ) {
             $stateName   = CRM_Utils_String::getClassName($classPath);
-            if (CRM_Utils_System::isPHP4()) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, $classPath) . '.php');
-            }
-
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $classPath) . '.php');
             $$stateName = new $classPath($stateMachine->find($classPath), $action);
             $this->addPage( $$stateName );
             $this->addAction( $stateName, new HTML_QuickForm_Action_Direct( ) );
