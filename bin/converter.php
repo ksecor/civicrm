@@ -397,8 +397,7 @@ class PHP_DownGrade {
                     $i++;
                 }
                 $class = $this->tokens[$i][1];
-                $this->classarray[$this->classcount]=$class;
-                $this->classcount++;
+                $this->classarray[$class] = 1;
                 $i++;
                 break;
 
@@ -681,8 +680,10 @@ class PHP_DownGrade {
                          {
                              for($j=0;$j<count($this->tokens);$j++)
                                  {
-                                     if(strcmp($this->tokens[$j][1],"$".$name)==0)
-                                     $this->tokens[$j][1]=  "\$GLOBALS['_".strtoupper($class) . "']['{$name}']";
+                                     if(strcmp($this->tokens[$j][1],"$".$name)==0) {
+                                         $this->classarray[$class] = 1;
+                                         $this->tokens[$j][1]=  "\$GLOBALS['_".strtoupper($class) . "']['{$name}']";
+                                     }
                                  }
                          }
                  }
@@ -758,7 +759,7 @@ class PHP_DownGrade {
                         
                         if(count($this->classarray)!=0)
                             {
-                                foreach($this->classarray as $class)
+                                foreach($this->classarray as $class => $dontcare)
                                     {
                                         if($class!=$file)
                                             {

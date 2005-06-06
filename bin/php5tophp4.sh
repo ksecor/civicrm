@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -v
 
 echo Start of code conversion from php5 to php4....
 
