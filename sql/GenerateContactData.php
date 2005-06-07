@@ -76,6 +76,7 @@ class CRM_GCD {
     const ORGANIZATION_PERCENT = 10;
     const NUM_INDIVIDUAL_PER_HOUSEHOLD = 4;
 
+    const NUM_ACTIVITY_HISTORY = 150;
 
     // relationship types from the table crm_relationship_type
     const CHILD_OF            = 1;
@@ -138,7 +139,10 @@ class CRM_GCD {
     private $organizationType = array();
     private $group = array();
     private $note = array();
-    
+    private $activity_type = array();
+    private $module = array();
+    private $callback = array();
+
     // stores the strict individual id and household id to individual id mapping
     private $strictIndividual = array();
     private $householdIndividual = array();
@@ -417,6 +421,24 @@ class CRM_GCD {
         foreach ($sampleData->notes->note as $note) {
             $this->note[] = trim($note);
         }
+
+        // activity type
+        foreach ($sampleData->activity_types->activity_type as $activity_type) {
+            $this->activity_type[] = trim($activity_type);
+        }
+
+
+        // module
+        foreach ($sampleData->modules->module as $module) {
+            $this->module[] = trim($module);
+        }
+
+        // callback
+        foreach ($sampleData->callbacks->callback as $callback) {
+            $this->callback[] = trim($callback);
+        }
+
+
     }
 
     public function getContactType($id)
@@ -1067,6 +1089,45 @@ class CRM_GCD {
             }            
         }
     }
+
+
+
+
+    /*******************************************************
+     *
+     * addActivityHistory()
+     *
+     * This method populates the crm_activity_history table
+     *
+     *******************************************************/
+    public function addActivityHistory()
+    {
+
+        // CRM_Core_Error::le_method();
+        // CRM_Core_Error::ll_method();
+
+        $contactDAO = new CRM_Contact_DAO_Contact();
+        $contactDAO->contact_type = 'Individual';
+        $contactDAO->selectAdd();
+        $contactDAO->selectAdd('id');
+        $contactDAO->orderBy('sort_name');
+        $contactDAO->find();
+
+        while($contactDAO->fetch()) {
+            for ($i=0; $i<self::NUM_ACTIVITY_HISTORY; $i++) {
+                $activityHistoryDAO = new CRM_Core_DAO_ActivityHistory();
+                $activityHistoryDAO->entity_table  = 'crm_contact';
+                $activityHistoryDAO->entity_id     = $contactDAO->id;
+                $activityHistoryDAO->activity_type = $this->_getRandomElement($this->activity_type);
+                $activityHistoryDAO->module = $this->_getRandomElement($this->module);
+                $activityHistoryDAO->callback = $this->_getRandomElement($this->callback);
+                $activityHistoryDAO->activity_id = mt_rand(1,1111);
+                $activityHistoryDAO->activity_summary = $this->_getRandomString(mt_rand(55, 222));
+                $activityHistoryDAO->activity_date = $this->_getRandomDate();
+                $this->_insert($activityHistoryDAO);
+            }
+        }
+    }
 }
 
 echo("Starting data generation on " . date("F dS h:i:s A") . "\n");
@@ -1084,6 +1145,7 @@ $obj1->addLocation();
 $obj1->addEntityTag();
 $obj1->addGroup();
 $obj1->addNote();
+$obj1->addActivityHistory();
 
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
