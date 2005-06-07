@@ -1,9 +1,0 @@
-1. Run the script:
-    /crm/bin/php5tophp4.sh
-2. Modify:
-   /crm/php4/CRM/module/config.inc.php according to your local setting
-
-3.  Got to /home/kurund/svn/crm/php4/CRM/Group/Page/Group.php on line 
-63  and  remove '---'
-
-4.  Install crm module.
