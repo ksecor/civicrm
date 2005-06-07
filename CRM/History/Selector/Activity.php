@@ -167,7 +167,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
     function &getColumnHeaders($action = null, $output = null) 
     {
         if ($output==CRM_Core_Selector_Controller::EXPORT || $output==CRM_Core_Selector_Controller::SCREEN) {
-            $csvHeaders = array( 'Activity Type', 'Description', 'Activity Date');
+            $csvHeaders = array( ts('Activity Type'), ts('Description'), ts('Activity Date'));
             foreach (self::_getColumnHeaders() as $column ) {
                 if (array_key_exists( 'name', $column ) ) {
                     $csvHeaders[] = $column['name'];
@@ -210,37 +210,16 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
         $params = array('entity_id' => $this->_entityId);
         $rows = CRM_Core_BAO_History::getHistory($params, $offset, $rowCount, $sort, 'Activity');
 
-        CRM_Core_Error::debug_var('rows', $rows);
-
-//         while ($result->fetch()) {
-//             $row = array();
-
-//             // the columns we are interested in
-//             foreach (self::$_properties as $property) {
-//                 $row[$property] = $result->$property;
-//             }
-
-//             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
-//                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
-//                 $row['action'] = CRM_Core_Action::formLink( self::actionLinks(), null, array( 'id' => $result->contact_id ) );
-//                 $contact_type  = '<img src="' . $config->resourceBase . 'i/contact_';
-//                 switch ($result->contact_type) {
-//                 case 'Individual' :
-//                     $contact_type .= 'ind.gif" alt="Individual">';
-//                     break;
-//                 case 'Household' :
-//                     $contact_type .= 'house.png" alt="Household" height="16" width="16">';
-//                     break;
-//                 case 'Organization' :
-//                     $contact_type .= 'org.gif" alt="Organization" height="16" width="18">';
-//                     break;
-                    
-//                 }
-//                 $row['contact_type'] = $contact_type;
-//             }
-
-//             $rows[] = $row;
-//         }
+        // does not work with php4
+        //foreach ($rows as &$row) {
+        foreach ($rows as $k => $row) {
+            $row =& $rows[$k];
+            if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
+                //$row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
+                //$row['action'] = CRM_Core_Action::formLink( self::actionLinks(), null, array( 'id' => $result->contact_id ) );
+            }
+            unset($row);
+        }
         return $rows;
     }
     
@@ -252,7 +231,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     function getExportFileName($output = 'csv')
     {
-        return 'CiviCRM Activity History';
+        return ts('CiviCRM Activity History');
     }
 
     /**
@@ -267,7 +246,6 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
     {
         if (!isset(self::$_columnHeaders)) {
             self::$_columnHeaders = array(
-                                          array('desc' => ts('Select')),
                                           array(
                                                 'name'      => ts('Activity Type'),
                                                 'sort'      => 'activity_type',

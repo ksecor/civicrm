@@ -51,24 +51,17 @@ class CRM_Contact_Page_Activity {
      */
     static function browse($page)
     {
-
-        CRM_Core_Error::le_method();
-
         // create the selector, controller and run - store results in session
         $output = CRM_Core_Selector_Controller::SESSION;
-
-        // CRM_Core_Error::debug_var('page', $page);
-        
         $selector   = new CRM_History_Selector_Activity($page->getContactId());
-
-        $controller = new CRM_History_Selector_Controller($selector,
-                                                          $page->get(CRM_Utils_Pager::PAGE_ID),
-                                                          $page->get(CRM_Utils_Sort::SORT_ID),
-                                                          CRM_Core_Action::VIEW, $page, $output);
-
+        $controller = new CRM_Core_Selector_Controller($selector,
+                                                       $page->get(CRM_Utils_Pager::PAGE_ID),
+                                                       $page->get(CRM_Utils_Sort::SORT_ID),
+                                                       CRM_Core_Action::VIEW, $page, $output);
 
         $controller->setEmbedded(true);
         $controller->run();
+        $controller->moveFromSessionToTemplate( );
     }
 
     /**
@@ -82,10 +75,6 @@ class CRM_Contact_Page_Activity {
      */
     static function run($page)
     {
-
-        CRM_Core_Error::le_method();
-
-
         // get contactid and action for current page
         $contactId = $page->getContactId();
         $page->assign('contactId', $contactId);
@@ -94,7 +83,7 @@ class CRM_Contact_Page_Activity {
         
         // used for edit, view purpose
         $historyId = CRM_Utils_Request::retrieve('historyId', $page, false, 0);
-
+        
         if ($action & CRM_Core_Action::VIEW) {
             //self::view($page, $activityTableId); // view activity
         } else if ($action & CRM_Core_Action::DELETE) {
