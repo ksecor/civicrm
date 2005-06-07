@@ -368,7 +368,7 @@ class CRM_Core_Selector_Controller {
      * @return string the status message
      * @access public
      */
-     getQill( ) {
+    function getQill( ) {
         return '';
     }
 
