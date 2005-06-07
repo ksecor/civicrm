@@ -417,7 +417,9 @@ class PHP_DownGrade {
                     if ( $func ) {
                         break;
                     }
-                    $this->tokens[$i-1][1] = strtoupper($this->tokens[$i-1][1]) . '_' . $this->tokens[$i+1][1];
+                    if ($this->tokens[$i-1][1]!="") {
+                        $this->tokens[$i-1][1] = strtoupper($this->tokens[$i-1][1]) . '_' . $this->tokens[$i+1][1];
+                    }
                     $this->tokens[$i  ][1] = '';
                     $this->tokens[$i+1][1] = '';
                 }
