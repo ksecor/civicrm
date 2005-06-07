@@ -72,7 +72,7 @@ class CRM_Admin_Form_IMProvider extends CRM_Admin_Form
         $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
         
         // action is taken depending upon the mode
-        $IMProvider               = new CRM_Core_DAO_IMProvider( );
+        $IMProvider               =& new CRM_Core_DAO_IMProvider( );
         $IMProvider->name         = $params['name'];
         $IMProvider->is_active    = $params['is_active'];
         $IMProvider->domain_id    = 1; // domain 1 for now
