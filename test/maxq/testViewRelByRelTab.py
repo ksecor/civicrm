@@ -134,12 +134,46 @@ class testViewRelByRelTab(PyHttpTestCase):
         
         db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.HOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
 
-        query    = 'select * from crm_relationship where id=%s' % params[1][1]
+        queryA       = 'select contact_id_a from crm_relationship where id=%s' % params[1][1]
+        queryB       = 'select contact_id_b from crm_relationship where id=%s' % params[1][1]
+        queryRType   = 'select relationship_type_id from crm_relationship where id=%s' % params[1][1]
         
-        relation = db.loadRows(query)
-        print (relation.has_key('is_primary'))
-                       
+        contactIdA   = db.loadVal(queryA)
+        contactIdB   = db.loadVal(queryB)
+        relationId   = db.loadVal(queryRType)
+
+        queryCA      = 'select sort_name from crm_contact where id=%s' % int(contactIdA)
+        queryCB      = 'select sort_name from crm_contact where id=%s' % int(contactIdB)
+
+        contactNameA = db.loadVal(queryCA)
+        contactNameB = db.loadVal(queryCB)
+        
+        queryRA      = 'select name_a_b from crm_relationship_type where id=%s' % relationId
+        queryRB      = 'select name_b_a from crm_relationship_type where id=%s' % relationId
+
+        relationA    = db.loadVal(queryRA)
+        relationB    = db.loadVal(queryRB)
+                               
         db.close()
+
+        if self.responseContains(relationA) and self.responseContains(contactNameB) :
+            print ("************************************************************************************")
+            print ("Page Response Shows the Relationship as : ")
+            print ("------------------------------------------------------------------------------------")
+            print ("\'" + contactNameA + "\' -- " + relationA + " -- \'" + contactNameB + "\'")
+            print ("------------------------------------------------------------------------------------")
+            print ("************************************************************************************")
+            print ("\n")
+            print ("************************************************************************************")
+            print ("Check for the same Relationship through second contact's view : ")
+            print ("------------------------------------------------------------------------------------")
+            print ("\'" + contactNameB + "\' -- " + relationB + " -- \'" + contactNameA + "\'")
+            print ("------------------------------------------------------------------------------------")
+            print ("************************************************************************************")
+        else :
+            print ("************************************************************************************")
+            print ("Database Values and Response by the Test Script \"Do Not Match\"")
+            print ("************************************************************************************")
         
         params = [
             ('''action''', '''browse'''),]
@@ -152,8 +186,6 @@ class testViewRelByRelTab(PyHttpTestCase):
         self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
-        if self.msg(self.responseContains("Household Member of")) and  self.msg(self.responseContains("Sandy Reynolds's home")) :
-            print ("Yes")
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
         #url = "http://localhost/favicon.ico"
         #params = None
