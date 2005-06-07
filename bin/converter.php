@@ -827,7 +827,7 @@ if (isset($argv[1])) {
     // start of code to convert files recursively ---
     // this code is to convert the whole directory from php5 to php4
     
-    $directory = array('CRM', 'api');
+    $directory = array('CRM', 'api', 'modules');
     
     foreach ($directory as $v) {
         $rootDir = "$homeDir/svn/crm/$v";
