@@ -12,6 +12,9 @@ define( 'CRM_TEST_DIR'    , $user_home . DIRECTORY_SEPARATOR . 'test'   . DIRECT
 // the new_link option is super important if u r reusing the same user id across both drupal and civicrm
 define( 'CRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
 define( 'CRM_LC_MESSAGES' , 'en_US' );
+define( 'CRM_DATEFORMAT_FULL', '%B %e, %Y' );
+define( 'CRM_DATEFORMAT_PARTIAL', '%B %Y' );
+define( 'CRM_DATEFORMAT_YEAR', '%Y' );
 define( 'CRM_SMTP_SERVER' , 'smtp.sbcglobal.net' );
 
 include_once 'config.main.php';

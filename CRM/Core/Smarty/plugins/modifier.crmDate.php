@@ -41,27 +41,17 @@
  */
 function smarty_modifier_crmDate($dateString)
 {
-    // this is bad and we should reuse something from qf date which has all the translations, including polish
-    static $months;
-    if ( ! isset( $months ) ) {
-        $months = array(1 => ts('January'), ts('February'), ts('March'), ts('April'), ts('May'), ts('June'), ts('July'), ts('August'), ts('September'), ts('October'), ts('November'), ts('December'));
-    }
+    if ($dateString) {
+        $config =& CRM_Core_Config::singleton();
+        list($year, $month, $day) = explode('-', $dateString, 3);
 
-    if ( $dateString ) {
-        list( $year, $mon, $day ) = explode( '-', $dateString, 3 );
-
-        $fDate = '';
-        if ( $mon > 0 ) {
-            $fDate .= $months[(int ) $mon];
-
-            // validation allows month w/o day, but NOT day w/o month
-            if ( $day > 0 ) {
-                $fDate .= ' ' . $day;
-            }
-            $fDate .= ", ";
+        if ($day > 0) {
+            return CRM_Utils_Date::customFormat($dateString, $config->dateformatFull);
+        } elseif ($month > 0) {
+            return CRM_Utils_Date::customFormat($dateString, $config->dateformatPartial);
+        } else {
+            return CRM_Utils_Date::customFormat($dateString, $config->dateformatYear);
         }
-        $fDate .= $year;
-        return $fDate;
     }
     return '';
 }

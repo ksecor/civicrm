@@ -122,6 +122,24 @@ class CRM_Core_Config {
     public $lcMessages = 'en_US';
 
     /**
+     * String format for a full date (one with day, month and year)
+     * @var string
+     */
+    public $dateformatFull = '%B %e, %Y';
+
+    /**
+     * String format for a partial date (one with month and year)
+     * @var string
+     */
+    public $dateformatPartial = '%B %Y';
+
+    /**
+     * String format for a year-only date
+     * @var string
+     */
+    public $dateformatYear = '%Y';
+
+    /**
      * Default encoding of strings returned by gettext
      * @var string
      */
@@ -235,6 +253,18 @@ class CRM_Core_Config {
 
         if ( defined( 'CRM_LC_MESSAGES' ) ) {
             $this->lcMessages = CRM_LC_MESSAGES;
+        }
+        
+        if ( defined( 'CRM_DATEFORMAT_FULL' ) ) {
+            $this->dateformatFull = CRM_DATEFORMAT_FULL;
+        }
+        
+        if ( defined( 'CRM_DATEFORMAT_PARTIAL' ) ) {
+            $this->dateformatPartial = CRM_DATEFORMAT_PARTIAL;
+        }
+        
+        if ( defined( 'CRM_DATEFORMAT_YEAR' ) ) {
+            $this->dateformatYear = CRM_DATEFORMAT_YEAR;
         }
         
         if ( defined( 'CRM_GETTEXT_CODESET' ) ) {

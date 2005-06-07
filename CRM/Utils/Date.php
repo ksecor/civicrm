@@ -100,6 +100,64 @@ class CRM_Utils_Date {
         return $value;
     }
 
+    /**
+     * create a date in a provided format
+     *
+     * format keywords (with examples based on '2005-01-01' and C locale):
+     * %b - abbreviated month name ('Jan')
+     * %B - full month name ('January')
+     * %d - day of the month as a decimal number, 0-padded (01)
+     * %e - day of the month as a decimal number, blank-padded (' 1')
+     * %m - month as a decimal number, 0-padded ('01')
+     * %Y - year as a decimal number including the century ('2005')
+     * 
+     * @param string $date    date in 'YYYY-MM-DD' format
+     * @param string $format  the output format
+     *
+     * @return string  the $format-formatted $date
+     *
+     * @static
+     * @access public
+     */
+    static function customFormat($dateString, $format = '%B %e, %Y')
+    {
+        // 1-based (January) month names arrays
+        static $abbrMonths;
+        static $fullMonths;
+
+        if (!isset($abbrWeekdays)) {
+
+            // with the config being set up to, e.g., pl_PL: try pl_PL.UTF-8 at first,
+            // if it's not present try pl_PL, finally - fall back to C
+            $config =& CRM_Core_Config::singleton();
+            setlocale(LC_TIME, $config->lcMessages . '.UTF-8', $config->lcMessages, 'C');
+
+            // build the arrays from locale-provided names
+            for ($i = 1; $i <= 12; $i++) {
+                list($abbrMonths[$i], $fullMonths[$i]) = explode("\n", strftime("%b\n%B", mktime(0, 0, 0, $i)));
+            }
+        }
+
+        if ($dateString and $format) {
+            $dateParts = explode('-', $dateString);
+            $year = (int) $dateParts[0];
+            $month = (int) $dateParts[1];
+            $day = (int) $dateParts[2];
+            $date = array(
+                '%b' => $abbrMonths[$month],
+                '%B' => $fullMonths[$month],
+                '%d' => $day > 9 ? $day : '0' . $day,
+                '%e' => $day > 9 ? $day : ' ' . $day,
+                '%m' => $month > 9 ? $month : '0' . $month,
+                '%Y' => $year
+            );
+            return strtr($format, $date);
+        } else {
+            return '';
+        }
+
+    }
+
 }
 
 ?>
