@@ -64,11 +64,11 @@ class CRM_Contact_Page_Activity {
         // create the selector, controller and run - store results in session
         $output = CRM_CORE_SELECTOR_CONTROLLER_SESSION;
 
-        CRM_Core_Error::debug_var('page', $page);
+        // CRM_Core_Error::debug_var('page', $page);
         
         $selector   = new CRM_History_Selector_Activity($page->getContactId());
 
-        $controller = new CRM_History_Selector_Controller($selector ,
+        $controller = new CRM_History_Selector_Controller($selector,
                                                           $page->get(CRM_UTILS_PAGER_PAGE_ID),
                                                           $page->get(CRM_UTILS_SORT_SORT_ID),
                                                           CRM_CORE_ACTION_VIEW, $page, $output);

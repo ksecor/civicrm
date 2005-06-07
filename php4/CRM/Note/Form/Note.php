@@ -37,8 +37,8 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/BAO/Note.php';
 require_once 'CRM/Core/DAO.php';
-require_once 'CRM/Core/DAO/Note.php';
 require_once 'CRM/Core/Session.php';
+require_once 'CRM/Core/DAO/Note.php';
 require_once 'CRM/Core/Form.php';
 
 /**
@@ -127,13 +127,15 @@ class CRM_Note_Form_Note extends CRM_Core_Form
      */
      function postProcess() 
     {
+        $session =& CRM_Core_Session::singleton( );
+
         // store the submitted values in an array
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
         $note                = new CRM_Core_DAO_Note( );
         $note->note          = $params['note'];
-        $note->contact_id    = 1;
+        $note->contact_id    = $session->get( 'userID' );
         $note->modified_date = date("Ymd");
 
         if ( $this->_action & CRM_CORE_ACTION_UPDATE ) {

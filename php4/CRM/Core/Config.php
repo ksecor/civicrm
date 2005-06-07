@@ -37,11 +37,14 @@
  */
 
 $GLOBALS['_CRM_CORE_CONFIG']['_log'] =  null;
+$GLOBALS['_CRM_CORE_CONFIG']['_mail'] =  null;
 $GLOBALS['_CRM_CORE_CONFIG']['_singleton'] =  null;
 
 
 require_once 'CRM/Core/DAO.php';
 require_once 'Log.php';
+require_once 'Mail.php';
+
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Utils/System.php';
 require_once 'CRM/Contact/DAO/Factory.php';
@@ -142,9 +145,20 @@ class CRM_Core_Config {
      */
     var $gettextResourceDir = './l10n';
 
+    /**
+     * Default smtp server and port
+     */
+    var $smtpServer         = 'smtp.sbcglobal.net';
+    var $smtpPort           = 25;
 
     /**
      * The handle to the log that we are using
+     * @var object
+     */
+    
+
+    /**
+     * the handle on the mail handler that we are using
      * @var object
      */
     
@@ -225,21 +239,25 @@ class CRM_Core_Config {
             $this->cleanURL = CRM_CLEANURL;
         }
 
-	if ( defined( 'CRM_LC_MESSAGES' ) ) {
-	    $this->lcMessages = CRM_LC_MESSAGES;
-	}
+        if ( defined( 'CRM_LC_MESSAGES' ) ) {
+            $this->lcMessages = CRM_LC_MESSAGES;
+        }
+        
+        if ( defined( 'CRM_GETTEXT_CODESET' ) ) {
+            $this->gettextCodeset = CRM_GETTEXT_CODESET;
+        }
+        
+        if ( defined( 'CRM_GETTEXT_DOMAIN' ) ) {
+            $this->gettextDomain = CRM_GETTEXT_DOMAIN;
+        }
+        
+        if ( defined( 'CRM_GETTEXT_RESOURCE_DIR' ) ) {
+            $this->gettextResourceDir = CRM_GETTEXT_RESOURCE_DIR;
+        }
 
-	if ( defined( 'CRM_GETTEXT_CODESET' ) ) {
-	    $this->gettextCodeset = CRM_GETTEXT_CODESET;
-	}
-
-	if ( defined( 'CRM_GETTEXT_DOMAIN' ) ) {
-	    $this->gettextDomain = CRM_GETTEXT_DOMAIN;
-	}
-
-	if ( defined( 'CRM_GETTEXT_RESOURCE_DIR' ) ) {
-	    $this->gettextResourceDir = CRM_GETTEXT_RESOURCE_DIR;
-	}
+        if ( defined( 'CRM_SMTPSERVER' ) ) {
+            $this->smtpServer = CRM_SMTPSERVER;
+        }
 
         // initialize the framework
         $this->init();
@@ -281,6 +299,17 @@ class CRM_Core_Config {
         }
 
         return $GLOBALS['_CRM_CORE_CONFIG']['_log'];
+    }
+
+     function &getMailer( ) {
+        if ( ! isset( $GLOBALS['_CRM_CORE_CONFIG']['_mail'] ) ) {
+            $params['host'] = $GLOBALS['_CRM_CORE_CONFIG']['_singleton']->smtpServer;
+            $params['port'] = $GLOBALS['_CRM_CORE_CONFIG']['_singleton']->smtpPort;
+            $params['auth'] = false;
+
+            $GLOBALS['_CRM_CORE_CONFIG']['_mail'] =& Mail::factory( 'smtp', $params );
+        }
+        return $GLOBALS['_CRM_CORE_CONFIG']['_mail'];
     }
 
 } // end CRM_Core_Config

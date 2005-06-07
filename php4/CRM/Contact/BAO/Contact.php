@@ -44,7 +44,6 @@ require_once 'CRM/Contact/BAO/Location.php';
 require_once 'CRM/Core/BAO/Note.php';
 require_once 'CRM/Utils/Date.php';
 require_once 'CRM/Core/PseudoConstant.php';
-require_once 'CRM/Utils/System.php';
 require_once 'CRM/Contact/BAO/Relationship.php';
 require_once 'CRM/Contact/BAO/GroupContact.php';
 require_once 'CRM/Contact/BAO/Individual.php';
@@ -154,6 +153,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             //$row = $this->getDatabaseResult()->fetchRow();
             $result = $this->getDatabaseResult();
             $row    = $result->fetchRow();
+            // CRM_Core_Error::debug( 'qs', $row );
             return $row[0];
         }
 
@@ -571,9 +571,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
 
         unset($params['id']);
-        if (CRM_Utils_System::isPHP4()) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
         eval( '$contact->contact_type_object = CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
     
         $contact->location     =& CRM_Contact_BAO_Location::getValues( $params, $defaults, $ids, 3 );
@@ -612,6 +610,30 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     }
 
     /**
+     * function to get the display name of a contact
+     *
+     * @param  int    $id id of the contact
+     *
+     * @return null|string     display name of the contact if found
+     * @static
+     * @access public
+     */
+     function getEmailDetails( $id ) {
+        $displayName = CRM_Contact_BAO_Contact::displayName( $id );
+
+        $sql = ' SELECT    crm_email.email
+                 FROM      crm_contact
+                 LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+                 LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+                 WHERE     crm_contact.id = ' . $id;
+        $dao = new CRM_Core_DAO( );
+        $dao->query( $sql );
+        $result = $dao->getDatabaseResult();
+        $row    = $result->fetchRow();
+        return array( $displayName, $row[0] );
+    }
+
+    /**
      * Delete a contact and all its associated records
      * 
      * @param  int  $id id of the contact to delete
@@ -635,9 +657,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // fix household and org primary contact ids
         
         foreach ( $GLOBALS['_CRM_CONTACT_BAO_CONTACT']['misc'] as $name ) {
-            if (CRM_Utils_System::isPHP4()) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
-            }
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
             eval( '$object = new CRM_Contact_DAO_' . $name . '( );' );
             $object->primary_contact_id = $id;
             $object->find( );
@@ -652,9 +672,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact = new CRM_Contact_DAO_Contact();
         $contact->id = $id;
         if ($contact->find(true)) {
-            if (CRM_Utils_System::isPHP4()) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
-            }
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
             eval( '$object = new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
             $object->contact_id = $contact->id;
             $object->delete( );

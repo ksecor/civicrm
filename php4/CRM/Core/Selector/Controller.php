@@ -151,21 +151,6 @@ class CRM_Core_Selector_Controller {
     var $_print = false;
 
     /**
-     * cache the smarty template for efficiency reasons
-     *
-     * @var CRM_Core_Smarty
-     */
-    
-
-    /**
-     * Array of properties that the controller dumps into the output object
-     *
-     * @var array
-     * @static
-     */
-    
-
-    /**
      * The storage object (typically a form or a page)
      *
      * @var Object
@@ -180,6 +165,22 @@ class CRM_Core_Selector_Controller {
     var $_output;
 
     /**
+     * cache the smarty template for efficiency reasons
+     *
+     * @var CRM_Core_Smarty
+     */
+    
+
+    /**
+     * Array of properties that the controller dumps into the output object
+     *
+     * @var array
+     * @static
+     */
+    
+
+
+    /**
      * Class constructor
      *
      * @param CRM_Core_Selector_API $object  an object that implements the selector API
@@ -192,7 +193,8 @@ class CRM_Core_Selector_Controller {
      * @return Object
      * @access public
      */
-    function CRM_Core_Selector_Controller($object, $pageID, $sortID, $action, $store = null, $output = CRM_CORE_SELECTOR_CONTROLLER_TEMPLATE) {
+    function CRM_Core_Selector_Controller($object, $pageID, $sortID, $action, $store = null, $output = CRM_CORE_SELECTOR_CONTROLLER_TEMPLATE)
+    {
         $this->_object = $object;
         $this->_pageID = $pageID ? $pageID : 1;
         $this->_sortID = $sortID ? $sortID : null;
@@ -237,6 +239,7 @@ class CRM_Core_Selector_Controller {
 
         $this->_pager = new CRM_Utils_Pager( $params );
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
+
     }
 
     /**
@@ -247,7 +250,8 @@ class CRM_Core_Selector_Controller {
      * @return boolean   if the GET params are different from the session params
      * @access public
      */
-    function hasChanged( $reset ) {
+    function hasChanged($reset)
+    {
         /**
          * if we are in reset state, i.e the store is cleaned out, we return false
          * we also return if we dont have a record of the sort id or page id
@@ -255,13 +259,6 @@ class CRM_Core_Selector_Controller {
         if ( $reset || $this->_store->get( CRM_UTILS_PAGER_PAGE_ID ) == null || $this->_store->get( CRM_UTILS_SORT_SORT_ID ) == null ) {
             return false;
         }
-
-        /**
-        CRM_Core_Error::debug( 'P', $_POST );
-        echo "Current page ID: " . $this->_pager->getCurrentPageID( ) . ', ' . $this->_store->get( CRM_Utils_Pager::PAGE_ID ) . "<p>";
-        echo "Current Sort ID: " . $this->_sort->getCurrentSortID ( ) . '_' . $this->_sort->getCurrentSortDirection ( ) . "<p>";
-        echo "Stored Sort ID: " . $this->_store->get( CRM_Utils_Sort::SORT_ID  ) . '_' . $this->_store->get( CRM_Utils_Sort::SORT_DIRECTION ) . "<p>";
-        **/
 
         if ( $this->_store->get( CRM_UTILS_PAGER_PAGE_ID       ) != $this->_pager->getCurrentPageID       ( ) ||
              $this->_store->get( CRM_UTILS_SORT_SORT_ID        ) != $this->_sort->getCurrentSortID        ( ) || 
@@ -271,31 +268,59 @@ class CRM_Core_Selector_Controller {
         return false;
     }
 
-    function run( ) {
+    /**
+     * Heart of the Controller. This is where all the action takes place
+     *
+     *   - The rows are fetched and stored depending on the type of output needed
+     *
+     *   - For export/printing all rows are selected.
+     *
+     *   - for displaying on screen paging parameters are used to display the
+     *     required rows.
+     *
+     *   - also depending on output type of session or template rows are appropriately stored in session
+     *     or template variables are updated.
+     *
+     *
+     * @param none
+     * @return none
+     *
+     */
+    function run()
+    {
+        // get the column headers
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $this->_output );
-        if ( $this->_output == CRM_CORE_SELECTOR_CONTROLLER_EXPORT|| $this->_output == CRM_CORE_SELECTOR_CONTROLLER_SCREEN) {
+
+        // we need to get the rows if we are exporting or printing them
+        if ($this->_output == CRM_CORE_SELECTOR_CONTROLLER_EXPORT|| $this->_output == CRM_CORE_SELECTOR_CONTROLLER_SCREEN) {
+            // get rows (without paging criteria)
             $rows          =& $this->_object->getRows( $this->_action,
                                                        0, 0,
                                                        $this->_sort,
                                                        $this->_output );
             if ( $this->_output == CRM_CORE_SELECTOR_CONTROLLER_EXPORT) {
+                // export the rows.
                 CRM_Core_Report_Excel::writeCSVFile( $this->_object->getExportFileName( ),
                                                      $columnHeaders,
                                                      $rows );
                 exit(1);
             } else {
+                // assign to template and display them.
                 $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign_by_ref( 'rows'         , $rows          );
             }
         } else {
+            // output requires paging/sorting capability
+            // get rows with paging criteria
             $rows          =& $this->_object->getRows( $this->_action,
                                                        $this->_pagerOffset,
                                                        $this->_pagerRowCount,
                                                        $this->_sort,
                                                        $this->_output );
             $rowsEmpty = count( $rows ) ? false : true;
-            $qill = $this->_object->getMyQILL();
-            
-            if ( $this->_output & CRM_CORE_SELECTOR_CONTROLLER_SESSION) {
+            $qill      = $this->getQill( );
+
+            // if we need to store in session, lets update session
+            if ($this->_output & CRM_CORE_SELECTOR_CONTROLLER_SESSION) {
                 $this->_store->set( 'columnHeaders', $columnHeaders );
                 $this->_store->set( 'rows'         , $rows          );
                 $this->_store->set( 'rowCount'     , $this->_total  );
@@ -308,7 +333,9 @@ class CRM_Core_Selector_Controller {
             $this->_store->set( CRM_UTILS_SORT_SORT_ID       , $this->_sort->getCurrentSortID        ( ) );
             $this->_store->set( CRM_UTILS_SORT_SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
             $this->_store->set( CRM_UTILS_PAGER_PAGE_ROWCOUNT, $this->_pager->_perPage                   );
-            
+
+
+            // if we need to display on screen, lets assign vars to the template
             if ( $this->_output & CRM_CORE_SELECTOR_CONTROLLER_TEMPLATE) {
                 $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign_by_ref( 'pager'  , $this->_pager   );
                 $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign_by_ref( 'sort'   , $this->_sort    );
@@ -317,7 +344,7 @@ class CRM_Core_Selector_Controller {
                 $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign_by_ref( 'rows'         , $rows          );
                 $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign       ( 'rowsEmpty'    , $rowsEmpty     );
                 $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign       ( 'qill'         , $qill          );
-                
+
                 if ( $this->_embedded ) {
                     return;
                 }
@@ -333,12 +360,28 @@ class CRM_Core_Selector_Controller {
         }
 
     }
-    
-    function getPager() {
+
+    /**
+     * getter for pager 
+     *
+     * @param none
+     * @return object CRM_Utils_Pager
+     * @access public
+     */
+    function getPager()
+    {
         return $this->_pager;
     }
 
-    function getSort() {
+    /**
+     * getter for sort 
+     *
+     * @param none
+     * @return object CRM_Utils_Sort
+     * @access public
+     */
+    function getSort()
+    {
         return $this->_sort;
     }
     
@@ -348,10 +391,11 @@ class CRM_Core_Selector_Controller {
      * @return void
      * @access public
      */
-    function moveFromSessionToTemplate( ) {
+    function moveFromSessionToTemplate()
+    {
         $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign_by_ref( 'pager'  , $this->_pager   );
         $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign_by_ref( 'sort'   , $this->_sort    );
-
+        
         $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign_by_ref( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
         $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign_by_ref( 'rows'         , $this->_store->get( 'rows' )          );
         $GLOBALS['_CRM_CORE_SELECTOR_CONTROLLER']['_template']->assign       ( 'rowsEmpty'    , $this->_store->get( 'rowsEmpty' )     );
@@ -370,6 +414,7 @@ class CRM_Core_Selector_Controller {
         echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
     }
 
+
     /**
      * setter for embedded 
      *
@@ -378,7 +423,8 @@ class CRM_Core_Selector_Controller {
      * @return void
      * @access public
      */
-    function setEmbedded( $embedded  ) {
+    function setEmbedded( $embedded  )
+    {
         $this->_embedded = $embedded;
     }
 
@@ -388,10 +434,11 @@ class CRM_Core_Selector_Controller {
      * @return boolean return the embedded value
      * @access public
      */
-    function getEmbedded( ) {
+    function getEmbedded( )
+    {
         return $this->_embedded;
     }
-
+    
     /**
      * setter for print 
      *
@@ -400,7 +447,8 @@ class CRM_Core_Selector_Controller {
      * @return void
      * @access public
      */
-    function setPrint( $print  ) {
+    function setPrint( $print  )
+    {
         $this->_print = $print;
     }
 
@@ -410,7 +458,8 @@ class CRM_Core_Selector_Controller {
      * @return boolean return the print value
      * @access public
      */
-    function getPrint( ) {
+    function getPrint( )
+    {
         return $this->_print;
     }
 

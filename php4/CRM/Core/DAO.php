@@ -39,10 +39,10 @@ define( 'CRM_CORE_DAO_DB_DAO_NOTNULL',128);
 $GLOBALS['_CRM_CORE_DAO']['_factory'] =  null;
 $GLOBALS['_CRM_CORE_DAO']['_singleton'] =  null;
 $GLOBALS['_CRM_CORE_DAO']['keys'] = null;
+$GLOBALS['_CRM_CORE_DAO']['sequenceKeys'] = null;
 
 
 require_once 'CRM/Utils/Array.php';
-require_once 'CRM/Utils/System.php';
 require_once 'PEAR.php';
 require_once 'DB/DataObject.php';
 
@@ -201,10 +201,10 @@ class CRM_Core_DAO extends DB_DataObject {
      */
     function sequenceKey() {
         
-        if ( !isset ($GLOBALS['_CRM_CORE_DAO']['keys']) ) {
-            $GLOBALS['_CRM_CORE_DAO']['keys'] = array('id', true);
+        if ( !isset ($GLOBALS['_CRM_CORE_DAO']['sequenceKeys']) ) {
+            $GLOBALS['_CRM_CORE_DAO']['sequenceKeys'] = array('id', true);
         }
-        return $GLOBALS['_CRM_CORE_DAO']['keys'];
+        return $GLOBALS['_CRM_CORE_DAO']['sequenceKeys'];
     }
 
     /**
@@ -359,9 +359,7 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      */
     function getAttribute( $class, $fieldName = null) {
-        if (CRM_Utils_System::isPHP4()) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $class) . ".php");
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $class) . ".php");
         eval('$fields =& ' . $class . '::fields( );');
         if ( $fieldName != null ) {
             $field = CRM_Utils_Array::value( $fieldName, $fields );

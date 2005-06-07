@@ -5,7 +5,6 @@
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Utils/Array.php';
 require_once 'CRM/Contact/DAO/Contact.php';
-require_once 'CRM/Utils/System.php';
 require_once 'CRM/Contact/DAO/Location.php';
 require_once 'CRM/Core/PseudoConstant.php';
 require_once 'CRM/Contact/DAO/Address.php';
@@ -148,9 +147,7 @@ function _crm_format_params( &$params, &$values ) {
     $fields =& CRM_Contact_DAO_Contact::fields( );
     _crm_store_values( $fields, $params, $values );
 
-    if (CRM_Utils_System::isPHP4()) {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $values['contact_type']) . ".php");
-    }
+    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $values['contact_type']) . ".php");
     eval( '$fields =& CRM_Contact_DAO_' . $values['contact_type'] . '::fields( );' );
     _crm_store_values( $fields, $params, $values );
 
@@ -186,9 +183,7 @@ function _crm_format_params( &$params, &$values ) {
         $name = strtolower($block);
         $values['location'][1][$name]    = array( );
         $values['location'][1][$name][1] = array( );
-        if (CRM_Utils_System::isPHP4()) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $block) . ".php");
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $block) . ".php");
         eval( '$fields =& CRM_Contact_DAO_' . $block . '::fields( );' );
         if ( _crm_store_values( $fields, $params, $values['location'][1][$name][1] ) ) {
             $locationTypeNeeded = true;
@@ -291,9 +286,7 @@ function _crm_update_contact( $contact, $values ) {
 
         if ( ! isset( $contact->location[1]->$name ) ) {
             $contact->location[1]->$name = array( );
-            if (CRM_Utils_System::isPHP4()) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $block) . ".php");
-            }
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $block) . ".php");
             eval( '$contact->location[1]->{$name}[1] = new CRM_Contact_BAO_' . $block . '( );' );
         }
         $values['location'][1][$name][1]['location_id'] = $contact->location[1]->id;

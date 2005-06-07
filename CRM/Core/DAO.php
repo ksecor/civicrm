@@ -192,11 +192,11 @@ class CRM_Core_DAO extends DB_DataObject {
      * @return array
      */
     function sequenceKey() {
-        static $keys;
-        if ( !isset ($keys) ) {
-            $keys = array('id', true);
+        static $sequenceKeys;
+        if ( !isset ($sequenceKeys) ) {
+            $sequenceKeys = array('id', true);
         }
-        return $keys;
+        return $sequenceKeys;
     }
 
     /**

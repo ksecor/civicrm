@@ -181,7 +181,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             $GLOBALS['_CRM_IMPORT_PARSER_CONTACT']['_importableFields'] = array();
             
             $GLOBALS['_CRM_IMPORT_PARSER_CONTACT']['_importableFields'] = array_merge($GLOBALS['_CRM_IMPORT_PARSER_CONTACT']['_importableFields'],
-                                                   array('' => array( 'title' => '-do not import-')) );
+                                                   array('' => array( 'title' => ts('-do not import-'))) );
             
             $GLOBALS['_CRM_IMPORT_PARSER_CONTACT']['_importableFields'] = array_merge($GLOBALS['_CRM_IMPORT_PARSER_CONTACT']['_importableFields'],
                                                    CRM_Contact_DAO_Individual::import( ) );

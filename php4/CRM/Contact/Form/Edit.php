@@ -45,10 +45,10 @@ require_once 'CRM/Contact/BAO/Contact.php';
 require_once 'CRM/Core/PseudoConstant.php';
 require_once 'CRM/Core/ShowHideBlocks.php';
 require_once 'CRM/Contact/Form/Location.php';
-require_once 'CRM/Utils/System.php';
 require_once 'CRM/Contact/Form/Note.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Session.php';
+require_once 'CRM/Utils/System.php';
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/SelectValues.php';
 
@@ -252,9 +252,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->assign( 'blockCount'   , CRM_CONTACT_FORM_LOCATION_BLOCKS + 1 );
         $this->assign( 'contact_type' , $this->_contactType );
 
-        if (CRM_Utils_System::isPHP4()) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_" . $this->_contactType) . ".php");
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_Form_" . $this->_contactType) . ".php");
         eval( 'CRM_Contact_Form_' . $this->_contactType . '::buildQuickForm( $this );' );
         
         // add the communications block

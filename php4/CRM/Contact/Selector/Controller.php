@@ -22,7 +22,15 @@
  +----------------------------------------------------------------------+
 */
 
+
 /**
+ *
+ * This class is a generic class to be used when we want to display
+ * a list of rows along with a set of associated actions
+ *
+ * Centralizing this code enables us to write a generic lister and enables
+ * us to automate the export process. To use this class, the object has to
+ * implement the Selector/Api.interface.php class
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -31,46 +39,15 @@
  *
  */
 
-/**
- * class to represent the actions that can be performed on a group of contacts
- * used by the search forms
- *
- */
-$GLOBALS['_CRM_CONTACT_TASK']['tasks'] =  array(
-                            1   => 'Add Contacts to a Group',
-                            2   => 'Remove Contacts from a Group',
-                            4   => 'Tag Contacts (assign tags)',
-                          128   => 'Email Contacts',
-                            8   => 'Delete Contacts',
-                           16  => 'New Saved Search',
-                          );
 
 
-define( 'CRM_CONTACT_TASK_GROUP_CONTACTS',1);
-define( 'CRM_CONTACT_TASK_REMOVE_CONTACTS',2);
-define( 'CRM_CONTACT_TASK_TAG_CONTACTS',4);
-define( 'CRM_CONTACT_TASK_DELETE_CONTACTS',8);
-define( 'CRM_CONTACT_TASK_SAVE_SEARCH',16);
-define( 'CRM_CONTACT_TASK_SAVE_SEARCH_UPDATE',32);
-define( 'CRM_CONTACT_TASK_PRINT_CONTACTS',64);
-define( 'CRM_CONTACT_TASK_EMAIL_CONTACTS',128);
-$GLOBALS['_CRM_CONTACT_TASK']['optionalTasks'] =  array(
-                                  32 => 'Update Saved Search',
-                                  );
+require_once 'CRM/Core/Selector/Controller.php';
+require_once 'CRM/Core/Selector/Controller.php';
 
-
-class CRM_Contact_Task {
-    
-                 
-                
-                   
-                
-                   
-            
-                
-               
-
-    
+class CRM_Contact_Selector_Controller extends CRM_Core_Selector_Controller {
+    function getQill( ) {
+        return $this->_object->getMyQILL( );
+    }
 
 }
 

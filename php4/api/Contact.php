@@ -41,7 +41,6 @@
 
 
 require_once 'CRM/Contact/BAO/Contact.php';
-require_once 'CRM/Utils/System.php';
 require_once 'CRM/Contact/BAO/Location.php';
 require_once 'PEAR.php';
 
@@ -203,9 +202,7 @@ function &crm_get_contact( $params, $returnProperties = null ) {
 
     unset($params['id']);
     
-    if (CRM_Utils_System::isPHP4()) {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
-    }
+    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
     $contact->contact_type_object =
         eval( 'return CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
 

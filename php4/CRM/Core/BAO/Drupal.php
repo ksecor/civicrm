@@ -64,8 +64,15 @@ class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
         
         // have we already processed this user, if so early
         // return
-        if ( ! $update && $session->get( 'userID' ) ) {
+        $userID = $session->get( 'userID' );
+        $ufID   = $session->get( 'ufID'   );
+        if ( ! $update && $ufID == $user->uid ) {
             return;
+        }
+
+        // reset the session if we are a different user
+        if ( $ufID && $ufID != $user->uid ) {
+            $session->reset( );
         }
 
         // make sure that a contact id exists for this user id
@@ -101,6 +108,7 @@ WHERE     crm_email.email = '" . $user->mail . "'";
             $drupal->save( );
         } 
 
+        $session->set( 'ufID'    , $drupal->uid        );
         $session->set( 'userID'  , $drupal->contact_id );
         $session->set( 'domainID', $drupal->domain_id  ); 
         

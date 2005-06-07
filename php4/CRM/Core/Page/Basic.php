@@ -35,11 +35,11 @@
 
 require_once 'CRM/Core/Page.php';
 require_once 'CRM/Utils/Request.php';
-require_once 'CRM/Utils/System.php';
 require_once 'CRM/Utils/Array.php';
 require_once 'CRM/Core/Action.php';
 require_once 'CRM/Core/Controller/Simple.php';
 require_once 'CRM/Core/Session.php';
+require_once 'CRM/Utils/System.php';
 require_once 'CRM/Core/Page.php';
 
 
@@ -157,9 +157,7 @@ require_once 'CRM/Core/Page.php';
         // get 'id' if present
         $id  = CRM_Utils_Request::retrieve( 'id', $this, false, 0 );
 
-        if (CRM_Utils_System::isPHP4()) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
-        }
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
 
         if ($action & (CRM_CORE_ACTION_VIEW | CRM_CORE_ACTION_ADD | CRM_CORE_ACTION_UPDATE)) {
             $this->edit($action, $id);                               // use edit form for view, add or update

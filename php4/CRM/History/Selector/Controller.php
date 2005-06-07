@@ -56,16 +56,23 @@ class CRM_History_Selector_Controller extends CRM_Core_Selector_Controller {
     function CRM_History_Selector_Controller($object, $pageID, $sortID, $action, $store = null, $output = CRM_HISTORY_SELECTOR_CONTROLLER_TEMPLATE)
     {
         CRM_Core_Error::le_method();
-        CRM_Core_Error::debug_var('store', $store);
-        parent:: CRM_History_Selector_Controller($object, $pageID, $sortID, $action, $store = null, $output = CRM_HISTORY_SELECTOR_CONTROLLER_TEMPLATE);
-        CRM_Core_Error::debug_var('store', $store);
+        CRM_Core_Error::debug_var('object', $object);
+        parent:: CRM_History_Selector_Controller($object, $pageID, $sortID, $action, $store, $output = CRM_HISTORY_SELECTOR_CONTROLLER_TEMPLATE);
+        //CRM_Core_Error::debug_var('store', $store);
+        CRM_Core_Error::ll_method();
     }
 
 
     function run()
     {
+
+        CRM_Core_Error::le_method();
+
+        CRM_Core_Error::debug_var('this', $this);
+
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $this->_output );
-        if ( $this->_output == CRM_HISTORY_SELECTOR_CONTROLLER_EXPORT|| $this->_output == CRM_HISTORY_SELECTOR_CONTROLLER_SCREEN) {
+
+        if ($this->_output == CRM_HISTORY_SELECTOR_CONTROLLER_EXPORT|| $this->_output == CRM_HISTORY_SELECTOR_CONTROLLER_SCREEN) {
             $rows          =& $this->_object->getRows( $this->_action,
                                                        0, 0,
                                                        $this->_sort,

@@ -40,7 +40,6 @@ require_once 'CRM/Contact/BAO/Address.php';
 require_once 'CRM/Contact/BAO/Phone.php';
 require_once 'CRM/Contact/BAO/Email.php';
 require_once 'CRM/Contact/BAO/IM.php';
-require_once 'CRM/Utils/System.php';
 require_once 'CRM/Contact/DAO/Location.php';
 
 require_once 'CRM/Contact/BAO/Block.php';
@@ -233,9 +232,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      function deleteLocationBlocks( $locationId ) {
         
         foreach ($GLOBALS['_CRM_CONTACT_BAO_LOCATION']['blocks'] as $name) {
-            if (CRM_Utils_System::isPHP4()) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
-            }
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
             eval( '$object = new CRM_Contact_DAO_' . $name . '( );' );
             $object->location_id = $locationId;
             $object->delete( );
