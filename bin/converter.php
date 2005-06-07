@@ -63,6 +63,66 @@ class PHP_DownGrade {
                 $this->tokens[$i][0] = self::T_SELF;
             }
         }
+
+
+        //To find wich file to be need for require once.
+        $flag = 0;
+        for($j=0;$j<count($this->tokens);$j++)
+            {
+               
+                if(strcmp($this->tokens[$j][1],"::")==0)
+                    {
+                        $back=$j;
+                        while($this->tokens[$back][0]=="")
+                            $back--;
+                        
+                        $back--;
+                        for($f=0;$f<count($this->filenames);$f++)
+                            {
+                                if(strcmp($this->tokens[$back][1],$this->filenames[$f])==0)
+                                   $flag = 1;
+                            }
+                        
+                        if($flag==0)
+                            {
+                               
+                                if(strcmp($this->tokens[$back][1],"parent")!=0)
+                                    { 
+                                        $this->filenames[$this->filecount]=$this->tokens[$back][1];
+                                        $this->filecount++;
+                                    }
+                            }
+                        $flag = 0;
+                    }
+                
+                
+                if(strcmp($this->tokens[$j][1],"extends")==0 ||strcmp($this->tokens[$j][1],"new")==0)
+                    {
+                        $back=$j;
+                        while($this->tokens[$back][0]!=T_STRING)
+                            $back++;
+                        
+                       
+                        for($f=0;$f<count($this->filenames);$f++)
+                            {
+                                if(strcmp($this->tokens[$back][1],$this->filenames[$f])==0)
+                                    $flag = 1;
+                            }
+                        
+                        if($flag==0)
+                            {
+                                //echo $this->tokens[$back][1];
+                                $this->filenames[$this->filecount]=$this->tokens[$back][1];
+                                $this->filecount++;
+                                
+                            }
+                        $flag = 0;
+                    }
+
+                
+                
+            }
+
         
     }
     
@@ -218,13 +278,13 @@ class PHP_DownGrade {
                                 {
                                     $i= $this->convertToStatic($class,$i);
                                     for($ii = $start;$ii<$i+1;$ii++) {
-                                        $this->tokens[$ii][1] = ''; 
-                                   
-                                    
-                                        
-                                    }
+                                       
+                                         $this->tokens[$ii][1] = ''; 
+                                  
+                                      }
                                      $this->tokens[$static][1] = '';
                                 }
+                           
                             break 3;
                         }
                         $this->tokens[$start][1] = 'var'; // change it to var.
@@ -321,40 +381,31 @@ class PHP_DownGrade {
         
         $value = '';
         // echo $class;
-        while($this->tokens[$i][1] != ';') {
+         while($this->tokens[$i][1] != ';') {
               
-            /*if($this->tokens[$i][0] == self::T_SELF) {
-                $this->tokens[$i][1] = strtoupper($class);
-            } 
-            if($this->tokens[$i][1] == "::") {
-               
-                $back = $i+1;
-                echo $this->tokens[$back][1];
-                $this->tokens[$back][1] = strtoupper($this->tokens[$back][1]);
-                $this->tokens[$i][1] = '_';
-               
-            }*/
-            if($this->tokens[$i+1][1] == "::") {
-              $this->tokens[$i][1] = strtoupper($this->tokens[$i][1]);  
-            }
             
-            if($this->tokens[$i][0] == self::T_SELF) {
-                $this->tokens[$i][1] = strtoupper($class);
-            } 
-            if($this->tokens[$i][1] == "::") {
-           
-                $this->tokens[$i][1] = '_';
-            }
-
-            $value .= $this->tokens[$i][1];
-            $this->tokens[$i][1] = '';
-            $i++;
-        }
-        $this->statics[$class][$name] = $value;
-        $this->statvar[$this->staticcount]=$name;
-        $this->staticcount++;
+              if($this->tokens[$i+1][1] == "::") {
+                 $this->tokens[$i][1] = strtoupper($this->tokens[$i][1]);  
+             }
+             
+             if($this->tokens[$i][0] == self::T_SELF) {
+                 $this->tokens[$i][1] = strtoupper($class);
+             } 
+             if($this->tokens[$i][1] == "::") {
+                 
+                  $this->tokens[$i][1] = "_";
+             }
+             
+             $value .= $this->tokens[$i][1];
+             $this->tokens[$i][1] = '';
+            
+             $i++;
+         }
+         $this->statics[$class][$name] = $value;
+         $this->statvar[$this->staticcount]=$name;
+         $this->staticcount++;
      
-          
+         
       
         return $i;
     
@@ -401,7 +452,7 @@ class PHP_DownGrade {
                 $i++;
                 break;
 
-            case 373:
+                case 373:
                 // make sure the previous and next tokens are strings
                 if ( $this->tokens[$i-1][0] == T_STRING && $this->tokens[$i+1][0] == T_STRING ) {
                     // make sure the following token are not open paran and hence a function call
@@ -417,7 +468,7 @@ class PHP_DownGrade {
                     if ( $func ) {
                         break;
                     }
-                    if ($this->tokens[$i-1][1]!="") {
+                    if($this->tokens[$i-1][1]!=""){
                         $this->tokens[$i-1][1] = strtoupper($this->tokens[$i-1][1]) . '_' . $this->tokens[$i+1][1];
                     }
                     $this->tokens[$i  ][1] = '';
@@ -562,63 +613,7 @@ class PHP_DownGrade {
                     }
             }
 
-        //For include files  
-        $flag = 0;
-        for($j=0;$j<count($this->tokens);$j++)
-            {
-               
-                if(strcmp($this->tokens[$j][1],"::")==0)
-                    {
-                        $back=$j;
-                        while($this->tokens[$back][0]=="")
-                            $back--;
-                        
-                        $back--;
-                        for($f=0;$f<count($this->filenames);$f++)
-                            {
-                                if(strcmp($this->tokens[$back][1],$this->filenames[$f])==0)
-                                   $flag = 1;
-                            }
-                        
-                        if($flag==0)
-                            {
-                               
-                                if(strcmp($this->tokens[$back][1],"parent")!=0)
-                                    { 
-                                        $this->filenames[$this->filecount]=$this->tokens[$back][1];
-                                        $this->filecount++;
-                                    }
-                            }
-                        $flag = 0;
-                    }
-                
-                if(strcmp($this->tokens[$j][1],"extends")==0 ||strcmp($this->tokens[$j][1],"new")==0)
-                    {
-                        $back=$j;
-                        while($this->tokens[$back][0]!=T_STRING)
-                            $back++;
-                        
-                       
-                        for($f=0;$f<count($this->filenames);$f++)
-                            {
-                                if(strcmp($this->tokens[$back][1],$this->filenames[$f])==0)
-                                    $flag = 1;
-                            }
-                        
-                        if($flag==0)
-                            {
-                                //echo $this->tokens[$back][1];
-                                $this->filenames[$this->filecount]=$this->tokens[$back][1];
-                                $this->filecount++;
-                                
-                            }
-                        $flag = 0;
-                    }
-
-                
-                
-            }
-        
+       
        
        
        
@@ -763,28 +758,64 @@ class PHP_DownGrade {
                             {
                                 foreach($this->classarray as $class => $dontcare)
                                     {
+                                        $flag = 0;
                                         if($class!=$file)
                                             {
                                                 $file=str_replace("_","/",$file);
                                                 $strFile = $file . ".php"; 
                                                 $file="require_once '".$file.".php"."';";
-
-                                                if(file_exists('../'.$strFile)) {
-                                                    
-                                                    $ret.=$file."\n"; 
+                                                for($j=0;$j<count($this->tokens);$j++) {
+                                                   
+                                                    if($this->tokens[$j][1]=="require_once") {
+                                                        $reqfile =$this->tokens[$j][1];
+                                                        while($this->tokens[$j][1]!=";") {
+                                                            $j++;
+                                                            $reqfile.=$this->tokens[$j][1];
+                                                        }
+                                                        
+                                                        if($reqfile==$file) {
+                                                            $flag = 1;
+                                                            }
+                                                    } 
                                                 }
+                                                if($flag==0)
+                                                    {
+                                                        if(file_exists('../'.$strFile)) {
+                                                            
+                                                            $ret.=$file."\n"; 
+                                                        }
+                                                    }
                                             }
                                     }
                             }
                         else
                             {
+                                $flag = 0;
                                 $file=str_replace("_","/",$file);
                                 $strFile = $file . ".php"; 
                                 $file="require_once '".$file.".php"."';";
-                                
-                                if(file_exists('../'.$strFile)) {
-                                    $ret.=$file."\n";
+                                for($j=0;$j<count($this->tokens);$j++) {
+                                    if($this->tokens[$j][1]=="require_once") {
+                                        $reqfile =$this->tokens[$j][1];
+                                        while($this->tokens[$j][1]!=";") {
+                                            $j++;
+                                            $reqfile.=$this->tokens[$j][1];
+                                        }
+                                        if($reqfile==$file) {
+                                            $flag = 1;
+                                        }
+                                        
+                                    } 
                                 }
+                                                
+                                if($flag==0)
+                                    {
+                                        if(file_exists('../'.$strFile)) {
+                                            
+                                            $ret.=$file."\n"; 
+                                        }
+                                    }
+                              
                             }
                     }
 
@@ -829,7 +860,7 @@ if (isset($argv[1])) {
     // start of code to convert files recursively ---
     // this code is to convert the whole directory from php5 to php4
     
-    $directory = array('CRM', 'api', 'modules');
+    $directory = array('CRM', 'api','modules');
     
     foreach ($directory as $v) {
         $rootDir = "$homeDir/svn/crm/$v";
