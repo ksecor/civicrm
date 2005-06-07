@@ -12,3 +12,12 @@ for fileLink in css i js l10n packages PEAR templates
       ln -s ~/svn/crm/$fileLink $fileLink
   fi
 done
+
+cd modules
+if test -L civicrm.module   # check if link exists
+    then
+    echo link civicrm.module already exists. skipping it ...
+else
+    echo creating link civicrm.module ...
+    ln -s civicrm.module.php4 civicrm.module
+fi
