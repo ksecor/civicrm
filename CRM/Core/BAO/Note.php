@@ -77,7 +77,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
             return null;
         }
 
-        $note = new CRM_Core_BAO_Note( );
+        $note =& new CRM_Core_BAO_Note( );
         
         $params['modified_date'] = date("Ymd");
         $params['table_id']      = $params['contact_id'];
@@ -123,7 +123,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      * @static
      */
     static function &getValues( &$params, &$values, &$ids, $numNotes = self::MAX_NOTES ) {
-        $note = new CRM_Core_BAO_Note( );
+        $note =& new CRM_Core_BAO_Note( );
        
         $note->table_id   = $params['contact_id'] ;        
         $note->table_name = 'crm_contact';
@@ -171,7 +171,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      */
     static function del ( $id ) {
         // delete from relationship table
-        $note = new CRM_Core_DAO_Note( );
+        $note =& new CRM_Core_DAO_Note( );
         $note->id = $id;
         $note->delete();
         
@@ -187,7 +187,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      * @static
      */
     static function deleteContact( $contactId ) {
-        $note = new CRM_Core_DAO_Note( );
+        $note =& new CRM_Core_DAO_Note( );
 
         $note->table_name = 'crm_contact';
         $note->table_id   = $contactId;

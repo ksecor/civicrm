@@ -55,7 +55,7 @@ class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $imProvider = new CRM_Core_DAO_IMProvider( );
+        $imProvider =& new CRM_Core_DAO_IMProvider( );
         $imProvider->copyValues( $params );
         if ( $imProvider->find( true ) ) {
             //$imProvider->storeValues( $defaults ); this is not working in php4
@@ -75,7 +75,7 @@ class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
      * @static
      */
     static function setIsActive( $id, $is_active ) {
-        $imProvider = new CRM_Core_DAO_IMProvider( );
+        $imProvider =& new CRM_Core_DAO_IMProvider( );
         $imProvider->id = $id;
         if ( $imProvider->find( true ) ) {
             $imProvider->is_active = $is_active;

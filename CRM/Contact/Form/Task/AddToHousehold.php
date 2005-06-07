@@ -49,7 +49,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
         $aCountry = CRM_Core_PseudoConstant::country();
         
         // build the state array
-        $stateProvinceDAO = new CRM_Core_DAO_StateProvince();
+        $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
         $stateProvinceDAO->selectAdd();
         $stateProvinceDAO->selectAdd('id, name, country_id');
         $stateProvinceDAO->find();
@@ -61,7 +61,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
         //build the household array
         $lng_country_id = 0;
 
-        $contact = new CRM_Contact_DAO_Contact();
+        $contact =& new CRM_Contact_DAO_Contact();
         
         $strSql = "SELECT crm_address.country_id as country, crm_location.contact_id as contact,
                           crm_address.state_province_id as state, crm_address.id as address, crm_contact.sort_name as name

@@ -69,7 +69,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
      */
     static function add(&$params, &$ids)
     {
-        $individual = new CRM_Contact_BAO_Individual();
+        $individual =& new CRM_Contact_BAO_Individual();
 
         $individual->copyValues($params);
 
@@ -110,7 +110,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
      * @static
      */
     static function getValues( &$params, &$values, &$ids ) {
-        $individual = new CRM_Contact_BAO_Individual( );
+        $individual =& new CRM_Contact_BAO_Individual( );
         
         $individual->copyValues( $params );
         if ( $individual->find(true) ) {

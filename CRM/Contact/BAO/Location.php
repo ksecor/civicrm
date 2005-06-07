@@ -61,7 +61,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
             return null;
         }
         
-        $location = new CRM_Contact_BAO_Location( );
+        $location =& new CRM_Contact_BAO_Location( );
         
         $location->contact_id       = $params['contact_id'];
         $location->is_primary       = CRM_Utils_Array::value( 'is_primary', $params['location'][$locationId] );
@@ -139,7 +139,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * @static
      */
     static function &getValues( &$params, &$values, &$ids, $locationCount = 0 ) {
-        $location = new CRM_Contact_BAO_Location( );
+        $location =& new CRM_Contact_BAO_Location( );
         $location->copyValues( $params );
 
         $flatten = false;
@@ -201,7 +201,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
      * @static
      */
     static function deleteContact( $contactId ) {
-        $location = new CRM_Contact_DAO_Location( );
+        $location =& new CRM_Contact_DAO_Location( );
         $location->contact_id = $contactId;
         $location->find( );
         while ( $location->fetch( ) ) {
@@ -224,7 +224,7 @@ class CRM_Contact_BAO_Location extends CRM_Contact_DAO_Location {
         static $blocks = array( 'Address', 'Phone', 'Email', 'IM' );
         foreach ($blocks as $name) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
-            eval( '$object = new CRM_Contact_DAO_' . $name . '( );' );
+            eval( '$object =& new CRM_Contact_DAO_' . $name . '( );' );
             $object->location_id = $locationId;
             $object->delete( );
         }

@@ -60,7 +60,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         $from = "'$fromDisplayName' <$fromEmail>";
 
         // create the meta level record first
-        $email             = new CRM_Core_BAO_EmailHistory( );
+        $email             =& new CRM_Core_BAO_EmailHistory( );
         $email->subject    = $subject;
         $email->message    = $message;
         $email->contact_id = $userID;

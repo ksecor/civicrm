@@ -41,7 +41,7 @@ class CRM_Group_Controller extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
         parent::__construct( $title, $modal );
 
-        $this->_stateMachine = new CRM_Group_StateMachine( $this, $action );
+        $this->_stateMachine =& new CRM_Group_StateMachine( $this, $action );
 
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );

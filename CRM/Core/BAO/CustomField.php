@@ -69,7 +69,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     static function retrieve( &$params, &$defaults )
     {
-        $customField = new CRM_Core_DAO_CustomField( );
+        $customField =& new CRM_Core_DAO_CustomField( );
         $customField->copyValues( $params );
         if ( $customField->find( true ) ) {
             // $customField->storeValues( $defaults ); //this is not working in php4
@@ -90,7 +90,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     static function setIsActive( $id, $is_active )
     {
-        $customField = new CRM_Core_DAO_CustomField( );
+        $customField =& new CRM_Core_DAO_CustomField( );
         $customField->id = $id;
         if ( $customField->find( true ) ) {
             $customField->is_active = $is_active;
@@ -120,7 +120,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                         WHERE  crm_custom_value.custom_field_id = $fieldId";
 
         // dummy dao needed
-        $crmDAO = new CRM_Core_DAO();
+        $crmDAO =& new CRM_Core_DAO();
         $crmDAO->query($queryString);
         // does not work for php4
         //$row = $crmDAO->getDatabaseResult()->fetchRow();

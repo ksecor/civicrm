@@ -63,7 +63,7 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
     function getAll()
     {
 
-        $savedSearch = new CRM_Contact_DAO_SavedSearch ();
+        $savedSearch =& new CRM_Contact_DAO_SavedSearch ();
         $savedSearch->selectAdd();
         $savedSearch->selectAdd('id, name');
         $savedSearch->find();
@@ -85,7 +85,7 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $savedSearch = new CRM_Contact_DAO_SavedSearch( );
+        $savedSearch =& new CRM_Contact_DAO_SavedSearch( );
         $savedSearch->copyValues( $params );
         if ( $savedSearch->find( true ) ) {
             //$savedSearch->storeValues( $defaults ); this is not working in php4

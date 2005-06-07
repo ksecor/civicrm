@@ -67,7 +67,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $query = ' SELECT count(DISTINCT crm_contact.id) ' . self::fromClause( ) .
                   ' WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Drupal::whereClause( $type ) . ' ';
 
-        $dao = new CRM_Core_DAO( );
+        $dao =& new CRM_Core_DAO( );
         $dao->query($query);
         
         // does not work for php4
@@ -348,7 +348,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     static function add(&$params, &$ids)
     {
-        $contact = new CRM_Contact_BAO_Contact();
+        $contact =& new CRM_Contact_BAO_Contact();
         
         $contact->copyValues($params);
 
@@ -396,7 +396,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     static function getValues( &$params, &$values, &$ids ) {
 
-        $contact = new CRM_Contact_BAO_Contact( );
+        $contact =& new CRM_Contact_BAO_Contact( );
 
         $contact->copyValues( $params );
 
@@ -578,13 +578,13 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @access public
      */
     static function displayName( $id ) {
-        $contact = new CRM_Contact_BAO_Contact( );
+        $contact =& new CRM_Contact_BAO_Contact( );
         $contact->id = $id;
         if ( $contact->find( true ) ) {
             if ( $contact->contact_type == 'Household' || $contact->contact_type == 'Organization' ) {
                 return $contact->sort_name;
             } else {
-                $individual = new CRM_Contact_BAO_Individual( );
+                $individual =& new CRM_Contact_BAO_Individual( );
                 $individual->contact_id = $id;
                 if ( $individual->find( true ) ) {
                     return trim( $individual->prefix . ' ' . $individual->display_name . ' ' . $individual->suffix );
@@ -611,7 +611,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                  LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
                  LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
                  WHERE     crm_contact.id = ' . $id;
-        $dao = new CRM_Core_DAO( );
+        $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
         $result = $dao->getDatabaseResult();
         $row    = $result->fetchRow();
@@ -643,7 +643,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         static $misc = array( 'Household', 'Organization' );
         foreach ( $misc as $name ) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
-            eval( '$object = new CRM_Contact_DAO_' . $name . '( );' );
+            eval( '$object =& new CRM_Contact_DAO_' . $name . '( );' );
             $object->primary_contact_id = $id;
             $object->find( );
             while ( $object->fetch( ) ) {
@@ -654,11 +654,11 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
 
         // get the contact type
-        $contact = new CRM_Contact_DAO_Contact();
+        $contact =& new CRM_Contact_DAO_Contact();
         $contact->id = $id;
         if ($contact->find(true)) {
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
-            eval( '$object = new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
+            eval( '$object =& new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
             $object->contact_id = $contact->id;
             $object->delete( );
             $contact->delete( );

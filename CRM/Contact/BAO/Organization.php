@@ -65,7 +65,7 @@ class CRM_Contact_BAO_Organization extends CRM_Contact_DAO_Organization
      * @static
      */
     static function add( &$params, &$ids ) {
-        $organization = new CRM_Contact_BAO_Organization( );
+        $organization =& new CRM_Contact_BAO_Organization( );
 
         $organization->copyValues( $params );
 
@@ -86,7 +86,7 @@ class CRM_Contact_BAO_Organization extends CRM_Contact_DAO_Organization
      * @static
      */
     static function getValues( &$params, &$values, &$ids ) {
-        $organization = new CRM_Contact_BAO_Organization( );
+        $organization =& new CRM_Contact_BAO_Organization( );
         
         $organization->copyValues( $params );
         if ( $organization->find(true) ) {

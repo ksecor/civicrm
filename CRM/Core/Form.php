@@ -407,7 +407,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         if (isset($this->_renderer)) {
             return $this->_renderer;
         } else {
-            $this->_renderer = new CRM_Core_Form_Renderer(self::$_template);
+            $this->_renderer =& new CRM_Core_Form_Renderer(self::$_template);
             return $this->_renderer;
         }
     }

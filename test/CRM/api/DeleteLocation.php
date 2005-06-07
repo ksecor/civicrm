@@ -36,9 +36,9 @@ class TestOfDeleteLocationAPI extends UnitTestCase
     
     function testCreateLocationIndividual()
     {
-        $workPhone   = new Phone('91-20-2345678', false, 'Phone'           );
-        $workMobile  = new Phone('91-20-989090098988', true, 'Mobile', null);
-        $workFax     = new Phone('91-20-234-657686', false, 'Fax'          );
+        $workPhone   =& new Phone('91-20-2345678', false, 'Phone'           );
+        $workMobile  =& new Phone('91-20-989090098988', true, 'Mobile', null);
+        $workFax     =& new Phone('91-20-234-657686', false, 'Fax'          );
         $phones      = array ($workPhone, $workMobile, $workFax);
         
         $params      = array('location_type' => 'Work',
@@ -88,9 +88,9 @@ class TestOfDeleteLocationAPI extends UnitTestCase
     
     function testCreateLocationHousehold()
     {
-        $homeMobile  = new Phone('91-20-989090098988', false, 'Mobile', null);
-        $homePhone   = new Phone('91-20-2345678', true, 'Phone'             );
-        $homePager   = new Phone('91-20-234-657686', false, 'Pager'         );
+        $homeMobile  =& new Phone('91-20-989090098988', false, 'Mobile', null);
+        $homePhone   =& new Phone('91-20-2345678', true, 'Phone'             );
+        $homePager   =& new Phone('91-20-234-657686', false, 'Pager'         );
         $phones      = array ($homeMobile, $homePhone, $homePager);
         $params      = array('location_type' => 'Home',
                             'phone'         => $phones,
@@ -130,9 +130,9 @@ class TestOfDeleteLocationAPI extends UnitTestCase
     
     function testCreateLocationOrganization()
     {
-        $mainMobile  = new Phone('91-20-989090098988', false, 'Mobile', null);
-        $mainPager   = new Phone('91-20-234-657686', true, 'Pager'          );
-        $mainPhone   = new Phone('91-20-2345678', false, 'Phone'            );
+        $mainMobile  =& new Phone('91-20-989090098988', false, 'Mobile', null);
+        $mainPager   =& new Phone('91-20-234-657686', true, 'Pager'          );
+        $mainPhone   =& new Phone('91-20-2345678', false, 'Phone'            );
         $phones      = array ($mainMobile, $mainPager, $mainPhone);
         
         $params      = array('location_type' => 'Main',

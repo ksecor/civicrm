@@ -58,7 +58,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
      */
     function delete($id)
     {
-        $savedSearch = new CRM_Contact_DAO_SavedSearch();
+        $savedSearch =& new CRM_Contact_DAO_SavedSearch();
         $savedSearch->id = $id;
         $savedSearch->delete();
         return;
@@ -77,7 +77,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
     {
         $rows = array();
         
-        $savedSearch = new CRM_Contact_DAO_SavedSearch();
+        $savedSearch =& new CRM_Contact_DAO_SavedSearch();
         $savedSearch->selectAdd();
         $savedSearch->selectAdd('id, name, search_type, description, form_values');
         $savedSearch->find();

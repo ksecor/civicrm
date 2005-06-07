@@ -36,9 +36,9 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     
     function testCreateLocationIndividual()
     {
-        $workPhone   = new Phone('91-20-2345678', false, 'Phone'           );
-        $workMobile  = new Phone('91-20-989090098988', true, 'Mobile', null);
-        $workFax     = new Phone('91-20-234-657686', false, 'Fax'          );
+        $workPhone   =& new Phone('91-20-2345678', false, 'Phone'           );
+        $workMobile  =& new Phone('91-20-989090098988', true, 'Mobile', null);
+        $workFax     =& new Phone('91-20-234-657686', false, 'Fax'          );
         $phones      = array ($workPhone, $workMobile, $workFax);
         
         $params      = array('location_type' => 'Work',
@@ -65,9 +65,9 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     
     function testUpdateLocationIndividual()
     {
-        $workPhone     = new Phone('91-20-9876543', false, 'Phone'           );
-        $workMobile    = new Phone('91-20-989090098988', true, 'Mobile', null);
-        $workFax       = new Phone('91-22-123-876543', false, 'Fax'          );
+        $workPhone     =& new Phone('91-20-9876543', false, 'Phone'           );
+        $workMobile    =& new Phone('91-20-989090098988', true, 'Mobile', null);
+        $workFax       =& new Phone('91-22-123-876543', false, 'Fax'          );
         $phones        = array ($workPhone, $workMobile, $workFax);
         
         $params        = array('phone' => $phones, 
@@ -102,9 +102,9 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     
     function testCreateLocationHousehold()
     {
-        $homeMobile  = new Phone('91-20-989090098988', false, 'Mobile', null);
-        $homePhone   = new Phone('91-20-2345678', true, 'Phone'             );
-        $homePager   = new Phone('91-20-234-657686', false, 'Pager'         );
+        $homeMobile  =& new Phone('91-20-989090098988', false, 'Mobile', null);
+        $homePhone   =& new Phone('91-20-2345678', true, 'Phone'             );
+        $homePager   =& new Phone('91-20-234-657686', false, 'Pager'         );
         $phones      = array ($homeMobile, $homePhone, $homePager);
         $params      = array('location_type' => 'Home',
                             'phone'         => $phones,
@@ -121,9 +121,9 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     
     function testUpdateLocationHousehold()
     {
-        $workMobile    = new Phone('91-20-989094428380', false, 'Mobile', null);
-        $workPhone     = new Phone('91-20-2345678', true, 'Phone'             );
-        $workFax       = new Phone('91-20-234-657686', false, 'Fax'           );
+        $workMobile    =& new Phone('91-20-989094428380', false, 'Mobile', null);
+        $workPhone     =& new Phone('91-20-2345678', true, 'Phone'             );
+        $workFax       =& new Phone('91-20-234-657686', false, 'Fax'           );
         $phones        = array ($workMobile, $workPhone, $workPager);
         $params        = array('phone' => $phones, 
                                'city'  => 'Pune'
@@ -158,9 +158,9 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     
     function testCreateLocationOrganization()
     {
-        $mainMobile  = new Phone('91-20-989090098988', false, 'Mobile', null);
-        $mainPager   = new Phone('91-20-234-657686', true, 'Pager'          );
-        $mainPhone   = new Phone('91-20-2345678', false, 'Phone'            );
+        $mainMobile  =& new Phone('91-20-989090098988', false, 'Mobile', null);
+        $mainPager   =& new Phone('91-20-234-657686', true, 'Pager'          );
+        $mainPhone   =& new Phone('91-20-2345678', false, 'Phone'            );
         $phones      = array ($mainMobile, $mainPager, $mainPhone);
         
         $params      = array('location_type' => 'Main',
@@ -178,9 +178,9 @@ class TestOfUpdateLocationAPI extends UnitTestCase
 
     function testUpdateLocationOrganization()
     {
-        $homeFax     = new Phone('91-22-234-657686', true, 'Fax'            );
-        $homePhone   = new Phone('91-22-2345678', false, 'Phone'            );
-        $homeMobile  = new Phone('91-22-934572837444', false, 'Mobile', null);
+        $homeFax     =& new Phone('91-22-234-657686', true, 'Fax'            );
+        $homePhone   =& new Phone('91-22-2345678', false, 'Phone'            );
+        $homeMobile  =& new Phone('91-22-934572837444', false, 'Mobile', null);
         $phones      = array ($homeFax, $homePhone, $homeMobile);
         
         $params        = array('phone' => $phones, 

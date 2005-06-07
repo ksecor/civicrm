@@ -70,7 +70,7 @@ class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
         }
 
         // make sure that a contact id exists for this user id
-        $drupal = new CRM_Core_DAO_Drupal( );
+        $drupal =& new CRM_Core_DAO_Drupal( );
         $drupal->uid = $user->uid;
         if ( ! $drupal->find( true ) ) {
             $drupal->uid = $user->uid;
@@ -82,7 +82,7 @@ LEFT JOIN crm_location ON crm_contact.id  = crm_location.contact_id
 LEFT JOIN crm_email    ON crm_location.id = crm_email.location_id
 WHERE     crm_email.email = '" . $user->mail . "'";
   
-            $dao = new CRM_Core_DAO( );
+            $dao =& new CRM_Core_DAO( );
             $dao->query( $query );
             if ( $dao->fetch( ) ) {
                 $drupal->contact_id = $dao->contact_id;

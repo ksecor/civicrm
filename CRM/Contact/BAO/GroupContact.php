@@ -68,7 +68,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             return null;
         }
 
-        $groupContact = new CRM_Contact_BAO_GroupContact( );
+        $groupContact =& new CRM_Contact_BAO_GroupContact( );
         $groupContact->copyValues( $params );
         $groupContact->save( );
         return $groupContact;
@@ -133,7 +133,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $numContactsNotAdded = 0;
 
         foreach ( $contactIds as $contactId ) {
-            $groupContact = new CRM_Contact_DAO_GroupContact( );
+            $groupContact =& new CRM_Contact_DAO_GroupContact( );
             $groupContact->group_id   = $groupId;
             $groupContact->contact_id = $contactId;
             // check if the selected contact id already a member
@@ -171,7 +171,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         $numContactsNotRemoved = 0;
 
         foreach ( $contactIds as $contactId ) {
-            $groupContact = new CRM_Contact_DAO_GroupContact( );
+            $groupContact =& new CRM_Contact_DAO_GroupContact( );
             $groupContact->group_id   = $groupId;
             $groupContact->contact_id = $contactId;
             // check if the selected contact id already a member
@@ -203,7 +203,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      */
     static function getGroupList($contactId = 0) {
         
-        $group = new CRM_Contact_DAO_Group( );
+        $group =& new CRM_Contact_DAO_Group( );
 
         $select = $from = $where = '';
         
@@ -240,7 +240,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * $access public
      */
     static function &getContactGroup( $contactId, $status = null, $numGroupContact = null, $count = false ) {
-        $groupContact = new CRM_Contact_DAO_GroupContact( );
+        $groupContact =& new CRM_Contact_DAO_GroupContact( );
 
         if ( $count ) {
             $select = 'SELECT count(DISTINCT crm_group_contact.id)';
@@ -306,7 +306,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @static
      */
     static function deleteContact( $contactId ) {
-        $groupContact = new CRM_Contact_DAO_GroupContact( );
+        $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupContact->contact_id = $contactId;
         $groupContact->delete( );
     }

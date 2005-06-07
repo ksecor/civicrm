@@ -114,7 +114,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
     function browse()
     {
         $customField = array();
-        $customFieldBAO = new CRM_Core_BAO_CustomField();
+        $customFieldBAO =& new CRM_Core_BAO_CustomField();
         
         // fkey is gid
         $customFieldBAO->custom_group_id = $this->_gid;
@@ -155,7 +155,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
     function edit($action)
     {
         // create a simple controller for editing custom data
-        $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Field', ts('Custom Field'), $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Custom_Form_Field', ts('Custom Field'), $action);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();

@@ -256,14 +256,14 @@ function _crm_update_contact( $contact, $values ) {
         $contact->location    = array( );
     }
     if ( ! array_key_exists( 0, $contact->location ) || empty( $contact->location[1] ) ) {
-        $contact->location[1] = new CRM_Contact_BAO_Location( );
+        $contact->location[1] =& new CRM_Contact_BAO_Location( );
     }
 
     $values['location'][1]['contact_id'] = $contact->id;
     _crm_update_object( $contact->location[1], $values['location'][1] );
 
     if ( ! isset( $contact->location[1]->address ) ) {
-        $contact->location[1]->address = new CRM_Contact_BAO_Address( );
+        $contact->location[1]->address =& new CRM_Contact_BAO_Address( );
     }
     $values['location'][1]['address']['location_id'] = $contact->location[1]->id;
     _crm_update_object( $contact->location[1]->address, $values['location'][1]['address'] );
@@ -275,7 +275,7 @@ function _crm_update_contact( $contact, $values ) {
         if ( ! isset( $contact->location[1]->$name ) ) {
             $contact->location[1]->$name = array( );
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $block) . ".php");
-            eval( '$contact->location[1]->{$name}[1] = new CRM_Contact_BAO_' . $block . '( );' );
+            eval( '$contact->location[1]->{$name}[1] =& new CRM_Contact_BAO_' . $block . '( );' );
         }
         $values['location'][1][$name][1]['location_id'] = $contact->location[1]->id;
         _crm_update_object( $contact->location[1]->{$name}[1], $values['location'][1][$name][1] );

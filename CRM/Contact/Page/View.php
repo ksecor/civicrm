@@ -229,7 +229,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
      * @access public
      */
     function setShowHide( &$defaults ) {
-        $showHide = new CRM_Core_ShowHideBlocks(array('commPrefs'            => 1,
+        $showHide =& new CRM_Core_ShowHideBlocks(array('commPrefs'            => 1,
                                                       'notes[show]'          => 1,
                                                       'relationships[show]'  => 1,
                                                       'groups[show]'         => 1,

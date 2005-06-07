@@ -81,7 +81,7 @@ class CRM_Core_Smarty extends Smarty {
      */
     static function &singleton( ) {
         if ( ! isset( self::$_singleton ) ) {
-            self::$_singleton = new CRM_Core_Smarty( CRM_TEMPLATEDIR, CRM_TEMPLATE_COMPILEDIR );
+            self::$_singleton =& new CRM_Core_Smarty( CRM_TEMPLATEDIR, CRM_TEMPLATE_COMPILEDIR );
         }
         return self::$_singleton;
     }

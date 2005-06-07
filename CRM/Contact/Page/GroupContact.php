@@ -74,7 +74,7 @@ class CRM_Contact_Page_GroupContact {
      * @access public
      */
     static function edit( $page, $mode, $groupId = null ) {
-        $controller = new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', 'Contact GroupContacts', $mode );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', 'Contact GroupContacts', $mode );
         $controller->setEmbedded( true );
 
         // set the userContext stack
@@ -133,7 +133,7 @@ class CRM_Contact_Page_GroupContact {
      * @static
      */
     static function del($groupContactId, $status ) {
-        $groupContact = new CRM_Contact_DAO_GroupContact( );
+        $groupContact =& new CRM_Contact_DAO_GroupContact( );
         
         switch ($status) {
         case 'i' :

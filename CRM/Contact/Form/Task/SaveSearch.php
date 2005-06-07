@@ -95,7 +95,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $formValues = $this->controller->exportValues($this->_name);
 
         // save the search
-        $savedSearch = new CRM_Contact_BAO_SavedSearch();
+        $savedSearch =& new CRM_Contact_BAO_SavedSearch();
         $savedSearch->id          = $this->_id;
         $savedSearch->domain_id   = 1;   // hack for now
         $savedSearch->name        = $formValues['name'];

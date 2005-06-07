@@ -54,7 +54,7 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
         // by definition a single page is modal :)
         parent::__construct( $title, true );
 
-        $this->_stateMachine = new CRM_Core_StateMachine( $this );
+        $this->_stateMachine =& new CRM_Core_StateMachine( $this );
 
         $params = array($path);
 

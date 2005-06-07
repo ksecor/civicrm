@@ -852,7 +852,7 @@ class PHP_DownGrade {
 
 if (isset($argv[1])) {
     // use this code if single file has to be converted from php5 to php4  and comment the above block
-    $sam = new PHP_DownGrade($argv[1]);
+    $sam =& new PHP_DownGrade($argv[1]);
     echo $sam->toPHP4();
   
 } else {
@@ -866,11 +866,11 @@ if (isset($argv[1])) {
         $rootDir = "$homeDir/svn/crm/$v";
         $destDir = "$homeDir/svn/crm/php4/$v";
         
-        $dir = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootDir), true);
+        $dir =& new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootDir), true);
         foreach ( $dir as $file ) {
             if ( substr( $file, -4, 4 ) == '.php' ) {
                 str_repeat("--", $dir->getDepth()) . ' ' . $file->getPath( ) . " $file\n";
-                $x    = new PHP_DownGrade($file->getPath( ) . '/' . $file);
+                $x    =& new PHP_DownGrade($file->getPath( ) . '/' . $file);
                 $php4 = $x->toPHP4( );
                 
                 $php4Dir  = str_replace( $rootDir, $destDir, $file->getPath( ) );

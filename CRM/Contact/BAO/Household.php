@@ -65,7 +65,7 @@ class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
      * @static
      */
     static function add( &$params, &$ids ) {
-        $household = new CRM_Contact_BAO_Household( );
+        $household =& new CRM_Contact_BAO_Household( );
 
         $household->copyValues( $params );
 
@@ -86,7 +86,7 @@ class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
      * @static
      */
     static function getValues( &$params, &$values, &$ids ) {
-        $household = new CRM_Contact_BAO_Household( );
+        $household =& new CRM_Contact_BAO_Household( );
         
         $household->copyValues( $params );
         if ( $household->find(true) ) {
@@ -110,7 +110,7 @@ class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
      */
     static function updatePrimaryContact($primaryContactId, $contactId) 
     {
-        $household = new CRM_Contact_DAO_Household;
+        $household =& new CRM_Contact_DAO_Household;
 
         //$household->primary_contact_id = $primaryContactId;        
         //$household->whereAdd('contact_id ='.$contactId);

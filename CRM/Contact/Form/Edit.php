@@ -100,7 +100,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
 
             if ( $this->_contactId ) {
-                $contact = new CRM_Contact_DAO_Contact( );
+                $contact =& new CRM_Contact_DAO_Contact( );
                 $contact->id = $this->_contactId;
                 if ( ! $contact->find( true ) ) {
                     CRM_Core_Error::fatal( "contact does not exist: $this->_contactId" );
@@ -176,7 +176,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      * @return void
      */
     function setShowHide( &$defaults ) {
-        $this->_showHide = new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
                                                         '') ;
 
         if ( $this->_contactType == 'Individual' ) {

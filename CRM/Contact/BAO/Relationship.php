@@ -128,7 +128,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             CRM_Contact_BAO_Household::updatePrimaryContact($contact_b, $contact_a );
         }
         
-        $relationship = new CRM_Contact_BAO_Relationship( );
+        $relationship =& new CRM_Contact_BAO_Relationship( );
         $relationship->contact_id_b         = $contact_b;
         $relationship->contact_id_a         = $contact_a;
         $relationship->relationship_type_id = $type;
@@ -188,10 +188,10 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
 
         $otherContactType = null;
         if ( $relationshipId ) {
-            $relationship = new CRM_Contact_DAO_Relationship( );
+            $relationship =& new CRM_Contact_DAO_Relationship( );
             $relationship->id = $relationshipId;
             if ($relationship->find(true)) {
-                $contact = new CRM_Contact_DAO_Contact( );
+                $contact =& new CRM_Contact_DAO_Contact( );
                 $contact->id = ( $relationship->contact_id_a === $contactId ) ? $relationship->contact_id_b : $relationship->contact_id_a;
                 if ($contact->find(true)) {
                     $otherContactType = $contact->contact_type;
@@ -199,7 +199,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             }
         }
 
-        $contact     = new CRM_Contact_BAO_Contact();
+        $contact     =& new CRM_Contact_BAO_Contact();
         $contact->id = $contactId;
         if ( $contact->find(true) ) {
             foreach ($allRelationshipType as $key => $value) {
@@ -234,7 +234,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     static function del ( $id ) 
     {
         // delete from relationship table
-        $relationship = new CRM_Contact_DAO_Relationship( );
+        $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->id = $id;
         $relationship->delete();
     }
@@ -250,11 +250,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function deleteContact( $contactId ) 
     {
-        $relationship = new CRM_Contact_DAO_Relationship( );
+        $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->contact_id_a = $contactId;
         $relationship->delete();
 
-        $relationship = new CRM_Contact_DAO_Relationship( );
+        $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->contact_id_b = $contactId;
         $relationship->delete();
     }
@@ -270,7 +270,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function getContactIds($id) 
     {
-        $relationship = new CRM_Contact_DAO_Relationship( );
+        $relationship =& new CRM_Contact_DAO_Relationship( );
 
         $relationship->id = $id;
         $relationship->selectAdd( );
@@ -293,7 +293,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function checkRelationshipType ($contact_a, $contact_b, $relationshipTypeId) 
     {
-        $relationshipType     = new CRM_Contact_DAO_RelationshipType( );
+        $relationshipType     =& new CRM_Contact_DAO_RelationshipType( );
         $relationshipType->id = $relationshipTypeId;
         $relationshipType->selectAdd( );
         $relationshipType->selectAdd('contact_type_a, contact_type_b');
@@ -362,7 +362,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                                       ( contact_id_a = $contactId AND contact_id_b = $id        )
                                     ) ";
 
-        $relationship = new CRM_Contact_BAO_Relationship();
+        $relationship =& new CRM_Contact_BAO_Relationship();
         $relationship->query($queryString);
         $relationship->fetch();
 
@@ -380,7 +380,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function setIsActive( $id, $is_active ) 
     {
-        $relationship            = new CRM_Contact_DAO_Relationship( );
+        $relationship            =& new CRM_Contact_DAO_Relationship( );
         $relationship->id        = $id;
         $relationship->is_active = $is_active;
         return $relationship->save( );
@@ -534,7 +534,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $queryString = '';
         $queryString = $select1 . $from1 . $where1 . $select2 . $from2 . $where2 . $order . $limit;
 
-        $relationship = new CRM_Contact_DAO_Relationship( );
+        $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->query($queryString);
         $row = array();
         if ( $count ) {

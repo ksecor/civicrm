@@ -62,7 +62,7 @@ class CRM_Contact_Page_CustomData {
 
         $controller = null;
 
-        $controller = new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $action);
         $controller->setEmbedded(true);
 
         // set the userContext stack

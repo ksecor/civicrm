@@ -55,7 +55,7 @@ class CRM_Core_BAO_MobileProvider extends CRM_Core_DAO_MobileProvider {
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $mobileProvider = new CRM_Core_DAO_MobileProvider( );
+        $mobileProvider =& new CRM_Core_DAO_MobileProvider( );
         $mobileProvider->copyValues( $params );
         if ( $mobileProvider->find( true ) ) {
             //$mobileProvider->storeValues( $defaults ); this is not working in php4
@@ -75,7 +75,7 @@ class CRM_Core_BAO_MobileProvider extends CRM_Core_DAO_MobileProvider {
      * @static
      */
     static function setIsActive( $id, $is_active ) {
-        $mobileProvider = new CRM_Core_DAO_MobileProvider( );
+        $mobileProvider =& new CRM_Core_DAO_MobileProvider( );
         $mobileProvider->id = $id;
         if ( $mobileProvider->find( true ) ) {
             $mobileProvider->is_active = $is_active;

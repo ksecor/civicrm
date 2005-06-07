@@ -126,7 +126,7 @@ class CRM_Core_PseudoConstant {
      */
     private static function populate( &$var, $name, $all = false, $retrieve = 'name' ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
-        eval( '$object = new ' . $name . '( );' );
+        eval( '$object =& new ' . $name . '( );' );
         $object->selectAdd( );
         $object->selectAdd( "id, $retrieve" );
         $object->orderBy( $retrieve );
@@ -366,7 +366,7 @@ class CRM_Core_PseudoConstant {
     {
         if (!self::$relationshipType) {
             self::$relationshipType = array();
-            $relationshipTypeDAO = new CRM_Contact_DAO_RelationshipType();
+            $relationshipTypeDAO =& new CRM_Contact_DAO_RelationshipType();
             $relationshipTypeDAO->selectAdd();
             $relationshipTypeDAO->selectAdd('id, name_a_b, name_b_a, contact_type_a, contact_type_b');
             $relationshipTypeDAO->is_active = 1;

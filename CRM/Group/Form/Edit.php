@@ -117,7 +117,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         $params = $this->exportValues();
 
         // action is taken depending upon the mode
-        $group               = new CRM_Contact_DAO_Group( );
+        $group               =& new CRM_Contact_DAO_Group( );
         $group->domain_id    = 1;
         $group->name         = $params['title'];
         $group->title        = $params['title'];

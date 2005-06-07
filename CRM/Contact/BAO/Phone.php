@@ -59,7 +59,7 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
             return null;
         }
 
-        $phone = new CRM_Contact_DAO_Phone();
+        $phone =& new CRM_Contact_DAO_Phone();
         $phone->id                 = CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] );
         $phone->phone              = $params['location'][$locationId]['phone'][$phoneId]['phone'];
         if ( empty( $phone->phone ) ) {
@@ -112,7 +112,7 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * @static
      */
     static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
-        $phone = new CRM_Contact_BAO_Phone( );
+        $phone =& new CRM_Contact_BAO_Phone( );
         return CRM_Contact_BAO_Block::getValues( $phone, 'phone', $params, $values, $ids, $blockCount );
     }
 

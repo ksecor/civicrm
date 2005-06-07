@@ -146,7 +146,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
     function edit($id, $action)
     {
         // create a simple controller for editing custom data
-        $controller = new CRM_Core_Controller_Simple('CRM_Custom_Form_Group', ts('Custom Group'), $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Custom_Form_Group', ts('Custom Group'), $action);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
@@ -171,7 +171,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         
         // get all custom groups sorted by weight
         $customGroup = array();
-        $customGroupBAO = new CRM_Core_BAO_CustomGroup();
+        $customGroupBAO =& new CRM_Core_BAO_CustomGroup();
         $customGroupBAO->orderBy('weight');
         $customGroupBAO->find();
 

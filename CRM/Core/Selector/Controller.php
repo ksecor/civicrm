@@ -200,7 +200,7 @@ class CRM_Core_Selector_Controller {
         }
 
         $this->_sortOrder =& $this->_object->getSortOrder($action);
-        $this->_sort      =  new CRM_Utils_Sort( $this->_sortOrder, $this->_sortID );
+        $this->_sort      =& new CRM_Utils_Sort( $this->_sortOrder, $this->_sortID );
 
         /*
          * if we are in transfer mode, do not goto database, use the 
@@ -225,7 +225,7 @@ class CRM_Core_Selector_Controller {
             $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
         }
 
-        $this->_pager = new CRM_Utils_Pager( $params );
+        $this->_pager =& new CRM_Utils_Pager( $params );
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
 
     }

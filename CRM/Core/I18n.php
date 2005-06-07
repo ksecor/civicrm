@@ -170,7 +170,7 @@ class CRM_Core_I18n
     static function &singleton()
     {
         if (!isset(self::$_singleton)) {
-            self::$_singleton = new CRM_Core_I18n();
+            self::$_singleton =& new CRM_Core_I18n();
         }
         return self::$_singleton;
     }

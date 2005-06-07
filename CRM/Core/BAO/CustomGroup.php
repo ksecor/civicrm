@@ -62,7 +62,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     static function retrieve(&$params, &$defaults)
     {
-        $customGroup = new CRM_Core_DAO_CustomGroup();
+        $customGroup =& new CRM_Core_DAO_CustomGroup();
         $customGroup->copyValues($params);
         if ($customGroup->find(true)) {
             //$customGroup->storeValues($defaults); this is not working in php4
@@ -82,7 +82,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      */
     static function setIsActive($id, $is_active) {
-        $customGroup = new CRM_Core_DAO_CustomGroup();
+        $customGroup =& new CRM_Core_DAO_CustomGroup();
         $customGroup->id = $id;
         if ($customGroup->find(true)) {
             $customGroup->is_active = $is_active;
@@ -152,7 +152,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
 
         // dummy dao needed
-        $crmDAO = new CRM_Core_DAO();
+        $crmDAO =& new CRM_Core_DAO();
         $crmDAO->query($queryString);
 
         // process records
@@ -240,7 +240,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
 
         // dummy dao needed
-        $crmDAO = new CRM_Core_DAO();
+        $crmDAO =& new CRM_Core_DAO();
         $crmDAO->query($queryString);
 
         // process records
@@ -312,7 +312,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 */
                 if (isset($field['customValue'])) {
                     // customValue exists hence we need a DAO.
-                    $customValueDAO = new CRM_Core_DAO_CustomValue();
+                    $customValueDAO =& new CRM_Core_DAO_CustomValue();
                     $customValueDAO->entity_table = 'contact'; // hard coded for now.
                     $customValueDAO->custom_field_id = $fieldId;
                     $customValueDAO->entity_id = $entityId;
@@ -390,7 +390,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
          // WHERE  crm_custom_value.custom_field_id IN (SELECT id FROM crm_custom_field WHERE custom_group_id = $groupId)";
 
         // dummy dao needed
-        $crmDAO = new CRM_Core_DAO();
+        $crmDAO =& new CRM_Core_DAO();
         $crmDAO->query($queryString);
         // does not work for php4
         //$row = $crmDAO->getDatabaseResult()->fetchRow();

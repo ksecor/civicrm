@@ -59,7 +59,7 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
             return null;
         }
 
-        $im = new CRM_Contact_DAO_IM();
+        $im =& new CRM_Contact_DAO_IM();
         $im->name         = $params['location'][$locationId]['im'][$imId]['name'];
         $im->id = CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] );
         if ( empty( $im->name ) ) {
@@ -115,7 +115,7 @@ class CRM_Contact_BAO_IM extends CRM_Contact_DAO_IM {
      * @static
      */
     static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
-        $im = new CRM_Contact_BAO_IM( );
+        $im =& new CRM_Contact_BAO_IM( );
         return CRM_Contact_BAO_Block::getValues( $im, 'im', $params, $values, $ids, $blockCount );
     }
 

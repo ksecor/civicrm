@@ -55,7 +55,7 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $relationshipType = new CRM_Contact_DAO_RelationshipType( );
+        $relationshipType =& new CRM_Contact_DAO_RelationshipType( );
         $relationshipType->copyValues( $params );
         if ( $relationshipType->find( true ) ) {
             //$relationshipType->storeValues( $defaults ); this is not working in php4
@@ -75,7 +75,7 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
      * @static
      */
     static function setIsActive( $id, $is_active ) {
-        $relationshipType = new CRM_Contact_DAO_RelationshipType( );
+        $relationshipType =& new CRM_Contact_DAO_RelationshipType( );
         $relationshipType->id = $id;
         if ( $relationshipType->find( true ) ) {
             $relationshipType->is_active = $is_active;
@@ -97,7 +97,7 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
      */
     static function add( &$params, &$ids) {
         // action is taken depending upon the mode
-        $relationshipType = new CRM_Contact_DAO_RelationshipType( );
+        $relationshipType =& new CRM_Contact_DAO_RelationshipType( );
         
         $relationshipType->copyValues( $params );
 

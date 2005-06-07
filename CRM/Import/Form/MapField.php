@@ -143,7 +143,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
         $this->set( 'mapper'    , $mapper     );
 
-        $parser = new CRM_Import_Parser_Contact( $mapperKeys );
+        $parser =& new CRM_Import_Parser_Contact( $mapperKeys );
         $parser->run( $fileName, $seperator,
                       $mapper, 
                       $skipColumnHeader,

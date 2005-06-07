@@ -11,7 +11,7 @@ function createDir( $dir, $perm = 0755 ) {
     }
 }
 
-$smarty = new Smarty( );
+$smarty =& new Smarty( );
 $smarty->template_dir = './templates';
 $smarty->compile_dir  = '/tmp/templates_c';
 
@@ -55,7 +55,7 @@ $fd = fopen( $sqlCodePath . "Contacts.sql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
-$beautifier = new PHP_Beautifier(); // create a instance
+$beautifier =& new PHP_Beautifier(); // create a instance
 $beautifier->addFilter('ArrayNested');
 $beautifier->addFilter('Pear'); // add one or more filters
 $beautifier->addFilter('NewLines', array( 'after' => 'class, public, require, comment' ) ); // add one or more filters

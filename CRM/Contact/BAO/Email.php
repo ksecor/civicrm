@@ -60,7 +60,7 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
             return null;
         }
 
-        $email = new CRM_Contact_DAO_Email();
+        $email =& new CRM_Contact_DAO_Email();
         $email->id = CRM_Utils_Array::value( $emailId, $ids['location'][$locationId]['email'] );
         $email->email       = $params['location'][$locationId]['email'][$emailId]['email'];
         if ( empty( $email->email ) ) {
@@ -111,7 +111,7 @@ class CRM_Contact_BAO_Email extends CRM_Contact_DAO_Email {
      * @static
      */
     static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
-        $email = new CRM_Contact_BAO_Email( );
+        $email =& new CRM_Contact_BAO_Email( );
         return CRM_Contact_BAO_Block::getValues( $email, 'email', $params, $values, $ids, $blockCount );
     }
 }

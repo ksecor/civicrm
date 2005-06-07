@@ -64,7 +64,7 @@ class CRM_Core_BAO_History {
     static function retrieve(&$params, &$defaults, $type='Activity')
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
-        eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
+        eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->copyValues($params);
         if ($historyDAO->find(true)) {
             //$historyDAO->storeValues($defaults); //this is not working in php4
@@ -87,7 +87,7 @@ class CRM_Core_BAO_History {
     static function del($historyTableId, $type='Ativity')
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
-        eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
+        eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->id = $historyTableId;
         $historyDAO->delete();
     }
@@ -132,7 +132,7 @@ class CRM_Core_BAO_History {
     static function &getHistory(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity')
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
-        eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
+        eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         
         //$historyDAO->storeValues($params); this is not working in php4
         $historyDAO->storeValues(&$params);
@@ -172,7 +172,7 @@ class CRM_Core_BAO_History {
     static function &getNumHistory($entityId, $type='Activity')
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
-        eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
+        eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->entity_table = 'crm_contact';
         $historyDAO->entity_id = $entityId;
         return $historyDAO->count();
@@ -193,7 +193,7 @@ class CRM_Core_BAO_History {
     static function create(&$params, $type='Activity')
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
-        eval('$historyDAO = new CRM_Core_DAO_' . $type . 'History();');
+        eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         $historyBAO->copyValues($params);
         return $historyBAO->save();
     }

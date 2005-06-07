@@ -521,7 +521,7 @@ class CRM_GCD {
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $domain = new CRM_Core_DAO_Domain();
+        $domain =& new CRM_Core_DAO_Domain();
         for ($id=2; $id<=self::NUM_DOMAIN; $id++) {
             // domain name is pretty simple. it is "Domain $id"
             $domain->name = "Domain $id";
@@ -551,7 +551,7 @@ class CRM_GCD {
         // CRM_Core_Error::ll_method();
 
         // add contacts
-        $contact = new CRM_Contact_DAO_Contact();
+        $contact =& new CRM_Contact_DAO_Contact();
 
         for ($id=1; $id<=self::NUM_CONTACT; $id++) {
             $contact->domain_id = $this->_getRandomElement($this->domain);
@@ -589,8 +589,8 @@ class CRM_GCD {
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $individual = new CRM_Contact_DAO_Individual();
-        $contact = new CRM_Contact_DAO_Contact();
+        $individual =& new CRM_Contact_DAO_Individual();
+        $contact =& new CRM_Contact_DAO_Contact();
 
         for ($id=1; $id<=$this->numIndividual; $id++) {
             $individual->contact_id = $this->individual[($id-1)];
@@ -641,15 +641,15 @@ class CRM_GCD {
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $household = new CRM_Contact_DAO_Household();
-        $contact = new CRM_Contact_DAO_Contact();
+        $household =& new CRM_Contact_DAO_Household();
+        $contact =& new CRM_Contact_DAO_Contact();
         
         for ($id=1; $id<=$this->numHousehold; $id++) {
             $household->contact_id = $this->household[($id-1)];
             $household->primary_contact_id = $this->householdIndividual[$household->contact_id][0];
 
             // get the last name of the primary contact id
-            $individual = new CRM_Contact_DAO_Individual();
+            $individual =& new CRM_Contact_DAO_Individual();
             $individual->contact_id = $household->primary_contact_id;
             $individual->find(true);
             $firstName = $individual->first_name;
@@ -693,8 +693,8 @@ class CRM_GCD {
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $organization = new CRM_Contact_DAO_Organization();
-        $contact = new CRM_Contact_DAO_Contact();       
+        $organization =& new CRM_Contact_DAO_Organization();
+        $contact =& new CRM_Contact_DAO_Contact();       
 
         for ($id=1; $id<=$this->numOrganization; $id++) {
             $organization->contact_id = $this->organization[($id-1)];
@@ -727,7 +727,7 @@ class CRM_GCD {
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $relationship = new CRM_Contact_DAO_Relationship();
+        $relationship =& new CRM_Contact_DAO_Relationship();
 
         $relationship->is_active = 1; // all active for now.
 
@@ -823,7 +823,7 @@ class CRM_GCD {
 
         // CRM_Core_Error::le_method();
 
-        $locationDAO = new CRM_Contact_DAO_Location();
+        $locationDAO =& new CRM_Contact_DAO_Location();
 
         $locationDAO->is_primary = 1; // primary location for now
         $locationDAO->location_type_id = $locationType;
@@ -837,7 +837,7 @@ class CRM_GCD {
         $this->_addPhone($locationDAO->id, 'Mobile', false);
 
         // need to get sort name to generate email id
-        $contact = new CRM_Contact_DAO_Contact();
+        $contact =& new CRM_Contact_DAO_Contact();
         $contact->id = $locationDAO->contact_id;
         $contact->find(true);
         // get the sort name of the contact
@@ -855,7 +855,7 @@ class CRM_GCD {
     {
 
         // CRM_Core_Error::le_method();
-        $addressDAO = new CRM_Contact_DAO_Address();
+        $addressDAO =& new CRM_Contact_DAO_Address();
 
         // add addresses now currently we are adding only 1 address for each location
         $addressDAO->location_id = $locationId;
@@ -904,7 +904,7 @@ class CRM_GCD {
     {
         // CRM_Core_Error::le_method();
         if ($locationId % 3) {
-            $phone = new CRM_Contact_DAO_Phone();
+            $phone =& new CRM_Contact_DAO_Phone();
             $phone->location_id = $locationId;
             $phone->is_primary = $primary;
             $phone->phone = mt_rand(11111111, 99999999);
@@ -918,7 +918,7 @@ class CRM_GCD {
     {
         // CRM_Core_Error::le_method();
         if ($locationId % 7) {
-            $email = new CRM_Contact_DAO_Email();
+            $email =& new CRM_Contact_DAO_Email();
             $email->location_id = $locationId;
             $email->is_primary = $primary;
             
@@ -946,7 +946,7 @@ class CRM_GCD {
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $entity_tag = new CRM_Contact_DAO_EntityTag();
+        $entity_tag =& new CRM_Contact_DAO_EntityTag();
         
         // add categories 1,2,3 for Organizations.
         for ($i=0; $i<$this->numOrganization; $i+=2) {
@@ -988,7 +988,7 @@ class CRM_GCD {
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $group = new CRM_Contact_DAO_Group();
+        $group =& new CRM_Contact_DAO_Group();
 
         
         // add the 3 groups first
@@ -1005,7 +1005,7 @@ class CRM_GCD {
 
         // 60 are for newsletter
         for ($i=0; $i<60; $i++) {
-            $groupContact = new CRM_Contact_DAO_GroupContact();
+            $groupContact =& new CRM_Contact_DAO_GroupContact();
             $groupContact->group_id = 1; // newsletter subscribers
             $groupContact->contact_id = $this->individual[$i];
             $this->_setGroupContactStatus($groupContact);
@@ -1014,7 +1014,7 @@ class CRM_GCD {
 
         // 15 volunteers
         for ($i=0; $i<15; $i++) {
-            $groupContact = new CRM_Contact_DAO_GroupContact();
+            $groupContact =& new CRM_Contact_DAO_GroupContact();
             $groupContact->group_id = 2; // Volunteers
             $groupContact->contact_id = $this->individual[$i+60];
             $this->_setGroupContactStatus($groupContact);
@@ -1023,7 +1023,7 @@ class CRM_GCD {
 
         // 8 advisory board group
         for ($i=0; $i<8; $i++) {
-            $groupContact = new CRM_Contact_DAO_GroupContact();
+            $groupContact =& new CRM_Contact_DAO_GroupContact();
             $groupContact->group_id = 3; // advisory board group
             $groupContact->contact_id = $this->individual[$i*7];
             $this->_setGroupContactStatus($groupContact);
@@ -1070,7 +1070,7 @@ class CRM_GCD {
         // CRM_Core_Error::le_method();
         // CRM_Core_Error::ll_method();
 
-        $note = new CRM_Core_DAO_Note();
+        $note =& new CRM_Core_DAO_Note();
         $note->table_name = 'crm_contact';
         // $note->table_id = 1;
         $note->contact_id = 1;
@@ -1131,7 +1131,7 @@ class CRM_GCD {
 }
 
 echo("Starting data generation on " . date("F dS h:i:s A") . "\n");
-$obj1 = new CRM_GCD();
+$obj1 =& new CRM_GCD();
 $obj1->initID();
 $obj1->parseDataFile();
 $obj1->initDB();

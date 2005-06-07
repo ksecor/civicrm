@@ -81,7 +81,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
         if (($values['radio_ts'] == 'ts_all') || ($this->_task == CRM_Contact_Task::SAVE_SEARCH)) {
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
-            $contact = new CRM_Contact_BAO_Contact();
+            $contact =& new CRM_Contact_BAO_Contact();
             $fv = $this->get( 'formValues' );
             $result = $contact->searchQuery( $fv, 0, 0, null );
             while ( $result->fetch( ) ) {

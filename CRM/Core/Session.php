@@ -93,7 +93,7 @@ class CRM_Core_Session {
      */
     static function &singleton($key = 'CiviCRM') {
         if (self::$_singleton === null ) {
-            self::$_singleton = new CRM_Core_Session($key);
+            self::$_singleton =& new CRM_Core_Session($key);
         }
         return self::$_singleton;
     }

@@ -152,7 +152,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $params = $this->controller->exportValues('Group');
 
         // create custom group dao, populate fields and then save.
-        $group = new CRM_Core_DAO_CustomGroup();
+        $group =& new CRM_Core_DAO_CustomGroup();
         $group->title       = $params['title'];
         $group->name        = CRM_Utils_String::titleToVar($params['title']);
         $group->extends     = $params['extends'];

@@ -55,7 +55,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $group = new CRM_Contact_DAO_Group( );
+        $group =& new CRM_Contact_DAO_Group( );
         $group->copyValues( $params );
         if ( $group->find( true ) ) {
             //$group->storeValues( $defaults ); this is not working in php4
@@ -78,12 +78,12 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      */
     static function discard ( $id ) {
         // delete all crm_group_contact records with the selected group id
-        $groupContact = new CRM_Contact_DAO_GroupContact( );
+        $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupContact->group_id = $id;
         $groupContact->delete();
 
         // delete from group table
-        $group = new CRM_Contact_DAO_Group( );
+        $group =& new CRM_Contact_DAO_Group( );
         $group->id = $id;
         $group->delete();
     }
@@ -98,7 +98,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @access public
      */
     static function memberCount( $id, $status = 'In' ) {
-        $groupContact = new CRM_Contact_DAO_GroupContact( );
+        $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupContact->group_id = $id;
         if ( isset( $status ) ) {
             $groupContact->status   = $status;
@@ -116,7 +116,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @static
      */
     static function getMember ($lngGroupId) {
-        $groupContact = new CRM_Contact_DAO_GroupContact( );
+        $groupContact =& new CRM_Contact_DAO_GroupContact( );
         
         $strSql = "SELECT crm_contact.id as contact_id, crm_contact.sort_name as name  
                    FROM crm_contact, crm_group_contact

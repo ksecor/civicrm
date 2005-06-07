@@ -85,7 +85,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     function &singleton( $key = 'CRM' ) {
         if (self::$_singleton === null ) {
-            self::$_singleton = new CRM_Core_Error( $key );
+            self::$_singleton =& new CRM_Core_Error( $key );
         }
         return self::$_singleton;
     }

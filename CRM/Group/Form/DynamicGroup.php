@@ -56,7 +56,7 @@ class CRM_Group_Form_DynamicGroup extends CRM_Core_Form {
      */
     public function buildQuickForm( ) {
 
-        $savedSearch = new CRM_Contact_BAO_SavedSearch ();
+        $savedSearch =& new CRM_Contact_BAO_SavedSearch ();
         
         $aSavedResults = array ();
         
@@ -91,7 +91,7 @@ class CRM_Group_Form_DynamicGroup extends CRM_Core_Form {
         $params['group_type'] = $this->controller->exportValue('Group','group_type' );
         $params['saved_search_id'] = $this->controller->exportValue('DynamicGroup','saved_search_id' );
         
-        $group = new CRM_Contact_DAO_Group();
+        $group =& new CRM_Contact_DAO_Group();
         
         $group->copyValues( $params );
         $group->domain_id = 1;

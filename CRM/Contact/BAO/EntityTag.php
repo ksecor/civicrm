@@ -51,7 +51,7 @@ class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag
     {
         $tag = array();
 
-        $entityTag = new CRM_Contact_BAO_EntityTag();
+        $entityTag =& new CRM_Contact_BAO_EntityTag();
         $entityTag->entity_table = $entityTable;
         $entityTag->entity_id = $entityID;
         $entityTag->find();
@@ -83,7 +83,7 @@ class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag
             return null;
         }
 
-        $entityTag = new CRM_Contact_BAO_EntityTag( );
+        $entityTag =& new CRM_Contact_BAO_EntityTag( );
         $entityTag->copyValues( $params );
         $entityTag->save( );
         return $entityTag;
@@ -115,7 +115,7 @@ class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag
      */
     static function del( &$params ) 
     {
-        $entityTag = new CRM_Contact_BAO_EntityTag( );
+        $entityTag =& new CRM_Contact_BAO_EntityTag( );
         $entityTag->copyValues( $params );
         $entityTag->delete( );
         return $entityTag;
@@ -137,7 +137,7 @@ class CRM_Contact_BAO_EntityTag extends CRM_Contact_DAO_EntityTag
         $numContactsNotAdded = 0;
 
         foreach ( $contactIds as $contactId ) {
-            $tag = new CRM_Contact_DAO_EntityTag( );
+            $tag =& new CRM_Contact_DAO_EntityTag( );
             
             $tag->entity_id    = $contactId;
             $tag->entity_table = 'crm_contact';

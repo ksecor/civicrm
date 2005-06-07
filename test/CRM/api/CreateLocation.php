@@ -49,21 +49,21 @@ class TestOfCreateLocationAPI extends UnitTestCase
     
     function testCreateLocationIndividual()
     {
-        $workPhone  = new Phone('91-20-2345678', false, 'Phone'           );
-        $workMobile = new Phone('91-20-989090098988', true, 'Mobile', null);
-        $workFax    = new Phone('91-20-234-657686', false, 'Fax'          );
+        $workPhone  =& new Phone('91-20-2345678', false, 'Phone'           );
+        $workMobile =& new Phone('91-20-989090098988', true, 'Mobile', null);
+        $workFax    =& new Phone('91-20-234-657686', false, 'Fax'          );
         $phones     = array ($workPhone, $workMobile, $workFax);
         
         /* following commented code is for adding the IM and Email to the location */
         /*
-        $workIMFirst  = new IM('mlzope', true, 'Yahoo'      );
-        $workIMSecond = new IM('mlzope', false, 'AIM'       );
-        $workIMThird  = new IM('mlzope', false, 'Indiatimes');
+        $workIMFirst  =& new IM('mlzope', true, 'Yahoo'      );
+        $workIMSecond =& new IM('mlzope', false, 'AIM'       );
+        $workIMThird  =& new IM('mlzope', false, 'Indiatimes');
         $im = array ($workIMFirst, $workIMSecond, $workIMThird );
         
-        $workEmailFirst  = new Email('manish@indiatimes.com', false);
-        $workEmailSecond = new Email('manish@hotmail.com', false   );
-        $workEmailThird  = new Email('manish@lycos.com', true      );
+        $workEmailFirst  =& new Email('manish@indiatimes.com', false);
+        $workEmailSecond =& new Email('manish@hotmail.com', false   );
+        $workEmailThird  =& new Email('manish@lycos.com', true      );
         $emails = array($workEmailFirst, $workEmailSecond, $workEmailThird);
         */
         $params = array('location_type' => 'Work',
@@ -104,9 +104,9 @@ class TestOfCreateLocationAPI extends UnitTestCase
     
     function testCreateLocationHousehold()
     {
-        $homeMobile = new Phone('91-20-989090098988', false, 'Mobile', null);
-        $homePhone  = new Phone('91-20-2345678', true, 'Phone'             );
-        $homePager  = new Phone('91-20-234-657686', false, 'Pager'         );
+        $homeMobile =& new Phone('91-20-989090098988', false, 'Mobile', null);
+        $homePhone  =& new Phone('91-20-2345678', true, 'Phone'             );
+        $homePager  =& new Phone('91-20-234-657686', false, 'Pager'         );
         $phones     = array ($homeMobile, $homePhone, $homePager);
         
         $params = array('location_type' => 'Home',
@@ -150,9 +150,9 @@ class TestOfCreateLocationAPI extends UnitTestCase
     
     function testCreateLocationOrganization()
     {
-        $mainMobile = new Phone('91-20-989090098988', false, 'Mobile', null);
-        $mainPager  = new Phone('91-20-234-657686', true, 'Pager'         );
-        $mainPhone  = new Phone('91-20-2345678', false, 'Phone'            );
+        $mainMobile =& new Phone('91-20-989090098988', false, 'Mobile', null);
+        $mainPager  =& new Phone('91-20-234-657686', true, 'Pager'         );
+        $mainPhone  =& new Phone('91-20-2345678', false, 'Phone'            );
         $phones     = array ($mainMobile, $mainPager, $mainPhone);
         
         $params = array('location_type' => 'Main',
@@ -170,9 +170,9 @@ class TestOfCreateLocationAPI extends UnitTestCase
         
     function testCreateLocationOrganization()
     {
-        $workMobile = new Phone('91-20-989090098988', false, 'Mobile', null);
-        $workPager  = new Phone( '91-20-234-657686', true, 'Pager'         );
-        $workPhone  = new Phone('91-20-2345678', false, 'Phone'            );
+        $workMobile =& new Phone('91-20-989090098988', false, 'Mobile', null);
+        $workPager  =& new Phone( '91-20-234-657686', true, 'Pager'         );
+        $workPhone  =& new Phone('91-20-2345678', false, 'Phone'            );
         
         $phones     = array ($workMobile, $workPager, $workPhone);
         

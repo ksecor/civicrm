@@ -87,14 +87,14 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $params   = array( );
 
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $relationship = new CRM_Contact_DAO_Relationship( );
+            $relationship =& new CRM_Contact_DAO_Relationship( );
             $relationship->id = $this->_relationshipId;
             if ($relationship->find(true)) {
                 $defaults['relationship_type_id'] = $relationship->relationship_type_id . '_' . $this->_rtype;
                 $defaults['start_date']           = CRM_Utils_Date::unformat( $relationship->start_date );
                 $defaults['end_date'  ]           = CRM_Utils_Date::unformat( $relationship->end_date   );
                 
-                $contact = new CRM_Contact_DAO_Contact( );
+                $contact =& new CRM_Contact_DAO_Contact( );
                 if ($this->_rtype == 'a_b' && $relationship->contact_id_a == $this->_contactId ) {
                     $contact->id = $relationship->contact_id_b;
                 } else {
@@ -239,12 +239,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $excludedContactIds = array( $this->_contactId );
 
         if ( $params['relationship_type_id'] ) {
-            $relationshipType = new CRM_Contact_DAO_RelationshipType( );
+            $relationshipType =& new CRM_Contact_DAO_RelationshipType( );
             list( $rid, $direction ) = explode( '_', $params['relationship_type_id'], 2 );
             $relationshipType->id = $rid;
             if ( $relationshipType->find( true ) ) {
                 // find all the contacts which have the same relationship
-                $relationship = new CRM_Contact_DAO_Relationship( );
+                $relationship =& new CRM_Contact_DAO_Relationship( );
                 $relationship->relationship_type_id = $rid;
                 if ( $direction == 'a_b' ) {
                     $type = $relationshipType->contact_type_b;
@@ -270,7 +270,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
                 // also do the reverse if a_b == b_a
                 if ( $relationshipType->name_a_b === $relationshipType->name_b_a ) {
-                    $relationship = new CRM_Contact_DAO_Relationship( );
+                    $relationship =& new CRM_Contact_DAO_Relationship( );
                     $relationship->relationship_type_id = $rid;
                     $relationship->contact_id_b = $this->_contactId;
                     $relationship->find( );
@@ -282,7 +282,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
 
         // get the count of contact
-        $contactBAO  = new CRM_Contact_BAO_Contact( );
+        $contactBAO  =& new CRM_Contact_BAO_Contact( );
         $searchCount = $contactBAO->searchQuery($searchValues, 0, 0, null, true );
         $this->set( 'searchCount', $searchCount );
         if ( $searchCount <= self::MAX_RELATIONSHIPS ) {

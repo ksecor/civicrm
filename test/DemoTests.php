@@ -27,15 +27,15 @@ if ( TEST == __FILE__ ) {
     $config = CRM_Config::singleton();
     CRM_DAO::init($config->dsn, $config->daoDebug);
     $factoryClass = 'CRM_Contact_DAO_Factory';
-    CRM_DAO::setFactory(new $factoryClass());
+    CRM_DAO::setFactory(& new $factoryClass());
 
     // set error handling
     PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Error', 'callback'));
 
     if ( SimpleReporter::inCli( ) ) {
-        exit( $test->run( new TextReporter( ) ) ? 0 : 1 );
+        exit( $test->run(& new TextReporter( ) ) ? 0 : 1 );
     }
-    $test->run( new HtmlReporter( ) );
+    $test->run(& new HtmlReporter( ) );
 }
 
 ?>

@@ -452,34 +452,34 @@ function civicrm_admin_invoke()
         $view = null;
         
         if (arg(2) == 'locationType') {
-            $view = new CRM_Admin_Page_LocationType(ts('View Location Types'));
+            $view =& new CRM_Admin_Page_LocationType(ts('View Location Types'));
         } else if (arg(2) == 'IMProvider') {
             // IM provider
-            $view = new CRM_Admin_Page_IMProvider(ts('View Instant Messenger Providers'));
+            $view =& new CRM_Admin_Page_IMProvider(ts('View Instant Messenger Providers'));
         } else if (arg(2) == 'mobileProvider') {
             // Mobile provider
-            $view = new CRM_Admin_Page_MobileProvider(ts('View Mobile Providers'));
+            $view =& new CRM_Admin_Page_MobileProvider(ts('View Mobile Providers'));
         } else if (arg(2) == 'reltype') {
             // relationship type
-            $view = new CRM_Admin_Page_RelationshipType(ts('View Relationship Types'));
+            $view =& new CRM_Admin_Page_RelationshipType(ts('View Relationship Types'));
         } else if (arg(2) == 'tag') {
             // tag
-            $view = new CRM_Admin_Page_Tag(ts('View Tags'));
+            $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
         } else if (arg(2) == 'custom') {
             // handle external properties
             if (arg(3) == 'group') {
                 if (arg(4) != 'field') {
-                    $view = new CRM_Custom_Page_Group(ts('Custom Data Group'));
+                    $view =& new CRM_Custom_Page_Group(ts('Custom Data Group'));
                 } else {
                     $breadcrumb = drupal_get_breadcrumb();
                     $breadcrumb[] = ts('<a href="%1">Custom Data</a>', array(1 => 'civicrm/admin/custom/group'));
                     drupal_set_breadcrumb($breadcrumb);
-                    $view = new CRM_Custom_Page_Field(ts('Custom Data Field'));
+                    $view =& new CRM_Custom_Page_Field(ts('Custom Data Field'));
                 }
             }
         } else {
             // Categories is default local task
-            $view = new CRM_Admin_Page_Tag(ts('View Tags'));
+            $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
         }
         
         if ($view) {
@@ -508,14 +508,14 @@ function civicrm_invoke()
     // browse groups
     if (arg(1) == 'group') {
         if (arg(2) == 'add') {
-            $controller = new CRM_Group_Controller(ts('Groups'), CRM_Core_Action::ADD);
+            $controller =& new CRM_Group_Controller(ts('Groups'), CRM_Core_Action::ADD);
             $session->pushUserContext(CRM_Utils_System::url('civicrm/group', 'reset=1'));
             $controller->run();
         } else if (arg(2) == 'search') {
             // this is really a search, including here to get drupal customizations
             civicrm_search();
         } else {
-            $view = new CRM_Group_Page_Group(ts('View Groups'));
+            $view =& new CRM_Group_Page_Group(ts('View Groups'));
             $view->run();
         }
         return;
@@ -523,7 +523,7 @@ function civicrm_invoke()
 
     //  import wizard
     if (arg(1) == 'import') {
-        $controller = new CRM_Import_Controller(ts('Import Contacts'));
+        $controller =& new CRM_Import_Controller(ts('Import Contacts'));
         return $controller->run();
     }
 
@@ -557,43 +557,43 @@ function civicrm_contact_invoke()
         $breadcrumb[] = ts('<a href="%1">Search Results</a>', array(1 => 'civicrm/contact/search?force=1'));
         drupal_set_breadcrumb( $breadcrumb );
         if (arg(3) == '') {
-            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_NONE);
+            $view =& new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_NONE);
             return $view->run();
         }
 
         // view contact notes
         if (arg(3) == 'note') {
-            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_NOTE);
+            $view =& new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_NOTE);
             return $view->run();
         }
         
         // view contact relationships
         if (arg(3) == 'rel') {
-            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_REL);
+            $view =& new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_REL);
             return $view->run();
         }
         
         // view contact groups
         if (arg(3) == 'group') {
-            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_GROUP);
+            $view =& new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_GROUP);
             return $view->run();
         }
         
         // view contact tags
         if (arg(3) == 'tag') {
-            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_TAG );
+            $view =& new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_TAG );
             return $view->run();
         }
 
         // view custom data
         if (arg(3) == 'cd') {
-            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_CD );
+            $view =& new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_CD );
             return $view->run();
         }
 
         // view activities
         if (arg(3) == 'activity') {
-            $view = new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_ACTIVITY);
+            $view =& new CRM_Contact_Page_View('',CRM_Contact_Page_View::MODE_ACTIVITY);
             return $view->run();
         }
     }
@@ -627,7 +627,7 @@ function civicrm_load($queryArgs)
 function civicrm_form($mode)
 {
     CRM_Utils_System::setUserContext(array('civicrm/contact/search', 'civicrm/contact/view'));
-    $wrapper = new CRM_Utils_Wrapper();
+    $wrapper =& new CRM_Utils_Wrapper();
     $wrapper->run('CRM_Contact_Form_Edit', ts('Contact Page'), $mode);
 }
 
@@ -673,7 +673,7 @@ function civicrm_search()
 
     if (arg(3) == 'saved') {
         // browse saved searches
-        $savedSearchPage = new CRM_Contact_Page_SavedSearch('', CRM_Contact_Page_View::MODE_NONE);
+        $savedSearchPage =& new CRM_Contact_Page_SavedSearch('', CRM_Contact_Page_View::MODE_NONE);
         $savedSearchPage->run();
         return;
     } else {
@@ -687,7 +687,7 @@ function civicrm_search()
             $title = ts('Search');
             $url   = 'civicrm/contact/search';
         }
-        $controller = new CRM_Contact_Controller_Search($title, $mode);
+        $controller =& new CRM_Contact_Controller_Search($title, $mode);
         $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
         $controller->run();
     }

@@ -39,7 +39,7 @@ require_once 'CRM/Core/Page.php';
  */
 class CRM_Contact_Page_Note {
     static function view( $page, $noteId ) {
-        $note = new CRM_Core_DAO_Note( );
+        $note =& new CRM_Core_DAO_Note( );
         $note->id = $noteId;
         if ( $note->find( true ) ) {
             $values = array( );
@@ -52,7 +52,7 @@ class CRM_Contact_Page_Note {
     }
 
     static function browse( $page ) {
-        $note = new CRM_Core_DAO_Note( );
+        $note =& new CRM_Core_DAO_Note( );
         $note->table_name = 'crm_contact';
         $note->table_id   = $page->getContactId( );
 
@@ -69,7 +69,7 @@ class CRM_Contact_Page_Note {
     }
 
     static function edit( $page, $mode, $noteId = null ) {
-        $controller = new CRM_Core_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', $mode );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', $mode );
         $controller->setEmbedded( true );
 
         // set the userContext stack

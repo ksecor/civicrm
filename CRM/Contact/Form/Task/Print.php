@@ -54,8 +54,8 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
         } else {
             $fv = $this->controller->exportValues('Advanced');
         }
-        $selector = new CRM_Contact_Selector($fv, $this->_action);
-        $controller = new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
+        $selector =& new CRM_Contact_Selector($fv, $this->_action);
+        $controller =& new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
         $controller->setEmbedded( true );
         $controller->run();
     }

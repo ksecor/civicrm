@@ -55,7 +55,7 @@ class CRM_Contact_BAO_Tag extends CRM_Contact_DAO_Tag {
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $tag = new CRM_Contact_DAO_Tag( );
+        $tag =& new CRM_Contact_DAO_Tag( );
         $tag->copyValues( $params );
         if ( $tag->find( true ) ) {
             //$tag->storeValues( $defaults ); this is not woking in php4
@@ -77,7 +77,7 @@ class CRM_Contact_BAO_Tag extends CRM_Contact_DAO_Tag {
      */
     static function del ( $id ) {
         // delete all crm_entity_tag records with the selected tag id
-        $entityTag = new CRM_Contact_DAO_EntityTag( );
+        $entityTag =& new CRM_Contact_DAO_EntityTag( );
         $entityTag->tag_id = $id;
         $entityTag->find();
         while ( $entityTag->fetch() ) {
@@ -85,7 +85,7 @@ class CRM_Contact_BAO_Tag extends CRM_Contact_DAO_Tag {
         }
         
         // delete from tag table
-        $tag = new CRM_Contact_DAO_Tag( );
+        $tag =& new CRM_Contact_DAO_Tag( );
         $tag->id = $id;
         $tag->delete();
 
@@ -111,7 +111,7 @@ class CRM_Contact_BAO_Tag extends CRM_Contact_DAO_Tag {
             return null;
         }
 
-        $tag               = new CRM_Contact_DAO_Tag( );
+        $tag               =& new CRM_Contact_DAO_Tag( );
         $tag->domain_id    = 1;
 
         $tag->copyValues( $params );

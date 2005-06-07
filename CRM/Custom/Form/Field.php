@@ -233,7 +233,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $params = $this->controller->exportValues('Field');
 
         // set values for custom field properties and save
-        $customField                = new CRM_Core_DAO_CustomField();
+        $customField                =& new CRM_Core_DAO_CustomField();
         $customField->label         = $params['label'];
         $customField->name          = CRM_Utils_String::titleToVar($params['label']);
         $customField->data_type     = self::$_dataTypeKeys[$params['data_type'][0]];

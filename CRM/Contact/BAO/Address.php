@@ -58,7 +58,7 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
             return null;
         }
 
-        $address              = new CRM_Contact_BAO_Address();
+        $address              =& new CRM_Contact_BAO_Address();
         $address->location_id = $params['location'][$locationId]['id'];
         $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
         if ( $address->copyValues($params['location'][$locationId]['address']) ) {
@@ -72,7 +72,7 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
         if ( is_numeric( $address->state_province_id ) && ($address->country_id == 'null')) {
             // since state id present and country id not present, hence lets populate it
             // jira issue http://objectledge.org/jira/browse/CRM-56
-            $stateProvinceDAO = new CRM_Core_DAO_StateProvince();
+            $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
             $stateProvinceDAO->id = $address->state_province_id; 
             $stateProvinceDAO->find(true);
             $address->country_id = $stateProvinceDAO->country_id;
@@ -129,7 +129,7 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
      */
     static function getValues(&$params, &$values, &$ids, $blockCount=0)
     {
-        $address = new CRM_Contact_BAO_Address();
+        $address =& new CRM_Contact_BAO_Address();
         $address->copyValues($params);
 
         $flatten = false;
