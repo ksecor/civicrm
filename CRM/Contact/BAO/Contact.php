@@ -563,7 +563,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
-        // $contact->activity     =& CRM_Core_BAO_Activity::getValues($params, $defaults, $ids);
+        $activityParam = array('entity_id' => $params['contact_id']);
+        $contact->activity     =& CRM_Core_BAO_History::getValues($activityParam, $defaults, 'Activity');
 
         return $contact;
     }
