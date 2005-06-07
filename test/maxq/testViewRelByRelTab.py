@@ -132,7 +132,7 @@ class testViewRelByRelTab(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.HOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
+        db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.DBHOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
 
         queryA       = 'select contact_id_a from crm_relationship where id=%s' % params[1][1]
         queryB       = 'select contact_id_b from crm_relationship where id=%s' % params[1][1]

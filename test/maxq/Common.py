@@ -11,6 +11,7 @@ USERNAME    = '''manishzope'''
 PASSWORD    = '''manish'''
 
 HOST        = "localhost"
+DBHOST      = "localhost"
 DRUPAL_PATH = "http://" + HOST  + "/drupal"
 
 
@@ -25,6 +26,7 @@ DRUPAL_PATH = "http://" + HOST  + "/drupal"
 #PASSWORD    = '''demo'''
 
 #HOST        = "sandbox.openngo.org"
+#DBHOST      = "localhost"
 #DRUPAL_PATH = "http://" + HOST  + "/crm"
 
 

@@ -73,7 +73,7 @@ class testAdminAddRel(PyHttpTestCase):
         self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.HOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
+        db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.DBHOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
 
         queryName      = 'select name_a_b from crm_relationship_type'       
         queryID        = 'select max(id) from crm_relationship_type'

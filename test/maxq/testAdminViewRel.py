@@ -92,7 +92,7 @@ class testAdminViewRel(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
-        db    = DBUtil("org.gjt.mm.mysql.Driver", "jdbc:mysql://%s/civicrm" % Common.HOST, "%s" % Common.DBNAME, "%s" % Common.DBPASSWORD)
+        db    = DBUtil("org.gjt.mm.mysql.Driver", "jdbc:mysql://%s/civicrm" % Common.DBHOST, "%s" % Common.DBNAME, "%s" % Common.DBPASSWORD)
         #self.msg(params[1][1])
         query1 = 'select name_a_b from crm_relationship_type where id=%s' % params[1][1]
         query2 = 'select name_b_a from crm_relationship_type where id=%s' % params[1][1]

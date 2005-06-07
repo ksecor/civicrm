@@ -101,7 +101,7 @@ class testAdvSearchByContactGroupCategory(PyHttpTestCase):
         self.assertEquals("Assert number 6 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
-        db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.HOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
+        db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.DBHOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
 
         contact = 'Individual'
         group   = 'Summer Program Volunteers'
