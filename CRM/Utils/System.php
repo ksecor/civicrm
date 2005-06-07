@@ -45,6 +45,7 @@ class CRM_Utils_System {
      */
     public static $php4SpecialClassName = array(
                                                 'crm'                => 'CRM',
+                                                'activityhistory'    => 'ActivityHistory',
                                                 'addtogroup'         => 'AddToGroup',
                                                 'addtohousehold'     => 'AddToHousehold',
                                                 'addtotag'           => 'AddToTag',
@@ -56,6 +57,7 @@ class CRM_Utils_System {
                                                 'customvalue'        => 'CustomValue',
                                                 'dao'                => 'DAO',
                                                 'dynamicgroup'       => 'DynamicGroup',
+                                                'emailhistory'       => 'EmailHistory',
                                                 'entitycategory'     => 'EntityCategory',
                                                 'entitytag'          => 'EntityTag',
                                                 'geocoord'           => 'GeoCoord',

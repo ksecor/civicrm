@@ -61,10 +61,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @access public
      */
     function init( ) {
-        $fields =& self::importableFields( );
-        // does not work for php4 - we shld revert back to this one after we stop developing for php4        
-        //foreach ( $fields as $name => &$field ) {
-        foreach ($fields as $name => $field) {
+        $this->_fields =& self::importableFields( );
+        foreach ($this->_fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'] );
         }
         $this->setActiveFields( $this->_mapperKeys );

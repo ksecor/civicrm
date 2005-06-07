@@ -864,11 +864,16 @@ if (isset($argv[1])) {
     
     foreach ($directory as $v) {
         $rootDir = "$homeDir/svn/crm/$v";
-        $destDir = "$homeDir/svn/crm/php4/$v";
+        $destDir = "$homeDir/svn/crm.php4/$v";
         
         $dir =& new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootDir), true);
         foreach ( $dir as $file ) {
             if ( substr( $file, -4, 4 ) == '.php' ) {
+                // skip config.inc.php
+                if ( $file == 'config.inc.php' ) {
+                    continue;
+                }
+
                 str_repeat("--", $dir->getDepth()) . ' ' . $file->getPath( ) . " $file\n";
                 $x    =& new PHP_DownGrade($file->getPath( ) . '/' . $file);
                 $php4 = $x->toPHP4( );

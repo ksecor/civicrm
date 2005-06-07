@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd ../../crm.php4
 for fileLink in css i js l10n packages PEAR templates
   do
   if test -L $fileLink   # check if link exists

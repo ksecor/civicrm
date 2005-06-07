@@ -50,7 +50,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
       * @var array
       * @static
       */
-      static $_fields;
+      static $_fields = null;
 
      /**
       * static instance to hold the FK relationships
@@ -58,7 +58,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
       * @var string
       * @static
       */
-      static $_links;
+      static $_links = null;
 
      /**
       * static instance to hold the values that can
@@ -67,7 +67,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
       * @var array
       * @static
       */
-      static $_import;
+      static $_import = null;
 
 {foreach from=$table.fields item=field}
     /**
@@ -177,9 +177,9 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
                foreach ( $fields as $name => $field ) {ldelim}
                  if ( CRM_Utils_Array::value( 'import', $field ) ) {ldelim}
                    if ( $prefix ) {ldelim}
-                     self::$_import['{$table.objectName}.' . $name] =& $field;
+                     self::$_import['{$table.objectName}.' . $name] =& $fields[$name];
                    {rdelim} else {ldelim}
-                     self::$_import[$name] =& $field;
+                     self::$_import[$name] =& $fields[$name];
                    {rdelim}
                  {rdelim}
                {rdelim}
