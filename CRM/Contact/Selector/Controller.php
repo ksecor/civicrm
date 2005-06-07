@@ -41,8 +41,7 @@
 
 require_once 'CRM/Core/Selector/Controller.php';
 
-class CRM_Contact_Controller extends CRM_Core_Selector_Controller {
-
+class CRM_Contact_Selector_Controller extends CRM_Core_Selector_Controller {
     function getQill( ) {
         return $this->_object->getMyQILL( );
     }

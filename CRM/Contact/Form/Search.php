@@ -37,7 +37,7 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/Session.php';
 require_once 'CRM/Core/PseudoConstant.php';
-require_once 'CRM/Core/Selector/Controller.php';
+require_once 'CRM/Contact/Selector/Controller.php';
 require_once 'CRM/Contact/Selector.php';
 require_once 'CRM/Contact/Task.php';
 
@@ -377,10 +377,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->assign( 'context', $this->_context );
         
         $selector = new CRM_Contact_Selector($this->_formValues, $this->_action);
-        $controller = new CRM_Contact_Controller($selector ,
-                                                       $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                       $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                       CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
+        $controller = new CRM_Contact_Selector_Controller($selector ,
+                                                          $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                          $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                          CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
         $controller->setEmbedded( true );
         //        if ( $controller->hasChanged( $this->_reset ) ||
         if ( $this->_force ) {
@@ -390,10 +390,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
              * values that potentially change the controller behavior. i.e. things
              * like totalCount etc
              */
-            $controller = new CRM_Contact_Controller($selector ,
-                                                           $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                           $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                           CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
+            $controller = new CRM_Contact_Selector_Controller($selector ,
+                                                              $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                              $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                              CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
             $controller->setEmbedded( true );
         }
         $controller->moveFromSessionToTemplate( );
@@ -491,10 +491,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
             // create the selector, controller and run - store results in session
             $selector = new CRM_Contact_Selector($this->_formValues, $this->_action);
-            $controller = new CRM_Contact_Controller($selector ,
-                                                     $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                     $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                     CRM_Core_Action::VIEW, $this, $output );
+            $controller = new CRM_Contact_Selector_Controller($selector ,
+                                                              $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                              $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                              CRM_Core_Action::VIEW, $this, $output );
             $controller->setEmbedded( true );
             $controller->run();
         }
