@@ -207,8 +207,9 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
         $config =& CRM_Core_Config::singleton();
 
-        $params = array('entity_id' => $this->_entityId);
-        $rows = CRM_Core_BAO_History::getHistory($params, $offset, $rowCount, $sort, 'Activity');
+        $params = array('entity_table' => 'crm_contact',
+                        'entity_id' => $this->_entityId);
+        $rows =& CRM_Core_BAO_History::getHistory($params, $offset, $rowCount, $sort, 'Activity');
 
         // does not work with php4
         //foreach ($rows as &$row) {

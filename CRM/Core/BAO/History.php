@@ -134,8 +134,8 @@ class CRM_Core_BAO_History {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         
-        //$historyDAO->storeValues($params); this is not working in php4
-        $historyDAO->storeValues(&$params);
+        //$historyDAO->copyValues($params); this is not working in php4
+        $historyDAO->copyValues(&$params);
 
         // selection criteria
         $historyDAO->selectAdd();
