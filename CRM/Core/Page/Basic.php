@@ -184,7 +184,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
             $action -= CRM_Core_Action::ENABLE;
         }
 
-        eval( '$object = new ' . $this->getBAOName( ) . '( );' );
+        eval( '$object =& new ' . $this->getBAOName( ) . '( );' );
 
         $values = array();
 
@@ -267,7 +267,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      */
     function edit( $mode, $id = null ) 
     {
-        $controller = new CRM_Core_Controller_Simple( $this->editForm( ), $this->editName( ), $mode );
+        $controller =& new CRM_Core_Controller_Simple( $this->editForm( ), $this->editName( ), $mode );
 
        // set the userContext stack
         $session =& CRM_Core_Session::singleton();
@@ -292,7 +292,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      */
     function delete( $mode, $id = null )
     {
-        $controller = new CRM_Core_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), $mode );
+        $controller =& new CRM_Core_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), $mode );
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();

@@ -60,6 +60,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
      *
      * @var array
      */
+    ___
 
     function getBAOName( ) {
         return 'CRM_Contact_BAO_Group';

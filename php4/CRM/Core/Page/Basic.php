@@ -193,7 +193,7 @@ require_once 'CRM/Core/Page.php';
             $action -= CRM_CORE_ACTION_ENABLE;
         }
 
-        eval( '$object = new ' . $this->getBAOName( ) . '( );' );
+        eval( '$object =& new ' . $this->getBAOName( ) . '( );' );
 
         $values = array();
 
@@ -276,7 +276,7 @@ require_once 'CRM/Core/Page.php';
      */
     function edit( $mode, $id = null ) 
     {
-        $controller = new CRM_Core_Controller_Simple( $this->editForm( ), $this->editName( ), $mode );
+        $controller =& new CRM_Core_Controller_Simple( $this->editForm( ), $this->editName( ), $mode );
 
        // set the userContext stack
         $session =& CRM_Core_Session::singleton();
@@ -301,7 +301,7 @@ require_once 'CRM/Core/Page.php';
      */
     function delete( $mode, $id = null )
     {
-        $controller = new CRM_Core_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), $mode );
+        $controller =& new CRM_Core_Controller_Simple( $this->deleteForm( ), $this->deleteName( ), $mode );
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
