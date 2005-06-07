@@ -412,7 +412,8 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     static function debug_log_message($message="", $log=true)
     {
-        $file_log = Log::singleton('file', '/tmp/CRM.LOG');
+        $config =& CRM_Core_Config::singleton( );
+        $file_log = Log::singleton('file', $config->uploadDir . 'CRM.LOG');
         $file_log->log("$message\n");
         // $error =& self::singleton( );
         $out = "<p /><code>$message</code>";
