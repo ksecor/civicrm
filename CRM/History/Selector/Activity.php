@@ -117,6 +117,9 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
     static function &actionLinks() 
     {
 
+        // helper variable for nicer formatting
+        $deleteExtra = ts('Are you sure you want to delete this activity from History ?');
+        
         if (!isset(self::$_actionLinks)) {
             self::$_actionLinks = array(
                                         CRM_Core_Action::VIEW   => array(
@@ -129,6 +132,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                          'name'     => ts('Delete'),
                                                                          'url'      => 'civicrm/history/activity/delete',
                                                                          'qs'       => 'id=%%id%%',
+                                                                         'extra'    => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                          'title'    => ts('Delete Activity History'),
                                                                          ),
                                         );
@@ -217,16 +221,9 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 if ($row['callback']) {
                     $row['action'] = CRM_Core_Action::formLink(self::actionLinks(), null, array('id'=>$k, 'callback'=>$row['callback'], 'module'=>$row['module'], 'activity_id'=>$row['activity_id']));                    
                 } else {
-                    $newActionLinks = array(
-                                            CRM_Core_Action::DELETE => array(
-                                                                             'name'     => ts('Delete'),
-                                                                             'url'      => 'civicrm/history/activity/delete',
-                                                                             'qs'       => 'id=%%id%%',
-                                                                             'title'    => ts('Delete Activity History'),
-                                                                             ),
-                                            );
-                    
-                    $row['action'] = CRM_Core_Action::formLink($newActionLinks, null, array('id'=>$k));
+                    $actionLinks = self::actionLinks();
+                    unset($actionLinks[CRM_Core_Action::VIEW]);
+                    $row['action'] = CRM_Core_Action::formLink($actionLinks, null, array('id'=>$k));
                 }
             }
             unset($row);

@@ -1125,7 +1125,10 @@ class CRM_GCD {
                 $activityHistoryDAO->entity_id     = $contactDAO->id;
                 $activityHistoryDAO->activity_type = $this->_getRandomElement($this->activity_type);
                 $activityHistoryDAO->module = $this->_getRandomElement($this->module);
-                $activityHistoryDAO->callback = $this->_getRandomElement($this->callback);
+                
+                if ($i % 2) {
+                    $activityHistoryDAO->callback = $this->_getRandomElement($this->callback);
+                }
                 $activityHistoryDAO->activity_id = mt_rand(1,1111);
                 $activityHistoryDAO->activity_summary = $this->_getRandomString(mt_rand(55, 222));
                 $activityHistoryDAO->activity_date = $this->_getRandomDate();

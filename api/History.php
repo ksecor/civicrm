@@ -89,7 +89,6 @@ function &crm_create_activity_history(&$params)
     $ids = array();
 
     $history = CRM_Core_BAO_History::create($params, 'Activity');
-
     return $history;
 }
 
@@ -114,7 +113,7 @@ function &crm_create_activity_history(&$params)
  */
 function &crm_get_activity_history($params, $sort, $offset, $numRow)
 {
-
+    
 }
 
 ?>

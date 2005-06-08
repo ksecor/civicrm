@@ -57,7 +57,7 @@ class CRM_Core_BAO_History {
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      * @param string $type - which history do we want ?
      *
-     * @return object CRM_Core_BAO_History object
+     * @return object CRM_Core_DAO_History object
      * @access public
      * @static
      */
@@ -188,7 +188,7 @@ class CRM_Core_BAO_History {
      *
      * @param array $params (reference) an assoc array of name/value pairs
      *
-     * @return object CRM_Core_BAO_HistoryHistory object 
+     * @return object CRM_Core_DAO_HistoryHistory object 
      * @access public
      * @static
      */
@@ -196,8 +196,8 @@ class CRM_Core_BAO_History {
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
-        $historyBAO->copyValues($params);
-        return $historyBAO->save();
+        $historyDAO->copyValues($params);
+        return $historyDAO->save();
     }
 }
 ?>

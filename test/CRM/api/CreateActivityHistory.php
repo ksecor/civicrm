@@ -24,8 +24,37 @@ class TestOfCreateHistoryAPI extends UnitTestCase {
         $this->assertIsA($history, 'CRM_Core_Error');
     }
 
+    function testCreateOnlyEntityIdActivityId()
+    {
+        CRM_Core_Error::le_method();
 
+        $params = array('entity_id' => 1, 'activity_id' => 1);
+        $history =& crm_create_activity_history($params);
+        $this->assertIsA($history, 'CRM_Core_Error');
+        
+        CRM_Core_Error::ll_method();
+
+    }
+
+    function testCreateFull()
+    {
+        CRM_Core_Error::le_method();
+
+        $params = array('entity_id' => 2, 
+                        'activity_id' => 2,
+                        'entity_table' => 'crm_contact',
+                        'activity_type' => 'Phone Call',
+                        'module' => 'module1',
+                        'callback' => 'callback1',
+                        'activity_summary' => 'summary 1',
+                        'activity_date' => '20041012',
+                        );
+        $history =& crm_create_activity_history($params);
+        $this->assertIsA($history, 'CRM_Core_Error');
+
+        CRM_Core_Error::ll_method();
+
+    }
 
 }
-
 ?>

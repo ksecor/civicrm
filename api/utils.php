@@ -304,7 +304,7 @@ function _crm_check_history_params(&$params, $type='Activity')
         return _crm_error('Input Parameters empty');
     }
 
-    $valid = false;
+    $valid = true;
     foreach ($required as $requiredField) {
         if (!CRM_Utils_Array::value($requiredField, $params)) {
             $valid = false;
