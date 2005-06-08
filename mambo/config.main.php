@@ -16,10 +16,6 @@ define( 'CRM_GETTEXT_CODESET'     , 'utf-8' );
 define( 'CRM_GETTEXT_DOMAIN'      , 'civicrm' );
 define( 'CRM_GETTEXT_RESOURCE_DIR', $user_home . DIRECTORY_SEPARATOR . 'l10n' );
 
-if ( ! defined(CRM_USERFRAMEWORK) ) {
-    define( 'CRM_USERFRAMEWORK', 'Drupal' );
-}
-
 if ( ! defined(CRM_HTTPBASE) ) {
   define( 'CRM_HTTPBASE', '/drupal/' );
 }
@@ -56,8 +52,12 @@ if ( function_exists( 'variable_get' ) ) {
     define( 'CRM_UPLOAD_DIR'         , $uploadDir );
 } else {
     define( 'CRM_CLEANURL', 0 );
+    /**
     define( 'CRM_TEMPLATE_COMPILEDIR', $user_home . DIRECTORY_SEPARATOR . 'templates_c' );
     define( 'CRM_UPLOAD_DIR'         , $user_home . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR );
+    **/
+    define( 'CRM_TEMPLATE_COMPILEDIR', '/tmp/civicrm' );
+    define( 'CRM_UPLOAD_DIR'         , '/tmp/civicrm' );
 }
 
 ?>

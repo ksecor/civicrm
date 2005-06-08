@@ -164,6 +164,13 @@ class CRM_Core_Config {
     public $smtpPort           = 25;
 
     /**
+     * Default user framework
+     */
+    public $userFramework       = 'Drupal';
+    public $userFrameworkClass  = 'CRM_Utils_System_Drupal';
+    public $userFrameworkURLVar = 'q';
+
+    /**
      * The handle to the log that we are using
      * @var object
      */
@@ -281,6 +288,15 @@ class CRM_Core_Config {
 
         if ( defined( 'CRM_SMTPSERVER' ) ) {
             $this->smtpServer = CRM_SMTPSERVER;
+        }
+
+        if ( defined( 'CRM_USERFRAMEWORK' ) ) {
+            $this->userFramework      = CRM_USERFRAMEWORK;
+            $this->userFrameworkClass = 'CRM_Utils_System_' . $this->userFramework;
+        }
+
+        if ( defined( 'CRM_USERFRAMEWORK_URLVAR' ) ) {
+            $this->userFrameworkURLVar = CRM_USERFRAMEWORK_URLVAR;
         }
 
         // initialize the framework

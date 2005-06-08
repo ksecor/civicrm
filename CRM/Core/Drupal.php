@@ -79,7 +79,7 @@ class CRM_Core_Drupal {
 
             $groups =& CRM_Core_PseudoConstant::allGroup( );
 
-            if ( user_access( 'edit all contacts' ) ) {
+            if ( CRM_Utils_System::checkPermission( 'edit all contacts' ) ) {
                 // this is the most powerful permission, so we return
                 // immediately rather than dilute it further
                 self::$_editAdminUser          = self::$_viewAdminUser  = true;
@@ -87,18 +87,18 @@ class CRM_Core_Drupal {
                 self::$_editPermissionedGroups = $groups;
                 self::$_viewPermissionedGroups = $groups;
                 return self::$_viewPermissionedGroups;
-            } else if ( user_access( 'view all contacts' ) ) {
+            } else if ( CRM_Utils_System::checkPermission( 'view all contacts' ) ) {
                 self::$_viewAdminUser          = true;
                 self::$_viewPermission         = true;
                 self::$_viewPermissionedGroups = $groups;
             }
 
             foreach ( $groups as $id => $name ) {
-                if ( user_access( 'edit ' . $name ) ) {
+                if ( CRM_Utils_System::checkPermission( 'edit ' . $name ) ) {
                     self::$_editPermissionedGroups[$id] = $name;
                     self::$_viewPermissionedGroups[$id] = $name;
                     self::$_editPermission      = true;
-                } else if ( user_access( 'view ' . $name ) ) {
+                } else if ( CRM_Utils_System::checkPermission( 'view ' . $name ) ) {
                     self::$_viewPermissionedGroups[$id] = $name;
                     self::$_viewPermission      = true;
                 } 
@@ -125,7 +125,7 @@ class CRM_Core_Drupal {
 
             $savedSearches =& CRM_Core_PseudoConstant::allSavedSearch( );
 
-            if ( user_access( 'edit all contacts' ) ) {
+            if ( CRM_Utils_System::checkPermission( 'edit all contacts' ) ) {
                 // this is the most powerful permission, so we return
                 // immediately rather than dilute it further
                 self::$_editAdminUser          = self::$_viewAdminUser  = true;
@@ -133,18 +133,18 @@ class CRM_Core_Drupal {
                 self::$_editPermissionedSavedSearches = $savedSearches;
                 self::$_viewPermissionedSavedSearches = $savedSearches;
                 return self::$_viewPermissionedSavedSearches;
-            } else if ( user_access( 'view all contacts' ) ) {
+            } else if ( CRM_Utils_System::checkPermission( 'view all contacts' ) ) {
                 self::$_viewAdminUser                 = true;
                 self::$_viewPermission                = true;
                 self::$_viewPermissionedSavedSearches = $savedSearches;
             }
 
             foreach ( $savedSearches as $id => $name ) {
-                if ( user_access( 'edit ' . $name ) ) {
+                if ( CRM_Utils_System::checkPermission( 'edit ' . $name ) ) {
                     self::$_editPermissionedSavedSearches[$id] = $name;
                     self::$_viewPermissionedSavedSearches[$id] = $name;
                     self::$_editPermission                     = true;
-                } else if ( user_access( 'view ' . $name ) ) {
+                } else if ( CRM_Utils_System::checkPermission( 'view ' . $name ) ) {
                     self::$_viewPermissionedSavedSearches[$id] = $name;
                     self::$_viewPermission                     = true;
                 } 

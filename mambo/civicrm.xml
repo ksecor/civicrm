@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<mosinstall type="component">
+  <name>CiviCRM</name>
+  <creationDate>06/07/2005</creationDate>
+  <author>Amy Hoy</author>
+  <copyright>(C) Copyright 2005 by PICnet, Inc., and  </copyright>
+  <authorEmail>amy@picnet.net</authorEmail>
+  <authorUrl>www.picnet.net</authorUrl>
+  <version>1.0</version>
+  <description>CiviCRM.</description>
+  <files>
+    <filename>civicrm.php</filename>							
+  </files>
+  <install>
+    <queries>
+    </queries>
+  </install>
+  <uninstall>
+      <queries>
+      </queries>
+  </uninstall>
+  <installfile>install.civicrm.php</installfile>
+  <uninstallfile>uninstall.civicrm.php</uninstallfile>
+  <administration>
+    <menu>CiviCRM</menu>
+    <submenu>
+	  	<menu task="civicrm/contacts/view&reset=1">View Contacts</menu>
+    </submenu>
+    <files>
+	  <filename>admin.civicrm.php</filename>
+      <filename>toolbar.civicrm.php</filename>
+      <filename>uninstall.email_form.php</filename>
+    </files>
+</administration>
+</mosinstall>

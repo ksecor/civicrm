@@ -31,6 +31,8 @@
  *
  */
 
+require_once 'CRM/Utils/System/Drupal.php';
+require_once 'CRM/Utils/System/Mambo.php' ;
 
 /**
  * System wide utilities.
@@ -93,7 +95,9 @@ class CRM_Utils_System {
      * @access public
      */
     static function makeURL( $urlVar ) {
-        return self::url( $_GET['q'], self::getLinksUrl( $urlVar ) );
+        $config   =& CRM_Core_Config::singleton( );
+        return self::url( $_GET[$config->userFrameworkURLVar],
+                          CRM_Utils_System::getLinksUrl( $urlVar ) );
     }
 
     /**
@@ -233,7 +237,8 @@ class CRM_Utils_System {
      * @access public
      */
     static function currentPath( ) {
-        return trim($_GET['q'], '/');
+        $config =& CRM_Core_Config::singleton( );
+        return trim( $_GET[$config->userFrameworkURLVar], '/' );
     }
 
     /**
@@ -265,7 +270,8 @@ class CRM_Utils_System {
      * @access public
      */
     function setTitle( $title ) {
-        drupal_set_title( $title );
+        $config   =& CRM_Core_Config::singleton( );
+        return eval( 'return ' . $config->userFrameworkClass . '::setTitle( "' . $title . '" ); ' );
     }
 
     /**
@@ -350,10 +356,56 @@ class CRM_Utils_System {
      */
     static function isPHP4()
     {
-        return (substr(phpversion(), 0, 1) == 4) ? true:false;
+        static $version;
+        if ( !isset( $version ) ) {
+            $version = (substr(phpversion(), 0, 1) == 4) ? true:false;
+        }
+        return $version;
     }
-}
 
+    /**
+     * given a permission string, check for access requirements
+     *
+     * @param string $str the permission to check
+     *
+     * @return boolean true if yes, else false
+     * @static
+     * @access public
+     */
+    static function checkPermission( $str ) {
+        $config   =& CRM_Core_Config::singleton( );
+        return eval( 'return ' . $config->userFrameworkClass . '::checkPermission( "' . $str  . '" ); ' );
+    }
+
+    /**
+     * redirect to another url
+     *
+     * @param string $url the url to goto
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function redirect( $url ) {
+        $config   =& CRM_Core_Config::singleton( );
+        return eval( 'return ' . $config->userFrameworkClass . '::redirect( "' . $url  . '" ); ' );
+    }
+
+    /**
+     * Append an additional breadcrumb tag to the existing breadcrumb
+     *
+     * @param string $bc the new breadcrumb to be appended
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function appendBreadCrumb( $bc ) {
+        $config   =& CRM_Core_Config::singleton( );
+        return eval( 'return ' . $config->userFrameworkClass . '::checkPermission( "' . $str  . '" ); ' );
+    }
+
+}
 
 /**
  * Allow PHP5 to autoload classes automatically
