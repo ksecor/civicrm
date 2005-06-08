@@ -101,6 +101,117 @@ class CRM_Utils_Date {
     }
 
     /**
+     * set the LC_TIME locale if it's not set already
+     *
+     * @return string  the final LC_TIME that got set
+     *
+     * @static
+     * @access public
+     */
+    static function setLcTime()
+    {
+        static $locale;
+        if (!isset($locale)) {
+
+            // with the config being set up to, e.g., pl_PL: try pl_PL.UTF-8 at first,
+            // if it's not present try pl_PL, finally - fall back to C
+            $config =& CRM_Core_Config::singleton();
+            $locale = setlocale(LC_TIME, $config->lcMessages . '.UTF-8', $config->lcMessages, 'C');
+        }
+        return $locale;
+    }
+
+    /**
+     * return abbreviated weekday names according to the locale
+     *
+     * @return array  0-based array with abbreviated weekday names
+     *
+     * @static
+     * @access public
+     */
+    static function getAbbrWeekdayNames()
+    {
+        static $abbrWeekdayNames;
+        if (!isset($abbrWeekdayNames)) {
+
+            // set LC_TIME and build the arrays from locale-provided names
+            // June 1st, 1970 was a Monday
+            self::setLcTime();
+            for ($i = 0; $i < 7; $i++) {
+                $abbrWeekdayNames[$i] = strftime("%a", mktime(0, 0, 0, 6, $i, 1970));
+            }
+        }
+        return $abbrWeekdayNames;
+    }
+
+    /**
+     * return full weekday names according to the locale
+     *
+     * @return array  0-based array with full weekday names
+     *
+     * @static
+     * @access public
+     */
+    static function getFullWeekdayNames()
+    {
+        static $fullWeekdayNames;
+        if (!isset($fullWeekdayNames)) {
+
+            // set LC_TIME and build the arrays from locale-provided names
+            // June 1st, 1970 was a Monday
+            self::setLcTime();
+            for ($i = 0; $i < 7; $i++) {
+                $fullWeekdayNames[$i] = strftime("%A", mktime(0, 0, 0, 6, $i, 1970));
+            }
+        }
+        return $fullWeekdayNames;
+    }
+
+    /**
+     * return abbreviated month names according to the locale
+     *
+     * @return array  1-based array with abbreviated month names
+     *
+     * @static
+     * @access public
+     */
+    static function getAbbrMonthNames()
+    {
+        static $abbrMonthNames;
+        if (!isset($abbrMonthNames)) {
+
+            // set LC_TIME and build the arrays from locale-provided names
+            self::setLcTime();
+            for ($i = 1; $i <= 12; $i++) {
+                $abbrMonthNames[$i] = strftime("%b", mktime(0, 0, 0, $i));
+            }
+        }
+        return $abbrMonthNames;
+    }
+
+    /**
+     * return full month names according to the locale
+     *
+     * @return array  1-based array with full month names
+     *
+     * @static
+     * @access public
+     */
+    static function getFullMonthNames()
+    {
+        static $fullMonthNames;
+        if (!isset($fullMonthNames)) {
+
+            // set LC_TIME and build the arrays from locale-provided names
+            self::setLcTime();
+            for ($i = 1; $i <= 12; $i++) {
+                $fullMonthNames[$i] = strftime("%B", mktime(0, 0, 0, $i));
+            }
+        }
+        return $fullMonthNames;
+    }
+
+    /**
      * create a date in a provided format
      *
      * format keywords (with examples based on '2005-01-01' and C locale):
@@ -122,21 +233,8 @@ class CRM_Utils_Date {
     static function customFormat($dateString, $format = '%B %e, %Y')
     {
         // 1-based (January) month names arrays
-        static $abbrMonths;
-        static $fullMonths;
-
-        if (!isset($abbrWeekdays)) {
-
-            // with the config being set up to, e.g., pl_PL: try pl_PL.UTF-8 at first,
-            // if it's not present try pl_PL, finally - fall back to C
-            $config =& CRM_Core_Config::singleton();
-            setlocale(LC_TIME, $config->lcMessages . '.UTF-8', $config->lcMessages, 'C');
-
-            // build the arrays from locale-provided names
-            for ($i = 1; $i <= 12; $i++) {
-                list($abbrMonths[$i], $fullMonths[$i]) = explode("\n", strftime("%b\n%B", mktime(0, 0, 0, $i)));
-            }
-        }
+        $abbrMonths = self::getAbbrMonthNames();
+        $fullMonths = self::getFullMonthNames();
 
         if ($dateString and $format) {
             $dateParts = explode('-', $dateString);
