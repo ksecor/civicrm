@@ -119,19 +119,19 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
 
         if (!isset(self::$_actionLinks)) {
             self::$_actionLinks = array(
-                                  CRM_Core_Action::VIEW   => array(
-                                                                   'name'     => ts('Details'),
-                                                                   'url'      => 'civicrm/contact/view',
-                                                                   'qs'       => 'reset=1&cid=%%id%%',
-                                                                   'title'    => ts('View Contact Details'),
-                                                                  ),
-                                  CRM_Core_Action::DELETE => array(
-                                                                   'name'     => ts('Delete'),
-                                                                   'url'      => 'civicrm/contact/activity',
-                                                                   'qs'       => 'action=delete&history_id=%%id%%',
-                                                                   'title'    => ts('Delete Activity History'),
-                                                                  ),
-                                 );
+                                        CRM_Core_Action::VIEW   => array(
+                                                                         'name'     => ts('Details'),
+                                                                         'url'      => 'civicrm/history/activity/detail',
+                                                                         'qs'       => 'callback=%%callback%%&module=%%module%%&activity_id=%%activity_id%%',
+                                                                         'title'    => ts('View Activity Details'),
+                                                                         ),
+                                        CRM_Core_Action::DELETE => array(
+                                                                         'name'     => ts('Delete'),
+                                                                         'url'      => 'civicrm/history/activity/delete',
+                                                                         'qs'       => 'id=%%id%%',
+                                                                         'title'    => ts('Delete Activity History'),
+                                                                         ),
+                                        );
         }
         return self::$_actionLinks;
     }
@@ -205,19 +205,29 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $config =& CRM_Core_Config::singleton();
-
-        $params = array('entity_table' => 'crm_contact',
-                        'entity_id' => $this->_entityId);
+        $params = array('entity_table' => 'crm_contact', 'entity_id' => $this->_entityId);
         $rows =& CRM_Core_BAO_History::getHistory($params, $offset, $rowCount, $sort, 'Activity');
 
         // does not work with php4
         //foreach ($rows as &$row) {
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
-            if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
-                //$row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contact_id;
-                //$row['action'] = CRM_Core_Action::formLink( self::actionLinks(), null, array( 'id' => $result->contact_id ) );
+            if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
+                // check if callback exists
+                if ($row['callback']) {
+                    $row['action'] = CRM_Core_Action::formLink(self::actionLinks(), null, array('id'=>$k, 'callback'=>$row['callback'], 'module'=>$row['module'], 'activity_id'=>$row['activity_id']));                    
+                } else {
+                    $newActionLinks = array(
+                                            CRM_Core_Action::DELETE => array(
+                                                                             'name'     => ts('Delete'),
+                                                                             'url'      => 'civicrm/history/activity/delete',
+                                                                             'qs'       => 'id=%%id%%',
+                                                                             'title'    => ts('Delete Activity History'),
+                                                                             ),
+                                            );
+                    
+                    $row['action'] = CRM_Core_Action::formLink($newActionLinks, null, array('id'=>$k));
+                }
             }
             unset($row);
         }

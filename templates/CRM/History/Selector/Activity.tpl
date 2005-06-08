@@ -21,7 +21,7 @@
   <tr class="{cycle values="odd-row,even-row"}">
     <td>{$row.activity_type}</td>
     <td>{$row.activity_summary|mb_truncate:33:"...":true}</td>
-    <td>{$row.activity_date}</td>
+    <td>{$row.activity_date|crmDate}</td>
     <td>{$row.action}</td>
   </tr>
   {/foreach}

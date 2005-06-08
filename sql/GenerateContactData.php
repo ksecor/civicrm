@@ -1113,7 +1113,12 @@ class CRM_GCD {
         $contactDAO->orderBy('sort_name');
         $contactDAO->find();
 
+        $count = 0;
+
         while($contactDAO->fetch()) {
+            if ($count++ > 2) {
+                break;
+            }
             for ($i=0; $i<self::NUM_ACTIVITY_HISTORY; $i++) {
                 $activityHistoryDAO = new CRM_Core_DAO_ActivityHistory();
                 $activityHistoryDAO->entity_table  = 'crm_contact';

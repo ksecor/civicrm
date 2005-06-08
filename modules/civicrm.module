@@ -383,7 +383,19 @@ function civicrm_menu($may_cache)
                          'type'   => MENU_NORMAL_ITEM,
                          'weight' => 30,
                          );
- 
+
+        $items[] = array(
+                         'path'   => 'civicrm/history/activity/detail',
+                         'title'  => ts('Activity Detail'),
+                         'type'   => MENU_CALLBACK,
+                         );
+
+        $items[] = array(
+                         'path'   => 'civicrm/history/activity/delete',
+                         'title'  => ts('Delete Activity'),
+                         'type'   => MENU_CALLBACK,
+                         );
+
     }
 
     return $items;
@@ -487,6 +499,27 @@ function civicrm_admin_invoke()
     }
 }
 
+
+/**
+ * Process the History Menu path
+ *
+ *
+ *
+ */
+function civicrm_history_invoke()
+{
+    // process history menu items
+
+    // currrently only activity history is implemented
+    if (arg(2) == 'activity') {
+        if (arg(3) == 'detail') {
+            $page =& new CRM_History_Page_Activity('View Activity Details');
+            $page->run();
+        } else if (arg(3) == 'delete') {
+        }
+    }
+}
+
 function civicrm_invoke()
 {
     $session = CRM_Core_Session::singleton();
@@ -502,6 +535,11 @@ function civicrm_invoke()
     // admin related functionality
     if (arg(1) == 'admin') {
         return civicrm_admin_invoke();
+    }
+
+    // history related functionality
+    if (arg(1) == 'history') {
+        return civicrm_history_invoke();
     }
 
     // browse groups

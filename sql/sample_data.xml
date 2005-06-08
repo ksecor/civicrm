@@ -223,23 +223,23 @@
   </activity_types>
 
   <modules>
-    <module>Module 1</module>
-    <module>Module 2</module>
-    <module>Module 3</module>
-    <module>Module 4</module>
-    <module>Module 5</module>
-    <module>Module 6</module>
-    <module>Module 7</module>
+    <module>Module1</module>
+    <module>Module2</module>
+    <module>Module3</module>
+    <module>Module4</module>
+    <module>Module5</module>
+    <module>Module6</module>
+    <module>Module7</module>
   </modules>
 
   <callbacks>
-    <callback>Callback 1</callback>
-    <callback>Callback 2</callback>
-    <callback>Callback 3</callback>
-    <callback>Callback 4</callback>
-    <callback>Callback 5</callback>
-    <callback>Callback 6</callback>
-    <callback>Callback 7</callback>
+    <callback>Callback1</callback>
+    <callback>Callback2</callback>
+    <callback>Callback3</callback>
+    <callback>Callback4</callback>
+    <callback>Callback5</callback>
+    <callback>Callback6</callback>
+    <callback>Callback7</callback>
   </callbacks>
 
 </sample_data>
