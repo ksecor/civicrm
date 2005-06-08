@@ -203,7 +203,7 @@
   {if $activity.totalCount}
     <a href="#" onClick="hide('activities[show]'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Activities{/ts}</label> ({$activity.totalCount})<br />
   {else}
-    <dl><dt>{ts}Activities{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/activity' q='action=add'}{/capture}{ts 1=$crmURL}No activities. Use the <a href="%1">Activity tab</a> to add them.{/ts}</dd></dl>
+    <dl><dt>{ts}Activities{/ts}</dt><dd>{ts}No activities.{/ts}</dd></dl>
   {/if}
 </div>
 
