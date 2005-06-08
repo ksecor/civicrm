@@ -188,7 +188,7 @@ abstract class CRM_Import_Parser {
         if ( $mode == self::MODE_IMPORT ) {
             //get the key of email field
             foreach($mapper as $key => $value) {
-                if ( $value == 'Email' ) {
+                if ( strtolower($value) == 'email' ) {
                     $emailKey = $key;
                     break;
                 }
@@ -207,8 +207,8 @@ abstract class CRM_Import_Parser {
 
             // skip column header if data is imported
             if ( $mode == self::MODE_IMPORT ) {
-                if ($skipColumnHeader ) {
-                    $skipColumnHeader = 0;
+                if ( $skipColumnHeader ) {
+                    $skipColumnHeader = false;
                     continue;
                 }
 

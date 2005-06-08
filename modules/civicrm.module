@@ -48,7 +48,6 @@ require_once 'CRM/Utils/Wrapper.php';
 
 require_once 'CRM/Contact/Page/View.php';
 
-// only used for debugging purposes - remove in production system
 require_once 'CRM/Core/Error.php';
 
 
@@ -415,7 +414,7 @@ function civicrm_init()
 
     menu_rebuild();
 
-    $config = CRM_Core_Config::singleton();
+    $config =& CRM_Core_Config::singleton();
     CRM_Core_DAO::init($config->dsn, $config->daoDebug);
     
     $factoryClass = 'CRM_Contact_DAO_Factory';

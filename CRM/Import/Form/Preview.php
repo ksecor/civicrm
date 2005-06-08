@@ -197,17 +197,17 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         $errorStack =& CRM_Core_Error::singleton();
         $errors     = $errorStack->getErrors();
-        
+
         $errorMessage = array();
         
-        $config =& CRM_Config::singleton( );
+        $config =& CRM_Core_Config::singleton( );
 
         if( is_array( $errors ) ) {
             foreach($errors as $key => $value) {
                 $errorMessage[] = $value['message'];
             }
             
-            $errorFile = $config->uploadDir . $fileName . '.error.log';
+            $errorFile = $fileName . '.error.log';
             
             if ( $fd = fopen( $errorFile, 'w' ) ) {
                 fwrite($fd, implode('\n', $errorMessage));
