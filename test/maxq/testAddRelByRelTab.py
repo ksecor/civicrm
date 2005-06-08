@@ -68,7 +68,7 @@ class testAddRelByRelTab(PyHttpTestCase):
             ('''_qf_Search_refresh''', '''Search'''),
             ('''task''', ''''''),
             ('''radio_ts''', '''ts_sel'''),]
-        url = "http://localhost/drupal/civicrm/contact/search"
+        url = "%s/civicrm/contact/search" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
@@ -79,7 +79,7 @@ class testAddRelByRelTab(PyHttpTestCase):
         params = [
             ('''_qf_Search_display''', '''true'''),]
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/drupal/civicrm/contact/search?_qf_Search_display=true'''))
-        url = "http://localhost/drupal/civicrm/contact/search"
+        url = "%s/civicrm/contact/search" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -91,7 +91,7 @@ class testAddRelByRelTab(PyHttpTestCase):
             ('''reset''', '''1'''),
             ('''cid''', '''43'''),]
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/drupal/civicrm/contact/view?reset=1&cid=94'''))
-        url = "http://localhost/drupal/civicrm/contact/view"
+        url = "%s/civicrm/contact/view" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -100,7 +100,7 @@ class testAddRelByRelTab(PyHttpTestCase):
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/drupal/civicrm/contact/view/rel'''))
-        url = "http://localhost/drupal/civicrm/contact/view/rel"
+        url = "%s/civicrm/contact/view/rel" % drupal_path
         self.msg("Testing URL: %s" % url)
         params = None
         Validator.validateRequest(self, self.getMethod(), "get", url, params)

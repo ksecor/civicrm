@@ -81,8 +81,8 @@ class testAdminEditRel(PyHttpTestCase):
         
         params = [
             ('''action''', '''update'''),
-            ('''id''', '''8'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''/civicrm/admin/reltype?action=update&id=8''') % drupal_path)
+            ('''id''', '''9'''),]
+        #self.msg("Testing URL: %s" % self.replaceURL('''/civicrm/admin/reltype?action=update&id=9''') % drupal_path)
         url = "%s/civicrm/admin/reltype" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
