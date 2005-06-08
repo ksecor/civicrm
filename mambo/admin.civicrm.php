@@ -8,19 +8,10 @@ include_once 'config.inc.php';
 
 require_once 'PEAR.php';
 
-require_once 'CRM/Core/Action.php';
-require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/Block.php';
-require_once 'CRM/Core/Selector/Controller.php';
 require_once 'CRM/Core/DAO.php';
-require_once 'CRM/Core/PseudoConstant.php';
 require_once 'CRM/Core/Error.php';
+require_once 'CRM/Core/Invoke.php';
 
-require_once 'CRM/Utils/Wrapper.php';
-
-require_once 'CRM/Contact/Page/View.php';
-
-require_once 'CRM/Group/Page/Group.php';
 
 // insert any functions/includes etc. that apply to all "tasks"
 // HERE
@@ -53,8 +44,8 @@ function civicrm_init( ) {
 function civicrm_invoke( ) {
     civicrm_init( );
 
-    $view =& new CRM_Group_Page_Group(ts('View Groups'));
-    $view->run();
+    $args = explode( '/', trim( $_GET['task'] ) );
+    CRM_Core_Invoke::invoke( $args );
 }
 
 ?>

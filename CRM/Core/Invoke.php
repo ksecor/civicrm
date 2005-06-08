@@ -31,6 +31,8 @@
  *
  */
 
+require_once 'CRM/Core/I18n.php';
+
 /**
  * Given an argument list, invoke the appropriate CRM function
  * Serves as a wrapper between the UserFrameWork and Core CRM

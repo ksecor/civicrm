@@ -271,7 +271,8 @@ class CRM_Utils_System {
      */
     function setTitle( $title ) {
         $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userFrameworkClass . '::setTitle( "' . $title . '" ); ' );
+        $str = $config->userFrameworkClass . '::setTitle( "' . addslashes( $title ) . '" ); ';
+        return eval( $str );
     }
 
     /**
