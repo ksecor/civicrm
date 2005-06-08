@@ -27,7 +27,7 @@ dst=../../civicrm
 rsyncOptions="-avC --exclude=svn"
 rsync="rsync $rsyncOptions"
 
-for code in css i js l10n packages PEAR templates bin; do
+for code in css i js l10n packages PEAR templates bin sql mambo; do
   echo $code
   [ -d $src/$code ] && $rsync $src/$code $dst
 done

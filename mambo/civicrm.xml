@@ -27,7 +27,8 @@
 	  	<menu task="civicrm/contacts/view&reset=1">View Contacts</menu>
     </submenu>
     <files>
-	  <filename>admin.civicrm.php</filename>
+      <filename>admin.civicrm.php</filename>
+      <filename>config.main.php</filename>
       <filename>toolbar.civicrm.php</filename>
       <filename>uninstall.email_form.php</filename>
     </files>

@@ -89,6 +89,62 @@ class CRM_Utils_System_Drupal {
         drupal_goto( $url );
     }
 
+
+    /**
+     * Generate an internal CiviCRM URL (copied from DRUPAL/includes/common.inc#url)
+     *
+     * @param $path     string   The path being linked to, such as "civicrm/add"
+     * @param $query    string   A query string to append to the link.
+     * @param $absolute boolean  Whether to force the output to be an absolute link (beginning with http:).
+     *                           Useful for links that will be displayed outside the site, such as in an
+     *                           RSS feed.
+     * @param $fragment string   A fragment identifier (named anchor) to append to the link.
+     *
+     * @return string            an HTML string containing a link to the given path.
+     * @access public
+     *
+     */
+    function url($path = null, $query = null, $absolute = true, $fragment = null ) {
+        $config        =& CRM_Core_Config::singleton( );
+        static $script = 'index.php';
+
+        if (isset($fragment)) {
+            $fragment = '#'. $fragment;
+        }
+
+        $base = ($absolute ? $config->httpBase : '');
+
+        if (! $config->cleanURL ) {
+            if ( isset( $path ) ) {
+                if ( isset( $query ) ) {
+                    return $base . $script .'?q=' . $path .'&'. $query . $fragment;
+                } else {
+                    return $base . $script .'?q=' . $path . $fragment;
+                }
+            } else {
+                if ( isset( $query ) ) {
+                    return $base . $script .'?'. $query . $fragment;
+                } else {
+                    return $base . $fragment;
+                }
+            }
+        } else {
+            if ( isset( $path ) ) {
+                if ( isset( $query ) ) {
+                    return $base . $path .'?'. $query . $fragment;
+                } else {
+                    return $base . $path . $fragment;
+                }
+            } else {
+                if ( isset( $query ) ) {
+                    return $base . $script .'?'. $query . $fragment;
+                } else {
+                    return $base . $fragment;
+                }
+            }
+        }
+    }
+
 }
 
 ?>

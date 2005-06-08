@@ -176,7 +176,7 @@ class CRM_Utils_System {
     }
 
     /**
-     * Generate an internal CiviCRM URL (copied from DRUPAL/includes/common.inc#url)
+     * Generate an internal CiviCRM URL
      *
      * @param $path     string   The path being linked to, such as "civicrm/add"
      * @param $query    string   A query string to append to the link.
@@ -190,43 +190,11 @@ class CRM_Utils_System {
      *
      */
     function url($path = null, $query = null, $absolute = true, $fragment = null ) {
-        $config        =& CRM_Core_Config::singleton( );
-        static $script = 'index.php';
-
-        if (isset($fragment)) {
-            $fragment = '#'. $fragment;
-        }
-
-        $base = ($absolute ? $config->httpBase : '');
-
-        if (! $config->cleanURL ) {
-            if ( isset( $path ) ) {
-                if ( isset( $query ) ) {
-                    return $base . $script .'?q='. $path .'&amp;'. $query . $fragment;
-                } else {
-                    return $base . $script .'?q='. $path . $fragment;
-                }
-            } else {
-                if ( isset( $query ) ) {
-                    return $base . $script .'?'. $query . $fragment;
-                } else {
-                    return $base . $fragment;
-                }
-            }
+        $config   =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Mambo' ) {
+            return CRM_Utils_System_Mambo::url ( $path, $query, $absolute, $fragment );
         } else {
-            if ( isset( $path ) ) {
-                if ( isset( $query ) ) {
-                    return $base . $path .'?'. $query . $fragment;
-                } else {
-                    return $base . $path . $fragment;
-                }
-            } else {
-                if ( isset( $query ) ) {
-                    return $base . $script .'?'. $query . $fragment;
-                } else {
-                    return $base . $fragment;
-                }
-            }
+            return CRM_Utils_System_Drupal::url( $path, $query, $absolute, $fragment );
         }
     }
 

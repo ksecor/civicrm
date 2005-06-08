@@ -16,16 +16,16 @@ define( 'CRM_GETTEXT_CODESET'     , 'utf-8' );
 define( 'CRM_GETTEXT_DOMAIN'      , 'civicrm' );
 define( 'CRM_GETTEXT_RESOURCE_DIR', $user_home . DIRECTORY_SEPARATOR . 'l10n' );
 
-if ( ! defined(CRM_HTTPBASE) ) {
+if ( ! defined( 'CRM_HTTPBASE' ) ) {
   define( 'CRM_HTTPBASE', '/drupal/' );
 }
 
-if ( ! defined(CRM_MAINMENU) ) {
+if ( ! defined( 'CRM_MAINMENU' ) ) {
   define( 'CRM_MAINMENU', '/drupal/' );
 }
 
-if ( ! defined( JPSPAN ) ) {
-    define( JPSPAN, $user_home . DIRECTORY_SEPARATOR . packages . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR );
+if ( ! defined( 'JPSPAN' ) ) {
+    define( 'JPSPAN', $user_home . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR . 'JPSpan' . DIRECTORY_SEPARATOR );
 }
 
 // drupal specific code

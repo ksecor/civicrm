@@ -87,6 +87,36 @@ class CRM_Utils_System_Mambo {
         mambo_goto( $url );
     }
 
+    /**
+     * Generate an internal CiviCRM URL
+     *
+     * @param $path     string   The path being linked to, such as "civicrm/add"
+     * @param $query    string   A query string to append to the link.
+     * @param $absolute boolean  Whether to force the output to be an absolute link (beginning with http:).
+     *                           Useful for links that will be displayed outside the site, such as in an
+     *                           RSS feed.
+     * @param $fragment string   A fragment identifier (named anchor) to append to the link.
+     *
+     * @return string            an HTML string containing a link to the given path.
+     * @access public
+     *
+     */
+    function url($path = null, $query = null, $absolute = true, $fragment = null ) {
+        static $script = 'index2.php';
+
+        if (isset($fragment)) {
+            $fragment = '#'. $fragment;
+        }
+
+        $base = ($absolute ? $config->httpBase : '');
+
+        if ( isset( $query ) ) {
+            return $base . $script .'?option=com_civicrm&task=' . $path .'&'. $query . $fragment;
+        } else {
+            return $base . $script .'?option=com_civicrm&task=' . $path . $fragment;
+        }
+    }
+
 }
 
 ?>

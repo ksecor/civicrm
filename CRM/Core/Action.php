@@ -185,7 +185,8 @@ class CRM_Core_Action {
         $url = array( );
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
-                $url[] = sprintf('<a href="%s" '.$link['extra'].'>%s</a>',
+                $extra = CRM_Utils_Array::value( 'extra', $link, '' );
+                $url[] = sprintf('<a href="%s" ' . $extra . '>%s</a>',
                                  CRM_Utils_System::url( $link['url'],
                                                         self::replace( $link['qs'], $values ) ),
                                  $link['name'] );
