@@ -32,6 +32,9 @@ for code in css i js l10n packages PEAR templates bin; do
   [ -d $src/$code ] && $rsync $src/$code $dst
 done
 
+cp ../license.txt ../../civicrm
+cp ../affero_gpl.txt ../../civicrm
+
 cd ../..
 tar czf civicrm.tgz civicrm
 
