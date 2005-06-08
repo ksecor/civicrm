@@ -374,6 +374,29 @@ class CRM_Utils_System {
         return eval( 'return ' . $config->userFrameworkClass . '::checkPermission( "' . $str  . '" ); ' );
     }
 
+    /**
+     * figure out the post url for the form
+     *
+     * @param the default action if one is pre-specified
+     *
+     * @return string the url to post the form
+     * @access public
+     * @static
+     */
+    static function postURL( $action ) {
+        if ( ! empty( $action ) ) {
+            return $action;
+        }
+
+        $config   =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Mambo' && CRM_Utils_Array::value( 'task', $_GET ) ) {
+            return CRM_Utils_System_Mambo::url ( $_GET['task'] );
+        } else if ( CRM_Utils_Array::value( 'q', $_GET ) ) {
+            return CRM_Utils_System_Drupal::url( $_GET['q'] );
+        } else {
+            return $_SERVER['PHP_SELF'];
+        }
+    }
 }
 
 /**

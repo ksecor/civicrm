@@ -102,6 +102,7 @@ class CRM_Utils_System_Mambo {
      *
      */
     function url($path = null, $query = null, $absolute = true, $fragment = null ) {
+        $config        =& CRM_Core_Config::singleton( );
         static $script = 'index2.php';
 
         if (isset($fragment)) {

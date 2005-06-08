@@ -115,7 +115,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         }
 
         // if the request has a reset value, initialize the controller session
-        if ( $_GET['reset'] ) {
+        if ( CRM_Utils_Array::value( 'reset', $_GET ) ) {
             $this->reset( );
         }
     }

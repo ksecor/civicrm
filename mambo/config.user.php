@@ -4,7 +4,7 @@ global $user_home;
 $user_home = '/Users/lobo/svn/crm';
 
 define( 'CRM_SMARTYDIR'   , $user_home . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR );
-define( 'CRM_HTTPBASE'    , '/lobo/mambo/'                     );
+define( 'CRM_HTTPBASE'    , '/lobo/mambo/administrator/'  );
 define( 'CRM_RESOURCEBASE', '/lobo/mambo/administrator/components/com_civicrm/'       );
 define( 'CRM_MAINMENU'    , '/lobo/mambo/administrator/index2.php?option=com_civicrm' );
 define( 'CRM_DAO_DEBUG'   , 0                                     );

@@ -22,15 +22,29 @@
   <installfile>install.civicrm.php</installfile>
   <uninstallfile>uninstall.civicrm.php</uninstallfile>
   <administration>
+<!-- not the prettiest menu ever, but it'll do for now - as a reference if nothing else -->
     <menu>CiviCRM</menu>
-    <submenu>
-	  	<menu task="civicrm/contacts/view&reset=1">View Contacts</menu>
+    <submenu>   
+                <menu task="civicrm/group&reset=1">Manage Groups</menu>
+                <menu task="civicrm/contact/view&reset=1">View Contacts</menu>
+                <menu task="civicrm/import&reset=1">Import Contacts</menu>
+                <menu task="civicrm/contact/search&reset=1">Find Contacts</menu>
+                <menu task="civicrm/contact/search/advanced&reset=1">Find Contacts (Advanced)</menu>
+                <menu task="civicrm/contact/search/saved&reset=1">Find Contacts (Saved)</menu>
+                <menu> -- </menu>
+                <menu task="civicrm/admin&reset=1">Administer CiviCRM</menu>
+                <menu task="civicrm/admin/reltype&reset=1">Relationship Types</menu>
+                <menu task="civicrm/admin/locationType&reset=1">Location Types</menu>
+                <menu task="civicrm/admin/custom/group&reset=1">Custom Data</menu>
+                <menu task="civicrm/admin/IMProvider&reset=1">IM Services</menu>
+                <menu task="civicrm/admin/mobileProvider&reset=1">Mobile Providers</menu>
     </submenu>
     <files>
       <filename>admin.civicrm.php</filename>
+      <filename>config.inc.php</filename>
       <filename>config.main.php</filename>
       <filename>toolbar.civicrm.php</filename>
       <filename>uninstall.email_form.php</filename>
     </files>
-</administration>
+  </administration>
 </mosinstall>
