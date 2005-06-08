@@ -1,3 +1,4 @@
+{if $rows}
 {include file="CRM/pager.tpl" location="top"}
 
 {strip}
@@ -28,3 +29,11 @@
 {/strip}
 
 {include file="CRM/pager.tpl" location="bottom"}
+{else}
+<div class="message status">
+<dl>
+    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+    <dd>Currently there are no Activities for this Contact.</dd>
+</dl>
+</div>
+{/if}
