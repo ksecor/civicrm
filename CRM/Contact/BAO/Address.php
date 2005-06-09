@@ -141,12 +141,10 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
         if ($address->find(true)) {
             $ids['address'] = $address->id;
             if ($flatten) {
-                //$address->storeValues($values); this is not working in php4
-                $address->storeValues(&$values);
+                CRM_Core_DAO::storeValues( $address, $values );
             } else {
                 $values['address'] = array();
-                //$address->storeValues($values['address']); this is not working in php4
-                $address->storeValues(&$values['address']);
+                CRM_Core_DAO::storeValues( $address, $values['address'] );
             }
             return $address;
         }

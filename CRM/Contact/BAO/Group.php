@@ -58,8 +58,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $group =& new CRM_Contact_DAO_Group( );
         $group->copyValues( $params );
         if ( $group->find( true ) ) {
-            //$group->storeValues( $defaults ); this is not working in php4
-            $group->storeValues( &$defaults );
+            CRM_Core_DAO::storeValues( $group, $defaults );
             return $group;
         }
         return null;

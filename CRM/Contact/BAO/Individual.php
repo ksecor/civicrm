@@ -115,8 +115,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         $individual->copyValues( $params );
         if ( $individual->find(true) ) {
             $ids['individual'] = $individual->id;
-            //$individual->storeValues( $values ); this is not working in php4
-            $individual->storeValues( &$values );
+            CRM_Core_DAO::storeValues( $individual, $values );
             if ( isset( $individual->gender ) ) {
                 $values['gender'] = array( 'gender' => $individual->gender );
             }

@@ -275,18 +275,20 @@ class CRM_Core_DAO extends DB_DataObject {
     /**
      * Store all the values from this object in an associative array
      * this is a destructive store, calling function is responsible
-     * for keeping sanity of id's
+     * for keeping sanity of id's. Note that this function is rewritten
+     * to sidestep a wierd PHP4 bug
      *
-     * @param array $values (reference ) associative array of name/value pairs
+     * @param object $object the object that we are extracting data from
+     * @param array  $values (reference ) associative array of name/value pairs
      *
      * @return void
      * @access public
      */
-    function storeValues( &$values ) {
-        $fields =& $this->fields( );
+    function storeValues( &$object, &$values ) {
+        $fields =& $object->fields( );
         foreach ( $fields as $name => $value ) {
-            if ( isset( $this->$name ) ) {
-                $values[$name] = $this->$name;
+            if ( isset( $object->$name ) ) {
+                $values[$name] = $object->$name;
             }
         }
     }

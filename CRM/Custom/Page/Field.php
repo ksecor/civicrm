@@ -123,8 +123,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
        
         while ($customFieldBAO->fetch()) {
             $customField[$customFieldBAO->id] = array();
-            //$customFieldBAO->storeValues($customField[$customFieldBAO->id]); this is not working in php4
-            $customFieldBAO->storeValues(&$customField[$customFieldBAO->id]);
+            CRM_Core_DAO::storeValues( $customFieldBAO, $customField[$customFieldBAO->id]);
 
             $action = array_sum(array_keys($this->actionLinks()));
             if ($customFieldBAO->is_active) {

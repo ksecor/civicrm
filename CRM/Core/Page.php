@@ -196,7 +196,7 @@ class CRM_Core_Page {
     }
 
     function assign_by_ref( $var, &$value) {
-        self::$_template->assign_by_ref($var, &$value);
+        self::$_template->assign_by_ref($var, $value);
     }
 
     

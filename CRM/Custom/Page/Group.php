@@ -177,8 +177,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
 
         while ($customGroupBAO->fetch()) {
             $customGroup[$customGroupBAO->id] = array();
-            //$customGroupBAO->storeValues($customGroup[$customGroupBAO->id]); this is not working in php4
-            $customGroupBAO->storeValues(&$customGroup[$customGroupBAO->id]);
+            CRM_Core_DAO::storeValues( $customGroupBAO, $customGroup[$customGroupBAO->id]);
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
             

@@ -72,8 +72,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $customField =& new CRM_Core_DAO_CustomField( );
         $customField->copyValues( $params );
         if ( $customField->find( true ) ) {
-            // $customField->storeValues( $defaults ); //this is not working in php4
-            $customField->storeValues( &$defaults );
+            CRM_Core_DAO::storeValues( $customField, $defaults );
             return $customField;
         }
         return null;

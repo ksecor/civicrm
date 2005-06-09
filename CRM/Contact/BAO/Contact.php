@@ -406,8 +406,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $ids['contact'] = $contact->id;
             $ids['domain' ] = $contact->domain_id;
 
-            //$contact->storeValues( $values ); this is not working in php4
-            $contact->storeValues( &$values );
+            CRM_Core_DAO::storeValues( $contact, $values );
 
             $privacy = array( );
             foreach ( self::$_commPrefs as $name ) {

@@ -65,8 +65,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $customGroup =& new CRM_Core_DAO_CustomGroup();
         $customGroup->copyValues($params);
         if ($customGroup->find(true)) {
-            //$customGroup->storeValues($defaults); this is not working in php4
-            $customGroup->storeValues(&$defaults);
+            CRM_Core_DAO::storeValues( $customGroup, $defaults);
             return $customGroup;
         }
         return null;

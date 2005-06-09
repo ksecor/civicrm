@@ -65,12 +65,12 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         // checkboxes for groups
         $cb_group = array();
         foreach ($this->_group as $groupID => $groupName) {
-            $this->_groupElement = $this->addElement('checkbox', "cb_group[$groupID]", null, $groupName);
+            $this->_groupElement =& $this->addElement('checkbox', "cb_group[$groupID]", null, $groupName);
         }
 
         // checkboxes for categories
         foreach ($this->_tag as $tagID => $tagName) {
-            $this->_tagElement = $this->addElement('checkbox', "cb_tag[$tagID]", null, $tagName);
+            $this->_tagElement =& $this->addElement('checkbox', "cb_tag[$tagID]", null, $tagName);
         }
 
         // add text box for last name, first name, street name, city

@@ -60,8 +60,7 @@ class CRM_Core_BAO_History {
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
         $historyDAO->copyValues($params);
         if ($historyDAO->find(true)) {
-            //$historyDAO->storeValues($defaults); //this is not working in php4
-            $historyDAO->storeValues(&$defaults);
+            CRM_Core_DAO::storeValues( $historyDAO, $defaults);
             return $historyDAO;
         }
         return null;
@@ -131,8 +130,8 @@ class CRM_Core_BAO_History {
             $params = array();
         }
         
-        //$historyDAO->copyValues($params); this is not working in php4
-        $historyDAO->copyValues(&$params);
+        $historyDAO->copyValues($params); // this is not working in php4
+        // $historyDAO->copyValues(&$params);
 
         // sort order
         $historyDAO->orderBy(CRM_Core_DAO::getSortString($sort, "activity_date desc"));
@@ -145,7 +144,7 @@ class CRM_Core_BAO_History {
         $historyDAO->find();
         while($historyDAO->fetch()) {
             $values[$historyDAO->id] = array();
-            $historyDAO->storeValues(&$values[$historyDAO->id]);
+            CRM_Core_DAO::storeValues( $historyDAO, $values[$historyDAO->id]);
         }
         return $values;
     }

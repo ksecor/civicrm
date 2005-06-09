@@ -58,8 +58,7 @@ class CRM_Core_BAO_MobileProvider extends CRM_Core_DAO_MobileProvider {
         $mobileProvider =& new CRM_Core_DAO_MobileProvider( );
         $mobileProvider->copyValues( $params );
         if ( $mobileProvider->find( true ) ) {
-            //$mobileProvider->storeValues( $defaults ); this is not working in php4
-            $mobileProvider->storeValues( &$defaults );
+            CRM_Core_DAO::storeValues( $mobileProvider, $defaults );
             return $mobileProvider;
         }
         return null;

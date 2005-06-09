@@ -272,11 +272,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         // add select for groups
         $group               = array('' => ts(' - any group - ')) + $this->_group;
-        $this->_groupElement = $this->add('select', 'group', ts('in'), $group);
+        $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
 
         // add select for categories
         $tag = array('' => ts(' - any tag - ')) + $this->_tag;
-        $this->_tagElement = $this->add('select', 'tag', ts('Tagged'), $tag);
+        $this->_tagElement =& $this->addElement('select', 'tag', ts('Tagged'), $tag);
 
         // text for sort_name
         $this->add('text', 'sort_name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );

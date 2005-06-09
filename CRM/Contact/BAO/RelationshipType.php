@@ -58,8 +58,7 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
         $relationshipType =& new CRM_Contact_DAO_RelationshipType( );
         $relationshipType->copyValues( $params );
         if ( $relationshipType->find( true ) ) {
-            //$relationshipType->storeValues( $defaults ); this is not working in php4
-            $relationshipType->storeValues( &$defaults );
+            CRM_Core_DAO::storeValues( $relationshipType, $defaults );
             return $relationshipType;
         }
         return null;
