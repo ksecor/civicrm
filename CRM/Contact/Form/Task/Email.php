@@ -71,7 +71,7 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         list( $total, $sent, $notSent ) = CRM_Core_BAO_EmailHistory::sendEmail( $this->_contactIds, $subject, $message );
 
         $status = array(
-                        ts(''),
+                        '',
                         ts('Total Selected Contact(s): %1', array(1 => $total))
                         );
         if ( $sent ) {
