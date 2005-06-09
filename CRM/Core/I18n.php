@@ -158,6 +158,7 @@ class CRM_Core_I18n
         //     $text = str_replace('\'','\\\'',stripslashes($text));
         // }
 
+        //return '⎰' . $text . '⎱';
         return $text;
     }
 
@@ -173,6 +174,27 @@ class CRM_Core_I18n
             self::$_singleton =& new CRM_Core_I18n();
         }
         return self::$_singleton;
+    }
+
+    /**
+     * set the LC_TIME locale if it's not set already
+     *
+     * @return string  the final LC_TIME that got set
+     *
+     * @static
+     * @access public
+     */
+    static function setLcTime()
+    {
+        static $locale;
+        if (!isset($locale)) {
+
+            // with the config being set up to, e.g., pl_PL: try pl_PL.UTF-8 at first,
+            // if it's not present try pl_PL, finally - fall back to C
+            $config =& CRM_Core_Config::singleton();
+            $locale = setlocale(LC_TIME, $config->lcMessages . '.UTF-8', $config->lcMessages, 'C');
+        }
+        return $locale;
     }
 
 }

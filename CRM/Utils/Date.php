@@ -101,27 +101,6 @@ class CRM_Utils_Date {
     }
 
     /**
-     * set the LC_TIME locale if it's not set already
-     *
-     * @return string  the final LC_TIME that got set
-     *
-     * @static
-     * @access public
-     */
-    static function setLcTime()
-    {
-        static $locale;
-        if (!isset($locale)) {
-
-            // with the config being set up to, e.g., pl_PL: try pl_PL.UTF-8 at first,
-            // if it's not present try pl_PL, finally - fall back to C
-            $config =& CRM_Core_Config::singleton();
-            $locale = setlocale(LC_TIME, $config->lcMessages . '.UTF-8', $config->lcMessages, 'C');
-        }
-        return $locale;
-    }
-
-    /**
      * return abbreviated weekday names according to the locale
      *
      * @return array  0-based array with abbreviated weekday names
@@ -136,7 +115,7 @@ class CRM_Utils_Date {
 
             // set LC_TIME and build the arrays from locale-provided names
             // June 1st, 1970 was a Monday
-            self::setLcTime();
+            CRM_Core_I18n::setLcTime();
             for ($i = 0; $i < 7; $i++) {
                 $abbrWeekdayNames[$i] = strftime('%a', mktime(0, 0, 0, 6, $i, 1970));
             }
@@ -159,7 +138,7 @@ class CRM_Utils_Date {
 
             // set LC_TIME and build the arrays from locale-provided names
             // June 1st, 1970 was a Monday
-            self::setLcTime();
+            CRM_Core_I18n::setLcTime();
             for ($i = 0; $i < 7; $i++) {
                 $fullWeekdayNames[$i] = strftime('%A', mktime(0, 0, 0, 6, $i, 1970));
             }
@@ -181,7 +160,7 @@ class CRM_Utils_Date {
         if (!isset($abbrMonthNames)) {
 
             // set LC_TIME and build the arrays from locale-provided names
-            self::setLcTime();
+            CRM_Core_I18n::setLcTime();
             for ($i = 1; $i <= 12; $i++) {
                 $abbrMonthNames[$i] = strftime('%b', mktime(0, 0, 0, $i));
             }
@@ -203,7 +182,7 @@ class CRM_Utils_Date {
         if (!isset($fullMonthNames)) {
 
             // set LC_TIME and build the arrays from locale-provided names
-            self::setLcTime();
+            CRM_Core_I18n::setLcTime();
             for ($i = 1; $i <= 12; $i++) {
                 $fullMonthNames[$i] = strftime('%B', mktime(0, 0, 0, $i));
             }
