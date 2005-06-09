@@ -281,6 +281,12 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // text for sort_name
         $this->add('text', 'sort_name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
+        // alphabet array
+            
+        $alphabets = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+        
+        $this->assign('alphabets', $alphabets);
+        
         $this->buildQuickFormCommon( );
     }
 
@@ -307,6 +313,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         } else {
             $defaults['task'] = CRM_Contact_Task::PRINT_CONTACTS;
         }
+
+        
 
         // note that we do this so we over-ride the default/post/submitted values to get
         // consisten behavior between search and advanced search

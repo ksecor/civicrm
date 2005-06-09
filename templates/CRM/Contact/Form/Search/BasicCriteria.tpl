@@ -22,6 +22,18 @@
         'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
         </span>
      </div>
+
+      <dl class="form-item">
+         <dt></dt>
+	  <dd>	      
+	     <span class="horizontal-position"> 
+              {foreach from=$alphabets item=row }
+               <a href= "{crmURL p='civicrm/contact/search' q="sname=`$row`"}" >{$row}</a>&nbsp; 
+              {/foreach}
+            </span>
+         </dd> 
+     </dl>
+
      <p>
 {if $context EQ 'smog'}
      <span class="element-right"><a href="{crmURL p='civicrm/group/search/advanced' q="context=smog&gid=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a></span>
