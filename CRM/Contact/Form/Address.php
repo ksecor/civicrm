@@ -92,8 +92,8 @@ class CRM_Contact_Form_Address
     {
         // check for state/country match if not report error to user.
         for ($i=1; $i<=CRM_Contact_Form_Location::BLOCKS; $i++) {
-            if ( ! CRM_Utils_Array:::value( $i, $fields['location'] ) &&
-                 ! CRM_Utils_Array:::value( 'address', $fields['location'][$i] ) ) {
+            if ( ! CRM_Utils_Array::value( $i, $fields['location'] ) &&
+                 ! CRM_Utils_Array::value( 'address', $fields['location'][$i] ) ) {
                 continue;
             }
 
