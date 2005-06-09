@@ -154,7 +154,7 @@ class CRM_Utils_Sort {
     }
   
     function getSortID( $defaultSortOrder ) {
-        $url = $_GET[self::SORT_ID] ? $_GET[self::SORT_ID] : $defaultSortOrder;
+        $url = CRM_Utils_Array::value( self::SORT_ID, $_GET, $defaultSortOrder );
 
         if ( empty( $url ) ) {
             return;

@@ -437,7 +437,7 @@ class CRM_Core_DAO extends DB_DataObject {
     {
         // check if sort is of type CRM_Utils_Sort
         // if ($sort instanceof CRM_Utils_Sort) {
-        if (is_a($sort, CRM_Utils_Sort)) {
+        if (is_a($sort, 'CRM_Utils_Sort')) {
             return $sort->orderBy();
         }
 

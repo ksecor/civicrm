@@ -222,7 +222,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $andArray = array();
 
         // check for contact type restriction
-        if ($fv['cb_contact_type']) {
+        if ( CRM_Utils_Array::value( 'cb_contact_type', $fv ) ) {
             $andArray['contact_type'] = "(contact_type IN (";
             foreach ($fv['cb_contact_type']  as $k => $v) {
                 $andArray['contact_type'] .= "'$k',"; 
@@ -233,18 +233,18 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
         
         // check for group restriction
-        if ($fv['cb_group']) {
+        if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
             $andArray['group'] = "(group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
             $andArray['groupStatus'] = '(crm_group_contact.status = "In")';
         }
         
         // check for tag restriction
-        if ($fv['cb_tag']) {
+        if ( CRM_Utils_Array::value( 'cb_tag', $fv ) ) {
             $andArray['tag'] .= "(tag_id IN (" . implode( ',', array_keys($fv['cb_tag']) ) . '))';
         }
         
         // check for last name, as of now only working with sort name
-        if ($fv['sort_name']) {
+        if ( CRM_Utils_Array::value( 'sort_name', $fv ) ) {
             $name = trim($fv['sort_name']);
             // if we have a comma in the string, search for the entire string
             if ( strpos( $name, ',' ) !== false ) {
@@ -281,7 +281,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         
         $fields = array( 'street_name'=> 1, 'city' => 1, 'state_province' => 2, 'country' => 2 );
         foreach ( $fields as $field => $value ) {
-            if ( $fv[$field] ) {
+            if ( CRM_Utils_Array::value( $field, $fv ) ) {
                 if ( $value == 1 ) {
                     $andArray[$field] = " ( LOWER(crm_address." . $field .  ") LIKE '%" . strtolower( addslashes( $fv[$field] ) ) . "%' )";
                 } else { 
@@ -291,7 +291,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         }
 
         // postal code processing
-        if ($fv['postal_code'] || $fv['postal_code_low'] || $fv['postal_code_high']) {
+        if ( CRM_Utils_Array::value( 'postal_code'     , $fv ) ||
+             CRM_Utils_Array::value( 'postal_code_low' , $fv ) ||
+             CRM_Utils_Array::value( 'postal_code_high', $fv ) ) {
 
             // we need to do postal code processing
             $pcORArray   = array();
@@ -314,13 +316,13 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             $andArray['postal_code'] = ' ( ' . implode( ' OR ', $pcORArray ) . ' ) ';
         }
 
-        if ( $fv['cb_location_type'] ) {
+        if ( CRM_Utils_Array::value( 'cb_location_type', $fv ) ) {
             // processing for location type - check if any locations checked
             $andArray['location_type'] = "(crm_location.location_type_id IN (" . implode( ',', array_keys($fv['cb_location_type']) ) . '))';
         }
         
         // processing for primary location
-        if ($fv['cb_primary_location']) {
+        if ( CRM_Utils_Array::value( 'cb_primary_location', $fv ) ) {
             $andArray['cb_primary_location'] = ' ( crm_location.is_primary = 1 ) ';
         }
 

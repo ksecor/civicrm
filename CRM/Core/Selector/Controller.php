@@ -190,6 +190,11 @@ class CRM_Core_Selector_Controller {
         $this->_store  = $store;
         $this->_output = $output;
 
+        // fix sortID
+        if ( $this->_sortID && strpos( $this->_sortID, '_' ) === false ) {
+            $this->_sortID .= '_u';
+        }
+
         $params = array(
                         'pageID'  => $this->_pageID
                         );

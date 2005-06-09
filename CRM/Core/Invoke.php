@@ -112,13 +112,15 @@ class CRM_Core_Invoke {
     }
     
     static function search( $args ) {
-        
-        if ( $args[3] == 'saved' ) {
+       
+        $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
+
+        if ( $thirdArg == 'saved' ) {
             $page =& new CRM_Contact_Page_SavedSearch( '', CRM_Contact_Page_View::MODE_NONE );
             return $page->run( );
         }
 
-        if ( $args[3] == 'advanced' ) {
+        if ( $thirdArg == 'advanced' ) {
             // advanced search
             $mode  = CRM_Core_Action::ADVANCED;
             $title = ts('Advanced Search');
@@ -197,7 +199,7 @@ class CRM_Core_Invoke {
             return;
         }
 
-        switch ( $args[2] ) {
+        switch ( CRM_Utils_Array::value( 2, $args ) ) {
         case 'add':
             $controller =& new CRM_Group_Controller(ts('Groups'), CRM_Core_Action::ADD);
             $session =& CRM_Core_Session::singleton( );

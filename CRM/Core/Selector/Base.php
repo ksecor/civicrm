@@ -111,8 +111,6 @@ class CRM_Core_Selector_Base {
             $this->_order = array( );
             $start  = 2;
             $firstElementNotFound = true;
-            // does not work for php4...
-            //foreach ( $columnHeaders as &$header ) {
             foreach ($columnHeaders as $k => $header) {
                 $header =& $columnHeaders[$k];
                 if (array_key_exists( 'sort', $header)) {

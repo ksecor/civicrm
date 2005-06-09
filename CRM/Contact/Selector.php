@@ -303,13 +303,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $replacement = "$1";
 
         // check for last name, as of now only working with sort name
-        if ($fv['sort_name']) {
+        if ( CRM_Utils_Array::value( 'sort_name', $this->_formValues ) ) {
             $qill[] = 'Name like - "' . $fv['sort_name'] . '"';
         }
         
         // contact type
         $str = 'Contact Type -';
-        if ($fv['cb_contact_type']) {
+        if ( CRM_Utils_Array::value( 'cb_contact_type', $fv ) ) {
             foreach ($fv['cb_contact_type']  as $k => $v) {
                 $str .= " {$k}s or";
             }            
@@ -320,7 +320,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $qill[] = $str;
         
         // check for group restriction
-        if ($fv['cb_group']) {
+        if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
             $group =& CRM_Core_PseudoConstant::group();
             $str = 'Member of Group -';
             foreach ($fv['cb_group']  as $k => $v) {
@@ -331,7 +331,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
         
         // check for tag restriction
-        if ($fv['cb_tag']) {
+        if ( CRM_Utils_Array::value( 'cb_tag', $fv ) ) {
             $tag =& CRM_Core_PseudoConstant::tag();
             $str = 'Tagged as -';
             foreach ($fv['cb_tag'] as $k => $v) {
@@ -342,29 +342,31 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
         
         // street_name
-        if ($fv['street_name']) {
+        if ( CRM_Utils_Array::value( 'street_name', $fv ) ) {
             $qill[] = 'Street Name like - "' . $fv['street_name'] . '"';
         }
         
         // city_name
-        if ($fv['city']) {
+        if ( CRM_Utils_Array::value( 'city', $fv ) ) {
             $qill[] = 'City Name like - "' . $fv['city'] . '"';
         }
         
         // state
-        if ($fv['state_province']) {
+        if ( CRM_Utils_Array::value( 'state_province', $fv ) ) {
             $states =& CRM_Core_PseudoConstant::stateProvince();
             $qill[] = 'State - "' . $states[$fv['state_province']] . '"';
         }
         
         // country
-        if ($fv['country']) {
+        if ( CRM_Utils_Array::value( 'country', $fv ) ) {
             $country =& CRM_Core_PseudoConstant::country();
             $qill[] = 'Country - "' . $country[$fv['country']] . '"';
         }
 
         // postal code processing
-        if ($fv['postal_code'] || $fv['postal_code_low'] || $fv['postal_code_high']) {
+        if ( CRM_Utils_Array::value( 'postal_code'     , $fv ) ||
+             CRM_Utils_Array::value( 'postal_code_low' , $fv ) ||
+             CRM_Utils_Array::value( 'postal_code_high', $fv ) ) {
             $str = 'Postal code -';
 
             // postal code = value
@@ -386,7 +388,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
 
         // location type processing
-        if ($fv['cb_location_type']) {
+        if ( CRM_Utils_Array::value( 'cb_location_type', $fv ) ) {
             $locationType =& CRM_Core_PseudoConstant::locationType();        
             $str = 'Location type -';
             if (!$fv['cb_location_type']['any']) {
@@ -401,7 +403,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
         
         // primary location processing
-        if ($fv['cb_primary_location']) {
+        if ( CRM_Utils_Array::value( 'cb_primary_location', $fv ) ) {
             $qill[] = 'Primary Location only ? - Yes';
         }
             

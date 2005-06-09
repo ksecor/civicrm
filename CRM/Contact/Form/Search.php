@@ -234,8 +234,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // does not work in php4 . pls revert when done with php4
             //foreach ( $rows as &$row ) {
             foreach ($rows as $row) {
-                //$this->addElement( 'checkbox', $row['checkbox'] );
-                $this->addElement( 'checkbox', $row['checkbox'], null, null, array( 'onclick' => "return checkSelectedBox('".$row[checkbox]."', '".$this->getName()."');" ) );
+                $this->addElement( 'checkbox', $row['checkbox'],
+                                   null, null,
+                                   array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" ) );
             }
         }
 
@@ -292,9 +293,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     function &setDefaultValues() {
         $defaults = array();
 
-        $defaults['sort_name'] = $this->_formValues['sort_name'];
+        $defaults['sort_name'] = CRM_Utils_Array::value( 'sort_name', $this->_formValues );
         foreach (self::$csv as $v) {
-            if ( is_array( $this->_formValues['cb_' . $v] ) ) {
+            if ( CRM_Utils_Array::value( 'cb_' . $v, $this->_formValues ) && is_array( $this->_formValues['cb_' . $v] ) ) {
                 $defaults[$v] = array_pop( array_keys( $this->_formValues['cb_' . $v] ) );
             } else {
                 $defaults[$v] = '';
