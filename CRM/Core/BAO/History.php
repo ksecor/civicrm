@@ -40,13 +40,6 @@
 class CRM_Core_BAO_History {
 
     /**
-     * class constructor
-     */
-    function __construct( ) {
-        //parent::__construct( );
-    }
-    
-    /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
      * contact_id. We'll tweak this function to be more full featured over a period
@@ -132,14 +125,14 @@ class CRM_Core_BAO_History {
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $type . 'History') . ".php");
         eval('$historyDAO =& new CRM_Core_DAO_' . $type . 'History();');
+
+        // if null hence no search criteria
+        if (!isset($params)) {
+            $params = array();
+        }
         
         //$historyDAO->copyValues($params); this is not working in php4
         $historyDAO->copyValues(&$params);
-
-        // selection criteria
-        // lets get all for now
-        //$historyDAO->selectAdd();
-        //$historyDAO->selectAdd('id, activity_type, activity_summary, activity_date, module, callback, activity_id');
 
         // sort order
         $historyDAO->orderBy(CRM_Core_DAO::getSortString($sort, "activity_date desc"));
@@ -151,13 +144,6 @@ class CRM_Core_BAO_History {
         $values = array();
         $historyDAO->find();
         while($historyDAO->fetch()) {
-//             $id = $historyDAO->id;
-//             $values[$id]['activity_type']    = $historyDAO->activity_type;
-//             $values[$id]['activity_summary'] = $historyDAO->activity_summary;
-//             $values[$id]['activity_date']    = $historyDAO->activity_date;
-//             $values[$id]['module']           = $historyDAO->module;
-//             $values[$id]['callback']         = $historyDAO->callback;
-//             $values[$id]['activity_id']      = $historyDAO->activity_id;
             $values[$historyDAO->id] = array();
             $historyDAO->storeValues(&$values[$historyDAO->id]);
         }

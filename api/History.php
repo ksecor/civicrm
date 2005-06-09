@@ -43,6 +43,8 @@ require_once 'PEAR.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Utils/Array.php';
 require_once 'CRM/Core/BAO/History.php';
+require_once 'CRM/Core/I18n.php';
+
 
 
 /**
@@ -76,7 +78,7 @@ function &crm_create_activity_history(&$params)
 {
     // return error if we do not get any params
     if (empty($params)) {
-        return _crm_error("Input Parameters empty");
+        return _crm_error(ts('Input Parameters empty'));
     }
 
     $error = _crm_check_history_params($params, 'Activity');
@@ -110,17 +112,115 @@ function &crm_create_activity_history(&$params)
  */
 function &crm_get_activity_history($params, $sort, $offset, $numRow)
 {
-    CRM_Core_Error::le_method();
-
-    if (!isset($params)) {
-        $params = array();
-    }
-
     $values =& CRM_Core_BAO_History::getHistory($params, $offset, $numRow, $sort, 'Activity');
-
-    CRM_Core_Error::debug_var('values', $values);
-
     return $values;
 }
 
+/**
+ * Update a history record
+ *
+ * Updates history record  with the values passed in the 'params' array. An
+ * error is returned if an invalid history record is passed, or an invalid
+ * property name or property value is included in 'params'. An error
+ * is also returned if the processing the update would violate data
+ * integrity rules, e.g. if a group id value is passed which is
+ * not present
+ *
+ * <b>Clearing Property Values with Update APIs</b>
+ * 
+ * <ul>
+ * <li>For any CRM 'update' API...to clear the value of an existing
+ * property (i.e. set it to empty) - pass the property name in the
+ * $params array with a NULL value.</li>
+ * </ul>
+ *
+ * @param CRM_Core_DAO_ActivityHistory $historyDAO A valid history object
+ * @param array $params  Associative array of property name/value pairs to be updated. 
+ *  
+ * @return CRM_Core_DAO_ActivityHistory|CRM_Core_Error  Return the updated Contact Object else
+ *                                Error Object (if integrity violation)
+ *
+ * @access public
+ *
+ */
+function &crm_update_activity_history(&$historyDAO, &$params)
+{
+
+    CRM_Core_Error::le_method();
+
+    $error = _crm_check_activity_history_object($historyDAO);
+    if (is_a($error, CRM_Core_Error)) {
+
+        CRM_Core_Error::debug_log_message('breakpoint 10');
+        return $error;
+    }
+
+    $error = _crm_update_object($historyDAO, $params);
+    if (is_a($error, CRM_Core_Error)) {
+
+        CRM_Core_Error::debug_log_message('breakpoint 20');
+        return $error;
+    }
+
+    return $historyDAO;
+}
+
+
+/**
+ * Delete a specified activity history.
+ *
+ * @param CRM_Core_DAO_ActivityHistory $historyDAO Activity History object to be deleted
+ *
+ * @return void|CRM_Core_Error  An error if 'contact' is invalid,
+ *                         permissions are insufficient, etc.
+ *
+ * @access public
+ *
+ */
+function &crm_delete_activity_history(&$historyDAO)
+{
+    $error = _crm_check_activity_history_object($historyDAO);
+    if (is_a($error, CRM_Core_Error)) {
+        return $error;
+    }
+    return $historyDAO->delete();
+}
+
+
+
+/**
+ * Check if object is valid and has an id
+ *
+ * @param CRM_Core_DAO_ActivityHistory $historyDAO Activity History object to be checked
+ *
+ * @return true|CRM_Core_Error  An error if 'contact' is invalid,
+ *                              permissions are insufficient, etc.
+ *
+ * @access public
+ *
+ */
+function _crm_check_activity_history_object(&$historyDAO)
+{
+
+    CRM_Core_Error::le_method();
+
+
+    // check if valid DAO
+    if (is_a($historyDAO, CRM_Core_DAO_ActivityHistory)) {
+
+        CRM_Core_Error::debug_log_message('breakpoint 10');
+
+        return _crm_error(ts('Invalid history object passed in'));
+    }
+
+    // since it is update, id should be set
+    if (!isset($historyDAO->id)) {
+
+        CRM_Core_Error::debug_log_message('breakpoint 20');
+
+        return _crm_error(ts('History object does not contain a primary key - it is needed for update operation'));
+    }
+
+    return true;
+}
 ?>

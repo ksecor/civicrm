@@ -1,5 +1,7 @@
 <?php
 
+require_once 'CRM/Core/I18n.php';
+
 function _crm_error( $message, $code = 8000, $level = 'Fatal' ) {
     $error = CRM_Core_Error::singleton( );
     $error->push( $code, $level, array( ), $message );
@@ -26,11 +28,14 @@ function _crm_store_values( &$fields, &$params, &$values ) {
 }
 
 
+
+
+
+
 function _crm_update_object( &$object, &$values ) {
     $fields =& $object->fields( );
-
     $valueFound = false;
-    
+
     // does not work for php4 - we shld revert back to this one after we stop developing for php4
     //foreach ( $fields as $name => &$field ) {
     foreach ($fields as $name => $field) {
@@ -301,7 +306,7 @@ function _crm_check_history_params(&$params, $type='Activity')
     
     // cannot create a contact with empty params
     if (empty($params)) {
-        return _crm_error('Input Parameters empty');
+        return _crm_error(ts('Input Parameters empty'));
     }
 
     $valid = true;
@@ -313,7 +318,7 @@ function _crm_check_history_params(&$params, $type='Activity')
     }
 
     if (!$valid) {
-        return _crm_error("Required fields $error not found for history");
+        return _crm_error(ts("Required fields $error not found for history"));
     }
     return true;
 }
