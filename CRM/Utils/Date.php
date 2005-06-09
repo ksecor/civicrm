@@ -138,7 +138,7 @@ class CRM_Utils_Date {
             // June 1st, 1970 was a Monday
             self::setLcTime();
             for ($i = 0; $i < 7; $i++) {
-                $abbrWeekdayNames[$i] = strftime("%a", mktime(0, 0, 0, 6, $i, 1970));
+                $abbrWeekdayNames[$i] = strftime('%a', mktime(0, 0, 0, 6, $i, 1970));
             }
         }
         return $abbrWeekdayNames;
@@ -161,7 +161,7 @@ class CRM_Utils_Date {
             // June 1st, 1970 was a Monday
             self::setLcTime();
             for ($i = 0; $i < 7; $i++) {
-                $fullWeekdayNames[$i] = strftime("%A", mktime(0, 0, 0, 6, $i, 1970));
+                $fullWeekdayNames[$i] = strftime('%A', mktime(0, 0, 0, 6, $i, 1970));
             }
         }
         return $fullWeekdayNames;
@@ -183,7 +183,7 @@ class CRM_Utils_Date {
             // set LC_TIME and build the arrays from locale-provided names
             self::setLcTime();
             for ($i = 1; $i <= 12; $i++) {
-                $abbrMonthNames[$i] = strftime("%b", mktime(0, 0, 0, $i));
+                $abbrMonthNames[$i] = strftime('%b', mktime(0, 0, 0, $i));
             }
         }
         return $abbrMonthNames;
@@ -205,7 +205,7 @@ class CRM_Utils_Date {
             // set LC_TIME and build the arrays from locale-provided names
             self::setLcTime();
             for ($i = 1; $i <= 12; $i++) {
-                $fullMonthNames[$i] = strftime("%B", mktime(0, 0, 0, $i));
+                $fullMonthNames[$i] = strftime('%B', mktime(0, 0, 0, $i));
             }
         }
         return $fullMonthNames;
@@ -217,8 +217,10 @@ class CRM_Utils_Date {
      * format keywords (with examples based on '2005-01-01' and C locale):
      * %b - abbreviated month name ('Jan')
      * %B - full month name ('January')
-     * %d - day of the month as a decimal number, 0-padded (01)
+     * %d - day of the month as a decimal number, 0-padded ('01')
      * %e - day of the month as a decimal number, blank-padded (' 1')
+     * %E - day of the month as a decimal number ('1')
+     * %f - English ordinal suffix for the day of the month ('st')
      * %m - month as a decimal number, 0-padded ('01')
      * %Y - year as a decimal number including the century ('2005')
      * 
@@ -230,7 +232,7 @@ class CRM_Utils_Date {
      * @static
      * @access public
      */
-    static function customFormat($dateString, $format = '%B %e, %Y')
+    static function customFormat($dateString, $format = '%B %E%f, %Y')
     {
         // 1-based (January) month names arrays
         $abbrMonths = self::getAbbrMonthNames();
@@ -241,11 +243,17 @@ class CRM_Utils_Date {
             $year = (int) $dateParts[0];
             $month = (int) $dateParts[1];
             $day = (int) $dateParts[2];
+            if ($day % 10 == 1 and $day != 11) $suffix = 'st';
+            elseif ($day % 10 == 2 and $day != 12) $suffix = 'nd';
+            elseif ($day % 10 == 3 and $day != 13) $suffix = 'rd';
+            else $suffix = 'th';
             $date = array(
                 '%b' => $abbrMonths[$month],
                 '%B' => $fullMonths[$month],
                 '%d' => $day > 9 ? $day : '0' . $day,
                 '%e' => $day > 9 ? $day : ' ' . $day,
+                '%E' => $day,
+                '%f' => $suffix,
                 '%m' => $month > 9 ? $month : '0' . $month,
                 '%Y' => $year
             );

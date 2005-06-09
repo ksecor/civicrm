@@ -125,7 +125,7 @@ class CRM_Core_Config {
      * String format for a full date (one with day, month and year)
      * @var string
      */
-    public $dateformatFull = '%B %e, %Y';
+    public $dateformatFull = '%B %E%f, %Y';
 
     /**
      * String format for a partial date (one with month and year)
