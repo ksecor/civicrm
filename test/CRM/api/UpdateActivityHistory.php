@@ -22,7 +22,7 @@ class TestOfUpdateHistoryAPI extends UnitTestCase {
 
         CRM_Core_Error::debug_var('historyDAO', $historyDAO);
 
-        $this->assertIsNotA($historyDAO, 'CRM_Core_Error');
+        $this->assertNotA($historyDAO, 'CRM_Core_Error');
 
         CRM_Core_Error::ll_method();
     }

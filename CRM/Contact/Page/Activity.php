@@ -84,10 +84,23 @@ class CRM_Contact_Page_Activity {
         // used for edit, view purpose
         $historyId = CRM_Utils_Request::retrieve('historyId', $page, false, 0);
         
-        if ($action & CRM_Core_Action::VIEW) {
-            //self::view($page, $activityTableId); // view activity
-        } else if ($action & CRM_Core_Action::DELETE) {
-            CRM_Core_BAO_History::delete($historyId, 'Activity');
+        if ($action & CRM_Core_Action::DELETE) {
+            //CRM_Core_BAO_History::delete($historyId, 'Activity');
+            $controller =& new CRM_Core_Controller_Simple('CRM_History_Form_Delete', 'Delete History', $action);
+
+       // set the userContext stack
+        $session =& CRM_Core_Session::singleton();
+        $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) ) );
+        if ($id) {
+            $controller->set( 'id'   , $id );
+        }
+        $controller->set('BAOName', $this->getBAOName());
+        $this->addValues($controller);
+        $controller->setEmbedded( true );
+        $controller->process( );
+        $controller->run( );
+
+            
         }
         self::browse($page);
     }

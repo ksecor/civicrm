@@ -1,4 +1,7 @@
 {if $rows}
+
+<form name="activity_pager" action="/drupal/civicrm/contact/view/activity" method="post">
+
 {include file="CRM/pager.tpl" location="top"}
 
 {strip}
@@ -29,6 +32,7 @@
 {/strip}
 
 {include file="CRM/pager.tpl" location="bottom"}
+</form>
 {else}
 <div class="message status">
 <dl>
