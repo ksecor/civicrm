@@ -135,7 +135,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 // set the is_primary location for the first location
                 $defaults['location']    = array( );
                 
-                $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), is_int );
+                $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), 'is_int' );
                 sort( $locationTypeKeys );
 
                 // also set the location types for each location block
@@ -246,7 +246,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         self::buildCommunicationBlock($this);
 
         /* Entering the compact location engine */ 
-        $location =& CRM_Contact_Form_Location::buildLocationBlock($this, self::LOCATION_BLOCKS, $this->_showHideBlocks);
+        $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS );
 
         /* End of locations */
         

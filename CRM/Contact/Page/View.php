@@ -148,7 +148,9 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         // fix the display name for various types and store in session
         if ( $defaults['contact_type'] == 'Individual' ) {
-            $displayName = trim( $defaults['prefix'] . ' ' . $defaults['display_name'] . ' ' . $defaults['suffix'] );
+            $displayName = trim( CRM_Utils_Array::value( 'prefix', $defaults, '' )       . ' ' .
+                                 CRM_Utils_Array::value( 'display_name', $defaults, '' ) . ' ' .
+                                 CRM_Utils_Array::value( 'suffix', $defaults, '' ) );
         } else {
             $displayName = $defaults['sort_name'];
         }
@@ -195,7 +197,9 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         
         // fix the display name for various types and store in session
         if ( $defaults['contact_type'] == 'Individual' ) {
-            $displayName = $defaults['prefix'] . ' ' . $defaults['display_name'] . ' ' . $defaults['suffix'];
+            $displayName = trim( CRM_Utils_Array::value( 'prefix', $defaults, '' )       . ' ' .
+                                 CRM_Utils_Array::value( 'display_name', $defaults, '' ) . ' ' .
+                                 CRM_Utils_Array::value( 'suffix', $defaults, '' ) );
         } else {
             $displayName = $defaults['sort_name'];
         }

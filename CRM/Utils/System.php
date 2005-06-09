@@ -376,7 +376,7 @@ class CRM_Utils_System {
      */
     static function appendBreadCrumb( $bc ) {
         $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userFrameworkClass . '::checkPermission( "' . $str  . '" ); ' );
+        return eval( 'return ' . $config->userFrameworkClass . '::appendBreadCrumb( "' . addslashes( $bc )  . '" ); ' );
     }
 
     /**

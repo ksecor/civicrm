@@ -31,6 +31,8 @@
  *
  */
 
+require_once 'CRM/Utils/Menu.php';
+
 /**
  * defines a simple implemenation of a drupal block.
  * blocks definitions and html are in a smarty template file
@@ -157,16 +159,17 @@ class CRM_Core_Block {
      * @access private
      */
     private function setTemplateMenuValues( ) {
+        $config =& CRM_Core_Config::singleton( );
         $items  =& CRM_Utils_Menu::items( );
         $values =  array( );
 
         foreach ( $items as $item ) {
-            if ( $item['type'] == MENU_NORMAL_ITEM && $item['access'] ) {
+            if ( $item['type'] == CRM_Utils_Menu::NORMAL_ITEM && $item['access'] ) {
                 $value = array( );
                 $value['url'  ] = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'qs', $item ) );
                 $value['title'] = $item['title'];
                 $value['class'] = 'leaf';
-                if ( strpos( $_REQUEST['q'], $item['path'] ) === 0 ) {
+                if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ), $item['path'] ) === 0 ) {
                     $value['active'] = 'class="active"';
                 } else {
                     $value['active'] = '';

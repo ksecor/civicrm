@@ -65,9 +65,6 @@ class CRM_Utils_Wrapper
      */
     function run($formName, $formLabel, $mode ) {
         $this->_controller =& new CRM_Core_Controller_Simple( $formName, $formLabel, $mode );
-        if ( $data ) {
-            $this->_controller->set( $data );
-        }
         $this->_controller->process();
         $this->_controller->run();
     }

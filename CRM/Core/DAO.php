@@ -357,9 +357,9 @@ class CRM_Core_DAO extends DB_DataObject {
             $field = CRM_Utils_Array::value( $fieldName, $fields );
             return self::makeAttribute( $field );
         } else {
+            $attributes = array( );
             foreach ($fields as $name => $field) {
                 $attribute = self::makeAttribute( $field );
-                $attributes = array( );
                 if ( $attribute ) {
                     $attributes[$name] = $attribute;
                 }
