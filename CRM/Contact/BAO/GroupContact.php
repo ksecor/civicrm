@@ -259,7 +259,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ( ! empty( $status ) ) {
             $where .= ' AND crm_group_contact.status = "' . $status . '"';
         }    
-        $where .= ' AND ' . CRM_Core_Drupal::groupClause( ) . ' ';
+        $where .= ' AND ' . CRM_Core_Permission::whereClause( ) . ' ';
 
         $order = $limit = '';
         if (! $count ) {

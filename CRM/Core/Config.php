@@ -168,7 +168,9 @@ class CRM_Core_Config {
      */
     public $userFramework       = 'Drupal';
     public $userFrameworkClass  = 'CRM_Utils_System_Drupal';
+    public $userPermissionClass = 'CRM_Core_Permission_Drupal';
     public $userFrameworkURLVar = 'q';
+    
 
     /**
      * The handle to the log that we are using
@@ -291,8 +293,9 @@ class CRM_Core_Config {
         }
 
         if ( defined( 'CRM_USERFRAMEWORK' ) ) {
-            $this->userFramework      = CRM_USERFRAMEWORK;
-            $this->userFrameworkClass = 'CRM_Utils_System_' . $this->userFramework;
+            $this->userFramework       = CRM_USERFRAMEWORK;
+            $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
+            $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;
         }
 
         if ( defined( 'CRM_USERFRAMEWORK_URLVAR' ) ) {

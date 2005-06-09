@@ -158,13 +158,13 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      *
      */
-    function add($type, $name, $label,
-                 $attributes = '', $required   = false ) {
-        $element = $this->addElement($type, $name, $label, $attributes);
+    function &add($type, $name, $label,
+                  $attributes = '', $required   = false ) {
+        $element =& $this->addElement($type, $name, $label, $attributes);
         if (HTML_QuickForm::isError($element)) {
             CRM_Core_Error::fatal(HTML_QuickForm::errorMessage($element));
         }
-    
+        
         if ( $required ) {
             $error = $this->addRule($name, ts('%1 is a required field', array(1 => $label)) , 'required');
             if (HTML_QuickForm::isError($error)) {

@@ -305,7 +305,7 @@ class CRM_Core_PseudoConstant {
      */
     public static function &group()
     {
-        return CRM_Core_Drupal::group( );
+        return CRM_Core_Permission::group( );
     }
 
     /**
@@ -343,7 +343,7 @@ class CRM_Core_PseudoConstant {
      */
     public static function &savedSearch()
     {
-        return CRM_Core_Drupal::savedSearch( );
+        return CRM_Core_Permission::savedSearch( );
     }
 
     /**

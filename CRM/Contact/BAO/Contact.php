@@ -56,7 +56,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      *
      * @var array
      */
-    static $_commPrefs = array( 'do_not_phone', 'do_not_email', 'do_not_mail' );
+    static $_commPrefs = array( 'do_not_phone', 'do_not_email', 'do_not_mail', 'do_not_trade' );
 
     function __construct()
     {
@@ -65,7 +65,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
     static function permissionedContact( $id, $type = 'view' ) {
         $query = ' SELECT count(DISTINCT crm_contact.id) ' . self::fromClause( ) .
-                  ' WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Drupal::whereClause( $type ) . ' ';
+                  ' WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Permission::whereClause( $type ) . ' ';
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
@@ -113,9 +113,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $where = self::whereClause( $fv, $includeContactIds );
 
         if ( empty( $where ) ) {
-            $where = ' WHERE ' . CRM_Core_Drupal::whereClause( 'view' ) . ' ';
+            $where = ' WHERE ' . CRM_Core_Permission::whereClause( 'view' ) . ' ';
         } else {
-            $where = ' WHERE ' . $where . ' AND ' . CRM_Core_Drupal::whereClause( 'view' ) . ' ';
+            $where = ' WHERE ' . $where . ' AND ' . CRM_Core_Permission::whereClause( 'view' ) . ' ';
         }
 
         if (!$count) {

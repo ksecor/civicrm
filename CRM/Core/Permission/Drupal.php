@@ -34,7 +34,7 @@
 /**
  *
  */
-class CRM_Core_Drupal {
+class CRM_Core_Permission_Drupal {
 
     /**
      * is this user someone with access for the entire system
@@ -161,12 +161,12 @@ class CRM_Core_Drupal {
      * @return string the group where clause for this user
      * @access public
      */
-    public static function groupClause( $type = 'view' ) {
+    public static function groupClause( $type = CRM_Core_Permission::VIEW ) {
         if (! isset( self::$_viewPermissionedGroups ) ) {
             self::group( );
         }
 
-        if ( $type == 'edit' ) {
+        if ( $type == CRM_Core_Permission::EDIT ) {
             if ( self::$_editAdminUser ) {
                 $clause = ' ( 1 ) ';
             } else if ( empty( self::$_editPermissionedGroups ) ) {
@@ -195,12 +195,12 @@ class CRM_Core_Drupal {
      * @return string the savedSearch where clause for this user
      * @access public
      */
-    public static function savedSearchClause( $type = 'view' ) {
+    public static function savedSearchClause( $type = CRM_Core_Permission::VIEW ) {
         if (! isset( self::$_viewPermissionedSavedSearches ) ) {
             self::savedSearch( );
         }
 
-        if ( $type == 'edit' ) {
+        if ( $type == CRM_Core_Permission::EDIT ) {
             if ( self::$_editAdminUser ) {
                 $clause = ' ( 1 ) ';
             } else if ( empty( self::$_editPermissionedSearches ) ) {
@@ -238,13 +238,13 @@ class CRM_Core_Drupal {
         self::savedSearch( );
 
         if ( self::$_editPermission ) {
-            return 'edit';
+            return CRM_Core_Permission::EDIT;
         } else if ( self::$_viewPermission ) {
-            return 'view';
+            return CRM_Core_Permission::VIEW;
         }
         return null;
     }
-
+    
     /**
      * Get the permissioned where clause for the user
      *
@@ -252,7 +252,7 @@ class CRM_Core_Drupal {
      * @return string the group where clause for this user
      * @access public
      */
-    public static function whereClause( $type = 'view' ) {
+    public static function whereClause( $type = CRM_Core_Permission::VIEW ) {
         self::group( );
         self::savedSearch( );
 

@@ -558,7 +558,9 @@ class CRM_GCD {
             $contact->contact_type = $this->getContactType($id);
             $contact->do_not_phone = mt_rand(0, 1);
             $contact->do_not_email = mt_rand(0, 1);
-            $contact->do_not_post = mt_rand(0, 1);
+            $contact->do_not_post  = mt_rand(0, 1);
+            $contact->do_not_trade = mt_rand(0, 1);
+
             $contact->preferred_communication_method = $this->_getRandomElement($this->preferredCommunicationMethod);
             $this->_insert($contact);
         }

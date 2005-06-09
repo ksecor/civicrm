@@ -107,12 +107,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 }
                 $this->_contactType = $contact->contact_type;
 
-                /***                
                 // check for permissions
                 if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, 'edit' ) ) {
                     CRM_Core_Error::fatal( "You do not have the necessary permission to edit this contact." );
                 }
-                ***/
                 return;
             }
             CRM_Core_Error::fatal( "Could not get a contact_id and/or contact_type" );
@@ -328,8 +326,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_phone', null, 'Do not call');
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_email', null, 'Do not contact by email');
         $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_mail' , null, 'Do not contact by postal mail');
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_trade', null, 'Do not trade contact information' );
 
-        $form->addGroup($privacy, 'privacy', ts('Privacy'));
+        $form->addGroup($privacy, 'privacy', ts('Privacy'), '<br/>');
 
         // preferred communication method 
         $form->add('select', 'preferred_communication_method', ts('Prefers'), CRM_Core_SelectValues::$pcm);

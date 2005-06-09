@@ -246,8 +246,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // process the result of the query
         $rows = array( );
 
-        $permission = CRM_Core_Drupal::getPermission( );
-        $mask = CRM_Core_Action::mask( CRM_Core_Drupal::getPermission( ) );
+        $mask = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
 
         while ($result->fetch()) {
             $row = array();
