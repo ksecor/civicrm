@@ -137,8 +137,9 @@ class CRM_Core_BAO_History {
         $historyDAO->copyValues(&$params);
 
         // selection criteria
-        $historyDAO->selectAdd();
-        $historyDAO->selectAdd('id, activity_type, activity_summary, activity_date, module, callback, activity_id');
+        // lets get all for now
+        //$historyDAO->selectAdd();
+        //$historyDAO->selectAdd('id, activity_type, activity_summary, activity_date, module, callback, activity_id');
 
         // sort order
         $historyDAO->orderBy(CRM_Core_DAO::getSortString($sort, "activity_date desc"));
@@ -150,13 +151,15 @@ class CRM_Core_BAO_History {
         $values = array();
         $historyDAO->find();
         while($historyDAO->fetch()) {
-            $id = $historyDAO->id;
-            $values[$id]['activity_type']    = $historyDAO->activity_type;
-            $values[$id]['activity_summary'] = $historyDAO->activity_summary;
-            $values[$id]['activity_date']    = $historyDAO->activity_date;
-            $values[$id]['module']           = $historyDAO->module;
-            $values[$id]['callback']         = $historyDAO->callback;
-            $values[$id]['activity_id']      = $historyDAO->activity_id;
+//             $id = $historyDAO->id;
+//             $values[$id]['activity_type']    = $historyDAO->activity_type;
+//             $values[$id]['activity_summary'] = $historyDAO->activity_summary;
+//             $values[$id]['activity_date']    = $historyDAO->activity_date;
+//             $values[$id]['module']           = $historyDAO->module;
+//             $values[$id]['callback']         = $historyDAO->callback;
+//             $values[$id]['activity_id']      = $historyDAO->activity_id;
+            $values[$historyDAO->id] = array();
+            $historyDAO->storeValues(&$values[$historyDAO->id]);
         }
         return $values;
     }

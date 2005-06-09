@@ -85,9 +85,6 @@ function &crm_create_activity_history(&$params)
     if (is_a($error, CRM_Core_Error)) {
         return $error;
     }
-
-    $ids = array();
-
     $history = CRM_Core_BAO_History::create($params, 'Activity');
     return $history;
 }
@@ -113,7 +110,17 @@ function &crm_create_activity_history(&$params)
  */
 function &crm_get_activity_history($params, $sort, $offset, $numRow)
 {
-    
+    CRM_Core_Error::le_method();
+
+    if (!isset($params)) {
+        $params = array();
+    }
+
+    $values =& CRM_Core_BAO_History::getHistory($params, $offset, $numRow, $sort, 'Activity');
+
+    CRM_Core_Error::debug_var('values', $values);
+
+    return $values;
 }
 
 ?>

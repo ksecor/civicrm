@@ -32,6 +32,7 @@
  */
 
 require_once 'CRM/Core/DAO/EmailHistory.php';
+require_once 'api/crm.php';
 
 /**
  * BAO object for crm_email_history table
@@ -108,14 +109,28 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         $mailer = CRM_Core_Config::getMailer( );
         // CRM_Core_Error::debug( $toEmail, $headers );
         // CRM_Core_Error::debug( $from   , $message );
-        if ( $mailer->send( $toEmail, $headers, $message ) !== true ) {
+
+        if ($mailer->send($toEmail, $headers, $message) !== true) {
             return false;
         }
-
+        
         // we need to insert an activity history record here
+        $params = array('entity_table'     => 'crm_contact',
+                        'entity_id'        => $toID,
+                        'activity_type'    => 'Email Contact',
+                        'module'           => 'CiviCRM',
+                        'callback'         => 'showEmailDetails',
+                        'activity_id'      => $activityID,
+                        'activity_summary' => 'Email sent to ' . $headers['To'] . ' with subject ' . $headers['subject'],
+                        'activity_date'    => date('Ymd')
+                        );
+        
+        //if (crm_create_activity_history($params) instanceof CRM_Core_Error ) {
+        if (is_a(crm_create_activity_history($params), CRM_Core_Error)) {
+            return false;
+        }
         return true;
     }
-
 }
 
 ?>
