@@ -74,9 +74,9 @@ class CRM_Contact_Form_Individual {
         
         // radio button for gender
         $genderOptions = array( );
-        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', ts('Gender'), ts('Female'), ts('Female'));
-        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', ts('Gender'), ts('Male'), ts('Male'));
-        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', ts('Gender'), ts('Transgender'), ts('Transgender'));
+        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', ts('Gender'), ts('Female'), 'Female');
+        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', ts('Gender'), ts('Male'), 'Male');
+        $genderOptions[] = HTML_QuickForm::createElement('radio', 'gender', ts('Gender'), ts('Transgender'), 'Transgender');
         $form->addGroup($genderOptions, 'gender', ts('Gender'));
         
         $form->addElement('checkbox', 'is_deceased', null, ts('Contact is deceased'));
