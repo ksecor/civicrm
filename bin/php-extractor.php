@@ -325,27 +325,29 @@ function markerError($file, $line, $marker, $tokens)
  */
 function writeHeader($file)
 {
-    $output .= "# CiviCRM POT file\n";
-    $output .= "# Copyright (C) 2005 David A. Lobo\n";
-    $output .= "# This file is distributed under the same license as the CiviCRM package.\n";
-    $output .= "# Piotr Szotkowski <shot@caltha.pl>, 2005.\n";
-    //$output .= "# --VERSIONS--\n";
-    $output .= "#\n";
-    $output .= "#, fuzzy\n";
-    $output .= "msgid \"\"\n";
-    $output .= "msgstr \"\"\n";
-    $output .= "\"Project-Id-Version: CiviCRM 0.1\\n\"\n";
-    $output .= "\"Report-Msgid-Bugs-To: \\n\"\n";
-    $output .= "\"POT-Creation-Date: " . date("Y-m-d H:iO") . "\\n\"\n";
-    $output .= "\"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n\"\n";
-    $output .= "\"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n\"\n";
-    $output .= "\"Language-Team: LANGUAGE <LL@li.org>\\n\"\n";
-    $output .= "\"MIME-Version: 1.0\\n\"\n";
-    $output .= "\"Content-Type: text/plain; charset=CHARSET\\n\"\n";
-    $output .= "\"Content-Transfer-Encoding: 8bit\\n\"\n";
-    $output .= "\"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\\n\"\n";
-    $output .= "\n";
-    return $output;
+    $output = array();
+    $output[] = '# CiviCRM POT file';
+    $output[] = '# Copyright (C) 2005 David A. Lobo';
+    $output[] = '# This file is distributed under the same license as the CiviCRM package.';
+    $output[] = '# Piotr Szotkowski <shot@caltha.pl>, 2005.';
+    //$output[] = '# --VERSIONS--';
+    $output[] = '# ';
+    $output[] = '# ';
+    $output[] = 'msgid ""';
+    $output[] = 'msgstr ""';
+    $output[] = '"Project-Id-Version: CiviCRM 0.1\n"';
+    $output[] = '"Report-Msgid-Bugs-To: \n"';
+    $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
+    $output[] = '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"';
+    $output[] = '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"';
+    $output[] = '"Language-Team: <>\n"';
+    $output[] = '"MIME-Version: 1.0\n"';
+    $output[] = '"Content-Type: text/plain; charset=CHARSET\n"';
+    $output[] = '"Content-Transfer-Encoding: 8bit\n"';
+    $output[] = '"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"';
+    $output[] = '';
+    $output[] = '';
+    return implode("\n", $output);
 }
 
 

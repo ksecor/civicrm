@@ -2,13 +2,13 @@
 # Copyright (C) 2005 David A. Lobo
 # This file is distributed under the same license as the CiviCRM package.
 # Piotr Szotkowski <shot@caltha.pl>, 2005.
-#
-#, fuzzy
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-09 12:58+0200\n"
+"POT-Creation-Date: 2005-06-09 14:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: <>\n"
