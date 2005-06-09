@@ -33,13 +33,14 @@
 
 require_once 'api/crm.php';
 require_once 'CRM/Core/Session.php';
+require_once 'CRM/Core/DAO/UFMatch.php';
 
 /**
- * The basic class that interfaces with Drupal CMS.
+ * The basic class that interfaces with the external user framework
  */
-class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
+class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
     /**
-     * Given a Drupal user object, make sure there is a contact
+     * Given a UF user object, make sure there is a contact
      * object for this user. If the user has new values, we need
      * to update the CRM DB with the new values
      *
@@ -50,64 +51,71 @@ class CRM_Core_BAO_Drupal extends CRM_Core_DAO_Drupal {
      * @access public
      * @static
      */
-    static function synchronize( &$user, $update = false ) {
+    static function synchronize( &$user, $update, $uf ) {
         $session =& CRM_Core_Session::singleton( );
         if ( ! is_object( $session ) ) {
             return;
         }
-        
+
+        if ( $uf == 'Drupal' ) {
+            $key  = 'uid';
+            $mail = 'mail';
+        } else {
+            $key  = 'id';
+            $mail = 'email';
+        }
+
         // have we already processed this user, if so early
         // return
         $userID = $session->get( 'userID' );
         $ufID   = $session->get( 'ufID'   );
-        if ( ! $update && $ufID == $user->uid ) {
+        if ( ! $update && $ufID == $user->$key ) {
             return;
         }
 
         // reset the session if we are a different user
-        if ( $ufID && $ufID != $user->uid ) {
+        if ( $ufID && $ufID != $user->$key ) {
             $session->reset( );
         }
 
         // make sure that a contact id exists for this user id
-        $drupal =& new CRM_Core_DAO_Drupal( );
-        $drupal->uid = $user->uid;
-        if ( ! $drupal->find( true ) ) {
-            $drupal->uid = $user->uid;
-
+        $ufmatch =& new CRM_Core_DAO_UFMatch( );
+        $ufmatch->ufid = $user->$key;
+        if ( ! $ufmatch->find( true ) ) {
             $query = "
 SELECT    crm_contact.id as contact_id, crm_contact.domain_id as domain_id
 FROM      crm_contact
-LEFT JOIN crm_location ON crm_contact.id  = crm_location.contact_id
-LEFT JOIN crm_email    ON crm_location.id = crm_email.location_id
-WHERE     crm_email.email = '" . $user->mail . "'";
+LEFT JOIN crm_location ON ( crm_contact.id  = crm_location.contact_id AND crm_location.is_primary = 1 )
+LEFT JOIN crm_email    ON ( crm_location.id = crm_email.location_id   AND crm_email.is_primary = 1    )
+WHERE     crm_email.email = '" . $user->$mail . "'";
   
             $dao =& new CRM_Core_DAO( );
             $dao->query( $query );
             if ( $dao->fetch( ) ) {
-                $drupal->contact_id = $dao->contact_id;
-                $drupal->domain_id  = $dao->domain_id ;
+                $ufmatch->contact_id = $dao->contact_id;
+                $ufmatch->domain_id  = $dao->domain_id ;
             } else {
-                $params= array( 'email' => $user->mail, 'location_type' => 'Home' );
+                if ( $uf == 'Mambo' ) {
+                    CRM_Utils_System_Mambo::setEmail( $user );
+                }
+                $params= array( 'email' => $user->$mail, 'location_type' => 'Home' );
                 $contact =& crm_create_contact( $params, 'Individual' );
-                // does not work for php4 
-                //if ( $contact instanceof CRM_Core_Error ) {
-                if (is_a($contact, CRM_Core_Error)) {
+                if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                     CRM_Core_Error::debug( 'error', $contact );
                     exit(1);
                 }
-                $drupal->contact_id = $contact->id;
-                $drupal->domain_id  = $contact->domain_id ;
+                $ufmatch->contact_id = $contact->id;
+                $ufmatch->domain_id  = $contact->domain_id ;
             }
-            $drupal->save( );
+            $ufmatch->save( );
         } 
 
-        $session->set( 'ufID'    , $drupal->uid        );
-        $session->set( 'userID'  , $drupal->contact_id );
-        $session->set( 'domainID', $drupal->domain_id  ); 
+        $session->set( 'ufID'    , $ufmatch->ufid       );
+        $session->set( 'userID'  , $ufmatch->contact_id );
+        $session->set( 'domainID', $ufmatch->domain_id  ); 
         
         if ( $update ) {
-            // some information has changed in the drupal core
+            // some information has changed in the UF core
             // replicate that information in civicrm
         }
     }

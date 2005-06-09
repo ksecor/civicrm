@@ -84,7 +84,8 @@ class CRM_Utils_System_Mambo {
      * @static
      */
     static function redirect( $url ) {
-        mambo_goto( $url );
+        header( 'Location: ' . $url );
+        exit( );
     }
 
     /**
@@ -135,6 +136,20 @@ class CRM_Utils_System_Mambo {
         return self::url( $_GET['task'] );
     }
 
+    /**
+     * Function to set the email address of the user
+     *
+     * @param object $user handle to the user object
+     *
+     * @return void
+     * @access public
+     */
+    function setEmail( &$user ) {
+        global $database;
+        $query = "SELECT email FROM #__users WHERE id='$user->id'";
+        $database->setQuery( $query );
+        $user->email = $database->loadResult();
+    }
 
 }
 

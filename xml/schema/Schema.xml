@@ -36,9 +36,9 @@
 <xi:include href="CustomGroup.xml"      parse="xml" />
 <xi:include href="CustomField.xml"      parse="xml" />
 <xi:include href="CustomValue.xml"      parse="xml" />
-<xi:include href="Drupal.xml"           parse="xml" />
 <xi:include href="ActivityHistory.xml"  parse="xml" />
 <xi:include href="EmailHistory.xml"     parse="xml" />
 <xi:include href="UFForm.xml"           parse="xml" />
 <xi:include href="UFFormField.xml"      parse="xml" />
+<xi:include href="UFMatch.xml"          parse="xml" />
 </database>

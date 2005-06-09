@@ -81,6 +81,7 @@ class CRM_Utils_System {
                                                 'stateprovince'      => 'StateProvince',
                                                 'ufformfield'        => 'UFFormField',
                                                 'ufform'             => 'UFForm',
+                                                'ufmatch'            => 'UFMatch',
                                                 'uploadfile'         => 'UploadFile',
                                                 );
     

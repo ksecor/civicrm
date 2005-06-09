@@ -2,8 +2,8 @@
 
 <table>
   <base>CRM/Core</base>
-  <name>crm_drupal</name>
-  <comment>The mapping from a drupal object to a CRM object.</comment>
+  <name>crm_uf_match</name>
+  <comment>The mapping from an user framework (UF) object to a CRM object.</comment>
   <field>
       <name>id</name>
       <type>int unsigned</type>
@@ -15,10 +15,10 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-       <name>uid</name>
+       <name>ufid</name>
        <type>int unsigned</type>
        <required>true</required>
-       <comment>Drupal UID</comment>
+       <comment>UF ID</comment>
   </field>
   <field>
        <name>contact_id</name>

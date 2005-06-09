@@ -1,16 +1,3 @@
-{if $smarty.get.smartyDebug}
-{debug}
-{/if}
-{if $smarty.get.sessionReset}
-{$session->reset()}
-{/if}
-{if $smarty.get.sessionDebug}
-{$session->debug($smarty.get.sessionDebug)}
-{/if}
-
-<div id="crm-container">
-<script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
-
 <table border="0" cellpadding="0" cellspacing="0" id="content">
   <tr>
     <td id="sidebar-left" valign="top">
@@ -44,5 +31,3 @@
 
 </tr>
 </table>
-
-</div> {* end crm-container div *}

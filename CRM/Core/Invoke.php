@@ -62,7 +62,7 @@ class CRM_Core_Invoke {
 
         case 'import' : return self::import ( $args );
 
-        default       : return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search', 'reset=1', false) );
+        default       : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) );
 
         }
     }
