@@ -89,6 +89,22 @@ class CRM_Utils_System_Drupal {
         drupal_goto( $url );
     }
 
+    /**
+     * figure out the post url for the form
+     *
+     * @param the default action if one is pre-specified
+     *
+     * @return string the url to post the form
+     * @access public
+     * @static
+     */
+    static function postURL( $action ) {
+        if ( ! empty( $action ) ) {
+            return $action;
+        }
+
+        return self::url( $_GET['q'] );
+    }
 
     /**
      * Generate an internal CiviCRM URL (copied from DRUPAL/includes/common.inc#url)

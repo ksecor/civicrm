@@ -118,6 +118,24 @@ class CRM_Utils_System_Mambo {
         }
     }
 
+    /**
+     * figure out the post url for the form
+     *
+     * @param the default action if one is pre-specified
+     *
+     * @return string the url to post the form
+     * @access public
+     * @static
+     */
+    function postURL( $action ) {
+        if ( ! empty( $action ) ) {
+            return $action;
+        }
+
+        return self::url( $_GET['task'] );
+    }
+
+
 }
 
 ?>

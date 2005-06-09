@@ -191,11 +191,16 @@ class CRM_Utils_System {
      */
     function url($path = null, $query = null, $absolute = true, $fragment = null ) {
         $config   =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Mambo' ) {
-            return CRM_Utils_System_Mambo::url ( $path, $query, $absolute, $fragment );
-        } else {
-            return CRM_Utils_System_Drupal::url( $path, $query, $absolute, $fragment );
-        }
+
+        $argString = array( );
+        $argString[] = $path     ? '"' . addslashes( $path  ) . '"'    : 'null';
+        $argString[] = $query    ? '"' . addslashes( $query ) . '"'    : 'null';
+        $argString[] = $absolute ? 'true'                              : 'false';
+        $argString[] = $fragment ? '"' . addslashes( $fragment ) . '"' : 'null';
+        $args = implode( ', ', $argString );
+
+        return eval( 'return ' . $config->userFrameworkClass . '::url ( ' . $args . ' ); ' );
+
     }
 
     /**
@@ -384,18 +389,8 @@ class CRM_Utils_System {
      * @static
      */
     static function postURL( $action ) {
-        if ( ! empty( $action ) ) {
-            return $action;
-        }
-
         $config   =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Mambo' && CRM_Utils_Array::value( 'task', $_GET ) ) {
-            return CRM_Utils_System_Mambo::url ( $_GET['task'] );
-        } else if ( CRM_Utils_Array::value( 'q', $_GET ) ) {
-            return CRM_Utils_System_Drupal::url( $_GET['q'] );
-        } else {
-            return $_SERVER['PHP_SELF'];
-        }
+        return eval( 'return ' . $config->userFrameworkClass . '::postURL( "' . $action  . '" ); ' );
     }
 }
 

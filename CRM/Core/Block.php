@@ -44,10 +44,10 @@ class CRM_Core_Block {
      * @var int
      */
     const
-        SHORTCUTS = 0,
-        ADD       = 1,
+        MENU      = 0,
+        SHORTCUTS = 1,
         SEARCH    = 2,
-        MENU      = 4;
+        ADD       = 4;
 
     /**
      * template file names for the above blocks
@@ -157,8 +157,8 @@ class CRM_Core_Block {
      * @access private
      */
     private function setTemplateMenuValues( ) {
-        $items = civicrm_menu( true );
-        $values = array( );
+        $items  =& CRM_Utils_Menu::items( );
+        $values =  array( );
 
         foreach ( $items as $item ) {
             if ( $item['type'] == MENU_NORMAL_ITEM && $item['access'] ) {
@@ -193,6 +193,8 @@ class CRM_Core_Block {
             return null;
         }
 
+        $block['name'   ] = 'block-civicrm';
+        $block['id'     ] = $block['name'] . '_' . $id;
         $block['subject'] = self::fetch( $id, 'Subject.tpl',
                                          array( 'subject' => self::$_properties[$id]['subject'] ) );
         $block['content'] = self::fetch( $id, self::$_properties[$id]['template'],
@@ -218,7 +220,7 @@ class CRM_Core_Block {
             $template->assign( $properties );
         }
 
-        return $template->fetch( "CRM/Block/" . $fileName );
+        return $template->fetch( 'CRM/Block/' . $fileName );
     }
 
 }

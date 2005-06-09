@@ -40,8 +40,14 @@ require_once 'CRM/Core/I18n.php';
 class CRM_Core_Invoke {
 
     static function invoke( $args ) {
+
         if ( $args[0] !== 'civicrm' ) {
             return;
+        }
+
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Mambo' ) {
+            CRM_Core_Mambo::sidebarLeft( );
         }
 
         switch ( $args[1] ) {
@@ -78,7 +84,8 @@ class CRM_Core_Invoke {
 
         if ( $args[2] == 'view' ) {
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-            switch ( $args[3] ) {
+            $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
+            switch ( $thirdArg ) {
             case 'note':
                 $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_NOTE );
                 break;

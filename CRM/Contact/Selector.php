@@ -303,7 +303,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $replacement = "$1";
 
         // check for last name, as of now only working with sort name
-        if ( CRM_Utils_Array::value( 'sort_name', $this->_formValues ) ) {
+        if ( CRM_Utils_Array::value( 'sort_name', $fv ) ) {
             $qill[] = 'Name like - "' . $fv['sort_name'] . '"';
         }
         
