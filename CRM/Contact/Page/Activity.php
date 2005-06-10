@@ -55,10 +55,9 @@ class CRM_Contact_Page_Activity {
         $output = CRM_Core_Selector_Controller::SESSION;
         $selector   =& new CRM_History_Selector_Activity($page->getContactId());
         $controller =& new CRM_Core_Selector_Controller($selector,
-                                                       $page->get(CRM_Utils_Pager::PAGE_ID),
-                                                       $page->get(CRM_Utils_Sort::SORT_ID),
-                                                       CRM_Core_Action::VIEW, $page, $output);
-
+                                                        $page->get(CRM_Utils_Pager::PAGE_ID),
+                                                        $page->get(CRM_Utils_Sort::SORT_ID),
+                                                        CRM_Core_Action::VIEW, $page, $output);
         $controller->setEmbedded(true);
         $controller->run();
         $controller->moveFromSessionToTemplate( );
@@ -81,26 +80,18 @@ class CRM_Contact_Page_Activity {
         $action = CRM_Utils_Request::retrieve('action', $page, false, 'browse');
         $page->assign('action', $action);
         
-        // used for edit, view purpose
-        $historyId = CRM_Utils_Request::retrieve('historyId', $page, false, 0);
-        
+        // used for delete
+        $activityHistoryId = CRM_Utils_Request::retrieve('activity_history_id', $page, false, 0);
+
         if ($action & CRM_Core_Action::DELETE) {
-            //CRM_Core_BAO_History::delete($historyId, 'Activity');
-            $controller =& new CRM_Core_Controller_Simple('CRM_History_Form_Delete', 'Delete History', $action);
-
-       // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) ) );
-        if ($id) {
-            $controller->set( 'id'   , $id );
-        }
-        $controller->set('BAOName', $this->getBAOName());
-        $this->addValues($controller);
-        $controller->setEmbedded( true );
-        $controller->process( );
-        $controller->run( );
-
-            
+            $url   = 'civicrm/contact/view/activity';
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext(CRM_Utils_System::url($url, 'action=browse'));
+            $controller =& new CRM_Core_Controller_Simple('CRM_History_Form_Activity', ts('Delete Activity History'), $action);
+            $controller->set('activityHistoryId', $activityHistoryId);
+            $controller->setEmbedded(true);
+            $controller->process();
+            $controller->run();
         }
         self::browse($page);
     }
