@@ -177,9 +177,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     {
 
         // some tasks.. what do we want to do with the selected contacts ?
-        $tasks = array( '' => ts('- more actions -') ) + CRM_Contact_Task::$tasks;
+        $tasks = array( '' => ts('- more actions -') ) + CRM_Contact_Task::tasks();
         if ( isset( $this->_ssID ) ) {
-            $tasks = $tasks + CRM_Contact_Task::$optionalTasks;
+            $tasks = $tasks + CRM_Contact_Task::optionalTasks();
 
             $savedSearchValues = array( 'id' => $this->_ssID, 'name' => CRM_Contact_BAO_SavedSearch::getName( $this->_ssID ) );
             $this->assign_by_ref( 'savedSearch', $savedSearchValues );

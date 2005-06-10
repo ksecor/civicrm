@@ -47,18 +47,34 @@ class CRM_Contact_Task {
         PRINT_CONTACTS      =  64,
         EMAIL_CONTACTS      = 128;
 
-    static $tasks = array(
-                            1   => 'Add Contacts to a Group',
-                            2   => 'Remove Contacts from a Group',
-                            4   => 'Tag Contacts (assign tags)',
-                          128   => 'Email Contacts',
-                            8   => 'Delete Contacts',
-                           16  => 'New Saved Search',
-                          );
+    static $tasks = null;
 
-    static $optionalTasks = array(
-                                  32 => 'Update Saved Search',
-                                  );
+    static $optionalTasks = null;
+
+    static function tasks()
+    {
+        if (!(self::$tasks)) {
+            self::$tasks = array(
+                  1 => ts('Add Contacts to a Group'),
+                  2 => ts('Remove Contacts from a Group'),
+                  4 => ts('Tag Contacts (assign tags)'),
+                128 => ts('Email Contacts'),
+                  8 => ts('Delete Contacts'),
+                 16 => ts('New Saved Search')
+            );
+        }
+        return self::$tasks;
+    }
+
+    static function optionalTasks()
+    {
+        if (!(self::$optionalTasks)) {
+            self::$optionalTasks = array(
+                32 => ts('Update Saved Search')
+            );
+        }
+        return self::$optionalTasks;
+    }
 
 }
 
