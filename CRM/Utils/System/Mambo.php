@@ -58,7 +58,7 @@ class CRM_Utils_System_Mambo {
      * @access public
      */
     static function checkPermission( $str ) {
-        return 'edit';
+        return true;
     }
 
     /**

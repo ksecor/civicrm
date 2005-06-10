@@ -162,7 +162,7 @@ class CRM_Core_Invoke {
         }
 
         $view = null;
-        switch ( $args[2] ) {
+        switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
         case 'locationType':
             $view =& new CRM_Admin_Page_LocationType(ts('View Location Types'));
             break;

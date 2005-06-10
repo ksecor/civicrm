@@ -106,7 +106,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      * @access public
      */
     public function checkPermission( $id, $name ) {
-        return 'edit';
+        return CRM_Core_Permission::EDIT;
     }
 
     /**
