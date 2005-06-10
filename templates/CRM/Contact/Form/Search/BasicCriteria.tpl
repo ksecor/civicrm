@@ -9,13 +9,13 @@
  <div class="form-item">
      <span class="horizontal-position">{$form.contact_type.label}{$form.contact_type.html}</span>
      <span class="horizontal-position">{$form.group.label}{$form.group.html}</span>
-     <span class="element-right">{$form.tag.label}{$form.tag.html}</span>
+     <span class="horizontal-position">{$form.tag.label}{$form.tag.html}</span>
  </div>
  <div class="form-item">
-     <span class="horizontal-position">
+     <span class="place-left">
      {$form.sort_name.label} &nbsp;{$form.sort_name.html}
      </span>
-     <span class="element-right">{$form.buttons.html}</span>
+     <span class="align-right">{$form.buttons.html}</span>
      <div class="description font-italic">
         <span class="horizontal-position">
         {ts}Complete OR partial contact name. To find individuals by first AND last name, enter
@@ -33,7 +33,8 @@
             </span>
          </dd> 
      </dl>
-
+ </div>
+ <div class="form-item">
      <p>
 {if $context EQ 'smog'}
      <span class="element-right"><a href="{crmURL p='civicrm/group/search/advanced' q="context=smog&gid=`$group.id`&reset=1&force=1"}">&raquo; {ts}Advanced Search{/ts}</a></span>

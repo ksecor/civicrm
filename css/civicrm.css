@@ -307,6 +307,12 @@ div.spacer {
   margin-left: 30px;
 }
 
+#crm-container .place-left {
+  float: left;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
 #crm-container .float-right {
   float: right;
   width: auto;
@@ -314,6 +320,11 @@ div.spacer {
   clear: both;
 }
 
+#crm-container .align-right {
+    display: block;
+    margin-right: 20px;
+    text-align: right;
+}
 
 #crm-container .element-right {
   position: absolute;
