@@ -52,11 +52,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @var array
      * @static
      */
-    static $_validContext = array(
-                                  'search' => 'Search',
-                                  'smog'   => 'Show members of group',
-                                  'amtg'   => 'Add members to group',
-                                  );
+    static $_validContext = null;
 
     /**
      * The context that we are working on
@@ -167,6 +163,18 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     protected $_done;
 
+    static function validContext()
+    {
+        if (!(self::$_validContext)) {
+            self::$_validContext = array(
+                'search' => 'Search',
+                'smog'   => 'Show members of group',
+                'amtg'   => 'Add members to group'
+            );
+        }
+        return self::$_validContext;
+    }
+    
     /**
      * Build the common elements between the search/advanced form
      *
@@ -379,7 +387,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * assign context to drive the template display, make sure context is valid
          */
         $this->_context = CRM_Utils_Request::retrieve( 'context', $this, false, 'search' );
-        if ( ! CRM_Utils_Array::value( $this->_context, self::$_validContext ) ) {
+        if ( ! CRM_Utils_Array::value( $this->_context, self::validContext() ) ) {
             $this->_context = 'search';
             $this->set( 'context', $this->_context );
         }
