@@ -185,6 +185,7 @@ class CRM_Core_Invoke {
                     $view =& new CRM_Custom_Page_Field(ts('Custom Data Field'));
                 }
             }
+            break;
         default:
             $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
             break;
