@@ -236,15 +236,20 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         //max records that will be listed
         $searchValues = array();
         $searchValues['sort_name'] = $params['name']; 
+        $searchValues['cb_contact_type'] = $params['contact_type'];
+
+        
         $excludedContactIds = array( $this->_contactId );
 
         if ( $params['relationship_type_id'] ) {
             $relationshipType =& new CRM_Contact_DAO_RelationshipType( );
             list( $rid, $direction ) = explode( '_', $params['relationship_type_id'], 2 );
+           
             $relationshipType->id = $rid;
             if ( $relationshipType->find( true ) ) {
                 // find all the contacts which have the same relationship
                 $relationship =& new CRM_Contact_DAO_Relationship( );
+                
                 $relationship->relationship_type_id = $rid;
                 if ( $direction == 'a_b' ) {
                     $type = $relationshipType->contact_type_b;
@@ -262,7 +267,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }  else if ( $type == 'Organization' ) {
                     $searchValues['cb_contact_type'] = array( $type => 3 );
                 }
-
+                $searchValues['cb_contact_type'] = array( $type => 2 );
                 $relationship->find( );
                 while ( $relationship->fetch( ) ) {
                     $excludedContactIds[] = ( $direction == 'a_b' ) ? $relationship->contact_id_b : $relationship->contact_id_a;
@@ -282,6 +287,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
 
         // get the count of contact
+       
         $contactBAO  =& new CRM_Contact_BAO_Contact( );
         $searchCount = $contactBAO->searchQuery($searchValues, 0, 0, null, true );
         $this->set( 'searchCount', $searchCount );
