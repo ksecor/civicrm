@@ -41,7 +41,7 @@ class CRM_Contact_Page_Relationship {
      * @var array
      * @static
      */
-    static $_links;
+    static $_links = null;
     
     /**
      * View details of a relationship
@@ -179,8 +179,7 @@ class CRM_Contact_Page_Relationship {
      */
     static function &links()
     {
-        if ( ! isset( self::$_links ) )
-        {
+        if (!(self::$_links)) {
             $deleteExtra = ts('Are you sure you want to delete this relationship?');
             $disableExtra = ts('Are you sure you want to disable this relationship?');
             $enableExtra = ts('Are you sure you want to re-enable this relationship?');

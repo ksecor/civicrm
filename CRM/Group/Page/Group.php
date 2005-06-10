@@ -39,30 +39,36 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
      *
      * @var array
      */
-    static $_links = array(
-                           CRM_Core_Action::VIEW    => array(
-                                                        'name'  => 'Show Group Members',
-                                                        'url'   => 'civicrm/group/search',
-                                                        'qs'    => 'reset=1&force=1&context=smog&gid=%%id%%',
-                                                        'title' => 'Group Members',
-                                                        ),
-                           CRM_Core_Action::UPDATE  => array(
-                                                        'name'  => 'Edit',
-                                                        'url'   => 'civicrm/group',
-                                                        'qs'    => 'reset=1&action=update&id=%%id%%',
-                                                        'title' => 'Edit Group'),
-                           CRM_Core_Action::DELETE  => array(
-                                                        'name'  => 'Delete',
-                                                        'url'   => 'civicrm/group',
-                                                        'qs'    => 'reset=1&action=delete&id=%%id%%',
-                                                        'title' => 'Delete Group'),
-                           );
+    static $_links = null;
 
     function getBAOName( ) {
         return 'CRM_Contact_BAO_Group';
     }
 
-    function &links( ) {
+    function &links()
+    {
+        if (!(self::$_links)) {
+            self::$_links = array(
+                CRM_Core_Action::VIEW => array(
+                    'name'  => ts('Show Group Members'),
+                    'url'   => 'civicrm/group/search',
+                    'qs'    => 'reset=1&force=1&context=smog&gid=%%id%%',
+                    'title' => ts('Group Members')
+                ),
+                CRM_Core_Action::UPDATE => array(
+                    'name'  => ts('Edit'),
+                    'url'   => 'civicrm/group',
+                    'qs'    => 'reset=1&action=update&id=%%id%%',
+                    'title' => ts('Edit Group')
+                ),
+                CRM_Core_Action::DELETE => array(
+                    'name'  => ts('Delete'),
+                    'url'   => 'civicrm/group',
+                    'qs'    => 'reset=1&action=delete&id=%%id%%',
+                    'title' => ts('Delete Group')
+                )
+            );
+        }
         return self::$_links;
     }
 

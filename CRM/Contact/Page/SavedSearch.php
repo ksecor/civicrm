@@ -46,7 +46,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
      * @var array
      * @static
      */
-    static $_links;
+    static $_links = null;
 
 
     /**
@@ -125,8 +125,7 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
     static function &links()
     {
 
-        if ( ! isset( self::$_links ) ) 
-        {
+        if (!(self::$_links)) {
 
             $deleteExtra = ts('Do you really want to remove this Saved Search?');
 

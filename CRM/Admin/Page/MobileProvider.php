@@ -45,7 +45,7 @@ class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic
      * @var array
      * @static
      */
-    static $_links;
+    static $_links = null;
 
     /**
      * Get BAO Name
@@ -64,15 +64,14 @@ class CRM_Admin_Page_MobileProvider extends CRM_Core_Page_Basic
      * @param none
      * @return array (reference) of action links
      */
-    function &links() 
+    function &links()
     {
 
-        if ( ! isset( self::$_links ) ) 
-        {
+        if (!(self::$_links)) {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this Mobile Phone Service Provider?\n\nUsers will no longer be able to select this value when adding or editing contact phone numbers.');
 
-	    self::$_links = array(
+            self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/mobileProvider',

@@ -45,7 +45,7 @@ class CRM_Admin_Page_Tag extends CRM_Core_Page_Basic
      * @var array
      * @static
      */
-    static $_links;
+    static $_links = null;
 
     /**
      * Get BAO
@@ -65,14 +65,13 @@ class CRM_Admin_Page_Tag extends CRM_Core_Page_Basic
      * @param none
      * @return array (reference) of action links
      */
-    function &links() 
+    function &links()
     {
-        if ( ! isset( self::$_links ) ) 
-        {
+        if (!(self::$_links)) {
             // helper variable for nicer formatting
             $deleteExtra = ts('Are you sure you want to delete this tag?\n\nThis tag will be removed from any currently tagged contacts, and users will no longer be able to assign contacts to this tag.');
 
-	    self::$_links = array(
+            self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/tag',

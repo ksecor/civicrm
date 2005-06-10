@@ -56,7 +56,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @var array
      * @static
      */
-    static $_links;
+    static $_links = null;
 
     /**
      * we use desc to remind us what that column is, name is used in the tpl
@@ -137,11 +137,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @access public
      *
      */
-    static function &links() 
+    static function &links()
     {
 
-        if ( ! isset( self::$_links ) ) 
-        {
+        if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
