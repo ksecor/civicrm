@@ -331,7 +331,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $form->addGroup($privacy, 'privacy', ts('Privacy'), '<br/>');
 
         // preferred communication method 
-        $form->add('select', 'preferred_communication_method', ts('Prefers'), CRM_Core_SelectValues::$pcm);
+        $form->add('select', 'preferred_communication_method', ts('Prefers'), CRM_Core_SelectValues::pcm());
     }
 
 

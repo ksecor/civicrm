@@ -62,8 +62,8 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
 
       
         // add select for contact type
-        $this->add('select', 'contact_type_a', ts('Contact Type A '), CRM_Core_SelectValues::$contactType);
-        $this->add('select', 'contact_type_b', ts('Contact Type B '), CRM_Core_SelectValues::$contactType);
+        $this->add('select', 'contact_type_a', ts('Contact Type A '), CRM_Core_SelectValues::contactType());
+        $this->add('select', 'contact_type_b', ts('Contact Type B '), CRM_Core_SelectValues::contactType());
 
         $this->add('text', 'description', ts('Description'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_RelationshipType', 'description' ) );

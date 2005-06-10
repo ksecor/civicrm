@@ -84,7 +84,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         // which entity is this custom data group for ?
         // for update action only allowed if there are no custom values present for this group.
-        $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::$customGroupExtends);
+        $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::customGroupExtends());
 
         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $extendsElement->freeze();

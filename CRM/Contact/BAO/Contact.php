@@ -491,7 +491,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 if (array_key_exists( 'address', $location ) ) {
                     self::lookupValue( $location['address'], 'state_province', CRM_Core_PseudoConstant::stateProvince(), $reverse );
                     self::lookupValue( $location['address'], 'country'       , CRM_Core_PseudoConstant::country()      , $reverse );
-                    self::lookupValue( $location['address'], 'county'        , CRM_Core_SelectValues::$county          , $reverse );
+                    self::lookupValue( $location['address'], 'county'        , CRM_Core_SelectValues::county()         , $reverse );
                 }
 
                 if (array_key_exists('im', $location)) {

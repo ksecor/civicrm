@@ -38,189 +38,247 @@ class CRM_Core_SelectValues {
 
     /**
      * prefix names
-     * @var array
      * @static
      */
-    public static $prefixName = array(
-                                      ''    => '-title-',
-                                      'Mrs' => 'Mrs.',
-                                      'Ms'  => 'Ms.',
-                                      'Mr'  => 'Mr.',
-                                      'Dr'   => 'Dr.',
-                                      ' ' => '(none)',
-                                      );
+    static function &prefixName()
+    {
+        static $prefixName = null;
+        if (!$prefixName) {
+            $prefixName = array(
+                ''    => ts('-title-'),
+                'Mrs' => ts('Mrs.'),
+                'Ms'  => ts('Ms.'),
+                'Mr'  => ts('Mr.'),
+                'Dr'  => ts('Dr.'),
+                ' '   => ts('(none)')
+            );
+        }
+        return $prefixName;
+    }
 
     /**
      * suffix names
-     * @var array
      * @static
      */
-    public static $suffixName = array(
-                                      ''    => '-suffix-',
-                                      'Jr'  => 'Jr.',
-                                      'Sr'  => 'Sr.',
-                                      'II'   =>'II',
-                                      ' ' => '(none)',
-                                      );
+    static function &suffixName()
+    {
+        static $suffixName = null;
+        if (!$suffixName) {
+            $suffixName = array(
+                ''   => ts('-suffix-'),
+                'Jr' => ts('Jr.'),
+                'Sr' => ts('Sr.'),
+                'II' =>ts('II'),
+                ' '  => ts('(none)')
+            );
+        }
+        return $suffixName;
+    }
 
     /**
      * greetings
-     * @var array
      * @static
      */
-    public static $greeting   = array(
-                                      'Formal'    => 'default - Dear [first] [last]',
-                                      'Informal'  => 'Dear [first]',
-                                      'Honorific' => 'Dear [title] [last]',
-                                      'Custom'    => 'Customized',
-                                      );
+    static function &greeting()
+    {
+        static $greeting = null;
+        if (!$greeting) {
+            $greeting = array(
+                'Formal'    => ts('default - Dear [first] [last]'),
+                'Informal'  => ts('Dear [first]'),
+                'Honorific' => ts('Dear [title] [last]'),
+                'Custom'    => ts('Customized')
+            );
+        }
+        return $greeting;
+    }
     
     /**
-     * date combinations. We need to fix maxYear (and we do so at the
-     * end of this file)
-     * static values cannot invoke a function in php
-     * @var array
-     * @static
-     */
-    private static $_date       = array(
-                                        'language'         => 'en',
-                                        'format'           => 'd M Y',
-                                        'addEmptyOption'   => true,
-                                        'emptyOptionText'  => '-select-',
-                                        'emptyOptionValue' => ''
-                                      );
-
-    /**
      * different types of phones
-     * @var array
      * @static
      */
-    public static $phoneType = array(
-                                      ''       => '-select-',
-                                      'Phone'  => 'Phone',
-                                      'Mobile' => 'Mobile',
-                                      'Fax'    => 'Fax',
-                                      'Pager'  => 'Pager'
-                                      );
-
+    static function &phoneType()
+    {
+        static $phoneType = null;
+        if (!$phoneType) {
+            $phoneType = array(
+                ''       => ts('-select-'),
+                'Phone'  => ts('Phone'),
+                'Mobile' => ts('Mobile'),
+                'Fax'    => ts('Fax'),
+                'Pager'  => ts('Pager')
+            );
+        }
+        return $phoneType;
+    }
 
     /**
      * list of counties
-     * @var array
+     * FIXME a bit short at the moment
      * @static
      */
-    public static $county = array(
-                                  ''   => '-select-',
-                                  1001 => 'San Francisco',
-                                  );
+    static function &county()
+    {
+        static $county = null;
+        if (!$country) {
+            $country = array(
+                ''   => ts('-select-'),
+                1001 => ts('San Francisco')
+            );
+        }
+        return $county;
+    }
     
     /**
      * preferred communication method
-     * @var array
      * @static
      */
-    public static $pcm = array(
-                               ''     => '-no preference-',
-                               'Phone' => 'Phone', 
-                               'Email' => 'Email', 
-                               'Post'  => 'Postal Mail',
-                               );  
+    static function &pcm()
+    {
+        static $pcm = null;
+        if (!$pcm) {
+            $pcm = array(
+                ''      => ts('-no preference-'),
+                'Phone' => ts('Phone'),
+                'Email' => ts('Email'), 
+                'Post'  => ts('Postal Mail')
+            );
+        }
+        return $pcm;
+    }
 
     /**
      * various pre defined contact super types
-     * @var array
      * @static
      */
-    public static $contactType = array(
-                                       ''            => '- all contacts -',
-                                       'Individual'   => 'Individuals',
-                                       'Household'    => 'Households',
-                                       'Organization' => 'Organizations',
-                                       );
-    
+    static function &contactType()
+    {
+        static $contactType = null;
+        if (!$contactType) {
+            $contactType = array(
+                ''             => ts('- all contacts -'),
+                'Individual'   => ts('Individuals'),
+                'Household'    => ts('Households'),
+                'Organization' => ts('Organizations')
+            );
+        }
+        return $contactType;
+    }
 
     /**
      * Extended property (custom field) data types
-     *
-     * @var array
      * @static
      */
-    public static $customDataType = array(
-                                          ''           => '-select-',
-                                          'String'     => 'Text',
-                                          'Int'        => 'Integer',
-                                          'Float'      => 'Decimal Number',
-                                          'Money'      => 'Money',
-                                          'Text'       => 'Memo',
-                                          'Date'       => 'Date',
-                                          'Boolean'    => 'Yes/No',
-                                          );
+    static function &customDataType()
+    {
+        static $customDataType = null;
+        if (!$customDataType) {
+            $customDataType = array(
+                ''        => ts('-select-'),
+                'String'  => ts('Text'),
+                'Int'     => ts('Integer'),
+                'Float'   => ts('Decimal Number'),
+                'Money'   => ts('Money'),
+                'Text'    => ts('Memo'),
+                'Date'    => ts('Date'),
+                'Boolean' => ts('Yes/No')
+            );
+        }
+        return $customDataType;
+    }
     
     /**
      * Custom form field types
-     * @var array
      * @static
      */
-    public static $customHtmlType = array(
-                                          ''                        => '-select-',
-                                          'Text'                    => 'Single-line input field (text or numeric)',
-                                          'TextArea'                => 'Multi-line text box (textarea)',
-                                          'Select'                  => 'Drop-down (select list)',
-                                          'Radio'                   => 'Radio buttons',
-                                          'Checkbox'                => 'Checkbox(es)',
-                                          'Select Date'             => 'Date selector',
-                                          'Select State / Province' => 'State / Province selector',
-                                          'Select Country'          => 'Country selector',
-                                          );
-    
+    static function &customHtmlType()
+    {
+        static $customHtmlType = null;
+        if (!$customHtmlType) {
+            $customHtmlType = array(
+                ''                        => ts('-select-'),
+                'Text'                    => ts('Single-line input field (text or numeric)'),
+                'TextArea'                => ts('Multi-line text box (textarea)'),
+                'Select'                  => ts('Drop-down (select list)'),
+                'Radio'                   => ts('Radio buttons'),
+                'Checkbox'                => ts('Checkbox(es)'),
+                'Select Date'             => ts('Date selector'),
+                'Select State / Province' => ts('State / Province selector'),
+                'Select Country'          => ts('Country selector')
+            );
+        }
+        return $customHtmlType;
+    }
     
     /**
      * various pre defined extensions for dynamic properties and groups
      *
-     * @var array
      * @static
      */
-    public static $customGroupExtends = array(
-                                              'Contact'      => '-all contact types-',
-                                              'Individual'   => 'Individuals',
-                                              'Household'    => 'Households',
-                                              'Organization' => 'Organizations',
-                                              );
-
+    static function &customGroupExtends()
+    {
+        static $customGroupExtends = null;
+        if (!$customGroupExtends) {
+            $customGroupExtends = array(
+                'Contact'      => ts('-all contact types-'),
+                'Individual'   => ts('Individuals'),
+                'Household'    => ts('Households'),
+                'Organization' => ts('Organizations')
+            );
+        }
+        return $customGroupExtends;
+    }
 
     /**
      * styles for displaying the custom data group
      *
-     * @var array
      * @static
      */
-    public static $customGroupStyle = array(
-                                            'Tab'    => 'Tab',
-                                            'Inline' => 'Inline',
-                                            );
-
+    static function &customGroupStyle()
+    {
+        static $customGroupStyle = null;
+        if (!$customGroupStyle) {
+            $customGroupStyle = array(
+                'Tab'    => ts('Tab'),
+                'Inline' => ts('Inline')
+            );
+        }
+        return $customGroupStyle;
+    }
 
     /**
      * the status of a contact within a group
      *
-     * @ @var array
      * @static
      */
-    public static $groupContactStatus = array(
-                                              'In'      => 'In',
-                                              'Out'     => 'Out',
-                                              'Pending' => 'Pending',
-                                              );
+    static function &groupContactStatus()
+    {
+        static $groupContactStatus = null;
+        if (!$groupContactStatus) {
+            $groupContactStatus = array(
+                'In'      => ts('In'),
+                'Out'     => ts('Out'),
+                'Pending' => ts('Pending')
+            );
+        }
+        return $groupContactStatus;
+    }
 
     /**
      * list of Group Types
-     * @var array
      * @static
      */
-    public static $groupType = array(
-                                     'query'    => 'Dynamic',
-                                     'static'   => 'Static',
-                                     );
+    static function &groupType()
+    {
+        static $groupType = null;
+        if (!$groupType) {
+            $groupType = array(
+                'query'  => ts('Dynamic'),
+                'static' => ts('Static')
+            );
+        }
+        return $groupType;
+    }
   
     
     /**
@@ -229,19 +287,29 @@ class CRM_Core_SelectValues {
      * @param  $type the type of date
      *
      * @return array         the date array
-     * @access public
      * @static
      */
-    static function &date( $type = 'birth' ) {
-        $newDate = self::$_date;
+    static function &date($type = 'birth')
+    {
+        static $_date = null;
+        if (!$_date) {
+            $_date = array(
+                'format'           => 'd M Y',
+                'addEmptyOption'   => true,
+                'emptyOptionText'  => ts('-select-'),
+                'emptyOptionValue' => ''
+            );
+        }
+        
+        $newDate = $_date;
 
-        if ( $type == 'birth' ) {
+        if ($type == 'birth') {
             $minOffset = 100;
             $maxOffset = 0;
-        } else if ( $type == 'relative' ) {
+        } elseif ($type == 'relative') {
             $minOffset = 20;
             $maxOffset = 20;
-        } else if ( $type == 'custom' ) {
+        } elseif ($type == 'custom') {
             $minOffset = 100;
             $maxOffset = 20;
         }
