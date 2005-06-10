@@ -77,7 +77,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $this, true );
 
         // check for permissions
-        if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, 'view' ) ) {
+        if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::VIEW ) ) {
             CRM_Core_Error::fatal( "You do not have the necessary permission to view this contact." );
         }
 

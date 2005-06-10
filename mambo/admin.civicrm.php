@@ -11,6 +11,7 @@ require_once 'PEAR.php';
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/Invoke.php';
+require_once 'CRM/Core/BAO/UFMatch.php';
 
 function civicrm_init( ) {
     $config =& CRM_Core_Config::singleton();

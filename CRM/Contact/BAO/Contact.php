@@ -63,7 +63,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         parent::__construct();
     }
 
-    static function permissionedContact( $id, $type = 'view' ) {
+    static function permissionedContact( $id, $type = CRM_Core_Permission::VIEW ) {
         $query = ' SELECT count(DISTINCT crm_contact.id) ' . self::fromClause( ) .
                   ' WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Permission::whereClause( $type ) . ' ';
 
@@ -113,9 +113,9 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $where = self::whereClause( $fv, $includeContactIds );
 
         if ( empty( $where ) ) {
-            $where = ' WHERE ' . CRM_Core_Permission::whereClause( 'view' ) . ' ';
+            $where = ' WHERE ' . CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW ) . ' ';
         } else {
-            $where = ' WHERE ' . $where . ' AND ' . CRM_Core_Permission::whereClause( 'view' ) . ' ';
+            $where = ' WHERE ' . $where . ' AND ' . CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW ) . ' ';
         }
 
         if (!$count) {
