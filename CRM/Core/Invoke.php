@@ -170,7 +170,7 @@ class CRM_Core_Invoke {
             $view =& new CRM_Admin_Page_IMProvider(ts('View Instant Messenger Providers'));
             break;
         case 'mobileProvider':
-            $view =& new CRM_Admin_Page_IMProvider(ts('View Mobile Providers'));
+            $view =& new CRM_Admin_Page_MobileProvider(ts('View Mobile Providers'));
             break;
         case 'reltype':
             $view =& new CRM_Admin_Page_RelationshipType(ts('View Relationship Types'));
