@@ -48,14 +48,14 @@ class CRM_Contact_Task {
         EMAIL_CONTACTS      = 128,
         HOUSEHOLD_CONTACTS  = 512;
 
-    static $tasks = null;
+    static $_tasks = null;
 
-    static $optionalTasks = null;
+    static $_optionalTasks = null;
 
     static function &tasks()
     {
-        if (!(self::$tasks)) {
-            self::$tasks = array(
+        if (!(self::$_tasks)) {
+            self::$_tasks = array(
                   1 => ts('Add Contacts to a Group'),
                   2 => ts('Remove Contacts from a Group'),
                   4 => ts('Tag Contacts (assign tags)'),
@@ -65,17 +65,17 @@ class CRM_Contact_Task {
                 512 => ts('Add Contacts to Household')
             );
         }
-        return self::$tasks;
+        return self::$_tasks;
     }
 
     static function &optionalTasks()
     {
-        if (!(self::$optionalTasks)) {
-            self::$optionalTasks = array(
+        if (!(self::$_optionalTasks)) {
+            self::$_optionalTasks = array(
                 32 => ts('Update Saved Search')
             );
         }
-        return self::$optionalTasks;
+        return self::$_optionalTasks;
     }
 
 }
