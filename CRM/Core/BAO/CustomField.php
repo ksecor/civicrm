@@ -46,13 +46,24 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @var array
      * @static
      */
-    public static $_dataType   = array( 'String'  => 'Alphanumeric',
-                                        'Int'     => 'Integer',
-                                        'Float'   => 'Number',
-                                        'Money'   => 'Money',
-                                        'Memo'    => 'Note',
-                                        'Date'    => 'Date',
-                                        'Boolean' => 'Yes or No' );
+    public static $_dataType = null;
+
+    static function dataType()
+    {
+        if (!(self::$_dataType)) {
+            self::$_dataType = array(
+                'String'  => ts('Alphanumeric'),
+                'Int'     => ts('Integer'),
+                'Float'   => ts('Number'),
+                'Money'   => ts('Money'),
+                'Memo'    => ts('Note'),
+                'Date'    => ts('Date'),
+                'Boolean' => ts('Yes or No')
+            );
+        }
+        return self::$_dataType;
+    }
+    
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only

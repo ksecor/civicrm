@@ -60,8 +60,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @var array
      * @static
      */
-    private static $_dataTypeValues;
-    private static $_dataTypeKeys;
+    private static $_dataTypeValues = null;
+    private static $_dataTypeKeys = null;
     
     private static $_dataToHTML = array(
                                         array('Text'),
@@ -82,9 +82,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        if ( ! isset( self::$_dataTypeKeys ) ) {
-            self::$_dataTypeKeys   = array_keys  ( CRM_Core_BAO_CustomField::$_dataType );
-            self::$_dataTypeValues = array_values( CRM_Core_BAO_CustomField::$_dataType );
+        if (!(self::$_dataTypeKeys)) {
+            self::$_dataTypeKeys   = array_keys  (CRM_Core_BAO_CustomField::dataType());
+            self::$_dataTypeValues = array_values(CRM_Core_BAO_CustomField::dataType());
         }
 
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
