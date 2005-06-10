@@ -130,7 +130,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         if ( isset( $displayName ) && $this->_mode != self::MODE_NONE ) {
             $this->assign( 'displayName', $displayName );
             $contactImage = $this->get( 'contactImage' );
-            // Set dynamic page title = contactImage + displayname>
+            // Set dynamic page title = contactImage + displayname
             CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
             return;
         }

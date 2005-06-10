@@ -129,9 +129,9 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         $note                =& new CRM_Core_DAO_Note( );
         $note->note          = $params['note'];
         $note->contact_id    = $session->get( 'userID' );
-        // hack
         if ( ! $note->contact_id ) {
-            $note->contact_id = 1;
+            CRM_Core_Error::fatal( 'We could not find your logged in user ID' );
+            return;
         }
 
         $note->modified_date = date("Ymd");
