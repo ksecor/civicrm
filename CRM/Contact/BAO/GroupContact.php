@@ -202,7 +202,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
      * @static
      */
     static function getGroupList($contactId = 0) {
-        
         $group =& new CRM_Contact_DAO_Group( );
 
         $select = $from = $where = '';
@@ -219,6 +218,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         $group->query($sql);
 
+        $values = array( );
         while($group->fetch()) {
             $values[$group->id] = $group->title;
         }

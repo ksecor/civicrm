@@ -79,11 +79,17 @@ class CRM_Utils_Date {
      * @static
      * @access public
      */     
-    static function unformat( $date, $separator = '-' ) {
+    static function &unformat( $date, $separator = '-' ) {
+        $value = array( );
+        $value['Y'] = $value['M'] = $value['d'] = null;
+
+        if ( empty( $date ) ) {
+            return $value;
+        }
+
         list( $year, $mon, $day ) = explode( $separator, $date, 3 );
 
         $value = array( );
-        $value['Y'] = $value['M'] = $value['d'] = null;
 
         if ( is_numeric( $year ) && $year > 0 ) {
             $value['Y'] = $year;
