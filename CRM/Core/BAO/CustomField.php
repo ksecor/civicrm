@@ -48,7 +48,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     public static $_dataType = null;
 
-    static function dataType()
+    static function &dataType()
     {
         if (!(self::$_dataType)) {
             self::$_dataType = array(

@@ -52,7 +52,7 @@ class CRM_Contact_Task {
 
     static $optionalTasks = null;
 
-    static function tasks()
+    static function &tasks()
     {
         if (!(self::$tasks)) {
             self::$tasks = array(
@@ -68,7 +68,7 @@ class CRM_Contact_Task {
         return self::$tasks;
     }
 
-    static function optionalTasks()
+    static function &optionalTasks()
     {
         if (!(self::$optionalTasks)) {
             self::$optionalTasks = array(

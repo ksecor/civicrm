@@ -163,7 +163,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     protected $_done;
 
-    static function validContext()
+    static function &validContext()
     {
         if (!(self::$_validContext)) {
             self::$_validContext = array(
