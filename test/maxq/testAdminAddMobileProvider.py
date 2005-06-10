@@ -117,14 +117,17 @@ class testAdminAddMobileProvider(PyHttpTestCase):
                 print ("Mobile Provider \'" + providerName[i].values()[0] + "\' already exists")
                 print ("**************************************************************************************")
                 self.msg("Response code: %s" % self.getResponseCode())
-                self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+                self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
                 Validator.validateResponse(self, self.getMethod(), url, params)
                 break
             else :
                 continue
         else :
+            print ("**************************************************************************************")
+            print ("Mobile Provider \'" + params[1][1] + "\' Added")
+            print ("**************************************************************************************")
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 10 failed", 302, self.getResponseCode())
+            self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
@@ -136,7 +139,7 @@ class testAdminAddMobileProvider(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
@@ -145,7 +148,7 @@ class testAdminAddMobileProvider(PyHttpTestCase):
         #Validator.validateRequest(self, self.getMethod(), "get", url, params)
         #self.get(url, params)
         #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 12 failed", 404, self.getResponseCode())
+        #self.assertEquals("Assert number 11 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
         self.msg('Test successfully complete.')
