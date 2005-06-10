@@ -69,7 +69,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @var array
      * @static
      */
-    static $_properties = array('activity_type', 'activity_summary', 'activity_date');
+    //static $_properties = array('activity_type', 'activity_summary', 'activity_date');
 
     /**
      * entityId - entity id of entity whose history are displayed
@@ -257,6 +257,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                           array(
                                                 'name'      => ts('Activity Type'),
                                                 'sort'      => 'activity_type',
+                                                //'direction' => CRM_Utils_Sort::ASCENDING,
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('name' => ts('Description')),

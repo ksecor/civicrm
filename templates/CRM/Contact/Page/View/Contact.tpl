@@ -201,14 +201,14 @@
 
 <div id="activities[show]" class="data-group">
   {if $activity.totalCount}
-    <a href="#" onClick="hide('activities[show]'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Activities{/ts}</label> ({$activity.totalCount})<br />
+    <a href="#" onClick="hide('activities[show]'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Activity History{/ts}</label> ({$activity.totalCount})<br />
   {else}
-    <dl><dt>{ts}Activities{/ts}</dt><dd>{ts}No activities.{/ts}</dd></dl>
+    <dl><dt>{ts}Activity History{/ts}</dt><dd>{ts}No activities.{/ts}</dd></dl>
   {/if}
 </div>
 
 <div id="activities">
- <fieldset><legend><a href="#" onClick="hide('activities'); show('activities[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $activity.totalCount GT 3}{ts 1=$activity.totalCount}Activities (3 of %1){/ts}{else}{ts}Activities{/ts}{/if}</legend>
+ <fieldset><legend><a href="#" onClick="hide('activities'); show('activities[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $activity.totalCount GT 3}{ts 1=$activity.totalCount}Activity History (3 of %1){/ts}{else}{ts}Activity History{/ts}{/if}</legend>
 	{strip}
 	<table>
         <tr class="columnheader">
@@ -228,9 +228,6 @@
     {/if}
     </table>
 	{/strip}
-   <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/activity' q='action=add'}">&raquo; {ts}New Activities{/ts}</a>
-   </div>
  </fieldset>
 </div>
 
