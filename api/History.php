@@ -84,7 +84,7 @@ function &crm_create_activity_history(&$params)
     $error = _crm_check_history_params($params, 'Activity');
     // does not work for php4
     //if ($error instanceof CRM_Core_Error) {
-    if (is_a($error, CRM_Core_Error)) {
+    if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
     $history = CRM_Core_BAO_History::create($params, 'Activity');
@@ -145,20 +145,16 @@ function &crm_get_activity_history($params, $sort, $offset, $numRow)
  */
 function &crm_update_activity_history(&$historyDAO, &$params)
 {
-
-    CRM_Core_Error::le_method();
-
     $error = _crm_check_activity_history_object($historyDAO);
-    if (is_a($error, CRM_Core_Error)) {
-
-        CRM_Core_Error::debug_log_message('breakpoint 10');
+    if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
 
     $error = _crm_update_object($historyDAO, $params);
-    if (is_a($error, CRM_Core_Error)) {
 
-        CRM_Core_Error::debug_log_message('breakpoint 20');
+    //CRM_Core_Error::debug_var('error', $error);
+
+    if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
 
@@ -180,7 +176,7 @@ function &crm_update_activity_history(&$historyDAO, &$params)
 function &crm_delete_activity_history(&$historyDAO)
 {
     $error = _crm_check_activity_history_object($historyDAO);
-    if (is_a($error, CRM_Core_Error)) {
+    if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
     return $historyDAO->delete();
@@ -201,23 +197,13 @@ function &crm_delete_activity_history(&$historyDAO)
  */
 function _crm_check_activity_history_object(&$historyDAO)
 {
-
-    CRM_Core_Error::le_method();
-
-
     // check if valid DAO
-    if (is_a($historyDAO, CRM_Core_DAO_ActivityHistory)) {
-
-        CRM_Core_Error::debug_log_message('breakpoint 10');
-
+    if (!is_a($historyDAO, 'CRM_Core_DAO_ActivityHistory')) {
         return _crm_error(ts('Invalid history object passed in'));
     }
 
-    // since it is update, id should be set
+    // since it is update or delete, id should be set
     if (!isset($historyDAO->id)) {
-
-        CRM_Core_Error::debug_log_message('breakpoint 20');
-
         return _crm_error(ts('History object does not contain a primary key - it is needed for update operation'));
     }
 

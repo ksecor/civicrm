@@ -165,4 +165,7 @@ class TestOfDeleteLocationAPI extends UnitTestCase
         
         $this->assertIsA($newLocation, 'CRM_Error');
     }
+
+}
+
 ?>

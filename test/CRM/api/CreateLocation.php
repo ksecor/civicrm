@@ -16,8 +16,8 @@ class TestOfCreateLocationAPI extends UnitTestCase
     {
     }
 
-/* Test cases for crm_create_location for Individual contact */ 
-
+    /* Test cases for crm_create_location for Individual contact */ 
+    
     function testCreateIndividual()
     {
         $params = array('first_name'    => 'Manish',
@@ -168,7 +168,7 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $this->assertNull($newLocation->location[2]->phone[1]->mobile_provider_id);
     }
         
-    function testCreateLocationOrganization()
+    function testCreateLocationOrganization1()
     {
         $workMobile =& new Phone('91-20-989090098988', false, 'Mobile', null);
         $workPager  =& new Phone( '91-20-234-657686', true, 'Pager'         );

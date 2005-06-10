@@ -32,7 +32,11 @@ function _crm_store_values( &$fields, &$params, &$values ) {
 
 
 
-function _crm_update_object( &$object, &$values ) {
+function _crm_update_object(&$object, &$values)
+{
+
+    //CRM_Core_Error::debug_var('values', $values);
+
     $fields =& $object->fields( );
     $valueFound = false;
 
@@ -40,20 +44,26 @@ function _crm_update_object( &$object, &$values ) {
     //foreach ( $fields as $name => &$field ) {
     foreach ($fields as $name => $field) {
         // ignore all ids for now
-        if ( $name === 'id' ) {
+        if ($name === 'id') {
             continue;
         }
 
-        if ( array_key_exists( $name, $values ) ) {
+        if (array_key_exists( $name, $values)) {
+            //CRM_Core_Error::debug_log_message("processing $name ...");
             $object->$name = $values[$name];
-            if ( substr( $name, -1, 3 ) !== '_id' ) {
+            //if ( substr( $name, -1, 3 ) !== '_id' ) {
+            if (substr($name, -3, 3) !== '_id') {
+                //CRM_Core_Error::debug_log_message("its not an _id ...");                
                 $valueFound = true;
             }
         }
     }
 
-    if ( $valueFound ) {
-        $object->save( );
+    //CRM_Core_Error::debug_var('valueFound', $valueFound);
+
+    if ($valueFound) {
+        //CRM_Core_Error::debug_log_message("valueFound is true ...");                
+        $object->save();
     }
 }
 

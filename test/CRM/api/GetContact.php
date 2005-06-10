@@ -28,7 +28,7 @@ class TestOfGetContactAPI extends UnitTestCase
                         'email'         => 'kurund@yahoo.com'
                         );
         $contact =& crm_create_contact($params, 'Individual');
-        print_r($contact);
+        //print_r($contact);
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
         $this->assertEqual($contact->contact_type, 'Individual');
         $this->_individualId = $contact->id;
