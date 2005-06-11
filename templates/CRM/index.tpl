@@ -8,6 +8,10 @@
 {$session->debug($smarty.get.sessionDebug)}
 {/if}
 
+{if $localTasks}
+    {include file="CRM/common/localNav.tpl"}
+{/if}
+
 <div id="crm-container">
 <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
