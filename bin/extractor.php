@@ -11,7 +11,7 @@
  * STDERR.
  *
  * @author Piotr Szotkowski <shot@caltha.pl>
- * @copyright 2005 David A. Lobo
+ * @copyright 2005 Donald A. Lobo
  * @license http://affero.org/oagpl.html  Affero General Public License
  */
 
