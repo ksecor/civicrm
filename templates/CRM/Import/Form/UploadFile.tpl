@@ -6,15 +6,10 @@
  
  <div id="help">
     <p>
-    {ts}The Import Wizard allows you to easily upload contact records from other applications into
-    CiviCRM. For example, if your organization has contacts in MS Access&copy; or Excel&copy;,
-    and you want to start using CiviCRM to store these contacts, you can 'import' them here.{/ts}
+    {ts}The Import Wizard allows you to easily upload contact records from other applications into CiviCRM. For example, if your organization has contacts in MS Access&copy; or Excel&copy;, and you want to start using CiviCRM to store these contacts, you can 'import' them here.{/ts}
     </p>
     <p>
-    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications
-    will allow you to export records in this format. Consult the documentation for your
-    application if you're not sure how to do this. Save this file to your local hard drive (or
-    an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}
+    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}
     </p>
  </div>    
 

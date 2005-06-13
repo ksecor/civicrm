@@ -2,9 +2,7 @@
    {include file="CRM/Admin/Form/LocationType.tpl"}
 {else}
     <div id="help">
-    {ts}Location types provide convenient labels to differentiate contacts' location(s). CiviCRM includes
-    several commonly used 'reserved' types (Home and Work). Administrators may define as many additional
-    types as appropriate for your constituents (examples might be Main Office, School, Vacation Home...).{/ts}
+    {ts}Location types provide convenient labels to differentiate contacts' location(s). CiviCRM includes several commonly used 'reserved' types (Home and Work). Administrators may define as many additional types as appropriate for your constituents (examples might be Main Office, School, Vacation Home...).{/ts}
     </div>
 {/if}
 <div id="ltype">

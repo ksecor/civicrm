@@ -2,15 +2,8 @@
    {include file="CRM/Admin/Form/RelationshipType.tpl"}	
 {else}    
     <div id="help">
-    {ts}
-    <p>Relationship types describe relationships between people, households and organizations.
-    CiviCRM includes several 'reserved' types for frequently used relationships (such as Parent/Child
-    or Employer/Employee).
-    </p>
-    <p>You can define as many additional relationships types as needed to cover the types of 
-    relationships you want to track.
-    </p>
-    {/ts}
+    {ts}<p>Relationship types describe relationships between people, households and organizations. CiviCRM includes several 'reserved' types for frequently used relationships (such as Parent/Child or Employer/Employee).</p>
+    <p>You can define as many additional relationships types as needed to cover the types of relationships you want to track.</p>{/ts}
     </div>
 {/if}
 <div id="ltype">

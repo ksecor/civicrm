@@ -13,23 +13,16 @@
     {if $invalidRowCount }
         <p>
         {capture assign=crmURL}{crmURL p=`$errorFile`}{/capture}
-        {ts 1=$invalidRowCount 2=$crmURL 3=$downloadErrorRecords}CiviCRM has detected invalid data and/or formatting errors in %1 records.
-        These records have not been imported. You can <a href = "%2">download</a> a file with just
-        these problem records - %3. You may then correct them and import
-        the new file with the corrected data.{/ts}
+        {ts 1=$invalidRowCount 2=$crmURL 3=$downloadErrorRecords}CiviCRM has detected invalid data and/or formatting errors in %1 records. These records have not been imported. You can <a href = "%2">download</a> a file with just these problem records - %3. You may then correct them and import the new file with the corrected data.{/ts}
         </p>
     {/if}
 
     {if $duplicateRowCount}
         <p>
-        {ts 1=$duplicateRowCount}CiviCRM has detected %1 records with duplicate email addresses within
-        this data file or relative to existing contact records. These records have not been
-        imported. CiviCRM does not allow multiple contact records to have the same email address.{/ts}
+        {ts 1=$duplicateRowCount}CiviCRM has detected %1 records with duplicate email addresses within this data file or relative to existing contact records. These records have not been imported. CiviCRM does not allow multiple contact records to have the same email address.{/ts}
         </p>
         <p>
-        {ts 1=$downloadErrorRecords}You can download a file with just these problem records - %1.
-        You may then review these records to determine if they are actually duplicates, and
-        correct the email addresses for those that are not.{/ts}
+        {ts 1=$downloadErrorRecords}You can download a file with just these problem records - %1. You may then review these records to determine if they are actually duplicates, and correct the email addresses for those that are not.{/ts}
         </p>
     {/if}
     

@@ -4,11 +4,9 @@
     <p>
     {if $action eq 16}
         {capture assign=crmURL}{crmURL p='civicrm/contact/view/tag' q='action=update'}{/capture}
-        {ts 1=$displayName 2=$crmURL}Current tags for <strong>%1</strong> are highlighted. You can
-        add or remove tags from <a href="%2">Edit Tags</a>.{/ts}
+        {ts 1=$displayName 2=$crmURL}Current tags for <strong>%1</strong> are highlighted. You can add or remove tags from <a href="%2">Edit Tags</a>.{/ts}
     {else}
-        {ts}Mark or unmark the checkboxes, and click
-        'Update Tags' to modify tags.{/ts}
+        {ts}Mark or unmark the checkboxes, and click 'Update Tags' to modify tags.{/ts}
     {/if}
     </p>
     

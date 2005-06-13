@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-13 11:07+0200\n"
+"POT-Creation-Date: 2005-06-13 12:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: <>\n"
@@ -1886,7 +1886,7 @@ msgid "Are you sure you want to delete <b>%1</b> Tag?"
 msgstr ""
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
-msgid "When recording Instant Messenger (IM) 'screen names' for contacts, it is useful to include the IM Service\n    Provider (e.g. AOL, Yahoo, etc.). CiviCRM is installed with the most commonly encountered service providers. Administrators\n    may define as many additional providers as needed."
+msgid "When recording Instant Messenger (IM) 'screen names' for contacts, it is useful to include the IM Service Provider (e.g. AOL, Yahoo, etc.). CiviCRM is installed with the most commonly encountered service providers. Administrators may define as many additional providers as needed."
 msgstr ""
 
 #: templates/CRM/Admin/Page/IMProvider.tpl
@@ -1898,11 +1898,11 @@ msgid "Reserved?"
 msgstr ""
 
 #: templates/CRM/Admin/Page/LocationType.tpl
-msgid "Location types provide convenient labels to differentiate contacts' location(s). CiviCRM includes\n    several commonly used 'reserved' types (Home and Work). Administrators may define as many additional\n    types as appropriate for your constituents (examples might be Main Office, School, Vacation Home...)."
+msgid "Location types provide convenient labels to differentiate contacts' location(s). CiviCRM includes several commonly used 'reserved' types (Home and Work). Administrators may define as many additional types as appropriate for your constituents (examples might be Main Office, School, Vacation Home...)."
 msgstr ""
 
 #: templates/CRM/Admin/Page/MobileProvider.tpl
-msgid "When recording mobile phone numbers for contacts, it may be useful to include the Mobile Phone Service\n    Provider (e.g. Cingular, Sprint, etc.). CiviCRM is installed with the most commonly encountered service providers. Administrators\n    may define as many additional providers as needed."
+msgid "When recording mobile phone numbers for contacts, it may be useful to include the Mobile Phone Service Provider (e.g. Cingular, Sprint, etc.). CiviCRM is installed with the most commonly encountered service providers. Administrators may define as many additional providers as needed."
 msgstr ""
 
 #: templates/CRM/Admin/Page/MobileProvider.tpl
@@ -1914,7 +1914,7 @@ msgid "New Mobile Phone Provider"
 msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
-msgid "\n    <p>Relationship types describe relationships between people, households and organizations.\n    CiviCRM includes several 'reserved' types for frequently used relationships (such as Parent/Child\n    or Employer/Employee).\n    </p>\n    <p>You can define as many additional relationships types as needed to cover the types of \n    relationships you want to track.\n    </p>\n    "
+msgid "<p>Relationship types describe relationships between people, households and organizations. CiviCRM includes several 'reserved' types for frequently used relationships (such as Parent/Child or Employer/Employee).</p>\n    <p>You can define as many additional relationships types as needed to cover the types of relationships you want to track.</p>"
 msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -1926,7 +1926,7 @@ msgid "Relationship B to A"
 msgstr ""
 
 #: templates/CRM/Admin/Page/Tag.tpl
-msgid "Tags can be assigned to any contact record, and are a convenient way to find contacts.\n        You can create as many tags as needed to organize and segment your records."
+msgid "Tags can be assigned to any contact record, and are a convenient way to find contacts. You can create as many tags as needed to organize and segment your records."
 msgstr ""
 
 #: templates/CRM/Admin/Page/Tag.tpl templates/CRM/Contact/Page/View/Contact.tpl
@@ -1958,11 +1958,11 @@ msgid "Go to Advanced Search"
 msgstr ""
 
 #: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
-msgid "\n     We are now soliciting bug reports. If you find a bug, please review the\n     open issues in our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>,\n     and 'Create a New Issue' if the bug isn't already in the UNRESOLVED list."
+msgid "We are now soliciting bug reports. If you find a bug, please review the open issues in our <a href=\"%1\" target=\"_blank\">bug-tracking system</a>, and 'Create a New Issue' if the bug isn't already in the UNRESOLVED list."
 msgstr ""
 
 #: templates/CRM/common/drupal.tpl templates/CRM/common/mambo.tpl
-msgid "Please add your\n     comments on the look and feel of these pages, along with workflow issues,\n     on the <a href=\"%1\">CiviCRM Comments Page</a>."
+msgid "Please add your comments on the look and feel of these pages, along with workflow issues, on the <a href=\"%1\">CiviCRM Comments Page</a>."
 msgstr ""
 
 #: templates/CRM/common/info.tpl templates/CRM/common/status.tpl templates/CRM/Contact/Form/Search/EmptyResults.tpl templates/CRM/Contact/Form/Task/Delete.tpl templates/CRM/Contact/Form/Task/Email.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Page/SavedSearch.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/Contact/Page/View/GroupContact.tpl templates/CRM/Contact/Page/View/Group.tpl templates/CRM/Contact/Page/View/Note.tpl templates/CRM/Contact/Page/View/Relationship.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Group/Form/Delete.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/print.tpl
@@ -2053,8 +2053,8 @@ msgstr ""
 msgid "Mark Target Contact(s) for this Relationship"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl
-msgid "Mark the target contact(s) for this relationship if it appears below. Otherwise you may\n                            modify the search name above and click Search again."
+#: templates/CRM/Contact/Form/Relationship.tpl
+msgid "Mark the target contact(s) for this relationship if it appears below. Otherwise you may modify the search name above and click Search again."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -2118,7 +2118,7 @@ msgid "Advanced Search Criteria"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
-msgid "Complete OR partial contact name. To find individuals by first AND last name, enter\n        'lastname, firstname'. Example: 'Doe, Jane'."
+msgid "Complete OR partial contact name. To find individuals by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -2158,7 +2158,7 @@ msgid "make sure you have enough privileges in the access control system"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
-msgid "The current members of the\n        <strong>%1</strong> group are listed below. Use the Find box below to\n        search for specific members. Use the <a href=\"%2\">Add Members...</a>\n        screen if you want to add new members to this group."
+msgid "The current members of the <strong>%1</strong> group are listed below. Use the Find box below to search for specific members. Use the <a href=\"%2\">Add Members...</a> screen if you want to add new members to this group."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
@@ -2166,11 +2166,11 @@ msgid "Add Members to %1"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
-msgid "Use the Search form to find contacts to add to %1. Mark the\n        contacts you want to add and click 'Add Contacts...' buttons."
+msgid "Use the Search form to find contacts to add to %1. Mark the contacts you want to add and click 'Add Contacts...' buttons."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
-msgid "Use the Search Criteria form to find contacts by name, type of contact, group membership, tags, etc.\n        You can then view or edit contact details, print a contact list, assign tags, export contact data to a\n        spreadsheet, etc."
+msgid "Use the Search Criteria form to find contacts by name, type of contact, group membership, tags, etc. You can then view or edit contact details, print a contact list, assign tags, export contact data to a spreadsheet, etc."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
@@ -2221,6 +2221,10 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 msgid "Choose Household and Relationship that you would like to add the below contacts to."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+msgid "Mark the target contact(s) for this relationship if it appears below. Otherwise you may\n                            modify the search name above and click Search again."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/AddToTag.tpl
@@ -2576,7 +2580,7 @@ msgid "add one"
 msgstr ""
 
 #: templates/CRM/Custom/Page/Group.tpl
-msgid "Custom Data Groups are used to collect and store additional data not included in the\n    standard CiviCRM forms. You can create one or many groups - each one containing a related set of custom data fields."
+msgid "Custom Data Groups are used to collect and store additional data not included in the standard CiviCRM forms. You can create one or many groups - each one containing a related set of custom data fields."
 msgstr ""
 
 #: templates/CRM/Custom/Page/Group.tpl
@@ -2626,11 +2630,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: templates/CRM/Group/Form/Edit.tpl
-msgid "You can edit the Name and Description for this group here. Click <a href=\"%1\">Show Group Members</a>\n        from Manage Groups to view, add or remove contacts in this group."
+msgid "You can edit the Name and Description for this group here. Click <a href=\"%1\">Show Group Members</a> from Manage Groups to view, add or remove contacts in this group."
 msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
-msgid "Enter a unique name and a description for your new group here. Then click 'Continue' to\n        find contacts to add to your new group."
+msgid "Enter a unique name and a description for your new group here. Then click 'Continue' to find contacts to add to your new group."
 msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
@@ -2662,15 +2666,15 @@ msgid "Matching CiviCRM Field"
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
-msgid "The information below previews the results of importing your data in CiviCRM.\n    Review the totals to ensure that they represent your expected results."
+msgid "The information below previews the results of importing your data in CiviCRM. Review the totals to ensure that they represent your expected results."
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
-msgid "CiviCRM has detected email and/or phone formatting errors in %1 records.\n        If you continue, these records will be skipped. OR, you can download a file with just\n        these problem records - %2. Then correct them in the original\n        import file, cancel this import and begin again at step 1."
+msgid "CiviCRM has detected email and/or phone formatting errors in %1 records. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1."
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
-msgid "CiviCRM has detected %1 records with duplicate email addresses within\n        this data file. If you continue, these records will be skipped. OR, you can download a file with just\n        these problem records - %2. Then correct them in the original\n        import file, cancel this import and begin again at step 1."
+msgid "CiviCRM has detected %1 records with duplicate email addresses within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1."
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
@@ -2690,7 +2694,7 @@ msgid "Rows with Errors"
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
-msgid "Rows with invalid email or phone formatting.\n            These rows will be skipped (not imported)."
+msgid "Rows with invalid email or phone formatting. These rows will be skipped (not imported)."
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
@@ -2698,7 +2702,7 @@ msgid "Duplicate Rows"
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
-msgid "Rows with duplicate emails within this file.\n            These rows will be skipped (not imported)."
+msgid "Rows with duplicate emails within this file. These rows will be skipped (not imported)."
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
@@ -2714,15 +2718,15 @@ msgid "<strong>Import has completed successfully.</strong> The information below
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "CiviCRM has detected invalid data and/or formatting errors in %1 records.\n        These records have not been imported. You can <a href = \"%2\">download</a> a file with just\n        these problem records - %3. You may then correct them and import\n        the new file with the corrected data."
+msgid "CiviCRM has detected invalid data and/or formatting errors in %1 records. These records have not been imported. You can <a href = \"%2\">download</a> a file with just these problem records - %3. You may then correct them and import the new file with the corrected data."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "CiviCRM has detected %1 records with duplicate email addresses within\n        this data file or relative to existing contact records. These records have not been\n        imported. CiviCRM does not allow multiple contact records to have the same email address."
+msgid "CiviCRM has detected %1 records with duplicate email addresses within this data file or relative to existing contact records. These records have not been imported. CiviCRM does not allow multiple contact records to have the same email address."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "You can download a file with just these problem records - %1.\n        You may then review these records to determine if they are actually duplicates, and\n        correct the email addresses for those that are not."
+msgid "You can download a file with just these problem records - %1. You may then review these records to determine if they are actually duplicates, and correct the email addresses for those that are not."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -2750,11 +2754,11 @@ msgid "Rows imported successfully."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
-msgid "The Import Wizard allows you to easily upload contact records from other applications into\n    CiviCRM. For example, if your organization has contacts in MS Access&copy; or Excel&copy;,\n    and you want to start using CiviCRM to store these contacts, you can 'import' them here."
+msgid "The Import Wizard allows you to easily upload contact records from other applications into CiviCRM. For example, if your organization has contacts in MS Access&copy; or Excel&copy;, and you want to start using CiviCRM to store these contacts, you can 'import' them here."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications\n    will allow you to export records in this format. Consult the documentation for your\n    application if you're not sure how to do this. Save this file to your local hard drive (or\n    an accessible drive on your network) - and you are now ready for step 1 (Upload Data)."
+msgid "Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
@@ -2774,11 +2778,11 @@ msgid "Rows per page:"
 msgstr ""
 
 #: templates/CRM/Tag/Form/Tag.tpl
-msgid "Current tags for <strong>%1</strong> are highlighted. You can\n        add or remove tags from <a href=\"%2\">Edit Tags</a>."
+msgid "Current tags for <strong>%1</strong> are highlighted. You can add or remove tags from <a href=\"%2\">Edit Tags</a>."
 msgstr ""
 
 #: templates/CRM/Tag/Form/Tag.tpl
-msgid "Mark or unmark the checkboxes, and click\n        'Update Tags' to modify tags."
+msgid "Mark or unmark the checkboxes, and click 'Update Tags' to modify tags."
 msgstr ""
 
 #: templates/CRM/Tag/Form/Tag.tpl

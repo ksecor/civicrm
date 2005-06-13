@@ -2,8 +2,7 @@
    {include file="CRM/Admin/Form/Tag.tpl"}	
 {else}
     <div id="help">
-        {ts}Tags can be assigned to any contact record, and are a convenient way to find contacts.
-        You can create as many tags as needed to organize and segment your records.{/ts}
+        {ts}Tags can be assigned to any contact record, and are a convenient way to find contacts. You can create as many tags as needed to organize and segment your records.{/ts}
     </div>
 {/if}
 <div id="cat">

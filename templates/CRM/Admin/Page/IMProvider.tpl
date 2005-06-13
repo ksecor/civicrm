@@ -2,9 +2,7 @@
    {include file="CRM/Admin/Form/IMProvider.tpl"}
 {else}
     <div id="help">
-    {ts}When recording Instant Messenger (IM) 'screen names' for contacts, it is useful to include the IM Service
-    Provider (e.g. AOL, Yahoo, etc.). CiviCRM is installed with the most commonly encountered service providers. Administrators
-    may define as many additional providers as needed.{/ts}
+    {ts}When recording Instant Messenger (IM) 'screen names' for contacts, it is useful to include the IM Service Provider (e.g. AOL, Yahoo, etc.). CiviCRM is installed with the most commonly encountered service providers. Administrators may define as many additional providers as needed.{/ts}
     </div>
 {/if}
 

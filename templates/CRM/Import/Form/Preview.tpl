@@ -6,25 +6,18 @@
  
  <div id="help">
     <p>
-    {ts}The information below previews the results of importing your data in CiviCRM.
-    Review the totals to ensure that they represent your expected results.{/ts}         
+    {ts}The information below previews the results of importing your data in CiviCRM. Review the totals to ensure that they represent your expected results.{/ts}         
     </p>
     
     {if $invalidRowCount}
         <p>
-        {ts 1=$invalidRowCount 2=$downloadErrorRecords}CiviCRM has detected email and/or phone formatting errors in %1 records.
-        If you continue, these records will be skipped. OR, you can download a file with just
-        these problem records - %2. Then correct them in the original
-        import file, cancel this import and begin again at step 1.{/ts}
+        {ts 1=$invalidRowCount 2=$downloadErrorRecords}CiviCRM has detected email and/or phone formatting errors in %1 records. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
         </p>
     {/if}
 
     {if $duplicateRowCount}
         <p>
-        {ts 1=$duplicateRowCount 2=$downloadErrorRecords}CiviCRM has detected %1 records with duplicate email addresses within
-        this data file. If you continue, these records will be skipped. OR, you can download a file with just
-        these problem records - %2. Then correct them in the original
-        import file, cancel this import and begin again at step 1.{/ts}
+        {ts 1=$duplicateRowCount 2=$downloadErrorRecords}CiviCRM has detected %1 records with duplicate email addresses within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
         </p>
     {/if}
     
@@ -41,16 +34,14 @@
     
     <tr><td class="label">{ts}Rows with Errors{/ts}</td>
         <td class="data">{$invalidRowCount}</td>
-        <td class="explanation">{ts}Rows with invalid email or phone formatting.
-            These rows will be skipped (not imported).{/ts}
+        <td class="explanation">{ts}Rows with invalid email or phone formatting. These rows will be skipped (not imported).{/ts}
             <p>{$downloadErrorRecords}</p>
         </td>
     </tr>
     
     <tr><td class="label">{ts}Duplicate Rows{/ts}</td>
         <td class="data">{$duplicateRowCount}</td>
-        <td class="explanation">{ts}Rows with duplicate emails within this file.
-            These rows will be skipped (not imported).{/ts}
+        <td class="explanation">{ts}Rows with duplicate emails within this file. These rows will be skipped (not imported).{/ts}
             <p>{$downloadDuplicateRecords}</p>
         </td>
     </tr>

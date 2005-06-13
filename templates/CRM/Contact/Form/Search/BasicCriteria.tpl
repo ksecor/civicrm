@@ -18,8 +18,7 @@
      <span class="align-right">{$form.buttons.html}</span>
      <div class="description font-italic">
         <span class="horizontal-position">
-        {ts}Complete OR partial contact name. To find individuals by first AND last name, enter
-        'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
+        {ts}Complete OR partial contact name. To find individuals by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'.{/ts}
         </span>
      </div>
 
