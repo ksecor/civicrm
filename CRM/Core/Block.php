@@ -129,18 +129,22 @@ class CRM_Core_Block {
      * @access private
      */
     private function setTemplateShortcutValues( ) {
-        static $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
-                                          'qs'    => 'c_type=Individual&reset=1',
-                                          'title' => 'New Individual' ),
-                                   array( 'path'  => 'civicrm/contact/addO',
-                                          'qs'    => 'c_type=Organization&reset=1',
-                                          'title' => 'New Organization' ),
-                                   array( 'path'  => 'civicrm/contact/addH',
-                                          'qs'    => 'c_type=Household&reset=1',
-                                          'title' => 'New Household' ),
-                                   array( 'path'  => 'civicrm/group/add',
-                                          'qs'    => 'reset=1',
-                                          'title' => 'New Group' ) );
+        static $shortCuts = null;
+        
+        if (!($shortCuts)) {
+             $shortCuts = array( array( 'path'  => 'civicrm/contact/addI',
+                                        'qs'    => 'c_type=Individual&reset=1',
+                                        'title' => ts('New Individual') ),
+                                 array( 'path'  => 'civicrm/contact/addO',
+                                        'qs'    => 'c_type=Organization&reset=1',
+                                        'title' => ts('New Organization') ),
+                                 array( 'path'  => 'civicrm/contact/addH',
+                                        'qs'    => 'c_type=Household&reset=1',
+                                        'title' => ts('New Household') ),
+                                 array( 'path'  => 'civicrm/group/add',
+                                        'qs'    => 'reset=1',
+                                        'title' => ts('New Group') ) );
+        }
 
         $values = array( );
         foreach ( $shortCuts as $short ) {
