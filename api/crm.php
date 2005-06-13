@@ -46,6 +46,8 @@ require_once 'api/utils.php';
 
 require_once 'api/Contact.php';
 require_once 'api/History.php';
+require_once 'api/CustomGroup.php';
+
 
 
 /**

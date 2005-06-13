@@ -70,7 +70,7 @@ require_once 'CRM/Core/I18n.php';
  * @param array  $params       Associative array of property name/value
  *                             pairs to insert in new history.
  *
- * @return CRM_Core_BAO_History|CRM_Error Newly created History object
+ * @return CRM_Core_DAO_History|CRM_Error Newly created History object
  *
  * @access public
  */
@@ -145,7 +145,7 @@ function &crm_get_activity_history($params, $sort, $offset, $numRow)
  */
 function &crm_update_activity_history(&$historyDAO, &$params)
 {
-    $error = _crm_check_activity_history_object($historyDAO);
+    $error = _crm_check_activity_history_object($historyDAO, true);
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }
@@ -189,21 +189,22 @@ function &crm_delete_activity_history(&$historyDAO)
  *
  * @param CRM_Core_DAO_ActivityHistory $historyDAO Activity History object to be checked
  *
+ * @param boolean $checkForId - check if id is set
+ *
  * @return true|CRM_Core_Error  An error if 'contact' is invalid,
  *                              permissions are insufficient, etc.
  *
  * @access public
  *
  */
-function _crm_check_activity_history_object(&$historyDAO)
+function _crm_check_activity_history_object(&$historyDAO, $checkForId=false)
 {
     // check if valid DAO
     if (!is_a($historyDAO, 'CRM_Core_DAO_ActivityHistory')) {
         return _crm_error(ts('Invalid history object passed in'));
     }
 
-    // since it is update or delete, id should be set
-    if (!isset($historyDAO->id)) {
+    if ($checkForId && (!isset($historyDAO->id))) {
         return _crm_error(ts('History object does not contain a primary key - it is needed for update operation'));
     }
 

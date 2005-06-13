@@ -46,6 +46,28 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         parent::__construct( );
     }
 
+
+
+    /**
+     * takes an associative array and creates a custom group object
+     *
+     * This function is invoked from within the web form layer and also from the api layer
+     *
+     * @param array $params (reference) an assoc array of name/value pairs
+     *
+     * @return object CRM_Core_DAO_HistoryHistory object 
+     * @access public
+     * @static
+     */
+    static function create(&$params)
+    {
+        $customGroupBAO =& new CRM_Core_BAO_CustomGroup();
+        $customGroupBAO->copyValues($params);
+        return $customGroupBAO->save();
+    }
+
+
+
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only

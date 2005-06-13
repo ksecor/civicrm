@@ -14,11 +14,38 @@ class TestOfUpdateHistoryAPI extends UnitTestCase {
 
     function testNullUpdate()
     {
+
+        CRM_Core_Error::le_method();
+
         $historyDAO = null;
-        $param = array();
+        //$historyDAO = new CRM_Core_DAO();
+        $param = array('foobar' => 'testing foobar');
+        $historyDAO =& crm_update_activity_history($historyDAO, $param);
+
+        //CRM_Core_Error::debug_log_message('breakpoint 10');
+
+        $this->assertIsA($historyDAO, 'CRM_Core_Error');
+
+        CRM_Core_Error::debug_var('historyDAO', $historyDAO);
+
+    }
+
+
+
+    
+    function testNoIdUpdate()
+    {
+        $historyDAO = new CRM_Core_DAO_ActivityHistory();
+        $param = array('activity_id' => 353);
         $historyDAO =& crm_update_activity_history($historyDAO, $param);
         $this->assertIsA($historyDAO, 'CRM_Core_Error');
+        
+        CRM_Core_Error::debug_var('historyDAO', $historyDAO);
+
+
     }
+
+    /*
 
     function testUpdateEntityId()
     {
@@ -60,9 +87,6 @@ class TestOfUpdateHistoryAPI extends UnitTestCase {
         $this->assertEqual($dao4->activity_id, 112);        
         $this->assertEqual($dao4->entity_id, 23);        
 
-
-
-
         $params = array('id' => $dao4->id, 'activity_id' => '');        
         //CRM_Core_Error::debug_var('params', $params);
         $dao5 =& crm_update_activity_history($dao4, $params);
@@ -74,8 +98,8 @@ class TestOfUpdateHistoryAPI extends UnitTestCase {
         $this->assertEqual($dao5->activity_id, 112);        
         $this->assertEqual($dao5->entity_id, 23);        
 
-
     }
+    */
 
 }
 ?>

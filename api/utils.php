@@ -333,4 +333,47 @@ function _crm_check_history_params(&$params, $type='Activity')
     return true;
 }
 
+
+
+/**
+ * This function ensures that we have the right input parameters
+ *
+ * We also need to make sure we run all the form rules on the params list
+ * to ensure that the params are valid
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new history.
+ *
+ * @return bool|CRM_Utils_Error
+ * @access public
+ */
+function _crm_check_required_fields(&$params, $daoName)
+{
+    //CRM_Core_Error::le_method();
+
+    require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+    $dao =& new $daoName();
+    $fields = $dao->fields();
+    
+    //CRM_Core_Error::debug_var('params', $params);
+    //CRM_Core_Error::debug_var('fields', $fields);
+    //eval('$dao =& new CRM_Core_DAO_' . $type . 'History();');
+
+    $missing = array();
+    foreach ($fields as $k => $v) {
+        if ($k == 'id') {
+            continue;
+        }
+        if ($v['required'] && !(isset($params[$k]))) {
+            $missing[] = $k;
+        }
+    }
+
+    if (!empty($missing)) {
+        //CRM_Core_Error::debug_var('missing', $missing);
+        return _crm_error(ts("Required fields ". implode(',', $missing) . " for $daoName are not found"));
+    }
+
+    return true;
+}
 ?>

@@ -176,7 +176,7 @@ class CRM_Core_BAO_History {
      *
      * @param array $params (reference) an assoc array of name/value pairs
      *
-     * @return object CRM_Core_DAO_HistoryHistory object 
+     * @return object CRM_Core_DAO_ActivityHistory object 
      * @access public
      * @static
      */

@@ -34,8 +34,12 @@ class UnitTests extends GroupTest {
         // history api
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateActivityHistory.php' );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetActivityHistory.php' );
-        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateActivityHistory.php' );
+        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateActivityHistory.php' );
+        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteActivityHistory.php' );
 
+        // custom group api
+        $this->addTestFile(CRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
+        
     }
 
 }
