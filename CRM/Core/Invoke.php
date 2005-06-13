@@ -50,6 +50,8 @@ class CRM_Core_Invoke {
             CRM_Core_Mambo::sidebarLeft( );
         }
 
+        CRM_Utils_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
+
         switch ( $args[1] ) {
 
         case 'contact': return self::contact( $args );
