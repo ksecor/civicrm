@@ -378,8 +378,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                 $contact->$name = CRM_Utils_Array::value($name, $privacy, false);
             }
         }
-        $contact->domain_id = CRM_Utils_Array::value('domain' , $ids, 1);
-        $contact->id        = CRM_Utils_Array::value('contact', $ids);
+        $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::$domainID );
+        $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
 
         return $contact->save();
     }

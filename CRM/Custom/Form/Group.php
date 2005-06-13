@@ -161,7 +161,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $group->help_pre    = $params['help_pre'];
         $group->help_post   = $params['help_post'];
         $group->is_active   = CRM_Utils_Array::value('is_active', $params, false);
-        $group->domain_id   = 1;
+        $group->domain_id   = CRM_Core_Config::$domainID;
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $group->id = $this->_id;

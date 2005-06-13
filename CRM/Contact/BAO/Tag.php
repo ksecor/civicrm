@@ -111,7 +111,7 @@ class CRM_Contact_BAO_Tag extends CRM_Contact_DAO_Tag {
         }
 
         $tag               =& new CRM_Contact_DAO_Tag( );
-        $tag->domain_id    = 1;
+        $tag->domain_id    = CRM_Core_Config::$domainID;
 
         $tag->copyValues( $params );
 

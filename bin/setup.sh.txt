@@ -1,0 +1,15 @@
+#!/bin/bash -v
+
+cd ../xml
+php GenCode.php
+
+cd ../sql
+mysql -u civicrm -pPASSWORD civicrm < Contacts.sql
+mysql -u civicrm -pPASSWORD civicrm < GeneratedData.sql
+
+# to generate a new data file do the foll:
+# mysql -u civicrm -pPASSWORD civicrm < Contacts.sql
+# mysql -u civicrm -pPASSWORD civicrm < FixedData.sql
+# php GenerateContactData.php
+# mysqldump -t -u civicrm -pPASSWORD civicrm  > GeneratedData.sql
+

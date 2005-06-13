@@ -76,7 +76,7 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
 
         // action is taken depending upon the mode
         $locationType               =& new CRM_Contact_DAO_LocationType( );
-        $locationType->domain_id    = 1;
+        $locationType->domain_id    = CRM_Core_Config::$domainID;
         $locationType->name         = $params['name'];
         $locationType->description  = $params['description'];
         $locationType->is_active    = $params['is_active'];

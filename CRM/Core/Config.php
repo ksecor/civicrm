@@ -170,7 +170,14 @@ class CRM_Core_Config {
     public $userFrameworkClass  = 'CRM_Utils_System_Drupal';
     public $userPermissionClass = 'CRM_Core_Permission_Drupal';
     public $userFrameworkURLVar = 'q';
-    
+
+    /**
+     * the domainID for this instance. Note that it is a public static
+     * variable for easy access. Set default value to avoid cycles :(
+     *
+     * @var int
+     */
+    public static $domainID = 1;
 
     /**
      * The handle to the log that we are using
@@ -216,6 +223,16 @@ class CRM_Core_Config {
      * @access private
      */
     function __construct() {
+        $session =& CRM_Core_Session::singleton( );
+        self::$domainID = $session->get( 'domainID' );
+        if ( ! self::$domainID ) {
+            if ( defined( 'CRM_DOMAIN_ID' ) ) {
+                self::$domainID = CRM_DOMAIN_ID;
+            } else {
+                self::$domainID = 1;
+            }
+        }
+
         if (defined('CRM_DSN')) {
             $this->dsn = CRM_DSN;
         }
