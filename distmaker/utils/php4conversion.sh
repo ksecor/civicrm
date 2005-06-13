@@ -1,7 +1,7 @@
 #!/bin/bash
 
 P=`dirname $0`
-CFFILE=$P/../distmaker.conf
+CFFILE=$P/distmaker.conf
 
 if [ ! -f $CFFILE ] ; then	
 	echo "NO DISTMAKER.CONF FILE!"

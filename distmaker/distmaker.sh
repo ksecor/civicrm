@@ -61,7 +61,7 @@ check_conf()
 		display_usage
 		exit 1
 	else
-		for l in `cat distmaker.conf`; do export $l; done
+		for l in `cat $P/distmaker.conf`; do export $l; done
 		for k in "$DM_SOURCEDIR" "$DM_GENFILESDIR" "$DM_TARGETDIR" "$DM_TMPDIR" "$DM_PHP5PATH"; do
 			if [ ! -d "$k" ] ; then
 				echo; echo "ERROR! " $k "directory not found!"; echo "(if you get empty directory name, it might mean that one of necessary variables is not set)"; echo;
@@ -141,30 +141,30 @@ cd $ORIGPWD
 if [ $PHP4CONV = 1 ]; then
 	echo; echo "PHP5->PHP4 conversion started"; echo;
 	PHP4GENERATED=1
-	sh utils/php4conversion.sh
+	sh $P/utils/php4conversion.sh
 fi
 
 if [ $D5PACK = 1 ]; then
 	echo; echo "Packaging for Drupal, PHP5 version"; echo;
-	sh dists/drupal_php5.sh
+	sh $P/dists/drupal_php5.sh
 fi
 
 if [ $M5PACK = 1 ]; then
 	echo; echo "Packaging for Mambo, PHP5 version"; echo;
-	sh dists/mambo_php5.sh
+	sh $P/dists/mambo_php5.sh
 fi
 
 
 if [ $D4PACK = 1 ]; then
 	echo; echo "Packaging for Drupal, PHP4 version"; echo;
 	check_php4
-	sh dists/drupal_php4.sh
+	sh $P/dists/drupal_php4.sh
 fi
 
 if [ $M4PACK = 1 ]; then
 	echo; echo "Packaging for Mambo, PHP4 version"; echo;
 	check_php4
-	sh dists/mambo_php4.sh
+	sh $P/dists/mambo_php4.sh
 fi
 
 unset DM_SOURCEDIR DM_GENFILESDIR DM_TARGETDIR DM_TMPDIR DM_PHP5PATH
