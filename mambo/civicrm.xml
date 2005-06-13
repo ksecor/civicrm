@@ -26,11 +26,11 @@
     <menu>CiviCRM</menu>
     <submenu>   
                 <menu task="civicrm/group&reset=1">Manage Groups</menu>
-                <menu task="civicrm/contact/view&reset=1">View Contacts</menu>
+                <menu task="civicrm/contact/search&reset=1&force=1">View Contacts</menu>
                 <menu task="civicrm/import&reset=1">Import Contacts</menu>
                 <menu task="civicrm/contact/search&reset=1">Find Contacts</menu>
                 <menu task="civicrm/contact/search/advanced&reset=1">Find Contacts (Advanced)</menu>
-                <menu task="civicrm/contact/search/saved&reset=1">Find Contacts (Saved)</menu>
+                <menu task="civicrm/contact/search/saved&reset=1">Saved Searches</menu>
                 <menu> -- </menu>
                 <menu task="civicrm/admin&reset=1">Administer CiviCRM</menu>
                 <menu task="civicrm/admin/reltype&reset=1">Relationship Types</menu>
@@ -42,9 +42,9 @@
     <files>
       <filename>admin.civicrm.php</filename>
       <filename>config.inc.php</filename>
+      <filename>config.user.php</filename>
       <filename>config.main.php</filename>
       <filename>toolbar.civicrm.php</filename>
-      <filename>uninstall.email_form.php</filename>
     </files>
   </administration>
 </mosinstall>
