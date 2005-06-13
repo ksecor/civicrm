@@ -43,8 +43,8 @@ display_usage()
 	echo "  all - generate all available tarballs"
 	echo "  d5  - generate Drupal PHP5 module"
 	echo "  d4  - generate Drupal PHP4 module"
-	echo "  m4  - generate Mambo PHP5 module"
-	echo "  m5  - generate Mambo PHP4 module"
+	echo "  m5  - generate Mambo PHP5 module"
+	echo "  m4  - generate Mambo PHP4 module"
 	echo
 	echo "You also need to have distmaker.conf file in place."
 	echo "See distmaker.conf.dist for example contents."
@@ -108,7 +108,7 @@ case $1 in
 	# MAMBO PHP4
 	m4)
 	echo; echo "Generating Mambo PHP4 module"; echo;
-	D4PACK=1
+	M4PACK=1
 	PHP4CONV=1
 	;;
 

@@ -41,9 +41,9 @@ class PHP_DownGrade {
     
     /**
      * This constructor creates array of tokens.
-     * Here tokens form files are separated snd stored in array $this->tokens
+     * Here tokens form files are separated and stored in array $this->tokens
      *  
-     *@param $file 
+     * @param $file 
      */
 
     function __construct($file)
@@ -185,8 +185,8 @@ class PHP_DownGrade {
         }
     }
     /**
-     * This method replaces all constants by define,statics by GLOBLAS.
-     * and removes public,private,protected keywords
+     * This method replaces all constants by define, statics by GLOBALS,
+     * removes public, private, protected keywords
      * and replaces self varialbls with proper variable names 
      *
      * @return   none
@@ -285,7 +285,7 @@ class PHP_DownGrade {
                         break;
                     case T_VARIABLE:
                         if ($static) {
-                            // we need ot strip it out totally and use $GLOBALS[_classname][...]
+                            // we need to strip it out totally and use $GLOBALS[_classname][...]
                             if(isset($class))
                                 {
                                     $i= $this->convertToStatic($class,$i);
@@ -308,7 +308,7 @@ class PHP_DownGrade {
                         $this->tokens[$start  ][1] = ''; // change it to var.
                         break 3;
                     }
-                    // hopefully we wont loop forever!
+                    // hopefully we won't loop forever!
                     $i++;
                 }
                 
@@ -369,10 +369,10 @@ class PHP_DownGrade {
     }
     
     /**
-     * This method  constructs an array of static variables,with thre class names and values.
+     * This method constructs an array of static variables, with the class names and values.
      * 
-     * @param $class class name in which this static variable is reside
-     * @param $i     satatic variables position in tokens array
+     * @param $class class name in which this static variable resides
+     * @param $i     static variables position in tokens array
      */
     function convertToStatic($class,$i) 
         {
@@ -528,7 +528,7 @@ class PHP_DownGrade {
     
     
     /**
-     * Funtion that take care of Exception conversion
+     * Function that takes care of Exception conversion
      *
      * @return none
      */
@@ -570,8 +570,8 @@ class PHP_DownGrade {
     
     
     /**
-     * Function to add static,constant variables at staring of the program.
-     * it also add which file are need at top by require_once
+     * Function to add static, constant variables at starting of the program.
+     * it also adds which files are needed at top by require_once
      *
      */
     function toString() 
@@ -629,7 +629,7 @@ class PHP_DownGrade {
        
        
        
-        //To remove interface defination.
+        //To remove interface definition.
         for($j=0;$j<count($this->tokens);$j++)
             {
                 if(strcmp($this->tokens[$j][1],"interface")==0)
@@ -644,7 +644,7 @@ class PHP_DownGrade {
                 
             }
        
-        //TO CHNAGE THE NAMES OF STATIC VARIABLES out side of class
+        //TO CHANGE THE NAMES OF STATIC VARIABLES outside of class
 
         foreach($this->statvar as $name)
                  for($j=0;$j<count($this->tokens);$j++)
