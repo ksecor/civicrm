@@ -276,7 +276,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     function buildQuickForm( ) 
     {
-        $this->add('select', 'contact_type', ts('Find... '), CRM_Core_SelectValues::contactType());
+        $this->add('select', 'contact_type', ts('Find...'), CRM_Core_SelectValues::contactType());
 
         // add select for groups
         $group               = array('' => ts(' - any group - ')) + $this->_group;
