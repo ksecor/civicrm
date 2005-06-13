@@ -2,7 +2,6 @@
 
 P=`dirname $0`
 CFFILE=$P/../distmaker.conf
-CONTEXTDIR="drupal-php"
 
 if [ ! -f $CFFILE ] ; then	
 	echo "NO DISTMAKER.CONF FILE!"

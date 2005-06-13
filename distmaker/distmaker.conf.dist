@@ -1,0 +1,5 @@
+DM_SOURCEDIR= <Set this to your repository checkout root>
+DM_GENFILESDIR= <Set this to directory where generated PHP4 files should reside>
+DM_TMPDIR= <Set this to temporary directory>
+DM_TARGETDIR= <Set this to directory where tarballs should land>
+DM_PHP5PATH=/opt/php5/bin <Set this to your PHP5 bin path>
