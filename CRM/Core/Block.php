@@ -54,32 +54,86 @@ class CRM_Core_Block {
     /**
      * template file names for the above blocks
      */
-    static $_properties = array(
-                                   self::SHORTCUTS   => array( 'template' => 'Shortcuts.tpl',
-                                                               'info'     => 'CiviCRM Shortcuts',
-                                                               'subject'  => 'CiviCRM Shortcuts',
-                                                               'active'   => true ),
-                                   self::ADD         => array( 'template' => 'Add.tpl',
-                                                               'info'     => 'CiviCRM Quick Add',
-                                                               'subject'  => 'New Individual',
-                                                               'active'   => true ),
-                                   self::SEARCH      => array( 'template' => 'Search.tpl',
-                                                               'info'     => 'CiviCRM Search',
-                                                               'subject'  => 'Contact Search',
-                                                               'active'   => true ),
-                                   self::MENU        => array( 'template' => 'Menu.tpl',
-                                                               'info'     => 'CiviCRM Menu',
-                                                               'subject'  => 'CiviCRM',
-                                                               'active'   => true ),
-                                   
-                                   );
+    static $_properties = null;
 
-                                                    
     /**
      * class constructor
      *
      */
     function __construct( ) {
+    }
+
+    /**
+     * initialises the $_properties array
+     * @return void
+     */
+    static function initProperties()
+    {
+        if (!(self::$_properties)) {
+            self::$_properties = array(
+                                       self::SHORTCUTS   => array( 'template' => 'Shortcuts.tpl',
+                                                                   'info'     => ts('CiviCRM Shortcuts'),
+                                                                   'subject'  => ts('CiviCRM Shortcuts'),
+                                                                   'active'   => true ),
+                                       self::ADD         => array( 'template' => 'Add.tpl',
+                                                                   'info'     => ts('CiviCRM Quick Add'),
+                                                                   'subject'  => ts('New Individual'),
+                                                                   'active'   => true ),
+                                       self::SEARCH      => array( 'template' => 'Search.tpl',
+                                                                   'info'     => ts('CiviCRM Search'),
+                                                                   'subject'  => ts('Contact Search'),
+                                                                   'active'   => true ),
+                                       self::MENU        => array( 'template' => 'Menu.tpl',
+                                                                   'info'     => ts('CiviCRM Menu'),
+                                                                   'subject'  => ts('CiviCRM'),
+                                                                   'active'   => true ),
+                                       );
+        }
+    }
+
+    /**
+     * returns the desired property from the $_properties array
+     *
+     * @params int    $id        one of the class constants (ADD, SEARCH, etc.)
+     * @params string $property  the desired property
+     *
+     * @return string  the value of the desired property
+     */
+    static function getProperty($id, $property)
+    {
+        if (!(self::$_properties)) {
+            self::initProperties();
+        }
+        return self::$_properties[$id][$property];
+    }
+
+    /**
+     * sets the desired property in the $_properties array
+     *
+     * @params int    $id        one of the class constants (ADD, SEARCH, etc.)
+     * @params string $property  the desired property
+     * @params string $value     the value of the desired property
+     *
+     * @return void
+     */
+    static function setProperty($id, $property, $value)
+    {
+        if (!(self::$_properties)) {
+            self::initProperties();
+        }
+        self::$_properties[$id][$property] = $value;
+    }
+
+    /**
+     * returns the whole $_properties array
+     * @return array  the $_properties array
+     */
+    static function properties()
+    {
+        if (!(self::$_properties)) {
+            self::initProperties();
+        }
+        return self::$_properties;
     }
 
     /**
@@ -90,7 +144,7 @@ class CRM_Core_Block {
      */
     static function getInfo( ) {
         $block = array( );
-        foreach ( self::$_properties as $id => $value ) {
+        foreach ( self::properties() as $id => $value ) {
             if ( $value['active'] ) {
                 $block[$id]['info'] = $value['info'];
             }
@@ -111,12 +165,13 @@ class CRM_Core_Block {
         if ( $id == self::SHORTCUTS ) {
             self::setTemplateShortcutValues( );
         } else if ( $id == self::ADD ) {
-            self::$_properties[self::ADD   ]['templateValues'] =
-                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&c_type=Individual' ) );
+            self::setProperty( self::ADD, 'templateValues', array( 'postURL' => CRM_Utils_System::url( 'civicrm/contact/addI', 'reset=1&c_type=Individual' ) ) );
         } else if ( $id == self::SEARCH ) {
-            self::$_properties[self::SEARCH]['templateValues'] =
-                array( 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) ,
-                       'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'reset=1' ) );
+            $urlArray = array(
+                'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) ,
+                'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'reset=1' )
+            );
+            self::setProperty( self::SEARCH, 'templateValues', $urlArray );
         } else if ( $id == self::MENU ) {
             self::setTemplateMenuValues( );
         }
@@ -153,7 +208,7 @@ class CRM_Core_Block {
             $value['title'] = $short['title'];
             $values[] = $value;
         }
-        self::$_properties[self::SHORTCUTS]['templateValues'] = array( 'shortCuts' => $values );
+        self::setProperty( self::SHORTCUTS, 'templateValues', array( 'shortCuts' => $values ) );
     }
 
     /**
@@ -182,7 +237,7 @@ class CRM_Core_Block {
             }
         }
         ksort($values);
-        self::$_properties[self::MENU]['templateValues'] = array( 'menu' => $values );
+        self::setProperty( self::MENU, 'templateValues', array( 'menu' => $values ) );
     }
 
     /**
@@ -196,16 +251,16 @@ class CRM_Core_Block {
     static function getContent( $id ) {
         self::setTemplateValues( $id );
         $block = array( );
-        if ( ! self::$_properties[$id]['active'] ) {
+        if ( ! self::getProperty( $id, 'active' ) ) {
             return null;
         }
 
         $block['name'   ] = 'block-civicrm';
         $block['id'     ] = $block['name'] . '_' . $id;
         $block['subject'] = self::fetch( $id, 'Subject.tpl',
-                                         array( 'subject' => self::$_properties[$id]['subject'] ) );
-        $block['content'] = self::fetch( $id, self::$_properties[$id]['template'],
-                                         self::$_properties[$id]['templateValues'] );
+                                         array( 'subject' => self::getProperty( $id, 'subject' ) ) );
+        $block['content'] = self::fetch( $id, self::getProperty( $id, 'template' ),
+                                         self::getProperty( $id, 'templateValues' ) );
 
         return $block;
     }
