@@ -50,13 +50,20 @@ require_once 'CRM/Contact/DAO/Email.php';
 
 class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact 
 {
-
     /**
      * the types of communication preferences
      *
      * @var array
      */
     static $_commPrefs = array( 'do_not_phone', 'do_not_email', 'do_not_mail', 'do_not_trade' );
+
+    /**
+     * static field for all the contact information that we can potentially import
+     *
+     * @var array
+     * @static
+     */
+    static $_importableFields = null;
 
     function __construct()
     {
@@ -686,6 +693,42 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     {
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type' );
     }
+
+
+    /**
+     * combine all the importable fields from the lower levels object
+     *
+     * The ordering is important, since currently we do not have a weight
+     * scheme. Adding weight is super important and should be done in the
+     * next week or so, before this can be called complete.
+     *
+     * @return array array of importable Fields
+     * @access public
+     */
+    function &importableFields( ) {
+        if ( ! self::$_importableFields ) {
+            self::$_importableFields = array();
+            
+            self::$_importableFields = array_merge(self::$_importableFields,
+                                                   array('' => array( 'title' => ts('-do not import-'))) );
+            
+            self::$_importableFields = array_merge(self::$_importableFields,
+                                                   CRM_Contact_DAO_Individual::import( ) );
+
+            self::$_importableFields = array_merge(self::$_importableFields,
+                                                   CRM_Contact_DAO_Address::import( ) );
+            self::$_importableFields = array_merge(self::$_importableFields,
+                                                   CRM_Contact_DAO_Phone::import( ) );
+            self::$_importableFields = array_merge(self::$_importableFields,
+                                                   CRM_Contact_DAO_Email::import( ) );
+            self::$_importableFields = array_merge(self::$_importableFields,
+                                                   CRM_Contact_DAO_IM::import( true ) );
+            self::$_importableFields = array_merge(self::$_importableFields,
+                                                   CRM_Contact_DAO_Contact::import( ) );
+        }
+        return self::$_importableFields;
+    }
+
 }
 
 ?>

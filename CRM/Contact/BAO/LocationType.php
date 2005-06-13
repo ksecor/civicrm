@@ -74,13 +74,7 @@ class CRM_Contact_BAO_LocationType extends CRM_Contact_DAO_LocationType {
      * @static
      */
     static function setIsActive( $id, $is_active ) {
-        $locationType =& new CRM_Contact_DAO_LocationType( );
-        $locationType->id = $id;
-        if ( $locationType->find( true ) ) {
-            $locationType->is_active = $is_active;
-            return $locationType->save( );
-        }
-        return null;
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_LocationType', $id, 'is_active', $is_active );
     }
 
 }

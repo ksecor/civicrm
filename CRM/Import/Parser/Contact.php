@@ -39,7 +39,6 @@ require_once 'api/crm.php';
  * class to parse contact csv files
  */
 class CRM_Import_Parser_Contact extends CRM_Import_Parser {
-    static $_importableFields;
 
     protected $_mapperKeys;
     
@@ -61,7 +60,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @access public
      */
     function init( ) {
-        $this->_fields =& self::importableFields( );
+        $this->_fields =& CRM_Contact_BAO_Contact::importableFields( );
         foreach ($this->_fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'] );
         }
@@ -153,42 +152,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     function fini( ) {
     }
 
-    /**
-     * combine all the importable fields from the lower levels object
-     *
-     * The ordering is important, since currently we do not have a weight
-     * scheme. Adding weight is super important and should be done in the
-     * next week or so, before this can be called complete.
-     *
-     * @return array array of importable Fields
-     * @access public
-     */
-    function &importableFields( ) {
-        if ( ! isset( self::$_importableFields ) ) {
-            self::$_importableFields = array();
-            
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   array('' => array( 'title' => ts('-do not import-'))) );
-            
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Individual::import( ) );
-            /*
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Location::import( ) );
-            */
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Address::import( ) );
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Phone::import( ) );
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Email::import( ) );
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_IM::import( true ) );
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Contact::import( ) );
-        }
-        return self::$_importableFields;
-    }
 }
 
 ?>

@@ -74,13 +74,7 @@ class CRM_Core_BAO_MobileProvider extends CRM_Core_DAO_MobileProvider {
      * @static
      */
     static function setIsActive( $id, $is_active ) {
-        $mobileProvider =& new CRM_Core_DAO_MobileProvider( );
-        $mobileProvider->id = $id;
-        if ( $mobileProvider->find( true ) ) {
-            $mobileProvider->is_active = $is_active;
-            return $mobileProvider->save( );
-        }
-        return null;
+        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_MobileProvider', $id, 'is_active', $is_active );
     }
 
 }

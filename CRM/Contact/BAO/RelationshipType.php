@@ -74,13 +74,7 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
      * @static
      */
     static function setIsActive( $id, $is_active ) {
-        $relationshipType =& new CRM_Contact_DAO_RelationshipType( );
-        $relationshipType->id = $id;
-        if ( $relationshipType->find( true ) ) {
-            $relationshipType->is_active = $is_active;
-            return $relationshipType->save( );
-        }
-        return null;
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_RelationshipType', $id, 'is_active', $is_active );
     }
 
     /**

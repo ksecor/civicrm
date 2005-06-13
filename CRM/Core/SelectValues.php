@@ -321,6 +321,23 @@ class CRM_Core_SelectValues {
         return $newDate;
     }
 
+    /**
+     * values for UF form visibility options
+     *
+     * @static
+     */
+    static function ufVisibility( ) {
+        static $_visibility = null;
+        if ( ! $_visibility ) {
+            $_visibility = array(
+                                 'User and User Admin Only'       => 'User and User Admin Only',
+                                 'Public User Pages'              => 'Public User Pages',
+                                 'Public User Pages and Listings' => 'Public User Pages and Listings',
+                                 );
+        }
+        return $_visibility;
+    }
+
 }
 
 ?>

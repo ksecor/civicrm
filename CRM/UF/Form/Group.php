@@ -32,14 +32,15 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/BAO/UFGroup.php';
 
 /**
- * form to process actions on the group aspect of Custom Data
+ *
  */
-class CRM_Custom_Form_Group extends CRM_Core_Form {
+class CRM_UF_Form_Group extends CRM_Core_Form {
 
     /**
-     * the group id saved to the session for an update
+     * the form id saved to the session for an update
      *
      * @var int
      * @access protected
@@ -55,15 +56,15 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        // current group id
+        // current form id
         $this->_id = $this->get('id');
-
+        
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
-            $title = CRM_Core_BAO_CustomGroup::getTitle($this->_id);
-            CRM_Utils_System::setTitle(ts('Edit %1', array(1 => $title)));
+            $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
+            CRM_Utils_System::setTitle( ts( 'Edit %1', array(1 => $title ) ) );
         } else {
-            CRM_Utils_System::setTitle(ts('New Custom Data Group'));
+            CRM_Utils_System::setTitle( ts('New User Framework Group') );
         }
     }
 
@@ -79,25 +80,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $this->applyFilter('__ALL__', 'trim');
 
         // title
-        $this->add('text', 'title', ts('Group Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
+        $this->add('text', 'title', ts('Group Name'),
+                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'title'), true);
         $this->addRule('title', ts('Please enter a valid name.'), 'title');
-
-        // which entity is this custom data group for ?
-        // for update action only allowed if there are no custom values present for this group.
-        $extendsElement = $this->add('select', 'extends', ts('Used For'), CRM_Core_SelectValues::customGroupExtends());
-
-        if ($this->_action == CRM_Core_Action::UPDATE) { 
-            $extendsElement->freeze();
-            $this->assign('gid', $this->_id);
-        }
-
-        // help text
-        $this->add('textarea', 'help_pre',  ts('Form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
-
-        // weight
-        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
-        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
-
 
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
@@ -130,9 +115,10 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     function setDefaultValues()
     {
         $defaults = array();
-        if (isset($this->_id)) {
+
+        if ( isset($this->_id ) ) {
             $params = array('id' => $this->_id);
-            CRM_Core_BAO_CustomGroup::retrieve($params, $defaults);
+            CRM_Core_BAO_UFGroup::retrieve($params, $defaults);
         } else {
             $defaults['is_active'] = 1;
         }
@@ -152,27 +138,25 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $params = $this->controller->exportValues('Group');
 
         // create custom group dao, populate fields and then save.
-        $group =& new CRM_Core_DAO_CustomGroup();
-        $group->title       = $params['title'];
-        $group->name        = CRM_Utils_String::titleToVar($params['title']);
-        $group->extends     = $params['extends'];
-        $group->style       = $params['style'];
-        $group->weight      = $params['weight'];
-        $group->help_pre    = $params['help_pre'];
-        $group->help_post   = $params['help_post'];
-        $group->is_active   = CRM_Utils_Array::value('is_active', $params, false);
-        $group->domain_id   = CRM_Core_Config::$domainID;
+        $ufGroup            =& new CRM_Core_DAO_UFGroup();
+        $ufGroup->title     = $params['title'];
+        $ufGroup->is_active = CRM_Utils_Array::value('is_active', $params, false);
+        $ufGroup->domain_id = CRM_Core_Config::$domainID;
+        
+        if ($this->_action & CRM_Core_Action::UPDATE) {
+            $ufGroup->id = $this->_id;
+        }
+        $ufGroup->save();
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            $group->id = $this->_id;
-        }
-        $group->save();
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-            CRM_Core_Session::setStatus(ts('Your Group "%1" has been saved.', array(1 => $group->title)));
+            CRM_Core_Session::setStatus(ts('Your User framework form "%1" has been saved.', array(1 => $ufGroup->title)));
         } else {
-            $url = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $group->id);
-            CRM_Core_Session::setStatus(ts('Your Group "%1" has been added. You can <a href="%2">add custom fields</a> to this group now.', array(1 => $group->title, 2 => $url)));
+            $url = CRM_Utils_System::url( 'civicrm/admin/uf/form/field', 'reset=1&action=add&id=' . $ufGroup->id);
+            CRM_Core_Session::setStatus(ts('Your User Framework Group "%1" has been added. You can <a href="%2">add user framework fields</a> to this group now.',
+                                           array(1 => $ufGroup->title, 2 => $url)));
         }
     }
+
 }
+
 ?>

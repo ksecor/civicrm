@@ -2,8 +2,8 @@
 
 <table>
   <base>CRM/Core</base>
-  <name>crm_uf_form</name>
-  <comment>User framework forms. Each record represents a form which encompasses a set of fields defined in crm_uf_form_fields table. Initially will be used for User Sharing form(s). Subsequently we anticipate using this to define other public facing forms (e.g. online donation solicitation forms, mailing list preferences, etc.).</comment>
+  <name>crm_uf_group</name>
+  <comment>User framework groups. Each group represents a form which encompasses a set of fields defined in crm_uf_fields table. Initially will be used for User Sharing form(s). Subsequently we anticipate using this to define other public facing forms (e.g. online donation solicitation forms, mailing list preferences, etc.).</comment>
   <field>
       <name>id</name>
       <type>int unsigned</type>

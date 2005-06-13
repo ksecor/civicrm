@@ -186,6 +186,17 @@ class CRM_Core_Invoke {
                 }
             }
             break;
+        case 'uf':
+            if ( $args[3] == 'group' ) {
+                if ( $args[4] != 'field' ) {
+                    $view =& new CRM_UF_Page_Group(ts('User Framework Group'));
+                } else {
+                    $additionalBreadCrumb = ts('<a href="%1">User Framework</a>', array(1 => 'civicrm/admin/uf/group'));
+                    CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+                    $view =& new CRM_UF_Page_Field(ts('User Framework Field'));
+                }
+            }
+            break;
         default:
             $view =& new CRM_Admin_Page_Tag(ts('View Tags'));
             break;
@@ -197,7 +208,7 @@ class CRM_Core_Invoke {
         return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search', 'reset=1', false) );
     }
 
-    static function import( $args ) {
+    Static function import( $args ) {
         $controller =& new CRM_Import_Controller(ts('Import Contacts'));
         return $controller->run();
     }

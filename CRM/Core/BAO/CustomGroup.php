@@ -84,13 +84,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     static function retrieve(&$params, &$defaults)
     {
-        $customGroup =& new CRM_Core_DAO_CustomGroup();
-        $customGroup->copyValues($params);
-        if ($customGroup->find(true)) {
-            CRM_Core_DAO::storeValues( $customGroup, $defaults);
-            return $customGroup;
-        }
-        return null;
+        return CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_CustomGroup', $params, $defaults );
     }
 
     /**
@@ -103,13 +97,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      */
     static function setIsActive($id, $is_active) {
-        $customGroup =& new CRM_Core_DAO_CustomGroup();
-        $customGroup->id = $id;
-        if ($customGroup->find(true)) {
-            $customGroup->is_active = $is_active;
-            return $customGroup->save();
-        }
-        return null;
+        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomGroup', $id, 'is_active', $is_active );
     }
 
     /**
@@ -424,14 +412,14 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     /**
      * Get the group title.
      *
-     * @param int $groupId - id of group.
-     * @return string $groupTitle
+     * @param int $id id of group.
+     * @return string title 
      *
      * @access public
      * @static
      *
      */
-    public static function getTitle($groupId)
+    public static function getTitle( $id )
     {
         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $groupId, 'title' );
     }

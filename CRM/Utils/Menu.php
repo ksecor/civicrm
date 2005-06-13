@@ -106,11 +106,28 @@ class CRM_Utils_Menu {
                              'type'   => self::CALLBACK,
                              'weight' => 3
                              );
+
+            self::$_items[] = array(
+                             'path'   => 'civicrm/admin/uf/group',
+                             'title'  => ts('User Framework'),
+                             'qs'     => 'reset=1',
+                             'type'   => self::LOCAL_TASK,
+                             'weight' => -4
+                             );
+
+            self::$_items[] = array(
+                             'path'   => 'civicrm/admin/custom/uf/field',
+                             'title'  => ts('User Framework Fields'),
+                             'qs'     => 'reset=1',
+                             'type'   => self::CALLBACK,
+                             'weight' => 3
+                             );
+
             self::$_items[] = array(
                              'path'   => 'civicrm/admin/IMProvider',
                              'title'  => ts('IM Services'),
                              'type'   => self::LOCAL_TASK,
-                             'weight' => -4
+                             'weight' => -3
                              );
 
             self::$_items[] = array(

@@ -412,6 +412,17 @@ class CRM_Core_DAO extends DB_DataObject {
         }
     }
 
+    /**
+     * Given a DAO name and its id, get the value of the field requested
+     *
+     * @param string $daoName   the name of the DAO
+     * @param int    $id        the id of the relevant object 
+     * @param string $fieldName the name of the field whose value is needed
+     *
+     * @return string|null      the value of the field
+     * @static
+     * @access public
+     */
     static function getFieldValue( $daoName, $id, $fieldName = 'name' ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object =& new ' . $daoName . '( );' );
@@ -423,6 +434,31 @@ class CRM_Core_DAO extends DB_DataObject {
         }
         return null;
      }
+
+    /**
+     * Given a DAO name and its id, get the value of the field requested
+     *
+     * @param string $daoName   the name of the DAO
+     * @param int    $id        the id of the relevant object
+     * @param string $fieldName the name of the field whose value is needed
+     * @param string $value     the value of the field
+     *
+     * @return boolean          true if we found and updated the object, else false
+     * @static
+     * @access public
+     */
+    static function setFieldValue( $daoName, $id, $fieldName, $value ) {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object =& new ' . $daoName . '( );' );
+        $object->id    = $id;
+        if ( $object->find( true ) ) {
+            $object->$fieldName = $value;
+            if ( $object->save( ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     /**
@@ -452,5 +488,33 @@ class CRM_Core_DAO extends DB_DataObject {
         } 
         return $default;
     }
+
+    /**
+     * Takes a bunch of params that are needed to match certain criteria and
+     * retrieves the relevant objects. Typically the valid params are only
+     * contact_id. We'll tweak this function to be more full featured over a period
+     * of time. This is the inverse function of create. It also stores all the retrieved
+     * values in the default array
+     *
+     * @param string $daoName  name of the dao object
+     * @param array  $params   (reference ) an assoc array of name/value pairs
+     * @param array  $defaults (reference ) an assoc array to hold the flattened values
+     *
+     * @return object an object of type referenced by daoName
+     * @access public
+     * @static
+     */
+    static function commonRetrieve($daoName, &$params, &$defaults)
+    {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object =& new ' . $daoName . '( );' );
+        $object->copyValues($params);
+        if ( $object->find( true ) ) {
+            self::storeValues( $object, $defaults);
+            return $object;
+        }
+        return null;
+    }
+    
 }
 ?>

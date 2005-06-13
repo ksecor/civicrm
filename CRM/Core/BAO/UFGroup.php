@@ -31,14 +31,10 @@
  *
  */
 
-class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
-
-    /**
-     * class constructor
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
+/**
+ *
+ */
+class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 
     /**
      * Takes a bunch of params that are needed to match certain criteria and
@@ -50,18 +46,28 @@ class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Core_BAO_IMProvider object
+     * @return object CRM_Core_BAO_UFGroup object
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults ) {
-        $imProvider =& new CRM_Core_DAO_IMProvider( );
-        $imProvider->copyValues( $params );
-        if ( $imProvider->find( true ) ) {
-            CRM_Core_DAO::storeValues( $imProvider, $defaults );
-            return $imProvider;
-        }
-        return null;
+    static function retrieve(&$params, &$defaults)
+    {
+        return CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_UFGroup', $params, $defaults );
+    }
+    
+    /**
+     * Get the form title.
+     *
+     * @param int $id id of uf_form
+     * @return string title
+     *
+     * @access public
+     * @static
+     *
+     */
+    public static function getTitle( $id )
+    {
+        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $id, 'title' );
     }
 
     /**
@@ -73,10 +79,10 @@ class CRM_Core_BAO_IMProvider extends CRM_Core_DAO_IMProvider {
      * @return Object             DAO object on sucess, null otherwise
      * @static
      */
-    static function setIsActive( $id, $is_active ) {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_IMProvider', $id, 'is_active', $is_active );
+    static function setIsActive($id, $is_active) {
+        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_UFGroup', $id, 'is_active', $is_active );
     }
-
+    
 }
 
 ?>

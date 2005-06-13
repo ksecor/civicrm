@@ -100,13 +100,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     static function setIsActive( $id, $is_active )
     {
-        $customField =& new CRM_Core_DAO_CustomField( );
-        $customField->id = $id;
-        if ( $customField->find( true ) ) {
-            $customField->is_active = $is_active;
-            return $customField->save( );
-        }
-        return null;
+        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomField', $id, 'is_active', $is_active );
     }
 
 

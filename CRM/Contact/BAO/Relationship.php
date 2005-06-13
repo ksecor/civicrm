@@ -380,10 +380,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      */
     static function setIsActive( $id, $is_active ) 
     {
-        $relationship            =& new CRM_Contact_DAO_Relationship( );
-        $relationship->id        = $id;
-        $relationship->is_active = $is_active;
-        return $relationship->save( );
+        return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Relationship', $id, 'is_active', $is_active );
     }
 
     /**
