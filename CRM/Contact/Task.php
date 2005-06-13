@@ -59,7 +59,7 @@ class CRM_Contact_Task {
                   1 => ts('Add Contacts to a Group'),
                   2 => ts('Remove Contacts from a Group'),
                   4 => ts('Tag Contacts (assign tags)'),
-                128 => ts('Email Contacts'),
+                128 => ts('Send Email to Contacts'),
                   8 => ts('Delete Contacts'),
                  16 => ts('New Saved Search'),
                 512 => ts('Add Contacts to Household')
