@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-13 12:19+0200\n"
+"POT-Creation-Date: 2005-06-13 12:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: <>\n"
@@ -2053,7 +2053,7 @@ msgstr ""
 msgid "Mark Target Contact(s) for this Relationship"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 msgid "Mark the target contact(s) for this relationship if it appears below. Otherwise you may modify the search name above and click Search again."
 msgstr ""
 
@@ -2221,10 +2221,6 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 msgid "Choose Household and Relationship that you would like to add the below contacts to."
-msgstr ""
-
-#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
-msgid "Mark the target contact(s) for this relationship if it appears below. Otherwise you may\n                            modify the search name above and click Search again."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/AddToTag.tpl
@@ -2714,7 +2710,7 @@ msgid "Total rows to be imported."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "<strong>Import has completed successfully.</strong> The information below summarizes the\n    results."
+msgid "<strong>Import has completed successfully.</strong> The information below summarizes the results."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl

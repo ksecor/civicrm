@@ -26,8 +26,7 @@
                     {if $searchRows} {* we've got rows to display *}
                         <fieldset><legend>{ts}Mark Target Contact(s) for this Relationship{/ts}</legend>
                         <div class="description">
-                            {ts}Mark the target contact(s) for this relationship if it appears below. Otherwise you may
-                            modify the search name above and click Search again.{/ts}
+                            {ts}Mark the target contact(s) for this relationship if it appears below. Otherwise you may modify the search name above and click Search again.{/ts}
                         </div>
                         {strip}
                         <table>

@@ -6,8 +6,7 @@
  
  <div id="help">
     <p>
-    {ts}<strong>Import has completed successfully.</strong> The information below summarizes the
-    results.{/ts}
+    {ts}<strong>Import has completed successfully.</strong> The information below summarizes the results.{/ts}
     </p>
     
     {if $invalidRowCount }
