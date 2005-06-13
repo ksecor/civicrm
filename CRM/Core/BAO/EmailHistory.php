@@ -121,7 +121,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
                         'module'           => 'CiviCRM',
                         'callback'         => 'showEmailDetails',
                         'activity_id'      => $activityID,
-                        'activity_summary' => 'Email sent to ' . $headers['To'] . ' with subject ' . $headers['subject'],
+                        'activity_summary' => ts('Email sent to %1 with subject %2', array(1 => $headers['To'], 2 => $headers['subject'])),
                         'activity_date'    => date('Ymd')
                         );
         
