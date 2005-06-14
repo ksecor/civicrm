@@ -207,7 +207,7 @@ function civicrm_init()
     CRM_Core_DAO::setFactory(new $factoryClass());
 
     // Add module-specific stylesheet to page header
-    drupal_set_html_head(civicrm_html_head());
+    // drupal_set_html_head(civicrm_html_head());
 
     // set error handling
     PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Core_Error', 'handle'));
@@ -261,17 +261,15 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
         return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
 
     case 'register':
-        return civicrm_register_data($edit, $user, $category);
-
     case 'insert':
-        return civicrm_save_data($edit, $user, $category);
+        return civicrm_register_data($edit, $user, $category);
 
     case 'view':
         return civicrm_view_data($user);
 
     case 'update':
     case 'form':
-        return civicrm_form_data($edit, $user, $category);
+        return civicrm_form_data($edit, $user, $category, false);
 
     case 'validate':
         return civicrm_validate_data($edit, $category);
@@ -297,10 +295,18 @@ function civicrm_categories( ) {
 function civicrm_load_data(&$user) {
 }
 
+function civicrm_register_data($edit, &$user, $category) {
+    $output = array( );
+    CRM_Core_Error::debug( 'p', $user );
+    $html = CRM_Core_BAO_UFGroup::getRegisterHTML( null );
+    $output[] = array( 'title' => 'CiviCRM Information', 'data' => $html, weight => 0 );
+    return $output;
+}
+
 function civicrm_form_data($edit, &$user, $category) {
     // get all the data for this specific category
-    $html = CRM_Core_BAO_UFGroup::getFormHTML( $category );
-
+    $html = CRM_Core_BAO_UFGroup::getEditHTML( $category, null );
+    
     $output = array( );
     $output[] = array( 'title' => $category, 'data' => $html, weight => 0 );
     return $output;
@@ -314,7 +320,7 @@ function civicrm_view_data($user ) {
 
     $data = array( );
     foreach ( $ufGroups as $id => $title ) {
-        $data[$title] = CRM_Core_BAO_UFGroup::getFormHTML( $title, CRM_Core_Action::VIEW );
+        $data[$title] = CRM_Core_BAO_UFGroup::getEditHTML( $title, CRM_Core_Action::VIEW );
     }
     return $data;
 }

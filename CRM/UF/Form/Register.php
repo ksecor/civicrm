@@ -42,35 +42,14 @@ require_once 'CRM/Core/Form.php';
  * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
  *
   */
-class CRM_UF_Form_Dynamic extends CRM_Core_Form
+class CRM_UF_Form_Register extends CRM_Core_Form
 {
-    /**
-     * The contact id that we are editing
-     *
-     * @var int
-     */
-    protected $_id;
-
-    /**
-     * The title of the category we are editing
-     *
-     * @var string
-     */
-    protected $_title;
-
     /**
      * the fields needed to build this form
      *
      * @var array
      */
     protected $_fields;
-
-    /**
-     * The contact object being edited
-     *
-     * @var object
-     */
-    protected $_contact;
 
     /**
      * pre processing work done here.
@@ -85,11 +64,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     function preProcess()
     {
-        $this->_id      = $this->get( 'id' );
-        $this->_gid     = $this->get( 'gid' );
-        $this->_fields  = CRM_Core_BAO_UFGroup::getUFFields( $this->_gid, $this->get( 'register' ) );
-        
-        $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id );
+        $this->_fields  = CRM_Core_BAO_UFGroup::getUFRegistrationFields( );
     }
 
     /**
@@ -134,25 +109,6 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
 
     }
     
-
-    /**
-     * Set the default form values
-     *
-     * @access protected
-     * @return array the default array reference
-     */
-    function &setDefaultValues()
-    {
-        $defaults = array();
-        
-        foreach ( $this->_fields as $name => $field ) {
-            $objName = $field['name'];
-            $defaults[$name] = $this->_contact->$objName;
-        }
-        return $defaults;
-    }
-
-       
     /**
      * Process the user submitted custom data values.
      *
@@ -161,7 +117,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
-        $params = $this->controller->exportValues( 'Dynamic' );
+        global $user;
+        $params = $this->controller->exportValues( 'Register' );
+        CRM_Core_Error::debug( 'p', $params );
+        CRM_Core_Error::debug( 'p', $user );
+        exit( 1 );
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( );

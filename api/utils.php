@@ -34,7 +34,6 @@ function _crm_store_values( &$fields, &$params, &$values ) {
 
 function _crm_update_object(&$object, &$values)
 {
-    CRM_Core_Error::debug( 'o', $object );
     $fields =& $object->fields( );
     $valueFound = false;
 
@@ -354,8 +353,6 @@ function _crm_check_required_fields(&$params, $daoName)
     $dao =& new $daoName();
     $fields = $dao->fields();
     
-    //CRM_Core_Error::debug_var('params', $params);
-    //CRM_Core_Error::debug_var('fields', $fields);
     //eval('$dao =& new CRM_Core_DAO_' . $type . 'History();');
 
     $missing = array();
@@ -369,7 +366,6 @@ function _crm_check_required_fields(&$params, $daoName)
     }
 
     if (!empty($missing)) {
-        //CRM_Core_Error::debug_var('missing', $missing);
         return _crm_error(ts("Required fields ". implode(',', $missing) . " for $daoName are not found"));
     }
 

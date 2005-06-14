@@ -11,8 +11,8 @@
             <th>{ts}CiviCRM Field Name{/ts}</th>
             <th>{ts}Visibility{/ts}</th>
             <th>{ts}Listings Title{/ts}</th>	
-            <th>{ts}Required{/ts}</th>	
             <th>{ts}Active{/ts}</th>	
+            <th>{ts}Required{/ts}</th>	
             <th>{ts}View Only{/ts}</th>	
             <th>{ts}Registration{/ts}</th>	
             <th>{ts}Match{/ts}</th>	

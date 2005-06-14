@@ -58,24 +58,20 @@ class CRM_Core_QuickForm_Action_Submit extends CRM_Core_QuickForm_Action {
      * @access public
      */
     function perform(&$page, $actionName) {
-        // save the form values and validation status to the session
         $page->isFormBuilt() or $page->buildForm();
-        $pageName =  $page->getAttribute('id');
+
+        $pageName =  $page->getAttribute('name');
         $data     =& $page->controller->container();
         $data['values'][$pageName] = $page->exportValues();
         $data['valid'][$pageName]  = $page->validate();
 
-        if ($page->controller->isValid()) {
-            // All pages are valid, process
-            return $page->handle('process');
-        } elseif (!$data['valid'][$pageName]) {
-            // Current page is invalid, display it
+        // Modal form and page is invalid: don't go further
+        if ($page->controller->isModal() && !$data['valid'][$pageName]) {
             return $page->handle('display');
-            // Some other page is invalid, redirect to it
-        } else {
-            $target =& $page->controller->getPage($page->controller->findInvalid());
-            return $target->handle('jump');
         }
+
+        // the page is valid, process it before we jump to the next state
+        $page->postProcess( );
     }
 
 }
