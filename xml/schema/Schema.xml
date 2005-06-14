@@ -41,4 +41,5 @@
 <xi:include href="UFGroup.xml"          parse="xml" />
 <xi:include href="UFField.xml"          parse="xml" />
 <xi:include href="UFMatch.xml"          parse="xml" />
+<xi:include href="CustomOption.xml"     parse="xml" />
 </database>
