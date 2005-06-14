@@ -46,7 +46,9 @@ class CRM_Contact_Task {
         SAVE_SEARCH_UPDATE  =  32,
         PRINT_CONTACTS      =  64,
         EMAIL_CONTACTS      = 128,
-        HOUSEHOLD_CONTACTS  = 512;
+        HOUSEHOLD_CONTACTS  = 512,
+        ORGANIZATION_CONTACTS = 1024;
+    
 
     static $_tasks = null;
 
@@ -62,7 +64,8 @@ class CRM_Contact_Task {
                 128 => ts('Send Email to Contacts'),
                   8 => ts('Delete Contacts'),
                  16 => ts('New Saved Search'),
-                512 => ts('Add Contacts to Household')
+                  512 => ts('Add Contacts to Household'),
+                  1024 =>ts('Add Contacts to Organization'),
             );
         }
         return self::$_tasks;

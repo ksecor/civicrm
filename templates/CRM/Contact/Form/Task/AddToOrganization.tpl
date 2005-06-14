@@ -1,6 +1,6 @@
 <fieldset>
 <legend>
-{ts}Choose Household and Relationship that you would like to add the below contacts to.{/ts}
+{ts}Choose Organization and Relationship that you would like to add the below contacts to.{/ts}
 </legend>
 <br>
 {include file="CRM/Contact/Form/Task.tpl"}
@@ -15,8 +15,8 @@
                 <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
                 <dt> </dt>
                   <dd>
-                    {$form._qf_AddToHousehold_refresh.html}
-                    {$form._qf_AddToHousehold_cancel.html}
+                    {$form._qf_AddToOrganization_refresh.html}
+                    {$form._qf_AddToOrganization_cancel.html}
 		    {$form.relationship_type_id.html}	
                   </dd>
                 </dl>

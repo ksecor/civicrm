@@ -128,6 +128,10 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             $task   = 'CRM_Contact_Form_Task_AddToHousehold';
             $result = true;
             break;
+        case CRM_Contact_Task::ORGANIZATION_CONTACTS:
+            $task   = 'CRM_Contact_Form_Task_AddToOrganization';
+            $result = true;
+            break;
 
 
         default: // the print task is the default and catch=all task
