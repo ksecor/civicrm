@@ -105,6 +105,12 @@ class CRM_Core_PseudoConstant {
      */
     private static $relationshipType;
 
+    /**
+     * user framework groups
+     * @var array
+     * @static
+     */
+    private static $ufGroup;
 
     /**
      * populate the object from the database. generic populate
@@ -344,6 +350,21 @@ class CRM_Core_PseudoConstant {
     public static function &savedSearch()
     {
         return CRM_Core_Permission::savedSearch( );
+    }
+
+    /**
+     * Get all the user framework groups
+     *
+     * @access public
+     * @return array - array reference of all groups.
+     * @static
+     */
+    public static function &ufGroup( )
+    {
+        if ( ! self::$ufGroup ) {
+            self::populate( self::$ufGroup, 'CRM_Core_DAO_UFGroup', false, 'title' );
+        }
+        return self::$ufGroup;
     }
 
     /**

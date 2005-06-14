@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
  +----------------------------------------------------------------------+
@@ -24,6 +24,7 @@
 
 /**
  *
+ *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo 01/15/2005
@@ -31,66 +32,85 @@
  *
  */
 
+require_once 'CRM/Core/Form.php';
+
 /**
- * This class provides the functionality to save a search
- * Saved Searches are used for saving frequently used queries
- */
-class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
+ * This class generates form components for custom data
+ * 
+ * It delegates the work to lower level subclasses and integrates the changes
+ * back in. It also uses a lot of functionality with the CRM API's, so any change
+ * made here could potentially affect the API etc. Be careful, be aware, use unit tests.
+ *
+  */
+class CRM_UF_Form_Dynamic extends CRM_Core_Form
+{
+    /**
+     * the group tree data
+     *
+     * @var array
+     */
+    protected $_groupTree;
 
     /**
-     * build all the data structures needed to build the form
+     * pre processing work done here.
      *
-     * @return void
+     * gets session variables for table name, id of entity in table, type of entity and stores them.
+     *
+     * @param none
+     * @return none
+     *
      * @access public
+     *
      */
     function preProcess()
     {
-        // set print view, so that print templates are called
-        $this->controller->setPrint( true );
-
-        // create the selector, controller and run - store results in session
-        $fv         =  $this->get( 'formValues' );
-        $selector   =& new CRM_Contact_Selector($fv, $this->_action);
-        $controller =& new CRM_Core_Selector_Controller($selector , null, null, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
-        $controller->setEmbedded( true );
-        $controller->run();
+        // gets all details of group tree for entity
+        $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->get( 'title' ) );
     }
 
-
     /**
-     * Build the form - it consists of
-     *    - displaying the QILL (query in local language)
-     *    - displaying elements for saving the search
+     * Function to actually build the form
      *
-     * @param none
+     * @return None
      * @access public
-     * @return void
      */
-    function buildQuickForm()
+    public function buildQuickForm()
     {
-        //
-        // just need to add a javacript to popup the window for printing
-        // 
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Print Contact List'),
-                                         'js'        => array( 'onclick' => 'window.print()' ),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'back',
-                                         'name'      => ts('Done') ),
-                                 )
-                           );
+        $this->assign( 'fields', $this->_fields );
+
+        // add the form elements
+        foreach ($this->_fields as $name => $field ) {
+            $this->add('text', $name, $field['title'], $field['attributes'], $field['is_required'] );
+        }
+
     }
+    
 
     /**
-     * process the form after the input has been submitted and validated
+     * Set the default form values
+     *
+     * @access protected
+     * @return array the default array reference
+     */
+    function &setDefaultValues()
+    {
+        $defaults = array();
+        return $defaults;
+    }
+
+       
+    /**
+     * Process the user submitted custom data values.
      *
      * @access public
      * @return None
      */
-    public function postProcess()
+    public function postProcess() 
     {
-        // redirect to the main search page after printing is over
+        // Get the form values and groupTree
+        $fv = $this->exportValues();
+        CRM_Core_Error::debug( 'fv', $fv );
     }
 }
+
 ?>

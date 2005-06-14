@@ -120,10 +120,21 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         $ufFieldBAO->uf_group_id = $this->_gid;
         $ufFieldBAO->orderBy('field_name');
         $ufFieldBAO->find();
-        
+
+        $fields =& CRM_Contact_BAO_Contact::importableFields( );
+        $select = array( );
+        foreach ($fields as $name => $field ) {
+            if ( $name ) {
+                $select[$name] = $field['title'];
+            }
+        }
+
         while ($ufFieldBAO->fetch()) {
             $ufField[$ufFieldBAO->id] = array();
             CRM_Core_DAO::storeValues( $ufFieldBAO, $ufField[$ufFieldBAO->id]);
+
+            // fix the field_name value
+            $ufField[$ufFieldBAO->id]['field_name'] = $select[$ufField[$ufFieldBAO->id]['field_name']];
 
             $action = array_sum(array_keys($this->actionLinks()));
             if ($ufFieldBAO->is_active) {

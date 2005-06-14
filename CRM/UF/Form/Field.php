@@ -108,7 +108,6 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_UFField::retrieve($params, $defaults);
 
-            $defaults['field_name'] = array_search( $defaults['field_name'], $this->_selectFields );
             $this->_gid = $defaults['uf_group_id'];
         } else {
             $defaults['is_active'] = 1;
@@ -176,7 +175,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
 
         // set values for custom field properties and save
         $ufField                 =& new CRM_Core_DAO_UFField();
-        $ufField->field_name     = $this->_selectFields[$params['field_name']];
+        $ufField->field_name     = $params['field_name'];
         $ufField->listings_title = $params['listings_title'];
         $ufField->visibility     = $params['visibility'];
 
@@ -195,7 +194,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
 
         $ufField->save();
         
-        CRM_Core_Session::setStatus(ts('Your user framework field "%1" has been saved', array(1 => $ufField->label)));
+        $name = $this->_selectFields[$ufField->field_name];
+        CRM_Core_Session::setStatus(ts('Your user framework field "%1" has been saved', array(1 => $name)));
     }
 
 }

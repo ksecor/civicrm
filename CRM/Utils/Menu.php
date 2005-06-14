@@ -82,7 +82,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Administer CiviCRM'),
                             'qs'      => 'reset=1',
                             'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
-                            CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                                         CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'type'    => self::NORMAL_ITEM,
                             'crmType' => self::ROOT_LOCAL_TASK,
                             'weight'  => 40,

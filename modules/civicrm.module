@@ -234,4 +234,75 @@ function civicrm_invoke()
 	return CRM_Core_Invoke::invoke( $args );
 }
 
+/**
+ * User hook for civicrm module
+ *
+ * @param string $type     Type of operation being performed
+ * @param array  $edit     The array of form values submitted by the user.
+ * @param object $user     The user object on which the operation is being performed.
+ * @param object $category The active category of user information being edited.
+ *
+ * @return mixed           depends on the operation being performed
+ */
+function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
+    switch ( $type ) {
+
+    case 'load':
+        return civicrm_load_data($user);
+
+    case 'register':
+        return civicrm_register_data($edit, $user, $category);
+
+    case 'update':
+    case 'insert':
+        return civicrm_save_data($edit, $user, $category);
+
+    case 'view':
+        return civicrm_view_data($user);
+
+    case 'form':
+        return civicrm_form_data($edit, $user, $category);
+
+    case 'validate':
+        return civicrm_validate_data($edit, $category);
+
+    case 'categories':
+        return civicrm_categories();
+    }
+
+}
+
+function civicrm_categories( ) {
+    $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
+    
+    $data = array( );
+    foreach ( $ufGroups as $id => $title ) {
+        $data[] = array( 'name'  => $title,
+                         'title' => $title,
+                         'weight' => 5 );
+    }
+    return $data;
+}
+
+function civicrm_load_data(&$user) {
+}
+
+function civicrm_form_data($edit, &$user, $category) {
+    // get all the data for this specific category
+    $html = CRM_Core_BAO_UFGroup::getFormHTML( $category );
+
+    $output = array( );
+    $output[] = array( 'title' => $category, 'data' => $html, weight => 0 );
+    return $output;
+}
+
+function civicrm_save_data(&$edit, &$user, $category) {
+}
+
+function civicrm_view_data($user ) {
+}
+
+function civicrm_validate_data($edit, $category) {
+}
+
 ?>
