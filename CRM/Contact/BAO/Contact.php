@@ -93,17 +93,22 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      * @param int      $rowCount the number of rows to return
      * @param boolean  $count    is this a count only query ?
      * @param boolean  $includeContactIds should we include contact ids?
+     * @param boolean  $sortByChar if true returns the distinct array of first characters for search results
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function searchQuery(&$fv, $offset, $rowCount, $sort, $count = false, $includeContactIds = false)
+    function searchQuery(&$fv, $offset, $rowCount, $sort, $count = false, $includeContactIds = false, $sortByChar = false)
     {
         $select = $from = $where = $order = $limit = '';
 
         if($count) {
             $select = "SELECT count(DISTINCT crm_contact.id) ";
         } else {
-            $select = "SELECT DISTINCT crm_contact.id as contact_id,
+            if ($sortByChar) {
+                $select = "SELECT DISTINCT LEFT(crm_contact.sort_name, 1) as sort_name";
+                
+            } else {
+                $select = "SELECT DISTINCT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
@@ -113,6 +118,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                               crm_email.email as email,
                               crm_phone.phone as phone,
                               crm_contact.contact_type as contact_type";
+            }
         }
 
         $from = self::fromClause( );

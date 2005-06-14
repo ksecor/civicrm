@@ -36,12 +36,13 @@ class CRM_Utils_PagerAToZ
         
     }
 
-    function getAToZBar () {
-
-        // alphabet array
+    function getAToZBar ( &$params ) {
+        $contact =& new CRM_Contact_BAO_Contact();
+        $result = $contact->searchQuery($params, $offset, $rowCount, $sort, false, $includeContactIds ,true);
+        while ($result->fetch()) { 
+            $alphabets[] = $result->sort_name;
+        }
         
-        $alphabets = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
-
         return $alphabets;
     }
 }
