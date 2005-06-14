@@ -58,7 +58,7 @@ class CRM_Contact_Page_Activity {
                                                         $page->get(CRM_Utils_Pager::PAGE_ID),
                                                         $page->get(CRM_Utils_Sort::SORT_ID),
                                                         CRM_Core_Action::VIEW, $page, $output);
-        $controller->setEmbedded(true);
+        //$controller->setEmbedded(true);
         $controller->run();
         $controller->moveFromSessionToTemplate( );
     }
