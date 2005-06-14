@@ -40,6 +40,7 @@
  */
 
 require_once 'CRM/Utils/Pager.php';
+require_once 'CRM/Utils/PagerAToZ.php';
 require_once 'CRM/Utils/Sort.php';
 require_once 'CRM/Core/Report/Excel.php';
 
@@ -80,6 +81,13 @@ class CRM_Core_Selector_Controller {
      * @var array
      */
     protected $_sortOrder;
+
+    /*
+     * the alphabet array
+     * @var array
+     */
+    protected $_AToZBar;
+
 
     /*
      * the CRM_Utils_Pager object
@@ -183,6 +191,7 @@ class CRM_Core_Selector_Controller {
      */
     function __construct($object, $pageID, $sortID, $action, $store = null, $output = self::TEMPLATE)
     {
+  
         $this->_object = $object;
         $this->_pageID = $pageID ? $pageID : 1;
         $this->_sortID = $sortID ? $sortID : null;
@@ -233,6 +242,8 @@ class CRM_Core_Selector_Controller {
         $this->_pager =& new CRM_Utils_Pager( $params );
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
 
+        $pagerAToZ =& new CRM_Utils_PagerAToZ( $params );
+        $this->_AToZBar = $pagerAToZ->getAToZBar();
     }
 
     /**
@@ -281,6 +292,7 @@ class CRM_Core_Selector_Controller {
      */
     function run()
     {
+
         // get the column headers
         $columnHeaders =& $this->_object->getColumnHeaders( $this->_action, $this->_output );
 
@@ -302,6 +314,7 @@ class CRM_Core_Selector_Controller {
                 self::$_template->assign_by_ref( 'rows'         , $rows          );
             }
         } else {
+
             // output requires paging/sorting capability
             // get rows with paging criteria
             $rows          =& $this->_object->getRows( $this->_action,
@@ -328,9 +341,12 @@ class CRM_Core_Selector_Controller {
             $this->_store->set( CRM_Utils_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
 
 
-            // if we need to display on screen, lets assign vars to the template
+            /*
+             // if we need to display on screen, lets assign vars to the template
             if ( $this->_output & self::TEMPLATE ) {
+
                 self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
+                self::$_template->assign_by_ref( 'testBar'  , $test   );
                 self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
                 
                 self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
@@ -341,7 +357,7 @@ class CRM_Core_Selector_Controller {
                 if ( $this->_embedded ) {
                     return;
                 }
-            
+
                 self::$_template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
                 if ( $this->_print ) {
                     $content = self::$_template->fetch( 'CRM/print.tpl' );
@@ -350,6 +366,7 @@ class CRM_Core_Selector_Controller {
                 }
                 echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
             }
+            */
         }
 
     }
@@ -397,7 +414,11 @@ class CRM_Core_Selector_Controller {
      */
     function moveFromSessionToTemplate()
     {
+
         self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
+        
+        self::$_template->assign_by_ref( 'AToZBar'  , $this->_AToZBar );
+        
         self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
         
         self::$_template->assign_by_ref( 'columnHeaders', $this->_store->get( 'columnHeaders' ) );
@@ -416,6 +437,9 @@ class CRM_Core_Selector_Controller {
             $content = self::$_template->fetch( 'CRM/index.tpl' );
         }
         echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
+
+        CRM_Core_Error::ll_method();
+
     }
 
 

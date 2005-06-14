@@ -289,12 +289,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // text for sort_name
         $this->add('text', 'sort_name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
 
-        // alphabet array
-            
-        $alphabets = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
-        
-        $this->assign('alphabets', $alphabets);
-        
         $this->buildQuickFormCommon( );
     }
 
@@ -347,6 +341,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @access public
      */
     function preProcess( ) {
+
         /**
          * set the varios class variables
          */
@@ -401,6 +396,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $controller->setEmbedded( true );
         //        if ( $controller->hasChanged( $this->_reset ) ||
         if ( $this->_force ) {
+
             $this->postProcess( );
             /*
              * Note that we repeat this, since the search creates and stores
@@ -408,12 +404,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
              * like totalCount etc
              */
             $controller =& new CRM_Contact_Selector_Controller($selector ,
-                                                              $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                              $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                              CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
+                                                               $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                               $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                               CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
             $controller->setEmbedded( true );
         }
-        $controller->moveFromSessionToTemplate( );
+        
+        $controller->moveFromSessionToTemplate();
+
     }
 
     /**
@@ -490,6 +488,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             return;
         }
         $this->_done = true;
+
+        //added the sorting  character to the form array
+
+        $sortByCharacter   = CRM_Utils_Request::retrieve( 'sortByCharacter' );
+
+        if ($sortByCharacter) {
+            $this->_formValues['sortByCharacter'] = $sortByCharacter;
+        }
 
         $this->set( 'type'      , $this->_action );
         $this->set( 'formValues', $this->_formValues );

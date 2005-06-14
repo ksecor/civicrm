@@ -22,16 +22,8 @@
         </span>
      </div>
 
-      <dl class="form-item">
-         <dt></dt>
-	  <dd>	      
-	     <span class="horizontal-position"> 
-              {foreach from=$alphabets item=row }
-               <a href= "{crmURL p='civicrm/contact/search' q="sname=`$row`"}" >{$row}</a>&nbsp; 
-              {/foreach}
-            </span>
-         </dd> 
-     </dl>
+{include file="CRM/pagerAToZ.tpl" }
+
  </div>
  <div class="form-item">
      <p>
