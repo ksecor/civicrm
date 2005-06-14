@@ -10,6 +10,13 @@ exec 'from '+validatorPkg+' import Validator'
 
 # definition of test class
 class testEditLocationType(PyHttpTestCase):
+    #def setUp(self):
+    #    global db
+    #    db = commonAPI.dbStart()
+    
+    #def tearDown(self):
+    #    commonAPI.dbStop(db)
+    
     def runTest(self):
         self.msg('Test started')
 

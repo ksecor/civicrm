@@ -1,5 +1,7 @@
 #!/bin/bash -v
 
+./setup.sh.txt
+
 cd ../test/maxq
 
 # This script is used to run maxq generated test scripts.
@@ -118,7 +120,7 @@ maxq -q -r testAdminEnableDisableMobileProvider.py
 ##############################
 
 maxq -q -r testAdminAddIMProvider.py 
-maxq -q -r testAdminEditIMProvider.py 
+maxq -q -r testAdminEditIMProvider.py
 maxq -q -r testAdminEnableDisableIMProvider.py
 
 #####################################

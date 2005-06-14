@@ -2,7 +2,7 @@
 from PyHttpTestCase import PyHttpTestCase
 from com.bitmechanic.maxq import Config
 from com.bitmechanic.maxq import DBUtil
-import Common
+import commonConst, commonAPI
 global validatorPkg
 if __name__ == 'main':
     validatorPkg = Config.getValidatorPkgName()
@@ -12,54 +12,19 @@ exec 'from '+validatorPkg+' import Validator'
 
 # definition of test class
 class testAdvSearchByContactGroupCategory(PyHttpTestCase):
+    def setUp(self):
+        global db
+        db = commonAPI.dbStart()
+    
+    def tearDown(self):
+        commonAPI.dbStop(db)
+    
     def runTest(self):
         self.msg('Test started')
 
-        drupal_path = Common.DRUPAL_PATH
-        
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
-        url = "%s/" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 1 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+        drupal_path = commonConst.DRUPAL_PATH
 
-        params = [
-            ('''edit[destination]''', '''node'''),
-            ('''edit[name]''', Common.USERNAME),
-            ('''edit[pass]''', Common.PASSWORD),
-            ('''op''', '''Log in'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
-        url = "%s/user/login" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "post", url, params)
-        self.post(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 2 failed", 302, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/node''') % drupal_path)
-        url = "%s/node" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 3 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/search''') % drupal_path)
-        url = "%s/civicrm/contact/search" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+        commonAPI.login(self)
 
         self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/search/advanced''') % drupal_path)
         url = "%s/civicrm/contact/search/advanced" % drupal_path
@@ -101,13 +66,10 @@ class testAdvSearchByContactGroupCategory(PyHttpTestCase):
         self.assertEquals("Assert number 6 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
-        db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.DBHOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
-
         contact = 'Individual'
         group   = 'Summer Program Volunteers'
         tag1    = 'Major Donor'
         tag2    = 'Volunteer'
-
         query   = 'SELECT count(DISTINCT crm_contact.id)  FROM crm_contact \
         LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1) \
         LEFT JOIN crm_address ON crm_location.id = crm_address.location_id \
@@ -118,14 +80,11 @@ class testAdvSearchByContactGroupCategory(PyHttpTestCase):
         LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id \
         LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id \
         WHERE contact_type IN ( \'%s\' ) AND group_id IN ( 2 ) AND crm_group_contact.status=\"In\" AND tag_id IN (4,5) AND 1' % contact
-        
         noOfContact = db.loadVal(query)
         if noOfContact == '1' :
             string = "Found %s contact" % noOfContact
         else :
             string = "Found %s contacts" % noOfContact
-
-        db.close()
 
         params = [
             ('''_qf_Advanced_display''', '''true'''),]

@@ -2,7 +2,7 @@
 from PyHttpTestCase import PyHttpTestCase
 from com.bitmechanic.maxq import Config
 from com.bitmechanic.maxq import DBUtil
-import Common
+import commonConst, commonAPI
 global validatorPkg
 if __name__ == 'main':
     validatorPkg = Config.getValidatorPkgName()
@@ -12,54 +12,19 @@ exec 'from '+validatorPkg+' import Validator'
 
 # definition of test class
 class testAdvSearchByAllCriteria(PyHttpTestCase):
+    def setUp(self):
+        global db
+        db = commonAPI.dbStart()
+    
+    def tearDown(self):
+        commonAPI.dbStop(db)
+    
     def runTest(self):
         self.msg('Test started')
 
-        drupal_path = Common.DRUPAL_PATH
-        
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/''') % drupal_path)
-        url = "%s/" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 1 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+        drupal_path = commonConst.DRUPAL_PATH
 
-        params = [
-            ('''edit[destination]''', '''node'''),
-            ('''edit[name]''', Common.USERNAME),
-            ('''edit[pass]''', Common.PASSWORD),
-            ('''op''', '''Log in'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/user/login?edit[destination]=node&edit[name]=manishzope&edit[pass]=manish&op=Log in''') % drupal_path)
-        url = "%s/user/login" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "post", url, params)
-        self.post(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 2 failed", 302, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/node''') % drupal_path)
-        url = "%s/node" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 3 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/search''') % drupal_path)
-        url = "%s/civicrm/contact/search" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+        commonAPI.login(self)
 
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/search/advanced''') % drupal_path)
         url = "%s/civicrm/contact/search/advanced" % drupal_path
@@ -99,8 +64,6 @@ class testAdvSearchByAllCriteria(PyHttpTestCase):
         self.assertEquals("Assert number 6 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.DBHOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
-        
         name       = '%s' % params[1][1]
         street     = '%s' % params[4][1]
         city       = '%s' % params[5][1]
@@ -128,8 +91,6 @@ class testAdvSearchByAllCriteria(PyHttpTestCase):
             string = "Found %s contact" % noOfContact
         else :
             string = "Found %s contacts" % noOfContact
-
-        db.close()
 
         params = [
             ('''_qf_Advanced_display''', '''true'''),]
