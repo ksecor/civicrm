@@ -347,6 +347,12 @@ class CRM_Utils_Menu {
                             'title'  => ts('Delete Activity'),
                             'type'   => self::CALLBACK,
                             ),
+
+                      array(
+                            'path'   => 'civicrm/history/email',
+                            'title'  => ts('Email Detail'),
+                            'type'   => self::CALLBACK,
+                            ),
                       );
 
             self::$_rootLocalTasks = array( );

@@ -156,6 +156,11 @@ class CRM_Core_Invoke {
             $page =& new CRM_History_Page_Activity('View Activity Details');
             return $page->run( );
         }
+
+        if ($args[2] == 'email') {
+            $page =& new CRM_History_Page_Email('View Email Details');
+            return $page->run( );
+        }
     }
 
     static function admin( $args ) {
