@@ -207,7 +207,7 @@ function civicrm_init()
     CRM_Core_DAO::setFactory(new $factoryClass());
 
     // Add module-specific stylesheet to page header
-    // drupal_set_html_head(civicrm_html_head());
+    drupal_set_html_head(civicrm_html_head());
 
     // set error handling
     PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Core_Error', 'handle'));
