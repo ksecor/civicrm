@@ -414,10 +414,11 @@ class CRM_Core_Selector_Controller {
      */
     function moveFromSessionToTemplate()
     {
-
         self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
         
-        self::$_template->assign_by_ref( 'AToZBar'  , $this->_AToZBar );
+        if ($this->_store->get( 'rows' )) {
+            self::$_template->assign_by_ref( 'AToZBar'  , $this->_AToZBar );
+        }
         
         self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
         
