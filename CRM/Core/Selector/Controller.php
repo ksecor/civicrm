@@ -340,35 +340,7 @@ class CRM_Core_Selector_Controller {
             $this->_store->set( CRM_Utils_Sort::SORT_DIRECTION, $this->_sort->getCurrentSortDirection ( ) );
             $this->_store->set( CRM_Utils_Pager::PAGE_ROWCOUNT, $this->_pager->_perPage                   );
 
-
-            /*
-             // if we need to display on screen, lets assign vars to the template
-            if ( $this->_output & self::TEMPLATE ) {
-
-                self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
-                self::$_template->assign_by_ref( 'testBar'  , $test   );
-                self::$_template->assign_by_ref( 'sort'   , $this->_sort    );
-                
-                self::$_template->assign_by_ref( 'columnHeaders', $columnHeaders );
-                self::$_template->assign_by_ref( 'rows'         , $rows          );
-                self::$_template->assign       ( 'rowsEmpty'    , $rowsEmpty     );
-                self::$_template->assign       ( 'qill'         , $qill          );
-
-                if ( $this->_embedded ) {
-                    return;
-                }
-
-                self::$_template->assign( 'tplFile', $this->_object->getTemplateFileName() ); 
-                if ( $this->_print ) {
-                    $content = self::$_template->fetch( 'CRM/print.tpl' );
-                } else {
-                    $content = self::$_template->fetch( 'CRM/index.tpl' );
-                }
-                echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
-            }
-            */
         }
-
     }
 
     /**
