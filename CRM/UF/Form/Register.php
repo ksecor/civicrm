@@ -117,10 +117,7 @@ class CRM_UF_Form_Register extends CRM_Core_Form
      */
     public function postProcess( ) 
     {
-        global $user;
         $params = $this->controller->exportValues( 'Register' );
-        CRM_Core_Error::debug( 'p', $params );
-        CRM_Core_Error::debug( 'p', $user );
         exit( 1 );
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
