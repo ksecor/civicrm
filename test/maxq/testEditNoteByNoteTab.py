@@ -59,9 +59,18 @@ class testEditNoteByNoteTab(PyHttpTestCase):
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 4 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
+        
+        db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.DBHOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
 
+        note   = '\'This is Test Note\''
+        query  = 'select id from crm_note where note like \'%%%s%%\'' % note
+        noteID = db.loadVal(query)
+        
+        db.close()
+
+        NID = '''%s''' % noteID
         params = [
-            ('''nid''', '''201'''),
+            ('''nid''', NID),
             ('''action''', '''update'''),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note?nid=201&action=update''') % drupal_path)
         url = "%s/civicrm/contact/view/note" % drupal_path
@@ -104,6 +113,15 @@ class testEditNoteByNoteTab(PyHttpTestCase):
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
+
+        if NID :
+            print ("**************************************************************************************")
+            print "The Note %s is Edited Successfully" % note
+            print ("**************************************************************************************")
+        else :
+            print ("**************************************************************************************")
+            print ("There is no Note like %s") % note
+            print ("**************************************************************************************")
         
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
         #url = "http://localhost/favicon.ico"

@@ -82,12 +82,13 @@ class testAdminEditMobileProvider(PyHttpTestCase):
         
         db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.DBHOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
 
-        name      = '\'Test Mobile Provider\''
-        query     = 'select id from crm_mobile_provider where name=%s' % name  
-        mobilePID = db.loadVal(query)
-        
+        name        = '\'mobilePNameTest Mobile Provider\''
+        queryID     = 'select id from crm_mobile_provider where name like \'%%Test Mobile Provider%%\''
+        queryName   = 'select name from crm_mobile_provider where name like \'%%Test Mobile Provider%%\''
+        mobilePID   = db.loadVal(queryID)
+        mobilePName = db.loadVal(queryName)
         db.close()
-
+        
         MPID = '''%s''' % mobilePID 
         params = [
             ('''action''', '''update'''),
@@ -120,9 +121,20 @@ class testAdminEditMobileProvider(PyHttpTestCase):
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+        if mobilePID :
+            print ("**************************************************************************************")
+            print "Found IM Provider having name \'%s\' and Edited Successfully" % mobilePName
+            print ("**************************************************************************************")
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+        else :
+            print ("**************************************************************************************")
+            print "No IM Provider having name \'Test Mobile Provider\' is in the Database"
+            print ("**************************************************************************************")
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 10 failed", 302, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
             ('''reset''', '''1'''),
@@ -133,7 +145,7 @@ class testAdminEditMobileProvider(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
@@ -142,7 +154,7 @@ class testAdminEditMobileProvider(PyHttpTestCase):
         #Validator.validateRequest(self, self.getMethod(), "get", url, params)
         #self.get(url, params)
         #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 11 failed", 404, self.getResponseCode())
+        #self.assertEquals("Assert number 12 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
         self.msg('Test successfully complete.')

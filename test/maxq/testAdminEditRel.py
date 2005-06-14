@@ -138,6 +138,10 @@ class testAdminEditRel(PyHttpTestCase):
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
+
+        print ("**************************************************************************************")
+        print "Relationship \'Test A B\' is Edited Successfully"
+        print ("**************************************************************************************")
         
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
         #url = "http://localhost/favicon.ico"

@@ -116,6 +116,10 @@ class testEditLocationType(PyHttpTestCase):
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
+
+        print ("**************************************************************************************")
+        print "Location Type \'%s\' is Edited Successfully" % name
+        print ("**************************************************************************************")
         
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

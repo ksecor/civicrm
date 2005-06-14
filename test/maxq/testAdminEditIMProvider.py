@@ -82,10 +82,11 @@ class testAdminEditIMProvider(PyHttpTestCase):
         
         db = DBUtil("%s" % Common.MSQLDRIVER, "jdbc:mysql://%s/%s" % (Common.DBHOST, Common.DBNAME), "%s" % Common.DBUSERNAME, "%s" % Common.DBPASSWORD)
 
-        name         = '\'Test IM\''
-        query        = 'select id from crm_im_provider where name=%s' % name  
-        IMProviderID = db.loadVal(query)
-        
+        name           = '\'Test IM\''
+        queryID        = 'select id from crm_im_provider where name like \'%%Test IM%%\''
+        queryName      = 'select name from crm_im_provider where name like \'%%Test IM%%\''
+        IMProviderID   = db.loadVal(queryID)
+        IMProviderName = db.loadVal(queryName)
         db.close()
 
         IMPID  = '''%s''' % IMProviderID
@@ -100,7 +101,7 @@ class testAdminEditIMProvider(PyHttpTestCase):
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
-        
+                
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
         #url = "http://localhost/favicon.ico"
         #params = None
@@ -113,16 +114,27 @@ class testAdminEditIMProvider(PyHttpTestCase):
         params = [
             ('''_qf_default''', '''IMProvider:next'''),
             ('''name''', '''Test IM Edit'''),
-            ('''is_active''', '''1'''),
+            ('''is_active''', '''0'''),
             ('''_qf_IMProvider_next''', '''Save'''),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/IMProvider?_qf_default=IMProvider:next&name=Test IM Edit&is_active=1&_qf_IMProvider_next=Save''') % drupal_path)
         url = "%s/civicrm/admin/IMProvider" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+        if IMProviderID :
+            print ("**************************************************************************************")
+            print "Found IM Provider having name \'%s\' and Edited Successfully" % IMProviderName
+            print ("**************************************************************************************")
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+        else :
+            print ("**************************************************************************************")
+            print "No IM Provider having name \'Test IM\' is in the Database"
+            print ("**************************************************************************************")
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 10 failed", 302, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
             ('''reset''', '''1'''),
@@ -133,7 +145,7 @@ class testAdminEditIMProvider(PyHttpTestCase):
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
@@ -142,7 +154,7 @@ class testAdminEditIMProvider(PyHttpTestCase):
         #Validator.validateRequest(self, self.getMethod(), "get", url, params)
         #self.get(url, params)
         #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 11 failed", 404, self.getResponseCode())
+        #self.assertEquals("Assert number 12 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
         self.msg('Test successfully complete.')

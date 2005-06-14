@@ -27,7 +27,7 @@ DRUPAL_PATH = "http://" + HOST  + "/drupal"
 
 #HOST        = "sandbox.openngo.org"
 #DBHOST      = "localhost"
-#DRUPAL_PATH = "http://" + HOST  + "/crm"
+#DRUPAL_PATH = "http://" + HOST  + "/civicrm"
 
 
 
