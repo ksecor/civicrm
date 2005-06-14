@@ -34,9 +34,7 @@ function _crm_store_values( &$fields, &$params, &$values ) {
 
 function _crm_update_object(&$object, &$values)
 {
-
-    //CRM_Core_Error::debug_var('values', $values);
-
+    CRM_Core_Error::debug( 'o', $object );
     $fields =& $object->fields( );
     $valueFound = false;
 
@@ -82,6 +80,7 @@ function _crm_update_object(&$object, &$values)
  * @access public
  */
 function _crm_check_params( &$params, $contact_type = 'Individual' ) {
+    CRM_Core_Error::debug( 'p', $params );
     static $required = array(
                              'Individual'   => array(
                                                    array( 'first_name', 'last_name' ),

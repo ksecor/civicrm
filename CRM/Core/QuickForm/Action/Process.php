@@ -58,8 +58,23 @@ class CRM_Core_QuickForm_Action_Process extends CRM_Core_QuickForm_Action {
      * @access public
      */
     function perform(&$page, $actionName) {
-        $this->_stateMachine->reset( );
-        $this->popUserContext( );
+        $page->isFormBuilt() or $page->buildForm();
+
+        $pageName =  $page->getAttribute('name');
+        $data     =& $page->controller->container();
+        $data['values'][$pageName] = $page->exportValues();
+        $data['valid'][$pageName]  = $page->validate();
+
+        // Modal form and page is invalid: don't go further
+        if ($page->controller->isModal() && !$data['valid'][$pageName]) {
+            return $page->handle('display');
+        }
+
+        // the page is valid, process it before we jump to the next state
+        $page->postProcess( );
+
+        // process basically just does the process and finishes. it does not do a redirect
+        // and allows the calling function to take care of it
     }
 
 }

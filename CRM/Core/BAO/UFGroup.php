@@ -86,17 +86,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /**
      * get all the fields that belong to the group with the named title
      *
-     * @param string $title the title of the group we are interested in
+     * @param  int   the id of the UF group
      *
-     * @return array        the fields that belong to this title
+     * @return array the fields that belong to this title
      * @static
      * @access public
      */
-    static function getFields( $title ) {
+    static function getUFFields( $id ) {
         $group = new CRM_Core_DAO_UFGroup( );
 
-        $group->title     = $title;
-        $group->domain_id = CRM_Core_Config::$domainID;
+        $group->id = $id;
         if ( $group->find( true ) ) {
             $field = new CRM_Core_DAO_UFField( );
             $field->uf_group_id = $group->id;
@@ -107,33 +106,69 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             while ( $field->fetch( ) ) {
                 $field->title      = $importableFields[$field->field_name]['title'];
                 $field->attributes = CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] );
-                $fields[$field->field_name] = array( 'title'       => $importableFields[$field->field_name]['title'],
-                                                     'attributes'  => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
-                                                     'is_required' => $field->is_required );
+                $fields['edit[' . $field->field_name . ']'] =
+                    array('name'        => $field->field_name, 
+                          'title'       => $importableFields[$field->field_name]['title'],
+                          'attributes'  => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
+                          'is_required' => $field->is_required,
+                          'rule'        => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
+                          );
             }
             return $fields;
         }
         return null;
     }
-    
+
+    static function isValid( ) {
+        $session =& CRM_Core_Session::singleton( );
+
+        // make sure we have a valid group
+        $group = new CRM_Core_DAO_UFGroup( );
+
+        $group->title     = $title;
+        $group->domain_id = CRM_Core_Config::$domainID;
+
+        if ( $group->find( true ) && $session->get( 'userID' ) ) {
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
+            $controller->set( 'gid'  , $group->id );
+            $controller->set( 'id'   , $session->get( 'userID' ) );
+            $controller->process( );
+            return $controller->validate( );
+        }
+        return true;
+    }
+
     /**
      * get the html for the form that represents this particular group
      *
      * @param string $title the title of the group we are interested in
+     * @param int    $mode  the mode of the form
      *
      * @return string       the html for the form
      * @static
      * @access public
      */
-    static function getFormHTML( $title ) {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', null );
-        $controller->set( 'title', $title );
-        $controller->process( );
-        $controller->setEmbedded( true );
-        $controller->run( );
-        
-        $template =& CRM_Core_Smarty::singleton( );
-        return $template->fetch( 'CRM/UF/Form/Dynamic.tpl' );
+    static function getFormHTML( $title, $mode = null ) {
+        $session =& CRM_Core_Session::singleton( );
+
+        // make sure we have a valid group
+        $group = new CRM_Core_DAO_UFGroup( );
+
+        $group->title     = $title;
+        $group->domain_id = CRM_Core_Config::$domainID;
+     
+        if ( $group->find( true ) && $session->get( 'userID' ) ) {
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
+            $controller->set( 'gid'  , $group->id );
+            $controller->set( 'id'   , $session->get( 'userID' ) );
+            $controller->process( );
+            $controller->setEmbedded( true );
+            $controller->run( );
+            
+            $template =& CRM_Core_Smarty::singleton( );
+            return $template->fetch( 'CRM/UF/Form/Dynamic.tpl' );
+        }
+        return '';
     }
 
 }

@@ -45,11 +45,32 @@ require_once 'CRM/Core/Form.php';
 class CRM_UF_Form_Dynamic extends CRM_Core_Form
 {
     /**
-     * the group tree data
+     * The contact id that we are editing
+     *
+     * @var int
+     */
+    protected $_id;
+
+    /**
+     * The title of the category we are editing
+     *
+     * @var string
+     */
+    protected $_title;
+
+    /**
+     * the fields needed to build this form
      *
      * @var array
      */
-    protected $_groupTree;
+    protected $_fields;
+
+    /**
+     * The contact object being edited
+     *
+     * @var object
+     */
+    protected $_contact;
 
     /**
      * pre processing work done here.
@@ -64,8 +85,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     function preProcess()
     {
-        // gets all details of group tree for entity
-        $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->get( 'title' ) );
+        $this->_id      = $this->get( 'id' );
+        $this->_gid     = $this->get( 'gid' );
+        $this->_fields  = CRM_Core_BAO_UFGroup::getUFFields( $this->_gid );
+        
+        $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id );
     }
 
     /**
@@ -81,6 +105,22 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             $this->add('text', $name, $field['title'], $field['attributes'], $field['is_required'] );
+            
+            if ( $field['rule'] ) {
+                $this->addRule( $name, ts( 'Please enter a valid ' . $field['title'] ), $field['rule'] );
+            }
+        }
+        
+        $this->addButtons(array(
+                                array ('type'      => 'process',
+                                       'name'      => ts('Save'),
+                                       'isDefault' => true)
+                                )
+                          );
+
+        // if view mode pls freeze it with the done button.
+        if ($this->_action & CRM_Core_Action::VIEW) {
+            $this->freeze();
         }
 
     }
@@ -95,6 +135,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
+        
+        foreach ( $this->_fields as $name => $field ) {
+            $objName = $field['name'];
+            $defaults[$name] = $this->_contact->$objName;
+        }
         return $defaults;
     }
 
@@ -105,11 +150,48 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      * @access public
      * @return None
      */
-    public function postProcess() 
+    public function postProcess( ) 
     {
-        // Get the form values and groupTree
-        $fv = $this->exportValues();
-        CRM_Core_Error::debug( 'fv', $fv );
+        $params = $this->controller->exportValues( 'Dynamic' );
+
+        $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
+        $ids = array( );
+        foreach ( $objects as $name ) {
+            $id = $name . '_id';
+            if ( $this->_contact->$id ) {
+                $ids[$name] = $this->_contact->$id;
+            }
+        }
+
+        $edit = $params['edit'];
+        $edit['contact_type'] = 'Individual';
+        CRM_Contact_BAO_Contact::add   ( $edit, $ids );
+        CRM_Contact_BAO_Individual::add( $edit, $ids );
+        if ( CRM_Utils_Array::value( 'location', $ids ) ) {
+            $address =& new CRM_Contact_BAO_Address();
+            if ( ! $address->copyValues( $edit ) ) {
+                $address->id = CRM_Utils_Array::value( 'address', $ids );
+                $address->location_id = CRM_Utils_Array::value( 'location', $ids );
+                $address->save( );
+            }
+
+            $phone =& new CRM_Contact_BAO_Phone();
+            if ( ! $phone->copyValues( $edit ) ) {
+                $phone->id = CRM_Utils_Array::value( 'phone', $ids );
+                $phone->location_id = CRM_Utils_Array::value( 'location', $ids );
+                $phone->is_primary = true;
+                $phone->save( );
+            }
+
+            $email =& new CRM_Contact_BAO_Email();
+            if ( ! $email->copyValues( $edit ) ) {
+                $email->id = CRM_Utils_Array::value( 'email', $ids );
+                $email->location_id = CRM_Utils_Array::value( 'location', $ids );
+                $email->is_primary = true;
+                $email->save( );
+            }
+
+        }
     }
 }
 

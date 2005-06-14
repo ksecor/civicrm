@@ -195,7 +195,9 @@ function civicrm_init()
         return;
     }
 
-    menu_rebuild();
+    if ( arg(0) == 'civicrm' ) {
+        menu_rebuild();
+    }
 
     $config =& CRM_Core_Config::singleton();
     CRM_Core_DAO::init($config->dsn, $config->daoDebug);
@@ -245,21 +247,29 @@ function civicrm_invoke()
  * @return mixed           depends on the operation being performed
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
+    global $user;
+
+    // CRM_Core_Error::debug( 't', $type );
+    // CRM_Core_Error::debug( 't', $edit );
+
     switch ( $type ) {
 
     case 'load':
         return civicrm_load_data($user);
 
+    case 'login':
+        return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
+
     case 'register':
         return civicrm_register_data($edit, $user, $category);
 
-    case 'update':
     case 'insert':
         return civicrm_save_data($edit, $user, $category);
 
     case 'view':
         return civicrm_view_data($user);
 
+    case 'update':
     case 'form':
         return civicrm_form_data($edit, $user, $category);
 
@@ -300,9 +310,20 @@ function civicrm_save_data(&$edit, &$user, $category) {
 }
 
 function civicrm_view_data($user ) {
+    $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
+
+    $data = array( );
+    foreach ( $ufGroups as $id => $title ) {
+        $data[$title] = CRM_Core_BAO_UFGroup::getFormHTML( $title, CRM_Core_Action::VIEW );
+    }
+    return $data;
 }
 
-function civicrm_validate_data($edit, $category) {
+function civicrm_validate_data($edit, $title) {
+    if ( ! CRM_Core_BAO_UFGroup::isValid( $title ) ) {
+        form_set_error( 'error', 'Please correct the errors in the form fields below' );
+    }
+    return;
 }
 
 ?>

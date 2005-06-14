@@ -245,6 +245,7 @@ function getField( &$fieldXML, &$fields ) {
     $field['comment' ] = value( 'comment' , $fieldXML );
     $field['default' ] = value( 'default' , $fieldXML );
     $field['import'  ] = value( 'import'  , $fieldXML );
+    $field['rule'    ] = value( 'rule'    , $fieldXML );
     $field['title'   ] = value( 'title'   , $fieldXML );
     if ( ! $field['title'] ) {
         $field['title'] = composeTitle( $name );

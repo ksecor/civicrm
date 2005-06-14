@@ -30,6 +30,7 @@
        <type>varchar</type>
        <length>16</length>
        <import>true</import>
+       <rule>phone</rule>
        <comment>Complete phone number.</comment>
   </field>
   <field>

@@ -157,6 +157,13 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         return $pageName;
     }
 
+    function validate( ) {
+        $this->_actionName = $this->getActionName();
+        list($pageName, $action) = $this->_actionName;
+   
+        return $this->isValid( );
+    }
+
     /**
      * Helper function to add all the needed default actions. Note that the framework
      * redefines all of the default QFC actions

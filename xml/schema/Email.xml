@@ -30,6 +30,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
+       <rule>email</rule>
        <comment>Email address</comment>
   </field>
   <field>

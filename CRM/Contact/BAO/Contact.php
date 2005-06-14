@@ -83,6 +83,43 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $row    = $result->fetchRow();
         return ( $row[0] > 0 ) ? true : false;
     }
+    
+    static function contactDetails( $id ) {
+        $query = "
+SELECT DISTINCT
+  crm_contact.id as contact_id,
+  crm_individual.id               as individual_id ,
+  crm_location.id                 as location_id   ,
+  crm_address.id                  as address_id    ,
+  crm_email.id                    as email_id      ,
+  crm_phone.id                    as phone_id      ,
+  crm_individual.first_name       as first_name    ,
+  crm_individual.last_name        as last_name     ,
+  crm_address.street_address      as street_address,
+  crm_address.city                as city          ,
+  crm_address.postal_code         as postal_code   ,
+  crm_state_province.abbreviation as state         ,
+  crm_country.name                as country       ,
+  crm_email.email                 as email         ,
+  crm_phone.phone                 as phone         
+FROM crm_contact
+LEFT JOIN crm_individual ON (crm_contact.id = crm_individual.contact_id)
+LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
+LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
+LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
+WHERE crm_contact.id = $id";
+
+        $dao =& new CRM_Core_DAO( );
+        $dao->query($query);
+        if ( $dao->fetch( ) ) {
+            return $dao;
+        }
+        return null;
+    }
+
 
     /**
      * create and query the db for an contact search
@@ -147,11 +184,8 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $this->query($queryString);
 
         if ($count) {
-            // does not work for php4
-            //$row = $this->getDatabaseResult()->fetchRow();
             $result = $this->getDatabaseResult();
             $row    = $result->fetchRow();
-            // CRM_Core_Error::debug( 'qs', $row );
             return $row[0];
         }
 
@@ -586,7 +620,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
-        $activityParam = array('entity_id' => $params['contact_id']);
+        $activityParam         =  array('entity_id' => $params['contact_id']);
         $contact->activity     =& CRM_Core_BAO_History::getValues($activityParam, $defaults, 'Activity');
 
         return $contact;
