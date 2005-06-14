@@ -31,6 +31,7 @@
  *
  */
 
+require_once 'CRM/Utils/System.php';
 require_once 'CRM/Core/DAO/EmailHistory.php';
 require_once 'api/crm.php';
 
@@ -119,7 +120,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
                         'entity_id'        => $toID,
                         'activity_type'    => 'Email Contact',
                         'module'           => 'CiviCRM',
-                        'callback'         => 'showEmailDetails',
+                        'callback'         => 'CRM_Core_BAO_EmailHistory::showEmailDetails',
                         'activity_id'      => $activityID,
                         'activity_summary' => ts('Email sent to %1 with subject %2', array(1 => $headers['To'], 2 => $headers['subject'])),
                         'activity_date'    => date('Ymd')
@@ -131,6 +132,15 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         }
         return true;
     }
+
+
+    public function showEmailDetails($emailHistoryId)
+    {
+        CRM_Core_Error::le_method();
+        $url = CRM_Utils_System::url('civicrm/history/email', "action=view&email_history_id=$emailHistoryId");
+        return $url;
+    }
+
 }
 
 ?>

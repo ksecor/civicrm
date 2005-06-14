@@ -42,7 +42,24 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
      * @access public
      * @return void
      */
-    function buildQuickForm( ) {
+    public function buildQuickForm()
+    {
+        
+        //CRM_Core_Error::le_method();
+
+        $toArray = array();
+        //CRM_Core_Error::debug_var('this->_contactIds', $this->_contactIds);
+        foreach ($this->_contactIds as $contactId) {
+            list($toDisplayName, $toEmail) = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
+            //CRM_Core_Error::debug_var('toDisplayName', $toDisplayName);
+            //CRM_Core_Error::debug_var('toEmail', $toEmail);
+            $toArray[] = "\"$toDisplayName\" <$toEmail>";
+        }
+
+        //CRM_Core_Error::debug_var('toArray', $toArray);
+        $this->assign('to', implode(', ', $toArray));        
+
+
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
         list( $fromDisplayName, $fromEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
@@ -51,11 +68,14 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         }
         $from = "'$fromDisplayName' <$fromEmail>";
         $this->assign( 'from', $from );
+
         
         $this->add( 'text'    , 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' ), true );
         $this->add( 'textarea', 'message', ts('Message'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'message' ), true );
 
         $this->addDefaultButtons( ts('Email Contacts') );
+
+        //CRM_Core_Error::ll_method();
     }
 
     /**

@@ -56,6 +56,7 @@ class CRM_Utils_System {
                                                 'customdata'         => 'CustomData',
                                                 'customfield'        => 'CustomField',
                                                 'customgroup'        => 'CustomGroup',
+                                                'customoption'       => 'CustomOption',
                                                 'customvalue'        => 'CustomValue',
                                                 'dao'                => 'DAO',
                                                 'dynamicgroup'       => 'DynamicGroup',

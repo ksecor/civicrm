@@ -16,6 +16,7 @@
 </legend>
 <dl>
 <dt>From</dt><dd>{$from|escape}</dd>
+<dt>To</dt><dd>{$to|escape}</dd>
 <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 <dt>{$form.message.label}</dt><dd>{$form.message.html}</dd>
 <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
