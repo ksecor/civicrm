@@ -87,7 +87,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     {
         $this->_id      = $this->get( 'id' );
         $this->_gid     = $this->get( 'gid' );
-        $this->_fields  = CRM_Core_BAO_UFGroup::getUFFields( $this->_gid, $this->get( 'register' ) );
+        if ( $this->get( 'register' ) ) {
+            $this->_fields  = CRM_Core_BAO_UFGroup::getUFRegistrationFields( );
+        } else {
+            $this->_fields  = CRM_Core_BAO_UFGroup::getUFFields( $this->_gid );
+        }
         
         $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id );
     }
@@ -145,10 +149,13 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     {
         $defaults = array();
         
-        foreach ( $this->_fields as $name => $field ) {
-            $objName = $field['name'];
-            $defaults[$name] = $this->_contact->$objName;
+        if ( $this->_contact ) {
+            foreach ( $this->_fields as $name => $field ) {
+                $objName = $field['name'];
+                $defaults[$name] = $this->_contact->$objName;
+            }
         }
+
         return $defaults;
     }
 
@@ -174,7 +181,8 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
 
         $edit = $params['edit'];
         $edit['contact_type'] = 'Individual';
-        CRM_Contact_BAO_Contact::add   ( $edit, $ids );
+        $contact = CRM_Contact_BAO_Contact::add   ( $edit, $ids );
+        $edit['contact_id'] = $contact->id;
         CRM_Contact_BAO_Individual::add( $edit, $ids );
         if ( CRM_Utils_Array::value( 'location', $ids ) ) {
             $address =& new CRM_Contact_BAO_Address();

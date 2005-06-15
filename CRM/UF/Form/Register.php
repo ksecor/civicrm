@@ -45,6 +45,20 @@ require_once 'CRM/Core/Form.php';
 class CRM_UF_Form_Register extends CRM_Core_Form
 {
     /**
+     * The contact id that we are editing
+     *
+     * @var int
+     */
+    protected $_id;
+
+    /**
+     * The contact object being edited
+     *
+     * @var object
+     */
+    protected $_contact;
+
+    /**
      * the fields needed to build this form
      *
      * @var array
@@ -65,6 +79,9 @@ class CRM_UF_Form_Register extends CRM_Core_Form
     function preProcess()
     {
         $this->_fields  = CRM_Core_BAO_UFGroup::getUFRegistrationFields( );
+
+        $this->_id      = $this->get( 'id' );
+        $this->_contact = CRM_Contact_BAO_Contact::contactDetails( $this->_id );
     }
 
     /**
@@ -118,7 +135,6 @@ class CRM_UF_Form_Register extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( 'Register' );
-        exit( 1 );
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( );
@@ -129,6 +145,11 @@ class CRM_UF_Form_Register extends CRM_Core_Form
             }
         }
 
+        $s =& CRM_Core_Session::singleton( );
+        $s->debug( );
+
+        CRM_Core_Error::debug( 'ids', $ids    );
+        CRM_Core_Error::debug( 'p'  , $params );
         $edit = $params['edit'];
         $edit['contact_type'] = 'Individual';
         CRM_Contact_BAO_Contact::add   ( $edit, $ids );

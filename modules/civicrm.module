@@ -247,10 +247,11 @@ function civicrm_invoke()
  * @return mixed           depends on the operation being performed
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
-    global $user;
-
-    // CRM_Core_Error::debug( 't', $type );
-    // CRM_Core_Error::debug( 't', $edit );
+    /**
+    CRM_Core_Error::debug( 't', $type );
+    CRM_Core_Error::debug( 't', $edit );
+    CRM_Core_Error::debug( 'u', $user );
+    **/
 
     switch ( $type ) {
 
@@ -297,15 +298,18 @@ function civicrm_load_data(&$user) {
 
 function civicrm_register_data($edit, &$user, $category) {
     $output = array( );
-    CRM_Core_Error::debug( 'p', $user );
-    $html = CRM_Core_BAO_UFGroup::getRegisterHTML( null );
+    if ( $user->uid ) {
+        CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Drupal' );
+    }
+
+    $html = CRM_Core_BAO_UFGroup::getEditHTML( '', null, true );
     $output[] = array( 'title' => 'CiviCRM Information', 'data' => $html, weight => 0 );
     return $output;
 }
 
 function civicrm_form_data($edit, &$user, $category) {
     // get all the data for this specific category
-    $html = CRM_Core_BAO_UFGroup::getEditHTML( $category, null );
+    $html = CRM_Core_BAO_UFGroup::getEditHTML( $category, null, false );
     
     $output = array( );
     $output[] = array( 'title' => $category, 'data' => $html, weight => 0 );
@@ -320,13 +324,14 @@ function civicrm_view_data($user ) {
 
     $data = array( );
     foreach ( $ufGroups as $id => $title ) {
-        $data[$title] = CRM_Core_BAO_UFGroup::getEditHTML( $title, CRM_Core_Action::VIEW );
+        $data[$title] = CRM_Core_BAO_UFGroup::getEditHTML( $title, CRM_Core_Action::VIEW, false );
     }
     return $data;
 }
 
 function civicrm_validate_data($edit, $title) {
-    if ( ! CRM_Core_BAO_UFGroup::isValid( $title ) ) {
+    $register = ( $title == 'account' ) ? true : false;
+    if ( ! CRM_Core_BAO_UFGroup::isValid( $title, $register ) ) {
         form_set_error( 'error', 'Please correct the errors in the form fields below' );
     }
     return;

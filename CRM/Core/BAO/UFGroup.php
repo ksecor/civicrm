@@ -149,23 +149,31 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         return null;
     }
 
-    static function isValid( ) {
+    static function isValid( $title, $register = false ) {
         $session =& CRM_Core_Session::singleton( );
 
-        // make sure we have a valid group
-        $group = new CRM_Core_DAO_UFGroup( );
-
-        $group->title     = $title;
-        $group->domain_id = CRM_Core_Config::$domainID;
-
-        if ( $group->find( true ) && $session->get( 'userID' ) ) {
+        if ( $register ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
             $controller->set( 'gid'  , $group->id );
             $controller->set( 'id'   , $session->get( 'userID' ) );
             $controller->process( );
-            return $controller->validate( );
+            return $controller->validate( 'Dynamic' );
+        } else {
+            // make sure we have a valid group
+            $group = new CRM_Core_DAO_UFGroup( );
+            
+            $group->title     = $title;
+            $group->domain_id = CRM_Core_Config::$domainID;
+            
+            if ( $group->find( true ) && $session->get( 'userID' ) ) {
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
+                $controller->set( 'gid'  , $group->id );
+                $controller->set( 'id'   , $session->get( 'userID' ) );
+                $controller->process( );
+                return $controller->validate( );
+            }
+            return true;
         }
-        return true;
     }
 
     /**
@@ -178,26 +186,38 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @static
      * @access public
      */
-    static function getEditHTML( $title, $mode = null ) {
+    static function getEditHTML( $title, $mode = null, $register = false ) {
         $session =& CRM_Core_Session::singleton( );
 
-        // make sure we have a valid group
-        $group = new CRM_Core_DAO_UFGroup( );
-
-        $group->title     = $title;
-        $group->domain_id = CRM_Core_Config::$domainID;
-
-        if ( $group->find( true ) && $session->get( 'userID' ) ) {
+        if ( $register ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
-            $controller->set( 'gid'     , $group->id );
             $controller->set( 'id'      , $session->get( 'userID' ) );
-            $controller->set( 'register', $register );
+            $controller->set( 'register', 1 );
             $controller->process( );
             $controller->setEmbedded( true );
             $controller->run( );
 
             $template =& CRM_Core_Smarty::singleton( );
             return $template->fetch( 'CRM/UF/Form/Dynamic.tpl' );
+        } else {
+            // make sure we have a valid group
+            $group = new CRM_Core_DAO_UFGroup( );
+            
+            $group->title     = $title;
+            $group->domain_id = CRM_Core_Config::$domainID;
+            
+            if ( $group->find( true ) && $session->get( 'userID' ) ) {
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
+                $controller->set( 'gid'     , $group->id );
+                $controller->set( 'id'      , $session->get( 'userID' ) ); 
+                $controller->set( 'register', 0 );
+                $controller->process( );
+                $controller->setEmbedded( true );
+                $controller->run( );
+                
+                $template =& CRM_Core_Smarty::singleton( );
+                return $template->fetch( 'CRM/UF/Form/Dynamic.tpl' );
+            }
         }
         return '';
     }
@@ -215,6 +235,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         $session =& CRM_Core_Session::singleton( );
 
         $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Register', 'Registration Form Creator', $mode );
+        $controller->set( 'id'      , $session->get( 'userID' ) );
         $controller->process( );
         $controller->setEmbedded( true );
         $controller->run( );

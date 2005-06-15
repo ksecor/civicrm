@@ -85,6 +85,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     }
     
     static function contactDetails( $id ) {
+        if ( ! $id ) {
+            return null;
+        }
+
         $query = "
 SELECT DISTINCT
   crm_contact.id as contact_id,

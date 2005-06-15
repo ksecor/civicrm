@@ -160,8 +160,20 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     function validate( ) {
         $this->_actionName = $this->getActionName();
         list($pageName, $action) = $this->_actionName;
-   
-        return $this->isValid( );
+
+        $page =& $this->_pages[$pageName];
+
+        $data =& $this->container();
+        $this->applyDefaults($pageName);
+        $page->isFormBuilt() or $page->BuildForm();
+        // We use defaults and constants as if they were submitted
+        $data['values'][$pageName] = $page->exportValues();
+        $page->loadValues($data['values'][$pageName]);
+        // Is the page now valid?
+        if (true === ($data['valid'][$pageName] = $page->validate())) {
+            return true;
+        }
+        return false;
     }
 
     /**
