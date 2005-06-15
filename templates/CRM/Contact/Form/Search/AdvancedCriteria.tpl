@@ -84,5 +84,6 @@
     </table>
     {/strip}
     </fieldset>
+    {include file="CRM/pagerAToZ.tpl" }
   </div>
 </fieldset>

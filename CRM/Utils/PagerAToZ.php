@@ -32,19 +32,93 @@
 class CRM_Utils_PagerAToZ 
 {
 
-    function __construct( ) {
-        
+    function __construct( ) 
+    {
+    }
+    
+    function getAToZBar ( &$params ) 
+    {
+        //$AToZBar = self::getStaticCharacters();
+        //$dynamicAlphabets = self::getDynamicCharacters($params);
+        /*
+        if (is_array($dynamicAlphabets)) {
+            $AToZBar = array_merge($AToZBar, $dynamicAlphabets);
+            $AToZBar = array_unique($AToZBar);
+        }
+        */
+
+        $AToZBar = self::createLinks($params);
+
+        //print_r($AToZBar);
+
+        return $AToZBar;
+
+    }
+    
+    /**
+     * Function to return the all the static characters
+     * 
+     * @return array $staticAlphabets is a array of static characters
+     * @access public
+     */
+    
+    function getStaticCharacters () 
+    {
+        $staticAlphabets = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+        return $staticAlphabets;
     }
 
-    function getAToZBar ( &$params ) {
+    /**
+     * Function to return the all the dynamic characters
+     * 
+     * @return array $dynamicAlphabets is a array of dynamic characters
+     * @access public
+     */
+    function getDynamicCharacters (&$params) 
+    {
         $contact =& new CRM_Contact_BAO_Contact();
-        $result = $contact->searchQuery($params, $offset, $rowCount, $sort, false, $includeContactIds ,true);
+        $result = $contact->searchQuery($params, null, null, null, false, null, true);
         while ($result->fetch()) { 
-            $alphabets[] = $result->sort_name;
+            $dynamicAlphabets[] = $result->sort_name;
+        }
+
+        return $dynamicAlphabets;
+    }
+
+    /**
+     * create the links 
+     *
+     * @param $linkCharacters  array of alphabets whose link has to created
+     * @param $allCharacters  array of alphabets whose link has to created
+     * 
+     * @return array with links
+     */
+    function createLinks (&$params) 
+    {
+        $AToZBar = self::getStaticCharacters();
+        $dynamicAlphabets = self::getDynamicCharacters($params);
+
+        if (is_array($dynamicAlphabets)) {
+            $AToZBar = array_merge($AToZBar, $dynamicAlphabets);
+            $AToZBar = array_unique($AToZBar);
         }
         
-        return $alphabets;
+        //get the current path
+        $path = CRM_Utils_System::currentPath() ;
+
+        foreach ( $AToZBar as $key => $link ) {
+            if (in_array ($link, $dynamicAlphabets)) {
+                $url[] = sprintf('<a href="%s" >%s</a>', CRM_Utils_System::url( $path, 'q='.$path.'&force=1&sortByCharacter='.$link), $link );
+            } else {
+                $url[] = $link;
+            }
+        }
+        
+        $url[] = sprintf('<a href="%s" >%s</a>', CRM_Utils_System::url( $path, 'q='.$path.'&force=1&sortByCharacter='), 'All' );
+        
+        return $url;
     }
+    
 }
 
 ?>
