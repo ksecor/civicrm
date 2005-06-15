@@ -26,7 +26,7 @@
     <dl>
 {foreach from=$fields item=field key=name}
 {assign var=n value=$field.name}
-<dt>{$form.edit.$n.label}</dt><dd>{$form.edit.$n.html}</dd>
+<dt>{$form.edit.$n.label}</dt><dd>{$form.edit.$n.html}<br>{$field.help_post}</dd>
 {/foreach}
     </dl>
 </div>

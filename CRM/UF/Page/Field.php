@@ -118,7 +118,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         
         // fkey is gid
         $ufFieldBAO->uf_group_id = $this->_gid;
-        $ufFieldBAO->orderBy('weight');
+        $ufFieldBAO->orderBy('weight', 'field_name');
         $ufFieldBAO->find();
 
         $fields =& CRM_Contact_BAO_Contact::importableFields( );

@@ -122,6 +122,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             if ( $register ) {
                 $field->is_registration = 1;
             }
+            $field->orderBy('weight', 'field_name');
             $field->find( );
             $fields = array( );
             $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
