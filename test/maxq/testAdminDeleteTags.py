@@ -38,9 +38,8 @@ class testAdminDeleteTags(PyHttpTestCase):
         
         name  = '\'Test Tag\''
         query = 'select id from crm_tag where name=%s' % name  
-        tagID = db.loadVal(query)
 
-        TID = '''%s''' % tagID 
+        TID = '''%s''' % db.loadVal(query)
         params = [
             ('''action''', '''delete'''),
             ('''id''', TID),]

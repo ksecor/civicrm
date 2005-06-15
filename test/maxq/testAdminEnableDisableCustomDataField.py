@@ -44,10 +44,16 @@ class testAdminEnableDisableCustomDataField(PyHttpTestCase):
         #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
+        name      = 'Test Field'
+        queryCFID = 'select id from crm_custom_field where label like \'%%%s%%\'' % name
+        queryGID  = 'select custom_group_id from crm_custom_field where label like \'%%%s%%\'' % name
+
+        GID       = '''%s''' % db.loadVal(queryGID)
+        CDFID     = '''%s''' % db.loadVal(queryCFID)
         params = [
             ('''reset''', '''1'''),
             ('''action''', '''browse'''),
-            ('''gid''', '''2'''),]
+            ('''gid''', GID),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/custom/group/field?reset=1&action=browse&gid=2''') % drupal_path)
         url = "%s/civicrm/admin/custom/group/field" % drupal_path
         self.msg("Testing URL: %s" % url)
@@ -68,7 +74,7 @@ class testAdminEnableDisableCustomDataField(PyHttpTestCase):
         
         params = [
             ('''action''', '''disable'''),
-            ('''id''', '''9'''),]
+            ('''id''', CDFID),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/custom/group/field?action=disable&id=9''') % drupal_path)
         url = "%s/civicrm/admin/custom/group/field" % drupal_path
         self.msg("Testing URL: %s" % url)
@@ -89,7 +95,7 @@ class testAdminEnableDisableCustomDataField(PyHttpTestCase):
         
         params = [
             ('''action''', '''enable'''),
-            ('''id''', '''9'''),]
+            ('''id''', CDFID),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/custom/group/field?action=enable&id=9''') % drupal_path)
         url = "%s/civicrm/admin/custom/group/field" % drupal_path
         self.msg("Testing URL: %s" % url)

@@ -35,12 +35,12 @@ class testEditLocationType(PyHttpTestCase):
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
-
+        
         name        = '\'Test Location Type\''
-        query       = 'select id from crm_location_type where name=%s' % name  
-        locationTID = db.loadVal(query)
-
-        LTID = '''%s''' % locationTID 
+        queryID     = 'select id from crm_location_type where name=%s' % name  
+        locationTID = db.loadVal(queryID)
+        
+        LTID = '''%s''' % locationTID
         params = [
             ('''action''', '''update'''),
             ('''id''', LTID),]
@@ -81,7 +81,7 @@ class testEditLocationType(PyHttpTestCase):
         print ("**************************************************************************************")
         print "Location Type \'%s\' is Edited Successfully" % name
         print ("**************************************************************************************")
-        
+
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
 

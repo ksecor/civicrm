@@ -102,7 +102,7 @@ class addIndividual_complete(PyHttpTestCase):
 
         params = [
             ('''reset''', '''1'''),
-            ('''cid''', '''104''',]
+            ('''cid''', '''104'''),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=102''') % drupal_path)
         url = "%s/civicrm/contact/view" % drupal_path
         self.msg("Testing URL: %s" % url)

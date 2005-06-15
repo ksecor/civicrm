@@ -45,10 +45,15 @@ class testAdminEditCustomDataField(PyHttpTestCase):
         #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
+        name      = 'Test Field'
+        queryCFID = 'select id from crm_custom_field where label like \'%%%s%%\'' % name
+        queryGID  = 'select custom_group_id from crm_custom_field where label like \'%%%s%%\'' % name
+
+        GID       = '''%s''' % db.loadVal(queryGID)
         params = [
             ('''reset''', '''1'''),
             ('''action''', '''browse'''),
-            ('''gid''', '''2'''),]
+            ('''gid''', GID),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/custom/group/field?reset=1&action=browse&gid=2''') % drupal_path)
         url = "%s/civicrm/admin/custom/group/field" % drupal_path
         self.msg("Testing URL: %s" % url)
@@ -66,12 +71,8 @@ class testAdminEditCustomDataField(PyHttpTestCase):
         #self.msg("Response code: %s" % self.getResponseCode())
         #self.assertEquals("Assert number 8 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        name      = '\'Test Field\''
-        query     = 'select id from crm_custom_field where label=%s' % name  
-        customFID = db.loadVal(query)
-
-        CFID   = '''%s''' % customFID
+              
+        CFID   = '''%s''' % db.loadVal(queryCFID)
         params = [
             ('''action''', '''update'''),
             ('''id''', CFID),]
@@ -117,7 +118,7 @@ class testAdminEditCustomDataField(PyHttpTestCase):
         params = [
             ('''reset''', '''1'''),
             ('''action''', '''browse'''),
-            ('''gid''', '''2'''),]
+            ('''gid''', GID),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/custom/group/field?reset=1&action=browse&gid=2''') % drupal_path)
         url = "%s/civicrm/admin/custom/group/field" % drupal_path
         self.msg("Testing URL: %s" % url)

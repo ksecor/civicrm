@@ -39,3 +39,20 @@ def dbStart() :
 
 def dbStop(db) :
     db.close()
+
+def editRollback(db, id, rowMap, table, doIt=0) :
+    size   = rowMap.size()
+    keys   = rowMap.keySet()
+    values = rowMap.values()
+    print id, table
+    if doIt :
+        for i in range(size) :
+            field = "%s" % keys[i]
+            value = "%s" % values[i]
+            if value == 'None' :
+                value = 'NULL'
+            print "%s : %s" % (field, value)
+            query  = 'update %s set %s=%s where id=%s' % (table, field, value, id)
+            result = db.execute(query)
+    return result
+

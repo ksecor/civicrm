@@ -29,10 +29,6 @@ class testEditNoteByNoteTab(PyHttpTestCase):
         note      = 'This is Test Note'
         queryID   = 'select id from crm_note where note like \'%%%s%%\'' % note
         noteID    = db.loadVal(queryID)
-        queryRow  = 'select * from crm_note where id=%s' % noteID
-        resultRow = db.loadRow(queryRow)
-
-        print noteID
         
         NID = '''%s''' % noteID
         params = [
@@ -89,13 +85,6 @@ class testEditNoteByNoteTab(PyHttpTestCase):
             print ("There is no Note like \'%s\'") % note
             print ("**************************************************************************************")
 
-        print ("**************************************************************************************")
-        if editRollback(db, noteID, resultRow, 'crm_note', 1) :
-            print ("The Updated values are Rollbacked Successfully")
-        else :
-            print ("Some Problem with Rollbacking the Updates")
-        print ("**************************************************************************************")
-        
         #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
         #url = "http://localhost/favicon.ico"
         #params = None

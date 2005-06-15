@@ -35,19 +35,13 @@ class testAdminViewRel(PyHttpTestCase):
         self.msg("Response code: %s" % self.getResponseCode())
         self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
+
+        queryID = 'select id from crm_relationship_type order by RAND() limit 1'
         
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
+        ID      = '''%s''' % db.loadVal(queryID)
         params = [
             ('''action''', '''view'''),
-            ('''id''', '''6'''),]
+            ('''id''', ID),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/reltype?action=view&id=6''') % drupal_path)
         url = "%s/civicrm/admin/reltype" % drupal_path
         self.msg("Testing URL: %s" % url)

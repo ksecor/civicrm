@@ -45,11 +45,11 @@ class testAdminEditMobileProvider(PyHttpTestCase):
         #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
-        name        = '\'mobilePNameTest Mobile Provider\''
+        name        = '\'Test Mobile Provider\''
         queryID     = 'select id from crm_mobile_provider where name like \'%%Test Mobile Provider%%\''
-        queryName   = 'select name from crm_mobile_provider where name like \'%%Test Mobile Provider%%\''
+        #queryName   = 'select name from crm_mobile_provider where name like \'%%Test Mobile Provider%%\''
         mobilePID   = db.loadVal(queryID)
-        mobilePName = db.loadVal(queryName)
+        #mobilePName = db.loadVal(queryName)
         
         MPID = '''%s''' % mobilePID 
         params = [
@@ -85,14 +85,14 @@ class testAdminEditMobileProvider(PyHttpTestCase):
         self.post(url, params)
         if mobilePID :
             print ("**************************************************************************************")
-            print "Found IM Provider having name \'%s\' and Edited Successfully" % mobilePName
+            print "Found Mobile Provider having name \'%s\' and Edited Successfully" % name
             print ("**************************************************************************************")
             self.msg("Response code: %s" % self.getResponseCode())
             self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
         else :
             print ("**************************************************************************************")
-            print "No IM Provider having name \'Test Mobile Provider\' is in the Database"
+            print "No Mobile Provider having name \'Test Mobile Provider\' is in the Database"
             print ("**************************************************************************************")
             self.msg("Response code: %s" % self.getResponseCode())
             self.assertEquals("Assert number 10 failed", 302, self.getResponseCode())
