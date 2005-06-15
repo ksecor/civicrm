@@ -336,8 +336,6 @@ class CRM_Core_Config {
         // also initialize the logger
         self::$_log =& Log::singleton( 'display' );
 
-        // initialize the recently viewed items
-        CRM_Utils_Recent::initialize( );
     }
 
     /**
