@@ -405,6 +405,32 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $qill[] = 'Primary Location only ? - Yes';
         }
             
+        
+        // activity_type
+        if (CRM_Utils_Array::value( 'activity_type', $fv ) ) {
+            $qill[] = 'Activity Type like - "' . $fv['activity_type'] . '"';
+        }
+
+        // date between 2 values
+        $activityFromDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_from_date', $fv)), '-'));
+        $activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv)), '-'));
+        
+        CRM_Core_Error::debug_var('activityFromDate', $activityFromDate);
+        CRM_Core_Error::debug_var('activityToDate', $activityToDate);
+
+        $str = "";
+        if ($activityFromDate && $activityToDate) {
+            $str = ' between "' . CRM_Utils_Date::customFormat($activityFromDate) . '" and "' . CRM_Utils_Date::customFormat($activityToDate) . '"';
+        } elseif ($activityFromDate) {
+            $str .= ' greater than "' . CRM_Utils_Date::customFormat($activityFromDate) . '"';
+        } elseif ($activityToDate) {
+            $str .= ' less than "' . CRM_Utils_Date::customFormat($activityToDate) . '"';
+        }            
+
+        // remove the trailing "or"
+        if ($str) {
+            $qill[] = 'Activity Date - ' . $str;
+        }
         return $qill;
     }
 

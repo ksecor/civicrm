@@ -142,6 +142,11 @@ WHERE crm_contact.id = $id";
     {
         $select = $from = $where = $order = $limit = '';
 
+
+        CRM_Core_Error::le_method();
+
+        CRM_Core_Error::debug_var('fv', $fv);
+
         if($count) {
             $select = "SELECT count(DISTINCT crm_contact.id) ";
         } else {
@@ -214,7 +219,8 @@ WHERE crm_contact.id = $id";
                         LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
                         LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
                         LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id
-                        LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id ";
+                        LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id 
+                        LEFT JOIN crm_activity_history ON crm_contact.id = crm_activity_history.entity_id ";
     }
 
 
@@ -386,6 +392,43 @@ WHERE crm_contact.id = $id";
         // processing for primary location
         if ( CRM_Utils_Array::value( 'cb_primary_location', $fv ) ) {
             $andArray['cb_primary_location'] = ' ( crm_location.is_primary = 1 ) ';
+        }
+
+
+        // processing activity type, from and to date
+        // check for activity type
+        if ( CRM_Utils_Array::value( 'activity_type', $fv ) ) {
+            $name = trim($fv['activity_type']);
+            // split the string into pieces
+            $pieces =  explode( ' ', $name );
+            $first = true;
+            $cond  = ' ( ';
+            foreach ( $pieces as $piece ) {
+                if ( ! $first ) {
+                    $cond .= ' OR';
+                } else {
+                    $first = false;
+                }
+                $cond .= " LOWER(crm_activity_history.activity_type) LIKE '%" . strtolower(addslashes(trim($piece))) . "%'";
+            }
+            $cond .= ' ) ';
+            $andArray['activity_type'] = "( $cond )";
+        }
+
+        // from date
+
+        if (isset($fv['activity_from_date']) && ($activityFromDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_from_date', $fv)))))) {
+            //if (($activityFromDate = CRM_Utils_Array::value('activity_from_date', $fv))){
+            //$activityFromDate = array_reverse($activityFromDate);
+            //$activityFromDate = CRM_Utils_Date::format($activityFromDate);
+            $andArray['activity_from_date'] = " ( crm_activity_history.activity_date >= '$activityFromDate' ) ";
+        }
+        if (isset($fv['activity_to_date']) && ($activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv)))))) {            
+            //if ($activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv))))) {            
+            //if ($activityToDate = CRM_Utils_Array::value('activity_from_date', $fv)) {
+            //$activityToDate = array_reverse($activityToDate);
+            //$activityToDate = CRM_Utils_Date::format($activityToDate);
+            $andArray['activity_to_date'] = " ( crm_activity_history.activity_date <= '$activityToDate' ) ";
         }
 
         // final AND ing of the entire query.

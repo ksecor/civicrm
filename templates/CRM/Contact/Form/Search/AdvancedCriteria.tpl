@@ -71,6 +71,8 @@
                 {$form.cb_location_type.html}
             </td>
         </tr>
+
+
         <tr>
             <td></td>
             <td colspan="2">
@@ -79,6 +81,26 @@
                 {ts}Ignore any contact locations not marked as primary for this search.{/ts}
                 </span>
             </td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>
+                {$form.activity_type.label} {$form.activity_type.html}
+            </td>
+            <td>
+                {$form.activity_from_date.label} {$form.activity_from_date.html}
+            </td>
+            <td>
+                {$form.activity_to_date.label} {$form.activity_to_date.html}
+            </td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
             <td class="label">{$form.buttons.html}</td>
         </tr>
     </table>

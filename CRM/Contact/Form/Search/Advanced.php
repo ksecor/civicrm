@@ -107,7 +107,14 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         // checkbox for primary location only
         $this->addElement('checkbox', 'cb_primary_location', null, ts('Search primary locations only'));        
 
-        $this->buildQuickFormCommon( );
+        // textbox for Activity Type
+        $this->addElement('text', 'activity_type', ts('Activity Type'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_ActivityHistory', 'activity_type'));
+
+        // Date selects for activity date
+        $this->add('date', 'activity_from_date', 'From', CRM_Core_SelectValues::date('relative'));
+        $this->add('date', 'activity_to_date', 'To', CRM_Core_SelectValues::date('relative'));
+
+        $this->buildQuickFormCommon();
     }
 
     /**
