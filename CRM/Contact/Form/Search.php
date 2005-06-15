@@ -367,6 +367,12 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // we only force stuff once :)
         $this->set( 'force', false );
 
+        // unset the AToZ Bar for POST
+        if (!$this->_force) {
+            $this->set('AToZBar', '');
+        }
+
+
         $this->_groupID = CRM_Utils_Request::retrieve( 'gid'   , $this );
         $this->_amtgID  = CRM_Utils_Request::retrieve( 'amtgID', $this );
         $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID'  , $this );

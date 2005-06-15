@@ -38,21 +38,8 @@ class CRM_Utils_PagerAToZ
     
     function getAToZBar ( &$params ) 
     {
-        //$AToZBar = self::getStaticCharacters();
-        //$dynamicAlphabets = self::getDynamicCharacters($params);
-        /*
-        if (is_array($dynamicAlphabets)) {
-            $AToZBar = array_merge($AToZBar, $dynamicAlphabets);
-            $AToZBar = array_unique($AToZBar);
-        }
-        */
-
         $AToZBar = self::createLinks($params);
-
-        //print_r($AToZBar);
-
         return $AToZBar;
-
     }
     
     /**
@@ -107,6 +94,9 @@ class CRM_Utils_PagerAToZ
         $path = CRM_Utils_System::currentPath() ;
 
         foreach ( $AToZBar as $key => $link ) {
+            if (!$link) {
+                continue;
+            }
             if (in_array ($link, $dynamicAlphabets)) {
                 $url[] = sprintf('<a href="%s" >%s</a>', CRM_Utils_System::url( $path, 'q='.$path.'&force=1&sortByCharacter='.$link), $link );
             } else {

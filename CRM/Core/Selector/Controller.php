@@ -241,9 +241,17 @@ class CRM_Core_Selector_Controller {
         $this->_pager =& new CRM_Utils_Pager( $params );
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
 
-        $pagerAToZ =& new CRM_Utils_PagerAToZ( );
-        $this->_aToZBar = $pagerAToZ->getAToZBar( $this->_object->_formValues );
+        //get the AToZBar from the session
+        $getAToZBar = $store->get('AToZBar');
         
+        if (is_array($getAToZBar)) {
+            $this->_aToZBar = $getAToZBar;
+        } else {
+            $pagerAToZ =& new CRM_Utils_PagerAToZ( );
+            $this->_aToZBar = $pagerAToZ->getAToZBar( $this->_object->_formValues );
+            $store->set('AToZBar', $this->_aToZBar);
+        }
+
     }
 
     /**
@@ -410,8 +418,6 @@ class CRM_Core_Selector_Controller {
             $content = self::$_template->fetch( 'CRM/index.tpl' );
         }
         echo CRM_Utils_System::theme( 'page', $content, null, $this->_print );
-
-        CRM_Core_Error::ll_method();
 
     }
 

@@ -141,7 +141,7 @@ WHERE crm_contact.id = $id";
     function searchQuery(&$fv, $offset, $rowCount, $sort, $count = false, $includeContactIds = false, $sortByChar = false)
     {
         $select = $from = $where = $order = $limit = '';
-
+        //print_r($fv);
 
         CRM_Core_Error::le_method();
 
@@ -331,9 +331,13 @@ WHERE crm_contact.id = $id";
             $name = trim($fv['sortByCharacter']);
             // if we have a comma in the string, search for the entire string
             $cond = " LOWER(crm_contact.sort_name) LIKE '" . strtolower(addslashes($name)) . "%'";
-            $andArray['sort_name'] = "( $cond )";
-        }
+            if ( $andArray['sort_name'] ) {
+                $andArray['sort_name'] = '(' . $andArray['sort_name'] . "AND ( $cond ))";
 
+            } else {
+                $andArray['sort_name'] = "( $cond )";
+            }
+        }
 
         if ( $includeContactIds ) {
             $contactIds = array( );
