@@ -154,16 +154,16 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
             
             $status = array(
                         ts('Added Contact(s) to Organization'),
-                        ts('Total Selected Contact(s): %1',$valid+$invalid+$duplicate)
+                        ts('Total Selected Contact(s): %1', array(1 => $valid+$invalid+$duplicate))
                         );
             if ( $valid ) {
-                $status []= ts("New relationship record(s) created:$valid.<br>");
+                $status []= ts('New relationship record(s) created: %1.<br>', array(1 => $valid));
             }
             if ( $invalid ) {
-                $status[]= ts("Relationship record(s) not created due to invalid target contact type:$invalid.<br>");
+                $status[]= ts('Relationship record(s) not created due to invalid target contact type: %1.<br>', array(1 => $invalid));
             }
             if ( $duplicate ) {
-                $status[]= ts("Relationship record(s) not created - duplicate of existing relationship.:$duplicate<br>");
+                $status[]= ts('Relationship record(s) not created - duplicate of existing relationship: %1.<br>', array(1 => $duplicate));
             }
             
             CRM_Core_Session::setStatus( $status );

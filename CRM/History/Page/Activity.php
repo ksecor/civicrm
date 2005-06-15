@@ -71,14 +71,14 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
         
         if (!include_once($fileName)) {
             // we could not include the file
-            $errorString .= ts("Cannot include file \"$fileName\" corresponding to class \"$className\". Please check include_path");
+            $errorString .= ts('Cannot include file "%1" corresponding to class "%2". Please check include_path', array(1 => $fileName, 2 => $className));
             $this->_processError($errorString);
         }
 
         // file is included so lets move on to checking if class exists
         if (!class_exists($className)) {
             // we could not find the class
-            $errorString .= ts("Cannot find class \"$className\"");
+            $errorString .= ts('Cannot find class "%1"', array(1 => $className));
             $this->_processError($errorString);
         }
 
@@ -87,7 +87,7 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
         // class exists so lets move on to checking if method exists
         if (!method_exists($object, $methodName)) {
             // we could not find the method
-            $errorString .= ts("Cannot find method \"$methodName\" for class \"$className\"");
+            $errorString .= ts('Cannot find method "%1" for class "%2"', array(1 => $methodName, 2 => $className));
             $this->_processError($errorString);
         }
         

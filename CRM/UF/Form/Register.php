@@ -108,7 +108,7 @@ class CRM_UF_Form_Register extends CRM_Core_Form
             }
             
             if ( $field['rule'] ) {
-                $this->addRule( $name, ts( 'Please enter a valid ' . $field['title'] ), $field['rule'] );
+                $this->addRule( $name, ts( 'Please enter a valid %1', array( 1 => $field['title'] ) ), $field['rule'] );
             }
         }
         
