@@ -303,7 +303,9 @@ function civicrm_register_data($edit, &$user, $category) {
     }
 
     $html = CRM_Core_BAO_UFGroup::getEditHTML( '', null, true );
-    $output[] = array( 'title' => 'CiviCRM Information', 'data' => $html, weight => 0 );
+    if ( $html ) {
+        $output[] = array( 'title' => 'CiviCRM Information', 'data' => $html, weight => 0 );
+    }
     return $output;
 }
 
@@ -312,7 +314,9 @@ function civicrm_form_data($edit, &$user, $category) {
     $html = CRM_Core_BAO_UFGroup::getEditHTML( $category, null, false );
     
     $output = array( );
-    $output[] = array( 'title' => $category, 'data' => $html, weight => 0 );
+	if ( $html ) {
+        $output[] = array( 'title' => $category, 'data' => $html, weight => 0 );
+    }
     return $output;
 }
 

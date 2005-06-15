@@ -515,6 +515,25 @@ class CRM_Core_DAO extends DB_DataObject {
         }
         return null;
     }
+
+    /**
+     * Delete the object records that are associated with this contact
+     *
+     * @param string $daoName  name of the dao object
+     * @param  int  $contactId id of the contact to delete
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function deleteEntityContact( $daoName, $contactId ) {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object =& new ' . $daoName . '( );' );
+
+        $object->entity_table = 'crm_contact';
+        $object->entity_id   = $contactId;
+        $object->delete( );
+    }
     
 }
 ?>

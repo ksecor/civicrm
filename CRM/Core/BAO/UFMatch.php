@@ -120,6 +120,22 @@ WHERE     crm_email.email = '" . $user->$mail . "'";
         }
     }
 
+    /**
+     * Delete the object records that are associated with this contact
+     *
+     * @param  int  $contactId id of the contact to delete
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function deleteContact( $contactId ) {
+        $ufmatch =& new CRM_Core_DAO_UFMatch( );
+
+        $ufmatch->contact_id = $contactId;
+        $ufmatch->delete( );
+    }
+
 }
 
 ?>

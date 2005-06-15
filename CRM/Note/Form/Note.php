@@ -49,14 +49,14 @@ class CRM_Note_Form_Note extends CRM_Core_Form
      *
      * @var string
      */
-    protected $_tableName;
+    protected $_entityTable;
 
     /**
      * The table id, used when editing/creating a note
      *
      * @var int
      */
-    protected $_tableId;
+    protected $_entityId;
     
     /**
      * The note id, used when editing the note
@@ -66,8 +66,8 @@ class CRM_Note_Form_Note extends CRM_Core_Form
     protected $_noteId;
 
     function preProcess( ) {
-        $this->_tableName = $this->get( 'tableName' );
-        $this->_tableId   = $this->get( 'tableId'   );
+        $this->_entityTable = $this->get( 'entityTable' );
+        $this->_entityId   = $this->get( 'entityId'   );
         $this->_noteId    = $this->get( 'noteId'    );
     }
 
@@ -139,8 +139,8 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $note->id = $this->_noteId;
         } else {
-            $note->table_name = $this->_tableName;
-            $note->table_id   = $this->_tableId;
+            $note->entity_table = $this->_entityTable;
+            $note->entity_id    = $this->_entityId;
         }
         $note->save( );
 

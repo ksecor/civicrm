@@ -1,4 +1,4 @@
-
+{if ! empty( $fields )}
 {if $form.javascript}
   {$form.javascript}
 {/if}
@@ -30,3 +30,4 @@
 {/foreach}
     </dl>
 </div>
+{/if} {* fields array is not empty *}

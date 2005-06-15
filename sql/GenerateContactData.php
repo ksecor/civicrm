@@ -1073,22 +1073,14 @@ class CRM_GCD {
         // CRM_Core_Error::ll_method();
 
         $note =& new CRM_Core_DAO_Note();
-        $note->table_name = 'crm_contact';
-        // $note->table_id = 1;
-        $note->contact_id = 1;
+        $note->entity_table = 'crm_contact';
+        $note->contact_id   = 1;
 
         for ($i=0; $i<self::NUM_CONTACT; $i++) {
-            // $note->contact_id = $this->contact[$i];
-            $note->table_id = $this->contact[$i];
-            if ($this->contact[$i] % 5) {
+            $note->entity_id = $this->contact[$i];
+            if ($this->contact[$i] % 5 || $this->contact[$i] % 3 || $this->contact[$i] % 2) {
                 $this->_insertNote($note);
             }
-            if ($this->contact[$i] % 3) {
-                $this->_insertNote($note);
-            }            
-            if ($this->contact[$i] % 2) {
-                $this->_insertNote($note);
-            }            
         }
     }
 

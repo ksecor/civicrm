@@ -746,7 +746,9 @@ WHERE crm_contact.id = $id";
 
         CRM_Contact_BAO_Relationship::deleteContact( $id );
 
-        CRM_Core_BAO_Note::deleteContact( $id );
+        CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_Note', $id );
+
+        CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_UFMatch', $id );
 
         CRM_Contact_BAO_Location::deleteContact( $id );
 

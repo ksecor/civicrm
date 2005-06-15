@@ -27,4 +27,11 @@ mv $DM_TMPDIR/Location.php $DM_GENFILESDIR/CRM/Contact/Form/Location.php
 $DM_PHP5PATH/php $P/converter.php $DM_GENFILESDIR/CRM/Import/Parser.php > $DM_TMPDIR/Parser.php
 mv $DM_TMPDIR/Parser.php $DM_GENFILESDIR/CRM/Import/Parser.php
 
+rsyncOptions="-avC --exclude=svn"
+rsync="rsync $rsyncOptions"
+for code in css i js l10n packages PEAR templates bin sql mambo; do
+  echo $code
+  [ -d $DM_SOURCEDIR/$code ] && $rsync $DM_SOURCEDIR/$code $DM_GENFILESDIR
+done
+
 echo;echo End of code conversion from php5 to php4....;echo;

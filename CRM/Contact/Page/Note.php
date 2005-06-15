@@ -52,8 +52,8 @@ class CRM_Contact_Page_Note {
 
     static function browse( $page ) {
         $note =& new CRM_Core_DAO_Note( );
-        $note->table_name = 'crm_contact';
-        $note->table_id   = $page->getContactId( );
+        $note->entity_table = 'crm_contact';
+        $note->entity_id    = $page->getContactId( );
 
         $note->orderBy( 'modified_date desc' );
 
@@ -75,9 +75,9 @@ class CRM_Contact_Page_Note {
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/note', 'action=browse' ) );
 
         $controller->reset( );
-        $controller->set( 'tableName', 'crm_contact' );
-        $controller->set( 'tableId'  , $page->getContactId( ) );
-        $controller->set( 'noteId'   , $noteId );
+        $controller->set( 'entityName', 'crm_contact' );
+        $controller->set( 'entityId'  , $page->getContactId( ) );
+        $controller->set( 'noteId'    , $noteId );
 
         $controller->process( );
         $controller->run( );

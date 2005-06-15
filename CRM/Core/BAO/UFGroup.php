@@ -198,7 +198,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $controller->run( );
 
             $template =& CRM_Core_Smarty::singleton( );
-            return $template->fetch( 'CRM/UF/Form/Dynamic.tpl' );
+            return trim( $template->fetch( 'CRM/UF/Form/Dynamic.tpl' ) );
         } else {
             // make sure we have a valid group
             $group = new CRM_Core_DAO_UFGroup( );
@@ -216,7 +216,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 $controller->run( );
                 
                 $template =& CRM_Core_Smarty::singleton( );
-                return $template->fetch( 'CRM/UF/Form/Dynamic.tpl' );
+                return trim( $template->fetch( 'CRM/UF/Form/Dynamic.tpl' ) );
             }
         }
         return '';

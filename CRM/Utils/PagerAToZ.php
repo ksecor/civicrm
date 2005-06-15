@@ -65,6 +65,7 @@ class CRM_Utils_PagerAToZ
     {
         $contact =& new CRM_Contact_BAO_Contact();
         $result = $contact->searchQuery($params, null, null, null, false, null, true);
+        $dynamicAlphabets = array( );
         while ($result->fetch()) { 
             $dynamicAlphabets[] = $result->sort_name;
         }

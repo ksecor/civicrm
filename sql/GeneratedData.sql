@@ -90,6 +90,16 @@ UNLOCK TABLES;
 /*!40000 ALTER TABLE `crm_custom_group` ENABLE KEYS */;
 
 --
+-- Dumping data for table `crm_custom_option`
+--
+
+
+/*!40000 ALTER TABLE `crm_custom_option` DISABLE KEYS */;
+LOCK TABLES `crm_custom_option` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `crm_custom_option` ENABLE KEYS */;
+
+--
 -- Dumping data for table `crm_custom_value`
 --
 
@@ -345,6 +355,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `crm_uf_field` DISABLE KEYS */;
 LOCK TABLES `crm_uf_field` WRITE;
+INSERT INTO `crm_uf_field` VALUES (1,1,'first_name',1,0,1,1,0,'User and User Admin Only',''),(2,1,'last_name',1,0,1,1,0,'User and User Admin Only',''),(3,1,'street_address',1,0,0,0,0,'User and User Admin Only',''),(4,1,'city',1,0,0,0,0,'User and User Admin Only',''),(5,1,'postal_code',1,0,0,0,0,'User and User Admin Only',''),(6,1,'StateProvince.name',1,0,0,0,0,'User and User Admin Only',''),(7,1,'Country.name',1,0,0,0,0,'User and User Admin Only','');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `crm_uf_field` ENABLE KEYS */;
 
@@ -355,6 +366,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `crm_uf_group` DISABLE KEYS */;
 LOCK TABLES `crm_uf_group` WRITE;
+INSERT INTO `crm_uf_group` VALUES (1,1,1,NULL,'CiviCRM Profile');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `crm_uf_group` ENABLE KEYS */;
 
