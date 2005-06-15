@@ -187,8 +187,6 @@ class CRM_Core_Invoke {
                 if ( $args[4] != 'field' ) {
                     $view =& new CRM_Custom_Page_Group(ts('Custom Data Group'));
                 } else {
-                    $additionalBreadCrumb = ts('<a href="%1">Custom Data</a>', array(1 => 'civicrm/admin/custom/group'));
-                    CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
                     $view =& new CRM_Custom_Page_Field(ts('Custom Data Field'));
                 }
             }
@@ -196,11 +194,9 @@ class CRM_Core_Invoke {
         case 'uf':
             if ( $args[3] == 'group' ) {
                 if ( $args[4] != 'field' ) {
-                    $view =& new CRM_UF_Page_Group(ts('User Framework Group'));
+                    $view =& new CRM_UF_Page_Group(ts('User Sharing Group'));
                 } else {
-                    $additionalBreadCrumb = ts('<a href="%1">User Framework</a>', array(1 => 'civicrm/admin/uf/group'));
-                    CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-                    $view =& new CRM_UF_Page_Field(ts('User Framework Field'));
+                   $view =& new CRM_UF_Page_Field(ts('User Sharing Field'));
                 }
             }
             break;

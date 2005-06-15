@@ -3,7 +3,7 @@
   <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
     <dd>
-        <p>{ts}Are you sure you want to email thes selected contacts. An email operation cannot be undone.{/ts}</p>
+        <p>{ts}Are you sure you want to email the selected contact(s). An email operation cannot be undone.{/ts}</p>
         <p>{include file="CRM/Contact/Form/Task.tpl"}</p>
     </dd>
   </dl>

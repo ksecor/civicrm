@@ -134,21 +134,19 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         // listings title
         $this->add('text', 'listings_title', ts('Listings_Title'),
                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'listings_title') );
-        $this->addRule('listings_title', ts('Please enter a valid label for this field.'), 'title');
+        $this->addRule('listings_title', ts('Please enter a valid title for this field when displayed in user listings.'), 'title');
         
         $this->add( 'checkbox', 'is_required'    , ts( 'Required?'                     ) );
         $this->add( 'checkbox', 'is_active'      , ts( 'Active?'                       ) );
         $this->add( 'checkbox', 'is_view'        , ts( 'View Only?'                    ) );
         $this->add( 'checkbox', 'is_registration', ts( 'Display in Registration Form?' ) );
-        $this->add( 'checkbox', 'is_match'       , ts( 'Key to match contacts?'        ) );
+        $this->add( 'checkbox', 'is_match'       , ts( 'Key to Match Contacts?'        ) );
         
         // add buttons
         $this->addButtons(array(
                                 array ('type'      => 'next',
                                        'name'      => ts('Save'),
                                        'isDefault' => true),
-                                array ('type'      => 'reset',
-                                       'name'      => ts('Reset')),
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Cancel')),
                                 )
@@ -195,7 +193,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $ufField->save();
         
         $name = $this->_selectFields[$ufField->field_name];
-        CRM_Core_Session::setStatus(ts('Your user framework field "%1" has been saved', array(1 => $name)));
+        CRM_Core_Session::setStatus(ts('Your user sharing field "%1" has been saved', array(1 => $name)));
     }
 
 }

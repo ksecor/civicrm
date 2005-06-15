@@ -58,13 +58,14 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
     {
         // current form id
         $this->_id = $this->get('id');
+        $this-> assign('gid',$this->_id);
         
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
             CRM_Utils_System::setTitle( ts( 'Edit %1', array(1 => $title ) ) );
         } else {
-            CRM_Utils_System::setTitle( ts('New User Framework Group') );
+            CRM_Utils_System::setTitle( ts('New User Sharing Group') );
         }
     }
 
@@ -85,7 +86,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->addRule('title', ts('Please enter a valid name.'), 'title');
 
         // is this group active ?
-        $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
+        $this->addElement('checkbox', 'is_active', ts('Is this User Sharing Group active?') );
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
@@ -100,7 +101,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // views are implemented as frozen form
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
-            $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group?reset=1&action=browse'"));
+            $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/uf/group?reset=1&action=browse'"));
         }
     }
 
@@ -149,10 +150,10 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $ufGroup->save();
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            CRM_Core_Session::setStatus(ts('Your User framework form "%1" has been saved.', array(1 => $ufGroup->title)));
+            CRM_Core_Session::setStatus(ts('Your User Sharing Group "%1" has been saved.', array(1 => $ufGroup->title)));
         } else {
-            $url = CRM_Utils_System::url( 'civicrm/admin/uf/form/field', 'reset=1&action=add&id=' . $ufGroup->id);
-            CRM_Core_Session::setStatus(ts('Your User Framework Group "%1" has been added. You can <a href="%2">add user framework fields</a> to this group now.',
+            $url = CRM_Utils_System::url( 'civicrm/admin/uf/group/field', 'reset=1&action=add&id=' . $ufGroup->id);
+            CRM_Core_Session::setStatus(ts('Your User Sharing Group "%1" has been added. You can <a href="%2">add fields</a> to this group now.',
                                            array(1 => $ufGroup->title, 2 => $url)));
         }
     }

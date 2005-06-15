@@ -1,5 +1,4 @@
-<fieldset><legend>{ts}User Framework Field{/ts}</legend>
-
+<fieldset><legend>{ts}User Sharing Field{/ts}</legend>
     <div class="form-item">
         <dl>
         <dt>{$form.field_name.label}</dt><dd>&nbsp;{$form.field_name.html}</dd>

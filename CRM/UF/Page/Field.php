@@ -71,32 +71,32 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
     {
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this user framework data field?');
+            $disableExtra = ts('Are you sure you want to disable this User Sharing field?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
                                                                           'qs'    => 'action=update&id=%%id%%',
-                                                                          'title' => ts('Edit User Framework Field') 
+                                                                          'title' => ts('Edit User Sharing Field') 
                                                                           ),
                                         CRM_Core_Action::VIEW    => array(
                                                                           'name'  => ts('View'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
                                                                           'qs'    => 'action=view&id=%%id%%',
-                                                                          'title' => ts('View User Framework Field'),
+                                                                          'title' => ts('View User Sharing Field'),
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
                                                                           'qs'    => 'action=disable&id=%%id%%',
-                                                                          'title' => ts('Disable User Framework Field'),
+                                                                          'title' => ts('Disable User Sharing Field'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
                                                                           'qs'    => 'action=enable&id=%%id%%',
-                                                                          'title' => ts('Enable User Framework Group'),
+                                                                          'title' => ts('Enable User Sharing Field'),
                                                                           ),
                                         );
         }
@@ -163,7 +163,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
     function edit($action)
     {
         // create a simple controller for editing user framework data
-        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Field', ts('User Framework Field'), $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Field', ts('User Sharing Field'), $action);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
@@ -195,7 +195,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
             $groupTitle = CRM_Core_BAO_UFGroup::getTitle($this->_gid);
             $this->assign('gid', $this->_gid);
             $this->assign('groupTitle', $groupTitle);
-            CRM_Utils_System::setTitle(ts('%1 - User Framework Fields', array(1 => $groupTitle)));
+            CRM_Utils_System::setTitle(ts('%1 - User Sharing Fields', array(1 => $groupTitle)));
         }
 
         // get the requested action

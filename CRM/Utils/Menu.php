@@ -131,7 +131,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/admin/uf/group',
-                            'title'   => ts('User Framework'),
+                            'title'   => ts('User Sharing'),
                             'qs'      => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -139,8 +139,8 @@ class CRM_Utils_Menu {
                             ),
 
                       array(
-                            'path'   => 'civicrm/admin/custom/uf/field',
-                            'title'  => ts('User Framework Fields'),
+                            'path'   => 'civicrm/admin/uf/group/field',
+                            'title'  => ts('User Sharing Fields'),
                             'qs'     => 'reset=1',
                             'type'   => self::CALLBACK,
                             'weight' => 3
@@ -396,7 +396,7 @@ class CRM_Utils_Menu {
                 foreach ( self::$_rootLocalTasks[$root]['children'] as $dontCare => $item ) {
                     $index = $item['index'];
                     $klass = '';
-                    if ( self::$_items[$index]['path'] == $path ||
+                    if ( strpos( $path, self::$_items[$index]['path'] ) !== false ||
                          ( self::$_items[$root ]['path'] == $path && $item['isDefault'] ) ) {
                         $klass = 'active';
                     }

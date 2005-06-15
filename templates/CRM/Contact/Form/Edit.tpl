@@ -6,6 +6,10 @@
 
  {* Including the javascript source code from the Individual.js *}
  <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
+ 
+ <div class="crm-submit-buttons">
+    {$form.buttons.html}
+ </div>
 
 {if $contact_type eq 'Individual'}
  <div id="name">
@@ -150,7 +154,7 @@
 {/if}
  <!-- End of "notes" div -->
  
- <div id="crm-submit-buttons">
+ <div class="crm-submit-buttons">
     {$form.buttons.html}
  </div>
 
