@@ -54,7 +54,7 @@ class testAdminEditTags(PyHttpTestCase):
             ('''action''', '''update'''),
             ('''id''', TID),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/category?action=update&id=6''') % drupal_path)
-        url = "%s/civicrm/admin/category" % drupal_path
+        url = "%s/civicrm/admin/tag" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
@@ -72,24 +72,24 @@ class testAdminEditTags(PyHttpTestCase):
         #Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
-            ('''_qf_default''', '''Category:next'''),
+            ('''_qf_default''', '''Tag:next'''),
             ('''name''', '''Test Tag Edit'''),
             ('''description''', '''This is test tag....tested for editing'''),
-            ('''_qf_Category_next''', '''Save'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/category?_qf_default=Category:next&name=Test Tag Edit&description=This is test tag....tested for editing&_qf_Category_next=Save''') % drupal_path)
-        url = "%s/civicrm/admin/category" % drupal_path
+            ('''_qf_Tag_next''', '''Save'''),]
+       
+        url = "%s/civicrm/admin/tag" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "post", url, params)
         self.post(url, params)
         self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+        self.assertEquals("Assert number 9 failed",302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
         params = [
             ('''reset''', '''1'''),
             ('''action''', '''browse'''),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/admin/category?reset=1&action=browse''') % drupal_path)
-        url = "%s/civicrm/admin/category" % drupal_path
+        url = "%s/civicrm/admin/tag" % drupal_path
         self.msg("Testing URL: %s" % url)
         Validator.validateRequest(self, self.getMethod(), "get", url, params)
         self.get(url, params)
