@@ -67,9 +67,12 @@ class CRM_Core_Smarty extends Smarty {
         // add the session and the config here
         $config  =& CRM_Core_Config::singleton ();
         $session =& CRM_Core_Session::singleton();
+        $recent  =& CRM_Utils_Recent::get( );
 
-        $this->assign_by_ref( 'config' , $config  );
-        $this->assign_by_ref( 'session', $session );
+        $this->assign_by_ref( 'config'        , $config  );
+        $this->assign_by_ref( 'session'       , $session );
+        $this->assign_by_ref( 'recentlyViewed', $recent  );
+
         $this->register_function ( 'crmURL', array( 'CRM_Utils_System', 'crmURL' ) );
     }
 

@@ -193,15 +193,7 @@ class CRM_Utils_System {
      */
     function url($path = null, $query = null, $absolute = true, $fragment = null ) {
         $config   =& CRM_Core_Config::singleton( );
-
-        $argString = array( );
-        $argString[] = $path     ? '"' . addslashes( $path  ) . '"'    : 'null';
-        $argString[] = $query    ? '"' . addslashes( $query ) . '"'    : 'null';
-        $argString[] = $absolute ? 'true'                              : 'false';
-        $argString[] = $fragment ? '"' . addslashes( $fragment ) . '"' : 'null';
-        $args = implode( ', ', $argString );
-
-        return eval( 'return ' . $config->userFrameworkClass . '::url ( ' . $args . ' ); ' );
+        return eval( 'return ' . $config->userFrameworkClass . '::url( $path, $query, $absolute, $fragment );' );
 
     }
 
@@ -246,8 +238,7 @@ class CRM_Utils_System {
      */
     function setTitle( $title ) {
         $config   =& CRM_Core_Config::singleton( );
-        $str = $config->userFrameworkClass . '::setTitle( "' . addslashes( $title ) . '" ); ';
-        return eval( $str );
+        return eval( $config->userFrameworkClass . '::setTitle( $title );' );
     }
 
     /**
@@ -378,7 +369,7 @@ class CRM_Utils_System {
      */
     static function appendBreadCrumb( $bc ) {
         $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userFrameworkClass . '::appendBreadCrumb( "' . addslashes( $bc )  . '" ); ' );
+        return eval( 'return ' . $config->userFrameworkClass . '::appendBreadCrumb( $bc );' );
     }
 
     /**

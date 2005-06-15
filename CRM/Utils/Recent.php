@@ -67,10 +67,19 @@ class CRM_Utils_Recent {
             if ( ! self::$_recent ) {
                 self::$_recent = array( );
             }
-            
-            $template =& CRM_Core_Smarty::singleton( );
-            $template->assign_by_ref( 'recentlyViewed', self::$_recent );
         }
+    }
+
+    /**
+     * return the recently viewed array
+     *
+     * @return array the recently viewed array
+     * @access public
+     * @static
+     */
+    static function &get( ) {
+        self::initialize( );
+        return self::$_recent;
     }
 
     /**
@@ -95,16 +104,16 @@ class CRM_Utils_Recent {
             }
         }
         
-        self::$_recent[] = array( 'title' => $title, 
-                                  'url'   => $url  ,
-                                  'icon'  => $icon );
+        array_unshift( self::$_recent,
+                       array( 'title' => $title, 
+                              'url'   => $url  ,
+                              'icon'  => $icon ) );
         if ( count( self::$_recent ) > self::MAX_ITEMS ) {
-            array_shift( self::$_recent );
+            array_pop( self::$_recent );
         }
 
         $session =& CRM_Core_Session::singleton( );
         $session->set( self::STORE_NAME, self::$_recent );
-        CRM_Core_Error::debug( 'recent', self::$_recent );
     }
 
 }
