@@ -100,14 +100,9 @@ class addIndividual_complete(PyHttpTestCase):
         self.assertEquals("Assert number 6 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
 
-        queryID   = 'select max(id) from crm_contact'
-        contactID = db.loadVal(queryID)
-
-        cid = contactID + 1
-        CID = '''%s''' % cid
         params = [
             ('''reset''', '''1'''),
-            ('''cid''', CID),]
+            ('''cid''', '''104''',]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=102''') % drupal_path)
         url = "%s/civicrm/contact/view" % drupal_path
         self.msg("Testing URL: %s" % url)

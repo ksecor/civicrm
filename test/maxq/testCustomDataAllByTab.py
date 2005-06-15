@@ -25,8 +25,6 @@ class testCustomDataAllByTab(PyHttpTestCase):
 
         commonAPI.login(self)
 
-        Validator.validateResponse(self, self.getMethod(), url, params)
-
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/cd''') % drupal_path)
         url = "%s/civicrm/contact/view/cd" % drupal_path
         self.msg("Testing URL: %s" % url)

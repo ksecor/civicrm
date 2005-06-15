@@ -7,12 +7,12 @@
 # If the tests need to be carried on the locahost,  
 # following constants should be uncommented and
 # Contastants For sandbox.openngo.org should be commented.
-USERNAME    = '''manishzope'''
-PASSWORD    = '''manish'''
+#USERNAME    = '''manishzope'''
+#PASSWORD    = '''manish'''
 
-HOST        = "localhost"
-DBHOST      = "localhost"
-DRUPAL_PATH = "http://" + HOST  + "/drupal"
+#HOST        = "localhost"
+#DBHOST      = "localhost"
+#DRUPAL_PATH = "http://" + HOST  + "/drupal"
 
 
 
@@ -22,12 +22,18 @@ DRUPAL_PATH = "http://" + HOST  + "/drupal"
 # If the tests need to be carried on the sandbox.openngo.org,
 # following constants should be uncommented and
 # Contastants For Localhost should be commented.
-#USERNAME    = '''demo'''
-#PASSWORD    = '''demo'''
+USERNAME    = '''demo'''
+PASSWORD    = '''demo'''
 
-#HOST        = "sandbox.openngo.org"
-#DBHOST      = "localhost"
-#DRUPAL_PATH = "http://" + HOST  + "/civicrm"
+HOST        = "sandbox.openngo.org"
+DBHOST      = "localhost"
+
+CMS         = "drupal"
+#CMS         = "mambo"
+PHP         = "php5"
+#PHP         = "php4"
+
+DRUPAL_PATH = "http://" + HOST  + "/civicrm/" + CMS + "-" + PHP
 
 
 
