@@ -145,7 +145,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
     function edit($id, $action)
     {
         // create a simple controller for editing uf data
-        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Group', ts('User Framework Group'), $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Group', ts('User Sharing Group'), $action);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();

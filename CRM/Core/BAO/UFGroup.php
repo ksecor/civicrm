@@ -141,6 +141,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                           'title'       => $importableFields[$field->field_name]['title'],
                           'attributes'  => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
                           'is_required' => $field->is_required,
+                          'weight'      => $field->weight,
+                          'help_post'   => $field->help_post,
                           'rule'        => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
                           );
             }

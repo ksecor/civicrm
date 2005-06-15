@@ -50,6 +50,18 @@
        <comment>Is this field required when included in a user or registration form?</comment>
   </field>
   <field>
+      <name>weight</name>
+      <type>int</type>
+      <required>true</required>
+      <default>1</default>
+      <comment>Controls field display order when user framework fields are displayed in registration and account editing forms.</comment>
+  </field>
+  <field>
+     <name>help_post</name>
+     <type>text</type>
+     <comment>Description and/or help text to display after this field.</comment>
+  </field>
+  <field>
        <name>is_registration</name>
        <type>boolean</type>
        <default>0</default>

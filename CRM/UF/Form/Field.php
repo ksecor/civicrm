@@ -131,8 +131,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $this->add( 'select', 'field_name', ts('CiviCRM Field Name'), $this->_selectFields, true );
         $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true );
 
+        // weight
+        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'weight'), true);
+        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+
+        $this->add('textarea', 'help_post', ts('Field Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'help_post'));
+
         // listings title
-        $this->add('text', 'listings_title', ts('Listings_Title'),
+        $this->add('text', 'listings_title', ts('Listings Title'),
                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'listings_title') );
         $this->addRule('listings_title', ts('Please enter a valid title for this field when displayed in user listings.'), 'title');
         
@@ -176,9 +182,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         $ufField->field_name     = $params['field_name'];
         $ufField->listings_title = $params['listings_title'];
         $ufField->visibility     = $params['visibility'];
+        $ufField->help_post      = $params['help_post'];
 
         $ufField->is_required     = CRM_Utils_Array::value( 'is_required'    , $params, false );
         $ufField->is_active       = CRM_Utils_Array::value( 'is_active'      , $params, false );
+        $ufField->weight          = CRM_Utils_Array::value( 'weight'         , $params, false );
         $ufField->is_view         = CRM_Utils_Array::value( 'is_view'        , $params, false );
         $ufField->is_registration = CRM_Utils_Array::value( 'is_registration', $params, false );
         $ufField->is_match        = CRM_Utils_Array::value( 'is_match'       , $params, false );
