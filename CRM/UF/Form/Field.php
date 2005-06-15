@@ -158,6 +158,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
                                 )
                           );
 
+        $this->addFormRule( array( 'CRM_UF_Form_Field', 'formRule' ) );
+
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
@@ -204,6 +206,29 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         CRM_Core_Session::setStatus(ts('Your user sharing field "%1" has been saved', array(1 => $name)));
     }
 
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields ) {
+        $is_required     = CRM_Utils_Array::value( 'is_required'    , $fields, false );
+        $is_registration = CRM_Utils_Array::value( 'is_registration', $fields, false );
+        $is_view         = CRM_Utils_Array::value( 'is_view'        , $fields, false );
+
+        $errors = array( );
+        if ( $is_view && $is_registration ) {
+            $errors['is_registration'] = 'View Only cannot be selected if this field is to be included on the registration form';
+        }
+        if ( $is_view && $is_required ) {
+            $errors['is_view'] = 'A View Only field cannot be required';
+        }
+        return empty($errors) ? true : $errors;
+    }
 }
 
 ?>

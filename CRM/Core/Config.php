@@ -41,6 +41,7 @@ require_once 'Mail.php';
 
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Utils/System.php';
+require_once 'CRM/Utils/Recent.php';
 require_once 'CRM/Contact/DAO/Factory.php';
 
 
@@ -319,7 +320,7 @@ class CRM_Core_Config {
         }
 
         // initialize the framework
-        $this->init();
+        $this->initialize();
     }
 
     /**
@@ -329,11 +330,14 @@ class CRM_Core_Config {
      * @return void
      * @access public
      */
-    function init() {
+    function initialize() {
         $this->initDAO();
 
         // also initialize the logger
         self::$_log =& Log::singleton( 'display' );
+
+        // initialize the recently viewed items
+        CRM_Utils_Recent::initialize( );
     }
 
     /**

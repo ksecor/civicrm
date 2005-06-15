@@ -750,6 +750,10 @@ WHERE crm_contact.id = $id";
 
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_UFMatch', $id );
 
+        CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_CustomValue', $id );
+
+        CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_ActivityHistory', $id );
+
         CRM_Contact_BAO_Location::deleteContact( $id );
 
         // fix household and org primary contact ids

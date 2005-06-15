@@ -32,7 +32,7 @@
  */
 
 require_once 'CRM/Core/Page.php';
-
+require_once 'CRM/Utils/Recent.php';
 
 /**
  * Main page for viewing contact.
@@ -71,7 +71,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
      * @access public
      *
      */
-    function run()
+    function run( )
     {
         // get the contact id from session or store
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $this, true );
@@ -82,6 +82,15 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         }
 
         $this->getContactDetails();
+
+        $contactImage = $this->get( 'contactImage' );
+        $displayName  = $this->get( 'displayName'  );
+
+        $this->assign( 'displayName', $displayName );
+        CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
+        CRM_Utils_Recent::add( $displayName,
+                               CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId ),
+                               $contactImage );
 
         $prevMode = $this->get('mode');
         // if we have switched modes we set the action to browse always
@@ -128,10 +137,6 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         // for all other tabs, we only need the displayName
         // so if the display name is cached, we can skip the other processing
         if ( isset( $displayName ) && $this->_mode != self::MODE_NONE ) {
-            $this->assign( 'displayName', $displayName );
-            $contactImage = $this->get( 'contactImage' );
-            // Set dynamic page title = contactImage + displayname
-            CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
             return;
         }
 
@@ -168,7 +173,6 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
                 break;
         }
         $this->set( 'contactImage', $contactImage );
-        CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
 
         if ( $this->_mode == self::MODE_NONE ) {
             $this->assign( $defaults );

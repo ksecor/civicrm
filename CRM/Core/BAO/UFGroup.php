@@ -86,16 +86,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /**
      * get all the registration fields
      *
+     * @param int $action   what action are we doing
+     *
      * @return array the fields that are needed for registration
      * @static
      * @access public
      */
-    static function getUFRegistrationFields( ) {
+    static function getUFRegistrationFields( $action ) {
         $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
 
         $fields = array( );
         foreach ( $ufGroups as $id => $title ) {
-            $subset = self::getUFFields( $id, true );
+            $subset = self::getUFFields( $id, true, $action );
             $fields = array_merge( $fields, $subset );
         }
         return $fields;
@@ -104,14 +106,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /**
      * get all the fields that belong to the group with the named title
      *
-     * @param int the id of the UF group
-     * @param int are we only interested in registration fields
+     * @param int $id       the id of the UF group
+     * @param int $register are we only interested in registration fields
+     * @param int $action   what action are we doing
      *
      * @return array the fields that belong to this title
      * @static
      * @access public
      */
-    static function getUFFields( $id, $register = false ) {
+    static function getUFFields( $id, $register = false, $action = null ) {
         $group = new CRM_Core_DAO_UFGroup( );
 
         $group->id = $id;
@@ -128,35 +131,39 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $importableFields =& CRM_Contact_BAO_Contact::importableFields( );
 
             while ( $field->fetch( ) ) {
-                $field->title      = $importableFields[$field->field_name]['title'];
-                $field->attributes = CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] );
-                if ( $field->field_name == 'StateProvince.name' ) {
-                    $name = 'state_province_id';
-                } else if ( $field->field_name == 'Country.name' ) {
-                    $name = 'country_id';
-                } else {
-                    $name = $field->field_name;
+                if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
+                    $field->title      = $importableFields[$field->field_name]['title'];
+                    $field->attributes = CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] );
+                    if ( $field->field_name == 'StateProvince.name' ) {
+                        $name = 'state_province_id';
+                    } else if ( $field->field_name == 'Country.name' ) {
+                        $name = 'country_id';
+                    } else {
+                        $name = $field->field_name;
+                    }
+                    $fields['edit[' . $name . ']'] =
+                        array('name'        => $name,
+                              'title'       => $importableFields[$field->field_name]['title'],
+                              'attributes'  => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
+                              'is_required' => $field->is_required,
+                              'is_view'     => $field->is_view,
+                              'is_match'    => $field->is_match,
+                              'weight'      => $field->weight,
+                              'help_post'   => $field->help_post,
+                              'rule'        => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
+                              );
                 }
-                $fields['edit[' . $name . ']'] =
-                    array('name'        => $name,
-                          'title'       => $importableFields[$field->field_name]['title'],
-                          'attributes'  => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
-                          'is_required' => $field->is_required,
-                          'weight'      => $field->weight,
-                          'help_post'   => $field->help_post,
-                          'rule'        => CRM_Utils_Array::value( 'rule', $importableFields[$field->field_name] ),
-                          );
             }
             return $fields;
         }
         return null;
     }
 
-    static function isValid( $title, $register = false ) {
+    static function isValid( $title, $register = false, $action = null ) {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
             $controller->set( 'gid'  , $group->id );
             $controller->set( 'id'   , $session->get( 'userID' ) );
             $controller->process( );
@@ -169,7 +176,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $session->get( 'userID' ) ) {
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
                 $controller->set( 'gid'  , $group->id );
                 $controller->set( 'id'   , $session->get( 'userID' ) );
                 $controller->process( );
@@ -183,17 +190,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * get the html for the form that represents this particular group
      *
      * @param string $title the title of the group we are interested in
-     * @param int    $mode  the mode of the form
+     * @param int    $action  the action of the form
      *
      * @return string       the html for the form
      * @static
      * @access public
      */
-    static function getEditHTML( $title, $mode = null, $register = false ) {
+    static function getEditHTML( $title, $action = null, $register = false ) {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
             $controller->set( 'id'      , $session->get( 'userID' ) );
             $controller->set( 'register', 1 );
             $controller->process( );
@@ -210,7 +217,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $session->get( 'userID' ) ) {
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
                 $controller->set( 'gid'     , $group->id );
                 $controller->set( 'id'      , $session->get( 'userID' ) ); 
                 $controller->set( 'register', 0 );
@@ -228,16 +235,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /**
      * get the html for the form that represents this particular group
      *
-     * @param int    $mode  the mode of the form
+     * @param int    $action  the action of the form
      *
      * @return string       the html for the form
      * @static
      * @access public
      */
-    static function getRegisterHTML( $mode = null ) {
+    static function getRegisterHTML( $action = null ) {
         $session =& CRM_Core_Session::singleton( );
 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Register', 'Registration Form Creator', $mode );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Register', 'Registration Form Creator', $action );
         $controller->set( 'id'      , $session->get( 'userID' ) );
         $controller->process( );
         $controller->setEmbedded( true );
