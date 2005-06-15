@@ -163,7 +163,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $group = new CRM_Core_DAO_UFGroup( );
             
             $group->title     = $title;
-            $group->domain_id = CRM_Core_Config::$domainID;
+            $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $session->get( 'userID' ) ) {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );
@@ -204,7 +204,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $group = new CRM_Core_DAO_UFGroup( );
             
             $group->title     = $title;
-            $group->domain_id = CRM_Core_Config::$domainID;
+            $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $session->get( 'userID' ) ) {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $mode );

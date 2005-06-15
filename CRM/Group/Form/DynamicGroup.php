@@ -94,7 +94,7 @@ class CRM_Group_Form_DynamicGroup extends CRM_Core_Form {
         $group =& new CRM_Contact_DAO_Group();
         
         $group->copyValues( $params );
-        $group->domain_id = CRM_Core_Config::$domainID;
+        $group->domain_id = CRM_Core_Config::domainID( );
         
         $group->save();
 

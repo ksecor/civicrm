@@ -142,7 +142,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $ufGroup            =& new CRM_Core_DAO_UFGroup();
         $ufGroup->title     = $params['title'];
         $ufGroup->is_active = CRM_Utils_Array::value('is_active', $params, false);
-        $ufGroup->domain_id = CRM_Core_Config::$domainID;
+        $ufGroup->domain_id = CRM_Core_Config::domainID( );
         
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $ufGroup->id = $this->_id;

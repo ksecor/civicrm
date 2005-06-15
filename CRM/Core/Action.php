@@ -228,9 +228,9 @@ class CRM_Core_Action {
      */
     //static public function mask( $permission ) {
     static function mask( $permission ) {
-        if ( $permission == CRM_CORE_PERMISSION::VIEW ) {
+        if ( $permission == CRM_Core_Permission::VIEW ) {
             return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE;
-        } else if ( $permission == CRM_CORE_PERMISSION::EDIT ) {
+        } else if ( $permission == CRM_Core_Permission::EDIT ) {
             return 1023; // make sure we make this 2^n -1 if we add more actions;
         } else {
             return null;

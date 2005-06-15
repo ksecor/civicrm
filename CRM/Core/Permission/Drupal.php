@@ -173,7 +173,7 @@ class CRM_Core_Permission_Drupal {
                 $clause = ' ( 0 ) ';
             } else {
                 $groups = implode( ', ', self::$_editPermissionedGroups );
-                $clause = ' ( group_id IN (' . implode( ', ', array_keys( self::$_editPermissionedGroups ) ) . ') ) ';
+                $clause = ' ( crm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_editPermissionedGroups ) ) . ') ) ';
             }
         } else {
             if ( self::$_viewAdminUser ) {
@@ -182,7 +182,7 @@ class CRM_Core_Permission_Drupal {
                 $clause = ' ( 0 ) ';
             } else {
                 $groups = implode( ', ', self::$_viewPermissionedGroups );
-                $clause = ' ( group_id IN (' . implode( ', ', array_keys( self::$_viewPermissionedGroups ) ) . ') ) ';
+                $clause = ' ( crm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_viewPermissionedGroups ) ) . ') ) ';
             }
         }
         return $clause;

@@ -99,7 +99,7 @@ class CRM_Contact_BAO_RelationshipType extends CRM_Contact_DAO_RelationshipType 
             $relationshipType->name_b_a = CRM_Utils_Array::value( 'name_a_b', $params);
         }
         
-        $relationshipType->domain_id = CRM_Core_Config::$domainID;
+        $relationshipType->domain_id = CRM_Core_Config::domainID( );
 
         $relationshipType->id = CRM_Utils_Array::value( 'relationshipType', $ids );
 

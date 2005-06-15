@@ -172,12 +172,11 @@ class CRM_Core_Config {
     public $userFrameworkURLVar = 'q';
 
     /**
-     * the domainID for this instance. Note that it is a public static
-     * variable for easy access. Set default value to avoid cycles :(
+     * the domainID for this instance. 
      *
      * @var int
      */
-    public static $domainID = 1;
+    private static $_domainID = 1;
 
     /**
      * The handle to the log that we are using
@@ -224,12 +223,12 @@ class CRM_Core_Config {
      */
     function __construct() {
         $session =& CRM_Core_Session::singleton( );
-        self::$domainID = $session->get( 'domainID' );
-        if ( ! self::$domainID ) {
+        self::$_domainID = $session->get( 'domainID' );
+        if ( ! self::$_domainID ) {
             if ( defined( 'CRM_DOMAIN_ID' ) ) {
-                self::$domainID = CRM_DOMAIN_ID;
+                self::$_domainID = CRM_DOMAIN_ID;
             } else {
-                self::$domainID = 1;
+                self::$_domainID = 1;
             }
         }
 
@@ -370,6 +369,10 @@ class CRM_Core_Config {
             self::$_mail =& Mail::factory( 'smtp', $params );
         }
         return self::$_mail;
+    }
+
+    static function domainID( ) {
+        return self::$_domainID;
     }
 
 } // end CRM_Core_Config

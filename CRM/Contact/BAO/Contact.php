@@ -293,7 +293,7 @@ WHERE crm_contact.id = $id";
         
         // check for group restriction
         if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
-            $andArray['group'] = "(group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
+            $andArray['group'] = "(crm_group_contact.group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
             $andArray['groupStatus'] = '(crm_group_contact.status = "In")';
         }
         
@@ -487,7 +487,7 @@ WHERE crm_contact.id = $id";
                 $contact->$name = CRM_Utils_Array::value($name, $privacy, false);
             }
         }
-        $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::$domainID );
+        $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
 
         return $contact->save();
