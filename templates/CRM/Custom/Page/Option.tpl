@@ -1,0 +1,48 @@
+{if $action eq 1 or $action eq 2 or $action eq 4}
+    {include file="CRM/Custom/Form/Option.tpl"}
+{else}
+    {if $customOption}
+    <div id="field_page">
+     <p>
+        <div class="form-item">
+        {strip}
+        <table>
+        <tr class="columnheader">
+            <th>{ts}Option Label{/ts}</th>
+            <th>{ts}Option Value{/ts}</th>
+            <th>{ts}Weight{/ts}</th>
+	    <th>{ts}Status?{/ts}</th>
+            <th>&nbsp;</th>
+        </tr>
+        {foreach from=$customOption item=row}
+        <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
+            <td>{$row.label}</td>
+            <td>{$row.value}</td>
+	    <td>{$row.weight}</td>
+	    <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
+            <td>{$row.action}</td>
+        </tr>
+        {/foreach}
+        </table>
+        {/strip}
+        
+        {if $action eq 16 or $action eq 4}
+            <div class="action-link">
+            <a href="{crmURL q="reset=1&action=add&fid=$fid"}">&raquo; {ts}New Custom Option{/ts}</a>
+            </div>
+        {/if}
+        </div>
+     </p>
+    </div>
+
+    {else}
+        {if $action eq 16}
+        <div class="message status">
+        <dl>
+        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+        <dd>{ts 1=$groupTitle}There are no custom options for the custom field "%1",{/ts} <a href="{crmURL p='civicrm/admin/custom/group/field/option' q="action=add&fid=$fid"}">{ts}add one{/ts}</a>.</dd>
+        </dl>
+        </div>
+        {/if}
+    {/if}
+{/if}

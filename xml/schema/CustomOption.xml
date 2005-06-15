@@ -44,6 +44,11 @@
       <default>1</default>
       <comment>Order in which the options are displayed</comment>
   </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+  </field>
   <index>
     <name>UI_label_custom_field_id</name>
     <fieldName>value</fieldName>

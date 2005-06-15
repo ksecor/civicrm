@@ -52,13 +52,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     {
         if (!(self::$_dataType)) {
             self::$_dataType = array(
-                'String'  => ts('Alphanumeric'),
+		'String'  => ts('Alphanumeric'),
                 'Int'     => ts('Integer'),
                 'Float'   => ts('Number'),
                 'Money'   => ts('Money'),
                 'Memo'    => ts('Note'),
                 'Date'    => ts('Date'),
-                'Boolean' => ts('Yes or No')
+                'Boolean' => ts('Yes or No'),
+		'Multi-Select'  => ts('Mulitple Options')
             );
         }
         return self::$_dataType;
@@ -131,6 +132,21 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         $result = $crmDAO->getDatabaseResult();
         $row    = $result->fetchRow();
         return $row[0];
+    }
+    
+    /**
+     * Get the field title.
+     *
+     * @param int $id id of field.
+     * @return string name 
+     *
+     * @access public
+     * @static
+     *
+     */
+    public static function getTitle( $id )
+    {
+        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $groupId, 'name' );
     }
 }
 ?>

@@ -71,6 +71,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                                         array('TextArea'),
                                         array('Select Date'),
                                         array('Radio'),
+					array('Radio', 'Select'),
                                         );
     
     /**

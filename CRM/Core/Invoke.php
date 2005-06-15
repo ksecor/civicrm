@@ -186,8 +186,15 @@ class CRM_Core_Invoke {
             if ( $args[3] == 'group' ) {
                 if ( $args[4] != 'field' ) {
                     $view =& new CRM_Custom_Page_Group(ts('Custom Data Group'));
-                } else {
+		} else {
                     $view =& new CRM_Custom_Page_Field(ts('Custom Data Field'));
+		    if ( $args[5] != 'option' ) {
+		      $view =& new CRM_Custom_Page_Field(ts('Custom Data Option'));
+		    } else {
+		        $additionalBreadCrumb = ts('<a href="%1">Custom Data Field</a>', array(1 => 'civicrm/admin/custom/group/field'));
+			CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
+			$view =& new CRM_Custom_Page_Option(ts('Custom Data Option'));
+		    }
                 }
             }
             break;
