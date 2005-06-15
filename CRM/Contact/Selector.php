@@ -412,11 +412,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
 
         // date between 2 values
-        $activityFromDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_from_date', $fv)), '-'));
-        $activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv)), '-'));
-        
-        CRM_Core_Error::debug_var('activityFromDate', $activityFromDate);
-        CRM_Core_Error::debug_var('activityToDate', $activityToDate);
+
+        $activityFromDate = $activityToDate = "";
+        if (isset($fv['activity_from_date'])) {
+            $activityFromDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_from_date', $fv)), '-'));
+        }
+        if (isset($fv['activity_to_date'])) {
+            $activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv)), '-'));
+        }        
 
         $str = "";
         if ($activityFromDate && $activityToDate) {
