@@ -66,7 +66,7 @@
               {/if} {* end if searchDone *}
         {/if} {* end action = add *}
 
-        {* Only show start/end date and buttons if action=update, OR if we have $contacts (results)*}
+        {* Only show buttons if action=update, OR if we have $contacts (results)*}
         {if $searchRows OR $action EQ 2}
             <div class="form-item">
                 <dl>

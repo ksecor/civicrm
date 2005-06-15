@@ -55,7 +55,7 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
 
     function buildQuickForm( ) {
 
-
+        CRM_Utils_System::setTitle( ts('Add Members To Organization') );
         $this->addElement('text', 'name'      , ts('Find Target Organization') );
 
         $searchRows    = $this->get( 'searchRows' );
@@ -152,15 +152,18 @@ class CRM_Contact_Form_Task_AddToOrganization extends CRM_Contact_Form_Task {
             }
             
             
-            $status = '';
+            $status = array(
+                        ts('Added Contact(s) to Organization'),
+                        ts('Total Selected Contact(s): %1',$valid+$invalid+$duplicate)
+                        );
             if ( $valid ) {
-                $status .= " $valid new relationship record(s) created.";
+                $status []= ts("New relationship record(s) created:$valid.<br>");
             }
             if ( $invalid ) {
-                $status .= " $invalid relationship record(s) not created due to invalid target contact type.";
+                $status[]= ts("Relationship record(s) not created due to invalid target contact type:$invalid.<br>");
             }
             if ( $duplicate ) {
-                $status .= " $duplicate relationship record(s) not created - duplicate of existing relationship.";
+                $status[]= ts("Relationship record(s) not created - duplicate of existing relationship.:$duplicate<br>");
             }
             
             CRM_Core_Session::setStatus( $status );

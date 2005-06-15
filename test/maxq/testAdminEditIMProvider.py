@@ -88,7 +88,7 @@ class testAdminEditIMProvider(PyHttpTestCase):
             print "Found IM Provider having name \'%s\' and Edited Successfully" % IMProviderName
             print ("**************************************************************************************")
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
+            self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
         else :
             print ("**************************************************************************************")
