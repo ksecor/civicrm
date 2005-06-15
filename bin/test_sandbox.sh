@@ -1,6 +1,6 @@
 #!/bin/bash -v
 
-#./setup.sh
+./setup.sh
 
 cd ../test/maxq
 
