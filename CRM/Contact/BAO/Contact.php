@@ -175,6 +175,8 @@ WHERE crm_contact.id = $id";
         if (!$count) {
             if ($sort) {
                 $order = " ORDER BY " . $sort->orderBy(); 
+            } else if ($sortByChar) { 
+                $order = " ORDER BY LEFT(crm_contact.sort_name, 1) ";
             }
             if ( $rowCount > 0 ) {
                 $limit = " LIMIT $offset, $rowCount ";
