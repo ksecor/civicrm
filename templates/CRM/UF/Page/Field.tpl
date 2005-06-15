@@ -11,7 +11,6 @@
             <th>{ts}CiviCRM Field Name{/ts}</th>
             <th>{ts}Visibility{/ts}</th>
             <th>{ts}Weight{/ts}</th>
-            <th>{ts}Listings Title{/ts}</th>	
             <th>{ts}Active{/ts}</th>	
             <th>{ts}Required{/ts}</th>	
             <th>{ts}View Only{/ts}</th>	
@@ -24,7 +23,6 @@
             <td>{$row.field_name}</td>
             <td>{$row.visibility}</td>
             <td>{$row.weight}</td>
-            <td>{$row.listings_title}</td>
             <td>{if $row.is_active       eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{if $row.is_required     eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{if $row.is_view         eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
