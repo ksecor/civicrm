@@ -107,7 +107,6 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         $this->assign( 'fields', $this->_fields );
 
         // add the form elements
-        // CRM_Core_Error::debug( 'f', $this->_fields );
         foreach ($this->_fields as $name => $field ) {
             if ( $field['name'] === 'state_province_id' ) {
                 $this->add('select', $name, $field['title'],
@@ -148,14 +147,21 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
-        
+
         if ( $this->_contact ) {
             foreach ( $this->_fields as $name => $field ) {
                 $objName = $field['name'];
-                $defaults[$name] = $this->_contact->$objName;
+                if ( $objName == 'state_province_id' ) {
+                    $states =& CRM_Core_PseudoConstant::stateProvince( );
+                    $defaults[$name] = array_search( $this->_contact->state, $states );
+                } else if ( $objName == 'country_id' ) {
+                    $country =& CRM_Core_PseudoConstant::country( );
+                    $defaults[$name] = array_search( $this->_contact->country, $country );
+                } else {
+                    $defaults[$name] = $this->_contact->$objName;
+                }
             }
         }
-
         return $defaults;
     }
 

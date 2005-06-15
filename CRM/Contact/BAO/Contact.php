@@ -102,7 +102,7 @@ SELECT DISTINCT
   crm_address.street_address      as street_address,
   crm_address.city                as city          ,
   crm_address.postal_code         as postal_code   ,
-  crm_state_province.abbreviation as state         ,
+  crm_state_province.name         as state         ,
   crm_country.name                as country       ,
   crm_email.email                 as email         ,
   crm_phone.phone                 as phone         
