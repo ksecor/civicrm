@@ -25,10 +25,20 @@ if [ -d $TRG ] ; then
 fi
 
 # copy all the stuff
-for CODE in css i js l10n packages PEAR templates CRM api modules; do
+for CODE in css i js l10n packages PEAR templates bin mambo CRM api modules; do
   echo $CODE
   [ -d $SRC/$CODE ] && $RSYNCCOMMAND $SRC/$CODE $TRG
 done
+
+# delete any setup.sh or setup.php4.sh if present
+if [ -d $TRG/bin ] ; then
+  rm -f $TRG/bin/setup.sh
+  rm -f $TRG/bin/setup.php4.sh
+  rm -f $TRG/bin/setup.bat
+fi
+
+# delete current config.inc.php
+rm -f $TRG/modules/config.inc.php $TRG/mambo/config.inc.php
 
 # copy selected sqls
 if [ ! -d $TRG/sql ] ; then
@@ -37,6 +47,7 @@ fi
 for F in Contacts.sql FixedData.sql GeneratedData.sql; do 
 	cp $SRC/sql/$F $TRG/sql
 done
+
 
 # copy docs
 cp $SRC/license.txt $TRG

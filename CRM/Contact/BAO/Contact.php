@@ -324,7 +324,7 @@ WHERE crm_contact.id = $id";
             $name = trim($fv['sortByCharacter']);
 
             $cond = " LOWER(crm_contact.sort_name) LIKE '" . strtolower(addslashes($name)) . "%'";
-            if ( $andArray['sort_name'] ) {
+            if ( CRM_Utils_Array::value( 'sort_name', $andArray ) ) {
                 $andArray['sort_name'] = '(' . $andArray['sort_name'] . "AND ( $cond ))";
             } else {
                 $andArray['sort_name'] = "( $cond )";

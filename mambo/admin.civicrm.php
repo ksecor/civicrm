@@ -11,7 +11,22 @@ require_once 'PEAR.php';
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/Invoke.php';
-require_once 'CRM/Core/BAO/UFMatch.php';
+
+
+// insert any functions/includes etc. that apply to all "tasks"
+// HERE
+
+switch ($task) {
+	/** Sample Task **/
+	case 'civicrm/contacts/view':
+	default:
+        civicrm_invoke( );
+		break;
+}
+
+// want to use wrapper functions instead of direct calls?
+// this is probably overkill, but might be considered a good
+// abstraction. this would be the place to put them.
 
 function civicrm_init( ) {
     $config =& CRM_Core_Config::singleton();
@@ -29,13 +44,8 @@ function civicrm_init( ) {
 function civicrm_invoke( ) {
     civicrm_init( );
 
-    global $my;
-    CRM_Core_BAO_UFMatch::synchronize( $my, false, 'Mambo' );
-
     $args = explode( '/', trim( $_GET['task'] ) );
     CRM_Core_Invoke::invoke( $args );
 }
-
-civicrm_invoke( );
 
 ?>

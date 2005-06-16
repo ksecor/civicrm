@@ -428,7 +428,7 @@ class CRM_Utils_Menu {
                     }
                     $localTasks[] = array(
                                           'url'    => CRM_Utils_System::url( self::$_items[$index]['path'],
-                                                                             self::$_items[$index]['qs'] ),
+                                                                             CRM_Utils_Array::value( 'qs', self::$_items[$index] ) ),
                                           'title'  => self::$_items[$index]['title'],
                                           'class'  => $klass
                                           );
