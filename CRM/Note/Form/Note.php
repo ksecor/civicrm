@@ -67,8 +67,8 @@ class CRM_Note_Form_Note extends CRM_Core_Form
 
     function preProcess( ) {
         $this->_entityTable = $this->get( 'entityTable' );
-        $this->_entityId   = $this->get( 'entityId'   );
-        $this->_noteId    = $this->get( 'noteId'    );
+        $this->_entityId    = $this->get( 'entityId'   );
+        $this->_noteId      = $this->get( 'noteId'    );
     }
 
     /**

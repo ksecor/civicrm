@@ -75,9 +75,9 @@ class CRM_Contact_Page_Note {
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/note', 'action=browse' ) );
 
         $controller->reset( );
-        $controller->set( 'entityName', 'crm_contact' );
-        $controller->set( 'entityId'  , $page->getContactId( ) );
-        $controller->set( 'noteId'    , $noteId );
+        $controller->set( 'entityTable', 'crm_contact' );
+        $controller->set( 'entityId'   , $page->getContactId( ) );
+        $controller->set( 'noteId'     , $noteId );
 
         $controller->process( );
         $controller->run( );
