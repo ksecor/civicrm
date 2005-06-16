@@ -146,7 +146,7 @@ WHERE crm_contact.id = $id";
         if($count) {
             $select = "SELECT count(DISTINCT crm_contact.id) ";
         } else if ($sortByChar) {
-            $select = "SELECT DISTINCT LEFT(crm_contact.sort_name, 1) as sort_name";
+            $select = "SELECT DISTINCT UPPER(LEFT(crm_contact.sort_name, 1)) as sort_name";
         } else {
             $select = "SELECT DISTINCT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
