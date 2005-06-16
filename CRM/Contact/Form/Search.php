@@ -365,7 +365,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          */
         $this->_searchButtonName = $this->getButtonName( 'refresh', 'search' );
         $this->_exportButtonName = $this->getButtonName( 'refresh', 'export' );
-        $this->_printButtonName  = $this->getButtonName( 'next'    , 'print' );
+        $this->_printButtonName  = $this->getButtonName( 'next'   , 'print' );
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' );
 
         /*

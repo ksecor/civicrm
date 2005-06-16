@@ -259,9 +259,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),
+                                         'subName'   => 'view',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'next',
-                                         'name'      => ts('Save and New') ),
+                                         'name'      => ts('Save and New'),
+                                         'subName'   => 'new' ),
                                  array ( 'type'      => 'reset',
                                          'name'      => ts('Reset')),
                                  array ( 'type'       => 'cancel',
@@ -298,8 +300,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton();
         CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type)));
 
-        // hack: figure out a nice way to do this
-        if ( $_POST['_qf_Edit_next'] == 'Save and New' ) {
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add' . $contact->contact_type[0], 'reset=1&c_type=' . $contact->contact_type ) );
         } else {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));

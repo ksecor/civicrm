@@ -289,7 +289,12 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             if ( $button['type'] === 'reset' ) {
                 $prevnext[] =& $this->createElement( $button['type'], 'reset', $button['name'], $attrs );
             } else {
-                $prevnext[] =& $this->createElement( 'submit', $this->getButtonName($button['type']), $button['name'], $attrs );
+                if ( CRM_Utils_Array::value( 'subName', $button ) ) {
+                    $buttonName = $this->getButtonName( $button['type'], $button['subName'] );
+                } else {
+                    $buttonName = $this->getButtonName( $button['type'] );
+                }
+                $prevnext[] =& $this->createElement( 'submit', $buttonName, $button['name'], $attrs );
             }
             if ( CRM_Utils_Array::value( 'isDefault', $button ) ) {
                 $this->setDefaultAction( $button['type'] );
