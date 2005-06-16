@@ -353,6 +353,32 @@ class CRM_Utils_Menu {
                             'title'  => ts('Email Detail'),
                             'type'   => self::CALLBACK,
                             ),
+                      
+                      array(
+                            'path'    => 'civicrm/activity',
+                            'title'   => ts('Activities'),
+                            'qs'      => 'reset=1',
+                            'type'    => self::NORMAL_ITEM,
+                            'crmType' => self::ROOT_LOCAL_TASK,
+                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                            'weight'  => 50,
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/activity/call',
+                            'title'   => ts('Calls'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::DEFAULT_LOCAL_TASK,
+                            'weight'  => -10
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/activity/meeting',
+                            'title'   => ts('Meetings'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::DEFAULT_LOCAL_TASK,
+                            'weight'  => -20
+                            ),
                       );
 
             self::$_rootLocalTasks = array( );

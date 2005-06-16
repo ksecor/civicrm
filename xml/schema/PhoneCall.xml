@@ -76,7 +76,7 @@
   </field>
   <field>
       <name>next_call_datetime</name>
-      <type>datetime</type>
+      <type>timestamp</type>
       <comment>When to call next ?</comment>
   </field>
   <field>
