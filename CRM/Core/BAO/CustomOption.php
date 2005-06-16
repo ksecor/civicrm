@@ -65,5 +65,19 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         }
         return null;
     }
+    
+    /**
+     * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * @static
+     */
+    static function setIsActive( $id, $is_active )
+    {
+        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomOption', $id, 'is_active', $is_active );
+    }
 }
 ?>

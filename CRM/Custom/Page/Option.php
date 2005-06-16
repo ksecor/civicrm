@@ -71,6 +71,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
     {
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
+	    $disableExtra = ts('Are you sure you want to disable this custom data option?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::ENABLE  => array(
 									  'name'  => ts('Enable'),
@@ -127,7 +128,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
             $action = array_sum(array_keys($this->actionLinks()));
 	    
 	    // update enable/disable links depending on custom_group properties.
-            if ($customGroupBAO->is_active) {
+            if ($customOptionBAO->is_active) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
@@ -202,6 +203,11 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
             $this->edit($action);   // no browse for edit/update/view
         } else {
+	   if ($action & CRM_Core_Action::DISABLE) {
+                CRM_Core_BAO_CustomOption::setIsActive($id, 0);
+            } else if ($action & CRM_Core_Action::ENABLE) {
+                CRM_Core_BAO_CustomOption::setIsActive($id, 1);
+            }
            $this->browse();
         }
 

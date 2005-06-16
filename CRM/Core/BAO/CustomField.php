@@ -146,7 +146,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     public static function getTitle( $id )
     {
-        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $groupId, 'name' );
+        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $id, 'label' );
     }
 }
 ?>

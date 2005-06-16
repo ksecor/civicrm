@@ -81,7 +81,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
-            CRM_Core_BAO_CustomOptions::retrieve($params, $defaults);
+            CRM_Core_BAO_CustomOption::retrieve($params, $defaults);
             $this->_fid = $defaults['custom_field_id'];
         } else {
             $defaults['is_active'] = 1;
@@ -147,6 +147,8 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
     public function postProcess()
     {
+        echo "Got the stupid foriegn Key $this->_fid<br/>";
+	echo "Got the stupid id $this->id<br/>";
         // store the submitted values in an array
         $params = $this->controller->exportValues('Option');
 
@@ -157,9 +159,13 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 	$customOption->value         = $params['value'];
 	$customOption->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
        
-        // need the FKEY - custom field id
-        $customOption->custom_field_id = $this->_fid;
+        if ($this->_action & CRM_Core_Action::UPDATE) {
+            $customOption->id = $this->_id;
+        }
 
+        // need the FKEY - custom group id
+        $customField->custom_field_id = $this->_fid;
+	
         $customOption->save();
         
         CRM_Core_Session::setStatus(ts('Your custom Option data "%1" has been saved', array(1 => $customOption->label)));

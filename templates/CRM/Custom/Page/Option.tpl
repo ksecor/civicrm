@@ -40,7 +40,7 @@
         <div class="message status">
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
-        <dd>{ts 1=$groupTitle}There are no custom options for the custom field "%1",{/ts} <a href="{crmURL p='civicrm/admin/custom/group/field/option' q="action=add&fid=$fid"}">{ts}add one{/ts}</a>.</dd>
+        <dd>{ts 1=$fieldTitle}There are no custom options for the custom field "%1",{/ts} <a href="{crmURL p='civicrm/admin/custom/group/field/option' q="action=add&fid=$fid"}">{ts}add one{/ts}</a>.</dd>
         </dl>
         </div>
         {/if}
