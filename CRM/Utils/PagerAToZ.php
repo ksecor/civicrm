@@ -32,13 +32,19 @@
 class CRM_Utils_PagerAToZ 
 {
 
-    function __construct( ) 
+    /**
+     * returns the alphabetic array for sorting by character
+     *
+     * @param array  $params          The form values for search
+     * @param string $sortByCharacter The character that we are potentially sorting on
+     *
+     * @return string                 The html formatted string
+     * @access public
+     * @static
+     */
+    static function getAToZBar ( &$params, $sortByCharacter ) 
     {
-    }
-    
-    function getAToZBar ( &$params ) 
-    {
-        $AToZBar = self::createLinks($params);
+        $AToZBar = self::createLinks( $params, $sortByCharacter );
         return $AToZBar;
     }
     
@@ -46,10 +52,11 @@ class CRM_Utils_PagerAToZ
      * Function to return the all the static characters
      * 
      * @return array $staticAlphabets is a array of static characters
-     * @access public
+     * @access private
+     * @static
      */
     
-    function getStaticCharacters () 
+    static function getStaticCharacters () 
     {
         $staticAlphabets = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
         return $staticAlphabets;
@@ -59,9 +66,10 @@ class CRM_Utils_PagerAToZ
      * Function to return the all the dynamic characters
      * 
      * @return array $dynamicAlphabets is a array of dynamic characters
-     * @access public
+     * @access private
+     * @static
      */
-    function getDynamicCharacters (&$params) 
+    static function getDynamicCharacters (&$params) 
     {
         $contact =& new CRM_Contact_BAO_Contact();
         $result = $contact->searchQuery($params, null, null, null, false, null, true);
@@ -76,12 +84,14 @@ class CRM_Utils_PagerAToZ
     /**
      * create the links 
      *
-     * @param $linkCharacters  array of alphabets whose link has to created
-     * @param $allCharacters  array of alphabets whose link has to created
-     * 
+     * @param array  $params          The form values for search
+     * @param string $sortByCharacter The character that we are potentially sorting on
+     *
      * @return array with links
+     * @access private
+     * @static
      */
-    function createLinks (&$params) 
+    function createLinks ( &$params, $sortByCharacter ) 
     {
         $AToZBar          = self::getStaticCharacters();
         $dynamicAlphabets = self::getDynamicCharacters($params);
@@ -98,18 +108,22 @@ class CRM_Utils_PagerAToZ
             }
             
             if ( in_array( $link, $dynamicAlphabets ) ) {
-                $url[] = sprintf('<a href="%s" >%s</a>',
+                $klass = '';
+                if ( $link == $sortByCharacter ) {
+                    $klass = "class='active'";
+                }
+                $url[] = sprintf('<a href="%s" %s>%s</a>',
                                  CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=$link" ),
+                                 $klass,
                                  $link );
             } else {
                 $url[] = $link;
             }
         }
         
-        $url[] = sprintf('<a href="%s" >%s</a>',
+        $url[] = sprintf('<a href="%s">%s</a>',
                          CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=1" ),
                          'All' );
-        
         return $url;
     }
     

@@ -83,12 +83,6 @@ class CRM_Core_Selector_Controller {
     protected $_sortOrder;
 
     /*
-     * the alphabet array
-     * @var array
-     */
-    protected $_aToZBar;
-    
-    /*
      * the CRM_Utils_Pager object
      * @var object
      */
@@ -241,14 +235,6 @@ class CRM_Core_Selector_Controller {
         $this->_pager =& new CRM_Utils_Pager( $params );
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
 
-        //get the AToZBar from the session
-        $this->_aToZBar = $store->get('AToZBar');
-        if (! $this->_aToZBar ) {
-            $pagerAToZ =& new CRM_Utils_PagerAToZ( );
-            $this->_aToZBar = $pagerAToZ->getAToZBar( $this->_object->_formValues );
-            $store->set('AToZBar', $this->_aToZBar);
-        }
-
     }
 
     /**
@@ -393,9 +379,9 @@ class CRM_Core_Selector_Controller {
     {
         self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
         
-        if ($this->_store->get( 'rows' )) {
+        if ( $this->_store->get( 'rows' ) ) {
             self::$_template->assign( 'aToZ'  ,
-                                      implode( '&nbsp;|&nbsp;', $this->_aToZBar ) );
+                                      $this->_store->get( 'AToZBar' ) );
         }
         
         self::$_template->assign_by_ref( 'sort'   , $this->_sort    );

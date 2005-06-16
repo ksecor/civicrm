@@ -34,9 +34,13 @@
 /**
  * Files required
  */
+
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/Session.php';
 require_once 'CRM/Core/PseudoConstant.php';
+
+require_once 'CRM/Utils/PagerAToZ.php';
+
 require_once 'CRM/Contact/Selector/Controller.php';
 require_once 'CRM/Contact/Selector.php';
 require_once 'CRM/Contact/Task.php';
@@ -349,7 +353,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @access public
      */
     function preProcess( ) {
-
         /**
          * set the varios class variables
          */
@@ -372,14 +375,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_reset   = CRM_Utils_Request::retrieve( 'reset' );
 
         $this->_force   = CRM_Utils_Request::retrieve( 'force', $this, false );
+
         // we only force stuff once :)
         $this->set( 'force', false );
-
-        // unset the AToZ Bar for POST
-        if (!$this->_force) {
-            $this->set('AToZBar', '');
-        }
-
 
         $this->_groupID         = CRM_Utils_Request::retrieve( 'gid'            , $this );
         $this->_amtgID          = CRM_Utils_Request::retrieve( 'amtgID'         , $this );
@@ -504,14 +502,21 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->_done = true;
 
-        //added the sorting  character to the form array
-
-        if ( $this->_sortByCharacter && $this->_sortByCharacter != '1' ) {
-            $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
-        }
+        // added the sorting  character to the form array
+        // lets recompute the aToZ bar without the sortByCharacter
+        // we need this in most cases except when just pager or sort values change, which
+        // we'll ignore for now
+        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $this->_formValues, $this->_sortByCharacter );
+        $this->set( 'AToZBar', implode( '&nbsp;|&nbsp;', $aToZBar ) );
 
         $this->set( 'type'      , $this->_action );
         $this->set( 'formValues', $this->_formValues );
+
+        // we dont want to store the sortByCharacter in the formValue, it is more like 
+        // a filter on the result set
+        if ( $this->_sortByCharacter && $this->_sortByCharacter != '1' ) {
+            $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
+        }
 
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {
