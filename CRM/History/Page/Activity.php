@@ -50,25 +50,13 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
      */
     function run()
     {
-
-        CRM_Core_Error::le_method();
-
-        // get the callback, module and activity id
+        // get the callback and activity id
         $callback = CRM_Utils_Request::retrieve('callback');
         $activityId = CRM_Utils_Request::retrieve('activity_id');
-
-
-
-        list($className, $methodName) = explode('::', $callback);
-
-        CRM_Core_Error::debug_var('callback', $callback);
-        CRM_Core_Error::debug_var('className',  $className);
-        CRM_Core_Error::debug_var('methodName', $methodName);
-
-        $fileName = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
         $errorString = "";
-        
+        list($className, $methodName) = explode('::', $callback);
+        $fileName = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+    
         if (!include_once($fileName)) {
             // we could not include the file
             $errorString .= ts('Cannot include file "%1" corresponding to class "%2". Please check include_path', array(1 => $fileName, 2 => $className));
@@ -82,6 +70,7 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
             $this->_processError($errorString);
         }
 
+        // instantiate the class
         $object =& new $className();
 
         // class exists so lets move on to checking if method exists
@@ -91,18 +80,20 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
             $this->_processError($errorString);
         }
         
+        // invoke the callback method and obtain the url to redirect to
         $url = $object->$methodName($activityId);
-
-        CRM_Core_Error::debug_var('url', $url);
-
+        // redirect to url
         CRM_Utils_System::redirect($url);
-
-        CRM_Core_Error::debug_log_message('breakpoint 100 - should not reach here');
-
-        CRM_Core_Error::ll_method();
-
     }
 
+    /**
+     * Create the error page (since we had some problems invoking the callback
+     *
+     * @param string $errorString
+     * @return none
+     * @access private
+     *
+     */
     private function _processError($errorString) {
         $this->assign('callback', CRM_Utils_Request::retrieve('callback'));
         $this->assign('module', CRM_Utils_Request::retrieve('module'));
