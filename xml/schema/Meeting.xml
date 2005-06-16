@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<table>
+  <base>CRM/Core</base>
+  <name>crm_activity_meeting</name>
+  <comment>Meeting details stored here include attendees, invitees, host, agenda, minutes</comment>
+    <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Activity ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>activity_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Activity table Id</comment>
+  </field>
+  <foreignKey>
+       <name>activity_id</name>
+       <table>crm_activity</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>hosts</name>
+      <type>varchar</type>
+      <length>64</length>
+      <comment>List of contact ids hosting the meeting in a CSV format</comment>
+  </field>
+  <field>
+      <name>invitees</name>
+      <type>varchar</type>
+      <length>255</length>
+      <comment>List of contact ids invited in a CSV format</comment>
+  </field>
+  <field>
+      <name>attendees</name>
+      <type>varchar</type>
+      <length>255</length>
+      <comment>List of contact ids attended in a CSV format</comment>
+  </field>
+  <field>
+      <name>location</name>
+      <type>varchar</type>
+      <length>255</length>
+      <comment>Where will the meeting be held ?</comment>
+  </field>
+  <field>
+      <name>title</name>
+      <type>varchar</type>
+      <length>128</length>
+      <comment>Title</comment>
+  </field>
+  <field>
+      <name>agenda</name>
+      <type>text</type>
+      <comment>What will be discussed in the meeting</comment>
+  </field>
+  <field>
+      <name>minutes</name>
+      <type>text</type>
+      <comment>Minutes of the meeting</comment>
+  </field>
+  <field>
+      <name>notes</name>
+      <type>text</type>
+      <comment>Miscellaneous Notes</comment>
+  </field>
+</table>

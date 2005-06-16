@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <name>crm_activity</name>
+  <comment>All activity metadata is recorded here. Activities consist of Meetings, Phone calls and Todos.</comment>
+    <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Activity ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>type</name>
+      <type>enum</type>
+      <values>Meeting, Phone Call, Todo</values>
+      <comment>Which type of activity ?</comment>
+  </field>
+  <field>
+     <name>activity_date</name>
+     <type>datetime</type>
+     <comment>Date and time of activity</comment>
+  </field>
+</table>

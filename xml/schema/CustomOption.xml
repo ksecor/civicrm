@@ -47,7 +47,7 @@
   <field>
        <name>is_active</name>
        <type>boolean</type>
-       <comment>Is this property active?</comment>
+       <comment>Is this option active ?</comment>
   </field>
   <index>
     <name>UI_label_custom_field_id</name>
