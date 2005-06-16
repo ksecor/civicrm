@@ -46,7 +46,7 @@ class testAdminEnableDisableMobileProvider(PyHttpTestCase):
         #Validator.validateResponse(self, self.getMethod(), url, params)
 
         nameMP    = 'Test Mobile Provider'
-        queryMPID = 'select id from crm_mobile_provider name like \'%%%s%%\'' % nameMP
+        queryMPID = 'select id from crm_mobile_provider where name like \'%%%s%%\'' % nameMP
 
         MPID      = '''%s''' % db.loadVal(queryMPID)
         params = [

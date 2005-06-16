@@ -88,7 +88,7 @@ class testAdminEditMobileProvider(PyHttpTestCase):
             print "Found Mobile Provider having name \'%s\' and Edited Successfully" % name
             print ("**************************************************************************************")
             self.msg("Response code: %s" % self.getResponseCode())
-            self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+            self.assertEquals("Assert number 9 failed", 302, self.getResponseCode())
             Validator.validateResponse(self, self.getMethod(), url, params)
         else :
             print ("**************************************************************************************")
