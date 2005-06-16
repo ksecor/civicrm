@@ -83,29 +83,32 @@ class CRM_Utils_PagerAToZ
      */
     function createLinks (&$params) 
     {
-        $AToZBar = self::getStaticCharacters();
+        $AToZBar          = self::getStaticCharacters();
         $dynamicAlphabets = self::getDynamicCharacters($params);
 
-        if (is_array($dynamicAlphabets)) {
-            $AToZBar = array_merge($AToZBar, $dynamicAlphabets);
-            $AToZBar = array_unique($AToZBar);
-        }
+        $AToZBar = array_merge ( $AToZBar, $dynamicAlphabets );
+        $AToZBar = array_unique( $AToZBar );
         
         //get the current path
         $path = CRM_Utils_System::currentPath() ;
 
         foreach ( $AToZBar as $key => $link ) {
-            if (!$link) {
+            if ( ! $link ) {
                 continue;
             }
-            if (in_array ($link, $dynamicAlphabets)) {
-                $url[] = sprintf('<a href="%s" >%s</a>', CRM_Utils_System::url( $path, 'q='.$path.'&force=1&sortByCharacter='.$link), $link );
+            
+            if ( in_array( $link, $dynamicAlphabets ) ) {
+                $url[] = sprintf('<a href="%s" >%s</a>',
+                                 CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=$link" ),
+                                 $link );
             } else {
                 $url[] = $link;
             }
         }
         
-        $url[] = sprintf('<a href="%s" >%s</a>', CRM_Utils_System::url( $path, 'q='.$path.'&force=1&sortByCharacter='), 'All' );
+        $url[] = sprintf('<a href="%s" >%s</a>',
+                         CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=1" ),
+                         'All' );
         
         return $url;
     }

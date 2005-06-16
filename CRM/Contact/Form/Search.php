@@ -145,7 +145,15 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      * @access protected
      */
     protected $_formValues;
-    
+
+    /**
+     * The sort by character
+     * 
+     * @var string
+     * @access protected
+     */
+    protected $_sortByCharacter;
+
     /*
      * csv - common search values
      *
@@ -345,8 +353,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         /**
          * set the varios class variables
          */
-        $this->_group    =& CRM_Core_PseudoConstant::group   ( );
-        $this->_tag      =& CRM_Core_PseudoConstant::tag( );
+        $this->_group    =& CRM_Core_PseudoConstant::group( );
+        $this->_tag      =& CRM_Core_PseudoConstant::tag  ( );
         $this->_done     =  false;
 
         /**
@@ -373,9 +381,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
 
 
-        $this->_groupID = CRM_Utils_Request::retrieve( 'gid'   , $this );
-        $this->_amtgID  = CRM_Utils_Request::retrieve( 'amtgID', $this );
-        $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID'  , $this );
+        $this->_groupID         = CRM_Utils_Request::retrieve( 'gid'            , $this );
+        $this->_amtgID          = CRM_Utils_Request::retrieve( 'amtgID'         , $this );
+        $this->_ssID            = CRM_Utils_Request::retrieve( 'ssID'           , $this );
+        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter', $this );
 
         $this->_formValues = $this->get( 'formValues' );
 
@@ -497,10 +506,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         //added the sorting  character to the form array
 
-        $sortByCharacter   = CRM_Utils_Request::retrieve( 'sortByCharacter' );
-
-        if ($sortByCharacter) {
-            $this->_formValues['sortByCharacter'] = $sortByCharacter;
+        if ( $this->_sortByCharacter && $this->_sortByCharacter != '1' ) {
+            $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
         }
 
         $this->set( 'type'      , $this->_action );

@@ -242,11 +242,8 @@ class CRM_Core_Selector_Controller {
         list($this->_pagerOffset, $this->_pagerRowCount) = $this->_pager->getOffsetAndRowCount();
 
         //get the AToZBar from the session
-        $getAToZBar = $store->get('AToZBar');
-        
-        if (is_array($getAToZBar)) {
-            $this->_aToZBar = $getAToZBar;
-        } else {
+        $this->_aToZBar = $store->get('AToZBar');
+        if (! $this->_aToZBar ) {
             $pagerAToZ =& new CRM_Utils_PagerAToZ( );
             $this->_aToZBar = $pagerAToZ->getAToZBar( $this->_object->_formValues );
             $store->set('AToZBar', $this->_aToZBar);
@@ -397,7 +394,8 @@ class CRM_Core_Selector_Controller {
         self::$_template->assign_by_ref( 'pager'  , $this->_pager   );
         
         if ($this->_store->get( 'rows' )) {
-            self::$_template->assign_by_ref( 'AToZBar'  , $this->_aToZBar );
+            self::$_template->assign( 'aToZ'  ,
+                                      implode( '&nbsp;|&nbsp;', $this->_aToZBar ) );
         }
         
         self::$_template->assign_by_ref( 'sort'   , $this->_sort    );

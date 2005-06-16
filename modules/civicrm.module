@@ -302,7 +302,7 @@ function civicrm_register_data($edit, &$user, $category) {
         CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Drupal' );
     }
 
-    $html = CRM_Core_BAO_UFGroup::getEditHTML( '', null, true );
+    $html = CRM_Core_BAO_UFGroup::getEditHTML( '', CRM_Core_Action::UPDATE, true );
     if ( $html ) {
         $output[] = array( 'title' => 'CiviCRM Information', 'data' => $html, weight => 0 );
     }

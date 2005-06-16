@@ -135,26 +135,20 @@ WHERE crm_contact.id = $id";
      * @param boolean  $count    is this a count only query ?
      * @param boolean  $includeContactIds should we include contact ids?
      * @param boolean  $sortByChar if true returns the distinct array of first characters for search results
+     *
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
     function searchQuery(&$fv, $offset, $rowCount, $sort, $count = false, $includeContactIds = false, $sortByChar = false)
     {
         $select = $from = $where = $order = $limit = '';
-        //print_r($fv);
-
-        CRM_Core_Error::le_method();
-
-        CRM_Core_Error::debug_var('fv', $fv);
 
         if($count) {
             $select = "SELECT count(DISTINCT crm_contact.id) ";
+        } else if ($sortByChar) {
+            $select = "SELECT DISTINCT LEFT(crm_contact.sort_name, 1) as sort_name";
         } else {
-            if ($sortByChar) {
-                $select = "SELECT DISTINCT LEFT(crm_contact.sort_name, 1) as sort_name";
-                
-            } else {
-                $select = "SELECT DISTINCT crm_contact.id as contact_id,
+            $select = "SELECT DISTINCT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
@@ -164,7 +158,6 @@ WHERE crm_contact.id = $id";
                               crm_email.email as email,
                               crm_phone.phone as phone,
                               crm_contact.contact_type as contact_type";
-            }
         }
 
         $from = self::fromClause( );
@@ -329,11 +322,10 @@ WHERE crm_contact.id = $id";
         // sortByCharacter
         if ( CRM_Utils_Array::value( 'sortByCharacter', $fv ) ) {
             $name = trim($fv['sortByCharacter']);
-            // if we have a comma in the string, search for the entire string
+
             $cond = " LOWER(crm_contact.sort_name) LIKE '" . strtolower(addslashes($name)) . "%'";
             if ( $andArray['sort_name'] ) {
                 $andArray['sort_name'] = '(' . $andArray['sort_name'] . "AND ( $cond ))";
-
             } else {
                 $andArray['sort_name'] = "( $cond )";
             }
