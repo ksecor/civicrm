@@ -108,9 +108,9 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
-                                         'name'      => ts('<< Previous') ),
+                                         'name'      => ts('&lt;&lt; Previous') ),
                                  array ( 'type'      => 'next',
-                                         'name'      => ts('Continue >>'),
+                                         'name'      => ts('Continue &gt;&gt;'),
                                          'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
