@@ -75,20 +75,6 @@ class CRM_Utils_System_Mambo {
     }
 
     /**
-     * redirect to another url
-     *
-     * @param string $url the url to goto
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function redirect( $url ) {
-        header( 'Location: ' . $url );
-        exit( );
-    }
-
-    /**
      * Generate an internal CiviCRM URL
      *
      * @param $path     string   The path being linked to, such as "civicrm/add"

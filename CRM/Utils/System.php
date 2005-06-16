@@ -354,8 +354,8 @@ class CRM_Utils_System {
      * @static
      */
     static function redirect( $url ) {
-        $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userFrameworkClass . '::redirect( "' . $url  . '" ); ' );
+        header( 'Location: ' . $url );
+        exit( 1 );
     }
 
     /**

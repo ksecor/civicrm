@@ -77,19 +77,6 @@ class CRM_Utils_System_Drupal {
     }
 
     /**
-     * redirect to another url
-     *
-     * @param string $url the url to goto
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function redirect( $url ) {
-        drupal_goto( $url );
-    }
-
-    /**
      * figure out the post url for the form
      *
      * @param the default action if one is pre-specified
