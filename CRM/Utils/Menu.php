@@ -376,7 +376,7 @@ class CRM_Utils_Menu {
                             'path'    => 'civicrm/activity/meeting',
                             'title'   => ts('Meetings'),
                             'type'    => self::CALLBACK,
-                            'crmType' => self::DEFAULT_LOCAL_TASK,
+                            'crmType' => self::LOCAL_TASK,
                             'weight'  => -20
                             ),
                       );
