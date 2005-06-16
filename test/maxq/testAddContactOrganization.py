@@ -102,17 +102,17 @@ class testAddContactOrganization(PyHttpTestCase):
         self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        params = [
-            ('''reset''', '''1'''),
-            ('''cid''', '''112'''),]
+        #params = [
+        #    ('''reset''', '''1'''),
+        #    ('''cid''', '''112'''),]
         #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=101''') % drupal_path)
-        url = "%s/civicrm/contact/view" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+        #url = "%s/civicrm/contact/view" % drupal_path
+        #self.msg("Testing URL: %s" % url)
+        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
+        #self.get(url, params)
+        #self.msg("Response code: %s" % self.getResponseCode())
+        #self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+        #Validator.validateResponse(self, self.getMethod(), url, params)
         
         self.msg("Test successfully complete")
     # ^^^ Insert new recordings here.  (Do not remove this line.)

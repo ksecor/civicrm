@@ -26,24 +26,22 @@ class testEditRelByRelTab(PyHttpTestCase):
 
         commonAPI.login(self)
 
-        queryRID    = 'select id from crm_relationship order by RAND() limit 1'
-        relationID  = db.loadVal(queryRID)
-        queryRA     = 'select contact_id_a from crm_relationship where id=%s' % relationID
-        queryRB     = 'select contact_id_b from crm_relationship where id=%s' % relationID
-        queryRTID   = 'select relationship_type_id from crm_relationship where id=%s' % relationID
-        relationA   = db.loadVal(queryRA)
-        relationB   = db.loadVal(queryRB)
-        relationTID = db.loadVal(queryRTID)
+        queryCA    = 'select id from crm_contact where sort_name like \'%%Zope, Manish%%\' and contact_type=\'Individual\''
+        queryCB    = 'select id from crm_contact where sort_name like \'%%Zope House%%\' and contact_type=\'Household\''
+        contactA   = db.loadVal(queryCA)
+        contactB   = db.loadVal(queryCB)
 
-        queryCA     = 'select sort_name from crm_contact where id=%s' % relationA
-        queryCB     = 'select sort_name from crm_contact where id=%s' % relationB
-        contactA    = db.loadVal(queryCA)
-        contactB    = db.loadVal(queryCB)
-        
-        queryRAB    = 'select name_a_b from crm_relationship_type where id=%s' % relationTID
-        relationAB  = db.loadVal(queryRAB)
+        queryRID  = 'select id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactA, contactB)
+        relID      = db.loadVal(queryRID)
+        queryRTID  = 'select relationship_type_id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactA, contactB)
+        relTID      = db.loadVal(queryRTID)
 
-        RID = '''%s''' % relationID 
+        if relTID == 7 :
+            RTID = '''6_a_b'''
+        else :
+            RTID = '''7_a_b'''
+                
+        RID = '''%s''' % relID 
         params = [
             ('''action''', '''update'''),
             ('''rid''', RID),
@@ -68,7 +66,7 @@ class testEditRelByRelTab(PyHttpTestCase):
         
         params = [
             ('''_qf_default''', '''Relationship:next'''),
-            ('''relationship_type_id''', '''7_b_a'''),
+            ('''relationship_type_id''', RTID),
             ('''start_date[d]''', '''14'''),
             ('''start_date[M]''', '''10'''),
             ('''start_date[Y]''', '''1998'''),
@@ -97,18 +95,8 @@ class testEditRelByRelTab(PyHttpTestCase):
         Validator.validateResponse(self, self.getMethod(), url, params)
 
         print ("**************************************************************************************")
-        print "Relationship \" \'%s\' %s \'%s\' \" is Edited Successfully" % (contactA, relationAB, contactB)
+        print "Relationship between \" \'Zope, Manish\' and \'Zope House\' \" is Edited Successfully"
         print ("**************************************************************************************")
-        
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #self.msg("Testing URL: %s" % url)
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 9 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
         
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)

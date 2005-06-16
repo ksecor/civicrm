@@ -45,8 +45,8 @@ maxq -q -r testEditContactOrganization.py
 maxq -q -r testViewRelByRelTab.py 
 maxq -q -r testEditRelByRelTab.py 
 maxq -q -r testAddRelByRelTab.py 
-maxq -q -r testDeleteRelByRelTab.py 
 maxq -q -r testDisableEnableRelByRelTab.py
+maxq -q -r testDeleteRelByRelTab.py 
 
 ########################################
 # Test for Relationship By Contact Tab # 
