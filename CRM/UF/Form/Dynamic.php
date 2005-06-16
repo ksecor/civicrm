@@ -104,6 +104,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
+        $this->assign( 'action',  $this->_action );
         $this->assign( 'fields', $this->_fields );
 
         // add the form elements
@@ -153,7 +154,9 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                 $objName = $field['name'];
                 if ( $objName == 'state_province_id' ) {
                     $states =& CRM_Core_PseudoConstant::stateProvince( );
-                    $defaults[$name] = array_search( $this->_contact->state, $states );
+                    if ( $this->_contact->state ) {
+                        $defaults[$name] = array_search( $this->_contact->state, $states );
+                    }
                 } else if ( $objName == 'country_id' ) {
                     $country =& CRM_Core_PseudoConstant::country( );
                     $defaults[$name] = array_search( $this->_contact->country, $country );
