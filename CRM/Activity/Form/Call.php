@@ -32,13 +32,13 @@
  *
  */
 
-require_once 'CRM/Admin/Form.php';
+require_once 'CRM/Activity/Form.php';
 
 /**
  * This class generates form components for Call
  * 
  */
-class CRM_Activity_Form_Call extends CRM_Admin_Form
+class CRM_Activity_Form_Call extends CRM_Activity_Form
 {
     /**
      * Function to build the form
