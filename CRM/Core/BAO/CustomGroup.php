@@ -421,7 +421,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function getTitle( $id )
     {
-        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $groupId, 'title' );
+        return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $id, 'title' );
     }
 }
 ?>

@@ -71,9 +71,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                                         array('TextArea'),
                                         array('Select Date'),
                                         array('Radio'),
-					array('Radio', 'Select'),
+					array('-- Type--', 'Radio', 'Select', 'CheckBox'),
                                         );
     
+
     /**
      * Function to set variables up before form is built
      *
@@ -137,12 +138,53 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 
         // data type, html type
-        $dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'));
+        $dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'), array('onchange' => 'if(this.options[this.selectedIndex].value > 0) { document.getElementById(\'showoption\').style.display=\'\'; } else {  document.getElementById(\'showoption\').style.display=\'none\';}'));
         $dataHTMLElement->setOptions(array( self::$_dataTypeValues, self::$_dataToHTML));
+	
         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $dataHTMLElement->freeze();
         }
+	
+	//----------------the hidden form fields of Custom Option
+	// defaults option
+	$this->add('radio','default_opt_value',ts('Default Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'default_option_value'), true);
 
+	// label
+        $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
+        //$this->addRule('label', ts('Please enter a valid label for this field.'), 'label');
+	
+	// value
+        $this->add('text', 'value', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
+        //$this->addRule('value', ts('Please enter a valid value') , 'value');
+        
+        // weight
+        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
+        //$this->addRule('weight', ts(' is a numeric field') , 'numeric');
+        
+	// is active ?
+        $this->add('checkbox', 'is_active', ts('Active?'));
+
+	//---------------------------------------------------
+
+	// default option
+	$this->add('radio','default_opt_value',ts('Default Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'default_option_value'), true);
+
+	// label
+        $this->add('text', 'label1', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
+        //$this->addRule('label', ts('Please enter a valid label for this field.'), 'label');
+	
+	// value
+        $this->add('text', 'value1', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
+        //$this->addRule('value', ts('Please enter a valid value') , 'value');
+        
+        // weight
+        $this->add('text', 'weight1', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
+        //$this->addRule('weight', ts(' is a numeric field') , 'numeric');
+        
+	// is active ?
+        $this->add('checkbox', 'is_active1', ts('Active?'));
+	//-----------------Hidden fields end here
+	
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');

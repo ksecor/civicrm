@@ -88,7 +88,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         }
         return $defaults;
     }
-
+    
     /**
      * Function to actually build the form
      *

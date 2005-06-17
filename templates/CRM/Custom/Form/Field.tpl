@@ -3,7 +3,7 @@
     <div class="form-item">
         <dl>
         <dt>{$form.label.label}</dt><dd>&nbsp;{$form.label.html}</dd>
-        <dt>{$form.data_type.label}</dt><dd>&nbsp;{$form.data_type.html}</dd>
+        <dt>{$form.data_type.label}</dt><dd>&nbsp;{$form.data_type.html}<div id='showoption' style='display: none'>{include file="CRM/Custom/Form/Optionfields.tpl"}</div></dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect. The appropriate HTML field type will be selected based on the type of data.{/ts}</dd>
         {/if}

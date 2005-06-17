@@ -127,7 +127,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
 
             $action = array_sum(array_keys($this->actionLinks()));
 	    
-	    // update enable/disable links depending on custom_group properties.
+	    // update enable/disable links depending on custom_field properties.
             if ($customOptionBAO->is_active) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
@@ -160,7 +160,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field/option', 'reset=1&action=browse&fid=' . $this->_fid));
        
-        $controller->set('id', $id);
+        $controller->set('fid', $this->_fid);
         $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
