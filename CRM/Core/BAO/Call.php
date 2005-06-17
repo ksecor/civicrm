@@ -36,7 +36,7 @@
  *
  */
 
-class CRM_Core_BAO_Call extends CRM_Core_DAO_ActivityPhone 
+class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
 {
 
     /**
@@ -44,6 +44,35 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_ActivityPhone
      */
     function __construct( ) {
         parent::__construct( );
+    }
+    /**
+     * takes an associative array and creates a contact object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * contact object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $ids            the array that holds all the db ids
+     *
+     * @return object CRM_Core_BAO_Meeting object
+     * @access public
+     * @static
+     */
+    static function add( &$params, &$ids ) {
+        if ( ! self::dataExists( $params ) ) {
+            return null;
+        }
+
+        $call =& new CRM_Core_DAO_Meeting();
+        
+        $call->copyValues($params);
+        
+        $call->contact_id = CRM_Utils_Array::value( 'contact', $ids );
+
+        $call->id = CRM_Utils_Array::value( 'meeting', $ids );
+        
+        return $call->save( );
     }
 
     /**
@@ -61,7 +90,7 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_ActivityPhone
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $call =& new CRM_Core_DAO_ActivityPhone( );
+        $call =& new CRM_Core_DAO_Phonecall( );
         $call->copyValues( $params );
         if ( $call->find( true ) ) {
             CRM_Core_DAO::storeValues( $call, $defaults );

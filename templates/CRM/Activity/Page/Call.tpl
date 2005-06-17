@@ -6,15 +6,17 @@
     </div>
 {/if}
 <div id="ltype">
+{if $rows}
  <p>
     <div class="form-item">
        {strip}
        <table>
        <tr class="columnheader">
-        <th>{ts}Name{/ts}</th>
-        <th>{ts}Description{/ts}</th>
-        <th>{ts}Reserved?{/ts}</th>
-        <th>{ts}Enabled?{/ts}</th>
+        <th>{ts}Phone Call Date{/ts}</th>
+        <th>{ts}Status{/ts}</th>
+        <th>{ts}Call Log{/ts}</th>
+        <th>{ts}Priority{/ts}</th>
+	<th>{ts}Next Call Date{/ts}</th>
         <th></th>
        </tr>
        {foreach from=$rows item=row}
@@ -26,17 +28,19 @@
 	       <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	       <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	       <td>{$row.action}</td>
-        </tr>
+        </tr>	
        {/foreach}
+
        </table>
        {/strip}
-
+{/if}
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Call{/ts}</a>
+    	 <a href="{crmURL q="action=add"}">&raquo; {ts}New Call{/ts}</a>
        </div>
        {/if}
     </div>
  </p>
+		
 </div>

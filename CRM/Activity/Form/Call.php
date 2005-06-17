@@ -40,6 +40,22 @@ require_once 'CRM/Activity/Form.php';
  */
 class CRM_Activity_Form_Call extends CRM_Activity_Form
 {
+
+
+    /**
+     * Function to initilazing variables like contact_id
+     *
+     * @access public
+     * @return None
+     */
+    public function preProcess() 
+    {
+        $page =& new CRM_Contact_Page_View();
+       
+        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
+        $this->_id         = $this->get( 'callId');
+    }
+    
     /**
      * Function to build the form
      *
@@ -49,16 +65,16 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
     public function buildQuickForm( ) 
     {
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name'       , ts('Name')       ,
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a valid location type name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_LocationType', $this->_id ) );
-        
-        $this->add('text', 'description', ts('Description'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
+        // $this->add('text', 'Caller_name'       , ts('Caller Name')       ,'');
 
-        $this->add('checkbox', 'is_active', ts('Enabled?'));
-        parent::buildQuickForm( );
+        $this->add('date', 'phonecall_date', ts('Phone Call Date'), CRM_Core_SelectValues::date( 'relative' ) );
+        $this->add('select','status',ts('Status'),CRM_Core_SelectValues::phoneStatus());
+        $this->add('textarea', 'call_log'       , ts('Call Log')       ,CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'call_log' ));
+        $this->add('select', 'priority'       , ts('Priority')       ,CRM_Core_SelectValues::phonePriority());
+        $this->add('date', 'next_phonecall_datetime', ts('Next Call Date'), CRM_Core_SelectValues::date( 'relative' ) );
+
+        
+         parent::buildQuickForm( );
     }
 
        
@@ -70,25 +86,21 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
      */
     public function postProcess() 
     {
-        // store the submitted values in an array
+         // store the submitted values in an array
         $params = $this->exportValues();
-        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
+               
+        $ids = array();
 
-        // action is taken depending upon the mode
-        $locationType               =& new CRM_Contact_DAO_LocationType( );
-        $locationType->domain_id    = CRM_Core_Config::domainID( );
-        $locationType->name         = $params['name'];
-        $locationType->description  = $params['description'];
-        $locationType->is_active    = $params['is_active'];
-
+        // store the contact id
+        $ids['contact'] = $this->_contactId;
+        
         if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $locationType->id = $this->_id;
+            $ids['call'] = $this->_id;
         }
 
-        $locationType->save( );
+        CRM_Core_BAO_Meeting::add($params, $ids);
 
-        CRM_Core_Session::setStatus( ts('The location type "%1" has been saved.',
-                                        array( 1 => $locationType->name )) );
+        CRM_Core_Session::setStatus( ts('Phone Call  "%1" has been saved.', array( 1 => $param['title'])) );
     }//end of function
 
 

@@ -338,6 +338,45 @@ class CRM_Core_SelectValues {
         return $_visibility;
     }
 
+
+    /**
+     * different types of phone call status
+     * @static
+     */
+    static function &phoneStatus()
+    {
+        static $phoneStatus = null;
+        if (!$phoneStatus) {
+            $phoneStatus = array(
+                                 ''               => ts('-select-'),
+                                 'Closed'         => ts('Closed'),
+                                 'FollowUp'       => ts('FollowUp'),
+                                 'Unreachable'    => ts('Unreachablae'),
+                                 'Answermachine'  => ts('Answer Machine')
+            );
+        }
+        return $phoneStatus;
+    }
+    
+    /**
+     * different types of phone priority
+     * @static
+     */
+    static function &phonePriority()
+    {
+        static $phonePriority = null;
+        if (!$phonePriority) {
+            $phonePriority = array(
+                                   ''              => ts('-select-'),
+                                   'Low'           => ts('Low'),
+                                   'Medium'        => ts('Medium'),
+                                   'High'          => ts('High'),
+                                   'Critical'      => ts('Critical')
+            );
+        }
+        return $phonePriority;
+    }
+
 }
 
 ?>
