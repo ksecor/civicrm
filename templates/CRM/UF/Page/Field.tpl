@@ -48,7 +48,7 @@
         <div class="message status">
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
-        <dd>{ts 1=$groupTitle}There are no User Sharing Fields for the group "%1", you can{/ts} <a href="{crmURL p='civicrm/admin/uf/group/field q="reset=1&action=add&gid=$gid"}">{ts}add one{/ts} now</a>.</dd>
+        <dd>{capture assign=crmURL}{ts 1=$groupTitle 2=$crmURL}There are no User Sharing Fields for the group "%1", you can <a href="%2">add one now</a>.{/ts}</dd>
         </dl>
         </div>
         {/if}
