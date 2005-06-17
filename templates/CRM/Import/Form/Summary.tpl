@@ -12,7 +12,7 @@
     {if $invalidRowCount }
         <p>
         {capture assign=crmURL}{crmURL p=`$errorFile`}{/capture}
-        {ts 1=$invalidRowCount 2=$crmURL 3=$downloadErrorRecords}CiviCRM has detected invalid data and/or formatting errors in %1 records. These records have not been imported. You can <a href = "%2">download</a> a file with just these problem records - %3. You may then correct them and import the new file with the corrected data.{/ts}
+        {ts 1=$invalidRowCount 2=$crmURL 3=$downloadErrorRecords}CiviCRM has detected invalid data and/or formatting errors in %1 records. These records have not been imported. You can <a href="%2">download</a> a file with just these problem records - %3. You may then correct them and import the new file with the corrected data.{/ts}
         </p>
     {/if}
 
