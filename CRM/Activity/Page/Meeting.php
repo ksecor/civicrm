@@ -31,12 +31,12 @@
  *
  */
 
-require_once 'CRM/Core/Page/Basic.php';
+require_once 'CRM/Activity/Page.php';
 
 /**
  * Page for displaying list of Meetings
  */
-class CRM_Activity_Page_Meeting extends CRM_Core_Page_Basic 
+class CRM_Activity_Page_Meeting extends CRM_Activity_Page 
 {
 
     /**

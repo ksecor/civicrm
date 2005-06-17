@@ -31,12 +31,12 @@
  *
  */
 
-require_once 'CRM/Core/Page/Basic.php';
+require_once 'CRM/Activity/Page.php';
 
 /**
  * Page for displaying list of Calls
  */
-class CRM_Activity_Page_Call extends CRM_Core_Page_Basic 
+class CRM_Activity_Page_Call extends CRM_Activity_Page 
 {
 
     /**
@@ -124,60 +124,6 @@ class CRM_Activity_Page_Call extends CRM_Core_Page_Basic
     {
         return 'civicrm/contact/view/call';
     }
-
-    /**
-     * browse all entities.
-     *
-     * @param int $action
-     */
-    function browse($action = null) {
-        $links =& $this->links();
-        if ($action == null) {
-            $action = array_sum(array_keys($links));
-        }
-        if ( $action & CRM_Core_Action::DISABLE ) {
-            $action -= CRM_Core_Action::DISABLE;
-        }
-        if ( $action & CRM_Core_Action::ENABLE ) {
-            $action -= CRM_Core_Action::ENABLE;
-        }
-
-        eval( '$object =& new ' . $this->getBAOName( ) . '( );' );
-
-        $values = array();
-
-        /*
-         * lets make sure we get the stuff sorted by name if it exists
-         */
-        $fields =& $object->fields( );
-        $key = '';
-        if ( CRM_Utils_Array::value( 'title', $fields ) ) {
-            $key = 'title';
-        }  else if ( CRM_Utils_Array::value( 'label', $fields ) ) {
-            $key = 'label';
-        } else if ( CRM_Utils_Array::value( 'name', $fields ) ) {
-            $key = 'name';
-        }
-
-        if ( $key ) {
-            $object->orderBy ( $key . ' asc' );
-        }
-
-        // find all objects
-        $object->find();
-        while ($object->fetch()) {
-            $permission = $this->checkPermission( $object->id, $object->$key );
-            if ( $permission ) {
-                $values[$object->id] = array( );
-                CRM_Core_DAO::storeValues( $object, $values[$object->id]);
-                // populate action links
-                self::action( $object, $action, $values[$object->id], $links, $permission );
-            }
-        }
-
-        $this->assign( 'rows', $values );
-    }
-
-    
+      
 }
 ?>
