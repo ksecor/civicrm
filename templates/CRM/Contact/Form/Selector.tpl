@@ -1,5 +1,7 @@
 {include file="CRM/pager.tpl" location="top"}
 
+{include file="CRM/pagerAToZ.tpl"}
+
 {strip}
 <table>
   <tr class="columnheader">

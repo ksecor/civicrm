@@ -22,8 +22,6 @@
         </span>
      </div>
 
-{include file="CRM/pagerAToZ.tpl" }
-
  </div>
  <div class="form-item">
      <p>

@@ -5,7 +5,7 @@
         {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
         {else}{ts}Search Criteria{/ts}{/if}
     </legend>
-  <div class="form-item">
+    <div class="form-item">
     {strip}
 	<table class="form-layout">
 		<tr>
@@ -41,7 +41,7 @@
             </td>
 		</tr>
     </table>
-    <fieldset><legend>{ts}Location Criteria{/ts}</legend>
+    <fieldset><legend>{ts}Location{/ts}</legend>
     <table class="form-layout">
         <tr>
             <td class="label">{$form.street_name.label}</td>
@@ -83,29 +83,32 @@
             </td>
             <td></td>
         </tr>
+    </table>
+    </fieldset>
 
+    <fieldset><legend>{ts}Activity History{/ts}</legend>
+    <table class="form-layout">
         <tr>
-            <td>
-                {$form.activity_type.label} {$form.activity_type.html}
+            <td class="label">
+                {$form.activity_type.label}
             </td>
             <td>
-                {$form.activity_from_date.label} {$form.activity_from_date.html}
+                {$form.activity_type.html}
             </td>
-            <td>
-                {$form.activity_to_date.label} {$form.activity_to_date.html}
-            </td>
-            <td></td>
         </tr>
-
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="label">{$form.buttons.html}</td>
+            <td class="label">
+                {$form.activity_from_date.label}
+            </td>
+            <td>
+                 {$form.activity_from_date.html} &nbsp; {$form.activity_to_date.label} {$form.activity_to_date.html}
+            </td>
         </tr>
     </table>
-    {/strip}
     </fieldset>
-    {include file="CRM/pagerAToZ.tpl" }
-  </div>
+    {/strip}
+    <div class="element-right">{$form.buttons.html}</div>
+    <div>&nbsp;</div>
+    <div class="spacer"></div>
+    </div>
 </fieldset>

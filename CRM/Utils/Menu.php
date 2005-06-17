@@ -361,7 +361,7 @@ class CRM_Utils_Menu {
                             'type'    => self::NORMAL_ITEM,
                             'crmType' => self::ROOT_LOCAL_TASK,
                             'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
-                            'weight'  => 50,
+                            'weight'  => 25,
                             ),
                       
                       array(

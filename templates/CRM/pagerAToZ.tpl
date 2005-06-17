@@ -1,3 +1,3 @@
-<div class="form-item">
-  <span class="horizontal-position">{$aToZ}</span>
-</div>
+<table width="80%">
+  <tr><td align="center">{$aToZ}</td></tr>
+</table>

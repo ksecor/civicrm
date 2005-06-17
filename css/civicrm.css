@@ -307,6 +307,12 @@ div.spacer {
   margin-left: 30px;
 }
 
+#crm-container .horizontal-center {
+  text-align: center;
+  margin: 0 auto;
+  width: 80%;
+}
+
 #crm-container .place-left {
   float: left;
   margin-left: 30px;
