@@ -26,7 +26,7 @@
   </foreignKey>
   <field>
      <name>phonecall_date</name>
-     <type>datetime</type>
+     <type>timestamp</type>
      <comment>Date and time of phonecall</comment>
   </field>
   <field>

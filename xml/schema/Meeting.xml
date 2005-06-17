@@ -26,7 +26,7 @@
   </foreignKey>
   <field>
      <name>meeting_date</name>
-     <type>datetime</type>
+     <type>timestamp</type>
      <comment>Date and time of meeting</comment>
   </field>
   <field>
