@@ -74,7 +74,19 @@ class CRM_Activity_Page_Call extends CRM_Core_Page_Basic
                                                                     'url'   => 'civicrm/contact/view/call',
                                                                     'qs'    => 'action=update&id=%%id%%',
                                                                     'title' => ts('Edit Call') 
-                                                                   ),
+                                                                    ),
+                                  CRM_Core_Action::VIEW  => array(
+                                                                  'name'  => ts('View'),
+                                                                  'url'   => 'civicrm/contact/view/call',
+                                                                    'qs'    => 'action=view&id=%%id%%',
+                                                                  'title' => ts('View Call') 
+                                                                  ),
+                                  CRM_Core_Action::FOLLOWUP  => array(
+                                                                  'name'  => ts('Follow-up'),
+                                                                  'url'   => 'civicrm/contact/view/call',
+                                                                    'qs'    => 'action=followup&id=%%id%%',
+                                                                  'title' => ts('Follow-up Call') 
+                                                                  ),
                                  );
         }
         return self::$_links;

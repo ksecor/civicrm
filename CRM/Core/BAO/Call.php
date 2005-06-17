@@ -60,17 +60,14 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
      * @static
      */
     static function add( &$params, &$ids ) {
-        if ( ! self::dataExists( $params ) ) {
-            return null;
-        }
 
-        $call =& new CRM_Core_DAO_Meeting();
+        $call =& new CRM_Core_DAO_Phonecall();
         
         $call->copyValues($params);
         
         $call->contact_id = CRM_Utils_Array::value( 'contact', $ids );
 
-        $call->id = CRM_Utils_Array::value( 'meeting', $ids );
+        $call->id = CRM_Utils_Array::value( 'call', $ids );
         
         return $call->save( );
     }

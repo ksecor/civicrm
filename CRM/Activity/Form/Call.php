@@ -41,21 +41,6 @@ require_once 'CRM/Activity/Form.php';
 class CRM_Activity_Form_Call extends CRM_Activity_Form
 {
 
-
-    /**
-     * Function to initilazing variables like contact_id
-     *
-     * @access public
-     * @return None
-     */
-    public function preProcess() 
-    {
-        $page =& new CRM_Contact_Page_View();
-       
-        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
-        $this->_id         = $this->get( 'callId');
-    }
-    
     /**
      * Function to build the form
      *
@@ -68,13 +53,15 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
         // $this->add('text', 'Caller_name'       , ts('Caller Name')       ,'');
 
         $this->add('date', 'phonecall_date', ts('Phone Call Date'), CRM_Core_SelectValues::date( 'relative' ) );
+        $this->add('select','phone_id',ts('Phone Number'), array ('Select Phone Number') + CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId)  );
+        $this->add('text', 'phone_number'  , ts(' OR New Phone') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'phone_number' ));
+        $this->addRule( 'phone_number', ts('Phone number is not valid.'), 'phone' );
         $this->add('select','status',ts('Status'),CRM_Core_SelectValues::phoneStatus());
         $this->add('textarea', 'call_log'       , ts('Call Log')       ,CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'call_log' ));
         $this->add('select', 'priority'       , ts('Priority')       ,CRM_Core_SelectValues::phonePriority());
         $this->add('date', 'next_phonecall_datetime', ts('Next Call Date'), CRM_Core_SelectValues::date( 'relative' ) );
-
         
-         parent::buildQuickForm( );
+        parent::buildQuickForm( );
     }
 
        
@@ -98,9 +85,9 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
             $ids['call'] = $this->_id;
         }
 
-        CRM_Core_BAO_Meeting::add($params, $ids);
-
-        CRM_Core_Session::setStatus( ts('Phone Call  "%1" has been saved.', array( 1 => $param['title'])) );
+        $call = CRM_Core_BAO_Call::add($params, $ids);
+        
+        CRM_Core_Session::setStatus( ts('Phone Call has been saved.') );
     }//end of function
 
 

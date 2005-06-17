@@ -36,7 +36,8 @@ require_once 'CRM/Contact/DAO/Phone.php';
 /**
  * BAO object for crm_phone table
  */
-class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
+class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone 
+{
     /**
      * takes an associative array and creates a contact object
      *
@@ -54,7 +55,8 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $phoneId, &$isPrimary ) {
+    static function add( &$params, &$ids, $locationId, $phoneId, &$isPrimary ) 
+    {
         if ( ! self::dataExists( $params, $locationId, $phoneId, $ids ) ) {
             return null;
         }
@@ -90,7 +92,8 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $phoneId, &$ids ) {
+    static function dataExists( &$params, $locationId, $phoneId, &$ids ) 
+    {
         if ( CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] )) {
             return true;
         }
@@ -111,10 +114,39 @@ class CRM_Contact_BAO_Phone extends CRM_Contact_DAO_Phone {
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
+    static function getValues( &$params, &$values, &$ids, $blockCount = 0 ) 
+    {
         $phone =& new CRM_Contact_BAO_Phone( );
         return CRM_Contact_BAO_Block::getValues( $phone, 'phone', $params, $values, $ids, $blockCount );
     }
+
+    /**
+     * Function to return the phone numbers of a contact
+     * 
+     * @param int $contactId
+     * 
+     * @return array $contactPhones 
+     * @access public 
+     *
+     */
+    static function getphoneNumber ( $contactId ) 
+    {
+        $phone =& new CRM_Core_DAO( );
+        
+        $strQuery = "SELECT crm_phone.id as phone_id, crm_phone.phone as phone 
+                     FROM crm_phone, crm_location 
+                     WHERE crm_phone.location_id = crm_location.id 
+                       AND crm_location.contact_id =". $contactId;
+        
+        $phone->query($strQuery);
+        
+        while($phone->fetch()) {
+            $contactPhones[$phone->phone_id] = $phone->phone;
+        }
+
+        return $contactPhones;
+    }
+    
 
 }
 

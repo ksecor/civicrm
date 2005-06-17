@@ -2,38 +2,35 @@
    {include file="CRM/Activity/Form/Call.tpl"}
 {else}
     <div id="help">
-    {ts}Calls{/ts}
+    {ts}Calls can be added for a contact{/ts}
     </div>
 {/if}
 <div id="ltype">
-{if $rows}
- <p>
+  <p>
+   {if $rows}
     <div class="form-item">
        {strip}
        <table>
        <tr class="columnheader">
         <th>{ts}Phone Call Date{/ts}</th>
         <th>{ts}Status{/ts}</th>
-        <th>{ts}Call Log{/ts}</th>
         <th>{ts}Priority{/ts}</th>
 	<th>{ts}Next Call Date{/ts}</th>
         <th></th>
        </tr>
        {foreach from=$rows item=row}
-         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-	       <td>{$row.name}</td>	
-           <td>
-            {$row.description}
-           </td>
-	       <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	       <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	       <td>{$row.action}</td>
+         <tr class="{cycle values="odd-row,even-row"} ">
+	   <td>{$row.phonecall_date}</td>	
+           <td>{$row.status}</td>
+	   <td>{$row.priority}</td>
+           <td>{$row.next_phonecall_datetime}</td>
+           <td>{$row.action}</td>
         </tr>	
        {/foreach}
 
        </table>
        {/strip}
-{/if}
+  
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
@@ -41,6 +38,16 @@
        </div>
        {/if}
     </div>
+
+  {else}
+     <div class="message status">
+      <dl>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+      {capture assign=crmURL}{crmURL p='civicrm/contact/view/call' q='action=add'}{/capture}
+      <dd>{ts 1=$crmURL}There are no Phone Calls for this contact. You can <a href="%1">add one</a>.{/ts}</dd>
+     </div>
+  {/if}   
+
  </p>
 		
 </div>

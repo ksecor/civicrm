@@ -58,7 +58,8 @@ class CRM_Core_Action {
         EXPORT        =   128,
         BASIC         =   256,
         ADVANCED      =   512,
-        PREVIEW       =  1024;
+        PREVIEW       =  1024,
+        FOLLOWUP       =  2048;
   
     /**
      * map the action names to the relevant constant. We perform

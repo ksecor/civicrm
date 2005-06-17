@@ -2,12 +2,15 @@
    {include file="CRM/Activity/Form/Meeting.tpl"}
 {else}
     <div id="help">
-    {ts}Meetings{/ts}
+    {ts}Meetings can be added for this contact{/ts}
     </div>
 {/if}
 <div id="ltype">
  <p>
+  {if $rows}
+
     <div class="form-item">
+
        {strip}
        <table>
        <tr class="columnheader">
@@ -34,5 +37,15 @@
        </div>
        {/if}
     </div>
+
+  {else}
+     <div class="message status">
+      <dl>
+      <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+      {capture assign=crmURL}{crmURL p='civicrm/contact/view/meeting' q='action=add'}{/capture}
+      <dd>{ts 1=$crmURL}There are no Meetings for this contact. You can <a href="%1">add one</a>.{/ts}</dd>
+     </div>
+  {/if}   
+
  </p>
 </div>
