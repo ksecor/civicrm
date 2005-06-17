@@ -351,7 +351,7 @@ class CRM_Core_SelectValues {
                                  ''               => ts('-select-'),
                                  'Closed'         => ts('Closed'),
                                  'FollowUp'       => ts('FollowUp'),
-                                 'Unreachable'    => ts('Unreachablae'),
+                                 'Unreachable'    => ts('Unreachable'),
                                  'Answermachine'  => ts('Answer Machine')
             );
         }
