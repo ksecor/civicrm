@@ -42,11 +42,12 @@ require_once 'CRM/Core/Page.php';
  */
 
 class CRM_Contact_Page_Task extends CRM_Core_Page {
-
-    function run() {
-        return parent::run();
-    }
-
+    /**
+     * returns the page title
+     *
+     * @return string the title of the page
+     * @access public
+     */
     function getTitle()
     {
         return "Task Results";

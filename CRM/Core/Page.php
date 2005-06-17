@@ -195,6 +195,15 @@ class CRM_Core_Page {
         self::$_template->assign($var, $value);
     }
 
+    /**
+     * assign value to name in template by reference
+     *
+     * @param array|string $name  name  of variable
+     * @param mixed $value (reference) value of varaible
+     *
+     * @return void
+     * @access public
+     */
     function assign_by_ref( $var, &$value) {
         self::$_template->assign_by_ref($var, $value);
     }

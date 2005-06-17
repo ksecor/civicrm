@@ -175,6 +175,13 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     protected $_done;
 
+    /**
+     * define the set of valid contexts that the search form operates on
+     *
+     * @return array the valid context set and the titles
+     * @access protected
+     * @static
+     */
     static function &validContext()
     {
         if (!(self::$_validContext)) {

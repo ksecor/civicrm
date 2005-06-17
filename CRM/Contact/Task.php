@@ -50,10 +50,30 @@ class CRM_Contact_Task {
         ORGANIZATION_CONTACTS = 1024;
     
 
+    /**
+     * the task array
+     *
+     * @var array
+     * @static
+     */
     static $_tasks = null;
 
+    /**
+     * the optional task array
+     *
+     * @var array
+     * @static
+     */
     static $_optionalTasks = null;
 
+    /**
+     * These tasks are the core set of tasks that the user can perform
+     * on a contact / group of contacts
+     *
+     * @return array the set of tasks for a group of contacts
+     * @static
+     * @access public
+     */
     static function &tasks()
     {
         if (!(self::$_tasks)) {
@@ -64,13 +84,20 @@ class CRM_Contact_Task {
                 128 => ts('Send Email to Contacts'),
                   8 => ts('Delete Contacts'),
                  16 => ts('New Saved Search'),
-                  512 => ts('Add Contacts to Household'),
-                  1024 =>ts('Add Contacts to Organization'),
+                512 => ts('Add Contacts to Household'),
+               1024 =>ts('Add Contacts to Organization'),
             );
         }
         return self::$_tasks;
     }
 
+    /**
+     * These tasks get added based on the context the user is in
+     *
+     * @return array the set of optional tasks for a group of contacts
+     * @static
+     * @access public
+     */
     static function &optionalTasks()
     {
         if (!(self::$_optionalTasks)) {

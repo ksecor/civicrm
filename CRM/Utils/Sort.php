@@ -140,6 +140,12 @@ class CRM_Utils_Sort {
         $this->initialize( $defaultSortOrder );
     }
 
+    /**
+     * return the string for the order by clause
+     *
+     * @return string the order by clause
+     * @access public
+     */
     function orderBy( ) {
         if ( $this->_vars[$this->_currentSortID]['direction'] == self::ASCENDING || 
              $this->_vars[$this->_currentSortID]['direction'] == self::DONTCARE ) {
@@ -149,11 +155,27 @@ class CRM_Utils_Sort {
         }
     }
 
+    /**
+     * create the sortID string to be used in the GET param
+     *
+     * @param int $index the field index
+     * @param int $dir   the direction of the sort
+     *
+     * @return string    the string to append to the url
+     */
     function sortIDValue( $index, $dir ) {
         return ( $dir == self::DESCENDING ) ? $index . '_d' : $index . '_u';
     }
-  
-    function getSortID( $defaultSortOrder ) {
+
+    /**
+     * init the sort ID values in the object 
+     *
+     * @param string $defaultSortOrder the sort order to use by default
+     *
+     * @return void
+     * @access public
+     */
+    function initSortID( $defaultSortOrder ) {
         $url = CRM_Utils_Array::value( self::SORT_ID, $_GET, $defaultSortOrder );
 
         if ( empty( $url ) ) {
@@ -175,8 +197,16 @@ class CRM_Utils_Sort {
         $this->_vars[$current]['direction'] = $direction;
     }
 
+    /**
+     * init the object
+     *
+     * @param string $defaultSortOrder the sort order to use by default
+     *
+     * @return void
+     * @access public
+     */
     function initialize( $defaultSortOrder ) {
-        $this->getSortID( $defaultSortOrder );
+        $this->initSortID( $defaultSortOrder );
 
         $this->_response = array( );
 

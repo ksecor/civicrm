@@ -48,9 +48,8 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
     /*
      * Creates an array representing an element containing
      * the key for storing this. We allow the parent to do most of the
-     * work, but then we add some Drupal specific hacks and call the
-     * drupal form theming functions (which in turn will call the
-     * theme engine that is installed
+     * work, but then we add some CiviCRM specific enhancements to 
+     * make the html compliant with our css etc
      *
      * @access private
      * @param  object    An HTML_QuickForm_element object
@@ -71,14 +70,20 @@ class CRM_Core_Form_Renderer extends HTML_QuickForm_Renderer_ArraySmarty {
             }
         }
 
-        // $el['required'] = $required ? theme('mark') : null;
-        // $el['theme']    = theme( 'form_element', $element->getLabel(), $el['html'], null, $element->getName(), $req, $el['error'] );
-                       
         return $el;
     }
 
+    /*
+     * Update the attributes of this element and add a few CiviCRM
+     * based attributes so we can style this form element better
+     *
+     * @access private
+     * @param  object    An HTML_QuickForm_element object
+     * @param  bool      Whether an element is required
+     * @param  string    Error associated with the element
+     * @return array
+     */
     function updateAttributes(&$element, $required, $error) {
-
         // lets create an id for all input elements, so we can generate nice label tags
         // to make it nice and clean, we'll just use the elementName if it is non null
         if (!$element->getAttribute('id')) {
