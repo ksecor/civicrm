@@ -51,9 +51,14 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
     {
         $this->applyFilter('__ALL__', 'trim');
         // $this->add('text', 'Caller_name'       , ts('Caller Name')       ,'');
+        $contactPhone[''] = 'Select Phone Number';
+        if ( is_array(CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId))) {
+            $contactPhone = CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId);
+        }
 
+        
         $this->add('date', 'phonecall_date', ts('Phone Call Date'), CRM_Core_SelectValues::date( 'relative' ) );
-        $this->add('select','phone_id',ts('Phone Number'), array ('Select Phone Number') + CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId)  );
+        $this->add('select','phone_id',ts('Phone Number'), $contactPhone );
         $this->add('text', 'phone_number'  , ts(' OR New Phone') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'phone_number' ));
         $this->addRule( 'phone_number', ts('Phone number is not valid.'), 'phone' );
         $this->add('select','status',ts('Status'),CRM_Core_SelectValues::phoneStatus());

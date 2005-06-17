@@ -65,6 +65,10 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
         
         $call->copyValues($params);
         
+        if (CRM_Utils_Array::value( 'phone_number', $params ) ) {
+            $call->phone_id = null;
+        }
+        
         $call->contact_id = CRM_Utils_Array::value( 'contact', $ids );
 
         $call->id = CRM_Utils_Array::value( 'call', $ids );
