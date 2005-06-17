@@ -3,12 +3,8 @@
 
 {else}
     <div id="help">
-    {ts}<p>By configuring 'User Sharing', you can allow end-users to edit and/or view
-    specific fields from their own contact information. Additionally, 'User Sharing' fields
-    control which data is used to match a contact record to a user. You can also mark 'User
-    Sharing' fields as viewable by other users and site visitors.</p>
-    <p>Each 'User Sharing Group' is presented as a separate form when new users register fo
-    and account, as well as when they edit an existing account.</p>
+    {ts}<p>By configuring 'User Sharing', you can allow end-users to edit and/or view specific fields from their own contact information. Additionally, 'User Sharing' fields control which data is used to match a contact record to a user. You can also mark 'User Sharing' fields as viewable by other users and site visitors.</p>
+    <p>Each 'User Sharing Group' is presented as a separate form when new users register for an account, as well as when they edit an existing account.</p>
     {/ts}
     </div>
 

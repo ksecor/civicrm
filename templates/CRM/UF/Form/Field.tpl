@@ -35,8 +35,7 @@
         {/if}
         <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html}</dd>
         {if $action neq 4}
-        <dt></dt><dd class="description">{ts}Explanatory text displayed to users for this field. All fields marked as 'Key to Contacts' will be
-        combined when evaluating a match.{/ts}</dd>
+        <dt></dt><dd class="description">{ts}Explanatory text displayed to users for this field. All fields marked as 'Key to Contacts' will be combined when evaluating a match.{/ts}</dd>
         {/if}
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
