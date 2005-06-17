@@ -60,7 +60,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
     private static $_actionLinks;
 
 
-    /*
+    /**
      * Get the action links for this page.
      *
      * @param none

@@ -23,11 +23,9 @@
 */
 
 /**
- * Config handles all the run time configuration changes that the system
- * needs to deal with. Typically we'll have different values for a user's
- * sandbox, a qa sandbox and a production area. The default values in 
- * general, should reflect production values (minimizes chances of screwing
- * up)
+ * Config handles all the run time configuration changes that the system needs to deal with.
+ * Typically we'll have different values for a user's sandbox, a qa sandbox and a production area.
+ * The default values in general, should reflect production values (minimizes chances of screwing up)
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>

@@ -123,7 +123,7 @@ class CRM_Contact_Page_GroupContact {
     }
 
  
-    /*
+    /**
      * function to remove/ rejoin the group
      *
      * @param int $groupContactId id of crm_group_contact

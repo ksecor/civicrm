@@ -60,7 +60,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
     private static $_actionLinks;
 
 
-    /*
+    /**
      * Get the action links for this page.
      *
      * @param none

@@ -50,7 +50,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
      */
     private static $_actionLinks = null;
 
-    /*
+    /**
      * Get the action links for this page.
      *
      * @param none
