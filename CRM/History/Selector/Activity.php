@@ -252,7 +252,6 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                           array(
                                                 'name'      => ts('Activity Type'),
                                                 'sort'      => 'activity_type',
-                                                //'direction' => CRM_Utils_Sort::ASCENDING,
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('name' => ts('Description')),

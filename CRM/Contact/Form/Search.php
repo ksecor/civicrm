@@ -423,9 +423,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
              * values that potentially change the controller behavior. i.e. things
              * like totalCount etc
              */
+            $sortID = null;
+            if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
+                $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                       $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+            }
             $controller =& new CRM_Contact_Selector_Controller($selector ,
                                                                $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                               $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                               $sortID,
                                                                CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
             $controller->setEmbedded( true );
         }
@@ -539,10 +544,15 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
             // create the selector, controller and run - store results in session
             $selector =& new CRM_Contact_Selector($this->_formValues, $this->_action);
+            $sortID = null;
+            if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
+                $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                       $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+            }
             $controller =& new CRM_Contact_Selector_Controller($selector ,
-                                                              $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                              $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                              CRM_Core_Action::VIEW, $this, $output );
+                                                               $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                               $sortID,
+                                                               CRM_Core_Action::VIEW, $this, $output );
             $controller->setEmbedded( true );
             $controller->run();
         }

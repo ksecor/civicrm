@@ -162,8 +162,10 @@ class CRM_Utils_Sort {
      * @param int $dir   the direction of the sort
      *
      * @return string    the string to append to the url
+     * @static
+     * @access public
      */
-    function sortIDValue( $index, $dir ) {
+    static function sortIDValue( $index, $dir ) {
         return ( $dir == self::DESCENDING ) ? $index . '_d' : $index . '_u';
     }
 

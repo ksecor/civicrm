@@ -130,8 +130,7 @@ class CRM_Core_BAO_History {
             $params = array();
         }
         
-        $historyDAO->copyValues($params); // this is not working in php4
-        // $historyDAO->copyValues(&$params);
+        $historyDAO->copyValues($params);
 
         // sort order
         $historyDAO->orderBy(CRM_Core_DAO::getSortString($sort, "activity_date desc, activity_type asc"));

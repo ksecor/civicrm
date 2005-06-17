@@ -54,9 +54,14 @@ class CRM_Contact_Page_Activity {
         // create the selector, controller and run - store results in session
         $output = CRM_Core_Selector_Controller::SESSION;
         $selector   =& new CRM_History_Selector_Activity($page->getContactId());
+        $sortID     = null;
+        if ( $page->get( CRM_Utils_Sort::SORT_ID  ) ) {
+            $sortID = CRM_Utils_Sort::sortIDValue( $page->get( CRM_Utils_Sort::SORT_ID  ),
+                                                   $page->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+        }
         $controller =& new CRM_Core_Selector_Controller($selector,
                                                         $page->get(CRM_Utils_Pager::PAGE_ID),
-                                                        $page->get(CRM_Utils_Sort::SORT_ID),
+                                                        $sortID,
                                                         CRM_Core_Action::VIEW, $page, $output);
         $controller->setEmbedded(true);
         $controller->run();
