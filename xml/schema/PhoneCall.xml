@@ -1,51 +1,34 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <table>
   <base>CRM/Core</base>
-  <name>crm_activity_phone</name>
-  <comment>Record details regarding phone calls between contacts</comment>
+  <name>crm_phonecall</name>
+  <comment>Record details regarding phone call to a contact</comment>
   <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Unique Table ID</comment>
+      <comment>Unique Phone call ID</comment>
   </field>
   <primaryKey>
        <name>id</name>
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>activity_id</name>
+      <name>contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Activity table Id</comment>
+      <comment>Contact ID of person</comment>
   </field>
   <foreignKey>
-       <name>activity_id</name>
-       <table>crm_activity</table>
-       <key>id</key>
-  </foreignKey>
-  <field>
-      <name>caller_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Contact ID of the person who called</comment>
-  </field>
-  <foreignKey>
-       <name>caller_id</name>
+       <name>contact_id</name>
        <table>crm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
-      <name>callee_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Contact ID of person who was called</comment>
+     <name>phonecall_date</name>
+     <type>datetime</type>
+     <comment>Date and time of phonecall</comment>
   </field>
-  <foreignKey>
-       <name>callee_id</name>
-       <table>crm_contact</table>
-       <key>id</key>
-  </foreignKey>
   <field>
       <name>phone_id</name>
       <type>int unsigned</type>
@@ -75,7 +58,7 @@
       <comment>Priority ? </comment>
   </field>
   <field>
-      <name>next_call_datetime</name>
+      <name>next_phonecall_datetime</name>
       <type>timestamp</type>
       <comment>When to call next ?</comment>
   </field>
@@ -87,7 +70,7 @@
   </field>
   <foreignKey>
        <name>parent_id</name>
-       <table>crm_activity_phone</table>
+       <table>crm_phonecall</table>
        <key>id</key>
   </foreignKey>
 </table>
