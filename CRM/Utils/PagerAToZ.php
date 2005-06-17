@@ -102,29 +102,33 @@ class CRM_Utils_PagerAToZ
         //get the current path
         $path = CRM_Utils_System::currentPath() ;
 
+        $aToZBar = array( );
         foreach ( $AToZBar as $key => $link ) {
             if ( ! $link ) {
                 continue;
             }
-            
+
+            $element = array( );
             if ( in_array( $link, $dynamicAlphabets ) ) {
-                $klass = '';
                 if ( $link == $sortByCharacter ) {
+                    $element['class'] = "active";
                     $klass = "class='active'";
                 }
-                $url[] = sprintf('<a href="%s" %s>%s</a>',
-                                 CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=$link" ),
-                                 $klass,
-                                 $link );
+                $element['item']  = sprintf('<a href="%s" %s>%s</a>',
+                                            CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=$link" ),
+                                            $klass,
+                                            $link );
             } else {
-                $url[] = $link;
+                $element['item'] = $link;
             }
+            $aToZBar[] = $element;
         }
         
-        $url[] = sprintf('<a href="%s">%s</a>',
-                         CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=1" ),
-                         'All' );
-        return $url;
+        $url = sprintf('<a href="%s">%s</a>',
+                       CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=1" ),
+                       'All' );
+        $aToZBar[] = array( 'item' => $url );
+        return $aToZBar;
     }
     
 }

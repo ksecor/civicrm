@@ -507,7 +507,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         // we need this in most cases except when just pager or sort values change, which
         // we'll ignore for now
         $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $this->_formValues, $this->_sortByCharacter );
-        $this->set( 'AToZBar', implode( '&nbsp;|&nbsp;', $aToZBar ) );
+        $this->set( 'AToZBar', $aToZBar );
 
         $this->set( 'type'      , $this->_action );
         $this->set( 'formValues', $this->_formValues );
