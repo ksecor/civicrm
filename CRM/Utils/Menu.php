@@ -299,11 +299,28 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/activity',
-                            'title'   => ts('Activity'),
+                            'title'   => ts('Activity History'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'weight'  => 6
                             ),
+
+                      array(
+                            'path'    => 'civicrm/contact/view/call',
+                            'title'   => ts('Calls'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'weight'  => 7
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/contact/view/meeting',
+                            'title'   => ts('Meetings'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'weight'  => 8
+                            ),
+
 
                       array(
                             'path'   => 'civicrm/group',
@@ -353,7 +370,7 @@ class CRM_Utils_Menu {
                             'title'  => ts('Email Detail'),
                             'type'   => self::CALLBACK,
                             ),
-                      
+                      /*
                       array(
                             'path'    => 'civicrm/activity',
                             'title'   => ts('Activities'),
@@ -363,22 +380,7 @@ class CRM_Utils_Menu {
                             'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'weight'  => 25,
                             ),
-                      
-                      array(
-                            'path'    => 'civicrm/activity/call',
-                            'title'   => ts('Calls'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::DEFAULT_LOCAL_TASK,
-                            'weight'  => -10
-                            ),
-                      
-                      array(
-                            'path'    => 'civicrm/activity/meeting',
-                            'title'   => ts('Meetings'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'weight'  => -20
-                            ),
+                      */
                       );
 
             self::$_rootLocalTasks = array( );
