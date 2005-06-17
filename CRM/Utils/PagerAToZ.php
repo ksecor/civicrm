@@ -110,9 +110,10 @@ class CRM_Utils_PagerAToZ
 
             $element = array( );
             if ( in_array( $link, $dynamicAlphabets ) ) {
+                $klass = '';
                 if ( $link == $sortByCharacter ) {
                     $element['class'] = "active";
-                    $klass = "class='active'";
+                    $klass = 'class="active"';
                 }
                 $element['item']  = sprintf('<a href="%s" %s>%s</a>',
                                             CRM_Utils_System::url( $path, "q=$path&force=1&sortByCharacter=$link" ),
