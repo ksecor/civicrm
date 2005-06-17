@@ -36,7 +36,7 @@
  *
  */
 
-class CRM_Core_BAO_Meeting extends CRM_Core_DAO_ActivityMeeting 
+class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting 
 {
 
     /**
@@ -45,6 +45,54 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_ActivityMeeting
     function __construct( ) {
         parent::__construct( );
     }
+
+   /**
+     * takes an associative array and creates a contact object
+     *
+     * the function extract all the params it needs to initialize the create a
+     * contact object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $ids            the array that holds all the db ids
+     *
+     * @return object CRM_Core_BAO_Meeting object
+     * @access public
+     * @static
+     */
+    static function add( &$params, &$ids ) {
+        if ( ! self::dataExists( $params ) ) {
+            return null;
+        }
+
+        $meeting =& new CRM_Core_DAO_Meeting();
+        
+        $meeting->copyValues($params);
+        
+        $meeting->contact_id = CRM_Utils_Array::value( 'contact', $ids );
+
+        $meeting->id = CRM_Utils_Array::value( 'meeting', $ids );
+        
+        return $meeting->save( );
+    }
+
+    /**
+     * Check if there is data to create the object
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     *
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function dataExists( &$params ) {
+        if (CRM_Utils_Array::value( 'title', $params)) {
+            return true;
+        }
+        return false;
+    }
+
+
 
     /**
      * Takes a bunch of params that are needed to match certain criteria and
@@ -61,7 +109,7 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_ActivityMeeting
      * @static
      */
     static function retrieve( &$params, &$defaults ) {
-        $meeting =& new CRM_Core_DAO_ActivityMeeting( );
+        $meeting =& new CRM_Core_DAO_Meeting( );
         $meeting->copyValues( $params );
         if ( $meeting->find( true ) ) {
             CRM_Core_DAO::storeValues( $meeting, $defaults );
@@ -69,6 +117,9 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_ActivityMeeting
         }
         return null;
     }
+
+
+
 
 }
 

@@ -40,6 +40,35 @@ require_once 'CRM/Activity/Form.php';
  */
 class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 {
+
+    /**
+     * The meeting id, used when editing the meeting
+     *
+     * @var int
+     */
+    protected $_meetingId;
+    
+    /**
+     * The contact id, used when add/edit meeting
+     *
+     * @var int
+     */
+    protected $_contactId;
+
+
+    /**
+     * In this function we store contact id and meeting id (if present)
+     *
+     */
+   function preProcess( ) {
+ 
+       $page =& new CRM_Contact_Page_View();
+       
+       $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
+       $this->_id         = $this->get( 'meetingId');
+    }
+
+
     /**
      * Function to build the form
      *
@@ -49,15 +78,18 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
     public function buildQuickForm( ) 
     {
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name'       , ts('Name')       ,
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
-        $this->addRule( 'name', ts('Please enter a valid location type name.'), 'required' );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_LocationType', $this->_id ) );
-        
-        $this->add('text', 'description', ts('Description'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
+       
+        $this->add('text', 'title', ts('Name') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'name' ) );
+        $this->addRule( 'title', ts('Please enter a valid title.'), 'required' );
 
-        $this->add('checkbox', 'is_active', ts('Enabled?'));
+        $this->addElement('date', 'meeting_date', ts('Meeting Date'), CRM_Core_SelectValues::date());
+        $this->addRule('meeting_date', ts('Select a valid date.'), 'qfDate');
+        
+        $this->add('text', 'location', ts('Location'), 
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'location' ) );
+        
+        $this->add('textarea', 'notes', ts('Notes'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'notes' ) );
+
         parent::buildQuickForm( );
     }
 
@@ -72,23 +104,19 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
     {
         // store the submitted values in an array
         $params = $this->exportValues();
-        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
+               
+        $ids = array();
 
-        // action is taken depending upon the mode
-        $locationType               =& new CRM_Contact_DAO_LocationType( );
-        $locationType->domain_id    = CRM_Core_Config::domainID( );
-        $locationType->name         = $params['name'];
-        $locationType->description  = $params['description'];
-        $locationType->is_active    = $params['is_active'];
-
+        // store the contact id
+        $ids['contact'] = $this->_contactId;
+        
         if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $locationType->id = $this->_id;
+            $ids['meeting'] = $this->_id;
         }
 
-        $locationType->save( );
+        CRM_Core_BAO_Meeting::add($params, $ids);
 
-        CRM_Core_Session::setStatus( ts('The location type "%1" has been saved.',
-                                        array( 1 => $locationType->name )) );
+        CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $param['title'])) );
     }//end of function
 
 

@@ -71,7 +71,7 @@ class CRM_Activity_Page_Meeting extends CRM_Core_Page_Basic
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/activity/meeting',
+                                                                    'url'   => 'civicrm/contact/view/meeting',
                                                                     'qs'    => 'action=update&id=%%id%%',
                                                                     'title' => ts('Edit Meeting') 
                                                                    ),
@@ -110,7 +110,7 @@ class CRM_Activity_Page_Meeting extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/activity/meeting';
+        return 'civicrm/contact/view/meeting';
     }
 }
 ?>
