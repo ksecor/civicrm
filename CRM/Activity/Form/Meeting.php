@@ -42,34 +42,6 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 {
 
     /**
-     * The meeting id, used when editing the meeting
-     *
-     * @var int
-     */
-    protected $_meetingId;
-    
-    /**
-     * The contact id, used when add/edit meeting
-     *
-     * @var int
-     */
-    protected $_contactId;
-
-
-    /**
-     * In this function we store contact id and meeting id (if present)
-     *
-     */
-   function preProcess( ) {
- 
-       $page =& new CRM_Contact_Page_View();
-       
-       $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
-       $this->_id         = $this->get( 'meetingId');
-    }
-
-
-    /**
      * Function to build the form
      *
      * @return None
@@ -114,9 +86,9 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
             $ids['meeting'] = $this->_id;
         }
 
-        CRM_Core_BAO_Meeting::add($params, $ids);
+        $meeting = CRM_Core_BAO_Meeting::add($params, $ids);
 
-        CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $param['title'])) );
+        CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $meeting->title)) );
     }//end of function
 
 

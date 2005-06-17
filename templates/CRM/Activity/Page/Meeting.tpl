@@ -11,21 +11,17 @@
        {strip}
        <table>
        <tr class="columnheader">
-        <th>{ts}Name{/ts}</th>
-        <th>{ts}Description{/ts}</th>
-        <th>{ts}Reserved?{/ts}</th>
-        <th>{ts}Enabled?{/ts}</th>
+        <th>{ts}Date{/ts}</th>
+        <th>{ts}Title{/ts}</th>
+        <th>{ts}Location{/ts}</th>
         <th></th>
        </tr>
        {foreach from=$rows item=row}
-         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-	       <td>{$row.name}</td>	
-           <td>
-            {$row.description}
-           </td>
-	       <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	       <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	       <td>{$row.action}</td>
+         <tr class="{cycle values="odd-row,even-row"} ">
+           <td>{$row.meeting_date}</td>	
+           <td> {$row.title} </td>
+           <td> {$row.location} </td>
+	   <td>{$row.action}</td>
         </tr>
        {/foreach}
        </table>

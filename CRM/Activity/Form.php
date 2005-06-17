@@ -48,6 +48,14 @@ class CRM_Activity_Form extends CRM_Core_Form
     protected $_id;
 
     /**
+     * The contact id, used when add / edit 
+     *
+     * @var int
+     */
+    protected $_contactId;
+
+
+    /**
      * The name of the BAO object for this form
      *
      * @var string
@@ -55,7 +63,10 @@ class CRM_Activity_Form extends CRM_Core_Form
     protected $_BAOName;
 
     function preProcess( ) {
-        $this->_id      = $this->get( 'id'      );
+        $page =& new CRM_Contact_Page_View();
+        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
+
+        $this->_id      = $this->get( 'id' );
         $this->_BAOName = $this->get( 'BAOName' );
     }
 
@@ -79,9 +90,6 @@ class CRM_Activity_Form extends CRM_Core_Form
         if ($this->_action == CRM_Core_Action::DELETE) {
             $this->assign( 'delName', $defaults['name'] );
         }
-
-        // its ok if there is no element called is_active
-        $defaults['is_active'] = 1;
 
         return $defaults;
     }

@@ -4,8 +4,8 @@
   <dl>
 	<dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
 	<dt>{$form.meeting_date.label}</dt><dd>{$form.meeting_date.html}</dd>
-        <dt>{$form.location.label}</dt><dd>{$form.location.html}</dd>
-        <dt>{$form.notes.label}</dt><dd>{$form.notes.html}</dd>
+        <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
+        <dt>{$form.notes.label}</dt><dd>{$form.notes.html|crmReplace:class:huge}</dd>
     <dt></dt><dd>{$form.buttons.html}</dd>
   </dl>
 </fieldset>
