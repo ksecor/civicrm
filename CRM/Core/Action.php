@@ -57,7 +57,8 @@ class CRM_Core_Action {
         DISABLE       =    64,
         EXPORT        =   128,
         BASIC         =   256,
-        ADVANCED      =   512;
+        ADVANCED      =   512,
+        PREVIEW       =  1024;
   
     /**
      * map the action names to the relevant constant. We perform
@@ -79,6 +80,7 @@ class CRM_Core_Action {
                            'enable'        => self::ENABLE,
                            'disable'       => self::DISABLE,
                            'export'        => self::EXPORT,
+                           'preview'       => self::PREVIEW,
                            );
 
     /**
@@ -229,7 +231,7 @@ class CRM_Core_Action {
         if ( $permission == CRM_Core_Permission::VIEW ) {
             return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE;
         } else if ( $permission == CRM_Core_Permission::EDIT ) {
-            return 1023; // make sure we make this 2^n -1 if we add more actions;
+            return 2047; // make sure we make this 2^n -1 if we add more actions;
         } else {
             return null;
         }

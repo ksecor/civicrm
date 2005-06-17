@@ -90,6 +90,12 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable Custom Group'),
                                                                           ),
+                                        CRM_Core_Action::PREVIEW => array(
+                                                                          'name'  => ts('Preview'),
+                                                                          'url'   => 'civicrm/admin/custom/group',
+                                                                          'qs'    => 'action=preview&id=%%id%%',
+                                                                          'title' => ts('Preview Custom Group'),
+                                                                          ),
                                         );
         }
         return self::$_actionLinks;
@@ -119,6 +125,8 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $this->edit($id, $action) ;
+        } else if ($action & CRM_Core_Action::PREVIEW) {
+            $this->preview($id) ;
         } else {
             // if action is enable or disable to the needful.
             if ($action & CRM_Core_Action::DISABLE) {
@@ -153,6 +161,32 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/', 'action=browse'));
         $controller->set('id', $id);
         $controller->setEmbedded(true);
+        $controller->process();
+        $controller->run();
+    }
+
+
+    /**
+     * Preview custom group
+     *
+     * @param int $id custom group id
+     * @return none
+     * @access public
+     */
+    function preview($id)
+    {
+        CRM_Core_Error::le_method();
+
+        //$groupTree =& CRM_Core_BAO_CustomGroup::getGroupDetail($id); 
+        //CRM_Core_Error::debug_var('groupTree', $groupTree);
+        $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $action);
+        $controller->setEmbedded(true);
+
+        // set the userContext stack
+        $session =& CRM_Core_Session::singleton();
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group', 'action=browse'));
+        $controller->set('groupId', $id);
+        $controller->set('previewMode', 1);
         $controller->process();
         $controller->run();
     }

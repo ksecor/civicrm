@@ -66,11 +66,33 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     protected $_entityType;
 
     /**
+     * previewMode - used for preview mode
+     *
+     * @var int
+     */
+    protected $_previewMode;
+
+    /**
+     * group id - used for preview mode for group
+     *
+     * @var int
+     */
+    protected $_groupId;
+
+    /**
+     * field id - used for preview mode for field
+     *
+     * @var int
+     */
+    protected $_fieldId;
+
+    /**
      * the group tree data
      *
      * @var array
      */
     protected $_groupTree;
+
 
     /**
      * pre processing work done here.
@@ -85,12 +107,25 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     function preProcess()
     {
-        $this->_tableName  = $this->get('tableName');
-        $this->_tableId    = $this->get('tableId');
-        $this->_entityType = $this->get('entityType');
+        CRM_Core_Error::le_method();
+        $this->_previewMode  = $this->get('previewMode');
         
-        // gets all details of group tree for entity
-        $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
+        CRM_Core_Error::debug_var('preview mode', $this->_previewMode);        
+
+        if ($this->_previewMode) {
+            CRM_Core_Error::debug_log_message('PREVIEW action');
+            $this->_groupId  = $this->get('groupId');
+            $this->_fieldId  = $this->get('fieldId');
+            // get the groupId
+            // get the group tree
+        } else {
+            $this->_tableName  = $this->get('tableName');
+            $this->_tableId    = $this->get('tableId');
+            $this->_entityType = $this->get('entityType');
+            // gets all details of group tree for entity
+            $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);        
+        }
+        CRM_Core_Error::ll_method();
     }
 
     /**

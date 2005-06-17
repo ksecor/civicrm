@@ -62,6 +62,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $title = CRM_Core_BAO_CustomGroup::getTitle($this->_id);
             CRM_Utils_System::setTitle(ts('Edit %1', array(1 => $title)));
+        } else if ($this->_action == CRM_Core_Action::VIEW) {
+            $title = CRM_Core_BAO_CustomGroup::getTitle($this->_id);
+            CRM_Utils_System::setTitle(ts('Preview %1', array(1 => $title)));
         } else {
             CRM_Utils_System::setTitle(ts('New Custom Data Group'));
         }
