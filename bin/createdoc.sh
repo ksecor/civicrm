@@ -10,7 +10,7 @@ PARSE_FOLDER=$PWD
 # /*
 #  * target folder (documents will be generated in this folder)
 #  */
-TARGET_FOLDER=$PWD/doc/documentation/
+TARGET_FOLDER=$PWD/docs/documentation/
 
 # /*
 #  * title of generated documentation

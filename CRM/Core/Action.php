@@ -23,11 +23,9 @@
 */
 
 /**
- * The core concept of the system is an action performed on an
- * object. Typically this will be a "data model" object as 
- * specified in the API specs. We attempt to keep the number
- * and type of actions consistent and similar across all 
- * objects (thus providing both reuse and standards)
+ * The core concept of the system is an action performed on an object. Typically this will be a "data model" object 
+ * as specified in the API specs. We attempt to keep the number and type of actions consistent 
+ * and similar across all objects (thus providing both reuse and standards)
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
