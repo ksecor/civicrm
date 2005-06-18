@@ -176,17 +176,10 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
     function preview($id)
     {
         CRM_Core_Error::le_method();
-
-        //$groupTree =& CRM_Core_BAO_CustomGroup::getGroupDetail($id); 
-        //CRM_Core_Error::debug_var('groupTree', $groupTree);
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $action);
-        $controller->setEmbedded(true);
-
-        // set the userContext stack
+        $controller =& new CRM_Core_Controller_Simple('CRM_Custom_Form_Preview', 'Preview Custom Data', $action);
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group', 'action=browse'));
         $controller->set('groupId', $id);
-        $controller->set('previewMode', 1);
         $controller->process();
         $controller->run();
     }
