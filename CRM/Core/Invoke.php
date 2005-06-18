@@ -115,10 +115,10 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_ACTIVITY );
                 break;
             case 'call':
-                $view =& new CRM_Activity_Page_Call(ts('View Calls'));
+                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_CALL );
                 break;
             case 'meeting':
-                $view =& new CRM_Activity_Page_Meeting(ts('View Meetings'));
+                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_MEETING );
                 break;
             default:
                 $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_NONE );
@@ -257,32 +257,6 @@ class CRM_Core_Invoke {
             return $view->run();
         }
     }
-
-    /*
-    static function activity( $args ) {
-        if ( $args[1] !== 'activity' ) {
-            return;
-        }
-
-        $view = null;
-        switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
-        case 'phone':
-            $view =& new CRM_Activity_Page_Call(ts('View Calls'));
-            break;
-        case 'meeting':
-            $view =& new CRM_Activity_Page_Meeting(ts('View Meetings'));
-            break;
-        default:
-            $view =& new CRM_Activity_Page_Call(ts('View Calls'));
-            break;
-        }
-        if ( $view ) {
-            return $view->run( );
-        }
-
-        return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search', 'reset=1', false) );
-    }
-    */
 
 }
 

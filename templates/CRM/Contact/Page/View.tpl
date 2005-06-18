@@ -12,6 +12,11 @@
 {include file="CRM/Contact/Page/View/CustomData.tpl"}
 {elseif $mode eq 32}
 {include file="CRM/Contact/Page/View/Activity.tpl"}
+{elseif $mode eq 64}
+{include file="CRM/Contact/Page/View/Meeting.tpl"}
+{elseif $mode eq 128}
+{include file="CRM/Contact/Page/View/Call.tpl"}
 {/if}
+
 
 

@@ -306,23 +306,6 @@ class CRM_Utils_Menu {
                             ),
 
                       array(
-                            'path'    => 'civicrm/contact/view/call',
-                            'title'   => ts('Calls'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'weight'  => 7
-                            ),
-                      
-                      array(
-                            'path'    => 'civicrm/contact/view/meeting',
-                            'title'   => ts('Meetings'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'weight'  => 8
-                            ),
-
-
-                      array(
                             'path'   => 'civicrm/group',
                             'title'  => ts('Manage Groups'),
                             'qs'     => 'reset=1',
