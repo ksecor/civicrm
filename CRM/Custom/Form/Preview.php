@@ -45,12 +45,24 @@ require_once 'CRM/Core/Form.php';
 class CRM_Custom_Form_Preview extends CRM_Core_Form
 {
     /**
-     * Function to actually build the form
+     * the group tree data
      *
-     * @return None
-     * @access public
+     * @var array
      */
-    public function buildQuickForm()
+    protected $_groupTree;
+
+    /**
+     * pre processing work done here.
+     *
+     * gets session variables for group or field id
+     *
+     * @param none
+     * @return none
+     *
+     * @access public
+     *
+     */
+    function preProcess()
     {
         // get the controller vars
         $groupId  = $this->get('groupId');
@@ -62,19 +74,51 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
             $params = array('id' => $fieldId);
             $fieldDAO = new CRM_Core_DAO_CustomField();                    
             CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_CustomField', $params, $defaults);
-            $groupTree = array();
-            $groupTree[0]['id'] = 0;
-            $groupTree[0]['fields'] = array();
-            $groupTree[0]['fields'][$fieldId] = $defaults;
+            $this->_groupTree = array();
+            $this->_groupTree[0]['id'] = 0;
+            $this->_groupTree[0]['fields'] = array();
+            $this->_groupTree[0]['fields'][$fieldId] = $defaults;
         } else {
             // group preview
-            $groupTree  = CRM_Core_BAO_CustomGroup::getGroupDetail($groupId);        
+            $this->_groupTree  = CRM_Core_BAO_CustomGroup::getGroupDetail($groupId);        
         }
+    }
 
-        $this->assign('groupTree', $groupTree);
+
+    /**
+     * Set the default form values
+     *
+     * @access protected
+     * @return array the default array reference
+     */
+    function &setDefaultValues()
+    {
+        $defaults = array();
+
+        foreach ($this->_groupTree as $group) {
+            $groupId = $group['id'];
+            foreach ($group['fields'] as $field) {
+                $fieldId = $field['id'];
+                $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
+                $defaults[$elementName] = $field['default_value'];
+                
+            }
+        }
+        return $defaults;
+    }
+
+    /**
+     * Function to actually build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm()
+    {
+        $this->assign('groupTree', $this->_groupTree);
 
         // add the form elements
-        foreach ($groupTree as $group) {
+        foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 $fieldId = $field['id'];                
