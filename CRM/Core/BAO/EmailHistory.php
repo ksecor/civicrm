@@ -44,15 +44,16 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
      * send the message to all the contacts and also insert a
      * contact activity in each contacts record
      *
-     * @param array  $contactIds the array of contact ids to send the email
-     * @param string $subject    the subject of the message
-     * @param string $message    the message contents
+     * @param array  $contactIds   the array of contact ids to send the email
+     * @param string $subject      the subject of the message
+     * @param string $message      the message contents
+     * @param string $emailAddress use this 'to' email address instead of the default Primary address
      *
      * @return array             (total, added, notAdded) count of emails sent
      * @access public
      * @static
      */
-    static function sendEmail( &$contactIds, &$subject, &$message ) {
+    static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress ) {
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
         list( $fromDisplayName, $fromEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
@@ -71,7 +72,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
 
         $sent = $notSent = 0;
         foreach ( $contactIds as $contactId ) {
-            if ( self::sendMessage( $from, $contactId, $subject, $message, $email->id ) ) {
+            if ( self::sendMessage( $from, $contactId, $subject, $message, $emailAddress, $email->id ) ) {
                 $sent++;
             } else {
                 $notSent++;
@@ -88,14 +89,18 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
      * @param int    $toID       the contact id of the recipient       
      * @param string $subject    the subject of the message
      * @param string $message    the message contents
+     * @param string $emailAddress use this 'to' email address instead of the default Primary address 
      * @param int    $activityID the activity ID that tracks the message
      *
      * @return array             (total, added, notAdded) count of emails sent
      * @access public
      * @static
      */
-    static function sendMessage( $from, $toID, &$subject, &$message, $activityID ) {
+    static function sendMessage( $from, $toID, &$subject, &$message, $emailAddress, $activityID ) {
         list( $toDisplayName  , $toEmail   ) = CRM_Contact_BAO_Contact::getEmailDetails( $toID   );
+        if ( $emailAddress ) {
+            $toEmail = $emailAddress;
+        }
 
         // make sure both email addresses are valid
         if ( ! $toEmail ) {
@@ -108,9 +113,6 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         $headers['subject'] = $subject;
 
         $mailer = CRM_Core_Config::getMailer( );
-        // CRM_Core_Error::debug( $toEmail, $headers );
-        // CRM_Core_Error::debug( $from   , $message );
-
         if ($mailer->send($toEmail, $headers, $message) !== true) {
             return false;
         }
@@ -126,19 +128,21 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
                         'activity_date'    => date('Ymd')
                         );
         
-        //if (crm_create_activity_history($params) instanceof CRM_Core_Error ) {
-        if (is_a(crm_create_activity_history($params), CRM_Core_Error)) {
+        if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
             return false;
         }
         return true;
     }
 
 
-    public function showEmailDetails($emailHistoryId)
+    /**
+     * compose the url to show details of this specific email
+     *
+     * @param int $id
+     */
+    public function showEmailDetails( $id )
     {
-        CRM_Core_Error::le_method();
-        $url = CRM_Utils_System::url('civicrm/history/email', "action=view&email_history_id=$emailHistoryId");
-        return $url;
+        return CRM_Utils_System::url('civicrm/history/email', "action=view&id=$id");
     }
 
 }

@@ -32,6 +32,7 @@
  */
 
 require_once 'CRM/Core/I18n.php';
+require_once 'CRM/Contact/Controller/Search.php';
 
 /**
  * Given an argument list, invoke the appropriate CRM function
@@ -84,6 +85,11 @@ class CRM_Core_Invoke {
         if ( $args[2] == 'edit' ) {
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             return self::form( CRM_Core_Action::UPDATE );
+        }
+
+        if ( $args[2] == 'email' ) {
+            $wrapper =& new CRM_Utils_Wrapper( );
+            $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
         }
 
         if ( $args[2] == 'view' ) {

@@ -36,6 +36,42 @@
  * contacts. 
  */
 class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
+
+    /**
+     * Are we operating in "single mode", i.e. sending email to one
+     * specific contact?
+     *
+     * @var boolean
+     */
+    protected $_single = false;
+
+    /**
+     * build all the data structures needed to build the form
+     *
+     * @return void
+     * @access public
+     */
+    function preProcess( ) {
+        $cid = CRM_Utils_Request::retrieve( 'cid', $this, false );
+        if ( $cid ) {
+            $this->_contactIds = array( $cid );
+            $this->_single     = true;
+            $emails     = CRM_Contact_BAO_Contact::allEmails( $cid );
+            $this->_emails = array( );
+            $toName = CRM_Contact_BAO_Contact::displayName( $cid );
+            foreach ( $emails as $email => $item ) {
+                $this->_emails[$email] = '"' . $toName . '" <' . $email . '> ' . $item['locationType'];
+                if ( $item['is_primary'] ) {
+                    $this->_emails[$email] .= ' (preferred)';
+                }
+                $this->_emails[$email] = htmlentities( $this->_emails[$email] );
+            }
+        } else {
+            parent::preProcess( );
+        }
+        $this->assign( 'single', $this->_single );
+    }
+    
     /**
      * Build the form
      *
@@ -44,22 +80,26 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
      */
     public function buildQuickForm()
     {
-        
-        //CRM_Core_Error::le_method();
 
-        $toArray = array();
-        //CRM_Core_Error::debug_var('this->_contactIds', $this->_contactIds);
-        foreach ($this->_contactIds as $contactId) {
-            list($toDisplayName, $toEmail) = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
-            //CRM_Core_Error::debug_var('toDisplayName', $toDisplayName);
-            //CRM_Core_Error::debug_var('toEmail', $toEmail);
-            $toArray[] = "\"$toDisplayName\" <$toEmail>";
+        if ( ! $this->_single ) {
+            $toArray = array();
+            foreach ( $this->_contactIds as $contactId ) {
+                list($toDisplayName, $toEmail) = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
+                $toArray[] = "\"$toDisplayName\" <$toEmail>";
+            }
+            $this->assign('to', implode(', ', $toArray));
+        } else {
+            $to =& $this->add( 'select', 'to', ts('To'), $this->_emails, true );
+            if ( count( $this->_emails ) <= 1 ) {
+                foreach ( $this->_emails as $email => $dontCare ) {
+                    $defaults = array( 'to' => $email );
+                    $this->setDefaults( $defaults );
+                }
+                $to->freeze( );
+            }
         }
 
-        //CRM_Core_Error::debug_var('toArray', $toArray);
-        $this->assign('to', implode(', ', $toArray));        
-
-
+        
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
         list( $fromDisplayName, $fromEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
@@ -68,14 +108,11 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         }
         $from = "'$fromDisplayName' <$fromEmail>";
         $this->assign( 'from', $from );
-
         
         $this->add( 'text'    , 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' ), true );
         $this->add( 'textarea', 'message', ts('Message'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'message' ), true );
 
         $this->addDefaultButtons( ts('Email Contacts') );
-
-        //CRM_Core_Error::ll_method();
     }
 
     /**
@@ -85,10 +122,14 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
+        $emailAddress = null;
+        if ( $this->_single ) {
+            $emailAddress = $this->controller->exportValue( 'Email', 'to' );
+        }
         $subject = $this->controller->exportValue( 'Email', 'subject' );
         $message = $this->controller->exportValue( 'Email', 'message' );
 
-        list( $total, $sent, $notSent ) = CRM_Core_BAO_EmailHistory::sendEmail( $this->_contactIds, $subject, $message );
+        list( $total, $sent, $notSent ) = CRM_Core_BAO_EmailHistory::sendEmail( $this->_contactIds, $subject, $message, $emailAddress );
 
         $status = array(
                         '',

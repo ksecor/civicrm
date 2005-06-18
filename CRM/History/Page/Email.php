@@ -54,27 +54,20 @@ class CRM_History_Page_Email extends CRM_Core_Page {
         CRM_Core_Error::le_method();
 
         // get the callback, module and activity id
-        $action = CRM_Utils_Request::retrieve('action');
-        CRM_Core_Error::debug_var('action', $action);
-
         $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse');
-        CRM_Core_Error::debug_var('action', $action);
-
-        $emailHistoryId = CRM_Utils_Request::retrieve('email_history_id');
-        CRM_Core_Error::debug_var('emailHistoryId', $emailHistoryId);
+        $id     = CRM_Utils_Request::retrieve('id');
 
         $dao = new CRM_Core_DAO_EmailHistory();
-        $dao->id = $emailHistoryId;
-        $dao->find(true);
+        $dao->id = $id;
+        if ( $dao->find(true) ) {
+            $this->assign('sentDate', $dao->sent_date);
+            $this->assign('subject', $dao->subject);
+            $this->assign('message', $dao->message);
 
-        $this->assign('sentDate', $dao->sent_date);
-        $this->assign('subject', $dao->subject);
-        $this->assign('message', $dao->message);
-
-        // get email details and show on page
-        // Call the parents run method
+            // get email details and show on page
+            // Call the parents run method
+        }
         parent::run();
-        
     }
 }
 ?>

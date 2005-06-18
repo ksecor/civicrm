@@ -124,6 +124,40 @@ WHERE crm_contact.id = $id";
         return null;
     }
 
+    /**
+     * Get all the emails for a specified contact_id, with the primary email being first
+     *
+     * @param int $id the contact id
+     *
+     * @return array  the array of email id's
+     * @access public
+     * @static
+     */
+    static function allEmails( $id ) {
+        if ( ! $id ) {
+            return null;
+        }
+
+        $query = "
+SELECT email, crm_location_type.name as locationType, crm_email.is_primary as is_primary
+FROM    crm_contact
+LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id)
+LEFT JOIN crm_location_type ON (crm_location.location_type_id = crm_location_type.id)
+LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id)
+WHERE
+  crm_contact.id = $id
+ORDER BY
+  crm_location.is_primary, crm_email.is_primary";
+        
+        $dao =& new CRM_Core_DAO( );
+        $dao->query($query);
+        $emails = array( );
+        while ( $dao->fetch( ) ) {
+            $emails[$dao->email] = array( 'locationType' => $dao->locationType,
+                                          'primary'      => $dao->primary );
+        }
+        return $emails;
+    }
 
     /**
      * create and query the db for an contact search
