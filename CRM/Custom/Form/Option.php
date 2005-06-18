@@ -163,10 +163,10 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $customOption->id = $this->_id;
         }
 
-        // need the FKEY - custom group id
+        // need the FKEY - custom field id
         $customField->custom_field_id = $this->_fid;
 	
-        $customOption->save();
+	 $customOption->save();
         
         CRM_Core_Session::setStatus(ts('Your custom Option data "%1" has been saved', array(1 => $customOption->label)));
     }
