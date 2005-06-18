@@ -48,23 +48,6 @@ class CRM_Contact_Page_Call
             $page->assign( 'call', $values );
         }
         
-        self::browse( $page );
-    }
-
-    static function browse( $page ) {
-        $call =& new CRM_Core_DAO_Phonecall( );
-        //$call->entity_table = 'crm_contact';
-        //$call->entity_id    = $page->getContactId( );
-
-        //$call->orderBy( 'modified_date desc' );
-
-        $values = array( );
-        $call->find( );
-        while ( $call->fetch( ) ) {
-            $values[$call->id] = array( );
-            CRM_Core_DAO::storeValues( $call, $values[$call->id] );
-        }
-        $page->assign( 'calls', $values );
     }
 
     static function edit( $page, $mode, $callId = null ) {
@@ -73,7 +56,7 @@ class CRM_Contact_Page_Call
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/call', 'action=browse' ) );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
 
         $controller->reset( );
         $controller->set( 'entityTable', 'crm_contact' );
@@ -100,8 +83,6 @@ class CRM_Contact_Page_Call
         } else if ( $action & CRM_Core_Action::DELETE ) {
             self::delete( $nid );
         }
-
-        self::browse( $page );
     }
 
 }
