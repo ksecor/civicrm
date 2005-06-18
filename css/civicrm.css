@@ -417,13 +417,7 @@ div.crm-pager a {
   background-color: #eee;
   border: 1px solid #6e6e6e;
 }
-#crm-container div#alpha-filter {
-  margin: 10px 0px 5px;
-  text-align: center;
-  width: 100%;
-}
-
-#crm-container #recently-viewed ul, #crm-container #alpha-filter ul {
+#crm-container #recently-viewed ul {
   border-collapse: collapse;
   padding: 0em;
   white-space: nowrap;
@@ -438,33 +432,6 @@ div.crm-pager a {
   margin: 0em;
   padding: 5px;
 }
-
-#crm-container #alpha-filter li {
-  display: inline;
-  background-color: #eee;
-  border: 1px solid #6e6e6e;
-  color: #aaa;
-  font-size: .95em;
-  font-weight: normal;
-  height: auto;
-  margin: 0px 1px 0px 1px;
-  padding: 2px 5px 2px 5px;
-}
-
-#crm-container #alpha-filter li.active {
-  background-color: #fff;
-}
-
-#crm-container #alpha-filter a {
-  font-weight: normal;
-  color: #000;
-}
-
-#crm-container #alpha-filter a.active {
-  font-weight: bold;
-  color: #000;
-}
-
 #crm-container #recently-viewed a {
   font-weight: normal;
   color: #6e6e6e;
@@ -506,4 +473,34 @@ div.crm-pager a {
  vertical-align: middle;
  height: 20px;
  width: 20px;
+}
+
+/*
+**Temporary solution for customField formation 
+/*
+.fcol1 {
+ float: left; 
+ margin-left: 2.5%
+ width: 19%;
+}
+
+.fcol2 {
+ float: left;
+ width: 19%;
+}
+
+.fcol3 {
+ float: left;
+ width: 19%;
+}
+
+.fcol4 {
+ float: left;
+ width: 19%;
+}
+
+.fcol5 {
+ float: left;
+ margin-right: 2.5%;
+ width: 19%;
 }
