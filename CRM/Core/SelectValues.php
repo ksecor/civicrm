@@ -340,41 +340,59 @@ class CRM_Core_SelectValues {
 
 
     /**
-     * different types of phone call status
+     * different types of status for activities
+     * @param $type if true Call status array else Meeting status array
+     *
      * @static
+     *
      */
-    static function &phoneStatus()
+    static function &activityStatus($type = false)
     {
-        static $phoneStatus = null;
-        if (!$phoneStatus) {
-            $phoneStatus = array(
-                                 ''               => ts('-select-'),
-                                 'Closed'         => ts('Closed'),
-                                 'FollowUp'       => ts('FollowUp'),
-                                 'Unreachable'    => ts('Unreachable'),
-                                 'Answermachine'  => ts('Answer Machine')
-            );
+        static $activityStatus = null;
+        if (!$activityStatus) {
+            if ($type) {
+                $activityStatus = array(
+                                        'Scheduled'         => ts('Scheduled'),
+                                        'Completed'         => ts('Completed'),
+                                        'Unreachable'       => ts('Unreachable'),
+                                        'Left Message'      => ts('Left Message')
+                                        );
+            } else {
+                $activityStatus = array(
+                                        'Scheduled'         => ts('Scheduled'),
+                                        'Completed'         => ts('Completed'),
+                                        );
+            }
         }
-        return $phoneStatus;
+        return $activityStatus;
     }
-    
+
     /**
-     * different types of phone priority
+     * Function to get hours
+     *
+     * 
      * @static
      */
-    static function &phonePriority()
+    function getHours () 
     {
-        static $phonePriority = null;
-        if (!$phonePriority) {
-            $phonePriority = array(
-                                   ''              => ts('-select-'),
-                                   'Low'           => ts('Low'),
-                                   'Medium'        => ts('Medium'),
-                                   'High'          => ts('High'),
-                                   'Critical'      => ts('Critical')
-            );
+        for ($i = 0; $i <= 6; $i++ ) {
+            $hours[$i] = $i;
         }
-        return $phonePriority;
+        return $hours;
+    }
+
+    /**
+     * Function to get minutes
+     *
+     * 
+     * @static
+     */
+    function getMinutes () 
+    {
+        for ($i = 0; $i <= 60; $i++ ) {
+            $minutes[$i] = $i;
+        }
+        return $minutes;
     }
 
 }

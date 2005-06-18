@@ -51,16 +51,20 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
     {
         $this->applyFilter('__ALL__', 'trim');
        
-        $this->add('text', 'title', ts('Name') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'name' ) );
-        $this->addRule( 'title', ts('Please enter a valid title.'), 'required' );
+        $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'subject' ) );
+        $this->addRule( 'subject', ts('Please enter a valid subject.'), 'required' );
 
-        $this->addElement('date', 'meeting_date', ts('Meeting Date'), CRM_Core_SelectValues::date());
-        $this->addRule('meeting_date', ts('Select a valid date.'), 'qfDate');
+        $this->addElement('date', 'scheduled_date_time', ts('Schedule Date'), CRM_Core_SelectValues::date());
+        $this->addRule('scheduled_date_time', ts('Select a valid date.'), 'qfDate');
         
-        $this->add('text', 'location', ts('Location'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'location' ) );
+        $this->add('select','duration_hours',ts('Duration'),CRM_Core_SelectValues::getHours());
+        $this->add('select','duration_minutes',ts('Min'),CRM_Core_SelectValues::getMinutes());
+
+        $this->add('text', 'location', ts('Location'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'location' ) );
         
-        $this->add('textarea', 'notes', ts('Notes'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'notes' ) );
+        $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'details' ) );
+        
+        $this->add('select','status',ts('Status'),CRM_Core_SelectValues::activityStatus());
 
         parent::buildQuickForm( );
     }
@@ -75,12 +79,13 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
     public function postProcess() 
     {
         // store the submitted values in an array
-        $params = $this->exportValues();
-               
+        $params = $this->controller->exportValues( $this->_name );
+
         $ids = array();
 
-        // store the contact id
-        $ids['contact'] = $this->_contactId;
+        // store the contact id and current drupal user id
+        $params['source_contact_id'] = $this->_userId;
+        $params['target_contact_id'] = $this->_contactId;
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['meeting'] = $this->_id;
@@ -88,7 +93,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 
         $meeting = CRM_Core_BAO_Meeting::add($params, $ids);
 
-        CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $meeting->title)) );
+        CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $meeting->subject)) );
     }//end of function
 
 

@@ -69,11 +69,10 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
         
         $meeting->copyValues($params);
         
-        $meeting->contact_id = CRM_Utils_Array::value( 'contact', $ids );
-
         $meeting->id = CRM_Utils_Array::value( 'meeting', $ids );
-        
+
         return $meeting->save( );
+        
     }
 
     /**
@@ -86,7 +85,7 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
      * @static
      */
     static function dataExists( &$params ) {
-        if (CRM_Utils_Array::value( 'title', $params)) {
+        if (CRM_Utils_Array::value( 'subject', $params)) {
             return true;
         }
         return false;

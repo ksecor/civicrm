@@ -54,6 +54,13 @@ class CRM_Activity_Form extends CRM_Core_Form
      */
     protected $_contactId;
 
+    /**
+     * The id of the logged in user, used when add / edit 
+     *
+     * @var int
+     */
+    protected $_userId;
+
 
     /**
      * The name of the BAO object for this form
@@ -63,11 +70,14 @@ class CRM_Activity_Form extends CRM_Core_Form
     protected $_BAOName;
 
     function preProcess( ) {
+        global $user;
         $page =& new CRM_Contact_Page_View();
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
+        $this->_userId = $user->uid;
 
         $this->_id      = $this->get( 'id' );
         $this->_BAOName = $this->get( 'BAOName' );
+
     }
 
     /**
