@@ -47,24 +47,6 @@ class CRM_Contact_Page_Meeting
             CRM_Core_DAO::storeValues( $meeting, $values );
             $page->assign( 'meeting', $values );
         }
-        
-        self::browse( $page );
-    }
-
-    static function browse( $page ) {
-        $meeting =& new CRM_Core_DAO_Meeting( );
-        //$meeting->entity_table = 'crm_contact';
-        //$meeting->entity_id    = $page->getContactId( );
-
-        //$meeting->orderBy( 'modified_date desc' );
-
-        $values = array( );
-        $meeting->find( );
-        while ( $meeting->fetch( ) ) {
-            $values[$meeting->id] = array( );
-            CRM_Core_DAO::storeValues( $meeting, $values[$meeting->id] );
-        }
-        $page->assign( 'meetings', $values );
     }
 
     static function edit( $page, $mode, $meetingId = null ) {
@@ -73,11 +55,10 @@ class CRM_Contact_Page_Meeting
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/meeting', 'action=browse' ) );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
 
         $controller->reset( );
-        $controller->set( 'entityTable', 'crm_contact' );
-        $controller->set( 'entityId'   , $page->getContactId( ) );
+        $controller->set( 'contactId'   , $page->getContactId( ) );
         $controller->set( 'meetingId'     , $meetingId );
 
         $controller->process( );
@@ -101,7 +82,6 @@ class CRM_Contact_Page_Meeting
             self::delete( $nid );
         }
 
-        self::browse( $page );
     }
 
 }

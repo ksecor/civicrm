@@ -312,8 +312,15 @@ class CRM_Core_SelectValues {
         } elseif ($type == 'custom') {
             $minOffset = 100;
             $maxOffset = 20;
+        } elseif ($type == 'datetime') {
+            $newDate['format'] = "d M Y  H i ";
+            $minOffset = 20;
+            $maxOffset = 20;
         }
         
+        //print_r($_date);
+
+
         $year = date('Y');
         $newDate['minYear'] = $year - $minOffset;
         $newDate['maxYear'] = $year + $maxOffset;
@@ -389,7 +396,7 @@ class CRM_Core_SelectValues {
      */
     function getMinutes () 
     {
-        for ($i = 0; $i <= 60; $i++ ) {
+        for ($i = 0; $i < 60; $i = $i+5 ) {
             $minutes[$i] = $i;
         }
         return $minutes;

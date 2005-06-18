@@ -66,6 +66,23 @@ class CRM_Contact_Page_Activity {
         $controller->setEmbedded(true);
         $controller->run();
         $controller->moveFromSessionToTemplate( );
+
+        $selector   =& new CRM_Activity_Selector_Activity($page->getContactId());
+        $sortID     = null;
+        if ( $page->get( CRM_Utils_Sort::SORT_ID  ) ) {
+            $sortID = CRM_Utils_Sort::sortIDValue( $page->get( CRM_Utils_Sort::SORT_ID  ),
+                                                   $page->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+        }
+        $controller =& new CRM_Core_Selector_Controller($selector,
+                                                        $page->get(CRM_Utils_Pager::PAGE_ID),
+                                                        $sortID,
+                                                        CRM_Core_Action::VIEW, $page, $output);
+        $controller->setEmbedded(true);
+        $controller->run();
+
+
+        $controller->moveFromSessionToTemplate( );
+
     }
 
     /**
