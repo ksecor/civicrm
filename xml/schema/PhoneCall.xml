@@ -14,25 +14,52 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>contact_id</name>
+      <name>source_contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Contact ID of person</comment>
+      <comment>Contact ID of person making the call. This will generally an authenticated user.</comment>
   </field>
   <foreignKey>
-       <name>contact_id</name>
+       <name>source_contact_id</name>
        <table>crm_contact</table>
        <key>id</key>
   </foreignKey>
   <field>
-     <name>phonecall_date</name>
+      <name>target_contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Contact ID of person being called.</comment>
+  </field>
+  <foreignKey>
+       <name>target_contact_id</name>
+       <table>crm_contact</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>subject</name>
+      <type>varchar</type>
+      <length>64</length>
+      <comment>Short description of the subject of this call.</comment>
+  </field>
+  <field>
+     <name>scheduled_date_time</name>
      <type>timestamp</type>
-     <comment>Date and time of phonecall</comment>
+     <comment>Date and time phonecall is scheduled to be made.</comment>
+  </field>
+  <field>
+      <name>duration_hours</name>
+      <type>int unsigned</type>
+      <comment>Planned or actual duration of call - hours.</comment>
+  </field>
+  <field>
+      <name>duration_minutes</name>
+      <type>int unsigned</type>
+      <comment>Planned or actual duration of call - minutes.</comment>
   </field>
   <field>
       <name>phone_id</name>
       <type>int unsigned</type>
-      <comment>Phone ID of the number we called up</comment>
+      <comment>Phone ID of the number called (optional - used if an existing phone number is selected).</comment>
   </field>
   <foreignKey>
        <name>phone_id</name>
@@ -43,34 +70,23 @@
       <name>phone_number</name>
       <type>varchar</type>
       <length>64</length>
-      <comment>Phone number in case the number does not exist in the crm_phone table</comment>
+      <comment>Phone number in case the number does not exist in the crm_phone table.</comment>
+  </field>
+  <field>
+      <name>details</name>
+      <type>text</type>
+      <comment>Details about the call.</comment>
   </field>
   <field>
       <name>status</name>
       <type>enum</type>
-      <values>Closed, Followup, Unreachable, Answering Machine</values>
-      <comment>What is the status of this phone call ?</comment>
-  </field>
-  <field>
-      <name>call_log</name>
-      <type>text</type>
-      <comment>Log</comment>
-  </field>
-  <field>
-      <name>priority</name>
-      <type>enum</type>
-      <values>Low, Medium, High, Critical</values>
-      <comment>Priority ? </comment>
-  </field>
-  <field>
-      <name>next_phonecall_datetime</name>
-      <type>timestamp</type>
-      <comment>When to call next ?</comment>
+      <values>Scheduled, Left Message, Unreachable, Completed</values>
+      <comment>What is the status of this phone call? Completed calls result in activity history entry.</comment>
   </field>
   <field>
       <name>parent_id</name>
       <type>int unsigned</type>
-      <comment>Parent phone call ID</comment>
+      <comment>Parent phone call ID (if this is a follow-up item).</comment>
   </field>
   <foreignKey>
        <name>parent_id</name>
