@@ -175,7 +175,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
      */
     function preview($id)
     {
-        CRM_Core_Error::le_method();
         $controller =& new CRM_Core_Controller_Simple('CRM_Custom_Form_Preview', 'Preview Custom Data', $action);
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group', 'action=browse'));

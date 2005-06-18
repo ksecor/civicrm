@@ -52,29 +52,23 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        CRM_Core_Error::le_method();
-
         // get the controller vars
         $groupId  = $this->get('groupId');
         $fieldId  = $this->get('fieldId');
         
-        CRM_Core_Error::debug_var('groupId', $groupId);
-        CRM_Core_Error::debug_var('fieldId', $fieldId);
-        
         if ($fieldId) {
             // field preview
-            CRM_Core_Error::debug_log_message('field preview');
-            $field  = CRM_Core_BAO_CustomField::getFieldDetail($fieldId);                    
-            $this->assign('field', $field);
+            $defaults = array();
+            $params = array('id' => $fieldId);
+            $fieldDAO = new CRM_Core_DAO_CustomField();                    
+            CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_CustomField', $params, $defaults);
             $groupTree = array();
             $groupTree[0]['id'] = 0;
             $groupTree[0]['fields'] = array();
-            $groupTree[0]['fields'][$fieldId] = $field;
+            $groupTree[0]['fields'][$fieldId] = $defaults;
         } else {
             // group preview
-            CRM_Core_Error::debug_log_message('group preview');
             $groupTree  = CRM_Core_BAO_CustomGroup::getGroupDetail($groupId);        
-            CRM_Core_Error::debug_var('groupTree', $groupTree);
         }
 
         $this->assign('groupTree', $groupTree);
@@ -136,9 +130,6 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                                        'isDefault' => true),
                                 )
                           );
-        
-
-        CRM_Core_Error::ll_method();
     }
 }
 ?>

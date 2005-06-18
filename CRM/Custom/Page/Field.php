@@ -73,7 +73,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data field?');
             self::$_actionLinks = array(
-					CRM_Core_Action::BROWSE  => array(
+                                        CRM_Core_Action::BROWSE  => array(
                                                                           'name'  => ts('View and Edit Options'),
                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
                                                                           'qs'    => 'reset=1&action=browse&fid=%%id%%',
@@ -102,8 +102,15 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                                                                           'name'  => ts('Enable'),
                                                                           'url'   => 'civicrm/admin/custom/group/field',
                                                                           'qs'    => 'action=enable&id=%%id%%',
-                                                                          'title' => ts('Enable Custom Group'),
+                                                                          'title' => ts('Enable Custom Field'),
                                                                           ),
+                                        CRM_Core_Action::PREVIEW => array(
+                                                                          'name'  => ts('Preview'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field',
+                                                                          'qs'    => 'action=preview&id=%%id%%',
+                                                                          'title' => ts('Preview Custom Field'),
+                                                                          ),
+
                                         );
         }
         return self::$_actionLinks;
@@ -192,14 +199,10 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      */
     function run()
     {
-      
-      // echo $fid = CRM_Utils_Request::retrieve('fid');
-
-
         // get the group id
         $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         if ($this->_gid) {
-	    $groupTitle = CRM_Core_BAO_CustomGroup::getTitle($this->_gid);
+            $groupTitle = CRM_Core_BAO_CustomGroup::getTitle($this->_gid);
             $this->assign('gid', $this->_gid);
             $this->assign('groupTitle', $groupTitle);
             CRM_Utils_System::setTitle(ts('%1 - Custom Fields', array(1 => $groupTitle)));
@@ -214,8 +217,10 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         $id = CRM_Utils_Request::retrieve('id', $this, false, 0);
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
+        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $this->edit($action);   // no browse for edit/update/view
+        } else if ($action & CRM_Core_Action::PREVIEW) {
+            $this->preview($id) ;
         } else {
             if ($action & CRM_Core_Action::DISABLE) {
                 CRM_Core_BAO_CustomField::setIsActive($id, 0);
@@ -227,6 +232,23 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
 
         // Call the parents run method
         parent::run();
+    }
+
+    /**
+     * Preview custom field
+     *
+     * @param int $id custom field id
+     * @return none
+     * @access public
+     */
+    function preview($id)
+    {
+        $controller =& new CRM_Core_Controller_Simple('CRM_Custom_Form_Preview', 'Preview Custom Data', $action);
+        $session =& CRM_Core_Session::singleton();
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field', 'reset=1&action=browse&gid=' . $this->_gid));
+        $controller->set('fieldId', $id);
+        $controller->process();
+        $controller->run();
     }
 }
 
