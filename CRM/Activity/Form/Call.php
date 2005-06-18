@@ -55,16 +55,21 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
         if ( is_array(CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId))) {
             $contactPhone = CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId);
         }
-
         
-        $this->add('date', 'phonecall_date', ts('Phone Call Date'), CRM_Core_SelectValues::date( 'relative' ) );
+        $this->add('text', 'name', ts('Name'),'');
+        $this->add('text', 'subject', ts('Suject'),'');
+        $this->addRule( 'subject', ts('The Field Subject should not be Empty'), 'required' );
+        $this->add('date', 'scheduled_date_time', ts('Scheduled'), CRM_Core_SelectValues::date( 'relative' ) );
+        $this->addRule( 'scheduled_date_time', ts('The Field Scheduled Date should not be Empty'), 'required' );
         $this->add('select','phone_id',ts('Phone Number'), $contactPhone );
         $this->add('text', 'phone_number'  , ts(' OR New Phone') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'phone_number' ));
         $this->addRule( 'phone_number', ts('Phone number is not valid.'), 'phone' );
-        $this->add('select','status',ts('Status'),CRM_Core_SelectValues::phoneStatus());
-        $this->add('textarea', 'call_log'       , ts('Call Log')       ,CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'call_log' ));
-        $this->add('select', 'priority'       , ts('Priority')       ,CRM_Core_SelectValues::phonePriority());
-        $this->add('date', 'next_phonecall_datetime', ts('Next Call Date'), CRM_Core_SelectValues::date( 'relative' ) );
+        $this->add('select', 'duration_hours', ts(''),CRM_Core_SelectValues::getHours());
+        $this->add('select', 'duration_minutes', ts(''),CRM_Core_SelectValues::getMinutes());
+        
+        $this->add('select','status',ts('Status'),CRM_Core_SelectValues::ActivityStatus(true));
+        $this->add('textarea', 'details'       , ts('Details')       ,CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'details' ));
+       
         
         parent::buildQuickForm( );
     }
@@ -79,20 +84,20 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
     public function postProcess() 
     {
          // store the submitted values in an array
-        $params = $this->exportValues();
-               
+        $params = $this->controller->exportValues( $this->_name );       
         $ids = array();
 
         // store the contact id
-        $ids['contact'] = $this->_contactId;
+        $params['source_contact_id'] = $this->_userId;
+        $params['target_contact_id'] = $this->_contactId;
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['call'] = $this->_id;
         }
-
+      
         $call = CRM_Core_BAO_Call::add($params, $ids);
         
-        CRM_Core_Session::setStatus( ts('Phone Call has been saved.') );
+        CRM_Core_Session::setStatus( ts('Phone Call "%1" has been saved.', array( 1 => $call->subject)) );
     }//end of function
 
 

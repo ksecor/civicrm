@@ -55,11 +55,14 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
      * @param array  $params         (reference ) an assoc array of name/value pairs
      * @param array  $ids            the array that holds all the db ids
      *
-     * @return object CRM_Core_BAO_Meeting object
+     * @return object CRM_Core_BAO_Call object
      * @access public
      * @static
      */
     static function add( &$params, &$ids ) {
+        if ( ! self::dataExists( $params ) ) {
+            return null;
+        }
 
         $call =& new CRM_Core_DAO_Phonecall();
         
@@ -69,11 +72,25 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
             $call->phone_id = null;
         }
         
-        $call->contact_id = CRM_Utils_Array::value( 'contact', $ids );
-
         $call->id = CRM_Utils_Array::value( 'call', $ids );
         
         return $call->save( );
+    }
+
+    /**
+     * Check if there is data to create the object
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     *
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function dataExists( &$params ) {
+        if (CRM_Utils_Array::value( 'subject', $params)) {
+            return true;
+        }
+        return false;
     }
 
     /**
