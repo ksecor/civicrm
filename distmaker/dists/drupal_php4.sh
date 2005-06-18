@@ -54,6 +54,11 @@ for F in Contacts.sql FixedData.sql GeneratedData.sql; do
 	cp $SRC/sql/$F $TRG/sql
 done
 
+# delete any setup.sh or setup.php4.sh if present
+if [ -d $TRG/bin ] ; then
+  rm -f $TRG/bin/setup.sh
+  rm -f $TRG/bin/setup.php4.sh
+fi
 
 # copy docs
 cp $SRC/license.txt $TRG
