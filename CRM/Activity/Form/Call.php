@@ -50,17 +50,15 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
     public function buildQuickForm( ) 
     {
         $this->applyFilter('__ALL__', 'trim');
-        // $this->add('text', 'Caller_name'       , ts('Caller Name')       ,'');
         $contactPhone[''] = 'Select Phone Number';
         if ( is_array(CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId))) {
             $contactPhone = CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId);
         }
         
-        $this->add('text', 'name', ts('Name'),'');
         $this->add('text', 'subject', ts('Suject'),'');
         $this->addRule( 'subject', ts('The Field Subject should not be Empty'), 'required' );
-        $this->add('date', 'scheduled_date_time', ts('Scheduled'), CRM_Core_SelectValues::date( 'relative' ) );
-        $this->addRule( 'scheduled_date_time', ts('The Field Scheduled Date should not be Empty'), 'required' );
+        $this->add('date', 'scheduled_date_time', ts('Scheduled'),CRM_Core_SelectValues::date('datetime'));
+        $this->addRule( 'scheduled_date_time', ts('The Field Scheduled Date should not be Empty'), 'qfDate' );
         $this->add('select','phone_id',ts('Phone Number'), $contactPhone );
         $this->add('text', 'phone_number'  , ts(' OR New Phone') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'phone_number' ));
         $this->addRule( 'phone_number', ts('Phone number is not valid.'), 'phone' );
@@ -86,10 +84,20 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
          // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );       
         $ids = array();
+        
 
+        $date=CRM_Utils_Date::format( CRM_Utils_Array::value('scheduled_date_time', $params) );
+        $time=CRM_Utils_Array::value('scheduled_date_time', $params);
+        $h=$time['H'];
+        $m=$time['i'];
+        $date = $date.$h.$m.'00';
+       
+        $params['scheduled_date_time']= $date;
         // store the contact id
         $params['source_contact_id'] = $this->_userId;
         $params['target_contact_id'] = $this->_contactId;
+
+
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['call'] = $this->_id;

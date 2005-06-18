@@ -2,7 +2,7 @@
 <div class="form-item">
 <fieldset><legend>{if $action eq 1}{ts}New Call{/ts}{else}{ts}Edit Call{/ts}{/if}</legend>
   <dl>
-	<dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
+	<dt>Name</dt><dd>{$displayName}</dd>
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 	<dt>{$form.phone_id.label}</dt><dd>{$form.phone_id.html}&nbsp;{$form.phone_number.label}&nbsp;{$form.phone_number.html}</dd>
 	<dt>{$form.scheduled_date_time.label}</dt><dd>{$form.scheduled_date_time.html}</dd>
