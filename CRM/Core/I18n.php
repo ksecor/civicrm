@@ -1,5 +1,5 @@
 <?php
-/*
+/* 
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
  +----------------------------------------------------------------------+
@@ -21,6 +21,9 @@
  | distributed along with this program (affero_gpl.txt)                 |
  +----------------------------------------------------------------------+
 */
+
+require_once 'packages/PHPgettext/streams.php';
+require_once 'packages/PHPgettext/gettext.php';
 
 /**
  * This is CiviCRM's internationalisation mechanism based on smarty_gettext
@@ -51,6 +54,10 @@ class CRM_Core_I18n
      */
     function __construct()
     {
+        $config =& CRM_Core_Config::singleton();
+        $streamer = new FileReader( $config->gettextResourceDir . '/' . $config->lcMessages . '/LC_MESSAGES/civicrm.mo' );
+        $this->_phpgettext = new gettext_reader($streamer);
+    
         if (function_exists('gettext')) {
             $config =& CRM_Core_Config::singleton();
             setlocale(LC_MESSAGES, $config->lcMessages);
@@ -124,7 +131,7 @@ class CRM_Core_I18n
 
             // if there's gettext support, use it
             if (function_exists('ngettext')) {
-                $text = ngettext($text, $plural, $count);
+                $text = $this->_phpgettext->ngettext($text, $plural, $count);
 
             // if there's no gettext support, we have to do ngettext work by hand
             // if $count == 1 then $text = $text, else $text = $plural
@@ -141,7 +148,7 @@ class CRM_Core_I18n
         } else {
 
             if (function_exists('gettext')) {
-                $text = gettext($text);
+                $text = $this->_phpgettext->translate($text);
             }
         
         }
