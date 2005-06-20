@@ -137,7 +137,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                         $customOptionBAO->orderBy('weight');
                         $customOptionBAO->find();
                         while($customOptionBAO->fetch()) {
-                            $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts($customOptionBAO->label), $customOptionBAO->value, $field['attributes']);
+                            $choice[] = $this->createElement(strtolower($field['html_type']), null, '', $customOptionBAO->label, $customOptionBAO->value, $field['attributes']);
                         }
                         $this->addGroup($choice, $elementName, $field['name']);
                     } else {
