@@ -193,10 +193,11 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $params = array('entity_table' => 'crm_contac', 'entity_id' => $this->_contactId);
-        $rows =& CRM_Core_BAO_Call::retrieve($params ,$this->_contactId );
-
-        // does not work with php4
+        $params = array('entity_table' => 'crm_phonecall', 'entity_id' => $this->_contactId);
+        $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity');
+        //$rows =& CRM_Core_BAO_Call::retrieve($params ,$this->_contactId );
+        
+        //does not work with php4
         //foreach ($rows as &$row) {
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
@@ -212,6 +213,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             }
             unset($row);
         }
+        
         return $rows;
     }
     

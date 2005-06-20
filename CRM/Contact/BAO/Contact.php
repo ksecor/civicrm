@@ -902,6 +902,43 @@ ORDER BY
         return  $rowMeeting + $rowPhonecall;
     }
 
+    /**
+     * function to get the list of open Actvities
+     *
+     * @param array reference $params  array of parameters 
+     * @param int     $offset          which row to start from ?
+     * @param int     $rowCount        how many rows to fetch
+     * @param object|array  $sort      object or array describing sort order for sql query.
+     * @param type    $type            type of history we're interested in
+     *
+     * @return array (reference)      $values the relevant data object values of open activitie
+     *
+     * @access public
+     * @static
+     */
+    static function &getOpenActivities(&$params, $offset=null, $rowCount=null, $sort=null, $type='Activity')
+    {
+        
+        $dao =& new CRM_Core_DAO();
+        $id = $params['entity_id'];
+        
+        
+        $query = "SELECT * FROM crm_phonecall WHERE target_contact_id = ".$id." AND status != 'Completed'";
+        //$query = "SELECT * FROM crm_phonecall WHERE target_contact_id = ".$id." AND status != 'Completed'"." UNION SELECT * FROM crm_meeting WHERE target_contact_id = ".$id." AND status != 'Completed'";
+        
+        $dao->query($query);
+        $values =array();
+        while($dao->fetch()) {
+            
+            CRM_Core_DAO::storeValues( $dao, $values[$dao->id]);
+            //$values[$dao->id] = $dao;
+            
+        }
+        return $values;
+
+    }
+
+
 }
 
 ?>
