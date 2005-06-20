@@ -64,8 +64,8 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
         $this->add('select','phone_id',ts('Phone Number'), $contactPhone );
         $this->add('text', 'phone_number'  , ts(' OR New Phone') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'phone_number' ));
         $this->addRule( 'phone_number', ts('Phone number is not valid.'), 'phone' );
-        $this->add('select', 'duration_hours', ts(''),CRM_Core_SelectValues::getHours());
-        $this->add('select', 'duration_minutes', ts(''),CRM_Core_SelectValues::getMinutes());
+        $this->add('select', 'duration_hours', '', CRM_Core_SelectValues::getHours());
+        $this->add('select', 'duration_minutes', '', CRM_Core_SelectValues::getMinutes());
         
         $this->add('select','status',ts('Status'),CRM_Core_SelectValues::ActivityStatus(true));
         $this->addRule( 'status', ts('Please select status.'), 'required' );

@@ -56,11 +56,13 @@ foreach ($originalArray as $line) {
 }
 
 // combine the msgid parts into single strings and build a new array with msgid
-// as key and arrays with comments as value
+// as key and arrays with comments as value; drop the empty msgids
 foreach ($blocks as $block) {
     $msgid = implode("\n", $block['msgid']);
-    foreach ($block['comments'] as $comment) {
-        $msgidArray[$msgid][] = $comment;
+    if ($msgid != 'msgid ""') {
+        foreach ($block['comments'] as $comment) {
+            $msgidArray[$msgid][] = $comment;
+        }
     }
 }
 
