@@ -55,7 +55,7 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
             $contactPhone = CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId);
         }
         
-        $this->add('text', 'subject', ts('Suject'),'');
+        $this->add('text', 'subject', ts('Subject'),'');
         $this->addRule( 'subject', ts('The Field Subject should not be Empty'), 'required' );
         $this->add('date', 'scheduled_date_time', ts('Scheduled'),CRM_Core_SelectValues::date('datetime'));
         $this->addRule( 'scheduled_date_time', ts('The Field Scheduled Date should not be Empty'), 'qfDate' );
