@@ -85,12 +85,15 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     function preProcess()
     {
+        
+
         $this->_tableName  = $this->get('tableName');
         $this->_tableId    = $this->get('tableId');
         $this->_entityType = $this->get('entityType');
         
         // gets all details of group tree for entity
         $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
+ 
     }
 
     /**
@@ -101,6 +104,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
+        CRM_Core_Error::le_method();
         $this->assign('groupTree', $this->_groupTree);
 
         // add the form elements
@@ -126,16 +130,39 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
 
                 case 'Radio':
-                    $choice = array();
-                    $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('Yes'), 'yes', $field['attributes']);
-                    $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('No') , 'no' , $field['attributes']);
-                    $this->addGroup($choice, $elementName, $field['label']);
-                    if ($field['is_required']) {
-                        $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
+                    if($field['data_type'] == 'Multi-Select') {
+                        $choice = array();
+                        $customOptionBAO =& new CRM_Core_BAO_CustomOption();
+                        $customOptionBAO->custom_field_id = $field['id'];
+                        $customOptionBAO->orderBy('weight');
+                        $customOptionBAO->find();
+                        while($customOptionBAO->fetch()) {
+                            $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts($customOptionBAO->label), $customOptionBAO->value, $field['attributes']);
+                        }
+                        $this->addGroup($choice, $elementName, $field['name']);
+                    } else {
+                        $choice = array();
+                        $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('Yes'), 'yes', $field['attributes']);
+                        $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('No') , 'no' , $field['attributes']);
+                        $this->addGroup($choice, $elementName, $field['label']);
+                        if ($field['is_required']) {
+                            $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
+                        }
                     }
                     break;
 
                 case 'Select':
+                    $customOptionBAO =& new CRM_Core_BAO_CustomOption();
+                    $customOptionBAO->custom_field_id = $field['id'];
+                    $customOptionBAO->orderBy('weight');
+                    $customOptionBAO->find();
+                    $optionSelect = array();
+                    while($customOptionBAO->fetch()) {
+                        $optionSelect[$customOptionBAO->value] = $customOptionBAO->label;
+                    }
+                    $this->add(strtolower($field['html_type']), $field['name'], null, $optionSelect);
+                    break;
+
                 case 'CheckBox':
                 case 'Select State / Province':
                 case 'Select Country':
@@ -173,6 +200,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $this->freeze();
         }
+       CRM_Core_Error::debug_var('groupTree', $this->_groupTree);
+
+       CRM_Core_Error::ll_method();
     }
     
 
@@ -193,7 +223,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
                 if (isset($field['customValue'])) {
                     if ($field['html_type'] == 'Radio') {
-                        $defaults[$elementName] = $field['customValue']['data'] ? 'yes' : 'no';
+                        if($field['data_type'] == 'Multi-Select') {
+                            $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
+                        } else {
+                            $defaults[$elementName] = $field['customValue']['data'] ? 'yes' : 'no';
+                        }
                     } else if ($field['html_type'] == 'Select Date') {
                         if ($date = $field['customValue']['data']) {
                             $defaults[$elementName] = CRM_Utils_Date::unformat( $date );
@@ -229,6 +263,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $fv = $this->exportValues();
 
         // update group tree with form values
+        /* echo "<pre>";
+        print_r($fv);
+        echo "</pre>";*/
+
         foreach ($fv as $k => $v) {
             list($groupId, $fieldId, $elementName) = explode('_', $k, 3);
             
@@ -240,10 +278,14 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     // field exists in db so populate value from "form".
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
                 }
-                
+
                 switch ( $this->_groupTree[$groupId]['fields'][$fieldId]['html_type'] ) {
                 case 'Radio':
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = ( $v == 'yes' ) ? 1 : 0;
+                    if($this->_groupTree[$groupId]['fields'][$fieldId]['data_type'] == 'Multi-Select') {
+                        $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
+                    } else {
+                        $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = ( $v == 'yes' ) ? 1 : 0;
+                    }
                     break;
                     
                 case 'Select Date':

@@ -201,13 +201,12 @@ class CRM_Core_Invoke {
                 if ( $args[4] != 'field' ) {
                     $view =& new CRM_Custom_Page_Group(ts('Custom Data Group'));
                 } else {
-                    $view =& new CRM_Custom_Page_Field(ts('Custom Data Field'));
                     if ( $args[5] != 'option' ) {
-                        $view =& new CRM_Custom_Page_Field(ts('Custom Data Option'));
+                        $view =& new CRM_Custom_Page_Field(ts('Custom Data Field'));
                     } else {
+                        $view =& new CRM_Custom_Page_Option(ts('Custom Data Field'));
                         $additionalBreadCrumb = '<a href="civicrm/admin/custom/group/field">' . ts('Custom Data Field') . '</a>';
                         CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
-                        $view =& new CRM_Custom_Page_Option(ts('Custom Data Option'));
                     }
                 }
             }

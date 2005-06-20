@@ -42,9 +42,17 @@ require_once 'CRM/Core/Page.php';
  *
  */
 class CRM_Custom_Page_Option extends CRM_Core_Page {
+     
+    /**
+     * The Group id of the option
+     *
+     * @var int
+     * @access protected
+     */
+    protected $_gid;
     
     /**
-     * The fild id of the option
+     * The field id of the option
      *
      * @var int
      * @access protected
@@ -71,22 +79,22 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
     {
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
-	    $disableExtra = ts('Are you sure you want to disable this custom data option?');
+            $disableExtra = ts('Are you sure you want to disable this custom data option?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::ENABLE  => array(
-									  'name'  => ts('Enable'),
+                                                                          'name'  => ts('Enable'),
                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable Custom Option') 
-									  ),
-					CRM_Core_Action::DISABLE  => array(
-									  'name'  => ts('Disable'),
+                                                                          ),
+                                        CRM_Core_Action::DISABLE  => array(
+                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
                                                                           'qs'    => 'action=disable&id=%%id%%',
                                                                           'title' => ts('Disable Custom Field'),
-									  'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"'
-									  ),
-					CRM_Core_Action::UPDATE  => array(
+                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"'
+                                                                           ),
+                                        CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit'),
                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
                                                                           'qs'    => 'action=update&id=%%id%%',
@@ -160,6 +168,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field/option', 'reset=1&action=browse&fid=' . $this->_fid));
        
+        $controller->set('gid', $this->_gid);
         $controller->set('fid', $this->_fid);
         $controller->setEmbedded(true);
         $controller->process();
@@ -183,8 +192,9 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         
         // get the field id
         $this->_fid = CRM_Utils_Request::retrieve('fid', $this);
+        $this->_gid = CRM_Utils_Request::retrieve('gid', $this);
         
-	if ($this->_fid) {
+        if ($this->_fid) {
 	    $fieldTitle = CRM_Core_BAO_CustomField::getTitle($this->_fid);
             $this->assign('fid', $this->_fid);
             $this->assign('fieldTitle', $fieldTitle);
@@ -203,14 +213,13 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW)) {
             $this->edit($action);   // no browse for edit/update/view
         } else {
-	   if ($action & CRM_Core_Action::DISABLE) {
+            if ($action & CRM_Core_Action::DISABLE) {
                 CRM_Core_BAO_CustomOption::setIsActive($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
                 CRM_Core_BAO_CustomOption::setIsActive($id, 1);
             }
            $this->browse();
         }
-
         // Call the parents run method
         parent::run();
     }
