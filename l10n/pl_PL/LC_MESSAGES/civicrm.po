@@ -398,7 +398,7 @@ msgstr "Organizacja"
 
 #: CRM/Contact/Form/Search/Advanced.php:77 CRM/Contact/Form/Search.php:298
 msgid "Find..."
-msgstr "Znajdź…"
+msgstr "znajdź…"
 
 #: CRM/Contact/Form/Search/Advanced.php:96 CRM/Contact/Form/Task/Email.php:92
 msgid "To"
@@ -1279,7 +1279,7 @@ msgstr "Drukuj"
 
 #: CRM/Contact/Form/Search.php:301
 msgid " - any group - "
-msgstr " - dowolna grupa - "
+msgstr " - dowolnej grupie - "
 
 #: CRM/Contact/Form/Search.php:302
 msgid "in"
@@ -1287,11 +1287,11 @@ msgstr "w"
 
 #: CRM/Contact/Form/Search.php:305
 msgid " - any tag - "
-msgstr " - dowolny znacznik - "
+msgstr " - dowolnie - "
 
 #: CRM/Contact/Form/Search.php:306
 msgid "Tagged"
-msgstr "Oznaczone"
+msgstr "ozn."
 
 #: CRM/Contact/Form/Task/AddToGroup.php:102
 msgid "Add Members to A Group"
@@ -1836,7 +1836,7 @@ msgstr "Poczta zwykła"
 
 #: CRM/Core/SelectValues.php:159
 msgid "- all contacts -"
-msgstr "- wszystkie kontakty -"
+msgstr "- wszystkie -"
 
 #: CRM/Core/SelectValues.php:160;224 templates/CRM/Block/Search.tpl
 msgid "Individuals"
