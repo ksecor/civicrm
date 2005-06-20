@@ -223,7 +223,7 @@ class CRM_Core_Block {
         $values =  array( );
 
         foreach ( $items as $item ) {
-            if ( $item['type'] == CRM_Utils_Menu::NORMAL_ITEM && $item['access'] ) {
+            if ( ( $item['type'] & CRM_Utils_Menu::NORMAL_ITEM ) && $item['access'] ) {
                 $value = array( );
                 $value['url'  ] = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'qs', $item ) );
                 $value['title'] = $item['title'];

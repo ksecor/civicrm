@@ -83,8 +83,8 @@ class CRM_Utils_Menu {
                             'qs'      => 'reset=1',
                             'access'  => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                                          CRM_Utils_System::checkPermission( 'access CiviCRM' ),
-                            'type'    => self::NORMAL_ITEM,
-                            'crmType' => self::ROOT_LOCAL_TASK,
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::ROOT_LOCAL_TASK | self::NORMAL_ITEM,
                             'weight'  => 40,
                             ),
         
@@ -126,6 +126,7 @@ class CRM_Utils_Menu {
                             'title'  => ts('Custom Data Fields'),
                             'qs'     => 'reset=1',
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             'weight' => 3
                             ),
 
@@ -143,6 +144,7 @@ class CRM_Utils_Menu {
                             'title'  => ts('User Sharing Fields'),
                             'qs'     => 'reset=1',
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             'weight' => 3
                             ),
 
@@ -167,15 +169,16 @@ class CRM_Utils_Menu {
                             'title'    => ts('CiviCRM'),
                             'access'   => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'callback' => 'civicrm_invoke',
-                            'type'     => self::CALLBACK,
+                            'type'     => self::NORMAL_ITEM,
+                            'crmType'  => self::CALLBACK,
                             ),
 
                       array(
                             'path'    => 'civicrm/contact/search',
                             'title'   => ts('Contacts'),
                             'qs'      => 'reset=1',
-                            'type'    => self::NORMAL_ITEM,
-                            'crmType' => self::ROOT_LOCAL_TASK,
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::ROOT_LOCAL_TASK | self::NORMAL_ITEM,
                             'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'weight'  => 10,
                             ),
@@ -212,6 +215,7 @@ class CRM_Utils_Menu {
                             'access' => CRM_Utils_System::checkPermission('add contacts') &&
                             CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             'weight' => 1
                             ),
         
@@ -222,6 +226,7 @@ class CRM_Utils_Menu {
                             'access' => CRM_Utils_System::checkPermission('add contacts') &&
                             CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             'weight' => 1
                             ),
         
@@ -232,6 +237,7 @@ class CRM_Utils_Menu {
                             'access' => CRM_Utils_System::checkPermission('add contacts') &&
                             CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             'weight' => 1
                             ),
         
@@ -239,6 +245,7 @@ class CRM_Utils_Menu {
                             'path'   => 'civicrm/contact/edit',
                             'title'  => ts('Edit Contact Name and Location'),
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             'weight' => 1
                             ),
         
@@ -258,11 +265,19 @@ class CRM_Utils_Menu {
                             ),
 
                       array(
+                            'path'    => 'civicrm/contact/view/activity',
+                            'title'   => ts('Activity'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
+                            'weight'  => 1
+                            ),
+
+                      array(
                             'path'    => 'civicrm/contact/view/rel',
                             'title'   => ts('Relationships'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 1
+                            'weight'  => 2
                             ),
         
                       array(
@@ -278,7 +293,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Groups'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 2
+                            'weight'  => 4
                             ),
         
                       array(
@@ -286,20 +301,12 @@ class CRM_Utils_Menu {
                             'title'   => ts('Tags'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 4
+                            'weight'  => 5
                             ),
 
                       array(
                             'path'    => 'civicrm/contact/view/cd',
                             'title'   => ts('Custom Data'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'weight'  => 5
-                            ),
-
-                      array(
-                            'path'    => 'civicrm/contact/view/activity',
-                            'title'   => ts('Activity'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'weight'  => 6
@@ -309,7 +316,8 @@ class CRM_Utils_Menu {
                             'path'   => 'civicrm/group',
                             'title'  => ts('Manage Groups'),
                             'qs'     => 'reset=1',
-                            'type'   => self::NORMAL_ITEM,
+                            'type'   => self::CALLBACK,
+                            'crmType'=> self::NORMAL_ITEM,
                             'access' => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'weight' => 20,
                             ),
@@ -318,12 +326,14 @@ class CRM_Utils_Menu {
                             'path'   => 'civicrm/group/search',
                             'title'  => ts('Group Members'),
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             ),
         
                       array(
                             'path'   => 'civicrm/group/add',
                             'title'  => ts('Create New Group'),
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             ),
         
                       array(
@@ -332,7 +342,8 @@ class CRM_Utils_Menu {
                             'qs'     => 'reset=1',
                             'access' => CRM_Utils_System::checkPermission('administer CiviCRM') &&
                                         CRM_Utils_System::checkPermission( 'access CiviCRM' ),
-                            'type'   => self::NORMAL_ITEM,
+                            'type'   => self::CALLBACK,
+                            'crmType' => self::NORMAL_ITEM,
                             'weight' => 30,
                             ),
 
@@ -340,25 +351,28 @@ class CRM_Utils_Menu {
                             'path'   => 'civicrm/history/activity/detail',
                             'title'  => ts('Activity Detail'),
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             ),
 
                       array(
                             'path'   => 'civicrm/history/activity/delete',
                             'title'  => ts('Delete Activity'),
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             ),
 
                       array(
                             'path'   => 'civicrm/history/email',
                             'title'  => ts('Email Detail'),
                             'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
                             ),
                       /*
                       array(
                             'path'    => 'civicrm/activity',
                             'title'   => ts('Activities'),
                             'qs'      => 'reset=1',
-                            'type'    => self::NORMAL_ITEM,
+                            'type'    => self::CALLBACK,
                             'crmType' => self::ROOT_LOCAL_TASK,
                             'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'weight'  => 25,
