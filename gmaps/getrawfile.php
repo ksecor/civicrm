@@ -11,10 +11,8 @@ if ( strpos( $url, 'http://' ) === 0 ) {
     }
 }
 
-echo "Content-Type: text/xml
-
-$data
-";
+echo $data;
 
 exit(1);
+
 ?>
