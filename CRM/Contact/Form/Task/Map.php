@@ -120,7 +120,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
 
         $sumLat = $sumLng = 0;
         $maxLat = $maxLng = -400;
-        $minLat = $maxLat = +400;
+        $minLat = $minLng = +400;
         foreach ( $locations as $location ) {
             $sumLat += $location['lat'];
             $sumLng += $location['lng'];

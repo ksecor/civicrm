@@ -33,7 +33,7 @@ function _getInitialUrl() {
     return document.location.search.substring(urlOffset);
 }
 
-var URL_GETFILE_CGI = "getrawfile.cgi?url=";
+var URL_GETFILE_CGI = "getrawfile.php?url=";
 
 function _hookXmlHttpRequestFactory() {
     //

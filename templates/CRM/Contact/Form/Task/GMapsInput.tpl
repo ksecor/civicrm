@@ -1,5 +1,5 @@
-{strip}
 {literal}<?xml version="1.0" ?>{/literal}
+{strip}
 <page>
 <title>{$title}</title>
 <query>{$query}</query>
