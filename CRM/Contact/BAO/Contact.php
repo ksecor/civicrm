@@ -863,6 +863,35 @@ ORDER BY
         return self::$_importableFields;
     }
 
+    /**
+     * Get total number of open activities
+     *
+     * @param  int $id id of the contact
+     * @return int $numRow - total number of open activities    
+     *
+     * @static
+     * @access public
+     */
+    static function getNumOpenActivity($id)
+    {
+        CRM_Core_Error::le_method();
+
+        $query1 = "SELECT count(*) FROM crm_meeting WHERE target_contact_id = $id AND status != 'Completed'";
+        $query2 = "SELECT count(*) FROM crm_phonecall WHERE target_contact_id = $id AND status != 'Completed'";
+
+        $query = $query1 . " UNION " . $query2;
+
+        $dao =& new CRM_Core_DAO();
+        $dao->query($query);
+        $result = $dao->getDatabaseResult();
+        $row    = $result->fetchRow();
+
+        CRM_Core_Error::debug_log_message('num open activity  = ' . $row[0]);        
+        CRM_Core_Error::debug_var('row', $row);        
+
+        return $row[0];
+    }
+
 }
 
 ?>

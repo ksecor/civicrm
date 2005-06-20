@@ -233,7 +233,8 @@ function getField( &$fieldXML, &$fields ) {
 
     case 'datetime':
         $field['sqlType'] = $field['phpType'] = $type;
-        $field['crmType'] = 'CRM_Utils_Type::T_DATE + CRM_Utils::T_TIME';
+        $field['crmType'] = 'CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME';
+        break;
 
     default:
         $field['sqlType'] = $field['phpType'] = $type;
