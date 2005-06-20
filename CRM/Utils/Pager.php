@@ -92,7 +92,7 @@ class CRM_Utils_Pager extends Pager_Sliding {
         if ( $params['total'] == 0 ) {
             $statusMessage = '';
         } else {
-            $statusMessage = "$start - $end of " . $params['total'];
+            $statusMessage = ts('%1 - %2 of %3', array(1 => $start, 2 => $end, 3 => $params['total']));
         }
         $params['status'] = str_replace( '%%StatusMessage%%', $statusMessage, $params['status'] );
 

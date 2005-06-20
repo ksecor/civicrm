@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-20 17:26+0200\n"
+"POT-Creation-Date: 2005-06-20 19:29+0200\n"
 "PO-Revision-Date: 2005-06-09 14:29+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -401,9 +401,10 @@ msgstr "Organizacja"
 msgid "Find..."
 msgstr "Znajdź…"
 
-#: CRM/Contact/Form/Search/Advanced.php:96 CRM/Contact/Form/Task/Email.php:92
+#: CRM/Contact/Form/Search/Advanced.php:96;115
+#: CRM/Contact/Form/Task/Email.php:92
 msgid "To"
-msgstr "Do"
+msgstr "do"
 
 #: CRM/Contact/Form/Search/Advanced.php:105 CRM/Utils/Menu.php:109
 msgid "Location Types"
@@ -1228,11 +1229,11 @@ msgstr "Zapisz powiązanie."
 #: CRM/Contact/Form/Search/Advanced.php:63
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Contact Type(s)"
-msgstr "Rodzaj(e) kontaktów"
+msgstr "Rodzaje kontaktów"
 
 #: CRM/Contact/Form/Search/Advanced.php:82
 msgid " - any state/province - "
-msgstr " - dowolny stan/województwo - "
+msgstr " - dowolne - "
 
 #: CRM/Contact/Form/Search/Advanced.php:83
 msgid "State/Province"
@@ -1240,7 +1241,7 @@ msgstr "Stan/województwo"
 
 #: CRM/Contact/Form/Search/Advanced.php:86
 msgid " - any country - "
-msgstr " - dowolny kraj - "
+msgstr " - dowolny - "
 
 #: CRM/Contact/Form/Search/Advanced.php:91
 msgid "Enter valid Postal Code"
@@ -1261,6 +1262,10 @@ msgstr "Wprowadź poprawny kodu pocztowego (Do)"
 #: CRM/Contact/Form/Search/Advanced.php:108
 msgid "Search primary locations only"
 msgstr "Szukaj tylko w lokalizacjach głównych"
+
+#: CRM/Contact/Form/Search/Advanced.php:114
+msgid "Activity Dates - From"
+msgstr "Daty zdarzeń – od"
 
 #: CRM/Contact/Form/Search.php:207
 msgid "- more actions -"
@@ -1304,7 +1309,7 @@ msgstr " - dowolnie - "
 
 #: CRM/Contact/Form/Search.php:306
 msgid "Tagged"
-msgstr "Ozn."
+msgstr "ozn."
 
 #: CRM/Contact/Form/Task/AddToGroup.php:102
 msgid "Add Members to A Group"
@@ -1316,7 +1321,7 @@ msgstr "Dodaj do grupy"
 
 #: CRM/Contact/Form/Task/AddToGroup.php:135
 msgid "Added Contact(s) to %1"
-msgstr "Kontakt(y) dodane do %1"
+msgstr "Dodane kontakty do %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php:139
 msgid "Total Contact(s) added to group: %1"
@@ -1849,15 +1854,15 @@ msgstr "- wszystkie -"
 
 #: CRM/Core/SelectValues.php:160;224 templates/CRM/Block/Search.tpl
 msgid "Individuals"
-msgstr "Osoby"
+msgstr "osoby"
 
 #: CRM/Core/SelectValues.php:161;225 templates/CRM/Block/Search.tpl
 msgid "Households"
-msgstr "Mieszkania"
+msgstr "mieszkania"
 
 #: CRM/Core/SelectValues.php:162;226 templates/CRM/Block/Search.tpl
 msgid "Organizations"
-msgstr "Organizacje"
+msgstr "organizacje"
 
 #: CRM/Core/SelectValues.php:178
 msgid "Text"
@@ -2368,7 +2373,7 @@ msgstr "Kontakty"
 
 #: CRM/Utils/Menu.php:185
 msgid "Find Contacts"
-msgstr "Znajdź kontakty"
+msgstr "Szukanie kontaktów"
 
 #: CRM/Utils/Menu.php:201
 msgid "Saved Searches"
@@ -2417,6 +2422,10 @@ msgstr "Szczegóły emaila"
 #: CRM/Utils/Pager.php:78
 msgid "Contacts %%StatusMessage%%"
 msgstr "Kontakty %%StatusMessage%%"
+
+#: CRM/Utils/Pager.php:95
+msgid "%1 - %2 of %3"
+msgstr "%1 – %2 z %3"
 
 #: CRM/Utils/Pager.php:122;123
 msgid "Page %1 of %2"
@@ -2598,7 +2607,7 @@ msgstr "-wszystkie kontakty-"
 
 #: templates/CRM/Block/Search.tpl
 msgid "-exact or partial name-"
-msgstr "-dokładna lub częściowa nazwa-"
+msgstr "-całość lub część nazwy-"
 
 #: templates/CRM/Block/Search.tpl
 msgid "Go to Advanced Search"
@@ -2620,8 +2629,8 @@ msgid ""
 "Please add your comments on the look and feel of these pages, along with "
 "workflow issues, on the <a href=\"%1\">CiviCRM Comments Page</a>."
 msgstr ""
-"Komentarze dotyczące wyglądu i działania systemu na <a href=\"%1\">stronie "
-"komentarzy</a>."
+"Komentarze dotyczące wyglądu i działania systemu prosimy zgłaszać na <a href="
+"\"%1\">stronie komentarzy</a>."
 
 #: templates/CRM/common/info.tpl templates/CRM/common/status.tpl
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -2805,11 +2814,11 @@ msgstr "Pełna lub częściowa nazwa kontaktu."
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "In Group(s)"
-msgstr "W grupie/grupach"
+msgstr "W grupach"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Tag(s)"
-msgstr "Znacznik(i)"
+msgstr "Znaczniki"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "OR"
@@ -3034,19 +3043,19 @@ msgid ""
 "Use <a href=\"%1\">Find</a> or <a href=\"%2\"> Advanced Search</a> form to "
 "enter search criteria"
 msgstr ""
-"Skorzystaj z <a href=\"%1\">Wyszukiwania</a> lub <a href=\"%2\">Wyszukiwania "
-"zaawansowanego</a> by podać kryteria wyszukiwania"
+"Skorzystaj z <a href=\"%1\">Szukania kontaktów</a> lub <a href=\"%2"
+"\">Szukania zaawansowanego</a> by podać kryteria wyszukiwania"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Run and refine the search criteria as necessary"
-msgstr "Wykonaj i ewentualnie popraw kryteria"
+msgstr "Wykonaj szukanie i ewentualnie popraw kryteria"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid ""
-"Select 'New Saved Search' from the '-more actions' drop-down menu and click "
-"'Go'"
+"Select 'New Saved Search' from the '-more actions -' drop-down menu and "
+"click 'Go'"
 msgstr ""
-"Wybierz 'Nowe zachowane wyszukiwanie' z pola '-więcej akcji' i kliknij „Idź”"
+"Wybierz „Nowe zapisane wyszukiwanie” z pola „-więcej akcji -” i kliknij „Idź”"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Enter a name and description for your Saved Search"

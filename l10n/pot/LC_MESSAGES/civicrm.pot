@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-20 17:43+0200\n"
+"POT-Creation-Date: 2005-06-20 19:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: <>\n"
@@ -257,7 +257,7 @@ msgstr ""
 msgid "Find..."
 msgstr ""
 
-#: CRM/Contact/Form/Search/Advanced.php:96 CRM/Contact/Form/Task/Email.php:92
+#: CRM/Contact/Form/Search/Advanced.php:96;115 CRM/Contact/Form/Task/Email.php:92
 msgid "To"
 msgstr ""
 
@@ -1031,6 +1031,10 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php:108
 msgid "Search primary locations only"
+msgstr ""
+
+#: CRM/Contact/Form/Search/Advanced.php:114
+msgid "Activity Dates - From"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php:207
@@ -2173,6 +2177,10 @@ msgstr ""
 msgid "Contacts %%StatusMessage%%"
 msgstr ""
 
+#: CRM/Utils/Pager.php:95
+msgid "%1 - %2 of %3"
+msgstr ""
+
 #: CRM/Utils/Pager.php:122;123
 msgid "Page %1 of %2"
 msgstr ""
@@ -2628,7 +2636,7 @@ msgid "Run and refine the search criteria as necessary"
 msgstr ""
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
-msgid "Select 'New Saved Search' from the '-more actions' drop-down menu and click 'Go'"
+msgid "Select 'New Saved Search' from the '-more actions -' drop-down menu and click 'Go'"
 msgstr ""
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl

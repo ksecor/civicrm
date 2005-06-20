@@ -111,8 +111,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->addElement('text', 'activity_type', ts('Activity Type'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_ActivityHistory', 'activity_type'));
 
         // Date selects for activity date
-        $this->add('date', 'activity_from_date', 'Activity Dates - From', CRM_Core_SelectValues::date('relative'));
-        $this->add('date', 'activity_to_date', 'To', CRM_Core_SelectValues::date('relative'));
+        $this->add('date', 'activity_from_date', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
+        $this->add('date', 'activity_to_date', ts('To'), CRM_Core_SelectValues::date('relative'));
 
         $this->buildQuickFormCommon();
     }
