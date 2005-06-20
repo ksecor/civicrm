@@ -150,7 +150,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 
         // data type, html type
-        $dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'), array('onchange' => 'if(this.options[this.selectedIndex].value > 0) { document.getElementById(\'showoption\').style.display=\'\'; } else {  document.getElementById(\'showoption\').style.display=\'none\';}'));
+        $dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'), array('onchange' => 'if(this.options[this.selectedIndex].value) { document.getElementById(\'showoption\').style.display=\'\'; } else {  document.getElementById(\'showoption\').style.display=\'none\';}'));
         $dataHTMLElement->setOptions(array( self::$_dataTypeValues, self::$_dataToHTML));
 	
         if ($this->_action == CRM_Core_Action::UPDATE) { 
@@ -213,7 +213,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
+            
             $this->freeze();
+            
             $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
         }
     }
@@ -267,12 +269,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     public function postProcess()
     {
 
-        CRM_Core_Error::le_method();
-
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
-
-        CRM_Core_Error::debug_var('params', $params);        
 
         // set values for custom field properties and save
         $customField                =& new CRM_Core_DAO_CustomField();
@@ -297,12 +295,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         // need the FKEY - custom group id
         $customField->custom_group_id = $this->_gid;
 
-        //CRM_Core_Error::debug_var('customField', $customField);
-        
         $customField->save();
 
-        //CRM_Core_Error::debug_var('customField', $customField);
-        
         //Start Storing the values of Option field if the selected option is Multi Select
         if ($customField->data_type == 'Multi-Select') {
             foreach ($params['option_value'] as $k => $v) {
@@ -313,17 +307,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $customOptionDAO->value      = $v;
                     $customOptionDAO->weight     = $params['option_weight'][$k];
                     $customOptionDAO->is_active  = $params['option_status'][$k];
+                    $customOptionDAO->save();
                 }
-                $customOptionDAO->save();
             }
             $customField->default_value = $params['option_value'][$params['default_option']];
             $customField->save();
         }
-        
-
-        
-
-
 
         CRM_Core_Session::setStatus(ts('Your custom field "%1" has been saved', array(1 => $customField->label)));
    }

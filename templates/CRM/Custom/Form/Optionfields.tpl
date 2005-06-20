@@ -52,46 +52,40 @@
             <span class="fcol4 label"> {ts}Weight{/ts}</span>
 	    <span class="fcol5 label"> {ts}Status?{/ts}</span>
         </div>
-	<div id="optrow[0]">
-	    <span class="fcol1"> {$form.default_option[0].html}</span>
-	    <span class="fcol2"> {$form.option_label.0.html}</span>
-            <span class="fcol3"> {$form.option_value.0.html}</span>
-            <span class="fcol4"> {$form.option_weight.0.html}</span>
-            <span class="fcol5"> {$form.option_status.0.html}</span>
+	{section name=firstthree loop=3}
+	{assign var=index value=$smarty.section.firstthree.index}
+	<div id="optrow[{$index}]">
+	    <span class="fcol1"> {$form.default_option[$index].html}</span>
+	    <span class="fcol2"> {$form.option_label.$index.html}</span>
+            <span class="fcol3"> {$form.option_value.$index.html}</span>
+            <span class="fcol4"> {$form.option_weight.$index.html}</span>
+            <span class="fcol5"> {$form.option_status.$index.html}</span>
+            {if $index eq 2}
+		{assign var=k value=$index+1}
+	    <div id="optionField[{$k}][show]" class="add-remove-link">
+		{$form.optionField.$k.show.html}
+	    </div>
+	    {/if}
+        	<!-- Spacer div contains floated elements -->
+	    <div class="spacer"></div>
 	</div>
-	<div id="optrow[1]">
-	    <span class="fcol1"> {$form.default_option[1].html}</span>
-	    <span class="fcol2"> {$form.option_label.1.html}</span>
-            <span class="fcol3"> {$form.option_value.1.html}</span>
-            <span class="fcol4"> {$form.option_weight.1.html}</span>
-            <span class="fcol5"> {$form.option_status.1.html}</span>
-	</div>
-	<div id="optrow[2]">
-	    <span class="fcol1"> {$form.default_option[2].html}</span>
-	    <span class="fcol2"> {$form.option_label.2.html}</span>
-            <span class="fcol3"> {$form.option_value.2.html}</span>
-            <span class="fcol4"> {$form.option_weight.2.html}</span>
-            <span class="fcol5"> {$form.option_status.2.html}</span>
-	<div id="optionField[3][show]" class="add-remove-link">
- 	{$form.optionField.3.show.html}
-        </div>
-	</div>
-	
+	{/section}
+
 	{section name=looper start=3 loop=11}
 	{assign var=index value=$smarty.section.looper.index}	
 	<div id="optionField[{$index}]" class="form-item" style="display: none">
-	    <span class="fcol1"> {$form.defaultoption[$index].html}</span>
-	    <span class="fcol2"> {$form.optionlabel.$index.html}</span>
-	    <span class="fcol3"> {$form.optionvalue.$index.html}</span>
-	    <span class="fcol4"> {$form.optionweight.$index.html}</span>
- 	    <span class="fcol5"> {$form.option_is_active.$index.html}</span>
+	    <span class="fcol1"> {$form.default_option[$index].html}</span>
+	    <span class="fcol2"> {$form.option_label.$index.html}</span>
+	    <span class="fcol3"> {$form.option_value.$index.html}</span>
+	    <span class="fcol4"> {$form.option_weight.$index.html}</span>
+ 	    <span class="fcol5"> {$form.option_status.$index.html}</span>
 	    <span id="optionField[{$index}][hide]" class="add-remove-link element-right">
                 {$form.optionField.$index.hide.html}
             </span>
             {if $index LT 11}
             {assign var=j value=$index+1}
-            	<div id="optionField[{$j}][show]" class="add-remove-link">
- 			{$form.optionField.$j.show.html}
+	       	<div id="optionField[{$j}][show]" class="add-remove-link">
+			{$form.optionField.$j.show.html}
             	</div>
             {/if}
         	<!-- Spacer div contains floated elements -->

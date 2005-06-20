@@ -147,8 +147,6 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
     public function postProcess()
     {
-        echo "Got the stupid foriegn Key $this->_fid<br/>";
-	echo "Got the stupid id $this->id<br/>";
         // store the submitted values in an array
         $params = $this->controller->exportValues('Option');
 
@@ -156,15 +154,15 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         $customOption                =& new CRM_Core_DAO_CustomOption();
         $customOption->label         = $params['label'];
         $customOption->weight        = $params['weight'];
-	$customOption->value         = $params['value'];
-	$customOption->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
+        $customOption->value         = $params['value'];
+        $customOption->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
        
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $customOption->id = $this->_id;
         }
 
         // need the FKEY - custom field id
-        $customField->custom_field_id = $this->_fid;
+        $customOption->custom_field_id = $this->_fid;
 	
 	 $customOption->save();
         

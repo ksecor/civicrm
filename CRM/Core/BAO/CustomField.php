@@ -52,14 +52,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     {
         if (!(self::$_dataType)) {
             self::$_dataType = array(
-		'String'  => ts('Alphanumeric'),
-                'Int'     => ts('Integer'),
-                'Float'   => ts('Number'),
-                'Money'   => ts('Money'),
-                'Memo'    => ts('Note'),
-                'Date'    => ts('Date'),
-                'Boolean' => ts('Yes or No'),
-		'Multi-Select'  => ts('Multiple Options')
+                'String'        => ts('Alphanumeric'),
+                'Int'           => ts('Integer'),
+                'Float'         => ts('Number'),
+                'Money'         => ts('Money'),
+                'Memo'          => ts('Note'),
+                'Date'          => ts('Date'),
+                'Boolean'       => ts('Yes or No'),
+		        'Multi-Select'  => ts('Multiple Options')
             );
         }
         return self::$_dataType;
