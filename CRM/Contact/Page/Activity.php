@@ -58,7 +58,7 @@ class CRM_Contact_Page_Activity {
         CRM_Core_Error::debug_var('history', $history);        
 
         if ($history) {
-
+  
             CRM_Core_Error::debug_log_message('history is true');        
             // create the selector, controller and run - store results in session
             $output = CRM_Core_Selector_Controller::SESSION;
@@ -74,7 +74,7 @@ class CRM_Contact_Page_Activity {
             $controller->run();
             $controller->moveFromSessionToTemplate( );
         } else {
-
+  
             CRM_Core_Error::debug_log_message('history is false');        
 
             // create the selector, controller and run - store results in session
