@@ -230,6 +230,11 @@ function getField( &$fieldXML, &$fields ) {
         $field['rows']    = value( 'rows', $fieldXML );
         $field['cols']    = value( 'cols', $fieldXML );
 
+
+    case 'datetime':
+        $field['sqlType'] = $field['phpType'] = $type;
+        $field['crmType'] = 'CRM_Utils_Type::T_DATE + CRM_Utils::T_TIME';
+
     default:
         $field['sqlType'] = $field['phpType'] = $type;
         if ( $type == 'int unsigned' ) {

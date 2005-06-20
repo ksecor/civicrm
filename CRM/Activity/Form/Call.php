@@ -84,34 +84,34 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
      */
     public function postProcess() 
     {
+
+        CRM_Core_Error::le_method();
+
+
          // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );       
         $ids = array();
         
+        CRM_Core_Error::debug_var('params', $params);
 
-        $date=CRM_Utils_Date::format( CRM_Utils_Array::value('scheduled_date_time', $params) );
-        $time=CRM_Utils_Array::value('scheduled_date_time', $params);
-        $h=$time['H'];
-        $m=$time['i'];
-        $date = $date.$h.$m.'00';
-       
-        $params['scheduled_date_time']= $date;
-        // store the contact id
+        $dateTime = $params['scheduled_date_time'];
+
+        $dateTime = CRM_Utils_Date::format($dateTime);
+
+        $params['scheduled_date_time']= $dateTime;
         $params['source_contact_id'] = $this->_userId;
         $params['target_contact_id'] = $this->_contactId;
 
-
+        CRM_Core_Error::debug_var('params', $params);
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['call'] = $this->_id;
         }
       
         $call = CRM_Core_BAO_Call::add($params, $ids);
-        
+
         CRM_Core_Session::setStatus( ts('Phone Call "%1" has been saved.', array( 1 => $call->subject)) );
-    }//end of function
-
-
+    }
 }
 
 ?>

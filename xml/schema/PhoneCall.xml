@@ -43,7 +43,7 @@
   </field>
   <field>
      <name>scheduled_date_time</name>
-     <type>timestamp</type>
+     <type>datetime</type>
      <comment>Date and time phonecall is scheduled to be made.</comment>
   </field>
   <field>

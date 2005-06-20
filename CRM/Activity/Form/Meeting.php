@@ -80,8 +80,13 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
      */
     public function postProcess() 
     {
+
+        CRM_Core_Error::le_method();
+
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+
+        CRM_Core_Error::debug_var('params', $params);        
 
         $ids = array();
 
@@ -94,7 +99,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         }
 
         $meeting = CRM_Core_BAO_Meeting::add($params, $ids);
-
+        
         CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $meeting->subject)) );
     }//end of function
 

@@ -299,7 +299,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/activity',
-                            'title'   => ts('Activity History'),
+                            'title'   => ts('Activity'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'weight'  => 6
