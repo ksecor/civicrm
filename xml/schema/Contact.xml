@@ -56,6 +56,12 @@
        <fieldName>sort_name</fieldName>
   </index>
   <field>
+       <name>display_name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Formatted name representing preferred format for display/print/other output.</comment>
+  </field>
+  <field>
        <name>home_URL</name>
        <type>varchar</type>
        <length>128</length>

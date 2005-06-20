@@ -169,24 +169,32 @@ ORDER BY
      * @param boolean  $count    is this a count only query ?
      * @param boolean  $includeContactIds should we include contact ids?
      * @param boolean  $sortByChar if true returns the distinct array of first characters for search results
+     * @param boolean  $groupContacts if true, use a single mysql group_contact statement to get the contact ids
      *
      * @return CRM_Contact_DAO_Contact 
      * @access public
      */
-    function searchQuery(&$fv, $offset, $rowCount, $sort, $count = false, $includeContactIds = false, $sortByChar = false)
+    function searchQuery(&$fv, $offset, $rowCount, $sort, 
+                         $count = false, $includeContactIds = false, $sortByChar = false,
+                         $groupContacts = false )
     {
         $select = $from = $where = $order = $limit = '';
 
-        if($count) {
+        if( $count ) {
             $select = "SELECT count(DISTINCT crm_contact.id) ";
-        } else if ($sortByChar) {
+        } else if ( $sortByChar ) {
             $select = "SELECT DISTINCT UPPER(LEFT(crm_contact.sort_name, 1)) as sort_name";
+        } else if ( $groupContacts ) {
+            $select = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
         } else {
             $select = "SELECT DISTINCT crm_contact.id as contact_id,
                               crm_contact.sort_name as sort_name,
+                              crm_contact.display_name as display_name,
                               crm_address.street_address as street_address,
                               crm_address.city as city,
                               crm_address.postal_code as postal_code,
+                              crm_address.geo_code_1 as latitude,
+                              crm_address.geo_code_2 as longitude,
                               crm_state_province.abbreviation as state,
                               crm_country.name as country,
                               crm_email.email as email,
@@ -221,7 +229,7 @@ ORDER BY
         // CRM_Core_Error::debug( 'qs', $queryString );
         $this->query($queryString);
 
-        if ($count) {
+        if ($count || $groupContacts) {
             $result = $this->getDatabaseResult();
             $row    = $result->fetchRow();
             return $row[0];
@@ -491,20 +499,26 @@ ORDER BY
 
         if ($contact->contact_type == 'Individual') {
             $sortName = "";
-            $firstName = CRM_Utils_Array::value('first_name', $params, '');
-            $lastName  = CRM_Utils_Array::value('last_name', $params, '');
+            $firstName  = CRM_Utils_Array::value('first_name', $params, '');
+            $middleName = CRM_Utils_Array::value('middle_name', $params, '');
+            $lastName   = CRM_Utils_Array::value('last_name' , $params, '');
+            $prefix     = CRM_Utils_Array::value('prefix'    , $params, '');
+            $suffix     = CRM_Utils_Array::value('suffix'    , $params, '');
+
             // a comma should only be present if both first_name and last name are present.            
             if ($firstName && $lastName) {
                 $sortName = "$lastName, $firstName";
             } else {
                 $sortName = $lastName . $firstName;
             }
-            $contact->sort_name = trim($sortName);
+            $contact->sort_name    = trim($sortName);
+            $contact->display_name =
+                trim( $prefix . ' ' . $firstName . ' ' . $middleName . ' ' . $lastName . ' ' . $suffix );
         } else if ($contact->contact_type == 'Household') {
-            $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
+            $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
         } else {
-            $contact->sort_name = CRM_Utils_Array::value('organization_name', $params, '') ;
-        } 
+            $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('organization_name', $params, '') ;
+        }
 
         // preferred communication block
         $privacy = CRM_Utils_Array::value('privacy', $params);
@@ -715,24 +729,11 @@ ORDER BY
      * @access public
      */
     static function displayName( $id ) {
-        $contact =& new CRM_Contact_BAO_Contact( );
-        $contact->id = $id;
-        if ( $contact->find( true ) ) {
-            if ( $contact->contact_type == 'Household' || $contact->contact_type == 'Organization' ) {
-                return $contact->sort_name;
-            } else {
-                $individual =& new CRM_Contact_BAO_Individual( );
-                $individual->contact_id = $id;
-                if ( $individual->find( true ) ) {
-                    return trim( $individual->prefix . ' ' . $individual->display_name . ' ' . $individual->suffix );
-                }
-            }
-        }
-        return null;
+        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'displayName' );
     }
 
     /**
-     * function to get the display name of a contact
+     * function to get the email and display name of a contact
      *
      * @param  int    $id id of the contact
      *
@@ -741,9 +742,7 @@ ORDER BY
      * @access public
      */
     static function getEmailDetails( $id ) {
-        $displayName = self::displayName( $id );
-
-        $sql = ' SELECT    crm_email.email
+        $sql = ' SELECT    crm_contact.display_name, crm_email.email
                  FROM      crm_contact
                  LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
                  LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
@@ -751,8 +750,61 @@ ORDER BY
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
         $result = $dao->getDatabaseResult();
-        $row    = $result->fetchRow();
-        return array( $displayName, $row[0] );
+        if ( $result ) {
+            $row    = $result->fetchRow();
+            if ( $row ) {
+                return array( $row[0], $row[1] );
+            }
+        }
+        return array( null, null );
+    }
+
+    /**
+     * function to get the information to map a contact
+     *
+     * @param  array    $ids   the list of ids for which we want map info
+     *
+     * @return null|string     display name of the contact if found
+     * @static
+     * @access public
+     */
+    static function &getMapInfo( $ids ) {
+        $idString = ' ( ' . implode( ',', $ids ) . ' ) ';
+        $sql = "
+SELECT
+  crm_contact.id as contact_id,
+  crm_contact.display_name as display_name,
+  crm_address.street_address as street_address,
+  crm_address.city as city,
+  crm_address.postal_code as postal_code,
+  crm_address.geo_code_1 as latitude,
+  crm_address.geo_code_2 as longitude,
+  crm_state_province.abbreviation as state,
+  crm_country.name as country
+FROM      crm_contact
+LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
+LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
+LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
+WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.geo_code_1 is not null";
+
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $sql );
+
+        $locations = array( );
+        while ( $dao->fetch( ) ) {
+            $location = array( );
+            $location['displayName'] = $dao->display_name;
+            $location['lat'        ] = $dao->latitude;
+            $location['lng'        ] = $dao->longitude;
+            $address = '';
+            CRM_Utils_String::append( $address, ', ',
+                                      array( $dao->street_address, $dao->city, $dao->state, $dao->postal_code, $dao->country ) );
+            $location['address'    ] = $address;
+            $location['url'        ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
+            $locations[] = $location;
+        }
+        return $locations;
     }
 
     /**

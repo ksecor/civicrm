@@ -1,5 +1,4 @@
 {if ! empty( $fields )}
-{debug}
 <div id="crm-container"> {* wrap in crm-container div so crm styles are used *}
 
     {if $form.javascript}

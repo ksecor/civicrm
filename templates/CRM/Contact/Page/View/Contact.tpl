@@ -4,11 +4,7 @@
         <a href="{crmURL p='civicrm/contact/edit' q="reset=1&cid=$contact_id"}">&raquo; {ts}Edit address, phone, email...{/ts}</a>&nbsp;&nbsp;&nbsp;
    </div>
    <div>
-    {if $contact_type eq 'Individual'}
-        <label>{$prefix} {$display_name} {$suffix}</label> &nbsp; &nbsp; {$job_title}
-    {else}
-        <label>{$sort_name}</label>
-    {/if}
+    <label>{$display_name}</label>{if $contact_type eq 'Individual' && $job_title}&nbsp; &nbsp; {$job_title}{/if}
     {if $contactTag}<br />{$contactTag}{/if}
    </div>
 </div>

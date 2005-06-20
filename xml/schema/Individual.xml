@@ -62,12 +62,6 @@
        <comment>Suffix to Name.</comment>
   </field>
   <field>
-       <name>display_name</name>
-       <type>varchar</type>
-       <length>128</length>
-       <comment>Formatted name representing preferred format for display/print/other output.</comment>
-  </field>
-  <field>
        <name>greeting_type</name>
        <type>enum</type>
        <values>Formal, Informal, Honorific, Custom, Other</values>

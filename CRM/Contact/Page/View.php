@@ -86,8 +86,8 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         $contactImage = $this->get( 'contactImage' );
         $displayName  = $this->get( 'displayName'  );
-
         $this->assign( 'displayName', $displayName );
+
         CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
         CRM_Utils_Recent::add( $displayName,
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId ),
@@ -154,14 +154,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
 
-        // fix the display name for various types and store in session
-        if ( $defaults['contact_type'] == 'Individual' ) {
-            $displayName = trim( CRM_Utils_Array::value( 'prefix', $defaults, '' )       . ' ' .
-                                 CRM_Utils_Array::value( 'display_name', $defaults, '' ) . ' ' .
-                                 CRM_Utils_Array::value( 'suffix', $defaults, '' ) );
-        } else {
-            $displayName = $defaults['sort_name'];
-        }
+        $displayName = $defaults['display_name'];
         $this->set( 'displayName', $displayName );
    
         // Set dynamic page title for view = contact_type img + contact displayname
@@ -202,14 +195,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
         
-        // fix the display name for various types and store in session
-        if ( $defaults['contact_type'] == 'Individual' ) {
-            $displayName = trim( CRM_Utils_Array::value( 'prefix', $defaults, '' )       . ' ' .
-                                 CRM_Utils_Array::value( 'display_name', $defaults, '' ) . ' ' .
-                                 CRM_Utils_Array::value( 'suffix', $defaults, '' ) );
-        } else {
-            $displayName = $defaults['sort_name'];
-        }
+        $displayName = $defaults['display_name'];
 
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();

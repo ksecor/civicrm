@@ -38,17 +38,17 @@
  */
 class CRM_Contact_Task {
     const
-        GROUP_CONTACTS      =   1,
-        REMOVE_CONTACTS     =   2,
-        TAG_CONTACTS        =   4,
-        DELETE_CONTACTS     =   8,
-        SAVE_SEARCH         =  16,
-        SAVE_SEARCH_UPDATE  =  32,
-        PRINT_CONTACTS      =  64,
-        EMAIL_CONTACTS      = 128,
-        HOUSEHOLD_CONTACTS  = 512,
-        ORGANIZATION_CONTACTS = 1024;
-    
+        GROUP_CONTACTS        =    1,
+        REMOVE_CONTACTS       =    2,
+        TAG_CONTACTS          =    4,
+        DELETE_CONTACTS       =    8,
+        SAVE_SEARCH           =   16,
+        SAVE_SEARCH_UPDATE    =   32,
+        PRINT_CONTACTS        =   64,
+        EMAIL_CONTACTS        =  128,
+        HOUSEHOLD_CONTACTS    =  512,
+        ORGANIZATION_CONTACTS = 1024,
+        MAP_CONTACTS          = 2048;
 
     /**
      * the task array
@@ -78,15 +78,16 @@ class CRM_Contact_Task {
     {
         if (!(self::$_tasks)) {
             self::$_tasks = array(
-                  1 => ts('Add Contacts to a Group'),
-                  2 => ts('Remove Contacts from a Group'),
-                  4 => ts('Tag Contacts (assign tags)'),
-                128 => ts('Send Email to Contacts'),
-                  8 => ts('Delete Contacts'),
-                 16 => ts('New Saved Search'),
-                512 => ts('Add Contacts to Household'),
-               1024 =>ts('Add Contacts to Organization'),
-            );
+                                  1    => ts( 'Add Contacts to a Group'       ),
+                                  2    => ts( 'Remove Contacts from a Group'  ),
+                                  4    => ts( 'Tag Contacts (assign tags)'    ),
+                                  128  => ts( 'Send Email to Contacts'        ),
+                                  8    => ts( 'Delete Contacts'               ),
+                                  16   => ts( 'New Saved Search'              ),
+                                  512  => ts( 'Add Contacts to Household'     ),
+                                  1024 => ts( 'Add Contacts to Organization'  ),
+                                  2048 => ts( 'Map Contacts using Google Maps'),
+                                  );
         }
         return self::$_tasks;
     }

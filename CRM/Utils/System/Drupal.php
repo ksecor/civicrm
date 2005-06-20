@@ -58,7 +58,7 @@ class CRM_Utils_System_Drupal {
      * @access public
      */
     static function checkPermission( $str ) {
-        return user_access( $str );
+        return user_access( $str ) ? true : false;
     }
 
     /**

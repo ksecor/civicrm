@@ -1,4 +1,4 @@
-<?php
+<<?php
 /*
  +----------------------------------------------------------------------+
  | CiviCRM version 1.0                                                  |
@@ -71,7 +71,7 @@ class CRM_Utils_Menu {
         LOCAL_TASK         =  128,
         DEFAULT_LOCAL_TASK =  640,
         ROOT_LOCAL_TASK    = 1152;
-
+        
     static function &items( ) {
         if ( ! self::$_items ) {
             // This is the minimum information you can provide for a menu item.
@@ -224,7 +224,7 @@ class CRM_Utils_Menu {
                             'title'  => ts('New Organization'),
                             'qs'     => 'reset=1',
                             'access' => CRM_Utils_System::checkPermission('add contacts') &&
-                            CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                                        CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             'weight' => 1
@@ -235,7 +235,7 @@ class CRM_Utils_Menu {
                             'title'  => ts('New Household'),
                             'qs'     => 'reset=1',
                             'access' => CRM_Utils_System::checkPermission('add contacts') &&
-                            CRM_Utils_System::checkPermission( 'access CiviCRM' ),
+                                        CRM_Utils_System::checkPermission( 'access CiviCRM' ),
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             'weight' => 1
@@ -367,38 +367,9 @@ class CRM_Utils_Menu {
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             ),
-                      /*
-                      array(
-                            'path'    => 'civicrm/activity',
-                            'title'   => ts('Activities'),
-                            'qs'      => 'reset=1',
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::ROOT_LOCAL_TASK,
-                            'access'  => CRM_Utils_System::checkPermission( 'access CiviCRM' ),
-                            'weight'  => 25,
-                            ),
-                      */
                       );
-
-            self::$_rootLocalTasks = array( );
-            for ( $i = 0; $i < count( self::$_items ); $i++ ) {
-                if ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) === self::ROOT_LOCAL_TASK ) {
-                    self::$_rootLocalTasks[$i] = array( 
-                                                       'root'     => $i,
-                                                       'children' => array( )
-                                                       );
-                } else if ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) & self::LOCAL_TASK ) {
-                    // find parent of the local task
-                    foreach ( self::$_rootLocalTasks as $root => $dontCare ) {
-                        if ( strpos( self::$_items[$i]['path'], self::$_items[$root]['path'] ) !== false ) {
-                            $isDefault =
-                                ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) == self::DEFAULT_LOCAL_TASK ) ? true : false;
-                            self::$_rootLocalTasks[$root]['children'][] = array( 'index'     => $i,
-                                                                                 'isDefault' => $isDefault );
-                        }
-                    }
-                }
-            }
+            
+            self::initialize( );
         }
         
         return self::$_items;
@@ -414,7 +385,7 @@ class CRM_Utils_Menu {
      */
     static function createLocalTasks( $path ) {
         self::items( );
-        
+
         foreach ( self::$_rootLocalTasks as $root => $dontCare ) {
             if ( strpos( $path, self::$_items[$root]['path'] ) !== false ) {
                 $localTasks = array( );
@@ -425,16 +396,64 @@ class CRM_Utils_Menu {
                          ( self::$_items[$root ]['path'] == $path && $item['isDefault'] ) ) {
                         $klass = 'active';
                     }
-                    $localTasks[] = array(
-                                          'url'    => CRM_Utils_System::url( self::$_items[$index]['path'],
-                                                                             CRM_Utils_Array::value( 'qs', self::$_items[$index] ) ),
-                                          'title'  => self::$_items[$index]['title'],
-                                          'class'  => $klass
-                                          );
+                    $localTasks[self::$_items[$index]['weight']] =
+                        array(
+                              'url'    => CRM_Utils_System::url( self::$_items[$index]['path'],
+                                                                 CRM_Utils_Array::value( 'qs', self::$_items[$index] ) ),
+                              'title'  => self::$_items[$index]['title'],
+                              'class'  => $klass
+                              );
                 }
+                ksort( $localTasks );
                 $template =& CRM_Core_Smarty::singleton( );
                 $template->assign_by_ref( 'localTasks', $localTasks );
                 return;
+            }
+        }
+    }
+
+    /**
+     * Add an item to the menu array
+     *
+     * @param array $item a menu item with the appropriate menu properties
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function add( &$item ) {
+        self::$_items[] = $item;
+        self::initialize( );
+    }
+
+    /**
+     * intialize various objects in the meny array to make further processing simpler
+     *
+     * @return void
+     * @static
+     * @access private
+     */
+    static function initialize( ) {
+        self::$_rootLocalTasks = array( );
+        for ( $i = 0; $i < count( self::$_items ); $i++ ) {
+            // this item is a root_local_task and potentially more
+            if ( ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) & self::ROOT_LOCAL_TASK ) &&
+                 ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) >= self::ROOT_LOCAL_TASK ) ) {
+                self::$_rootLocalTasks[$i] = array(
+                                                   'root'     => $i,
+                                                   'children' => array( )
+                                                   );
+            } else if ( ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) &  self::LOCAL_TASK ) &&
+                        ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) >= self::LOCAL_TASK ) ) {
+                // find parent of the local task
+                foreach ( self::$_rootLocalTasks as $root => $dontCare ) {
+                    if ( strpos( self::$_items[$i]['path'], self::$_items[$root]['path'] ) !== false ) {
+                        $isDefault =
+                            ( CRM_Utils_Array::value( 'crmType', self::$_items[$i] ) == self::DEFAULT_LOCAL_TASK ) ? true : false;
+                        self::$_rootLocalTasks[$root]['children'][] = array( 'index'     => $i,
+                                                                             'isDefault' => $isDefault );
+                    }
+                }
             }
         }
     }

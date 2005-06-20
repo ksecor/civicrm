@@ -98,8 +98,7 @@ class CRM_Utils_Recent {
 
         // make sure item is not already present in list
         for ( $i = 0; $i < count( self::$_recent ); $i++ ) {
-            if ( self::$_recent[$i]['title'] == $title ||
-                 self::$_recent[$i]['url'  ] == $url ) {
+            if ( self::$_recent[$i]['url'  ] == $url ) {
                 return;
             }
         }

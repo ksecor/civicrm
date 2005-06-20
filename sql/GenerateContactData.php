@@ -601,20 +601,15 @@ class CRM_GCD {
             $individual->last_name = ucfirst($this->_getRandomElement($this->lastName));
             $individual->prefix = $this->_getRandomElement($this->prefix);
             $individual->suffix = $this->_getRandomElement($this->suffix);
-            $individual->display_name = "$individual->first_name $individual->middle_name $individual->last_name";
             $individual->greeting_type = $this->_getRandomElement($this->greetingType);
             $individual->gender = $this->_getRandomElement($this->gender);
-            //$individual->birth_date = date("Y-m-d", mt_rand(0, time()));
-            // there's some bug or irrational logic in DB_DataObject hence the above iso format does not work
             $individual->birth_date = date("Ymd", mt_rand(0, time()));
             $individual->is_deceased = mt_rand(0, 1);
-            // $individual->phone_to_household_id = mt_rand(0, 1);
-            // $individual->email_to_household_id = mt_rand(0, 1);
-            // $individual->mail_to_household_id = mt_rand(0, 1);
             $this->_insert($individual);
 
             // also update the sort name for the contact id.
             $contact->id = $individual->contact_id;
+            $contact->display_name = trim( "$individual->prefix $individual->first_name $individual->middle_name $individual->last_name $individual->suffix" );
             $contact->sort_name = $individual->last_name . ', ' . $individual->first_name;
             $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
@@ -664,7 +659,7 @@ class CRM_GCD {
 
             // need to update the sort name for the main contact table
             $contact->id = $household->contact_id;
-            $contact->sort_name = $household->household_name;
+            $contact->display_name = $contact->sort_name = $household->household_name;
             $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
         }
@@ -707,7 +702,7 @@ class CRM_GCD {
 
             // need to update the sort name for the main contact table
             $contact->id = $organization->contact_id;
-            $contact->sort_name = $organization->organization_name;
+            $contact->display_name = $contact->sort_name = $organization->organization_name;
             $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
         }
@@ -876,16 +871,25 @@ class CRM_GCD {
         
         // lets do some good skips
         if ($locationId % 9) {
-            $addressDAO->postal_code = mt_rand(400001, 499999);
+            $addressDAO->postal_code = mt_rand( 90000, 99999 );
         }
 
         
         // some more random skips
-        if ($locationId % 7) {
+        // if ($locationId % 7) {
+        if ($locationId) {
             $array1 = $this->_getRandomCSC();
             $addressDAO->city = $array1[2];
             $addressDAO->state_province_id = $array1[1];
             $addressDAO->country_id = $array1[0];
+            $addressDAO->country_id = 1228;
+
+            // hack add lat / long for US based addresses
+            if ( $addressDAO->country_id == '1228' ) {
+                list( $addressDAO->postal_code, $addressDAO->geo_code_1, $addressDAO->geo_code_2 ) = 
+                    self::getZipCodeInfo( );
+            }
+
         }        
 
         $addressDAO->county_id = 1;
@@ -1130,6 +1134,45 @@ class CRM_GCD {
             }
         }
     }
+
+    static function getZipCodeInfo( ) {
+        $offset = mt_rand( 1, 43000 );
+        $query = "SELECT zip, latitude, longitude FROM zipcodes LIMIT $offset, 1";
+        $dao = new CRM_Core_DAO( );
+        $dao->query( $query );
+        while ( $dao->fetch( ) ) {
+            return array( $dao->zip, $dao->latitude, $dao->longitude );
+        }
+    }
+
+    static function getLatLong( $zipCode ) {
+        $query     = "http://maps.google.com/maps?q=$zipCode&output=js";
+        $userAgent = "Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0";
+        
+        $ch        = curl_init( );
+        curl_setopt( $ch, CURLOPT_URL, $query );
+        curl_setopt( $ch, CURLOPT_HEADER, false);
+        curl_setopt( $ch, CURLOPT_USERAGENT, $userAgent );
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        
+        // grab URL and pass it to the browser
+        $outstr = curl_exec($ch);
+        
+        // close CURL resource, and free up system resources
+        curl_close($ch);
+        
+        $preg = "/'(<\?xml.+?)',/s";
+        preg_match( $preg, $outstr, $matches );
+        if ( $matches[1] ) {
+            $xml = simplexml_load_string( $matches[1] );
+            $attributes = $xml->center->attributes( );
+            if ( !empty( $attributes ) ) {
+                return array( (float ) $attributes['lat'], (float ) $attributes['lng'] );
+            }
+        }
+        return array( null, null );
+    }
+
 }
 
 echo("Starting data generation on " . date("F dS h:i:s A") . "\n");
