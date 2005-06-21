@@ -802,7 +802,7 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
      * @access public
      */
     static function displayName( $id ) {
-        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'displayName' );
+        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
     }
 
     /**
@@ -899,11 +899,11 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
 
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_Note', $id );
 
-        CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_UFMatch', $id );
-
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_CustomValue', $id );
 
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_ActivityHistory', $id );
+
+        CRM_Core_BAO_UFMatch::deleteContact( $id );
 
         CRM_Contact_BAO_Location::deleteContact( $id );
 
