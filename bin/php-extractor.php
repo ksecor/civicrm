@@ -121,19 +121,19 @@ function tsCallType($tokens)
             if ($parenCount < 1 and ($tokens[$i] == ')' or ($tokens[$i] == ',' and $tokens[$i + 1] == ')'))) {
                 // we've reached the last element of the ts()'s array(...)
                 break 2;
-            } else {
-                // we're still parsing the current element's value, as it can be multi-token:
-                // ts('string with a %1 variable', array(1 => $object->method())
-                $i++;
             }
             if ($tokens[$i] == '(') {
                 $parenCount++;
             } elseif ($tokens[$i] == ')') {
                 $parenCount--;
             }
+            // we're still parsing the current element's value, as it can be multi-token:
+            // ts('string with a %1 variable', array(1 => $object->method())
+            $i++;
         }
         // let's move to the first token of the next element
         $i++;
+
 
     }
 
@@ -169,12 +169,13 @@ function getPluralString($tokens)
         $i = 6;
         while($i < count($tokens)) {
             $key = $tokens[$i];
+            $doubleArrow = $tokens[$i + 1];
             $value = $tokens[$i + 2];
-            if ($key[1] == "'plural'" or $key[1] == '"plural"') {
+            if ($key[1] == "'plural'" or $key[1] == '"plural"' and $doubleArrow[0] == T_DOUBLE_ARROW) {
                 $plural = $value[1];
                 break;
             }
-            $i += 4;
+            $i++;
         }
     }
     return $plural;
