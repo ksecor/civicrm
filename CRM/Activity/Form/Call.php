@@ -110,8 +110,40 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
       
         $call = CRM_Core_BAO_Call::add($params, $ids);
 
+        if($call->status=='Completed'){
+            // we need to insert an activity history record here
+            $params = array('entity_table'     => 'crm_contact',
+                            'entity_id'        => $this->_contactId,
+                            'activity_type'    => 'Phone Call',
+                            'module'           => 'CiviCRM',
+                            'callback'         => 'CRM_Core_BAO_Call::showCallDetails',
+                            'activity_id'      => $call->id,
+                            'activity_summary' => $call->subject,
+                            'activity_date'    => date('Ymd')
+                            );
+            
+            
+            if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
+        
+                return false;
+           
+            }
+        }
         CRM_Core_Session::setStatus( ts('Phone Call "%1" has been saved.', array( 1 => $call->subject)) );
     }
+
+
+
+    /**
+     * compose the url to show details of this specific Call
+     *
+     * @param int $id
+     */
+    public function showCallDetails( $id )
+    {
+        // return CRM_Utils_System::url('civicrm/history/Call', "action=view&id=$id");
+    }
+
 }
 
 ?>
