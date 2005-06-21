@@ -62,6 +62,50 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      */
     protected $_columnCount;
 
+
+    /**
+     * column headers, if we have them
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_columnHeaders;
+
+    /**
+     * Attempt to resolve the header with our mapper fields
+     *
+     * @param header
+     * @param mapperFields
+     * @return string
+     * @access public
+     */
+    public static function defaultFromHeader($header, &$patterns) {
+        foreach ($patterns as $key => $re) {
+            /* Skip the first (empty) key/pattern */
+            if (empty($re)) continue;
+
+            /* Scan through the headerPatterns defined in the schema for a
+             * match */
+            if (preg_match($re, $header)) {
+                return $key;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Guess at the field names given the data and patterns from the schema
+     *
+     * @param patterns
+     * @param index
+     * @return string
+     * @access public
+     */
+    public function defaultFromData(&$patterns, $index) {
+
+
+    }
+
     /**
      * Function to set variables up before form is built
      *
@@ -72,16 +116,19 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
     public function preProcess()
     {
         $this->_mapperFields = $this->get( 'fields' );
-
+        
         $this->_columnCount = $this->get( 'columnCount' );
         $this->assign( 'columnCount' , $this->_columnCount );
-        $this->assign( 'dataValues'  , $this->get( 'dataValues' ) );
+        $this->_dataValues = $this->get( 'dataValues' );
+        $this->assign( 'dataValues'  , $this->_dataValues );
         
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
 
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
             $this->assign( 'rowDisplayCount', 3 );
+            /* if we had a column header to skip, stash it for later */
+            $this->_columnHeaders = $this->_dataValues[0];
         } else {
             $this->assign( 'rowDisplayCount', 2 );
         }
@@ -99,18 +146,32 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
     {
         $this->_defaults = array( );
         $mapperKeys      = array_keys( $this->_mapperFields );
-
+        $hasHeaders      = !empty($this->_columnHeaders);
+        $headerPatterns  = $this->get( 'headerPatterns' );
+        $dataPatterns    = $this->get( 'dataPatterns' );
+        
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $this->add( 'select', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), $this->_mapperFields );
-            $this->_defaults["mapper[$i]"] = $mapperKeys[$i];
+//             $this->_defaults["mapper[$i]"] = $mapperKeys[$i];
+            if ($hasHeaders) {
+                // Infer the default from the skipped headers if we have them
+                $this->_defaults["mapper[$i]"] = 
+                    self::defaultFromHeader($this->_columnHeaders[$i], 
+                                            $headerPatterns);
+
+            } else {
+                // Otherwise guess the default from the form of the data
+                $this->_defaults["mapper[$i]"] = 
+                    $this->defaultFromData($dataPatterns, $i);
+            }
         }
         $this->setDefaults( $this->_defaults );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
-                                         'name'      => ts('&lt;&lt; Previous') ),
+                                         'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'next',
-                                         'name'      => ts('Continue &gt;&gt;'),
+                                         'name'      => ts('Continue >>'),
                                          'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',

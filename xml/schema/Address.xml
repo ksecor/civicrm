@@ -30,6 +30,7 @@
        <type>varchar</type>
        <length>96</length>
        <import>true</import>
+       <headerPattern>/(street|address)/i</headerPattern>
        <comment>Concatenation of all routable street address components (prefix, street number, street name, suffix, unit number OR P.O. Box. Apps should be able to determine physical location with this data (for mapping, mail delivery, etc.).</comment>
   </field>
   <field>
@@ -78,6 +79,7 @@
        <type>varchar</type>
        <length>96</length>
        <import>true</import>
+       <headerPattern>/(supplemental\b)?address\b\d+|unit|ap(ar)?t(ment)?/i</headerPattern>
        <comment>Supplemental Address Information, Line 1</comment>
   </field>
   <field>
@@ -85,6 +87,7 @@
        <type>varchar</type>
        <length>96</length>
        <import>true</import>
+       <headerPattern>/(supplemental\b)?address\b\d+|unit|ap(ar)?t(ment)?/i</headerPattern>
        <comment>Supplemental Address Information, Line 2</comment>
   </field>
   <field>
@@ -98,6 +101,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
+       <headerPattern>/city/i</headerPattern>
        <comment>City, Town or Village Name.</comment>
   </field>
   <field>
@@ -120,12 +124,14 @@
        <table>crm_state_province</table>
        <key>id</key>
        <import>true</import>
+       <headerPattern>/state|prov(ince)?/i</headerPattern>
   </foreignKey>
   <field>
        <name>postal_code</name>
        <type>varchar</type>
        <length>12</length>
        <import>true</import>
+       <headerPattern>/postal|zip/i</headerPattern>
        <rule>postalCode</rule>
        <comment>Store both US (zip5) AND international postal codes. App is responsible for country/region appropriate validation.</comment>
   </field>
@@ -151,6 +157,7 @@
        <table>crm_country</table>
        <key>id</key>
        <import>true</import>
+       <headerPattern>/country/i</headerPattern>
   </foreignKey>
   <field>
       <name>geo_coord_id</name>

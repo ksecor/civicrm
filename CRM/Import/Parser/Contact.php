@@ -60,10 +60,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @access public
      */
     function init( ) {
-        $this->_fields =& CRM_Contact_BAO_Contact::importableFields( );
-        foreach ($this->_fields as $name => $field) {
-            $this->addField( $name, $field['title'], $field['type'] );
+        $fields =& CRM_Contact_BAO_Contact::importableFields( );
+        foreach ($fields as $name => $field) {
+            $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'] );
         }
+
         $this->setActiveFields( $this->_mapperKeys );
 
         $this->_emailIndex = -1;

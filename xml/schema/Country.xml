@@ -19,6 +19,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
+       <headerPattern>/country/i</headerPattern>
        <comment>Country Name</comment>
   </field>
   <field>

@@ -30,6 +30,7 @@
        <type>varchar</type>
        <length>16</length>
        <import>true</import>
+       <headerPattern>/phone/i</headerPattern>
        <rule>phone</rule>
        <comment>Complete phone number.</comment>
   </field>
@@ -38,6 +39,7 @@
        <type>enum</type>
        <values>Phone, Mobile, Fax, Pager</values>
        <import>true</import>
+       <headerPattern>/phone\btype/i</headerPattern>
        <comment>What type of telecom device is this.</comment>
   </field>
   <field>

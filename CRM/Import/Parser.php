@@ -350,8 +350,17 @@ abstract class CRM_Import_Parser {
         return $values;
     }
 
-    function addField( $name, $title, $type = CRM_Utils_Type::T_INT, $required = false, $payload = null, $active = false ) {
-        $this->_fields[$name] =& new CRM_Import_Field($name, $title, $type, $required, $payload, $active);
+    function getHeaderPatterns() {
+        $values = array();
+        foreach ($this->_fields as $name => $field ) {
+            $values[$name] = $field->_headerPattern;
+        }
+        return $values;
+    }
+
+
+    function addField( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '') {
+        $this->_fields[$name] =& new CRM_Import_Field($name, $title, $type, $headerPattern);
     }
 
     /**
@@ -379,13 +388,14 @@ abstract class CRM_Import_Parser {
         $store->set( 'lineCount'  , $this->_lineCount         );
         $store->set( 'seperator'  , $this->_seperator         );
         $store->set( 'fields'     , $this->getSelectValues( ) );
+        $store->set( 'headerPatterns', $this->getHeaderPatterns( ) );
         $store->set( 'columnCount', $this->_activeFieldCount  );
 
         $store->set( 'totalRowCount'    , $this->_totalCount     );
         $store->set( 'validRowCount'    , $this->_validCount     );
         $store->set( 'invalidRowCount'  , $this->_errorCount     );
         $store->set( 'duplicateRowCount', $this->_duplicateCount );
-
+        
         if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
             $store->set( 'dataValues', $this->_rows );
         }

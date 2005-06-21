@@ -257,6 +257,7 @@ function getField( &$fieldXML, &$fields ) {
     if ( ! $field['title'] ) {
         $field['title'] = composeTitle( $name );
     }
+    $field['headerPattern'] = value( 'headerPattern', $fieldXML );
 
     $fields[$name] =& $field;
 }

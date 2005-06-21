@@ -61,18 +61,24 @@ class CRM_Import_Field {
     public $_payload;
 
     /**
+     * regexp to match the CSV header of this column/field
+     * @var string
+     */
+     public $_headerPattern;
+
+
+    /**
      * value of this field
      * @var object
      */
     public $_value;
 
-    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $required = false, $payload = null, $active = false ) {
+    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '') {
         $this->_name      = $name;
         $this->_title     = $title;
         $this->_type      = $type;
-        $this->_required  = $required;
-        $this->_payload   = $payload;
-
+        $this->_headerPattern = $headerPattern;
+        
         $this->_value     = null;
     }
 
@@ -95,7 +101,7 @@ class CRM_Import_Field {
         if ( $this->_value === null ) {
             return true;
         }
-        /*        
+        
         if ( $this->_name == 'phone' ) {
            return CRM_Utils_Rule::phone( $this->_value );
         }
@@ -103,23 +109,6 @@ class CRM_Import_Field {
         if ( $this->_name == 'email' ) {
             return CRM_Utils_Rule::email( $this->_value );
         }
-        */
-
-        if ( $this->_name == 'phone' ) {
-            if( CRM_Utils_Rule::phone( $this->_value ) ) {
-                if ( $this->_name == 'email' ) {
-                    if( CRM_Utils_Rule::email( $this->_value )) {
-                        return true;
-                    }
-                }
-            } 
-        } else if ( $this->_name == 'email' ) {
-            if(CRM_Utils_Rule::email( $this->_value )) {
-                return true;
-            } 
-        }
-
-        return true;
     }
 
 }

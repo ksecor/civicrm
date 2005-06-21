@@ -167,10 +167,8 @@ class CRM_Utils_Rule {
         return $qfRule->validate( $value, $checkDomain );
     }
 
-    //  CHANGED:2005-06-20 15:24:50 by Brian McFee <brmcfee@gmail.com>
-    //  added a basic postalCode rule
     static function postalCode($value) {
-        if ( preg_match('^\d{5}(-\d{4})?$', $value) ) {
+        if ( preg_match('^\d?\d{4}(-\d{4})?$', $value) ) {
             return true;
         }
         return false;

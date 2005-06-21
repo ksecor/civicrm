@@ -85,6 +85,11 @@ class CRM_Core_PseudoConstant {
     private static $country;
 
 
+    /**
+     * countryIsoCode
+     * @var array
+     * @static
+     */
     private static $countryIsoCode;
 
     /**
@@ -272,7 +277,22 @@ class CRM_Core_PseudoConstant {
         return self::$country;
     }
 
-
+    /**
+     * Get all the country ISO Code abbreviations from the database.
+     *
+     * The static array countryIsoCode is returned, and if it's
+     * called the first time, the <b>Country DAO</b> is used
+     * to get all the countries' ISO codes.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @param none
+     * @return array - array reference of all country ISO codes.
+     *
+     */
     public static function &countryIsoCode()
     {
         if (!self::$countryIsoCode) {
