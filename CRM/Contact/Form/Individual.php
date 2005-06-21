@@ -121,9 +121,7 @@ class CRM_Contact_Form_Individual {
                     '">' . $displayName . '</a>';
             }
             $url = implode( ', ',  $urls );
-            // dirty and temporal workaround for CRM-144
-            $count = count( $ids );
-            $errors['first_name'] = ts( 'One matching contact was found. You can edit it here: %1', array( 'count' => $count, 'plural' => '%count matching contacts were found. You can edit them here: %1', 1 => $url ) );
+            $errors['first_name'] = ts( 'One matching contact was found. You can edit it here: %1', array( 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1', 1 => $url ) );
         }
 
         return empty($errors) ? true : $errors;
