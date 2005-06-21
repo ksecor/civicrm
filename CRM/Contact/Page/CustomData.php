@@ -59,7 +59,6 @@ class CRM_Contact_Page_CustomData {
         // assign vars to templates
         $page->assign('contactId', $contactId);
         $page->assign('action', $action);
-
         $controller = null;
 
         $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $action);
@@ -74,5 +73,7 @@ class CRM_Contact_Page_CustomData {
         $controller->process();
         $controller->run();
     }
+
+    
 }
 ?>

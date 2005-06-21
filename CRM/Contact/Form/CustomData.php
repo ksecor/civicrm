@@ -73,6 +73,20 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     protected $_groupTree;
 
     /**
+     * what blocks should we show and hide.
+     *
+     * @var CRM_Core_ShowHideBlocks
+     */
+    protected $_showHide;
+
+    /**
+     * Array of the Group Titles.
+     *
+     * @var array
+     */
+    protected $_groupTitle;
+
+    /**
      * pre processing work done here.
      *
      * gets session variables for table name, id of entity in table, type of entity and stores them.
@@ -85,17 +99,43 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     function preProcess()
     {
-        
-
         $this->_tableName  = $this->get('tableName');
         $this->_tableId    = $this->get('tableId');
         $this->_entityType = $this->get('entityType');
         
         // gets all details of group tree for entity
         $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
- 
     }
 
+    /**
+     * Fix what blocks to show/hide based on the default values set
+     *
+     * @param    array    array of Group Titles
+     *
+     * @return   
+     *
+     * @access   protected
+     */
+    
+    protected function setShowHide(&$group)
+    {
+        $this->_showHide =& new CRM_Core_ShowHideBlocks('','');
+        
+        foreach ($group as $key => $title) {
+            $showBlocks = $title . '[show]' ;
+            $hideBlocks = $title;
+            
+            if ($key) {
+                $this->_showHide->addShow($showBlocks);
+                $this->_showHide->addHide($hideBlocks);
+            } else {
+                $this->_showHide->addShow($hideBlocks);
+                $this->_showHide->addHide($showBlocks);
+            }
+        }
+        $this->_showHide->addToTemplate();
+    }
+    
     /**
      * Function to actually build the form
      *
@@ -109,6 +149,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         // add the form elements
         foreach ($this->_groupTree as $group) {
+            
+            $this->_groupTitle[] = $group['title'];
+                        
+            CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
+            
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 $fieldId = $field['id'];                
@@ -181,6 +226,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             }
         }
 
+        $this->setShowHide($this->_groupTitle);
+
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -244,7 +291,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         return $defaults;
     }
 
-       
     /**
      * Process the user submitted custom data values.
      *
