@@ -65,7 +65,7 @@ class CRM_Utils_Request {
      * @static
      *
      */
-    static function retrieve( $name, $store = null, $abort = false, $default = null, $method = 'GET' ) {
+    static function retrieve( $name, &$store, $abort = false, $default = null, $method = 'GET' ) {
         $value = null;
         switch ( $method ) {
         case 'GET':

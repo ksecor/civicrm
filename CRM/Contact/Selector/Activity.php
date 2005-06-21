@@ -82,9 +82,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     function __construct($contactId) 
     {
-        CRM_Core_Error::le_method();
         $this->_contactId = $contactId;
-        CRM_Core_Error::ll_method();
     }
 
 
@@ -247,12 +245,15 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     {
         if (!isset(self::$_columnHeaders)) {
             self::$_columnHeaders = array(
-                                          array('name'      => ts('Activity Type')),
+                                          array('name'      => ts('Activity Type'),
+                                                'sort'      => 'activity_type',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
                                           array('name' => ts('Subject')),
                                           array(
                                                 'name'      => ts('Scheduled'),
                                                 'sort'      => 'date',
-                                                'direction' => CRM_Utils_Sort::ASCENDING,
+                                                'direction' => CRM_Utils_Sort::DESCENDING,
                                                 ),
                                           array('name'      => ts('Status')),
 

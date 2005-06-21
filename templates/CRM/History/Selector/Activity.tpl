@@ -5,13 +5,13 @@
 {else}
     {* Showing History *}
     <div id="openActivities[show]" class="data-group">
-        <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label>
+        <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=0"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label>
     </div>
-    <fieldset><legend><a href="{crmURL p='civicrm/contact/view/activity' q="action=browse"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Activity History{/ts}</legend>
+    <fieldset><legend><a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=0"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Activity History{/ts}</legend>
 {/if}
 
 {if $rows}
-    <form name="activity_pager" action="/drupal/civicrm/contact/view/activity" method="post">
+    <form name="activity_pager" action="{crmURL}" method="post">
 
     {include file="CRM/pager.tpl" location="top"}
 

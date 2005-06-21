@@ -37,7 +37,7 @@ require_once 'CRM/Core/Page.php';
  * Main page for viewing history of activities.
  *
  */
-//class CRM_Contact_Page_Activity extends CRM_Core_Page {
+
 class CRM_Contact_Page_Activity {
 
     /**
@@ -109,7 +109,7 @@ class CRM_Contact_Page_Activity {
         $page->assign('action', $action);
 
         // get selector type ? open or closed activities ?
-        $history = CRM_Utils_Request::retrieve('history', null, false, null, 'GET');
+        $history = CRM_Utils_Request::retrieve('history', $page, false, null, 'GET');
 
         // used for delete
         $activityHistoryId = CRM_Utils_Request::retrieve('activity_history_id', $page, false, 0);
