@@ -72,8 +72,8 @@ class CRM_Activity_Form extends CRM_Core_Form
         global $user;
         $this->_userId    = $user->uid;
 
-        //$page =& new CRM_Contact_Page_View();
-        //$this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
+        $page =& new CRM_Contact_Page_View();
+        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
         //$this->_id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
         //$this->_id        = CRM_Utils_Request::retrieve('id', null, false, null, 'GET');
 
@@ -105,9 +105,15 @@ class CRM_Activity_Form extends CRM_Core_Form
         }
 
         if ($this->_action == CRM_Core_Action::DELETE) {
-            $this->assign( 'delName', $defaults['name'] );
+            $this->assign( 'delName', $defaults['subject'] );
         }
        
+        $page =& new CRM_Contact_Page_View();
+        $log = CRM_Utils_Request::retrieve( 'log', $page);
+        if ($log) { 
+            $defaults['status'] = 'Completed';
+            $defaults['scheduled_date_time'] = date("Y-m-d h:i:s");
+        }
         return $defaults;
     }
 

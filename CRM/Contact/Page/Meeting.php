@@ -69,6 +69,16 @@ class CRM_Contact_Page_Meeting
         $id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
       
         $status = CRM_Utils_Request::retrieve('status', null, false, null, 'GET');
+        
+        $log = CRM_Utils_Request::retrieve('log', null, false, null, 'GET');
+        
+        if ($log) {
+            $page->set('log', $log);
+        } else {
+            $page->set('log', false);
+        }
+        
+        //$log = CRM_Utils_Request::retrieve('log', $page, false, 0);
 
         if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
             self::edit( $page, $action, $id );
