@@ -67,6 +67,18 @@ class CRM_Activity_Form extends CRM_Core_Form
      */
     protected $_status;
 
+    /**
+     *  Boolean variable set for differentiating between log and schedule
+     *
+     */
+    protected $_log;
+
+    /**
+     * this variable to store parent id for the follow up activity
+     *
+     */
+    protected $_pid;
+
     function preProcess( ) 
     {
         global $user;
@@ -74,10 +86,9 @@ class CRM_Activity_Form extends CRM_Core_Form
 
         $page =& new CRM_Contact_Page_View();
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
-        //$this->_id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
-        //$this->_id        = CRM_Utils_Request::retrieve('id', null, false, null, 'GET');
-
-
+        $this->_log = CRM_Utils_Request::retrieve( 'log', $page);
+        $this->_pid = CRM_Utils_Request::retrieve( 'pid', $page);
+                
         $this->_contactId = $this->get('contactId');
         if ($this->_action != CRM_Core_Action::ADD) {
             $this->_id = $this->get('id');
@@ -108,9 +119,9 @@ class CRM_Activity_Form extends CRM_Core_Form
             $this->assign( 'delName', $defaults['subject'] );
         }
        
-        $page =& new CRM_Contact_Page_View();
-        $log = CRM_Utils_Request::retrieve( 'log', $page);
-        if ($log) { 
+        //$page =& new CRM_Contact_Page_View();
+        //$log = CRM_Utils_Request::retrieve( 'log', $page);
+        if ($this->_log) { 
             $defaults['status'] = 'Completed';
             $defaults['scheduled_date_time'] = date("Y-m-d h:i:s");
         }
@@ -125,27 +136,26 @@ class CRM_Activity_Form extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        $button = ts('Save');
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
+            $button = ts('Done');
         }
         
         if ($this->_status) { 
+            $this->assign('status', $this->_status);
+            $this->assign('pid', $this->_id);
             $this->addButtons( array(
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Done') ),
-                                     array ( 'type'      => 'next',
-                                             'name'      => ts('Follow Up Call'),
-                                         'isDefault' => true   ),
-                                     array ( 'type'      => 'next',
-                                             'name'      => ts('Follow Up Meeting') ),
                                      )
                                );
-            
+
         } else {
 
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
-                                             'name'      => ts('Save'),
+                                             'name'      => $button,
                                          'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Cancel') ),

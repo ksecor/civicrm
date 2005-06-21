@@ -100,12 +100,17 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 
         $dateTime = CRM_Utils_Date::format($dateTime);
 
+        // store the date with proper format
         $params['scheduled_date_time']= $dateTime;
-
 
         // store the contact id and current drupal user id
         $params['source_contact_id'] = $this->_userId;
         $params['target_contact_id'] = $this->_contactId;
+
+        //set parent id if exists for follow up activities
+        if ($this->_pid) {
+            $params['parent_id'] = $this->_pid;            
+        }
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['meeting'] = $this->_id;
@@ -143,7 +148,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
     public function showMeetingDetails( $id )
     {
         
-        return CRM_Utils_System::url('civicrm/contact/view/meeting', "action=view&id=$id");
+        return CRM_Utils_System::url('civicrm/contact/view/meeting', "action=view&id=$id&status=true");
     }
 
 

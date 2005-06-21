@@ -102,11 +102,19 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
         $dateTime = $params['scheduled_date_time'];
 
         $dateTime = CRM_Utils_Date::format($dateTime);
-
+        
+        // store the date with proper format
         $params['scheduled_date_time']= $dateTime;
+        
+        // store the contact id and current drupal user id
         $params['source_contact_id'] = $this->_userId;
         $params['target_contact_id'] = $this->_contactId;
-
+        
+        //set parent id if exists for follow up activities
+        if ($this->_pid) {
+            $params['parent_id'] = $this->_pid;            
+        }
+        
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['call'] = $this->_id;
         }

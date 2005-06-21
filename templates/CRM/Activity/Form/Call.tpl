@@ -12,6 +12,13 @@
 
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
     <dt></dt><dd>{$form.buttons.html}</dd>
+
+  {if $status}
+    <dt></dt>
+     <dd>
+         <a href="{crmURL p='civicrm/contact/view/call' q="action=add&pid=`$pid`"}">Follow Up Call </a>
+     <dd>
+  {/if}
   </dl>
 </fieldset>
 </div>

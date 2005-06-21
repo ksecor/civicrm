@@ -54,7 +54,7 @@
 <div class="message status">
 <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
-    <dd>{ts}Currently there are no Activities for this Contact.{/ts}</dd>
+    <dd>{ts}Currently there is no {if $history eq 1} "Activity History" {else} "Open Activity"{/if} for this Contact.{/ts}</dd>
 </dl>
 </div>
 {/if}
