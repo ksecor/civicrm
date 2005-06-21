@@ -350,20 +350,101 @@ function on_load_init_check(form)
  * @return null
  */
 
-function display_custom_option(form) 
+function custom_option_data_type(data_type) 
 {
-	var htmltype = form.options[form.selectedIndex].text;
-	var datatype = document.getElementsByName('data_type[0]');
-	var datatypetext = datatype[0].options[datatype[0].selectedIndex].text;
-	
-	if( datatypetext == "Alphanumeric" || datatypetext == "Integer" || datatypetext == "Money" || datatypetext == "Number" ) {
-		if(htmltype != "Text") {
-			 document.getElementById('showoption').style.display="";
-		} else {
-			 document.getElementById('showoption').style.display="none";
-		}
+    //alert('entering display_custom_data_type');
+    //alert(form.name);
+    //alert (html_type[0].value + " " + html_type[0].options[html_type[0].selectedIndex].text);
+    //var html_type = document.getElementsByName('html_type');
+    //alert('html type length = ' + html_type.length);
+
+    // get the html_type
+    html_type = data_type.form.html_type;
+    var data_type_name = data_type.options[data_type.selectedIndex].text;
+    var data_type_index = data_type.selectedIndex;
+
+    //alert("index = " + data_type.selectedIndex + " Name = " +  data_type_name);
+    //    while(html_type.options.length) {
+    //remove;
+    
+    html_type.length=0;
+    switch(data_type_name) {
+    case "Alphanumeric":
+	//alert ("alphanumeric");
+	html_type[0] = new Option('Text',     0, true);
+	html_type[1] = new Option('Select',   1);
+	html_type[2] = new Option('Radio',    2);
+	html_type[3] = new Option('Checkbox', 3);
+	break;
+    case "Integer":
+	html_type[0] = new Option('Text',     0, true);
+	html_type[1] = new Option('Select',   1);
+	html_type[2] = new Option('Radio',    2);
+	break;
+    case "Number":
+	html_type[0] = new Option('Text',     0, true);
+	html_type[1] = new Option('Select',   1);
+	html_type[2] = new Option('Radio',    2);
+	break;
+    case "Money":
+	html_type[0] = new Option('Text',     0, true);
+	html_type[1] = new Option('Select',   1);
+	html_type[2] = new Option('Radio',    2);
+	break;
+    case "Note":
+	html_type[0] = new Option('TextArea', 0, true);
+	break;
+    case "Date":
+	html_type[0] = new Option('Select Date', 0, true);
+	break;
+    case "Yes or No":
+	html_type[0] = new Option('Radio', 0, true);
+	break;
+    }
+
+    //alert('html type length = ' + html_type.length);
+
+    //$data_type = form.data_type
+    custom_option_html_type(html_type);
+}
+
+function custom_option_html_type(html_type) 
+{
+    //alert('entering custom_option_html_type');
+
+    var data_type = html_type.form.data_type;
+    var html_type_name = html_type.options[html_type.selectedIndex].text;
+    var data_type_name = data_type.options[data_type.selectedIndex].text;
+
+    if (data_type_name == "Alphanumeric" || data_type_name == "Integer" || data_type_name == "Number" || data_type_name == "Money") {
+	if(html_type_name != "Text") {
+	    document.getElementById('showoption').style.display="";
 	} else {
-		document.getElementById('showoption').style.display="none";
+	    document.getElementById('showoption').style.display="none";
 	}
+    } else {
+	document.getElementById('showoption').style.display="none";
+    }
+
+
+
+
+
+
+
+//     var htmltype = form.options[form.selectedIndex].text;
+//     var datatype = document.getElementsByName('data_type[0]');
+//     var datatypetext = datatype[0].options[datatype[0].selectedIndex].text;
+    
+//     if( datatypetext == "Alphanumeric" || datatypetext == "Integer" || datatypetext == "Money" || datatypetext == "Number" ) {
+// 	if(htmltype != "Text") {
+// 	    document.getElementById('showoption').style.display="";
+// 	} else {
+// 	    document.getElementById('showoption').style.display="none";
+// 	}
+//     } else {
+// 	document.getElementById('showoption').style.display="none";
+//     }
+
 
 }

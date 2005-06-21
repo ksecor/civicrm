@@ -130,40 +130,35 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
 
                 case 'Radio':
-                    if($field['data_type'] == 'Multi-Select') {
-                        $choice = array();
-                        $customOptionBAO =& new CRM_Core_BAO_CustomOption();
-                        $customOptionBAO->custom_field_id = $field['id'];
-                        $customOptionBAO->orderBy('weight');
-                        $customOptionBAO->find();
-                        while($customOptionBAO->fetch()) {
-                            $choice[] = $this->createElement(strtolower($field['html_type']), null, '', $customOptionBAO->label, $customOptionBAO->value, $field['attributes']);
+                    $choice = array();
+                    if($field['data_type'] != 'Boolean') {
+                        $customOption = CRM_Core_BAO_CustomOption($field['id']);
+                        foreach ($customOption as $v) {
+                            $choice[] = $this->createElement('radio', null, '', $v['label'], $v['value'], $field['attributes']);
                         }
-                        $this->addGroup($choice, $elementName, $field['name']);
-                    } else {
-                        $choice = array();
-                        $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('Yes'), 'yes', $field['attributes']);
-                        $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('No') , 'no' , $field['attributes']);
                         $this->addGroup($choice, $elementName, $field['label']);
-                        if ($field['is_required']) {
-                            $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
-                        }
+                    } else {
+                        $choice[] = $this->createElement('radio', null, '', ts('Yes'), 'yes', $field['attributes']);
+                        $choice[] = $this->createElement('radio', null, '', ts('No') , 'no' , $field['attributes']);
+                        $this->addGroup($choice, $elementName, $field['label']);
+                    }
+                    if ($field['is_required']) {
+                        $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
                     }
                     break;
 
                 case 'Select':
-                    $customOptionBAO =& new CRM_Core_BAO_CustomOption();
-                    $customOptionBAO->custom_field_id = $field['id'];
-                    $customOptionBAO->orderBy('weight');
-                    $customOptionBAO->find();
-                    $optionSelect = array();
-                    while($customOptionBAO->fetch()) {
-                        $optionSelect[$customOptionBAO->value] = $customOptionBAO->label;
+                    $customOption = CRM_Core_BAO_CustomOption($field['id']);
+                    $selectOption = array();
+                    foreach ($customOption as $v) {
+                        $selectOption[$v['value']] = $v['label'];
                     }
-                    $this->add(strtolower($field['html_type']), $field['name'], null, $optionSelect);
+                    $this->add('select', $elementName, null, $selectOption);
                     break;
 
                 case 'CheckBox':
+
+
                 case 'Select State / Province':
                 case 'Select Country':
                 }

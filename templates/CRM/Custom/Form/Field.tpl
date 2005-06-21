@@ -4,6 +4,7 @@
         <dl>
         <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
         <dt>{$form.data_type.label}</dt><dd>{$form.data_type.html}</dd>
+	<dt>{$form.html_type.label}</dt><dd>{$form.html_type.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect. The appropriate HTML field type will be selected based on the type of data.{/ts}</dd>
         {/if}

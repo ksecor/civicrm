@@ -148,11 +148,30 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 
+        $this->addElement('select', 'data_type', ts('Data Type'), self::$_dataTypeValues, array('onchange' => 'custom_option_data_type(this)'));
+        $this->addElement('select', 'html_type', ts('HTML Type'), array('Text', 'Radio', 'Select', 'Checkbox'), array('onchange' => 'custom_option_html_type(this)'));
+
+
         // data type, html type
-        $dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'), array('onchange' => 'display_custom_option(this)'));
-        $dataHTMLElement->setOptions(array(self::$_dataTypeValues, self::$_dataToHTML));
+        //$dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'), array('onchange' => 'display_custom_option(this)'));
+        //$dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'));
+        //$dataHTMLElement->setOptions(array(self::$_dataTypeValues, self::$_dataToHTML));
+        //CRM_Core_Error::debug_var('dataHTMLElement', $dataHTMLElement);
+        //$select2 = $dataHTMLElement->_elements[1];
+        //CRM_Core_Error::debug_var('select2', $select2);
+        //$oldAttributes = $select2->getAttributes();
+        //$oldAttributes['onchange'] = 'display_custom_option(this)';
+        //$oldAttributes['onfocus'] = 'custom_option_function_1()';
+        //$oldAttributes['onblur'] = 'custom_option_function_1()';
+        //CRM_Core_Error::debug_var('oldAttributes', $oldAttributes);
+        //$select2->setAttributes(array('onchange' => 'display_custom_option(this)'));
+        //$select2->setAttributes($oldAttributes);
+        //CRM_Core_Error::debug_var('select2', $select2);
+        //$OBJECT1 = $this->getElement("date_type");
+        //CRM_Core_Error::debug_var('OBJECT1', $OBJECT1);
+        //CRM_Core_Error::debug_var('this', $this);
 	
-         if ($this->_action == CRM_Core_Action::UPDATE) { 
+        if ($this->_action == CRM_Core_Action::UPDATE) { 
             $dataHTMLElement->freeze();
         }
 	
@@ -297,6 +316,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->save();
 
         //Start Storing the values of Option field if the selected option is Multi Select
+        //if ($customField->data_type == 'Multi-Select') {
         if($customField->data_type == 'String' || $customField->data_type == 'Int' || $customField->data_type == 'Float' || $customField->data_type == 'Money') {
             if($customField->html_type != 'Text') {                
                 foreach ($params['option_value'] as $k => $v) {
@@ -314,7 +334,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $customField->save();
             }
         }
+        
         CRM_Core_Session::setStatus(ts('Your custom field "%1" has been saved', array(1 => $customField->label)));
-   }
+    }
 }
 ?>

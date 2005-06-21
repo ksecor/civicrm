@@ -79,5 +79,37 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
     {
         return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomOption', $id, 'is_active', $is_active );
     }
+
+
+    /**
+     * returns all active options ordered by weight for 
+     *
+     * @param  int   $fieldId      field whose options are needed
+     *
+     * @return array $customOption all active options for fieldId
+     * @static
+     */
+    static function getCustomOption($fieldId)
+    {
+        $customOptionDAO =& new CRM_Core_DAO_CustomOption();
+        $customOptionDAO->custom_field_id = $fieldId;
+        $customOptionDAO->is_active = 1;
+        $customOptionDAO->orderBy('weight ASC');
+        $customOptionDAO->find();
+        
+        $customOption = array();
+        while ($customOptionDAO->fetch()) {
+            $customOption[$customOptionDAO->id] = array();
+            $customOption[$customOptionDAO->id]['id']    = $customOptionDAO->id;
+            $customOption[$customOptionDAO->id]['label'] = $customOptionDAO->label;
+            $customOption[$customOptionDAO->id]['value'] = $customOptionDAO->value;
+        }
+        return $customOption;
+    }
+
+
+
+
+
 }
 ?>
