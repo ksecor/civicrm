@@ -39,13 +39,14 @@ require_once 'CRM/Core/Page.php';
 class CRM_Contact_Page_Call 
 {
 
-    static function edit( $page, $mode, $callId = null ) {
+    static function edit( $page, $mode, $callId = null ) 
+    {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Call', 'Contact Calls', $mode );
         $controller->setEmbedded( true );
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse&history=' ) );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
 
         $controller->reset( );
 
@@ -53,16 +54,18 @@ class CRM_Contact_Page_Call
         $controller->run( );
     }
 
-    static function run( $page ) {
+    static function run( $page ) 
+    {
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
 
         $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
         $page->assign( 'action', $action );
 
-        $id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
+        //$id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
+        $id = CRM_Utils_Request::retrieve('id', null, false, null, 'GET');
         
-        $status = CRM_Utils_Request::retrieve( 'status', $page, false, 0 );
+        $status = CRM_Utils_Request::retrieve('status', null, false, null, 'GET');
         
         if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
             self::edit( $page, $action, $id );
@@ -70,6 +73,12 @@ class CRM_Contact_Page_Call
             self::delete( $id );
         }
     }
+
+    static function delete( $callId ) 
+    {
+        CRM_Core_BAO_Call::del($callId);
+    }
+
 
 }
 ?>

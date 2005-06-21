@@ -67,14 +67,15 @@ class CRM_Activity_Form extends CRM_Core_Form
      */
     protected $_status;
 
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         global $user;
+        $this->_userId    = $user->uid;
+
         $page =& new CRM_Contact_Page_View();
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
-        $this->_userId = $user->uid;
-
-        $this->_id      = CRM_Utils_Request::retrieve( 'id', $page);
-        $this->_status      = CRM_Utils_Request::retrieve( 'status', $page);
+        $this->_id        = CRM_Utils_Request::retrieve('id', null, false, null, 'GET');
+        $this->_status    = CRM_Utils_Request::retrieve( 'status', $page);
 
     }
 
@@ -85,7 +86,8 @@ class CRM_Activity_Form extends CRM_Core_Form
      * @access public
      * @return None
      */
-    function setDefaultValues( ) {
+    function setDefaultValues( ) 
+    {
         $defaults = array( );
         $params   = array( );
 
@@ -108,7 +110,8 @@ class CRM_Activity_Form extends CRM_Core_Form
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
         }

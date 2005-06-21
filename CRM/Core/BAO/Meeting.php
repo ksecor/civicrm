@@ -42,7 +42,8 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
     /**
      * class constructor
      */
-    function __construct( ) {
+    function __construct( ) 
+    {
         parent::__construct( );
     }
 
@@ -60,7 +61,8 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
      * @access public
      * @static
      */
-    static function add( &$params, &$ids ) {
+    static function add( &$params, &$ids ) 
+    {
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
@@ -84,7 +86,8 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
      * @access public
      * @static
      */
-    static function dataExists( &$params ) {
+    static function dataExists( &$params ) 
+    {
         if (CRM_Utils_Array::value( 'subject', $params)) {
             return true;
         }
@@ -106,7 +109,8 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults ) {
+    static function retrieve( &$params, &$defaults ) 
+    {
         $meeting =& new CRM_Core_DAO_Meeting( );
         $meeting->copyValues( $params );
         if ( $meeting->find( true ) ) {
@@ -126,12 +130,11 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
      * @static
      *
      */
-    static function del ( $id ) {
-
+    static function del ( $id ) 
+    {
         $meeting =& new CRM_Core_DAO_Meeting( );
         $meeting->id = $id;
         $meeting->delete();
-        
     }
 
 }

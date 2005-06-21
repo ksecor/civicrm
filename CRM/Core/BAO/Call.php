@@ -42,7 +42,8 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
     /**
      * class constructor
      */
-    function __construct( ) {
+    function __construct( ) 
+    {
         parent::__construct( );
     }
     /**
@@ -59,7 +60,8 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
      * @access public
      * @static
      */
-    static function add( &$params, &$ids ) {
+    static function add( &$params, &$ids ) 
+    {
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
@@ -86,7 +88,8 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
      * @access public
      * @static
      */
-    static function dataExists( &$params ) {
+    static function dataExists( &$params ) 
+    {
         if (CRM_Utils_Array::value( 'subject', $params)) {
             return true;
         }
@@ -107,7 +110,8 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
      * @access public
      * @static
      */
-    static function retrieve( &$params, &$defaults ) {
+    static function retrieve( &$params, &$defaults ) 
+    {
         $call =& new CRM_Core_DAO_Phonecall( );
         $call->copyValues( $params );
         if ( $call->find( true ) ) {
@@ -117,6 +121,24 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
         return null;
     }
     
+    /**
+     * Function to delete the Phone call
+     *
+     * @param int $id phonecall id
+     *
+     * @return null
+     * @access public
+     * @static
+     *
+     */
+    static function del ( $id ) 
+    {
+        $call =& new CRM_Core_DAO_PhoneCall( );
+        $call->id = $id;
+        $call->delete();
+    }
+
+
 }
 
 ?>

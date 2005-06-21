@@ -53,15 +53,10 @@ class CRM_Contact_Page_Activity {
     static function browse($page, $history)
     {
 
-        CRM_Core_Error::le_method();
-        
-        CRM_Core_Error::debug_var('history', $history);        
-
         if ($history) {
   
             $page->assign('history', true);
 
-            CRM_Core_Error::debug_log_message('history is true');        
             // create the selector, controller and run - store results in session
             $output = CRM_Core_Selector_Controller::SESSION;
             $selector   =& new CRM_History_Selector_Activity($page->getContactId());
@@ -77,8 +72,6 @@ class CRM_Contact_Page_Activity {
             $controller->moveFromSessionToTemplate( );
         } else {
   
-            CRM_Core_Error::debug_log_message('history is false');        
-
             $page->assign('history', false);
 
             // create the selector, controller and run - store results in session
@@ -116,7 +109,7 @@ class CRM_Contact_Page_Activity {
         $page->assign('action', $action);
 
         // get selector type ? open or closed activities ?
-        $history = CRM_Utils_Request::retrieve('history', $page);
+        $history = CRM_Utils_Request::retrieve('history', null, false, null, 'GET');
 
         // used for delete
         $activityHistoryId = CRM_Utils_Request::retrieve('activity_history_id', $page, false, 0);
