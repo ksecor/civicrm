@@ -15,7 +15,7 @@
 	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}">
         <td> 
 	{if $index GT 0}
-            <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[0][hide]" href="#optionField[0]" id="optionField[0][hide]" class="form-link"><img src="/dgg/drupal/modules/civicrm/i/TreeMinus.gif" class="action-icon" alt="hide field or section"></a>
+            <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[0][hide]" href="#optionField[0]" id="optionField[0][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="hide field or section">hide row</a>
             {* $form.optionField.$index.hide.html *}
 	{/if}
         </td>
@@ -28,7 +28,7 @@
             {if $index eq 2 }
                 {assign var=k value=$index+1}
                 <span id="optionField[{$k}][show]" class="add-remove-link">
-                    <a onclick="show('optionField[{$k}]','table-row');show('optionField[{$k}][show]'); return false;" name="optionField[3][show]" href="#optionField[3]" id="optionField[3][show]" class="form-link"><img src="/dgg/drupal/modules/civicrm/i/TreePlus.gif" class="action-icon" alt="show field or section">another row</a>
+                    <a onclick="show('optionField[{$k}]','table-row');hide('optionField[{$k}][show]'); return false;" name="optionField[3][show]" href="#optionField[3]" id="optionField[3][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="show field or section">another row</a>
                     {* $form.optionField.$k.show.html*}
                 </span>
             {/if}
@@ -40,7 +40,7 @@
 	{assign var=index value=$smarty.section.looper.index}	
 	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}" style="display: none">
 	<td> 
-           <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[{$index}][hide]" href="#optionField[{$index}]" id="optionField[{$index}][hide]" class="form-link"><img src="/dgg/drupal/modules/civicrm/i/TreeMinus.gif" class="action-icon" alt="hide field or section"></a>
+           <a onclick="hide('optionField[{$index}]'); show('optionField[{$index}][show]'); return false;" name="optionField[{$index}][hide]" href="#optionField[{$index}]" id="optionField[{$index}][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="hide field or section">hide row</a>
             {*$form.optionField.$index.hide.html*}
         </td>
 	    <td> {$form.default_option[$index].html}</td>
@@ -52,7 +52,7 @@
 	{assign var=k value=$index+1}
             {if $k LT 11}
                 <span id="optionField[{$k}][show]" class="add-remove-link">
-                    <a onclick="show('optionField[{$k}]','table-row');show('optionField[{$k}][show]'); return false;" name="optionField[3][show]" href="#optionField[3]" id="optionField[3][show]" class="form-link"><img src="/dgg/drupal/modules/civicrm/i/TreePlus.gif" class="action-icon" alt="show field or section">another row</a>
+                    <a onclick="show('optionField[{$k}]','table-row');hide('optionField[{$k}][show]'); return false;" name="optionField[3][show]" href="#optionField[3]" id="optionField[3][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="show field or section">another row</a>
                     {* $form.optionField.$k.show.html *}
                 </span>
             {/if}
