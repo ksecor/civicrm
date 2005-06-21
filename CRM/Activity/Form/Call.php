@@ -45,7 +45,7 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
      * variable to store BAO name
      *
      */
-    public $_BAOName = 'CRM_Core_BAO_Meeting';
+    public $_BAOName = 'CRM_Core_BAO_Call';
     
 
     /**

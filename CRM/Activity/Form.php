@@ -62,13 +62,6 @@ class CRM_Activity_Form extends CRM_Core_Form
     protected $_userId;
 
 
-    /**
-     * The name of the BAO object for this form
-     *
-     * @var string
-     */
-    protected $_BAOName;
-
     function preProcess( ) {
         global $user;
         $page =& new CRM_Contact_Page_View();
@@ -99,6 +92,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         if ($this->_action == CRM_Core_Action::DELETE) {
             $this->assign( 'delName', $defaults['name'] );
         }
+       
         return $defaults;
     }
 
