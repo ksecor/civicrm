@@ -55,7 +55,7 @@ class CRM_History_Page_Email extends CRM_Core_Page {
 
         // get the callback, module and activity id
         $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse');
-        $id     = CRM_Utils_Request::retrieve('id');
+        $id     = CRM_Utils_Request::retrieve('id', $this);
 
         $dao = new CRM_Core_DAO_EmailHistory();
         $dao->id = $id;

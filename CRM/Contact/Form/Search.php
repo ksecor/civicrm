@@ -379,7 +379,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          * we allow the controller to set force/reset externally, useful when we are being
          * driven by the wizard framework
          */
-        $this->_reset   = CRM_Utils_Request::retrieve( 'reset' );
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', CRM_Core_Config::$nullObject );
 
         $this->_force   = CRM_Utils_Request::retrieve( 'force', $this, false );
 
