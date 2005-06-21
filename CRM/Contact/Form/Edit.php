@@ -299,7 +299,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         $params['contact_type'] = $this->_contactType;
         $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
-
+        
         // here we replace the user context with the url to view this contact
         $session =& CRM_Core_Session::singleton();
         CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type)));

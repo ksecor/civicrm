@@ -169,13 +169,25 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
         return null;
     }
 
-    static function isValid( $title, $register = false, $action = null ) {
+    /**
+     * check the data validity
+     *
+     * @param int    $userID    the user id that we are actually editing
+     * @param string $title     the title of the group we are interested in
+     * @pram  boolean $register is this the registrtion form
+     * @param int    $action  the action of the form
+     *
+     * @return boolean   true if form is valid
+     * @static
+     * @access public
+     */
+    static function isValid( $userID, $title, $register = false, $action = null ) {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
             $controller->set( 'gid'  , $group->id );
-            $controller->set( 'id'   , $session->get( 'userID' ) );
+            $controller->set( 'id'   , $userID );
             $controller->process( );
             return $controller->validate( 'Dynamic' );
         } else {
@@ -185,10 +197,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $group->title     = $title;
             $group->domain_id = CRM_Core_Config::domainID( );
             
-            if ( $group->find( true ) && $session->get( 'userID' ) ) {
+            if ( $group->find( true ) && $userID ) {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
                 $controller->set( 'gid'  , $group->id );
-                $controller->set( 'id'   , $session->get( 'userID' ) );
+                $controller->set( 'id'   , $userID );
                 $controller->process( );
                 return $controller->validate( );
             }
@@ -199,19 +211,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /**
      * get the html for the form that represents this particular group
      *
-     * @param string $title the title of the group we are interested in
+     * @param int    $userID  the user id that we are actually editing
+     * @param string $title   the title of the group we are interested in
      * @param int    $action  the action of the form
      *
      * @return string       the html for the form
      * @static
      * @access public
      */
-    static function getEditHTML( $title, $action = null, $register = false ) {
+    static function getEditHTML( $userID, $title, $action = null, $register = false ) {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
-            $controller->set( 'id'      , $session->get( 'userID' ) );
+            $controller->set( 'id'      , $userID );
             $controller->set( 'register', 1 );
             $controller->process( );
             $controller->setEmbedded( true );
@@ -226,10 +239,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             $group->title     = $title;
             $group->domain_id = CRM_Core_Config::domainID( );
             
-            if ( $group->find( true ) && $session->get( 'userID' ) ) {
+            if ( $group->find( true ) && $userID ) {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
                 $controller->set( 'gid'     , $group->id );
-                $controller->set( 'id'      , $session->get( 'userID' ) ); 
+                $controller->set( 'id'      , $userID );
                 $controller->set( 'register', 0 );
                 $controller->process( );
                 $controller->setEmbedded( true );
@@ -245,17 +258,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /**
      * get the html for the form that represents this particular group
      *
+     * @param int    $userID  the user id that we are actually editing
      * @param int    $action  the action of the form
      *
      * @return string       the html for the form
      * @static
      * @access public
      */
-    static function getRegisterHTML( $action = null ) {
+    static function getRegisterHTML( $userID, $action = null ) {
         $session =& CRM_Core_Session::singleton( );
 
         $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Register', 'Registration Form Creator', $action );
-        $controller->set( 'id'      , $session->get( 'userID' ) );
+        $controller->set( 'id'      , $userID );
         $controller->process( );
         $controller->setEmbedded( true );
         $controller->run( );

@@ -664,6 +664,9 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         // add notes
         $contact->note = CRM_Core_BAO_Note::add($params, $ids);
 
+        // update the UF email if that has changed
+        CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
+
         CRM_Core_DAO::transaction('COMMIT');
 
         return $contact;

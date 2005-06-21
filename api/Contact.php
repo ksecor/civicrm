@@ -122,14 +122,12 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
     }
 
     $error = _crm_check_params( $params, $contact_type );
-    //if ( $error instanceof CRM_Core_Error ) {
     if (is_a($error, CRM_Core_Error)) {
         return $error;
     }
     $values  = array( );
     $values['contact_type'] = $contact_type;
     $error = _crm_format_params( $params, $values );
-    //if ( $error instanceof CRM_Core_Error ) {
     if (is_a($error, CRM_Core_Error) ) {
         return $error;
     }
@@ -191,7 +189,6 @@ function &crm_get_contact( $params, $returnProperties = null ) {
     $params['id'] = $params['contact_id'];
     $ids          = array( );
     $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
-    //if ( $contact == null || $contact instanceof CRM_Core_Error || ! $contact->id ) {
     if ( $contact == null || is_a($contact, CRM_Core_Error) || ! $contact->id ) {
         return _crm_error( 'Did not find contact object for ' . $params['contact_id'] );
     }
@@ -243,13 +240,11 @@ function &crm_update_contact( &$contact, $params ) {
 
     $values['contact_type'] = $contact->contact_type;
     $error = _crm_format_params( $params, $values );
-    //if ( $error instanceof CRM_Core_Error ) {
     if ( is_a($error, CRM_Core_Error) ) {
         return $error;
     }
 
     $error = _crm_update_contact( $contact, $values );
-    //if ( $error instanceof CRM_Core_Error ) {
     if ( is_a($error, CRM_Core_Error) ) {
         return $error;
     }

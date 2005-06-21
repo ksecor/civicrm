@@ -155,6 +155,13 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     static function formRule( &$fields ) {
         $errors = array( );
 
+        // dirty and temporal workaround for CRM-144
+        $fieldName = null;
+        foreach ( $fields['edit'] as $name => $dontCare ) {
+            $fieldName = 'edit[' . $name . ']';
+            break;
+        }
+
         // hack add the email, does not work in registration, we need the real user object
         global $user;
         $fields['edit']['email'] = $user->mail;
@@ -167,7 +174,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                     '">' . $displayName . '</a>';
             }
             $url = implode( ', ',  $urls );
-            $errors['edit[first_name]'] = ts( 'One matching contact was found. You can edit it here: %1', array( 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1', 1 => $url ) );
+            $errors['edit[first_name]'] = ts( 'One matching contact was found. You can edit it here: %1', array( 1 => $url, 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1' ) );
         }
 
         return empty($errors) ? true : $errors;
@@ -194,7 +201,9 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                     }
                 } else if ( $objName == 'country_id' ) {
                     $country =& CRM_Core_PseudoConstant::country( );
-                    $defaults[$name] = array_search( $this->_contact->country, $country );
+                    if ( $this->_contact->country ) {
+                        $defaults[$name] = array_search( $this->_contact->country, $country );
+                    }
                 } else {
                     $defaults[$name] = $this->_contact->$objName;
                 }

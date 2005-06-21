@@ -11,8 +11,6 @@ function _crm_error( $message, $code = 8000, $level = 'Fatal' ) {
 function _crm_store_values( &$fields, &$params, &$values ) {
     $valueFound = false;
 
-    // does not work for php4 - we shld revert back to this one after we stop developing for php4
-    //foreach ($fields as $name => &$field) {
     foreach ($fields as $name => $field) {
         // ignore all ids for now
         if ( $name === 'id' || substr( $name, -1, 3 ) === '_id' ) {
@@ -37,8 +35,6 @@ function _crm_update_object(&$object, &$values)
     $fields =& $object->fields( );
     $valueFound = false;
 
-    // does not work for php4 - we shld revert back to this one after we stop developing for php4
-    //foreach ( $fields as $name => &$field ) {
     foreach ($fields as $name => $field) {
         // ignore all ids for now
         if ($name === 'id') {
@@ -127,7 +123,12 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
     if ( ! $valid ) {
         return _crm_error( "Required fields not found for $contact_type $error" );
     }
-    
+
+    // check for record already existing
+    if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params, $id, false ) ) != null ) {
+        return _crm_error( "Found matching contacts: $ids" );
+    }
+
     return true;
 }
 

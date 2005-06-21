@@ -23,6 +23,10 @@ class TestOfDemoAPI extends UnitTestCase {
         $this->assertEqual( $contact->contact_type, 'Individual' );
         $this->_individual = $contact;
     }
+    
+    function testCreateSameIndividual( ) {
+        return $this->testCreateIndividual( );
+    }
 
     function testGetContactIndividual( )
     {

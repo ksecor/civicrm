@@ -80,7 +80,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
 
         // make sure that a contact id exists for this user id
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
-        $ufmatch->ufid = $user->$key;
+        $ufmatch->uf_id = $user->$key;
         if ( ! $ufmatch->find( true ) ) {
             $query = "
 SELECT    crm_contact.id as contact_id, crm_contact.domain_id as domain_id
@@ -94,6 +94,7 @@ WHERE     crm_email.email = '" . $user->$mail . "'";
             if ( $dao->fetch( ) ) {
                 $ufmatch->contact_id = $dao->contact_id;
                 $ufmatch->domain_id  = $dao->domain_id ;
+                $ufmatch->email      = $user->$mail    ;
             } else {
                 if ( $uf == 'Mambo' ) {
                     CRM_Utils_System_Mambo::setEmail( $user );
@@ -106,18 +107,74 @@ WHERE     crm_email.email = '" . $user->$mail . "'";
                 }
                 $ufmatch->contact_id = $contact->id;
                 $ufmatch->domain_id  = $contact->domain_id ;
+                $ufmatch->email      = $user->$mail    ;
             }
             $ufmatch->save( );
-        } 
+        }
 
-        $session->set( 'ufID'    , $ufmatch->ufid       );
+        $session->set( 'ufID'    , $ufmatch->uf_id       );
         $session->set( 'userID'  , $ufmatch->contact_id );
         $session->set( 'domainID', $ufmatch->domain_id  ); 
-        
+        $session->set( 'ufEmail' , $ufmatch->email      );
+
         if ( $update ) {
-            // some information has changed in the UF core
-            // replicate that information in civicrm
+            // the only information we care about is email, so lets check that
+            if ( $user->$mail != $ufmatch->email ) {
+                // email has changed, so we need to change all our primary email also
+                $ufmatch->email = $user->$mail;
+                $ufmatch->save( );
+
+                $query = "
+UPDATE  crm_contact
+LEFT JOIN crm_location ON ( crm_contact.id  = crm_location.contact_id AND crm_location.is_primary = 1 )
+LEFT JOIN crm_email    ON ( crm_location.id = crm_email.location_id   AND crm_email.is_primary = 1    )
+SET crm_email.email = '" . $user->$mail . '" WHERE crm_contact.id = ' . $ufmatch->contact_id;
+                
+                $dao =& new CRM_Core_DAO( );
+                $dao->query( $query );
+            }
         }
+    }
+
+    /**
+     * update the email in the user object
+     *
+     * @param int    $contactId id of the contact to delete
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function updateUFEmail( $contactId ) {
+        // fetch the primary email
+        $query = "
+SELECT    crm_email.email as email
+FROM      crm_contact
+LEFT JOIN crm_location ON ( crm_contact.id  = crm_location.contact_id AND crm_location.is_primary = 1 )
+LEFT JOIN crm_email    ON ( crm_location.id = crm_email.location_id   AND crm_email.is_primary = 1    )
+WHERE     crm_contact.id = " . $contactId;
+
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $query );
+        if ( ! $dao->fetch( ) || ! $dao->email ) {
+            // if we can't find a primary email, return
+            return;
+        }
+        $email = $dao->email;
+
+        $ufmatch =& new CRM_Core_DAO_UFMatch( );
+        $ufmatch->contact_id = $contactId;
+        if ( ! $ufmatch->find( true ) || $ufmatch->email == $email ) {
+            // if object does not exist or the email has not changed
+            return;
+        }
+
+        // save the updated ufmatch object
+        $ufmatch->email = $email;
+        $ufmatch->save( );
+        $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+        user_save( $user, array( 'mail' => $email ) );
+        $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
     }
 
     /**
@@ -134,6 +191,25 @@ WHERE     crm_email.email = '" . $user->$mail . "'";
 
         $ufmatch->contact_id = $contactId;
         $ufmatch->delete( );
+    }
+
+    /**
+     * get the contact_id given a uf_if
+     *
+     * @param int $uf_id 
+     *
+     * @return int contact_id
+     * @access public
+     * @static
+     */
+    static function getContactId( $ufID ) {
+        $ufmatch =& new CRM_Core_DAO_UFMatch( );
+
+        $ufmatch->uf_id = $ufID;
+        if ( $ufmatch->find( true ) ) {
+            return $ufmatch->contact_id;
+        }
+        return null;
     }
 
 }
