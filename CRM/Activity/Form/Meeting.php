@@ -127,9 +127,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
             
             
             if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
-        
                 return false;
-           
             }
         }
         

@@ -72,9 +72,16 @@ class CRM_Activity_Form extends CRM_Core_Form
         global $user;
         $this->_userId    = $user->uid;
 
-        $page =& new CRM_Contact_Page_View();
-        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
-        $this->_id        = CRM_Utils_Request::retrieve('id', null, false, null, 'GET');
+        //$page =& new CRM_Contact_Page_View();
+        //$this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
+        //$this->_id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
+        //$this->_id        = CRM_Utils_Request::retrieve('id', null, false, null, 'GET');
+
+
+        $this->_contactId = $this->get('contactId');
+        if ($this->_action != CRM_Core_Action::ADD) {
+            $this->_id = $this->get('id');
+        }
         $this->_status    = CRM_Utils_Request::retrieve( 'status', null, false, null, 'GET');
 
     }

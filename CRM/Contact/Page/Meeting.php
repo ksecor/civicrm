@@ -51,6 +51,7 @@ class CRM_Contact_Page_Meeting
 
         $controller->reset( );
         $controller->set( 'contactId'   , $page->getContactId( ) );
+        $controller->set( 'id'   , $meetingId );
         
         $controller->process( );
         $controller->run( );
@@ -65,9 +66,8 @@ class CRM_Contact_Page_Meeting
         $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
         $page->assign( 'action', $action );
 
-        //$id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
-        $id = CRM_Utils_Request::retrieve('id', null, false, null, 'GET');
-
+        $id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
+      
         $status = CRM_Utils_Request::retrieve('status', null, false, null, 'GET');
 
         if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
