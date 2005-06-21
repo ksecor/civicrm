@@ -2,16 +2,22 @@
 
     <div class="form-item">
         <dl>
-        <dt>{$form.label.label}</dt><dd>&nbsp;{$form.label.html}</dd>
-        <dt>{$form.data_type.label}</dt><dd>&nbsp;{$form.data_type.html}<div id='showoption' style='display: none'>{ include file="CRM/Custom/Form/Optionfields.tpl"}</div></dd>
+        <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
+        <dt>{$form.data_type.label}</dt><dd>{$form.data_type.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect. The appropriate HTML field type will be selected based on the type of data.{/ts}</dd>
         {/if}
-        <dt>{$form.weight.label}</dt><dd>&nbsp;{$form.weight.html}</dd>
+        </dl>
+        
+        {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}
+        <div id='showoption' style='display: none'>{ include file="CRM/Custom/Form/Optionfields.tpl"}</div>
+
+        <dl>
+        <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
         {/if}
-        <dt>{$form.default_value.label}</dt><dd>&nbsp;{$form.default_value.html}</dd>
+        <dt>{$form.default_value.label}</dt><dd>{$form.default_value.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}If you want to provide a default value for this field, enter it here.{/ts}</dd>
         {/if}

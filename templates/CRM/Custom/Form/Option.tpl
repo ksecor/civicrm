@@ -1,4 +1,4 @@
-<fieldset><legend>{ts}Custom Options{/ts}</legend>
+<fieldset><legend>{ts}Selection Options{/ts}</legend>
 
     <div class="form-item">
         <dl>

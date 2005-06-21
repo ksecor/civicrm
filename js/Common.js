@@ -88,7 +88,7 @@ function on_load_init_blocks(showBlocks, hideBlocks)
 
 
 /** 
-* This function is used to display a block. 
+* This function is used to display a page element  (e.g. block or table row or...). 
 * 
 * This function is called by various links which handle requests to display the hidden blocks.
 * An example is the <code>[+] another phone</code> link which expands an additional phone block.
@@ -96,18 +96,21 @@ function on_load_init_blocks(showBlocks, hideBlocks)
 *
 * 
 * @access public
-* @param block_id Id value of the block to be displayed.
+* @param block_id Id value of the block (or row) to be displayed.
+* @param displayType Value to set display style to when showing the element (e.g. 'block' or 'table-row' or ...)
 * @return none
 */
-function show(block_id) 
+function show(block_id,elementType)
 {
+    if ( elementType == null ) {
+        var elementType = 'block';
+    }
     var myElement = document.getElementById(block_id);
     if (myElement != null) {
-        myElement.style.display = 'block';
+        myElement.style.display = elementType;
     } else {
         alert('Request to show() function failed. Element id undefined = '+ block_id);
     }
-    //    document.getElementById(block_id).style.display = 'block';
 }
 
 
