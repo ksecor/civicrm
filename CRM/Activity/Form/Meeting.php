@@ -63,7 +63,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 
         $this->add('text', 'location', ts('Location'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'location' ) );
         
-        $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'details' ) );
+        $this->add('text', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'details' ) );
         
         $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus());
         $this->addRule( 'status', ts('Please select status.'), 'required' );
@@ -89,6 +89,13 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         CRM_Core_Error::debug_var('params', $params);        
 
         $ids = array();
+        
+        $dateTime = $params['scheduled_date_time'];
+
+        $dateTime = CRM_Utils_Date::format($dateTime);
+
+        $params['scheduled_date_time']= $dateTime;
+
 
         // store the contact id and current drupal user id
         $params['source_contact_id'] = $this->_userId;
@@ -97,7 +104,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['meeting'] = $this->_id;
         }
-
+        
         $meeting = CRM_Core_BAO_Meeting::add($params, $ids);
         
         CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $meeting->subject)) );
