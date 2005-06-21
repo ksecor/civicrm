@@ -152,7 +152,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 
         $this->addElement('select', 'data_type', ts('Data Type'), self::$_dataTypeValues, array('onchange' => 'custom_option_data_type(this)'));
-        $this->addElement('select', 'html_type', ts('HTML Type'), array('Text', 'Radio', 'Select', 'Checkbox','TextArea'), array('onchange' => 'custom_option_html_type(this)'));
+        $this->addElement('select', 'html_type', ts('HTML Type'), array('Text', 'Select', 'Radio', 'Checkbox','TextArea'), array('onchange' => 'custom_option_html_type(this)'));
 
 
         // data type, html type
