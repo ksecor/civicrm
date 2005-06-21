@@ -193,7 +193,8 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * @return int   the total number of rows for this action
      */
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $params = array('entity_table' => 'crm_phonecall', 'entity_id' => $this->_contactId);
+        //$params = array('entity_table' => 'crm_phonecall', 'entity_id' => $this->_contactId);
+        $params['contact_id'] = $this->_contactId;
         $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity');
         //$rows =& CRM_Core_BAO_Call::retrieve($params ,$this->_contactId );
         
@@ -241,16 +242,22 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         if (!isset(self::$_columnHeaders)) {
             self::$_columnHeaders = array(
                                           array(
-                                                'name'      => ts('Activity Type'),
+                                                'name'      => ts('Type'),
                                                 'sort'      => 'activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name' => ts('Description')),
+                                          array('name' => ts('Subject')),
                                           array(
-                                                'name'      => ts('Activity Date'),
-                                                'sort'      => 'activity_date',
+                                                'name'      => ts('Scheduled'),
+                                                'sort'      => 'scheduled_date_time',
                                                 'direction' => CRM_Utils_Sort::DESCENDING,
                                                 ),
+                                          array(
+                                                'name'      => ts('Status'),
+                                                'sort'      => 'status',
+                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                ),
+
                                           array('desc' => ts('Actions')),
                                           );
         }

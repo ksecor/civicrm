@@ -981,19 +981,35 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
     {
         
         $dao =& new CRM_Core_DAO();
-        $id = $params['entity_id'];
+        $contactId = $params['contact_id'];
         
+        $select1 = $from1 = $where1 = $select2 = $from2 = $where2 = "";
         
-        $query = "SELECT * FROM crm_phonecall WHERE target_contact_id = ".$id." AND status != 'Completed'";
-        //$query = "SELECT * FROM crm_phonecall WHERE target_contact_id = ".$id." AND status != 'Completed'"." UNION SELECT * FROM crm_meeting WHERE target_contact_id = ".$id." AND status != 'Completed'";
+        $select1 = "(SELECT crm_phonecall.id as phonecall_id, crm_phonecall.subject as subject, crm_phonecall.scheduled_date_time as date, crm_phonecall.status as status, 0 as type ";
+        $from1 = " FROM crm_phonecall";
+        $where1 = " WHERE crm_phonecall.target_contact_id = ".$contactId."
+                  ) UNION   ";
         
-        $dao->query($query);
+        $select2 = " (SELECT crm_meeting.id as id, crm_meeting.subject as subject, crm_meeting.scheduled_date_time as date, crm_meeting.status as status, 1 as type ";
+        $from2 = " FROM crm_meeting";
+        $where2 = " WHERE crm_meeting.target_contact_id = ".$contactId." ) ";
+
+        $queryString = $select1.$from1.$where1.$select2.$from2.$where2;
+
+        $dao->query($queryString);
         $values =array();
+        $rowCount = 0;
         while($dao->fetch()) {
-            
-            CRM_Core_DAO::storeValues( $dao, $values[$dao->id]);
-            //$values[$dao->id] = $dao;
-            
+            if ($dao->type == 1) {
+                $values[$rowCount]['activity_type'] = 'Meeting';
+            } else {
+                $values[$rowCount]['activity_type'] = 'Phone Call';
+            }
+            $values[$rowCount]['phonecall_id'] = $dao->id;
+            $values[$rowCount]['subject'] = $dao->subject;
+            $values[$rowCount]['scheduled_date_time'] = $dao->date;
+            $values[$rowCount]['status'] = $dao->status;
+            $rowCount++;
         }
         return $values;
 

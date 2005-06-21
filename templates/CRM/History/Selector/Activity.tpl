@@ -21,12 +21,23 @@
 
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr class="{cycle values="odd-row,even-row"}">
-    <td>{$row.activity_type}</td>
-    <td>{$row.activity_summary|mb_truncate:33:"...":true}</td>
-    <td>{$row.activity_date|crmDate}</td>
-    <td>{$row.action}</td>
-  </tr>
+    {if $history eq 1}  	
+       <tr class="{cycle values="odd-row,even-row"}">
+         <td>{$row.activity_type}</td>
+         <td>{$row.activity_summary|mb_truncate:33:"...":true}</td>
+         <td>{$row.activity_date|crmDate}</td>
+         <td>{$row.action}</td>
+       </tr>
+    {else}
+       <tr class="{cycle values="odd-row,even-row"}">
+         <td>{$row.activity_type}</td>
+         <td>{$row.subject|mb_truncate:33:"...":true}</td>
+         <td>{$row.scheduled_date_time|crmDate}</td>
+         <td>{$row.status}</td>
+         <td>{$row.action}</td>
+       </tr>
+    {/if}
+
   {/foreach}
 </table>
 {/strip}
