@@ -6,116 +6,44 @@
         <th> {ts}Label{/ts}</th>
         <th> {ts}Value{/ts}</th>
         <th> {ts}Weight{/ts}</th>
-	    <th> {ts}Status?{/ts}</th>
-	    <th> &nbsp;</th>
+	    <th> {ts}Active?{/ts}</th>
     </tr>
 	
-	{section name=firstthree loop=3}
-	{assign var=index value=$smarty.section.firstthree.index}
+	{section name=rowLoop loop=11}
+	{assign var=index value=$smarty.section.rowLoop.index}
 	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}">
         <td> 
-	{if $index GT 0}
-            <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[0][hide]" href="#optionField[0]" id="optionField[0][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="hide field or section">hide row</a>
+        {if $index GT 0}
+            <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[0][hide]" href="#optionField[0]" id="optionField[0][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="hide field or section"></a>
             {* $form.optionField.$index.hide.html *}
-	{/if}
+        {/if}
         </td>
 	    <td> {$form.default_option[$index].html}</td>
 	    <td> {$form.option_label.$index.html}</td>
 	    <td> {$form.option_value.$index.html}</td>
 	    <td> {$form.option_weight.$index.html}</td>
  	    <td> {$form.option_status.$index.html}</td>
-        <td> &nbsp;
-            {if $index eq 2 }
-                {assign var=k value=$index+1}
-                <span id="optionField[{$k}][show]" class="add-remove-link">
-                    <a onclick="show('optionField[{$k}]','table-row');hide('optionField[{$k}][show]'); return false;" name="optionField[3][show]" href="#optionField[3]" id="optionField[3][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="show field or section">another row</a>
-                    {* $form.optionField.$k.show.html*}
-                </span>
-            {/if}
-        </td>
 	</tr>
     {/section}
-
-	{section name=looper start=3 loop=11}
-	{assign var=index value=$smarty.section.looper.index}	
-	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}" style="display: none">
-	<td> 
-           <a onclick="hide('optionField[{$index}]'); show('optionField[{$index}][show]'); return false;" name="optionField[{$index}][hide]" href="#optionField[{$index}]" id="optionField[{$index}][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="hide field or section">hide row</a>
-            {*$form.optionField.$index.hide.html*}
-        </td>
-	    <td> {$form.default_option[$index].html}</td>
-	    <td> {$form.option_label.$index.html}</td>
-	    <td> {$form.option_value.$index.html}</td>
-	    <td> {$form.option_weight.$index.html}</td>
- 	    <td> {$form.option_status.$index.html}</td>
-        <td>	&nbsp;
-	{assign var=k value=$index+1}
-            {if $k LT 11}
-                <span id="optionField[{$k}][show]" class="add-remove-link">
-                    <a onclick="show('optionField[{$k}]','table-row');hide('optionField[{$k}][show]'); return false;" name="optionField[3][show]" href="#optionField[3]" id="optionField[3][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="show field or section">another row</a>
-                    {* $form.optionField.$k.show.html *}
-                </span>
-            {/if}
-        </td>
-	</tr>
+    </table>
+    {* Set of divs for the 'show' next row links *}
+	{section name=showLoop start=1 loop=11}
+        {assign var=j value=$smarty.section.showLoop.index}
+        <div id="optionField[{$j}][show]" class="add-remove-link">
+            <a onclick="show('optionField[{$j}]','table-row'); show('optionField[{$j+1}][show]','table-row'); hide('optionField[{$j}][show]'); return false;" href="#optionField[j][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="show field or section">another option row</a>
+            {* $form.optionField.$j.show.html*}
+        </div>
     {/section}
-
-	</table>
     {/strip}
     
-{*
-	<div>
-	    <span class="fcol1 label"> {ts}Defaults{/ts}</span>
-            <span class="fcol2 label"> {ts}Label{/ts}</span>
-            <span class="fcol3 label"> {ts}Value{/ts}</span>
-            <span class="fcol4 label"> {ts}Weight{/ts}</span>
-	    <span class="fcol5 label"> {ts}Status?{/ts}</span>
-        </div>
-	{section name=firstthree loop=3}
-	{assign var=index value=$smarty.section.firstthree.index}
-	<div id="optrow[{$index}]">
-	    <span class="fcol1"> {$form.default_option[$index].html}</span>
-	    <span class="fcol2"> {$form.option_label.$index.html}</span>
-            <span class="fcol3"> {$form.option_value.$index.html}</span>
-            <span class="fcol4"> {$form.option_weight.$index.html}</span>
-            <span class="fcol5"> {$form.option_status.$index.html}</span>
-            {if $index eq 2}
-		{assign var=k value=$index+1}
-	    <div id="optionField[{$k}][show]" class="add-remove-link">
-		{$form.optionField.$k.show.html}
-	    </div>
-	    {/if}
-        	<!-- Spacer div contains floated elements -->
-	    <div class="spacer"></div>
-	</div>
-	{/section}
-
-	{section name=looper start=3 loop=11}
-	{assign var=index value=$smarty.section.looper.index}	
-	<div id="optionField[{$index}]" class="form-item" style="display: none">
-	    <span class="fcol1"> {$form.default_option[$index].html}</span>
-	    <span class="fcol2"> {$form.option_label.$index.html}</span>
-	    <span class="fcol3"> {$form.option_value.$index.html}</span>
-	    <span class="fcol4"> {$form.option_weight.$index.html}</span>
- 	    <span class="fcol5"> {$form.option_status.$index.html}</span>
-	    <span id="optionField[{$index}][hide]" class="add-remove-link element-right">
-                {$form.optionField.$index.hide.html}
-            </span>
-            {if $index LT 11}
-            {assign var=j value=$index+1}
-	       	<div id="optionField[{$j}][show]" class="add-remove-link">
-			{$form.optionField.$j.show.html}
-            	</div>
-            {/if}
-        	<!-- Spacer div contains floated elements -->
-	    <div class="spacer"></div>
-	</div>
-	{/section}  
-	{/strip}
-    <div class="form-item">
-	<a onclick="document.getElementById('showoption').style.display='none'">{ts}close{/ts}</a> 
-    </div>
-*}
 </fieldset>
+{assign var=showRows value="'optionField[0]','optionField[1]','optionField[2]'"}
+{assign var=hideBlocks value="'optionField[1][show]','optionField[2][show]','optionField[4][show]','optionField[5][show]','optionField[6][show]','optionField[7][show]','optionField[8][show]','optionField[9][show]','optionField[10][show]','optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]'"}
+<script type="text/javascript">
+    var showRows = new Array({$showRows});
+    var hideBlocks = new Array({$hideBlocks});
 
-
+    {* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showRows, hideBlocks, 'table-row' );
+    show('optionField[3][show]');
+</script>

@@ -71,6 +71,12 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
                                                                           'qs'    => 'reset=1&action=browse&gid=%%id%%',
                                                                           'title' => ts('List Custom Group Fields'),
                                                                           ),
+                                        CRM_Core_Action::PREVIEW => array(
+                                                                          'name'  => ts('Preview Fieldset'),
+                                                                          'url'   => 'civicrm/admin/custom/group',
+                                                                          'qs'    => 'action=preview&id=%%id%%',
+                                                                          'title' => ts('Preview Custom Group'),
+                                                                          ),
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Group'),
                                                                           'url'   => 'civicrm/admin/custom/group',
@@ -89,12 +95,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
                                                                           'url'   => 'civicrm/admin/custom/group',
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable Custom Group'),
-                                                                          ),
-                                        CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Preview'),
-                                                                          'url'   => 'civicrm/admin/custom/group',
-                                                                          'qs'    => 'action=preview&id=%%id%%',
-                                                                          'title' => ts('Preview Custom Group'),
                                                                           ),
                                         );
         }

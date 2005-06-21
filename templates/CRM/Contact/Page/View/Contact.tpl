@@ -105,6 +105,70 @@
  </div>
  {/if}
 
+<div id="openActivities[show]" class="data-group">
+  {if $openActivity.totalCount}
+    <a href="#" onClick="hide('openActivities[show]'); show('openActivities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label> ({$openActivity.totalCount})<br />
+  {else}
+    <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts}No open activities.{/ts}</dd></dl>
+  {/if}
+</div>
+
+<div id="openActivities">
+ <fieldset><legend><a href="#" onClick="hide('openActivities'); show('openActivities[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $openActivity.totalCount GT 3}{ts 1=$openActivity.totalCount}Open Activities (3 of %1){/ts}{else}{ts}Open Activities{/ts}{/if}</legend>
+	{strip}
+	<table>
+        <tr class="columnheader">
+		<th>{ts}Activity Type{/ts}</th>
+		<th>{ts}Description{/ts}</th>
+		<th>{ts}Scheduled Date{/ts}</th>
+	</tr>
+    {foreach from=$openActivity.data item=row}
+        <tr class="{cycle values="odd-row,even-row"}">
+        	<td>{$row.activity_type}</td>
+	    	<td>{$row.activity_subject}</td>	
+            <td>{$row.activity_date|crmDate}</td>
+        </tr>
+    {/foreach}
+    {if $openActivity.totalCount gt 3 }
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q='action=browse'}">&raquo; {ts}View All Open Activities...{/ts}</a></td></tr>
+    {/if}
+    </table>
+	{/strip}
+ </fieldset>
+</div>
+
+<div id="activityHx[show]" class="data-group">
+  {if $activity.totalCount}
+    <a href="#" onClick="hide('activityHx[show]'); show('activityHx'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Activity History{/ts}</label> ({$activity.totalCount})<br />
+  {else}
+    <dl><dt>{ts}Activity History{/ts}</dt><dd>{ts}No activityHx.{/ts}</dd></dl>
+  {/if}
+</div>
+
+<div id="activityHx">
+ <fieldset><legend><a href="#" onClick="hide('activityHx'); show('activityHx[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $activity.totalCount GT 3}{ts 1=$activity.totalCount}Activity History (3 of %1){/ts}{else}{ts}Activity History{/ts}{/if}</legend>
+	{strip}
+	<table>
+        <tr class="columnheader">
+		<th>{ts}Activity Type{/ts}</th>
+		<th>{ts}Description{/ts}</th>
+		<th>{ts}Activity Date{/ts}</th>
+	</tr>
+    {foreach from=$activity.data item=row}
+        <tr class="{cycle values="odd-row,even-row"}">
+        	<td>{$row.activity_type}</td>
+	    	<td>{$row.activity_summary}</td>	
+            <td>{$row.activity_date|crmDate}</td>
+        </tr>
+    {/foreach}
+    {if $activity.totalCount gt 3 }
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q='action=browse&history=true'}">&raquo; {ts}View All Activity History...{/ts}</a></td></tr>
+    {/if}
+    </table>
+	{/strip}
+ </fieldset>
+</div>
+
 <div id="relationships[show]" class="data-group">
   {if $relationship.totalCount}
     <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Relationships{/ts}</label> ({$relationship.totalCount})<br />
@@ -195,49 +259,17 @@
  </fieldset>
 </div>
 
-<div id="activities[show]" class="data-group">
-  {if $activity.totalCount}
-    <a href="#" onClick="hide('activities[show]'); show('activities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Activity History{/ts}</label> ({$activity.totalCount})<br />
-  {else}
-    <dl><dt>{ts}Activity History{/ts}</dt><dd>{ts}No activities.{/ts}</dd></dl>
-  {/if}
-</div>
-
-<div id="activities">
- <fieldset><legend><a href="#" onClick="hide('activities'); show('activities[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $activity.totalCount GT 3}{ts 1=$activity.totalCount}Activity History (3 of %1){/ts}{else}{ts}Activity History{/ts}{/if}</legend>
-	{strip}
-	<table>
-        <tr class="columnheader">
-		<th>{ts}Activity Type{/ts}</th>
-		<th>{ts}Description{/ts}</th>
-		<th>{ts}Activity Date{/ts}</th>
-	</tr>
-    {foreach from=$activity.data item=row}
-        <tr class="{cycle values="odd-row,even-row"}">
-        	<td>{$row.activity_type}</td>
-	    	<td>{$row.activity_summary}</td>	
-            <td>{$row.activity_date|crmDate}</td>
-        </tr>
-    {/foreach}
-    {if $activity.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q='action=browse'}">&raquo; {ts}View All Activities...{/ts}</a></td></tr>
-    {/if}
-    </table>
-	{/strip}
- </fieldset>
-</div>
-
 <div id="notes[show]" class="data-group">
   {if $noteTotalCount}
-    <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Contact Notes{/ts}</label> ({$noteTotalCount})<br />
+    <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Notes{/ts}</label> ({$noteTotalCount})<br />
   {else}
-    <dl><dt>{ts}Contact Notes{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q='action=add'}{/capture}{ts 1=$crmURL}No notes. Use the <a href="%1">Notes tab</a> to add them.{/ts}</dd></dl>
+    <dl><dt>{ts}Notes{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q='action=add'}{/capture}{ts 1=$crmURL}No notes. Use the <a href="%1">Notes tab</a> to add them.{/ts}</dd></dl>
   {/if}
 </div>
 
 <div id="notes">
 {if $note}
-  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $noteTotalCount GT 3}{ts 1=$noteTotalCount}Contact Notes (3 of %1){/ts}{else}{ts}Contact Notes{/ts}{/if}</legend></legend>
+  <fieldset><legend><a href="#" onClick="hide('notes'); show('notes[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{if $noteTotalCount GT 3}{ts 1=$noteTotalCount}Notes (3 of %1){/ts}{else}{ts}Notes{/ts}{/if}</legend></legend>
        {strip}
        <table>
        <tr class="columnheader">

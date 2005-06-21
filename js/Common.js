@@ -58,16 +58,21 @@ function clearFldVal(fld) {
 * @access public
 * @param  showBlocks Array of element Id's to be displayed
 * @param  hideBlocks Array of element Id's to be hidden
+* @param elementType Value to set display style to for showBlocks (e.g. 'block' or 'table-row' or ...)
 * @return none 
 */
-function on_load_init_blocks(showBlocks, hideBlocks)
+function on_load_init_blocks(showBlocks, hideBlocks, elementType)
 {   
+    if ( elementType == null ) {
+        var elementType = 'block';
+    }
+
     /* This loop is used to display the blocks whose IDs are present within the showBlocks array */ 
     for ( var i = 0; i < showBlocks.length; i++ ) {
         var myElement = document.getElementById(showBlocks[i]);
         /* getElementById returns null if element id doesn't exist in the document */
         if (myElement != null) {
-            myElement.style.display = 'block';
+            myElement.style.display = elementType;
         } else {
             alert('showBlocks array item not in .tpl = ' + showBlocks[i]);
         }
@@ -97,7 +102,7 @@ function on_load_init_blocks(showBlocks, hideBlocks)
 * 
 * @access public
 * @param block_id Id value of the block (or row) to be displayed.
-* @param displayType Value to set display style to when showing the element (e.g. 'block' or 'table-row' or ...)
+* @param elementType Value to set display style to when showing the element (e.g. 'block' or 'table-row' or ...)
 * @return none
 */
 function show(block_id,elementType)
@@ -418,7 +423,7 @@ function custom_option_html_type(html_type)
 
     if (data_type_name == "Alphanumeric" || data_type_name == "Integer" || data_type_name == "Number" || data_type_name == "Money") {
 	if(html_type_name != "Text") {
-	    document.getElementById('showoption').style.display="";
+	    document.getElementById('showoption').style.display="block";
 	} else {
 	    document.getElementById('showoption').style.display="none";
 	}

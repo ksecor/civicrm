@@ -270,7 +270,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/activity',
-                            'title'   => ts('Activity'),
+                            'title'   => ts('Activities'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
                             'weight'  => 1
@@ -285,21 +285,21 @@ class CRM_Utils_Menu {
                             ),
         
                       array(
-                            'path'    => 'civicrm/contact/view/note',
-                            'title'   => ts('Notes'),
-                            'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'weight'  => 3
-                            ),
-
-                      array(
                             'path'    => 'civicrm/contact/view/group',
                             'title'   => ts('Groups'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
+                            'weight'  => 3
+                            ),
+                      
+                      array(
+                            'path'    => 'civicrm/contact/view/note',
+                            'title'   => ts('Notes'),
+                            'type'    => self::CALLBACK,
+                            'crmType' => self::LOCAL_TASK,
                             'weight'  => 4
                             ),
-        
+
                       array(
                             'path'    => 'civicrm/contact/view/tag',
                             'title'   => ts('Tags'),

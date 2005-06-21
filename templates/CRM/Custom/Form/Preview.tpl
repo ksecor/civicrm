@@ -1,3 +1,5 @@
+{capture assign=infoMessage}{ts}This is a Preview of the custom data fieldset as it will be displayed when editing a contact.{/ts}{/capture}
+{include file="CRM/common/info.tpl"}
 <div class="form-item">
 {strip}
 {foreach from=$groupTree item=cd_edit key=group_id}
