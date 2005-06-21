@@ -330,3 +330,40 @@ function on_load_init_check(form)
     }
 
 }
+
+/**
+ * This function is used by the custom data field form
+ * It determines the type of html_type for a custom field
+ * and then depending on html_type it will display 
+ * a section for entering options for that field.
+ *
+ * html_types that need to display the section of custom
+ * options are 
+ *
+ * 'Radio'
+ * 'Select'
+ * 'Checkbox'
+ *
+ * @param form - name of form that contains the html_type
+ *
+ * @access public
+ * @return null
+ */
+
+function display_custom_option(form) 
+{
+	var htmltype = form.options[form.selectedIndex].text;
+	var datatype = document.getElementsByName('data_type[0]');
+	var datatypetext = datatype[0].options[datatype[0].selectedIndex].text;
+	
+	if( datatypetext == "Alphanumeric" || datatypetext == "Integer" || datatypetext == "Money" || datatypetext == "Number" ) {
+		if(htmltype != "Text") {
+			 document.getElementById('showoption').style.display="";
+		} else {
+			 document.getElementById('showoption').style.display="none";
+		}
+	} else {
+		document.getElementById('showoption').style.display="none";
+	}
+
+}

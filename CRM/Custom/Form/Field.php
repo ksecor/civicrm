@@ -149,10 +149,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 
         // data type, html type
-        $dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'), array('onchange' => 'if(this.options[this.selectedIndex].value) { document.getElementById(\'showoption\').style.display=\'\'; } else {  document.getElementById(\'showoption\').style.display=\'none\';}'));
-        $dataHTMLElement->setOptions(array( self::$_dataTypeValues, self::$_dataToHTML));
+        $dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'), array('onchange' => 'display_custom_option(this)'));
+        $dataHTMLElement->setOptions(array(self::$_dataTypeValues, self::$_dataToHTML));
 	
-        if ($this->_action == CRM_Core_Action::UPDATE) { 
+         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $dataHTMLElement->freeze();
         }
 	
