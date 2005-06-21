@@ -170,7 +170,7 @@ function _crm_format_params( &$params, &$values ) {
     if ( _crm_store_values( $fields, $params, $values['location'][1]['address'] ) ) {
         $locationTypeNeeded = true;
     }
-    $ids = array( 'county', 'country', 'state_province' );
+    $ids = array( 'county', 'country', 'state_province', 'StateProvince.name' );
     foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {
             $values['location'][1]['address'][$id] = $params[$id];

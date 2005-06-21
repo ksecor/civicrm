@@ -70,12 +70,22 @@ class CRM_Core_PseudoConstant {
      */
     private static $stateProvince;
 
+    /** 
+     * states/provinces abbreviations
+     * @var array
+     * @static
+     */
+    private static $stateProvinceAbbreviation;
+
     /**
      * country
      * @var array
      * @static
      */
     private static $country;
+
+
+    private static $countryIsoCode;
 
     /**
      * tag
@@ -207,7 +217,7 @@ class CRM_Core_PseudoConstant {
      * @static
      *
      * @param none
-     * @return array - array reference of all IM providers.
+     * @return array - array reference of all State/Provinces.
      *
      */
     public static function &stateProvince()
@@ -216,6 +226,25 @@ class CRM_Core_PseudoConstant {
             self::populate( self::$stateProvince, 'CRM_Core_DAO_StateProvince', true );
         }
         return self::$stateProvince;
+    }
+
+    /**
+     * Get all the State/Province abbreviations from the database.
+     * 
+     * Same as above, except gets the abbreviations instead of the names.
+     *
+     * @access public
+     * @static
+     * @param none
+     * @return array - array reference of all State/Province abbreviations.
+     */
+    public static function &stateProvinceAbbreviation()
+    {
+        if (!self::$stateProvinceAbbreviation) {
+            self::populate( self::$stateProvinceAbbreviation,
+            'CRM_Core_DAO_StateProvince', true, 'abbreviation');
+        }
+        return self::$stateProvinceAbbreviation;
     }
 
 
@@ -244,6 +273,14 @@ class CRM_Core_PseudoConstant {
     }
 
 
+    public static function &countryIsoCode()
+    {
+        if (!self::$countryIsoCode) {
+            self::populate( self::$countryIsoCode, 'CRM_Core_DAO_Country',
+            'true', 'iso_code');
+        }
+        return self::$countryIsoCode;
+    }
 
     /**
      * Get all the categories from database.

@@ -638,8 +638,14 @@ ORDER BY
                 self::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
 
                 if (array_key_exists( 'address', $location ) ) {
-                    self::lookupValue( $location['address'], 'state_province', CRM_Core_PseudoConstant::stateProvince(), $reverse );
-                    self::lookupValue( $location['address'], 'country'       , CRM_Core_PseudoConstant::country()      , $reverse );
+                    self::lookupValue( $location['address'], 'state_province', CRM_Core_PseudoConstant::stateProvince(), $reverse ) ||
+                                                $reverse && self::lookupValue( $location['address'], 'state_province', 
+                                                    CRM_Core_PseudoConstant::stateProvinceAbbreviation(), $reverse );
+                    
+                    
+                    self::lookupValue( $location['address'], 'country'       , CRM_Core_PseudoConstant::country()      , $reverse ) ||
+                                            $reverse && self::lookupValue( $location['address'], 'country', 
+                                                    CRM_Core_PseudoConstant::countryIsoCode(), $reverse );
                     self::lookupValue( $location['address'], 'county'        , CRM_Core_SelectValues::county()         , $reverse );
                 }
 
@@ -673,17 +679,20 @@ ORDER BY
         $dst = $reverse ? $id       : $property;
 
         if ( ! array_key_exists( $src, $defaults ) ) {
-            return;
+            return false;
         }
+
+//         CRM_Core_Error::debug('lookup',$lookup);
 
         $look = $reverse ? array_flip( $lookup ) : $lookup;
         
         if(is_array($look)) {
             if ( ! array_key_exists( $defaults[$src], $look ) ) {
-                return;
+                return false;
             }
         }
         $defaults[$dst] = $look[$defaults[$src]];
+        return true;
     }
 
     /**

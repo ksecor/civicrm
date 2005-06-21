@@ -180,7 +180,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
                foreach ( $fields as $name => $field ) {ldelim}
                  if ( CRM_Utils_Array::value( 'import', $field ) ) {ldelim}
                    if ( $prefix ) {ldelim}
-                     self::$_import['{$table.objectName}.' . $name] =& $fields[$name];
+                     self::$_import['{$table.labelName}'] =& $fields[$name];
                    {rdelim} else {ldelim}
                      self::$_import[$name] =& $fields[$name];
                    {rdelim}

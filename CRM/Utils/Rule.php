@@ -167,6 +167,17 @@ class CRM_Utils_Rule {
         return $qfRule->validate( $value, $checkDomain );
     }
 
+//  CHANGED:2005-06-20 15:24:50 by Brian McFee <brmcfee@gmail.com>
+//  added a basic postalCode rule
+    static function postalCode($value) {
+        if ( preg_match('^\d{5}(-\d{4})?$', $value) ) {
+            return true;
+        }
+        return false;
+    }
+
+
+
     /**
      * see how file rules are written in HTML/QuickForm/file.php
      * Checks to make sure the uploaded file is ascii

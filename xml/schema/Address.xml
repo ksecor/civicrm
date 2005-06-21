@@ -126,6 +126,7 @@
        <type>varchar</type>
        <length>12</length>
        <import>true</import>
+       <rule>postalCode</rule>
        <comment>Store both US (zip5) AND international postal codes. App is responsible for country/region appropriate validation.</comment>
   </field>
   <field>

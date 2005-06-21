@@ -304,6 +304,7 @@ abstract class CRM_Import_Parser {
     }
 
     function setActiveFieldValues( $elements ) {
+//         CRM_Core_Error::debug('f', $this->_activeFields);
         for ( $i = 0; $i < count( $elements ); $i++ ) {
             $this->_activeFields[$i]->setValue( $elements[$i] );
         }
