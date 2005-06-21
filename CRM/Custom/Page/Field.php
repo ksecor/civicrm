@@ -85,12 +85,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                                                                           'qs'    => 'action=update&id=%%id%%',
                                                                           'title' => ts('Edit Custom Field') 
                                                                           ),
-                                        CRM_Core_Action::VIEW    => array(
-                                                                          'name'  => ts('View'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field',
-                                                                          'qs'    => 'action=view&id=%%id%%',
-                                                                          'title' => ts('View Custom Field'),
-                                                                          ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/admin/custom/group/field',

@@ -71,14 +71,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     private static $_dataTypeKeys = null;
     
     private static $_dataToHTML = array(
-                                        array('Text'),
-                                        array('Text'),
-                                        array('Text'),
-                                        array('Text'),
+                                        array('Text', 'Select', 'Radio', 'Checkbox'),
+                                        array('Text', 'Select', 'Radio'),
+                                        array('Text', 'Select', 'Radio'),
+                                        array('Text', 'Select', 'Radio'),
                                         array('TextArea'),
                                         array('Select Date'),
                                         array('Radio'),
-                                        array('-- Type--', 'Radio', 'Select', 'CheckBox'),
                                         );
     
 

@@ -40,7 +40,7 @@
   <field>
      <name>data_type</name>
      <type>enum</type>
-     <values>String, Int, Float, Money, Memo, Date, Boolean, Multi-Select</values>
+     <values>String, Int, Float, Money, Memo, Date, Boolean</values>
      <comment>Controls location of data storage in extended_data table.</comment>
   </field>
   <field>
