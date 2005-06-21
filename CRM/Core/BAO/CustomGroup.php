@@ -282,11 +282,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             case 'Date':
                 $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_date_data;
                 break;
-            case 'Multi-Select':
-                if($groupTree[$groupId]['fields'][$fieldId]['html_type'] == 'Radio') {
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_char_data;
-                }
-                break;
             }
         }
         return;
@@ -368,11 +363,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         break;
                     case 'Date':
                         $customValueDAO->date_data = $data;
-                        break;
-                    case 'Multi-Select':
-                        if($field['html_type'] == 'Radio') {
-                            $customValueDAO->char_data = $data;
-                        }
                         break;
                     }
 

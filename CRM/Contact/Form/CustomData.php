@@ -198,11 +198,17 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     foreach ($customOption as $v) {
                         $selectOption[$v['value']] = $v['label'];
                     }
-                    $this->add('select', $elementName, null, $selectOption);
+                    $this->add('select', $elementName,$field['label'], $selectOption);
                     break;
 
                 case 'CheckBox':
-
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                    $checkBox = array();
+                    foreach ($customOption as $v) {
+                        $checkBox[$v['value']] = $this->addElement('checkbox', $v['label'], '', $v['label'], null);
+                    }
+                    $this->addGroup($checkBox, $elementName, $field['label']);
+                    break;
 
                 case 'Select State / Province':
                 case 'Select Country':
@@ -265,7 +271,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
                 if (isset($field['customValue'])) {
                     if ($field['html_type'] == 'Radio') {
-                        if($field['data_type'] == 'Multi-Select') {
+                        if($field['data_type'] != 'Boolean' ) {
                             $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
                         } else {
                             $defaults[$elementName] = $field['customValue']['data'] ? 'yes' : 'no';
@@ -322,11 +328,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
                 switch ( $this->_groupTree[$groupId]['fields'][$fieldId]['html_type'] ) {
                 case 'Radio':
-                    if($this->_groupTree[$groupId]['fields'][$fieldId]['data_type'] == 'Multi-Select') {
-                        $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
-                    } else {
+                    if($this->_groupTree[$groupId]['fields'][$fieldId]['data_type'] == 'Boolean') {
                         $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = ( $v == 'yes' ) ? 1 : 0;
-                    }
+                    } else {
+                        $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
+                    }                    
                     break;
                     
                 case 'Select Date':

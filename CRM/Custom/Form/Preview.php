@@ -138,14 +138,38 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                     break;
 
                 case 'Radio':
-                    $choice = array();
-                    $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('Yes'), 'yes', $field['attributes']);
-                    $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('No') , 'no' , $field['attributes']);
-                    $this->addGroup($choice, $elementName, $field['label']);
+                     $choice = array();
+                     if($field['data_type'] == "String" || $field['data_type'] == "Int" || $field['data_type'] == "Float"|| $field['data_type'] == "Money") {
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                        foreach ($customOption as $v) {
+                            $choice[] = $this->createElement(strtolower($field['html_type']), null, '', $v['label'], $v['value'], $field['attributes']);
+                        }
+                        $this->addGroup($choice, $elementName, $field['label']);
+                     } else {
+                        $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('Yes'), 'yes', $field['attributes']);                   
+                        $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('No') , 'no' , $field['attributes']);
+                        $this->addGroup($choice, $elementName, $field['label']);
+                     }
                     break;
 
                 case 'Select':
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                    $selectOption = array();
+                    foreach ($customOption as $v) {
+                        $selectOption[$v['value']] = $v['label'];
+                    }
+                    $this->add('select', $elementName,$field['label'], $selectOption);
+                    break;
+
                 case 'CheckBox':
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                    $check = array();
+                    foreach ($customOption as $v) {
+                        $check[] = $this->createElement('checkbox', $v['value'], null, $v['label']);
+                    }
+                    $this->addGroup($check, $elementName, $field['label']);
+                    break;
+                    
                 case 'Select State / Province':
                 case 'Select Country':
                 }

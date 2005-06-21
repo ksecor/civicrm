@@ -117,9 +117,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->_gid = $defaults['custom_group_id'];
             
             if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
-                $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'], self::$_dataTypeKeys ),
-                                                '1' => 0 );
+                $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'], self::$_dataTypeKeys ));
             }
+            if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
+            $defaults['html_type'] = array('0' => array_search( $defaults['html_type'],self::$_dataToHTML[$defaults['data_type'][0]]));
+            }
+
         } else {
             $defaults['is_active'] = 1;
 
@@ -149,7 +152,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 
         $this->addElement('select', 'data_type', ts('Data Type'), self::$_dataTypeValues, array('onchange' => 'custom_option_data_type(this)'));
-        $this->addElement('select', 'html_type', ts('HTML Type'), array('Text', 'Radio', 'Select', 'Checkbox'), array('onchange' => 'custom_option_html_type(this)'));
+        $this->addElement('select', 'html_type', ts('HTML Type'), array('Text', 'Radio', 'Select', 'Checkbox','TextArea'), array('onchange' => 'custom_option_html_type(this)'));
 
 
         // data type, html type
@@ -252,7 +255,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $errors  = array( );
 
         if ( $default ) {
-            $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
+            $dataType = self::$_dataTypeKeys[$fields['data_type']];
             switch ( $dataType ) {
             case 'Int':
                 if ( ! CRM_Utils_Rule::integer( $default ) ) {
