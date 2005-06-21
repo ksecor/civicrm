@@ -19,6 +19,8 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
+       <headerPattern>/state|prov(ince)?/i</headerPattern>
+       <dataPattern>/[A-Z]{2}/</dataPattern>
        <comment>Name of State / Province</comment>
   </field>
   <field>

@@ -32,6 +32,7 @@
        <length>64</length>
        <import>true</import>
        <headerPattern>/IM/</headerPattern>
+       <dataPattern>/^[A-Za-z][0-9A-Za-z]{20,}$/</dataPattern>
        <comment>IM screen name</comment>
   </field>
   <field>

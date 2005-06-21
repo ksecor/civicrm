@@ -72,6 +72,17 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
     protected $_columnHeaders;
 
     /**
+     * an array of booleans to keep track of whether a field has been used in
+     * form building already.
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_fieldUsed;
+    
+
+    
+    /**
      * Attempt to resolve the header with our mapper fields
      *
      * @param header
@@ -83,10 +94,14 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         foreach ($patterns as $key => $re) {
             /* Skip the first (empty) key/pattern */
             if (empty($re)) continue;
-
+            
+            /* if we've already used this field, move on */
+            if ($this->_fieldUsed[$key])
+                continue;
             /* Scan through the headerPatterns defined in the schema for a
              * match */
             if (preg_match($re, $header)) {
+                $this->_fieldUsed[$key] = true;
                 return $key;
             }
         }
@@ -102,8 +117,34 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * @access public
      */
     public function defaultFromData(&$patterns, $index) {
+        $best = '';
+        $bestHits = 0;
+        $n = count($this->_dataValues);
+        
+        foreach ($patterns as $key => $re) {
+            if (empty($re)) continue;
 
+            if ($this->_fieldUsed[$key])
+                continue;
 
+            /* Take a vote over the preview data set */
+            $hits = 0;
+            for ($i = 0; $i < $n; $i++) {
+                if (preg_match($re, $this->_dataValues[$i][$index])) {
+                    $hits++;
+                }
+            }
+
+            if ($hits > $bestHits) {
+                $bestHits = $hits;
+                $best = $key;
+            }
+        }
+    
+        if ($best != '') {
+            $this->_fieldUsed[$best] = true;
+        }
+        return $best;
     }
 
     /**
@@ -150,6 +191,11 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $headerPatterns  = $this->get( 'headerPatterns' );
         $dataPatterns    = $this->get( 'dataPatterns' );
         
+        /* Initialize all field usages to false */
+        foreach ($mapperKeys as $key) {
+            $this->_fieldUsed[$key] = false;
+        }
+
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $this->add( 'select', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), $this->_mapperFields );
 //             $this->_defaults["mapper[$i]"] = $mapperKeys[$i];

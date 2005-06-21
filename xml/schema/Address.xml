@@ -31,7 +31,8 @@
        <length>96</length>
        <import>true</import>
        <headerPattern>/(street|address)/i</headerPattern>
-       <comment>Concatenation of all routable street address components (prefix, street number, street name, suffix, unit number OR P.O. Box. Apps should be able to determine physical location with this data (for mapping, mail delivery, etc.).</comment>
+       <dataPattern>/^(\d{1,5}( [0-9A-Za-z]+)+)$|^(P\.?O\.\? Box \d{1,5})$/i</dataPattern>
+       <comment>Concatenation of all routable street address components (prefix, street number, street name, suffix, unit number OR P.O. Box). Apps should be able to determine physical location with this data (for mapping, mail delivery, etc.).</comment>
   </field>
   <field>
        <name>street_number</name>
@@ -79,7 +80,8 @@
        <type>varchar</type>
        <length>96</length>
        <import>true</import>
-       <headerPattern>/(supplemental\b)?address\b\d+|unit|ap(ar)?t(ment)?/i</headerPattern>
+       <headerPattern>/(supplemental\b)?address\b\d+/i</headerPattern>
+       <dataPattern>/unit|ap(ar)?t(ment)?\b(\d|\w)+/i</dataPattern>
        <comment>Supplemental Address Information, Line 1</comment>
   </field>
   <field>
@@ -87,7 +89,8 @@
        <type>varchar</type>
        <length>96</length>
        <import>true</import>
-       <headerPattern>/(supplemental\b)?address\b\d+|unit|ap(ar)?t(ment)?/i</headerPattern>
+       <headerPattern>/(supplemental\b)?address\b\d+/i</headerPattern>
+       <dataPattern>/unit|ap(ar)?t(ment)?\b(\d|\w)+/i</dataPattern>
        <comment>Supplemental Address Information, Line 2</comment>
   </field>
   <field>
@@ -102,6 +105,7 @@
        <length>64</length>
        <import>true</import>
        <headerPattern>/city/i</headerPattern>
+       <dataPattern>/^[A-Za-z]+(\.?)(\s?[A-Za-z]+){0,2}$/</dataPattern>
        <comment>City, Town or Village Name.</comment>
   </field>
   <field>
@@ -125,6 +129,7 @@
        <key>id</key>
        <import>true</import>
        <headerPattern>/state|prov(ince)?/i</headerPattern>
+       <dataPattern>/A[LKSZRAP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]/i</dataPattern>
   </foreignKey>
   <field>
        <name>postal_code</name>
@@ -132,6 +137,7 @@
        <length>12</length>
        <import>true</import>
        <headerPattern>/postal|zip/i</headerPattern>
+       <dataPattern>/\d?\d{4}(-\d{4})?/</dataPattern>
        <rule>postalCode</rule>
        <comment>Store both US (zip5) AND international postal codes. App is responsible for country/region appropriate validation.</comment>
   </field>
@@ -158,6 +164,7 @@
        <key>id</key>
        <import>true</import>
        <headerPattern>/country/i</headerPattern>
+       <dataPattern>/\w+(\b\w+)?/</dataPattern>
   </foreignKey>
   <field>
       <name>geo_coord_id</name>

@@ -31,6 +31,7 @@
        <length>16</length>
        <import>true</import>
        <headerPattern>/phone/i</headerPattern>
+       <dataPattern>/^[\d\(\)\-\.\s]+$/</dataPattern>
        <rule>phone</rule>
        <comment>Complete phone number.</comment>
   </field>
@@ -40,6 +41,7 @@
        <values>Phone, Mobile, Fax, Pager</values>
        <import>true</import>
        <headerPattern>/phone\btype/i</headerPattern>
+       <dataPattern>/phone|mobile|fax|pager/i</dataPattern>
        <comment>What type of telecom device is this.</comment>
   </field>
   <field>

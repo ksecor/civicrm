@@ -37,6 +37,7 @@
        <length>32</length>
        <import>true</import>
        <headerPattern>/legal\bid/i</headerPattern>
+       <dataPattern>/\w+?\d{5,}/</dataPattern>
        <comment>May be used for SSN, EIN/TIN, Household ID (census) or other applicable unique legal/government ID.</comment>
   </field>
   <field>
@@ -45,6 +46,7 @@
        <length>32</length>
        <import>true</import>
        <headerPattern>/external\bid/i</headerPattern>
+       <dataPattern>/^\d{11,}$/</dataPattern>
        <comment>Unique trusted external ID (generally from a legacy app/datasource). Particularly useful for deduping operations.</comment>
   </field>
   <field>

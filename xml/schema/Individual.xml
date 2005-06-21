@@ -31,6 +31,7 @@
        <length>64</length>
        <import>true</import>
        <headerPattern>/^first|(f(irst\b)?name)$/i</headerPattern>
+       <dataPattern>/^\w+$/</dataPattern>
        <fulltext/>
        <comment>First Name.</comment>
   </field>
@@ -46,6 +47,7 @@
        <length>64</length>
        <import>true</import>
        <headerPattern>/^last|(l(ast\b)?name)$/i</headerPattern>
+       <dataPattern>/^\w+(\b\w+)?+$/</dataPattern>
        <comment>Last Name.</comment>
        <fulltext/>
   </field>
@@ -55,6 +57,7 @@
        <length>64</length>
        <import>true</import>
        <headerPattern>/^prefix$/i</headerPattern>
+       <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
        <comment>Prefix to Name.</comment>
   </field>
   <field>
@@ -62,7 +65,8 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/^prefix$/i</headerPattern>
+       <headerPattern>/^suffix$/i</headerPattern>
+       <dataPattern>/^(sr|jr)\.?|i{2,}$/</dataPattern>
        <comment>Suffix to Name.</comment>
   </field>
   <field>

@@ -20,6 +20,7 @@
        <length>64</length>
        <import>true</import>
        <headerPattern>/country/i</headerPattern>
+       <dataPattern>/^[A-Z][a-z]+\.?(\s+[A-Z][a-z]+){0,3}$/</dataPattern>
        <comment>Country Name</comment>
   </field>
   <field>

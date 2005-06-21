@@ -66,6 +66,11 @@ class CRM_Import_Field {
      */
      public $_headerPattern;
 
+    /**
+     * regexp to match the pattern of data from various column/fields
+     * @var string
+     */
+     public $_dataPattern;
 
     /**
      * value of this field
@@ -73,11 +78,12 @@ class CRM_Import_Field {
      */
     public $_value;
 
-    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '') {
+    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//') {
         $this->_name      = $name;
         $this->_title     = $title;
         $this->_type      = $type;
         $this->_headerPattern = $headerPattern;
+        $this->_dataPattern = $dataPattern;
         
         $this->_value     = null;
     }

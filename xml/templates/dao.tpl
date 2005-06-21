@@ -147,6 +147,7 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
 								      'import'    => {$field.import},
                                                                       'where'     => '{$table.name}.{$field.name}',
                                       'headerPattern' => '{$field.headerPattern}',
+                                      'dataPattern' => '{$field.dataPattern}',
 {/if} {* field.import *}
 {if $field.rule}
 								      'rule'      => '{$field.rule}',

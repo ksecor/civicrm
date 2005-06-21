@@ -62,7 +62,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     function init( ) {
         $fields =& CRM_Contact_BAO_Contact::importableFields( );
         foreach ($fields as $name => $field) {
-            $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'] );
+            $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern'] );
         }
 
         $this->setActiveFields( $this->_mapperKeys );
