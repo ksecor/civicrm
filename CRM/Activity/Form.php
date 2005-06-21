@@ -75,7 +75,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         $page =& new CRM_Contact_Page_View();
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
         $this->_id        = CRM_Utils_Request::retrieve('id', null, false, null, 'GET');
-        $this->_status    = CRM_Utils_Request::retrieve( 'status', $page);
+        $this->_status    = CRM_Utils_Request::retrieve( 'status', null, false, null, 'GET');
 
     }
 
