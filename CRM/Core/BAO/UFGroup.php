@@ -267,17 +267,21 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /**
      * Get the UF match clause 
      *
-     * @param array $params the list of values to be used in the where clause
+     * @param array   $params  the list of values to be used in the where clause
+     * @param boolean $flatten should we flatten the input params
+     *
      * @return string the where clause to include in a sql query
      * @static
      * @access public
      */
-    static function getMatchClause( $params ) {
-        $params['email'] = $params['location'][1]['email'][1]['email'];
-        $params['phone'] = $params['location'][1]['phone'][1]['phone'];
-        foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
-                         'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
-            $params[$fld] = $params['location'][1]['address'][$fld];
+    static function getMatchClause( $params, $flatten = false ) {
+        if ( $flatten ) {
+            $params['email'] = $params['location'][1]['email'][1]['email'];
+            $params['phone'] = $params['location'][1]['phone'][1]['phone'];
+            foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
+                             'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
+                $params[$fld] = $params['location'][1]['address'][$fld];
+            }
         }
 
         if ( ! self::$_matchClause ) {
@@ -308,13 +312,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      *
      * @param array $params the list of values to be used in the where clause
      * @param int    $id          the current contact id (hence excluded from matching)
+     * @param boolean $flatten should we flatten the input params
      *
      * @return contact_id if found, null otherwise
      * @access public
      * @static
      */
-    public static function findContact( &$params, $id = null ) {
-        $clause = self::getMatchClause( $params );
+    public static function findContact( &$params, $id = null, $flatten = false ) {
+        $clause = self::getMatchClause( $params, $flatten );
         if ( ! $clause ) {
             return null;
         }

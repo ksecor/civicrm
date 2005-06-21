@@ -107,6 +107,10 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         $this->assign( 'action',  $this->_action );
         $this->assign( 'fields', $this->_fields );
 
+        if ( $this->_id ) {
+            $this->addElement( 'hidden', 'cid', $this->_id );
+        }
+
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             if ( $field['name'] === 'state_province_id' ) {
@@ -136,6 +140,37 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             $this->freeze();
         }
 
+        $this->addFormRule( array( 'CRM_UF_Form_Dynamic', 'formRule' ) );
+    }
+
+    /**
+     * global form rule
+     *
+     * @param array $fields the input form values
+     *
+     * @return true if no errors, else array of errors
+     * @access public
+     * @static
+     */
+    static function formRule( &$fields ) {
+        $errors = array( );
+
+        // hack add the email, does not work in registration, we need the real user object
+        global $user;
+        $fields['edit']['email'] = $user->mail;
+        $ids = CRM_Core_BAO_UFGroup::findContact( $fields['edit'], CRM_Utils_Array::value( 'cid', $fields ), true );
+        if ( $ids ) {
+            $urls = array( );
+            foreach ( explode( ',', $ids ) as $id ) {
+                $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/edit', 'reset=1&id=' . $id ) .
+                    '">' . $displayName . '</a>';
+            }
+            $url = implode( ', ',  $urls );
+            $errors['edit[first_name]'] = ts( '%1 matching contact(s) were found. You can edit them here: %2', array( 1 => count( $ids ), 2 => $url ) );
+        }
+
+        return empty($errors) ? true : $errors;
     }
     
 

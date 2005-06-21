@@ -117,7 +117,7 @@ SELECT DISTINCT
   crm_phone.phone                 as phone         ";
         
         $query .= self::individualFromClause( );
-        $quert .= " WHERE crm_contact.id = $id";
+        $query .= " WHERE crm_contact.id = $id";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);

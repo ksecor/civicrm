@@ -116,6 +116,10 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         $this->assign( 'query', 'CiviCRM Search Query' );
         
         $locations =& CRM_Contact_BAO_Contact::getMapInfo( $this->_contactIds );
+        if ( empty( $locations ) ) {
+            CRM_Core_Error::fatal( ts( 'The locations chosen did not have any coordinate information' ) );
+        }
+
         $this->assign_by_ref( 'locations', $locations );
 
         $sumLat = $sumLng = 0;
@@ -155,7 +159,8 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         fwrite( $fp, $xml );
         fclose( $fp );
 
-        $this->assign( 'xmlURL', 'http://localhost' . $config->httpBase . 'files/civicrm/upload/locations.xml' );
+        $this->assign( 'xmlURL',
+                       'http://' . $_SERVER['HTTP_HOST'] . $config->httpBase . 'files/civicrm/upload/locations.xml' );
     }
 
 

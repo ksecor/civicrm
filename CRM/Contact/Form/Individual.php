@@ -88,6 +88,15 @@ class CRM_Contact_Form_Individual {
         CRM_Core_ShowHideBlocks::links($this, 'demographics', '' , '');
     }
 
+    /**
+     * global form rule
+     *
+     * @param array $fields the input form values
+     *
+     * @return true if no errors, else array of errors
+     * @access public
+     * @static
+     */
     static function formRule( &$fields ) {
         $errors = array( );
         
@@ -103,12 +112,18 @@ class CRM_Contact_Form_Individual {
             $errors['first_name'] = ts('First Name and Last Name OR an email in the Primary Location should be set.');
         }
 
-        $matches = CRM_Core_BAO_UFGroup::findContact( $fields, CRM_Utils_Array::value( 'cid', $fields ) );
-        if ( $matches ) {
-            $errors['first_name'] = ts( 'Matching contact(s) were found: %1', array( 1 => $matches ) );
+        $ids = CRM_Core_BAO_UFGroup::findContact( $fields, CRM_Utils_Array::value( 'cid', $fields ), true );
+        if ( $ids ) {
+            $urls = array( );
+            foreach ( explode( ',', $ids ) as $id ) {
+                $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
+                $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/edit', 'reset=1&id=' . $id ) .
+                    '">' . $displayName . '</a>';
+            }
+            $url = implode( ', ',  $urls );
+            $errors['first_name'] = ts( '%1 matching contact(s) were found. You can edit them here: %2', array( 1 => count( $ids ), 2 => $url ) );
         }
 
-        // add code to make sure that the uniqueness criteria is satisfied
         return empty($errors) ? true : $errors;
     }
 }
