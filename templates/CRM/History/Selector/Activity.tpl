@@ -32,7 +32,7 @@
        <tr class="{cycle values="odd-row,even-row"}">
          <td>{$row.activity_type}</td>
          <td>{$row.subject|mb_truncate:33:"...":true}</td>
-         <td>{$row.scheduled_date_time|crmDate}</td>
+         <td>{$row.date|crmDate}</td>
          <td>{$row.status}</td>
          <td>{$row.action}</td>
        </tr>
@@ -51,4 +51,9 @@
     <dd>{ts}Currently there are no Activities for this Contact.{/ts}</dd>
 </dl>
 </div>
+{/if}
+{if $history eq 1}
+   <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history="}">Open Activities </a>
+{else}
+   <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=true"}">Activity History</a>
 {/if}

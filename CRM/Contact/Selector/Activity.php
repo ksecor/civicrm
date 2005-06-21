@@ -105,17 +105,11 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     {
         if (!isset(self::$_actionLinks)) {
             self::$_actionLinks = array(
-                                        CRM_Core_Action::VIEW   => array(
-                                                                         'name'     => ts('Details'),
-                                                                         'url'      => 'civicrm/history/activity/detail',
-                                                                         'qs'       => 'callback=%%callback%%&module=%%module%%&activity_id=%%activity_id%%',
-                                                                         'title'    => ts('View Activity Details'),
-                                                                         ),
-                                        CRM_Core_Action::DELETE => array(
-                                                                         'name'     => ts('Delete'),
-                                                                         'url'      => 'civicrm/contact/view/activity',
-                                                                         'qs'       => 'action=delete&activity_history_id=%%activity_history_id%%',
-                                                                         'title'    => ts('Delete Activity History'),
+                                        CRM_Core_Action::UPDATE => array(
+                                                                         'name'     => ts('Edit'),
+                                                                         'url'      => 'civicrm/contact/view/call',
+                                                                         'qs'       => 'id=%%id%%',
+                                                                         'title'    => ts('View Activity History'),
                                                                          ),
                                         );
         }
@@ -249,7 +243,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                           array('name' => ts('Subject')),
                                           array(
                                                 'name'      => ts('Scheduled'),
-                                                'sort'      => 'scheduled_date_time',
+                                                'sort'      => 'date',
                                                 'direction' => CRM_Utils_Sort::DESCENDING,
                                                 ),
                                           array(

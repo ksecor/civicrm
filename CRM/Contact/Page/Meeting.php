@@ -55,7 +55,7 @@ class CRM_Contact_Page_Meeting
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse&history=' ) );
 
         $controller->reset( );
         $controller->set( 'contactId'   , $page->getContactId( ) );

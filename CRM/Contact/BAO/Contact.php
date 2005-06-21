@@ -1046,31 +1046,43 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         
         $select1 = $from1 = $where1 = $select2 = $from2 = $where2 = "";
         
-        $select1 = "(SELECT crm_phonecall.id as phonecall_id, crm_phonecall.subject as subject, crm_phonecall.scheduled_date_time as date, crm_phonecall.status as status, 0 as type ";
+        $select1 = "(SELECT crm_phonecall.id as id, crm_phonecall.subject as subject, crm_phonecall.scheduled_date_time as date, crm_phonecall.status as status, 1 as activity_type ";
         $from1 = " FROM crm_phonecall";
-        $where1 = " WHERE crm_phonecall.target_contact_id = ".$contactId."
+        $where1 = " WHERE crm_phonecall.target_contact_id = ".$contactId." 
+                      AND crm_phonecall.status != 'Complete'
                   ) UNION   ";
         
-        $select2 = " (SELECT crm_meeting.id as id, crm_meeting.subject as subject, crm_meeting.scheduled_date_time as date, crm_meeting.status as status, 1 as type ";
+        $select2 = " (SELECT crm_meeting.id as id, crm_meeting.subject as subject, crm_meeting.scheduled_date_time as date, crm_meeting.status as status, 0 as activity_type ";
         $from2 = " FROM crm_meeting";
-        $where2 = " WHERE crm_meeting.target_contact_id = ".$contactId." ) ";
+        $where2 = " WHERE crm_meeting.target_contact_id = ".$contactId." 
+                      AND crm_meeting.status != 'Complete'
+                  ) ";
 
-        $queryString = $select1.$from1.$where1.$select2.$from2.$where2;
+        if ($sort) {
+            $order = " ORDER BY " . $sort->orderBy(); 
+        } 
+        
+        if ( $rowCount > 0 ) {
+            $limit = " LIMIT $offset, $rowCount ";
+        }
+        
+
+        $queryString = $select1.$from1.$where1.$select2.$from2.$where2.$order.$limit;
 
         $dao->query($queryString);
         $values =array();
-        $rowCount = 0;
+        $rowCnt = 0;
         while($dao->fetch()) {
-            if ($dao->type == 1) {
-                $values[$rowCount]['activity_type'] = 'Meeting';
+            if ($dao->activity_type == 1) {
+                $values[$rowCnt]['activity_type'] = 'Meeting';
             } else {
-                $values[$rowCount]['activity_type'] = 'Phone Call';
+                $values[$rowCnt]['activity_type'] = 'Phone Call';
             }
-            $values[$rowCount]['phonecall_id'] = $dao->id;
-            $values[$rowCount]['subject'] = $dao->subject;
-            $values[$rowCount]['scheduled_date_time'] = $dao->date;
-            $values[$rowCount]['status'] = $dao->status;
-            $rowCount++;
+            $values[$rowCnt]['id'] = $dao->id;
+            $values[$rowCnt]['subject'] = $dao->subject;
+            $values[$rowCnt]['date'] = $dao->date;
+            $values[$rowCnt]['status'] = $dao->status;
+            $rowCnt++;
         }
         return $values;
 

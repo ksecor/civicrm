@@ -108,12 +108,8 @@ class CRM_Contact_Page_Activity {
      */
     static function run($page)
     {
-
-        CRM_Core_Error::le_method();
-
         // get contactid and action for current page
         $contactId = $page->getContactId();
-
 
         $page->assign('contactId', $contactId);
         $action = CRM_Utils_Request::retrieve('action', $page, false, 'browse');
@@ -121,8 +117,6 @@ class CRM_Contact_Page_Activity {
 
         // get selector type ? open or closed activities ?
         $history = CRM_Utils_Request::retrieve('history', $page);
-
-        CRM_Core_Error::debug_var('history', $history);        
 
         // used for delete
         $activityHistoryId = CRM_Utils_Request::retrieve('activity_history_id', $page, false, 0);
@@ -137,6 +131,7 @@ class CRM_Contact_Page_Activity {
             $controller->process();
             $controller->run();
         }
+
         self::browse($page, $history);
     }
 }
