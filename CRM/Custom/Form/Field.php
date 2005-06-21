@@ -171,9 +171,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         //CRM_Core_Error::debug_var('OBJECT1', $OBJECT1);
         //CRM_Core_Error::debug_var('this', $this);
 	
-        if ($this->_action == CRM_Core_Action::UPDATE) { 
+        /*if ($this->_action == CRM_Core_Action::UPDATE) { 
             $dataHTMLElement->freeze();
-        }
+        }*/
 	
         /**
          *  the hidden form fields of Custom Option
