@@ -64,7 +64,7 @@ class CRM_Contact_Page_Relationship {
    /**
      * This function is called when action is browse
      * 
-     * @param object $page CRM_Contact_Page_GroupContact
+     * @param object $page CRM_Contact_Page_Relationship
      * 
      * return null
      * @static

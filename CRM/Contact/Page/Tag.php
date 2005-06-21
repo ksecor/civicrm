@@ -34,6 +34,16 @@
 require_once 'CRM/Core/Page.php';
 
 class CRM_Contact_Page_Tag {
+
+   /**
+     * This function is called when action is browse
+     * 
+     * @param object $page CRM_Contact_Page_Tag
+     * 
+     * return null
+     * @static
+     * @access public
+     */
     static function browse( $page, $mode ) {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Tag_Form_Tag', 'Contact Tags', $mode );
         $controller->setEmbedded( true );
@@ -50,6 +60,17 @@ class CRM_Contact_Page_Tag {
         $controller->run( );
     }
 
+
+
+   /**
+     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+     * 
+     * @param object $page CRM_Contact_Page_Tag
+     * 
+     * return null
+     * @static
+     * @access public
+     */
     static function run( $page ) {
         $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
         $page->assign( 'action', $action );

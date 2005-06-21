@@ -23,6 +23,7 @@
 */
 
 /**
+ * This file contains the various menus of the CiviCRM module
  *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
@@ -31,9 +32,6 @@
  *
  */
 
-/**
- *
- */
 class CRM_Utils_Menu {
     /**
      * the list of menu items
@@ -71,7 +69,13 @@ class CRM_Utils_Menu {
         LOCAL_TASK         =  128,
         DEFAULT_LOCAL_TASK =  640,
         ROOT_LOCAL_TASK    = 1152;
-        
+    
+    /**
+     * This function defines information for various menu items
+     *
+     * @static
+     * @access public
+     */
     static function &items( ) {
         if ( ! self::$_items ) {
             // This is the minimum information you can provide for a menu item.

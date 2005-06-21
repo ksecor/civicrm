@@ -24,6 +24,9 @@
 
 /**
  *
+ * Given an argument list, invoke the appropriate CRM function
+ * Serves as a wrapper between the UserFrameWork and Core CRM
+ *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo 01/15/2005
@@ -34,12 +37,17 @@
 require_once 'CRM/Core/I18n.php';
 require_once 'CRM/Contact/Controller/Search.php';
 
-/**
- * Given an argument list, invoke the appropriate CRM function
- * Serves as a wrapper between the UserFrameWork and Core CRM
- */
 class CRM_Core_Invoke {
-
+    
+    /**
+     * This is the main function that is called on every click action and based on the argument
+     * respective functions are called
+     *
+     * $param $args array this array contains the arguments of the url 
+     * 
+     * @static
+     * @access public
+     */    
     static function invoke( $args ) {
 
         if ( $args[0] !== 'civicrm' ) {
@@ -72,6 +80,14 @@ class CRM_Core_Invoke {
         }
     }
 
+    /**
+     * This function contains the actions for arg[1] = contact
+     *
+     * $param $args array this array contains the arguments of the url 
+     *
+     * @static
+     * @access public
+     */
     static function contact( $args ) {
         if ( $args[1] !== 'contact' ) {
             return;
@@ -133,7 +149,16 @@ class CRM_Core_Invoke {
 
         return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search', 'reset=1', false) );
     }
-    
+
+
+    /**
+     * This function contains the actions for search arguments
+     *
+     * $param $args array this array contains the arguments of the url 
+     *
+     * @static
+     * @access public
+     */
     static function search( $args ) {
        
         $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
@@ -158,13 +183,29 @@ class CRM_Core_Invoke {
         $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
         return $controller->run();
     }
-
+    
+    /**
+     * This function contains the default action
+     *
+     * $param $action 
+     *
+     * @static
+     * @access public
+     */
     static function form( $action ) {
         CRM_Utils_System::setUserContext( array( 'civicrm/contact/search', 'civicrm/contact/view' ) );
         $wrapper =& new CRM_Utils_Wrapper( );
         $wrapper->run( 'CRM_Contact_Form_Edit', ts('Contact Page'), $action );
     }
     
+    /**
+     * This function contains the actions for history arguments
+     *
+     * $param $args array this array contains the arguments of the url 
+     *
+     * @static
+     * @access public
+     */
     static function history( $args ) {
         if ( $args[2] == 'activity' && $args[3] == 'detail' ) {
             $page =& new CRM_History_Page_Activity('View Activity Details');
@@ -177,6 +218,15 @@ class CRM_Core_Invoke {
         }
     }
 
+
+    /**
+     * This function contains the actions for admin arguments
+     *
+     * $param $args array this array contains the arguments of the url 
+     *
+     * @static
+     * @access public
+     */
     static function admin( $args ) {
         if ( $args[1] !== 'admin' ) {
             return;
@@ -231,11 +281,28 @@ class CRM_Core_Invoke {
         return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/contact/search', 'reset=1', false) );
     }
 
-    Static function import( $args ) {
+    /**
+     * This function contains the action for import arguments
+     *
+     * $params $args array this array contains the arguments of the url 
+     *
+     * @static
+     * @access public
+     */
+    static function import( $args ) {
         $controller =& new CRM_Import_Controller(ts('Import Contacts'));
         return $controller->run();
     }
 
+
+    /**
+     * This function contains the actions for group arguments
+     *
+     * $params $args array this array contains the arguments of the url 
+     *
+     * @static
+     * @access public
+     */
     static function group( $args ) {
         if ( $args[1] !== 'group' ) {
             return;

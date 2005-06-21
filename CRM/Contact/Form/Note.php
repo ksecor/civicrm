@@ -35,6 +35,14 @@
 
 Class CRM_Contact_Form_Note
 {
+    /**
+     * This function is to build form elements
+     * params object $form object of the form
+     *
+     * @static
+     * @access public
+     */
+    
     static function buildNoteBlock(&$form) {
         $form->add('textarea', 'note', ts('Notes:'), array('cols' => '82',));    
     }
