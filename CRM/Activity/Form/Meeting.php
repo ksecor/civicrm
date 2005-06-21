@@ -42,6 +42,13 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 {
 
     /**
+     * variable to store BAO name
+     *
+     */
+    public $_BAOName = 'CRM_Core_BAO_Meeting';
+
+
+    /**
      * Function to build the form
      *
      * @return None
@@ -81,12 +88,8 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
     public function postProcess() 
     {
 
-        CRM_Core_Error::le_method();
-
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
-        CRM_Core_Error::debug_var('params', $params);        
 
         $ids = array();
         

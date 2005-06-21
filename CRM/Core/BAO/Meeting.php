@@ -116,8 +116,23 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
         return null;
     }
 
+    /**
+     * Function to delete the meeting
+     *
+     * @param int $id meeting id
+     *
+     * @return null
+     * @access public
+     * @static
+     *
+     */
+    static function del ( $id ) {
 
-
+        $meeting =& new CRM_Core_DAO_Meeting( );
+        $meeting->id = $id;
+        $meeting->delete();
+        
+    }
 
 }
 

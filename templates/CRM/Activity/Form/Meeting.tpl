@@ -1,6 +1,6 @@
 {* this template is used for adding/editing meeting  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Meeting{/ts}{else}{ts}Edit Meeting{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Meeting{/ts}{elseif $action eq 2}{ts}Edit Meeting{/ts}{else}{ts}View Meeting{/ts}{/if}</legend>
   <dl>
 	<dt>Name</dt><dd>{$displayName}</dd>
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>

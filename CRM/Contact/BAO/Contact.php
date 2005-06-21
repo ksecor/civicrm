@@ -1048,14 +1048,14 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         
         $select1 = "(SELECT crm_phonecall.id as id, crm_phonecall.subject as subject, crm_phonecall.scheduled_date_time as date, crm_phonecall.status as status, 1 as activity_type ";
         $from1 = " FROM crm_phonecall";
-        $where1 = " WHERE crm_phonecall.target_contact_id = ".$contactId." 
-                      AND crm_phonecall.status != 'Complete'
+        $where1 = " WHERE (crm_phonecall.target_contact_id = ".$contactId." OR crm_phonecall.source_contact_id = ".$contactId.") 
+                      AND crm_phonecall.status != 'Completed'
                   ) UNION   ";
         
         $select2 = " (SELECT crm_meeting.id as id, crm_meeting.subject as subject, crm_meeting.scheduled_date_time as date, crm_meeting.status as status, 0 as activity_type ";
         $from2 = " FROM crm_meeting";
-        $where2 = " WHERE crm_meeting.target_contact_id = ".$contactId." 
-                      AND crm_meeting.status != 'Complete'
+        $where2 = " WHERE (crm_meeting.target_contact_id = ".$contactId." OR crm_meeting.source_contact_id = ".$contactId.")
+                      AND crm_meeting.status != 'Completed'
                   ) ";
 
         if ($sort) {
@@ -1074,9 +1074,9 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         $rowCnt = 0;
         while($dao->fetch()) {
             if ($dao->activity_type == 1) {
-                $values[$rowCnt]['activity_type'] = 'Meeting';
+                $values[$rowCnt]['activity_type'] = 'Phone Call';        
             } else {
-                $values[$rowCnt]['activity_type'] = 'Phone Call';
+                $values[$rowCnt]['activity_type'] = 'Meeting';        
             }
             $values[$rowCnt]['id'] = $dao->id;
             $values[$rowCnt]['subject'] = $dao->subject;

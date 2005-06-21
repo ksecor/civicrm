@@ -42,6 +42,13 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
 {
 
     /**
+     * variable to store BAO name
+     *
+     */
+    public $_BAOName = 'CRM_Core_BAO_Meeting';
+    
+
+    /**
      * Function to build the form
      *
      * @return None
@@ -55,7 +62,7 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
             $contactPhone = CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId);
         }
         
-        $this->add('text', 'subject', ts('Subject'),'');
+        $this->add('text', 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'subject' ));
         $this->addRule( 'subject', ts('The Field Subject should not be Empty'), 'required' );
         $this->add('date', 'scheduled_date_time', ts('Scheduled'),CRM_Core_SelectValues::date('datetime'));
         $this->addRule( 'scheduled_date_time', ts('The Field Scheduled Date should not be Empty'), 'qfDate' );
@@ -85,15 +92,10 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
     public function postProcess() 
     {
 
-        CRM_Core_Error::le_method();
-
-
          // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );       
         $ids = array();
         
-        CRM_Core_Error::debug_var('params', $params);
-
         $dateTime = $params['scheduled_date_time'];
 
         $dateTime = CRM_Utils_Date::format($dateTime);
@@ -102,8 +104,6 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
         $params['source_contact_id'] = $this->_userId;
         $params['target_contact_id'] = $this->_contactId;
 
-        CRM_Core_Error::debug_var('params', $params);
-        
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['call'] = $this->_id;
         }
@@ -141,7 +141,7 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
      */
     public function showCallDetails( $id )
     {
-        return CRM_Utils_System::url('civicrm/Activity/Call', "action=view&id=$id");
+        return CRM_Utils_System::url('civicrm/contact/view/call', "action=view&id=$id");
     }
 
 }

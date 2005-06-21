@@ -39,17 +39,8 @@ require_once 'CRM/Core/Page.php';
 class CRM_Contact_Page_Meeting 
 {
 
-    static function view( $page, $meetingId ) {
-        $meeting =& new CRM_Core_DAO_Meeting( );
-        $meeting->id = $meetingId;
-        if ( $meeting->find( true ) ) {
-            $values = array( );
-            CRM_Core_DAO::storeValues( $meeting, $values );
-            $page->assign( 'meeting', $values );
-        }
-    }
-
     static function edit( $page, $mode, $meetingId = null ) {
+
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Meeting', 'Contact Meetings', $mode );
         $controller->setEmbedded( true );
 
@@ -59,30 +50,32 @@ class CRM_Contact_Page_Meeting
 
         $controller->reset( );
         $controller->set( 'contactId'   , $page->getContactId( ) );
-        $controller->set( 'meetingId'     , $meetingId );
-
+        
         $controller->process( );
         $controller->run( );
     }
 
     static function run( $page ) {
+
         $contactId = $page->getContactId( );
         $page->assign( 'contactId', $contactId );
 
         $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
         $page->assign( 'action', $action );
 
-        $nid = CRM_Utils_Request::retrieve( 'nid', $page, false, 0 );
+        $id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
 
-        if ( $action & CRM_Core_Action::VIEW ) {
-            self::view( $page, $nid );
-        } else if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
-            self::edit( $page, $action, $nid );
+        if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
+            self::edit( $page, $action, $id );
         } else if ( $action & CRM_Core_Action::DELETE ) {
-            self::delete( $nid );
+            self::delete( $id );
         }
 
     }
+
+   static function delete( $meetingId ) {
+        CRM_Core_BAO_Meeting::del($meetingId);
+   }
 
 }
 ?>

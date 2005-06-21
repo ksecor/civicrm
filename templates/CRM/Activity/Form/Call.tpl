@@ -1,6 +1,6 @@
 {* this template is used for adding/editing calls  *}
 <div class="form-item">
-<fieldset><legend>{if $action eq 1}{ts}New Call{/ts}{else}{ts}Edit Call{/ts}{/if}</legend>
+<fieldset><legend>{if $action eq 1}{ts}New Call{/ts}{elseif $action eq 2}{ts}Edit Call{/ts}{else}{ts}View Call{/ts}{/if}</legend>
   <dl>
 	<dt>Name</dt><dd>{$displayName}</dd>
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>

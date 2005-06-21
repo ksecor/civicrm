@@ -75,8 +75,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
         $this->_userId = $user->uid;
 
-        $this->_id      = $this->get( 'id' );
-        $this->_BAOName = $this->get( 'BAOName' );
+        $this->_id      = CRM_Utils_Request::retrieve( 'id', $page);
 
     }
 
@@ -100,7 +99,6 @@ class CRM_Activity_Form extends CRM_Core_Form
         if ($this->_action == CRM_Core_Action::DELETE) {
             $this->assign( 'delName', $defaults['name'] );
         }
-
         return $defaults;
     }
 
@@ -111,6 +109,10 @@ class CRM_Activity_Form extends CRM_Core_Form
      * @access public
      */
     public function buildQuickForm( ) {
+        if ($this->_action == CRM_Core_Action::VIEW) { 
+            $this->freeze();
+        }
+
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),

@@ -92,27 +92,39 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      * This method returns the action links that are given for each search row.
      * currently the action links added for each row are 
      * 
-     * - Details
-     * - Delete
+     * - View
      *
-     * @param none
+     * @param $activityType string type of activity
      *
      * @return array
      * @access public
      *
      */
-    static function &actionLinks() 
+    static function &actionLinks($activityType) 
     {
-        if (!isset(self::$_actionLinks)) {
-            self::$_actionLinks = array(
-                                        CRM_Core_Action::UPDATE => array(
-                                                                         'name'     => ts('Edit'),
-                                                                         'url'      => 'civicrm/contact/view/call',
-                                                                         'qs'       => 'id=%%id%%',
-                                                                         'title'    => ts('View Activity History'),
-                                                                         ),
-                                        );
+        $url = '';
+        
+        if ($activityType == 'Meeting') {
+            $url = 'civicrm/contact/view/meeting';
+        } else {
+            $url = 'civicrm/contact/view/call';
         }
+
+        self::$_actionLinks = array(
+                                    CRM_Core_Action::UPDATE => array(
+                                                                     'name'     => ts('Edit'),
+                                                                     'url'      => $url,
+                                                                     'qs'       => 'action=update&id=%%id%%',
+                                                                     'title'    => ts('View Activity'),
+                                                                     ),
+                                    CRM_Core_Action::DELETE => array(
+                                                                     'name'     => ts('Delete'),
+                                                                     'url'      => $url,
+                                                                     'qs'       => 'action=delete&id=%%id%%',
+                                                                     'title'    => ts('Delete Activity'),
+                                                                     ),
+                                    );
+        
         return self::$_actionLinks;
     }
 
@@ -201,9 +213,9 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 if ($row['callback']) {
                     $row['action'] = CRM_Core_Action::formLink(self::actionLinks(), null, array('activity_history_id'=>$k, 'callback'=>$row['callback'], 'module'=>$row['module'], 'activity_id'=>$row['activity_id']));                    
                 } else {
-                    $actionLinks = self::actionLinks();
-                    unset($actionLinks[CRM_Core_Action::VIEW]);
-                    $row['action'] = CRM_Core_Action::formLink($actionLinks, null, array('activity_history_id'=>$k));
+                    $actionLinks = self::actionLinks($row['activity_type']);
+                    //unset($actionLinks[CRM_Core_Action::VIEW]);
+                    $row['action'] = CRM_Core_Action::formLink($actionLinks, null, array('id'=>$row['id']));
                 }
             }
             unset($row);
@@ -235,22 +247,14 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     {
         if (!isset(self::$_columnHeaders)) {
             self::$_columnHeaders = array(
-                                          array(
-                                                'name'      => ts('Type'),
-                                                'sort'      => 'activity_type',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
+                                          array('name'      => ts('Activity Type')),
                                           array('name' => ts('Subject')),
                                           array(
                                                 'name'      => ts('Scheduled'),
                                                 'sort'      => 'date',
-                                                'direction' => CRM_Utils_Sort::DESCENDING,
+                                                'direction' => CRM_Utils_Sort::ASCENDING,
                                                 ),
-                                          array(
-                                                'name'      => ts('Status'),
-                                                'sort'      => 'status',
-                                                'direction' => CRM_Utils_Sort::DESCENDING,
-                                                ),
+                                          array('name'      => ts('Status')),
 
                                           array('desc' => ts('Actions')),
                                           );
