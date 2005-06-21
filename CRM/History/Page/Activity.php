@@ -51,8 +51,8 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
     function run()
     {
         // get the callback and activity id
-        $callback = CRM_Utils_Request::retrieve('callback');
-        $activityId = CRM_Utils_Request::retrieve('activity_id');
+        $callback = CRM_Utils_Request::retrieve( 'callback', CRM_Core_Config::$nullObject );
+        $activityId = CRM_Utils_Request::retrieve('activity_id', CRM_Core_Config::$nullObject );
         $errorString = "";
         list($className, $methodName) = explode('::', $callback);
         $fileName = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
@@ -95,9 +95,9 @@ class CRM_History_Page_Activity extends CRM_Core_Page {
      *
      */
     private function _processError($errorString) {
-        $this->assign('callback', CRM_Utils_Request::retrieve('callback'));
-        $this->assign('module', CRM_Utils_Request::retrieve('module'));
-        $this->assign('activityId', CRM_Utils_Request::retrieve('activity_id'));
+        $this->assign('callback', CRM_Utils_Request::retrieve('callback', CRM_Core_Config::$nullObject ));
+        $this->assign('module', CRM_Utils_Request::retrieve('module', CRM_Core_Config::$nullObject ));
+        $this->assign('activityId', CRM_Utils_Request::retrieve('activity_id', CRM_Core_Config::$nullObject ));
         $this->assign('errorString', $errorString);
 
         // Call the parents run method
