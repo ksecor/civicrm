@@ -102,7 +102,12 @@ class CRM_Contact_Form_Individual {
                 !empty( $primaryEmail ) ) ) {
             $errors['first_name'] = ts('First Name and Last Name OR an email in the Primary Location should be set.');
         }
-        
+
+        $matches = CRM_Core_BAO_UFGroup::findContact( $fields, CRM_Utils_Array::value( 'cid', $fields ) );
+        if ( $matches ) {
+            $errors['first_name'] = ts( 'Matching contact(s) were found: %1', array( 1 => $matches ) );
+        }
+
         // add code to make sure that the uniqueness criteria is satisfied
         return empty($errors) ? true : $errors;
     }

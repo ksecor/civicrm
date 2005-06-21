@@ -37,6 +37,13 @@
 class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 
     /**
+     * cache the match clause used in this transaction
+     *
+     * @var string
+     */
+    static $_matchClause = null;
+
+    /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
      * contact_id. We'll tweak this function to be more full featured over a period
@@ -107,14 +114,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * get all the fields that belong to the group with the named title
      *
      * @param int $id       the id of the UF group
-     * @param int $register are we only interested in registration fields
+     * @param int $register are we interested in registration fields
      * @param int $action   what action are we doing
+     * @param int $match    are we interested in match fields
      *
      * @return array the fields that belong to this title
      * @static
      * @access public
      */
-    static function getUFFields( $id, $register = false, $action = null ) {
+    static function getUFFields( $id, $register = false, $action = null, $match = false ) {
         $group = new CRM_Core_DAO_UFGroup( );
 
         $group->id = $id;
@@ -125,6 +133,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             if ( $register ) {
                 $field->is_registration = 1;
             }
+            if ( $match ) {
+                $field->is_match = 1;
+            }
             $field->orderBy('weight', 'field_name');
             $field->find( );
             $fields = array( );
@@ -132,11 +143,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 
             while ( $field->fetch( ) ) {
                 if ( ( $field->is_view && $action == CRM_Core_Action::VIEW ) || ! $field->is_view ) {
-                    $field->title      = $importableFields[$field->field_name]['title'];
-                    $field->attributes = CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] );
-                    if ( $field->field_name == 'StateProvince.name' ) {
+                    if ( $field->field_name == 'state_province' ) {
                         $name = 'state_province_id';
-                    } else if ( $field->field_name == 'Country.name' ) {
+                    } else if ( $field->field_name == 'country' ) {
                         $name = 'country_id';
                     } else {
                         $name = $field->field_name;
@@ -144,6 +153,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                     $fields['edit[' . $name . ']'] =
                         array('name'        => $name,
                               'title'       => $importableFields[$field->field_name]['title'],
+                              'where'       => $importableFields[$field->field_name]['where'],
                               'attributes'  => CRM_Core_DAO::makeAttribute( $importableFields[$field->field_name] ),
                               'is_required' => $field->is_required,
                               'is_view'     => $field->is_view,
@@ -252,6 +262,63 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             
         $template =& CRM_Core_Smarty::singleton( );
         return $template->fetch( 'CRM/UF/Form/Dynamic.tpl' );
+    }
+    
+    /**
+     * Get the UF match clause 
+     *
+     * @param array $params the list of values to be used in the where clause
+     * @return string the where clause to include in a sql query
+     * @static
+     * @access public
+     */
+    static function getMatchClause( $params ) {
+        $params['email'] = $params['location'][1]['email'][1]['email'];
+        $params['phone'] = $params['location'][1]['phone'][1]['phone'];
+        foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
+                         'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
+            $params[$fld] = $params['location'][1]['address'][$fld];
+        }
+
+        if ( ! self::$_matchClause ) {
+            $ufGroups =& CRM_Core_PseudoConstant::ufGroup( );
+
+            self::$_matchClause = array( );
+            foreach ( $ufGroups as $id => $title ) {
+                $subset = self::getUFFields( $id, false, CRM_Core_Action::VIEW, true );
+                self::$_matchClause = array_merge( self::$_matchClause, $subset );
+            }
+        }
+        $where = array( );
+        foreach ( self::$_matchClause as $field ) {
+            $value = CRM_Utils_Array::value( $field['name'], $params );
+            if ( $value ) {
+                $where[] = $field['where'] . ' = "' . addslashes( $value ) . '"';
+            }
+        }
+        $clause = null;
+        if ( ! empty( $where ) ) {
+            $clause = implode( ' AND ', $where );
+        }
+        return $clause;
+    }
+
+    /**
+     * searches for a contact in the db with similar attributes
+     *
+     * @param array $params the list of values to be used in the where clause
+     * @param int    $id          the current contact id (hence excluded from matching)
+     *
+     * @return contact_id if found, null otherwise
+     * @access public
+     * @static
+     */
+    public static function findContact( &$params, $id = null ) {
+        $clause = self::getMatchClause( $params );
+        if ( ! $clause ) {
+            return null;
+        }
+        return CRM_Contact_BAO_Contact::matchContact( $clause, $id );
     }
 
 }

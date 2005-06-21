@@ -83,7 +83,16 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         $row    = $result->fetchRow();
         return ( $row[0] > 0 ) ? true : false;
     }
-    
+
+    /**
+     * given an id return the relevant contact details
+     *
+     * @param int $id contact id
+     *
+     * @return the contact object
+     * @static
+     * @access public
+     */
     static function contactDetails( $id ) {
         if ( ! $id ) {
             return null;
@@ -105,21 +114,45 @@ SELECT DISTINCT
   crm_state_province.name         as state         ,
   crm_country.name                as country       ,
   crm_email.email                 as email         ,
-  crm_phone.phone                 as phone         
-FROM crm_contact
-LEFT JOIN crm_individual ON (crm_contact.id = crm_individual.contact_id)
-LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
-LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
-LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
-LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
-WHERE crm_contact.id = $id";
+  crm_phone.phone                 as phone         ";
+        
+        $query .= self::individualFromClause( );
+        $quert .= " WHERE crm_contact.id = $id";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
         if ( $dao->fetch( ) ) {
             return $dao;
+        }
+        return null;
+    }
+
+    /**
+     * Find contacts which match the criteria
+     *
+     * @param string $matchClause the matching clause
+     * @param int    $id          the current contact id (hence excluded from matching)
+     *
+     * @return string                contact ids if match found, else null
+     * @static
+     * @access public
+     */
+    static function matchContact( $matchClause, $id = null ) {
+        $query  = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
+        $query .= self::individualFromClause( );
+        $query .= " WHERE $matchClause ";
+        if ( $id ) {
+            $query .= " AND crm_contact.id != $id ";
+        }
+
+        $dao =& new CRM_Core_DAO( );
+        $dao->query($query);
+        $result = $dao->getDatabaseResult();
+        if ( $result ) {
+            $row = $result->fetchRow();
+            if ( $row ) {
+                return $row[0];
+            }
         }
         return null;
     }
@@ -187,19 +220,7 @@ ORDER BY
         } else if ( $groupContacts ) {
             $select = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
         } else {
-            $select = "SELECT DISTINCT crm_contact.id as contact_id,
-                              crm_contact.sort_name as sort_name,
-                              crm_contact.display_name as display_name,
-                              crm_address.street_address as street_address,
-                              crm_address.city as city,
-                              crm_address.postal_code as postal_code,
-                              crm_address.geo_code_1 as latitude,
-                              crm_address.geo_code_2 as longitude,
-                              crm_state_province.abbreviation as state,
-                              crm_country.name as country,
-                              crm_email.email as email,
-                              crm_phone.phone as phone,
-                              crm_contact.contact_type as contact_type";
+            $select = self::selectClause( );
         }
 
         $from = self::fromClause( );
@@ -239,6 +260,31 @@ ORDER BY
     }
 
     /**
+     * create the default select clause
+     *
+     * @return string the select clause
+     * @access public
+     * @static
+     */
+    static function selectClause( ) {
+        return "
+SELECT DISTINCT crm_contact.id as contact_id,
+  crm_contact.sort_name as sort_name,
+  crm_contact.display_name as display_name,
+  crm_address.street_address as street_address,
+  crm_address.city as city,
+  crm_address.postal_code as postal_code,
+  crm_address.geo_code_1 as latitude,
+  crm_address.geo_code_2 as longitude,
+  crm_state_province.abbreviation as state,
+  crm_country.name as country,
+  crm_email.email as email,
+  crm_phone.phone as phone,
+  crm_contact.contact_type as contact_type
+";
+    }
+
+    /**
      * create the from clause
      *
      * @return string the from clause
@@ -258,6 +304,23 @@ ORDER BY
                         LEFT JOIN crm_activity_history ON crm_contact.id = crm_activity_history.entity_id ";
     }
 
+    /**
+     * create the from clause for crm_individual data
+     *
+     * @return string the from clause
+     * @access public
+     * @static
+     */
+    static function individualFromClause( ) {
+        return " FROM crm_contact
+LEFT JOIN crm_individual ON (crm_contact.id = crm_individual.contact_id)
+LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
+LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
+LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
+LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
+LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
+LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
+    }
 
     /**
      * create the where clause for a contact search
@@ -455,20 +518,15 @@ ORDER BY
 
         // from date
 
-        if (isset($fv['activity_from_date']) && ($activityFromDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_from_date', $fv)))))) {
-            //if (($activityFromDate = CRM_Utils_Array::value('activity_from_date', $fv))){
-            //$activityFromDate = array_reverse($activityFromDate);
-            //$activityFromDate = CRM_Utils_Date::format($activityFromDate);
+        if ( isset($fv['activity_from_date']) &&
+             ( $activityFromDate = CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_from_date', $fv))))) {
             $andArray['activity_from_date'] = " ( crm_activity_history.activity_date >= '$activityFromDate' ) ";
         }
-        if (isset($fv['activity_to_date']) && ($activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv)))))) {            
-            //if ($activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv))))) {            
-            //if ($activityToDate = CRM_Utils_Array::value('activity_from_date', $fv)) {
-            //$activityToDate = array_reverse($activityToDate);
-            //$activityToDate = CRM_Utils_Date::format($activityToDate);
+        if (isset($fv['activity_to_date']) &&
+            ($activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv)))))) {            
             $andArray['activity_to_date'] = " ( crm_activity_history.activity_date <= '$activityToDate' ) ";
         }
-
+        
         // final AND ing of the entire query.
         if ( !empty( $andArray ) ) {
             $where = ' ( ' . implode( ' AND ', $andArray ) . ' ) ';
@@ -638,21 +696,24 @@ ORDER BY
                 self::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
 
                 if (array_key_exists( 'address', $location ) ) {
-                    self::lookupValue( $location['address'], 'state_province', CRM_Core_PseudoConstant::stateProvince(), $reverse ) ||
-                                                $reverse && self::lookupValue( $location['address'], 'state_province', 
-                                                    CRM_Core_PseudoConstant::stateProvinceAbbreviation(), $reverse );
+                    if ( ! self::lookupValue( $location['address'], 'state_province',
+                                              CRM_Core_PseudoConstant::stateProvince(), $reverse ) &&
+                         $reverse ) {
+                        self::lookupValue( $location['address'], 'state_province', 
+                                           CRM_Core_PseudoConstant::stateProvinceAbbreviation(), $reverse );
+                    }
                     
-                    
-                    self::lookupValue( $location['address'], 'country'       , CRM_Core_PseudoConstant::country()      , $reverse ) ||
-                                            $reverse && self::lookupValue( $location['address'], 'country', 
-                                                    CRM_Core_PseudoConstant::countryIsoCode(), $reverse );
+                    if ( ! self::lookupValue( $location['address'], 'country',
+                                              CRM_Core_PseudoConstant::country(), $reverse ) &&
+                         $reverse ) {
+                        self::lookupValue( $location['address'], 'country', 
+                                           CRM_Core_PseudoConstant::countryIsoCode(), $reverse );
+                    }
                     self::lookupValue( $location['address'], 'county'        , CRM_Core_SelectValues::county()         , $reverse );
                 }
 
                 if (array_key_exists('im', $location)) {
                     $ims =& $location['im'];
-                    // does not work for php4
-                    //foreach ( $ims as $innerIndex => &$im ) {
                     foreach ($ims as $innerIndex => $im) {
                         $im =& $ims[$innerIndex];
                         self::lookupValue( $im, 'provider', CRM_Core_PseudoConstant::IMProvider(), $reverse );

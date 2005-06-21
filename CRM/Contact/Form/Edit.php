@@ -111,6 +111,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
                     CRM_Core_Error::fatal( "You do not have the necessary permission to edit this contact." );
                 }
+
+                /// cache the contact id in the form (for rule checking)
+                $this->addElement( 'hidden', 'cid', $this->_contactId );
+
                 return;
             }
             CRM_Core_Error::fatal( "Could not get a contact_id and/or contact_type" );
