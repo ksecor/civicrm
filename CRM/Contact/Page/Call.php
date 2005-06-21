@@ -61,7 +61,9 @@ class CRM_Contact_Page_Call
         $page->assign( 'action', $action );
 
         $id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
-
+        
+        $status = CRM_Utils_Request::retrieve( 'status', $page, false, 0 );
+        
         if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
             self::edit( $page, $action, $id );
         } else if ( $action & CRM_Core_Action::DELETE ) {

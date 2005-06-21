@@ -91,6 +91,9 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
      */
     public function postProcess() 
     {
+        if ($this->_action & CRM_Core_Action::VIEW ) { 
+            return;
+        }
 
          // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );       
@@ -141,7 +144,7 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
      */
     public function showCallDetails( $id )
     {
-        return CRM_Utils_System::url('civicrm/contact/view/call', "action=view&id=$id");
+        return CRM_Utils_System::url('civicrm/contact/view/call', "action=view&id=$id&status=true");
     }
 
 }

@@ -61,6 +61,11 @@ class CRM_Activity_Form extends CRM_Core_Form
      */
     protected $_userId;
 
+    /**
+     *  Boolean variable to show followup if it is set to true
+     *
+     */
+    protected $_status;
 
     function preProcess( ) {
         global $user;
@@ -69,6 +74,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         $this->_userId = $user->uid;
 
         $this->_id      = CRM_Utils_Request::retrieve( 'id', $page);
+        $this->_status      = CRM_Utils_Request::retrieve( 'status', $page);
 
     }
 
@@ -106,16 +112,30 @@ class CRM_Activity_Form extends CRM_Core_Form
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
         }
-
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Save'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
         
+        if ($this->_status) { 
+            $this->addButtons( array(
+                                     array ( 'type'      => 'cancel',
+                                             'name'      => ts('Done') ),
+                                     array ( 'type'      => 'next',
+                                             'name'      => ts('Follow Up Call'),
+                                         'isDefault' => true   ),
+                                     array ( 'type'      => 'next',
+                                             'name'      => ts('Follow Up Meeting') ),
+                                     )
+                               );
+            
+        } else {
+
+            $this->addButtons( array(
+                                     array ( 'type'      => 'next',
+                                             'name'      => ts('Save'),
+                                         'isDefault' => true   ),
+                                     array ( 'type'      => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+        }
     }
 
 }

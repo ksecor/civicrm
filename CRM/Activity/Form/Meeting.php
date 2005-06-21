@@ -87,6 +87,9 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
      */
     public function postProcess() 
     {
+        if ($this->_action & CRM_Core_Action::VIEW ) { 
+            return;
+        }
 
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
