@@ -204,7 +204,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 case 'CheckBox':
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
                     $checkBox = array();
+                    
                     foreach ($customOption as $v) {
+                        $strChecked = '';
                         $checkBox[$v['value']] = $this->createElement('checkbox', $v['label'], '', $v['label'], $v['value']);
                     }
                     $this->addGroup($checkBox, $elementName, $field['label']);
@@ -267,38 +269,49 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
+ 
                 $fieldId = $field['id'];
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
                 if (isset($field['customValue'])) {
-                    if($field['html_type'] == 'CheckBox') {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
-                        $elementName = array();
-                        $defaultsChecked =  explode("|", $field['customValue']['data']);
-                        $defaults[$elementName] = $defaultsChecked ? $defaultsChecked : $field['default_value'];
-                        print_r($defaults);
-                    }
-                    if ($field['html_type'] == 'Radio') {
+                    switch($field['html_type']) {
+                    case 'Radio':
                         if($field['data_type'] != 'Boolean' ) {
                             $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
                         } else {
-                            $defaults[$elementName] = $field['customValue']['data'] ? 'yes' : 'no';
+                            if($field['default_value']) {
+                                $defaults[$elementName] = $field['default_value'] ? 'yes' : 'no';
+                            } else {
+                                $defaults[$elementName] = $field['customValue']['data'] ? 'yes' : 'no';
+                            }
+
                         }
-                    } else if ($field['html_type'] == 'Select Date') {
+                        break;
+
+                    case 'Select':
+                        $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
+                        break;
+
+                    case 'CheckBox':
+                        if($field['customValue']['data']) {
+                            $defaultsChecked =  explode("|", $field['customValue']['data']);                            
+                            $defaults[$elementName] = $defaultsChecked ? $defaultsChecked : $field['default_value'];
+                        } else {
+                            $elementName = array();
+                            $elementName[$field['default_value']] = 1;
+                            $defaults[$elementName] = 1;
+                            $defaultsChecked = $field['default_value'];
+                        }
+                        break;
+
+                    case 'Select Date':
                         if ($date = $field['customValue']['data']) {
                             $defaults[$elementName] = CRM_Utils_Date::unformat( $date );
                         }
-                    } else {
-                        $defaults[$elementName] = $field['customValue']['data'];
+                        break;
+                    default:
+                        $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
                     }
-                } else if (($this->_action == CRM_Core_Action::UPDATE) && isset($field['default_value']) ) {
-                    // use default value if present but first preference to customValue
-                    if ($field['html_type'] == 'Radio') {
-                    } else if ($field['html_type'] == 'Select Date') {
-                    } else {
-                        // for the rest
-                        $defaults[$elementName] = $field['default_value'];
-                    }
-                }
+                } 
             }
         }
         return $defaults;
