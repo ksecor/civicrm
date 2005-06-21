@@ -14,8 +14,10 @@
 	{assign var=index value=$smarty.section.firstthree.index}
 	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}">
         <td> 
+	{if $index GT 0}
             <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[0][hide]" href="#optionField[0]" id="optionField[0][hide]" class="form-link"><img src="/dgg/drupal/modules/civicrm/i/TreeMinus.gif" class="action-icon" alt="hide field or section"></a>
             {* $form.optionField.$index.hide.html *}
+	{/if}
         </td>
 	    <td> {$form.default_option[$index].html}</td>
 	    <td> {$form.option_label.$index.html}</td>
@@ -23,11 +25,11 @@
 	    <td> {$form.option_weight.$index.html}</td>
  	    <td> {$form.option_status.$index.html}</td>
         <td> &nbsp;
-            {if $index eq 2}
+            {if $index eq 2 }
                 {assign var=k value=$index+1}
                 <span id="optionField[{$k}][show]" class="add-remove-link">
                     <a onclick="show('optionField[{$k}]','table-row');show('optionField[{$k}][show]'); return false;" name="optionField[3][show]" href="#optionField[3]" id="optionField[3][show]" class="form-link"><img src="/dgg/drupal/modules/civicrm/i/TreePlus.gif" class="action-icon" alt="show field or section">another row</a>
-                    {* $form.optionField.$k.show.html *}
+                    {* $form.optionField.$k.show.html*}
                 </span>
             {/if}
         </td>
@@ -37,16 +39,21 @@
 	{section name=looper start=3 loop=11}
 	{assign var=index value=$smarty.section.looper.index}	
 	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}" style="display: none">
+	<td> 
+           <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[{$index}][hide]" href="#optionField[{$index}]" id="optionField[{$index}][hide]" class="form-link"><img src="/dgg/drupal/modules/civicrm/i/TreeMinus.gif" class="action-icon" alt="hide field or section"></a>
+            {*$form.optionField.$index.hide.html*}
+        </td>
 	    <td> {$form.default_option[$index].html}</td>
 	    <td> {$form.option_label.$index.html}</td>
 	    <td> {$form.option_value.$index.html}</td>
 	    <td> {$form.option_weight.$index.html}</td>
  	    <td> {$form.option_status.$index.html}</td>
-        <td> 
-            {if $index LT 11}
-                {assign var=k value=$index+1}
+        <td>	&nbsp;
+	{assign var=k value=$index+1}
+            {if $k LT 11}
                 <span id="optionField[{$k}][show]" class="add-remove-link">
-                    {$form.optionField.$k.show.html}
+                    <a onclick="show('optionField[{$k}]','table-row');show('optionField[{$k}][show]'); return false;" name="optionField[3][show]" href="#optionField[3]" id="optionField[3][show]" class="form-link"><img src="/dgg/drupal/modules/civicrm/i/TreePlus.gif" class="action-icon" alt="show field or section">another row</a>
+                    {* $form.optionField.$k.show.html *}
                 </span>
             {/if}
         </td>

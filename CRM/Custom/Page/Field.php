@@ -140,9 +140,11 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             }
 
 	    // if Multi Select field is selected in custom field
-	    if($customFieldBAO->data_type != 'Multi-Select') {
-	      $action -= CRM_Core_Action::BROWSE;
-	    }
+            if($customFieldBAO->data_type == 'String' || $customFieldBAO->data_type == 'Int' || $customFieldBAO->data_type == 'Float' || $customFieldBAO->data_type == 'Money') {
+                if( $customFieldBAO->html_type == 'Text' ) {
+                    $action -= CRM_Core_Action::BROWSE;
+                }
+            }
             $customFieldDataType = CRM_Core_BAO_CustomField::dataType();
             $customField[$customFieldBAO->id]['data_type'] =
                 $customFieldDataType[$customField[$customFieldBAO->id]['data_type']];
