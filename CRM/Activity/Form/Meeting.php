@@ -70,7 +70,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
 
         $this->add('text', 'location', ts('Location'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'location' ) );
         
-        $this->add('text', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'details' ) );
+        $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'details' ) );
         
         $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus());
         $this->addRule( 'status', ts('Please select status.'), 'required' );
@@ -109,9 +109,41 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         }
         
         $meeting = CRM_Core_BAO_Meeting::add($params, $ids);
+
+        if($meeting->status=='Completed'){
+            // we need to insert an activity history record here
+            $params = array('entity_table'     => 'crm_contact',
+                            'entity_id'        => $this->_contactId,
+                            'activity_type'    => 'Meeting',
+                            'module'           => 'CiviCRM',
+                            'callback'         => 'CRM_Activity_Form_Meeting::showMeetingDetails',
+                            'activity_id'      => $meeting->id,
+                            'activity_summary' => $meeting->subject,
+                            'activity_date'    => date('Ymd')
+                            );
+            
+            
+            if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
+        
+                return false;
+           
+            }
+        }
+        
         
         CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $meeting->subject)) );
     }//end of function
+
+    /**
+     * compose the url to show details of this specific Meeting
+     *
+     * @param int $id
+     */
+    public function showMeetingDetails( $id )
+    {
+        
+        return CRM_Utils_System::url('civicrm/contact/view/meeting', "action=view&id=$id");
+    }
 
 
 }
