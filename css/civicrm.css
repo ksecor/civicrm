@@ -416,6 +416,7 @@ div.crm-pager a {
   color: #6e6e6e;
   background-color: #eee;
   border: 1px solid #6e6e6e;
+  overflow: hidden;
 }
 #crm-container div#alpha-filter {
   margin: 10px 0px 5px;

@@ -155,7 +155,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         fwrite( $fp, $xml );
         fclose( $fp );
 
-        $this->assign( 'xmlURL', 'http://localhost/lobo/drupal/files/civicrm/upload/locations.xml' );
+        $this->assign( 'xmlURL', 'http://localhost' . $config->httpBase . 'files/civicrm/upload/locations.xml' );
     }
 
 
