@@ -116,7 +116,7 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
                             'entity_id'        => $this->_contactId,
                             'activity_type'    => 'Phone Call',
                             'module'           => 'CiviCRM',
-                            'callback'         => 'CRM_Core_BAO_Call::showCallDetails',
+                            'callback'         => 'CRM_Activity_Form_Call::showCallDetails',
                             'activity_id'      => $call->id,
                             'activity_summary' => $call->subject,
                             'activity_date'    => date('Ymd')
@@ -141,7 +141,7 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
      */
     public function showCallDetails( $id )
     {
-        // return CRM_Utils_System::url('civicrm/history/Call', "action=view&id=$id");
+        return CRM_Utils_System::url('civicrm/Activity/Call', "action=view&id=$id");
     }
 
 }
