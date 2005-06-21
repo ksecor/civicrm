@@ -287,15 +287,20 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     public function postProcess()
     {
 
+        CRM_Core_Error::le_method();
+
+
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
+
+        CRM_Core_Error::debug_var('params', $params);
 
         // set values for custom field properties and save
         $customField                =& new CRM_Core_DAO_CustomField();
         $customField->label         = $params['label'];
         $customField->name          = CRM_Utils_String::titleToVar($params['label']);
-        $customField->data_type     = self::$_dataTypeKeys[$params['data_type'][0]];
-        $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
+        $customField->data_type     = self::$_dataTypeKeys[$params['data_type']];
+        $customField->html_type     = self::$_dataToHTML[$params['data_type']][$params['html_type']];
         $customField->weight        = $params['weight'];
         $customField->default_value = $params['default_value'];
         $customField->help_post     = $params['help_post'];

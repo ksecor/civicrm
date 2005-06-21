@@ -177,7 +177,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 case 'Radio':
                     $choice = array();
                     if($field['data_type'] != 'Boolean') {
-                        $customOption = CRM_Core_BAO_CustomOption($field['id']);
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
                         foreach ($customOption as $v) {
                             $choice[] = $this->createElement('radio', null, '', $v['label'], $v['value'], $field['attributes']);
                         }
@@ -193,7 +193,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
 
                 case 'Select':
-                    $customOption = CRM_Core_BAO_CustomOption($field['id']);
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
                     $selectOption = array();
                     foreach ($customOption as $v) {
                         $selectOption[$v['value']] = $v['label'];
