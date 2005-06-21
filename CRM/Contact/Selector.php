@@ -289,40 +289,44 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @access public
      */
   
+    // the current internationalisation is bad, but should more or less work
+    // for most of "European" languages
     public static function getQILL(&$fv)
     {
         // query in local language
         $qill = array( );
-        $dontCare = ' dont care';
+        // the $dontCare variable below doesn't seem to be used for anything
+        // anywhere; commenting it out [shot]
+        // $dontCare = ' dont care';
 
         // regex patterns
-        $patternOr = "/(.*) or$/";
-        $patternAnd = "/(.*) and$/";
-        $replacement = "$1";
+        $patternOr = '/(.*) ' . ts('or') . '$/';
+        $patternAnd = '/(.*)' . ts('and') . '$/';
+        $replacement = '$1';
 
         // check for last name, as of now only working with sort name
         if ( CRM_Utils_Array::value( 'sort_name', $fv ) ) {
-            $qill[] = 'Name like - "' . $fv['sort_name'] . '"';
+            $qill[] = ts('Name like - "%1"', array(1 => $fv['sort_name']));
         }
         
         // contact type
-        $str = 'Contact Type -';
+        $str = ts('Contact Type -');
         if ( CRM_Utils_Array::value( 'cb_contact_type', $fv ) ) {
             foreach ($fv['cb_contact_type']  as $k => $v) {
-                $str .= " {$k}s or";
-            }            
+                $str .= ' ' . $k . ' ' . ts('or');
+            }
             $str = preg_replace($patternOr, $replacement, $str);
         } else {
-            $str .= ' All';
+            $str .= ' ' . ts('All');
         }
         $qill[] = $str;
         
         // check for group restriction
         if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
             $group =& CRM_Core_PseudoConstant::group();
-            $str = 'Member of Group -';
+            $str = ts('Member of Group -');
             foreach ($fv['cb_group']  as $k => $v) {
-                $str .= ' "' . $group[$k] . '" or';
+                $str .= ' "' . $group[$k] . '" ' . ts('or');
             }
             $str = preg_replace($patternOr, $replacement, $str);
             $qill[] = $str;
@@ -331,9 +335,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         // check for tag restriction
         if ( CRM_Utils_Array::value( 'cb_tag', $fv ) ) {
             $tag =& CRM_Core_PseudoConstant::tag();
-            $str = 'Tagged as -';
+            $str = ts('Tagged as -');
             foreach ($fv['cb_tag'] as $k => $v) {
-                $str .= ' "' . $tag[$k] . '" or';
+                $str .= ' "' . $tag[$k] . '" ' . ts('or');
             }
             $str = preg_replace($patternOr, $replacement, $str);
             $qill[] = $str;
@@ -341,45 +345,45 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         
         // street_name
         if ( CRM_Utils_Array::value( 'street_name', $fv ) ) {
-            $qill[] = 'Street Name like - "' . $fv['street_name'] . '"';
+            $qill[] = ts('Street Name like - "%1"', array(1 => $fv['street_name']));
         }
         
         // city_name
         if ( CRM_Utils_Array::value( 'city', $fv ) ) {
-            $qill[] = 'City Name like - "' . $fv['city'] . '"';
+            $qill[] = ts('City Name like - "%1"', array(1 => $fv['city']));
         }
         
         // state
         if ( CRM_Utils_Array::value( 'state_province', $fv ) ) {
             $states =& CRM_Core_PseudoConstant::stateProvince();
-            $qill[] = 'State - "' . $states[$fv['state_province']] . '"';
+            $qill[] = ts('State - "%1"', array(1 => $states[$fv['state_province']]));
         }
         
         // country
         if ( CRM_Utils_Array::value( 'country', $fv ) ) {
             $country =& CRM_Core_PseudoConstant::country();
-            $qill[] = 'Country - "' . $country[$fv['country']] . '"';
+            $qill[] = ts('Country - "%1"', array(1 => $country[$fv['country']]));
         }
 
         // postal code processing
         if ( CRM_Utils_Array::value( 'postal_code'     , $fv ) ||
              CRM_Utils_Array::value( 'postal_code_low' , $fv ) ||
              CRM_Utils_Array::value( 'postal_code_high', $fv ) ) {
-            $str = 'Postal code -';
+            $str = ts('Postal code -');
 
             // postal code = value
             if ($fv['postal_code']) {
-                $str .= ' "' . $fv['postal_code'] . '" or';
+                $str .= ' "' . $fv['postal_code'] . '" ' . ts('or');
             }
-                
+            
             // postal code between 2 values
             if ($fv['postal_code_low'] && $fv['postal_code_high']) {
-                $str .= ' between "' . $fv['postal_code_low'] . '" and "' . $fv['postal_code_high'] . '"';
+                $str .= ' ' . ts('between "%1" and "%2"', array(1 => $fv['postal_code_low'], 2 => $fv['postal_code_high']));
             } elseif ($fv['postal_code_low']) {
-                $str .= ' greater than "' . $fv['postal_code_low'] . '"';
+                $str .= ' ' . ts('greater than "%1"', array(1 => $fv['postal_code_low']));
             } elseif ($fv['postal_code_high']) {
-                $str .= ' less than "' . $fv['postal_code_high'] . '"';
-            }            
+                $str .= ' ' . ts('less than "%1"', array(1 => $fv['postal_code_high']));
+            }
             // remove the trailing "or"
             $str    = preg_replace($patternOr, $replacement, $str);
             $qill[] = $str;
@@ -387,28 +391,28 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
         // location type processing
         if ( CRM_Utils_Array::value( 'cb_location_type', $fv ) ) {
-            $locationType =& CRM_Core_PseudoConstant::locationType();        
-            $str = 'Location type -';
+            $locationType =& CRM_Core_PseudoConstant::locationType();
+            $str = ts('Location type -');
             if (!$fv['cb_location_type']['any']) {
                 foreach ($fv['cb_location_type']  as $k => $v) {
-                    $str .= ' ' . $locationType[$k] . ' or';
+                    $str .= ' ' . $locationType[$k] . ' ' . ts('or');
                 }
                 $str = preg_replace($patternOr, $replacement, $str);
             } else {
-                $str .= ' Any';
+                $str .= ' ' . ts('Any');
             }
             $qill[] = $str;
         }
         
         // primary location processing
         if ( CRM_Utils_Array::value( 'cb_primary_location', $fv ) ) {
-            $qill[] = 'Primary Location only ? - Yes';
+            $qill[] = ts('Primary Location only? - Yes');
         }
-            
+        
         
         // activity_type
         if (CRM_Utils_Array::value( 'activity_type', $fv ) ) {
-            $qill[] = 'Activity Type like - "' . $fv['activity_type'] . '"';
+            $qill[] = ts('Activity Type like - "%1"', array(1 => $fv['activity_type']));
         }
 
         // date between 2 values
@@ -418,24 +422,24 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
         if (isset($fv['activity_to_date'])) {
             $activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv)), '-'));
-        }        
+        }
 
         $str = "";
         if ($activityFromDate && $activityToDate) {
-            $str = ' between "' . CRM_Utils_Date::customFormat($activityFromDate) . '" and "' . CRM_Utils_Date::customFormat($activityToDate) . '"';
+            $str = ' ' . ts('between "%1" and "%2"', array(1 => CRM_Utils_Date::customFormat($activityFromDate), 2 => CRM_Utils_Date::customFormat($activityToDate)));
         } elseif ($activityFromDate) {
-            $str .= ' greater than "' . CRM_Utils_Date::customFormat($activityFromDate) . '"';
+            $str .= ' ' . ts('greater than "%1"', array(1 => CRM_Utils_Date::customFormat($activityFromDate)));
         } elseif ($activityToDate) {
-            $str .= ' less than "' . CRM_Utils_Date::customFormat($activityToDate) . '"';
-        }            
+            $str .= ' ' . ts('less than "%1"', array(1 => CRM_Utils_Date::customFormat($activityToDate)));
+        }
 
         if ($str) {
-            $qill[] = 'Activity Date - ' . $str;
+            $qill[] = ts('Activity Date - %1', array(1 => $str));
         }
 
         // add sort by character
         if ( CRM_Utils_Array::value( 'sortByCharacter', $fv ) ) {
-            $qill[] = 'Restricted to Contacts starting with: "' . $fv['sortByCharacter'] . '"';
+            $qill[] = ts('Restricted to Contacts starting with: "%1"', array(1 => $fv['sortByCharacter']));
         }
 
         return $qill;
