@@ -82,20 +82,20 @@ class CRM_Activity_Form extends CRM_Core_Form
     function preProcess( ) 
     {
         global $user;
-        $this->_userId  = $user->uid;
+        $this->_userId = $user->uid;
 
         $page =& new CRM_Contact_Page_View();
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
         
         //$this->_log = CRM_Utils_Request::retrieve( 'log', $page);
-        $this->_pid = CRM_Utils_Request::retrieve( 'pid', $page);
+        $this->_pid  = CRM_Utils_Request::retrieve( 'pid', $page, false, null, 'GET');
         $this->_log  = CRM_Utils_Request::retrieve( 'log', $this, false, null, 'GET');
                 
         $this->_contactId = $this->get('contactId');
         if ($this->_action != CRM_Core_Action::ADD) {
             $this->_id = $this->get('id');
         }
-        $this->_status    = CRM_Utils_Request::retrieve( 'status', $this, false, null, 'GET');
+        $this->_status = CRM_Utils_Request::retrieve( 'status', $this, false, null, 'GET');
     }
 
     /**
@@ -124,9 +124,10 @@ class CRM_Activity_Form extends CRM_Core_Form
         //$log = CRM_Utils_Request::retrieve( 'log', $page);
         if ($this->_log) { 
             $defaults['status'] = 'Completed';
-            $defaults['scheduled_date_time'] = date("Y-m-d h:i:s");
+            $defaults['scheduled_date_time'] = date("Y-m-d G:i:s");
         }
         return $defaults;
+
     }
 
     /**
