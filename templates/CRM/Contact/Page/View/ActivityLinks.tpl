@@ -1,5 +1,9 @@
 {* Links for scheduling/logging meetings and calls and Sending Email *}
 
+{if $contact_id}
+{assign var = "contactId" value= $contact_id }
+{/if}
+
 <div class= "data-group">
    <img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}send email{/ts}">&nbsp;
    <a href="{crmURL p='civicrm/contact/email' q="cid=`$contactId`&reset=1"}">Send An Email</a>&nbsp;&nbsp;

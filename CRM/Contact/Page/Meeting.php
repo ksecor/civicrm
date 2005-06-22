@@ -73,31 +73,17 @@ class CRM_Contact_Page_Meeting
         
         // this is use to differentiate between schedule and log meeting
         $log = CRM_Utils_Request::retrieve('log', $page, false, null, 'GET');
-        
-        if ($log) {
-            $page->set('log', $log);
-        } else {
-            $page->set('log', false);
-        }
-        
+
         //this is used to store parent id if this activity is a follow up activity
         $pid = CRM_Utils_Request::retrieve('pid', $page, false, null, 'GET');
         
-        if ($pid) {
-            $page->set('pid', $pid);
-        } else {
-            $page->set('pid', null);
-        }
-        
-
         if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
             self::edit( $page, $action, $id );
         } else if ( $action & CRM_Core_Action::DELETE ) {
             self::delete( $id );
         }
-
     }
-
+    
    static function delete( $meetingId ) 
     {
         CRM_Core_BAO_Meeting::del($meetingId);
