@@ -248,7 +248,7 @@
         	<td>{$row.title}</td>
 	    	<td></td>	
 	    	<td>{ts 1=$row.in_method}Added (by %1){/ts}</td> 
-            <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
+            <td>{$row.in_date|crmDate}</td>
         </tr>
     {/foreach}
     {if $group.totalCount gt 3 }
@@ -290,7 +290,7 @@
                     <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
-            <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
+            <td>{$note.modified_date|crmDate}</td>
             <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">{ts}Edit{/ts}</a></td> 
        </tr>  
        {/foreach}
