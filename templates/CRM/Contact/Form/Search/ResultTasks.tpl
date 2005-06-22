@@ -14,6 +14,10 @@
     {/foreach}
     </ul>
   {/if}
+  {if $savedSearch.name}
+    <div class="element-right">
+        <a href="">&raquo; Start a new search</a>
+    <div>
  </div>
 
  <div class="form-item">

@@ -8,14 +8,12 @@
 	<dt>{$form.scheduled_date_time.label}</dt><dd>{$form.scheduled_date_time.html}</dd>
 	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} Hrs &nbsp; {$form.duration_minutes.html} Min &nbsp;</dd>
 	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
-        <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}</dd>
-        <dt></dt><dd>{$form.buttons.html}</dd>
-  {if $status}
-    <dt></dt>
-     <dd>
-         <a href="{crmURL p='civicrm/contact/view/meeting' q="action=add&pid=`$pid`"}">Follow Up Meeting </a>
-     <dd>
-  {/if}
+    <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}</dd>
+    {if $status}
+        <dt></dt>
+        <dd><a href="{crmURL p='civicrm/contact/view/meeting' q="action=add&pid=`$pid`"}">&raquo; Schedule Follow Up Meeting </a><dd>
+    {/if}
+    <dt></dt><dd>{$form.buttons.html}</dd>
   </dl>
 </fieldset>
 </div>

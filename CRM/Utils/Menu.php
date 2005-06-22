@@ -367,7 +367,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'   => 'civicrm/history/email',
-                            'title'  => ts('Email Detail'),
+                            'title'  => ts('Sent Email Message'),
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             ),

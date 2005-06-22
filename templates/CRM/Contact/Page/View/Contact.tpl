@@ -9,6 +9,7 @@
    </div>
 </div>
 
+{include file="CRM/Contact/Page/View/ActivityLinks.tpl"}
 
 {* Display populated Locations. Primary location expanded by default. *}
 {foreach from=$location item=loc key=locationIndex}
@@ -119,14 +120,16 @@
 	<table>
         <tr class="columnheader">
 		<th>{ts}Activity Type{/ts}</th>
-		<th>{ts}Description{/ts}</th>
+		<th>{ts}Subject{/ts}</th>
 		<th>{ts}Scheduled Date{/ts}</th>
+        <th>{ts}Status{/ts}</th>
 	</tr>
     {foreach from=$openActivity.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">
         	<td>{$row.activity_type}</td>
-	    	<td>{$row.activity_subject}</td>	
-            <td>{$row.activity_date|crmDate}</td>
+	    	<td>{$row.subject}</td>	
+            <td>{$row.date|crmDate}</td>
+	    	<td>{$row.status}</td>	
         </tr>
     {/foreach}
     {if $openActivity.totalCount gt 3 }
