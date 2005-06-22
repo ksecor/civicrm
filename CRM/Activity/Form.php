@@ -90,6 +90,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         //$this->_log = CRM_Utils_Request::retrieve( 'log', $page);
         $this->_pid  = CRM_Utils_Request::retrieve( 'pid', $page, false, null, 'GET');
         $this->_log  = CRM_Utils_Request::retrieve( 'log', $this, false, null, 'GET');
+        $this->assign('log',$this->_log);
                 
         $this->_contactId = $this->get('contactId');
         if ($this->_action != CRM_Core_Action::ADD) {
@@ -122,25 +123,28 @@ class CRM_Activity_Form extends CRM_Core_Form
        
         if ($this->_log) { 
             $defaults['status'] = 'Completed';
-            $currentDay = date("Y-m-d G:");
-            $currentTime = date("s");
-            // rounding of minutes
-            $min = date("i");
-            
-            if ($min > 45) {
-                $min = 45;
-            } elseif ($min > 30) {
-                $min = 30;
-            } elseif ($min > 15) {
-                $min = 15;
-            } elseif ($min > 0) {
-                $min = 00;
-            }
-            
-            $currentDate = $currentDay.' '.$min.':'.$currentTime;
-
-            $defaults['scheduled_date_time'] = $currentDate;
         }
+        
+        // set current date and time as default for all cases
+        $currentDay = date("Y-m-d G:");
+        $currentTime = date("s");
+        // rounding of minutes
+        $min = date("i");
+        
+        if ($min > 45) {
+            $min = 45;
+        } elseif ($min > 30) {
+            $min = 30;
+        } elseif ($min > 15) {
+            $min = 15;
+        } elseif ($min > 0) {
+            $min = 00;
+        }
+        
+        $currentDate = $currentDay.' '.$min.':'.$currentTime;
+
+        $defaults['scheduled_date_time'] = $currentDate;
+
         return $defaults;
 
     }

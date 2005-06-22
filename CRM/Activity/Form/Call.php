@@ -64,9 +64,9 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
         
         $this->add('text', 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'subject' ));
         $this->addRule( 'subject', ts('The Field Subject should not be Empty'), 'required' );
-        $this->add('date', 'scheduled_date_time', ts('Scheduled'),CRM_Core_SelectValues::date('datetime'));
-        $this->addRule( 'scheduled_date_time', ts('The Field Scheduled Date should not be Empty'), 'qfDate' );
-        $this->addRule( 'scheduled_date_time', ts('Please select Scheduled Date.'), 'required' );
+        $this->add('date', 'scheduled_date_time', ts('Date and Time'),CRM_Core_SelectValues::date('datetime'));
+        $this->addRule( 'scheduled_date_time', ts('Please enter a valid date and time for this call.'), 'qfDate' );
+        $this->addRule( 'scheduled_date_time', ts('Call Date and Time are required.'), 'required' );
 
         $this->add('select','phone_id',ts('Phone Number'), $contactPhone );
         $this->add('text', 'phone_number'  , ts(' OR New Phone') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'phone_number' ));
@@ -74,9 +74,12 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
         $this->add('select', 'duration_hours', '', CRM_Core_SelectValues::getHours());
         $this->add('select', 'duration_minutes', '', CRM_Core_SelectValues::getMinutes());
         
-        $this->add('select','status',ts('Status'),CRM_Core_SelectValues::ActivityStatus(true));
+        $status =& $this->add('select','status',ts('Status'),CRM_Core_SelectValues::ActivityStatus(true));
         $this->addRule( 'status', ts('Please select status.'), 'required' );
-
+        if ($this->_log) {
+            $status->freeze();
+        }
+        
         $this->add('textarea', 'details'       , ts('Details')       ,CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'details' ));
         
         parent::buildQuickForm( );
