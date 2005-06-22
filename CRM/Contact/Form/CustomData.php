@@ -144,7 +144,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        CRM_Core_Error::le_method();
         $this->assign('groupTree', $this->_groupTree);
 
         // add the form elements
@@ -216,7 +215,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $this->addGroup($check, $elementName, $field['label']);
                     break;
 
-                case 'Select State / Province':
+                case 'Select State/Province':
                 case 'Select Country':
                 }
                 
@@ -254,9 +253,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $this->freeze();
         }
-       CRM_Core_Error::debug_var('groupTree', $this->_groupTree);
-
-       CRM_Core_Error::ll_method();
     }
     
 
@@ -322,8 +318,12 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     public function postProcess() 
     {
 
+        CRM_Core_Error::le_method();
+
         // Get the form values and groupTree
         $fv = $this->exportValues();
+
+        CRM_Core_Error::debug_var('fv', $fv);        
 
         // update group tree with form values
         /*echo "<pre>";
@@ -337,6 +337,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             if (isset($v) &&
                 isset($this->_groupTree[$groupId]['fields'][$fieldId]) &&
                 $this->_groupTree[$groupId]['fields'][$fieldId]['name'] == $elementName) {
+                
+                
                 if ( ! isset($this->_groupTree[$groupId]['fields'][$fieldId]['customValue'] ) ) {
                     // field exists in db so populate value from "form".
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
@@ -354,8 +356,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     break;
                 case 'CheckBox':  
-                    //print_r($v);
+                    CRM_Core_Error::debug_var('k', $k);
+                    CRM_Core_Error::debug_var('v', $v);
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  implode("|", array_keys($v));
+                    CRM_Core_Error::debug_var('somevar',$this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data']);
                     break;
                 case 'Select Date':
                     $date = CRM_Utils_Date::format( $v );
