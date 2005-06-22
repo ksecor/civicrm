@@ -17,7 +17,7 @@
 
     {if $duplicateRowCount}
         <p>
-        {ts 1=$duplicateRowCount 2=$downloadErrorRecords}CiviCRM has detected %1 records with duplicate email addresses within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
+        {ts 1=$duplicateRowCount 2=$downloadDuplicateRecords}CiviCRM has detected %1 records with duplicate email addresses within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
         </p>
     {/if}
     

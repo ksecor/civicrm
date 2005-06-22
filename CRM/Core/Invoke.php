@@ -43,7 +43,7 @@ class CRM_Core_Invoke {
      * This is the main function that is called on every click action and based on the argument
      * respective functions are called
      *
-     * $param $args array this array contains the arguments of the url 
+     * @param $args array this array contains the arguments of the url 
      * 
      * @static
      * @access public
@@ -72,7 +72,9 @@ class CRM_Core_Invoke {
         case 'group'  : return self::group  ( $args );
 
         case 'import' : return self::import ( $args );
-        
+       
+        case 'export' : return self::export ( $args );
+
         case 'activity' : return self::activity ( $args );
 
         default       : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) );
@@ -83,7 +85,7 @@ class CRM_Core_Invoke {
     /**
      * This function contains the actions for arg[1] = contact
      *
-     * $param $args array this array contains the arguments of the url 
+     * @param $args array this array contains the arguments of the url 
      *
      * @static
      * @access public
@@ -158,7 +160,7 @@ class CRM_Core_Invoke {
     /**
      * This function contains the actions for search arguments
      *
-     * $param $args array this array contains the arguments of the url 
+     * @param $args array this array contains the arguments of the url 
      *
      * @static
      * @access public
@@ -191,7 +193,7 @@ class CRM_Core_Invoke {
     /**
      * This function contains the default action
      *
-     * $param $action 
+     * @param $action 
      *
      * @static
      * @access public
@@ -205,7 +207,7 @@ class CRM_Core_Invoke {
     /**
      * This function contains the actions for history arguments
      *
-     * $param $args array this array contains the arguments of the url 
+     * @param $args array this array contains the arguments of the url 
      *
      * @static
      * @access public
@@ -226,7 +228,7 @@ class CRM_Core_Invoke {
     /**
      * This function contains the actions for admin arguments
      *
-     * $param $args array this array contains the arguments of the url 
+     * @param $args array this array contains the arguments of the url 
      *
      * @static
      * @access public
@@ -288,7 +290,7 @@ class CRM_Core_Invoke {
     /**
      * This function contains the action for import arguments
      *
-     * $params $args array this array contains the arguments of the url 
+     * @params $args array this array contains the arguments of the url 
      *
      * @static
      * @access public
@@ -302,7 +304,7 @@ class CRM_Core_Invoke {
     /**
      * This function contains the actions for group arguments
      *
-     * $params $args array this array contains the arguments of the url 
+     * @params $args array this array contains the arguments of the url 
      *
      * @static
      * @access public
@@ -326,6 +328,28 @@ class CRM_Core_Invoke {
             $view =& new CRM_Group_Page_Group(ts('View Groups'));
             return $view->run();
         }
+    }
+
+    static function export( $args ) {
+        // FIXME:  2005-06-22 15:17:33 by Brian McFee <brmcfee@gmail.com>
+        // This function is a dirty, dirty hack.  It should live in its own
+        // file.
+        $session =& CRM_Core_Session::singleton();
+        $type = $_GET['type'];
+        $varName = $type == 1 ? 'error' : 'duplicate';
+        $fileName = $session->get($varName . 'FileName', 
+                                    'CRM_Import_Controller');
+                                    
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Content-Description: File Transfer');
+        header('Content-Type: text/csv');
+        header('Content-Length: ' . filesize($fileName) );
+        header('Content-Disposition: attachment; filename=Import_'
+                . $varName .'s.csv');
+                
+        readfile($fileName);
+        
+        exit();
     }
 
 }

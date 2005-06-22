@@ -90,7 +90,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * @return string
      * @access public
      */
-    public static function defaultFromHeader($header, &$patterns) {
+    public function defaultFromHeader($header, &$patterns) {
         foreach ($patterns as $key => $re) {
             /* Skip the first (empty) key/pattern */
             if (empty($re)) continue;
@@ -202,7 +202,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             if ($hasHeaders) {
                 // Infer the default from the skipped headers if we have them
                 $this->_defaults["mapper[$i]"] = 
-                    self::defaultFromHeader($this->_columnHeaders[$i], 
+                    $this->defaultFromHeader($this->_columnHeaders[$i], 
                                             $headerPatterns);
 
             } else {
@@ -249,12 +249,13 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         }
 
         $this->set( 'mapper'    , $mapper     );
+//         CRM_Core_Error::debug('mapperKeys', $mapperKeys);
 
         $parser =& new CRM_Import_Parser_Contact( $mapperKeys );
         $parser->run( $fileName, $seperator,
                       $mapper, 
                       $skipColumnHeader,
-                      CRM_Import_Parser::MODE_SUMMARY );
+                      CRM_Import_Parser::MODE_PREVIEW );
 
         // add all the necessary variables to the form
         $parser->set( $this );

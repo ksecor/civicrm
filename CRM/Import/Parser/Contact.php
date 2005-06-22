@@ -46,10 +46,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
     protected $_allEmails;
 
+    protected $_phoneIndex;
+
     /**
      * class constructor
      */
     function __construct( &$mapperKeys ) {
+        parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
     }
 
@@ -66,18 +69,34 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
 
         $this->setActiveFields( $this->_mapperKeys );
-
+        
+        $this->_phoneIndex = -1;
         $this->_emailIndex = -1;
         $index             = 0 ;
         foreach ( $this->_mapperKeys as $key ) {
             if ( $key == 'email' ) {
                 $this->_emailIndex = $index;
                 $this->_allEmails  = array( );
-                break;
+            }
+            if ( $key == 'phone' ) {
+                $this->_phoneIndex = $index;
             }
             $index++;
         }
     }
+
+    /**
+     * handle the values in mapField mode
+     *
+     * @param array $values the array of values belonging to this line
+     *
+     * @return boolean
+     * @access public
+     */
+    function mapField( &$values ) {
+        return self::VALID;
+    }
+
 
     /**
      * handle the values in preview mode
@@ -88,7 +107,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @access public
      */
     function preview( &$values ) {
-        return self::VALID;
+//         return self::VALID;
+        return $this->summary($values);
     }
 
     /**
@@ -101,17 +121,36 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      */
     function summary( &$values ) {
         $response = $this->setActiveFieldValues( $values );
-        if ( $response != self::VALID ) {
-            return $response;
-        }
+//         if ( $response != self::VALID ) {
+//             return $response;
+//         }
 
         if ( $this->_emailIndex >= 0 ) {
-            $email = CRM_Utils_Array::value( $values, $this->_emailIndex );
+            $email = CRM_Utils_Array::value( $this->_emailIndex, $values );
             if ( $email ) {
-                if ( CRM_Utils_Array::value( $email, $this->_allEmails ) ) {
+                /* If the email address isn't valid, bail */
+                if (! CRM_Utils_Rule::email($email)) {
+                    $values[] = ts('Invalid Email address');
+                    return self::ERROR;
+                }
+                /* If it's a dupe, bail */
+                if ( $dupe = CRM_Utils_Array::value( $email, $this->_allEmails ) ) {
+                    $values[] = ts('Duplicated Email address (row %1 in original file)', array(1 =>
+                    $dupe));
                     return self::DUPLICATE;
                 }
+                /* otherwise, count it and move on */
                 $this->_allEmails[$email] = 1;
+            }
+        }
+
+        if ( $this->_phone_index >= 0) { 
+            $phone = CRM_Utils_Array::value( $this->_phoneIndex, $values );
+            if ($phone) {
+                if (! CRM_Utils_Rule::phone($phone)) {
+                    $values[] = ts('Invalid phone number');
+                    return self::ERROR;
+                }
             }
         }
 

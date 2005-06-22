@@ -47,89 +47,35 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $this->_mapperFields = $this->get( 'fields' );
-        $this->_columnCount  = $this->get( 'columnCount' );
-
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
        
         //get the data from the session
-        $dataValues   = $this->get('dataValues');
-        $mapper = $this->get('mapper');
+        $dataValues         = $this->get('dataValues');
+        $mapper             = $this->get('mapper');
+        $invalidRowCount    = $this->get('invalidRowCount');
+        $duplicateRowCount  = $this->get('duplicateRowCount');
 
-        if ( $skipColumnHeader ) {
-            array_shift($dataValues);
-        }
-
-        $emailKey = -1;
-        $phoneKey = -1;
-        //get the key of email and phone field
-        foreach($mapper as $key => $varValue) {
-            if($varValue == 'Email'){
-                $emailKey = $key;
-            }
-            if($varValue == 'Phone'){
-                $phoneKey = $key;
-            }
-        }
-
-
-        // if the  email is present check for duplicate emails and also keep the count
-        if($emailKey > 0 || $phoneKey > 0) {
-            
-            $email = array();
-            $duplicateEmail = 0;
-            $incorrectRecord = 0;
-            $errorStatus = 0;
-            $duplicateStatus = 0;
-            
-            foreach($dataValues as $key => $varValue) {
-
-                // check for valid phone
-                if ($varValue[$phoneKey] ) {
-                    if ( !CRM_Utils_Rule::phone($varValue[$phoneKey])) {
-                        $incorrectRecord++;
-                        $errorStatus++;
-                    }
-                } 
-                
-                //check for valid email
-                if ($varValue[$emailKey] && !$errorStatus) {
-                    
-                    if (!CRM_Utils_Rule::email($varValue[$emailKey])) {
-                        $incorrectRecord++;            
-                        $errorStatus++;
-                    }
-                    if (!$errorStatus) {
-                        // check the duplicate emails
-                        if ( in_array($varValue[$emailKey], $email)) {
-                            $duplicateEmail++;
-                        } else {
-                            //array_push($aEmail, $varValue[$EmailKey]);
-                            $email[$key] = $varValue[$emailKey];
-                        }
-                    }
-                }
-                
-                $errorStatus = 0;
-            }
-
-        }
-
-        $totalRowCount = $this->get('totalRowCount');
-        
-        $validRowCount = $totalRowCount - $incorrectRecord - $duplicateEmail;
-
-        $this->set('duplicateRowCount', $duplicateEmail);
-        $this->set('invalidRowCount', $incorrectRecord);
-        
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
             $this->assign( 'rowDisplayCount', 3 );
-            $this->set('validRowCount', ($validRowCount-1));
         } else {
             $this->assign( 'rowDisplayCount', 2 );
-            $this->set('validRowCount', $validRowCount);
         }
+        
+
+        if ( $invalidRowCount > 0 ) {
+            $this->assign('downloadErrorRecords', 
+                '<a href="' 
+                . CRM_Utils_System::url('civicrm/export', 'type=1') 
+                . '">' . ts('Download Errors') . '</a>');
+        }
+        if ( $duplicateRowCount > 0 ) {
+            $this->assign('downloadDuplicateRecords', 
+                '<a href="'
+                . CRM_Utils_System::url('civicrm/export', 'type=2') 
+                . '">' . ts('Download Duplicates') . '</a>');
+        }
+
         
         $properties = array( 'mapper', 'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 'invalidRowCount', 'duplicateRowCount' );
@@ -191,7 +137,11 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                       CRM_Import_Parser::MODE_IMPORT );
 
         // add all the necessary variables to the form
-        $parser->set( $this );
+        
+        // XXX the summary page doesn't really need anything new,
+        // so the parser doesn't need to set().  This may change later on.
+        //  $parser->set( $this );
+
 
         // check if there is any error occured
 

@@ -43,9 +43,10 @@ abstract class CRM_Import_Parser {
      * various parser modes
      */
     const
-        MODE_PREVIEW = 1,
-        MODE_SUMMARY = 2,
-        MODE_IMPORT  = 4;
+        MODE_MAPFIELD = 1,
+        MODE_PREVIEW  = 2,
+        MODE_SUMMARY  = 4,
+        MODE_IMPORT   = 8;
 
     protected $_fileName;
 
@@ -80,9 +81,19 @@ abstract class CRM_Import_Parser {
     protected $_validCount;
 
     /**
-     * running total number of errors
+     * running total number of invalid rows
      */
-    protected $_errorCount;
+    protected $_invalidRowCount;
+
+    /**
+     * maximum number of invalid rows to store
+     */
+    protected $_maxErrorCount;
+
+    /**
+     * array of error lines, bounded by MAX_ERROR
+     */
+    protected $_errors;
 
     /**
      * total number of duplicate lines
@@ -90,14 +101,9 @@ abstract class CRM_Import_Parser {
     protected $_duplicateCount;
 
     /**
-     * maximum number of errors to store
+     * array of duplicate lines
      */
-    protected $_maxErrorCount = self::MAX_ERRORS;
-
-    /**
-     * array of error lines, bounded by MAX_ERROR
-     */
-    protected $_errors;
+    protected $_duplicates;
 
     /**
      * running total number of warnings
@@ -150,8 +156,26 @@ abstract class CRM_Import_Parser {
      */
     protected $_rows;
 
+
+    /**
+     * filename of error data
+     *
+     * @var string
+     */
+    protected $_errorFileName;
+
+
+    /**
+     * filename of duplicate data
+     *
+     * @var string
+     */
+    protected $_duplicateFileName;
+
+
     function __construct() {
         $this->_maxLinesToProcess = 0;
+        $this->_maxErrorCount = self::MAX_ERRORS;
     }
 
     abstract function init();
@@ -163,7 +187,7 @@ abstract class CRM_Import_Parser {
                   $mode = self::MODE_PREVIEW ) {
         $this->init();
 
-        $this->_seperator = ',';
+        $this->_seperator = $seperator;
 
         $fd = fopen( $fileName, "r" );
         if ( ! $fd ) {
@@ -171,15 +195,16 @@ abstract class CRM_Import_Parser {
         }
 
         $this->_lineCount  = $this->_warningCount   = 0;
-        $this->_errorCount = $this->_validCount     = 0;
+        $this->_invalidRowCount = $this->_validCount     = 0;
         $this->_totalCount = $this->_duplicateCount = 0;
     
         $this->_errors   = array();
         $this->_warnings = array();
+        $this->_duplicates = array();
 
         $this->_fileSize = number_format( filesize( $fileName ) / 1024.0, 2 );
         
-        if ( $preview == self::MODE_PREVIEW ) {
+        if ( $mode == self::MODE_MAPFIELD ) {
             $this->_rows = array( );
         } else {
             $this->_activeFieldCount = count( $this->_activeFields );
@@ -193,10 +218,6 @@ abstract class CRM_Import_Parser {
                     break;
                 }
             }
-
-            $this->_totalCount     = $importData['totalRowCount'];
-            $this->_errorCount     = $importData['invalidRowCount'];
-            $this->_duplicateCount = $importData['duplicateRowCount'];
         }
         
         $email = array();
@@ -205,13 +226,13 @@ abstract class CRM_Import_Parser {
 
             $values = fgetcsv( $fd, 8192, $seperator );
 
-            // skip column header if data is imported
-            if ( $mode == self::MODE_IMPORT ) {
-                if ( $skipColumnHeader ) {
+            // skip column header if we're not in mapfield mode
+            if ( $mode != self::MODE_MAPFIELD && $skipColumnHeader ) {
                     $skipColumnHeader = false;
                     continue;
-                }
+            }
 
+            if ( $mode == self::MODE_IMPORT ) {
                 if ( in_array($values[$emailKey], $email)) {
                     continue;
                 } else {
@@ -227,7 +248,9 @@ abstract class CRM_Import_Parser {
                 $this->_totalCount++;
             }
 
-            if ( $mode == self::MODE_PREVIEW ) {
+            if ( $mode == self::MODE_MAPFIELD ) {
+                $returnCode = $this->mapField( $values );
+            } else if ( $mode == self::MODE_PREVIEW ) {
                 $returnCode = $this->preview( $values );
             } else if ( $mode == self::MODE_SUMMARY ) {
                 $returnCode = $this->summary( $values );
@@ -240,7 +263,7 @@ abstract class CRM_Import_Parser {
             // note that a line could be valid but still produce a warning
             if ( $returnCode & self::VALID ) {
                 $this->_validCount++;
-                if ( $mode == self::MODE_PREVIEW ) {
+                if ( $mode == self::MODE_MAPFIELD ) {
                     $this->_rows[]           = $values;
                     $this->_activeFieldCount = max( $this->_activeFieldCount, count( $values ) );
                 }
@@ -254,16 +277,19 @@ abstract class CRM_Import_Parser {
             } 
 
             if ( $returnCode & self::ERROR ) {
-                //$this->_errorCount++;
-                if ( $this->_errorCount < $this->_maxErrorCount ) {
-                    $this->_errorCount[] = $line;
+                $this->_invalidRowCount++;
+                if ( $this->_invalidRowCount < $this->_maxErrorCount ) {
+                    array_unshift($values, $this->_totalCount);
+                    $this->_errors[] = $values;
                 }
             } 
 
             if ( $returnCode & self::DUPLICATE ) {
                 $this->_duplicateCount++;
+                array_unshift($values, $this->_totalCount);
+                $this->_duplicates[] = $values;
             } 
-
+            
             // we give the derived class a way of aborting the process
             // note that the return code could be multiple code or'ed together
             if ( $returnCode & self::STOP ) {
@@ -278,9 +304,25 @@ abstract class CRM_Import_Parser {
 
         fclose( $fd );
 
+        if ($mode == self::MODE_PREVIEW) {
+            $headers = array_merge( array(ts('Record Number')), 
+                                    $mapper,
+                                    array(ts('Reason')));
+                
+            if ($this->_invalidRowCount) {
+                $this->_errorFileName = $fileName . '.errors';
+                self::exportCSV($this->_errorFileName, $headers, $this->_errors);
+            }
+            if ($this->_duplicateCount) {
+                $this->_duplicateFileName = $fileName . '.duplicates';
+                self::exportCSV($this->_duplicateFileName, $headers, $this->_duplicates);
+            }
+        }
+
         return $this->fini();
     }
 
+    abstract function mapField( &$values );
     abstract function preview( &$values );
     abstract function summary( &$values );
     abstract function import ( &$values );
@@ -304,7 +346,7 @@ abstract class CRM_Import_Parser {
     }
 
     function setActiveFieldValues( $elements ) {
-//         CRM_Core_Error::debug('f', $this->_activeFields);
+//          CRM_Core_Error::debug('f', $this->_activeFields);
         for ( $i = 0; $i < count( $elements ); $i++ ) {
             $this->_activeFields[$i]->setValue( $elements[$i] );
         }
@@ -401,12 +443,39 @@ abstract class CRM_Import_Parser {
 
         $store->set( 'totalRowCount'    , $this->_totalCount     );
         $store->set( 'validRowCount'    , $this->_validCount     );
-        $store->set( 'invalidRowCount'  , $this->_errorCount     );
+        $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
         $store->set( 'duplicateRowCount', $this->_duplicateCount );
         
+        if ($this->_invalidRowCount) {
+            $store->set( 'errorFileName', $this->_errorFileName );
+        }
+        if ($this->_duplicateCount) {
+            $store->set( 'duplicateFileName', $this->_duplicateFileName );
+        }
         if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
             $store->set( 'dataValues', $this->_rows );
         }
+    }
+
+    /**
+     * Export data to a CSV file
+     *
+     * @param string $filename
+     * @param array $header
+     * @param data $data
+     * @return void
+     * @access public
+     */
+    static function exportCSV($fileName, &$header, &$data) {
+        $output = array();
+        $fd = fopen($fileName, 'w');
+
+        $output[] = implode(',', $header);
+        foreach ($data as $datum) {
+            $output[] = implode(',', $datum);
+        }
+        fwrite($fd, implode("\n", $output));
+        fclose($fd);
     }
 
 }

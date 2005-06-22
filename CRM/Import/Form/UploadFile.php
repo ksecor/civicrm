@@ -49,7 +49,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
 
         $this->addRule( 'uploadFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->setMaxFileSize( 1024 * 1024 );
-        $this->addRule( 'uploadFile', ts('Input file must be either CSV or XML format'), 'asciiFile' );
+        $this->addRule( 'uploadFile', ts('Input file must be in CSV format'), 'asciiFile' );
 
         $this->addElement( 'checkbox', 'skipColumnHeader', ts('First row contains column headers') );
 
@@ -82,7 +82,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         $parser->run( $fileName, $seperator,
                       $mapper,
                       $skipColumnHeader,
-                      CRM_Import_Parser::MODE_PREVIEW );
+                      CRM_Import_Parser::MODE_MAPFIELD );
 
         // add all the necessary variables to the form
         $parser->set( $this );

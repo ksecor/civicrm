@@ -49,7 +49,7 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
         // set the error message path to display
         $errorFile = $this->assign('errorFile', $this->get('errorFile') );
         
-        $this->assign( $property, $this->get( $property ) );
+//         $this->assign( $property, $this->get( $property ) );
 
         $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'duplicateRowCount' );
         foreach ( $properties as $property ) {
