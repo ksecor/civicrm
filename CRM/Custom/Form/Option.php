@@ -104,17 +104,17 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
         // label
         $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
-        //$this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
+        $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 	
-	// value
+        // value
         $this->add('text', 'value', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
-        $this->addRule('value', ts('Please enter a valid value') , 'title');
+        //$this->addRule('value', ts('Please enter a valid value') , 'title');
         
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
         
-	// is active ?
+        // is active ?
         $this->add('checkbox', 'is_active', ts('Active?'));
 
         // add buttons

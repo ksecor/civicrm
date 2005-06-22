@@ -111,30 +111,20 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     function setDefaultValues()
     {
-        
-        CRM_Core_Error::le_method();
-
         $defaults = array();
-        
+       
+        // is it an edit operation ?
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_CustomField::retrieve($params, $defaults);
             $this->_gid = $defaults['custom_group_id'];
-            
-            CRM_Core_Error::debug_var('defaults', $defaults);
 
             if (CRM_Utils_Array::value('data_type', $defaults)) {
-                $var1 = array('0' => array_search($defaults['data_type'], self::$_dataTypeKeys));
-                CRM_Core_Error::debug_var('var1', $var1);
                 $defaults['data_type'] = array('0' => array_search($defaults['data_type'], self::$_dataTypeKeys));
             }
 
-
             if (CRM_Utils_Array::value('data_type', $defaults)) {
                 $this->_rebuildHTMLType($defaults['data_type'][0]);
-                //$defaults['html_type'] = array('0' => $defaults['html_type']);            
-                $var2 = array_search($defaults['html_type'], self::$_dataToHTML[$defaults['data_type'][0]]);
-                CRM_Core_Error::debug_var('var2', $var2);
                 $defaults['html_type'] = array('0' => array_search($defaults['html_type'], self::$_dataToHTML[$defaults['data_type'][0]]));
             }
 
@@ -156,7 +146,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     }
 
 
-
     
     /**
      * Function to actually build the form
@@ -167,9 +156,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-
-        CRM_Core_Error::le_method();
-
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
 
@@ -185,7 +171,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         if ($this->_action == CRM_Core_Action::UPDATE) { 
             $this->freeze(array('data_type', 'html_type'));
         }
-	
         
         // form fields of Custom Option
         $defaultOption = array();

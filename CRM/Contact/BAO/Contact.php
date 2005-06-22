@@ -1008,7 +1008,6 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
     {
 
         // this is not sufficient way to do.
-        CRM_Core_Error::le_method();
 
         $query1 = "SELECT count(*) FROM crm_meeting WHERE target_contact_id = $id AND status != 'Completed'";
 

@@ -306,6 +306,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function updateCustomData(&$groupTree, $entityId)
     {
+
+        CRM_Core_Error::le_method();
+        //CRM_Core_Error::debug_var('groupTree', $groupTree);        
+
         // traverse the group tree
         foreach ($groupTree as $group) {
             $groupId = $group['id'];
