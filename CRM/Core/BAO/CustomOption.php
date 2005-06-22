@@ -107,6 +107,29 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
         return $customOption;
     }
 
+    /**
+     * Function to get the values of the checkboxes
+     * param $fieldId integer field id
+     *
+     * @static
+     * @access public
+     */
+    static function getCustomValues($fieldId)
+    {
+        $customValueDAO =& new CRM_Core_DAO_CustomValue();
+        $customValueDAO->custom_field_id = $fieldId;
+
+        $customValueDAO->find(true);
+        
+        $values = $customValueDAO->char_data;
+        
+        $customValue = array();
+        
+        $customValue = explode(',' ,$values);
+
+        return $customValue;
+
+    }
 
 
 

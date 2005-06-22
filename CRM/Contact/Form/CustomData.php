@@ -265,7 +265,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
-
+        
         foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
@@ -290,14 +290,17 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
                     
                 case 'CheckBox':
+
                     if(isset($field['customValue']['data'])) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                        $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
+                        
                         $defaults[$elementName] = array();
                         foreach($customOption as $val) {
-                            if( $field['default_value'] == $val['value'] ) {
-                                $defaults[$elementName][$val['value']] = 1;
-                            } else {
-                                $defaults[$elementName][$val['value']] = '';
+                            if (is_array($customValues)) {
+                                if (in_array($val['value'], $customValues)) {
+                                    $defaults[$elementName][$val['value']] = 1;
+                                }
                             }
                         }
                     }
@@ -312,7 +315,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
                 } 
             }
-        }
+        } 
         return $defaults;
     }
     
@@ -329,13 +332,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
         // Get the form values and groupTree
         $fv = $this->exportValues();
-
-        CRM_Core_Error::debug_var('fv', $fv);        
-
-        // update group tree with form values
-        /*echo "<pre>";
-        print_r($fv);
-        echo "</pre>";*/
 
         foreach ($fv as $k => $v) {
             list($groupId, $fieldId, $elementName) = explode('_', $k, 3);
@@ -363,10 +359,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     break;
                 case 'CheckBox':  
-                    CRM_Core_Error::debug_var('k', $k);
-                    CRM_Core_Error::debug_var('v', $v);
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  implode("|", array_keys($v));
-                    CRM_Core_Error::debug_var('somevar',$this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data']);
+                    //CRM_Core_Error::debug_var('k', $k);
+                    //CRM_Core_Error::debug_var('v', $v);
+                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  implode(",", array_keys($v));
+                    //CRM_Core_Error::debug_var('somevar',$this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data']);
                     break;
                 case 'Select Date':
                     $date = CRM_Utils_Date::format( $v );
