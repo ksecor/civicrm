@@ -43,7 +43,6 @@ class CRM_Utils_Date {
      * @param string $separator the seperator to use when formatting the date
      * @return string - formatted string for date
      *
-     * @access public
      * @static
      */
     static function format( $date, $separator = '' )
@@ -105,7 +104,6 @@ class CRM_Utils_Date {
      *
      * @return array       a qf formatted date array
      * @static
-     * @access public
      */     
     static function &unformat( $date, $separator = '-' ) {
         $value = array( );
@@ -140,9 +138,8 @@ class CRM_Utils_Date {
      * @return array  0-based array with abbreviated weekday names
      *
      * @static
-     * @access public
      */
-    static function getAbbrWeekdayNames()
+    static function &getAbbrWeekdayNames()
     {
         static $abbrWeekdayNames;
         if (!isset($abbrWeekdayNames)) {
@@ -163,9 +160,8 @@ class CRM_Utils_Date {
      * @return array  0-based array with full weekday names
      *
      * @static
-     * @access public
      */
-    static function getFullWeekdayNames()
+    static function &getFullWeekdayNames()
     {
         static $fullWeekdayNames;
         if (!isset($fullWeekdayNames)) {
@@ -186,9 +182,8 @@ class CRM_Utils_Date {
      * @return array  1-based array with abbreviated month names
      *
      * @static
-     * @access public
      */
-    static function getAbbrMonthNames()
+    static function &getAbbrMonthNames()
     {
         static $abbrMonthNames;
         if (!isset($abbrMonthNames)) {
@@ -208,9 +203,8 @@ class CRM_Utils_Date {
      * @return array  1-based array with full month names
      *
      * @static
-     * @access public
      */
-    static function getFullMonthNames()
+    static function &getFullMonthNames()
     {
         static $fullMonthNames;
         if (!isset($fullMonthNames)) {
@@ -243,7 +237,6 @@ class CRM_Utils_Date {
      * @return string  the $format-formatted $date
      *
      * @static
-     * @access public
      */
     static function customFormat($dateString, $format = '%B %E%f, %Y')
     {
