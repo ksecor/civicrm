@@ -272,43 +272,50 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
  
                 $fieldId = $field['id'];
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
-                if (isset($field['customValue'])) {
-                    switch($field['html_type']) {
-                    case 'Radio':
-                        if($field['data_type'] != 'Boolean' ) {
-                            $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
+                switch($field['html_type']) {
+                case 'Radio':
+                    if($field['data_type'] != 'Boolean' ) {
+                        $defaults[$elementName] = isset($field['customValue']['data']) ? $field['customValue']['data'] : $field['default_value'];
+                    } else {
+                        if($field['default_value']) {
+                            $defaults[$elementName] = $field['default_value'] ? 'yes' : 'no';
                         } else {
-                            if($field['default_value']) {
-                                $defaults[$elementName] = $field['default_value'] ? 'yes' : 'no';
-                            } else {
-                                $defaults[$elementName] = $field['customValue']['data'] ? 'yes' : 'no';
-                            }
-
+                            $defaults[$elementName] = isset($field['customValue']['data']) ? 'yes' : 'no';
                         }
-                        break;
-
-                    case 'Select':
-                        $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
-                        break;
-
-                    case 'CheckBox':
-                        $defaults[$elementName] = '';
-                        break;
-
-                    case 'Select Date':
-                        if ($date = $field['customValue']['data']) {
-                            $defaults[$elementName] = CRM_Utils_Date::unformat( $date );
-                        }
-                        break;
-                    default:
-                        $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
                     }
+                    break;
+                    
+                case 'Select':
+                    $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
+                    break;
+                    
+                case 'CheckBox':
+                    if(isset($field['customValue']['data'])) {
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                        $defaults[$elementName] = array();
+                        foreach($customOption as $val) {
+                            if( $field['default_value'] == $val['value'] ) {
+                                $defaults[$elementName][$val['value']] = 1;
+                            } else {
+                                $defaults[$elementName][$val['value']] = '';
+                            }
+                        }
+                    }
+                    break;
+                    
+                case 'Select Date':
+                    if ($date = $field['customValue']['data']) {
+                        $defaults[$elementName] = CRM_Utils_Date::unformat( $date );
+                    }
+                    break;
+                default:
+                    $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
                 } 
             }
         }
         return $defaults;
     }
-
+    
     /**
      * Process the user submitted custom data values.
      *
