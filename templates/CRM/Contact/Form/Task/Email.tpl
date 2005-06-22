@@ -1,6 +1,6 @@
 <div class="form-item">
 <fieldset>
-<legend>{ts}Send An Email{/ts}</legend>
+<legend>{ts}Send an Email{/ts}</legend>
 <dl>
 <dt>From</dt><dd>{$from|escape}</dd>
 {if $single eq false}
