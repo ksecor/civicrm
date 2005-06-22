@@ -142,48 +142,25 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
 
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
-
         $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 
+        // data_type, html_type
         $this->addElement('select', 'data_type', ts('Data Type'), self::$_dataTypeValues, array('onchange' => 'custom_option_data_type(this)'));
-        $this->addElement('select', 'html_type', ts('HTML Type'), array('Text', 'Select', 'Radio', 'Checkbox','TextArea'), array('onchange' => 'custom_option_html_type(this)'));
+        $this->addElement('select', 'html_type', ts('HTML Type'), self::$_dataToHTML[0], array('onchange' => 'custom_option_html_type(this)'));
 
-
-        // data type, html type
-        //$dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'), array('onchange' => 'display_custom_option(this)'));
-        //$dataHTMLElement =& $this->addElement('hierselect', 'data_type', ts('Data Type / Field Type'));
-        //$dataHTMLElement->setOptions(array(self::$_dataTypeValues, self::$_dataToHTML));
-        //CRM_Core_Error::debug_var('dataHTMLElement', $dataHTMLElement);
-        //$select2 = $dataHTMLElement->_elements[1];
-        //CRM_Core_Error::debug_var('select2', $select2);
-        //$oldAttributes = $select2->getAttributes();
-        //$oldAttributes['onchange'] = 'display_custom_option(this)';
-        //$oldAttributes['onfocus'] = 'custom_option_function_1()';
-        //$oldAttributes['onblur'] = 'custom_option_function_1()';
-        //CRM_Core_Error::debug_var('oldAttributes', $oldAttributes);
-        //$select2->setAttributes(array('onchange' => 'display_custom_option(this)'));
-        //$select2->setAttributes($oldAttributes);
-        //CRM_Core_Error::debug_var('select2', $select2);
-        //$OBJECT1 = $this->getElement("date_type");
-        //CRM_Core_Error::debug_var('OBJECT1', $OBJECT1);
-        //CRM_Core_Error::debug_var('this', $this);
+        // need to freeze data_type, html_type for edit mode
+        if ($this->_action == CRM_Core_Action::UPDATE) { 
+            $this->freeze(array('data_type', 'html_type'));
+        }
 	
-        /*if ($this->_action == CRM_Core_Action::UPDATE) { 
-            $dataHTMLElement->freeze();
-        }*/
-	
-        /**
-         *  the hidden form fields of Custom Option
-         */
-
+        
+        // form fields of Custom Option
         $defaultOption = array();
-
         for($i=0; $i<self::NUM_OPTION; $i++) {
             // label
             CRM_Core_ShowHideBlocks::linksForArray( $this, $i, self::NUM_OPTION, 'optionField',  ts('another row'), ts('hide this row'));
@@ -209,9 +186,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // default value, help pre, help post, mask, attributes, javascript ?
         $this->add('text', 'default_value', ts('Default Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'));
-
         $this->add('textarea', 'help_post', ts('Field Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'help_post'));        
-
         $this->add('text', 'mask', ts('Mask'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'mask'));        
 
         // is active ?
@@ -232,9 +207,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
-            
             $this->freeze();
-            
             $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
         }
     }
@@ -287,14 +260,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function postProcess()
     {
-
-        CRM_Core_Error::le_method();
-
-
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
-
-        CRM_Core_Error::debug_var('params', $params);
 
         // set values for custom field properties and save
         $customField                =& new CRM_Core_DAO_CustomField();
