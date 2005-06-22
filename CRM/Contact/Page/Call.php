@@ -67,10 +67,10 @@ class CRM_Contact_Page_Call
         $id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
 
         //this is use to store the status (if activity complete the set to true )                
-        $status = CRM_Utils_Request::retrieve('status', CRM_Core_Config::$nullObject, false, null, 'GET');
+        $status = CRM_Utils_Request::retrieve('status', $page, false, null, 'GET');
 
         // this is use to differentiate between schedule and log call
-        $log = CRM_Utils_Request::retrieve('log', CRM_Core_Config::$nullObject, false, null, 'GET');
+        $log = CRM_Utils_Request::retrieve('log', $page, false, null, 'GET');
         
         if ($log) {
             $page->set('log', $log);
@@ -79,8 +79,8 @@ class CRM_Contact_Page_Call
         }
 
         //this is used to store parent id if this activity is a follow up activity
-        $pid = CRM_Utils_Request::retrieve('pid', CRM_Core_Config::$nullObject, false, null, 'GET');
-        
+        $pid = CRM_Utils_Request::retrieve('pid', $page, false, null, 'GET');
+
         if ($pid) {
             $page->set('pid', $pid);
         } else {

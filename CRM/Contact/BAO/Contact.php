@@ -786,8 +786,15 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
+
         $activityParam         =  array('entity_id' => $params['contact_id']);
         $contact->activity     =& CRM_Core_BAO_History::getValues($activityParam, $defaults, 'Activity');
+
+        $activityParam            =  array('contact_id' => $params['contact_id']);
+        $defaults['openActivity'] = array(
+                                          'data'       => self::getOpenActivities( $activityParam, 0, 3 ),
+                                          'totalCount' => self::getNumOpenActivity( $params['contact_id'] ),
+                                          );
 
         return $contact;
     }
@@ -1021,9 +1028,6 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         $row    = $result->fetchRow();
         $rowPhonecall = $row[0];
 
-        CRM_Core_Error::debug_log_message('num open activity  = ' . $row[0]);        
-        CRM_Core_Error::debug_var('row', $row);        
-
         return  $rowMeeting + $rowPhonecall;
     }
 
@@ -1063,7 +1067,9 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
 
         if ($sort) {
             $order = " ORDER BY " . $sort->orderBy(); 
-        } 
+        } else {
+            $order = " ORDER BY date desc ";
+        }
         
         if ( $rowCount > 0 ) {
             $limit = " LIMIT $offset, $rowCount ";

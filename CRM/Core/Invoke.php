@@ -104,6 +104,10 @@ class CRM_Core_Invoke {
         }
 
         if ( $args[2] == 'email' ) {
+            // set the userContext stack
+            $session =& CRM_Core_Session::singleton();
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
+
             $wrapper =& new CRM_Utils_Wrapper( );
             $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
         }

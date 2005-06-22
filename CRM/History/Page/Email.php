@@ -50,9 +50,6 @@ class CRM_History_Page_Email extends CRM_Core_Page {
      */
     function run()
     {
-
-        CRM_Core_Error::le_method();
-
         // get the callback, module and activity id
         $action = CRM_Utils_Request::retrieve('action', $this, false, 'browse');
         $id     = CRM_Utils_Request::retrieve('id', $this);
@@ -60,6 +57,14 @@ class CRM_History_Page_Email extends CRM_Core_Page {
         $dao = new CRM_Core_DAO_EmailHistory();
         $dao->id = $id;
         if ( $dao->find(true) ) {
+            $this->assign('fromName',
+                          CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                       $dao->contact_id,
+                                                       'display_name' ) );
+            $this->assign('toName',
+                          CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                       $id,
+                                                       'display_name' ) );
             $this->assign('sentDate', $dao->sent_date);
             $this->assign('subject', $dao->subject);
             $this->assign('message', $dao->message);

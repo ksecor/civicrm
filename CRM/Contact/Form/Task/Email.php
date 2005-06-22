@@ -112,7 +112,11 @@ class CRM_Contact_Form_Task_Email extends CRM_Contact_Form_Task {
         $this->add( 'text'    , 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' ), true );
         $this->add( 'textarea', 'message', ts('Message'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'message' ), true );
 
-        $this->addDefaultButtons( ts('Email Contacts') );
+        if ( $this->_single ) {
+            $this->addDefaultButtons( ts('Send Email'), 'next', 'cancel' );
+        } else {
+            $this->addDefaultButtons( ts('Send Email') );
+        }
     }
 
     /**

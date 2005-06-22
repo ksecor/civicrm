@@ -255,22 +255,6 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
             }
         }
 
-        // is there any notes data?
-        /*
-        if ( CRM_Utils_Array::value( 'notesCount', $defaults ) ) {
-            $showHide->addShow( 'notes' );
-            $showHide->addHide( 'notes[show]' );
-        }
-        */ 
-
-        // is there any relationships data? for now, always hide relationships by default dgg.
-        /*
-        if ( CRM_Utils_Array::value( 'relationshipsCount', $defaults ) ) {
-            $showHide->addShow( 'relationships' );
-            $showHide->addHide( 'relationships[show]' );
-        }
-        */
-
         if ( array_key_exists( 'location', $defaults ) ) {
             $numLocations = count( $defaults['location'] );
             if ( $numLocations > 0 ) {

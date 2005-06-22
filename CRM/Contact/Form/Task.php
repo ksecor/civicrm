@@ -155,12 +155,12 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
      * @return void
      * @access public
      */
-    function addDefaultButtons( $title, $type = 'next' ) {
+    function addDefaultButtons( $title, $nextType = 'next', $backType = 'back' ) {
         $this->addButtons( array(
-                                 array ( 'type'      => $type,
+                                 array ( 'type'      => $nextType,
                                          'name'      => $title,
                                          'isDefault' => true   ),
-                                 array ( 'type'      => 'back',
+                                 array ( 'type'      => $backType,
                                          'name'      => ts('Cancel') ),
                                  )
                            );

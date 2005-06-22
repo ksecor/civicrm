@@ -313,9 +313,13 @@ class CRM_Core_SelectValues {
             $minOffset = 100;
             $maxOffset = 20;
         } elseif ($type == 'datetime') {
-            $newDate['format'] = "d M Y  H i ";
+            $newDate['format'] = "d M Y  h i A";
+            $newDate['optionIncrement']['i'] = 15;
             $minOffset = 20;
             $maxOffset = 20;
+        } elseif ($type =='duration') {
+            $newDate['format'] = 'H i';
+            $newDate['optionIncrement']['i'] = 15;
         }
         
         //print_r($_date);
@@ -396,7 +400,7 @@ class CRM_Core_SelectValues {
      */
     function getMinutes () 
     {
-        for ($i = 0; $i < 60; $i = $i+5 ) {
+        for ($i = 0; $i < 60; $i = $i+15 ) {
             $minutes[$i] = $i;
         }
         return $minutes;
