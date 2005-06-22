@@ -327,10 +327,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $privacy = array();
 
         // checkboxes for DO NOT phone, email, mail
-        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_phone', null, 'Do not call');
-        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_email', null, 'Do not contact by email');
-        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_mail' , null, 'Do not contact by postal mail');
-        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_trade', null, 'Do not trade contact information' );
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_phone', null, ts('Do not call'));
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_email', null, ts('Do not contact by email'));
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_mail' , null, ts('Do not contact by postal mail'));
+        $privacy[] = HTML_QuickForm::createElement('advcheckbox', 'do_not_trade', null, ts('Do not trade contact information'));
 
         $form->addGroup($privacy, 'privacy', ts('Privacy'), '<br/>');
 

@@ -6,13 +6,13 @@
 
 <div class= "data-group">
    <img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}send email{/ts}">&nbsp;
-   <a href="{crmURL p='civicrm/contact/email' q="cid=`$contactId`&reset=1"}">Send An Email</a>&nbsp;&nbsp;
+   <a href="{crmURL p='civicrm/contact/email' q="cid=`$contactId`&reset=1"}">{ts}Send an Email{/ts}</a>&nbsp;&nbsp;
    <img src="{$config->resourceBase}i/meeting.gif" alt="{ts}meeting{/ts}">&nbsp;
-   <a href="{crmURL p='civicrm/contact/view/meeting' q="action=add"}">Schedule A Meeting</a>&nbsp;&nbsp;
+   <a href="{crmURL p='civicrm/contact/view/meeting' q="action=add"}">{ts}Schedule a Meeting{/ts}</a>&nbsp;&nbsp;
    <img src="{$config->resourceBase}i/tel.gif" alt="{ts}call{/ts}">&nbsp;
-   <a href="{crmURL p='civicrm/contact/view/call' q="action=add"}">Schedule A Call</a>&nbsp;&nbsp;
+   <a href="{crmURL p='civicrm/contact/view/call' q="action=add"}">{ts}Schedule a Call{/ts}</a>&nbsp;&nbsp;
    <img src="{$config->resourceBase}i/meeting.gif" alt="{ts}meeting{/ts}">&nbsp;
-   <a href="{crmURL p='civicrm/contact/view/meeting' q="action=add&log=true"}">Log A Meeting</a>&nbsp;&nbsp;
+   <a href="{crmURL p='civicrm/contact/view/meeting' q="action=add&log=true"}">{ts}Log a Meeting{/ts}</a>&nbsp;&nbsp;
    <img src="{$config->resourceBase}i/tel.gif" alt="{ts}call{/ts}">&nbsp;
-   <a href="{crmURL p='civicrm/contact/view/call' q="action=add&log=true"}">Log A Call</a>
+   <a href="{crmURL p='civicrm/contact/view/call' q="action=add&log=true"}">{ts}Log a Call{/ts}</a>
 </div>
