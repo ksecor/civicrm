@@ -108,6 +108,9 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             $url = 'civicrm/contact/view/call';
         }
 
+// helper variable for nicer formatting
+        $deleteExtra = ts('Are you sure you want to delete this activity.');
+
         self::$_actionLinks = array(
                                     CRM_Core_Action::UPDATE => array(
                                                                      'name'     => ts('Edit'),
@@ -119,6 +122,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                      'name'     => ts('Delete'),
                                                                      'url'      => $url,
                                                                      'qs'       => 'action=delete&id=%%id%%',
+                                                                     'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                      'title'    => ts('Delete Activity'),
                                                                      ),
                                     );

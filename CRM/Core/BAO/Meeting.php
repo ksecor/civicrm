@@ -135,7 +135,7 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
         $meeting =& new CRM_Core_DAO_Meeting( );
         $meeting->id = $id;
         $meeting->delete();
-        CRM_Core_Session::setStatus( ts('The selected Actvity is deleted') );
+        CRM_Core_Session::setStatus( ts('Selected Meeting has been deleted.') );
     }
 
 }

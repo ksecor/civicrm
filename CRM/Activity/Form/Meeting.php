@@ -144,10 +144,13 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
      * compose the url to show details of this specific Meeting
      *
      * @param int $id
+     *
+     * @static
+     * @access public
+     *
      */
-    public function showMeetingDetails( $id )
+    static function showMeetingDetails( $id )
     {
-        
         return CRM_Utils_System::url('civicrm/contact/view/meeting', "action=view&id=$id&status=true");
     }
 

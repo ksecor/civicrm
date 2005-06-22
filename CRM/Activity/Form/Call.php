@@ -149,8 +149,11 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
      * compose the url to show details of this specific Call
      *
      * @param int $id
+     *
+     * @static
+     * @access public
      */
-    public function showCallDetails( $id )
+    static function showCallDetails( $id )
     {
         return CRM_Utils_System::url('civicrm/contact/view/call', "action=view&id=$id&status=true");
     }

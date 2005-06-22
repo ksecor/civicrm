@@ -137,7 +137,7 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
         
         $call->id = $id;
         $call->delete();
-        CRM_Core_Session::setStatus( ts('The selected Actvity is deleted') );
+        CRM_Core_Session::setStatus( ts('Selected Phone Call has been deleted.') );
     }
 
 
