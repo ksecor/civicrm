@@ -26,74 +26,82 @@ class testEditNoteByNoteTab(PyHttpTestCase):
 
         commonAPI.login(self)
         
-        note      = 'This is Test Note'
-        queryID   = 'select id from crm_note where note like \'%%%s%%\'' % note
-        noteID    = db.loadVal(queryID)
-        
-        NID = '''%s''' % noteID
-        params = [
-            ('''nid''', NID),
-            ('''action''', '''update'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note?nid=201&action=update''') % drupal_path)
-        url = "%s/civicrm/contact/view/note" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        params = [
-            ('''_qf_default''', '''Note:next'''),
-            ('''note''', '''Adding test Note....Added note is being tested for editing..'''),
-            ('''_qf_Note_next''', '''Save'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note?_qf_default=Note:next&note=Adding test Note....Added note is being tested for editing..&_qf_Note_next=Save''') % drupal_path)
-        url = "%s/civicrm/contact/view/note" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "post", url, params)
-        self.post(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        params = [
-            ('''action''', '''browse'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note?action=browse''') % drupal_path)
-        url = "%s/civicrm/contact/view/note" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+        name    = 'Zope, Manish'
+        queryID = 'select id from crm_contact where sort_name=\'%s\'' % name
 
-        if NID :
-            print ("**************************************************************************************")
-            print "The Note \'%s\' is Edited Successfully" % note
-            print ("**************************************************************************************")
+        contactID = db.loadVal(queryID)
+        if contactID :
+            CID = '''%s''' % contactID
+            
+            note      = 'This is Test Note From Note Tab'
+            queryID   = 'select id from crm_note where note like \'%%%s%%\'' % note
+            noteID    = db.loadVal(queryID)
+            print noteID
+            if noteID :
+                NID = '''%s''' % noteID
+                
+                params = [
+                    ('''reset''', '''1'''),
+                    ('''cid''', CID),]
+                url = "http://localhost/drupal/civicrm/contact/view"
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 1 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                params = [
+                    ('''nid''', NID),
+                    ('''action''', '''update'''),]
+                url = "%s/civicrm/contact/view/note" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                params = [
+                    ('''_qf_default''', '''Note:next'''),
+                    ('''note''', '''This is Test Note By Note Tab....Added note is being tested for editing..'''),
+                    ('''_qf_Note_next''', '''Save'''),]
+                url = "%s/civicrm/contact/view/note" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "post", url, params)
+                self.post(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                editNote = params[1][1]
+                params = [
+                    ('''action''', '''browse'''),]
+                url = "%s/civicrm/contact/view/note" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                if self.responseContains('%s' % editNote) :
+                    print ("**************************************************************************************")
+                    print "The Note \'%s\' is Edited Successfully" % note
+                    print ("**************************************************************************************")
+                else :
+                    print ("**************************************************************************************")
+                    print "Some Problem while Editing \'%s\' Note" % note
+                    print ("**************************************************************************************")
+            else :
+                print ("**************************************************************************************")
+                print ("There is no Note like \'%s\'") % note
+                print ("**************************************************************************************")
         else :
-            print ("**************************************************************************************")
-            print ("There is no Note like \'%s\'") % note
-            print ("**************************************************************************************")
+            print "********************************************************************************"
+            print "Required Contact Does not Exists"
+            print "********************************************************************************"
 
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 9 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

@@ -26,77 +26,117 @@ class testEditRelByRelTab(PyHttpTestCase):
 
         commonAPI.login(self)
 
-        queryCA    = 'select id from crm_contact where sort_name like \'%%Zope, Manish%%\' and contact_type=\'Individual\''
-        queryCB    = 'select id from crm_contact where sort_name like \'%%Zope House%%\' and contact_type=\'Household\''
-        contactA   = db.loadVal(queryCA)
-        contactB   = db.loadVal(queryCB)
+        nameI      = 'Zope, Manish'
+        nameH      = 'Zope House'
+        queryCA    = 'select id from crm_contact where sort_name like \'%s\' and contact_type=\'Individual\'' % nameI
+        contactIID = db.loadVal(queryCA)
 
-        queryRID  = 'select id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactA, contactB)
-        relID      = db.loadVal(queryRID)
-        queryRTID  = 'select relationship_type_id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactA, contactB)
-        relTID      = db.loadVal(queryRTID)
+        if contactIID :
+            CID = '''%s''' % contactIID
+            queryCB    = 'select id from crm_contact where sort_name like \'%s\' and contact_type=\'Household\'' % nameH
+            contactHID = db.loadVal(queryCB)
 
-        if relTID == 7 :
-            RTID = '''6_a_b'''
-        else :
-            RTID = '''7_a_b'''
+            if contactHID :
+                queryRID  = 'select id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactIID, contactHID)
+                relID      = db.loadVal(queryRID)
+                queryRTID  = 'select relationship_type_id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactIID, contactHID)
+                relTID      = db.loadVal(queryRTID)
                 
-        RID = '''%s''' % relID 
-        params = [
-            ('''action''', '''update'''),
-            ('''rid''', RID),
-            ('''rtype''', '''b_a'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/rel?action=update&rid=129&rtype=b_a''') % drupal_path)
-        url = "%s/civicrm/contact/view/rel" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        params = [
-            ('''_qf_default''', '''Relationship:next'''),
-            ('''relationship_type_id''', RTID),
-            ('''start_date[d]''', '''14'''),
-            ('''start_date[M]''', '''10'''),
-            ('''start_date[Y]''', '''1998'''),
-            ('''end_date[d]''', '''18'''),
-            ('''end_date[M]''', '''12'''),
-            ('''end_date[Y]''', '''2022'''),
-            ('''_qf_Relationship_next''', '''Save Relationship'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/rel?_qf_default=Relationship:next&relationship_type_id=7_b_a&start_date[d]=14&start_date[M]=10&start_date[Y]=1998&end_date[d]=18&end_date[M]=12&end_date[Y]=2022&_qf_Relationship_next=Save Relationship''') % drupal_path)
-        url = "%s/civicrm/contact/view/rel" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "post", url, params)
-        self.post(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        params = [
-            ('''action''', '''browse'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/rel?action=browse''') % drupal_path)
-        url = "%s/civicrm/contact/view/rel" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+                if relTID == '7' :
+                    RTID = '''6_a_b'''
+                else :
+                    RTID = '''7_a_b'''
+                        
+                RID = '''%s''' % relID 
 
-        print ("**************************************************************************************")
-        print "Relationship between \" \'Zope, Manish\' and \'Zope House\' \" is Edited Successfully"
-        print ("**************************************************************************************")
+                params = [
+                    ('''reset''', '''1'''),
+                    ('''cid''', CID),]
+                url = "%s/civicrm/contact/view" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                url = "%s/civicrm/contact/view/rel" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                params = None
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                params = [
+                    ('''action''', '''update'''),
+                    ('''rid''', RID),
+                    ('''rtype''', '''b_a'''),]
+                url = "%s/civicrm/contact/view/rel" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+                
+                params = [
+                    ('''_qf_default''', '''Relationship:next'''),
+                    ('''relationship_type_id''', RTID),
+                    ('''start_date[d]''', '''14'''),
+                    ('''start_date[M]''', '''10'''),
+                    ('''start_date[Y]''', '''1998'''),
+                    ('''end_date[d]''', '''18'''),
+                    ('''end_date[M]''', '''12'''),
+                    ('''end_date[Y]''', '''2022'''),
+                    ('''_qf_Relationship_next''', '''Save Relationship'''),]
+                url = "%s/civicrm/contact/view/rel" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "post", url, params)
+                self.post(url, params)
+                if relTID :
+                    self.msg("Response code: %s" % self.getResponseCode())
+                    self.assertEquals("Assert number 8 failed", 302, self.getResponseCode())
+                    Validator.validateResponse(self, self.getMethod(), url, params)
+                    
+                    params = [
+                        ('''action''', '''browse'''),]
+                    url = "%s/civicrm/contact/view/rel" % drupal_path
+                    self.msg("Testing URL: %s" % url)
+                    Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                    self.get(url, params)
+                    self.msg("Response code: %s" % self.getResponseCode())
+                    self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
+                    Validator.validateResponse(self, self.getMethod(), url, params)
+                    print ("**************************************************************************************")
+                    print "Relationship between \" \'%s\' and \'%s\' \" is Updated Successfully" % (nameI, nameH)
+                    print ("**************************************************************************************")
+                else :
+                    self.msg("Response code: %s" % self.getResponseCode())
+                    self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
+                    Validator.validateResponse(self, self.getMethod(), url, params)
+                    print ("**************************************************************************************")
+                    print " No Relationship Between \'%s\' and \'%s\'" % (nameI, nameH)
+                    print ("**************************************************************************************")
+                    
+                    params = [
+                        ('''action''', '''browse'''),]
+                    url = "%s/civicrm/contact/view/rel" % drupal_path
+                    self.msg("Testing URL: %s" % url)
+                    Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                    self.get(url, params)
+                    self.msg("Response code: %s" % self.getResponseCode())
+                    self.assertEquals("Assert number 11 failed", 200, self.getResponseCode())
+                    Validator.validateResponse(self, self.getMethod(), url, params)
+            else :
+                print ("**************************************************************************************")
+                print " Household \'%s\' do not Exists" % nameH
+                print ("**************************************************************************************")
+        else :
+            print ("**************************************************************************************")
+            print " Individual \'%s\' do not Exists" % nameI
+            print ("**************************************************************************************")
         
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)

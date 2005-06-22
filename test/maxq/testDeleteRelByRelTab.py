@@ -26,16 +26,38 @@ class testDeleteRelByRelTab(PyHttpTestCase):
 
         commonAPI.login(self)
         
-        queryCA    = 'select id from crm_contact where sort_name like \'%%Zope, Manish%%\' and contact_type=\'Individual\''
-        queryCB    = 'select id from crm_contact where sort_name like \'%%Zope House%%\' and contact_type=\'Household\''
+        queryCA    = 'select id from crm_contact where sort_name=\'Zope, Manish\' and contact_type=\'Individual\''
+        queryCB    = 'select id from crm_contact where sort_name=\'Zope House\' and contact_type=\'Household\''
         contactA   = db.loadVal(queryCA)
         contactB   = db.loadVal(queryCB)
-
+        
         if contactA :
+            CID = '''%s''' % contactA
             if contactB :
                 queryRID = 'select id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactA, contactB)
                 relID    = db.loadVal(queryRID)
                 RID      = '''%s''' % relID
+                print relID
+
+                params = [
+                    ('''reset''', '''1'''),
+                    ('''cid''', CID),]
+                url = "%s/civicrm/contact/view" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 1 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
+
+                url = "%s/civicrm/contact/view/rel" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                params = None
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 3 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
                 
                 params = [
                     ('''action''', '''delete'''),

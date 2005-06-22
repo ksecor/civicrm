@@ -26,47 +26,67 @@ class testDeleteNoteByNoteTab(PyHttpTestCase):
 
         commonAPI.login(self)
 
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note''') % drupal_path)
-        url = "%s/civicrm/contact/view/note" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        note    = 'This is Test Note'
-        queryID = 'select id from crm_note where note like \'%%%s%%\'' % note
-        noteID  = db.loadVal(queryID)
-        print noteID
-        NID = '''%s''' % noteID
-        params = [
-            ('''nid''', NID),
-            ('''action''', '''delete'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note?nid=201&action=delete''') % drupal_path)
-        url = "%s/civicrm/contact/view/note" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+        name    = 'Zope, Manish'
+        queryID = 'select id from crm_contact where sort_name=\'%s\'' % name
 
-        if noteID :
-            if self.responseContains('%s' % note) :
-                print ("**************************************************************************************")
-                print "\'%s\' Note is not Deleted" % note
-                print ("**************************************************************************************")
+        contactID = db.loadVal(queryID)
+        if contactID :
+            CID = '''%s''' % contactID
+            
+            params = [
+                ('''reset''', '''1'''),
+                ('''cid''', CID),]
+            url = "http://localhost/drupal/civicrm/contact/view"
+            self.msg("Testing URL: %s" % url)
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 1 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            
+            #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/note''') % drupal_path)
+            url = "%s/civicrm/contact/view/note" % drupal_path
+            self.msg("Testing URL: %s" % url)
+            params = None
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            
+            note    = 'This is Test Note'
+            queryID = 'select id from crm_note where note like \'%%%s%%\'' % note
+            noteID  = db.loadVal(queryID)
+            print noteID
+            NID = '''%s''' % noteID
+            params = [
+                ('''nid''', NID),
+                ('''action''', '''delete'''),]
+            url = "%s/civicrm/contact/view/note" % drupal_path
+            self.msg("Testing URL: %s" % url)
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            
+            if noteID :
+                if self.responseContains('%s' % note) :
+                    print ("**************************************************************************************")
+                    print "\'%s\' Note is not Deleted" % note
+                    print ("**************************************************************************************")
+                else :
+                    print ("**************************************************************************************")
+                    print "\'%s\' Note is Deleted Successfully" % note
+                    print ("**************************************************************************************")
             else :
                 print ("**************************************************************************************")
-                print "\'%s\' Note is Deleted Successfully" % note
+                print "\'%s\' Note does not exists" % note
                 print ("**************************************************************************************")
         else :
-            print ("**************************************************************************************")
-            print "\'%s\' Note does not exists" % note
-            print ("**************************************************************************************")
-        
+            print "********************************************************************************"
+            print "No such contact having Name \"%s\" currently Exists" % name
+            print "********************************************************************************"
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 

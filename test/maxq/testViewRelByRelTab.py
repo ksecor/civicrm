@@ -25,137 +25,100 @@ class testViewRelByRelTab(PyHttpTestCase):
         drupal_path = commonConst.DRUPAL_PATH
 
         commonAPI.login(self)
+        
+        nameI      = 'Zope, Manish'
+        nameH      = 'Zope House'
+        
+        queryCA    = 'select id from crm_contact where sort_name=\'%s\' and contact_type=\'Individual\'' % nameI
+        contactIID = db.loadVal(queryCA)
+        queryCB    = 'select id from crm_contact where sort_name=\'%s\' and contact_type=\'Household\'' % nameH
+        contactHID = db.loadVal(queryCB)
+        
+        if contactIID :
+            CID = '''%s''' % contactIID
+            params = [
+                ('''reset''', '''1'''),
+                ('''cid''', CID),]
+            url = "%s/civicrm/contact/view" % drupal_path
+            self.msg("Testign URL: %s" % url)
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            
+            url = "%s/civicrm/contact/view/rel" % drupal_path
+            self.msg("Testing URL: %s" % url)
+            params = None
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 6 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
+            
+            queryRID  = 'select id from crm_relationship where contact_id_a=%s and contact_id_b=%s' % (contactIID, contactHID)
+            relID      = db.loadVal(queryRID)
+            
+            if relID :
+                RID = '''%s''' % relID
+                params = [
+                    ('''action''', '''view'''),
+                    ('''rid''', RID),
+                    ('''rtype''', '''b_a'''),]
+                url = "%s/civicrm/contact/view/rel" % drupal_path
+                self.msg("Testing URL: %s" % url)
+                Validator.validateRequest(self, self.getMethod(), "get", url, params)
+                self.get(url, params)
+                self.msg("Response code: %s" % self.getResponseCode())
+                self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
+                Validator.validateResponse(self, self.getMethod(), url, params)
 
-        params = [
-            ('''_qf_default''', '''Search:refresh'''),
-            ('''contact_type''', '''Individual'''),
-            ('''group''', ''''''),
-            ('''tag''', ''''''),
-            ('''sort_name''', '''Zope'''),
-            ('''_qf_Search_refresh''', '''Search'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/search?_qf_default=Search:refresh&contact_type=&group=&tag=&sort_name=&_qf_Search_refresh=Search''') % drupal_path)
-        url = "%s/civicrm/contact/search" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "post", url, params)
-        self.post(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 7 failed", 302, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        params = [
-            ('''_qf_Search_display''', '''true'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/search?_qf_Search_display=true''') % drupal_path)
-        url = "%s/civicrm/contact/search" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        params = [
-            ('''reset''', '''1'''),
-            ('''cid''', '''43'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view?reset=1&cid=43''') % drupal_path)
-        url = "%s/civicrm/contact/view" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 10 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/rel''') % drupal_path)
-        url = "%s/civicrm/contact/view/rel" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        params = None
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 6 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        params = [
-            ('''action''', '''view'''),
-            ('''rid''', '''50'''),
-            ('''rtype''', '''b_a'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/rel?action=view&rid=50&rtype=b_a''') % drupal_path)
-        url = "%s/civicrm/contact/view/rel" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 7 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
-        
-        queryA       = 'select contact_id_a from crm_relationship where id=%s' % params[1][1]
-        queryB       = 'select contact_id_b from crm_relationship where id=%s' % params[1][1]
-        queryRType   = 'select relationship_type_id from crm_relationship where id=%s' % params[1][1]
-        
-        contactIdA   = db.loadVal(queryA)
-        contactIdB   = db.loadVal(queryB)
-        relationId   = db.loadVal(queryRType)
-
-        queryCA      = 'select sort_name from crm_contact where id=%s' % int(contactIdA)
-        queryCB      = 'select sort_name from crm_contact where id=%s' % int(contactIdB)
-
-        contactNameA = db.loadVal(queryCA)
-        contactNameB = db.loadVal(queryCB)
-        
-        queryRA      = 'select name_a_b from crm_relationship_type where id=%s' % relationId
-        queryRB      = 'select name_b_a from crm_relationship_type where id=%s' % relationId
-
-        relationA    = db.loadVal(queryRA)
-        relationB    = db.loadVal(queryRB)
-
-        if self.responseContains(relationA) and self.responseContains(contactNameB) :
-            print ("************************************************************************************")
-            print ("Page Response Shows the Relationship as : ")
-            print ("------------------------------------------------------------------------------------")
-            print ("\'" + contactNameA + "\' -- " + relationA + " -- \'" + contactNameB + "\'")
-            print ("------------------------------------------------------------------------------------")
-            print ("************************************************************************************")
-            print ("\n")
-            print ("************************************************************************************")
-            print ("Check for the same Relationship through second contact's view : ")
-            print ("------------------------------------------------------------------------------------")
-            print ("\'" + contactNameB + "\' -- " + relationB + " -- \'" + contactNameA + "\'")
-            print ("------------------------------------------------------------------------------------")
-            print ("************************************************************************************")
+                queryRTID  = 'select relationship_type_id from crm_relationship where contact_id_a=%s' % contactIID
+                relTID      = db.loadVal(queryRTID)
+                
+                queryRA      = 'select name_a_b from crm_relationship_type where id=%s' % relTID
+                queryRB      = 'select name_b_a from crm_relationship_type where id=%s' % relTID
+                
+                relationA    = db.loadVal(queryRA)
+                relationB    = db.loadVal(queryRB)
+                
+                if self.responseContains(relationA) and self.responseContains(nameH) :
+                    print ("************************************************************************************")
+                    print ("Page Response Shows the Relationship as : ")
+                    print ("------------------------------------------------------------------------------------")
+                    print ("\'" + nameI + "\' -- " + relationA + " -- \'" + nameH + "\'")
+                    print ("------------------------------------------------------------------------------------")
+                    print ("************************************************************************************")
+                    print ("\n")
+                    print ("************************************************************************************")
+                    print ("Check for the same Relationship through second contact's view : ")
+                    print ("------------------------------------------------------------------------------------")
+                    print ("\'" + nameH + "\' -- " + relationB + " -- \'" + nameI + "\'")
+                    print ("------------------------------------------------------------------------------------")
+                    print ("************************************************************************************")
+                else :
+                    print ("************************************************************************************")
+                    print ("Database Values and Response by the Test Script \"Do Not Match\"")
+                    print ("************************************************************************************")
+            else :
+                print ("**************************************************************************************")
+                print "No Relationship between \'%s\' and \'%s\' Exists." % (nameI, nameH)
+                print ("**************************************************************************************")
+            
+            params = [
+                ('''action''', '''browse'''),]
+            url = "%s/civicrm/contact/view/rel" % drupal_path
+            self.msg("Testing URL: %s" % url)
+            Validator.validateRequest(self, self.getMethod(), "get", url, params)
+            self.get(url, params)
+            self.msg("Response code: %s" % self.getResponseCode())
+            self.assertEquals("Assert number 8 failed", 200, self.getResponseCode())
+            Validator.validateResponse(self, self.getMethod(), url, params)
         else :
-            print ("************************************************************************************")
-            print ("Database Values and Response by the Test Script \"Do Not Match\"")
-            print ("************************************************************************************")
-        
-        params = [
-            ('''action''', '''browse'''),]
-        #self.msg("Testing URL: %s" % self.replaceURL('''%s/civicrm/contact/view/rel?action=browse''') % drupal_path)
-        url = "%s/civicrm/contact/view/rel" % drupal_path
-        self.msg("Testing URL: %s" % url)
-        Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        self.get(url, params)
-        self.msg("Response code: %s" % self.getResponseCode())
-        self.assertEquals("Assert number 9 failed", 200, self.getResponseCode())
-        Validator.validateResponse(self, self.getMethod(), url, params)
+            print ("**************************************************************************************")
+            print " Individual \'%s\' do not Exists" % nameI
+            print ("**************************************************************************************")
 
-        #self.msg("Testing URL: %s" % self.replaceURL('''http://localhost/favicon.ico'''))
-        #url = "http://localhost/favicon.ico"
-        #params = None
-        #Validator.validateRequest(self, self.getMethod(), "get", url, params)
-        #self.get(url, params)
-        #self.msg("Response code: %s" % self.getResponseCode())
-        #self.assertEquals("Assert number 10 failed", 404, self.getResponseCode())
-        #Validator.validateResponse(self, self.getMethod(), url, params)
-        
         self.msg('Test successfully complete.')
     # ^^^ Insert new recordings here.  (Do not remove this line.)
 
