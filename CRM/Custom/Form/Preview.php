@@ -101,7 +101,10 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                 $fieldId = $field['id'];
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
                 $defaults[$elementName] = $field['default_value'];
-                
+                //handle checkboxes default checked
+                if($field['html_type'] == 'CheckBox') {
+                    $defaults[$elementName] = '';                    
+                }
             }
         }
         return $defaults;
@@ -165,7 +168,11 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
                     $check = array();
                     foreach ($customOption as $v) {
-                        $check[] = $this->createElement('checkbox', $v['value'], null, $v['label']);
+                        $checked = array();
+                        if ( $elementData == $v['value'] ) {
+                            $checked = array('checked' => 'checked');
+                        }
+                            $check[] = $this->createElement('checkbox', $v['value'], null, $v['label'], $checked);                        
                     }
                     $this->addGroup($check, $elementName, $field['label']);
                     break;

@@ -203,13 +203,17 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
                 case 'CheckBox':
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
-                    $checkBox = array();
-                    
+                    $check = array();
+                    $checkedData = explode("|", $elementData);
+                    //print_r($checkedData);
                     foreach ($customOption as $v) {
-                        $strChecked = '';
-                        $checkBox[$v['value']] = $this->createElement('checkbox', $v['label'], '', $v['label'], $v['value']);
+                        $checked = array();
+                        if (in_array($v['value'], $checkedData))  {
+                            $checked = array('checked' => 'checked');
+                        }
+                        $check[] = $this->createElement('checkbox', $v['value'], null, $v['label'], $checked);
                     }
-                    $this->addGroup($checkBox, $elementName, $field['label']);
+                    $this->addGroup($check, $elementName, $field['label']);
                     break;
 
                 case 'Select State / Province':
@@ -292,15 +296,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                         break;
 
                     case 'CheckBox':
-                        if($field['customValue']['data']) {
-                            $defaultsChecked =  explode("|", $field['customValue']['data']);                            
-                            $defaults[$elementName] = $defaultsChecked ? $defaultsChecked : $field['default_value'];
-                        } else {
-                            $elementName = array();
-                            $elementName[$field['default_value']] = 1;
-                            $defaults[$elementName] = 1;
-                            $defaultsChecked = $field['default_value'];
-                        }
+                        $defaults[$elementName] = '';
                         break;
 
                     case 'Select Date':
@@ -357,7 +353,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 case 'Select':
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     break;
-                case 'CheckBox':                    
+                case 'CheckBox':  
+                    //print_r($v);
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  implode("|", array_keys($v));
                     break;
                 case 'Select Date':
