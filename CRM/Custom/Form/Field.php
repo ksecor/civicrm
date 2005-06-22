@@ -111,6 +111,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     function setDefaultValues()
     {
+        
+        CRM_Core_Error::le_method();
+
         $defaults = array();
         
         if (isset($this->_id)) {
@@ -118,22 +121,42 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             CRM_Core_BAO_CustomField::retrieve($params, $defaults);
             $this->_gid = $defaults['custom_group_id'];
             
-            if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
-                $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'], self::$_dataTypeKeys ));
+            CRM_Core_Error::debug_var('defaults', $defaults);
+
+            if (CRM_Utils_Array::value('data_type', $defaults)) {
+                $var1 = array('0' => array_search($defaults['data_type'], self::$_dataTypeKeys));
+                CRM_Core_Error::debug_var('var1', $var1);
+                $defaults['data_type'] = array('0' => array_search($defaults['data_type'], self::$_dataTypeKeys));
             }
-            if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
-            $defaults['html_type'] = array('0' => array_search( $defaults['html_type'],self::$_dataToHTML[$defaults['data_type'][0]]));
+
+
+            if (CRM_Utils_Array::value('data_type', $defaults)) {
+                $this->_rebuildHTMLType($defaults['data_type'][0]);
+                //$defaults['html_type'] = array('0' => $defaults['html_type']);            
+                $var2 = array_search($defaults['html_type'], self::$_dataToHTML[$defaults['data_type'][0]]);
+                CRM_Core_Error::debug_var('var2', $var2);
+                $defaults['html_type'] = array('0' => array_search($defaults['html_type'], self::$_dataToHTML[$defaults['data_type'][0]]));
             }
 
         } else {
             $defaults['is_active'] = 1;
-
             for($i=0; $i<self::NUM_OPTION; $i++) {
                 $defaults['option_status['.$i.']'] = 1;
             }
         }
         return $defaults;
     }
+
+
+    private function _rebuildHTMLType($dataType)
+    {
+        $this->removeElement('html_type');
+        $this->addElement('select', 'html_type', ts('HTML Type'), self::$_dataToHTML[$dataType], array('onchange' => 'custom_option_html_type(this)'));
+        $this->freeze('html_type');
+    }
+
+
+
     
     /**
      * Function to actually build the form
@@ -144,6 +167,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
+
+        CRM_Core_Error::le_method();
+
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
 
