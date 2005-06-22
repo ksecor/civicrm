@@ -128,13 +128,13 @@ class CRM_Activity_Form extends CRM_Core_Form
             $min = date("i");
             
             if ($min > 45) {
-                $min = 0;
-            } elseif ($min > 30) {
                 $min = 45;
-            } elseif ($min > 15) {
+            } elseif ($min > 30) {
                 $min = 30;
-            } elseif ($min > 0) {
+            } elseif ($min > 15) {
                 $min = 15;
+            } elseif ($min > 0) {
+                $min = 00;
             }
             
             $currentDate = $currentDay.' '.$min.':'.$currentTime;
