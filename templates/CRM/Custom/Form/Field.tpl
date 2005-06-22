@@ -18,7 +18,7 @@
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
         {/if}
-        <dt>{$form.default_value.label}</dt><dd>{$form.default_value.html}</dd>
+        <dt id="hideDefaultValTxt" name="hideDefaultValTxt">{$form.default_value.label}</dt><dd id="hideDefaultValDef" name="hideDefaultValDef">{$form.default_value.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}If you want to provide a default value for this field, enter it here.{/ts}</dd>
         {/if}
