@@ -268,8 +268,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save and New'),
                                          'subName'   => 'new' ),
-                                 array ( 'type'      => 'reset',
-                                         'name'      => ts('Reset')),
                                  array ( 'type'       => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )

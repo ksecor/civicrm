@@ -1,7 +1,7 @@
 {* Form elements for displaying and running action tasks on search results *}
 
  <div id="search-status">
-  {if $savedSearch.name}{$savedSearch.name} {ts}(saved search){/ts} - {/if}
+  {if $savedSearch.name}{$savedSearch.name} {ts}(saved search){/ts} <a href="{if $action eq 512}{crmURL p='civicrm/contact/search/advanced' q="reset=1"}{else}{crmURL p='civicrm/contact/search/basic' q="reset=1"}{/if}">&raquo; Start a new search</a><br />{/if}
     {if $context EQ 'smog'}
       {ts count=$pager->_totalItems plural='Found %count group members'}Found %count group member{/ts}
    {else}
@@ -16,8 +16,9 @@
   {/if}
   {if $savedSearch.name}
     <div class="element-right">
-        <a href="">&raquo; Start a new search</a>
-    <div>
+        
+    </div>
+  {/if}
  </div>
 
  <div class="form-item">
