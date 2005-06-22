@@ -144,7 +144,7 @@
   {if $activity.totalCount}
     <a href="#" onClick="hide('activityHx[show]'); show('activityHx'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Activity History{/ts}</label> ({$activity.totalCount})<br />
   {else}
-    <dl><dt>{ts}Activity History{/ts}</dt><dd>{ts}No activityHx.{/ts}</dd></dl>
+    <dl><dt>{ts}Activity History{/ts}</dt><dd>{ts}No activity history.{/ts}</dd></dl>
   {/if}
 </div>
 
