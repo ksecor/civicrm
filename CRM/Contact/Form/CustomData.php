@@ -24,7 +24,6 @@
 
 /**
  *
- *
  * @package CRM
  * @author Donald A. Lobo <lobo@yahoo.com>
  * @copyright Donald A. Lobo 01/15/2005
@@ -207,10 +206,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     //print_r($checkedData);
                     foreach ($customOption as $v) {
                         $checked = array();
-                        if (in_array($v['value'], $checkedData))  {
-                            $checked = array('checked' => 'checked');
-                        }
-                        $check[] = $this->createElement('checkbox', $v['value'], null, $v['label'], $checked);
+                        $check[] = $this->createElement('checkbox', $v['value'], null, $v['label']);
                     }
                     $this->addGroup($check, $elementName, $field['label']);
                     break;
@@ -290,7 +286,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
                     
                 case 'CheckBox':
-
                     if(isset($field['customValue']['data'])) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
                         $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
@@ -300,6 +295,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                             if (is_array($customValues)) {
                                 if (in_array($val['value'], $customValues)) {
                                     $defaults[$elementName][$val['value']] = 1;
+                                } else {
+                                    $defaults[$elementName][$val['value']] = 0;
                                 }
                             }
                         }
@@ -327,11 +324,17 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function postProcess() 
     {
-
-        CRM_Core_Error::le_method();
+        // first reset all checkbox and radio data
+        foreach ($this->_groupTree as $group) {
+            foreach ($group['fields'] as $field) {
+                if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Radio' ) {
+                    $this->_groupTree[$group['id']]['fields'][$field['id']]['customValue']['data'] = 'NULL';
+                }
+            }
+        }
 
         // Get the form values and groupTree
-        $fv = $this->exportValues();
+        $fv = $this->controller->exportValues( $this->_name );
 
         foreach ($fv as $k => $v) {
             list($groupId, $fieldId, $elementName) = explode('_', $k, 3);
@@ -359,10 +362,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     break;
                 case 'CheckBox':  
-                    //CRM_Core_Error::debug_var('k', $k);
-                    //CRM_Core_Error::debug_var('v', $v);
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  implode(",", array_keys($v));
-                    //CRM_Core_Error::debug_var('somevar',$this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data']);
                     break;
                 case 'Select Date':
                     $date = CRM_Utils_Date::format( $v );

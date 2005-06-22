@@ -25,7 +25,7 @@
                 {/foreach}
                 
                 <div class="action-link">
-                <a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update"}">&raquo; {ts}Edit custom data{/ts}</a>
+                <a href="{crmURL p='civicrm/contact/view/cd' q="cid=`$contactId`&action=update&reset=1"}">&raquo; {ts}Edit custom data{/ts}</a>
                 </div>
             </div>
         {else}
