@@ -59,6 +59,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 'Memo'          => ts('Note'),
                 'Date'          => ts('Date'),
                 'Boolean'       => ts('Yes or No'),
+                'StateProvince' => ts('State/Province'),
+                'Country'       => ts('Country'),
             );
         }
         return self::$_dataType;

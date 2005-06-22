@@ -40,13 +40,13 @@
   <field>
      <name>data_type</name>
      <type>enum</type>
-     <values>String, Int, Float, Money, Memo, Date, Boolean</values>
+     <values>String, Int, Float, Money, Memo, Date, Boolean, StateProvince, Country</values>
      <comment>Controls location of data storage in extended_data table.</comment>
   </field>
   <field>
      <name>html_type</name>
      <type>enum</type>
-     <values>Text, TextArea, Select, Radio, CheckBox, Select Date, Select State / Province, Select Country</values>
+     <values>Text, TextArea, Select, Radio, CheckBox, Select Date, Select State/Province, Select Country</values>
      <comment>HTML types plus several built-in extended types.</comment>
   </field>
   <field>

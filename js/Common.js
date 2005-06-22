@@ -337,45 +337,24 @@ function on_load_init_check(form)
 }
 
 /**
- * This function is used by the custom data field form
- * It determines the type of html_type for a custom field
- * and then depending on html_type it will display 
- * a section for entering options for that field.
+ * This function is used to populate html_type depending on
+ * the current data_type.
  *
- * html_types that need to display the section of custom
- * options are 
- *
- * 'Radio'
- * 'Select'
- * 'Checkbox'
- *
- * @param form - name of form that contains the html_type
+ * @param data_type - select object
  *
  * @access public
  * @return null
  */
-
 function custom_option_data_type(data_type) 
 {
-    //alert('entering display_custom_data_type');
-    //alert(form.name);
-    //alert (html_type[0].value + " " + html_type[0].options[html_type[0].selectedIndex].text);
-    //var html_type = document.getElementsByName('html_type');
-    //alert('html type length = ' + html_type.length);
-
     // get the html_type
     html_type = data_type.form.html_type;
     var data_type_name = data_type.options[data_type.selectedIndex].text;
     var data_type_index = data_type.selectedIndex;
 
-    //alert("index = " + data_type.selectedIndex + " Name = " +  data_type_name);
-    //    while(html_type.options.length) {
-    //remove;
-    
     html_type.length=0;
     switch(data_type_name) {
     case "Alphanumeric":
-	//alert ("alphanumeric");
 	html_type[0] = new Option('Text',     0, true);
 	html_type[1] = new Option('Select',   1);
 	html_type[2] = new Option('Radio',    2);
@@ -405,18 +384,35 @@ function custom_option_data_type(data_type)
     case "Yes or No":
 	html_type[0] = new Option('Radio', 0, true);
 	break;
+    case "State/Province":
+	html_type[0] = new Option('Select State/Province', 0, true);
+	break;
+    case "Country":
+	html_type[0] = new Option('Select Country', 0, true);
+	break;
     }
 
-    //alert('html type length = ' + html_type.length);
-
-    //$data_type = form.data_type
+    // need to call onchange for html_type since we may need to hide custom options
     custom_option_html_type(html_type);
 }
 
+/**
+ * This function is used to show/hide custom options depending on the html types
+ *
+ * html_types that need to display the section of custom
+ * options are 
+ *
+ * 'Radio'
+ * 'Select'
+ * 'Checkbox'
+ *
+ * @param html_type - select object
+ *
+ * @access public
+ * @return null
+ */
 function custom_option_html_type(html_type) 
 {
-    //alert('entering custom_option_html_type');
-
     var data_type = html_type.form.data_type;
     var html_type_name = html_type.options[html_type.selectedIndex].text;
     var data_type_name = data_type.options[data_type.selectedIndex].text;
@@ -430,26 +426,4 @@ function custom_option_html_type(html_type)
     } else {
 	document.getElementById('showoption').style.display="none";
     }
-
-
-
-
-
-
-
-//     var htmltype = form.options[form.selectedIndex].text;
-//     var datatype = document.getElementsByName('data_type[0]');
-//     var datatypetext = datatype[0].options[datatype[0].selectedIndex].text;
-    
-//     if( datatypetext == "Alphanumeric" || datatypetext == "Integer" || datatypetext == "Money" || datatypetext == "Number" ) {
-// 	if(htmltype != "Text") {
-// 	    document.getElementById('showoption').style.display="";
-// 	} else {
-// 	    document.getElementById('showoption').style.display="none";
-// 	}
-//     } else {
-// 	document.getElementById('showoption').style.display="none";
-//     }
-
-
 }

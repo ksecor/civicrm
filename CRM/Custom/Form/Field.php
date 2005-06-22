@@ -78,6 +78,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                                         array('TextArea'),
                                         array('Select Date'),
                                         array('Radio'),
+                                        array('Select State/Province'),
+                                        array('Select Country'),
                                         );
     
 
