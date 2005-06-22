@@ -120,11 +120,26 @@ class CRM_Activity_Form extends CRM_Core_Form
             $this->assign( 'delName', $defaults['subject'] );
         }
        
-        //$page =& new CRM_Contact_Page_View();
-        //$log = CRM_Utils_Request::retrieve( 'log', $page);
         if ($this->_log) { 
             $defaults['status'] = 'Completed';
-            $defaults['scheduled_date_time'] = date("Y-m-d G:i:s");
+            $currentDay = date("Y-m-d G:");
+            $currentTime = date("s");
+            // rounding of minutes
+            $min = date("i");
+            
+            if ($min > 45) {
+                $min = 0;
+            } elseif ($min > 30) {
+                $min = 45;
+            } elseif ($min > 15) {
+                $min = 30;
+            } elseif ($min > 0) {
+                $min = 15;
+            }
+            
+            $currentDate = $currentDay.' '.$min.':'.$currentTime;
+
+            $defaults['scheduled_date_time'] = $currentDate;
         }
         return $defaults;
 
