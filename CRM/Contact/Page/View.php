@@ -79,7 +79,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         // check for permissions
         if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::VIEW ) ) {
-            CRM_Core_Error::fatal( "You do not have the necessary permission to view this contact." );
+            CRM_Core_Error::fatal( ts('You do not have the necessary permission to view this contact.') );
         }
 
         $this->getContactDetails();
@@ -212,8 +212,14 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         
         $defaults['contactTag'] = substr($strCategories, 0, (strlen(trim($strCategories))-1));
 
+        // enum localisation hacks
         $t = CRM_Core_SelectValues::gender();
         $defaults['gender']['gender'] = $t[$defaults['gender']['gender']];
+
+        $t = CRM_Core_SelectValues::pcm();
+        $defaults['preferred_communication_method'] = $t[$defaults['preferred_communication_method']];
+
+        $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
 
         $this->assign( $defaults );
         $this->set( 'displayName', $displayName );

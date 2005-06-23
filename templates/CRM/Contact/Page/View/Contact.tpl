@@ -75,7 +75,7 @@
     <label>{ts}Privacy:{/ts}</label>
     <span class="font-red">
     {foreach from=$privacy item=privacy_val key=privacy_label}
-      {if $privacy_val eq 1}{$privacy_label|replace:"_":" "|upper} &nbsp; {/if}
+      {if $privacy_val eq 1}{$privacy_values.$privacy_label|upper} &nbsp; {/if}
     {/foreach}
     </span>
   </div>
