@@ -133,7 +133,7 @@ class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
      */
     static function del ( $id ) 
     {
-        $call =& new CRM_Core_DAO_PhoneCall( );
+        $call =& new CRM_Core_DAO_Phonecall( );
         
         $call->id = $id;
         $call->delete();

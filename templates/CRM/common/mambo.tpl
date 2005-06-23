@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="components/com_civicrm/civicrm/css/drupal.css" type="text/css" />
+<link rel="stylesheet" href="components/com_civicrm/civicrm/css/bluemarine.css" type="text/css" />
+<link rel="stylesheet" href="components/com_civicrm/civicrm/css/civicrm.css" type="text/css" />
+
 <table border="0" cellpadding="0" cellspacing="0" id="content">
   <tr>
     <td id="sidebar-left" valign="top">

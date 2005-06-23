@@ -249,8 +249,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
                                         'isDefault' => true   ),
-                                array ( 'type'      => 'reset',
-                                        'name'      => ts('Reset')),
                                 array ( 'type'       => 'cancel',
                                         'name'      => ts('Cancel') ),
                                 )

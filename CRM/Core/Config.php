@@ -170,8 +170,6 @@ class CRM_Core_Config {
     public $userPermissionClass = 'CRM_Core_Permission_Drupal';
     public $userFrameworkURLVar = 'q';
 
-    static public $nullObject = null;
-
     /**
      * the domainID for this instance. 
      *
