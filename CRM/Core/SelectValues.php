@@ -294,7 +294,7 @@ class CRM_Core_SelectValues {
         static $_date = null;
         if (!$_date) {
             $_date = array(
-                'format'           => 'd M Y',
+                'format'           => 'M d Y',
                 'addEmptyOption'   => true,
                 'emptyOptionText'  => ts('-select-'),
                 'emptyOptionValue' => ''
@@ -313,7 +313,7 @@ class CRM_Core_SelectValues {
             $minOffset = 100;
             $maxOffset = 20;
         } elseif ($type == 'datetime') {
-            $newDate['format'] = "d M Y, h:i A";
+            $newDate['format'] = "M d Y,  h : i A";
             $newDate['optionIncrement']['i'] = 15;
             $minOffset = 0;
             $maxOffset = 3;
