@@ -247,7 +247,7 @@ class CRM_Utils_Date {
      *
      * @static
      */
-    static function customFormat($dateString, $format = '%B %E%f, %Y')
+    static function customFormat($dateString, $format = '%B %E%f, %Y %h:%i %A')
     {
         // 1-based (January) month names arrays
         $abbrMonths = self::getAbbrMonthNames();
@@ -262,16 +262,42 @@ class CRM_Utils_Date {
             elseif ($day % 10 == 2 and $day != 12) $suffix = 'nd';
             elseif ($day % 10 == 3 and $day != 13) $suffix = 'rd';
             else $suffix = 'th';
+            
+            //added code to display time
+            $strTemp = str_replace('-', ' ', $dateString);
+            $strTemp = str_replace($year, ' ', $strTemp);
+            $strTemp = str_replace($dateParts[1], ' ', $strTemp);
+            $strTemp = str_replace($day, ' ', $strTemp);
+            
+            list($hour, $min) = explode(':', $strTemp);
+
+            if ($hour < 12) {
+                if ($hour == 00) {
+                    $hour = 12;
+                    $type = 'AM';
+                } else {
+                    $type = 'AM';
+                }
+            } else {
+                if ($hour != 12 ) {
+                    $hour = $hour - 12;
+                }
+                    $type = 'PM';
+            }
+            
             $date = array(
-                '%b' => $abbrMonths[$month],
-                '%B' => $fullMonths[$month],
-                '%d' => $day > 9 ? $day : '0' . $day,
-                '%e' => $day > 9 ? $day : ' ' . $day,
-                '%E' => $day,
-                '%f' => $suffix,
-                '%m' => $month > 9 ? $month : '0' . $month,
-                '%Y' => $year
-            );
+                          '%b' => $abbrMonths[$month],
+                          '%B' => $fullMonths[$month],
+                          '%d' => $day > 9 ? $day : '0' . $day,
+                          '%e' => $day > 9 ? $day : ' ' . $day,
+                          '%E' => $day,
+                          '%f' => $suffix,
+                          '%m' => $month > 9 ? $month : '0' . $month,
+                          '%Y' => $year,
+                          '%h' => $hour,
+                          '%i' => $min,
+                          '%A' => $type
+                          );
             return strtr($format, $date);
         } else {
             return '';
