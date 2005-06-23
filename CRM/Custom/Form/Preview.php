@@ -78,9 +78,11 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
             $this->_groupTree[0]['id'] = 0;
             $this->_groupTree[0]['fields'] = array();
             $this->_groupTree[0]['fields'][$fieldId] = $defaults;
+            $this->assign('preview_type', 'field');
         } else {
             // group preview
             $this->_groupTree  = CRM_Core_BAO_CustomGroup::getGroupDetail($groupId);        
+            $this->assign('preview_type', 'group');
         }
     }
 
@@ -133,27 +135,35 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
 
                 case 'Text':
                 case 'TextArea':
-                    $element = $this->add(strtolower($field['html_type']), $elementName, $field['label'], $field['attributes']);
+                    $element = $this->add(strtolower($field['html_type']), $elementName, $field['label'], 
+                                          $field['attributes'], $field['is_required']);
                     break;
 
                 case 'Select Date':
-                    $this->add('date', $elementName, $field['label'], CRM_Core_SelectValues::date('custom'));
+                    $this->add('date', $elementName, $field['label'], CRM_Core_SelectValues::date('custom'), $field['is_required']);
                     break;
 
                 case 'Radio':
                      $choice = array();
-                     if($field['data_type'] == "String" || $field['data_type'] == "Int" || $field['data_type'] == "Float"|| $field['data_type'] == "Money") {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
-                        foreach ($customOption as $v) {
-                            $choice[] = $this->createElement(strtolower($field['html_type']), null, '', $v['label'], $v['value'], $field['attributes']);
-                        }
-                        $this->addGroup($choice, $elementName, $field['label']);
+                     if($field['data_type'] == "String" || $field['data_type'] == "Int" ||
+                        $field['data_type'] == "Float"|| $field['data_type'] == "Money") {
+                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                         foreach ($customOption as $v) {
+                             $choice[] = $this->createElement(strtolower($field['html_type']), null, '',
+                                                              $v['label'], $v['value'], $field['attributes']);
+                         }
+                         $this->addGroup($choice, $elementName, $field['label']);
                      } else {
-                        $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('Yes'), 'yes', $field['attributes']);                   
-                        $choice[] = $this->createElement(strtolower($field['html_type']), null, '', ts('No') , 'no' , $field['attributes']);
-                        $this->addGroup($choice, $elementName, $field['label']);
+                         $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 
+                                                          ts('Yes'), 'yes', $field['attributes']);                   
+                         $choice[] = $this->createElement(strtolower($field['html_type']), null, '', 
+                                                          ts('No') , 'no' , $field['attributes']);
+                         $this->addGroup($choice, $elementName, $field['label']);
                      }
-                    break;
+                     if ($field['is_required']) {
+                         $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
+                     }
+                     break;
 
                 case 'Select':
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
@@ -200,7 +210,7 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
         }
 
         $this->addButtons(array(
-                                array ('type'      => 'next',
+                                array ('type'      => 'cancel',
                                        'name'      => ts('Done with Preview'),
                                        'isDefault' => true),
                                 )
