@@ -281,37 +281,51 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @access protected
      * @static
      */
-    function formRule(&$field, &$errors )
+    function formRule(&$fields, &$errors )
     {
-
-        /*$this->assign('groupTree', $this->_groupTree);
-        
-        // add the form elements
-        foreach ($this->_groupTree as $group) {
-            
-            $this->_groupTitle[] = $group['title'];
-            $groupId = $group['id'];
-            foreach ($group['fields'] as $field) {
-                $fieldId = $field['id'];                
-                $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
-
-                switch($field['html_type']) {
-                case 'Select State/Province':
-                    $stateProvince = $elementName;
-                    break;
-                case 'Select Country':
-                    $country = $elementName;
-                    break;
-                }
-            }
-        }*/
-        
-        if ( array_key_exists($country, $field) ) {
-            $countryId = $field[$country];
+        $grpId = array();
+        foreach ($fields as $k => $v) {
+            list($gId, $fId, $elementName) = explode('_', $k, 3);
+            if($gId)
+                $grpId[] = $gId;
         }
         
-        if ( array_key_exists($stateProvince, $field) ) {
-            $stateProvinceId = $field[$stateProvince];
+        $uniGroupId = array_unique($grpId);
+        $groupDetails = array();
+        foreach($uniGroupId as $val) {
+            $groupDetails[] = CRM_Core_BAO_CustomGroup::getGroupDetail($val);
+        }
+        //echo "<pre>";
+        //print_r($fields);
+        //echo "</pre>";
+        
+        foreach ($groupDetails as $value) {
+            foreach ($value as $group) {
+                $groupId = $group['id'];
+                foreach ($group['fields'] as $field) {
+                    
+                    $fieldId = $field['id'];
+                    $elementName = $groupId . '_' . $fieldId . '_' . $field['name'];
+                    switch($field['html_type']) {
+                case 'Select Country':
+                    $country  = $elementName;
+                    break;
+                    
+                    case 'Select State/Province':
+                        $stateProvince  = $elementName;
+                    break;
+                    }
+                }
+            }
+        }
+        
+        //echo "Got Country value as $country and $stateProvince as state/Province value ";
+        if ( array_key_exists($country, $fields) ) {
+            $countryId = $fields[$country];
+        }
+        
+        if ( array_key_exists($stateProvince, $fields) ) {
+            $stateProvinceId = $fields[$stateProvince];
         }
 
         if ($stateProvinceId && $countryId) {
