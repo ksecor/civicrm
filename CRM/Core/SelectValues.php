@@ -146,6 +146,23 @@ class CRM_Core_SelectValues {
         }
         return $pcm;
     }
+    
+    /**
+    * gender selections
+    * @static
+    */
+    static function &gender()
+    {
+        static $gender = null;
+        if (!$gender) {
+            $gender = array(
+                'Female'      => ts('Female'),
+                'Male'        => ts('Male'),
+                'Transgender' => ts('Transgender')
+            );
+        }
+        return $gender;
+    }
 
     /**
      * various pre defined contact super types
