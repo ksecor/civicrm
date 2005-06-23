@@ -78,11 +78,17 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
     function setDefaultValues()
     {
         $defaults = array();
-        
+        $fieldDefaults = array();
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_CustomOption::retrieve($params, $defaults);
             $this->_fid = $defaults['custom_field_id'];
+            
+            $paramsField = array('id' => $this->_fid);
+            CRM_Core_BAO_CustomField::retrieve($paramsField, $fieldDefaults);
+            if( $fieldDefaults['default_value'] == $defaults['value'] ) {
+                $defaults['default_value'] = 1;
+            }                
         } else {
             $defaults['is_active'] = 1;
         }
@@ -116,6 +122,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         
         // is active ?
         $this->add('checkbox', 'is_active', ts('Active?'));
+        
+        // Set the default value for Custom Field
+        $this->add('checkbox', 'default_value', ts('Default'));
 
         // add buttons
         $this->addButtons(array(
@@ -161,8 +170,16 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
         // need the FKEY - custom field id
         $customOption->custom_field_id = $this->_fid;
+        
+        if( $params['default_value'] ) {
+            $customField =& new CRM_Core_DAO_CustomField();
+            $customField->id = $this->_fid;
+            $customField->default_value = $customOption->value;
+            $customField->save();
+        }
 	
-	 $customOption->save();
+        $customOption->save();
+        
         
         CRM_Core_Session::setStatus(ts('Your custom Option data "%1" has been saved', array(1 => $customOption->label)));
     }
