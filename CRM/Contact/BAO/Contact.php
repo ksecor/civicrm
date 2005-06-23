@@ -624,6 +624,13 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
             if ( !empty($privacy) ) {
                 $values['privacy'] = $privacy;
             }
+            
+            // hack for enums
+            $t = CRM_Core_SelectValues::pcm();
+            $values['preferred_communication_method'] = $t[$values['preferred_communication_method']];
+            $t = CRM_Core_SelectValues::gender();
+            $values['gender'] = $t[$values['gender']];
+            
             return $contact;
         }
         return null;
