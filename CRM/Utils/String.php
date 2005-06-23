@@ -152,21 +152,50 @@ class CRM_Utils_String {
      * determine if the string is composed only of ascii characters
      *
      * @param string $str input string
+     * @param boolean $utf8 attempt utf8 match on failure (default yes)
      *
      * @return boolean    true if string is ascii
      * @access public
      * @static
      */
-    static function isAscii( $str ) {
+    static function isAscii( $str, $utf8 = true ) {
         $str = preg_replace( '/\s+/', '', $str ); // eliminate all white space from the string
-
-        if ( preg_match( '/[\x00-\x20]/', $str ) || // low ascii characters
-             preg_match( '/[\x7F-\xFF]/', $str ) ) {   // high ascii characters
-            return false;
+        /* FIXME:  This is a pretty brutal hack to make utf8 and 8859-1 work.
+         */
+        
+        /* match low- or high-ascii characters */
+        if ( preg_match( '/[\x00-\x20]|[\x7F-\xFF]/', $str ) )  {
+//         || // low ascii characters
+//              preg_match( '/[\x7F-\xFF]/', $str ) ) {   // high ascii characters
+            if ($utf8) {
+                /* if we did match, try for utf-8, or iso8859-1 */
+                return self::isUtf8( $str );
+            } else {
+                return false;
+            }
         }
         return true;
     }
 
+    /**
+     * Determine if a string is composed only of utf8 characters
+     *
+     * @param string $str  input string
+     * @access public
+     * @static
+     * @return boolean
+     */
+    static function isUtf8( $str ) {
+        $str = preg_replace( '/\s+/', '', $str ); // eliminate all white space from the string
+        
+        /* pattern stolen from the php.net function documentation for
+         * utf8decode();
+         * comment by JF Sebastian, 30-Mar-2005
+         */
+        return  preg_match( '/^([\x00-\x7f]|[\xc2-\xdf][\x80-\xbf]|\xe0[\xa0-\xbf][\x80-\xbf]|[\xe1-\xec][\x80-\xbf]{2}|\xed[\x80-\x9f][\x80-\xbf]|[\xee-\xef][\x80-\xbf]{2}|f0[\x90-\xbf][\x80-\xbf]{2}|[\xf1-\xf3][\x80-\xbf]{3}|\xf4[\x80-\x8f][\x80-\xbf]{2})*$/' , $str );
+//             || 
+//                 iconv('ISO-8859-1', 'UTF-8', $str);
+    }
     /**
      * determine if two href's are equivalent (fuzzy match)
      *
