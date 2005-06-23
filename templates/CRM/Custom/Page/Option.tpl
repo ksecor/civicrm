@@ -9,6 +9,7 @@
         {strip}
         <table>
         <tr class="columnheader">
+	    <th>{ts}Default{/ts}</th>
             <th>{ts}Option Label{/ts}</th>
             <th>{ts}Option Value{/ts}</th>
             <th>{ts}Weight{/ts}</th>
@@ -17,6 +18,7 @@
         </tr>
         {foreach from=$customOption item=row}
         <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
+            <td>{$row.default_value}</td>
             <td>{$row.label}</td>
             <td>{$row.value}</td>
 	    <td>{$row.weight}</td>

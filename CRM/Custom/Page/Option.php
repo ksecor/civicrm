@@ -128,6 +128,14 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         $customOptionBAO->custom_field_id = $this->_fid;
         $customOptionBAO->orderBy('weight');
         $customOptionBAO->find();
+        
+        //get the default value from custom fields
+        $customFieldBAO =& new CRM_Core_BAO_CustomField();
+        $customFieldBAO->id = $this->_fid;
+        $customFieldBAO->find();
+        while($customFieldBAO->fetch()) {
+            $defaultValue = $customFieldBAO->default_value;
+        }
        
         while ($customOptionBAO->fetch()) {
             $customOption[$customOptionBAO->id] = array();
@@ -136,10 +144,16 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
             $action = array_sum(array_keys($this->actionLinks()));
 	    
 	    // update enable/disable links depending on custom_field properties.
-            if ($customOptionBAO->is_active) {
+            if ( $customOptionBAO->is_active ) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
+            }
+            
+            if ( $defaultValue == $customOptionBAO->value ) {
+                $customOption[$customOptionBAO->id]['default_value'] = 'X';
+            } else {
+                $customOption[$customOptionBAO->id]['default_value'] = '';
             }
             
             $customOption[$customOptionBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
