@@ -149,26 +149,32 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                 switch ($sign) {
                     case 'D':
                         // Sunday is 0 like with 'w' in date()
-                        $options = $locale['weekdays_short'];
+                        $options   = $locale['weekdays_short'];
+                        $emptyText = 'Day of Week';
                         break;
                     case 'l':
                         $options = $locale['weekdays_long'];
+                        $emptyText = 'Day of Week';
                         break;
                     case 'd':
                         $options = $this->_createOptionList(1, 31);
+                        $emptyText = 'Day';
                         break;
                     case 'M':
                         $options = $locale['months_short'];
                         array_unshift($options , '');
                         unset($options[0]);
+                        $emptyText = 'Month';
                         break;
                     case 'm':
                         $options = $this->_createOptionList(1, 12);
+                        $emptyText = 'Month';
                         break;
                     case 'F':
                         $options = $locale['months_long'];
                         array_unshift($options , '');
                         unset($options[0]);
+                        $emptyText = 'Month';
                         break;
                     case 'Y':
                         $options = $this->_createOptionList(
@@ -176,6 +182,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                             $this->_options['maxYear'], 
                             $this->_options['minYear'] > $this->_options['maxYear']? -1: 1
                         );
+                        $emptyText = 'Year';
                         break;
                     case 'y':
                         $options = $this->_createOptionList(
@@ -184,24 +191,31 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                             $this->_options['minYear'] > $this->_options['maxYear']? -1: 1
                         );
                         array_walk($options, create_function('&$v,$k','$v = substr($v,-2);')); 
+                        $emptyText = 'Year';
                         break;
                     case 'h':
                         $options = $this->_createOptionList(1, 12);
+                        $emptyText = 'Hour';
                         break;
                     case 'H':
                         $options = $this->_createOptionList(0, 23);
+                        $emptyText = 'Hour';
                         break;
                     case 'i':
                         $options = $this->_createOptionList(0, 59, $this->_options['optionIncrement']['i']);
+                        $emptyText = 'Minutes';
                         break;
                     case 's':
                         $options = $this->_createOptionList(0, 59, $this->_options['optionIncrement']['s']);
+                        $emptyText = 'Seconds';
                         break;
                     case 'a':
                         $options = array('am' => 'am', 'pm' => 'pm');
+                        $emptyText = 'AM / PM';
                         break;
                     case 'A':
                         $options = array('AM' => 'AM', 'PM' => 'PM');
+                        $emptyText = 'AM / PM';
                         break;
                     case '\\':
                         $backslash  = true;
@@ -222,7 +236,8 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                     // Should we add an empty option to the top of the select?
                     if ($this->_options['addEmptyOption']) {
                         // Preserve the keys
-                        $options = array($this->_options['emptyOptionValue'] => $this->_options['emptyOptionText']) + $options;
+                        $text = $emptyText ? $emptyText : $this->_options['emptyOptionText'];
+                        $options = array($this->_options['emptyOptionValue'] => $text) + $options;
                     }
                     $this->_elements[] =& new HTML_QuickForm_select($sign, null, $options, $this->getAttributes());
                 }
