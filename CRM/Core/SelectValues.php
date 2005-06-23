@@ -313,7 +313,7 @@ class CRM_Core_SelectValues {
             $minOffset = 100;
             $maxOffset = 20;
         } elseif ($type == 'datetime') {
-            $newDate['format'] = "d M Y  h i A";
+            $newDate['format'] = "d M Y, h:i A";
             $newDate['optionIncrement']['i'] = 15;
             $minOffset = 0;
             $maxOffset = 3;
