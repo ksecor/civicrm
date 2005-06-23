@@ -187,8 +187,15 @@ class CRM_Custom_Form_Preview extends CRM_Core_Form
                     $this->addGroup($check, $elementName, $field['label']);
                     break;
                     
-                case 'Select State / Province':
+                case 'Select State/Province':
+                    $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
+                    $this->add('select', $elementName, $field['label'], $stateOption);
+                    break;
+
                 case 'Select Country':
+                    $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
+                    $this->add('select', $elementName, $field['label'], $countryOption);
+                    break;
                 }
                 
                 switch ( $field['data_type'] ) {
