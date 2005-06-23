@@ -174,7 +174,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         
         // form fields of Custom Option
         $defaultOption = array();
-        for($i=0; $i<self::NUM_OPTION; $i++) {
+        for($i = 1; $i <= self::NUM_OPTION; $i++) {
             // label
             CRM_Core_ShowHideBlocks::linksForArray( $this, $i, self::NUM_OPTION, 'optionField',  ts('another row'), ts('hide this row'));
             $this->add('text','option_label['.$i.']', ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'));
@@ -184,11 +184,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->add('text', 'option_weight['.$i.']', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'));
             // is active ?
             $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
-            $defaultOption[$i] = $this->createElement('radio', null, null, null, $i, '');
+            $defaultOption[$i] = $this->createElement('radio', null, null, null, $i);
         }
 	
         //default option selection
-        $this->addGroup($defaultOption, 'default_option');
+        $tt =& $this->addGroup($defaultOption, 'default_option');
 		
         // weight
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'weight'), true);

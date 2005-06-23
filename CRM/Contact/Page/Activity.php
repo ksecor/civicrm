@@ -52,6 +52,12 @@ class CRM_Contact_Page_Activity {
      */
     static function browse($page, $history)
     {
+        
+        $page->assign( 'totalCountOpenActivity',
+                       CRM_Contact_BAO_Contact::getNumOpenActivity( $page->getContactId( ) ) );
+        $page->assign( 'totalCountActivity',
+                       CRM_Core_BAO_History::getNumHistory( $page->getContactId( ),
+                                                            'Activity' ) );
 
         if ($history) {
   

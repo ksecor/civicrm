@@ -9,12 +9,12 @@
 	    <th> {ts}Active?{/ts}</th>
     </tr>
 	
-	{section name=rowLoop loop=11}
+	{section name=rowLoop start=1 loop=12}
 	{assign var=index value=$smarty.section.rowLoop.index}
 	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}">
         <td> 
-        {if $index GT 0}
-            <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[0][hide]" href="#optionField[0]" id="optionField[0][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="hide field or section"></a>
+        {if $index GT 1}
+            <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[1][hide]" href="#optionField[1]" id="optionField[1][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="hide field or section"></a>
             {* $form.optionField.$index.hide.html *}
         {/if}
         </td>
@@ -27,7 +27,7 @@
     {/section}
     </table>
     {* Set of divs for the 'show' next row links *}
-	{section name=showLoop start=1 loop=11}
+	{section name=showLoop start=2 loop=12}
         {assign var=j value=$smarty.section.showLoop.index}
         <div id="optionField[{$j}][show]" class="add-remove-link">
             <a onclick="show('optionField[{$j}]','table-row'); show('optionField[{$j+1}][show]','table-row'); hide('optionField[{$j}][show]'); return false;" href="#optionField[j][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="show field or section">another option row</a>
@@ -37,8 +37,8 @@
     {/strip}
     
 </fieldset>
-{assign var=showRows value="'optionField[0]','optionField[1]','optionField[2]'"}
-{assign var=hideBlocks value="'optionField[1][show]','optionField[2][show]','optionField[4][show]','optionField[5][show]','optionField[6][show]','optionField[7][show]','optionField[8][show]','optionField[9][show]','optionField[10][show]','optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]'"}
+{assign var=showRows value="'optionField[1]','optionField[2]','optionField[3]'"}
+{assign var=hideBlocks value=",'optionField[2][show]','optionField[4][show]','optionField[5][show]','optionField[6][show]','optionField[7][show]','optionField[8][show]','optionField[9][show]','optionField[10][show]','optionField[11][show]','optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]','optionField[11]'"}
 <script type="text/javascript">
     var showRows = new Array({$showRows});
     var hideBlocks = new Array({$hideBlocks});

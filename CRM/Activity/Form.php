@@ -81,8 +81,8 @@ class CRM_Activity_Form extends CRM_Core_Form
 
     function preProcess( ) 
     {
-        global $user;
-        $this->_userId = $user->uid;
+        $session =& CRM_Core_Session::singleton( );
+        $this->_userId = $session->get( 'userID' );
 
         $page =& new CRM_Contact_Page_View();
         $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
@@ -125,26 +125,13 @@ class CRM_Activity_Form extends CRM_Core_Form
             $defaults['status'] = 'Completed';
         }
         
-        // set current date and time as default for all cases
         $currentDay = date("Y-m-d G:");
         $currentTime = date("s");
         // rounding of minutes
-        $min = date("i");
-        
-        if ($min > 45) {
-            $min = 45;
-        } elseif ($min > 30) {
-            $min = 30;
-        } elseif ($min > 15) {
-            $min = 15;
-        } elseif ($min > 0) {
-            $min = 00;
-        }
-        
-        $currentDate = $currentDay.' '.$min.':'.$currentTime;
+        $min = (int ) ( date("i") / 15 ) * 15;
 
+        $currentDate = $currentDay . ' ' . $min . ':' . $currentTime;
         $defaults['scheduled_date_time'] = $currentDate;
-
         return $defaults;
 
     }

@@ -1050,20 +1050,37 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         $dao =& new CRM_Core_DAO();
         $contactId = $params['contact_id'];
         
-        $select1 = $from1 = $where1 = $select2 = $from2 = $where2 = "";
-        
-        $select1 = "(SELECT crm_phonecall.id as id, crm_phonecall.subject as subject, crm_phonecall.scheduled_date_time as date, crm_phonecall.status as status, 1 as activity_type ";
-        $from1 = " FROM crm_phonecall";
-        $where1 = " WHERE (crm_phonecall.target_contact_id = ".$contactId." OR crm_phonecall.source_contact_id = ".$contactId.") 
-                      AND crm_phonecall.status != 'Completed'
-                  ) UNION   ";
-        
-        $select2 = " (SELECT crm_meeting.id as id, crm_meeting.subject as subject, crm_meeting.scheduled_date_time as date, crm_meeting.status as status, 0 as activity_type ";
-        $from2 = " FROM crm_meeting";
-        $where2 = " WHERE (crm_meeting.target_contact_id = ".$contactId." OR crm_meeting.source_contact_id = ".$contactId.")
-                      AND crm_meeting.status != 'Completed'
-                  ) ";
-
+        $query = "
+( SELECT
+    crm_phonecall.id as id,
+    crm_phonecall.subject as subject,
+    crm_phonecall.scheduled_date_time as date,
+    crm_phonecall.status as status,
+    source.display_name as sourceName,
+    target.display_name as targetName,
+    1 as activity_type
+  FROM crm_phonecall, crm_contact source, crm_contact target
+  WHERE
+    crm_phonecall.source_contact_id = source.id AND
+    crm_phonecall.target_contact_id = target.id AND
+    ( crm_phonecall.source_contact_id = $contactId OR crm_phonecall.target_contact_id = $contactId ) AND
+    crm_phonecall.status != 'Completed'
+) UNION
+( SELECT   
+    crm_meeting.id as id,
+    crm_meeting.subject as subject,
+    crm_meeting.scheduled_date_time as date,
+    crm_meeting.status as status,
+    source.display_name as sourceName,
+    target.display_name as targetName,
+    0 as activity_type
+  FROM crm_meeting, crm_contact source, crm_contact target
+  WHERE
+    crm_meeting.source_contact_id = source.id AND
+    crm_meeting.target_contact_id = target.id AND
+    ( crm_meeting.source_contact_id = $contactId OR crm_meeting.target_contact_id = $contactId ) AND
+    crm_meeting.status != 'Completed'
+)";
         if ($sort) {
             $order = " ORDER BY " . $sort->orderBy(); 
         } else {
@@ -1075,9 +1092,9 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         }
         
 
-        $queryString = $select1.$from1.$where1.$select2.$from2.$where2.$order.$limit;
+        $queryString = $query . $order . $limit;
 
-        $dao->query($queryString);
+        $dao->query( $queryString );
         $values =array();
         $rowCnt = 0;
         while($dao->fetch()) {
@@ -1086,10 +1103,12 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
             } else {
                 $values[$rowCnt]['activity_type'] = 'Meeting';        
             }
-            $values[$rowCnt]['id'] = $dao->id;
+            $values[$rowCnt]['id']      = $dao->id;
             $values[$rowCnt]['subject'] = $dao->subject;
-            $values[$rowCnt]['date'] = $dao->date;
-            $values[$rowCnt]['status'] = $dao->status;
+            $values[$rowCnt]['date']    = $dao->date;
+            $values[$rowCnt]['status']  = $dao->status;
+            $values[$rowCnt]['sourceName'] = $dao->sourceName;
+            $values[$rowCnt]['targetName'] = $dao->targetName;
             $rowCnt++;
         }
         return $values;

@@ -315,8 +315,8 @@ class CRM_Core_SelectValues {
         } elseif ($type == 'datetime') {
             $newDate['format'] = "d M Y  h i A";
             $newDate['optionIncrement']['i'] = 15;
-            $minOffset = 20;
-            $maxOffset = 20;
+            $minOffset = 0;
+            $maxOffset = 3;
         } elseif ($type =='duration') {
             $newDate['format'] = 'H i';
             $newDate['optionIncrement']['i'] = 15;
