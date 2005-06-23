@@ -279,14 +279,14 @@ abstract class CRM_Import_Parser {
             if ( $returnCode & self::ERROR ) {
                 $this->_invalidRowCount++;
                 if ( $this->_invalidRowCount < $this->_maxErrorCount ) {
-                    array_unshift($values, $this->_totalCount);
+                    array_unshift($values, $this->_lineCount);
                     $this->_errors[] = $values;
                 }
             } 
 
             if ( $returnCode & self::CONFLICT ) {
                 $this->_conflictCount++;
-                array_unshift($values, $this->_totalCount);
+                array_unshift($values, $this->_lineCount);
                 $this->_conflicts[] = $values;
             } 
             
@@ -447,10 +447,10 @@ abstract class CRM_Import_Parser {
         $store->set( 'conflictRowCount', $this->_conflictCount );
         
         if ($this->_invalidRowCount) {
-            $store->set( 'errorFileName', $this->_errorFileName );
+            $store->set( 'errorsFileName', $this->_errorFileName );
         }
         if ($this->_conflictCount) {
-            $store->set( 'conflictFileName', $this->_conflictFileName );
+            $store->set( 'conflictsFileName', $this->_conflictFileName );
         }
         if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
             $store->set( 'dataValues', $this->_rows );
