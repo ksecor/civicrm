@@ -200,7 +200,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
                 default:
                     $v = $element->getValue();
             }
-            if (null !== $v) {
+            If (null !== $v) {
                 $elementName = $element->getName();
                 if (is_null($elementName)) {
                     $value = $v;
