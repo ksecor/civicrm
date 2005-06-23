@@ -276,8 +276,41 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @access protected
      * @static
      */
-    static protected function formRule(&$field)
+    public function formRule(&$field)
     {
+        echo "<pre>";
+        print_r($field);
+        echo "</pre>";
+        /*$this->assign('groupTree', $this->_groupTree);
+        
+        // add the form elements
+        foreach ($this->_groupTree as $group) {
+            
+            $this->_groupTitle[] = $group['title'];
+            $groupId = $group['id'];
+            foreach ($group['fields'] as $field) {
+                $fieldId = $field['id'];                
+                $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
+
+                switch($field['html_type']) {
+                case 'Select State/Province':
+                    $stateProvince = $elementName;
+                    break;
+                case 'Select Country':
+                    $country = $elementName;
+                    break;
+                }
+            }
+        }*/
+        
+        if ( array_key_exists($country, $field) ) {
+            $countryId = $field[$country];
+        }
+        
+        if ( array_key_exists($stateProvince, $field) ) {
+            $stateProvinceId = $field[$stateProvince];
+        }
+
         if ($stateProvinceId && $countryId) {
             $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
             $stateProvinceDAO->id = $stateProvinceId;
@@ -287,7 +320,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 // countries mismatch hence display error
             $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
             $countries = CRM_Core_PseudoConstant::country();
-            $errors[$field[$elementName]] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+            $errors[$stateProvince] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
             }
         }
         return empty($errors) ? true : $errors;
@@ -341,15 +374,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                 }
                             }
                         }
-                    } /*else {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
-                        $defaults[$elementName] = array();
-                        foreach($customOption as $val) {
-                            if( $field['default_value'] == $val['value']) {
-                                $defaults[$elementName][$val['value']] = 1;
-                            }
-                        }                        
-                    }*/
+                    }
                     break;
                     
                 case 'Select Date':
