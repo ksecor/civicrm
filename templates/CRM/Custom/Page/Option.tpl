@@ -29,11 +29,10 @@
         </table>
         {/strip}
         
-        {if $action eq 16 or $action eq 4}
-            <div class="action-link">
+        <div class="action-link">
             <a href="{crmURL q="reset=1&action=add&fid=$fid"}">&raquo; {ts 1=$fieldTitle}New Option for "%1"{/ts}</a>
-            </div>
-        {/if}
+        </div>
+
         </div>
      </p>
     </div>

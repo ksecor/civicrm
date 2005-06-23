@@ -28,11 +28,10 @@
         </table>
         {/strip}
         
-        {if $action eq 16 or $action eq 4}
-            <div class="action-link">
+        <div class="action-link">
             <a href="{crmURL q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New Custom Field{/ts}</a>
-            </div>
-        {/if}
+        </div>
+
         </div>
      </p>
     </div>

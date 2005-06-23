@@ -40,7 +40,8 @@ require_once 'CRM/Core/DAO/CustomOption.php';
  */
 class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
 
-      
+    const VALUE_SEPERATOR = "";
+
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
@@ -84,16 +85,19 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
     /**
      * returns all active options ordered by weight for 
      *
-     * @param  int   $fieldId      field whose options are needed
+     * @param  int      $fieldId         field whose options are needed
+     * @param  boolean  $inactiveNeeded  do we need inactive options ?
      *
      * @return array $customOption all active options for fieldId
      * @static
      */
-    static function getCustomOption($fieldId)
+    static function getCustomOption($fieldId, $inactiveNeeded=false)
     {
         $customOptionDAO =& new CRM_Core_DAO_CustomOption();
         $customOptionDAO->custom_field_id = $fieldId;
-        $customOptionDAO->is_active = 1;
+        if (!$inactiveNeeded) {
+            $customOptionDAO->is_active = 1;
+        }
         $customOptionDAO->orderBy('weight ASC');
         $customOptionDAO->find();
         
@@ -109,6 +113,7 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
 
     /**
      * Function to get the values of the checkboxes
+     *
      * param $fieldId integer field id
      *
      * @static
@@ -118,21 +123,11 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_CustomOption {
     {
         $customValueDAO =& new CRM_Core_DAO_CustomValue();
         $customValueDAO->custom_field_id = $fieldId;
-
         $customValueDAO->find(true);
-        
         $values = $customValueDAO->char_data;
-        
         $customValue = array();
-        
-        $customValue = explode(',' ,$values);
-
+        $customValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ,$values);
         return $customValue;
-
     }
-
-
-
-
 }
 ?>
