@@ -127,6 +127,7 @@ class CRM_Activity_Form extends CRM_Core_Form
 
         // set the default date if we are creating a new meeting/call or 
         // marking one as complete
+
         if ( $this->_log || ! isset( $this->_id ) ) {
             $currentDay = date("Y-m-d G:");
             $currentTime = date("s");
@@ -149,15 +150,15 @@ class CRM_Activity_Form extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $button = ts('Save');
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
-            $button = ts('Done');
         }
         
-        if ($this->_status) { 
-            $this->assign('status', $this->_status);
-            $this->assign('pid', $this->_id);
+        if ($this->_status || ($this->_action == CRM_Core_Action::VIEW)) { 
+            if ($this->_status) {
+                $this->assign('status', $this->_status);
+                $this->assign('pid', $this->_id);
+            }
             $this->addButtons( array(
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Done') ),
@@ -168,7 +169,7 @@ class CRM_Activity_Form extends CRM_Core_Form
 
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
-                                             'name'      => $button,
+                                             'name'      => 'Save',
                                          'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Cancel') ),
