@@ -48,7 +48,7 @@ class CRM_Utils_Date {
     static function format( $date, $separator = '' )
     {
         $time = '';
-
+        // print_r($date);
         if ( ! $date || ! is_array( $date ) || ( ! $date['Y'] ) ) {
             return null;
         }
@@ -70,6 +70,10 @@ class CRM_Utils_Date {
         if ($date['h'] || $date['i'] || $date['s']) {
             // we have time too.. 
             if ($date['h']) {
+                if ($date['A'] == 'PM') {
+                    $date['h'] = $date['h'] + 12;
+                }
+                
                 $date['h'] = (int ) $date['h'];
                 $date['h'] = ($date['h'] < 10) ? '0' . $date['h'] : $date['h'];
             } else {
@@ -90,6 +94,7 @@ class CRM_Utils_Date {
                 $date['s'] = '00';
             }
             $time = $date['h'] . $seperator . $date['i'] . $seperator . $date['s'];
+            //$time = $date['h'] . $seperator . $date['i'] . $seperator . $date['s'].$date['A'];
         } 
 
         return $date['Y'] . $separator . $date['M'] . $separator . $date['d'] . $time;
