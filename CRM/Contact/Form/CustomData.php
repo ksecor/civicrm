@@ -344,7 +344,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         // do we need inactive options ?
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $inactiveNeeded = true;
+            $viewMode = true;
         } else {
+            $viewMode = false;
             $inactiveNeeded = false;
         }
 
@@ -359,7 +361,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     if($field['data_type'] != 'Boolean' ) {
                         $defaults[$elementName] = isset($field['customValue']['data']) ? $field['customValue']['data'] : $field['default_value'];
                     } else {
-                        if( isset($field['customValue']['data']) ) {
+                        if (isset($field['customValue']['data'])) {
                             $defaults[$elementName] = $field['customValue']['data'] ? 'yes' : 'no';
                         } else {
                             $defaults[$elementName] = '';
@@ -368,7 +370,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
                     
                 case 'Select':
-                    $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
+                    if ($viewMode) {
+                        $defaults[$elementName] = $field['customValue']['data']; 
+                    } else {
+                        $defaults[$elementName] = $field['customValue']['data'] ? $field['customValue']['data'] : $field['default_value'];
+                    }
                     break;
                     
                 case 'CheckBox':
