@@ -165,7 +165,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // data_type, html_type
         $this->addElement('select', 'data_type', ts('Data Type'), self::$_dataTypeValues, array('onchange' => 'custom_option_data_type(this)'));
-        $this->addElement('select', 'html_type', ts('HTML Type'), self::$_dataToHTML[0], array('onchange' => 'custom_option_html_type(this)'));
+        $this->addElement('select', 'html_type', ts('Input Field Type'), self::$_dataToHTML[0], array('onchange' => 'custom_option_html_type(this)'));
 
         // need to freeze data_type, html_type for edit mode
         if ($this->_action == CRM_Core_Action::UPDATE) { 

@@ -4,9 +4,12 @@
         <dl>
         <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
         <dt>{$form.data_type.label}</dt><dd>{$form.data_type.html}</dd>
-	<dt>{$form.html_type.label}</dt><dd>{$form.html_type.html}</dd>
-        {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect. The appropriate HTML field type will be selected based on the type of data.{/ts}</dd>
+        {if $action neq 4 and $action neq 2}
+            <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect and store for this contact.{/ts}</dd>
+        {/if}
+        <dt>{$form.html_type.label}</dt><dd>{$form.html_type.html}</dd>
+        {if $action neq 4 and $action neq 2}
+            <dt>&nbsp;</dt><dd class="description">{ts}Select from the available HTML input field types (choices are based on the type of data being collected).{/ts}</dd>
         {/if}
         </dl>
         

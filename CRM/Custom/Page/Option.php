@@ -95,7 +95,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
                                                                            'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"'
                                                                            ),
                                         CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Edit'),
+                                                                          'name'  => ts('Edit Option'),
                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
                                                                           'qs'    => 'action=update&id=%%id%%',
                                                                           'title' => ts('Edit Custom Option') 
@@ -173,6 +173,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         $controller->setEmbedded(true);
         $controller->process();
         $controller->run();
+        $this->browse();
     }
 
 

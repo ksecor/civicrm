@@ -42,6 +42,8 @@
         {else}
            <tr class="{cycle values="odd-row,even-row"}">
              <td>{$row.activity_type}</td>
+             <td>{$row.sourceName}</td>
+             <td>{$row.targetName}</td>
              <td>
            {if $row.activity_type eq 'Meeting'}  
                <a href="{crmURL p='civicrm/contact/view/meeting' q="action=view&id=`$row.id`"}">{$row.subject|mb_truncate:33:"...":true}</a>

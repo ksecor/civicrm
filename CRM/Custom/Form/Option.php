@@ -107,7 +107,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
 	
         // value
-        $this->add('text', 'value', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
+        $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
         //$this->addRule('value', ts('Please enter a valid value') , 'title');
         
         // weight
@@ -122,8 +122,6 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
                                 array ('type'      => 'next',
                                        'name'      => ts('Save'),
                                        'isDefault' => true),
-                                array ('type'      => 'reset',
-                                       'name'      => ts('Reset')),
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Cancel')),
                                 )

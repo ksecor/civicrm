@@ -1,5 +1,5 @@
 {if $pager and $pager->_response}
-    {if $pager->_response.numPages >= 1}
+    {if $pager->_response.numPages > 1}
         <div class="crm-pager">
           <span class="crm-pager-nav">
           {$pager->_response.first}&nbsp;
@@ -8,7 +8,6 @@
           {$pager->_response.next}&nbsp;
           {$pager->_response.last}&nbsp;
           </span>
-          {if $pager->_response.numPages > 1}          
           <span class="element-right">
           {if $location eq 'top'}
             {$pager->_response.titleTop}&nbsp;<input name="{$pager->_response.buttonTop}" value="{ts}Go{/ts}" type="submit"/>
@@ -16,7 +15,6 @@
             {$pager->_response.titleBottom}&nbsp;<input name="{$pager->_response.buttonBottom}" value="{ts}Go{/ts}" type="submit"/>
           {/if}
           </span>
-          {/if}
         </div>
     {/if}
     

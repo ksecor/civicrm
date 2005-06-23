@@ -1,7 +1,8 @@
 {if $action eq 1 or $action eq 2 or $action eq 4}
     {include file="CRM/Custom/Form/Option.tpl"}
-{else}
-    {if $customOption}
+{/if}
+
+{if $customOption}
     <div id="field_page">
      <p>
         <div class="form-item">
@@ -28,21 +29,21 @@
         
         {if $action eq 16 or $action eq 4}
             <div class="action-link">
-            <a href="{crmURL q="reset=1&action=add&fid=$fid"}">&raquo; {ts}New Custom Option{/ts}</a>
+            <a href="{crmURL q="reset=1&action=add&fid=$fid"}">&raquo; {ts 1=$fieldTitle}New Option for "%1"{/ts}</a>
             </div>
         {/if}
         </div>
      </p>
     </div>
 
-    {else}
-        {if $action eq 16}
+{else}
+    {if $action eq 16}
         <div class="message status">
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
-        <dd>{capture assign=crmURL}{crmURL p='civicrm/admin/custom/group/field/option' q="action=add&fid=$fid"}{/capture}{ts 1=$fieldTitle 2=$crmURL}There are no custom options for the custom field "%1", <a href="%2">add one</a>.{/ts}</dd>
+        <dd>{capture assign=crmURL}{crmURL p='civicrm/admin/custom/group/field/option' q="action=add&fid=$fid"}{/capture}{ts 1=$fieldTitle 2=$crmURL}There are no multiple choice options for the custom field "%1", <a href="%2">add one</a>.{/ts}</dd>
         </dl>
         </div>
-        {/if}
     {/if}
 {/if}
+
