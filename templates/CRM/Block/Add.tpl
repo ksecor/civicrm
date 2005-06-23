@@ -2,7 +2,7 @@
 <form action="{$postURL}" method="post">
 
 <div class="form-item">
-    <label for="firstname">{ts}First Name:{/ts}</label></br>
+    <label for="firstname">{ts}First Name:{/ts}</label><br/>
     <input type="text" name="first_name" class="form-text" maxlength="64" />
 </div>
 
