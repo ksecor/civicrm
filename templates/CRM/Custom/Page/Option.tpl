@@ -9,20 +9,20 @@
         {strip}
         <table>
         <tr class="columnheader">
+        <th>{ts}Option Label{/ts}</th>
+        <th>{ts}Option Value{/ts}</th>
 	    <th>{ts}Default{/ts}</th>
-            <th>{ts}Option Label{/ts}</th>
-            <th>{ts}Option Value{/ts}</th>
-            <th>{ts}Weight{/ts}</th>
+        <th>{ts}Weight{/ts}</th>
 	    <th>{ts}Status?{/ts}</th>
             <th>&nbsp;</th>
         </tr>
         {foreach from=$customOption item=row}
         <tr class="{cycle values="odd-row,even-row"} {if NOT $row.is_active} disabled{/if}">
-            <td>{$row.default_value}</td>
             <td>{$row.label}</td>
             <td>{$row.value}</td>
-	    <td>{$row.weight}</td>
-	    <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
+            <td>{$row.default_value}</td>
+            <td>{$row.weight}</td>
+            <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{$row.action}</td>
         </tr>
         {/foreach}

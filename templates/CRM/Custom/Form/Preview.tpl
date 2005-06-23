@@ -7,13 +7,6 @@
     {/capture}
 {else}
     {capture assign=infoMessage}{ts}Preview of this field as it will be displayed when editing a contact.{/ts}{/capture}
-    {capture name=legend}
-        {foreach from=$groupTree item=val key=key}
-            {foreach from=$val.fields item=name}
-            {$name.label}
-            {/foreach}
-        {/foreach}
-    {/capture}
 {/if}
 {include file="CRM/common/info.tpl"}
 <div class="form-item">
@@ -21,7 +14,7 @@
 
 {foreach from=$groupTree item=cd_edit key=group_id}
     <p>
-    <fieldset><legend>{$smarty.capture.legend}</legend>
+    <fieldset>{if $preview_type eq 'group'}<legend>{$smarty.capture.legend}</legend>{/if}
     {if $cd_edit.help_pre}<div class="message help">{$cd_edit.help_pre}</div><br />{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}

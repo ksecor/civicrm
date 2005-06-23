@@ -81,6 +81,18 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data option?');
             self::$_actionLinks = array(
+                                        CRM_Core_Action::VIEW    => array(
+                                                                          'name'  => ts('View'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
+                                                                          'qs'    => 'action=view&id=%%id%%',
+                                                                          'title' => ts('View Custom Option'),
+                                                                          ),
+                                        CRM_Core_Action::UPDATE  => array(
+                                                                          'name'  => ts('Edit Option'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
+                                                                          'qs'    => 'action=update&id=%%id%%',
+                                                                          'title' => ts('Edit Custom Option') 
+                                                                          ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
@@ -89,23 +101,11 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
                                                                           ),
                                         CRM_Core_Action::DISABLE  => array(
                                                                            'name'  => ts('Disable'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
-                                                                          'qs'    => 'action=disable&id=%%id%%',
-                                                                          'title' => ts('Disable Custom Field'),
+                                                                           'url'   => 'civicrm/admin/custom/group/field/option',
+                                                                           'qs'    => 'action=disable&id=%%id%%',
+                                                                           'title' => ts('Disable Custom Field'),
                                                                            'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"'
                                                                            ),
-                                        CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Edit Option'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
-                                                                          'qs'    => 'action=update&id=%%id%%',
-                                                                          'title' => ts('Edit Custom Option') 
-                                                                          ),
-                                        CRM_Core_Action::VIEW    => array(
-                                                                          'name'  => ts('View'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
-                                                                          'qs'    => 'action=view&id=%%id%%',
-                                                                          'title' => ts('View Custom Option'),
-                                                                          ),
                                         );
         }
         return self::$_actionLinks;
@@ -213,7 +213,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
 	    $fieldTitle = CRM_Core_BAO_CustomField::getTitle($this->_fid);
             $this->assign('fid', $this->_fid);
             $this->assign('fieldTitle', $fieldTitle);
-            CRM_Utils_System::setTitle(ts('%1 - Custom Options', array(1 => $fieldTitle)));
+            CRM_Utils_System::setTitle(ts('%1 - Multiple Choice Options', array(1 => $fieldTitle)));
         }
 
         // get the requested action

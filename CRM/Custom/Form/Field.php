@@ -116,6 +116,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         // is it an edit operation ?
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
+            $this->assign('id',$this->_id);
             CRM_Core_BAO_CustomField::retrieve($params, $defaults);
             $this->_gid = $defaults['custom_group_id'];
 
@@ -125,6 +126,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
             if (CRM_Utils_Array::value('data_type', $defaults)) {
                 $this->_rebuildHTMLType($defaults['data_type'][0]);
+                $this->assign('html_type',$defaults['html_type']);
                 $defaults['html_type'] = array('0' => array_search($defaults['html_type'], self::$_dataToHTML[$defaults['data_type'][0]]));
             }
 
@@ -243,20 +245,20 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             switch ( $dataType ) {
             case 'Int':
                 if ( ! CRM_Utils_Rule::integer( $default ) ) {
-                    $errors['default_value'] = 'Please enter a valid integer as default value';
+                    $errors['default_value'] = 'Please enter a valid integer as default value.';
                 }
                 break;
 
             case 'Float':
             case 'Money':
                 if ( ! CRM_Utils_Rule::numeric( $default ) ) {
-                    $errors['default_value'] = 'Please enter a valid number as default value';
+                    $errors['default_value'] = 'Please enter a valid number as default value.';
                 }
                 break;
 
             case 'Date':
                 if ( ! CRM_Utils_Rule::date( $default ) ) {
-                    $errors['default_value'] = 'Please enter a valid date as default value';
+                    $errors['default_value'] = 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.';
                 }
                 break;
             }

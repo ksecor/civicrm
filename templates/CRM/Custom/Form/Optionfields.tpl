@@ -1,4 +1,9 @@
-<fieldset><legend>{ts}Selection Options{/ts}</legend>
+<fieldset><legend>{ts}Multiple Choice Options{/ts}</legend>
+    <div class="description">
+        {ts}Enter up to ten (10) multiple choice options in this table (click 'another choice' for each additional choice).
+        If desired, you can mark one of the choices as the default choice. The option 'label' is displayed on the form,
+        while the option 'value' is stored in the contact record. The label and value may be
+        the same or different. Inactive options are hidden when the field is presented.{/ts}
 	{strip}
 	<table>
 	<tr><th>&nbsp;</th>
@@ -30,7 +35,7 @@
 	{section name=showLoop start=2 loop=12}
         {assign var=j value=$smarty.section.showLoop.index}
         <div id="optionField[{$j}][show]" class="add-remove-link">
-            <a onclick="show('optionField[{$j}]','table-row'); show('optionField[{$j+1}][show]','table-row'); hide('optionField[{$j}][show]'); return false;" href="#optionField[j][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="show field or section">another option row</a>
+            <a onclick="show('optionField[{$j}]','table-row'); show('optionField[{$j+1}][show]','table-row'); hide('optionField[{$j}][show]'); return false;" href="#optionField[j][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="show field or section">another choice</a>
             {* $form.optionField.$j.show.html*}
         </div>
     {/section}

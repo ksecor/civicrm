@@ -186,7 +186,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         $customOption->save();
         
         
-        CRM_Core_Session::setStatus(ts('Your custom Option data "%1" has been saved', array(1 => $customOption->label)));
+        CRM_Core_Session::setStatus(ts('Your multiple choice option "%1" has been saved', array(1 => $customOption->label)));
     }
 }
 ?>

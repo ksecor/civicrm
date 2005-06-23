@@ -49,3 +49,10 @@
     </div>
 
 </fieldset>
+
+{* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}
+{if $action eq 2 AND ($html_type eq 'Checkbox' OR $html_type eq 'Radio' OR $html_type eq 'Select') }
+    <div class="action-link">
+        <a href="{crmURL p="civicrm/admin/custom/group/field/option" q="reset=1&action=browse&fid=`$id`"}">&raquo; Multiple Choice Options</a>
+    </div>
+{/if}

@@ -73,17 +73,23 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data field?');
             self::$_actionLinks = array(
-                                        CRM_Core_Action::BROWSE  => array(
-                                                                          'name'  => ts('View and Edit Options'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
-                                                                          'qs'    => 'reset=1&action=browse&fid=%%id%%',
-                                                                          'title' => ts('List Custom Options'),
+                                        CRM_Core_Action::PREVIEW => array(
+                                                                          'name'  => ts('Preview Field Display'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field',
+                                                                          'qs'    => 'action=preview&id=%%id%%',
+                                                                          'title' => ts('Preview Custom Field'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
-                                                                          'name'  => ts('Edit'),
+                                                                          'name'  => ts('Edit Field'),
                                                                           'url'   => 'civicrm/admin/custom/group/field',
                                                                           'qs'    => 'action=update&id=%%id%%',
                                                                           'title' => ts('Edit Custom Field') 
+                                                                          ),
+                                        CRM_Core_Action::BROWSE  => array(
+                                                                          'name'  => ts('Edit Multiple Choice Options'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field/option',
+                                                                          'qs'    => 'reset=1&action=browse&fid=%%id%%',
+                                                                          'title' => ts('List Custom Options'),
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
@@ -98,13 +104,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                                                                           'qs'    => 'action=enable&id=%%id%%',
                                                                           'title' => ts('Enable Custom Field'),
                                                                           ),
-                                        CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Preview'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field',
-                                                                          'qs'    => 'action=preview&id=%%id%%',
-                                                                          'title' => ts('Preview Custom Field'),
-                                                                          ),
-
+                        
                                         );
         }
         return self::$_actionLinks;

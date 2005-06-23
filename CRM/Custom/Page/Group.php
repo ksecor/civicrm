@@ -65,17 +65,17 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
             // helper variable for nicer formatting
             $disableExtra = ts('Are you sure you want to disable this custom data group?');
             self::$_actionLinks = array(
-                                        CRM_Core_Action::BROWSE  => array(
-                                                                          'name'  => ts('View and Edit Fields'),
-                                                                          'url'   => 'civicrm/admin/custom/group/field',
-                                                                          'qs'    => 'reset=1&action=browse&gid=%%id%%',
-                                                                          'title' => ts('List Custom Group Fields'),
-                                                                          ),
                                         CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Preview Fieldset'),
+                                                                          'name'  => ts('Preview Form Fields'),
                                                                           'url'   => 'civicrm/admin/custom/group',
                                                                           'qs'    => 'action=preview&id=%%id%%',
                                                                           'title' => ts('Preview Custom Group'),
+                                                                          ),
+                                        CRM_Core_Action::BROWSE  => array(
+                                                                          'name'  => ts('Edit Fields'),
+                                                                          'url'   => 'civicrm/admin/custom/group/field',
+                                                                          'qs'    => 'reset=1&action=browse&gid=%%id%%',
+                                                                          'title' => ts('List Custom Group Fields'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Group'),
