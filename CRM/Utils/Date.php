@@ -71,7 +71,12 @@ class CRM_Utils_Date {
             // we have time too.. 
             if ($date['h']) {
                 if ($date['A'] == 'PM') {
-                    $date['h'] = $date['h'] + 12;
+                    if ($date['h'] != 12 ) {
+                        $date['h'] = $date['h'] + 12;
+                    }
+                }
+                if ($date['A'] == 'AM' && $date['h'] == 12) {
+                    $date['h'] = '00';
                 }
                 
                 $date['h'] = (int ) $date['h'];
