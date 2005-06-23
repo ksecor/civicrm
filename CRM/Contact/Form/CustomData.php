@@ -276,9 +276,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function formRule(&$field)
     {
-        echo "<pre>";
-        print_r($field);
-        echo "</pre>";
+        //echo "<pre>";
+        //print_r($field);
+        //echo "</pre>";
         /*$this->assign('groupTree', $this->_groupTree);
         
         // add the form elements
@@ -345,10 +345,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     if($field['data_type'] != 'Boolean' ) {
                         $defaults[$elementName] = isset($field['customValue']['data']) ? $field['customValue']['data'] : $field['default_value'];
                     } else {
-                        if($field['default_value']) {
-                            $defaults[$elementName] = $field['default_value'] ? 'yes' : 'no';
+                        if( isset($field['customValue']['data']) ) {
+                            $defaults[$elementName] = $field['customValue']['data'] ? 'yes' : 'no';
                         } else {
-                            $defaults[$elementName] = isset($field['customValue']['data']) ? 'yes' : 'no';
+                            $defaults[$elementName] = '';
                         }
                     }
                     break;

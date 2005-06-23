@@ -282,6 +282,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             case 'Date':
                 $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_date_data;
                 break;
+            case 'StateProvince':
+                $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_int_data;
+                break;
+            case 'Country':
+                $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_int_data;
+                break;
             }
         }
         return;
@@ -364,6 +370,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         break;
                     case 'Date':
                         $customValueDAO->date_data = $data;
+                        break;
+                    case 'StateProvince':
+                        $customValueDAO->int_data = $data;
+                        break;
+                    case 'Country':
+                        $customValueDAO->int_data = $data;
                         break;
                     }
 

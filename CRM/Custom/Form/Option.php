@@ -110,7 +110,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
         // label
         $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
-        $this->addRule('label', ts('Please enter a valid label for this field.'), 'title');
+        //$this->addRule('label', ts('Please enter a valid label for this field.'), 'label');
 	
         // value
         $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
