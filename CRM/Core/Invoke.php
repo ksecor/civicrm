@@ -336,7 +336,7 @@ class CRM_Core_Invoke {
         // file.
         $session =& CRM_Core_Session::singleton();
         $type = $_GET['type'];
-        $varName = $type == 1 ? 'error' : 'duplicate';
+        $varName = $type == 1 ? 'error' : 'conflict';
         $fileName = $session->get($varName . 'FileName', 
                                     'CRM_Import_Controller');
                                     

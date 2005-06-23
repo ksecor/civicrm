@@ -15,9 +15,9 @@
         </p>
     {/if}
 
-    {if $duplicateRowCount}
+    {if $conflictRowCount}
         <p>
-        {ts 1=$duplicateRowCount 2=$downloadDuplicateRecords}CiviCRM has detected %1 records with duplicate email addresses within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
+        {ts 1=$conflictRowCount 2=$downloadConflictRecords}CiviCRM has detected %1 records with conflicting email addresses within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
         </p>
     {/if}
     
@@ -39,10 +39,10 @@
         </td>
     </tr>
     
-    <tr><td class="label">{ts}Duplicate Rows{/ts}</td>
-        <td class="data">{$duplicateRowCount}</td>
-        <td class="explanation">{ts}Rows with duplicate emails within this file. These rows will be skipped (not imported).{/ts}
-            <p>{$downloadDuplicateRecords}</p>
+    <tr><td class="label">{ts}Conflicting Rows{/ts}</td>
+        <td class="data">{$conflictRowCount}</td>
+        <td class="explanation">{ts}Rows with conflicting email addresses within this file. These rows will be skipped (not imported).{/ts}
+            <p>{$downloadConflictRecords}</p>
         </td>
     </tr>
 

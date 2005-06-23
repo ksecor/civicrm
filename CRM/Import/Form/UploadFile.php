@@ -53,6 +53,16 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
 
         $this->addElement( 'checkbox', 'skipColumnHeader', ts('First row contains column headers') );
 
+        $this->addElement( 'radio', 'onDuplicate', ts('On duplicate entries:'),
+                            ts('Skip'), 
+                            'S' );
+        $this->addElement( 'radio', 'onDuplicate', null, 
+                            ts('Replace CiviCRM record with import record data'), 
+                            'R' );
+        $this->addElement( 'radio', 'onDuplicate', null, 
+                            ts('Update CiviCRM record with import record data'),
+                            'U' );
+
         $this->addButtons( array(
                                  array ( 'type'      => 'upload',
                                          'name'      => ts('Continue >>'),
@@ -73,6 +83,10 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
     public function postProcess( ) {
         $fileName         = $this->controller->exportValue( $this->_name, 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( $this->_name, 'skipColumnHeader' );
+        $onDuplicate      = $this->controller->exportValue( $this->_name,
+                            'onDuplicate' );
+        
+        $this->set('onDuplicate', $onDuplicate);
 
         $seperator = ',';
         $mapper = array( );

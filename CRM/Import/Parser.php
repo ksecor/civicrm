@@ -36,7 +36,7 @@ abstract class CRM_Import_Parser {
         VALID        =  1,
         WARNING      =  2,
         ERROR        =  4,
-        DUPLICATE    =  8,
+        CONFLICT    =  8,
         STOP         = 16;
 
     /**
@@ -96,14 +96,14 @@ abstract class CRM_Import_Parser {
     protected $_errors;
 
     /**
-     * total number of duplicate lines
+     * total number of conflict lines
      */
-    protected $_duplicateCount;
+    protected $_conflictCount;
 
     /**
-     * array of duplicate lines
+     * array of conflict lines
      */
-    protected $_duplicates;
+    protected $_conflicts;
 
     /**
      * running total number of warnings
@@ -166,11 +166,11 @@ abstract class CRM_Import_Parser {
 
 
     /**
-     * filename of duplicate data
+     * filename of conflict data
      *
      * @var string
      */
-    protected $_duplicateFileName;
+    protected $_conflictFileName;
 
 
     function __construct() {
@@ -196,11 +196,11 @@ abstract class CRM_Import_Parser {
 
         $this->_lineCount  = $this->_warningCount   = 0;
         $this->_invalidRowCount = $this->_validCount     = 0;
-        $this->_totalCount = $this->_duplicateCount = 0;
+        $this->_totalCount = $this->_conflictCount = 0;
     
         $this->_errors   = array();
         $this->_warnings = array();
-        $this->_duplicates = array();
+        $this->_conflicts = array();
 
         $this->_fileSize = number_format( filesize( $fileName ) / 1024.0, 2 );
         
@@ -284,10 +284,10 @@ abstract class CRM_Import_Parser {
                 }
             } 
 
-            if ( $returnCode & self::DUPLICATE ) {
-                $this->_duplicateCount++;
+            if ( $returnCode & self::CONFLICT ) {
+                $this->_conflictCount++;
                 array_unshift($values, $this->_totalCount);
-                $this->_duplicates[] = $values;
+                $this->_conflicts[] = $values;
             } 
             
             // we give the derived class a way of aborting the process
@@ -313,9 +313,9 @@ abstract class CRM_Import_Parser {
                 $this->_errorFileName = $fileName . '.errors';
                 self::exportCSV($this->_errorFileName, $headers, $this->_errors);
             }
-            if ($this->_duplicateCount) {
-                $this->_duplicateFileName = $fileName . '.duplicates';
-                self::exportCSV($this->_duplicateFileName, $headers, $this->_duplicates);
+            if ($this->_conflictCount) {
+                $this->_conflictFileName = $fileName . '.conflicts';
+                self::exportCSV($this->_conflictFileName, $headers, $this->_conflicts);
             }
         }
 
@@ -444,13 +444,13 @@ abstract class CRM_Import_Parser {
         $store->set( 'totalRowCount'    , $this->_totalCount     );
         $store->set( 'validRowCount'    , $this->_validCount     );
         $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
-        $store->set( 'duplicateRowCount', $this->_duplicateCount );
+        $store->set( 'conflictRowCount', $this->_conflictCount );
         
         if ($this->_invalidRowCount) {
             $store->set( 'errorFileName', $this->_errorFileName );
         }
-        if ($this->_duplicateCount) {
-            $store->set( 'duplicateFileName', $this->_duplicateFileName );
+        if ($this->_conflictCount) {
+            $store->set( 'conflictFileName', $this->_conflictFileName );
         }
         if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
             $store->set( 'dataValues', $this->_rows );

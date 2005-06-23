@@ -53,7 +53,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $dataValues         = $this->get('dataValues');
         $mapper             = $this->get('mapper');
         $invalidRowCount    = $this->get('invalidRowCount');
-        $duplicateRowCount  = $this->get('duplicateRowCount');
+        $conflictRowCount  = $this->get('conflictRowCount');
 
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
@@ -69,16 +69,16 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 . CRM_Utils_System::url('civicrm/export', 'type=1') 
                 . '">' . ts('Download Errors') . '</a>');
         }
-        if ( $duplicateRowCount > 0 ) {
-            $this->assign('downloadDuplicateRecords', 
+        if ( $conflictRowCount > 0 ) {
+            $this->assign('downloadConflictRecords', 
                 '<a href="'
                 . CRM_Utils_System::url('civicrm/export', 'type=2') 
-                . '">' . ts('Download Duplicates') . '</a>');
+                . '">' . ts('Download Conflicts') . '</a>');
         }
 
         
         $properties = array( 'mapper', 'dataValues', 'columnCount',
-                             'totalRowCount', 'validRowCount', 'invalidRowCount', 'duplicateRowCount' );
+                             'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount' );
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }

@@ -135,9 +135,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 }
                 /* If it's a dupe, bail */
                 if ( $dupe = CRM_Utils_Array::value( $email, $this->_allEmails ) ) {
-                    $values[] = ts('Duplicated Email address (row %1 in original file)', array(1 =>
-                    $dupe));
-                    return self::DUPLICATE;
+                    $values[] = ts('Email address conflicts with row %1 in original file', 
+                    array(1 => $dupe) );
+                    return self::CONFLICT;
                 }
                 /* otherwise, count it and move on */
                 $this->_allEmails[$email] = 1;

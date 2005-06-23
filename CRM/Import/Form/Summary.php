@@ -51,7 +51,7 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
         
 //         $this->assign( $property, $this->get( $property ) );
 
-        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'duplicateRowCount' );
+        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount' );
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
