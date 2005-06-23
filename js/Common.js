@@ -422,10 +422,14 @@ function custom_option_html_type(html_type)
 	    document.getElementById('showoption').style.display="block";
 	    document.getElementById('hideDefaultValTxt').style.display="none";
 	    document.getElementById('hideDefaultValDef').style.display="none";
+	    document.getElementById('hideDescTxt').style.display="none";
+	    document.getElementById('hideDescDef').style.display="none";
 	} else {
 	    document.getElementById('showoption').style.display="none";
 	    document.getElementById('hideDefaultValTxt').style.display="block";
 	    document.getElementById('hideDefaultValDef').style.display="block";
+	    document.getElementById('hideDescTxt').style.display="block";
+	    document.getElementById('hideDescDef').style.display="block";
 	}
     } else {
 	document.getElementById('showoption').style.display="none";

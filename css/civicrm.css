@@ -510,32 +510,9 @@ div.crm-pager a {
 }
 
 /*
-**Temporary solution for customField formation 
+** Style for hiding  
 /*
-.fcol1 {
- float: left; 
- margin-left: 2.5%
- width: 19%;
-}
-
-.fcol2 {
- float: left;
- width: 19%;
-}
-
-.fcol3 {
- float: left;
- width: 19%;
-}
-
-.fcol4 {
- float: left;
- width: 19%;
-}
-
-.fcol5 {
- float: left;
- margin-right: 2.5%;
- width: 19%;
+#crm-container .hide-block {
+  display: none
 }
 

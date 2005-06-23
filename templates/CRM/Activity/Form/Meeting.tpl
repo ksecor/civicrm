@@ -3,7 +3,7 @@
 <fieldset>
    <legend>
     {if $action eq 1}
-        {if $log}{ts}Log a Meeting{/ts}{else}{ts}Schedule a Meeting{/ts}{/if}
+    {if $log}{ts}Log a Meeting{/ts}{else}{ts}Schedule a Meeting{/ts}{/if}
     {elseif $action eq 2}{ts}Edit Scheduled Meeting{/ts}
     {else}{ts}View Scheduled Meeting{/ts}{/if}
   </legend>
