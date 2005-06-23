@@ -5,6 +5,7 @@
 {strip}
 <table>
   <tr class="columnheader">
+  <!--<th><input type="checkbox" name="selectAllNone" value="1" onChange="toggleCheckboxVals('mark_x_', {$form.formName});"></th>-->
   {foreach from=$columnHeaders item=header}
     <th>
     {if $header.sort}

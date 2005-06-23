@@ -169,9 +169,21 @@ function changeCheckboxVals(fldPrefix, action, form) {
     }
     /* function called to change the color of selected rows */
     on_load_init_checkboxes(form.name); 
-    /*  on_load_init_check(form.name); */
-    
-    
+}
+function toggleCheckboxVals(fldPrefix,form) {
+    for( i=0; i < form.elements.length; i++) {
+        fpLen = fldPrefix.length;
+        if (form.elements[i].type == 'checkbox' && form.elements[i].name.slice(0,fpLen) == fldPrefix ) {
+            element = form.elements[i];
+            if (action == 'deselect') {
+                element.checked = false; 
+            } else {
+                element.checked = true;
+            }
+        }
+    }
+    /* function called to change the color of selected rows */
+    on_load_init_checkboxes(form.name); 
 }
 
 function countSelectedCheckboxes(fldPrefix, form) {

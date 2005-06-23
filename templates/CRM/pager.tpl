@@ -19,7 +19,7 @@
     {/if}
     
     {* Controller for 'Rows Per Page' *}
-    {if $location eq 'bottom'}
+    {if $location eq 'bottom' and $pager->_totalItems > 25}
      <div class="form-item float-right">
            <label>{ts}Rows per page:{/ts}</label> &nbsp; 
            {$pager->_response.twentyfive}&nbsp; | &nbsp;
