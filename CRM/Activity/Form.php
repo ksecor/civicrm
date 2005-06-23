@@ -124,14 +124,19 @@ class CRM_Activity_Form extends CRM_Core_Form
         if ($this->_log) { 
             $defaults['status'] = 'Completed';
         }
-        
-        $currentDay = date("Y-m-d G:");
-        $currentTime = date("s");
-        // rounding of minutes
-        $min = (int ) ( date("i") / 15 ) * 15;
 
-        $currentDate = $currentDay . ' ' . $min . ':' . $currentTime;
-        $defaults['scheduled_date_time'] = $currentDate;
+        // set the default date if we are creating a new meeting/call or 
+        // marking one as complete
+        if ( $this->_log || ! isset( $this-_id ) ) {
+            $currentDay = date("Y-m-d G:");
+            $currentTime = date("s");
+            // rounding of minutes
+            $min = (int ) ( date("i") / 15 ) * 15;
+            
+            $currentDate = $currentDay . ' ' . $min . ':' . $currentTime;
+            $defaults['scheduled_date_time'] = $currentDate;
+        }
+        
         return $defaults;
 
     }
