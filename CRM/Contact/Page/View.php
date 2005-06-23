@@ -211,7 +211,10 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         }
         
         $defaults['contactTag'] = substr($strCategories, 0, (strlen(trim($strCategories))-1));
-        
+
+        $t = CRM_Core_SelectValues::gender();
+        $defaults['gender']['gender'] = $t[$defaults['gender']['gender']];
+
         $this->assign( $defaults );
         $this->set( 'displayName', $displayName );
 
