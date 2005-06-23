@@ -85,18 +85,16 @@ class CRM_Activity_Form extends CRM_Core_Form
         $this->_userId = $session->get( 'userID' );
 
         $page =& new CRM_Contact_Page_View();
-        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', $page);
         
-        //$this->_log = CRM_Utils_Request::retrieve( 'log', $page);
-        $this->_pid  = CRM_Utils_Request::retrieve( 'pid', $page, false, null, 'GET');
-        $this->_log  = CRM_Utils_Request::retrieve( 'log', $this, false, null, 'GET');
-        $this->assign('log',$this->_log);
+        $this->_pid  = $this->get( 'pid' );
+        $this->_log  = $this->get( 'log' );
+        $this->assign( 'log', $this->_log);
                 
         $this->_contactId = $this->get('contactId');
         if ($this->_action != CRM_Core_Action::ADD) {
             $this->_id = $this->get('id');
         }
-        $this->_status = CRM_Utils_Request::retrieve( 'status', $this, false, null, 'GET');
+        $this->_status = CRM_Utils_Request::retrieve( 'status', $this, false );
     }
 
     /**
@@ -157,7 +155,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         if ($this->_status || ($this->_action == CRM_Core_Action::VIEW)) { 
             if ($this->_status) {
                 $this->assign('status', $this->_status);
-                $this->assign('pid', $this->_id);
+                $this->assign('pid'   , $this->_id);
             }
             $this->addButtons( array(
                                      array ( 'type'      => 'cancel',
@@ -166,7 +164,6 @@ class CRM_Activity_Form extends CRM_Core_Form
                                );
 
         } else {
-
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
                                              'name'      => 'Save',

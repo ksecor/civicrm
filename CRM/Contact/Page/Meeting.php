@@ -41,18 +41,19 @@ class CRM_Contact_Page_Meeting
 
     static function edit( $page, $mode, $meetingId = null ) 
     {
-
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Meeting', 'Contact Meetings', $mode );
-        $controller->setEmbedded( true );
-
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Meeting', 'Contact Meetings', $mode );
         $controller->reset( );
-        $controller->set( 'contactId'   , $page->getContactId( ) );
-        $controller->set( 'id'   , $meetingId );
-        
+
+        $controller->setEmbedded( true );
+        $controller->set( 'contactId', $page->getContactId( ) );
+        $controller->set( 'id'       , $meetingId );
+        $controller->set( 'pid'      , $page->get( 'pid' ) );
+        $controller->set( 'log'      , $page->get( 'log' ) );
+
         $controller->process( );
         $controller->run( );
     }
@@ -66,16 +67,9 @@ class CRM_Contact_Page_Meeting
         $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
         $page->assign( 'action', $action );
 
-        $id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
-        
-        //this is use to store the status (if activity complete the set to true )
-        $status = CRM_Utils_Request::retrieve('status', $page, false, null, 'GET');
-        
-        // this is use to differentiate between schedule and log meeting
-        $log = CRM_Utils_Request::retrieve('log', $page, false, null, 'GET');
-
-        //this is used to store parent id if this activity is a follow up activity
-        $pid = CRM_Utils_Request::retrieve('pid', $page, false, null, 'GET');
+        $id  = CRM_Utils_Request::retrieve( 'id' , $page );
+        $pid = CRM_Utils_Request::retrieve( 'pid', $page ); 
+        $log = CRM_Utils_Request::retrieve( 'log', $page ); 
         
         if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
             self::edit( $page, $action, $id );
@@ -84,7 +78,7 @@ class CRM_Contact_Page_Meeting
         }
     }
     
-   static function delete( $meetingId ) 
+    static function delete( $meetingId ) 
     {
         CRM_Core_BAO_Meeting::del($meetingId);
     }

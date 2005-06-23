@@ -36,16 +36,8 @@
  *
  */
 
-class CRM_Core_BAO_Call extends CRM_Core_DAO_Phonecall
+class CRM_Core_BAO_Phonecall extends CRM_Core_DAO_Phonecall
 {
-
-    /**
-     * class constructor
-     */
-    function __construct( ) 
-    {
-        parent::__construct( );
-    }
     /**
      * takes an associative array and creates a contact object
      *

@@ -36,21 +36,23 @@ require_once 'CRM/Core/Page.php';
 /**
  * Page for displaying list of Call
  */
-class CRM_Contact_Page_Call 
+class CRM_Contact_Page_Phonecall 
 {
 
     static function edit( $page, $mode, $callId = null ) 
     {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Call', 'Contact Calls', $mode );
-        $controller->setEmbedded( true );
-
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Phonecall', 'Contact Calls', $mode );
         $controller->reset( );
-        $controller->set( 'contactId'   , $page->getContactId( ) );
-        $controller->set( 'id'   , $callId );
+        $controller->setEmbedded( true );
+
+        $controller->set( 'contactId', $page->getContactId( ) );
+        $controller->set( 'id'       , $callId );
+        $controller->set( 'pid'      , $page->get( 'pid' ) );
+        $controller->set( 'log'      , $page->get( 'log' ) );
 
         $controller->process( );
         $controller->run( );
@@ -64,17 +66,10 @@ class CRM_Contact_Page_Call
         $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
         $page->assign( 'action', $action );
 
-        $id = CRM_Utils_Request::retrieve( 'id', $page, false, 0 );
-
-        //this is use to store the status (if activity complete the set to true )                
-        $status = CRM_Utils_Request::retrieve('status', $page, false, null, 'GET');
-
-        // this is use to differentiate between schedule and log call
-        $log = CRM_Utils_Request::retrieve('log', $page, false, null, 'GET');
+        $id  = CRM_Utils_Request::retrieve( 'id' , $page );
+        $pid = CRM_Utils_Request::retrieve( 'pid', $page );
+        $log = CRM_Utils_Request::retrieve( 'log', $page );
         
-        //this is used to store parent id if this activity is a follow up activity
-        $pid = CRM_Utils_Request::retrieve('pid', $page, false, null, 'GET');
-
         if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
             self::edit( $page, $action, $id );
         } else if ( $action & CRM_Core_Action::DELETE ) {
@@ -84,7 +79,7 @@ class CRM_Contact_Page_Call
 
     static function delete( $callId ) 
     {
-        CRM_Core_BAO_Call::del($callId);
+        CRM_Core_BAO_Phonecall::del($callId);
     }
 
 

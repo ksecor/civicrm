@@ -45,7 +45,7 @@ class CRM_Core_Mambo {
      * @static
      */
     static function sidebarLeft( ) {
-        $blockIds = array( 0, 1, 2, 4 );
+        $blockIds = array( 1, 2, 4, 8 );
 
         $blocks = array( );
         foreach ( $blockIds as $id ) {

@@ -35,7 +35,7 @@ class CRM_Utils_Rule {
         }
     
         // Make sure it include valid characters, alpha numeric and underscores
-        if ( ! preg_match('/^[a-z][\w\s\'\&\,\$\#\-\.\"]+$/i', $str ) ) {
+        if ( ! preg_match('/^[a-z][\w\s\'\&\,\$\#\-\.\"\?]+$/i', $str ) ) {
             return false;
         }
 

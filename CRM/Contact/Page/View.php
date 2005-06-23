@@ -120,7 +120,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         } else if ( $this->_mode == self::MODE_MEETING ) {
             CRM_Contact_Page_Meeting::run( $this );
         } else if ( $this->_mode == self::MODE_CALL ) {
-            CRM_Contact_Page_Call::run( $this );
+            CRM_Contact_Page_Phonecall::run( $this );
         }
         return parent::run( );
     }

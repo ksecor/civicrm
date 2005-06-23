@@ -120,8 +120,8 @@ class CRM_Core_SelectValues {
     static function &county()
     {
         static $county = null;
-        if (!$country) {
-            $country = array(
+        if (!$county) {
+            $county = array(
                 ''   => ts('-select-'),
                 1001 => ts('San Francisco')
             );

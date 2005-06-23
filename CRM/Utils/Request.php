@@ -92,8 +92,8 @@ class CRM_Utils_Request {
         if ( ! isset( $value ) && $default ) {
             $value = $default;
         }
-
-        if ( $value && $store ) {
+        
+        if ( isset( $value ) && $store ) {
             // minor hack for action
             if ( $name == 'action' && is_string( $value ) ) {
                 $value = CRM_Core_Action::resolve( $value );

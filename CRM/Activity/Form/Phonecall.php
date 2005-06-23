@@ -38,14 +38,14 @@ require_once 'CRM/Activity/Form.php';
  * This class generates form components for Call
  * 
  */
-class CRM_Activity_Form_Call extends CRM_Activity_Form
+class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
 {
 
     /**
      * variable to store BAO name
      *
      */
-    public $_BAOName = 'CRM_Core_BAO_Call';
+    public $_BAOName = 'CRM_Core_BAO_Phonecall';
     
 
     /**
@@ -122,7 +122,7 @@ class CRM_Activity_Form_Call extends CRM_Activity_Form
             $ids['call'] = $this->_id;
         }
       
-        $call = CRM_Core_BAO_Call::add($params, $ids);
+        $call = CRM_Core_BAO_Phonecall::add($params, $ids);
 
         if($call->status=='Completed'){
             // we need to insert an activity history record here

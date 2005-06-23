@@ -53,29 +53,29 @@ class CRM_Utils_Date {
             return null;
         }
 
-        if ( $date['M'] ) {
+        if ( CRM_Utils_Array::value( 'M', $date ) ) {
             $date['M'] = (int ) $date['M'];
             $date['M'] = ($date['M'] < 10) ? '0' . $date['M'] : $date['M'];
         } else {
             $date['M'] = '00';
         }
 
-        if ( $date['d'] ) {
+        if ( CRM_Utils_Array::value( 'd', $date ) ) {
             $date['d'] = (int ) $date['d'];
             $date['d'] = ($date['d'] < 10) ? '0' . $date['d'] : $date['d'];
         } else {
             $date['d'] = '00';
         }
 
-        if ($date['h'] || $date['i'] || $date['s']) {
+        if (CRM_Utils_Array::value( 'h', $date ) || CRM_Utils_Array::value( 'i', $date ) || CRM_Utils_Array::value( 's', $date )) {
             // we have time too.. 
-            if ($date['h']) {
+            if (CRM_Utils_Array::value( 'h', $date )) {
                 if ($date['A'] == 'PM') {
                     if ($date['h'] != 12 ) {
                         $date['h'] = $date['h'] + 12;
                     }
                 }
-                if ($date['A'] == 'AM' && $date['h'] == 12) {
+                if (CRM_Utils_Array::value( 'A', $date ) == 'AM' && CRM_Utils_Array::value( 'h', $date ) == 12) {
                     $date['h'] = '00';
                 }
                 
@@ -85,14 +85,14 @@ class CRM_Utils_Date {
                 $date['h'] = '00';
             }
 
-            if ($date['i']) {
+            if (CRM_Utils_Array::value( 'i', $date )) {
                 $date['i'] = (int ) $date['i'];
                 $date['i'] = ($date['i'] < 10) ? '0' . $date['i'] : $date['i'];
             } else {
                 $date['i'] = '00';
             }
 
-            if ($date['s']) {
+            if (CRM_Utils_Array::value( 's', $date )) {
                 $date['s'] = (int ) $date['s'];
                 $date['s'] = ($date['s'] < 10) ? '0' . $date['s'] : $date['s'];
             } else {
