@@ -144,6 +144,13 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     public function buildQuickForm()
     {
         $this->assign('groupTree', $this->_groupTree);
+
+        // do we need inactive options ?
+        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+            $inactiveNeeded = true;
+        } else {
+            $inactiveNeeded = false;
+        }
         
         // add the form elements
         foreach ($this->_groupTree as $group) {
@@ -175,7 +182,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 case 'Radio':
                     $choice = array();
                     if($field['data_type'] != 'Boolean') {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         foreach ($customOption as $v) {
                             $choice[] = $this->createElement('radio', null, '', $v['label'], $v['value'], $field['attributes']);
                         }
@@ -191,7 +198,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
 
                 case 'Select':
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                     $selectOption = array();
                     foreach ($customOption as $v) {
                         $selectOption[$v['value']] = $v['label'];
@@ -200,7 +207,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
 
                 case 'CheckBox':
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                     $check = array();
                     foreach ($customOption as $v) {
                         $checked = array();
@@ -334,6 +341,13 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     {
         $defaults = array();
         
+        // do we need inactive options ?
+        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+            $inactiveNeeded = true;
+        } else {
+            $inactiveNeeded = false;
+        }
+
         foreach ($this->_groupTree as $group) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
@@ -359,9 +373,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     
                 case 'CheckBox':
                     if(isset($field['customValue']['data'])) {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
-                        $checkedData = explode(",", $field['customValue']['data']);
+                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
                         $defaults[$elementName] = array();
                         foreach($customOption as $val) {
                             if (is_array($customValues)) {
@@ -434,7 +448,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  $v;
                     break;
                 case 'CheckBox':  
-                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  implode(",", array_keys($v));
+                    $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] =  implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($v));
                     break;
                 case 'Select Date':
                     $date = CRM_Utils_Date::format( $v );
