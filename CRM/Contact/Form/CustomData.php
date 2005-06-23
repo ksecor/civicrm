@@ -144,12 +144,12 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     public function buildQuickForm()
     {
         $this->assign('groupTree', $this->_groupTree);
-
+        
         // add the form elements
         foreach ($this->_groupTree as $group) {
             
             $this->_groupTitle[] = $group['title'];
-                        
+            $_flag = 0;            
             CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
             
             $groupId = $group['id'];
@@ -196,14 +196,12 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     foreach ($customOption as $v) {
                         $selectOption[$v['value']] = $v['label'];
                     }
-                    $this->add('select', $elementName,$field['label'], $selectOption);
+                    $this->add('select', $elementName, $field['label'], $selectOption);
                     break;
 
                 case 'CheckBox':
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
                     $check = array();
-                    $checkedData = explode("|", $elementData);
-                    //print_r($checkedData);
                     foreach ($customOption as $v) {
                         $checked = array();
                         $check[] = $this->createElement('checkbox', $v['value'], null, $v['label']);
@@ -212,7 +210,19 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
 
                 case 'Select State/Province':
+                    //Add State
+                    
+                    $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
+                    $this->add('select', $elementName, $field['label'], $stateOption);
+                    $_flag++;
+                    break;
+
                 case 'Select Country':
+                    //Add Country
+                    $_flag++;
+                    $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
+                    $this->add('select', $elementName, $field['label'], $countryOption);
+                    break;
                 }
                 
                 switch ( $field['data_type'] ) {
@@ -245,12 +255,43 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                         'name'      => ts('Cancel') ),
                                 )
                           );
+        if ( $_flag == 2 ) {
+            // add a form rule to check default value
+            $this->addFormRule( array( 'CRM_Contact_Form_CustomData', 'formRule' ) );
+        }
 
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $this->freeze();
         }
     }
     
+     /**
+     * check for correct state / country mapping.
+     *
+     * @param array reference $fields - submitted form values.
+     * @param array reference $errors - if any errors found add to this array. please.
+     * @return true if no errors
+     *         array of errors if any present.
+     *
+     * @access protected
+     * @static
+     */
+    static protected function formRule(&$field)
+    {
+        if ($stateProvinceId && $countryId) {
+            $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
+            $stateProvinceDAO->id = $stateProvinceId;
+            $stateProvinceDAO->find(true);
+            
+            if ($stateProvinceDAO->country_id != $countryId) {
+                // countries mismatch hence display error
+            $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
+            $countries = CRM_Core_PseudoConstant::country();
+            $errors[$field[$elementName]] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+            }
+        }
+        return empty($errors) ? true : $errors;
+    }
 
     /**
      * Set the default form values
@@ -289,18 +330,26 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     if(isset($field['customValue']['data'])) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
                         $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
-                        
+                        $checkedData = explode(",", $field['customValue']['data']);
                         $defaults[$elementName] = array();
                         foreach($customOption as $val) {
                             if (is_array($customValues)) {
-                                if (in_array($val['value'], $customValues)) {
+                                if (in_array($val['value'], $checkedData)) {
                                     $defaults[$elementName][$val['value']] = 1;
                                 } else {
                                     $defaults[$elementName][$val['value']] = 0;
                                 }
                             }
                         }
-                    }
+                    } /*else {
+                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id']);
+                        $defaults[$elementName] = array();
+                        foreach($customOption as $val) {
+                            if( $field['default_value'] == $val['value']) {
+                                $defaults[$elementName][$val['value']] = 1;
+                            }
+                        }                        
+                    }*/
                     break;
                     
                 case 'Select Date':
