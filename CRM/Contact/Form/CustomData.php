@@ -154,13 +154,13 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         
         // add the form elements
         foreach ($this->_groupTree as $group) {
-            
+            $_flag = 0;
             $this->_groupTitle[] = $group['title'];
-            $_flag = 0;            
             CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
             
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
+
                 $fieldId = $field['id'];                
                 $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
 
@@ -247,7 +247,13 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     $this->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $field['label'])), 'numeric');
                     break;
                 }
-            }
+                if ( $_flag == 2 ) {
+                    echo "Entering the Form Rule";
+                    // add a form rule to check default value
+                    $this->addFormRule( array( 'CRM_Contact_Form_CustomData', 'formRule' ) );
+                    $_flag = 0;
+                }
+            }            
         }
 
         $this->setShowHide($this->_groupTitle);
@@ -260,10 +266,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                                         'name'      => ts('Cancel') ),
                                 )
                           );
-        if ( $_flag == 2 ) {
-            // add a form rule to check default value
-            $this->addFormRule( array( 'CRM_Contact_Form_CustomData', 'formRule' ) );
-        }
+        
 
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $this->freeze();
@@ -281,7 +284,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @access protected
      * @static
      */
-    function formRule(&$fields, &$errors )
+    static function formRule(&$fields, &$errors )
     {
         $grpId = array();
         foreach ($fields as $k => $v) {
@@ -295,10 +298,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         foreach($uniGroupId as $val) {
             $groupDetails[] = CRM_Core_BAO_CustomGroup::getGroupDetail($val);
         }
-        //echo "<pre>";
-        //print_r($fields);
-        //echo "</pre>";
         
+        $_flag = 0;
         foreach ($groupDetails as $value) {
             foreach ($value as $group) {
                 $groupId = $group['id'];
@@ -309,35 +310,37 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     switch($field['html_type']) {
                 case 'Select Country':
                     $country  = $elementName;
+                    $_flag++;
                     break;
                     
                     case 'Select State/Province':
                         $stateProvince  = $elementName;
+                        $_flag++;
                     break;
                     }
                 }
             }
-        }
-        
-        //echo "Got Country value as $country and $stateProvince as state/Province value ";
-        if ( array_key_exists($country, $fields) ) {
-            $countryId = $fields[$country];
-        }
-        
-        if ( array_key_exists($stateProvince, $fields) ) {
-            $stateProvinceId = $fields[$stateProvince];
-        }
-
-        if ($stateProvinceId && $countryId) {
-            $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
-            $stateProvinceDAO->id = $stateProvinceId;
-            $stateProvinceDAO->find(true);
-            
-            if ($stateProvinceDAO->country_id != $countryId) {
-                // countries mismatch hence display error
-            $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
-            $countries = CRM_Core_PseudoConstant::country();
-            $errors[$stateProvince] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+            if ($_flag == 2) {
+                if ( array_key_exists($country, $fields) ) {
+                    $countryId = $fields[$country];
+                }
+                
+                if ( array_key_exists($stateProvince, $fields) ) {
+                    $stateProvinceId = $fields[$stateProvince];
+                }
+                
+                if ($stateProvinceId && $countryId) {
+                    $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
+                    $stateProvinceDAO->id = $stateProvinceId;
+                    $stateProvinceDAO->find(true);
+                    
+                    if ($stateProvinceDAO->country_id != $countryId) {
+                        // countries mismatch hence display error
+                        $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
+                        $countries = CRM_Core_PseudoConstant::country();
+                        $errors[$stateProvince] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+                    }
+                }
             }
         }
         return empty($errors) ? true : $errors;
