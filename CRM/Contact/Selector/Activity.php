@@ -250,9 +250,9 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                 'sort'      => 'activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
+                                          array('name' => ts('Subject')),
                                           array('name' => ts('Created By')),
                                           array('name' => ts('With')),
-                                          array('name' => ts('Subject')),
                                           array(
                                                 'name'      => ts('Scheduled'),
                                                 'sort'      => 'date',

@@ -121,13 +121,23 @@
         <tr class="columnheader">
 		<th>{ts}Activity Type{/ts}</th>
 		<th>{ts}Subject{/ts}</th>
+        <th>{ts}Created By{/ts}</th>
+        <th>{ts}With{/ts}</th>
 		<th>{ts}Scheduled Date{/ts}</th>
         <th>{ts}Status{/ts}</th>
 	</tr>
     {foreach from=$openActivity.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">
         	<td>{$row.activity_type}</td>
-	    	<td>{$row.subject}</td>	
+            <td>
+             {if $row.activity_type eq 'Meeting'}  
+               <a href="{crmURL p='civicrm/contact/view/meeting' q="action=view&id=`$row.id`"}">{$row.subject|mb_truncate:33:"...":true}</a>
+             {else}
+               <a href="{crmURL p='civicrm/contact/view/call' q="action=view&id=`$row.id`"}">{$row.subject|mb_truncate:33:"...":true}</a>
+             {/if}
+            </td>
+            <td>{$row.sourceName}</td>
+            <td>{$row.targetName}</td>
             <td>{$row.date|crmDate}</td>
 	    	<td>{$row.status}</td>	
         </tr>

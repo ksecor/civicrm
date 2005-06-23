@@ -1,4 +1,4 @@
-{if $cd_edit.title}
+{if $preview_type eq 'group'}
     {capture assign=infoMessage}{ts}Preview of the custom group (fieldset) as it will be displayed when editing a contact.{/ts}{/capture}
 {else}
     {capture assign=infoMessage}{ts}Preview of this field as it will be displayed when editing a contact.{/ts}{/capture}
