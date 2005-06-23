@@ -624,13 +624,7 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
             if ( !empty($privacy) ) {
                 $values['privacy'] = $privacy;
             }
-            
-            // hack for enums
-            $t = CRM_Core_SelectValues::pcm();
-            $values['preferred_communication_method'] = $t[$values['preferred_communication_method']];
-            $t = CRM_Core_SelectValues::gender();
-            $values['gender'] = $t[$values['gender']];
-            
+                        
             return $contact;
         }
         return null;
@@ -692,6 +686,7 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
      */
     static function resolveDefaults( &$defaults, $reverse = false ) {
         // hack for birth_date
+        
         if ( CRM_Utils_Array::value( 'birth_date', $defaults ) ) {
             $defaults['birth_date'] = CRM_Utils_Date::format( $defaults['birth_date'], '-' );
         }
@@ -802,7 +797,6 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
                                           'data'       => self::getOpenActivities( $activityParam, 0, 3 ),
                                           'totalCount' => self::getNumOpenActivity( $params['contact_id'] ),
                                           );
-
         return $contact;
     }
 
