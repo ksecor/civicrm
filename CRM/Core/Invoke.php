@@ -336,7 +336,18 @@ class CRM_Core_Invoke {
         // file.
         $session =& CRM_Core_Session::singleton();
         $type = $_GET['type'];
-        $varName = $type == 1 ? 'error' : 'conflict';
+        
+        if ($type == 1) {
+            $varName = 'errors';
+            $saveFileName = ts('Import_Errors.csv');
+        } else if ($type == 2) {
+            $varName = 'conflicts';
+            $saveFileName = ts('Import_Conflicts.csv');
+        } else {
+            /* FIXME we should have an error here */
+            return;
+        }
+        
         $fileName = $session->get($varName . 'FileName', 
                                     'CRM_Import_Controller');
                                     
@@ -344,9 +355,8 @@ class CRM_Core_Invoke {
         header('Content-Description: File Transfer');
         header('Content-Type: text/csv');
         header('Content-Length: ' . filesize($fileName) );
-        header('Content-Disposition: attachment; filename=Import_'
-                . $varName .'s.csv');
-                
+        header('Content-Disposition: attachment; filename=' . $saveFileName);
+
         readfile($fileName);
         
         exit();

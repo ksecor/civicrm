@@ -30,7 +30,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/^e(-)?mail$/i</headerPattern>
+       <headerPattern>/^e.?mail$/i</headerPattern>
        <dataPattern>/^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/</dataPattern>
        <rule>email</rule>
        <comment>Email address</comment>
