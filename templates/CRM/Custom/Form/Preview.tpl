@@ -1,6 +1,10 @@
 {if $preview_type eq 'group'}
     {capture assign=infoMessage}{ts}Preview of the custom group (fieldset) as it will be displayed when editing a contact.{/ts}{/capture}
-    {capture name=legend}{$groupTitle}{/capture}
+    {capture name=legend}
+        {foreach from=$groupTree item=name}
+        {$name.title}
+        {/foreach}
+    {/capture}
 {else}
     {capture assign=infoMessage}{ts}Preview of this field as it will be displayed when editing a contact.{/ts}{/capture}
     {capture name=legend}
@@ -16,8 +20,6 @@
 {strip}
 
 {foreach from=$groupTree item=cd_edit key=group_id}
-{$cd_edit.title}
-
     <p>
     <fieldset><legend>{$smarty.capture.legend}</legend>
     {if $cd_edit.help_pre}<div class="message help">{$cd_edit.help_pre}</div><br />{/if}
