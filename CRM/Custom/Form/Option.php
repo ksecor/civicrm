@@ -176,6 +176,11 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $customField->id = $this->_fid;
             $customField->default_value = $customOption->value;
             $customField->save();
+        } else {
+            $customField =& new CRM_Core_DAO_CustomField();
+            $customField->id = $this->_fid;
+            $customField->default_value = '';
+            $customField->save();
         }
 	
         $customOption->save();
