@@ -221,8 +221,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     
                     $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
                     $this->add('select', $elementName, $field['label'], $stateOption);
-                    if($_flag)
-                        $_flag++;
+                    $_flag++;
                     break;
 
                 case 'Select Country':
