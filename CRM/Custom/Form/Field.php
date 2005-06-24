@@ -304,25 +304,25 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->save();
 
         //Start Storing the values of Option field if the selected option is Multi Select
-        //if ($customField->data_type == 'Multi-Select') {
-        if($customField->data_type == 'String' || $customField->data_type == 'Int' || $customField->data_type == 'Float' || $customField->data_type == 'Money') {
-            if($customField->html_type != 'Text') {                
-                foreach ($params['option_value'] as $k => $v) {
-                    if ($v) {
-                        $customOptionDAO =& new CRM_Core_DAO_CustomOption();
-                        $customOptionDAO->custom_field_id = $customField->id;
-                        $customOptionDAO->label      = $params['option_label'][$k];
-                        $customOptionDAO->value      = $v;
-                        $customOptionDAO->weight     = $params['option_weight'][$k];
-                        $customOptionDAO->is_active  = $params['option_status'][$k];
-                        $customOptionDAO->save();
-                    }
-                }
-                $customField->default_value = $params['option_value'][$params['default_option']];
-                $customField->save();
-            }
-        }
-        
+         if ($this->_action & CRM_Core_Action::ADD) {
+             if($customField->data_type == 'String' || $customField->data_type == 'Int' || $customField->data_type == 'Float' || $customField->data_type == 'Money') {
+                 if($customField->html_type != 'Text') {                
+                     foreach ($params['option_value'] as $k => $v) {
+                         if ($v) {
+                             $customOptionDAO =& new CRM_Core_DAO_CustomOption();
+                             $customOptionDAO->custom_field_id = $customField->id;
+                             $customOptionDAO->label      = $params['option_label'][$k];
+                             $customOptionDAO->value      = $v;
+                             $customOptionDAO->weight     = $params['option_weight'][$k];
+                             $customOptionDAO->is_active  = $params['option_status'][$k];
+                             $customOptionDAO->save();
+                         }
+                     }
+                     $customField->default_value = $params['option_value'][$params['default_option']];
+                     $customField->save();
+                 }
+             }
+         }
         CRM_Core_Session::setStatus(ts('Your custom field "%1" has been saved', array(1 => $customField->label)));
     }
 }
