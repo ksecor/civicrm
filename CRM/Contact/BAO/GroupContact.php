@@ -245,11 +245,11 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         if ( $count ) {
             $select = 'SELECT count(DISTINCT crm_group_contact.id)';
         } else {
-            $select = 'SELECT crm_group_contact.id as crm_group_contact_id, crm_group.title as crm_group_title,
+            $select = 'SELECT crm_group_contact.id as crm_group_contact_id, crm_group.title as group_title,
                              crm_group_contact.in_date as in_date, crm_group_contact.out_date as out_date,
                              crm_group_contact.pending_date as pending_date, crm_group_contact.status as status,
                              crm_group_contact.pending_method as pending_method, crm_group_contact.in_method as in_method,
-                             crm_group_contact.out_method as out_method ';
+                             crm_group_contact.out_method as out_method, crm_group.id as group_id ';
         }
 
         $from   = ' FROM crm_group, crm_group_contact ';
@@ -285,7 +285,8 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             while ( $groupContact->fetch() ) {
                 $id                            = $groupContact->crm_group_contact_id;
                 $values[$id]['id']             = $id;
-                $values[$id]['title']          = $groupContact->crm_group_title;
+                $values[$id]['group_id']       = $groupContact->group_id;
+                $values[$id]['title']          = $groupContact->group_title;
                 $values[$id]['in_date']        = $groupContact->in_date;
                 $values[$id]['out_date']       = $groupContact->out_date;
                 $values[$id]['pending_method'] = $groupContact->pending_method;

@@ -24,7 +24,7 @@
 	</tr>
        	{foreach from=$groupIn item=row}
         <tr class="{cycle values="odd-row,even-row"}">
-        	<td class="label">{$row.title}</td>
+        	<td class="label"><a href="{crmURL p='civicrm/group/search' q="reset=1&force=1&context=smog&gid=`$row.group_id`"}">{$row.title}</a></td>
 	    	<td>{ts 1=$row.in_method}Added (by %1){/ts}</td> 
             <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
 	        <td><a href="{crmURL p='civicrm/contact/view/group' q="gcid=`$row.id`&action=delete&st=o"}" onclick ="return confirm('{ts 1=$displayName 2=$row.title}Are you sure you want to remove %1 from %2?{/ts}');">{ts}[ Remove ]{/ts}</a></td> 
