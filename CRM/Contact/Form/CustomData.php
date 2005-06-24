@@ -221,7 +221,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     
                     $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
                     $this->add('select', $elementName, $field['label'], $stateOption);
-                    $_flag++;
+                    if($_flag)
+                        $_flag++;
                     break;
 
                 case 'Select Country':
@@ -248,7 +249,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
                 }
                 if ( $_flag == 2 ) {
-                    echo "Entering the Form Rule";
                     // add a form rule to check default value
                     $this->addFormRule( array( 'CRM_Contact_Form_CustomData', 'formRule' ) );
                     $_flag = 0;
