@@ -211,13 +211,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         list( $valid, $invalid, $duplicate ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
         $status = '';
         if ( $valid ) {
-            $status .= " $valid new relationship record(s) created.";
+            $status .= ' ' . ts('%count new relationship record created.', array('count' => $valid, 'plural' => '%count new relationship records created.'));
         }
         if ( $invalid ) {
-            $status .= " $invalid relationship record(s) not created due to invalid target contact type.";
+            $status .= ' ' . ts('%count relationship record not created due to invalid target contact type.', array('count' => $invalid, 'plural' => '%count relationship records not created due to invalid target contact type.'));
         }
         if ( $duplicate ) {
-            $status .= " $duplicate relationship record(s) not created - duplicate of existing relationship.";
+            $status .= ' ' . ts('%count relationship record not created - duplicate of existing relationship.', array('count' => $duplicate, 'plural' => '%count relationship records not created - duplicate of existing relationship.'));
         }
         CRM_Core_Session::setStatus( $status );
     }//end of function

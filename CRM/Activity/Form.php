@@ -172,7 +172,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         } else {
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
-                                             'name'      => 'Save',
+                                             'name'      => ts('Save'),
                                          'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Cancel') ),
