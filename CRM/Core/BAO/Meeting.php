@@ -138,6 +138,25 @@ class CRM_Core_BAO_Meeting extends CRM_Core_DAO_Meeting
         CRM_Core_Session::setStatus( ts('Selected Meeting has been deleted.') );
     }
 
+
+    /**
+     * delete all records for this contact id
+     *
+     * @param int $id
+     */
+    public static function deleteContact($id)
+    {
+        // need to delete for both source and target
+        $dao = new CRM_Core_DAO_Meeting();
+        $dao->source_contact_id = $id;
+        $dao->delete();
+
+        $dao = new CRM_Core_DAO_Meeting();
+        $dao->target_contact_id = $id;        
+        $dao->delete();
+    }
+
+
 }
 
 ?>

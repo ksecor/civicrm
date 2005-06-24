@@ -145,6 +145,19 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
         return CRM_Utils_System::url('civicrm/history/email', "action=view&id=$id");
     }
 
+
+
+    /**
+     * delete all records for this contact id
+     *
+     * @param int $id
+     */
+    public static function deleteContact($id)
+    {
+        $dao = new CRM_Core_DAO_EmailHistory();
+        $dao->contact_id = $id;
+        $dao->delete();
+    }
 }
 
 ?>

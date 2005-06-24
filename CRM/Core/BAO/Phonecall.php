@@ -133,6 +133,23 @@ class CRM_Core_BAO_Phonecall extends CRM_Core_DAO_Phonecall
     }
 
 
+    /**
+     * delete all records for this contact id
+     *
+     * @param int $id
+     */
+    public static function deleteContact($id)
+    {
+        // need to delete for both source and target
+        $dao = new CRM_Core_DAO_Phonecall();
+        $dao->source_contact_id = $id;
+        $dao->delete();
+
+        $dao = new CRM_Core_DAO_Phonecall();
+        $dao->target_contact_id = $id;        
+        $dao->delete();
+    }
+
 }
 
 ?>

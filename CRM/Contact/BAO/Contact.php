@@ -912,7 +912,14 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_ActivityHistory', $id );
 
         CRM_Core_BAO_UFMatch::deleteContact( $id );
+        
+        // need to remove them from email, meeting and phonecall
+        CRM_Core_BAO_EmailHistory::deleteContact($id);
+        CRM_Core_BAO_Meeting::deleteContact($id);
+        CRM_Core_BAO_Phonecall::deleteContact($id);
 
+        // location shld be deleted after phonecall, since fields in phonecall are
+        // fkeyed into location/phone.
         CRM_Contact_BAO_Location::deleteContact( $id );
 
         // fix household and org primary contact ids
