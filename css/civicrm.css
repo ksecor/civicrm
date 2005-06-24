@@ -219,6 +219,11 @@ div.spacer {
 .font-red {
   color: #FF0105;	
 }
+
+.upper {
+    text-transform: uppercase;
+}
+
 /* 
 ** Styles for record browser and report tables, and pager bar
 */

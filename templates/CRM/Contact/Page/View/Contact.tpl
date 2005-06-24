@@ -73,9 +73,9 @@
   <legend><a href="#" onClick="hide('commPrefs'); show('commPrefs[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Communications Preferences{/ts}</legend>
   <div class="col1">
     <label>{ts}Privacy:{/ts}</label>
-    <span class="font-red">
+    <span class="font-red upper">
     {foreach from=$privacy item=privacy_val key=privacy_label}
-      {if $privacy_val eq 1}{$privacy_values.$privacy_label|upper} &nbsp; {/if}
+      {if $privacy_val eq 1}{$privacy_values.$privacy_label} &nbsp; {/if}
     {/foreach}
     </span>
   </div>

@@ -1,5 +1,5 @@
 {if $error}
-  <span class="error">{$label|upper}</span>
+  <span class="error upper">{$label}</span>
 {else}
   {$label}
 {/if}
