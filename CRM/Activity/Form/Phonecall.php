@@ -130,7 +130,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
                             'entity_id'        => $this->_contactId,
                             'activity_type'    => 'Phone Call',
                             'module'           => 'CiviCRM',
-                            'callback'         => 'CRM_Activity_Form_Call::showCallDetails',
+                            'callback'         => 'CRM_Activity_Form_Phonecall::showCallDetails',
                             'activity_id'      => $call->id,
                             'activity_summary' => $call->subject,
                             'activity_date'    => date('Ymd')

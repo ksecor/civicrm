@@ -113,6 +113,12 @@ class CRM_Activity_Form extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->_BAOName) . ".php");
             eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
+
+            $sourceName = CRM_Contact_BAO_Contact::displayName($defaults['source_contact_id']);
+            $targetName = CRM_Contact_BAO_Contact::displayName($defaults['target_contact_id']);
+            $this->assign('sourceName', $sourceName);
+            $this->assign('targetName', $targetName);
+
         }
 
         if ($this->_action == CRM_Core_Action::DELETE) {
