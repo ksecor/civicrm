@@ -1010,11 +1010,7 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
 
         // this is not sufficient way to do.
 
-        $query1 = "SELECT count(*) FROM crm_meeting WHERE target_contact_id = $id AND status != 'Completed'";
-
-
-        //$query = $query1 . " UNION " . $query2;
-
+        $query1 = "SELECT count(*) FROM crm_meeting WHERE (target_contact_id = $id OR source_contact_id = $id) AND status != 'Completed'";
         $dao =& new CRM_Core_DAO();
         $dao->query($query1);
         $result = $dao->getDatabaseResult();
@@ -1022,7 +1018,7 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         
         $rowMeeting = $row[0];
         
-        $query2 = "SELECT count(*) FROM crm_phonecall WHERE target_contact_id = $id AND status != 'Completed'";
+        $query2 = "SELECT count(*) FROM crm_phonecall WHERE (target_contact_id = $id OR source_contact_id = $id) AND status != 'Completed'";
         $dao->query($query2);
         $result = $dao->getDatabaseResult();
         $row    = $result->fetchRow();
