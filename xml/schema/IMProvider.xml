@@ -20,7 +20,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/im\btype/i</headerPattern>
+       <headerPattern>/im(\s)(type|service|prov.*)/i</headerPattern>
        <dataPattern>/aol|msn|yahoo|jabber/i</dataPattern>
        <comment>Name of IM Provider.</comment>
   </field>

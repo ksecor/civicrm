@@ -40,7 +40,7 @@
        <type>enum</type>
        <values>Phone, Mobile, Fax, Pager</values>
        <import>true</import>
-       <headerPattern>/phone\btype/i</headerPattern>
+       <headerPattern>/phone\s+type/i</headerPattern>
        <dataPattern>/phone|mobile|fax|pager/i</dataPattern>
        <comment>What type of telecom device is this.</comment>
   </field>

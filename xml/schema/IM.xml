@@ -31,7 +31,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/IM/</headerPattern>
+       <headerPattern>/I(nstant )?M(ess.*)?|screen(\s+)?name/i</headerPattern>
        <dataPattern>/^[A-Za-z][0-9A-Za-z]{20,}$/</dataPattern>
        <comment>IM screen name</comment>
   </field>

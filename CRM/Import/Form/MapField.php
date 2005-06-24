@@ -91,6 +91,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * @access public
      */
     public function defaultFromHeader($header, &$patterns) {
+        CRM_Core_Error::debug('<b>header</b>', $header);
         foreach ($patterns as $key => $re) {
             /* Skip the first (empty) key/pattern */
             if (empty($re)) continue;
@@ -100,7 +101,9 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 continue;
             /* Scan through the headerPatterns defined in the schema for a
              * match */
+            CRM_Core_Error::debug('pattern', $re);
             if (preg_match($re, $header)) {
+                CRM_Core_Error::debug('<b>match</b>', $key);
                 $this->_fieldUsed[$key] = true;
                 return $key;
             }

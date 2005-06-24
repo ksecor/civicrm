@@ -36,7 +36,7 @@
        <type>varchar</type>
        <length>32</length>
        <import>true</import>
-       <headerPattern>/legal\bid/i</headerPattern>
+       <headerPattern>/legal\s?id/i</headerPattern>
        <dataPattern>/\w+?\d{5,}/</dataPattern>
        <comment>May be used for SSN, EIN/TIN, Household ID (census) or other applicable unique legal/government ID.</comment>
   </field>
@@ -45,7 +45,7 @@
        <type>varchar</type>
        <length>32</length>
        <import>true</import>
-       <headerPattern>/external\bid/i</headerPattern>
+       <headerPattern>/external\s?id/i</headerPattern>
        <dataPattern>/^\d{11,}$/</dataPattern>
        <comment>Unique trusted external ID (generally from a legacy app/datasource). Particularly useful for deduping operations.</comment>
   </field>

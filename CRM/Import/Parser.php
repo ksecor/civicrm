@@ -226,6 +226,8 @@ abstract class CRM_Import_Parser {
 
             $values = fgetcsv( $fd, 8192, $seperator );
 
+            self::encloseScrub($values);
+
             // skip column header if we're not in mapfield mode
             if ( $mode != self::MODE_MAPFIELD && $skipColumnHeader ) {
                     $skipColumnHeader = false;
@@ -476,6 +478,26 @@ abstract class CRM_Import_Parser {
         }
         fwrite($fd, implode("\n", $output));
         fclose($fd);
+    }
+
+    /** 
+     * Remove single-quote enclosures from a value array (row)
+     *
+     * @param array $values
+     * @param string $enclosure
+     * @return void
+     * @static
+     * @access public
+     */
+    static function encloseScrub(&$values, $enclosure = "'") {
+        if (empty($values)) 
+            return;
+
+//         CRM_Core_Error::debug('pre scrub', $values);
+        foreach ($values as $k => $v) {
+            $values[$k] = preg_replace("/^$enclosure(.*)$enclosure$/", '$1', $v);
+        }
+//         CRM_Core_Error::debug('post scrub', $values);
     }
 
 }
