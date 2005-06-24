@@ -247,11 +247,11 @@ function civicrm_invoke()
  * @return mixed           depends on the operation being performed
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
-    /**
+    /*
     CRM_Core_Error::debug( 't', $type );
-    CRM_Core_Error::debug( 't', $edit );
+    CRM_Core_Error::debug( 'e', $edit );
     CRM_Core_Error::debug( 'u', $user );
-    **/
+    */
 
     switch ( $type ) {
 
@@ -273,6 +273,9 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
         return civicrm_form_data($edit, $user, $category, false);
 
     case 'validate':
+        if ( ! CRM_Utils_Array::value( 'edit', $edit ) ) {
+            return true;
+        }
         return civicrm_validate_data($edit, $user, $category);
 
     case 'categories':
