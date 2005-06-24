@@ -111,12 +111,13 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
             $groupList = $allGroups;
         }
 
-        $groupList[0] = ts('- select group -') ;
+        $groupList[''] = ts('- select group -') ;
         asort($groupList);
 
         if ( count( $groupList ) > 1 ) {
             $this->addElement('select'  , 'group_id', ts('Add to a group'), $groupList );
-            
+            $this->addRule('group_id',ts('Please select the group.'), 'required');
+
             $this->addButtons( array(
                                      array ( 'type'      => 'next',
                                              'name'      => ts('Add'),
@@ -142,9 +143,11 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         $params['in_method']  = 'Admin';
         $params['in_date']    = date('Ymd');
         
-        CRM_Contact_BAO_GroupContact::add($params);
-       
-        CRM_Core_Session::setStatus( ts('Contact has been added to the selected group.') );
+        $groupContact = CRM_Contact_BAO_GroupContact::add($params);
+        
+        if ($groupContact) {
+            CRM_Core_Session::setStatus( ts('Contact has been added to the selected group.') );
+        }
     }//end of function
 
 

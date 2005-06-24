@@ -180,7 +180,7 @@ LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id)
 WHERE
   crm_contact.id = $id
 ORDER BY
-  crm_location.is_primary, crm_email.is_primary";
+  crm_location.is_primary DESC, crm_email.is_primary DESC";
         
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
@@ -912,7 +912,14 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_ActivityHistory', $id );
 
         CRM_Core_BAO_UFMatch::deleteContact( $id );
+        
+        // need to remove them from email, meeting and phonecall
+        CRM_Core_BAO_EmailHistory::deleteContact($id);
+        CRM_Core_BAO_Meeting::deleteContact($id);
+        CRM_Core_BAO_Phonecall::deleteContact($id);
 
+        // location shld be deleted after phonecall, since fields in phonecall are
+        // fkeyed into location/phone.
         CRM_Contact_BAO_Location::deleteContact( $id );
 
         // fix household and org primary contact ids
@@ -939,6 +946,9 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
             $object->delete( );
             $contact->delete( );
         }
+
+        //delete the contact id from recently view
+        CRM_Utils_Recent::del($id);
 
         CRM_Core_DAO::transaction( 'COMMIT' );
     }

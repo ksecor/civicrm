@@ -155,6 +155,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     static function formRule( &$fields ) {
         $errors = array( );
 
+        // if no values, return
+        if ( ! CRM_Utils_Array::value( 'edit', $fields ) ) {
+            return true;
+        }
+
         // dirty and temporal workaround for CRM-144
         $fieldName = null;
         foreach ( $fields['edit'] as $name => $dontCare ) {
@@ -232,7 +237,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             }
         }
 
-        $edit = $params['edit'];
+        $edit = CRM_Utils_Array::value( 'edit', $params );
+        if ( ! $edit ) {
+            return;
+        }
+
         $edit['contact_type'] = 'Individual';
         $contact = CRM_Contact_BAO_Contact::add   ( $edit, $ids );
         $edit['contact_id'] = $contact->id;

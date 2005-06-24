@@ -1,9 +1,6 @@
 <fieldset><legend>{ts}Multiple Choice Options{/ts}</legend>
     <div class="description">
-        {ts}Enter up to ten (10) multiple choice options in this table (click 'another choice' for each additional choice).
-        If desired, you can mark one of the choices as the default choice. The option 'label' is displayed on the form,
-        while the option 'value' is stored in the contact record. The label and value may be
-        the same or different. Inactive options are hidden when the field is presented.{/ts}
+        {ts}Enter up to ten (10) multiple choice options in this table (click 'another choice' for each additional choice). If desired, you can mark one of the choices as the default choice. The option 'label' is displayed on the form, while the option 'value' is stored in the contact record. The label and value may be the same or different. Inactive options are hidden when the field is presented.{/ts}
 	{strip}
 	<table>
 	<tr><th>&nbsp;</th>
@@ -19,7 +16,7 @@
 	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}">
         <td> 
         {if $index GT 1}
-            <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[1][hide]" href="#optionField[1]" id="optionField[1][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="hide field or section"></a>
+            <a onclick="hide('optionField[{$index}]'); return false;" name="optionField[1][hide]" href="#optionField[1]" id="optionField[1][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"></a>
             {* $form.optionField.$index.hide.html *}
         {/if}
         </td>
@@ -35,7 +32,7 @@
 	{section name=showLoop start=2 loop=12}
         {assign var=j value=$smarty.section.showLoop.index}
         <div id="optionField[{$j}][show]" class="add-remove-link">
-            <a onclick="show('optionField[{$j}]','table-row'); show('optionField[{$j+1}][show]','table-row'); hide('optionField[{$j}][show]'); return false;" href="#optionField[j][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="show field or section">another choice</a>
+            <a onclick="show('optionField[{$j}]','table-row'); show('optionField[{$j+1}][show]','table-row'); hide('optionField[{$j}][show]'); return false;" href="#optionField[j][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}">{ts}another choice{/ts}</a>
             {* $form.optionField.$j.show.html*}
         </div>
     {/section}

@@ -91,6 +91,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
         CRM_Utils_Recent::add( $displayName,
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId ),
+                               $this->_contactId,
                                $contactImage );
 
         $prevMode = $this->get('mode');
@@ -217,7 +218,9 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $defaults['gender']['gender'] = $t[$defaults['gender']['gender']];
 
         $t = CRM_Core_SelectValues::pcm();
-        $defaults['preferred_communication_method'] = $t[$defaults['preferred_communication_method']];
+        if ($defaults['preferred_communication_method'] != '') {
+            $defaults['preferred_communication_method'] = $t[$defaults['preferred_communication_method']];
+        }
 
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
 

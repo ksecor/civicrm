@@ -57,7 +57,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
     public function buildQuickForm( ) 
     {
         $this->applyFilter('__ALL__', 'trim');
-        $contactPhone[''] = 'Select Phone Number';
+        $contactPhone[''] = ts('Select Phone Number');
         if ( is_array(CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId))) {
             $contactPhone = CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId);
         }
@@ -130,7 +130,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
                             'entity_id'        => $this->_contactId,
                             'activity_type'    => 'Phone Call',
                             'module'           => 'CiviCRM',
-                            'callback'         => 'CRM_Activity_Form_Call::showCallDetails',
+                            'callback'         => 'CRM_Activity_Form_Phonecall::showCallDetails',
                             'activity_id'      => $call->id,
                             'activity_summary' => $call->subject,
                             'activity_date'    => date('Ymd')

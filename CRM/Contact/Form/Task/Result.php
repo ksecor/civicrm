@@ -48,6 +48,9 @@ class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
      */
     function preProcess( ) {
         $session =& CRM_Core_Session::singleton( );
+        
+        //this is done to unset searchRows variable assign during AddToHousehold and AddToOrganization
+        $this->set( 'searchRows', '');
 
         $context = $this->get( 'context' );
         if ( $context == 'smog' || $context == 'amtg' ) {

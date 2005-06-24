@@ -1,7 +1,7 @@
 /* $Id: civicrm.css,v 1.0 2005/03/18 dgg */
 
 /*
-** Size text input fields in crm-container by class. Classes are assigned by the
+** Size input fields in crm-container by class. Classes are assigned by the
 ** module in relation to the data object max size.
 */
 #crm-container .two {width: 2em;}
@@ -12,6 +12,17 @@
 #crm-container .medium {width: 12em;}
 #crm-container .big {width: 15em;}
 #crm-container .huge {width: 30em;}
+
+/*
+** Size the verticle heights in crm-containers by class. 
+*/
+#crm-container .ht-one {
+  height: 1em;
+}
+
+#crm-container .ht-two {
+  height: 2em;
+}
 
 /*
 ** Classes for form section show/hide links
@@ -208,6 +219,11 @@ div.spacer {
 .font-red {
   color: #FF0105;	
 }
+
+.upper {
+    text-transform: uppercase;
+}
+
 /* 
 ** Styles for record browser and report tables, and pager bar
 */

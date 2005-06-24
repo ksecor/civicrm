@@ -42,20 +42,15 @@ function _crm_update_object(&$object, &$values)
         }
 
         if (array_key_exists( $name, $values)) {
-            //CRM_Core_Error::debug_log_message("processing $name ...");
             $object->$name = $values[$name];
             //if ( substr( $name, -1, 3 ) !== '_id' ) {
             if (substr($name, -3, 3) !== '_id') {
-                //CRM_Core_Error::debug_log_message("its not an _id ...");                
                 $valueFound = true;
             }
         }
     }
 
-    //CRM_Core_Error::debug_var('valueFound', $valueFound);
-
     if ($valueFound) {
-        //CRM_Core_Error::debug_log_message("valueFound is true ...");                
         $object->save();
     }
 }
@@ -347,8 +342,6 @@ function _crm_check_history_params(&$params, $type='Activity')
  */
 function _crm_check_required_fields(&$params, $daoName)
 {
-    //CRM_Core_Error::le_method();
-
     require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
     $dao =& new $daoName();
     $fields = $dao->fields();

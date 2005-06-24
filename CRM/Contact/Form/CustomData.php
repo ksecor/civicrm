@@ -248,7 +248,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     break;
                 }
                 if ( $_flag == 2 ) {
-                    echo "Entering the Form Rule";
                     // add a form rule to check default value
                     $this->addFormRule( array( 'CRM_Contact_Form_CustomData', 'formRule' ) );
                     $_flag = 0;

@@ -8,7 +8,12 @@
     {else}{ts}View Scheduled Meeting{/ts}{/if}
   </legend>
   <dl>
-	<dt>{ts}Name{/ts}</dt><dd>{$displayName}</dd>
+        {if $action eq 1}
+          <dt>{ts}With Contact{/ts}</dt><dd>{$displayName}</dd>
+        {else}
+  	  <dt>{ts}With Contact{/ts}</dt><dd>{$targetName}</dd>
+	  <dt>{ts}Created By{/ts}</dt><dd>{$sourceName}</dd>
+        {/if}
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
     <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
 	<dt>{$form.scheduled_date_time.label}</dt><dd>{$form.scheduled_date_time.html}</dd>

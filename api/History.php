@@ -152,8 +152,6 @@ function &crm_update_activity_history(&$historyDAO, &$params)
 
     $error = _crm_update_object($historyDAO, $params);
 
-    //CRM_Core_Error::debug_var('error', $error);
-
     if (is_a($error, 'CRM_Core_Error')) {
         return $error;
     }

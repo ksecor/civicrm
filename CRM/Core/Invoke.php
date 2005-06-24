@@ -339,10 +339,10 @@ class CRM_Core_Invoke {
         
         if ($type == 1) {
             $varName = 'errors';
-            $saveFileName = ts('Import_Errors.csv');
+            $saveFileName = 'Import_Errors.csv';
         } else if ($type == 2) {
             $varName = 'conflicts';
-            $saveFileName = ts('Import_Conflicts.csv');
+            $saveFileName = 'Import_Conflicts.csv';
         } else {
             /* FIXME we should have an error here */
             return;

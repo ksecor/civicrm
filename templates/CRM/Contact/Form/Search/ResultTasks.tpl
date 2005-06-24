@@ -43,6 +43,7 @@
    <div class="float-right">{ts}Select:{/ts} 
     <a onclick="changeCheckboxVals('mark_x_','select'  , {$form.formName} ); return false;" name="select_all"  href="#">{ts}All{/ts}</a> |
     <a onclick="changeCheckboxVals('mark_x_','deselect', {$form.formName} ); return false;" name="select_none" href="#">{ts}None{/ts}</a>
-  </div>
+   </div>
+   <div class="ht-one"></div>   
  </div>  
  <p>
