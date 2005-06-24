@@ -180,7 +180,7 @@ LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id)
 WHERE
   crm_contact.id = $id
 ORDER BY
-  crm_location.is_primary, crm_email.is_primary";
+  crm_location.is_primary DESC, crm_email.is_primary DESC";
         
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
