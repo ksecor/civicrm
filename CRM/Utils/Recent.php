@@ -94,7 +94,7 @@ class CRM_Utils_Recent {
      * @access public
      * @static
      */
-    static function add( $title, $url, $id, $icon = null ) {
+    static function add( $title, $url, $icon, $id ) {
         self::initialize( );
 
         // make sure item is not already present in list
