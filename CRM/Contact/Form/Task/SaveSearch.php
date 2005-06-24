@@ -77,6 +77,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
 
         $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'name'), true);
         $this->addElement('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_SavedSearch', 'description'));
+        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_SavedSearch', $this->_id ) );
         if ( isset( $this->_id ) ) {
             $this->addDefaultButtons( ts('Update Saved Search') );
         } else {
