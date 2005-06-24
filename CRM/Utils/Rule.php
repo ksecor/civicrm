@@ -168,7 +168,7 @@ class CRM_Utils_Rule {
     }
 
     static function postalCode($value) {
-        if ( preg_match('^\d?\d{4}(-\d{4})?$', $value) ) {
+        if ( preg_match('/^\d?\d{4}(-\d{4})?$/', $value) ) {
             return true;
         }
         return false;
