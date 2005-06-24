@@ -940,6 +940,9 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
             $contact->delete( );
         }
 
+        //delete the contact id from recently view
+        CRM_Utils_Recent::del($id);
+
         CRM_Core_DAO::transaction( 'COMMIT' );
     }
 

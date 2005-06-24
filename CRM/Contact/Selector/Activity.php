@@ -252,7 +252,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                 ),
                                           array('name' => ts('Subject')),
                                           array('name' => ts('Created By')),
-                                          array('name' => ts('With')),
+                                          array('name' => ts('With Contact')),
                                           array(
                                                 'name'      => ts('Scheduled'),
                                                 'sort'      => 'date',

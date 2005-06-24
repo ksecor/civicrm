@@ -88,12 +88,13 @@ class CRM_Utils_Recent {
      * @param string $title  the title to display
      * @param string $url    the link for the above title
      * @param string $icon   a link to a graphical image
+     * @param string $id     contact id
      *
      * @return void
      * @access public
      * @static
      */
-    static function add( $title, $url, $icon = null ) {
+    static function add( $title, $url, $id, $icon = null ) {
         self::initialize( );
 
         // make sure item is not already present in list
@@ -107,12 +108,41 @@ class CRM_Utils_Recent {
         
         array_unshift( self::$_recent,
                        array( 'title' => $title, 
-                              'url'   => $url  ,
-                              'icon'  => $icon ) );
+                              'url'   => $url,
+                              'icon'  => $icon,
+                              'id'  => $id ) );
         if ( count( self::$_recent ) > self::MAX_ITEMS ) {
             array_pop( self::$_recent );
         }
 
+        $session =& CRM_Core_Session::singleton( );
+        $session->set( self::STORE_NAME, self::$_recent );
+    }
+
+    /**
+     * delete an item from the recent stack
+     *
+     * @param string $id  contact id that had to be removed
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function del( $id ) {
+        self::initialize( );
+
+        $tempRecent = self::$_recent;
+        
+        self::$_recent = '';
+        
+        // make sure item is not already present in list
+        for ( $i = 0; $i < count( $tempRecent ); $i++ ) {
+            if ( $tempRecent[$i]['id' ] != $id ) {
+                // update title if changed
+                self::$_recent[$i] = $tempRecent[$i];
+            }
+        }
+        
         $session =& CRM_Core_Session::singleton( );
         $session->set( self::STORE_NAME, self::$_recent );
     }
