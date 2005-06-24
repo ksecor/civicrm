@@ -303,8 +303,8 @@ class CRM_Core_Config {
             $this->gettextResourceDir = CRM_GETTEXT_RESOURCE_DIR;
         }
 
-        if ( defined( 'CRM_SMTPSERVER' ) ) {
-            $this->smtpServer = CRM_SMTPSERVER;
+        if ( defined( 'CRM_SMTP_SERVER' ) ) {
+            $this->smtpServer = CRM_SMTP_SERVER;
         }
 
         if ( defined( 'CRM_USERFRAMEWORK' ) ) {
