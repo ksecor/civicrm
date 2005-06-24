@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-24 12:41+0200\n"
+"POT-Creation-Date: 2005-06-24 16:19+0200\n"
 "PO-Revision-Date: 2005-06-24 13:02+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
@@ -72,7 +72,17 @@ msgstr "Numer telefonu jest niepoprawny."
 #: CRM/UF/Form/Group.php:104 templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Done"
-msgstr "Zakończ"
+msgstr "OK"
+
+#: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98
+#: CRM/Contact/Form/CustomData.php:262 CRM/Contact/Form/Edit.php:265
+#: CRM/Custom/Form/Field.php:213 CRM/Custom/Form/Group.php:110
+#: CRM/Custom/Form/Option.php:132 CRM/Group/Form/Edit.php:101
+#: CRM/Note/Form/Note.php:106 CRM/UF/Form/Dynamic.php:133
+#: CRM/UF/Form/Field.php:154 CRM/UF/Form/Group.php:93
+#: CRM/UF/Form/Register.php:117 templates/CRM/Block/Add.tpl
+msgid "Save"
+msgstr "Zapisz"
 
 #: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57
 #: CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:272
@@ -95,8 +105,7 @@ msgstr "Anuluj"
 #: CRM/Contact/Form/Search.php:309 CRM/Contact/Form/Task/SaveSearch.php:78
 #: CRM/Contact/Selector.php:489 CRM/Core/DAO/CustomField.php:226
 #: CRM/Core/DAO/CustomGroup.php:183 CRM/Core/DAO/Domain.php:113
-#: CRM/Core/DAO/MobileProvider.php:144 templates/CRM/Activity/Form/Call.tpl
-#: templates/CRM/Activity/Form/Meeting.tpl
+#: CRM/Core/DAO/MobileProvider.php:144
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -141,16 +150,6 @@ msgstr "Włączony?"
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Description"
 msgstr "Opis"
-
-#: CRM/Admin/Form.php:98 CRM/Contact/Form/CustomData.php:262
-#: CRM/Contact/Form/Edit.php:265 CRM/Custom/Form/Field.php:213
-#: CRM/Custom/Form/Group.php:110 CRM/Custom/Form/Option.php:132
-#: CRM/Group/Form/Edit.php:101 CRM/Note/Form/Note.php:106
-#: CRM/UF/Form/Dynamic.php:133 CRM/UF/Form/Field.php:154
-#: CRM/UF/Form/Group.php:93 CRM/UF/Form/Register.php:117
-#: templates/CRM/Block/Add.tpl
-msgid "Save"
-msgstr "Zapisz"
 
 #: CRM/Admin/Form/Tag.php:54 CRM/Admin/Page/Tag.php:82
 #: CRM/Contact/Page/Relationship.php:215 CRM/Contact/Page/SavedSearch.php:140
@@ -396,17 +395,17 @@ msgstr[2] "Znaleziono %count pasujących kontaktów. Można je edytować tu: %1"
 msgid "Search"
 msgstr "Szukaj"
 
-#: CRM/Contact/Form/Relationship.php:317 CRM/Contact/Page/View.php:164
+#: CRM/Contact/Form/Relationship.php:317 CRM/Contact/Page/View.php:165
 #: CRM/Contact/Selector.php:264
 msgid "Individual"
 msgstr "Osoba"
 
-#: CRM/Contact/Form/Relationship.php:320 CRM/Contact/Page/View.php:167
+#: CRM/Contact/Form/Relationship.php:320 CRM/Contact/Page/View.php:168
 #: CRM/Contact/Selector.php:267 templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "Mieszkanie"
 
-#: CRM/Contact/Form/Relationship.php:323 CRM/Contact/Page/View.php:170
+#: CRM/Contact/Form/Relationship.php:323 CRM/Contact/Page/View.php:171
 #: CRM/Contact/Selector.php:270 templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr "Organizacja"
@@ -518,7 +517,7 @@ msgstr "Faks"
 #: CRM/Contact/Page/Activity.php:127 CRM/History/Selector/Activity.php:131
 #: templates/CRM/History/Form/Activity.tpl
 msgid "Delete Activity History"
-msgstr "Usuń historię zdarzeń"
+msgstr "Usuń historię zdarzenia"
 
 #: CRM/Contact/Selector/Activity.php:126 CRM/Utils/Menu.php:363
 msgid "Delete Activity"
@@ -910,7 +909,7 @@ msgstr "Edytuj znacznik"
 msgid "Delete Tag"
 msgstr "Skasuj znacznik"
 
-#: CRM/Contact/BAO/Contact.php:980
+#: CRM/Contact/BAO/Contact.php:983
 msgid "-do not import-"
 msgstr "-nie importuj-"
 
@@ -1166,11 +1165,15 @@ msgstr "- wybierz grupę -"
 msgid "Add to a group"
 msgstr "Dodaj do grupy."
 
-#: CRM/Contact/Form/GroupContact.php:122
+#: CRM/Contact/Form/GroupContact.php:119
+msgid "Please select the group."
+msgstr "Wybierz grupę."
+
+#: CRM/Contact/Form/GroupContact.php:123
 msgid "Add"
 msgstr "Dodaj"
 
-#: CRM/Contact/Form/GroupContact.php:147
+#: CRM/Contact/Form/GroupContact.php:149
 msgid "Contact has been added to the selected group."
 msgstr "Dodano kontakt do wybranych grup."
 
@@ -1245,15 +1248,46 @@ msgstr "Data końcowa jest niepoprawna."
 
 #: CRM/Contact/Form/Relationship.php:141
 msgid "Relationship Type"
-msgstr "Rodzaj powiązania."
+msgstr "Rodzaj powiązania"
 
 #: CRM/Contact/Form/Relationship.php:147
 msgid "Find Target Contact"
-msgstr "Znajdź kontakt docelowy."
+msgstr "Znajdź kontakt docelowy"
 
 #: CRM/Contact/Form/Relationship.php:172
 msgid "Save Relationship"
-msgstr "Zapisz powiązanie."
+msgstr "Zapisz powiązanie"
+
+#: CRM/Contact/Form/Relationship.php:214
+msgid "%count new relationship record created."
+msgid_plural "%count new relationship records created."
+msgstr[0] "Utworzono %count nowe powiązaie."
+msgstr[1] "Utworzono %count nowe powiązania."
+msgstr[2] "Utworzono %count nowych powiązań."
+
+#: CRM/Contact/Form/Relationship.php:217
+msgid ""
+"%count relationship record not created due to invalid target contact type."
+msgid_plural ""
+"%count relationship records not created due to invalid target contact type."
+msgstr[0] ""
+"Nie stworzono jednego powiązania z powodu niepoprawnego typu kontaktu "
+"docelowego."
+msgstr[1] ""
+"Nie stworzono %count powiązań z powodu niepoprawnego typu kontaktu "
+"docelowego."
+msgstr[2] ""
+"Nie stworzono %count powiązań z powodu niepoprawnego typu kontaktu "
+"docelowego."
+
+#: CRM/Contact/Form/Relationship.php:220
+msgid ""
+"%count relationship record not created - duplicate of existing relationship."
+msgid_plural ""
+"%count relationship records not created - duplicate of existing relationship."
+msgstr[0] "Nie stworzono jednego powiązania – takie powiązanie już istnieje."
+msgstr[1] "Nie stworzono %count powiązań – takie powiązania już istnieją."
+msgstr[2] "Nie stworzono %count powiązań – takie powiązanie już istnieją."
 
 #: CRM/Contact/Form/Search/Advanced.php:63
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
@@ -1290,7 +1324,7 @@ msgstr "Szukaj tylko w lokalizacjach głównych"
 
 #: CRM/Contact/Form/Search/Advanced.php:114
 msgid "Activity Dates - From"
-msgstr "Daty zdarzeń – od"
+msgstr "Daty zdarzenia – od"
 
 #: CRM/Contact/Form/Search.php:207
 msgid "- more actions -"
@@ -1497,15 +1531,16 @@ msgstr "Na pewno usunąć to zdarzenie?"
 msgid "View Activity"
 msgstr "Zobacz zdarzenie"
 
-#: CRM/Contact/Selector/Activity.php:254
+#: CRM/Contact/Selector/Activity.php:254 templates/CRM/Activity/Form/Call.tpl
+#: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Created By"
 msgstr "Stworzone przez"
 
-#: CRM/Contact/Selector/Activity.php:255
-#: templates/CRM/Contact/Page/View/Contact.tpl
-msgid "With"
-msgstr "Z"
+#: CRM/Contact/Selector/Activity.php:255 templates/CRM/Activity/Form/Call.tpl
+#: templates/CRM/Activity/Form/Meeting.tpl
+msgid "With Contact"
+msgstr "Z kontaktem"
 
 #: CRM/Contact/Selector.php:149
 msgid "View Contact Details"
@@ -2326,7 +2361,7 @@ msgstr "Nie mogę znaleźć metody „%1” dla klasy „%2”"
 
 #: CRM/History/Selector/Activity.php:125
 msgid "View Activity Details"
-msgstr "Zobacz szczegóły zdarzeń"
+msgstr "Zobacz szczegóły zdarzenia"
 
 #: CRM/Import/Form/MapField.php:200
 msgid "Mapper for Field %1"
@@ -2601,7 +2636,7 @@ msgstr "Stwórz nową grupę"
 
 #: CRM/Utils/Menu.php:356
 msgid "Activity Detail"
-msgstr "Szczegóły zdarzeń"
+msgstr "Szczegóły zdarzenia"
 
 #: CRM/Utils/Menu.php:370 templates/CRM/History/Page/Email.tpl
 msgid "Sent Email Message"
@@ -2650,11 +2685,6 @@ msgstr "Edytuj zaplanowaną rozmowę"
 #: templates/CRM/Activity/Form/Call.tpl
 msgid "View Scheduled Call"
 msgstr "Zobacz zaplanowany telefon"
-
-#: templates/CRM/Activity/Form/Call.tpl
-#: templates/CRM/Activity/Form/Meeting.tpl
-msgid "With Contact"
-msgstr "Z kontaktem"
 
 #: templates/CRM/Activity/Form/Call.tpl
 #: templates/CRM/Activity/Form/Meeting.tpl
@@ -3070,7 +3100,7 @@ msgstr "Zignoruj lokalizacje nie oznaczone jako główne."
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "Activity History"
-msgstr "Historia zdarzeń"
+msgstr "Historia zdarzenia"
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 #: templates/CRM/Contact/Page/View/Contact.tpl
@@ -3195,8 +3225,8 @@ msgstr "tylko wybrane pozycje"
 msgid "the found record"
 msgid_plural "all %count records"
 msgstr[0] "znaleziona pozycja"
-msgstr[1] "wszysktkie %count pozycje"
-msgstr[2] "wszysktkie %count pozycji"
+msgstr[1] "wszystkie %count pozycje"
+msgstr[2] "wszystkie %count pozycji"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Select:"
@@ -3350,7 +3380,7 @@ msgstr "Data urodzenia:"
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "Open Activities"
-msgstr "Otwórz zdarzenia"
+msgstr "Otwarte zdarzenia"
 
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "No open activities."
@@ -3359,6 +3389,10 @@ msgstr "Brak otwartych zdarzeń."
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Open Activities (3 of %1)"
 msgstr "Otwarte zdarzenia (3 z %1)"
+
+#: templates/CRM/Contact/Page/View/Contact.tpl
+msgid "With"
+msgstr "Z"
 
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Scheduled Date"
@@ -3378,7 +3412,7 @@ msgstr "Historia zdarzeń (3 z %1)"
 
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "View All Activity History..."
-msgstr "Zobacz pełną historię zdarzeń…"
+msgstr "Zobacz pełną historię zdarzenia…"
 
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid ""
@@ -3826,14 +3860,13 @@ msgstr "Nowa historia zdarzeń"
 
 #: templates/CRM/History/Form/Activity.tpl
 msgid "Edit Activity History"
-msgstr "Edytuj historię zdarzeń"
+msgstr "Edytuj historię zdarzenia"
 
 #: templates/CRM/History/Form/Activity.tpl
 msgid ""
 "Are you sure you want to delete the Activity History dated \"%2\" of type \"%"
 "1\" with description \"%3\" ?"
-msgstr ""
-"Na pewno usunąć historię zdarzeń z \"%2\" rodzaju \"%1\" z opisem \"%3\"?"
+msgstr "Na pewno usunąć historię zdarzenia z %2 rodzaju „%1” z opisem „%3”?"
 
 #: templates/CRM/History/Selector/Activity.tpl
 msgid ""
