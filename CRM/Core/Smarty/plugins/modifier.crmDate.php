@@ -43,9 +43,9 @@ function smarty_modifier_crmDate($dateString)
 {
     if ($dateString) {
         $config =& CRM_Core_Config::singleton();
-        list($year, $month, $day) = explode('-', $dateString, 3);
+        list($year, $month, $day, $rest) = explode('-', $dateString, 3);
 
-        if ($day > 0) {
+        if ($day) {
             return CRM_Utils_Date::customFormat($dateString, $config->dateformatFull);
         } elseif ($month > 0) {
             return CRM_Utils_Date::customFormat($dateString, $config->dateformatPartial);
