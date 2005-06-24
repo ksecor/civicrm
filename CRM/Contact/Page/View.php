@@ -218,7 +218,9 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $defaults['gender']['gender'] = $t[$defaults['gender']['gender']];
 
         $t = CRM_Core_SelectValues::pcm();
-        $defaults['preferred_communication_method'] = $t[$defaults['preferred_communication_method']];
+        if ($defaults['preferred_communication_method'] != '') {
+            $defaults['preferred_communication_method'] = $t[$defaults['preferred_communication_method']];
+        }
 
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
 
