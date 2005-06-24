@@ -107,10 +107,11 @@ class CRM_Import_Field {
         if ( $this->_value === null ) {
             return true;
         }
-        
-        if ( $this->_name == 'phone' ) {
-           return CRM_Utils_Rule::phone( $this->_value );
-        }
+
+//     Commented due to bug CRM-150, internationalization/wew.    
+//         if ( $this->_name == 'phone' ) {
+//            return CRM_Utils_Rule::phone( $this->_value );
+//         }
         
         if ( $this->_name == 'email' ) {
             return CRM_Utils_Rule::email( $this->_value );
