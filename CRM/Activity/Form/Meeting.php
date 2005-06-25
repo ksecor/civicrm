@@ -74,9 +74,6 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         
         $status =& $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus());
         $this->addRule( 'status', ts('Please select status.'), 'required' );
-        if ($this->_log) {
-            $status->freeze();
-        }
         
         parent::buildQuickForm( );
     }

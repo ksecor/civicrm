@@ -247,11 +247,11 @@ function civicrm_invoke()
  * @return mixed           depends on the operation being performed
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
-    /*
+    /**
     CRM_Core_Error::debug( 't', $type );
     CRM_Core_Error::debug( 'e', $edit );
     CRM_Core_Error::debug( 'u', $user );
-    */
+    **/
 
     switch ( $type ) {
 
@@ -262,15 +262,19 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
         return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
 
     case 'register':
+        return civicrm_register_data($edit, $user, $category, true);
+
     case 'insert':
-        return civicrm_register_data($edit, $user, $category);
+        return civicrm_register_data($edit, $user, $category, false);
 
     case 'view':
         return civicrm_view_data($user);
 
     case 'update':
-    case 'form':
         return civicrm_form_data($edit, $user, $category, false);
+
+    case 'form':
+        return civicrm_form_data($edit, $user, $category, true);
 
     case 'validate':
         if ( ! CRM_Utils_Array::value( 'edit', $edit ) ) {
@@ -299,7 +303,7 @@ function civicrm_categories( ) {
 function civicrm_load_data(&$user) {
 }
 
-function civicrm_register_data($edit, &$user, $category) {
+function civicrm_register_data($edit, &$user, $category, $reset) {
     $output = array( );
     if ( $user->uid ) {
         CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Drupal' );
@@ -307,7 +311,7 @@ function civicrm_register_data($edit, &$user, $category) {
 
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
-        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '', CRM_Core_Action::UPDATE, true );
+        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '', CRM_Core_Action::UPDATE, true, $reset );
         if ( $html ) {
             $output[] = array( 'title' => 'CiviCRM Information', 'data' => $html, weight => 0 );
         }
@@ -315,12 +319,12 @@ function civicrm_register_data($edit, &$user, $category) {
     return $output;
 }
 
-function civicrm_form_data($edit, &$user, $category) {
+function civicrm_form_data($edit, &$user, $category, $reset) {
     $output = array( );
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
         // get all the data for this specific category
-        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false );
+        $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset );
         if ( $html ) {
             $output[] = array( 'title' => $category, 'data' => $html, weight => 0 );
         }
@@ -336,7 +340,7 @@ function civicrm_view_data($user ) {
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
         foreach ( $ufGroups as $id => $title ) {
-            $data[$title] = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $title, CRM_Core_Action::VIEW, false );
+            $data[$title] = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $title, CRM_Core_Action::VIEW, false, true );
         }
     }
     return $data;

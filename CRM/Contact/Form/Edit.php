@@ -165,11 +165,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
         
         // use most recently posted values if any to display show hide blocks
-        $params = $this->controller->exportValues( );
+        $params = $this->controller->exportValues( $this->_name );
         if ( ! empty( $params ) ) {
-            $this->setShowHide( $params );
+            $this->setShowHide( $params, true );
         } else {
-            $this->setShowHide( $defaults );
+            $this->setShowHide( $defaults, false );
         }
         return $defaults;
     }
@@ -177,11 +177,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     /**
      * Fix what blocks to show/hide based on the default values set
      *
-     * @param array @defaults the array of default values
+     * @param array   $defaults the array of default values
+     * @param boolean $force    should we set show hide based on input defaults
      *
      * @return void
      */
-    function setShowHide( &$defaults ) {
+    function setShowHide( &$defaults, $force ) {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
                                                         '') ;
 
@@ -208,7 +209,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->_showHide->addHide( 'demographics[show]' );
         }
 
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+        if ( $force ) {
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        CRM_Utils_Array::value( 'location', $defaults ),
                                                        self::LOCATION_BLOCKS );
@@ -287,7 +288,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     public function postProcess() 
     {
         // store the submitted values in an array
-        $params = $this->exportValues();
+        $params = $this->controller->exportValues( $this->_name );
 
         // action is taken depending upon the mode
         $ids = array();

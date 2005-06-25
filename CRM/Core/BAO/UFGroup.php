@@ -211,19 +211,24 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
     /**
      * get the html for the form that represents this particular group
      *
-     * @param int    $userID  the user id that we are actually editing
-     * @param string $title   the title of the group we are interested in
-     * @param int    $action  the action of the form
+     * @param int     $userID   the user id that we are actually editing
+     * @param string  $title    the title of the group we are interested in
+     * @param int     $action   the action of the form
+     * @param boolean $register is this the registration form
+     * @param boolean $reset    should we reset the form?
      *
      * @return string       the html for the form
      * @static
      * @access public
      */
-    static function getEditHTML( $userID, $title, $action = null, $register = false ) {
+    static function getEditHTML( $userID, $title, $action = null, $register = false, $reset = false ) {
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
+            if ( $reset ) {
+                $controller->reset( );
+            }
             $controller->set( 'id'      , $userID );
             $controller->set( 'register', 1 );
             $controller->process( );
@@ -241,6 +246,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
             
             if ( $group->find( true ) && $userID ) {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_UF_Form_Dynamic', 'Dynamic Form Creator', $action );
+                if ( $reset ) {
+                    $controller->reset( );
+                }
                 $controller->set( 'gid'     , $group->id );
                 $controller->set( 'id'      , $userID );
                 $controller->set( 'register', 0 );
