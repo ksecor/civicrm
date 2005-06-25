@@ -138,8 +138,8 @@
             </td>
             <td>{$row.sourceName}</td>
             <td>{$row.targetName}</td>
-            <td>{$row.date|crmDate}</td>
-	    	<td>{$row.status}</td>	
+            <td>{$row.date|date_format:"%b %e, %Y %I:%M %p"}</td>
+   	    	<td>{$row.status}</td>	
         </tr>
     {/foreach}
     {if $openActivity.totalCount gt 3 }
@@ -249,14 +249,12 @@
 	<table>
         <tr class="columnheader">
 		<th>{ts}Group{/ts}</th>
-		<th>{ts}Tag{/ts}</th>
 		<th>{ts}Status{/ts}</th>
 		<th>{ts}Date Added{/ts}</th>
 	</tr>
     {foreach from=$group.data item=row}
         <tr class="{cycle values="odd-row,even-row"}">
-        	<td>{$row.title}</td>
-	    	<td></td>	
+        	<td><a href="{crmURL p='civicrm/group/search' q="reset=1&force=1&context=smog&gid=`$row.group_id`"}">{$row.title}</a></td>
 	    	<td>{ts 1=$row.in_method}Added (by %1){/ts}</td> 
             <td>{$row.in_date|crmDate}</td>
         </tr>

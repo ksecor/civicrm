@@ -14,10 +14,10 @@
     {* Showing History *}
     <div id="openActivities[show]" class="data-group">
         {if $totalCountOpenActivity}
-            <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=0"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label>
+            <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=0"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts 1=$totalCountOpenActivity}Open Activities</label> (%1){/ts}</label>
         {else}
-            {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q='action=add&pid=0&id=0'}{/capture}
-            {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q='action=add&pid=0&id=0'}{/capture}
+            {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q='action=add&pid=0&id=0&log=0'}{/capture}
+            {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q='action=add&pid=0&id=0&log=0'}{/capture}
             <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2"}">call</a>.{/ts}</dd></dl>
         {/if}
     </div>
@@ -71,7 +71,7 @@
              </td>
              <td>{$row.sourceName}</td>
              <td>{$row.targetName}</td>
-             <td>{$row.date|crmDate}</td>
+             <td>{$row.date|date_format:"%b %e, %Y %I:%M %p"}</td>
              <td>{$row.status}</td>
              <td>{$row.action}</td>
            </tr>
@@ -90,7 +90,7 @@
     {* Showing Open Activities - give link for History toggle *}
     <div id="activityHx[show]" class="data-group">
         {if $totalCountActivity}
-            <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=1"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Activity History{/ts}</label>
+            <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=1"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts 1=$totalCountActivity}Activity History</label> (%1){/ts}
         {else}
             <dl><dt>{ts}Activity History{/ts}</dt><dd>{ts}No activity history for this contact.{/ts}</dd></dl>
         {/if}
