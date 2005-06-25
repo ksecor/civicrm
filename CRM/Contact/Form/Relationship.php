@@ -122,8 +122,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addRule('start_date'          , ts('Start date is not valid.')           , 'qfDate' );
         $this->addRule('end_date'            , ts('End date is not valid.')             , 'qfDate' );
 
+        // add a form rule only when creating a new relationship
+        // edit is severely limited, so add a simpleer form rule
         if ( $this->_action & CRM_Core_Action::ADD ) {
             $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'formRule' ) );
+            $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'dateRule' ) );
+        } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'dateRule' ) );
         }
     }
 
@@ -336,7 +341,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
    *
    * @param array $params (reference ) an assoc array of name/value pairs
    *
-   * @return object CRM_Contact_BAO_Relationship object 
+   * @return mixed true or array of errors
    * @access public
    * @static
    */
@@ -361,10 +366,36 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }
             }
         } else {
-            $errors['contact_check'] = 'Please select at least one contact.';
+            $errors['contact_check'] = ts( 'Please select at least one contact.' );
         }
 
         return empty($errors) ? true : $errors;
+    }
+
+    /**
+     * function for date validation
+     *
+     * @param array $params (reference ) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    static function dateRule( &$params ) {
+        $errors = array( );
+
+        // check start and end date
+        if ( CRM_Utils_Array::value( 'start_date', $params ) &&
+             CRM_Utils_Array::value( 'end_date'  , $params ) ) {
+            $start_date = CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
+            $end_date   = CRM_Utils_Date::format( CRM_Utils_Array::value( 'end_date'  , $params ) );
+            if ( (int ) $end_date < (int ) $start_date ) {
+                $errors['end_date'] = ts( 'The relationship end date cannot be prior to the start date.' );
+            }
+        }
+
+        return empty($errors) ? true : $errors;
+
     }
 
 }
