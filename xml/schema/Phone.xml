@@ -32,7 +32,6 @@
        <import>true</import>
        <headerPattern>/phone/i</headerPattern>
        <dataPattern>/^[\d\(\)\-\.\s]+$/</dataPattern>
-       <rule>phone</rule>
        <comment>Complete phone number.</comment>
   </field>
   <field>
