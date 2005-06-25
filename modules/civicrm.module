@@ -162,16 +162,7 @@ function civicrm_block($op='list', $delta='0')
  */
 function civicrm_menu($may_cache)
 {
-    // The $may_cache parameter is used to divide menu items into two parts. Those
-    // returned when $may_cache is true must be consistently applicable for the
-    // current user at all times; the others may change or be defined at only
-    // certain paths. Most modules will have excusively cacheable menu items.
-    
-    if ($may_cache) {
-        return CRM_Utils_Menu::items( );
-    }
     return CRM_Utils_Menu::items( );
-
 }
 
 function civicrm_hack_path($path, $qs)

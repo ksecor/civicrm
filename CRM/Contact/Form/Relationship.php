@@ -389,7 +389,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
              CRM_Utils_Array::value( 'end_date'  , $params ) ) {
             $start_date = CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
             $end_date   = CRM_Utils_Date::format( CRM_Utils_Array::value( 'end_date'  , $params ) );
-            if ( (int ) $end_date < (int ) $start_date ) {
+            if ( $start_date && $end_date && (int ) $end_date < (int ) $start_date ) {
                 $errors['end_date'] = ts( 'The relationship end date cannot be prior to the start date.' );
             }
         }
