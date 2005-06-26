@@ -43,5 +43,5 @@
 <xi:include href="UFMatch.xml"          parse="xml" />
 <xi:include href="CustomOption.xml"     parse="xml" />
 <xi:include href="Meeting.xml"          parse="xml" />
-<xi:include href="PhoneCall.xml"        parse="xml" />
+<xi:include href="Phonecall.xml"        parse="xml" />
 </database>

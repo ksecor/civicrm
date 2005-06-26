@@ -23,10 +23,6 @@
         <dt>&nbsp;</dt><dd class="description">{ts}Meeting will be moved to Activity History when status is 'Completed'.{/ts}</dd>
     {/if}
     <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}</dd>
-    {if $status}
-        <dt></dt>
-        <dd><a href="{crmURL p='civicrm/contact/view/meeting' q="action=add&pid=`$pid`"}">&raquo; {ts}Schedule Follow-up Meeting{/ts}</a><dd>
-    {/if}
     <dt></dt><dd>{$form.buttons.html}</dd>
   </dl>
 </fieldset>

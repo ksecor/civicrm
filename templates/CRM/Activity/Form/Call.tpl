@@ -1,5 +1,6 @@
 {* this template is used for adding/editing calls  *}
 <div class="form-item">
+  <fieldset>
    <legend>
     {if $action eq 1}
         {if $log}{ts}Log a Phone Call{/ts}{else}{ts}Schedule a Phone Call{/ts}{/if}
@@ -14,7 +15,7 @@
 	  <dt>{ts}Created By{/ts}</dt><dd>{$sourceName}</dd>
         {/if}
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
-	<dt>{$form.phone_id.label}</dt><dd>{$form.phone_id.html}&nbsp;{$form.phone_number.label}&nbsp;{$form.phone_number.html}</dd>
+	<dt>{$form.phone_id.label}</dt><dd>{$form.phone_id.html}{if $action neq 4}&nbsp;{$form.phone_number.label}&nbsp;{/if}{$form.phone_number.html}</dd>
 	<dt>{$form.scheduled_date_time.label}</dt><dd>{$form.scheduled_date_time.html}</dd>
 	<dt>{ts}Duration{/ts}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
@@ -26,12 +27,6 @@
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
     <dt></dt><dd>{$form.buttons.html}</dd>
 
-  {if $status}
-    <dt></dt>
-     <dd>
-         <a href="{crmURL p='civicrm/contact/view/call' q="action=add&pid=`$pid`"}">{ts}Follow-up Call{/ts}</a>
-     <dd>
-  {/if}
   </dl>
 </fieldset>
 </div>

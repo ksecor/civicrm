@@ -483,41 +483,40 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         if ( ! isset( self::$_columnHeaders ) )
         {
             self::$_columnHeaders = array(
-                                          array('desc' => ts('Select') ),
                                           array('desc' => ts('Contact Type') ),
                                           array(
                                                 'name'      => ts('Name'),
                                                 'sort'      => 'sort_name',
                                                 'direction' => CRM_Utils_Sort::ASCENDING,
-                                         ),
-                                    array('name' => ts('Address') ),
-                                    array(
-                                          'name'      => ts('City'),
-                                          'sort'      => 'city',
-                                          'direction' => CRM_Utils_Sort::DONTCARE,
-                                         ),
-                                    array(
-                                          'name'      => ts('State'),
-                                          'sort'      => 'state',
-                                          'direction' => CRM_Utils_Sort::DONTCARE,
-                                         ),
-                                    array(
-                                          'name'      => ts('Postal'),
-                                          'sort'      => 'postal_code',
-                                          'direction' => CRM_Utils_Sort::DONTCARE,
-                                         ),
-                                    array(
-                                          'name'      => ts('Country'),
-                                          'sort'      => 'country',
-                                          'direction' => CRM_Utils_Sort::DONTCARE,
-                                         ),
-                                    array(
-                                          'name'      => ts('Email'),
-                                          'sort'      => 'email',
-                                          'direction' => CRM_Utils_Sort::DONTCARE,
-                                         ),
-                                    array('name' => ts('Phone') ),
-                                    array('desc' => ts('Actions') ),
+                                                ),
+                                          array('name' => ts('Address') ),
+                                          array(
+                                                'name'      => ts('City'),
+                                                'sort'      => 'city',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                        array(
+                                              'name'      => ts('State'),
+                                              'sort'      => 'state',
+                                              'direction' => CRM_Utils_Sort::DONTCARE,
+                                             ),
+                                        array(
+                                              'name'      => ts('Postal'),
+                                              'sort'      => 'postal_code',
+                                              'direction' => CRM_Utils_Sort::DONTCARE,
+                                             ),
+                                        array(
+                                              'name'      => ts('Country'),
+                                              'sort'      => 'country',
+                                              'direction' => CRM_Utils_Sort::DONTCARE,
+                                             ),
+                                        array(
+                                              'name'      => ts('Email'),
+                                              'sort'      => 'email',
+                                              'direction' => CRM_Utils_Sort::DONTCARE,
+                                             ),
+                                        array('name' => ts('Phone') ),
+                                        array('desc' => ts('Actions') ),
                                     );
         }
         return self::$_columnHeaders;

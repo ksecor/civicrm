@@ -91,8 +91,8 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
         CRM_Utils_Recent::add( $displayName,
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId ),
-                               $this->_contactId,
-                               $contactImage );
+                               $contactImage,
+                               $this->_contactId );
 
         $prevMode = $this->get('mode');
         // if we have switched modes we set the action to browse always

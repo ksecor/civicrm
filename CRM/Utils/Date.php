@@ -47,8 +47,6 @@ class CRM_Utils_Date {
      */
     static function format( $date, $separator = '' )
     {
-        $time = '';
-        // print_r($date);
         if ( ! $date || ! is_array( $date ) || ( ! $date['Y'] ) ) {
             return null;
         }
@@ -67,6 +65,7 @@ class CRM_Utils_Date {
             $date['d'] = '00';
         }
 
+        $time = '';
         if (CRM_Utils_Array::value( 'h', $date ) || CRM_Utils_Array::value( 'i', $date ) || CRM_Utils_Array::value( 's', $date )) {
             // we have time too.. 
             if (CRM_Utils_Array::value( 'h', $date )) {
@@ -99,8 +98,7 @@ class CRM_Utils_Date {
                 $date['s'] = '00';
             }
             $time = $date['h'] . $seperator . $date['i'] . $seperator . $date['s'];
-            //$time = $date['h'] . $seperator . $date['i'] . $seperator . $date['s'].$date['A'];
-        } 
+        }
 
         return $date['Y'] . $separator . $date['M'] . $separator . $date['d'] . $time;
     }

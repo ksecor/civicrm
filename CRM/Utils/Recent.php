@@ -94,14 +94,17 @@ class CRM_Utils_Recent {
      * @access public
      * @static
      */
-    static function add( $title, $url, $id, $icon = null ) {
+    static function add( $title, $url, $icon, $id ) {
         self::initialize( );
+
+        $session =& CRM_Core_Session::singleton( );
 
         // make sure item is not already present in list
         for ( $i = 0; $i < count( self::$_recent ); $i++ ) {
             if ( self::$_recent[$i]['url' ] == $url ) {
                 // update title if changed
                 self::$_recent[$i]['title'] = $title;
+                $session->set( self::STORE_NAME, self::$_recent );
                 return;
             }
         }
@@ -115,7 +118,6 @@ class CRM_Utils_Recent {
             array_pop( self::$_recent );
         }
 
-        $session =& CRM_Core_Session::singleton( );
         $session->set( self::STORE_NAME, self::$_recent );
     }
 

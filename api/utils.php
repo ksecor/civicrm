@@ -166,7 +166,7 @@ function _crm_format_params( &$params, &$values ) {
     if ( _crm_store_values( $fields, $params, $values['location'][1]['address'] ) ) {
         $locationTypeNeeded = true;
     }
-    $ids = array( 'county', 'country', 'state_province', 'StateProvince.name' );
+    $ids = array( 'county', 'country', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
     foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {
             $values['location'][1]['address'][$id] = $params[$id];
@@ -197,9 +197,10 @@ function _crm_format_params( &$params, &$values ) {
          ! CRM_Utils_Rule::phone( $params['phone'] ) ) {
         return _crm_error( "Phone not valid " . $params['phone'] );
     }
-    
-    if ( array_key_exists( 'im_name', $params ) ) {
-        $values['location'][1]['im'][1]['name'] = $params['im_name'];
+   
+    /* WAS: 'im_name', CHANGED: to 'im' */
+    if ( array_key_exists( 'im', $params ) ) {
+        $values['location'][1]['im'][1]['name'] = $params['im'];
         $locationTypeNeeded = true;
     }
 

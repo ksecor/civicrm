@@ -203,7 +203,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $contact->id = $contactId;
         if ( $contact->find(true) ) {
             foreach ($allRelationshipType as $key => $value) {
-                // the cotact type is required or matches
+                // the contact type is required or matches
                 if ( ( ( ! $value['contact_type_a'] ) || $value['contact_type_a'] == $contact->contact_type ) &&
                      // the other contact type is required or present or matches
                      ( ( ! $value['contact_type_b'] ) || ( ! $otherContactType ) || $value['contact_type_b'] == $otherContactType ) ) {
@@ -216,6 +216,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 }
             }
 
+            // lets clean up the data and eliminate all duplicate values (i.e. the relationship is bi-directional)
+            $relationshipType = array_unique( $relationshipType );
             return $relationshipType;
         }
         return null;

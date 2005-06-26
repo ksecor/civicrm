@@ -448,7 +448,7 @@ VALUES
 INSERT INTO crm_uf_group
     (domain_id, is_active, form_type, title)
 VALUES
-    (1,1,'User Sharing','CiviCRM Profile');
+    (1,1,'CiviCRM Profile','CiviCRM Name and Address');
 
 INSERT INTO crm_uf_field
     (uf_group_id, field_name, weight, is_active, is_view, is_required, is_registration, is_match, visibility, listings_title, help_post)

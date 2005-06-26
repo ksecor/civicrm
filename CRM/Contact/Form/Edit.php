@@ -35,6 +35,8 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/SelectValues.php';
 
+require_once 'CRM/Utils/Recent.php';
+
 require_once 'CRM/Contact/Form/Location.php';
 require_once 'CRM/Contact/Form/Individual.php';
 require_once 'CRM/Contact/Form/Household.php';
@@ -163,11 +165,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
         
         // use most recently posted values if any to display show hide blocks
-        $params = $this->controller->exportValues( );
+        $params = $this->controller->exportValues( $this->_name );
         if ( ! empty( $params ) ) {
-            $this->setShowHide( $params );
+            $this->setShowHide( $params, true );
         } else {
-            $this->setShowHide( $defaults );
+            $this->setShowHide( $defaults, false );
         }
         return $defaults;
     }
@@ -175,11 +177,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     /**
      * Fix what blocks to show/hide based on the default values set
      *
-     * @param array @defaults the array of default values
+     * @param array   $defaults the array of default values
+     * @param boolean $force    should we set show hide based on input defaults
      *
      * @return void
      */
-    function setShowHide( &$defaults ) {
+    function setShowHide( &$defaults, $force ) {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array('commPrefs'       => 1),
                                                         '') ;
 
@@ -206,7 +209,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $this->_showHide->addHide( 'demographics[show]' );
         }
 
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+        if ( $force ) {
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        CRM_Utils_Array::value( 'location', $defaults ),
                                                        self::LOCATION_BLOCKS );
@@ -285,7 +288,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
     public function postProcess() 
     {
         // store the submitted values in an array
-        $params = $this->exportValues();
+        $params = $this->controller->exportValues( $this->_name );
 
         // action is taken depending upon the mode
         $ids = array();
@@ -299,11 +302,30 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         $contact = CRM_Contact_BAO_Contact::create($params, $ids, self::LOCATION_BLOCKS);
         
         // here we replace the user context with the url to view this contact
-        $session =& CRM_Core_Session::singleton();
+        $config  =& CRM_Core_Config::singleton( );
+        $session =& CRM_Core_Session::singleton( );
         CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type)));
 
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
+            // add the recently viewed contact
+            $displayName = $contact->display_name;
+            $contactImage = '<img src="' . $config->resourceBase . 'i/contact_';
+            switch( $contact->contact_type ) {
+            case 'Individual' :
+                $contactImage .= 'ind.gif" alt="' . ts('Individual') . '">';
+                break;
+            case 'Household' :
+                $contactImage .= 'house.png" alt="' . ts('Household') . '" height="16" width="16">';
+                break;
+            case 'Organization' :
+                $contactImage .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18">';
+                break;
+            }
+            CRM_Utils_Recent::add( $displayName,
+                                   CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contact->id ),
+                                   $contactImage,
+                                   $contact->id );
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/add' . $contact->contact_type[0], 'reset=1&c_type=' . $contact->contact_type ) );
         } else {
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));

@@ -1,4 +1,4 @@
-<fieldset><legend>{ts}User Sharing Field{/ts}</legend>
+<fieldset><legend>{ts}CiviCRM Profile Field{/ts}</legend>
     <div class="form-item">
         <dl>
         <dt>{$form.field_name.label}</dt><dd>{$form.field_name.html}</dd>

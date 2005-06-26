@@ -40,10 +40,5 @@
      <br />
      {$form.radio_ts.ts_sel.html} <b>{ts}selected records only{/ts}</b>&nbsp; {$form.radio_ts.ts_all.html} <b>{ts count=$pager->_totalItems plural='all %count records'}the found record{/ts}</b>
    </div>
-   <div class="float-right">{ts}Select:{/ts} 
-    <a onclick="changeCheckboxVals('mark_x_','select'  , {$form.formName} ); return false;" name="select_all"  href="#">{ts}All{/ts}</a> |
-    <a onclick="changeCheckboxVals('mark_x_','deselect', {$form.formName} ); return false;" name="select_none" href="#">{ts}None{/ts}</a>
-   </div>
-   <div class="ht-one"></div>   
  </div>  
  <p>

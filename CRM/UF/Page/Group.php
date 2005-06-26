@@ -62,32 +62,32 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
         // check if variable _actionsLinks is populated
         if ( ! self::$_actionLinks ) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this user framework group?');
+            $disableExtra = ts('Are you sure you want to disable this CiviCRM Profile group?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::BROWSE  => array(
                                                                           'name'  => ts('View and Edit Fields'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
                                                                           'qs'    => 'reset=1&action=browse&gid=%%id%%',
-                                                                          'title' => ts('List User Framework Group Fields'),
+                                                                          'title' => ts('List CiviCRM Profile Group Fields'),
                                                                           ),
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Group'),
                                                                           'url'   => 'civicrm/admin/uf/group',
                                                                           'qs'    => 'action=update&id=%%id%%',
-                                                                          'title' => ts('Edit User Framework Group') 
+                                                                          'title' => ts('Edit CiviCRM Profile Group') 
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/admin/uf/group',
                                                                           'qs'    => 'action=disable&id=%%id%%',
-                                                                          'title' => ts('Disable User Framework Group'),
+                                                                          'title' => ts('Disable CiviCRM Profile Group'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
                                                                           'url'   => 'civicrm/admin/uf/group',
                                                                           'qs'    => 'action=enable&id=%%id%%',
-                                                                          'title' => ts('Enable User Framework Group'),
+                                                                          'title' => ts('Enable CiviCRM Profile Group'),
                                                                           ),
                                         );
         }
@@ -145,7 +145,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
     function edit($id, $action)
     {
         // create a simple controller for editing uf data
-        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Group', ts('User Sharing Group'), $action);
+        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Group', ts('CiviCRM Profile Group'), $action);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();

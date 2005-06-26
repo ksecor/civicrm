@@ -30,7 +30,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/^first|(f(irst\b)?name)$/i</headerPattern>
+       <headerPattern>/^first|(f(irst\s)?name)$/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
        <fulltext/>
        <comment>First Name.</comment>
@@ -46,8 +46,8 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/^last|(l(ast\b)?name)$/i</headerPattern>
-       <dataPattern>/^\w+(\b\w+)?+$/</dataPattern>
+       <headerPattern>/^last|(l(ast\s)?name)$/i</headerPattern>
+       <dataPattern>/^\w+(\s\w+)?+$/</dataPattern>
        <comment>Last Name.</comment>
        <fulltext/>
   </field>
@@ -56,7 +56,7 @@
        <type>varchar</type>
        <length>64</length>
        <import>true</import>
-       <headerPattern>/^prefix$/i</headerPattern>
+       <headerPattern>/prefix/i</headerPattern>
        <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
        <comment>Prefix to Name.</comment>
   </field>

@@ -143,15 +143,17 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             }
         }
 
-        if ( $this->_phone_index >= 0) { 
-            $phone = CRM_Utils_Array::value( $this->_phoneIndex, $values );
-            if ($phone) {
-                if (! CRM_Utils_Rule::phone($phone)) {
-                    $values[] = ts('Invalid phone number');
-                    return self::ERROR;
-                }
-            }
-        }
+//  Block removed due to bug CRM-150, internationalization/wew.
+//
+//         if ( $this->_phone_index >= 0) { 
+//             $phone = CRM_Utils_Array::value( $this->_phoneIndex, $values );
+//             if ($phone) {
+//                 if (! CRM_Utils_Rule::phone($phone)) {
+//                     $values[] = ts('Invalid phone number');
+//                     return self::ERROR;
+//                 }
+//             }
+//         }
 
         return self::VALID;
     }

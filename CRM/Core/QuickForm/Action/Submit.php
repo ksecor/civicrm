@@ -64,7 +64,10 @@ class CRM_Core_QuickForm_Action_Submit extends CRM_Core_QuickForm_Action {
         $data     =& $page->controller->container();
         $data['values'][$pageName] = $page->exportValues();
         $data['valid'][$pageName]  = $page->validate();
-
+        /**
+        CRM_Core_Error::debug( 'data', $data );
+        CRM_Core_Error::debug( 'data', $page );
+        **/
         // Modal form and page is invalid: don't go further
         if ($page->controller->isModal() && !$data['valid'][$pageName]) {
             return $page->handle('display');

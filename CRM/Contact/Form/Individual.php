@@ -117,11 +117,11 @@ class CRM_Contact_Form_Individual {
             $urls = array( );
             foreach ( explode( ',', $ids ) as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
-                $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/edit', 'reset=1&id=' . $id ) .
+                $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/edit', 'reset=1&cid=' . $id ) .
                     '">' . $displayName . '</a>';
             }
             $url = implode( ', ',  $urls );
-            $errors['first_name'] = ts( 'One matching contact was found. You can edit it here: %1', array( 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1', 1 => $url ) );
+            $errors['first_name'] = ts( 'One matching contact was found. You can edit it here: %1', array( 1 => $url, 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1' ) );
         }
 
         return empty($errors) ? true : $errors;

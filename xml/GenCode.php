@@ -2,6 +2,15 @@
 
 ini_set( 'include_path', ".:../packages" );
 
+define( 'CRM_PHP_VERSION' , 5 );
+if ( substr( phpversion( ), 0, 1 ) != CRM_PHP_VERSION ) {
+    echo phpversion( ) . ', ' . substr( phpversion( ), 0, 1 ) . "\n";
+    echo 'CiviCRM requires a PHP Version >= ' . CRM_PHP_VERSION . "\n";
+    echo "Please upgrade your php / webserver configuration\n";
+    echo "Alternatively you can get a version of CiviCRM that matches your PHP version\n\n";
+    exit( );
+}
+
 require_once 'Smarty/Smarty.class.php';
 require_once 'PHP/Beautifier.php';
 

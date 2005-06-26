@@ -80,8 +80,8 @@
        <type>varchar</type>
        <length>96</length>
        <import>true</import>
-       <headerPattern>/(supplemental\b)?address\b\d+/i</headerPattern>
-       <dataPattern>/unit|ap(ar)?t(ment)?\b(\d|\w)+/i</dataPattern>
+       <headerPattern>/(supplemental(\s)?)?address(\s\d+)?/i</headerPattern>
+       <dataPattern>/unit|ap(ar)?t(ment)?\s(\d|\w)+/i</dataPattern>
        <comment>Supplemental Address Information, Line 1</comment>
   </field>
   <field>
@@ -89,8 +89,8 @@
        <type>varchar</type>
        <length>96</length>
        <import>true</import>
-       <headerPattern>/(supplemental\b)?address\b\d+/i</headerPattern>
-       <dataPattern>/unit|ap(ar)?t(ment)?\b(\d|\w)+/i</dataPattern>
+       <headerPattern>/(supplemental(\s)?)?address(\s\d+)?/i</headerPattern>
+       <dataPattern>/unit|ap(ar)?t(ment)?\s(\d|\w)+/i</dataPattern>
        <comment>Supplemental Address Information, Line 2</comment>
   </field>
   <field>
@@ -164,7 +164,7 @@
        <key>id</key>
        <import>true</import>
        <headerPattern>/country/i</headerPattern>
-       <dataPattern>/\w+(\b\w+)?/</dataPattern>
+       <dataPattern>/\w+(\s\w+)?/</dataPattern>
   </foreignKey>
   <field>
       <name>geo_coord_id</name>

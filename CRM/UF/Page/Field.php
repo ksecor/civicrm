@@ -34,7 +34,7 @@
 require_once 'CRM/Core/Page.php';
 
 /**
- * Create a page for displaying User Framework Fields.
+ * Create a page for displaying CiviCRM Profile Fields.
  *
  * Heart of this class is the run method which checks
  * for action type and then displays the appropriate
@@ -71,32 +71,32 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
     {
         if (!isset(self::$_actionLinks)) {
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this User Sharing field?');
+            $disableExtra = ts('Are you sure you want to disable this CiviCRM Profile field?');
             self::$_actionLinks = array(
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
                                                                           'qs'    => 'action=update&id=%%id%%',
-                                                                          'title' => ts('Edit User Sharing Field') 
+                                                                          'title' => ts('Edit CiviCRM Profile Field') 
                                                                           ),
                                         CRM_Core_Action::VIEW    => array(
                                                                           'name'  => ts('View'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
                                                                           'qs'    => 'action=view&id=%%id%%',
-                                                                          'title' => ts('View User Sharing Field'),
+                                                                          'title' => ts('View CiviCRM Profile Field'),
                                                                           ),
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
                                                                           'qs'    => 'action=disable&id=%%id%%',
-                                                                          'title' => ts('Disable User Sharing Field'),
+                                                                          'title' => ts('Disable CiviCRM Profile Field'),
                                                                           'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
                                                                           'url'   => 'civicrm/admin/uf/group/field',
                                                                           'qs'    => 'action=enable&id=%%id%%',
-                                                                          'title' => ts('Enable User Sharing Field'),
+                                                                          'title' => ts('Enable CiviCRM Profile Field'),
                                                                           ),
                                         );
         }
@@ -104,7 +104,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
     }
 
     /**
-     * Browse all user framework group fields.
+     * Browse all CiviCRM Profile group fields.
      *
      * @param none
      * @return none
@@ -151,7 +151,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
 
 
     /**
-     * edit user framework data.
+     * edit CiviCRM Profile data.
      *
      * editing would involved modifying existing fields + adding data to new fields.
      *
@@ -162,8 +162,8 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
      */
     function edit($action)
     {
-        // create a simple controller for editing user framework data
-        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Field', ts('User Sharing Field'), $action);
+        // create a simple controller for editing CiviCRM Profile data
+        $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Field', ts('CiviCRM Profile Field'), $action);
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
@@ -195,7 +195,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
             $groupTitle = CRM_Core_BAO_UFGroup::getTitle($this->_gid);
             $this->assign('gid', $this->_gid);
             $this->assign('groupTitle', $groupTitle);
-            CRM_Utils_System::setTitle(ts('%1 - User Sharing Fields', array(1 => $groupTitle)));
+            CRM_Utils_System::setTitle(ts('%1 - CiviCRM Profile Fields', array(1 => $groupTitle)));
         }
 
         // get the requested action
