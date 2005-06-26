@@ -117,7 +117,7 @@ class CRM_Contact_Form_Individual {
             $urls = array( );
             foreach ( explode( ',', $ids ) as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
-                $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/edit', 'reset=1&id=' . $id ) .
+                $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/edit', 'reset=1&cid=' . $id ) .
                     '">' . $displayName . '</a>';
             }
             $url = implode( ', ',  $urls );
