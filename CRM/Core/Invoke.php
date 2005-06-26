@@ -270,9 +270,9 @@ class CRM_Core_Invoke {
         case 'uf':
             if ( $args[3] == 'group' ) {
                 if ( $args[4] != 'field' ) {
-                    $view =& new CRM_UF_Page_Group(ts('User Sharing Group'));
+                    $view =& new CRM_UF_Page_Group(ts('CiviCRM Profile Group'));
                 } else {
-                   $view =& new CRM_UF_Page_Field(ts('User Sharing Field'));
+                   $view =& new CRM_UF_Page_Field(ts('CiviCRM Profile Field'));
                 }
             }
             break;

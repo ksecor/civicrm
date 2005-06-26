@@ -36,7 +36,7 @@
         
         {if $action eq 16 or $action eq 4}
             <div class="action-link">
-            <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New User Sharing Field{/ts}</a>
+            <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New CiviCRM Profile Field{/ts}</a>
             </div>
         {/if}
         </div>
@@ -49,7 +49,7 @@
         <div class="message status">
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
-        <dd>{ts 1=$groupTitle 2=$crmURL}There are no User Sharing Fields for "%1", you can <a href="%2">add one now</a>.{/ts}</dd>
+        <dd>{ts 1=$groupTitle 2=$crmURL}There are no CiviCRM Profile Fields for "%1", you can <a href="%2">add one now</a>.{/ts}</dd>
         </dl>
         </div>
         {/if}

@@ -76,7 +76,7 @@
   <field>
       <name>parent_id</name>
       <type>int unsigned</type>
-      <comment>Parent meeting ID (if this is a follow-up item).</comment>
+      <comment>Parent meeting ID (if this is a follow-up item). This is not currently implemented</comment>
   </field>
   <foreignKey>
        <name>parent_id</name>

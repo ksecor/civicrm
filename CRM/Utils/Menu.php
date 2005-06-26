@@ -136,7 +136,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/admin/uf/group',
-                            'title'   => ts('User Sharing'),
+                            'title'   => ts('CiviCRM Profile'),
                             'qs'      => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -145,7 +145,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'   => 'civicrm/admin/uf/group/field',
-                            'title'  => ts('User Sharing Fields'),
+                            'title'  => ts('CiviCRM Profile Fields'),
                             'qs'     => 'reset=1',
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,

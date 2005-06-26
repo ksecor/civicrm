@@ -386,7 +386,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `crm_uf_group` DISABLE KEYS */;
 LOCK TABLES `crm_uf_group` WRITE;
-INSERT INTO `crm_uf_group` VALUES (1,1,1,'User Sharing','CiviCRM Profile');
+INSERT INTO `crm_uf_group` VALUES (1,1,1,'CiviCRM Profile','CiviCRM Name and Address');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `crm_uf_group` ENABLE KEYS */;
 

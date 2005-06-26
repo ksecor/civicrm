@@ -3,7 +3,7 @@
 <table>
   <base>CRM/Core</base>
   <name>crm_uf_group</name>
-  <comment>User framework groups. Each group represents a form which encompasses a set of fields defined in crm_uf_fields table. Initially will be used for User Sharing form(s). Subsequently we anticipate using this to define other public facing forms (e.g. online donation solicitation forms, mailing list preferences, etc.).</comment>
+  <comment>User framework groups. Each group represents a form which encompasses a set of fields defined in crm_uf_fields table. Initially will be used for CiviCRM Profile form(s). Subsequently we anticipate using this to define other public facing forms (e.g. online donation solicitation forms, mailing list preferences, etc.).</comment>
   <field>
       <name>id</name>
       <type>int unsigned</type>
@@ -34,7 +34,7 @@
   <field>
        <name>form_type</name>
        <type>enum</type>
-       <values>User Sharing</values>
+       <values>CiviCRM Profile</values>
        <comment>Type of form.</comment>
   </field>
   <field>

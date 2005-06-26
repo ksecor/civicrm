@@ -1,5 +1,10 @@
 <?php
 
+// ensure php configuration matches first
+if ( ! defined( 'CRM_PHP_VERSION' ) ) {
+  define( 'CRM_PHP_VERSION' , 5 );
+}
+
 global $user_home;
 
 $include_path = ini_get('include_path');

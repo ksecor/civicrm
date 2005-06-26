@@ -16,6 +16,7 @@ define( 'CRM_DATEFORMAT_FULL', '%B %E%f, %Y %h:%i %A' );
 define( 'CRM_DATEFORMAT_PARTIAL', '%B %Y' );
 define( 'CRM_DATEFORMAT_YEAR', '%Y' );
 define( 'CRM_SMTP_SERVER' , 'smtp.sbcglobal.net' );
+define( 'CRM_PHP_VERSION' , 5 );
 
 include_once 'config.main.php';
 
