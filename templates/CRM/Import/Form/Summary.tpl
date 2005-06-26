@@ -10,21 +10,27 @@
     </p>
     
     {if $invalidRowCount }
-        <p>
-        {capture assign=crmURL}{crmURL p=`$errorFile`}{/capture}
-        {ts 1=$invalidRowCount 2=$crmURL 3=$downloadErrorRecords}CiviCRM has detected invalid data and/or formatting errors in %1 records. These records have not been imported. You can <a href="%2">download</a> a file with just these problem records - %3. You may then correct them and import the new file with the corrected data.{/ts}
+        {ts 1=$invalidRowCount 2=$downloadErrorRecords}
+        <p class="error">
+        CiviCRM has detected invalid data and/or formatting errors in %1 records. These records have not been imported.
         </p>
+        <p class="error">
+        You can %2. You may then correct them, and import the new file with the corrected data.
+        </p>
+        {/ts}
     {/if}
 
     {if $conflictRowCount}
-        <p>
-        {ts 1=$conflictRowCount}CiviCRM has detected %1 records with conflicting email addresses within this data file or relative to existing contact records. These records have not been imported. CiviCRM does not allow multiple contact records to have the same email address.{/ts}
+        {ts 1=$conflictRowCount 2=$downloadConflictRecords}
+        <p class="error">
+        CiviCRM has detected %1 records with conflicting email addresses within this data file or relative to existing contact records. These records have not been imported.
+        CiviCRM does not allow multiple contact records to have the same primary email address.
         </p>
-        <p>
-        {ts 1=$downloadErrorRecords}You can download a file with just these problem records - %1. You may then review these records to determine if they are actually conflicts, and correct the email addresses for those that are not.{/ts}
+        <p class="error">
+        You can %2. You may then review these records to determine if they are actually conflicts, and correct the email addresses for those that are not.
         </p>
+        {/ts}
     {/if}
-    
  </div>
     
  {* Summary of Import Results (record counts) *}
@@ -34,16 +40,16 @@
         <td class="explanation">{ts}Total rows (contact records) in uploaded file.{/ts}</td>
     </tr>
 
-    <tr><td class="label">{ts}Invalid Rows (skipped){/ts}</td>
+    <tr{if $invalidRowCount} class="error"{/if}><td class="label">{ts}Invalid Rows (skipped){/ts}</td>
         <td class="data">{$invalidRowCount}</td>
         <td class="explanation">{ts}Rows with invalid data (NOT imported).{/ts}
             <p>{$downloadErrorRecords}</p>
         </td>
     </tr>
     
-    <tr><td class="label">{ts}Conflicting Rows (skipped){/ts}</td>
+    <tr{if $conflictRowCount} class="error"{/if}><td class="label">{ts}Conflicting Rows (skipped){/ts}</td>
         <td class="data">{$conflictRowCount}</td>
-        <td class="explanation">{ts}Rows with conflicting email addresses (NOT imported).{/ts}
+        <td class="explanation">{ts}Rows with conflicting email addresses and/or rows which are duplicates of existing CiviCRM contact records (NOT imported).{/ts}
             <p>{$downloadConflictRecords}</p>
         </td>
     </tr>

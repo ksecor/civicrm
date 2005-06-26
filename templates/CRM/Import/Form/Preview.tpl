@@ -10,13 +10,13 @@
     </p>
     
     {if $invalidRowCount}
-        <p>
+        <p class="error">
         {ts 1=$invalidRowCount 2=$downloadErrorRecords}CiviCRM has detected email and/or phone formatting errors in %1 records. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
         </p>
     {/if}
 
     {if $conflictRowCount}
-        <p>
+        <p class="error">
         {ts 1=$conflictRowCount 2=$downloadConflictRecords}CiviCRM has detected %1 records with conflicting email addresses within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
         </p>
     {/if}
@@ -32,14 +32,14 @@
         <td class="explanation">{ts}Total rows (contact records) in uploaded file.{/ts}</td>
     </tr>
     
-    <tr><td class="label">{ts}Rows with Errors{/ts}</td>
+    <tr{if $invalidRowCount} class="error"{/if}><td class="label">{ts}Rows with Errors{/ts}</td>
         <td class="data">{$invalidRowCount}</td>
         <td class="explanation">{ts}Rows with invalid email or phone formatting. These rows will be skipped (not imported).{/ts}
             <p>{$downloadErrorRecords}</p>
         </td>
     </tr>
     
-    <tr><td class="label">{ts}Conflicting Rows{/ts}</td>
+    <tr{if $conflictRowCount} class="error"{/if}><td class="label">{ts}Conflicting Rows{/ts}</td>
         <td class="data">{$conflictRowCount}</td>
         <td class="explanation">{ts}Rows with conflicting email addresses within this file. These rows will be skipped (not imported).{/ts}
             <p>{$downloadConflictRecords}</p>
