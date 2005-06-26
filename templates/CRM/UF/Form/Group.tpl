@@ -1,4 +1,4 @@
-{* add/update/view user framework group *}
+{* add/update/view CiviCRM Profile group *}
 
 <div class="form-item">
     <fieldset><legend>{ts}CiviCRM Profile Group{/ts}</legend>

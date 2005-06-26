@@ -34,7 +34,7 @@
 require_once 'CRM/Core/Page.php';
 
 /**
- * Create a page for displaying User Framework Fields.
+ * Create a page for displaying CiviCRM Profile Fields.
  *
  * Heart of this class is the run method which checks
  * for action type and then displays the appropriate
@@ -104,7 +104,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
     }
 
     /**
-     * Browse all user framework group fields.
+     * Browse all CiviCRM Profile group fields.
      *
      * @param none
      * @return none
@@ -151,7 +151,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
 
 
     /**
-     * edit user framework data.
+     * edit CiviCRM Profile data.
      *
      * editing would involved modifying existing fields + adding data to new fields.
      *
@@ -162,7 +162,7 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
      */
     function edit($action)
     {
-        // create a simple controller for editing user framework data
+        // create a simple controller for editing CiviCRM Profile data
         $controller =& new CRM_Core_Controller_Simple('CRM_UF_Form_Field', ts('CiviCRM Profile Field'), $action);
 
         // set the userContext stack
