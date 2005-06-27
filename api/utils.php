@@ -2,9 +2,10 @@
 
 require_once 'CRM/Core/I18n.php';
 
-function _crm_error( $message, $code = 8000, $level = 'Fatal' ) {
+function _crm_error( $message, $code = 8000, $level = 'Fatal', &$params = null)
+{
     $error = CRM_Core_Error::singleton( );
-    $error->push( $code, $level, array( ), $message );
+    $error->push( $code, $level, array( $params ), $message );
     return $error;
 }
 
@@ -121,7 +122,10 @@ function _crm_check_params( &$params, $contact_type = 'Individual' ) {
 
     // check for record already existing
     if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params, $id, false ) ) != null ) {
-        return _crm_error( "Found matching contacts: $ids" );
+        $error = _crm_error( "Found matching contacts: $ids", 8000, 'Fatal',
+                                $ids );
+//         $error['params'] = $ids;
+        return $error;
     }
 
     return true;

@@ -343,6 +343,9 @@ class CRM_Core_Invoke {
         } else if ($type == 2) {
             $varName = 'conflicts';
             $saveFileName = 'Import_Conflicts.csv';
+        } else if ($type == 3) {
+            $varName = 'duplicates';
+            $saveFileName = 'Import_Duplicates.csv';
         } else {
             /* FIXME we should have an error here */
             return;

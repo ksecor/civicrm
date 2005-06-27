@@ -385,7 +385,25 @@ class CRM_Utils_System {
         $config   =& CRM_Core_Config::singleton( );
         return eval( 'return ' . $config->userFrameworkClass . '::postURL( "' . $action  . '" ); ' );
     }
+
+
+    /**
+     * Get the base URL from the system
+     *
+     * @param void
+     *
+     * @return string
+     * @access public
+     * @static
+     */
+    static function baseURL() {
+    // FIXME:   2005-06-27 13:28:43 by Brian McFee <brmcfee@gmail.com>
+    //  this only works for Drupal.  We should abstract this to work with mambo
+        global $base_url;
+        return $base_url;
+    }
 }
+
 
 /**
  * Allow PHP5 to autoload classes automatically

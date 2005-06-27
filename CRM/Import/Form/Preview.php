@@ -126,7 +126,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount  = $this->get('conflictRowCount');
-
+        
         $seperator = ',';
 
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
@@ -138,27 +138,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                       CRM_Import_Parser::MODE_IMPORT );
 
         // add all the necessary variables to the form
-        
-        // XXX the summary page doesn't really need anything new,
-        // so the parser doesn't need to set().  This may change later on.
-        //  $parser->set( $this );
-   
-//         CRM_Core_Error::debug('invalidRowCount', $invalidRowCount);
-        if ( $invalidRowCount > 0 ) {
-            $this->set('downloadErrorRecords', 
-                '<a href="' 
-                . CRM_Utils_System::url('civicrm/export', 'type=1') 
-                . '">' . ts('Download Errors') . '</a>');
-        }
-//         CRM_Core_Error::debug('conflictRowCount', $conflictRowCount);
-        if ( $conflictRowCount > 0 ) {
-            $this->set('downloadConflictRecords', 
-                '<a href="'
-                . CRM_Utils_System::url('civicrm/export', 'type=2') 
-                . '">' . ts('Download Conflicts') . '</a>');
-        }
-
-        
+        $parser->set( $this, CRM_Import_Parser::MODE_IMPORT );
 
         // check if there is any error occured
 

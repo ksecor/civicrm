@@ -31,6 +31,18 @@
         </p>
         {/ts}
     {/if}
+
+    {if $duplicateRowCount}
+        {ts 1=$duplicateRowCount 2=$downloadDuplicateRecords}
+        <p class="error">
+        CiviCRM has detected %1 records which are duplicates of existing CiviCRM contact records.  These records have not been imported.
+        </p>
+        <p class="error">
+        You can %2.  You may then review these records to determine if they are actually duplicates, and correct the email
+        address for those that are not.
+        </p>
+        {/ts}
+    {/if}
  </div>
     
  {* Summary of Import Results (record counts) *}
@@ -49,11 +61,17 @@
     
     <tr{if $conflictRowCount} class="error"{/if}><td class="label">{ts}Conflicting Rows (skipped){/ts}</td>
         <td class="data">{$conflictRowCount}</td>
-        <td class="explanation">{ts}Rows with conflicting email addresses and/or rows which are duplicates of existing CiviCRM contact records (NOT imported).{/ts}
+        <td class="explanation">{ts}Rows with conflicting email addresses (NOT imported).{/ts}
             <p>{$downloadConflictRecords}</p>
         </td>
     </tr>
 
+    <tr{if $duplicateRowCount} class="error"{/if}><td class="label">{ts}Duplicate Rows (skipped){/ts}</td>
+        <td class="data">{$duplicateRowCount}</td>
+        <td class="explanation">{ts}Rows which are duplicates of existing CiviCRM contact records (NOT imported).{/ts}
+            <p>{$downloadDuplicateRecords}</p>
+        </td>
+    </tr>
     <tr><td class="label">{ts}Records Imported{/ts}</td>
         <td class="data">{$validRowCount}</td>
         <td class="explanation">{ts}Rows imported successfully.{/ts}</td>
