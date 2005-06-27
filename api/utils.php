@@ -190,17 +190,20 @@ function _crm_format_params( &$params, &$values ) {
             $values['location'][1][$name][1]['is_primary'] = 1;
         }
     }
-
-    // make sure phone and email are valid strings
-    if ( array_key_exists( 'email', $params ) &&
-         ! CRM_Utils_Rule::email( $params['email'] ) ) {
-        return _crm_error( "Email not valid " . $params['email'] );
+    
+    if (! array_key_exists('first_name', $params) || 
+            ! array_key_exists('last_name', $params) ) {
+        // make sure phone and email are valid strings
+        if ( array_key_exists( 'email', $params ) &&
+            ! CRM_Utils_Rule::email( $params['email'] ) ) {
+            return _crm_error( "Email not valid " . $params['email'] );
+        }
     }
 
-    if ( array_key_exists( 'phone', $params ) &&
-         ! CRM_Utils_Rule::phone( $params['phone'] ) ) {
-        return _crm_error( "Phone not valid " . $params['phone'] );
-    }
+//     if ( array_key_exists( 'phone', $params ) &&
+//          ! CRM_Utils_Rule::phone( $params['phone'] ) ) {
+//         return _crm_error( "Phone not valid " . $params['phone'] );
+//     }
    
     /* WAS: 'im_name', CHANGED: to 'im' */
     if ( array_key_exists( 'im', $params ) ) {
@@ -213,12 +216,12 @@ function _crm_format_params( &$params, &$values ) {
         $locationTypeNeeded = true;
     }
 
-    if ( $locationTypeNeeded &&
-         ! array_key_exists( 'location_type_id', $values['location'][1] ) ) {
-        return _crm_error( "Location Type not defined" );
-    }
-
     if ( $locationTypeNeeded ) {
+        if ( ! array_key_exists( 'location_type_id', $values['location'][1] ) ) 
+        {
+            return _crm_error( "Location Type not defined" );
+        }
+
         $values['location'][1]['is_primary'] = true;
     }
 

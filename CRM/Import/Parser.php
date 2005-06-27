@@ -238,7 +238,7 @@ abstract class CRM_Import_Parser {
             }
         }
         
-        $email = array();
+//         $email = array();
         while ( ! feof( $fd ) ) {
             $this->_lineCount++;
 
@@ -252,13 +252,16 @@ abstract class CRM_Import_Parser {
                     continue;
             }
 
-            if ( $mode == self::MODE_IMPORT ) {
-                if ( in_array($values[$emailKey], $email)) {
-                    continue;
-                } else {
-                    array_push($email, $values[$emailKey]);
-                }
-            }
+// XXX:    2005-06-27 17:01:13 by Brian McFee <brmcfee@gmail.com>
+// What the hell was this block of code for? 
+//
+//             if ( $mode == self::MODE_IMPORT ) {
+//                 if ( in_array($values[$emailKey], $email)) {
+//                     continue;
+//                 } else {
+//                     array_push($email, $values[$emailKey]);
+//                 }
+//             }
             
             if ( ! $values || empty( $values ) ) {
                 continue;
@@ -345,9 +348,10 @@ abstract class CRM_Import_Parser {
             }
         }
         if ($mode == self::MODE_IMPORT && $this->_duplicateCount) {
-            $headers = array_merge( array(ts('Record Number')),
-                                    $mapper,
-                                    array(ts('View Contact URL')));
+            $headers = array_merge( array(  ts('Record Number'), 
+                                            ts('View Contact URL')),
+                                    $mapper);
+
             $this->_duplicateFileName = $fileName . '.duplicates';
             self::exportCSV($this->_duplicateFileName, $headers, $this->_duplicates);
         }
@@ -508,12 +512,19 @@ abstract class CRM_Import_Parser {
      * @return void
      * @access public
      */
-    static function exportCSV($fileName, &$header, &$data) {
+    static function exportCSV($fileName, $header, $data) {
         $output = array();
         $fd = fopen($fileName, 'w');
 
+        foreach ($header as $key => $value) {
+            $header[$key] = "\"$value\"";
+        }
         $output[] = implode(',', $header);
+
         foreach ($data as $datum) {
+            foreach ($datum as $key => $value) {
+                $datum[$key] = "\"$value\"";
+            }
             $output[] = implode(',', $datum);
         }
         fwrite($fd, implode("\n", $output));

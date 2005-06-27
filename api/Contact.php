@@ -120,7 +120,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual' ) {
     if ( empty( $params ) ) {
         return _crm_error( "Input Parameters empty" );
     }
-
+    
     $error = _crm_check_params( $params, $contact_type );
     if (is_a($error, CRM_Core_Error)) {
         return $error;

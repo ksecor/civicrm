@@ -179,17 +179,17 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
         //if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Core_Error ) {
         if ( is_a($newContact = crm_create_contact( $params, 'Individual' ), CRM_Core_Error) ) {
-            $ids = $newContact->_errors[0]['params'];
             $urls = array( );
             $base = CRM_Utils_System::baseURL() . '/';
-            foreach ($ids as $id) {
+            
+            foreach ($newContact->_errors[0]['params'] as $id) {
                 $urls[] = $base . CRM_Utils_System::url('civicrm/contact/view',
                 'reset=1&cid=' . $id, false);
             }
+            
             $url_string = '"' . implode("\n", $urls) . '"';
-            $values[] = $url_string; //$newContact->_errors[0]['params'];
-//             CRM_Core_Error::debug('values', $values);
-//             CRM_Core_Error::debug('newContact', $newContact);
+            array_unshift($values, $url_string); 
+            
             return self::DUPLICATE;
         }
         return self::VALID;

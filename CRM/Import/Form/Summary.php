@@ -58,8 +58,10 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
                 '<a href="'
                 . CRM_Utils_System::url('civicrm/export', 'type=3')
                 . '">' . ts('Download Duplicates') . '</a>');
+        } else {
+            $duplicateRowCount = 0;
+            $this->set('duplicateRowCount', $duplicateRowCount);
         }
-//         $this->assign( $property, $this->get( $property ) );
         $this->set('validRowCount', $totalRowCount - $invalidRowCount -
                     $conflictRowCount - $duplicateRowCount);
 
