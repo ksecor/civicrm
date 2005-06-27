@@ -9,10 +9,10 @@
   </legend>
   <dl>
         {if $action eq 1}
-          <dt>{ts}With Contact{/ts}</dt><dd>{$displayName}</dd>
+          <dt>{ts}With Contact{/ts}</dt><dd>{$displayName}&nbsp;</dd>
         {else}
-  	  <dt>{ts}With Contact{/ts}</dt><dd>{$targetName}</dd>
-	  <dt>{ts}Created By{/ts}</dt><dd>{$sourceName}</dd>
+  	  <dt>{ts}With Contact{/ts}</dt><dd>{$targetName}&nbsp;</dd>
+	  <dt>{ts}Created By{/ts}</dt><dd>{$sourceName}&nbsp;</dd>
         {/if}
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 	<dt>{$form.phone_id.label}</dt><dd>{$form.phone_id.html}{if $action neq 4}&nbsp;{$form.phone_number.label}&nbsp;{/if}{$form.phone_number.html}</dd>
