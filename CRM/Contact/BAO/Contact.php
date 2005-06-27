@@ -905,7 +905,9 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
 
         CRM_Contact_BAO_Relationship::deleteContact( $id );
 
-        CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_Note', $id );
+        // cannot use this one since we need to also delete note creator contact_id
+        //CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_Note', $id );
+        CRM_Core_BAO_Note::deleteContact($id);
 
         CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_CustomValue', $id );
 
