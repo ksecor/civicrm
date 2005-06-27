@@ -523,14 +523,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $this->_formValues, $this->_sortByCharacter );
         $this->set( 'AToZBar', $aToZBar );
 
-        $this->set( 'type'      , $this->_action );
-        $this->set( 'formValues', $this->_formValues );
-
         // we dont want to store the sortByCharacter in the formValue, it is more like 
         // a filter on the result set
         if ( $this->_sortByCharacter && $this->_sortByCharacter != '1' ) {
             $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
         }
+
+        $this->set( 'type'      , $this->_action );
+        $this->set( 'formValues', $this->_formValues );
 
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {
