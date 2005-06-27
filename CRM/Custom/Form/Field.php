@@ -132,7 +132,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         } else {
             $defaults['is_active'] = 1;
-            for($i=0; $i<self::NUM_OPTION; $i++) {
+            for($i=1; $i<=self::NUM_OPTION; $i++) {
                 $defaults['option_status['.$i.']'] = 1;
             }
         }
@@ -255,7 +255,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $errors['default_value'] = 'Please enter a valid number as default value.';
                 }
                 break;
-
+                    
             case 'Date':
                 if ( ! CRM_Utils_Rule::date( $default ) ) {
                     $errors['default_value'] = 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.';
@@ -263,6 +263,31 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 break;
             }
         }
+        
+        /** Check the option values entered
+         *  Appropriate values are required for the selected datatype
+         */
+        /* if (CRM_Core_Action::ADD) {
+            $dataType = self::$_dataTypeKeys[$fields['data_type']];
+            switch ( $dataType ) {
+            case 'Int':
+                for($i=1; $i<= self::NUM_OPTION; $i++) {
+                    if ( ! CRM_Utils_Rule::integer( $fields['option_value'][$i] ) && $fields['option_value'][$i] ) {
+                        $errors['option_value['.$i.']'] = 'Please enter a valid integer.';
+                    }
+                }
+                break;
+                
+            case 'Float':
+            case 'Money':
+                for($i=1; $i<= self::NUM_OPTION; $i++) {
+                    if ( ! CRM_Utils_Rule::numeric( $fields['option_value'][$i] ) && $fields['option_value'][$i] ) {
+                        $errors['option_value['.$i.']'] = 'Please enter a valid number ';
+                    }
+                }
+                break;
+            }
+        }*/
         return empty($errors) ? true : $errors;
     }
 
