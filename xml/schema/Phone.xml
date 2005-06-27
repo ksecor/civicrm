@@ -28,7 +28,7 @@
   <field>
        <name>phone</name>
        <type>varchar</type>
-       <length>16</length>
+       <length>32</length>
        <import>true</import>
        <headerPattern>/phone/i</headerPattern>
        <dataPattern>/^[\d\(\)\-\.\s]+$/</dataPattern>
