@@ -125,7 +125,7 @@ class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
                         'callback'         => 'CRM_Core_BAO_EmailHistory::showEmailDetails',
                         'activity_id'      => $activityID,
                         'activity_summary' => ts('To: %1; Subject: %2', array(1 => $headers['To'], 2 => $headers['subject'])),
-                        'activity_date'    => date('Ymd')
+                        'activity_date'    => date('YmdHis')
                         );
         
         if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {

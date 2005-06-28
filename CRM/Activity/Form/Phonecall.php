@@ -130,7 +130,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
                             'callback'         => 'CRM_Activity_Form_Phonecall::showCallDetails',
                             'activity_id'      => $call->id,
                             'activity_summary' => $call->subject,
-                            'activity_date'    => date('Ymd')
+                            'activity_date'    => date('YmdHis')
                             );
             
             

@@ -128,7 +128,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
                             'callback'         => 'CRM_Activity_Form_Meeting::showMeetingDetails',
                             'activity_id'      => $meeting->id,
                             'activity_summary' => $meeting->subject,
-                            'activity_date'    => date('Ymd')
+                            'activity_date'    => date('YmdHis')
                             );
             
             
