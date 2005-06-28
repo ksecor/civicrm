@@ -1,6 +1,10 @@
 #!/bin/bash -v
 
-cd ..
+cd ../docs
+
+mkdir documentation
+
+cd ../
 
 # /*
 #  * folder to be parsed
