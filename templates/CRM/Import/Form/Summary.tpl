@@ -10,38 +10,30 @@
     </p>
     
     {if $invalidRowCount }
-        {ts 1=$invalidRowCount 2=$downloadErrorRecords}
         <p class="error">
-        CiviCRM has detected invalid data and/or formatting errors in %1 records. These records have not been imported.
+        {ts 1=$invalidRowCount}CiviCRM has detected invalid data and/or formatting errors in %1 records. These records have not been imported.{/ts}
         </p>
         <p class="error">
-        You can %2. You may then correct them, and import the new file with the corrected data.
+        {ts 1=$downloadErrorRecords}You can %1. You may then correct them, and import the new file with the corrected data.{/ts}
         </p>
-        {/ts}
     {/if}
 
     {if $conflictRowCount}
-        {ts 1=$conflictRowCount 2=$downloadConflictRecords}
         <p class="error">
-        CiviCRM has detected %1 records with conflicting email addresses within this data file or relative to existing contact records. These records have not been imported.
-        CiviCRM does not allow multiple contact records to have the same primary email address.
+        {ts 1=$conflictRowCount}CiviCRM has detected %1 records with conflicting email addresses within this data file or relative to existing contact records. These records have not been imported. CiviCRM does not allow multiple contact records to have the same primary email address.{/ts}
         </p>
         <p class="error">
-        You can %2. You may then review these records to determine if they are actually conflicts, and correct the email addresses for those that are not.
+        {ts 1=$downloadConflictRecords}You can %1. You may then review these records to determine if they are actually conflicts, and correct the email addresses for those that are not.{/ts}
         </p>
-        {/ts}
     {/if}
 
     {if $duplicateRowCount}
-        {ts 1=$duplicateRowCount 2=$downloadDuplicateRecords}
         <p class="error">
-        CiviCRM has detected %1 records which are duplicates of existing CiviCRM contact records.  These records have not been imported.
+        {ts 1=$duplicateRowCount}CiviCRM has detected %1 records which are duplicates of existing CiviCRM contact records.  These records have not been imported.{/ts}
         </p>
         <p class="error">
-        You can %2.  You may then review these records to determine if they are actually duplicates, and correct the email
-        address for those that are not.
+        {ts 1=$downloadDuplicateRecords}You can %1. You may then review these records to determine if they are actually duplicates, and correct the email address for those that are not.{/ts}
         </p>
-        {/ts}
     {/if}
  </div>
     
