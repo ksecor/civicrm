@@ -397,10 +397,9 @@ class CRM_Utils_System {
      * @static
      */
     static function baseURL() {
-    // FIXME:   2005-06-27 13:28:43 by Brian McFee <brmcfee@gmail.com>
-    //  this only works for Drupal.  We should abstract this to work with mambo
-        global $base_url;
-        return $base_url;
+        $config =& CRM_Core_Config::singleton( );
+        return 
+            eval( 'return ' . $config->userFrameworkClass . '::baseURL();' );
     }
 }
 

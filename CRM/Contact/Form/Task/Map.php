@@ -158,9 +158,11 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
         $fp = fopen( $config->uploadDir . 'locations.xml', 'w' );
         fwrite( $fp, $xml );
         fclose( $fp );
-
-        $this->assign( 'xmlURL',
-                       'http://' . $_SERVER['HTTP_HOST'] . $config->httpBase . 'files/civicrm/upload/locations.xml' );
+    
+        $this->assign('xmlURL', CRM_Utils_System::baseURL() .
+        '/files/civicrm/upload/locations.xml' );
+//         $this->assign( 'xmlURL',
+//                        'http://' . $_SERVER['HTTP_HOST'] . $config->httpBase . 'files/civicrm/upload/locations.xml' );
     }
 
 

@@ -137,6 +137,19 @@ class CRM_Utils_System_Mambo {
         $user->email = $database->loadResult();
     }
 
+    /**
+     * FIXME Stub function to generate the base URL
+     * 
+     * @param void
+     *
+     * @return string
+     * @access public
+     * @static
+     */
+    static function baseURL() {
+        return 'http://FIXME/';
+    }
+
 }
 
 ?>
