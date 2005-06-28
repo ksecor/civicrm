@@ -13,7 +13,7 @@
         {/if}
         </dl>
         
-        {if $action eq 1}   
+        {if $action eq 1}
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}
         <div id='showoption' style='display: none'>{ include file="CRM/Custom/Form/Optionfields.tpl"}</div>
         {/if}
