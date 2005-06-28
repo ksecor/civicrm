@@ -54,7 +54,7 @@
 
     <tr{if $invalidRowCount} class="error"{/if}><td class="label">{ts}Invalid Rows (skipped){/ts}</td>
         <td class="data">{$invalidRowCount}</td>
-        <td class="explanation">{ts}Rows with invalid data (NOT imported).{/ts}
+        <td class="explanation">{ts}Rows with invalid data in one or more fields (for example, invalid email address formatting). These rows will be skipped (not imported).{/ts}
             <p>{$downloadErrorRecords}</p>
         </td>
     </tr>
