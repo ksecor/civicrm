@@ -101,6 +101,11 @@ function &crm_create_activity_history(&$params)
  * @param array $params           Associative array of property name/value
  *                                pairs to attempt to match on.
  *
+ * @param int     $offset          which row to start from ?
+ * @param int     $rowCount        how many rows to fetch
+ * @param object|array  $sort      object or array describing sort order for sql query.
+ *
+ *
  * @param array $returnProperties Which properties should be included in the
  *                                returned Contact object. If NULL, the default
  *                                set of properties will be included.
@@ -110,7 +115,7 @@ function &crm_create_activity_history(&$params)
  * @access public
  *
  */
-function &crm_get_activity_history($params, $sort, $offset, $numRow)
+function &crm_get_activity_history($params, $offset, $numRow, $sort)
 {
     $values =& CRM_Core_BAO_History::getHistory($params, $offset, $numRow, $sort, 'Activity');
     return $values;
