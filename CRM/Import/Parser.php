@@ -334,9 +334,9 @@ abstract class CRM_Import_Parser {
         fclose( $fd );
 
         if ($mode == self::MODE_PREVIEW) {
-            $headers = array_merge( array(ts('Record Number')), 
-                                    $mapper,
-                                    array(ts('Reason')));
+            $headers = array_merge( array(  ts('Record Number'),
+                                            ts('Reason')), 
+                                    $mapper);
                 
             if ($this->_invalidRowCount) {
                 $this->_errorFileName = $fileName . '.errors';

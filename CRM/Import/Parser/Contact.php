@@ -43,6 +43,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     protected $_mapperKeys;
     
     protected $_emailIndex;
+    protected $_firstNameIndex;
+    protected $_lastNameIndex;
 
     protected $_allEmails;
 
@@ -72,6 +74,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         
         $this->_phoneIndex = -1;
         $this->_emailIndex = -1;
+        $this->_firstNameIndex = -1;
+        $this->_lastNameIndex = -1;
+
         $index             = 0 ;
         foreach ( $this->_mapperKeys as $key ) {
             if ( $key == 'email' ) {
@@ -80,6 +85,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             }
             if ( $key == 'phone' ) {
                 $this->_phoneIndex = $index;
+            }
+            if ( $key == 'first_name' ) {
+                $this->_firstNameIndex = $index;
+            }
+            if ( $key == 'last_name' ) { 
+                $this->_lastNameIndex = $index;
             }
             $index++;
         }
@@ -124,23 +135,37 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 //         if ( $response != self::VALID ) {
 //             return $response;
 //         }
-
+        if ( $this->_firstNameIndex < 0 || $this->_lastNameIndex < 0) {
+            $noFirstLast = true;
+        } else {
+            $noFirstLast = ! CRM_Utils_Array::value($this->_firstNameIndex, $values) &&
+                        ! CRM_Utils_Array::value($this->_lastNameIndex, $values);
+        }
         if ( $this->_emailIndex >= 0 ) {
+            /* If we don't have the required fields, bail */
+            if ($noFirstLast && ! CRM_Utils_Array::value('email', $values)) {
+                array_unshift($values, ts('Missing required fields'));
+                return self::ERROR;
+            }
             $email = CRM_Utils_Array::value( $this->_emailIndex, $values );
             if ( $email ) {
                 /* If the email address isn't valid, bail */
                 if (! CRM_Utils_Rule::email($email)) {
-                    $values[] = ts('Invalid Email address');
+                    array_unshift($values, ts('Invalid Email address'));
                     return self::ERROR;
                 }
                 /* If it's a dupe, bail */
                 if ( $dupe = CRM_Utils_Array::value( $email, $this->_allEmails ) ) {
-                    $values[] = ts('Email address conflicts with record %1', array(1 => $dupe));
+                    array_unshift($values, ts('Email address conflicts with record %1', array(1 => $dupe)));
                     return self::CONFLICT;
                 }
+
                 /* otherwise, count it and move on */
                 $this->_allEmails[$email] = $this->_lineCount;
             }
+        } else if ($noFirstLast) {
+            array_unshift($values, ts('Missing required fields'));
+            return self::ERROR;
         }
 
 //  Block removed due to bug CRM-150, internationalization/wew.
