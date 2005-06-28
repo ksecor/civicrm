@@ -35,7 +35,7 @@
             </dd>
        <dt> </dt>
             <dd class="description">
-            {ts}Update: modify the database to match imported data{/ts}
+            {ts}Update: modify existing records to match imported data{/ts}
             </dd>
        <dt> </dt>
             <dd class="description">

@@ -64,6 +64,8 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
             $this->set('duplicateRowCount', $duplicateRowCount);
         }
 
+        $this->assign('dupeError', false);
+        
         if ($onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) {
             $dupeActionString = 
                 ts('These records have been updated with the imported data.');   
@@ -77,6 +79,8 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
             /* Skip by default */
             $dupeActionString = 
                 ts('These records have not been imported.');
+
+            $this->assign('dupeError', true);
         }
         $this->assign('dupeActionString', $dupeActionString);
         
