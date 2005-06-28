@@ -23,7 +23,25 @@
        <dt> </dt>
           <dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "First Name","Last Name","Email"){/ts}
-          </dd>  
+          </dd> 
+       <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd>
+       <dt> </dt>
+            <dd class="description">
+            {ts}Skip: preserve existing records in database (default){/ts}
+            </dd>
+       <dt> </dt>
+            <dd class="description">
+            {ts}Replace: replace old records with new imported data{/ts}
+            </dd>
+       <dt> </dt>
+            <dd class="description">
+            {ts}Update: modify the database to match imported data{/ts}
+            </dd>
+       <dt> </dt>
+            <dd class="description">
+            {ts}Fill: only import those fields which currently have no
+            values.{/ts}
+            </dd>
     </dl>
  </fieldset>
  </div>

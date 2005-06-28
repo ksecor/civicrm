@@ -127,7 +127,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
         $invalidRowCount    = $this->get('invalidRowCount');
-        $conflictRowCount  = $this->get('conflictRowCount');
+        $conflictRowCount   = $this->get('conflictRowCount');
+        $onDuplicate        = $this->get('onDuplicate');
         
         $seperator = ',';
 
@@ -137,7 +138,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $parser->run( $fileName, $seperator, 
                       $mapper,
                       $skipColumnHeader,
-                      CRM_Import_Parser::MODE_IMPORT );
+                      CRM_Import_Parser::MODE_IMPORT,
+                      $onDuplicate);
 
         // add all the necessary variables to the form
         $parser->set( $this, CRM_Import_Parser::MODE_IMPORT );

@@ -49,6 +49,15 @@ abstract class CRM_Import_Parser {
         MODE_SUMMARY  = 4,
         MODE_IMPORT   = 8;
 
+    /**
+     * codes for duplicate record handling
+     */
+    const
+        DUPLICATE_SKIP = 1,
+        DUPLICATE_REPLACE = 2,
+        DUPLICATE_UPDATE = 4,
+        DUPLICATE_FILL = 8;
+
     protected $_fileName;
 
     /**#@+
@@ -202,7 +211,8 @@ abstract class CRM_Import_Parser {
                   $seperator = ',',
                   &$mapper,
                   $skipColumnHeader = false,
-                  $mode = self::MODE_PREVIEW ) {
+                  $mode = self::MODE_PREVIEW,
+                  $onDuplicate = self::DUPLICATE_SKIP) {
         $this->init();
 
         $this->_seperator = $seperator;
