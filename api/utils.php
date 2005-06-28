@@ -2,7 +2,7 @@
 
 require_once 'CRM/Core/I18n.php';
 
-function _crm_error( $message, $code = 8000, $level = 'Fatal', &$params = null)
+function _crm_error( $message, $code = 8000, $level = 'Fatal', $params = null)
 {
     $error = CRM_Core_Error::singleton( );
     $error->push( $code, $level, array( $params ), $message );
