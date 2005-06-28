@@ -50,6 +50,8 @@ class CRM_Core_Invoke {
      */    
     static function invoke( $args ) {
 
+        //CRM_Core_Error::le_method();
+
         if ( $args[0] !== 'civicrm' ) {
             return;
         }
@@ -115,8 +117,25 @@ class CRM_Core_Invoke {
         }
 
         if ( $args[2] == 'view' ) {
+
+            // need to add tabs menu local task for contact's customdata
+            //CRM_Core_Error::debug_log_message('add voter info and edu qual tabs pls');
+            //CRM_Utils_Menu::createLocalTasks('civicrm/contact/view/voter_info');
+            //CRM_Utils_Menu::createLocalTasks('civicrm/contact/view/edu_qual');
+            //             $m1 = array(
+            //                         'path'    => 'civicrm/contact/view/voter',
+            //                         'title'   => ts('Voter Info'),
+            //                         'type'    => CRM_Utils_Menu::CALLBACK,
+            //                         'crmType' => CRM_Utils_Menu::LOCAL_TASK,
+            //                         'weight'  => 7,
+            //                         );
+            //             CRM_Utils_Menu::add($m1);
+
+
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
+
+
             switch ( $thirdArg ) {
             case 'note':
                 $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_NOTE );
@@ -130,7 +149,10 @@ class CRM_Core_Invoke {
             case 'tag':
                 $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_TAG );
                 break;
+                //case 'voter':
+                //CRM_Core_Error::debug_log_message('voter cd found');
             case 'cd':
+                //CRM_Core_Error::debug_log_message('cd found');
                 $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_CD );
                 break;
             case 'activity':

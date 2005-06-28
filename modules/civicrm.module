@@ -161,6 +161,7 @@ function civicrm_block($op='list', $delta='0')
  */
 function civicrm_menu($may_cache)
 {
+    //CRM_Core_Error::le_method();
     return CRM_Utils_Menu::items( );
 }
 
@@ -181,12 +182,34 @@ function civicrm_hack_path($path, $qs)
  */
 function civicrm_init()
 {
+    //CRM_Core_Error::le_method();
+
     if ( arg(0) != 'civicrm' && arg(0) != 'admin' && arg(0) != 'user' ) {
         return;
     }
 
-    if ( arg(0) == 'civicrm' ) {
+    if(arg(0) == 'civicrm') {
+        if ((arg(1)=='contact') && (arg(2)=='view')) {
+            
+            // does not work
+            //CRM_Utils_Menu::createLocalTasks('civicrm/contact/view/voter_info');
+            //CRM_Utils_Menu::createLocalTasks('civicrm/contact/view/edu_qual');
+            
+            $m1 = array('path'    => 'civicrm/contact/view/voter',
+                        'title'   => ts('Voter Info'),
+                        'type'    => CRM_Utils_Menu::CALLBACK,
+                        'crmType' => CRM_Utils_Menu::LOCAL_TASK,
+                        'weight'  => 7,
+                        );
+
+            // page breaks down
+            //CRM_Utils_Menu::add($m1);
+            //CRM_Core_Error::debug_log_message('adding voter info and edu qual tabs');
+        }
+
+        //CRM_Core_Error::debug_log_message('breakpoint 10');        
         menu_rebuild();
+        //CRM_Core_Error::debug_log_message('breakpoint 20');
     }
 
     $config =& CRM_Core_Config::singleton();
@@ -196,11 +219,15 @@ function civicrm_init()
     
     CRM_Core_DAO::setFactory(new $factoryClass());
 
+    //CRM_Core_Error::debug_log_message('breakpoint 30');
+
     // Add module-specific stylesheet to page header
     drupal_set_html_head(civicrm_html_head());
 
     // set error handling
     PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array('CRM_Core_Error', 'handle'));
+
+    //CRM_Core_Error::ll_method();
 }
 
 /**
@@ -218,6 +245,9 @@ function civicrm_exit($destination = null)
 
 function civicrm_invoke()
 {
+
+    //CRM_Core_Error::le_method();
+
     // synchronize the drupal uid with the contacts db
     global $user;
     CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal' );
