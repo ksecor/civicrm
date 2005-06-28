@@ -64,13 +64,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
 
         if ( $invalidRowCount > 0 ) {
-            $this->assign('downloadErrorRecords', 
+            $this->set('downloadErrorRecords', 
                 '<a href="' 
                 . CRM_Utils_System::url('civicrm/export', 'type=1') 
                 . '">' . ts('Download Errors') . '</a>');
         }
         if ( $conflictRowCount > 0 ) {
-            $this->assign('downloadConflictRecords', 
+            $this->set('downloadConflictRecords', 
                 '<a href="'
                 . CRM_Utils_System::url('civicrm/export', 'type=2') 
                 . '">' . ts('Download Conflicts') . '</a>');
@@ -78,7 +78,9 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         
         $properties = array( 'mapper', 'dataValues', 'columnCount',
-                             'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount' );
+                             'totalRowCount', 'validRowCount', 
+                             'invalidRowCount', 'conflictRowCount',
+                             'downloadErrorRecords', 'downloadConflictRecords');
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
@@ -122,10 +124,11 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function postProcess( ) {
-
         $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-
+        $invalidRowCount    = $this->get('invalidRowCount');
+        $conflictRowCount  = $this->get('conflictRowCount');
+        
         $seperator = ',';
 
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
@@ -137,11 +140,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                       CRM_Import_Parser::MODE_IMPORT );
 
         // add all the necessary variables to the form
-        
-        // XXX the summary page doesn't really need anything new,
-        // so the parser doesn't need to set().  This may change later on.
-        //  $parser->set( $this );
-
+        $parser->set( $this, CRM_Import_Parser::MODE_IMPORT );
 
         // check if there is any error occured
 

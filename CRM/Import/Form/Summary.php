@@ -48,10 +48,24 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
 
         // set the error message path to display
         $errorFile = $this->assign('errorFile', $this->get('errorFile') );
+        $totalRowCount = $this->get('totalRowCount');
+        $invalidRowCount = $this->get('invalidRowCount');
+        $conflictRowCount = $this->get('conflictRowCount');
+        $duplicateRowCount = $this->get('duplicateRowCount');
         
-//         $this->assign( $property, $this->get( $property ) );
+        if ($duplicateRowCount > 0) {
+            $this->set('downloadDuplicateRecords',
+                '<a href="'
+                . CRM_Utils_System::url('civicrm/export', 'type=3')
+                . '">' . ts('Download Duplicates') . '</a>');
+        } else {
+            $duplicateRowCount = 0;
+            $this->set('duplicateRowCount', $duplicateRowCount);
+        }
+        $this->set('validRowCount', $totalRowCount - $invalidRowCount -
+                    $conflictRowCount - $duplicateRowCount);
 
-        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount' );
+        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount', 'downloadConflictRecords', 'downloadErrorRecords', 'duplicateRowCount', 'downloadDuplicateRecords' );
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }

@@ -11,7 +11,7 @@
     
     {if $invalidRowCount}
         <p class="error">
-        {ts 1=$invalidRowCount 2=$downloadErrorRecords}CiviCRM has detected email and/or phone formatting errors in %1 records. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
+        {ts 1=$invalidRowCount 2=$downloadErrorRecords}CiviCRM has detected invalid data or formatting errors in %1 records. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
         </p>
     {/if}
 
@@ -34,7 +34,7 @@
     
     <tr{if $invalidRowCount} class="error"{/if}><td class="label">{ts}Rows with Errors{/ts}</td>
         <td class="data">{$invalidRowCount}</td>
-        <td class="explanation">{ts}Rows with invalid email or phone formatting. These rows will be skipped (not imported).{/ts}
+        <td class="explanation">{ts}Rows with invalid data in one or more fields (for example, invalid email address formatting). These rows will be skipped (not imported).{/ts}
             <p>{$downloadErrorRecords}</p>
         </td>
     </tr>

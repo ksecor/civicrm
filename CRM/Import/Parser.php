@@ -36,8 +36,9 @@ abstract class CRM_Import_Parser {
         VALID        =  1,
         WARNING      =  2,
         ERROR        =  4,
-        CONFLICT    =  8,
-        STOP         = 16;
+        CONFLICT     =  8,
+        STOP         = 16,
+        DUPLICATE    = 32;
 
     /**
      * various parser modes
@@ -104,6 +105,16 @@ abstract class CRM_Import_Parser {
      * array of conflict lines
      */
     protected $_conflicts;
+
+    /**
+     * total number of duplicate (from database) lines
+     */
+    protected $_duplicateCount;
+
+    /**
+     * array of duplicate lines
+     */
+    protected $_duplicates;
 
     /**
      * running total number of warnings
@@ -173,6 +184,13 @@ abstract class CRM_Import_Parser {
     protected $_conflictFileName;
 
 
+    /**
+     * filename of duplicate data
+     *
+     * @var string
+     */
+    protected $_duplicateFileName;
+
     function __construct() {
         $this->_maxLinesToProcess = 0;
         $this->_maxErrorCount = self::MAX_ERRORS;
@@ -220,7 +238,7 @@ abstract class CRM_Import_Parser {
             }
         }
         
-        $email = array();
+//         $email = array();
         while ( ! feof( $fd ) ) {
             $this->_lineCount++;
 
@@ -234,13 +252,16 @@ abstract class CRM_Import_Parser {
                     continue;
             }
 
-            if ( $mode == self::MODE_IMPORT ) {
-                if ( in_array($values[$emailKey], $email)) {
-                    continue;
-                } else {
-                    array_push($email, $values[$emailKey]);
-                }
-            }
+// XXX:    2005-06-27 17:01:13 by Brian McFee <brmcfee@gmail.com>
+// What the hell was this block of code for? 
+//
+//             if ( $mode == self::MODE_IMPORT ) {
+//                 if ( in_array($values[$emailKey], $email)) {
+//                     continue;
+//                 } else {
+//                     array_push($email, $values[$emailKey]);
+//                 }
+//             }
             
             if ( ! $values || empty( $values ) ) {
                 continue;
@@ -292,6 +313,12 @@ abstract class CRM_Import_Parser {
                 $this->_conflicts[] = $values;
             } 
             
+            if ( $returnCode & self::DUPLICATE ) {
+                $this->_duplicateCount++;
+                array_unshift($values, $this->_lineCount);
+                $this->_duplicates[] = $values;
+            }
+
             // we give the derived class a way of aborting the process
             // note that the return code could be multiple code or'ed together
             if ( $returnCode & self::STOP ) {
@@ -307,9 +334,9 @@ abstract class CRM_Import_Parser {
         fclose( $fd );
 
         if ($mode == self::MODE_PREVIEW) {
-            $headers = array_merge( array(ts('Record Number')), 
-                                    $mapper,
-                                    array(ts('Reason')));
+            $headers = array_merge( array(  ts('Record Number'),
+                                            ts('Reason')), 
+                                    $mapper);
                 
             if ($this->_invalidRowCount) {
                 $this->_errorFileName = $fileName . '.errors';
@@ -319,6 +346,14 @@ abstract class CRM_Import_Parser {
                 $this->_conflictFileName = $fileName . '.conflicts';
                 self::exportCSV($this->_conflictFileName, $headers, $this->_conflicts);
             }
+        }
+        if ($mode == self::MODE_IMPORT && $this->_duplicateCount) {
+            $headers = array_merge( array(  ts('Record Number'), 
+                                            ts('View Contact URL')),
+                                    $mapper);
+
+            $this->_duplicateFileName = $fileName . '.duplicates';
+            self::exportCSV($this->_duplicateFileName, $headers, $this->_duplicates);
         }
 
         return $this->fini();
@@ -434,28 +469,37 @@ abstract class CRM_Import_Parser {
      * @return void
      * @access public
      */
-    function set( $store ) {
-        $store->set( 'fileSize'   , $this->_fileSize          );
-        $store->set( 'lineCount'  , $this->_lineCount         );
-        $store->set( 'seperator'  , $this->_seperator         );
-        $store->set( 'fields'     , $this->getSelectValues( ) );
-        $store->set( 'headerPatterns', $this->getHeaderPatterns( ) );
-        $store->set( 'dataPatterns', $this->getDataPatterns( ) );
-        $store->set( 'columnCount', $this->_activeFieldCount  );
-
-        $store->set( 'totalRowCount'    , $this->_totalCount     );
-        $store->set( 'validRowCount'    , $this->_validCount     );
-        $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
-        $store->set( 'conflictRowCount', $this->_conflictCount );
+    function set( $store, $mode = self::MODE_SUMMARY ) {
+        if ($mode == self::MODE_SUMMARY ) {
+            $store->set( 'fileSize'   , $this->_fileSize          );
+            $store->set( 'lineCount'  , $this->_lineCount         );
+            $store->set( 'seperator'  , $this->_seperator         );
+            $store->set( 'fields'     , $this->getSelectValues( ) );
+            $store->set( 'headerPatterns', $this->getHeaderPatterns( ) );
+            $store->set( 'dataPatterns', $this->getDataPatterns( ) );
+            $store->set( 'columnCount', $this->_activeFieldCount  );
+    
+            $store->set( 'totalRowCount'    , $this->_totalCount     );
+            $store->set( 'validRowCount'    , $this->_validCount     );
+            $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
+            $store->set( 'conflictRowCount', $this->_conflictCount );
         
-        if ($this->_invalidRowCount) {
-            $store->set( 'errorsFileName', $this->_errorFileName );
-        }
-        if ($this->_conflictCount) {
-            $store->set( 'conflictsFileName', $this->_conflictFileName );
-        }
-        if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
-            $store->set( 'dataValues', $this->_rows );
+        
+        
+            if ($this->_invalidRowCount) {
+                $store->set( 'errorsFileName', $this->_errorFileName );
+            }
+            if ($this->_conflictCount) {
+                $store->set( 'conflictsFileName', $this->_conflictFileName );
+            }
+            if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
+                $store->set( 'dataValues', $this->_rows );
+            }
+        } else if ($mode == self::MODE_IMPORT) {
+            $store->set( 'duplicateRowCount', $this->_duplicateCount );
+            if ($this->_duplicateCount) {
+                $store->set( 'duplicatesFileName', $this->_duplicateFileName );
+            }
         }
     }
 
@@ -468,12 +512,19 @@ abstract class CRM_Import_Parser {
      * @return void
      * @access public
      */
-    static function exportCSV($fileName, &$header, &$data) {
+    static function exportCSV($fileName, $header, $data) {
         $output = array();
         $fd = fopen($fileName, 'w');
 
+        foreach ($header as $key => $value) {
+            $header[$key] = "\"$value\"";
+        }
         $output[] = implode(',', $header);
+
         foreach ($data as $datum) {
+            foreach ($datum as $key => $value) {
+                $datum[$key] = "\"$value\"";
+            }
             $output[] = implode(',', $datum);
         }
         fwrite($fd, implode("\n", $output));

@@ -113,7 +113,7 @@ class CRM_Core_Invoke {
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
 
             $wrapper =& new CRM_Utils_Wrapper( );
-            $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
+            return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
         }
 
         if ( $args[2] == 'view' ) {
@@ -365,6 +365,9 @@ class CRM_Core_Invoke {
         } else if ($type == 2) {
             $varName = 'conflicts';
             $saveFileName = 'Import_Conflicts.csv';
+        } else if ($type == 3) {
+            $varName = 'duplicates';
+            $saveFileName = 'Import_Duplicates.csv';
         } else {
             /* FIXME we should have an error here */
             return;

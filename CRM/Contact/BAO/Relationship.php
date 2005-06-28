@@ -94,7 +94,17 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
             }
         
             return array( $valid, $invalid, $duplicate );
-        } else {
+        } else { //editing the relationship
+            
+            // check for duplicate relationship
+            if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( CRM_Utils_Array::value( 'relationship_type_id',
+                                                                                                       $params ),
+                                                                           CRM_Utils_Array::value( 'contact', $ids ),
+                                                                               $ids['contactTarget'] )) { 
+                $duplicate++;
+                return array( $valid, $invalid, $duplicate );
+            }
+
             // editing an existing relationship
             self::add( $params, $ids, $ids['contactTarget'] );
         }
@@ -356,7 +366,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
     static function checkDuplicateRelationship( $relationshipTypeId, $id, $contactId = 0) 
     {
         list( $type, $first, $second ) = explode( '_' , $relationshipTypeId );
-        
+
         $queryString = " SELECT id 
                          FROM   crm_relationship 
                          WHERE  relationship_type_id = $type
@@ -364,9 +374,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                                       ( contact_id_a = $contactId AND contact_id_b = $id        )
                                     ) ";
 
+
         $relationship =& new CRM_Contact_BAO_Relationship();
         $relationship->query($queryString);
         $relationship->fetch();
+        $relationship->id;
 
         return ( $relationship->id ) ? true : false;
     }

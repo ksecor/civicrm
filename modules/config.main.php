@@ -48,24 +48,19 @@ if ( function_exists( 'variable_get' ) ) {
 
     $scratch_directory = variable_get( 'file_directory_path', 'files');
     $scratch_directory = $scratch_directory . DIRECTORY_SEPARATOR . 'civicrm';
+    if ( ! is_dir( $scratch_directory ) ) {
+        mkdir( $scratch_directory, 0777 );
+    }
 
     $compileDir        = $scratch_directory . DIRECTORY_SEPARATOR . 'templates_c';
     if ( ! is_dir( $compileDir ) ) {
-        if ( substr(phpversion(), 0, 1) == 4 ) {
-            mkdir( $compileDir, 0777 );
-        } else {
-            mkdir( $compileDir, 0777, true );
-        }
+        mkdir( $compileDir, 0777 );
     }
     define( 'CRM_TEMPLATE_COMPILEDIR', $compileDir );
 
     $uploadDir         = $scratch_directory . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
     if ( ! is_dir( $uploadDir ) ) {
-        if ( substr(phpversion(), 0, 1) == 4 ) {
-            mkdir( $uploadDir, 0777 );
-        } else {
-            mkdir( $uploadDir, 0777, true );
-        }
+        mkdir( $uploadDir, 0777 );
     }
     define( 'CRM_UPLOAD_DIR'         , $uploadDir );
 } else {

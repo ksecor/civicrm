@@ -33,16 +33,14 @@
         {assign var=j value=$smarty.section.showLoop.index}
         <div id="optionField[{$j}][show]" class="add-remove-link">
             <a onclick="show('optionField[{$j}]','table-row'); {if $j LT 11}show('optionField[{$j+1}][show]','table-row');{/if} hide('optionField[{$j}][show]'); return false;" href="#optionField[{$j}][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}">{ts}another choice{/ts}</a>
-            {* $form.optionField.$j.show.html *}
+            {* $form.optionField.$j.show.html*}
         </div>
     {/section}
     {/strip}
     
 </fieldset>
-{*assign var=showRows value="'optionField[2]'"*}
-{*assign var=hideBlocks value="'optionField[2][show]','optionField[4][show]','optionField[5][show]','optionField[6][show]','optionField[7][show]','optionField[8][show]','optionField[9][show]','optionField[10][show]','optionField[11][show]','optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]','optionField[11]'"*}
-
-
+{assign var=showRows value="'optionField[1]','optionField[2]'"}
+{assign var=hideBlocks value="'optionField[2][show]','optionField[4][show]','optionField[5][show]','optionField[6][show]','optionField[7][show]','optionField[8][show]','optionField[9][show]','optionField[10][show]','optionField[11][show]','optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]','optionField[11]'"}
 <script type="text/javascript">
     var showRows = new Array({$showBlocks});
     var hideBlocks = new Array({$hideBlocks});

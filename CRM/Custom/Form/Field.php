@@ -59,14 +59,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @access protected
      */
     protected $_id;
-    
-    /**
-     * what blocks should we show and hide 
-     * if Custom Options are to be entered.
-     *
-     * @var CRM_Core_ShowHideBlocks
-     */
-    protected $_showHide;
+
 
     /**
      * Array for valid combinations of data_type & html_type
@@ -146,13 +139,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         return $defaults;
     }
 
-    /**
-     * Function to rebuild the HTML types in drop down list
-     *
-     * @param $dataType
-     * @return none
-     * @access private
-     */
+
     private function _rebuildHTMLType($dataType)
     {
         $this->removeElement('html_type');
@@ -189,20 +176,19 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         
         // form fields of Custom Option
         $defaultOption = array();
-        for($count = 1; $count <= self::NUM_OPTION; $count++) {
-            CRM_Core_ShowHideBlocks::linksForArray( $this, $count, self::NUM_OPTION, 'optionField',  ts('another option'), ts('hide'), 'table-row');
+        for($i = 1; $i <= self::NUM_OPTION; $i++) {
             // label
-            $this->add('text','option_label['.$count.']', ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'));
+            CRM_Core_ShowHideBlocks::linksForArray( $this, $i, self::NUM_OPTION, 'optionField',  ts('another row'), ts('hide this row'));
+            $this->add('text','option_label['.$i.']', ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'));
             // value
-            $this->add('text', 'option_value['.$count.']', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'));
+            $this->add('text', 'option_value['.$i.']', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'));
             // weight
-            $this->add('text', 'option_weight['.$count.']', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'));
+            $this->add('text', 'option_weight['.$i.']', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'));
             // is active ?
-            $this->add('checkbox', 'option_status['.$count.']', ts('Active?'));
-            $defaultOption[$count] = $this->createElement('radio', null, null, null, $count);
+            $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
+            $defaultOption[$i] = $this->createElement('radio', null, null, null, $i);
         }
-        
-        
+	
         //default option selection
         $tt =& $this->addGroup($defaultOption, 'default_option');
 		
@@ -221,9 +207,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         // is active ?
         $this->add('checkbox', 'is_active', ts('Active?'));
         
-        //set show hide for the custom options rows
-        $this->setShowHide();
-
         // add buttons
         $this->addButtons(array(
                                 array ('type'      => 'next',
@@ -272,7 +255,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $errors['default_value'] = 'Please enter a valid number as default value.';
                 }
                 break;
-
+                    
             case 'Date':
                 if ( ! CRM_Utils_Rule::date( $default ) ) {
                     $errors['default_value'] = 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.';
@@ -280,11 +263,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 break;
             }
         }
-         /** Check the option values entered
+        
+        /** Check the option values entered
          *  Appropriate values are required for the selected datatype
          */
-        if (CRM_Core_Action::ADD) {
-            $errorOption = 1;
+        /* if (CRM_Core_Action::ADD) {
             $dataType = self::$_dataTypeKeys[$fields['data_type']];
             switch ( $dataType ) {
             case 'Int':
@@ -304,35 +287,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 }
                 break;
             }
-        }
+        }*/
         return empty($errors) ? true : $errors;
-    }
-
-    /**
-     * Fix what blocks to show/hide based on the default values set
-     *
-     * @return   
-     *
-     * @access   protected
-     */
-    
-    protected function setShowHide()
-    {
-        $this->_showHide =& new CRM_Core_ShowHideBlocks('','');
-        
-        for($rowNum=2; $rowNum<= self::NUM_OPTION; $rowNum++ ) {
-
-            $showBlocks = 'optionField['.$rowNum.'][show]' ;
-            $hideBlocks = 'optionField['.$rowNum.']';
-            if ($rowNum > 2) {
-                $this->_showHide->addHide($showBlocks);
-                $this->_showHide->addHide($hideBlocks);
-            } else {
-                $this->_showHide->addShow($hideBlocks);
-                $this->_showHide->addHide($showBlocks);
-            }
-        }
-        $this->_showHide->addToTemplate();
     }
 
     /**
