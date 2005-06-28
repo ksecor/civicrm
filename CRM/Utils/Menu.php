@@ -426,6 +426,9 @@ class CRM_Utils_Menu {
      * @static
      */
     static function add( &$item ) {
+        // make sure the menu system is initialized before we add stuff to it
+        self::items( );
+
         self::$_items[] = $item;
         self::initialize( );
     }

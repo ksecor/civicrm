@@ -89,6 +89,21 @@ class CRM_Core_Smarty extends Smarty {
         return self::$_singleton;
     }
 
+    /**
+     * executes & returns or displays the template results
+     *
+     * @param string $resource_name
+     * @param string $cache_id
+     * @param string $compile_id
+     * @param boolean $display
+     */
+    function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
+    {
+        $config =& CRM_Core_Config::singleton( );
+        CRM_Utils_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
+
+        return parent::fetch( $resource_name, $cache_id, $compile_id, $display );
+    }
 }
 
 ?>
