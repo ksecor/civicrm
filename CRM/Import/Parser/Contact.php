@@ -105,7 +105,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @access public
      */
     function mapField( &$values ) {
-        return self::VALID;
+//         return self::VALID;
+        return parent::VALID;
     }
 
 
@@ -145,19 +146,22 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             /* If we don't have the required fields, bail */
             if ($noFirstLast && ! CRM_Utils_Array::value('email', $values)) {
                 array_unshift($values, ts('Missing required fields'));
-                return self::ERROR;
+//                 return self::ERROR;
+                return parent::ERROR;
             }
             $email = CRM_Utils_Array::value( $this->_emailIndex, $values );
             if ( $email ) {
                 /* If the email address isn't valid, bail */
                 if (! CRM_Utils_Rule::email($email)) {
                     array_unshift($values, ts('Invalid Email address'));
-                    return self::ERROR;
+//                     return self::ERROR;
+                    return parent::ERROR;
                 }
                 /* If it's a dupe, bail */
                 if ( $dupe = CRM_Utils_Array::value( $email, $this->_allEmails ) ) {
                     array_unshift($values, ts('Email address conflicts with record %1', array(1 => $dupe)));
-                    return self::CONFLICT;
+//                     return self::CONFLICT;
+                    return parent::CONFLICT;
                 }
 
                 /* otherwise, count it and move on */
@@ -165,7 +169,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             }
         } else if ($noFirstLast) {
             array_unshift($values, ts('Missing required fields'));
-            return self::ERROR;
+//             return self::ERROR;
+            return parent::ERROR;
         }
 
 //  Block removed due to bug CRM-150, internationalization/wew.
@@ -180,7 +185,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 //             }
 //         }
 
-        return self::VALID;
+//         return self::VALID;
+        return parent::VALID;
     }
 
     /**
@@ -194,7 +200,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     function import( &$values ) {
         // first make sure this is a valid line
         $response = $this->summary( $values );
-        if ( $response != self::VALID ) {
+//         if ( $response != self::VALID ) {
+        if ( $response != parent::VALID ) {
             return $response;
         }
 
@@ -215,9 +222,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             $url_string = implode("\n", $urls);
             array_unshift($values, $url_string); 
             
-            return self::DUPLICATE;
+//             return self::DUPLICATE;
+            return parent::DUPLICATE;
         }
-        return self::VALID;
+//         return self::VALID;
+        return parent::VALID;
     }
     
     /**
