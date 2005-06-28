@@ -187,7 +187,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 'reset=1&cid=' . $id, false);
             }
             
-            $url_string = '"' . implode("\n", $urls) . '"';
+            $url_string = implode("\n", $urls);
             array_unshift($values, $url_string); 
             
             return self::DUPLICATE;

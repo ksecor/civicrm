@@ -64,13 +64,13 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
 
         if ( $invalidRowCount > 0 ) {
-            $this->assign('downloadErrorRecords', 
+            $this->set('downloadErrorRecords', 
                 '<a href="' 
                 . CRM_Utils_System::url('civicrm/export', 'type=1') 
                 . '">' . ts('Download Errors') . '</a>');
         }
         if ( $conflictRowCount > 0 ) {
-            $this->assign('downloadConflictRecords', 
+            $this->set('downloadConflictRecords', 
                 '<a href="'
                 . CRM_Utils_System::url('civicrm/export', 'type=2') 
                 . '">' . ts('Download Conflicts') . '</a>');
@@ -78,7 +78,9 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         
         $properties = array( 'mapper', 'dataValues', 'columnCount',
-                             'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount' );
+                             'totalRowCount', 'validRowCount', 
+                             'invalidRowCount', 'conflictRowCount',
+                             'downloadErrorRecords', 'downloadConflictRecords');
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
