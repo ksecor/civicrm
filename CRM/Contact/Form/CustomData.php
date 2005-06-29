@@ -203,7 +203,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     foreach ($customOption as $v) {
                         $selectOption[$v['value']] = $v['label'];
                     }
-                    $this->add('select', $elementName, $field['label'], $selectOption);
+                    $this->add('select', $elementName, $field['label'], $selectOption, $field['is_required']);
                     break;
 
                 case 'CheckBox':
@@ -214,13 +214,16 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                         $check[] = $this->createElement('checkbox', $v['value'], null, $v['label']);
                     }
                     $this->addGroup($check, $elementName, $field['label']);
+                    if ($field['is_required']) {
+                        $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
+                    }
                     break;
 
                 case 'Select State/Province':
                     //Add State
                     
                     $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
-                    $this->add('select', $elementName, $field['label'], $stateOption);
+                    $this->add('select', $elementName, $field['label'], $stateOption, $field['is_required']);
                     $_flag++;
                     break;
 
@@ -228,7 +231,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     //Add Country
                     $_flag++;
                     $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
-                    $this->add('select', $elementName, $field['label'], $countryOption);
+                    $this->add('select', $elementName, $field['label'], $countryOption, $field['is_required']);
                     break;
                 }
                 
