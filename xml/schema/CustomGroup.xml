@@ -51,6 +51,12 @@
      <comment>Visual relationship between this form and its parent.</comment>
   </field>
   <field>
+     <name>collapse_display</name>
+     <type>int unsigned</type>
+     <default>0</default>
+     <comment>Will this group be in collapsed or expanded mode on initial display ?</comment>
+  </field>
+  <field>
      <name>help_pre</name>
      <type>text</type>
      <comment>Description and/or help text to display before fields in form.</comment>

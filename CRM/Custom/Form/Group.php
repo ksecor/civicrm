@@ -104,6 +104,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         // display style
         $this->add('select', 'style', ts('Display Style'), CRM_Core_SelectValues::customGroupStyle());
 
+        // is this group collapsed or expanded ?
+        $this->addElement('checkbox', 'collapse_display', ts('Collapse this group on intial display'));
+
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
 
@@ -158,15 +161,16 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         // create custom group dao, populate fields and then save.
         $group =& new CRM_Core_DAO_CustomGroup();
-        $group->title       = $params['title'];
-        $group->name        = CRM_Utils_String::titleToVar($params['title']);
-        $group->extends     = $params['extends'];
-        $group->style       = $params['style'];
-        $group->weight      = $params['weight'];
-        $group->help_pre    = $params['help_pre'];
-        $group->help_post   = $params['help_post'];
-        $group->is_active   = CRM_Utils_Array::value('is_active', $params, false);
-        $group->domain_id   = CRM_Core_Config::domainID( );
+        $group->title            = $params['title'];
+        $group->name             = CRM_Utils_String::titleToVar($params['title']);
+        $group->extends          = $params['extends'];
+        $group->style            = $params['style'];
+        $group->collapse_display = $params['collapse_display'];
+        $group->weight           = $params['weight'];
+        $group->help_pre         = $params['help_pre'];
+        $group->help_post        = $params['help_post'];
+        $group->is_active        = CRM_Utils_Array::value('is_active', $params, false);
+        $group->domain_id        = CRM_Core_Config::domainID( );
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $group->id = $this->_id;
