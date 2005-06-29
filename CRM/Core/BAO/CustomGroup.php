@@ -126,7 +126,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $tableData = array(
                            'crm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'default_value', 'attributes',
                                                        'is_required', 'help_post'),
-                           'crm_custom_group' => array('id', 'title', 'help_pre'),
+                           'crm_custom_group' => array('id', 'title', 'help_pre', 'collapse_display'),
                            );
 
         // create select
@@ -167,6 +167,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         // process records
         while($crmDAO->fetch()) {
 
+            // get the id's 
             $groupId = $crmDAO->crm_custom_group_id;
             $fieldId = $crmDAO->crm_custom_field_id;
 
@@ -174,26 +175,32 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             if (!array_key_exists($groupId, $groupTree)) {
                 $groupTree[$groupId] = array();
                 $groupTree[$groupId]['id'] = $groupId;
-                $groupTree[$groupId]['title'] = $crmDAO->crm_custom_group_title;
-                $groupTree[$groupId]['help_pre'] = $crmDAO->crm_custom_group_help_pre;
+
+                // populate the group information
+                foreach ($tableData['crm_custom_group'] as $fieldName) {
+                    $fullFieldName = 'crm_custom_group_' . $fieldName;
+                    if ($fieldName == 'id' || is_null($crmDAO->$fullFieldName)) {
+                        continue;
+                    }
+                    $groupTree[$groupId][$fieldName] = $crmDAO->$fullFieldName;
+                }
                 $groupTree[$groupId]['fields'] = array();
             }
-            
+
             // add the fields now (note - the query row will always contain a field)
             $groupTree[$groupId]['fields'][$fieldId] = array();
             $groupTree[$groupId]['fields'][$fieldId]['id'] = $fieldId;
-
-            foreach ($tableData['crm_custom_field'] as $v) {
-                //if ($v == 'id') {
-                $fullField = "crm_custom_field_" . $v;
-                if ($v == 'id' || is_null($crmDAO->$fullField)) {
-                    continue;
-                } else {
-                    $groupTree[$groupId]['fields'][$fieldId][$v] = $crmDAO->$fullField;                    
-                }
+            
+            // populate information for a custom field
+            foreach ($tableData['crm_custom_field'] as $fieldName) {
+                $fullFieldName = "crm_custom_field_" . $fieldName;
+                if ($fieldName == 'id' || is_null($crmDAO->$fullFieldName)) {
+                        continue;
+                } 
+                $groupTree[$groupId]['fields'][$fieldId][$fieldName] = $crmDAO->$fullFieldName;                    
             }
         }
-
+            
         if ($entityId) {
             // hack for now.. using only contacts custom data
             self::_populateCustomData($groupTree, $entityId);
