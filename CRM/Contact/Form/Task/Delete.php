@@ -55,11 +55,27 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
+        $session =& CRM_Core_Session::singleton( );
+        $currentUserId = $session->get( 'userID' );
+        
+        $contactStatus = 0; // status is set if current contact is selected for deletion
         foreach ( $this->_contactIds as $contactId ) {
+            if ($currentUserId == $contactId) {
+                $contactStatus++;
+                continue;
+            }
             CRM_Contact_BAO_Contact::deleteContact( $contactId );
         }
+        
+        $totalContacts = count( $this->_contactIds );
 
-        $status = 'Total Contact(s) deleted: ' . count( $this->_contactIds );
+        if ($contactStatus) {
+            $display_name = CRM_Contact_BAO_Contact::displayName($currentUserId);
+            $status = "Your contact record - $display_name - was not deleted.";
+            $totalContacts--;
+        }
+        
+        $status .= " Total Contact(s) deleted: " . $totalContacts;
         CRM_Core_Session::setStatus( $status );
     }//end of function
 
