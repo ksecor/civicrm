@@ -81,12 +81,13 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
                 ts('These records have not been imported.');
 
             $this->assign('dupeError', true);
+        
+            /* only subtract dupes from succesful import if we're skipping */
+            $this->set('validRowCount', $totalRowCount - $invalidRowCount -
+                    $conflictRowCount - $duplicateRowCount);
         }
         $this->assign('dupeActionString', $dupeActionString);
         
-        $this->set('validRowCount', $totalRowCount - $invalidRowCount -
-                    $conflictRowCount - $duplicateRowCount);
-
         $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount', 'downloadConflictRecords', 'downloadErrorRecords', 'duplicateRowCount', 'downloadDuplicateRecords' );
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
