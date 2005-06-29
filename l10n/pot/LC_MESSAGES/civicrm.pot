@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-28 11:52+0200\n"
+"POT-Creation-Date: 2005-06-29 10:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: <>\n"
@@ -49,19 +49,19 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
-#: CRM/Activity/Form.php:168 CRM/Admin/Form/RelationshipType.php:76 CRM/Contact/Form/Task/Print.php:80 CRM/Contact/Form/Task/Result.php:88 CRM/Custom/Form/Field.php:226 CRM/Custom/Form/Group.php:121 CRM/Custom/Form/Option.php:143 CRM/Group/Form/DynamicGroup.php:69 CRM/Import/Form/Summary.php:83 CRM/UF/Form/Field.php:166 CRM/UF/Form/Group.php:104 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Note.tpl
+#: CRM/Activity/Form.php:168 CRM/Admin/Form/RelationshipType.php:76 CRM/Contact/Form/Task/Print.php:80 CRM/Contact/Form/Task/Result.php:88 CRM/Custom/Form/Field.php:226 CRM/Custom/Form/Group.php:126 CRM/Custom/Form/Option.php:143 CRM/Group/Form/DynamicGroup.php:69 CRM/Import/Form/Summary.php:105 CRM/UF/Form/Field.php:166 CRM/UF/Form/Group.php:104 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "Done"
 msgstr ""
 
-#: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98 CRM/Contact/Form/CustomData.php:262 CRM/Contact/Form/Edit.php:268 CRM/Custom/Form/Field.php:213 CRM/Custom/Form/Group.php:110 CRM/Custom/Form/Option.php:132 CRM/Group/Form/Edit.php:101 CRM/Note/Form/Note.php:106 CRM/UF/Form/Dynamic.php:133 CRM/UF/Form/Field.php:154 CRM/UF/Form/Group.php:93 CRM/UF/Form/Register.php:117 templates/CRM/Block/Add.tpl
+#: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98 CRM/Contact/Form/CustomData.php:262 CRM/Contact/Form/Edit.php:268 CRM/Custom/Form/Field.php:213 CRM/Custom/Form/Group.php:115 CRM/Custom/Form/Option.php:132 CRM/Group/Form/Edit.php:101 CRM/Note/Form/Note.php:106 CRM/UF/Form/Dynamic.php:133 CRM/UF/Form/Field.php:154 CRM/UF/Form/Group.php:93 CRM/UF/Form/Register.php:117 templates/CRM/Block/Add.tpl
 msgid "Save"
 msgstr ""
 
-#: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57 CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:275 CRM/Contact/Form/Relationship.php:173;180 CRM/Contact/Form/Task/AddToHousehold.php:84;92 CRM/Contact/Form/Task/AddToOrganization.php:86;94 CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:216 CRM/Custom/Form/Group.php:114 CRM/Custom/Form/Option.php:135 CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76 CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:60 CRM/Import/Form/MapField.php:224 CRM/Import/Form/Preview.php:104 CRM/Import/Form/UploadFile.php:72 CRM/Note/Form/Note.php:109 CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:157 CRM/UF/Form/Group.php:97
+#: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57 CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:275 CRM/Contact/Form/Relationship.php:175;182 CRM/Contact/Form/Task/AddToHousehold.php:84;92 CRM/Contact/Form/Task/AddToOrganization.php:86;94 CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:216 CRM/Custom/Form/Group.php:119 CRM/Custom/Form/Option.php:135 CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76 CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:60 CRM/Import/Form/MapField.php:224 CRM/Import/Form/Preview.php:104 CRM/Import/Form/UploadFile.php:80 CRM/Note/Form/Note.php:109 CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:157 CRM/UF/Form/Group.php:97
 msgid "Cancel"
 msgstr ""
 
-#: CRM/Admin/Form/IMProvider.php:52 CRM/Admin/Form/LocationType.php:52 CRM/Admin/Form/MobileProvider.php:52 CRM/Admin/Form/Tag.php:63 CRM/Contact/DAO/Group.php:170 CRM/Contact/DAO/Tag.php:149 CRM/Contact/Form/Search.php:310 CRM/Contact/Form/Task/SaveSearch.php:78 CRM/Contact/Selector.php:488 CRM/Core/DAO/CustomField.php:226 CRM/Core/DAO/CustomGroup.php:183 CRM/Core/DAO/Domain.php:113 CRM/Core/DAO/MobileProvider.php:144 templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Form/Task.tpl templates/CRM/Group/Page/Group.tpl
+#: CRM/Admin/Form/IMProvider.php:52 CRM/Admin/Form/LocationType.php:52 CRM/Admin/Form/MobileProvider.php:52 CRM/Admin/Form/Tag.php:63 CRM/Contact/DAO/Group.php:170 CRM/Contact/DAO/Tag.php:149 CRM/Contact/Form/Search.php:310 CRM/Contact/Form/Task/SaveSearch.php:78 CRM/Contact/Selector.php:488 CRM/Core/DAO/CustomField.php:226 CRM/Core/DAO/CustomGroup.php:190 CRM/Core/DAO/Domain.php:113 CRM/Core/DAO/MobileProvider.php:144 templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl templates/CRM/Contact/Form/Task/Print.tpl templates/CRM/Contact/Form/Task.tpl templates/CRM/Group/Page/Group.tpl
 msgid "Name"
 msgstr ""
 
@@ -137,7 +137,7 @@ msgstr ""
 msgid "Entity Table"
 msgstr ""
 
-#: CRM/Contact/DAO/Group.php:176 CRM/Core/DAO/CustomGroup.php:189 CRM/Core/DAO/UFGroup.php:155
+#: CRM/Contact/DAO/Group.php:176 CRM/Core/DAO/CustomGroup.php:196 CRM/Core/DAO/UFGroup.php:155
 msgid "Title"
 msgstr ""
 
@@ -229,15 +229,15 @@ msgstr ""
 msgid "%1 must be a number (with or without decimal point)."
 msgstr ""
 
-#: CRM/Contact/Form/Edit.php:316 CRM/Contact/Form/Relationship.php:322 CRM/Contact/Page/View.php:165 CRM/Contact/Selector.php:264
+#: CRM/Contact/Form/Edit.php:316 CRM/Contact/Form/Relationship.php:330 CRM/Contact/Page/View.php:165 CRM/Contact/Selector.php:264
 msgid "Individual"
 msgstr ""
 
-#: CRM/Contact/Form/Edit.php:319 CRM/Contact/Form/Relationship.php:325 CRM/Contact/Page/View.php:168 CRM/Contact/Selector.php:267 templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/Form/Edit.php:319 CRM/Contact/Form/Relationship.php:333 CRM/Contact/Page/View.php:168 CRM/Contact/Selector.php:267 templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr ""
 
-#: CRM/Contact/Form/Edit.php:322 CRM/Contact/Form/Relationship.php:328 CRM/Contact/Page/View.php:171 CRM/Contact/Selector.php:270 templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/Form/Edit.php:322 CRM/Contact/Form/Relationship.php:336 CRM/Contact/Page/View.php:171 CRM/Contact/Selector.php:270 templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr ""
 
@@ -259,7 +259,7 @@ msgid_plural "%count matching contacts were found. You can edit them here: %1"
 msgstr[0] ""
 msgstr[1] ""
 
-#: CRM/Contact/Form/Relationship.php:172 CRM/Contact/Form/Search.php:274;279 CRM/Contact/Form/Task/AddToHousehold.php:83 CRM/Contact/Form/Task/AddToOrganization.php:85 CRM/Contact/Page/SavedSearch.php:134;137 CRM/Core/Invoke.php:184 templates/CRM/Block/Search.tpl
+#: CRM/Contact/Form/Relationship.php:174 CRM/Contact/Form/Search.php:274;279 CRM/Contact/Form/Task/AddToHousehold.php:83 CRM/Contact/Form/Task/AddToOrganization.php:85 CRM/Contact/Page/SavedSearch.php:134;137 CRM/Core/Invoke.php:202 templates/CRM/Block/Search.tpl
 msgid "Search"
 msgstr ""
 
@@ -407,15 +407,15 @@ msgstr ""
 msgid "Default Value"
 msgstr ""
 
-#: CRM/Core/DAO/CustomField.php:255 CRM/Core/DAO/CustomGroup.php:215 CRM/Core/DAO/CustomOption.php:167 CRM/Core/DAO/UFField.php:212 CRM/Custom/Form/Field.php:186;196 CRM/Custom/Form/Group.php:101 CRM/Custom/Form/Option.php:120 CRM/UF/Form/Field.php:135 templates/CRM/Custom/Form/Optionfields.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl
+#: CRM/Core/DAO/CustomField.php:255 CRM/Core/DAO/CustomGroup.php:226 CRM/Core/DAO/CustomOption.php:167 CRM/Core/DAO/UFField.php:212 CRM/Custom/Form/Field.php:186;196 CRM/Custom/Form/Group.php:101 CRM/Custom/Form/Option.php:120 CRM/UF/Form/Field.php:135 templates/CRM/Custom/Form/Optionfields.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Weight"
 msgstr ""
 
-#: CRM/Core/DAO/CustomField.php:263 CRM/Core/DAO/CustomGroup.php:203
+#: CRM/Core/DAO/CustomField.php:263 CRM/Core/DAO/CustomGroup.php:214
 msgid "Help Pre"
 msgstr ""
 
-#: CRM/Core/DAO/CustomField.php:267 CRM/Core/DAO/CustomGroup.php:209 CRM/Core/DAO/UFField.php:217
+#: CRM/Core/DAO/CustomField.php:267 CRM/Core/DAO/CustomGroup.php:220 CRM/Core/DAO/UFField.php:217
 msgid "Help Post"
 msgstr ""
 
@@ -447,23 +447,23 @@ msgstr ""
 msgid "Listings Title"
 msgstr ""
 
-#: CRM/Core/Invoke.php:180 CRM/Utils/Menu.php:201 templates/CRM/Block/Search.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+#: CRM/Core/Invoke.php:198 CRM/Utils/Menu.php:201 templates/CRM/Block/Search.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "Advanced Search"
 msgstr ""
 
-#: CRM/Core/Invoke.php:273 CRM/UF/Page/Group.php:148 templates/CRM/UF/Form/Group.tpl
+#: CRM/Core/Invoke.php:291 CRM/UF/Page/Group.php:148 templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile Group"
 msgstr ""
 
-#: CRM/Core/Invoke.php:275 CRM/UF/Page/Field.php:166 templates/CRM/UF/Form/Field.tpl
+#: CRM/Core/Invoke.php:293 CRM/UF/Page/Field.php:166 templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
 msgstr ""
 
-#: CRM/Core/Invoke.php:299 CRM/Utils/Menu.php:345
+#: CRM/Core/Invoke.php:317 CRM/Utils/Menu.php:345
 msgid "Import Contacts"
 msgstr ""
 
-#: CRM/Core/Invoke.php:319 CRM/Utils/Menu.php:289
+#: CRM/Core/Invoke.php:337 CRM/Utils/Menu.php:289
 msgid "Groups"
 msgstr ""
 
@@ -511,7 +511,7 @@ msgstr ""
 msgid "<< Previous"
 msgstr ""
 
-#: CRM/Import/Form/MapField.php:220 CRM/Import/Form/UploadFile.php:68
+#: CRM/Import/Form/MapField.php:220 CRM/Import/Form/UploadFile.php:76
 msgid "Continue >>"
 msgstr ""
 
@@ -1031,33 +1031,33 @@ msgstr ""
 msgid "Find Target Contact"
 msgstr ""
 
-#: CRM/Contact/Form/Relationship.php:177
+#: CRM/Contact/Form/Relationship.php:179
 msgid "Save Relationship"
 msgstr ""
 
-#: CRM/Contact/Form/Relationship.php:219
+#: CRM/Contact/Form/Relationship.php:221
 msgid "%count new relationship record created."
 msgid_plural "%count new relationship records created."
 msgstr[0] ""
 msgstr[1] ""
 
-#: CRM/Contact/Form/Relationship.php:222
+#: CRM/Contact/Form/Relationship.php:224
 msgid "%count relationship record not created due to invalid target contact type."
 msgid_plural "%count relationship records not created due to invalid target contact type."
 msgstr[0] ""
 msgstr[1] ""
 
-#: CRM/Contact/Form/Relationship.php:225
+#: CRM/Contact/Form/Relationship.php:227
 msgid "%count relationship record not created - duplicate of existing relationship."
 msgid_plural "%count relationship records not created - duplicate of existing relationship."
 msgstr[0] ""
 msgstr[1] ""
 
-#: CRM/Contact/Form/Relationship.php:369
+#: CRM/Contact/Form/Relationship.php:382
 msgid "Please select at least one contact."
 msgstr ""
 
-#: CRM/Contact/Form/Relationship.php:393
+#: CRM/Contact/Form/Relationship.php:406
 msgid "The relationship end date cannot be prior to the start date."
 msgstr ""
 
@@ -1545,12 +1545,16 @@ msgstr ""
 msgid "Javascript"
 msgstr ""
 
-#: CRM/Core/DAO/CustomGroup.php:195
+#: CRM/Core/DAO/CustomGroup.php:202
 msgid "Extends"
 msgstr ""
 
-#: CRM/Core/DAO/CustomGroup.php:199
+#: CRM/Core/DAO/CustomGroup.php:206
 msgid "Style"
+msgstr ""
+
+#: CRM/Core/DAO/CustomGroup.php:210
+msgid "Collapse Display"
 msgstr ""
 
 #: CRM/Core/DAO/CustomValue.php:186
@@ -1633,39 +1637,43 @@ msgstr ""
 msgid "Email a Contact"
 msgstr ""
 
-#: CRM/Core/Invoke.php:204
+#: CRM/Core/Invoke.php:123
+msgid "Voter Info"
+msgstr ""
+
+#: CRM/Core/Invoke.php:222
 msgid "Contact Page"
 msgstr ""
 
-#: CRM/Core/Invoke.php:244
+#: CRM/Core/Invoke.php:262
 msgid "View Location Types"
 msgstr ""
 
-#: CRM/Core/Invoke.php:247
+#: CRM/Core/Invoke.php:265
 msgid "View Instant Messenger Providers"
 msgstr ""
 
-#: CRM/Core/Invoke.php:250
+#: CRM/Core/Invoke.php:268
 msgid "View Mobile Providers"
 msgstr ""
 
-#: CRM/Core/Invoke.php:253
+#: CRM/Core/Invoke.php:271
 msgid "View Relationship Types"
 msgstr ""
 
-#: CRM/Core/Invoke.php:258 templates/CRM/Custom/Form/Group.tpl
+#: CRM/Core/Invoke.php:276 templates/CRM/Custom/Form/Group.tpl
 msgid "Custom Data Group"
 msgstr ""
 
-#: CRM/Core/Invoke.php:261;263;264 templates/CRM/Custom/Form/Field.tpl
+#: CRM/Core/Invoke.php:279;281;282 templates/CRM/Custom/Form/Field.tpl
 msgid "Custom Data Field"
 msgstr ""
 
-#: CRM/Core/Invoke.php:280
+#: CRM/Core/Invoke.php:298
 msgid "View Tags"
 msgstr ""
 
-#: CRM/Core/Invoke.php:328
+#: CRM/Core/Invoke.php:346
 msgid "View Groups"
 msgstr ""
 
@@ -1921,15 +1929,23 @@ msgstr ""
 msgid "Form Help"
 msgstr ""
 
-#: CRM/Custom/Form/Group.php:106
+#: CRM/Custom/Form/Group.php:105
+msgid "Display Style"
+msgstr ""
+
+#: CRM/Custom/Form/Group.php:108
+msgid "Collapse this group on intial display"
+msgstr ""
+
+#: CRM/Custom/Form/Group.php:111
 msgid "Is this Custom Data Group active?"
 msgstr ""
 
-#: CRM/Custom/Form/Group.php:174
+#: CRM/Custom/Form/Group.php:180
 msgid "Your Group \"%1\" has been saved."
 msgstr ""
 
-#: CRM/Custom/Form/Group.php:177
+#: CRM/Custom/Form/Group.php:183
 msgid "Your Group \"%1\" has been added. You can <a href=\"%2\">add custom fields</a> to this group now."
 msgstr ""
 
@@ -2141,71 +2157,91 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#: CRM/Import/Form/Summary.php:60
+#: CRM/Import/Form/Summary.php:61
 msgid "Download Duplicates"
 msgstr ""
 
-#: CRM/Import/Form/Summary.php:96
+#: CRM/Import/Form/Summary.php:71
+msgid "These records have been updated with the imported data."
+msgstr ""
+
+#: CRM/Import/Form/Summary.php:74
+msgid "These records have been replaced with the imported data."
+msgstr ""
+
+#: CRM/Import/Form/Summary.php:77
+msgid "These records have been filled in with the imported data."
+msgstr ""
+
+#: CRM/Import/Form/Summary.php:81
+msgid "These records have not been imported."
+msgstr ""
+
+#: CRM/Import/Form/Summary.php:118
 msgid "Summary"
 msgstr ""
 
-#: CRM/Import/Form/UploadFile.php:48
+#: CRM/Import/Form/UploadFile.php:49
 msgid "Import Data File"
 msgstr ""
 
-#: CRM/Import/Form/UploadFile.php:50
+#: CRM/Import/Form/UploadFile.php:51
 msgid "File size should be less than 1 MByte"
 msgstr ""
 
-#: CRM/Import/Form/UploadFile.php:52
+#: CRM/Import/Form/UploadFile.php:53
 msgid "Input file must be in CSV format"
 msgstr ""
 
-#: CRM/Import/Form/UploadFile.php:54
+#: CRM/Import/Form/UploadFile.php:55
 msgid "First row contains column headers"
 msgstr ""
 
-#: CRM/Import/Form/UploadFile.php:56
-msgid "On duplicate entries:"
-msgstr ""
-
-#: CRM/Import/Form/UploadFile.php:57
+#: CRM/Import/Form/UploadFile.php:61
 msgid "Skip"
 msgstr ""
 
-#: CRM/Import/Form/UploadFile.php:60
-msgid "Replace CiviCRM record with import record data"
-msgstr ""
-
 #: CRM/Import/Form/UploadFile.php:63
-msgid "Update CiviCRM record with import record data"
+msgid "Replace"
 msgstr ""
 
-#: CRM/Import/Form/UploadFile.php:112
+#: CRM/Import/Form/UploadFile.php:65
+msgid "Update"
+msgstr ""
+
+#: CRM/Import/Form/UploadFile.php:67
+msgid "Fill"
+msgstr ""
+
+#: CRM/Import/Form/UploadFile.php:70
+msgid "On duplicate entries"
+msgstr ""
+
+#: CRM/Import/Form/UploadFile.php:120
 msgid "Upload Data"
 msgstr ""
 
-#: CRM/Import/Parser/Contact.php:147;167
+#: CRM/Import/Parser/Contact.php:148;171
 msgid "Missing required fields"
 msgstr ""
 
-#: CRM/Import/Parser/Contact.php:154
+#: CRM/Import/Parser/Contact.php:156
 msgid "Invalid Email address"
 msgstr ""
 
-#: CRM/Import/Parser/Contact.php:159
+#: CRM/Import/Parser/Contact.php:162
 msgid "Email address conflicts with record %1"
 msgstr ""
 
-#: CRM/Import/Parser.php:337;351
+#: CRM/Import/Parser.php:347;361
 msgid "Record Number"
 msgstr ""
 
-#: CRM/Import/Parser.php:338
+#: CRM/Import/Parser.php:348
 msgid "Reason"
 msgstr ""
 
-#: CRM/Import/Parser.php:352
+#: CRM/Import/Parser.php:362
 msgid "View Contact URL"
 msgstr ""
 
@@ -2423,6 +2459,34 @@ msgstr ""
 
 #: CRM/Utils/Pager.php:168
 msgid "Last &gt;&gt; "
+msgstr ""
+
+#: packages/HTML/QuickForm/date.php:153;157
+msgid "-day of week-"
+msgstr ""
+
+#: packages/HTML/QuickForm/date.php:161
+msgid "-day-"
+msgstr ""
+
+#: packages/HTML/QuickForm/date.php:167;171;177
+msgid "-month-"
+msgstr ""
+
+#: packages/HTML/QuickForm/date.php:185;194
+msgid "-year-"
+msgstr ""
+
+#: packages/HTML/QuickForm/date.php:198;202
+msgid "-hour-"
+msgstr ""
+
+#: packages/HTML/QuickForm/date.php:206
+msgid "-min-"
+msgstr ""
+
+#: packages/HTML/QuickForm/date.php:210
+msgid "-sec-"
 msgstr ""
 
 #: templates/CRM/Activity/Form/Call.tpl
@@ -2671,6 +2735,10 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 msgid "Mark the target contact(s) for this relationship if it appears below. Otherwise you may modify the search name above and click Search again."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+msgid "Duplicate relationship."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -3430,7 +3498,7 @@ msgid "You can %1. You may then review these records to determine if they are ac
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "CiviCRM has detected %1 records which are duplicates of existing CiviCRM contact records.  These records have not been imported."
+msgid "CiviCRM has detected %1 records which are duplicates of existing CiviCRM contact records.  "
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -3450,11 +3518,11 @@ msgid "Rows with conflicting email addresses (NOT imported)."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "Duplicate Rows (skipped)"
+msgid "Duplicate Rows"
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
-msgid "Rows which are duplicates of existing CiviCRM contact records (NOT imported)."
+msgid "Rows which are duplicates of existing CiviCRM contact records.  "
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -3483,6 +3551,22 @@ msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Check this box if the first row of your file consists of field names (Example: \"First Name\",\"Last Name\",\"Email\")"
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
+msgid "Skip: preserve existing records in database (default)"
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
+msgid "Replace: replace old records with new imported data"
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
+msgid "Update: modify existing records to match imported data"
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
+msgid "Fill: only import those fields which currently have no values."
 msgstr ""
 
 #: templates/CRM/pager.tpl

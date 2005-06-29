@@ -39,8 +39,7 @@
             </dd>
        <dt> </dt>
             <dd class="description">
-            {ts}Fill: only import those fields which currently have no
-            values.{/ts}
+            {ts}Fill: only import those fields which currently have no values.{/ts}
             </dd>
     </dl>
  </fieldset>
