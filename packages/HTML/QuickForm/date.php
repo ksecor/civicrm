@@ -150,31 +150,31 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                     case 'D':
                         // Sunday is 0 like with 'w' in date()
                         $options   = $locale['weekdays_short'];
-                        $emptyText = '-day of week-';
+                        $emptyText = ts('-day of week-');
                         break;
                     case 'l':
                         $options = $locale['weekdays_long'];
-                        $emptyText = 'day of week-';
+                        $emptyText = ts('-day of week-');
                         break;
                     case 'd':
                         $options = $this->_createOptionList(1, 31);
-                        $emptyText = '-day-';
+                        $emptyText = ts('-day-');
                         break;
                     case 'M':
                         $options = $locale['months_short'];
                         array_unshift($options , '');
                         unset($options[0]);
-                        $emptyText = '-month-';
+                        $emptyText = ts('-month-');
                         break;
                     case 'm':
                         $options = $this->_createOptionList(1, 12);
-                        $emptyText = '-month-';
+                        $emptyText = ts('-month-');
                         break;
                     case 'F':
                         $options = $locale['months_long'];
                         array_unshift($options , '');
                         unset($options[0]);
-                        $emptyText = '-month-';
+                        $emptyText = ts('-month-');
                         break;
                     case 'Y':
                         $options = $this->_createOptionList(
@@ -182,7 +182,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                             $this->_options['maxYear'], 
                             $this->_options['minYear'] > $this->_options['maxYear']? -1: 1
                         );
-                        $emptyText = '-year-';
+                        $emptyText = ts('-year-');
                         break;
                     case 'y':
                         $options = $this->_createOptionList(
@@ -191,23 +191,23 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                             $this->_options['minYear'] > $this->_options['maxYear']? -1: 1
                         );
                         array_walk($options, create_function('&$v,$k','$v = substr($v,-2);')); 
-                        $emptyText = '-year-';
+                        $emptyText = ts('-year-');
                         break;
                     case 'h':
                         $options = $this->_createOptionList(1, 12);
-                        $emptyText = '-hour-';
+                        $emptyText = ts('-hour-');
                         break;
                     case 'H':
                         $options = $this->_createOptionList(0, 23);
-                        $emptyText = '-hour-';
+                        $emptyText = ts('-hour-');
                         break;
                     case 'i':
                         $options = $this->_createOptionList(0, 59, $this->_options['optionIncrement']['i']);
-                        $emptyText = '-min-';
+                        $emptyText = ts('-min-');
                         break;
                     case 's':
                         $options = $this->_createOptionList(0, 59, $this->_options['optionIncrement']['s']);
-                        $emptyText = '-sec-';
+                        $emptyText = ts('-sec-');
                         break;
                     case 'a':
                         $options = array('am' => 'am', 'pm' => 'pm');
