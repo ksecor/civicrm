@@ -178,6 +178,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                      ON crm_custom_field.custom_group_id = crm_custom_group.id
                      WHERE crm_custom_field.is_active = 1
                      AND   crm_custom_group.is_active = 1
+                     AND   crm_custom_group.extends IN 
+                            ('Individual', 'Contact')
                      ORDER BY crm_custom_group.weight, crm_custom_group.id,
                               crm_custom_field.weight, crm_custom_field.id";
                  
