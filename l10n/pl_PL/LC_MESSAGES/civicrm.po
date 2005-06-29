@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-28 11:40+0200\n"
-"PO-Revision-Date: 2005-06-28 16:28+0200\n"
+"POT-Creation-Date: 2005-06-29 09:47+0200\n"
+"PO-Revision-Date: 2005-06-29 09:53+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -82,7 +82,7 @@ msgstr "Zapisz"
 
 #: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57
 #: CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:275
-#: CRM/Contact/Form/Relationship.php:173;180
+#: CRM/Contact/Form/Relationship.php:175;182
 #: CRM/Contact/Form/Task/AddToHousehold.php:84;92
 #: CRM/Contact/Form/Task/AddToOrganization.php:86;94
 #: CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:216
@@ -364,18 +364,18 @@ msgstr "%1 nie jest poprawną datą."
 msgid "%1 must be a number (with or without decimal point)."
 msgstr "%1 musi być liczbą (całkowitą lub nie)."
 
-#: CRM/Contact/Form/Edit.php:316 CRM/Contact/Form/Relationship.php:322
+#: CRM/Contact/Form/Edit.php:316 CRM/Contact/Form/Relationship.php:330
 #: CRM/Contact/Page/View.php:165 CRM/Contact/Selector.php:264
 msgid "Individual"
 msgstr "Osoba"
 
-#: CRM/Contact/Form/Edit.php:319 CRM/Contact/Form/Relationship.php:325
+#: CRM/Contact/Form/Edit.php:319 CRM/Contact/Form/Relationship.php:333
 #: CRM/Contact/Page/View.php:168 CRM/Contact/Selector.php:267
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "Mieszkanie"
 
-#: CRM/Contact/Form/Edit.php:322 CRM/Contact/Form/Relationship.php:328
+#: CRM/Contact/Form/Edit.php:322 CRM/Contact/Form/Relationship.php:336
 #: CRM/Contact/Page/View.php:171 CRM/Contact/Selector.php:270
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
@@ -400,7 +400,7 @@ msgstr[0] "Znaleziono jeden pasujący kontakt. Można go edytować tu: %1"
 msgstr[1] "Znaleziono %count pasujące kontakty. Można je edytować tu: %1"
 msgstr[2] "Znaleziono %count pasujących kontaktów. Można je edytować tu: %1"
 
-#: CRM/Contact/Form/Relationship.php:172 CRM/Contact/Form/Search.php:274;279
+#: CRM/Contact/Form/Relationship.php:174 CRM/Contact/Form/Search.php:274;279
 #: CRM/Contact/Form/Task/AddToHousehold.php:83
 #: CRM/Contact/Form/Task/AddToOrganization.php:85
 #: CRM/Contact/Page/SavedSearch.php:134;137 CRM/Core/Invoke.php:184
@@ -1260,18 +1260,18 @@ msgstr "Rodzaj powiązania"
 msgid "Find Target Contact"
 msgstr "Znajdź kontakt docelowy"
 
-#: CRM/Contact/Form/Relationship.php:177
+#: CRM/Contact/Form/Relationship.php:179
 msgid "Save Relationship"
 msgstr "Zapisz powiązanie"
 
-#: CRM/Contact/Form/Relationship.php:219
+#: CRM/Contact/Form/Relationship.php:221
 msgid "%count new relationship record created."
 msgid_plural "%count new relationship records created."
 msgstr[0] "Utworzono %count nowe powiązaie."
 msgstr[1] "Utworzono %count nowe powiązania."
 msgstr[2] "Utworzono %count nowych powiązań."
 
-#: CRM/Contact/Form/Relationship.php:222
+#: CRM/Contact/Form/Relationship.php:224
 msgid ""
 "%count relationship record not created due to invalid target contact type."
 msgid_plural ""
@@ -1286,7 +1286,7 @@ msgstr[2] ""
 "Nie stworzono %count powiązań z powodu niepoprawnego typu kontaktu "
 "docelowego."
 
-#: CRM/Contact/Form/Relationship.php:225
+#: CRM/Contact/Form/Relationship.php:227
 msgid ""
 "%count relationship record not created - duplicate of existing relationship."
 msgid_plural ""
@@ -1295,11 +1295,11 @@ msgstr[0] "Nie stworzono jednego powiązania – takie powiązanie już istnieje
 msgstr[1] "Nie stworzono %count powiązań – takie powiązania już istnieją."
 msgstr[2] "Nie stworzono %count powiązań – takie powiązanie już istnieją."
 
-#: CRM/Contact/Form/Relationship.php:369
+#: CRM/Contact/Form/Relationship.php:382
 msgid "Please select at least one contact."
 msgstr "Wybierz przynajmniej jeden kontakt."
 
-#: CRM/Contact/Form/Relationship.php:393
+#: CRM/Contact/Form/Relationship.php:406
 msgid "The relationship end date cannot be prior to the start date."
 msgstr ""
 "Data zakończenia powiązania nie pomoże być wcześniejsza niż data rozpoczęcia."
@@ -2441,15 +2441,15 @@ msgstr "Uaktualnij wpisy w CiviCRM-ie danymi zaimportowanymi"
 msgid "Upload Data"
 msgstr "Wgraj dane"
 
-#: CRM/Import/Parser/Contact.php:147;167
+#: CRM/Import/Parser/Contact.php:148;171
 msgid "Missing required fields"
 msgstr "Brak wymaganych pól"
 
-#: CRM/Import/Parser/Contact.php:154
+#: CRM/Import/Parser/Contact.php:156
 msgid "Invalid Email address"
 msgstr "Błędy adres email"
 
-#: CRM/Import/Parser/Contact.php:159
+#: CRM/Import/Parser/Contact.php:162
 msgid "Email address conflicts with record %1"
 msgstr "Adres email powtarza się we wpisie %1"
 
@@ -2905,9 +2905,17 @@ msgid ""
 "     <p>Please add any comments on the look and feel of these pages, along "
 "with workflow issues, on the <a href=\"%1\">CiviCRM Comments Page</a>.</p>"
 msgstr ""
-"<p>Ta instalacja oparta jest na wersji 1.0 beta. Gorąco zachęcamy odwiedzających, by wypróbowali pełen zakres funkcjonalności – wszystkie dostępne mechanizmy powinny działać poprawnie.</p>\n"
-"     <p>Jeśli znajdą Panśtwo błąd, prosimy o sprawdzenie problemów zgłoszonych w naszym <a href=\"%1\" target=\"_blank\">systemie śledzenia błędów</a> oraz zgłoszenie nowego problemu („Create a New Issue”) jeśli błędu nie ma na liście oznaczonej UNRESOLVED. Błędy można zgłaszać anonimowo, jednak zachęcamy do założenia konta, byśmy mogli skontaktować się z Państwem w razie jakichkolwiek wątpliwości dotyczących zgłoszenia.</p>\n"
-"     <p>Prosimy też o wszelkie komentarze dotyczące wyglądu i działania CiviCRM-a na naszej <a href=\"%1\">stronie z komentarzami</a>.</p>"
+"<p>Ta instalacja oparta jest na wersji 1.0 beta. Gorąco zachęcamy "
+"odwiedzających, by wypróbowali pełen zakres funkcjonalności – wszystkie "
+"dostępne mechanizmy powinny działać poprawnie.</p>\n"
+"     <p>Jeśli znajdą Panśtwo błąd, prosimy o sprawdzenie problemów "
+"zgłoszonych w naszym <a href=\"%1\" target=\"_blank\">systemie śledzenia "
+"błędów</a> oraz zgłoszenie nowego problemu („Create a New Issue”) jeśli "
+"błędu nie ma na liście oznaczonej UNRESOLVED. Błędy można zgłaszać "
+"anonimowo, jednak zachęcamy do założenia konta, byśmy mogli skontaktować się "
+"z Państwem w razie jakichkolwiek wątpliwości dotyczących zgłoszenia.</p>\n"
+"     <p>Prosimy też o wszelkie komentarze dotyczące wyglądu i działania "
+"CiviCRM-a na naszej <a href=\"%1\">stronie z komentarzami</a>.</p>"
 
 #: templates/CRM/common/info.tpl templates/CRM/common/status.tpl
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -3034,6 +3042,10 @@ msgid ""
 msgstr ""
 "Jeśli poniżej pojawiły się kontakty docelowe tego powiązania, zaznacz je. W "
 "przeciwnym wypadku zmień nazwę podaną powyżej i kliknij ponownie „Szukaj”."
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+msgid "Duplicate relationship."
+msgstr "Powiązanie just istniejące."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -3886,7 +3898,10 @@ msgid ""
 "right-hand column. Select '-do not import' for any columns in the import "
 "file that you want ignored."
 msgstr ""
-"Sprawdź dane wyświetlone poniżej na podstawie dwóch pierwszych rzędów pliku i wybierz odpowiadające im pola w bazie CiviCRM z rozwijanych list w prawej kolumnie. Wybierz opcję „-nie importuj-” dla kolumn, które system ma zingorować."
+"Sprawdź dane wyświetlone poniżej na podstawie dwóch pierwszych rzędów pliku "
+"i wybierz odpowiadające im pola w bazie CiviCRM z rozwijanych list w prawej "
+"kolumnie. Wybierz opcję „-nie importuj-” dla kolumn, które system ma "
+"zingorować."
 
 #: templates/CRM/Import/Form/MapTable.tpl
 msgid "Import Data (row %1)"
@@ -3987,14 +4002,16 @@ msgid ""
 "CiviCRM has detected invalid data and/or formatting errors in %1 records. "
 "These records have not been imported."
 msgstr ""
-"CiviCRM wykrył błędne dane i/lub błedne sformatowanie w %1 wpisach. Wpisy te nie zostały zaimportowane."
+"CiviCRM wykrył błędne dane i/lub błedne sformatowanie w %1 wpisach. Wpisy te "
+"nie zostały zaimportowane."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "You can %1. You may then correct them, and import the new file with the "
 "corrected data."
 msgstr ""
-"Możesz ściągnąć plik zawierający te błędy – %1. Możesz je następnie poprawić i zaimportować nowy plik z poprawionymi danymi."
+"Możesz ściągnąć plik zawierający te błędy – %1. Możesz je następnie poprawić "
+"i zaimportować nowy plik z poprawionymi danymi."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""

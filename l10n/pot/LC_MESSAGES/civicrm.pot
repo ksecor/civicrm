@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-28 11:52+0200\n"
+"POT-Creation-Date: 2005-06-29 10:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: <>\n"
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57 CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:275 CRM/Contact/Form/Relationship.php:173;180 CRM/Contact/Form/Task/AddToHousehold.php:84;92 CRM/Contact/Form/Task/AddToOrganization.php:86;94 CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:216 CRM/Custom/Form/Group.php:114 CRM/Custom/Form/Option.php:135 CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76 CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:60 CRM/Import/Form/MapField.php:224 CRM/Import/Form/Preview.php:104 CRM/Import/Form/UploadFile.php:72 CRM/Note/Form/Note.php:109 CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:157 CRM/UF/Form/Group.php:97
+#: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57 CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:275 CRM/Contact/Form/Relationship.php:175;182 CRM/Contact/Form/Task/AddToHousehold.php:84;92 CRM/Contact/Form/Task/AddToOrganization.php:86;94 CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:216 CRM/Custom/Form/Group.php:114 CRM/Custom/Form/Option.php:135 CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76 CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:60 CRM/Import/Form/MapField.php:224 CRM/Import/Form/Preview.php:104 CRM/Import/Form/UploadFile.php:72 CRM/Note/Form/Note.php:109 CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:157 CRM/UF/Form/Group.php:97
 msgid "Cancel"
 msgstr ""
 
@@ -229,15 +229,15 @@ msgstr ""
 msgid "%1 must be a number (with or without decimal point)."
 msgstr ""
 
-#: CRM/Contact/Form/Edit.php:316 CRM/Contact/Form/Relationship.php:322 CRM/Contact/Page/View.php:165 CRM/Contact/Selector.php:264
+#: CRM/Contact/Form/Edit.php:316 CRM/Contact/Form/Relationship.php:330 CRM/Contact/Page/View.php:165 CRM/Contact/Selector.php:264
 msgid "Individual"
 msgstr ""
 
-#: CRM/Contact/Form/Edit.php:319 CRM/Contact/Form/Relationship.php:325 CRM/Contact/Page/View.php:168 CRM/Contact/Selector.php:267 templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/Form/Edit.php:319 CRM/Contact/Form/Relationship.php:333 CRM/Contact/Page/View.php:168 CRM/Contact/Selector.php:267 templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr ""
 
-#: CRM/Contact/Form/Edit.php:322 CRM/Contact/Form/Relationship.php:328 CRM/Contact/Page/View.php:171 CRM/Contact/Selector.php:270 templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Contact/Form/Edit.php:322 CRM/Contact/Form/Relationship.php:336 CRM/Contact/Page/View.php:171 CRM/Contact/Selector.php:270 templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr ""
 
@@ -259,7 +259,7 @@ msgid_plural "%count matching contacts were found. You can edit them here: %1"
 msgstr[0] ""
 msgstr[1] ""
 
-#: CRM/Contact/Form/Relationship.php:172 CRM/Contact/Form/Search.php:274;279 CRM/Contact/Form/Task/AddToHousehold.php:83 CRM/Contact/Form/Task/AddToOrganization.php:85 CRM/Contact/Page/SavedSearch.php:134;137 CRM/Core/Invoke.php:184 templates/CRM/Block/Search.tpl
+#: CRM/Contact/Form/Relationship.php:174 CRM/Contact/Form/Search.php:274;279 CRM/Contact/Form/Task/AddToHousehold.php:83 CRM/Contact/Form/Task/AddToOrganization.php:85 CRM/Contact/Page/SavedSearch.php:134;137 CRM/Core/Invoke.php:184 templates/CRM/Block/Search.tpl
 msgid "Search"
 msgstr ""
 
@@ -1031,33 +1031,33 @@ msgstr ""
 msgid "Find Target Contact"
 msgstr ""
 
-#: CRM/Contact/Form/Relationship.php:177
+#: CRM/Contact/Form/Relationship.php:179
 msgid "Save Relationship"
 msgstr ""
 
-#: CRM/Contact/Form/Relationship.php:219
+#: CRM/Contact/Form/Relationship.php:221
 msgid "%count new relationship record created."
 msgid_plural "%count new relationship records created."
 msgstr[0] ""
 msgstr[1] ""
 
-#: CRM/Contact/Form/Relationship.php:222
+#: CRM/Contact/Form/Relationship.php:224
 msgid "%count relationship record not created due to invalid target contact type."
 msgid_plural "%count relationship records not created due to invalid target contact type."
 msgstr[0] ""
 msgstr[1] ""
 
-#: CRM/Contact/Form/Relationship.php:225
+#: CRM/Contact/Form/Relationship.php:227
 msgid "%count relationship record not created - duplicate of existing relationship."
 msgid_plural "%count relationship records not created - duplicate of existing relationship."
 msgstr[0] ""
 msgstr[1] ""
 
-#: CRM/Contact/Form/Relationship.php:369
+#: CRM/Contact/Form/Relationship.php:382
 msgid "Please select at least one contact."
 msgstr ""
 
-#: CRM/Contact/Form/Relationship.php:393
+#: CRM/Contact/Form/Relationship.php:406
 msgid "The relationship end date cannot be prior to the start date."
 msgstr ""
 
@@ -2185,15 +2185,15 @@ msgstr ""
 msgid "Upload Data"
 msgstr ""
 
-#: CRM/Import/Parser/Contact.php:147;167
+#: CRM/Import/Parser/Contact.php:148;171
 msgid "Missing required fields"
 msgstr ""
 
-#: CRM/Import/Parser/Contact.php:154
+#: CRM/Import/Parser/Contact.php:156
 msgid "Invalid Email address"
 msgstr ""
 
-#: CRM/Import/Parser/Contact.php:159
+#: CRM/Import/Parser/Contact.php:162
 msgid "Email address conflicts with record %1"
 msgstr ""
 
@@ -2671,6 +2671,10 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 msgid "Mark the target contact(s) for this relationship if it appears below. Otherwise you may modify the search name above and click Search again."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+msgid "Duplicate relationship."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Form/Task/AddToHousehold.tpl templates/CRM/Contact/Form/Task/AddToOrganization.tpl
