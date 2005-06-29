@@ -406,9 +406,9 @@ INSERT INTO crm_geo_coord (id, coord_type, coord_units, coord_ogc_wkt_string) VA
 
 -- Sample Extended Property Group and Fields
 INSERT INTO crm_custom_group
-    (domain_id, name, title, extends, style, help_pre, weight, is_active)
+    (domain_id, name, title, extends, style, collapse_display, help_pre, weight, is_active)
 VALUES
-    (1, 'voter_info', 'Voter Info', 'Individual', 'Tab', 'Please complete the voter information fields as data becomes available for this contact.', 1, 1);
+    (1, 'voter_info', 'Voter Info', 'Individual', 'Tab', 0, 'Please complete the voter information fields as data becomes available for this contact.', 1, 1);
 
 INSERT INTO crm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
@@ -433,9 +433,9 @@ VALUES
 
 -- Custom data for educational qualifications
 INSERT INTO crm_custom_group
-    (domain_id, name, title, extends, style, help_pre, weight, is_active)
+    (domain_id, name, title, extends, style, collapse_display, help_pre, weight, is_active)
 VALUES
-    (1, 'education', 'Education Qualification', 'Individual', 'Tab', 'Please furnish educational history starting from high school', 2, 1);
+    (1, 'education', 'Education Qualification', 'Individual', 'Tab', 0, 'Please furnish educational history starting from high school', 2, 1);
 
 INSERT INTO crm_custom_field
     (custom_group_id, name, label, data_type, html_type, is_required, weight, help_post, is_active)
