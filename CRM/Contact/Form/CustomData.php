@@ -72,18 +72,25 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     protected $_groupTree;
 
     /**
-     * what blocks should we show and hide.
+     * Which blocks should we show and hide.
      *
      * @var CRM_Core_ShowHideBlocks
      */
     protected $_showHide;
 
     /**
-     * Array of the Group Titles.
+     * Array group titles.
      *
      * @var array
      */
     protected $_groupTitle;
+
+    /**
+     * Array group display status.
+     *
+     * @var array
+     */
+    protected $_groupCollapseDisplay;
 
     /**
      * pre processing work done here.
@@ -116,21 +123,21 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @access   protected
      */
     
-    protected function setShowHide(&$group)
+    protected function setShowHide(&$groupTitle, &$groupCollapseDisplay)
     {
         $this->_showHide =& new CRM_Core_ShowHideBlocks('','');
         
-        foreach ($group as $key => $title) {
-            $showBlocks = $title . '[show]' ;
-            $hideBlocks = $title;
-            
-            if ($key) {
-                $this->_showHide->addShow($showBlocks);
-                $this->_showHide->addHide($hideBlocks);
-            } else {
-                $this->_showHide->addShow($hideBlocks);
-                $this->_showHide->addHide($showBlocks);
-            }
+        foreach ($groupTitle as $key => $title) {
+          $showBlocks = $title . '[show]' ;
+          $hideBlocks = $title;
+           
+          if ($groupCollapseDisplay[$key]) {
+              $this->_showHide->addShow($hideBlocks);
+              $this->_showHide->addHide($showBlocks);
+          } else {
+              $this->_showHide->addShow($showBlocks);
+              $this->_showHide->addHide($hideBlocks);
+          }
         }
         $this->_showHide->addToTemplate();
     }
@@ -155,7 +162,9 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         // add the form elements
         foreach ($this->_groupTree as $group) {
             $_flag = 0;
-            $this->_groupTitle[] = $group['title'];
+            
+            $this->_groupTitle[]           = $group['title'];
+            $this->_groupCollapseDisplay[] = $group['collapse_display'];
             CRM_Core_ShowHideBlocks::links( $this, $group['title'], '', '');
             
             $groupId = $group['id'];
@@ -258,7 +267,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             }            
         }
 
-        $this->setShowHide($this->_groupTitle);
+        $this->setShowHide($this->_groupTitle, $this->_groupCollapseDisplay);
 
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
