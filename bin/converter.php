@@ -301,6 +301,7 @@ class PHP_DownGrade {
                 }
                 
             case self::T_SELF:
+
                 $this->tokens[$i][1] = $class;
                 $start = $i;
                 $i++;
@@ -385,15 +386,16 @@ class PHP_DownGrade {
               
             
               if($this->tokens[$i+1][1] == "::") {
-                 $this->tokens[$i][1] = strtoupper($this->tokens[$i][1]);  
+                  
+                  $this->tokens[$i][1] = strtoupper($this->tokens[$i][1]);  
              }
              
              if($this->tokens[$i][0] == self::T_SELF) {
                  $this->tokens[$i][1] = strtoupper($class);
              } 
              if($this->tokens[$i][1] == "::") {
-                 
-                  $this->tokens[$i][1] = "_";
+                 //echo " in convetToStatic";
+                 $this->tokens[$i][1] = "_";
              }
              
              $value .= $this->tokens[$i][1];
@@ -457,6 +459,7 @@ class PHP_DownGrade {
                 if ( $this->tokens[$i-1][0] == T_STRING && $this->tokens[$i+1][0] == T_STRING ) {
                     // make sure the following token are not open paran and hence a function call
                     $func = false;
+                    $flag = 0;
                     for ( $ii = $i+2; $ii < $i + 4; $ii++ ) {
                         if ( $this->tokens[$ii][1] == '(' ) {
                             $func = true;
@@ -469,10 +472,20 @@ class PHP_DownGrade {
                         break;
                     }
                     if($this->tokens[$i-1][1]!=""){
-                        $this->tokens[$i-1][1] = strtoupper($this->tokens[$i-1][1]) . '_' . $this->tokens[$i+1][1];
+                        //echo " in convetToStatic";
+                        if($this->tokens[$i-1][1] =="parent"){
+                            // $this->tokens[$i-1][1] = $this->tokens[$i-1][1].'::'. $this->tokens[$i+1][1];
+                            $flag=1;
+                        }else{
+                            $this->tokens[$i-1][1] = strtoupper($this->tokens[$i-1][1]) . '_' . $this->tokens[$i+1][1];
+                        }
                     }
-                    $this->tokens[$i  ][1] = '';
-                    $this->tokens[$i+1][1] = '';
+                    if($flag!=1)
+                        {
+                            $this->tokens[$i  ][1] = '';
+                            $this->tokens[$i+1][1] = '';
+                            $flag=0;
+                        }
                 }
 
                 case T_FUNCTION:
@@ -686,11 +699,14 @@ class PHP_DownGrade {
                  }
 
 
-        //To change calls of parent constructor
+        //To change calls of parent constructor and parent contant variable
+        //print_r($this->tokens);
         for($j=0;$j<count($this->tokens);$j++)
             {
+               
                 if(strcmp($this->tokens[$j][1],"parent")==0)
                     {
+                        
                         $back=$j;
                         while(strcmp($this->tokens[$back][1],"extends")!=0)
                             $back--;
@@ -701,13 +717,48 @@ class PHP_DownGrade {
                         
                         $classname=$this->tokens[$back][1];
                         
-                        $k=$j;
+                        $k = $j;
                         while(strcmp($this->tokens[$k][1],";")!=0) 
                             { 
-                                if(strcmp($this->tokens[$k][1],"__construct")==0)
-                                $this->tokens[$k][1]=$classname;
+                                if($this->tokens[$k][1]=="::")
+                                    {
+                                       
+                                        if(strcmp($this->tokens[$k+1][1],"__construct")==0){
+                                            $this->tokens[$k+1][1]=$classname;
+                                        }else{
+                                            $flag = false;
+                                            $f = $k;
+                                            while($this->tokens[$f][1]!=';'  && $this->tokens[$f][1]!=',')
+                                                {
+                                                 
+                                                    if($this->tokens[$f][1]=='('){
+                                                      
+                                                        $flag = true; 
+                                                    }
+                                                    $f++;
+                                                }
+                                            $f = $k;
 
-                                $k++;
+                                            /* while($this->tokens[$f][1]!=';' && $this->tokens[$f][1]!=',')
+                                                {
+                                                    
+                                                    if($this->tokens[$f][1]==T_VARIABLE){
+                                                        echo "Entering";
+                                                        $flag = true; 
+                                                        break;
+                                                    }
+                                                    
+                                                    $f++;
+                                                }*/
+                                            if($flag == false){
+                                                $this->tokens[$k-1][1]=strtoupper($classname);
+                                                $this->tokens[$k][1]="_";
+                                                $flag = false;
+                                            }
+                                        }
+                                            
+                                    }
+                                    $k++;
                             }
                         
                     }
