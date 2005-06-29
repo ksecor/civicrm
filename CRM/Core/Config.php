@@ -139,6 +139,18 @@ class CRM_Core_Config {
     public $dateformatYear = '%Y';
 
     /**
+     * String format for date QuickForm drop-downs
+     * @var string
+     */
+    public $dateformatQfDate = '%b %d %Y';
+
+    /**
+     * String format for date and time QuickForm drop-downs
+     * @var string
+     */
+    public $dateformatQfDatetime = '%b %d %Y, %I : %M %P';
+
+    /**
      * Default encoding of strings returned by gettext
      * @var string
      */
@@ -289,6 +301,14 @@ class CRM_Core_Config {
         
         if ( defined( 'CRM_DATEFORMAT_YEAR' ) ) {
             $this->dateformatYear = CRM_DATEFORMAT_YEAR;
+        }
+        
+        if ( defined( 'CRM_DATEFORMAT_QF_DATE' ) ) {
+            $this->dateformatQfDate = CRM_DATEFORMAT_QF_DATE;
+        }
+        
+        if ( defined( 'CRM_DATEFORMAT_QF_DATETIME' ) ) {
+            $this->dateformatQfDatetime = CRM_DATEFORMAT_QF_DATETIME;
         }
         
         if ( defined( 'CRM_GETTEXT_CODESET' ) ) {

@@ -303,6 +303,32 @@ class CRM_Utils_Date {
 
     }
 
+    /**
+     * converts the format string from POSIX notation to PHP notation
+     *
+     * example: converts '%Y-%m-%d' to 'Y-M-d'
+     *
+     * @param string $format  format string in POSIX % notation
+     *
+     * @return string  format string in PHP notation
+     *
+     * @static
+     */
+    static function posixToPhp($format)
+    {
+        static $replacements = array(
+            '%b' => 'M',
+            '%d' => 'd',
+            '%H' => 'H',
+            '%I' => 'h',
+            '%M' => 'i',
+            '%p' => 'a',
+            '%P' => 'A',
+            '%Y' => 'Y'
+        );
+        return strtr($format, $replacements);
+    }
+
 }
 
 ?>

@@ -15,6 +15,8 @@ define( 'CRM_LC_MESSAGES' , 'en_US' );
 define( 'CRM_DATEFORMAT_FULL', '%B %E%f, %Y %h:%i %A' );
 define( 'CRM_DATEFORMAT_PARTIAL', '%B %Y' );
 define( 'CRM_DATEFORMAT_YEAR', '%Y' );
+define( 'CRM_DATEFORMAT_QF_DATE', '%b %d %Y' );
+define( 'CRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
 define( 'CRM_SMTP_SERVER' , 'smtp.sbcglobal.net' );
 define( 'CRM_PHP_VERSION' , 5 );
 

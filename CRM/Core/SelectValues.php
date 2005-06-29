@@ -327,9 +327,13 @@ class CRM_Core_SelectValues {
     static function &date($type = 'birth')
     {
         static $_date = null;
+        static $config = null;
+        if (!$config) {
+            $config =& CRM_Core_Config::singleton();
+        }
         if (!$_date) {
             $_date = array(
-                'format'           => 'M d Y',
+                'format'           => CRM_Utils_Date::posixToPhp($config->dateformatQfDate),
                 'addEmptyOption'   => true,
                 'emptyOptionText'  => ts('-select-'),
                 'emptyOptionValue' => ''
@@ -348,7 +352,7 @@ class CRM_Core_SelectValues {
             $minOffset = 100;
             $maxOffset = 20;
         } elseif ($type == 'datetime') {
-            $newDate['format'] = "M d Y,  h : i A";
+            $newDate['format'] = CRM_Utils_Date::posixToPhp($config->dateformatQfDatetime);
             $newDate['optionIncrement']['i'] = 15;
             $minOffset = 0;
             $maxOffset = 3;
