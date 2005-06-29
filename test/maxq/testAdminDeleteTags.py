@@ -36,8 +36,8 @@ class testAdminDeleteTags(PyHttpTestCase):
         self.assertEquals("Assert number 5 failed", 200, self.getResponseCode())
         Validator.validateResponse(self, self.getMethod(), url, params)
         
-        name  = '\'Test Tag\''
-        query = 'select id from crm_tag where name=%s' % name  
+        name  = 'Test Tag'
+        query = 'select id from crm_tag where name like \'%%%s%%\'' % name  
 
         TID = '''%s''' % db.loadVal(query)
         params = [

@@ -84,6 +84,7 @@ maxq -q -r testDeleteNoteByNoteTab.py
 
 maxq -q -r testAddNoteByContactTab.py 
 maxq -q -r testEditNoteByContactTab.py
+maxq -q -r testDeleteNoteByNoteTab.py
 
 ########################
 # Test for Custom Data # 
