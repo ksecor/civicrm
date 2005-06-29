@@ -394,7 +394,7 @@ class PHP_DownGrade {
                  $this->tokens[$i][1] = strtoupper($class);
              } 
              if($this->tokens[$i][1] == "::") {
-                 echo " in convetToStatic";
+                 //echo " in convetToStatic";
                  $this->tokens[$i][1] = "_";
              }
              
