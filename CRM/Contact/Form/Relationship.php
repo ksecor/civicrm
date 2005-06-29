@@ -153,8 +153,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
 
-        $searchRows    = $this->get( 'searchRows'    );
-        $searchCount   = $this->get( 'searchCount'   );
+        $searchRows            = $this->get( 'searchRows'    );
+        $searchCount           = $this->get( 'searchCount'   );
+        $duplicateRelationship = $this->get('duplicateRelationship' );
+
         if ( $searchRows ) {
             $checkBoxes = array( );
             foreach ( $searchRows as $id => $row ) {
@@ -162,9 +164,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             }
             $this->addGroup($checkBoxes, 'contact_check');
             $this->assign('searchRows', $searchRows );
-
-        }
-
+        } 
+        
+        $this->assign('duplicateRelationship', $duplicateRelationship);
         $this->assign( 'searchCount', $searchCount );
         $this->assign( 'searchDone'  , $this->get( 'searchDone'   ) );
         $this->assign( 'contact_type', $this->get( 'contact_type' ) );
@@ -303,11 +305,17 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $config =& CRM_Core_Config::singleton( );
             $searchRows = array( );
 
+            //variable is set if only one record is foun and that record already has relationship with the contact
+            $duplicateRelationship = 0;
+            
             while($result->fetch()) {
                 $contactID = $result->contact_id;
                 if ( in_array( $contactID, $excludedContactIds ) ) {
+                    $duplicateRelationship++;
                     continue;
                 }
+
+                $duplicateRelationship = 0;                
 
                 $searchRows[$contactID]['id'] = $contactID;
                 $searchRows[$contactID]['name'] = $result->sort_name;
@@ -332,6 +340,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             }
 
             $this->set( 'searchRows' , $searchRows );
+            $this->set('duplicateRelationship', $duplicateRelationship);
+        } else {
+            // resetting the session variables if many records are found
+            $this->set( 'searchRows' , null );
+            $this->set('duplicateRelationship', null);
         }
     }
     

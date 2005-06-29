@@ -79,7 +79,11 @@
                         </fieldset>
                     {else} {* too many results - we're only displaying 50 *}
                         </div></fieldset>
-                        {capture assign=infoMessage}{ts}Too many matching results. Please narrow your search by entering a more complete target contact name.{/ts}{/capture}
+                        {if $duplicateRelationship}  
+                          {capture assign=infoMessage}{ts}Duplicate relationship.{/ts}{/capture}
+                        {else}   
+                          {capture assign=infoMessage}{ts}Too many matching results. Please narrow your search by entering a more complete target contact name.{/ts}{/capture}
+                        {/if}  
                         {include file="CRM/common/info.tpl"}
                     {/if}
                 {else} {* no valid matches for name + contact_type *}
