@@ -55,13 +55,13 @@ cp $SRC/license.txt $TRG
 cp $SRC/affero_gpl.txt $TRG
 
 # final touch
-SNPDATE=`date +%Y%m%d%H%M`
-echo "CiviCRM ver. snp$SNPDATE snapshot for Drupal on PHP5" > $TRG/version.txt
+REV=`svnversion -n $SRC`
+echo "CiviCRM version rev$REV snapshot for Drupal on PHP5" > $TRG/version.txt
 
 
 # gen tarball
 cd $TRG/..
-tar czf $DM_TARGETDIR/civicrm-drupal-php5-snp$SNPDATE.tgz civicrm
+tar czf $DM_TARGETDIR/civicrm-drupal-php5-rev$REV.tgz civicrm
 
 # clean up
 rm -rf $TRG
