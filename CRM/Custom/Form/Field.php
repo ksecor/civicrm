@@ -188,7 +188,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
             $defaultOption[$i] = $this->createElement('radio', null, null, null, $i);
         }
-	
+        
         //default option selection
         $tt =& $this->addGroup($defaultOption, 'default_option');
 		
@@ -266,28 +266,70 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         
         /** Check the option values entered
          *  Appropriate values are required for the selected datatype
+         *  Incomplete row checking is also required.
          */
-        /* if (CRM_Core_Action::ADD) {
+        if (CRM_Core_Action::ADD) {
+
+            $_flagOption = $_rowError = 0;
+            $_showHide =& new CRM_Core_ShowHideBlocks('','');
             $dataType = self::$_dataTypeKeys[$fields['data_type']];
-            switch ( $dataType ) {
-            case 'Int':
-                for($i=1; $i<= self::NUM_OPTION; $i++) {
-                    if ( ! CRM_Utils_Rule::integer( $fields['option_value'][$i] ) && $fields['option_value'][$i] ) {
-                        $errors['option_value['.$i.']'] = 'Please enter a valid integer.';
+
+            for($i=1; $i<= self::NUM_OPTION; $i++) {
+                if (!$fields['option_label'][$i]) {
+                    if ($fields['option_value'][$i]) {
+                        $errors['option_label['.$i.']'] = 'Option label cannot be empty';
+                        $_flagOption = 1;
+                    } else {
+                        if ($fields['option_weight'][$i]) {
+                            $errors['option_label['.$i.']'] = 'Option label cannot be empty';
+                            $errors['option_value['.$i.']'] = 'Option value cannot be empty';
+                            $_flagOption = 1;
+                        } else {
+                            //The row is empty
+                            $_emptyRow = 1;
+                        }
+                    }
+                } else {
+                    if (!$fields['option_value'][$i]) {
+                        $errors['option_value['.$i.']'] = 'Option value cannot be empty';
+                            $_flagOption = 1;
                     }
                 }
-                break;
+                if ($fields['option_value'][$i]) {
+                    if ( $dataType == 'Int') {
+                        if ( ! CRM_Utils_Rule::integer( $fields['option_value'][$i] ) ) {
+                            $_flagOption = 1;
+                            $errors['option_value['.$i.']'] = 'Please enter a valid integer.';
+                        }
+                    } else {
+                        if ( ! CRM_Utils_Rule::numeric( $fields['option_value'][$i] ) ) {
+                            $_flagOption = 1;
+                            $errors['option_value['.$i.']'] = 'Please enter a valid number.';
+                        }
+                    }
+                }
+                $showBlocks = 'optionField['.$i.']';
+                if ($_flagOption) {
+                    $_showHide->addShow($showBlocks);
+                    $_rowError = 1;
+                } 
                 
-            case 'Float':
-            case 'Money':
-                for($i=1; $i<= self::NUM_OPTION; $i++) {
-                    if ( ! CRM_Utils_Rule::numeric( $fields['option_value'][$i] ) && $fields['option_value'][$i] ) {
-                        $errors['option_value['.$i.']'] = 'Please enter a valid number ';
-                    }
+                if ($_emptyRow) {
+                    $_showHide->addHide($showBlocks);
+                } else {
+                    $_showHide->addShow($showBlocks);
                 }
-                break;
+                
+                    $_flagOption = $_emptyRow = 0;
             }
-        }*/
+            
+            
+            if ($_rowError) {
+                $_showHide->addToTemplate();
+                CRM_CORE_Page::assign('optionRowError', $_rowError);
+            }
+        }
+        
         return empty($errors) ? true : $errors;
     }
 

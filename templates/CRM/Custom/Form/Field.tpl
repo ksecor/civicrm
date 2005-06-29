@@ -12,10 +12,14 @@
             <dt>&nbsp;</dt><dd class="description">{ts}Select from the available HTML input field types (choices are based on the type of data being collected).{/ts}</dd>
         {/if}
         </dl>
-        
+
         {if $action eq 1}
+	{if $optionRowError}
+	<div id='showOptionError' style='display: none'>{ include file="CRM/Custom/Form/OptionFieldsError.tpl"}</div>
+	{else}
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}
         <div id='showoption' style='display: none'>{ include file="CRM/Custom/Form/Optionfields.tpl"}</div>
+	{/if}
         {/if}
 
         <dl>
@@ -49,7 +53,12 @@
     </div>
 
 </fieldset>
-
+	
+<script type="text/javascript">
+	{if $optionRowError}
+	    show('showOptionError');
+	{/if}
+	</script>
 {* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}
 {if $action eq 2 AND ($html_type eq 'Checkbox' OR $html_type eq 'Radio' OR $html_type eq 'Select') }
     <div class="action-link">
