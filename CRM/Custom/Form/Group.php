@@ -165,7 +165,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $group->name             = CRM_Utils_String::titleToVar($params['title']);
         $group->extends          = $params['extends'];
         $group->style            = $params['style'];
-        $group->collapse_display = $params['collapse_display'];
+        $group->collapse_display = CRM_Utils_Array::value('collapse_display', $params, false);
         $group->weight           = $params['weight'];
         $group->help_pre         = $params['help_pre'];
         $group->help_post        = $params['help_post'];
