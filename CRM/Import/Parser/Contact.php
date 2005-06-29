@@ -66,8 +66,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      */
     function init( ) {
         $fields =& CRM_Contact_BAO_Contact::importableFields( );
+        $this->_customMap = array();
+        
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern'] );
+            if (substr($name, 0, 7) == 'custom_') {
+                $this->_customMap[$name] = $field['custom_field_id'];       
+            }
         }
 
         $this->setActiveFields( $this->_mapperKeys );
@@ -192,12 +197,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     /**
      * handle the values in import mode
      *
+     * @param int $onDuplicate the code for what action to take on duplicates
      * @param array $values the array of values belonging to this line
      *
      * @return boolean      the result of this processing
      * @access public
      */
-    function import( &$values ) {
+    function import( $onDuplicate, &$values ) {
         // first make sure this is a valid line
         $response = $this->summary( $values );
 //         if ( $response != self::VALID ) {
@@ -214,13 +220,30 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             $urls = array( );
             $base = CRM_Utils_System::baseURL() . '/';
             
-            foreach ($newContact->_errors[0]['params'] as $id) {
+            foreach ($newContact->_errors[0]['params'] as $cid) {
                 $urls[] = $base . CRM_Utils_System::url('civicrm/contact/view',
-                'reset=1&cid=' . $id, false);
+                'reset=1&cid=' . $cid, false);
             }
             
             $url_string = implode("\n", $urls);
             array_unshift($values, $url_string); 
+           
+            /* If we duplicate more than one record, skip no matter what */
+            if (count($newContact->_errors[0]['params']) > 1) {
+                return CRM_Import_Parser::DUPLICATE |
+                            CRM_Import_Parser::MULTIPLE_DUPE;
+            }
+           
+            /* Params only had one id, so shift it out */
+            $contactId = array_shift($newContact->_errors[0]['params']);
+            
+            if ($onDuplicate == CRM_Import_Parser::DUPLICATE_REPLACE) {
+
+            } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) {
+
+            } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_FILL) {
+
+            } // else skip does nothing and just returns an error code.
             
 //             return self::DUPLICATE;
             return CRM_Import_Parser::DUPLICATE;

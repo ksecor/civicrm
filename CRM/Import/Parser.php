@@ -31,14 +31,15 @@ require_once 'CRM/Import/Field.php';
 abstract class CRM_Import_Parser {
 
     const
-        MAX_ERRORS   = 25,
-        MAX_WARNINGS = 25,
-        VALID        =  1,
-        WARNING      =  2,
-        ERROR        =  4,
-        CONFLICT     =  8,
-        STOP         = 16,
-        DUPLICATE    = 32;
+        MAX_ERRORS      = 25,
+        MAX_WARNINGS    = 25,
+        VALID           =  1,
+        WARNING         =  2,
+        ERROR           =  4,
+        CONFLICT        =  8,
+        STOP            = 16,
+        DUPLICATE       = 32,
+        MULTIPLE_DUPE   = 64;
 
     /**
      * various parser modes
@@ -154,6 +155,14 @@ abstract class CRM_Import_Parser {
      * @var array
      */
     protected $_activeFields;
+
+    /**
+     * array to keep track of the ids of custom fields
+     *
+     * @var array
+     */
+    protected $_customMap;
+
 
     /**
      * cache the count of active fields
@@ -288,7 +297,7 @@ abstract class CRM_Import_Parser {
             } else if ( $mode == self::MODE_SUMMARY ) {
                 $returnCode = $this->summary( $values );
             } else if ( $mode == self::MODE_IMPORT ) {
-                $returnCode = $this->import( $values );
+                $returnCode = $this->import( $onDuplicate, $values );
             } else {
                 $returnCode = self::ERROR;
             }
@@ -324,6 +333,10 @@ abstract class CRM_Import_Parser {
             } 
             
             if ( $returnCode & self::DUPLICATE ) {
+                if ( $returnCode & self::MULTIPLE_DUPE ) {
+                    /* TODO: multi-dupes should be counted apart from singles
+                     * on non-skip action */
+                }
                 $this->_duplicateCount++;
                 array_unshift($values, $this->_lineCount);
                 $this->_duplicates[] = $values;
@@ -372,7 +385,7 @@ abstract class CRM_Import_Parser {
     abstract function mapField( &$values );
     abstract function preview( &$values );
     abstract function summary( &$values );
-    abstract function import ( &$values );
+    abstract function import ( $onDuplicate, &$values );
 
     abstract function fini();
 
@@ -488,13 +501,13 @@ abstract class CRM_Import_Parser {
             $store->set( 'headerPatterns', $this->getHeaderPatterns( ) );
             $store->set( 'dataPatterns', $this->getDataPatterns( ) );
             $store->set( 'columnCount', $this->_activeFieldCount  );
-    
+
             $store->set( 'totalRowCount'    , $this->_totalCount     );
             $store->set( 'validRowCount'    , $this->_validCount     );
             $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
             $store->set( 'conflictRowCount', $this->_conflictCount );
         
-        
+            $store->set( 'customMap', $this->_customMap );        
         
             if ($this->_invalidRowCount) {
                 $store->set( 'errorsFileName', $this->_errorFileName );

@@ -48,6 +48,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     public static $_dataType = null;
 
+
+    /**
+     * Array to hold (formatted) fields for import
+     *
+     * @var array
+     * @static
+     */
+    public static $_importFields = null;
+
     static function &dataType()
     {
         if (!(self::$_dataType)) {
@@ -148,6 +157,55 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     public static function getTitle( $id )
     {
         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $id, 'label' );
+    }
+    
+    /**
+     * Return the field ids and names (with groups) for import purposes.
+     *
+     * @param void
+     * @return array $fields - 
+     *
+     * @access public
+     * @static
+     */
+    public static function &getFields( ) {
+        if (!(self::$_importFields)) {
+        
+            $query ="SELECT crm_custom_field.id, crm_custom_field.label,
+                            crm_custom_group.title
+                     FROM crm_custom_field
+                     INNER JOIN crm_custom_group
+                     ON crm_custom_field.custom_group_id = crm_custom_group.id
+                     WHERE crm_custom_field.is_active = 1
+                     AND   crm_custom_group.is_active = 1
+                     ORDER BY crm_custom_group.weight, crm_custom_group.id,
+                              crm_custom_field.weight, crm_custom_field.id";
+                 
+            $crmDAO =& new CRM_Core_DAO();
+            $crmDAO->query($query);
+            $result = $crmDAO->getDatabaseResult();
+            $fields = array();
+        
+            while (($row = $result->fetchRow()) != null) {
+                $fields[] = $row;
+            }
+    
+
+            $importableFields = array();
+            foreach ($fields as $values) {
+                /* generate the key for the fields array */
+                $key = "custom_$values[0]";
+                $importableFields[$key] = array(
+                    'title' => "$values[2]: $values[1]",
+                    'headerPattern' => '/' . preg_quote($values[1], '/') . '/',
+                    'import' => 1,
+                    'custom_field_id' => $values[0],
+                );
+            }
+            self::$_importFields =& $importableFields;
+        }
+        
+        return self::$_importFields;
     }
 }
 ?>
