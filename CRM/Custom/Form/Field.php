@@ -295,7 +295,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                             $_flagOption = 1;
                     }
                 }
-                if ($fields['option_value'][$i]) {
+                if ($fields['option_value'][$i] && $dataType != 'String') {
                     if ( $dataType == 'Int') {
                         if ( ! CRM_Utils_Rule::integer( $fields['option_value'][$i] ) ) {
                             $_flagOption = 1;
