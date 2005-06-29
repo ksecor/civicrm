@@ -229,7 +229,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                     }
                     $this->addGroup($check, $elementName, $field['label']);
                     if ($field['is_required']) {
-                         $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
+                        $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
                     }
                     break;
 

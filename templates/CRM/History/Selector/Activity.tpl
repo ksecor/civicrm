@@ -14,7 +14,7 @@
     {* Showing History *}
     <div id="openActivities[show]" class="data-group">
         {if $totalCountOpenActivity}
-            <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=0"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label> ($totalCountOpenActivity)
+            <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=0"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label> ({$totalCountOpenActivity})
         {else}
             {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q='action=add&pid=0&id=0&log=0'}{/capture}
             {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q='action=add&pid=0&id=0&log=0'}{/capture}
@@ -90,7 +90,7 @@
     {* Showing Open Activities - give link for History toggle *}
     <div id="activityHx[show]" class="data-group">
         {if $totalCountActivity}
-            <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=1"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Activity History{/ts}</label> ($totalCountActivity)
+            <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=1"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Activity History{/ts}</label> ({$totalCountActivity})
         {else}
             <dl><dt>{ts}Activity History{/ts}</dt><dd>{ts}No activity history for this contact.{/ts}</dd></dl>
         {/if}
