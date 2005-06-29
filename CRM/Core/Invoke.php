@@ -114,10 +114,16 @@ class CRM_Core_Invoke {
             return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
         }
 
-        if ( $args[2] == 'view' ) {
-
+        if ($args[2] == 'view') {
             // need to add tabs menu local task for contact's customdata
-            CRM_Core_Error::debug_log_message('add voter info and edu qual tabs pls');
+
+            //CRM_Core_Error::debug_log_message('add voter info and edu qual tabs pls');
+            $childMenu = CRM_Utils_Menu::getChildren('civicrm/contact/view', CRM_Utils_Menu::CALLBACK);
+
+            //CRM_Core_Error::debug_var('childMenu', $childMenu);
+            //CRM_Utils_Menu::getChildren('/civicrm/contact/view', CRM_Utils_Menu::CALLBACK);
+            //CRM_Utils_Menu::getChildren('/civicrm/contact/view/', CRM_Utils_Menu::CALLBACK);
+            //CRM_Utils_Menu::getChildren('civicrm/contact/view/', CRM_Utils_Menu::CALLBACK);
             $m1 = array(
                         'path'    => 'civicrm/contact/view/voter',
                         'title'   => ts('Voter Info'),
@@ -125,11 +131,10 @@ class CRM_Core_Invoke {
                         'crmType' => CRM_Utils_Menu::LOCAL_TASK,
                         'weight'  => 7,
                         );
-            CRM_Utils_Menu::add($m1);
+            //CRM_Utils_Menu::add($m1);
 
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
-
 
             switch ( $thirdArg ) {
             case 'note':

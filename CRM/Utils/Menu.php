@@ -465,6 +465,40 @@ class CRM_Utils_Menu {
         }
     }
 
+
+    /**
+     * Get children for a particular menu path sorted by ascending weight
+     *
+     * @param  string        $path  parent menu path
+     * @param  int|array     $type  menu types
+     *
+     * @return array         $menus
+     *
+     * @static
+     * @access public
+     */
+    public static function getChildren($path, $type)
+    {
+
+        $childMenu = array();
+
+        //CRM_Core_Error::le_method();
+        //CRM_Core_Error::debug_var('path', $path);
+        $path = trim($path, '/');
+        //CRM_Core_Error::debug_var('path', $path);        
+        // since we need children only
+        $path .= '/';
+        
+        foreach (self::items() as $menu) {
+            if (strpos($menu['path'], $path) === 0) {
+                $childMenu[] = $menu;
+            }
+        }
+        return $childMenu;
+        //CRM_Core_Error::ll_method();
+    }
+
+
 }
 
 ?>
