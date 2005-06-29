@@ -151,7 +151,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
             }
             
             if ( $defaultValue == $customOptionBAO->value ) {
-                $customOption[$customOptionBAO->id]['default_value'] = 'X';
+                $customOption[$customOptionBAO->id]['default_value'] = '[x]';
             } else {
                 $customOption[$customOptionBAO->id]['default_value'] = '';
             }
