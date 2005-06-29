@@ -117,6 +117,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * Fix what blocks to show/hide based on the default values set
      *
      * @param    array    array of Group Titles
+     * @param    array    array of Group Collapse Display 
      *
      * @return   
      *
@@ -125,6 +126,8 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     
     protected function setShowHide(&$groupTitle, &$groupCollapseDisplay)
     {
+        //print_r($this);
+        
         $this->_showHide =& new CRM_Core_ShowHideBlocks('','');
         
         foreach ($groupTitle as $key => $title) {
@@ -132,11 +135,13 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
           $hideBlocks = $title;
            
           if ($groupCollapseDisplay[$key]) {
-              $this->_showHide->addShow($hideBlocks);
-              $this->_showHide->addHide($showBlocks);
-          } else {
               $this->_showHide->addShow($showBlocks);
               $this->_showHide->addHide($hideBlocks);
+
+
+          } else {
+              $this->_showHide->addShow($hideBlocks);
+              $this->_showHide->addHide($showBlocks);
           }
         }
         $this->_showHide->addToTemplate();
@@ -267,8 +272,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
             }            
         }
 
-        $this->setShowHide($this->_groupTitle, $this->_groupCollapseDisplay);
-
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -282,6 +285,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $this->freeze();
         }
+        $this->setShowHide($this->_groupTitle, $this->_groupCollapseDisplay);        
     }
     
      /**
@@ -483,6 +487,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        print_r($this);
         // first reset all checkbox and radio data
         foreach ($this->_groupTree as $group) {
             foreach ($group['fields'] as $field) {
