@@ -31,7 +31,7 @@
  *
  */
 
-require_once 'CRM/Contact/Page/View.php';
+//require_once 'CRM/Contact/Page/View.php';
 
 /**
  * Main page for viewing contact.
