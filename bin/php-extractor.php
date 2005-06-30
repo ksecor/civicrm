@@ -330,7 +330,7 @@ function writeHeader($file)
     $output[] = '# CiviCRM POT file';
     $output[] = '# Copyright (C) 2005 Donald A. Lobo';
     $output[] = '# This file is distributed under the same license as the CiviCRM package.';
-    $output[] = '# Piotr Szotkowski <shot@caltha.pl>, 2005.';
+    $output[] = '# Piotr Szotkowski <shot@caltha.pl>, 2005';
     //$output[] = '# --VERSIONS--';
     $output[] = '# ';
     $output[] = '# ';
@@ -341,7 +341,7 @@ function writeHeader($file)
     $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
     $output[] = '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"';
     $output[] = '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"';
-    $output[] = '"Language-Team: <>\n"';
+    $output[] = '"Language-Team: none\n"';
     $output[] = '"MIME-Version: 1.0\n"';
     $output[] = '"Content-Type: text/plain; charset=CHARSET\n"';
     $output[] = '"Content-Transfer-Encoding: 8bit\n"';
