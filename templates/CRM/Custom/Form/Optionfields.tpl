@@ -32,9 +32,9 @@
         <div id="optionField[{$j}][show]" class="add-remove-link">
             { $form.optionField.$j.show.html}
 	    {if $j eq 11}
-	    <div class="description">
+	    {*<div class="description">
 		{ts}"If you need additional options - you can add them after you save your current entries."{/ts}
-	    </div>
+	    </div>*}
 	    {/if}
         </div>
     {/section}
