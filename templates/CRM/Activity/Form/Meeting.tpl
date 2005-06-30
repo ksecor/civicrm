@@ -1,14 +1,15 @@
 {* this template is used for adding/editing meeting  *}
 <div class="form-item">
 <fieldset>
-  {if $action eq 1 or $action eq 2  or $action eq 4}
    <legend>
     {if $action eq 1}
     {if $log}{ts}Log a Meeting{/ts}{else}{ts}Schedule a Meeting{/ts}{/if}
     {elseif $action eq 2}{ts}Edit Scheduled Meeting{/ts}
+    {elseif $action eq 8}{ts}Delete Meeting{/ts}
     {else}{ts}View Scheduled Meeting{/ts}{/if}
   </legend>
   <dl>
+     {if $action eq 1 or $action eq 2  or $action eq 4}
         {if $action eq 1}
           <dt>{ts}With Contact{/ts}</dt><dd>{$displayName}&nbsp;</dd>
         {else}
