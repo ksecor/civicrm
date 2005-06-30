@@ -18,8 +18,10 @@
   <dt><img src="{$config->resourceBase}i/Error.gif" alt="{ts}unrecoverable error{/ts}"></dt>
   <dd>
       {ts}Sorry. A non-recoverable error has occurred.{/ts}
-      <p>$errorMsg</p>
-      <p>{ts}Error Code:{/ts} {$errorCode}</p>
+      <p>{$message}</p>
+{if $code}
+      <p>{ts}Error Code:{/ts} {$code}</p>
+{/if}
       <p><a href="{$config->mainMenu}" title="{ts}Main Menu{/ts}">{ts}Return to CiviCRM menu.{/ts}</a></p>
   </dd>
   </dl>
