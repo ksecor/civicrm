@@ -1,17 +1,17 @@
 # CiviCRM POT file
 # Copyright (C) 2005 Donald A. Lobo
 # This file is distributed under the same license as the CiviCRM package.
-# Piotr Szotkowski <shot@caltha.pl>, 2005.
+# Piotr Szotkowski <shot@caltha.pl>, 2005
 # 
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 0.1\n"
+"Project-Id-Version: CiviCRM trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-29 10:17+0200\n"
+"POT-Creation-Date: 2005-06-30 11:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: <>\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -49,15 +49,15 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
-#: CRM/Activity/Form.php:168 CRM/Admin/Form/RelationshipType.php:76 CRM/Contact/Form/Task/Print.php:80 CRM/Contact/Form/Task/Result.php:88 CRM/Custom/Form/Field.php:226 CRM/Custom/Form/Group.php:126 CRM/Custom/Form/Option.php:143 CRM/Group/Form/DynamicGroup.php:69 CRM/Import/Form/Summary.php:105 CRM/UF/Form/Field.php:166 CRM/UF/Form/Group.php:104 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Note.tpl
+#: CRM/Activity/Form.php:168 CRM/Admin/Form/RelationshipType.php:76 CRM/Contact/Form/Task/Print.php:80 CRM/Contact/Form/Task/Result.php:88 CRM/Custom/Form/Field.php:226 CRM/Custom/Form/Group.php:126 CRM/Custom/Form/Option.php:143 CRM/Group/Form/DynamicGroup.php:69 CRM/Import/Form/Summary.php:106 CRM/UF/Form/Field.php:166 CRM/UF/Form/Group.php:104 templates/CRM/Contact/Form/Relationship.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "Done"
 msgstr ""
 
-#: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98 CRM/Contact/Form/CustomData.php:262 CRM/Contact/Form/Edit.php:268 CRM/Custom/Form/Field.php:213 CRM/Custom/Form/Group.php:115 CRM/Custom/Form/Option.php:132 CRM/Group/Form/Edit.php:101 CRM/Note/Form/Note.php:106 CRM/UF/Form/Dynamic.php:133 CRM/UF/Form/Field.php:154 CRM/UF/Form/Group.php:93 CRM/UF/Form/Register.php:117 templates/CRM/Block/Add.tpl
+#: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98 CRM/Contact/Form/CustomData.php:277 CRM/Contact/Form/Edit.php:268 CRM/Custom/Form/Field.php:213 CRM/Custom/Form/Group.php:115 CRM/Custom/Form/Option.php:132 CRM/Group/Form/Edit.php:101 CRM/Note/Form/Note.php:106 CRM/UF/Form/Dynamic.php:133 CRM/UF/Form/Field.php:154 CRM/UF/Form/Group.php:93 CRM/UF/Form/Register.php:117 templates/CRM/Block/Add.tpl
 msgid "Save"
 msgstr ""
 
-#: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57 CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:275 CRM/Contact/Form/Relationship.php:175;182 CRM/Contact/Form/Task/AddToHousehold.php:84;92 CRM/Contact/Form/Task/AddToOrganization.php:86;94 CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:216 CRM/Custom/Form/Group.php:119 CRM/Custom/Form/Option.php:135 CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76 CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:60 CRM/Import/Form/MapField.php:224 CRM/Import/Form/Preview.php:104 CRM/Import/Form/UploadFile.php:80 CRM/Note/Form/Note.php:109 CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:157 CRM/UF/Form/Group.php:97
+#: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57 CRM/Contact/Form/CustomData.php:280 CRM/Contact/Form/Edit.php:275 CRM/Contact/Form/Relationship.php:175;182 CRM/Contact/Form/Task/AddToHousehold.php:84;92 CRM/Contact/Form/Task/AddToOrganization.php:86;94 CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:216 CRM/Custom/Form/Group.php:119 CRM/Custom/Form/Option.php:135 CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76 CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:60 CRM/Import/Form/MapField.php:224 CRM/Import/Form/Preview.php:104 CRM/Import/Form/UploadFile.php:80 CRM/Note/Form/Note.php:109 CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:157 CRM/UF/Form/Group.php:97
 msgid "Cancel"
 msgstr ""
 
@@ -117,7 +117,7 @@ msgstr ""
 msgid "Postal Code"
 msgstr ""
 
-#: CRM/Contact/DAO/Address.php:427 CRM/Core/BAO/CustomField.php:59 CRM/Core/DAO/Note.php:162 templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Note.tpl
+#: CRM/Contact/DAO/Address.php:427 CRM/Core/BAO/CustomField.php:68 CRM/Core/DAO/Note.php:162 templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "Note"
 msgstr ""
 
@@ -197,35 +197,35 @@ msgstr ""
 msgid "End Date"
 msgstr ""
 
-#: CRM/Contact/Form/Address.php:72;75 CRM/Contact/Form/CustomData.php:222;230 CRM/Contact/Form/Relationship.php:147 CRM/Custom/Form/Preview.php:191;196 CRM/UF/Form/Dynamic.php:118;121 CRM/UF/Form/Register.php:102;105
+#: CRM/Contact/Form/Address.php:72;75 CRM/Contact/Form/CustomData.php:239;247 CRM/Contact/Form/Relationship.php:147 CRM/Custom/Form/Preview.php:194;199 CRM/UF/Form/Dynamic.php:118;121 CRM/UF/Form/Register.php:102;105
 msgid "- select -"
 msgstr ""
 
-#: CRM/Contact/Form/Address.php:74 CRM/Contact/Form/Search/Advanced.php:87 CRM/Contact/Import/Base.php:24 CRM/Contact/Selector.php:509 CRM/Core/BAO/CustomField.php:63 CRM/Core/DAO/Country.php:134 CRM/Core/DAO/County.php:137 templates/CRM/Contact/Form/Task/Print.tpl
+#: CRM/Contact/Form/Address.php:74 CRM/Contact/Form/Search/Advanced.php:87 CRM/Contact/Import/Base.php:24 CRM/Contact/Selector.php:509 CRM/Core/BAO/CustomField.php:72 CRM/Core/DAO/Country.php:134 CRM/Core/DAO/County.php:137 templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
 msgstr ""
 
-#: CRM/Contact/Form/CustomData.php:191 CRM/Custom/Form/Preview.php:158 templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
+#: CRM/Contact/Form/CustomData.php:205 CRM/Custom/Form/Preview.php:158 templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
 msgstr ""
 
-#: CRM/Contact/Form/CustomData.php:192 CRM/Custom/Form/Preview.php:160 templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
+#: CRM/Contact/Form/CustomData.php:206 CRM/Custom/Form/Preview.php:160 templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/IMProvider.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/MobileProvider.tpl templates/CRM/Admin/Page/RelationshipType.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
 msgstr ""
 
-#: CRM/Contact/Form/CustomData.php:196 CRM/Custom/Form/Preview.php:164
+#: CRM/Contact/Form/CustomData.php:210;232 CRM/Custom/Form/Preview.php:164;189
 msgid "%1 is a required field."
 msgstr ""
 
-#: CRM/Contact/Form/CustomData.php:238 CRM/Custom/Form/Preview.php:204
+#: CRM/Contact/Form/CustomData.php:255 CRM/Custom/Form/Preview.php:207
 msgid "%1 must be an integer (whole number)."
 msgstr ""
 
-#: CRM/Contact/Form/CustomData.php:242 CRM/Custom/Form/Preview.php:208
+#: CRM/Contact/Form/CustomData.php:259 CRM/Custom/Form/Preview.php:211
 msgid "%1 is not a valid date."
 msgstr ""
 
-#: CRM/Contact/Form/CustomData.php:247 CRM/Custom/Form/Preview.php:213
+#: CRM/Contact/Form/CustomData.php:264 CRM/Custom/Form/Preview.php:216
 msgid "%1 must be a number (with or without decimal point)."
 msgstr ""
 
@@ -259,7 +259,7 @@ msgid_plural "%count matching contacts were found. You can edit them here: %1"
 msgstr[0] ""
 msgstr[1] ""
 
-#: CRM/Contact/Form/Relationship.php:174 CRM/Contact/Form/Search.php:274;279 CRM/Contact/Form/Task/AddToHousehold.php:83 CRM/Contact/Form/Task/AddToOrganization.php:85 CRM/Contact/Page/SavedSearch.php:134;137 CRM/Core/Invoke.php:202 templates/CRM/Block/Search.tpl
+#: CRM/Contact/Form/Relationship.php:174 CRM/Contact/Form/Search.php:274;279 CRM/Contact/Form/Task/AddToHousehold.php:83 CRM/Contact/Form/Task/AddToOrganization.php:85 CRM/Contact/Page/SavedSearch.php:134;137 CRM/Core/Invoke.php:207 templates/CRM/Block/Search.tpl
 msgid "Search"
 msgstr ""
 
@@ -267,7 +267,7 @@ msgstr ""
 msgid "Find..."
 msgstr ""
 
-#: CRM/Contact/Form/Search/Advanced.php:83 CRM/Core/BAO/CustomField.php:62
+#: CRM/Contact/Form/Search/Advanced.php:83 CRM/Core/BAO/CustomField.php:71
 msgid "State/Province"
 msgstr ""
 
@@ -359,7 +359,7 @@ msgstr ""
 msgid "CiviCRM Activity History"
 msgstr ""
 
-#: CRM/Contact/Selector/Activity.php:257 CRM/Core/SelectValues.php:401;408
+#: CRM/Contact/Selector/Activity.php:257 CRM/Core/SelectValues.php:405;412
 msgid "Scheduled"
 msgstr ""
 
@@ -367,15 +367,15 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php:56 CRM/Core/SelectValues.php:214
+#: CRM/Core/BAO/CustomField.php:65 CRM/Core/SelectValues.php:214
 msgid "Integer"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php:58 CRM/Core/SelectValues.php:216
+#: CRM/Core/BAO/CustomField.php:67 CRM/Core/SelectValues.php:216
 msgid "Money"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php:60 CRM/Core/SelectValues.php:218 templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Note.tpl
+#: CRM/Core/BAO/CustomField.php:69 CRM/Core/SelectValues.php:218 templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date"
 msgstr ""
 
@@ -395,7 +395,7 @@ msgstr ""
 msgid "New Household"
 msgstr ""
 
-#: CRM/Core/DAO/CustomField.php:232 CRM/Core/DAO/CustomOption.php:155 CRM/Custom/Form/Field.php:182 templates/CRM/Custom/Form/Optionfields.tpl
+#: CRM/Core/DAO/CustomField.php:232 CRM/Core/DAO/CustomOption.php:155 CRM/Custom/Form/Field.php:182 templates/CRM/Custom/Form/OptionFieldsError.tpl templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Label"
 msgstr ""
 
@@ -407,7 +407,7 @@ msgstr ""
 msgid "Default Value"
 msgstr ""
 
-#: CRM/Core/DAO/CustomField.php:255 CRM/Core/DAO/CustomGroup.php:226 CRM/Core/DAO/CustomOption.php:167 CRM/Core/DAO/UFField.php:212 CRM/Custom/Form/Field.php:186;196 CRM/Custom/Form/Group.php:101 CRM/Custom/Form/Option.php:120 CRM/UF/Form/Field.php:135 templates/CRM/Custom/Form/Optionfields.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl
+#: CRM/Core/DAO/CustomField.php:255 CRM/Core/DAO/CustomGroup.php:226 CRM/Core/DAO/CustomOption.php:167 CRM/Core/DAO/UFField.php:212 CRM/Custom/Form/Field.php:186;196 CRM/Custom/Form/Group.php:101 CRM/Custom/Form/Option.php:120 CRM/UF/Form/Field.php:135 templates/CRM/Custom/Form/OptionFieldsError.tpl templates/CRM/Custom/Form/Optionfields.tpl templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl templates/CRM/Custom/Page/Option.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Weight"
 msgstr ""
 
@@ -423,7 +423,7 @@ msgstr ""
 msgid "Mask"
 msgstr ""
 
-#: CRM/Core/DAO/CustomOption.php:161 CRM/Custom/Form/Field.php:184 templates/CRM/Custom/Form/Optionfields.tpl
+#: CRM/Core/DAO/CustomOption.php:161 CRM/Custom/Form/Field.php:184 templates/CRM/Custom/Form/OptionFieldsError.tpl templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Value"
 msgstr ""
 
@@ -447,27 +447,27 @@ msgstr ""
 msgid "Listings Title"
 msgstr ""
 
-#: CRM/Core/Invoke.php:198 CRM/Utils/Menu.php:201 templates/CRM/Block/Search.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+#: CRM/Core/Invoke.php:203 CRM/Utils/Menu.php:201 templates/CRM/Block/Search.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "Advanced Search"
 msgstr ""
 
-#: CRM/Core/Invoke.php:291 CRM/UF/Page/Group.php:148 templates/CRM/UF/Form/Group.tpl
+#: CRM/Core/Invoke.php:296 CRM/UF/Page/Group.php:148 templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile Group"
 msgstr ""
 
-#: CRM/Core/Invoke.php:293 CRM/UF/Page/Field.php:166 templates/CRM/UF/Form/Field.tpl
+#: CRM/Core/Invoke.php:298 CRM/UF/Page/Field.php:166 templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
 msgstr ""
 
-#: CRM/Core/Invoke.php:317 CRM/Utils/Menu.php:345
+#: CRM/Core/Invoke.php:322 CRM/Utils/Menu.php:345
 msgid "Import Contacts"
 msgstr ""
 
-#: CRM/Core/Invoke.php:337 CRM/Utils/Menu.php:289
+#: CRM/Core/Invoke.php:342 CRM/Utils/Menu.php:289
 msgid "Groups"
 msgstr ""
 
-#: CRM/Custom/Form/Field.php:188;208 CRM/Custom/Form/Option.php:124 CRM/UF/Form/Field.php:146 templates/CRM/Custom/Form/Optionfields.tpl
+#: CRM/Custom/Form/Field.php:188;208 CRM/Custom/Form/Option.php:124 CRM/UF/Form/Field.php:146 templates/CRM/Custom/Form/OptionFieldsError.tpl templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Active?"
 msgstr ""
 
@@ -1453,15 +1453,15 @@ msgstr ""
 msgid "Map Contacts using Google Maps"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php:55
+#: CRM/Core/BAO/CustomField.php:64
 msgid "Alphanumeric"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php:57
+#: CRM/Core/BAO/CustomField.php:66
 msgid "Number"
 msgstr ""
 
-#: CRM/Core/BAO/CustomField.php:61
+#: CRM/Core/BAO/CustomField.php:70
 msgid "Yes or No"
 msgstr ""
 
@@ -1637,43 +1637,43 @@ msgstr ""
 msgid "Email a Contact"
 msgstr ""
 
-#: CRM/Core/Invoke.php:123
+#: CRM/Core/Invoke.php:129
 msgid "Voter Info"
 msgstr ""
 
-#: CRM/Core/Invoke.php:222
+#: CRM/Core/Invoke.php:227
 msgid "Contact Page"
 msgstr ""
 
-#: CRM/Core/Invoke.php:262
+#: CRM/Core/Invoke.php:267
 msgid "View Location Types"
 msgstr ""
 
-#: CRM/Core/Invoke.php:265
+#: CRM/Core/Invoke.php:270
 msgid "View Instant Messenger Providers"
 msgstr ""
 
-#: CRM/Core/Invoke.php:268
+#: CRM/Core/Invoke.php:273
 msgid "View Mobile Providers"
 msgstr ""
 
-#: CRM/Core/Invoke.php:271
+#: CRM/Core/Invoke.php:276
 msgid "View Relationship Types"
 msgstr ""
 
-#: CRM/Core/Invoke.php:276 templates/CRM/Custom/Form/Group.tpl
+#: CRM/Core/Invoke.php:281 templates/CRM/Custom/Form/Group.tpl
 msgid "Custom Data Group"
 msgstr ""
 
-#: CRM/Core/Invoke.php:279;281;282 templates/CRM/Custom/Form/Field.tpl
+#: CRM/Core/Invoke.php:284;286;287 templates/CRM/Custom/Form/Field.tpl
 msgid "Custom Data Field"
 msgstr ""
 
-#: CRM/Core/Invoke.php:298
+#: CRM/Core/Invoke.php:303
 msgid "View Tags"
 msgstr ""
 
-#: CRM/Core/Invoke.php:346
+#: CRM/Core/Invoke.php:351
 msgid "View Groups"
 msgstr ""
 
@@ -1733,7 +1733,7 @@ msgstr ""
 msgid "Customized"
 msgstr ""
 
-#: CRM/Core/SelectValues.php:105;125;212;234;334
+#: CRM/Core/SelectValues.php:105;125;212;234;338
 msgid "-select-"
 msgstr ""
 
@@ -1865,15 +1865,15 @@ msgstr ""
 msgid "Static"
 msgstr ""
 
-#: CRM/Core/SelectValues.php:402;409
+#: CRM/Core/SelectValues.php:406;413
 msgid "Completed"
 msgstr ""
 
-#: CRM/Core/SelectValues.php:403
+#: CRM/Core/SelectValues.php:407
 msgid "Unreachable"
 msgstr ""
 
-#: CRM/Core/SelectValues.php:404
+#: CRM/Core/SelectValues.php:408
 msgid "Left Message"
 msgstr ""
 
@@ -1909,7 +1909,7 @@ msgstr ""
 msgid "hide this row"
 msgstr ""
 
-#: CRM/Custom/Form/Field.php:351
+#: CRM/Custom/Form/Field.php:393
 msgid "Your custom field \"%1\" has been saved"
 msgstr ""
 
@@ -1965,7 +1965,7 @@ msgstr ""
 msgid "Your multiple choice option \"%1\" has been saved"
 msgstr ""
 
-#: CRM/Custom/Form/Preview.php:221
+#: CRM/Custom/Form/Preview.php:224
 msgid "Done with Preview"
 msgstr ""
 
@@ -2177,7 +2177,7 @@ msgstr ""
 msgid "These records have not been imported."
 msgstr ""
 
-#: CRM/Import/Form/Summary.php:118
+#: CRM/Import/Form/Summary.php:119
 msgid "Summary"
 msgstr ""
 
@@ -2221,27 +2221,27 @@ msgstr ""
 msgid "Upload Data"
 msgstr ""
 
-#: CRM/Import/Parser/Contact.php:148;171
+#: CRM/Import/Parser/Contact.php:153;176
 msgid "Missing required fields"
 msgstr ""
 
-#: CRM/Import/Parser/Contact.php:156
+#: CRM/Import/Parser/Contact.php:161
 msgid "Invalid Email address"
 msgstr ""
 
-#: CRM/Import/Parser/Contact.php:162
+#: CRM/Import/Parser/Contact.php:167
 msgid "Email address conflicts with record %1"
 msgstr ""
 
-#: CRM/Import/Parser.php:347;361
+#: CRM/Import/Parser.php:360;374
 msgid "Record Number"
 msgstr ""
 
-#: CRM/Import/Parser.php:348
+#: CRM/Import/Parser.php:361
 msgid "Reason"
 msgstr ""
 
-#: CRM/Import/Parser.php:362
+#: CRM/Import/Parser.php:375
 msgid "View Contact URL"
 msgstr ""
 
@@ -2669,6 +2669,14 @@ msgstr ""
 msgid "Select the preferred method of communicating with this contact."
 msgstr ""
 
+#: templates/CRM/Contact/Form/CustomData.tpl templates/CRM/Contact/Form/Search/Advanced.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
+msgid "open section"
+msgstr ""
+
+#: templates/CRM/Contact/Form/CustomData.tpl templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/CustomData.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
+msgid "close section"
+msgstr ""
+
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
 msgstr ""
@@ -2753,10 +2761,6 @@ msgstr ""
 msgid "If this relationship has start and/or end dates, specify them here."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
-msgid "close section"
-msgstr ""
-
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "Find Members of this Group"
 msgstr ""
@@ -2791,10 +2795,6 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
 msgid "Activity History"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Search/Advanced.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/Contact/Page/View/Contact.tpl templates/CRM/History/Selector/Activity.tpl templates/CRM/History/Selector/Activity.tpl
-msgid "open section"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
@@ -3263,16 +3263,20 @@ msgstr ""
 msgid "Custom Fields for this Group"
 msgstr ""
 
-#: templates/CRM/Custom/Form/Optionfields.tpl
+#: templates/CRM/Custom/Form/OptionFieldsError.tpl templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Multiple Choice Options"
 msgstr ""
 
-#: templates/CRM/Custom/Form/Optionfields.tpl
+#: templates/CRM/Custom/Form/OptionFieldsError.tpl templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Enter up to ten (10) multiple choice options in this table (click 'another choice' for each additional choice). If desired, you can mark one of the choices as the default choice. The option 'label' is displayed on the form, while the option 'value' is stored in the contact record. The label and value may be the same or different. Inactive options are hidden when the field is presented."
 msgstr ""
 
-#: templates/CRM/Custom/Form/Optionfields.tpl
+#: templates/CRM/Custom/Form/OptionFieldsError.tpl templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Defaults"
+msgstr ""
+
+#: templates/CRM/Custom/Form/OptionFieldsError.tpl templates/CRM/Custom/Form/Optionfields.tpl
+msgid "\"If you need additional options - you can add them after you save your current entries.\""
 msgstr ""
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
@@ -3418,7 +3422,7 @@ msgid "No activity history for this contact."
 msgstr ""
 
 #: templates/CRM/Import/Form/MapField.tpl
-msgid "Review the values shown below from the first 2 rows of your import file and select the matching CiviCRM database fields from the drop-down lists in the right-hand column. Select '-do not import' for any columns in the import file that you want ignored."
+msgid "Review the values shown below from the first 2 rows of your import file and select the matching CiviCRM database fields from the drop-down lists in the right-hand column. Select '-do not import-' for any columns in the import file that you want ignored."
 msgstr ""
 
 #: templates/CRM/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl
