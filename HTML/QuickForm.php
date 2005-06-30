@@ -1133,14 +1133,15 @@ class HTML_QuickForm extends HTML_Common {
     * 
     * @access   public
     * @param    mixed   Callback, either function name or array(&$object, 'method')
+     * @param   string  $format   (optional)Required for extra rule data
     * @throws   HTML_QuickForm_Error
     */
-    function addFormRule($rule)
+    function addFormRule($rule, $format=null)
     {
         if (!is_callable($rule)) {
             return PEAR::raiseError(null, QUICKFORM_INVALID_RULE, null, E_USER_WARNING, 'Callback function does not exist in HTML_QuickForm::addFormRule()', 'HTML_QuickForm_Error', true);
         }
-        $this->_formRules[] = $rule;
+        $this->_formRules[] = array($rule,$format);
     }
     
     // }}}
@@ -1465,8 +1466,9 @@ class HTML_QuickForm extends HTML_Common {
         }
 
         // process the global rules now
-        foreach ($this->_formRules as $rule) {
-            if (true !== ($res = call_user_func($rule, $this->_submitValues, $this->_submitFiles))) {
+        foreach ($this->_formRules as $value) {
+            list($rule, $options) = $value;
+            if (true !== ($res = call_user_func($rule, $this->_submitValues, $this->_submitFiles, $options))) {
                 if (is_array($res)) {
                     $this->_errors += $res;
                 } else {
