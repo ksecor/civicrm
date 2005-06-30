@@ -127,7 +127,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                         CRM_Core_Action::DELETE => array(
                                                                          'name'     => ts('Delete'),
                                                                          'url'      => 'civicrm/contact/view/activity',
-                                                                         'qs'       => 'action=delete&activity_history_id=%%activity_history_id%%',
+                                                                         'qs'       => 'action=delete&id=%%activity_history_id%%',
                                                                          'title'    => ts('Delete Activity History'),
                                                                          ),
                                         );
