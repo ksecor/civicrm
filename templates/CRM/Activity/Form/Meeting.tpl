@@ -1,6 +1,7 @@
 {* this template is used for adding/editing meeting  *}
 <div class="form-item">
 <fieldset>
+  {if $action eq 1 or $action eq 2  or $action eq 4}
    <legend>
     {if $action eq 1}
     {if $log}{ts}Log a Meeting{/ts}{else}{ts}Schedule a Meeting{/ts}{/if}
@@ -22,7 +23,12 @@
     {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Meeting will be moved to Activity History when status is 'Completed'.{/ts}</dd>
     {/if}
+
     <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}</dd>
+   {/if}
+    {if $action eq 8 }
+    <div class="status">{ts} Are you sure you want to delete "{$delName}" ?{/ts}</div>
+    {/if}
     <dt></dt><dd>{$form.buttons.html}</dd>
   </dl>
 </fieldset>

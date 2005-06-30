@@ -55,7 +55,13 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
      * @access public
      */
     public function buildQuickForm( ) 
-    {
+    { 
+
+        parent::buildQuickForm( );
+        
+        if ($this->_action & CRM_Core_Action::DELETE ) { 
+            return;
+        }
         $this->applyFilter('__ALL__', 'trim');
         $contactPhone[''] = ts('Select Phone Number');
         if ( is_array(CRM_Contact_BAO_Phone::getphoneNumber($this->_contactId))) {
@@ -65,7 +71,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         $this->add('text', 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'subject' ));
         $this->addRule( 'subject', ts('The Field Subject should not be Empty'), 'required' );
         $this->add('date', 'scheduled_date_time', ts('Date and Time'),CRM_Core_SelectValues::date('datetime'));
-        $this->addRule( 'scheduled_date_time', ts('Please enter a valid date and time for this call.'), 'qfDate' );
+        //$this->addRule( 'scheduled_date_time', ts('Please enter a valid date and time for this call.'), 'qfDate' );
         $this->addRule( 'scheduled_date_time', ts('Call Date and Time are required.'), 'required' );
 
         $this->add('select','phone_id',ts('Phone Number'), $contactPhone );
@@ -79,7 +85,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         
         $this->add('textarea', 'details'       , ts('Details')       ,CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Phonecall', 'details' ));
         
-        parent::buildQuickForm( );
+        
     }
 
        
@@ -93,6 +99,10 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
     {
         if ($this->_action & CRM_Core_Action::VIEW ) { 
             return;
+        }
+        if ($this->_action & CRM_Core_Action::DELETE ) { 
+            CRM_Core_BAO_Phonecall::del( $this->_id);
+           
         }
 
          // store the submitted values in an array
@@ -120,7 +130,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         }
       
         $call = CRM_Core_BAO_Phonecall::add($params, $ids);
-
+        //echo "+++++++++++++++++++++++++";
         if($call->status=='Completed'){
             // we need to insert an activity history record here
             $params = array('entity_table'     => 'crm_contact',
@@ -140,9 +150,14 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
            
             }
         }
+      
+        // print_r($params);
         if($call->status=='Completed'){
             CRM_Core_Session::setStatus( ts('Phone Call "%1" has been logged to Activity History.', array( 1 => $call->subject)) );
-        } else {
+        } else if($this->_action & CRM_Core_Action::DELETE) {
+            CRM_Core_Session::setStatus( ts("Selected Phone Call is deleted sucessfully")); 
+
+        }else{
             CRM_Core_Session::setStatus( ts('Phone Call "%1" has been saved.', array( 1 => $call->subject)) );
         }
     }

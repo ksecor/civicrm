@@ -1,6 +1,7 @@
 {* this template is used for adding/editing calls  *}
 <div class="form-item">
   <fieldset>
+{if $action eq 1 or $action eq 2  or $action eq 4}	
    <legend>
     {if $action eq 1}
         {if $log}{ts}Log a Phone Call{/ts}{else}{ts}Schedule a Phone Call{/ts}{/if}
@@ -23,10 +24,14 @@
         <dt>&nbsp;</dt><dd class="description">{ts}Call will be moved to Activity History when status is 'Completed'.{/ts}</dd>
     {/if}
 	<dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}</dd>
+    {/if}
 
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+    {if $action eq 8 }
+    <div class="status">{ts} Are you sure you want to delete "{$delName}" ?{/ts}</div>
+    {/if}	
     <dt></dt><dd>{$form.buttons.html}</dd>
-
+    
   </dl>
 </fieldset>
 </div>

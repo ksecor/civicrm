@@ -56,6 +56,13 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
      */
     public function buildQuickForm( ) 
     {
+
+        parent::buildQuickForm( );
+        
+        if ($this->_action & CRM_Core_Action::DELETE ) { 
+            return;
+        }
+
         $this->applyFilter('__ALL__', 'trim');
        
         $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Meeting', 'subject' ) );
@@ -75,9 +82,8 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         $status =& $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus());
         $this->addRule( 'status', ts('Please select status.'), 'required' );
         
-        parent::buildQuickForm( );
-    }
 
+    }
        
     /**
      * Function to process the form
@@ -89,6 +95,11 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
     {
         if ($this->_action & CRM_Core_Action::VIEW ) { 
             return;
+        }
+
+        if ($this->_action & CRM_Core_Action::DELETE ) { 
+            CRM_Core_BAO_Meeting::del( $this->_id);
+           
         }
 
         // store the submitted values in an array
@@ -139,7 +150,9 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
              
         if($meeting->status=='Completed'){
             CRM_Core_Session::setStatus( ts('Meeting "%1" has been logged to Activity History.', array( 1 => $meeting->subject)) );
-        } else {
+        } else if($this->_action & CRM_Core_Action::DELETE) {
+            CRM_Core_Session::setStatus( ts("Selected Meeting is deleted sucessfully"));
+        }   else{
             CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $meeting->subject)) );
         }
     }//end of function
