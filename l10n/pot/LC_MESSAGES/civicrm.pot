@@ -6,9 +6,9 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 0.1\n"
+"Project-Id-Version: CiviCRM 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-29 10:18+0200\n"
+"POT-Creation-Date: 2005-06-30 10:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: <>\n"
@@ -53,11 +53,11 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98 CRM/Contact/Form/CustomData.php:262 CRM/Contact/Form/Edit.php:268 CRM/Custom/Form/Field.php:213 CRM/Custom/Form/Group.php:110 CRM/Custom/Form/Option.php:132 CRM/Group/Form/Edit.php:101 CRM/Note/Form/Note.php:106 CRM/UF/Form/Dynamic.php:133 CRM/UF/Form/Field.php:154 CRM/UF/Form/Group.php:93 CRM/UF/Form/Register.php:117 templates/CRM/Block/Add.tpl
+#: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98 CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:268 CRM/Custom/Form/Field.php:213 CRM/Custom/Form/Group.php:110 CRM/Custom/Form/Option.php:132 CRM/Group/Form/Edit.php:101 CRM/Note/Form/Note.php:106 CRM/UF/Form/Dynamic.php:133 CRM/UF/Form/Field.php:154 CRM/UF/Form/Group.php:93 CRM/UF/Form/Register.php:117 templates/CRM/Block/Add.tpl
 msgid "Save"
 msgstr ""
 
-#: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57 CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:275 CRM/Contact/Form/Relationship.php:175;182 CRM/Contact/Form/Task/AddToHousehold.php:84;92 CRM/Contact/Form/Task/AddToOrganization.php:86;94 CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:216 CRM/Custom/Form/Group.php:114 CRM/Custom/Form/Option.php:135 CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76 CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:60 CRM/Import/Form/MapField.php:224 CRM/Import/Form/Preview.php:104 CRM/Import/Form/UploadFile.php:72 CRM/Note/Form/Note.php:109 CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:157 CRM/UF/Form/Group.php:97
+#: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57 CRM/Contact/Form/CustomData.php:268 CRM/Contact/Form/Edit.php:275 CRM/Contact/Form/Relationship.php:175;182 CRM/Contact/Form/Task/AddToHousehold.php:84;92 CRM/Contact/Form/Task/AddToOrganization.php:86;94 CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:216 CRM/Custom/Form/Group.php:114 CRM/Custom/Form/Option.php:135 CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76 CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:60 CRM/Import/Form/MapField.php:224 CRM/Import/Form/Preview.php:104 CRM/Import/Form/UploadFile.php:72 CRM/Note/Form/Note.php:109 CRM/Tag/Form/Tag.php:94 CRM/UF/Form/Field.php:157 CRM/UF/Form/Group.php:97
 msgid "Cancel"
 msgstr ""
 
@@ -197,7 +197,7 @@ msgstr ""
 msgid "End Date"
 msgstr ""
 
-#: CRM/Contact/Form/Address.php:72;75 CRM/Contact/Form/CustomData.php:222;230 CRM/Contact/Form/Relationship.php:147 CRM/Custom/Form/Preview.php:191;196 CRM/UF/Form/Dynamic.php:118;121 CRM/UF/Form/Register.php:102;105
+#: CRM/Contact/Form/Address.php:72;75 CRM/Contact/Form/CustomData.php:225;233 CRM/Contact/Form/Relationship.php:147 CRM/Custom/Form/Preview.php:194;199 CRM/UF/Form/Dynamic.php:118;121 CRM/UF/Form/Register.php:102;105
 msgid "- select -"
 msgstr ""
 
@@ -213,19 +213,19 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: CRM/Contact/Form/CustomData.php:196 CRM/Custom/Form/Preview.php:164
+#: CRM/Contact/Form/CustomData.php:196;218 CRM/Custom/Form/Preview.php:164;189
 msgid "%1 is a required field."
 msgstr ""
 
-#: CRM/Contact/Form/CustomData.php:238 CRM/Custom/Form/Preview.php:204
+#: CRM/Contact/Form/CustomData.php:241 CRM/Custom/Form/Preview.php:207
 msgid "%1 must be an integer (whole number)."
 msgstr ""
 
-#: CRM/Contact/Form/CustomData.php:242 CRM/Custom/Form/Preview.php:208
+#: CRM/Contact/Form/CustomData.php:245 CRM/Custom/Form/Preview.php:211
 msgid "%1 is not a valid date."
 msgstr ""
 
-#: CRM/Contact/Form/CustomData.php:247 CRM/Custom/Form/Preview.php:213
+#: CRM/Contact/Form/CustomData.php:250 CRM/Custom/Form/Preview.php:216
 msgid "%1 must be a number (with or without decimal point)."
 msgstr ""
 
@@ -1949,7 +1949,7 @@ msgstr ""
 msgid "Your multiple choice option \"%1\" has been saved"
 msgstr ""
 
-#: CRM/Custom/Form/Preview.php:221
+#: CRM/Custom/Form/Preview.php:224
 msgid "Done with Preview"
 msgstr ""
 
@@ -3354,7 +3354,7 @@ msgid "No activity history for this contact."
 msgstr ""
 
 #: templates/CRM/Import/Form/MapField.tpl
-msgid "Review the values shown below from the first 2 rows of your import file and select the matching CiviCRM database fields from the drop-down lists in the right-hand column. Select '-do not import' for any columns in the import file that you want ignored."
+msgid "Review the values shown below from the first 2 rows of your import file and select the matching CiviCRM database fields from the drop-down lists in the right-hand column. Select '-do not import-' for any columns in the import file that you want ignored."
 msgstr ""
 
 #: templates/CRM/Import/Form/MapTable.tpl templates/CRM/Import/Form/MapTable.tpl

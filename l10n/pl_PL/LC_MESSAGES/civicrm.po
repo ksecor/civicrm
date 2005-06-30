@@ -6,12 +6,12 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 0.1\n"
+"Project-Id-Version: v 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-29 09:47+0200\n"
-"PO-Revision-Date: 2005-06-29 09:53+0200\n"
+"POT-Creation-Date: 2005-06-30 10:22+0200\n"
+"PO-Revision-Date: 2005-06-30 10:25+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
-"Language-Team: <>\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -71,7 +71,7 @@ msgid "Done"
 msgstr "OK"
 
 #: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98
-#: CRM/Contact/Form/CustomData.php:262 CRM/Contact/Form/Edit.php:268
+#: CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:268
 #: CRM/Custom/Form/Field.php:213 CRM/Custom/Form/Group.php:110
 #: CRM/Custom/Form/Option.php:132 CRM/Group/Form/Edit.php:101
 #: CRM/Note/Form/Note.php:106 CRM/UF/Form/Dynamic.php:133
@@ -81,7 +81,7 @@ msgid "Save"
 msgstr "Zapisz"
 
 #: CRM/Activity/Form.php:178 CRM/Admin/Form.php:101 CRM/Admin/Form/Tag.php:57
-#: CRM/Contact/Form/CustomData.php:265 CRM/Contact/Form/Edit.php:275
+#: CRM/Contact/Form/CustomData.php:268 CRM/Contact/Form/Edit.php:275
 #: CRM/Contact/Form/Relationship.php:175;182
 #: CRM/Contact/Form/Task/AddToHousehold.php:84;92
 #: CRM/Contact/Form/Task/AddToOrganization.php:86;94
@@ -317,8 +317,8 @@ msgstr "Data rozpoczęcia"
 msgid "End Date"
 msgstr "Data zakończenia"
 
-#: CRM/Contact/Form/Address.php:72;75 CRM/Contact/Form/CustomData.php:222;230
-#: CRM/Contact/Form/Relationship.php:147 CRM/Custom/Form/Preview.php:191;196
+#: CRM/Contact/Form/Address.php:72;75 CRM/Contact/Form/CustomData.php:225;233
+#: CRM/Contact/Form/Relationship.php:147 CRM/Custom/Form/Preview.php:194;199
 #: CRM/UF/Form/Dynamic.php:118;121 CRM/UF/Form/Register.php:102;105
 msgid "- select -"
 msgstr "- wybierz -"
@@ -348,19 +348,19 @@ msgstr "Tak"
 msgid "No"
 msgstr "Nie"
 
-#: CRM/Contact/Form/CustomData.php:196 CRM/Custom/Form/Preview.php:164
+#: CRM/Contact/Form/CustomData.php:196;218 CRM/Custom/Form/Preview.php:164;189
 msgid "%1 is a required field."
 msgstr "%1 jest polem wymaganym."
 
-#: CRM/Contact/Form/CustomData.php:238 CRM/Custom/Form/Preview.php:204
+#: CRM/Contact/Form/CustomData.php:241 CRM/Custom/Form/Preview.php:207
 msgid "%1 must be an integer (whole number)."
 msgstr "%1 musi być liczbą całkowitą."
 
-#: CRM/Contact/Form/CustomData.php:242 CRM/Custom/Form/Preview.php:208
+#: CRM/Contact/Form/CustomData.php:245 CRM/Custom/Form/Preview.php:211
 msgid "%1 is not a valid date."
 msgstr "%1 nie jest poprawną datą."
 
-#: CRM/Contact/Form/CustomData.php:247 CRM/Custom/Form/Preview.php:213
+#: CRM/Contact/Form/CustomData.php:250 CRM/Custom/Form/Preview.php:216
 msgid "%1 must be a number (with or without decimal point)."
 msgstr "%1 musi być liczbą (całkowitą lub nie)."
 
@@ -2201,7 +2201,7 @@ msgstr "Domyślnie"
 msgid "Your multiple choice option \"%1\" has been saved"
 msgstr "Opcja wielokrotnego wyboru „%1” została zapisana"
 
-#: CRM/Custom/Form/Preview.php:221
+#: CRM/Custom/Form/Preview.php:224
 msgid "Done with Preview"
 msgstr "Koniec podglądu"
 
@@ -3895,7 +3895,7 @@ msgstr "Brak historii zdarzeń dla tego kontaktu."
 msgid ""
 "Review the values shown below from the first 2 rows of your import file and "
 "select the matching CiviCRM database fields from the drop-down lists in the "
-"right-hand column. Select '-do not import' for any columns in the import "
+"right-hand column. Select '-do not import-' for any columns in the import "
 "file that you want ignored."
 msgstr ""
 "Sprawdź dane wyświetlone poniżej na podstawie dwóch pierwszych rzędów pliku "
@@ -4257,95 +4257,3 @@ msgstr ""
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
 msgstr "(krok %1 z %2)"
-
-#~ msgid "Phone number is not valid."
-#~ msgstr "Numer telefonu jest niepoprawny."
-
-#~ msgid "User Sharing Group"
-#~ msgstr "Grupa współdzielenia użytkowników"
-
-#~ msgid "User Sharing Field"
-#~ msgstr "Pole współdzielenia użytkowników"
-
-#~ msgid "Select"
-#~ msgstr "Wybierz"
-
-#~ msgid "Invalid phone number"
-#~ msgstr "Błędny numer telefonu"
-
-#~ msgid "Your user sharing field \"%1\" has been saved"
-#~ msgstr "Pole współdzielenia użytkownika „%1” zostało zapisane"
-
-#~ msgid "New User Sharing Group"
-#~ msgstr "Nowa grupa współdzielenia użytkowników"
-
-#~ msgid "Your User Sharing Group \"%1\" has been saved."
-#~ msgstr "Grupa współdzielenia użytkowników „%1” została zapisana."
-
-#~ msgid "Edit User Sharing Field"
-#~ msgstr "Edytuj pole współdzielenia użytkowników"
-
-#~ msgid "View User Sharing Field"
-#~ msgstr "Zobacz pole współdzielenia użytkowników"
-
-#~ msgid "Disable User Sharing Field"
-#~ msgstr "Wyłącz pole współdzielenia użytkowników"
-
-#~ msgid "Enable User Sharing Field"
-#~ msgstr "Włącz pole współdzielenia użytkowników"
-
-#~ msgid "%1 - User Sharing Fields"
-#~ msgstr "%1 – pola współdzielenia użytkowników"
-
-#~ msgid "List User Framework Group Fields"
-#~ msgstr "Wypisz pola grupy współdzielenia użytkowników"
-
-#~ msgid "Edit User Framework Group"
-#~ msgstr "Edytuj grupę współdzielenia użytkowników"
-
-#~ msgid "Disable User Framework Group"
-#~ msgstr "Wyłącz grupę współdzielenia użytkowników"
-
-#~ msgid "Enable User Framework Group"
-#~ msgstr "Włącz grupę współdzielenia użytkowników"
-
-#~ msgid "User Sharing"
-#~ msgstr "Współdzielenie użytkowników"
-
-#~ msgid "User Sharing Fields"
-#~ msgstr "Pola współdzielenia użytkowników"
-
-#~ msgid "Follow-up Call"
-#~ msgstr "Ponowna rozmowa"
-
-#~ msgid "Schedule Follow-up Meeting"
-#~ msgstr "Zaplanuj ponowne spotkanie"
-
-#~ msgid ""
-#~ "We are now soliciting bug reports. If you find a bug, please review the "
-#~ "open issues in our <a href=\"%1\" target=\"_blank\">bug-tracking system</"
-#~ "a>, and 'Create a New Issue' if the bug isn't already in the UNRESOLVED "
-#~ "list."
-#~ msgstr ""
-#~ "Prosimy o zgłaszanie raportów o błędach. Jeśli znajdziesz błąd, sprawdź "
-#~ "otwarte problemy w naszym <a href=\"%1\" target=\"_blank\">systemie "
-#~ "śledzenia błędów</a> i jeśli problemu nie ma już na liście UNRESOLVED "
-#~ "wybierz „Create a New Issue”."
-
-#~ msgid "Advanced Search Criteria"
-#~ msgstr "Zaawansowane kryteria wyszukiwania"
-
-#~ msgid "Select:"
-#~ msgstr "Wybierz:"
-
-#~ msgid "None"
-#~ msgstr "Żaden"
-
-#~ msgid "Rows with invalid data (NOT imported)."
-#~ msgstr "Wiersze z błędnymi danymi (NIE zaimportowane)."
-
-#~ msgid "User Sharing Fields for this Group"
-#~ msgstr "Pola współdzielenia użytkowników dla tej grupy"
-
-#~ msgid "New User Sharing Field"
-#~ msgstr "Nowe pole współdzielenia użytwkoników"
