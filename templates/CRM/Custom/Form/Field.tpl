@@ -23,7 +23,7 @@
         {/if}
 
         <dl>
-        <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
+        <dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
         {/if}
@@ -57,6 +57,9 @@
 <script type="text/javascript">
 	{if $optionRowError}
 	    show('showOptionError');
+	{/if}
+	{if $fieldError}
+	    show('showoption');	
 	{/if}
 	</script>
 {* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}

@@ -10,14 +10,13 @@
         <th> {ts}Weight{/ts}</th>
 	    <th> {ts}Active?{/ts}</th>
     </tr>
-	
 	{section name=rowLoop start=1 loop=12}
 	{assign var=index value=$smarty.section.rowLoop.index}
-	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}">
+	<tr id="optionField[{$index}]" class="form-item {cycle values="even-row,odd-row"}">
         <td> 
         {if $index GT 1}
-            <a onclick="hide('optionField[{$index}]'); {if $index LT 12} hide('additionalOption'); {/if} return false;" name="optionField[{$j}][hide]" href="#optionField[{$j}]" id="optionField[{$j}][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"></a> 
-            {* $form.optionField.$index.hide.html *}
+            <a onclick="{$hideLink.$index}" name="optionField[{$j}][hide]" href="#optionField[{$index}]" id="optionField[{$index}][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"></a> 
+             {*$form.optionField.$index.hide.html*}
         {/if}
         </td>
 	    <td> {$form.default_option[$index].html}</td>

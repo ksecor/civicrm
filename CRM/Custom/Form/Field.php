@@ -174,21 +174,33 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->freeze(array('data_type', 'html_type'));
         }
         
-        // form fields of Custom Option
+        // form fields of Custom Option rows
         $defaultOption = array();
         for($i = 1; $i <= self::NUM_OPTION; $i++) {
+            for ($index = $i; $index <= self::NUM_OPTION; $index++) {
+                $_link .=  "hide('optionField[$index]'); hide('optionField[$index][show]'); ";
+            }
+            $next = $i + 1;
+            $showHideLinks[$i] = $_link . "show('optionField[$next][show]'); return false;";
+            $_link = "";
+            
+            //$_showHideLinks->linksForArray( $this, $i, self::NUM_OPTION, 'optionField',  ts('another row'), ts('hide this row'), 'table-row');
+            //$this->showHideLinks($this, $i);
             // label
-            CRM_Core_ShowHideBlocks::linksForArray( $this, $i, self::NUM_OPTION, 'optionField',  ts('another row'), ts('hide this row'));
             $this->add('text','option_label['.$i.']', ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'));
+
             // value
             $this->add('text', 'option_value['.$i.']', ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'));
+
             // weight
             $this->add('text', 'option_weight['.$i.']', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'));
+
             // is active ?
             $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
             $defaultOption[$i] = $this->createElement('radio', null, null, null, $i);
         }
         
+        CRM_CORE_Page::assign('hideLink', $showHideLinks);
         //default option selection
         $tt =& $this->addGroup($defaultOption, 'default_option');
 		
@@ -226,7 +238,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field?reset=1&action=browse&gid=" . $this->_gid . "'"));
         }
     }
-
+    
+    private function showHideLinks( &$form, $number){
+        CRM_Core_ShowHideBlocks::linksForArray( $form, $number, self::NUM_OPTION, 'optionField',  ts('another row'), ts('hide this row'), 'table-row');
+    }
+         
     /**
      * global validation rules for the form
      *
@@ -320,13 +336,32 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $_showHide->addShow($showBlocks);
                 }
                 
-                    $_flagOption = $_emptyRow = 0;
+                $_flagOption = $_emptyRow = 0;
             }
-            
             
             if ($_rowError) {
                 $_showHide->addToTemplate();
                 CRM_CORE_Page::assign('optionRowError', $_rowError);
+            } else {
+                switch (self::$_dataToHTML[$fields['data_type']][$fields['html_type']]) {
+                case 'Radio':
+                    $_fieldError = 1;
+                    CRM_CORE_Page::assign('fieldError', $_fieldError);
+                    break; 
+                
+                case 'Checkbox':
+                    $_fieldError = 1;
+                    CRM_CORE_Page::assign('fieldError', $_fieldError);
+                    break; 
+                
+                case 'Select':
+                    $_fieldError = 1;
+                    CRM_CORE_Page::assign('fieldError', $_fieldError);
+                    break;
+                default:
+                    $_fieldError = 0;
+                    CRM_CORE_Page::assign('fieldError', $_fieldError);
+                }
             }
         }
         
