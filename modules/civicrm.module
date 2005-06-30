@@ -49,7 +49,7 @@ require_once 'CRM/Core/BAO/UFMatch.php';
 require_once 'CRM/Utils/Menu.php';
 require_once 'CRM/Utils/Wrapper.php';
 
-//require_once 'CRM/Contact/Page/View.php';
+require_once 'CRM/Contact/Page/View.php';
 
 require_once 'CRM/Core/Error.php';
 
