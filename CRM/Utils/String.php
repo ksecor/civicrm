@@ -214,6 +214,21 @@ class CRM_Utils_String {
         return ( strtolower( $url1Str['path'] ) == strtolower( $url2Str['path'] ) ) ? true : false;
     }
 
+    /**
+     * translate a true/false/yes/no string to a 0 or 1 value
+     *
+     * @param string $str  the string to be translated
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function strtobool($str) {
+        if (preg_match('/^(y(es)?|t(rue)?|1)$/i', $str)) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 ?>

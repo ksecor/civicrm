@@ -671,6 +671,24 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         // update the UF email if that has changed
         CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
 
+
+        // add custom field values
+        foreach ($params['custom_data'] as $customFieldID => $customValue) {
+            $cvParams = array_merge(
+                array(
+                    'custom_field_id' => $customFieldID,
+                    'contact_id' => $params['contact_id'],
+                ),
+                $customValue);
+
+            /* add the appropriate id for the contact type */
+            $contact_type_key = strtolower($cvParams['extends']) . '_id';
+            $cvParams[$contact_type_key] = $contact->contact_type_object->id;
+            
+            CRM_Core_BAO_CustomValue::create($cvParams);
+
+        }
+
         CRM_Core_DAO::transaction('COMMIT');
 
         return $contact;
