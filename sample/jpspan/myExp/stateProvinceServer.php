@@ -3,7 +3,7 @@
 /**
 * This is a remote script to call from Javascript
 */
-require_once 'debug.php';
+//require_once 'debug.php';
 define ('JPSPAN_ERROR_DEBUG',TRUE);
 require_once '../JPSpan.php';
 require_once JPSPAN . 'Server/PostOffice.php';
@@ -12,25 +12,7 @@ require_once JPSPAN . 'Server/PostOffice.php';
 class Autocomplete {
 
     function getWord($fragment='') {
-   
-        /*
-        $words = file('../examples/data/countrylist.vars');
-   
-        $fraglen = strlen($fragment);
-        for ( $i = $fraglen; $i > 0; $i-- ) {
-            
-            $matches = preg_grep('/^'.substr($fragment,0,$i).'/i',$words);
-                    
-            //my_print_r($matches, 'matches');
-            my_print_r($words, 'words');
-            
-            if ( count($matches) > 0 ) {
-                return array_shift($matches);
-            }
-        }
-        */  
-
-        
+         
         $fraglen = strlen($fragment);
         
         //get the list of states
@@ -99,12 +81,6 @@ class Autocomplete {
 
 $S = & new JPSpan_Server_PostOffice();
 $S->addHandler(new Autocomplete());
-
-//$S->displayClient();
-
-// Include error handler - PHP errors, warnings and notices serialized to JS
-//require_once JPSPAN . 'ErrorHandler.php';
-//$S->serve();
 
 
 //-----------------------------------------------------------------------------------
