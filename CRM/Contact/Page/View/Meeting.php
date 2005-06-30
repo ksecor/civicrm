@@ -41,14 +41,15 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
 
     function edit( )
     {
-        // set the userContext stack
+    
+    // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse&reset=1&cid='.$this->_contactId ) );
 
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Meeting', 'Contact Meetings', $this->_action );
         $controller->reset( );
-
         $controller->setEmbedded( true );
+
         $controller->set( 'contactId', $this->_contactId );
         $controller->set( 'id'       , $this->_id );
         $controller->set( 'pid'      , $this->get( 'pid' ) );
