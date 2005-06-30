@@ -229,9 +229,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     public static function typecheck($type, $value) {
         switch($type) {
             case 'Memo':
-                /* FIXME I don't know what to do with this */
-                break;
-            
+                return true;
+
             case 'String':
                 return CRM_Utils_Rule::string($value);
                 
