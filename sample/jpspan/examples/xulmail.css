@@ -1,0 +1,28 @@
+window {
+    background-color: cyan;
+    font-family: Helvetica;
+    font-size: 90%;
+}
+#title {
+    color: navy;
+    font-weight: bold;
+    font-size: 120%;
+    margin-left: 5px;
+}
+#refresh {
+    color: blue;
+    font-size: 70%;
+    font-weight: bold;
+}
+#messageList listheader {
+    background-color: red;
+    font-weight: bold;
+}
+#messageList listcell {
+    font-size: 80%;
+}
+#messageBody label {
+    color: navy;
+    font-weight: bold;
+    margin-left: 5px;
+}
