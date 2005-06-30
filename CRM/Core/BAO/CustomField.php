@@ -160,7 +160,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     }
     
     /**
-     * Return the field ids and names (with groups) for import purposes.
+     * Store and return an array of all active custom fields.
      *
      * @param void
      * @return array $fields - 
@@ -172,7 +172,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         if (!(self::$_importFields)) {
         
             $query ="SELECT crm_custom_field.id, crm_custom_field.label,
-                            crm_custom_group.title
+                            crm_custom_group.title, crm_custom_field.data_type,
+                            crm_custom_group.extends
                      FROM crm_custom_field
                      INNER JOIN crm_custom_group
                      ON crm_custom_field.custom_group_id = crm_custom_group.id
@@ -186,28 +187,79 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             $crmDAO =& new CRM_Core_DAO();
             $crmDAO->query($query);
             $result = $crmDAO->getDatabaseResult();
-            $fields = array();
+            self::$_importFields = array();
         
             while (($row = $result->fetchRow()) != null) {
-                $fields[] = $row;
+                $id = array_shift($row);
+                self::$_importFields[$id] = $row;
             }
-    
-
-            $importableFields = array();
-            foreach ($fields as $values) {
-                /* generate the key for the fields array */
-                $key = "custom_$values[0]";
-                $importableFields[$key] = array(
-                    'title' => "$values[2]: $values[1]",
-                    'headerPattern' => '/' . preg_quote($values[1], '/') . '/',
-                    'import' => 1,
-                    'custom_field_id' => $values[0],
-                );
-            }
-            self::$_importFields =& $importableFields;
         }
         
         return self::$_importFields;
+    }
+
+    /**
+     * Return the field ids and names (with groups) for import purposes.
+     *
+     * @param void
+     * @return array $fields - 
+     *
+     * @access public
+     * @static
+     */
+    public static function &getFieldsForImport( ) {
+        $fields = self::getFields();
+        
+        $importableFields = array();
+        foreach ($fields as $id => $values) {
+            /* generate the key for the fields array */
+            $key = "custom_$id";
+            $importableFields[$key] = array(
+                'title' => "$values[1]: $values[0]",
+                'headerPattern' => '/' . preg_quote($values[0], '/') . '/',
+                'import' => 1,
+                'custom_field_id' => $id,
+            );
+        }
+
+        return $importableFields;
+    }
+
+
+    public static function typecheck($type, $value) {
+        switch($type) {
+            case 'Memo':
+                /* FIXME I don't know what to do with this */
+                break;
+            
+            case 'String':
+                return CRM_Utils_Rule::string($value);
+                
+            case 'Int':
+                return CRM_Utils_Rule::integer($value);
+            
+            case 'Float':
+            case 'Money':
+                return CRM_Utils_Rule::numeric($value);
+                
+            case 'Date':
+                return CRM_Utils_Rule::date($value);
+                
+            case 'Boolean':
+                return CRM_Utils_Rule::boolean($value);
+
+            case 'StateProvince':
+                return
+                    in_array($value, 
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation())
+                    || in_array($value, CRM_Core_PseudoConstant::stateProvince());
+            
+            case 'Country':
+                return
+                    in_array($value, CRM_Core_PseudoConstant::countryIsoCode())
+                    || in_array($value, CRM_Core_PseudoConstant::country());
+        }
+        return false;
     }
 }
 ?>

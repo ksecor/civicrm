@@ -159,6 +159,12 @@ class CRM_Utils_Rule {
         return false;
     }
 
+    static function boolean($value) {
+        return preg_match( 
+            '/(^(1|0)$)|(^(Y(es)?|N(o)?)$)|(^(T(rue)?|F(alse)?)$)/i', $value) ?
+            true : false;
+    }
+
     static function email($value, $checkDomain = false) {
         static $qfRule = null;
         if ( ! isset( $qfRule ) ) {

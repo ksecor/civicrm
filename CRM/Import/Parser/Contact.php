@@ -66,13 +66,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      */
     function init( ) {
         $fields =& CRM_Contact_BAO_Contact::importableFields( );
-        $this->_customMap = array();
         
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern'] );
-            if (substr($name, 0, 7) == 'custom_') {
-                $this->_customMap[$name] = $field['custom_field_id'];       
-            }
         }
 
         $this->setActiveFields( $this->_mapperKeys );

@@ -157,14 +157,6 @@ abstract class CRM_Import_Parser {
     protected $_activeFields;
 
     /**
-     * array to keep track of the ids of custom fields
-     *
-     * @var array
-     */
-    protected $_customMap;
-
-
-    /**
      * cache the count of active fields
      *
      * @var int
@@ -506,8 +498,6 @@ abstract class CRM_Import_Parser {
             $store->set( 'validRowCount'    , $this->_validCount     );
             $store->set( 'invalidRowCount'  , $this->_invalidRowCount     );
             $store->set( 'conflictRowCount', $this->_conflictCount );
-        
-            $store->set( 'customMap', $this->_customMap );        
         
             if ($this->_invalidRowCount) {
                 $store->set( 'errorsFileName', $this->_errorFileName );

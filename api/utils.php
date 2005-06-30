@@ -224,7 +224,38 @@ function _crm_format_params( &$params, &$values ) {
 
         $values['location'][1]['is_primary'] = true;
     }
+   
+    $values['custom_data'] = array();
 
+    $customFields = CRM_Core_BAO_CustomField::getFields();
+    
+    foreach ($params as $key => $value) {
+        if (substr($key, 0, 7) == 'custom_') {
+            /* get the ID out of the key */
+            $customFieldID = substr($key, 7);
+            
+            /* check if it's a valid custom field id */
+            if ( !array_key_exists($customFieldID, $customFields)) {
+                return _crm_error('Invalid custom field ID');
+            }
+
+            /* validate the data against the CF type */
+            
+            $valid = CRM_Core_BAO_CustomField::typecheck(
+                            $customFields[$customFieldID][2], $value);
+
+            if (! $valid) {
+                return _crm_error('Invalid custom field data');
+            }
+            
+            $values['custom_data'][$customFieldID] = array( 
+                'value' => $value,
+                'extends' => $customFields[$customFieldID][3],
+                'type' => $customFields[$customFieldID][2],
+            );
+        }
+    }
+    
     CRM_Contact_BAO_Contact::resolveDefaults( $values, true );
     return null;
 }
