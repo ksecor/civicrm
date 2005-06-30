@@ -15,8 +15,8 @@
 	<tr id="optionField[{$index}]" class="form-item {cycle values="even-row,odd-row"}">
         <td> 
         {if $index GT 1}
-            <a onclick="{$hideLink.$index}" name="optionField[{$j}][hide]" href="#optionField[{$index}]" id="optionField[{$index}][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"></a> 
-             {*$form.optionField.$index.hide.html*}
+            {*<a onclick="{$hideLink.$index}" name="optionField[{$j}][hide]" href="#optionField[{$index}]" id="optionField[{$index}][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"></a> *}
+             {$form.optionField.$index.hide.html}
         {/if}
         </td>
 	    <td> {$form.default_option[$index].html}</td>
@@ -31,8 +31,8 @@
 	{section name=showLoop start=2 loop=12}
         {assign var=j value=$smarty.section.showLoop.index}
         <div id="optionField[{$j}][show]" class="add-remove-link">
-            <a onclick="show('optionField[{$j}]','table-row'); {if $j LT 11}show('optionField[{$j+1}][show]','table-row');{/if} hide('optionField[{$j}][show]'); {if $j EQ 11} show('additionalOption');{/if}return false;" href="#optionField[{$j}][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}">{ts}another choice{/ts}</a>
-            {* $form.optionField.$j.show.html*}
+            {*<a onclick="show('optionField[{$j}]','table-row'); {if $j LT 11}show('optionField[{$j+1}][show]','table-row');{/if} hide('optionField[{$j}][show]'); {if $j EQ 11} show('additionalOption');{/if}return false;" href="#optionField[{$j}][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}">{ts}another choice{/ts}</a>*}
+            { $form.optionField.$j.show.html}
         </div>
     {/section}
     {/strip}

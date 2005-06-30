@@ -188,6 +188,7 @@ class CRM_Core_ShowHideBlocks {
         $values = array();
         $values['show'] = self::linkHtml("${prefix}[show]", "#${prefix}", self::$_showIcon . $showLinkText, "onclick=\"$showCode\"");
         $values['hide'] = self::linkHtml("${prefix}[hide]", "#${prefix}", self::$_hideIcon . $hideLinkText, "onclick=\"$hideCode\"");
+        
         $form->assign( $prefix, $values);
     }
 
@@ -200,19 +201,19 @@ class CRM_Core_ShowHideBlocks {
      * @param string        $prefix        the attribute that we are referencing
      * @param string        $showLinkText  the text to be shown for the show link
      * @param string        $hideLinkText  the text to be shown for the hide link
-     * @param string        $elementType   the set the class if the id is passed
+     * @param string        $elementType   the set the class
      *
      * @return void
      * @access public
      */
-    function linksForArray( &$form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText, $elementType = null ) {
+    function linksForArray( &$form, $index, $maxIndex, $prefix, $showLinkText, $hideLinkText, $elementType = null, $hideLink = null ) {
         if ( $index == $maxIndex ) {
             $showCode = $hideCode = "return false;";
         } else {
             $next = $index + 1;
             if ( $elementType ) {
                 $showCode = "show('${prefix}[${next}][show]','table-row'); return false;";
-                $hideCode = "hide('${prefix}[${next}][show]','table-row'); hide('${prefix}[${next}]'); return false;";
+                $hideCode = $hideLink;
             } else {
                 $showCode = "show('${prefix}[${next}][show]'); return false;";
                 $hideCode = "hide('${prefix}[${next}][show]'); hide('${prefix}[${next}]'); return false;";

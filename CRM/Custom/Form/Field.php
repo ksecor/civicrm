@@ -176,6 +176,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         
         // form fields of Custom Option rows
         $defaultOption = array();
+        $_link = ""; 
         for($i = 1; $i <= self::NUM_OPTION; $i++) {
             for ($index = $i; $index <= self::NUM_OPTION; $index++) {
                 $_link .=  "hide('optionField[$index]'); hide('optionField[$index][show]'); ";
@@ -186,7 +187,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $_link .= "hide('additionalOption'); ";
             }
                 
-            $showHideLinks[$i] = $_link . "show('optionField[$i][show]'); return false;";
+            //$showHideLinks[$i] = $_link . "show('optionField[$i][show]'); return false;";
+            $hideLink = $_link . "show('optionField[$i][show]'); return false;";
+
+            CRM_Core_ShowHideBlocks::linksForArray($this, $i, self::NUM_OPTION, 'optionField', ts('Add option'), ts('Hide row'), 'table-row', $hideLink);
+            
+            //Reset the value for fresh next link cascade string
             $_link = "";
             
             //$_showHideLinks->linksForArray( $this, $i, self::NUM_OPTION, 'optionField',  ts('another row'), ts('hide this row'), 'table-row');
@@ -244,9 +250,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         }
     }
     
-    private function showHideLinks( &$form, $number){
-        CRM_Core_ShowHideBlocks::linksForArray( $form, $number, self::NUM_OPTION, 'optionField',  ts('another row'), ts('hide this row'), 'table-row');
-    }
          
     /**
      * global validation rules for the form
