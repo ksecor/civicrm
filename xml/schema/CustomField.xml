@@ -4,7 +4,7 @@
   <base>CRM/Core</base>
   <name>crm_custom_field</name>
   <comment>Stores info about an extended (custom) property (data and form field info).</comment>
-    <field>
+  <field>
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>

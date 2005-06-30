@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Mailing</base>
+  <name>crm_mailing</name>
+  <comment>Stores information about a mailing.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>crm_domain</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>header_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to the header component.</comment>
+  </field>
+  <foreignKey>
+       <name>header_id</name>
+       <table>crm_mailing_component</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>footer_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to the footer component.</comment>
+  </field>
+  <foreignKey>
+       <name>footer_id</name>
+       <table>crm_mailing_component</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Mailing Name.</comment>
+  </field>
+  <field>
+       <name>from_name</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>From Header of mailing</comment>
+  </field>
+  <field>
+       <name>from_email</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>From Email of mailing</comment>
+  </field>
+  <field>
+       <name>replyto_email</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Reply-To Email of mailing</comment>
+  </field>
+  <field>
+       <name>subject</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Subject of mailing</comment>
+  </field>
+  <field>
+       <name>body_text</name>
+       <type>text</type>
+       <comment>Body of the mailing in text format.</comment>
+  </field>
+  <field>
+       <name>body_html</name>
+       <type>text</type>
+       <comment>Body of the mailing in html format.</comment>
+  </field>
+  <field>
+       <name>is_template</name>
+       <type>boolean</type>
+       <comment>Is this object a mailing template?</comment>
+  </field>  
+</table>

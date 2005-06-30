@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Mailing/Job</base>
+  <name>crm_mailing_job</name>
+  <comment>Stores information about the job that executes this mailing</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>mailing_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+  </field>
+  <foreignKey>
+       <name>mailing_id</name>
+       <table>crm_mailing</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>scheduled_date</name>
+      <type>datetime</type>
+      <comment>date on which this job was scheduled.</comment>
+  </field>
+  <field>
+      <name>start_date</name>
+      <type>datetime</type>
+      <comment>date on which this job was started.</comment>
+  </field>
+  <field>
+      <name>end_date</name>
+      <type>datetime</type>
+      <comment>date on which this job ended.</comment>
+  </field>
+  <field>
+       <name>is_retry</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this a retry of another job?</comment>
+  </field>
+</table>
