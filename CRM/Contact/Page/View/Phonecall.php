@@ -53,21 +53,26 @@ class CRM_Contact_Page_View_Phonecall extends CRM_Contact_Page_View
         $controller->set( 'id'       , $this->_id );
         $controller->set( 'pid'      , $this->get( 'pid' ) );
         $controller->set( 'log'      , $this->get( 'log' ) );
-
+        
         $controller->process( );
         $controller->run( );
     }
 
     function run( )
     {
+        $activity =& new CRM_Contact_Page_View_Activity();
+        $cid = $activity->get('cid');
+        if ($cid) {
+            $this->set('cid', $cid );
+        }
+        
         $this->preProcess( );
 
         $pid = CRM_Utils_Request::retrieve( 'pid', $this );
-        $log = CRM_Utils_Request::retrieve( 'log', $this );
+        echo $log = CRM_Utils_Request::retrieve( 'log', $this );
         
         if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE) ) {
             $this->edit( );
-       
         }
 
         return parent::run( );

@@ -42,7 +42,7 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
     function edit( )
     {
     
-    // set the userContext stack
+        // set the userContext stack
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse&reset=1&cid='.$this->_contactId ) );
 
@@ -61,6 +61,12 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
 
     function run( )
     {
+        $activity =& new CRM_Contact_Page_View_Activity();
+        $cid = $activity->get('cid');
+        if ($cid) {
+            $this->set('cid', $cid );
+        }
+
         $this->preProcess( );
 
         $pid = CRM_Utils_Request::retrieve( 'pid', $this ); 
@@ -68,7 +74,6 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
         
         if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE) ) {
             $this->edit( );
-        
         }
 
         return parent::run( );
