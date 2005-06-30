@@ -69,7 +69,7 @@ class CRM_Contact_Page_View_Phonecall extends CRM_Contact_Page_View
         $this->preProcess( );
 
         $pid = CRM_Utils_Request::retrieve( 'pid', $this );
-        echo $log = CRM_Utils_Request::retrieve( 'log', $this );
+        $log = CRM_Utils_Request::retrieve( 'log', $this );
         
         if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE) ) {
             $this->edit( );
