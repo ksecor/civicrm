@@ -98,7 +98,7 @@ class CRM_Core_BAO_History {
     static function &getValues(&$params, &$values, $type='Activity')
     {
         // get top 3 histories
-        $values['activity']['data']  =& CRM_Core_BAO_History::getHistory(&$params, 0, 3, null, $type);
+        $values['activity']['data']  =& CRM_Core_BAO_History::getHistory($params, 0, 3, null, $type);
 
         // get the total number of histories
         $values['activity']['totalCount'] =& CRM_Core_BAO_History::getNumHistory($params['entity_id'], $type);
