@@ -169,25 +169,30 @@ class CRM_UF_Page_Group extends CRM_Core_Page {
     {
         
         $ufGroup = array();
-        $ufGroupBAO =& new CRM_Core_BAO_UFGroup();
-        $ufGroupBAO->orderBy('title');
-        $ufGroupBAO->find();
+        $dao =& new CRM_Core_DAO_UFGroup();
 
-        while ($ufGroupBAO->fetch()) {
-            $ufGroup[$ufGroupBAO->id] = array();
-            CRM_Core_DAO::storeValues( $ufGroupBAO, $ufGroup[$ufGroupBAO->id]);
+        // set the domain_id parameter
+        $config =& CRM_Core_Config::singleton( );
+        $dao->domain_id = $config->domainID( );
+
+        $dao->orderBy('title');
+        $dao->find();
+
+        while ($dao->fetch()) {
+            $ufGroup[$dao->id] = array();
+            CRM_Core_DAO::storeValues( $dao, $ufGroup[$dao->id]);
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
             
             // update enable/disable links depending on uf_group properties.
-            if ($ufGroupBAO->is_active) {
+            if ($dao->is_active) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
             
-            $ufGroup[$ufGroupBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                                    array('id' => $ufGroupBAO->id));
+            $ufGroup[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
+                                                                                    array('id' => $dao->id));
         }
         $this->assign('rows', $ufGroup);
     }

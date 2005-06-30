@@ -46,7 +46,7 @@
                 {/if}
             </td>
             <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">{ts}View{/ts}</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">{ts}Edit{/ts}</a> | <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=delete"}" onclick = 'return confirm("{ts 1=$note.note|mb_truncate:15:"...":true}Are you sure you want to delete %1?{/ts}");'> {ts}Delete{/ts}</a>
+            <td class="nowrap">{$note.action}</td>
             </td>
          </tr>
        {/foreach}

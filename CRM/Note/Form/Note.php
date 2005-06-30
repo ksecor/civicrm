@@ -63,12 +63,12 @@ class CRM_Note_Form_Note extends CRM_Core_Form
      *
      * @var int
      */
-    protected $_noteId;
+    protected $_id;
 
     function preProcess( ) {
         $this->_entityTable = $this->get( 'entityTable' );
         $this->_entityId    = $this->get( 'entityId'   );
-        $this->_noteId      = $this->get( 'noteId'    );
+        $this->_id          = $this->get( 'id'    );
     }
 
     /**
@@ -82,8 +82,8 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         $defaults = array( );
 
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            if ( isset( $this->_noteId ) ) {
-                $defaults['note'] = CRM_Core_BAO_Note::getNoteText( $this->_noteId );
+            if ( isset( $this->_id ) ) {
+                $defaults['note'] = CRM_Core_BAO_Note::getNoteText( $this->_id );
             }
         }
 
@@ -137,7 +137,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         $note->modified_date = date("Ymd");
 
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $note->id = $this->_noteId;
+            $note->id = $this->_id;
         } else {
             $note->entity_table = $this->_entityTable;
             $note->entity_id    = $this->_entityId;

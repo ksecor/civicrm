@@ -588,7 +588,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 }
 
                 if ( $links ) {
-                    $replace = array( 'rid' => $rid, 'rtype' => $values[$rid]['rtype'] );
+                    $replace = array( 'id' => $rid, 'rtype' => $values[$rid]['rtype'] );
                     $values[$rid]['action'] = CRM_Core_Action::formLink( $links, $mask, $replace );
                 }
             }

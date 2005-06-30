@@ -378,6 +378,9 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         // stores all the "AND" clauses
         $andArray = array();
 
+        $config =& CRM_Core_Config::singleton( );
+        $andArray['domain'] = 'crm_contact.domain_id = ' . $config->domainID( ) . ' ';
+
         // check for contact type restriction
         if ( CRM_Utils_Array::value( 'cb_contact_type', $fv ) ) {
             $andArray['contact_type'] = "(contact_type IN (";
@@ -671,6 +674,42 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         CRM_Core_DAO::transaction('COMMIT');
 
         return $contact;
+    }
+
+    /**
+     * Get the display name and image of a contact
+     *
+     * @param int $id the contactId
+     *
+     * @return array the displayName and contactImage for this contact
+     * @access public
+     * @static
+     */
+    static function getDisplayAndImage( $id ) {
+        $sql = "
+SELECT crm_contact.display_name as display_name, crm_contact.contact_type as contact_type
+FROM   crm_contact
+WHERE  crm_contact.id = $id
+";
+        $dao =& new CRM_Core_DAO( );
+        $dao->query( $sql );
+        if ( $dao->fetch( ) ) {
+            $config =& CRM_Core_Config::singleton( );
+            $image  =  '<img src="' . $config->resourceBase . 'i/contact_';
+            switch ( $dao->contact_type ) {
+            case 'Individual' :
+                $image .= 'ind.gif" alt="' . ts('Individual') . '">';
+                break;
+            case 'Household' :
+                $image .= 'house.png" alt="' . ts('Household') . '" height="16" width="16">';
+                break;
+            case 'Organization' :
+                $image .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18">';
+                break;
+            }
+            return array( $dao->display_name, $image );
+        }
+        return null;
     }
 
     /**

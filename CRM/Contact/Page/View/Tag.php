@@ -31,57 +31,48 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Contact/Page/View.php';
 
-/**
- * Page for displaying list of Call
- */
-class CRM_Contact_Page_Phonecall 
-{
+class CRM_Contact_Page_View_Tag extends CRM_Contact_Page_View {
 
-    static function edit( $page, $mode, $callId = null ) 
-    {
+   /**
+     * This function is called when action is browse
+     * 
+     * return null
+     * @access public
+     */
+    function browse( ) {
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Tag_Form_Tag', 'Contact Tags', $this->_action );
+        $controller->setEmbedded( true );
+        
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
+        $config  =& CRM_Core_Config::singleton();
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/tag', 'action=browse' ) );
 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Phonecall', 'Contact Calls', $mode );
         $controller->reset( );
-        $controller->setEmbedded( true );
-
-        $controller->set( 'contactId', $page->getContactId( ) );
-        $controller->set( 'id'       , $callId );
-        $controller->set( 'pid'      , $page->get( 'pid' ) );
-        $controller->set( 'log'      , $page->get( 'log' ) );
+        $controller->set( 'contactId'  , $this->_contactId );
 
         $controller->process( );
         $controller->run( );
     }
 
-    static function run( $page ) 
-    {
-        $contactId = $page->getContactId( );
-        $page->assign( 'contactId', $contactId );
 
-        $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
-        $page->assign( 'action', $action );
 
-        $id  = CRM_Utils_Request::retrieve( 'id' , $page );
-        $pid = CRM_Utils_Request::retrieve( 'pid', $page );
-        $log = CRM_Utils_Request::retrieve( 'log', $page );
-        
-        if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
-            self::edit( $page, $action, $id );
-        } else if ( $action & CRM_Core_Action::DELETE ) {
-            self::delete( $id );
-        }
+   /**
+     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
+     * 
+     * return null
+     * @access public
+     */
+    function run( ) {
+        $this->preProcess( );
+
+        $this->browse( );
+
+        return parent::run( );
     }
-
-    static function delete( $callId ) 
-    {
-        CRM_Core_BAO_Phonecall::del($callId);
-    }
-
 
 }
+
 ?>

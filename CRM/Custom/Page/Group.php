@@ -197,25 +197,30 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         
         // get all custom groups sorted by weight
         $customGroup = array();
-        $customGroupBAO =& new CRM_Core_BAO_CustomGroup();
-        $customGroupBAO->orderBy('weight');
-        $customGroupBAO->find();
+        $dao =& new CRM_Core_DAO_CustomGroup();
 
-        while ($customGroupBAO->fetch()) {
-            $customGroup[$customGroupBAO->id] = array();
-            CRM_Core_DAO::storeValues( $customGroupBAO, $customGroup[$customGroupBAO->id]);
+        // set the domain_id parameter
+        $config =& CRM_Core_Config::singleton( );
+        $dao->domain_id = $config->domainID( );
+
+        $dao->orderBy('weight');
+        $dao->find();
+
+        while ($dao->fetch()) {
+            $customGroup[$dao->id] = array();
+            CRM_Core_DAO::storeValues( $dao, $customGroup[$dao->id]);
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
             
             // update enable/disable links depending on custom_group properties.
-            if ($customGroupBAO->is_active) {
+            if ($dao->is_active) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
             
-            $customGroup[$customGroupBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                                    array('id' => $customGroupBAO->id));
+            $customGroup[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
+                                                                                    array('id' => $dao->id));
         }
         $this->assign('rows', $customGroup);
     }

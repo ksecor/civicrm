@@ -114,9 +114,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     CRM_Core_Error::fatal( "You do not have the necessary permission to edit this contact." );
                 }
 
-                /// cache the contact id in the form (for rule checking)
-                $this->addElement( 'hidden', 'cid', $this->_contactId );
-
                 return;
             }
             CRM_Core_Error::fatal( "Could not get a contact_id and/or contact_type" );
@@ -228,7 +225,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function addRules( )
     {
-        $this->addFormRule( array( 'CRM_Contact_Form_' . $this->_contactType, 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Contact_Form_' . $this->_contactType, 'formRule' ), $this->_contactId );
     }
 
     /**

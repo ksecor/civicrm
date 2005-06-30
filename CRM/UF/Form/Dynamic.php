@@ -107,10 +107,6 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         $this->assign( 'action',  $this->_action );
         $this->assign( 'fields', $this->_fields );
 
-        if ( $this->_id ) {
-            $this->addElement( 'hidden', 'cid', $this->_id );
-        }
-
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             if ( $field['name'] === 'state_province_id' ) {
@@ -140,19 +136,21 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             $this->freeze();
         }
 
-        $this->addFormRule( array( 'CRM_UF_Form_Dynamic', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_UF_Form_Dynamic', 'formRule' ), $this->_id );
     }
 
     /**
      * global form rule
      *
      * @param array $fields the input form values
+     * @param array $files   the uploaded files if any
+     * @param array $options additional user data
      *
      * @return true if no errors, else array of errors
      * @access public
      * @static
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields, &$files, $options ) {
         $errors = array( );
 
         // if no values, return
@@ -170,7 +168,11 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         // hack add the email, does not work in registration, we need the real user object
         global $user;
         $fields['edit']['email'] = $user->mail;
-        $ids = CRM_Core_BAO_UFGroup::findContact( $fields['edit'], CRM_Utils_Array::value( 'cid', $fields ), true );
+        $cid = null;
+        if ( $options ) {
+            $cid = (int ) $options;
+        }
+        $ids = CRM_Core_BAO_UFGroup::findContact( $fields['edit'], $cid, true );
         if ( $ids ) {
             $urls = array( );
             foreach ( explode( ',', $ids ) as $id ) {

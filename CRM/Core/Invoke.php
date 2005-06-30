@@ -138,35 +138,35 @@ class CRM_Core_Invoke {
 
             switch ( $thirdArg ) {
             case 'note':
-                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_NOTE );
+                $view =& new CRM_Contact_Page_View_Note( );
                 break;
             case 'rel':
-                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_REL );
+                $view =& new CRM_Contact_Page_View_Relationship( );
                 break;
             case 'group':
-                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_GROUP );
+                $view =& new CRM_Contact_Page_View_GroupContact( );
                 break;
             case 'tag':
-                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_TAG );
+                $view =& new CRM_Contact_Page_View_Tag( );
                 break;
             case 'voter':
                 CRM_Core_Error::debug_log_message('voter cd found');
                 echo "IN VOTER CD<p>";
             case 'cd':
                 //CRM_Core_Error::debug_log_message('cd found');
-                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_CD );
+                $view =& new CRM_Contact_Page_View_CustomData( );
                 break;
             case 'activity':
-                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_ACTIVITY );
+                $view =& new CRM_Contact_Page_View_Activity( );
                 break;
             case 'call':
-                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_CALL );
+                $view =& new CRM_Contact_Page_View_Phonecall( );
                 break;
             case 'meeting':
-                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_MEETING );
+                $view =& new CRM_Contact_Page_View_Meeting( );
                 break;
             default:
-                $view =& new CRM_Contact_Page_View( '', CRM_Contact_Page_View::MODE_NONE );
+                $view =& new CRM_Contact_Page_View_Basic( );
                 break;
             }
             return $view->run( );

@@ -33,59 +33,50 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Contact/Page/View.php';
 
-class CRM_Contact_Page_GroupContact {
+class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
     
     /**
      * This function is called when action is browse
      * 
-     * @param object $page CRM_Contact_Page_GroupContact
-     * 
      * return null
-     * @static
      * @access public
      */
-    static function browse( $page ) {
+    function browse( $this ) {
   
-        $contactId   = $page->getContactId( );
-
-        $count   = CRM_Contact_BAO_GroupContact::getContactGroup($contactId, null, null, true);
+        $count   = CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, null, null, true);
         
-        $in      =& CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'In' );
-        $pending =& CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'Pending' );
-        $out     =& CRM_Contact_BAO_GroupContact::getContactGroup($contactId, 'Out' );
+        $in      =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'In' );
+        $pending =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'Pending' );
+        $out     =& CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, 'Out' );
 
-        $page->assign       ( 'groupCount'  , $count );
-        $page->assign_by_ref( 'groupIn'     , $in );
-        $page->assign_by_ref( 'groupPending', $pending );
-        $page->assign_by_ref( 'groupOut'    , $out );
+        $this->assign       ( 'groupCount'  , $count );
+        $this->assign_by_ref( 'groupIn'     , $in );
+        $this->assign_by_ref( 'groupPending', $pending );
+        $this->assign_by_ref( 'groupOut'    , $out );
     }
 
     /**
      * This function is called when action is update
      * 
-     * @param object $page CRM_Contact_Page_GroupContact
-     * @param int    $mode mode of the page which depends on the action
      * @param int    $groupID group id 
      *
      * return null
-     * @static
      * @access public
      */
-    static function edit( $page, $mode, $groupId = null ) {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', 'Contact GroupContacts', $mode );
+    function edit( $groupId = null ) {
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_GroupContact', 'Contact GroupContacts', $this->_action );
         $controller->setEmbedded( true );
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $config  =& CRM_Core_Config::singleton();
 
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/group', 'action=browse' ) );
 
         $controller->reset( );
 
-        $controller->set( 'contactId', $page->getContactId( ) );
+        $controller->set( 'contactId', $this->_contactId );
         $controller->set( 'groupId'  , $groupId );
  
         $controller->process( );
@@ -96,30 +87,23 @@ class CRM_Contact_Page_GroupContact {
     /**
      * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
      * 
-     * @param object $page CRM_Contact_Page_GroupContact
-     * 
      * return null
-     * @static
      * @access public
      */
-    static function run( $page ) {
+    function run( ) {
+        $this->preProcess( );
 
-        $contactId = $page->getContactId( );
-        $page->assign( 'contactId', $contactId );
-
-        $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
-        $page->assign( 'action', $action );
-
-        if ( $action == CRM_Core_Action::DELETE ) {
-            $groupContactId = $_GET['gcid'];
-            $status = $_GET['st'];
-            if (is_numeric($groupContactId) && strlen(trim($status))) {
+        if ( $this->_action == CRM_Core_Action::DELETE ) {
+            $groupContactId = CRM_Utils_Request::retrieve( 'gcid' );
+            $status         = CRM_Utils_Request::retrieve( 'st' );
+            if ( is_numeric($groupContactId) && $status ) {
                 self::del( $groupContactId,$status );
             }
         }
 
-        self::edit( $page, CRM_Core_Action::ADD );
-        self::browse( $page );
+        $this->edit( CRM_Core_Action::ADD );
+        $this->browse( );
+        return parent::run( );
     }
 
  

@@ -31,26 +31,26 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Contact/Page/View.php';
 
 /**
- * Page for displaying list of Meetings
+ * Page for displaying list of Call
  */
-class CRM_Contact_Page_Meeting 
+class CRM_Contact_Page_Phonecall extends CRM_Contact_Page_View
 {
 
-    static function edit( $page, $mode, $meetingId = null ) 
+    function edit( )
     {
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Meeting', 'Contact Meetings', $mode );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Phonecall', 'Contact Calls', $this->_action );
         $controller->reset( );
-
         $controller->setEmbedded( true );
-        $controller->set( 'contactId', $page->getContactId( ) );
-        $controller->set( 'id'       , $meetingId );
+
+        $controller->set( 'contactId', $this->_contactId );
+        $controller->set( 'id'       , $this->_id );
         $controller->set( 'pid'      , $page->get( 'pid' ) );
         $controller->set( 'log'      , $page->get( 'log' ) );
 
@@ -58,30 +58,23 @@ class CRM_Contact_Page_Meeting
         $controller->run( );
     }
 
-    static function run( $page ) 
+    function run( )
     {
-
-        $contactId = $page->getContactId( );
-        $page->assign( 'contactId', $contactId );
-
-        $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
-        $page->assign( 'action', $action );
-
-        $id  = CRM_Utils_Request::retrieve( 'id' , $page );
-        $pid = CRM_Utils_Request::retrieve( 'pid', $page ); 
-        $log = CRM_Utils_Request::retrieve( 'log', $page ); 
+        $pid = CRM_Utils_Request::retrieve( 'pid', $this );
+        $log = CRM_Utils_Request::retrieve( 'log', $this );
         
-        if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
-            self::edit( $page, $action, $id );
-        } else if ( $action & CRM_Core_Action::DELETE ) {
-            self::delete( $id );
+        if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
+            $this->edit( );
+        } else if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->delete( );
         }
     }
-    
-    static function delete( $meetingId ) 
+
+    static function delete( )
     {
-        CRM_Core_BAO_Meeting::del($meetingId);
+        CRM_Core_BAO_Phonecall::del( $this->_id );
     }
+
 
 }
 ?>

@@ -31,52 +31,45 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Contact/Page/View.php';
 
-class CRM_Contact_Page_Tag {
+/**
+ * Page for displaying custom data
+ *
+ */
+class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
 
-   /**
-     * This function is called when action is browse
-     * 
-     * @param object $page CRM_Contact_Page_Tag
-     * 
-     * return null
-     * @static
+    /**
+     * Run the page.
+     *
+     * This method is called after the page is created. It checks for the  
+     * type of action and executes that action. 
+     *
      * @access public
+     * @param object $page - the view page which created this one 
+     * @return none
+     * @static
+     *
      */
-    static function browse( $page, $mode ) {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Tag_Form_Tag', 'Contact Tags', $mode );
-        $controller->setEmbedded( true );
-        
+    function run( )
+    {
+        $this->preProcess( );
+
+        $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $this->_action);
+        $controller->setEmbedded(true);
+
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $config  =& CRM_Core_Config::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/tag', 'action=browse' ) );
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view/cd', 'action=browse'));
+        $controller->set('tableName' , 'crm_contact');
+        $controller->set('tableId'   , $this->_contactId );
+        $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType( $this->_contactId ) );
+        $controller->process();
+        $controller->run();
 
-        $controller->reset( );
-        $controller->set( 'contactId'  , $page->getContactId( ) );
-
-        $controller->process( );
-        $controller->run( );
+        return parent::run( );
     }
 
-
-
-   /**
-     * This function is the main function that is called when the page loads, it decides the which action has to be taken for the page.
-     * 
-     * @param object $page CRM_Contact_Page_Tag
-     * 
-     * return null
-     * @static
-     * @access public
-     */
-    static function run( $page ) {
-        $action = CRM_Utils_Request::retrieve( 'action', $page, false, 'browse' );
-        $page->assign( 'action', $action );
-        self::browse( $page, $action );
-    }
-
+    
 }
-
 ?>

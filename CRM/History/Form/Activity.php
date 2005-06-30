@@ -63,17 +63,14 @@ class CRM_History_Form_Activity extends CRM_Core_Form
 
         // get values for activity date, summary and type from db
         // and set them up for smarty variables
-        $activityHistoryId = $this->controller->get('activityHistoryId');
+        $id = $this->get('id');
 
-        // hidden field for activity history id
-        $this->add('hidden', 'activity_history_id', $activityHistoryId);
-        
-        $params = array('id' => $activityHistoryId);
+        $params = array('id' => $id);
         $row = CRM_Core_BAO_History::getHistory($params);
         $fields = array('activity_type', 'activity_summary', 'activity_date');
         foreach ($fields as $field) {
-            if ($row[$activityHistoryId][$field]) {
-                $this->assign($field, $row[$activityHistoryId][$field]);
+            if ($row[$id][$field]) {
+                $this->assign($field, $row[$id][$field]);
             }
         }
     }
@@ -87,8 +84,7 @@ class CRM_History_Form_Activity extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        $fv = $this->controller->exportValues($this->_name);
-        CRM_Core_BAO_History::del($fv['activity_history_id']);
+        CRM_Core_BAO_History::del( $this->get( 'id' ) );
     }
 }
 

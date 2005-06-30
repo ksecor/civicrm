@@ -234,14 +234,12 @@ class CRM_Core_Config {
      */
     function __construct() {
         $session =& CRM_Core_Session::singleton( );
-        self::$_domainID = $session->get( 'domainID' );
-        if ( ! self::$_domainID ) {
-            if ( defined( 'CRM_DOMAIN_ID' ) ) {
-                self::$_domainID = CRM_DOMAIN_ID;
-            } else {
-                self::$_domainID = 1;
-            }
+        if ( defined( 'CRM_DOMAIN_ID' ) ) {
+            self::$_domainID = CRM_DOMAIN_ID;
+        } else {
+            self::$_domainID = 1;
         }
+        $session->set( 'domainID', self::$_domainID );
 
         if (defined('CRM_DSN')) {
             $this->dsn = CRM_DSN;

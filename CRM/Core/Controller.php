@@ -165,7 +165,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
         $data =& $this->container();
         $this->applyDefaults($pageName);
-        $page->isFormBuilt() or $page->BuildForm();
+        $page->isFormBuilt() or $page->buildForm();
         // We use defaults and constants as if they were submitted
         $data['values'][$pageName] = $page->exportValues();
         $page->loadValues($data['values'][$pageName]);

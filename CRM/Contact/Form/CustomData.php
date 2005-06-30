@@ -126,8 +126,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     
     protected function setShowHide(&$groupTitle, &$groupCollapseDisplay)
     {
-        //print_r($this);
-        
+        if ( empty( $groupTitle ) ) {
+            return;
+        }
+
         $this->_showHide =& new CRM_Core_ShowHideBlocks('','');
         
         foreach ($groupTitle as $key => $title) {
@@ -137,8 +139,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
           if ($groupCollapseDisplay[$key]) {
               $this->_showHide->addShow($showBlocks);
               $this->_showHide->addHide($hideBlocks);
-
-
           } else {
               $this->_showHide->addShow($hideBlocks);
               $this->_showHide->addHide($showBlocks);

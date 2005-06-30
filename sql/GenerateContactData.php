@@ -539,7 +539,7 @@ class CRM_GCD {
      * This method adds data to the contact table
      *
      * id - from $contact
-     * domain_id (fkey into domain) (random - 1 to num_domain)
+     * domain_id (fkey into domain) (always 1)
      * contact_type 'Individual' 'Household' 'Organization'
      * preferred_communication (random 1 to 3)
      *
@@ -554,7 +554,7 @@ class CRM_GCD {
         $contact =& new CRM_Contact_DAO_Contact();
 
         for ($id=1; $id<=self::NUM_CONTACT; $id++) {
-            $contact->domain_id = $this->_getRandomElement($this->domain);
+            $contact->domain_id = 1;
             $contact->contact_type = $this->getContactType($id);
             $contact->do_not_phone = mt_rand(0, 1);
             $contact->do_not_email = mt_rand(0, 1);

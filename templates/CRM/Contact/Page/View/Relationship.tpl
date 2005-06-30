@@ -36,9 +36,9 @@
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>
-            <td>{$rel.phone}</td>
+            <td>{$rel.phone}</td> 
             <td class="nowrap">{$rel.action}</td>
-          </tr>
+         </tr>
         {/foreach}
         </table>
         {/strip}

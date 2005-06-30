@@ -58,6 +58,14 @@ class CRM_Utils_Menu {
     static $_localTasks = null;
 
     /**
+     * The list of dynamic params
+     *
+     * @var array
+     * @static
+     */
+    static $_params = null;
+
+    /**
      * This is a super super gross hack, please fix sometime soon
      *
      * using constants from DRUPAL/includes/menu.inc, so that we can reuse 
@@ -255,6 +263,7 @@ class CRM_Utils_Menu {
         
                       array(
                             'path'    => 'civicrm/contact/view',
+                            'qs'      => 'reset=1&cid=%%cid%%',
                             'title'   => ts('View Contact'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::ROOT_LOCAL_TASK,
@@ -262,6 +271,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/basic',
+                            'qs'      => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Contact Summary'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::DEFAULT_LOCAL_TASK,
@@ -270,6 +280,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/activity',
+                            'qs'      => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Activities'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -278,6 +289,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/rel',
+                            'qs'      => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Relationships'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -286,6 +298,7 @@ class CRM_Utils_Menu {
         
                       array(
                             'path'    => 'civicrm/contact/view/group',
+                            'qs'      => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Groups'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -294,6 +307,7 @@ class CRM_Utils_Menu {
                       
                       array(
                             'path'    => 'civicrm/contact/view/note',
+                            'qs'      => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Notes'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -302,6 +316,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/tag',
+                            'qs'      => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Tags'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -310,6 +325,7 @@ class CRM_Utils_Menu {
 
                       array(
                             'path'    => 'civicrm/contact/view/cd',
+                            'qs'      => 'reset=1&cid=%%cid%%',
                             'title'   => ts('Custom Data'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
@@ -400,10 +416,16 @@ class CRM_Utils_Menu {
                          ( self::$_items[$root ]['path'] == $path && $item['isDefault'] ) ) {
                         $klass = 'active';
                     }
+                    $qs  = CRM_Utils_Array::value( 'qs', self::$_items[$index] );
+                    if ( self::$_params ) {
+                        foreach ( self::$_params as $n => $v ) {
+                            $qs = str_replace( "%%$n%%", $v, $qs );
+                        }
+                    }
+                    $url = CRM_Utils_System::url( self::$_items[$index]['path'], $qs );
                     $localTasks[self::$_items[$index]['weight']] =
                         array(
-                              'url'    => CRM_Utils_System::url( self::$_items[$index]['path'],
-                                                                 CRM_Utils_Array::value( 'qs', self::$_items[$index] ) ),
+                              'url'    => $url, 
                               'title'  => self::$_items[$index]['title'],
                               'class'  => $klass
                               );
@@ -431,6 +453,23 @@ class CRM_Utils_Menu {
 
         self::$_items[] = $item;
         self::initialize( );
+    }
+
+    /**
+     * Add a key, value pair to the params array
+     *
+     * @param string $key  
+     * @param string $value
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    static function addParam( $key, $value ) {
+        if ( ! self::$_params ) {
+            self::$_params = array( );
+        }
+        self::$_params[$key] = $value;
     }
 
     /**
@@ -482,10 +521,8 @@ class CRM_Utils_Menu {
 
         $childMenu = array();
 
-        //CRM_Core_Error::le_method();
-        //CRM_Core_Error::debug_var('path', $path);
         $path = trim($path, '/');
-        //CRM_Core_Error::debug_var('path', $path);        
+
         // since we need children only
         $path .= '/';
         
@@ -495,7 +532,6 @@ class CRM_Utils_Menu {
             }
         }
         return $childMenu;
-        //CRM_Core_Error::ll_method();
     }
 
 

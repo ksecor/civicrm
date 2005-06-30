@@ -31,49 +31,49 @@
  *
  */
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Contact/Page/View.php';
 
 /**
- * Page for displaying custom data
- *
+ * Page for displaying list of Meetings
  */
-class CRM_Contact_Page_CustomData {
-    /**
-     * Run the page.
-     *
-     * This method is called after the page is created. It checks for the  
-     * type of action and executes that action. 
-     *
-     * @access public
-     * @param object $page - the view page which created this one 
-     * @return none
-     * @static
-     *
-     */
-    static function run($page)
+class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
+{
+
+    function edit( )
     {
-        // get the contact id & requested action
-        $contactId = $page->getContactId();
-        $action = CRM_Utils_Request::retrieve('action', $page, false, 'browse'); // default to 'browse'
-
-        // assign vars to templates
-        $page->assign('contactId', $contactId);
-        $page->assign('action', $action);
-        $controller = null;
-
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', 'Custom Data', $action);
-        $controller->setEmbedded(true);
-
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view/cd', 'action=browse'));
-        $controller->set('tableName' , 'crm_contact');
-        $controller->set('tableId'   , $page->getContactId());
-        $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType($page->getContactId()));
-        $controller->process();
-        $controller->run();
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse' ) );
+
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Meeting', 'Contact Meetings', $this->_action );
+        $controller->reset( );
+
+        $controller->setEmbedded( true );
+        $controller->set( 'contactId', $page->getContactId( ) );
+        $controller->set( 'id'       , $this->_id );
+        $controller->set( 'pid'      , $page->get( 'pid' ) );
+        $controller->set( 'log'      , $page->get( 'log' ) );
+
+        $controller->process( );
+        $controller->run( );
     }
 
+    function run( )
+    {
+        $pid = CRM_Utils_Request::retrieve( 'pid', $page ); 
+        $log = CRM_Utils_Request::retrieve( 'log', $page ); 
+        
+        if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
+            $this->edit( );
+        } else if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->delete( );
+        }
+    }
     
+    function delete( ) 
+    {
+        CRM_Core_BAO_Meeting::del( $this->_id );
+    }
+
 }
 ?>

@@ -176,10 +176,10 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $vars = array( 'message' => $message,
                        'code'    => $code );
 
-        CRM_Core_Error::debug( $code, $message );
-        CRM_Core_Error::debug( 'BT', debug_backtrace( ) );
         $fileName = 'error.tpl';
-        CRM_Utils_System::theme( 'fatal_error', $fileName, $vars );
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( $vars );
+        print $template->fetch( 'CRM/error.tpl' );
 
         exit( CRM_Core_Error::FATAL_ERROR );
     }

@@ -91,15 +91,17 @@ class CRM_Contact_Form_Individual {
     /**
      * global form rule
      *
-     * @param array $fields the input form values
+     * @param array $fields  the input form values
+     * @param array $files   the uploaded files if any
+     * @param array $options additional user data
      *
      * @return true if no errors, else array of errors
      * @access public
      * @static
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields, &$files, $options ) {
         $errors = array( );
-        
+
         $primaryEmail = CRM_Contact_Form_Edit::formRule( $fields, $errors );
         
         // check for state/country mapping
@@ -109,10 +111,14 @@ class CRM_Contact_Form_Individual {
         if (! ( (CRM_Utils_Array::value( 'first_name', $fields ) && 
                  CRM_Utils_Array::value( 'last_name' , $fields )    ) ||
                 !empty( $primaryEmail ) ) ) {
-            $errors['first_name'] = ts('First Name and Last Name OR an email in the Primary Location should be set.');
+            $errors['_qf_default'] = ts('First Name and Last Name OR an email in the Primary Location should be set.');
         }
 
-        $ids = CRM_Core_BAO_UFGroup::findContact( $fields, CRM_Utils_Array::value( 'cid', $fields ), true );
+        $cid = null;
+        if ( $options ) {
+            $cid = (int ) $options;
+        }
+        $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
         if ( $ids ) {
             $urls = array( );
             foreach ( explode( ',', $ids ) as $id ) {
@@ -121,7 +127,7 @@ class CRM_Contact_Form_Individual {
                     '">' . $displayName . '</a>';
             }
             $url = implode( ', ',  $urls );
-            $errors['first_name'] = ts( 'One matching contact was found. You can edit it here: %1', array( 1 => $url, 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1' ) );
+            $errors['_qf_default'] = ts( 'One matching contact was found. You can edit it here: %1', array( 1 => $url, 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1' ) );
         }
 
         return empty($errors) ? true : $errors;

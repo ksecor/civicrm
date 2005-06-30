@@ -277,9 +277,6 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL ) {
         return civicrm_form_data($edit, $user, $category, true);
 
     case 'validate':
-        if ( ! CRM_Utils_Array::value( 'edit', $edit ) ) {
-            return true;
-        }
         return civicrm_validate_data($edit, $user, $category);
 
     case 'categories':

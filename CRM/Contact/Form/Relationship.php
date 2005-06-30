@@ -70,7 +70,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     function preProcess( ) 
     {
         $this->_contactId      = $this->get('contactId');
-        $this->_relationshipId = $this->get('relationshipId');
+        $this->_relationshipId = $this->get('id');
         $this->_rtype          = CRM_Utils_Request::retrieve( 'rtype', $this );
     }
 
@@ -155,7 +155,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
 
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
-        $duplicateRelationship = $this->get('duplicateRelationship' );
+        $duplicateRelationship = $this->get( 'duplicateRelationship' );
 
         if ( $searchRows ) {
             $checkBoxes = array( );
