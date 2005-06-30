@@ -49,10 +49,10 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
         $controller->reset( );
 
         $controller->setEmbedded( true );
-        $controller->set( 'contactId', $page->getContactId( ) );
+        $controller->set( 'contactId', $this->_contactId );
         $controller->set( 'id'       , $this->_id );
-        $controller->set( 'pid'      , $page->get( 'pid' ) );
-        $controller->set( 'log'      , $page->get( 'log' ) );
+        $controller->set( 'pid'      , $this->get( 'pid' ) );
+        $controller->set( 'log'      , $this->get( 'log' ) );
 
         $controller->process( );
         $controller->run( );
@@ -60,14 +60,18 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
 
     function run( )
     {
-        $pid = CRM_Utils_Request::retrieve( 'pid', $page ); 
-        $log = CRM_Utils_Request::retrieve( 'log', $page ); 
+        $this->preProcess( );
+
+        $pid = CRM_Utils_Request::retrieve( 'pid', $this ); 
+        $log = CRM_Utils_Request::retrieve( 'log', $this ); 
         
         if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW) ) {
             $this->edit( );
         } else if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->delete( );
         }
+
+        return parent::run( );
     }
     
     function delete( ) 

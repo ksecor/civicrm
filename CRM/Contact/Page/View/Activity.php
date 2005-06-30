@@ -78,7 +78,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
             
             // create the selector, controller and run - store results in session
             $output = CRM_Core_Selector_Controller::SESSION;
-            $selector   =& new CRM_Contact_Selector_Activity($this->getContactId());
+            $selector   =& new CRM_Contact_Selector_Activity($this->_contactId );
             $sortID     = null;
             if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
                 $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),

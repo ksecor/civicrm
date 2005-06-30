@@ -127,17 +127,6 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         $this->set( 'contactImage', $contactImage );
     }
 
-    /**
-     * get contact id for this page.
-     *
-     * @param none
-     * @return int - contact id
-     * @access public
-     */
-    function getContactId()
-    {
-        return $this->_contactId;
-    }
 }
 
 ?>

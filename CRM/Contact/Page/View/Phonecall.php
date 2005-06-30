@@ -36,7 +36,7 @@ require_once 'CRM/Contact/Page/View.php';
 /**
  * Page for displaying list of Call
  */
-class CRM_Contact_Page_Phonecall extends CRM_Contact_Page_View
+class CRM_Contact_Page_View_Phonecall extends CRM_Contact_Page_View
 {
 
     function edit( )
@@ -51,8 +51,8 @@ class CRM_Contact_Page_Phonecall extends CRM_Contact_Page_View
 
         $controller->set( 'contactId', $this->_contactId );
         $controller->set( 'id'       , $this->_id );
-        $controller->set( 'pid'      , $page->get( 'pid' ) );
-        $controller->set( 'log'      , $page->get( 'log' ) );
+        $controller->set( 'pid'      , $this->get( 'pid' ) );
+        $controller->set( 'log'      , $this->get( 'log' ) );
 
         $controller->process( );
         $controller->run( );
@@ -60,6 +60,8 @@ class CRM_Contact_Page_Phonecall extends CRM_Contact_Page_View
 
     function run( )
     {
+        $this->preProcess( );
+
         $pid = CRM_Utils_Request::retrieve( 'pid', $this );
         $log = CRM_Utils_Request::retrieve( 'log', $this );
         
@@ -68,6 +70,8 @@ class CRM_Contact_Page_Phonecall extends CRM_Contact_Page_View
         } else if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->delete( );
         }
+
+        return parent::run( );
     }
 
     static function delete( )
