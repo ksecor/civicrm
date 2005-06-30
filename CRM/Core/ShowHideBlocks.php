@@ -202,6 +202,7 @@ class CRM_Core_ShowHideBlocks {
      * @param string        $showLinkText  the text to be shown for the show link
      * @param string        $hideLinkText  the text to be shown for the hide link
      * @param string        $elementType   the set the class
+     * @param string        $hideLink      the hide block string
      *
      * @return void
      * @access public
@@ -213,7 +214,10 @@ class CRM_Core_ShowHideBlocks {
             $next = $index + 1;
             if ( $elementType ) {
                 $showCode = "show('${prefix}[${next}][show]','table-row'); return false;";
-                $hideCode = $hideLink;
+                if ($hideLink) {
+                    $hideCode = $hideLink;
+                } else {
+                    $hideCode = "hide('${prefix}[${next}][show]','table-row'); hide('${prefix}[${next}]'); return false;";                }
             } else {
                 $showCode = "show('${prefix}[${next}][show]'); return false;";
                 $hideCode = "hide('${prefix}[${next}][show]'); hide('${prefix}[${next}]'); return false;";

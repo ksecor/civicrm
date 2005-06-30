@@ -15,7 +15,6 @@
 	<tr id="optionField[{$index}]" class="form-item {cycle values="even-row,odd-row"}">
         <td> 
         {if $index GT 1}
-            {*<a onclick="{$hideLink.$index}" name="optionField[{$j}][hide]" href="#optionField[{$index}]" id="optionField[{$index}][hide]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"></a> *}
              {$form.optionField.$index.hide.html}
         {/if}
         </td>
@@ -31,18 +30,17 @@
 	{section name=showLoop start=2 loop=12}
         {assign var=j value=$smarty.section.showLoop.index}
         <div id="optionField[{$j}][show]" class="add-remove-link">
-            {*<a onclick="show('optionField[{$j}]','table-row'); {if $j LT 11}show('optionField[{$j+1}][show]','table-row');{/if} hide('optionField[{$j}][show]'); {if $j EQ 11} show('additionalOption');{/if}return false;" href="#optionField[{$j}][show]" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}">{ts}another choice{/ts}</a>*}
             { $form.optionField.$j.show.html}
+	    {if $j eq 11}
+	    <div class="description">
+		{ts}"If you need additional options - you can add them after you save your current entries."{/ts}
+	    </div>
+	    {/if}
         </div>
     {/section}
     {/strip}
-	<div class="description" id="additionalOption">
-	{ts}"If you need additional options - you can add them after you save your current entries."{/ts}
-	</div>
-    
+
 </fieldset>
-{assign var=showRows value="'optionField[1]','optionField[2]'"}
-{assign var=hideBlocks value="'optionField[2][show]','optionField[4][show]','optionField[5][show]','optionField[6][show]','optionField[7][show]','optionField[8][show]','optionField[9][show]','optionField[10][show]','optionField[11][show]','optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]','optionField[11]','additionalOption'"}
 <script type="text/javascript">
     var showRows = new Array({$showBlocks});
     var hideBlocks = new Array({$hideBlocks});
