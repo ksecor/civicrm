@@ -245,7 +245,7 @@ abstract class CRM_Import_Parser {
             $values = fgetcsv( $fd, 8192, $seperator );
 
             self::encloseScrub($values);
-
+            
             // skip column header if we're not in mapfield mode
             if ( $mode != self::MODE_MAPFIELD && $skipColumnHeader ) {
                     $skipColumnHeader = false;
@@ -267,6 +267,11 @@ abstract class CRM_Import_Parser {
                 continue;
             }
 
+            /* trim whitespace around the values */
+            foreach ($values as $k => $v) {
+                $values[$k] = trim($v);
+            }
+            
             if ( $mode != self::MODE_IMPORT ) {
                 $this->_totalCount++;
             }
