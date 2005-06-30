@@ -4,8 +4,8 @@
     {if $totalCountOpenActivity}
         <fieldset><legend><a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=1"}"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}Open Activities{/ts}</legend>
     {else}
-        {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q='action=add&pid=0&id=0&log=0'}{/capture}
-        {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q='action=add&pid=0&id=0&log=0'}{/capture}
+        {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q="action=add&pid=0&id=0&log=0&cid=`$contactId`"}{/capture}
+        {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q="action=add&pid=0&id=0&log=0&cid=`$contactId`"}{/capture}
         <div class="data-group">
             <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2"}">call</a>.{/ts}</dd></dl>
         </div>
@@ -16,8 +16,8 @@
         {if $totalCountOpenActivity}
             <a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=0"}"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label> ({$totalCountOpenActivity})
         {else}
-            {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q='action=add&pid=0&id=0&log=0'}{/capture}
-            {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q='action=add&pid=0&id=0&log=0'}{/capture}
+            {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q="action=add&pid=0&id=0&log=0&cid=`$contactId`"}{/capture}
+            {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q="action=add&pid=0&id=0&log=0&cid=`$contactId`"}{/capture}
             <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2"}">call</a>.{/ts}</dd></dl>
         {/if}
     </div>
