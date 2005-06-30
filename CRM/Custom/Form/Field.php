@@ -180,8 +180,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             for ($index = $i; $index <= self::NUM_OPTION; $index++) {
                 $_link .=  "hide('optionField[$index]'); hide('optionField[$index][show]'); ";
             }
-            $next = $i + 1;
-            $showHideLinks[$i] = $_link . "show('optionField[$next][show]'); return false;";
+            if ($i ==  self::NUM_OPTION) {
+                $_link .= "show('additionalOption'); ";
+            } else {
+                $_link .= "hide('additionalOption'); ";
+            }
+                
+            $showHideLinks[$i] = $_link . "show('optionField[$i][show]'); return false;";
             $_link = "";
             
             //$_showHideLinks->linksForArray( $this, $i, self::NUM_OPTION, 'optionField',  ts('another row'), ts('hide this row'), 'table-row');
