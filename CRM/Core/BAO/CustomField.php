@@ -130,9 +130,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      */
     public static function getNumValue($fieldId)
     {
+        $cvTable = CRM_Core_DAO_CustomValue::getTableName();
         $queryString = "SELECT count(*) 
-                        FROM   crm_custom_value 
-                        WHERE  crm_custom_value.custom_field_id = $fieldId";
+                        FROM   $cvTable 
+                        WHERE  $cvTable.custom_field_id = $fieldId";
 
         // dummy dao needed
         $crmDAO =& new CRM_Core_DAO();
@@ -169,22 +170,21 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      */
     public static function &getFields( ) {
-        /* FIXME: this should be rewritten in a more DataObject-friendly way to
-         * avoid using explicit table names */
         if (!(self::$_importFields)) {
-        
-            $query ="SELECT crm_custom_field.id, crm_custom_field.label,
-                            crm_custom_group.title, crm_custom_field.data_type,
-                            crm_custom_group.extends
-                     FROM crm_custom_field
-                     INNER JOIN crm_custom_group
-                     ON crm_custom_field.custom_group_id = crm_custom_group.id
-                     WHERE crm_custom_field.is_active = 1
-                     AND   crm_custom_group.is_active = 1
-                     AND   crm_custom_group.extends IN 
+            $cfTable = self::getTableName();
+            $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
+            $query ="SELECT $cfTable.id, $cfTable.label,
+                            $cgTable.title, $cfTable.data_type,
+                            $cgTable.extends
+                     FROM $cfTable
+                     INNER JOIN $cgTable
+                     ON $cfTable.custom_group_id = $cgTable.id
+                     WHERE $cfTable.is_active = 1
+                     AND   $cgTable.is_active = 1
+                     AND   $cgTable.extends IN 
                             ('Individual', 'Contact')
-                     ORDER BY crm_custom_group.weight, crm_custom_group.id,
-                              crm_custom_field.weight, crm_custom_field.id";
+                     ORDER BY $cgTable.weight, $cgTable.id,
+                              $cfTable.weight, $cfTable.id";
                  
             $crmDAO =& new CRM_Core_DAO();
             $crmDAO->query($query);
