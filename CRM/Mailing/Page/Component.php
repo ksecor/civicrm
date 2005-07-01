@@ -31,13 +31,11 @@
  *
  */
 
-require_once 'CRM/Core/Page/Basic.php';
-
 /**
- * Page for displaying list of location types
+ * Page to display / edit the header / footer of a mailing
+ *
  */
-class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic 
-{
+class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
     /**
      * The action links that we need to display for the browse screen
      *
@@ -54,7 +52,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
      */
     function getBAOName() 
     {
-        return 'CRM_Contact_BAO_LocationType';
+        return 'CRM_Mailing_BAO_Component';
     }
 
     /**
@@ -65,29 +63,30 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
      */
     function &links()
     {
-        if (!(self::$_links)) {
+        if ( ! ( self::$_links ) ) {
+
             // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this location type?\n\nUsers will no longer be able to select this value when adding or editing contact locations.');
+            $disableExtra = ts('Are you sure you want to disable this component?');
 
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'url'   => 'civicrm/mailing/component',
                                                                     'qs'    => 'action=update&id=%%id%%',
-                                                                    'title' => ts('Edit Location Type') 
+                                                                    'title' => ts('Edit Mailing Component') 
                                                                    ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
-                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'url'   => 'civicrm/mailing/component',
                                                                     'qs'    => 'action=disable&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                    'title' => ts('Disable Location Type') 
+                                                                    'title' => ts('Disable Mailing Component') 
                                                                    ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
-                                                                    'url'   => 'civicrm/admin/locationType',
+                                                                    'url'   => 'civicrm/mailing/component',
                                                                     'qs'    => 'action=enable&id=%%id%%',
-                                                                    'title' => ts('Enable Location Type') 
+                                                                    'title' => ts('Enable Mailing Component') 
                                                                    )
                                  );
         }
@@ -102,7 +101,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
      */
     function editForm() 
     {
-        return 'CRM_Admin_Form_LocationType';
+        return 'CRM_Mailing_Form_Component';
     }
 
     /**
@@ -113,7 +112,7 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
      */
     function editName() 
     {
-        return 'Location Types';
+        return 'Mailing Components';
     }
 
     /**
@@ -124,8 +123,9 @@ class CRM_Admin_Page_LocationType extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/admin/locationType';
+        return 'civicrm/mailing/component';
     }
+
 }
 
 ?>

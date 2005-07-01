@@ -33,9 +33,14 @@
   <field>
        <name>component_type</name>
        <type>enum</type>
-       <values>Header, Footer</values>
+       <values>Header, Footer, Subscribe, Welcome, Unsubscribe</values>
        <comment>Type of Component.</comment>
   </field>
+  <field>
+       <name>subject</name>
+       <type>varchar</type>
+       <length>255</length>
+  </field>  
   <field>
        <name>body_html</name>
        <type>text</type>

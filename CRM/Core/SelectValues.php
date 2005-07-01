@@ -418,6 +418,26 @@ class CRM_Core_SelectValues {
     }
 
     /**
+     * different type of Mailing Components
+     *
+     * @static
+     * return array
+     */
+    static function &mailingComponents( ) {
+        static $components = null;
+
+        if (! $components ) {
+            $components = array( 'Header'      => 'Header',
+                                 'Footer'      => 'Footer',
+                                 'Subscribe'   => 'Subscription Message to organization',
+                                 'Welcome'     => 'Welcome Message',
+                                 'Unsubscribe' => 'Farewell Message',
+                                 );
+        }
+        return $components;
+    }
+
+    /**
      * Function to get hours
      *
      * 

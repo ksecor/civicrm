@@ -31,11 +31,52 @@
  *
  */
 
-/**
- * Page to display / edit the header / footer of a mailing
- *
- */
-class CRM_Mailing_Page_Components extends CRM_Core_Page_Basic {
+class CRM_Mailing_BAO_Component extends CRM_Mailing_DAO_Component {
+
+    /**
+     * class constructor
+     */
+    function __construct( ) {
+        parent::__construct( );
+    }
+
+    /**
+     * Takes a bunch of params that are needed to match certain criteria and
+     * retrieves the relevant objects. Typically the valid params are only
+     * contact_id. We'll tweak this function to be more full featured over a period
+     * of time. This is the inverse function of create. It also stores all the retrieved
+     * values in the default array
+     *
+     * @param array $params   (reference ) an assoc array of name/value pairs
+     * @param array $defaults (reference ) an assoc array to hold the flattened values
+     *
+     * @return object CRM_Core_BAO_LocaationType object
+     * @access public
+     * @static
+     */
+    static function retrieve( &$params, &$defaults ) {
+        $component =& new CRM_Mailing_DAO_Component( );
+        $component->copyValues( $params );
+        if ( $component->find( true ) ) {
+            CRM_Core_DAO::storeValues( $component, $defaults );
+            return $component;
+        }
+        return null;
+    }
+
+    /**
+     * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * @static
+     */
+    static function setIsActive( $id, $is_active ) {
+        return CRM_Core_DAO::setFieldValue( 'CRM_Mailing_DAO_Component', $id, 'is_active', $is_active );
+    }
+
 }
 
 ?>
