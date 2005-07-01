@@ -51,6 +51,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     protected $_phoneIndex;
 
     /**
+     * Array of succesfully imported contact id's
+     *
+     * @array
+     */
+    protected $_newContacts;
+
+    /**
      * class constructor
      */
     function __construct( &$mapperKeys ) {
@@ -70,6 +77,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern'] );
         }
+
+        $this->_newContacts = array();
 
         $this->setActiveFields( $this->_mapperKeys );
         
@@ -213,6 +222,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
         //if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Core_Error ) {
         if ( is_a($newContact = crm_create_contact( $params, 'Individual' ), CRM_Core_Error) ) {
+
             $urls = array( );
             $base = CRM_Utils_System::baseURL() . '/';
             
@@ -244,10 +254,23 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 //             return self::DUPLICATE;
             return CRM_Import_Parser::DUPLICATE;
         }
+        $this->_newContacts[] = $newContact->id;
 //         return self::VALID;
         return CRM_Import_Parser::VALID;
     }
-    
+   
+    /**
+     * Get the array of succesfully imported contact id's
+     *
+     * @param void
+     *
+     * @return array
+     * @access public
+     */
+    function &getImportedContacts() {
+        return $this->_newContacts;
+    }
+   
     /**
      * the initializer code, called before the processing
      *

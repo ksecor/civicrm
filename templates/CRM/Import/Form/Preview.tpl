@@ -53,6 +53,13 @@
  </table>
  <br /> 
 
+ {* Group options *}
+ <div>
+    <dt>{$form.newGroup.html}</dt><dd>{$form.newGroup.label}</dd>
+    <dt> </dt><dd>{$form.groups.label}</dd>
+    <dt> </dt><dd>{$form.groups.html}</dd>
+ </div>
+
  {* Table for mapping preview *}
  {include file="CRM/Import/Form/MapTable.tpl}
  <br />

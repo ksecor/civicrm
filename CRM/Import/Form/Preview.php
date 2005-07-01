@@ -93,6 +93,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
+        $this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
+        $groups =& CRM_Core_PseudoConstant::group();
+        $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => true, 'size' => 5));
+
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
                                          'name'      => ts('<< Previous') ),
@@ -129,6 +133,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $invalidRowCount    = $this->get('invalidRowCount');
         $conflictRowCount   = $this->get('conflictRowCount');
         $onDuplicate        = $this->get('onDuplicate');
+        $newGroup           = $this->controller->exportValue( $this->_name, 'newGroup');
+        $groups             = $this->controller->exportValue( $this->_name, 'groups');
         
         $seperator = ',';
 
@@ -141,6 +147,15 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                       CRM_Import_Parser::MODE_IMPORT,
                       $onDuplicate);
 
+
+        // add the new contacts to selected groups
+        $contactIds =& $parser->getImportedContacts();
+
+        foreach ($groups as $groupId) {
+            CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds,
+                $groupId);
+        }
+        
         // add all the necessary variables to the form
         $parser->set( $this, CRM_Import_Parser::MODE_IMPORT );
 

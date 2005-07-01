@@ -54,8 +54,6 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
 
         $this->addElement( 'checkbox', 'skipColumnHeader', ts('First row contains column headers') );
 
-
-
         $duplicateOptions = array();        
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
             null, null, ts('Skip'), CRM_Import_Parser::DUPLICATE_SKIP);
