@@ -47,4 +47,4 @@ MSQLDRIVER  = "org.gjt.mm.mysql.Driver"
 # Following constants are database specific constants.
 DBNAME      = "civicrm"
 DBUSERNAME  = "civicrm"
-DBPASSWORD  = "Mt!Everest"
+DBPASSWORD  = "-pPASSWORD"
