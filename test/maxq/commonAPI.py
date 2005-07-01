@@ -35,7 +35,7 @@ def login(test) :
     test.assertEquals("Assert number 7 failed", 200, test.getResponseCode())
 
 def dbStart() :
-    return DBUtil("org.gjt.mm.mysql.Driver", "jdbc:mysql://localhost/civicrm", "civicrm", "Mt!Everest")
+    return DBUtil("%s" % commonConst.MSQLDRIVER, "jdbc:mysql://%s/%s" % (commonConst.DBHOST, commonConst.DBNAME), "%s" % commonConst.DBUSERNAME, "%s" % commonConst.DBPASSWORD)
 
 def dbStop(db) :
     db.close()
