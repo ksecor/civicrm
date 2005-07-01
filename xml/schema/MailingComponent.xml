@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Mailing/Component</base>
+  <base>CRM/Mailing</base>
   <name>crm_mailing_component</name>
   <comment>Stores information about the mailing components (header/footer).</comment>
   <field>
@@ -25,6 +25,12 @@
        <key>id</key>
   </foreignKey>
   <field>
+       <name>name</name>
+       <title>Component Name</title>
+       <type>varchar</type>
+       <length>64</length>
+  </field>  
+  <field>
        <name>component_type</name>
        <type>enum</type>
        <values>Header, Footer</values>
@@ -47,9 +53,14 @@
        <cols>80</cols>
   </field>
   <field>
-       <name>is_primary</name>
+       <name>is_default</name>
        <type>boolean</type>
        <default>0</default>
-       <comment>Is this the primary component for this component type?</comment>
+       <comment>Is this the default component for this component_type?</comment>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
   </field>
 </table>

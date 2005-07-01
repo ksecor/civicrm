@@ -65,19 +65,21 @@ class CRM_Core_Invoke {
 
         case 'contact': return self::contact( $args );
 
-        case 'admin'  : return self::admin  ( $args );
+        case 'admin'   : return self::admin  ( $args );
 
-        case 'history': return self::history( $args );
+        case 'history' : return self::history( $args );
 
-        case 'group'  : return self::group  ( $args );
+        case 'group'   : return self::group  ( $args );
 
-        case 'import' : return self::import ( $args );
+        case 'import'  : return self::import ( $args );
        
-        case 'export' : return self::export ( $args );
+        case 'export'  : return self::export ( $args );
 
-        case 'activity' : return self::activity ( $args );
+        case 'activity': return self::activity ( $args );
 
-        default       : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) );
+        case 'mailing' : return self::mailing( $args );
+
+        default        : return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/search', 'reset=1' ) );
 
         }
     }
@@ -351,6 +353,22 @@ class CRM_Core_Invoke {
             $view =& new CRM_Group_Page_Group(ts('View Groups'));
             return $view->run();
         }
+    }
+    
+    /**
+     * This function contains the actions for admin arguments
+     *
+     * @param $args array this array contains the arguments of the url
+     *
+     * @static
+     * @access public
+     */
+    static function mailing( $args ) {
+        if ( !$args[1] !== 'mailing' ) {
+            return;
+        }
+
+        return CRM_Mailing_Page_Components( );
     }
 
     static function export( $args ) {

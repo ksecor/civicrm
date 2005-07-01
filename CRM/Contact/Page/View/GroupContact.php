@@ -43,7 +43,7 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
      * return null
      * @access public
      */
-    function browse( $this ) {
+    function browse( ) {
   
         $count   = CRM_Contact_BAO_GroupContact::getContactGroup($this->_contactId, null, null, true);
         
@@ -97,7 +97,7 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
             $groupContactId = CRM_Utils_Request::retrieve( 'gcid' );
             $status         = CRM_Utils_Request::retrieve( 'st' );
             if ( is_numeric($groupContactId) && $status ) {
-                self::del( $groupContactId,$status );
+                $this->del( $groupContactId,$status );
             }
         }
 
@@ -114,9 +114,8 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
      * @param string $status this is the status that should be updated.
      *
      * $access public
-     * @static
      */
-    static function del($groupContactId, $status ) {
+    function del($groupContactId, $status ) {
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         
         switch ($status) {

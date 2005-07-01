@@ -175,7 +175,7 @@
         </tr>
     {/foreach}
     {if $activity.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q='action=browse&history=true'}">&raquo; {ts}View All Activity History...{/ts}</a></td></tr>
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q="action=browse&history=true&cid=$contact_id"}">&raquo; {ts}View All Activity History...{/ts}</a></td></tr>
     {/if}
     </table>
 	{/strip}
@@ -186,7 +186,7 @@
   {if $relationship.totalCount}
     <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Relationships{/ts}</label> ({$relationship.totalCount})<br />
   {else}
-    <dl><dt>{ts}Relationships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q='action=add'}{/capture}{ts 1=$crmURL}No relationships. Use the <a href="%1">Relationships tab</a> to add them.{/ts}</dd></dl>
+    <dl><dt>{ts}Relationships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contact_id"}{/capture}{ts 1=$crmURL}No relationships. Use the <a href="%1">Relationships tab</a> to add them.{/ts}</dd></dl>
   {/if}
 </div>
 
@@ -220,16 +220,16 @@
                 <td>{$rel.state}</td>
                 <td>{$rel.email}</td>
                 <td>{$rel.phone}</td>
-                <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`"}">{ts}Edit{/ts}</a></td> 
+                <td><a href="{crmURL p='civicrm/contact/view/rel' q="rid=`$rel.id`&action=update&rtype=`$rel.rtype`&cid=$contact_id"}">{ts}Edit{/ts}</a></td> 
             </tr>  
         {/foreach}
         {if $relationship.totalCount gt 3 }
-            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/rel' q='action=browse'}">&raquo; {ts}View All Relationships...{/ts}</a></td></tr>
+            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/rel' q="action=browse&cid=$contact_id"}">&raquo; {ts}View All Relationships...{/ts}</a></td></tr>
         {/if}
         </table>
 	{/strip}
    <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/rel' q='action=add'}">&raquo; {ts}New Relationship{/ts}</a>
+       <a href="{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contact_id"}">&raquo; {ts}New Relationship{/ts}</a>
    </div>
  </fieldset>
  {/if}
@@ -239,7 +239,7 @@
   {if $group.totalCount}
     <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Group Memberships{/ts}</label> ({$group.totalCount})<br />
   {else}
-    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q='action=add'}{/capture}{ts 1=$crmURL}No group memberships. Use the <a href="%1">Groups tab</a> to add them.{/ts}</dd></dl>
+    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contact_id"}{/capture}{ts 1=$crmURL}No group memberships. Use the <a href="%1">Groups tab</a> to add them.{/ts}</dd></dl>
   {/if}
 </div>
 
@@ -260,12 +260,12 @@
         </tr>
     {/foreach}
     {if $group.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/group' q='action=browse'}">&raquo; {ts}View All Group Memberships...{/ts}</a></td></tr>
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/group' q="action=browse&cid=$contact_id"}">&raquo; {ts}View All Group Memberships...{/ts}</a></td></tr>
     {/if}
     </table>
 	{/strip}
    <div class="action-link">
-       <a href="{crmURL p='civicrm/contact/view/group'}">&raquo; {ts}New Group Membership{/ts}</a>
+       <a href="{crmURL p='civicrm/contact/view/group' q="reset=1&action=add&cid=$contact_id"}">&raquo; {ts}New Group Membership{/ts}</a>
    </div>
  </fieldset>
 </div>
@@ -274,7 +274,7 @@
   {if $noteTotalCount}
     <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Notes{/ts}</label> ({$noteTotalCount})<br />
   {else}
-    <dl><dt>{ts}Notes{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q='action=add'}{/capture}{ts 1=$crmURL}No notes. Use the <a href="%1">Notes tab</a> to add them.{/ts}</dd></dl>
+    <dl><dt>{ts}Notes{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q="action=add&cid=$contact_id"}{/capture}{ts 1=$crmURL}No notes. Use the <a href="%1">Notes tab</a> to add them.{/ts}</dd></dl>
   {/if}
 </div>
 
@@ -303,13 +303,13 @@
        </tr>  
        {/foreach}
        {if $noteTotalCount gt 3 }
-            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/note' q='action=browse'}">&raquo; {ts}View All Notes...{/ts}</a></td></tr>
+            <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/note' q="action=browse&cid=$contact_id"}">&raquo; {ts}View All Notes...{/ts}</a></td></tr>
        {/if}
        </table>
        {/strip}
        
        <div class="action-link">
-         <a href="{crmURL p='civicrm/contact/view/note' q='action=add'}">&raquo; {ts}New Note{/ts}</a>
+         <a href="{crmURL p='civicrm/contact/view/note' q="action=add&cid=$contact_id"}">&raquo; {ts}New Note{/ts}</a>
        </div>
  </fieldset>
 {/if}
