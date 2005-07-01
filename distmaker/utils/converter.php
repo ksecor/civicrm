@@ -469,6 +469,7 @@ class PHP_DownGrade {
                 if ( $this->tokens[$i-1][0] == T_STRING && $this->tokens[$i+1][0] == T_STRING ) {
                     // make sure the following token are not open paran and hence a function call
                     $func = false;
+                    $flag = 0;
                     for ( $ii = $i+2; $ii < $i + 4; $ii++ ) {
                         if ( $this->tokens[$ii][1] == '(' ) {
                             $func = true;
@@ -481,12 +482,20 @@ class PHP_DownGrade {
                         break;
                     }
                     if($this->tokens[$i-1][1]!=""){
-                        $this->tokens[$i-1][1] = strtoupper($this->tokens[$i-1][1]) . '_' . $this->tokens[$i+1][1];
+                        if($this->tokens[$i-1][1] =="parent"){
+                            // $this->tokens[$i-1][1] = strtoupper($this->tokens[$i-1][1]) . '_' . $this->tokens[$i+1][1];
+                            $flag=1;
+                        }else{
+                            $this->tokens[$i-1][1] = strtoupper($this->tokens[$i-1][1]) . '_' . $this->tokens[$i+1][1];
+                        }
                     }
-                    $this->tokens[$i  ][1] = '';
-                    $this->tokens[$i+1][1] = '';
+                     if($flag!=1)
+                         {
+                             $this->tokens[$i  ][1] = '';
+                             $this->tokens[$i+1][1] = '';
+                             $flag=0;
+                         }
                 }
-
                 case T_FUNCTION:
                   $i++;
                 while($this->tokens[$i][1]==T_WHITESPACE)
@@ -698,7 +707,7 @@ class PHP_DownGrade {
                  }
 
 
-        //To change calls of parent constructor
+        //To change calls of parent constructor and constant variable
         for($j=0;$j<count($this->tokens);$j++)
             {
                 if(strcmp($this->tokens[$j][1],"parent")==0)
@@ -716,9 +725,43 @@ class PHP_DownGrade {
                         $k=$j;
                         while(strcmp($this->tokens[$k][1],";")!=0) 
                             { 
-                                if(strcmp($this->tokens[$k][1],"__construct")==0)
-                                $this->tokens[$k][1]=$classname;
+                                if($this->tokens[$k][1]=="::")
+                                    {
+                                        if(strcmp($this->tokens[$k][1],"__construct")==0){
+                                            $this->tokens[$k][1]=$classname;
+                                        }else{
+                                            $flag = false;
+                                            $f = $k;
+                                            while($this->tokens[$f][1]!=';'  && $this->tokens[$f][1]!=',')
+                                                {
+                                                 
+                                                    if($this->tokens[$f][1]=='('){
+                                                      
+                                                        $flag = true; 
+                                                    }
+                                                    $f++;
+                                                }
+                                            $f = $k;
 
+                                            /* while($this->tokens[$f][1]!=';' && $this->tokens[$f][1]!=',')
+                                                {
+                                                    
+                                                    if($this->tokens[$f][1]==T_VARIABLE){
+                                                        echo "Entering";
+                                                        $flag = true; 
+                                                        break;
+                                                    }
+                                                    
+                                                    $f++;
+                                                }*/
+                                            if($flag == false){
+                                                $this->tokens[$k-1][1]=strtoupper($classname);
+                                                $this->tokens[$k][1]="_";
+                                                $flag = false;
+                                            }
+                                        }
+
+                                    }
                                 $k++;
                             }
                         
