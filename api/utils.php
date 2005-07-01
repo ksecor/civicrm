@@ -224,7 +224,11 @@ function _crm_format_params( &$params, &$values ) {
 
         $values['location'][1]['is_primary'] = true;
     }
-   
+
+    if ( array_key_exists( 'note', $params ) ) {
+        $values['note'] = $params['note'];
+    }
+
     $values['custom_data'] = array();
 
     $customFields = CRM_Core_BAO_CustomField::getFields();

@@ -1063,7 +1063,8 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
                                                    CRM_Contact_DAO_IM::import( true ) );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Contact::import( ) );
-            /* TODO: add in the custom data fields here */
+            self::$_importableFields = array_merge(self::$_importableFields,
+                                                   CRM_Core_DAO_Note::import());
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Core_BAO_CustomField::getFieldsForImport() );
 //             $customImports =& CRM_Core_Dao_CustomField::import();

@@ -34,6 +34,9 @@
        <htmlType>textarea</htmlType>
        <rows>4</rows>
        <cols>80</cols>
+       <import>true</import>
+       <headerPattern>/Note|Comment/i</headerPattern>
+       <dataPattern>//</dataPattern>
   </field>
   <field>
        <name>contact_id</name>
