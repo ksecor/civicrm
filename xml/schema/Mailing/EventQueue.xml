@@ -46,4 +46,10 @@
         <table>crm_contact</table>
         <key>id</key>
     </foreignKey>
+    <field>
+        <name>hash</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>Security hash</comment>
+    </field>
 </table>
