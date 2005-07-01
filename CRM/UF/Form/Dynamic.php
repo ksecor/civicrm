@@ -183,6 +183,23 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             $url = implode( ', ',  $urls );
             $errors['edit[first_name]'] = ts( 'One matching contact was found. You can edit it here: %1', array( 1 => $url, 'count' => count( $ids ), 'plural' => '%count matching contacts were found. You can edit them here: %1' ) );
         }
+        
+        // Validate Country - State list
+        $countryId = $fields['edit']['country_id'];
+        $stateProvinceId = $fields['edit']['state_province_id'];
+
+        if ($stateProvinceId && $countryId) {
+            $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
+            $stateProvinceDAO->id = $stateProvinceId;
+            $stateProvinceDAO->find(true);
+            
+            if ($stateProvinceDAO->country_id != $countryId) {
+                // country mismatch hence display error
+                $stateProvinces = CRM_Core_PseudoConstant::stateProvince();
+                $countries = CRM_Core_PseudoConstant::country();
+                $errors['edit[state_province_id]'] = "State/Province " . $stateProvinces[$stateProvinceId] . " is not part of ". $countries[$countryId] . ". It belongs to " . $countries[$stateProvinceDAO->country_id] . "." ;
+            }
+        }
 
         return empty($errors) ? true : $errors;
     }
