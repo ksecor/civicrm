@@ -176,25 +176,18 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         
         // form fields of Custom Option rows
         $defaultOption = array();
-        $_link = ""; 
+        //$_link = ""; 
         for($i = 1; $i <= self::NUM_OPTION; $i++) {
-            for ($index = $i; $index <= self::NUM_OPTION; $index++) {
+            /*for ($index = $i; $index <= self::NUM_OPTION; $index++) {
                 $_link .=  "hide('optionField[$index]'); hide('optionField[$index][show]'); ";
-            }
-            
-            //show the status message after 11 rows
-            /*if ($i ==  self::NUM_OPTION ) {
-                $_link .= "show('additionalOption'); ";
-            } else {
-                $_link .= "hide('additionalOption'); ";
             }*/
                 
-            $hideLink = $_link . "show('optionField[$i][show]'); return false;";
+            //$hideLink = $_link . "show('optionField[$i][show]'); return false;";
 
-            CRM_Core_ShowHideBlocks::linksForArray($this, $i, self::NUM_OPTION, 'optionField', ts('Add option'), ts('Hide row'), 'table-row', $hideLink);
+            //CRM_Core_ShowHideBlocks::linksForArray($this, $i, self::NUM_OPTION, 'optionField', ts('Add option'), ts('Hide row'), 'table-row', $hideLink);
             
             //Reset the value for fresh next hide link cascade string
-            $_link = "";
+            //$_link = "";
             
             // label
             $this->add('text','option_label['.$i.']', ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'));
@@ -211,7 +204,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         }
         
         //set the default show/hide blocks
-        $_showHideBlocks =& new CRM_Core_ShowHideBlocks('','');
+        /*$_showHideBlocks =& new CRM_Core_ShowHideBlocks('','');
         for($count = 2; $count <= self::NUM_OPTION; $count++) {
             $showBlocks = 'optionField['.$count.']';
             $hideBlocks = 'optionField['.$count.'][show]';
@@ -223,13 +216,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $_showHideBlocks->addShow($showBlocks);
                 $_showHideBlocks->addHide($hideBlocks);
             }
-            
-            /*if ($count == self::NUM_OPTION) {
-                $hideBlocks = 'additionalOption';
-                $_showHideBlocks->addHide($hideBlocks);
-            }*/
         }
-        $_showHideBlocks->addTotemplate();
+        $_showHideBlocks->addTotemplate();*/
         
         //default option selection
         $tt =& $this->addGroup($defaultOption, 'default_option');

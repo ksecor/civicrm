@@ -10,12 +10,13 @@
         <th> {ts}Weight{/ts}</th>
 	    <th> {ts}Active?{/ts}</th>
     </tr>
+	
 	{section name=rowLoop start=1 loop=12}
 	{assign var=index value=$smarty.section.rowLoop.index}
-	<tr id="optionField[{$index}]" class="form-item {cycle values="even-row,odd-row"}">
+	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}">
         <td> 
         {if $index GT 1}
-             {$form.optionField.$index.hide.html}
+            <a onclick="hiderow('optionField[{$index}]'); return false;" name="optionField[{$index}]" href="#optionField[{$index}]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"></a>
         {/if}
         </td>
 	    <td> {$form.default_option[$index].html}</td>
@@ -26,26 +27,22 @@
 	</tr>
     {/section}
     </table>
-    {* Set of divs for the 'show' next row links *}
-	{section name=showLoop start=2 loop=12}
-        {assign var=j value=$smarty.section.showLoop.index}
-        <div id="optionField[{$j}][show]" class="add-remove-link">
-            { $form.optionField.$j.show.html}
-	    {if $j eq 11}
-	    {*<div class="description">
-		{ts}"If you need additional options - you can add them after you save your current entries."{/ts}
-	    </div>*}
-	    {/if}
+	<div id="optionFieldLink" class="add-remove-link">
+            <a onclick="showrow(); return false;" name="optionFieldLink" href="#optionFieldLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}">{ts}another choice{/ts}</a>
         </div>
-    {/section}
+	{*<div id="additionalOption" class="description">
+		"If you need additional options - you can add them after you Save your current entries."
+	</div>*}
     {/strip}
-
+    
 </fieldset>
+{assign var=showRows value="'optionField[1]','optionField[2]'"}
+{assign var=hideBlocks value="'optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]','optionField[11]'"}
 <script type="text/javascript">
-    var showRows = new Array({$showBlocks});
+    var showRows   = new Array({$showRows});
     var hideBlocks = new Array({$hideBlocks});
+    var rowcounter = 0;
 
     {* hide and display the appropriate blocks as directed by the php code *}
     on_load_init_blocks( showRows, hideBlocks, 'table-row' );
-    show('optionField[3][show]');
 </script>

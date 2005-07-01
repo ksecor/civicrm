@@ -432,3 +432,64 @@ function custom_option_html_type(html_type)
 	document.getElementById('showoption').style.display="none";
     }
 }
+
+/** 
+ * This function is used to hide the table row 
+ * also checks whether we have reached the 11th row
+ * 
+ * @param rowid get the id of tablerow
+ * @param index current row index
+ * @access public
+ * @return null
+ *
+ */
+function hiderow(rowid)
+{
+	hide(rowid);
+        if(document.getElementById('optionFieldLink').style.display == 'none') {
+            document.getElementById('optionFieldLink').style.display = '';
+        }
+	rowcounter++;
+}
+
+/** 
+ * This function is used to show the table row 
+ * also checks whether we have reached the 11th row
+ * 
+ * @param null
+ * @access public
+ * @return null
+ *
+ */
+function showrow()
+{
+    var rowid ;
+
+    if(rowcounter == 0) {
+	for (var i=2; i<=11; i++) {
+            rowid = 'optionField['+i+']';
+
+	    if (i == 11) {
+                    document.getElementById('optionFieldLink').style.display = 'none';
+            }
+            if(document.getElementById(rowid).style.display == 'none') {
+                document.getElementById(rowid).style.display = '';
+	        break;
+            }
+        }
+    } else {
+        rowcounter--;
+        for (var i=2; i<=11; i++) {
+            rowid = 'optionField['+i+']';
+	    
+	    if (i == 11) {
+                    document.getElementById('optionFieldLink').style.display = 'none';
+            }	
+       
+	    if(document.getElementById(rowid).style.display == 'none') {
+                document.getElementById(rowid).style.display = '';
+                break;
+            }
+        }
+    }
+}
