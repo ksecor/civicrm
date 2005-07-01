@@ -585,6 +585,8 @@ class PHP_DownGrade {
      */
     function toString() 
     {
+        global $sourceCheckoutDir;
+        
         $classNames = array('CRM_Core_SelectValues', 'CRM_Core_Custom_Field','CRM_Contact_Task','CRM_Core_BAO_CustomField');
         //To Replace SelectValues
          for($i=0; $i < count($this->tokens); $i++) {
@@ -835,7 +837,7 @@ class PHP_DownGrade {
                                                 }
                                                 if($flag==0)
                                                     {
-                                                        if(file_exists('../'.$strFile)) {
+                                                        if(file_exists($sourceCheckoutDir.'/'.$strFile)) {
                                                             
                                                             $ret.=$file."\n"; 
                                                         }
@@ -865,7 +867,7 @@ class PHP_DownGrade {
                                                 
                                 if($flag==0)
                                     {
-                                        if(file_exists('../'.$strFile)) {
+                                        if(file_exists($sourceCheckoutDir.'/'.$strFile)) {
                                             
                                             $ret.=$file."\n"; 
                                         }
