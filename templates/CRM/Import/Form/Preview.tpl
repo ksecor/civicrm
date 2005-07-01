@@ -56,6 +56,8 @@
  {* Group options *}
  <div>
     <dt>{$form.newGroup.html}</dt><dd>{$form.newGroup.label}</dd>
+    <dt>{$form.newGroupName.label}</dt><dd>{$form.newGroupName.html}</dd>
+    <dt>{$form.newGroupDesc.label}</dt><dd>{$form.newGroupDesc.html}</dd>
     <dt> </dt><dd>{$form.groups.label}</dd>
     <dt> </dt><dd>{$form.groups.html}</dd>
  </div>

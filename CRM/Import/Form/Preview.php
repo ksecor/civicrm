@@ -94,6 +94,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
      */
     public function buildQuickForm( ) {
         $this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
+        $this->addElement( 'text', 'newGroupName', ts('Name for new group'));
+        $this->addElement( 'text', 'newGroupDesc', ts('Description of new group'));
         $groups =& CRM_Core_PseudoConstant::group();
         $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => true, 'size' => 5));
 
@@ -134,6 +136,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $conflictRowCount   = $this->get('conflictRowCount');
         $onDuplicate        = $this->get('onDuplicate');
         $newGroup           = $this->controller->exportValue( $this->_name, 'newGroup');
+        $newGroupName       = $this->controller->exportValue( $this->_name, 'newGroupName');
+        $newGroupDesc       = $this->controller->exportValue( $this->_name, 'newGroupDesc');
         $groups             = $this->controller->exportValue( $this->_name, 'groups');
         
         $seperator = ',';
@@ -150,6 +154,18 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         // add the new contacts to selected groups
         $contactIds =& $parser->getImportedContacts();
+
+        if ($newGroup) {
+            /* Create a new group */
+            /* FIXME: this requires some heavy validation */
+            $group =& new CRM_Contact_DAO_Group();
+            $group->domain_id = CRM_Core_Config::domainID();
+            $group->name      = $newGroupName;
+            $group->title     = $newGroupName;
+            $group->description = $newGroupDesc;
+            $group->save();
+            $groups[] = $group->id;
+        }
 
         foreach ($groups as $groupId) {
             CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds,
