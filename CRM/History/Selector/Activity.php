@@ -127,7 +127,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                         CRM_Core_Action::DELETE => array(
                                                                          'name'     => ts('Delete'),
                                                                          'url'      => 'civicrm/contact/view/activity',
-                                                                         'qs'       => 'action=delete&id=%%activity_history_id%%',
+                                                                         'qs'       => 'action=delete&id=%%id%%',
                                                                          'title'    => ts('Delete Activity History'),
                                                                          ),
                                         );
@@ -214,11 +214,11 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
                 if ($row['callback']) {
-                    $row['action'] = CRM_Core_Action::formLink(self::actionLinks(), null, array('activity_history_id'=>$k, 'callback'=>$row['callback'], 'module'=>$row['module'], 'activity_id'=>$row['activity_id']));                    
+                    $row['action'] = CRM_Core_Action::formLink(self::actionLinks(), null, array('id'=>$k, 'callback'=>$row['callback'], 'module'=>$row['module'], 'activity_id'=>$row['activity_id']));                    
                 } else {
                     $actionLinks = self::actionLinks();
                     unset($actionLinks[CRM_Core_Action::VIEW]);
-                    $row['action'] = CRM_Core_Action::formLink($actionLinks, null, array('activity_history_id'=>$k));
+                    $row['action'] = CRM_Core_Action::formLink($actionLinks, null, array('id'=>$k));
                 }
             }
             unset($row);

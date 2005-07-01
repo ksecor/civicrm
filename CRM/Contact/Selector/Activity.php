@@ -108,20 +108,20 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             $url = 'civicrm/contact/view/call';
         }
 
-// helper variable for nicer formatting
+        // helper variable for nicer formatting
         $deleteExtra = ts('Are you sure you want to delete this activity?');
 
         self::$_actionLinks = array(
                                     CRM_Core_Action::UPDATE => array(
                                                                      'name'     => ts('Edit'),
                                                                      'url'      => $url,
-                                                                     'qs'       => 'action=update&id=%%id%%',
+                                                                     'qs'       => 'action=update&reset=1&id=%%id%%&cid=%%cid%%',
                                                                      'title'    => ts('View Activity'),
                                                                      ),
                                     CRM_Core_Action::DELETE => array(
                                                                      'name'     => ts('Delete'),
                                                                      'url'      => $url,
-                                                                     'qs'       => 'action=delete&id=%%id%%',
+                                                                     'qs'       => 'action=delete&reset=1&id=%%id%%&cid=%%cid%%',
                                                                      'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                      'title'    => ts('Delete Activity'),
                                                                      ),
@@ -203,18 +203,25 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         $params['contact_id'] = $this->_contactId;
         $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity');
         
-        //does not work with php4
-        //foreach ($rows as &$row) {
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
                 if ($row['callback']) {
-                    $row['action'] = CRM_Core_Action::formLink(self::actionLinks(), null, array('activity_history_id'=>$k, 'callback'=>$row['callback'], 'module'=>$row['module'], 'activity_id'=>$row['activity_id']));                    
+                    $row['action'] = CRM_Core_Action::formLink(self::actionLinks(),
+                                                               null,
+                                                               array('activity_history_id'=>$k,
+                                                                     'callback'=>$row['callback'],
+                                                                     'module'=>$row['module'],
+                                                                     'activity_id'=>$row['activity_id'],
+                                                                     'cid' => $this->_contactId ) );
                 } else {
                     $actionLinks = self::actionLinks($row['activity_type']);
                     //unset($actionLinks[CRM_Core_Action::VIEW]);
-                    $row['action'] = CRM_Core_Action::formLink($actionLinks, null, array('id'=>$row['id']));
+                    $row['action'] = CRM_Core_Action::formLink($actionLinks,
+                                                               null,
+                                                               array('id'=>$row['id'],
+                                                                     'cid' => $this->_contactId ) );
                 }
             }
             unset($row);

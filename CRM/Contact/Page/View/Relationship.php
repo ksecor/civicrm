@@ -159,33 +159,33 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
                                                                     'url'   => 'civicrm/contact/view/rel',
-                                                                    'qs'    => 'action=view&id=%%id%%&rtype=%%rtype%%',
+                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
                                                                     'title' => ts('View Relationship')
                                                                     ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/contact/view/rel',
-                                                                    'qs'    => 'action=update&id=%%id%%&rtype=%%rtype%%',
+                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
                                                                     'title' => ts('Edit Relationship')
                                                                     ),
                                   CRM_Core_Action::ENABLE  => array(
                                                                     'name'  => ts('Enable'),
                                                                     'url'   => 'civicrm/contact/view/rel',
-                                                                    'qs'    => 'action=enable&id=%%id%%&rtype=%%rtype%%',
+                                                                    'qs'    => 'action=enable&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $enableExtra . '\');"',
                                                                     'title' => ts('Enable Relationship')
                                                                     ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
                                                                     'url'   => 'civicrm/contact/view/rel',
-                                                                    'qs'    => 'action=disable&id=%%id%%&rtype=%%rtype%%',
+                                                                    'qs'    => 'action=disable&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                     'title' => ts('Disable Relationship')
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/contact/view/rel',
-                                                                    'qs'    => 'action=delete&id=%%id%%&rtype=%%rtype%%',
+                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                     'title' => ts('Delete Relationship')
                                                                     ),

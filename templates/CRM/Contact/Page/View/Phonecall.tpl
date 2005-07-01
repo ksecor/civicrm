@@ -1,3 +1,2 @@
-
-   {include file="CRM/Activity/Form/Call.tpl"}
+{include file="CRM/Activity/Form/Phonecall.tpl"}
 

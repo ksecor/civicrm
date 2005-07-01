@@ -61,12 +61,6 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
 
     function run( )
     {
-        $activity =& new CRM_Contact_Page_View_Activity();
-        $cid = $activity->get('cid');
-        if ($cid) {
-            $this->set('cid', $cid );
-        }
-
         $this->preProcess( );
 
         $pid = CRM_Utils_Request::retrieve( 'pid', $this ); 

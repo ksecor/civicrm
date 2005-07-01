@@ -82,7 +82,10 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
         while ( $note->fetch( ) ) {
             $values[$note->id] = array( );
             CRM_Core_DAO::storeValues( $note, $values[$note->id] );
-            $values[$note->id]['action'] = CRM_Core_Action::formLink( $links, null, array( 'id' => $note->id ) );
+            $values[$note->id]['action'] = CRM_Core_Action::formLink( $links,
+                                                                      null,
+                                                                      array( 'id'  => $note->id,
+                                                                             'cid' => $this->_contactId ) );
         }
         $this->assign( 'notes', $values );
     }
@@ -152,19 +155,19 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('View'),
                                                                     'url'   => 'civicrm/contact/view/note',
-                                                                    'qs'    => 'action=view&id=%%id%%',
+                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%',
                                                                     'title' => ts('View Note')
                                                                     ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/contact/view/note',
-                                                                    'qs'    => 'action=update&id=%%id%%',
+                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%',
                                                                     'title' => ts('Edit Note')
                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/contact/view/note',
-                                                                    'qs'    => 'action=delete&id=%%id%%',
+                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%',
                                                                     'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                     'title' => ts('Delete Note')
                                                                     ),

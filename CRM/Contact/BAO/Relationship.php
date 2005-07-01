@@ -527,7 +527,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
      * @static
      * @access public
      */
-    //static function getRelationship( $contactId, $status = 0, $numRelationship = 0, $count = 0, $relationshipId = 0, &$links = null ) {
     static function getRelationship( $contactId, $status = 0, $numRelationship = 0, $count = 0, $relationshipId = 0, $links = null ) {
         list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b' );
         list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a' );
@@ -588,7 +587,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
                 }
 
                 if ( $links ) {
-                    $replace = array( 'id' => $rid, 'rtype' => $values[$rid]['rtype'] );
+                    $replace = array( 'id' => $rid, 'rtype' => $values[$rid]['rtype'], 'cid' => $contactId );
                     $values[$rid]['action'] = CRM_Core_Action::formLink( $links, $mask, $replace );
                 }
             }
