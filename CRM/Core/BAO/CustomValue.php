@@ -40,7 +40,62 @@ require_once 'CRM/Core/DAO/CustomValue.php';
  */
 class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
 
+    /**
+     * Validate a value against a CustomField type
+     *
+     * @param string $type  The type of the data
+     * @param string $value The data to be validated
+     * 
+     * @return boolean True if the value is of the specified type
+     * @access public
+     * @static
+     */
+    public static function typecheck($type, $value) {
+        switch($type) {
+            case 'Memo':
+                return true;
 
+            case 'String':
+                return CRM_Utils_Rule::string($value);
+
+            case 'Int':
+                return CRM_Utils_Rule::integer($value);
+
+            case 'Float':
+            case 'Money':
+                return CRM_Utils_Rule::numeric($value);
+
+            case 'Date':
+                return CRM_Utils_Rule::date($value);
+
+            case 'Boolean':
+                return CRM_Utils_Rule::boolean($value);
+
+            case 'StateProvince':
+                return
+                    in_array($value,
+                        CRM_Core_PseudoConstant::stateProvinceAbbreviation())
+                    || in_array($value, CRM_Core_PseudoConstant::stateProvince());
+
+            case 'Country':
+                return
+                    in_array($value, CRM_Core_PseudoConstant::countryIsoCode())
+                    || in_array($value, CRM_Core_PseudoConstant::country());
+        }
+        return false;
+    }
+
+
+
+    /**
+     * Create a new CustomValue record
+     *
+     * @param array $params  The values for the new record
+     *
+     * @return object  The new BAO
+     * @access public
+     * @static
+     */
     public static function create(&$params) {
         $customValue =& new CRM_Core_BAO_CustomValue();
 
@@ -91,6 +146,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         }
         $customValue->save();
         
+        return $customValue;
     }
 }
 ?>

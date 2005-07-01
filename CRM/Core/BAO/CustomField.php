@@ -169,6 +169,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
      * @static
      */
     public static function &getFields( ) {
+        /* FIXME: this should be rewritten in a more DataObject-friendly way to
+         * avoid using explicit table names */
         if (!(self::$_importFields)) {
         
             $query ="SELECT crm_custom_field.id, crm_custom_field.label,
@@ -223,42 +225,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
         }
 
         return $importableFields;
-    }
-
-
-    public static function typecheck($type, $value) {
-        switch($type) {
-            case 'Memo':
-                return true;
-
-            case 'String':
-                return CRM_Utils_Rule::string($value);
-                
-            case 'Int':
-                return CRM_Utils_Rule::integer($value);
-            
-            case 'Float':
-            case 'Money':
-                return CRM_Utils_Rule::numeric($value);
-                
-            case 'Date':
-                return CRM_Utils_Rule::date($value);
-                
-            case 'Boolean':
-                return CRM_Utils_Rule::boolean($value);
-
-            case 'StateProvince':
-                return
-                    in_array($value, 
-                        CRM_Core_PseudoConstant::stateProvinceAbbreviation())
-                    || in_array($value, CRM_Core_PseudoConstant::stateProvince());
-            
-            case 'Country':
-                return
-                    in_array($value, CRM_Core_PseudoConstant::countryIsoCode())
-                    || in_array($value, CRM_Core_PseudoConstant::country());
-        }
-        return false;
     }
 }
 ?>

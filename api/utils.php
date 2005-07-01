@@ -241,7 +241,7 @@ function _crm_format_params( &$params, &$values ) {
 
             /* validate the data against the CF type */
             
-            $valid = CRM_Core_BAO_CustomField::typecheck(
+            $valid = CRM_Core_BAO_CustomValue::typecheck(
                             $customFields[$customFieldID][2], $value);
 
             if (! $valid) {
