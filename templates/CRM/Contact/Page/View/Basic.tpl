@@ -131,9 +131,9 @@
         	<td>{$row.activity_type}</td>
             <td>
              {if $row.activity_type eq 'Meeting'}  
-               <a href="{crmURL p='civicrm/contact/view/meeting' q="action=view&id=`$row.id`"}">{$row.subject|mb_truncate:33:"...":true}</a>
+               <a href="{crmURL p='civicrm/contact/view/meeting' q="action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
              {else}
-               <a href="{crmURL p='civicrm/contact/view/call' q="action=view&id=`$row.id`"}">{$row.subject|mb_truncate:33:"...":true}</a>
+               <a href="{crmURL p='civicrm/contact/view/call' q="action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
              {/if}
             </td>
             <td>{$row.sourceName}</td>
@@ -143,7 +143,7 @@
         </tr>
     {/foreach}
     {if $openActivity.totalCount gt 3 }
-        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q='action=browse'}">&raquo; {ts}View All Open Activities...{/ts}</a></td></tr>
+        <tr class="even-row"><td colspan="7"><a href="{crmURL p='civicrm/contact/view/activity' q='action=browse&cid=$contactId'}">&raquo; {ts}View All Open Activities...{/ts}</a></td></tr>
     {/if}
     </table>
 	{/strip}
@@ -295,11 +295,11 @@
                 {* Include '(more)' link to view entire note if it has been truncated *}
                 {assign var="noteSize" value=$note.note|count_characters:true}
                 {if $noteSize GT 80}
-                    <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">{ts}(more){/ts}</a>
+                    <a href="{crmURL p='civicrm/contact/view/note' q="id=`$note.id`&action=view&cid=$contactId"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
             <td>{$note.modified_date|crmDate}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=update"}">{ts}Edit{/ts}</a></td> 
+            <td><a href="{crmURL p='civicrm/contact/view/note' q="id=`$note.id`&action=update&cid=$contactId"}">{ts}Edit{/ts}</a></td> 
        </tr>  
        {/foreach}
        {if $noteTotalCount gt 3 }
