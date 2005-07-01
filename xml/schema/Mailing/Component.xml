@@ -17,7 +17,7 @@
       <name>domain_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Which Domain owns this contact</comment>
+      <comment>Which Domain owns this component</comment>
   </field>
   <foreignKey>
        <name>domain_id</name>
@@ -29,6 +29,7 @@
        <title>Component Name</title>
        <type>varchar</type>
        <length>64</length>
+       <comment>The name of this component</comment>
   </field>  
   <field>
        <name>component_type</name>

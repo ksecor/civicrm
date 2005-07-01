@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+    <base>CRM/Mailing</base>
+    <name>crm_mailing_trackable_url</name>
+    <comment>Stores URLs for which we should track click-throughs from mailings</comment>
+    <field>
+        <name>id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+    </field>
+    <primaryKey>
+        <name>id</name>
+        <autoincrement>true</autoincrement>
+    </primaryKey>
+    <field>
+        <name>url</name>
+        <type>varchar</type>
+        <length>256</length>
+        <required>true</required>
+        <comment>The URL to be tracked.</comment>
+    </field>
+    <field>
+        <name>mailing_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>FK to the mailing</comment>
+    </field>
+    <foreignKey>
+        <name>mailing_id</name>
+        <table>crm_mailing</table>
+        <key>id</key>
+    </foreignKey>
+</table>

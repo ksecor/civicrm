@@ -44,4 +44,15 @@
 <xi:include href="CustomOption.xml"     parse="xml" />
 <xi:include href="Meeting.xml"          parse="xml" />
 <xi:include href="Phonecall.xml"        parse="xml" />
+<xi:include href="Mailing/Component.xml"                parse="xml" />
+<xi:include href="Mailing/Mailing.xml"                  parse="xml" />
+<xi:include href="Mailing/Group.xml"                    parse="xml" />
+<xi:include href="Mailing/TrackableURL.xml"             parse="xml" />
+<xi:include href="Mailing/Job.xml"                      parse="xml" />
+<xi:include href="Mailing/EventQueue.xml"               parse="xml" />
+<xi:include href="Mailing/EventBounce.xml"              parse="xml" />
+<xi:include href="Mailing/EventDelivered.xml"           parse="xml" />
+<xi:include href="Mailing/EventOpened.xml"              parse="xml" />
+<xi:include href="Mailing/EventTrackableURLOpen.xml"    parse="xml" />
+<xi:include href="Mailing/EventUnsubscribe.xml"         parse="xml" />
 </database>

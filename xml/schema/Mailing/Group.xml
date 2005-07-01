@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 
 <table>
-  <base>CRM/Mailing/Group</base>
+  <base>CRM/Mailing</base>
   <name>crm_mailing_group</name>
   <comment>Stores information about the groups that participate in this mailing..</comment>
   <field>
@@ -17,7 +17,7 @@
       <name>mailing_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Which Domain owns this contact</comment>
+      <comment>The ID of a previous mailing to include/exclude recipients.</comment>
   </field>
   <foreignKey>
        <name>mailing_id</name>
