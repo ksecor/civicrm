@@ -531,7 +531,73 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         return $groupTree;
     }
 
+    /**
+     * Adds weight for custom groups for an entity
+     *
+     * @param string $entity      - what entity are we extending here ?
+     * @param string $path        - what should be the starting path for the new menus ?
+     * @param int    $startWeight - weight to start the local menu tabs
+     *
+     * @return none
+     *
+     * @access public
+     * @static
+     *
+     */
+    public static function addMenuTabs($entity, $path, $startWeight)
+    {
+
+//         CRM_Core_Error::le_method();
+//         CRM_Core_Error::debug_var('entity', $entity);
+
+        $customGroupDAO = new CRM_Core_DAO_CustomGroup();
+        $menus = array();
+        
+        // if contact, get all related to contact
+        if ($entity == 'Contact') {
+            $customGroupDAO->whereAdd("extends = 'Contact'");
+            $customGroupDAO->whereAdd("extends = 'Individual'", 'OR');
+            $customGroupDAO->whereAdd("extends = 'Household'",  'OR');
+            $customGroupDAO->whereAdd("extends = 'Organization'",  'OR');
+        }
+        // is I/H/O then get I/H/O and contact
+        if ($entity == "Individual" || $entity == 'Organization' || $entity == 'Household') {
+            $customGroupDAO->whereAdd("extends = 'Contact'");
+            $customGroupDAO->whereAdd("extends = '$entity'", 'OR');
+        }
+
+        // tentative logic for location and address
+        if ($entity == "Location" || $entity == 'Address') {
+            $customGroupDAO->whereAdd("extends = '$entity'");
+        }
 
 
+        // make sure they are tabs and are active
+        $customGroupDAO->style     = 'Tab';
+        $customGroupDAO->is_active = 1;        
+
+        // order by weight
+        $customGroupDAO->orderBy('weight');
+
+        $customGroupDAO->find();
+
+        while($customGroupDAO->fetch()) {
+            $menu = array();
+            //$menu['path']    = "$path/$customGroupDAO->name";
+            $menu['path']    = "$path/$customGroupDAO->id";
+            $menu['title']   = "$customGroupDAO->title";
+            $menu['type']    = CRM_Utils_Menu::CALLBACK;
+            $menu['crmType'] = CRM_Utils_Menu::LOCAL_TASK;
+            $menu['weight']  = $startWeight++;
+            $menus[] = $menu;
+        }
+        
+        foreach($menus as $menu) {
+            CRM_Utils_Menu::add($menu);
+        }
+
+        //CRM_Core_Error::debug_var('menus', $menus);
+        //CRM_Core_Error::ll_method();
+    }
 }
 ?>

@@ -320,7 +320,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Tags'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 5
+                            'weight'  => 500
                             ),
 
                       array(
@@ -329,7 +329,7 @@ class CRM_Utils_Menu {
                             'title'   => ts('Custom Data'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 6
+                            'weight'  => 64
                             ),
 
                       array(
@@ -534,10 +534,48 @@ class CRM_Utils_Menu {
         
         foreach (self::items() as $menu) {
             if (strpos($menu['path'], $path) === 0) {
+                // need to add logic for menu types
                 $childMenu[] = $menu;
             }
         }
         return $childMenu;
+    }
+
+
+    /**
+     * Get max weight for a path
+     *
+     * @param  string $path  parent menu path
+     *
+     * @return int    max weight for the path           
+     *
+     * @static
+     * @access public
+     */
+    public static function getMaxWeight($path)
+    {
+
+        $path = trim($path, '/');
+
+        // since we need children only
+        $path .= '/';
+
+        $maxWeight  = -1024;   // weights can have -ve numbers hence cant initialize it to 0
+        $firstChild = true;
+
+        foreach (self::items() as $menu) {
+            if (strpos($menu['path'], $path) === 0) {
+                if ($firstChild) {
+                    // maxWeight is initialized to the weight of the first child
+                    $maxWeight = $menu['weight'];
+                    $firstChild = false;
+                } else {
+                    $maxWeight = ($menu['weight'] > $maxWeight) ? $menu['weight'] : $maxWeight;
+                }
+            }
+        }
+
+        return $maxWeight;
     }
 
 
