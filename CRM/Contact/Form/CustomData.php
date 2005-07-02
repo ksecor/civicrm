@@ -530,7 +530,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 case 'Select Date':
                     $date = CRM_Utils_Date::format( $v );
                     if ( ! $date ) {
-                        $date = 'NULL';
+                        $date = '';
                     }
                     $this->_groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
                     break;
