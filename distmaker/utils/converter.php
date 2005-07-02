@@ -15,7 +15,6 @@ if( isset( $GLOBALS['_ENV']['DM_GENFILESDIR'] ) ) {
 }
 
 require_once "$sourceCheckoutDir/modules/config.inc.php";
-require_once 'CRM/Core/Error.php';
 require_once 'PHP/Beautifier.php';
 
  /**
@@ -48,8 +47,6 @@ class PHP_DownGrade {
 
     function __construct($file)
     {
-
-        CRM_Core_Error::le_method();
 
         $this->constants = array( );
         $this->statics   = array( );
@@ -167,7 +164,6 @@ class PHP_DownGrade {
   
     function findStart()
     {
-        CRM_Core_Error::le_method();
         for($i=0;$i<count($this->tokens);$i++) {
             
             switch ($this->tokens[$i][0]) {
@@ -195,7 +191,6 @@ class PHP_DownGrade {
     function classdef() 
     {
         
-        CRM_Core_Error::le_method();
         for($i=0;$i<count($this->tokens);$i++) {
             // Remove the final keywaord
             if(strcmp($this->tokens[$i][1],"final")==0)
@@ -375,10 +370,9 @@ class PHP_DownGrade {
      * @param $i     static variables position in tokens array
      */
     function convertToStatic($class,$i) 
-        {
-        CRM_Core_Error::le_method();
+    {
+
         $name  = substr($this->tokens[$i][1],1);
-        
         
         $i++;
         while($this->tokens[$i][1] != '=') {
@@ -431,7 +425,6 @@ class PHP_DownGrade {
     
     function funcdefs() {
 
-        CRM_Core_Error::le_method();   
         for($i=0;$i<count($this->tokens);$i++) {
 
             //to remove static keyword in front of function
@@ -543,7 +536,6 @@ class PHP_DownGrade {
      */
     function exceptions() 
     {
-        CRM_Core_Error::le_method();
         for($i=0;$i<count($this->tokens);$i++) {
             switch ($this->tokens[$i][0]) {
             case T_THROW:
