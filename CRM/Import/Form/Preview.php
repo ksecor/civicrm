@@ -167,11 +167,12 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $groups[] = $group->id;
         }
 
-        foreach ($groups as $groupId) {
-            CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds,
-                $groupId);
+        if(is_array($groups)) {
+            foreach ($groups as $groupId) {
+                CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds, $groupId);
+            }
         }
-        
+
         // add all the necessary variables to the form
         $parser->set( $this, CRM_Import_Parser::MODE_IMPORT );
 

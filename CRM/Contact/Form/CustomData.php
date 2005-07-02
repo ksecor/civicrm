@@ -487,7 +487,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        print_r($this);
         // first reset all checkbox and radio data
         foreach ($this->_groupTree as $group) {
             foreach ($group['fields'] as $field) {
