@@ -116,6 +116,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
      */
     static function &actionLinks() 
     {
+        $deleteExtra = ts('Are you sure you want to delete this activity History?');
         if (!isset(self::$_actionLinks)) {
             self::$_actionLinks = array(
                                         CRM_Core_Action::VIEW   => array(
@@ -128,6 +129,7 @@ class CRM_History_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                          'name'     => ts('Delete'),
                                                                          'url'      => 'civicrm/contact/view/activity',
                                                                          'qs'       => 'action=delete&id=%%id%%',
+                                                                         'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                          'title'    => ts('Delete Activity History'),
                                                                          ),
                                         );
