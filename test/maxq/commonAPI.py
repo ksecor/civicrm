@@ -18,22 +18,31 @@ def login(test) :
     print "Testing URL" + url
     test.post(url, params)
     test.msg("Response code: %s" % test.getResponseCode())
-    test.assertEquals("Assert number 4 failed", 302, test.getResponseCode())
+    test.assertEquals("Assert number 2 failed", 302, test.getResponseCode())
 
     url = "%s/node" %  commonConst.DRUPAL_PATH
     print "Testing URL" + url
     params = None
     test.get(url, params)
     test.msg("Response code: %s" % test.getResponseCode())
-    test.assertEquals("Assert number 5 failed", 200, test.getResponseCode())
+    test.assertEquals("Assert number 3 failed", 200, test.getResponseCode())
 
-    url = "%s/civicrm/contact/search" %  commonConst.DRUPAL_PATH
+    url = "%s/civicrm/" %  commonConst.DRUPAL_PATH
     print "Testing URL" + url
     params = None
     test.get(url, params)
     test.msg("Response code: %s" % test.getResponseCode())
-    test.assertEquals("Assert number 7 failed", 200, test.getResponseCode())
+    test.assertEquals("Assert number 4 failed", 302, test.getResponseCode())
 
+    params = [
+        ('''reset''', '''1'''),]
+    url = "%s/civicrm/contact/search" % commonConst.DRUPAL_PATH
+    print "Testing URL: %s" % url
+    test.get(url, params)
+    test.msg("Response code: %s" % test.getResponseCode())
+    test.assertEquals("Assert number 5 failed", 200, test.getResponseCode())
+
+    
 def dbStart() :
     return DBUtil("%s" % commonConst.MSQLDRIVER, "jdbc:mysql://%s/%s" % (commonConst.DBHOST, commonConst.DBNAME), "%s" % commonConst.DBUSERNAME, "%s" % commonConst.DBPASSWORD)
 
