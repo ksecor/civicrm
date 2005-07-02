@@ -350,7 +350,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 } else {
                     $_showHide->addShow($showBlocks);
                 }
-                
+                if ($i == self::NUM_OPTION) {
+                    $hideBlock = 'additionalOption';
+                    $_showHide->addHide($hideBlock);
+                }
+
                 $_flagOption = $_emptyRow = 0;
             }
             

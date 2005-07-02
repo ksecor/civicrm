@@ -30,14 +30,14 @@
 	<div id="optionFieldLink" class="add-remove-link">
             <a onclick="showrow(); return false;" name="optionFieldLink" href="#optionFieldLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}">{ts}another choice{/ts}</a>
         </div>
-	{*<div id="additionalOption" class="description">
-		"If you need additional options - you can add them after you Save your current entries."
-	</div>*}
+	<div id="additionalOption" class="description">
+		{ts}"If you need additional options - you can add them after you Save your current entries."{/ts}
+	</div>
     {/strip}
     
 </fieldset>
 {assign var=showRows value="'optionField[1]','optionField[2]'"}
-{assign var=hideBlocks value="'optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]','optionField[11]'"}
+{assign var=hideBlocks value="'optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]','optionField[11]','additionalOption'"}
 <script type="text/javascript">
     var showRows   = new Array({$showRows});
     var hideBlocks = new Array({$hideBlocks});

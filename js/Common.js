@@ -447,6 +447,7 @@ function hiderow(rowid)
 {
 	hide(rowid);
         if(document.getElementById('optionFieldLink').style.display == 'none') {
+	    document.getElementById('additionalOption').style.display = 'none';
             document.getElementById('optionFieldLink').style.display = '';
         }
 	rowcounter++;
@@ -469,13 +470,17 @@ function showrow()
 	for (var i=2; i<=11; i++) {
             rowid = 'optionField['+i+']';
 
-	    if (i == 11) {
+            if (i == 11) {
+		    document.getElementById('additionalOption').style.display = '';
                     document.getElementById('optionFieldLink').style.display = 'none';
             }
-            if(document.getElementById(rowid).style.display == 'none') {
+
+	    if(document.getElementById(rowid).style.display == 'none') {
                 document.getElementById(rowid).style.display = '';
+                if (i < 11)
+			document.getElementById('additionalOption').style.display = 'none';
 	        break;
-            }
+            }   
         }
     } else {
         rowcounter--;
@@ -483,11 +488,14 @@ function showrow()
             rowid = 'optionField['+i+']';
 	    
 	    if (i == 11) {
+		    document.getElementById('additionalOption').style.display = '';
                     document.getElementById('optionFieldLink').style.display = 'none';
             }	
        
 	    if(document.getElementById(rowid).style.display == 'none') {
                 document.getElementById(rowid).style.display = '';
+		if (i < 11)
+                	document.getElementById('additionalOption').style.display = 'none';
                 break;
             }
         }

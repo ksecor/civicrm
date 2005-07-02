@@ -4,6 +4,7 @@
 	{strip}
 	<table>
 	<tr>
+	    <th> &nbsp; </th>
 	    <th> {ts}Defaults{/ts}</th>
             <th> {ts}Label{/ts}</th>
             <th> {ts}Value{/ts}</th>
@@ -14,6 +15,11 @@
 	{section name=rowLoop start=1 loop=12}
 	{assign var=index value=$smarty.section.rowLoop.index}
 	<tr id="optionField[{$index}]" class="form-item {cycle values="odd-row,even-row"}">
+	    <td> 
+	    {if $index GT 1}
+            	<a onclick="hiderow('optionField[{$index}]'); return false;" name="optionField[{$index}]" href="#optionField[{$index}]" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"></a>
+            {/if} 
+	    </td>
 	    <td> {$form.default_option[$index].html}</td>
 	    <td> {$form.option_label.$index.html}</td>
 	    <td> {$form.option_value.$index.html}</td>
@@ -23,6 +29,9 @@
     {/section}
     </table>
     {/strip}
+	<div id="optionFieldLink" class="add-remove-link">
+            <a onclick="showrow(); return false;" name="optionFieldLink" href="#optionFieldLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}">{ts}another choice{/ts}</a>
+        </div>
 	<div class="description" id="additionalOption">
 	{ts}"If you need additional options - you can add them after you save your current entries."{/ts}
 	</div>
@@ -30,6 +39,7 @@
 </fieldset>
 
 <script type="text/javascript">
+    var rowcounter = 0;
     var showRows = new Array({$showBlocks});
     var hideBlocks = new Array({$hideBlocks});
 
