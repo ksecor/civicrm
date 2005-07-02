@@ -109,24 +109,7 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         // create menus ..
         $startWeight = CRM_Utils_Menu::getMaxWeight('civicrm/contact/view');
         $startWeight++;
-
-        //CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($this->_contactId), 'civicrm/contact/view/cd', $startWeight);
-//         CRM_Core_BAO_CustomGroup::addMenuTabs('Contact', 'civicrm/contact/view/cd', $startWeight);
-//         CRM_Core_BAO_CustomGroup::addMenuTabs('Individual', 'civicrm/contact/view/cd', $startWeight);
-//         CRM_Core_BAO_CustomGroup::addMenuTabs('Household', 'civicrm/contact/view/cd', $startWeight);
-//         CRM_Core_BAO_CustomGroup::addMenuTabs('Organization', 'civicrm/contact/view/cd', $startWeight);
-//         CRM_Core_BAO_CustomGroup::addMenuTabs('Location', 'civicrm/contact/view/cd', $startWeight);
-//         CRM_Core_BAO_CustomGroup::addMenuTabs('Address', 'civicrm/contact/view/cd', $startWeight);
-
-
-//         $m1 = array(
-//                     'path'    => 'civicrm/contact/view/voter',
-//                     'title'   => ts('Voter Info'),
-//                     'type'    => CRM_Utils_Menu::CALLBACK,
-//                     'crmType' => CRM_Utils_Menu::LOCAL_TASK,
-//                     'weight'  => 7,
-//                     );
-        //CRM_Utils_Menu::add($m1);
+        CRM_Core_BAO_CustomGroup::addMenuTabs(CRM_Contact_BAO_Contact::getContactType($this->_contactId), 'civicrm/contact/view/cd', $startWeight);
     }
 
 

@@ -586,6 +586,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             //$menu['path']    = "$path/$customGroupDAO->name";
             $menu['path']    = "$path/$customGroupDAO->id";
             $menu['title']   = "$customGroupDAO->title";
+            $menu['qs']      = 'reset=1&cid=%%cid%%';
             $menu['type']    = CRM_Utils_Menu::CALLBACK;
             $menu['crmType'] = CRM_Utils_Menu::LOCAL_TASK;
             $menu['weight']  = $startWeight++;

@@ -119,6 +119,7 @@ class CRM_Core_Invoke {
         if ($args[2] == 'view') {
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
+            $fourthArg = CRM_Utils_Array::value(4, $args, 0);
 
             switch ( $thirdArg ) {
             case 'note':
@@ -134,7 +135,7 @@ class CRM_Core_Invoke {
                 $view =& new CRM_Contact_Page_View_Tag( );
                 break;
             case 'cd':
-                $view =& new CRM_Contact_Page_View_CustomData( );
+                $view =& new CRM_Contact_Page_View_CustomData($fourthArg);
                 break;
             case 'activity':
                 $view =& new CRM_Contact_Page_View_Activity( );

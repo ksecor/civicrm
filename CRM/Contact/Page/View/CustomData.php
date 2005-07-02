@@ -39,6 +39,23 @@ require_once 'CRM/Contact/Page/View.php';
  */
 class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
 
+    private $_groupId;
+
+    /**
+     * class constructor
+     *
+     * @param int $groupId - group Id of the custom group
+     *
+     * @return CRM_Contact_Page_View_CustomData
+     */
+    public function __construct($groupId)
+    {
+        $this->_groupId = $groupId;
+        parent::__construct();
+    }
+
+
+
     /**
      * Run the page.
      *
@@ -67,9 +84,8 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         $controller->process();
         $controller->run();
 
-        return parent::run( );
+        return parent::run();
     }
 
-    
 }
 ?>
