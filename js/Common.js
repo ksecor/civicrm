@@ -465,7 +465,7 @@ function hiderow(rowid)
 function showrow()
 {
     var rowid ;
-
+    
     if(rowcounter == 0) {
 	for (var i=2; i<=11; i++) {
             rowid = 'optionField['+i+']';
@@ -482,9 +482,11 @@ function showrow()
 	        break;
             }   
         }
+
     } else {
         rowcounter--;
-        for (var i=2; i<=11; i++) {
+	
+	for (var i=2; i<=11; i++) {
             rowid = 'optionField['+i+']';
 	    
 	    if (i == 11) {
@@ -494,9 +496,14 @@ function showrow()
        
 	    if(document.getElementById(rowid).style.display == 'none') {
                 document.getElementById(rowid).style.display = '';
-		if (i < 11)
-                	document.getElementById('additionalOption').style.display = 'none';
-                break;
+		if (i < 11) {
+                   document.getElementById('additionalOption').style.display = 'none';
+		   if(rowcounter == 0) {
+		   	document.getElementById('optionFieldLink').style.display = 'none';
+			document.getElementById('additionalOption').style.display = '';
+		   }
+                   break;
+		}
             }
         }
     }

@@ -55,10 +55,10 @@
 </fieldset>
 	
 <script type="text/javascript">
-	{if $optionRowError}
+	{if $optionRowError AND $action eq 1}
 	    show('showOptionError');
 	{/if}
-	{if $fieldError}
+	{if $fieldError AND $action eq 1}
 	    show('showoption');	
 	{/if}
 	</script>
