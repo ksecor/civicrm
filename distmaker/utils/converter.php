@@ -729,8 +729,8 @@ class PHP_DownGrade {
                             { 
                                 if($this->tokens[$k][1]=="::")
                                     {
-                                        if(strcmp($this->tokens[$k][1],"__construct")==0){
-                                            $this->tokens[$k][1]=$classname;
+                                        if(strcmp($this->tokens[$k+1][1],"__construct")==0){
+                                            $this->tokens[$k+1][1]=$classname;
                                         }else{
                                             $flag = false;
                                             $f = $k;
