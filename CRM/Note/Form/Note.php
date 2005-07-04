@@ -154,7 +154,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             CRM_Core_BAO_Note::del( $this->_id );
         
-            CRM_Core_Session::setStatus( ts('Selected Note has been Deleted Successfuly.') );
+            //CRM_Core_Session::setStatus( ts('Selected Note has been Deleted Successfuly.') );
             return;
         }if ( $this->_action & CRM_Core_Action::UPDATE ) {
             

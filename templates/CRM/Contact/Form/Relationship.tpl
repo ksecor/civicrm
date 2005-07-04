@@ -116,7 +116,9 @@
 {/if}
 {if $action eq 8}
      <fieldset><legend>{ts}Delete Relationship{/ts}</legend>
+	<dl>
 	<div class="status">{ts}Are you sure to delete the Reletionship "{$currentRelationships.$id.relation}{ $disableRelationships.$id.relation} {$currentRelationships.$id.name}{ $disableRelationships.$id.name }" ?{/ts}</div>
-     <dt></dt><dd>{$form.buttons.html}</dd>
+        <dt></dt><dd>{$form.buttons.html}</dd>
+        </dl>
  </fieldset>	
 {/if}
