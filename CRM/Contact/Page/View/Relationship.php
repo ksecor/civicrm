@@ -186,7 +186,7 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/contact/view/rel',
                                                                     'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
+                                                                    //'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                     'title' => ts('Delete Relationship')
                                                                     ),
                                   );

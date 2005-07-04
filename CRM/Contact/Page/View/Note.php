@@ -168,7 +168,7 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/contact/view/note',
                                                                     'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%',
-                                                                    'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
+                                                                    //'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
                                                                     'title' => ts('Delete Note')
                                                                     ),
                                   );
