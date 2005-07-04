@@ -118,17 +118,19 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     function addRules( )
     {
-        $this->addRule('relationship_type_id', ts('Please select a relationship type.'), 'required' );
-        $this->addRule('start_date'          , ts('Start date is not valid.')           , 'qfDate' );
-        $this->addRule('end_date'            , ts('End date is not valid.')             , 'qfDate' );
+        if ( !($this->_action & CRM_Core_Action::DELETE) ){
+            $this->addRule('relationship_type_id', ts('Please select a relationship type.'), 'required' );
+            $this->addRule('start_date'          , ts('Start date is not valid.')           , 'qfDate' );
+            $this->addRule('end_date'            , ts('End date is not valid.')             , 'qfDate' );
 
-        // add a form rule only when creating a new relationship
-        // edit is severely limited, so add a simpleer form rule
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'formRule' ) );
-            $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'dateRule' ) );
-        } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'dateRule' ) );
+            // add a form rule only when creating a new relationship
+            // edit is severely limited, so add a simpleer form rule
+            if ( $this->_action & CRM_Core_Action::ADD ) {
+                $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'formRule' ) );
+                $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'dateRule' ) );
+            } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
+                $this->addFormRule( array( 'CRM_Contact_Form_Relationship', 'dateRule' ) );
+            }
         }
     }
 
@@ -141,6 +143,19 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        if($this->_action & CRM_Core_Action::DELETE){
+            
+            $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => ts('Delete'),
+                                         'isDefault' => true   ),
+                                 array ( 'type'       => 'cancel',
+                                         'name'      => ts('Cancel') ),
+                                 )
+                           );
+            return;
+            
+        }
         $this->addElement('select',
                           'relationship_type_id',
                           ts('Relationship Type'),
@@ -207,6 +222,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         // action is taken depending upon the mode
         $ids = array( );
         $ids['contact'] = $this->_contactId;
+        
+        if ($this->_action & CRM_Core_Action::DELETE ){
+        
+            CRM_Contact_BAO_Relationship::del($this->_relationshipId); 
+            $status =ts('Selected Reletionship has been Deleted Successfuly.');
+        }
+        
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['relationship'] = $this->_relationshipId;
             

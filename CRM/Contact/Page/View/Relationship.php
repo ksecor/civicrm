@@ -118,7 +118,7 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
             $this->edit( );
         } else if ( $this->_action & CRM_Core_Action::DELETE ) {
-            $this->delete( );
+            $this->edit( );
         } else if ( $this->_action & CRM_Core_Action::DISABLE ) {
             CRM_Contact_BAO_Relationship::setIsActive( $this->_id, 0 ) ;
         } else if ( $this->_action & CRM_Core_Action::ENABLE ) {

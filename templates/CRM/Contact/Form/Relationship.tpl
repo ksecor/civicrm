@@ -1,6 +1,6 @@
 {* this template is used for adding/editing/viewing relationships  *}
 
-{if $action eq 4} {* action = view *}
+{if $action eq 4 } {* action = view *}
     <div class="form-item">
         <fieldset><legend>{ts}View Relationship{/ts}</legend>
 
@@ -23,8 +23,8 @@
         </div>
         </fieldset>
      </div>    
-        
-{else} {* add and update actions *}
+{/if}
+ {if $action eq 2 | $action eq 1} {* add and update actions *}
     <fieldset><legend>{if $action eq 1}{ts}New Relationship{/ts}{else}{ts}Edit Relationship(s){/ts}{/if}</legend>
         <div class="form-item">
             {if $action eq 1}
@@ -111,4 +111,12 @@
             </div>
             </div></fieldset>
         {/if}
+  
+	
+{/if}
+{if $action eq 8}
+     <fieldset><legend>{ts}Delete Relationship{/ts}</legend>
+	<div class="status">{ts}Are you sure to delete the Reletionship "{$currentRelationships.$id.relation}{ $disableRelationships.$id.relation} {$currentRelationships.$id.name}{ $disableRelationships.$id.name }" ?{/ts}</div>
+     <dt></dt><dd>{$form.buttons.html}</dd>
+ </fieldset>	
 {/if}

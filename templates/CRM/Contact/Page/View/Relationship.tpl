@@ -1,6 +1,6 @@
 {* Relationship tab within View Contact - browse, and view relationships for a contact *}
 
-{if $action eq 1 or $action eq 2 or $action eq 4} {* add, update or view *}
+{if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8} {* add, update or view *}
     {include file="CRM/Contact/Form/Relationship.tpl"}
     <br />
 {/if}

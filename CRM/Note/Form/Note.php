@@ -97,10 +97,24 @@ class CRM_Note_Form_Note extends CRM_Core_Form
      * @access public
      */
     public function buildQuickForm( ) {
+       
+        
+        
+        if ($this->_action & CRM_Core_Action::DELETE ) { 
+            $this->addButtons( array(
+                                     array ( 'type'      => 'next',
+                                             'name'      => ts('Delete'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'       => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+            return;
+        }
 
         $note = $this->add('textarea', 'note', ts('Notes'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note', 'note' ) );
         $this->addRule( 'note', ts('Please enter note text.'), 'required' );
-
+        
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),
@@ -120,6 +134,7 @@ class CRM_Note_Form_Note extends CRM_Core_Form
      */
     public function postProcess() 
     {
+       
         $session =& CRM_Core_Session::singleton( );
 
         // store the submitted values in an array
@@ -133,10 +148,16 @@ class CRM_Note_Form_Note extends CRM_Core_Form
             CRM_Core_Error::fatal( 'We could not find your logged in user ID' );
             return;
         }
-
+        
         $note->modified_date = date("Ymd");
-
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+        
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            CRM_Core_BAO_Note::del( $this->_id );
+        
+            CRM_Core_Session::setStatus( ts('Selected Note has been Deleted Successfuly.') );
+            return;
+        }if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            
             $note->id = $this->_id;
         } else {
             $note->entity_table = $this->_entityTable;

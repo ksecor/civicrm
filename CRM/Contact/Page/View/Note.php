@@ -97,6 +97,8 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
      * @access public
      */
     function edit( ) {
+       
+
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Note_Form_Note', 'Contact Notes', $this->_action );
         $controller->setEmbedded( true );
 
@@ -128,7 +130,9 @@ class CRM_Contact_Page_View_Note extends CRM_Contact_Page_View
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD ) ) {
             $this->edit( );
         } else if ( $this->_action & CRM_Core_Action::DELETE ) {
-            $this->delete( );
+            $this->edit( );
+
+            //$this->delete( );
         }
 
         $this->browse( );

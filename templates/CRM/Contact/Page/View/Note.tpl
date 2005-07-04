@@ -22,6 +22,13 @@
     </fieldset>
     </p>
 {/if}
+{if ($action eq 8)}
+<fieldset><legend>Delete Note</legend>
+<div class=status> <dd>{ts}Are you sure you want to delete the Note " {$notes.$id.note} " ?{/ts}</dd></div>
+</fieldset>
+{$form.buttons.html}
+{/if}
+
 
 {if $notes}
     {* show browse table for any action *}
