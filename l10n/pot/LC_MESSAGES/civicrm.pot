@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-30 10:44+0200\n"
+"POT-Creation-Date: 2005-07-04 10:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: none\n"
@@ -2197,15 +2197,15 @@ msgstr ""
 msgid "Email address conflicts with record %1"
 msgstr ""
 
-#: CRM/Import/Parser.php:337;351
+#: CRM/Import/Parser.php:342;356
 msgid "Record Number"
 msgstr ""
 
-#: CRM/Import/Parser.php:338
+#: CRM/Import/Parser.php:343
 msgid "Reason"
 msgstr ""
 
-#: CRM/Import/Parser.php:352
+#: CRM/Import/Parser.php:357
 msgid "View Contact URL"
 msgstr ""
 

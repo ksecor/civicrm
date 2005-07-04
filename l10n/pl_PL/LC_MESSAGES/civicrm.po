@@ -1,15 +1,15 @@
 # CiviCRM Polish file
 # Copyright (C) 2005 Donald A. Lobo
 # This file is distributed under the same license as the CiviCRM package.
-# Piotr Szotkowski <shot@caltha.pl>, 2005.
+# Piotr Szotkowski <shot@caltha.pl>, 2005
 # 
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: v 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-30 10:22+0200\n"
-"PO-Revision-Date: 2005-06-30 10:25+0200\n"
+"POT-Creation-Date: 2005-07-04 10:13+0200\n"
+"PO-Revision-Date: 2005-07-04 10:27+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2453,15 +2453,15 @@ msgstr "Błędy adres email"
 msgid "Email address conflicts with record %1"
 msgstr "Adres email powtarza się we wpisie %1"
 
-#: CRM/Import/Parser.php:337;351
+#: CRM/Import/Parser.php:342;356
 msgid "Record Number"
 msgstr "Liczba wpisów"
 
-#: CRM/Import/Parser.php:338
+#: CRM/Import/Parser.php:343
 msgid "Reason"
 msgstr "Powód"
 
-#: CRM/Import/Parser.php:352
+#: CRM/Import/Parser.php:357
 msgid "View Contact URL"
 msgstr "Zobacz URL kontaktu"
 

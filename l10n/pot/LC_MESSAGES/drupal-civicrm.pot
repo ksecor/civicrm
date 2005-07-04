@@ -1,7 +1,7 @@
 # Drupal-CiviCRM POT file
 # Copyright (C) 2005 Donald A. Lobo
 # This file is distributed under the same license as the CiviCRM package.
-# Piotr Szotkowski <shot@caltha.pl>, 2005.
+# Piotr Szotkowski <shot@caltha.pl>, 2005
 # 
 # 
 msgid ""

@@ -1,15 +1,15 @@
 # CiviCRM American English file
 # Copyright (C) 2005 Donald A. Lobo
 # This file is distributed under the same license as the CiviCRM package.
-# Piotr Szotkowski <shot@caltha.pl>, 2005.
+# Piotr Szotkowski <shot@caltha.pl>, 2005
 # 
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: v 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-30 10:22+0200\n"
-"PO-Revision-Date: 2005-06-30 10:22+0200\n"
+"POT-Creation-Date: 2005-07-04 10:13+0200\n"
+"PO-Revision-Date: 2005-07-04 10:31+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -2449,15 +2449,15 @@ msgstr "Invalid Email address"
 msgid "Email address conflicts with record %1"
 msgstr "Email address conflicts with record %1"
 
-#: CRM/Import/Parser.php:337;351
+#: CRM/Import/Parser.php:342;356
 msgid "Record Number"
 msgstr "Record Number"
 
-#: CRM/Import/Parser.php:338
+#: CRM/Import/Parser.php:343
 msgid "Reason"
 msgstr "Reason"
 
-#: CRM/Import/Parser.php:352
+#: CRM/Import/Parser.php:357
 msgid "View Contact URL"
 msgstr "View Contact URL"
 
