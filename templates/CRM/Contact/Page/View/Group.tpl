@@ -13,8 +13,8 @@
        {foreach from=$groupContact item=row}
          <tr class="{cycle values="odd-row,even-row"}">
             <td> {$row.name}</td>
-            <td>{$row.in_date|date_format:"%B %e, %Y"}</td>
-            <td>{$row.out_date|date_format:"%B %e, %Y"}</td>
+            <td>{$row.in_date|crmDate}</td>
+            <td>{$row.out_date|crmDate}</td>
 	    <td><a href="#">{ts}View{/ts}</a></td>
          </tr>
        {/foreach}

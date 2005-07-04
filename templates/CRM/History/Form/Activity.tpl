@@ -6,7 +6,7 @@
       <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
       <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
    {else}
-      <div class="status">{ts 1=$activity_type 2=$activity_date 3=$activity_summary}Are you sure you want to delete the Activity History dated "%2" of type "%1" with description "%3" ?{/ts}</div>
+      <div class="status">{ts 1=$activity_type 2=$activity_date|crmDate 3=$activity_summary}Are you sure you want to delete the Activity History dated "%2" of type "%1" with description "%3" ?{/ts}</div>
    {/if}   
 	<dt></dt><dd>{$form.buttons.html}</dd>
    <div class="spacer"></div>

@@ -4,7 +4,7 @@
         <fieldset>
           <legend>{ts}View Note{/ts}</legend>
           <div class="form-item">
-            <label>{ts}Date:{/ts}</label> {$note.modified_date|date_format:"%B %e, %Y"}
+            <label>{ts}Date:{/ts}</label> {$note.modified_date|crmDate}
             <p>{$note.note}</p>
             <input type="button" name='cancel' value="{ts}Done{/ts}" onClick="location.href='{crmURL p='civicrm/contact/view/note' q='action=browse'}';">        
           </div>
@@ -45,7 +45,7 @@
 		  <a href="{crmURL p='civicrm/contact/view/note' q="nid=`$note.id`&action=view"}">{ts}(more){/ts}</a>
                 {/if}
             </td>
-            <td>{$note.modified_date|date_format:"%B %e, %Y"}</td>
+            <td>{$note.modified_date|crmDate}</td>
             <td class="nowrap">{$note.action}</td>
             </td>
          </tr>

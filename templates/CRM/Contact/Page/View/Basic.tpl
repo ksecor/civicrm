@@ -138,7 +138,7 @@
             </td>
             <td>{$row.sourceName}</td>
             <td>{$row.targetName}</td>
-            <td>{$row.date|date_format:"%b %e, %Y %I:%M %p"}</td>
+            <td>{$row.date|crmDate}</td>
    	    	<td>{$row.status}</td>	
         </tr>
     {/foreach}
