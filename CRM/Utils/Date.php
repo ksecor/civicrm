@@ -226,61 +226,57 @@ class CRM_Utils_Date {
     }
 
     /**
-     * create a date in a provided format
+     * create a date and time string in a provided format
      *
-     * format keywords (with examples based on '2005-01-01' and C locale):
+     * format keywords (with examples based on '2005-01-02 15:04:00' and C locale):
      * %b - abbreviated month name ('Jan')
      * %B - full month name ('January')
-     * %d - day of the month as a decimal number, 0-padded ('01')
+     * %d - day of the month as a decimal number, 0-padded ('02')
      * %e - day of the month as a decimal number, blank-padded (' 1')
-     * %E - day of the month as a decimal number ('1')
+     * %E - day of the month as a decimal number ('2')
      * %f - English ordinal suffix for the day of the month ('st')
+     * %H - hour in 24-hour format ('15')
+     * %I - hour in 12-hour format, 0-padded ('03')
      * %m - month as a decimal number, 0-padded ('01')
+     * %M - minute, 0-padded ('04')
+     * %p - lowercase ante/post meridiem ('pm')
+     * %P - uppercase ante/post meridiem ('PM')
      * %Y - year as a decimal number including the century ('2005')
      * 
-     * @param string $date    date in 'YYYY-MM-DD' format
+     * @param string $date    date and time in 'YYYY-MM-DD hh:mm:ss' format
      * @param string $format  the output format
      *
      * @return string  the $format-formatted $date
      *
      * @static
      */
-    static function customFormat($dateString, $format = '%B %E%f, %Y %h:%i %A')
+    static function customFormat($dateString, $format = '%B %E%f, %Y %I:%M %P')
     {
         // 1-based (January) month names arrays
         $abbrMonths = self::getAbbrMonthNames();
         $fullMonths = self::getFullMonthNames();
 
         if ($dateString and $format) {
-            $dateParts = explode('-', $dateString);
-            $year = (int) $dateParts[0];
-            $month = (int) $dateParts[1];
-            $day = (int) $dateParts[2];
-            if ($day % 10 == 1 and $day != 11) $suffix = 'st';
+
+            $year   = (int) substr($dateString,  0, 4);
+            $month  = (int) substr($dateString,  5, 2);
+            $day    = (int) substr($dateString,  8, 2);
+            $hour24 = (int) substr($dateString, 11, 2);
+            $minute = (int) substr($dateString, 14, 2);
+
+            if     ($day % 10 == 1 and $day != 11) $suffix = 'st';
             elseif ($day % 10 == 2 and $day != 12) $suffix = 'nd';
             elseif ($day % 10 == 3 and $day != 13) $suffix = 'rd';
             else $suffix = 'th';
             
-            //added code to display time
-            $strTemp = str_replace('-', ' ', $dateString);
-            $strTemp = str_replace($year, ' ', $strTemp);
-            $strTemp = str_replace($dateParts[1], ' ', $strTemp);
-            $strTemp = str_replace($day, ' ', $strTemp);
-            
-            list($hour, $min) = explode(':', $strTemp);
-
-            if ($hour < 12) {
-                if ($hour == 00) {
-                    $hour = 12;
-                    $type = 'AM';
-                } else {
-                    $type = 'AM';
-                }
+            if ($hour24 < 12) {
+                if ($hour24 == 00) $hour12 = 12;
+                else $hour12 = $hour24;
+                $type = 'AM';
             } else {
-                if ($hour != 12 ) {
-                    $hour = $hour - 12;
-                }
-                    $type = 'PM';
+                if ($hour24 == 12) $hour12 = 12;
+                else $hour12 = $hour24 - 12;
+                $type = 'PM';
             }
             
             $date = array(
@@ -290,13 +286,17 @@ class CRM_Utils_Date {
                           '%e' => $day > 9 ? $day : ' ' . $day,
                           '%E' => $day,
                           '%f' => $suffix,
+                          '%H' => $hour24,
+                          '%I' => $hour12,
                           '%m' => $month > 9 ? $month : '0' . $month,
-                          '%Y' => $year,
-                          '%h' => $hour,
-                          '%i' => $min,
-                          '%A' => $type
+                          '%M' => $minute,
+                          '%p' => strtolower($type),
+                          '%P' => $type,
+                          '%Y' => $year
                           );
+
             return strtr($format, $date);
+
         } else {
             return '';
         }
@@ -318,9 +318,13 @@ class CRM_Utils_Date {
     {
         static $replacements = array(
             '%b' => 'M',
+            '%B' => 'F',
             '%d' => 'd',
+            '%E' => 'j',
+            '%f' => 'S',
             '%H' => 'H',
             '%I' => 'h',
+            '%m' => 'm',
             '%M' => 'i',
             '%p' => 'a',
             '%P' => 'A',
