@@ -286,10 +286,10 @@ class CRM_Utils_Date {
                           '%e' => $day > 9 ? $day : ' ' . $day,
                           '%E' => $day,
                           '%f' => $suffix,
-                          '%H' => $hour24,
-                          '%I' => $hour12,
+                          '%H' => $hour24 > 9 ? $hour24 : '0' . $hour24,
+                          '%I' => $hour12 > 9 ? $hour12 : '0' . $hour12,
                           '%m' => $month > 9 ? $month : '0' . $month,
-                          '%M' => $minute,
+                          '%M' => $minute > 9 ? $minute : '0' . $minute,
                           '%p' => strtolower($type),
                           '%P' => $type,
                           '%Y' => $year
