@@ -1,0 +1,368 @@
+/* $Id: style.css,v 1.0.0.2 2005-04-25 9:25:39 PM messina Exp $ */
+/*
+-----------------------------------------------
+CivicSpace installer styles
+-----------------------------------------------*/
+
+/*************** Column top and bottom elements *****************/
+
+html { 
+  margin: 0; 
+  margin-top: 6px;
+  padding: 0; 
+}
+
+body { 
+  margin: 6px 0 40px; 
+  padding: 0; 
+  text-align: center; 
+  background-color: #fff;
+}
+
+
+/*
+  Layout styles
+-----------------------------------------------*/
+
+#header, #wrapper {
+  clear: both;  /* added 1.0.1.2 */
+  width: 700px;  /* bmh */  
+
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left; 
+  padding: 0;
+}
+#wrapper {
+  min-height: 100%; 
+  voice-family: "\"}\""; 
+
+  voice-family:inherit;
+
+  width: 698px;
+}
+
+html>#wrapper {
+  width: 700px;
+
+}
+#main-content {
+  width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  clear: both;
+}
+#secondary-content {
+  width: 700px;
+  margin: 0;
+  clear: both;
+}
+
+/*
+  Logo
+-----------------------------------------------*/
+
+#logo {
+  margin: 10px 0 4px 10px;
+  clear: none;
+  float: left;
+}
+#logo a {
+  border-style: none;
+  display: block;
+  width: 170px;
+  height: 20px;
+  background: url(./civicspace_logo.png) no-repeat top left;
+}
+#site-name {
+  padding: 3px 6px;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-color: #A4A3A3;
+  background: url(./bg_header.png) repeat-x left bottom;
+  text-align: right;
+}
+#panic {
+  float: right;
+}
+#panic a {
+  border-style: none;
+  display: block;
+  width: 48px;
+  height: 48px;
+  background: url(./panic_button.png) no-repeat 0px 0px;
+}
+#panic a:hover {
+  background-position: 0px -48px;
+}
+
+/*
+  Typography
+-----------------------------------------------*/
+
+body, table, th, td  {
+  font-family: "lucida grande", verdana, "Bitstream Vera Sans", sans-serif;  
+}
+code {
+  font-family: 'andale mono', 'Courier New', Monaco, monospace;
+  letter-spacing: -1px;
+}
+#site-name {
+  font-size: 11px;
+}
+#content, #main-content {
+  font-size: 13px; 
+  line-height: 160%;
+}
+
+/*
+  Font colors
+-----------------------------------------------*/
+
+body {
+  color: #222;
+}
+#site-name {
+  color: #565656;
+}
+h2, h2 a, h2 :visited, .procedure-list li.active span {
+  color: #005FB9;
+}
+a, a:link {
+  color: #FC1823;
+}
+a:visited {
+  color: #7f2000;
+}
+a:hover, .marker {
+  color: orangered;
+}
+a.help-link {
+  font-size: 9px;
+}
+a.help-link, form .tip a {
+  color: #005FB9;
+  text-decoration: none;
+}
+a.help-link:hover, form .tip a:hover {
+  color: #fff;
+  background-color: red;
+}
+
+/*
+  Standard markup
+-----------------------------------------------*/
+
+h2, h3, h4, h5, h6 {
+  margin: 2px 0;
+}
+h2, h3 {
+  margin-top: 1.2em; 
+}
+p, table, tr, td {
+  padding: 0;
+  margin: 0;
+}
+ul ul {
+  margin-top: 10px;
+}
+li, dd {
+  margin-bottom: 10px;
+  line-height: 120%;
+}
+p, dl, dd, dt {
+  line-height: 150%;
+}
+#content p {
+  margin-bottom: 0.8em;
+}
+
+/*
+  Procedure list
+-----------------------------------------------*/
+
+.procedure-list {
+  font-size: 10px;
+  list-style: decimal;  
+  margin-bottom: 2em;
+  float: left; 
+  clear: both;
+}
+.procedure-list li {
+  line-height: 20px;
+  color: #999;
+  float: left; 
+/*  display: inline;*/
+  margin: 0 3em;
+  list-style: decimal;  
+}
+.procedure-list li:first-child {
+  margin-left: 1em;  
+}
+.procedure-list li span {
+  font-size: 12px;
+  color: #565656;
+}
+.procedure-list li.active span {
+/*  color: #333; */
+  font-size: 20px;
+}
+
+/*
+  Links
+-----------------------------------------------*/
+
+a, img {
+  border: 0;
+}
+a:hover {
+  text-decoration: underline;
+}
+#content a[target="_blank"]:after {
+  content: url(./icon_offsite_link.png);
+  padding-left: 4px;
+}
+
+/*
+  Form styling
+-----------------------------------------------*/
+
+fieldset {
+  border: 1px solid #ddd;
+  padding: 2px;
+}
+textarea, input, select {
+
+  background: #f4f4f4;
+
+  border: 1px solid #b2b2b2;
+
+  margin: 1px;
+
+  padding: 3px;
+}
+input:focus, textarea:focus, label:focus {
+  background: #fff;
+  border: 1px solid #878787;
+}
+form, label input {
+  margin: 0;
+  padding: 0;
+}
+label {
+/*  font-weight: bold; */
+  font-size: 14px; 
+  cursor: pointer;
+
+}
+form .tip {
+  margin-top: 4px;
+  color: #565656;
+  font-size: 11px;  
+  line-height: 140%;
+}
+.form-password, .form-text {
+  font-size: 16px;  
+}
+.form-submit, .form-button {
+  font-size: 16px;
+  padding: 2px 4px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.install-form {
+  text-align: left;
+}
+.form-item {
+  margin-bottom: 1.8em;  
+}
+/*
+  Messages
+-----------------------------------------------*/
+
+.messages {
+  padding: 0.5em;
+}
+.message {
+  padding-left: 20px;
+  margin-left: 0;
+  line-height: 16px;
+  min-height: 16px;
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+.message-success {
+  background-image: url(./icon_status_complete.png);
+}
+.message-error {
+  background-image: url(./icon_status_incomplete.png);
+}
+.message-warning {
+  background-image: url(./icon_status_warning.png);
+}
+
+/*
+  Utility
+-----------------------------------------------*/
+
+.hide {
+  overflow: hidden;
+  visibility: hidden;
+  display: none;
+  clear: none;  
+}
+.text-replacement {
+  text-indent: -9999em;  
+  text-decoration: none !important;  
+}
+.clearing {
+  height: 0;
+  clear: both;
+  display: block;
+  visibility: hidden;
+}  
+.centered {
+  text-align: center;
+}
+img.centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+img.alignright {
+  padding: 4px;
+  margin: 0 0 2px 7px;
+  display: inline;
+}
+img.alignleft {
+  padding: 4px;
+  margin: 0 7px 2px 0;
+  display: inline;
+}
+.alignright, .rfloat {
+  float: right;
+}
+.alignleft, .lfloat {
+  float: left
+}
+/** To Do **/
+/*
+* add poll styling from drupal.css
+*/
+
+.progressbar {
+  height: 1em;
+  margin: 1px 0;
+  background-color: #ddd;
+}
+.progressbar .foreground {
+  background-color: #000;
+  height: 1em;
+  clear: left;
+  float: left;
+}
+
+.progressbar .percent {
+  text-align: right;
+}
