@@ -99,6 +99,25 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
         
     }
 
+    /**
+     * This function sets the default values for the form.
+     *
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) {
+        $defaults = array( );
+        $params   = array( );
+
+        if ( isset( $this->_id ) ) {
+            $params = array( 'id' => $this->_id );
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->_BAOName) . ".php");
+            eval( $this->_BAOName . '::retrieve( $params, $defaults );' );
+        }
+        $defaults['is_active'] = 1;
+
+        return $defaults;
+    }
        
     /**
      * Function to process the form
@@ -112,14 +131,15 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
         $params = $this->controller->exportValues( $this->_name );
 
         // action is taken depending upon the mode
-        $component               =& new CRM_Mailing_DAO_Component( );
-        $component->domain_id    =  CRM_Core_Config::domainID( );
-        $component->name         =  $params['name'];
-        $component->subject      =  $params['subject'];
-        $component->body_text    =  $params['body_text'];
-        $component->body_html    =  $params['body_html'];
-        $component->is_active    =  CRM_Utils_Array::value( 'is_active' , $params, false );
-        $component->is_default   =  CRM_Utils_Array::value( 'is_default', $params, false );
+        $component                 =& new CRM_Mailing_DAO_Component( );
+        $component->domain_id      =  CRM_Core_Config::domainID( );
+        $component->name           =  $params['name'];
+        $component->component_type =  $params['component_type'];
+        $component->subject        =  $params['subject'];
+        $component->body_text      =  $params['body_text'];
+        $component->body_html      =  $params['body_html'];
+        $component->is_active      =  CRM_Utils_Array::value( 'is_active' , $params, false );
+        $component->is_default     =  CRM_Utils_Array::value( 'is_default', $params, false );
 
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $component->id = $this->_id;

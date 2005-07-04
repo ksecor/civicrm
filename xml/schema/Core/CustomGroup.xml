@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>CustomGroup</class>
+  <name>crm_custom_group</name>
+  <comment>All extended (custom) properties are associated with a group. These are logical sets of related data.</comment>
+    <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Custom Group ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact</comment>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>crm_domain</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+     <name>name</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Variable name/programmatic handle for this group.</comment>
+  </field>
+  <field>
+     <name>title</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Friendly Name.</comment>
+  </field>
+  <field>
+     <name>extends</name>
+     <type>enum</type>
+     <values>Contact, Individual, Household, Organization, Location, Address</values>
+     <default>'Contact'</default>
+     <comment>Type of object this group extends (can add other options later e.g. contact_address, etc.).</comment>
+  </field>
+  <field>
+     <name>style</name>
+     <type>enum</type>
+     <values>Tab, Inline</values>
+     <comment>Visual relationship between this form and its parent.</comment>
+  </field>
+  <field>
+     <name>collapse_display</name>
+     <type>int unsigned</type>
+     <default>0</default>
+     <comment>Will this group be in collapsed or expanded mode on initial display ?</comment>
+  </field>
+  <field>
+     <name>help_pre</name>
+     <type>text</type>
+     <comment>Description and/or help text to display before fields in form.</comment>
+     <htmlType>textarea</htmlType>
+     <rows>4</rows>
+     <cols>80</cols>
+  </field>
+  <field>
+     <name>help_post</name>
+     <type>text</type>
+     <comment>Description and/or help text to display after fields in form.</comment>
+     <htmlType>textarea</htmlType>
+     <rows>4</rows>
+     <cols>80</cols>
+  </field>
+  <field>
+      <name>weight</name>
+      <type>int</type>
+      <required>true</required>
+      <default>1</default>
+      <comment>Controls display order when multiple extended property groups are setup for the same class.</comment>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this property active?</comment>
+  </field>
+  <index>
+    <name>UI_title_domain_id</name>
+    <fieldName>title</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
+  <index>
+    <name>UI_name_domain_id</name>
+    <fieldName>name</fieldName>
+    <fieldName>domain_id</fieldName>
+    <unique>true</unique>
+  </index>
+</table>
+
+

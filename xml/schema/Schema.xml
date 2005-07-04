@@ -7,52 +7,9 @@
 <table_type>InnoDB</table_type>
 <comment>Schema for the CRM Module</comment>
 
-<xi:include href="Country.xml"          parse="xml" />
-<xi:include href="StateProvince.xml"    parse="xml" />
-<xi:include href="County.xml"           parse="xml" />
-<xi:include href="Domain.xml"           parse="xml" />
-<xi:include href="MobileProvider.xml"   parse="xml" />
-<xi:include href="GeoCoord.xml"         parse="xml" />
-<xi:include href="IMProvider.xml"       parse="xml" />
-<xi:include href="Tag.xml"              parse="xml" />
-<xi:include href="RelationshipType.xml" parse="xml" />
-<xi:include href="LocationType.xml"     parse="xml" />
-<xi:include href="Contact.xml"          parse="xml" />
-<xi:include href="Individual.xml"       parse="xml" />
-<xi:include href="Household.xml"        parse="xml" />
-<xi:include href="Organization.xml"     parse="xml" />
-<xi:include href="Location.xml"         parse="xml" />
-<xi:include href="Address.xml"          parse="xml" />
-<xi:include href="Phone.xml"            parse="xml" />
-<xi:include href="Email.xml"            parse="xml" />
-<xi:include href="IM.xml"               parse="xml" />
-<xi:include href="Note.xml"             parse="xml" />
-<xi:include href="Relationship.xml"     parse="xml" />
-<xi:include href="EntityTag.xml"        parse="xml" />
-<xi:include href="SavedSearch.xml"      parse="xml" />
-<xi:include href="Group.xml"            parse="xml" />
-<xi:include href="GroupContact.xml"     parse="xml" />
-<xi:include href="Validation.xml"       parse="xml" />
-<xi:include href="CustomGroup.xml"      parse="xml" />
-<xi:include href="CustomField.xml"      parse="xml" />
-<xi:include href="CustomValue.xml"      parse="xml" />
-<xi:include href="ActivityHistory.xml"  parse="xml" />
-<xi:include href="EmailHistory.xml"     parse="xml" />
-<xi:include href="UFGroup.xml"          parse="xml" />
-<xi:include href="UFField.xml"          parse="xml" />
-<xi:include href="UFMatch.xml"          parse="xml" />
-<xi:include href="CustomOption.xml"     parse="xml" />
-<xi:include href="Meeting.xml"          parse="xml" />
-<xi:include href="Phonecall.xml"        parse="xml" />
-<xi:include href="Mailing/Component.xml"                parse="xml" />
-<xi:include href="Mailing/Mailing.xml"                  parse="xml" />
-<xi:include href="Mailing/Group.xml"                    parse="xml" />
-<xi:include href="Mailing/TrackableURL.xml"             parse="xml" />
-<xi:include href="Mailing/Job.xml"                      parse="xml" />
-<xi:include href="Mailing/EventQueue.xml"               parse="xml" />
-<xi:include href="Mailing/EventBounce.xml"              parse="xml" />
-<xi:include href="Mailing/EventDelivered.xml"           parse="xml" />
-<xi:include href="Mailing/EventOpened.xml"              parse="xml" />
-<xi:include href="Mailing/EventTrackableURLOpen.xml"    parse="xml" />
-<xi:include href="Mailing/EventUnsubscribe.xml"         parse="xml" />
+<xi:include href="Core/files.xml"          parse="xml" />
+<xi:include href="Contact/files.xml"       parse="xml" />
+<xi:include href="Mailing/files.xml"       parse="xml" />
+<xi:include href="Mailing/Event/files.xml" parse="xml" />  
+
 </database>

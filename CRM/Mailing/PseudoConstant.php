@@ -31,31 +31,61 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-
 /**
- * Meta information about the mailing
- *
+ * This class holds all the Pseudo constants that are specific to Mass mailing. This avoids
+ * polluting the core class and isolates the mass mailer class
  */
-class CRM_Mailing_Form_Name extends CRM_Core_Form {
+class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
 
     /**
-     * Function to actually build the form
-     *
-     * @return None
-     * @access public
+     * mailing templates
+     * @var array
+     * @static
      */
-    public function buildQuickForm( ) {
-        $this->addElement( 'text', 'name', 'Name Your Mailing', true );
+    private static $mailingTemplate;
 
-        $template =& CRM_Core_PseudoConstants::mailingTemplates( );
-        if ( ! empty( $template ) ) {
-            $template = array( '' => '-select-' ) + $template;
-            $this->add('select'  , 'template'    , ts('Mailing Template'), $template );
+    /**
+     * completed mailings
+     * @var array
+     * @static
+     */
+    private static $completedMailing;
+
+    /**
+     * mailing components
+     * @var array
+     * @static
+     */
+    private static $components;
+
+    /**
+     * Get all the mailing templates
+     *
+     * @access public
+     * @return array - array reference of all mailing templates if any
+     * @static
+     */
+    public static function &mailingTemplate( ) {
+        if ( ! self::$mailingTemplate ) {
+            self::populate( self::$mailingTemplate, 'CRM_Mailing_DAO_Mailing', true, 'name', 'is_template' );
         }
-
-        $this->add('checkbox', 'is_template' , ts('Mailing Template?'));
+        return self::$mailingTemplate;
     }
+
+    /**
+     * Get all the completed mailing
+     *
+     * @access public
+     * @return array - array reference of all mailing templates if any
+     * @static
+     */
+    public static function &completedMailing( ) {
+        if ( ! self::$completedMailing ) {
+            self::populate( self::$completedMailing, 'CRM_Mailing_DAO_Mailing', true, 'name', 'is_completed' );
+        }
+        return self::$completedMailing;
+    }
+
 
 }
 

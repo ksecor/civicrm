@@ -99,8 +99,6 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
      * @return array
      */
     function &links( ) {ldelim}
-	// does not work with php4
-        //if ( ! isset( self::$_links ) ) {ldelim}
 	if ( ! ( self::$_links ) ) {ldelim}
 	     self::$_links = array(
 {foreach from=$table.foreignKey item=foreign}
@@ -119,7 +117,6 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
        * @return array
        */
       function &fields( ) {ldelim}
-	//if ( ! isset( self::$_fields ) ) {ldelim}
         if ( ! ( self::$_fields ) ) {ldelim}
                self::$_fields = array (
 {foreach from=$table.fields item=field}
@@ -176,7 +173,6 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
        * return array
        */
        function &import( $prefix = false ) {ldelim}
-          //if ( ! isset( self::$_import ) ) {ldelim}
             if ( ! ( self::$_import ) ) {ldelim}
                self::$_import = array ( );
                $fields =& self::fields( );

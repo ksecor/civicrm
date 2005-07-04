@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Contact</base>
+  <class>GroupContact</class>
+  <name>crm_group_contact</name>
+  <comment>Join table sets membership for 'static' groups. Also used to store 'opt-out' entries for 'query' type groups (status = 'OUT')</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>primary key</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>group_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to crm_group</comment>
+  </field>
+  <foreignKey>
+       <name>group_id</name>
+       <table>crm_group</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to crm_contact</comment>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>crm_contact</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>status</name>
+       <type>enum</type>
+       <values>Pending, In, Out</values>
+       <comment>status of contact relative to membership in group</comment>
+  </field>
+  <field>
+      <name>pending_date</name>
+      <type>date</type>
+      <comment>when was contact status for this group set to Pending</comment>
+  </field>
+  <field>
+      <name>in_date</name>
+      <type>date</type>
+      <comment>when was contact status for this group set to In</comment>
+  </field>
+  <field>
+      <name>out_date</name>
+      <type>date</type>
+      <comment>when was contact status for this group set to Out</comment>
+  </field>
+  <field>
+       <name>pending_method</name>
+       <type>enum</type>
+       <values>Admin, Email, Web, API</values>
+       <comment>Interface by which contact was set to status = Pending</comment>
+  </field>
+  <field>
+       <name>in_method</name>
+       <type>enum</type>
+       <values>Admin, Email, Web, API</values>
+       <comment>Interface by which contact was set to status = In</comment>
+  </field>
+  <field>
+       <name>out_method</name>
+       <type>enum</type>
+       <values>Admin, Email, Web, API</values>
+       <comment>Interface by which contact was set to status = Out</comment>
+  </field>
+</table>

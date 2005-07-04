@@ -343,11 +343,12 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function mailing( $args ) {
-        if ( !$args[1] !== 'mailing' ) {
+        if ( $args[1] !== 'mailing' ) {
             return;
         }
 
-        return CRM_Mailing_Page_Components( );
+        $view =& new CRM_Mailing_Page_Component( );
+        return $view->run( );
     }
 
     static function export( $args ) {

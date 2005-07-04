@@ -2,6 +2,7 @@
 
 <table>
   <base>CRM/Mailing</base>
+  <class>Job</class>
   <name>crm_mailing_job</name>
   <comment>Stores information about the job that executes this mailing</comment>
   <field>

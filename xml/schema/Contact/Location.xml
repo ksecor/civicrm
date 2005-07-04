@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Contact</base>
+  <class>Location</class>
+  <name>crm_location</name>
+  <comment>Define location specific properties</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Location ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>crm_contact</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>location_type_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Location Type ID</comment>
+  </field>
+  <foreignKey>
+       <name>location_type_id</name>
+       <table>crm_location_type</table>
+       <key>id</key>
+       <import>true</import>
+  </foreignKey>
+  <index>
+       <name>index_contact_location_type</name>
+       <fieldName>contact_id</fieldName>
+       <fieldName>location_type_id</fieldName>
+       <unique/>
+  </index>
+  <field>
+       <name>is_primary</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this the primary location for the contact. (allow only ONE primary location / contact.)</comment>
+  </field>
+</table>

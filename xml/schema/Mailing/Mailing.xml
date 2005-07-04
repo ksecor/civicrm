@@ -2,6 +2,7 @@
 
 <table>
   <base>CRM/Mailing</base>
+  <class>Mailing</class>
   <name>crm_mailing</name>
   <comment>Stores information about a mailing.</comment>
   <field>
@@ -90,5 +91,10 @@
        <name>is_template</name>
        <type>boolean</type>
        <comment>Is this object a mailing template?</comment>
-  </field>  
+  </field>
+  <field>
+       <name>is_completed</name>
+       <type>boolean</type>
+       <comment>Has at least one job associated with this mailing finished?</comment>
+  </field>
 </table>

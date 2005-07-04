@@ -2,6 +2,7 @@
 
 <table>
   <base>CRM/Mailing</base>
+  <class>Group</class>
   <name>crm_mailing_group</name>
   <comment>Stores information about the groups that participate in this mailing..</comment>
   <field>

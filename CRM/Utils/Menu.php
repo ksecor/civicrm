@@ -388,7 +388,7 @@ class CRM_Utils_Menu {
                             'crmType'=> self::CALLBACK,
                             ),
                       array(
-                            'path'   => 'civicrm/mailing/components',
+                            'path'   => 'civicrm/mailing/component',
                             'title'  => ts('Mailing Header / Footer'),
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,

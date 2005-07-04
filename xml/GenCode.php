@@ -43,6 +43,8 @@ $classNames = array( );
 
 echo "Extracting table information\n";
 $tables   =& getTables( $dbXML, $database );
+resolveForeignKeys( $tables, $classNames );
+$tables = orderTables( $tables );
 
 // echo "\n\n\n\n\n*****************************************************************************\n\n";
 // print_r($tables);
@@ -94,23 +96,6 @@ foreach ( array_keys( $tables ) as $name ) {
     $beautifier->save( );
 }
 
-function convertName( $name, $skipDBPrefix = true, $pre = '', $post = '' ) {
-    $names = explode( '_', strtolower($name) );
-    
-    $start = $skipDBPrefix ? 1 : 0;
-    $fileName = '';
-    for ( $i = $start; $i < count($names); $i++ ) {
-        if ( strtolower( $names[$i] ) == 'im' ) {
-            $names[$i] = 'IM';
-        }
-        if ( strtolower( $names[$i] ) == 'uf' ) {
-            $names[$i] = 'UF';
-        }
-        $fileName .= ucfirst( $names[$i] );
-    }
-    return $pre . $fileName . $post;
-}
-
 function &parseInput( $file ) {
     $dom = DomDocument::load( $file );
     $dom->xinclude( );
@@ -137,25 +122,79 @@ function &getDatabase( &$dbXML ) {
 
 function &getTables( &$dbXML, &$database ) {
     $tables = array();
-    foreach ( $dbXML->table as $tableXML ) {
-        getTable( $tableXML, $database, $tables );
+    foreach ( $dbXML->tables as $tablesXML ) {
+        foreach ( $tablesXML->table as $tableXML ) {
+            getTable( $tableXML, $database, $tables );
+        }
     }
 
     return $tables;
+}
+
+function resolveForeignKeys( &$tables, &$classNames ) {
+    foreach ( array_keys( $tables ) as $name ) {
+        resolveForeignKey( $tables, $classNames, $name );
+    }
+}
+
+function resolveForeignKey( &$tables, &$classNames, $name ) {
+    if ( ! array_key_exists( 'foreignKey', $tables[$name] ) ) {
+        return;
+    }
+    
+    foreach ( array_keys( $tables[$name]['foreignKey'] ) as $fkey ) {
+        $ftable = $tables[$name]['foreignKey'][$fkey]['table'];
+        if ( ! array_key_exists( $ftable, $classNames ) ) {
+            echo "$ftable is not a valid foreign key table in $name";
+            continue;
+        }
+        $tables[$name]['foreignKey'][$fkey]['className'] = $classNames[$ftable];
+    }
+    
+}
+
+function orderTables( &$tables ) {
+    $ordered = array( );
+
+    while ( ! empty( $tables ) ) {
+        foreach ( array_keys( $tables ) as $name ) {
+            if ( validTable( $tables, $ordered, $name ) ) {
+                $ordered[$name] = $tables[$name];
+                unset( $tables[$name] );
+            }
+        }
+    }
+    return $ordered;
+
+}
+
+function validTable( &$tables, &$valid, $name ) {
+    if ( ! array_key_exists( 'foreignKey', $tables[$name] ) ) {
+        return true;
+    }
+
+    foreach ( array_keys( $tables[$name]['foreignKey'] ) as $fkey ) {
+        $ftable = $tables[$name]['foreignKey'][$fkey]['table'];
+        if ( ! array_key_exists( $ftable, $valid ) && $ftable !== $name ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function getTable( $tableXML, &$database, &$tables ) {
     global $classNames;
 
     $name  = trim((string ) $tableXML->name );
+    $klass = trim((string ) $tableXML->class );
     $base  = value( 'base', $tableXML ) . '/DAO/';
     $pre   = str_replace( '/', '_', $base );
-    $classNames[$name]  = convertName( $name, true, $pre, '' );
+    $classNames[$name]  = $pre . $klass;
 
     $table = array( 'name'       => $name,
                     'base'       => $base,
-                    'fileName'   => convertName( $name, true, '', '.php' ),
-                    'objectName' => convertName( $name, true ),
+                    'fileName'   => $klass . '.php',
+                    'objectName' => $klass,
                     'labelName'  => substr($name, 4),
                     'className'  => $classNames[$name],
                     'attributes' => trim($database['tableAttributes']),
@@ -360,7 +399,7 @@ function getForeignKey( &$foreignXML, &$fields, &$foreignKeys ) {
     /** need to make sure there is a field of type name */
     if ( ! array_key_exists( $name, $fields ) ) {
         echo "foreign $name does not have a  field definition, ignoring\n";
-      return;
+        return;
     }
 
     /** need to check for existence of table and key **/
@@ -370,7 +409,7 @@ function getForeignKey( &$foreignXML, &$fields, &$foreignKeys ) {
                          'table'      => $table,
                          'key'        => trim( value( 'key'   , $foreignXML ) ),
                          'import'     => value( 'import', $foreignXML, false ),
-                         'className'  => $classNames[$table],
+                         'className'  => null, // we do this matching in a seperate phase (resolveForeignKeys)
                          'attributes' => trim( value( 'attributes', $foreignXML, 'ON DELETE CASCADE' ) ),
                          );
     $foreignKeys[$name] =& $foreignKey;

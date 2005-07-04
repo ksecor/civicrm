@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>UFMatch</class>
+  <name>crm_uf_match</name>
+  <comment>The mapping from an user framework (UF) object to a CRM object.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>System generated ID.</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+       <name>uf_id</name>
+       <type>int unsigned</type>
+       <required>true</required>
+       <comment>UF ID</comment>
+  </field>
+  <field>
+       <name>contact_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to Contact ID</comment>
+  </field>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>crm_contact</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Domain owns this contact (cached here for ease of use reasons)</comment>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>crm_domain</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>email</name>
+       <type>varchar</type>
+       <length>64</length>
+       <rule>email</rule>
+       <comment>Email address</comment>
+  </field>
+</table>

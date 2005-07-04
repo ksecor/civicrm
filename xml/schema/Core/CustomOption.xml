@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>CustomOption</class>
+  <name>crm_custom_option</name>
+  <comment>Stores info about options for custom fields of type 'Select' and 'Radio'</comment>
+    <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique Custom Option ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>custom_field_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>FK to crm_custom_field.</comment>
+  </field>
+  <foreignKey>
+       <name>custom_field_id</name>
+       <table>crm_custom_field</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+     <name>label</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Label for option</comment>
+  </field>
+  <field>
+     <name>value</name>
+     <type>varchar</type>
+     <length>64</length>
+     <comment>Value of the option (when form is submitted)</comment>
+  </field>
+  <field>
+      <name>weight</name>
+      <type>int</type>
+      <required>true</required>
+      <default>1</default>
+      <comment>Order in which the options are displayed</comment>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this option active ?</comment>
+  </field>
+  <index>
+    <name>UI_label_custom_field_id</name>
+    <fieldName>value</fieldName>
+    <fieldName>custom_field_id</fieldName>
+    <unique>true</unique>
+  </index>
+</table>

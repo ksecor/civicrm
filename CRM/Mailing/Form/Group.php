@@ -34,10 +34,15 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * Meta information about the mailing
+ * Choose include / exclude groups and mailings
  *
  */
-class CRM_Mailing_Form_Name extends CRM_Core_Form {
+class CRM_Mailing_Form_Group extends CRM_Core_Form {
+
+    /**
+     * The number of groups / mailings we will process
+     */
+    const NUMBER_OF_ELEMENTS = 5;
 
     /**
      * Function to actually build the form
@@ -46,15 +51,24 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        $this->addElement( 'text', 'name', 'Name Your Mailing', true );
+        $group       = array( '' => '-select-' ) + CRM_Core_PseudoConstant::group( );
+        $groupType   = array( 'include' => 'Include All Members from this Group',
+                              'exclude' => 'Exclude All Members from this Group' );
 
-        $template =& CRM_Core_PseudoConstants::mailingTemplates( );
-        if ( ! empty( $template ) ) {
-            $template = array( '' => '-select-' ) + $template;
-            $this->add('select'  , 'template'    , ts('Mailing Template'), $template );
+        $mailing     = array( '' => '-select-' ) + CRM_Mailing_PseudoConstant::completedMailing( );
+        $mailingType = array( 'include' => 'Include All Members from this Mailing',
+                              'exclude' => 'Exclude All Members from this Mailing' );
+
+
+        for ( $i = 0; $i <= self::NUMBER_OF_ELEMENTS; $i++ ) {
+            $this->add( 'select', "group[$i]"      , null, $group       );
+            $this->add( 'select', "groupType[$i]"  , null, $groupType   );
+            $this->add( 'select', "mailing[$i]"    , null, $mailing     );
+            $this->add( 'select', "mailingType[$i]", null, $mailingType );
         }
 
-        $this->add('checkbox', 'is_template' , ts('Mailing Template?'));
+        $this->add( 'select', 'header', 'Mailing Header', CRM_Mailing_PseudoConstant::header( ) );
+        $this->add( 'select', 'footer', 'Mailing Footer', CRM_Mailing_PseudoConstant::footer( ) );
     }
 
 }

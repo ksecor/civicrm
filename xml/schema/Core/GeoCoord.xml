@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>GeoCoord</class>
+  <name>crm_geo_coord</name>
+  <comment>Geo code coordinate system info.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Geo Coord ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+       <name>coord_type</name>
+       <type>enum</type>
+       <values>LatLong, Projected</values>
+       <comment>Projected or unprojected coordinates - projected coordinates (e.g. UTM) may be treated as cartesian by some modules.</comment>
+  </field>
+  <field>
+       <name>coord_units</name>
+       <type>enum</type>
+       <values>Degree, Grad, Radian, Foot, Meter</values>
+       <comment>If the coord_type is LATLONG, indicate the unit of angular measure: Degree|Grad|Radian; If the coord_type is Projected, indicate unit of distance measure: Foot|Meter.</comment>
+  </field>
+  <field>
+       <name>coord_ogc_wkt_string</name>
+       <type>text</type>
+       <comment>Coordinate sys description in Open GIS Consortium WKT (well known text) format - see http://www.opengeospatial.org/docs/01-009.pdf; this is provided for the convenience of the user or third party modules.</comment>
+  </field>
+</table>

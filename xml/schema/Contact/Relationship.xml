@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Contact</base>
+  <class>Relationship</class>
+  <name>crm_relationship</name>
+  <comment>Relationship between any 2 types of contacts.</comment>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Relationship ID</comment>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>contact_id_a</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>id of the first contact</comment>
+  </field>
+  <foreignKey>
+       <name>contact_id_a</name>
+       <table>crm_contact</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>contact_id_b</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>id of the second contact</comment>
+  </field>
+  <foreignKey>
+       <name>contact_id_b</name>
+       <table>crm_contact</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+      <name>relationship_type_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>id of the relationship</comment>
+  </field>
+  <foreignKey>
+       <name>relationship_type_id</name>
+       <table>crm_relationship_type</table>
+       <key>id</key>
+  </foreignKey>
+  <field>
+       <name>start_date</name>
+       <type>date</type>
+       <comment>date when the relationship started</comment>
+  </field>
+  <field>
+       <name>end_date</name>
+       <type>date</type>
+       <comment>date when the relationship ended</comment>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <default>1</default>
+       <comment>is the relationship active ?</comment>
+  </field>
+</table>

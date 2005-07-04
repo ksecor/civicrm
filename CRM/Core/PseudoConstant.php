@@ -45,11 +45,6 @@
 
 class CRM_Core_PseudoConstant {
     /**
-     * All the below elements are dynamic.
-     */
-
-
-    /**
      * location type
      * @var array
      * @static
@@ -140,20 +135,22 @@ class CRM_Core_PseudoConstant {
      * @param string  $name     the name of the DAO
      * @param boolean $all      get all objects. default is to get only active ones.
      * @param string  $retrieve the field that we are interested in (normally name, differs in some objects)
+     * @param string  $filter   the field that we want to filter the result set with
      *
      * @return void
      * @access private
      * @static
      */
-    private static function populate( &$var, $name, $all = false, $retrieve = 'name' ) {
+    private static function populate( &$var, $name, $all = false, $retrieve = 'name', $filter = 'is_active' ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object =& new ' . $name . '( );' );
+        $object->domain_id = CRM_Core_Config::domainID( );
         $object->selectAdd( );
         $object->selectAdd( "id, $retrieve" );
         $object->orderBy( $retrieve );
-        
+
         if ( ! $all ) {
-            $object->is_active = 1;
+            $object->$filter = 1;
         }
         
         $object->find( );
