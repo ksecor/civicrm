@@ -155,7 +155,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         if($call->status=='Completed'){
             CRM_Core_Session::setStatus( ts('Phone Call "%1" has been logged to Activity History.', array( 1 => $call->subject)) );
         } else if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Core_Session::setStatus( ts("Selected Phone Call is deleted sucessfully")); 
+            CRM_Core_Session::setStatus( ts("Selected Phone Call is deleted sucessfully.")); 
 
         }else{
             CRM_Core_Session::setStatus( ts('Phone Call "%1" has been saved.', array( 1 => $call->subject)) );

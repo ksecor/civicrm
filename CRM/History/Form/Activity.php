@@ -85,6 +85,7 @@ class CRM_History_Form_Activity extends CRM_Core_Form
     public function postProcess() 
     {
         CRM_Core_BAO_History::del( $this->get( 'id' ) );
+        CRM_Core_Session::setStatus( "Selected Activity History record has been deleted." );
     }
 }
 

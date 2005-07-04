@@ -151,7 +151,7 @@ class CRM_Activity_Form_Meeting extends CRM_Activity_Form
         if($meeting->status=='Completed'){
             CRM_Core_Session::setStatus( ts('Meeting "%1" has been logged to Activity History.', array( 1 => $meeting->subject)) );
         } else if($this->_action & CRM_Core_Action::DELETE) {
-            CRM_Core_Session::setStatus( ts("Selected Meeting is deleted sucessfully"));
+            CRM_Core_Session::setStatus( ts("Selected Meeting is deleted sucessfully."));
         }   else{
             CRM_Core_Session::setStatus( ts('Meeting "%1" has been saved.', array( 1 => $meeting->subject)) );
         }
