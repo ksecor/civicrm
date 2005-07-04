@@ -1,9 +1,10 @@
 {* Master tpl for Advanced Search *}
 
 {include file="CRM/Contact/Form/Search/Intro.tpl"}
+{* The assigned varibales conflicts with the ones passed from php to AdvancedCriteria.tpl. So moved them dowm below *}
 
-{assign var="showBlocks" value="'searchForm'"}
-{assign var="hideBlocks" value="'searchForm[show]','searchForm[hide]'"}
+{*assign var="showBlocks" value="'searchForm'"}
+{assign var="hideBlocks" value="'searchForm[show]','searchForm[hide]'"*}
 
 <div id="searchForm[show]" class="form-item">
   <a href="#" onClick="hide('searchForm[show]'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Edit Search Criteria{/ts}</label>
@@ -37,6 +38,8 @@
 
 {/if}
 
+{assign var="showBlocks" value="'searchForm'"}
+{assign var="hideBlocks" value="'searchForm[show]','searchForm[hide]'"}
 <script type="text/javascript">
     var showBlocks = new Array({$showBlocks});
     var hideBlocks = new Array({$hideBlocks});

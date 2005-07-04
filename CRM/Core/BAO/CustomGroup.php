@@ -597,6 +597,90 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     }
 
     /**
+     * Get custom group details for groups whose fields are searchable.
+     *
+     * An array containing custom group details (including their custom field) is returned.
+     *
+     * @param none
+     * @return array $groupTree - array consisting of all group and field details
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+    public static function getGroupDetailForSearch()
+    {
+        // create a new tree
+        $groupTree = array();
+        $strSelect = $strFrom = $strWhere = $orderBy = ''; 
+
+        $tableData = array();
+
+        // using tableData to build the queryString 
+        $tableData = array(
+                           'crm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type', 'attributes', 'is_searchable'),
+                           'crm_custom_group' => array('id', 'title'),
+                           );
+
+        // create select
+        $strSelect = "SELECT"; 
+        foreach ($tableData as $tableName => $tableColumn) {
+            foreach ($tableColumn as $columnName) {
+                $alias = $tableName . "_" . $columnName;
+                $strSelect .= " $tableName.$columnName as $alias,";
+            }
+        }
+        $strSelect = rtrim($strSelect, ',');
+
+        // from, where, order by
+        $strFrom = " FROM crm_custom_field, crm_custom_group";
+        $strWhere = " WHERE crm_custom_field.custom_group_id = crm_custom_group.id
+                            AND crm_custom_group.is_active = 1
+                            AND crm_custom_field.is_active = 1
+                            AND crm_custom_field.is_searchable = 1";
+        $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
+
+        // final query string
+        $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
+
+        // dummy dao needed
+        $crmDAO =& new CRM_Core_DAO();
+        $crmDAO->query($queryString);
+
+        // process records
+        while($crmDAO->fetch()) {
+
+            $groupId = $crmDAO->crm_custom_group_id;
+            $fieldId = $crmDAO->crm_custom_field_id;
+
+            // create an array for groups if it does not exist
+            if (!array_key_exists($groupId, $groupTree)) {
+                $groupTree[$groupId] = array();
+                $groupTree[$groupId]['id'] = $groupId;
+                $groupTree[$groupId]['title'] = $crmDAO->crm_custom_group_title;
+                $groupTree[$groupId]['fields'] = array();
+            }
+            
+            // add the fields now (note - the query row will always contain a field)
+            $groupTree[$groupId]['fields'][$fieldId] = array();
+            $groupTree[$groupId]['fields'][$fieldId]['id'] = $fieldId;
+
+            foreach ($tableData['crm_custom_field'] as $v) {
+                //if ($v == 'id') {
+                $fullField = "crm_custom_field_" . $v;
+                if ($v == 'id' || is_null($crmDAO->$fullField)) {
+                    continue;
+                } else {
+                    $groupTree[$groupId]['fields'][$fieldId][$v] = $crmDAO->$fullField;                    
+                }
+            }
+        }
+
+        return $groupTree;
+    }
+
+    /**
      * Adds weight for custom groups for an entity
      *
      * @param string $entity      - what entity are we extending here ?

@@ -106,9 +106,43 @@
         </tr>
     </table>
     </fieldset>
+
+    <fieldset><legend>{ts}Custom Data{/ts}</legend>
+	{foreach from=$groupTree item=cd_edit key=group_id}
+
+	    <div id="{$cd_edit.title}[show]" class="data-group">
+	    <a href="#" onClick="hide('{$cd_edit.title}[show]'); show('{$cd_edit.title}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
+	    </div>
+
+	    <div id="{$cd_edit.title}">
+	    <p>
+	    <fieldset><legend><a href="#" onClick="hide('{$cd_edit.title}'); show('{$cd_edit.title}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}{$cd_edit.title}{/ts}</legend>
+	    <dl>
+	    {foreach from=$cd_edit.fields item=element key=field_id}
+	        {assign var="name" value=`$element.name`} 
+	        {assign var="element_name" value=$group_id|cat:_|cat:$field_id|cat:_|cat:$element.name}
+	        <dt>{$form.$element_name.label}</dt><dd>&nbsp;{$form.$element_name.html}</dd>
+	    {/foreach}
+	    </dl>
+	    </fieldset>
+	    </p>
+	    </div>
+	{/foreach}
+
+    </fieldset>
     {/strip}
+
     <div class="element-right">{$form.buttons.html}</div>
     <div>&nbsp;</div>
     <div class="spacer"></div>
     </div>
+
 </fieldset>
+
+<script type="text/javascript">
+    var showBlocks = new Array({$showBlocks});
+    var hideBlocks = new Array({$hideBlocks});
+
+{* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showBlocks, hideBlocks );
+</script>

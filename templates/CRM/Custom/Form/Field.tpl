@@ -38,6 +38,7 @@
         <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed to users for this field.{/ts}</dd>
         {/if}
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
+	<dt>{$form.is_searchable.label}</dt><dd>&nbsp;{$form.is_searchable.html}</dd>
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
         </dl>
     </div>

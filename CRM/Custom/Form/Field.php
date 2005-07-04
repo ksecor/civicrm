@@ -236,6 +236,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         // is active ?
         $this->add('checkbox', 'is_active', ts('Active?'));
+
+        // is searchable ?
+        $this->add('checkbox', 'is_searchable', ts('Searchable?'));
         
         // add buttons
         $this->addButtons(array(
@@ -410,6 +413,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->help_post     = $params['help_post'];
         $customField->mask          = $params['mask'];
         $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
+        $customField->is_searchable   = CRM_Utils_Array::value( 'is_searchable', $params, false );
         $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
         if ( strtolower( $customField->html_type ) == 'textarea' ) {
             $customField->attributes = 'rows=4, cols=80';

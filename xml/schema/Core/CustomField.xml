@@ -62,6 +62,11 @@
      <comment>Is a value required for this property.</comment>
   </field>
   <field>
+     <name>is_searchable</name>
+     <type>boolean</type>
+     <comment>Is this property searchable.</comment>
+  </field>
+  <field>
       <name>weight</name>
       <type>int</type>
       <required>true</required>
