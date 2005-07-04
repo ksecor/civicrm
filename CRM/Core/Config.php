@@ -121,6 +121,12 @@ class CRM_Core_Config {
     public $lcMessages = 'en_US';
 
     /**
+     * String format for date+time
+     * @var string
+     */
+    public $dateformatDatetime = '%B %E%f, %Y %I:%M %P';
+
+    /**
      * String format for a full date (one with day, month and year)
      * @var string
      */
@@ -287,6 +293,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CRM_LC_MESSAGES' ) ) {
             $this->lcMessages = CRM_LC_MESSAGES;
+        }
+        
+        if ( defined( 'CRM_DATEFORMAT_DATETIME' ) ) {
+            $this->dateformatDatetime = CRM_DATEFORMAT_DATETIME;
         }
         
         if ( defined( 'CRM_DATEFORMAT_FULL' ) ) {

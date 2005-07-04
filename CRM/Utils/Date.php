@@ -232,7 +232,7 @@ class CRM_Utils_Date {
      * %b - abbreviated month name ('Jan')
      * %B - full month name ('January')
      * %d - day of the month as a decimal number, 0-padded ('02')
-     * %e - day of the month as a decimal number, blank-padded (' 1')
+     * %e - day of the month as a decimal number, blank-padded (' 2')
      * %E - day of the month as a decimal number ('2')
      * %f - English ordinal suffix for the day of the month ('st')
      * %H - hour in 24-hour format ('15')

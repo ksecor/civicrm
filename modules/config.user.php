@@ -17,7 +17,8 @@ define( 'CRM_LC_MESSAGES' , 'en_US' );
 
 // this is used for formatting the various date displays. Change this to match
 // your locale if different.
-define( 'CRM_DATEFORMAT_FULL', '%B %E%f, %Y %h:%i %A' );
+define( 'CRM_DATEFORMAT_DATETIME', '%B %E%f, %Y %I:%M %P' );
+define( 'CRM_DATEFORMAT_FULL', '%B %E%f, %Y' );
 define( 'CRM_DATEFORMAT_PARTIAL', '%B %Y' );
 define( 'CRM_DATEFORMAT_YEAR', '%Y' );
 define( 'CRM_DATEFORMAT_QF_DATE', '%b %d %Y' );
