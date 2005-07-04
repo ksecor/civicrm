@@ -38,8 +38,13 @@ require_once 'CRM/Contact/Page/View.php';
  *
  */
 class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
-
-    private $_groupId;
+    /**
+     * the id of the object being viewed (note/relationship etc)
+     *
+     * @int
+     * @access protected
+     */
+    protected $_groupId;
 
     /**
      * class constructor
@@ -50,6 +55,8 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
      */
     public function __construct($groupId)
     {
+        CRM_Core_Error::le_method();
+        CRM_Core_Error::debug_var('groupId', $groupId);
         $this->_groupId = $groupId;
         parent::__construct();
     }
@@ -80,6 +87,7 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view/cd', 'action=browse'));
         
         $controller->set('tableId'   , $this->_contactId );
+        $controller->set('groupId'   , $this->_groupId);
         $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType( $this->_contactId ) );
         $controller->process();
         $controller->run();

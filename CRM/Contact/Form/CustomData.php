@@ -93,6 +93,14 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     protected $_groupCollapseDisplay;
 
     /**
+     * the id of the object being viewed (note/relationship etc)
+     *
+     * @int
+     * @access protected
+     */
+    protected $_groupId;
+
+    /**
      * pre processing work done here.
      *
      * gets session variables for table name, id of entity in table, type of entity and stores them.
@@ -105,12 +113,20 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     function preProcess()
     {
+        CRM_Core_Error::le_method();
+
+
         $this->_tableName  = $this->get('tableName');
         $this->_tableId    = $this->get('tableId');
         $this->_entityType = $this->get('entityType');
-        
+        $this->_groupId    = $this->get('groupId');
+
+        CRM_Core_Error::debug_var('groupId', $this->_groupId);
+
         // gets all details of group tree for entity
-        $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId);
+        $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId, $this->_groupId);
+
+        CRM_Core_Error::debug_var('groupTree', $this->_groupTree);
     }
 
     /**
@@ -156,6 +172,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     public function buildQuickForm()
     {
         $this->assign('groupTree', $this->_groupTree);
+        $this->assign('groupId', $this->_groupId);
 
         // do we need inactive options ?
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {

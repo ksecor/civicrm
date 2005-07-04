@@ -107,19 +107,24 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      *
      * @param string $entity   - of the contact whose contact type is needed
      * @param int    $entityId - optional - id of entity if we need to populate the tree with custom values. 
+     * @param int    $groupId  - optional group id (if we need it for a single group only)
+     *
      * @return array $groupTree - array consisting of all groups and fields and optionally populated with custom data values.
+     *
      *
      * @access public
      *
      * @static
      *
      */
-    public static function getTree($entity, $entityId=null)
+    public static function getTree($entity, $entityId=null, $groupId=0)
     {
+        CRM_Core_Error::le_method();
+        CRM_Core_Error::debug_var('groupId', $groupId);
+
         // create a new tree
         $groupTree = array();
         $strSelect = $strFrom = $strWhere = $orderBy = ''; 
-
         $tableData = array();
 
         // using tableData to build the queryString 
@@ -128,6 +133,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                                                        'is_required', 'help_post'),
                            'crm_custom_group' => array('id', 'title', 'help_pre', 'collapse_display'),
                            );
+
+
+        if ($entityId) {
+            $tableData['crm_custom_value'] = array('id', 'int_data', 'float_data', 'char_data', 'date_data', 'memo_data');
+        }
 
         // create select
         $strSelect = "SELECT"; 
@@ -140,25 +150,40 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $strSelect = rtrim($strSelect, ',');
 
         // from, where, order by
-        $strFrom = " FROM crm_custom_field, crm_custom_group";
+        //$strFrom = " FROM crm_custom_field, crm_custom_group";
+        $strFrom = " FROM crm_custom_group LEFT JOIN crm_custom_field ON (crm_custom_field.custom_group_id = crm_custom_group.id)";
+        if ($entityId) {
+            $strFrom .= " LEFT JOIN crm_custom_value ON (crm_custom_value.custom_field_id = crm_custom_field.id AND crm_custom_value.entity_id = $entityId)";
+        }
 
-        // if entity is either individual, organization or household pls get
-        // custom groups for 'contact' too.
+        // if entity is either individual, organization or household pls get custom groups for 'contact' too.
         if ($entity == "Individual" || $entity == 'Organization' || $entity == 'Household') {
             $in = "'$entity', 'Contact'";
         } else {
             $in = "'$entity'";
         }
 
-        $strWhere = " WHERE crm_custom_field.custom_group_id = crm_custom_group.id
-                            AND crm_custom_group.is_active = 1
-                            AND crm_custom_field.is_active = 1
-                            AND crm_custom_group.extends IN ($in)";
+        $strWhere = " WHERE crm_custom_group.is_active = 1 AND crm_custom_field.is_active = 1 AND crm_custom_group.extends IN ($in)";
+
+        if ($groupId) {
+            // since we want a specific group id we add it to the where clause
+            $strWhere .= " AND crm_custom_group.id = $groupId";
+            $strWhere .= " AND crm_custom_group.style = 'Tab'";
+        } else {
+            // since groupId is 0 we need to show all Inline groups
+            $strWhere .= " AND crm_custom_group.style = 'Inline'";
+        }
+
+        if ($entityId) {
+            //$strWhere .= " AND crm_custom_value.entity_id = $entityId";
+        }
 
         $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
 
         // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
+
+        CRM_Core_Error::debug_var('queryString', $queryString);
 
         // dummy dao needed
         $crmDAO =& new CRM_Core_DAO();
@@ -173,6 +198,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
             // create an array for groups if it does not exist
             if (!array_key_exists($groupId, $groupTree)) {
+
+                CRM_Core_Error::debug_log_message("adding group id - $groupId ...");
+
                 $groupTree[$groupId] = array();
                 $groupTree[$groupId]['id'] = $groupId;
 
@@ -198,12 +226,49 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         continue;
                 } 
                 $groupTree[$groupId]['fields'][$fieldId][$fieldName] = $crmDAO->$fullFieldName;                    
+
+                // check for custom values please
+                if ($crmDAO->crm_custom_value_id) {
+                    $valueId = $crmDAO->crm_custom_value_id;
+
+                    // create an array for storing custom values for that field
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue'] = array();
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['id'] = $valueId;
+
+                    $dataType = $groupTree[$groupId]['fields'][$fieldId]['data_type'];
+                    
+                    switch ($dataType) {
+                    case 'String':
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_char_data;
+                        break;
+                    case 'Int':
+                    case 'Boolean':
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_int_data;
+                        break;
+                    case 'Float':
+                    case 'Money':
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_float_data;
+                        break;
+                    case 'Memo':
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_memo_data;
+                        break;
+                    case 'Date':
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_date_data;
+                        break;
+                    case 'StateProvince':
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_int_data;
+                        break;
+                    case 'Country':
+                        $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $crmDAO->crm_custom_value_int_data;
+                        break;
+                    }
+                }
             }
         }
             
         if ($entityId) {
             // hack for now.. using only contacts custom data
-            self::_populateCustomData($groupTree, $entityId);
+            //self::_populateCustomData($groupTree, $entityId);
         }
 
         return $groupTree;
@@ -547,11 +612,14 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     public static function addMenuTabs($entity, $path, $startWeight)
     {
 
-//         CRM_Core_Error::le_method();
-//         CRM_Core_Error::debug_var('entity', $entity);
+        //        CRM_Core_Error::le_method();
+        //         CRM_Core_Error::debug_var('entity', $entity);
 
         $customGroupDAO = new CRM_Core_DAO_CustomGroup();
         $menus = array();
+
+        $customGroupDAO->whereAdd("style = 'Tab'");
+        $customGroupDAO->whereAdd("is_active = 1");
         
         // if contact, get all related to contact
         if ($entity == 'Contact') {
@@ -571,10 +639,9 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             $customGroupDAO->whereAdd("extends = '$entity'");
         }
 
-
         // make sure they are tabs and are active
-        $customGroupDAO->style     = 'Tab';
-        $customGroupDAO->is_active = 1;        
+        //$customGroupDAO->style     = 'Tab';
+        //$customGroupDAO->is_active = 1;        
 
         // order by weight
         $customGroupDAO->orderBy('weight');
@@ -582,8 +649,11 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $customGroupDAO->find();
 
         while($customGroupDAO->fetch()) {
+
+            //CRM_Core_Error::debug_var("Style", $customGroupDAO->style);
+            //CRM_Core_Error::debug_var("Title", $customGroupDAO->title);            
+
             $menu = array();
-            //$menu['path']    = "$path/$customGroupDAO->name";
             $menu['path']    = "$path/$customGroupDAO->id";
             $menu['title']   = "$customGroupDAO->title";
             $menu['qs']      = 'reset=1&cid=%%cid%%';
