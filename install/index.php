@@ -1010,8 +1010,6 @@ function _setup_run(&$edit)
     chdir('../'); 
     $crm_base_path = getcwd();
     $crm_bin_path = $crm_base_path.'/bin/';    
-    
-
     // read the bak config file
     $handle = fopen($crm_bin_path.'setup.sh.txt','r');
     $contents = fread($handle, filesize($crm_bin_path.'setup.sh.txt'));
@@ -1026,31 +1024,30 @@ function _setup_run(&$edit)
     fclose($handle);
 
     system('chmod +x '.$crm_bin_path.'setup.sh');
-
-    /*
-    exec('sh '.$crm_bin_path.'setup.sh');
- 
-    exec('ln -s /home/kurund/svn /opt/apache2/htdocs/civicrm/bin/hello');
-
-    //chdir('bin'); 
-    //system('sh '.$crm_bin_path.'setup.sh');
     
-    //chdir('../'); 
-    */
+
+   
     chdir('install');
 }
 
 function _setup_link() {
+    
     $cms_path = $_SESSION['cms_path'];
     $cms_module_path = $_SESSION['cms_path'].'/modules/';
 
-    // get the CiviCRM bin path
-    getcwd();
-    chdir('../'); 
-    $crm_base_path = getcwd();
+    $crm_path = getcwd();
+    chdir($crm_path); 
+    chdir("../");
+    $crm_path = getcwd();
     $crm_module_path = $crm_base_path;    
- 
-    exec('ln -s '.$crm_module_path.' '.$cms_module_path.'civicrm');
+    chdir($cms_module_path);
+    exec('ln -s '.$crm_path.' '.$cms_module_path.'civicrm');
+    chdir($crm_path."/sql");
+    echo getcwd();
+    shell_exec('mysql -u civicrm -pMt!Everest civicrm < Contacts.sql');
+    shell_exec('mysql -u civicrm -pMt!Everest civicrm < GeneratedData.sql');
+    chdir($crm_path);
+    
 }
 
 function _install_dump_and_serve(&$edit) {
