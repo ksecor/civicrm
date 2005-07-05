@@ -285,7 +285,6 @@ function getField( &$fieldXML, &$fields ) {
         $field['crmType'] = 'CRM_Utils_Type::T_DATE + CRM_Utils_Type::T_TIME';
         break;
 
-        
     case 'boolean':
         // need this case since some versions of mysql do not have boolean as a valid column type and hence it
         // is changed to tinyint. hopefully after 2 yrs this case can be removed.
