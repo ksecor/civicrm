@@ -58,6 +58,10 @@
        <length>64</length>
        <comment>Actual street name, excluding St, Dr, Rd, Ave, e.g. For 112 Main St, the street_name = Main.</comment>
   </field>
+  <index>
+       <name>index_street_name</name>
+       <fieldName>street_name</fieldName>
+  </index>
   <field>
        <name>street_type</name>
        <type>varchar</type>
@@ -109,6 +113,10 @@
        <dataPattern>/^[A-Za-z]+(\.?)(\s?[A-Za-z]+){0,2}$/</dataPattern>
        <comment>City, Town or Village Name.</comment>
   </field>
+  <index>
+       <name>index_city</name>
+       <fieldName>city</fieldName>
+  </index>
   <field>
       <name>county_id</name>
       <type>int unsigned</type>

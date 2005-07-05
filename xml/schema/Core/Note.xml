@@ -22,12 +22,20 @@
        <required>true</required>
        <comment>Name of table where item being referenced is stored.</comment>
   </field>
+  <index>
+       <name>index_entity_table</name>
+       <fieldName>entity_table</fieldName>
+  </index>
   <field>
        <name>entity_id</name>
        <type>int unsigned</type>
        <required>true</required>
        <comment>Foreign key to the referenced item.</comment>
   </field>
+  <index>
+       <name>index_entity_id</name>
+       <fieldName>entity_id</fieldName>
+  </index>
   <field>
        <name>note</name>
        <type>text</type>

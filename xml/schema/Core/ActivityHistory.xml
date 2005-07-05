@@ -21,12 +21,20 @@
       <length>64</length>
       <comment>physical tablename for entity being tagged, e.g. crm_contact</comment>
   </field>
+  <index>
+       <name>index_entity_table</name>
+       <fieldName>entity_table</fieldName>
+  </index>
   <field>
       <name>entity_id</name>
       <type>int unsigned</type>
       <required>true</required>
       <comment>FK to entity table specified in entity_table column</comment>
   </field>
+  <index>
+       <name>index_entity_id</name>
+       <fieldName>entity_id</fieldName>
+  </index>
   <field>
       <name>activity_type</name>
       <type>varchar</type>
