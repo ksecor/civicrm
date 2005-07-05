@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-05 11:32+0200\n"
-"PO-Revision-Date: 2005-07-05 11:32+0200\n"
+"POT-Creation-Date: 2005-07-05 13:41+0200\n"
+"PO-Revision-Date: 2005-07-05 13:41+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgstr "Phone Number"
 #: CRM/Contact/Form/Task/Print.php:80 CRM/Contact/Form/Task/Result.php:88
 #: CRM/Custom/Form/Field.php:259 CRM/Custom/Form/Group.php:126
 #: CRM/Custom/Form/Option.php:143 CRM/Group/Form/DynamicGroup.php:69
-#: CRM/Import/Form/Summary.php:106 CRM/UF/Form/Field.php:166
+#: CRM/Import/Form/Summary.php:103 CRM/UF/Form/Field.php:166
 #: CRM/UF/Form/Group.php:104 templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Done"
@@ -92,7 +92,7 @@ msgstr "Save"
 #: CRM/Custom/Form/Group.php:119 CRM/Custom/Form/Option.php:135
 #: CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76
 #: CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:60
-#: CRM/Import/Form/MapField.php:224 CRM/Import/Form/Preview.php:110
+#: CRM/Import/Form/MapField.php:224 CRM/Import/Form/Preview.php:104
 #: CRM/Import/Form/UploadFile.php:78 CRM/Mailing/Form/Component.php:96
 #: CRM/Mailing/Form/Group.php:87 CRM/Mailing/Form/Name.php:66
 #: CRM/Mailing/Form/Upload.php:63 CRM/Note/Form/Note.php:109;123
@@ -736,7 +736,7 @@ msgstr "Delete Group"
 msgid "Group Members"
 msgstr "Group Members"
 
-#: CRM/Import/Form/MapField.php:218 CRM/Import/Form/Preview.php:104
+#: CRM/Import/Form/MapField.php:218 CRM/Import/Form/Preview.php:98
 msgid "<< Previous"
 msgstr "<< Previous"
 
@@ -1244,6 +1244,18 @@ msgstr "Zip / Postal Code"
 msgid "State / Province"
 msgstr "State / Province"
 
+#: CRM/Contact/Form/Edit.php:108
+msgid "contact does not exist: %1"
+msgstr "contact does not exist: %1"
+
+#: CRM/Contact/Form/Edit.php:114
+msgid "You do not have the necessary permission to edit this contact."
+msgstr "You do not have the necessary permission to edit this contact."
+
+#: CRM/Contact/Form/Edit.php:119
+msgid "Could not get a contact_id and/or contact_type"
+msgstr "Could not get a contact_id and/or contact_type"
+
 #: CRM/Contact/Form/Edit.php:269
 msgid "Save and New"
 msgstr "Save and New"
@@ -1259,6 +1271,18 @@ msgstr "Privacy"
 #: CRM/Contact/Form/Edit.php:359
 msgid "Prefers"
 msgstr "Prefers"
+
+#: CRM/Contact/Form/Edit.php:386
+msgid "Only one location can be marked as primary."
+msgstr "Only one location can be marked as primary."
+
+#: CRM/Contact/Form/Edit.php:406
+msgid "The Location Type should be set if there is any location information"
+msgstr "The Location Type should be set if there is any location information"
+
+#: CRM/Contact/Form/Edit.php:412
+msgid "One location should be marked as primary."
+msgstr "One location should be marked as primary."
 
 #: CRM/Contact/Form/Email.php:56
 msgid "another email"
@@ -2528,59 +2552,47 @@ msgstr "Mapper for Field %1"
 msgid "Match Fields"
 msgstr "Match Fields"
 
-#: CRM/Import/Form/Preview.php:70
-msgid "Download Errors"
-msgstr "Download Errors"
-
-#: CRM/Import/Form/Preview.php:76
-msgid "Download Conflicts"
-msgstr "Download Conflicts"
-
-#: CRM/Import/Form/Preview.php:96
+#: CRM/Import/Form/Preview.php:90
 msgid "Create a new group from imported records"
 msgstr "Create a new group from imported records"
 
-#: CRM/Import/Form/Preview.php:97
+#: CRM/Import/Form/Preview.php:91
 msgid "Name for new group"
 msgstr "Name for new group"
 
-#: CRM/Import/Form/Preview.php:98
+#: CRM/Import/Form/Preview.php:92
 msgid "Description of new group"
 msgstr "Description of new group"
 
-#: CRM/Import/Form/Preview.php:100
+#: CRM/Import/Form/Preview.php:94
 msgid "Join new contacts to existing group(s)"
 msgstr "Join new contacts to existing group(s)"
 
-#: CRM/Import/Form/Preview.php:106
+#: CRM/Import/Form/Preview.php:100
 msgid "Import Now >>"
 msgstr "Import Now >>"
 
-#: CRM/Import/Form/Preview.php:122
+#: CRM/Import/Form/Preview.php:116
 msgid "Preview"
 msgstr "Preview"
 
-#: CRM/Import/Form/Summary.php:61
-msgid "Download Duplicates"
-msgstr "Download Duplicates"
-
-#: CRM/Import/Form/Summary.php:71
+#: CRM/Import/Form/Summary.php:68
 msgid "These records have been updated with the imported data."
 msgstr "These records have been updated with the imported data."
 
-#: CRM/Import/Form/Summary.php:74
+#: CRM/Import/Form/Summary.php:71
 msgid "These records have been replaced with the imported data."
 msgstr "These records have been replaced with the imported data."
 
-#: CRM/Import/Form/Summary.php:77
+#: CRM/Import/Form/Summary.php:74
 msgid "These records have been filled in with the imported data."
 msgstr "These records have been filled in with the imported data."
 
-#: CRM/Import/Form/Summary.php:81
+#: CRM/Import/Form/Summary.php:78
 msgid "These records have not been imported."
 msgstr "These records have not been imported."
 
-#: CRM/Import/Form/Summary.php:119
+#: CRM/Import/Form/Summary.php:116
 msgid "Summary"
 msgstr "Summary"
 
@@ -4220,6 +4232,10 @@ msgstr ""
 "file that you want ignored."
 
 #: templates/CRM/Import/Form/MapTable.tpl
+msgid "Import Data -&gt; CiviCRM Contact Fields"
+msgstr "Import Data -&gt; CiviCRM Contact Fields"
+
+#: templates/CRM/Import/Form/MapTable.tpl
 msgid "Import Data (row %1)"
 msgstr "Import Data (row %1)"
 
@@ -4241,25 +4257,29 @@ msgstr ""
 msgid ""
 "CiviCRM has detected invalid data or formatting errors in %1 records. If you "
 "continue, these records will be skipped. OR, you can download a file with "
-"just these problem records - %2. Then correct them in the original import "
-"file, cancel this import and begin again at step 1."
+"just these problem records - <a href=\"%2\">Download Errors</a>. Then "
+"correct them in the original import file, cancel this import and begin again "
+"at step 1."
 msgstr ""
 "CiviCRM has detected invalid data or formatting errors in %1 records. If you "
 "continue, these records will be skipped. OR, you can download a file with "
-"just these problem records - %2. Then correct them in the original import "
-"file, cancel this import and begin again at step 1."
+"just these problem records - <a href=\"%2\">Download Errors</a>. Then "
+"correct them in the original import file, cancel this import and begin again "
+"at step 1."
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid ""
 "CiviCRM has detected %1 records with conflicting email addresses within this "
 "data file. If you continue, these records will be skipped. OR, you can "
-"download a file with just these problem records - %2. Then correct them in "
-"the original import file, cancel this import and begin again at step 1."
+"download a file with just these problem records - <a href=\"%2\">Download "
+"Conflicts</a>. Then correct them in the original import file, cancel this "
+"import and begin again at step 1."
 msgstr ""
 "CiviCRM has detected %1 records with conflicting email addresses within this "
 "data file. If you continue, these records will be skipped. OR, you can "
-"download a file with just these problem records - %2. Then correct them in "
-"the original import file, cancel this import and begin again at step 1."
+"download a file with just these problem records - <a href=\"%2\">Download "
+"Conflicts</a>. Then correct them in the original import file, cancel this "
+"import and begin again at step 1."
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Click 'Import Now' if you are ready to proceed."
@@ -4285,6 +4305,10 @@ msgstr ""
 "Rows with invalid data in one or more fields (for example, invalid email "
 "address formatting). These rows will be skipped (not imported)."
 
+#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Download Errors"
+msgstr "Download Errors"
+
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Conflicting Rows"
 msgstr "Conflicting Rows"
@@ -4296,6 +4320,10 @@ msgid ""
 msgstr ""
 "Rows with conflicting email addresses within this file. These rows will be "
 "skipped (not imported)."
+
+#: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
+msgid "Download Conflicts"
+msgstr "Download Conflicts"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Valid Rows"
@@ -4323,11 +4351,11 @@ msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
-"You can %1. You may then correct them, and import the new file with the "
-"corrected data."
+"You can <a href=\"%1\">Download Errors</a>. You may then correct them, and "
+"import the new file with the corrected data."
 msgstr ""
-"You can %1. You may then correct them, and import the new file with the "
-"corrected data."
+"You can <a href=\"%1\">Download Errors</a>. You may then correct them, and "
+"import the new file with the corrected data."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -4343,11 +4371,13 @@ msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
-"You can %1. You may then review these records to determine if they are "
-"actually conflicts, and correct the email addresses for those that are not."
+"You can <a href=\"%1\">Download Conflicts</a>. You may then review these "
+"records to determine if they are actually conflicts, and correct the email "
+"addresses for those that are not."
 msgstr ""
-"You can %1. You may then review these records to determine if they are "
-"actually conflicts, and correct the email addresses for those that are not."
+"You can <a href=\"%1\">Download Conflicts</a>. You may then review these "
+"records to determine if they are actually conflicts, and correct the email "
+"addresses for those that are not."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -4359,11 +4389,13 @@ msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
-"You can %1. You may then review these records to determine if they are "
-"actually duplicates, and correct the email address for those that are not."
+"You can <a href=\"%1\">Download Duplicates</a>. You may then review these "
+"records to determine if they are actually duplicates, and correct the email "
+"address for those that are not."
 msgstr ""
-"You can %1. You may then review these records to determine if they are "
-"actually duplicates, and correct the email address for those that are not."
+"You can <a href=\"%1\">Download Duplicates</a>. You may then review these "
+"records to determine if they are actually duplicates, and correct the email "
+"address for those that are not."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Invalid Rows (skipped)"
@@ -4384,6 +4416,10 @@ msgstr "Duplicate Rows"
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM contact records.  "
 msgstr "Rows which are duplicates of existing CiviCRM contact records.  "
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "Download Duplicates"
+msgstr "Download Duplicates"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Records Imported"
