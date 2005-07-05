@@ -246,7 +246,7 @@ ORDER BY
 
         // building the query string
         $queryString = $select . $from . $where . $order . $limit;
-        echo "<pre>$queryString</pre>";
+        //echo "<pre>$queryString</pre>";
         // CRM_Core_Error::debug( 'qs', $queryString );
         $this->query($queryString);
 
