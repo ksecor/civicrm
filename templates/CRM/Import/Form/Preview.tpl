@@ -11,13 +11,13 @@
     
     {if $invalidRowCount}
         <p class="error">
-        {ts 1=$invalidRowCount 2=$downloadErrorRecords}CiviCRM has detected invalid data or formatting errors in %1 records. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
+        {ts 1=$invalidRowCount 2=$downloadErrorRecordsUrl}CiviCRM has detected invalid data or formatting errors in %1 records. If you continue, these records will be skipped. OR, you can download a file with just these problem records - <a href="%2">Download Errors</a>. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
         </p>
     {/if}
 
     {if $conflictRowCount}
         <p class="error">
-        {ts 1=$conflictRowCount 2=$downloadConflictRecords}CiviCRM has detected %1 records with conflicting email addresses within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - %2. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
+        {ts 1=$conflictRowCount 2=$downloadConflictRecordsUrl}CiviCRM has detected %1 records with conflicting email addresses within this data file. If you continue, these records will be skipped. OR, you can download a file with just these problem records - <a href="%2">Download Conflicts</a>. Then correct them in the original import file, cancel this import and begin again at step 1.{/ts}
         </p>
     {/if}
     
@@ -35,14 +35,14 @@
     <tr{if $invalidRowCount} class="error"{/if}><td class="label">{ts}Rows with Errors{/ts}</td>
         <td class="data">{$invalidRowCount}</td>
         <td class="explanation">{ts}Rows with invalid data in one or more fields (for example, invalid email address formatting). These rows will be skipped (not imported).{/ts}
-            <p>{$downloadErrorRecords}</p>
+            <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
         </td>
     </tr>
     
     <tr{if $conflictRowCount} class="error"{/if}><td class="label">{ts}Conflicting Rows{/ts}</td>
         <td class="data">{$conflictRowCount}</td>
         <td class="explanation">{ts}Rows with conflicting email addresses within this file. These rows will be skipped (not imported).{/ts}
-            <p>{$downloadConflictRecords}</p>
+            <p><a href="{$downloadConflictRecordsUrl}">{ts}Download Conflicts{/ts}</a></p>
         </td>
     </tr>
 

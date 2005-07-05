@@ -55,10 +55,7 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
         $duplicateRowCount = $this->get('duplicateRowCount');
         $onDuplicate = $this->get('onDuplicate');
         if ($duplicateRowCount > 0) {
-            $this->set('downloadDuplicateRecords',
-                '<a href="'
-                . CRM_Utils_System::url('civicrm/export', 'type=3')
-                . '">' . ts('Download Duplicates') . '</a>');
+            $this->set('downloadDuplicateRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=3'));
         } else {
             $duplicateRowCount = 0;
             $this->set('duplicateRowCount', $duplicateRowCount);
@@ -88,7 +85,7 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
         }
         $this->assign('dupeActionString', $dupeActionString);
         
-        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount', 'downloadConflictRecords', 'downloadErrorRecords', 'duplicateRowCount', 'downloadDuplicateRecords' );
+        $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl' );
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
