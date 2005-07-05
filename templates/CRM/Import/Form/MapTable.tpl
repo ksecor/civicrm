@@ -1,7 +1,7 @@
 {* Import Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
 
  <div id="map-field">
-    <h4>Import Data -> CiviCRM Contact Fields</h4>
+    <h4>{ts}Import Data -&gt; CiviCRM Contact Fields{/ts}</h4>
     <table>
         <tr class="columnheader">
             {section name=rows loop=$rowDisplayCount}

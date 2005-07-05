@@ -105,18 +105,18 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $contact =& new CRM_Contact_DAO_Contact( );
                 $contact->id = $this->_contactId;
                 if ( ! $contact->find( true ) ) {
-                    CRM_Core_Error::fatal( "contact does not exist: $this->_contactId" );
+                    CRM_Core_Error::fatal( ts('contact does not exist: %1', array(1 => $this->_contactId)) );
                 }
                 $this->_contactType = $contact->contact_type;
 
                 // check for permissions
                 if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
-                    CRM_Core_Error::fatal( "You do not have the necessary permission to edit this contact." );
+                    CRM_Core_Error::fatal( ts('You do not have the necessary permission to edit this contact.') );
                 }
 
                 return;
             }
-            CRM_Core_Error::fatal( "Could not get a contact_id and/or contact_type" );
+            CRM_Core_Error::fatal( ts('Could not get a contact_id and/or contact_type') );
         }
     }
 
@@ -383,7 +383,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 if ( array_key_exists( 'is_primary', $fields['location'][$locationId] ) ) {
                     if ( $fields['location'][$locationId]['is_primary'] ) {
                         if ( $isPrimary ) {
-                            $errors["location[$locationId][is_primary]"] = "Only one location can be marked as primary.";
+                            $errors["location[$locationId][is_primary]"] = ts('Only one location can be marked as primary.');
                         }
                         $isPrimary = true;
                     }
@@ -403,13 +403,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 if ( self::locationDataExists( $fields['location'][$locationId] ) ) {
                     $dataExists = true;
                     if ( ! CRM_Utils_Array::value( 'location_type_id', $fields['location'][$locationId] ) ) {
-                        $errors["location[$locationId][location_type_id]"] = 'The Location Type should be set if there is any location information';
+                        $errors["location[$locationId][location_type_id]"] = ts('The Location Type should be set if there is any location information');
                     }
                 }
             }
 
             if ( $dataExists && ! $isPrimary ) {
-                $errors["location[1][is_primary]"] = "One location should be marked as primary.";
+                $errors["location[1][is_primary]"] = ts('One location should be marked as primary.');
             }
         }
         return $primaryEmail;
