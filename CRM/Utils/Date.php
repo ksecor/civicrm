@@ -84,11 +84,22 @@ class CRM_Utils_Date {
                 $date['h'] = '00';
             }
 
+            // in 24-hour format the hour is under the 'H' key
+            if (CRM_Utils_Array::value('H', $date)) {
+                $date['H'] = (int) $date['H'];
+                $date['H'] = $date['H'] < 10 ? '0' . $date['H'] : $date['H'];
+            } else {
+                $date['H'] = '00';
+            }
+
             if (CRM_Utils_Array::value( 'i', $date )) {
                 $date['i'] = (int ) $date['i'];
                 $date['i'] = ($date['i'] < 10) ? '0' . $date['i'] : $date['i'];
             } else {
                 $date['i'] = '00';
+            }
+            if ($date['h'] == '00' and $date['H'] != '00') {
+                $date['h'] = $date['H'];
             }
 
             if (CRM_Utils_Array::value( 's', $date )) {
@@ -288,7 +299,7 @@ class CRM_Utils_Date {
                           '%f' => $suffix,
                           '%H' => $hour24 > 9 ? $hour24 : '0' . $hour24,
                           '%I' => $hour12 > 9 ? $hour12 : '0' . $hour12,
-                          '%m' => $month > 9 ? $month : '0' . $month,
+                          '%m' => $month  > 9 ? $month  : '0' . $month,
                           '%M' => $minute > 9 ? $minute : '0' . $minute,
                           '%p' => strtolower($type),
                           '%P' => $type,
