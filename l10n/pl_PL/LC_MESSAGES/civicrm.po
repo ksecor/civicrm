@@ -2646,7 +2646,7 @@ msgstr "Błędy adres email"
 
 #: CRM/Import/Parser/Contact.php:172
 msgid "Email address conflicts with record %1"
-msgstr "Adres email powtarza się we wpisie %1"
+msgstr "Adres email koliduje z wpisem %1"
 
 #: CRM/Import/Parser.php:357;371
 msgid "Record Number"
@@ -3236,7 +3236,7 @@ msgid ""
 "     <p>Please add any comments on the look and feel of these pages, along "
 "with workflow issues, on the <a href=\"%3\">CiviCRM Comments Page</a>.</p>"
 msgstr ""
-"<p>Ta instalacja oparta jest o kod, który aktywnie rozwijamy by wydać wersję "
+"<p>Ta instalacja oparta jest o kod, który aktywnie rozwijamy w celu wydania wersji "
 "1.1. Część funkcjonalności może nie działać poprawnie. Zapraszamy do "
 "odwiedzenia naszej <a href=\"%2\" target=\"_blank\">strony testowej</a>, na "
 "której znajduje się najnowsze stabilne wydanie CiviCRM-a.</p>     "
@@ -4286,9 +4286,9 @@ msgid ""
 "Conflicts</a>. Then correct them in the original import file, cancel this "
 "import and begin again at step 1."
 msgstr ""
-"CiviCRM wykrył w tym pliku %1 pozycji z powtórzonymi adresami email. Jeśli "
+"CiviCRM wykrył w tym pliku %1 pozycji z kolidującymi adresami email. Jeśli "
 "przejdziesz dalej, te pozycje zostaną pomnięte. Możesz też ściągnąć plik "
-"zawierający jedynie te błędy – <a href=\"%2\">ściągnij powtórzenia</a>, a następnie poprawić je w oryginalnym "
+"zawierający jedynie te błędy – <a href=\"%2\">ściągnij kolizje</a>, a następnie poprawić je w oryginalnym "
 "pliku z danymi, anulować ten import i powrócić do kroku 1."
 
 #: templates/CRM/Import/Form/Preview.tpl
@@ -4322,19 +4322,19 @@ msgstr "Ściągnij błędy"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Conflicting Rows"
-msgstr "Powtórzone wiersze"
+msgstr "Wiersze z kolizjami"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid ""
 "Rows with conflicting email addresses within this file. These rows will be "
 "skipped (not imported)."
 msgstr ""
-"Wiersze z powtórzonymi adresami email w tym pliku. Wiersze te zostaną "
+"Wiersze z kolidującymi adresami email w tym pliku. Wiersze te zostaną "
 "pominięte (nie zostaną zaimportowane)."
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Download Conflicts"
-msgstr "Ściągnij konflikty"
+msgstr "Ściągnij kolizje"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Valid Rows"
@@ -4375,7 +4375,7 @@ msgid ""
 "been imported. CiviCRM does not allow multiple contact records to have the "
 "same primary email address."
 msgstr ""
-"CiviCRM wykrył %1 pozycji z adresami email potwarzającymi się w obrębie tego "
+"CiviCRM wykrył %1 pozycji z adresami email kolidującymi w obrębie tego "
 "pliku lub w stosunku do danych istniejących kontaktów. Te pozycje nie "
 "zostały zaimportowane. CiviCRM nie pozwala, by kilka kontaktów miało ten sam "
 "główny adres email."
@@ -4386,8 +4386,8 @@ msgid ""
 "records to determine if they are actually conflicts, and correct the email "
 "addresses for those that are not."
 msgstr ""
-"Możesz ściągnąć plik zawierający te błędy – <a href=\"%1\">ściągnij konflikty</a>. Możesz następnie sprawdzić, "
-"czy te wpisy faktycznie są powtórzeniami, i poprawić adresy email dla tych, "
+"Możesz ściągnąć plik zawierający te błędy – <a href=\"%1\">ściągnij kolizje</a>. Możesz następnie sprawdzić, "
+"czy te wpisy faktycznie są kolizjami, i poprawić adresy email dla tych, "
 "które nimi nie są."
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -4412,11 +4412,11 @@ msgstr "Wiersze błędne (pominięte)"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Conflicting Rows (skipped)"
-msgstr "Wiersze z powtórzeniami (pominięte)"
+msgstr "Wiersze z kolizjami (pominięte)"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows with conflicting email addresses (NOT imported)."
-msgstr "Wiersze z powtarzającymi się adresami email (NIE zaimportowane)."
+msgstr "Wiersze z kolidującymi adresami email (NIE zaimportowane)."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Duplicate Rows"
