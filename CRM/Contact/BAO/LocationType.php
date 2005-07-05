@@ -34,6 +34,12 @@
 class CRM_Contact_BAO_LocationType extends CRM_Contact_DAO_LocationType {
 
     /**
+     * static holder for the default LT
+     */
+    static $_defaultLocationType = null;
+
+
+    /**
      * class constructor
      */
     function __construct( ) {
@@ -75,6 +81,25 @@ class CRM_Contact_BAO_LocationType extends CRM_Contact_DAO_LocationType {
      */
     static function setIsActive( $id, $is_active ) {
         return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_LocationType', $id, 'is_active', $is_active );
+    }
+
+
+    /**
+     * retrieve the default location_type
+     *
+     * @param void
+     * @return object           The default location type object on success,
+     *                          null otherwise
+     * @static
+     * @access public
+     */
+    static function &getDefault() {
+        if (self::$_defaultLocationType == null) {
+            $params = array('is_default' => 1);
+            $defaults = array();
+            self::$_defaultLocationType = self::retrieve($params, $defaults);
+        }
+        return self::$_defaultLocationType;
     }
 
 }

@@ -190,26 +190,49 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $hasHeaders      = !empty($this->_columnHeaders);
         $headerPatterns  = $this->get( 'headerPatterns' );
         $dataPatterns    = $this->get( 'dataPatterns' );
-        
+        $hasLocationTypes = $this->get( 'fieldTypes' );
+
+        $location_types  =& CRM_Core_PseudoConstant::locationType();
+
+        $defaultLocationType =& CRM_Contact_BAO_LocationType::getDefault();
+
         /* Initialize all field usages to false */
         foreach ($mapperKeys as $key) {
             $this->_fieldUsed[$key] = false;
         }
 
+        $sel1 = $this->_mapperFields;
+
+        $sel2[''] = null;
+
+        foreach ($mapperKeys as $key) {
+            if ($hasLocationTypes[$key]) {
+                $sel2[$key] = $location_types;
+            } else {
+                $sel2[$key] = null;
+            }
+        }
+            
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-            $this->add( 'select', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), $this->_mapperFields );
+            $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)));
+            
+//             $this->add( 'select', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), $this->_mapperFields );
 //             $this->_defaults["mapper[$i]"] = $mapperKeys[$i];
+
             if ($hasHeaders) {
                 // Infer the default from the skipped headers if we have them
-                $this->_defaults["mapper[$i]"] = 
+                $this->_defaults["mapper[$i]"] = array(
                     $this->defaultFromHeader($this->_columnHeaders[$i], 
-                                            $headerPatterns);
+                                            $headerPatterns),
+                                            $defaultLocationType->id);
 
             } else {
                 // Otherwise guess the default from the form of the data
-                $this->_defaults["mapper[$i]"] = 
-                    $this->defaultFromData($dataPatterns, $i);
+                $this->_defaults["mapper[$i]"] = array(
+                    $this->defaultFromData($dataPatterns, $i),
+                    $defaultLocationType->id);
             }
+            $sel->setOptions(array($sel1, $sel2));
         }
         $this->setDefaults( $this->_defaults );
 
@@ -244,14 +267,19 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $mapperKeys = array( );
         $mapper     = array( );
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
+        $mapperKeysMain = array();
+        $mapperKeysType = array();
+        
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-            $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i]];
+            $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
+            $mapperKeysMain[$i] = $mapperKeys[$i][0];
+            $mapperKeysType[$i] = $mapperKeys[$i][1];
         }
 
         $this->set( 'mapper'    , $mapper     );
 //         CRM_Core_Error::debug('mapperKeys', $mapperKeys);
 
-        $parser =& new CRM_Import_Parser_Contact( $mapperKeys );
+        $parser =& new CRM_Import_Parser_Contact( $mapperKeysMain );
         $parser->run( $fileName, $seperator,
                       $mapper, 
                       $skipColumnHeader,

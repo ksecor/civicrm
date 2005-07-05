@@ -138,9 +138,16 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
 
-        $parser =& new CRM_Import_Parser_Contact( $mapper );
+        $mapperKeys = array();
+        $mapperTypes = array();
+
+        foreach ($mapper as $key => $value) {
+            $mapperKeys[$key] = $mapper[$key][0];
+            $mapperTypes[$key] = $mapper[$key][1];
+        }
+        $parser =& new CRM_Import_Parser_Contact( $mapperKeys );
         $parser->run( $fileName, $seperator, 
-                      $mapper,
+                      $mapperKeys,
                       $skipColumnHeader,
                       CRM_Import_Parser::MODE_IMPORT,
                       $onDuplicate);

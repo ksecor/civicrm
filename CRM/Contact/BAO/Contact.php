@@ -747,7 +747,7 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         $contact->location = $location;
 
         // add notes
-        $contact->note = CRM_Core_BAO_Note::add($params, $ids);
+        $contact->note =& CRM_Core_BAO_Note::add($params);
 
         // update the UF email if that has changed
         CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
@@ -1134,14 +1134,24 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Individual::import( ) );
 
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Address::import( ) );
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Phone::import( ) );
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_Email::import( ) );
-            self::$_importableFields = array_merge(self::$_importableFields,
-                                                   CRM_Contact_DAO_IM::import( true ) );
+            $locationFields = array_merge(  CRM_Contact_DAO_Address::import( ),
+                                            CRM_Contact_DAO_Phone::import( ),
+                                            CRM_Contact_DAO_Email::import( ),
+                                            CRM_Contact_DAO_IM::import( true ));
+            foreach ($locationFields as $key => $field) {
+                $locationFields[$key]['hasLocationType'] = true;
+            }
+
+            self::$_importableFields = array_merge(self::$_importableFields, $locationFields);
+
+//             self::$_importableFields = array_merge(self::$_importableFields,
+//                                                    CRM_Contact_DAO_Address::import( ) );
+//             self::$_importableFields = array_merge(self::$_importableFields,
+//                                                    CRM_Contact_DAO_Phone::import( ) );
+//             self::$_importableFields = array_merge(self::$_importableFields,
+//                                                    CRM_Contact_DAO_Email::import( ) );
+//             self::$_importableFields = array_merge(self::$_importableFields,
+//                                                    CRM_Contact_DAO_IM::import( true ) );
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Contact_DAO_Contact::import( ) );
             self::$_importableFields = array_merge(self::$_importableFields,
@@ -1149,7 +1159,6 @@ WHERE     crm_contact.id IN $idString AND crm_country.id = 1228 AND crm_address.
             self::$_importableFields = array_merge(self::$_importableFields,
                                                    CRM_Core_BAO_CustomField::getFieldsForImport() );
 //             $customImports =& CRM_Core_Dao_CustomField::import();
-            
         }
         return self::$_importableFields;
     }

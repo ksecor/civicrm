@@ -47,21 +47,27 @@
     <tr{if $invalidRowCount} class="error"{/if}><td class="label">{ts}Invalid Rows (skipped){/ts}</td>
         <td class="data">{$invalidRowCount}</td>
         <td class="explanation">{ts}Rows with invalid data in one or more fields (for example, invalid email address formatting). These rows will be skipped (not imported).{/ts}
-            <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+            {if $invalidRowCount}
+                <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+            {/if}
         </td>
     </tr>
     
     <tr{if $conflictRowCount} class="error"{/if}><td class="label">{ts}Conflicting Rows (skipped){/ts}</td>
         <td class="data">{$conflictRowCount}</td>
         <td class="explanation">{ts}Rows with conflicting email addresses (NOT imported).{/ts}
-            <p><a href="{$downloadConflictRecordsUrl}">{ts}Download Conflicts{/ts}</a></p>
+            {if $conflictRowCount}
+                <p><a href="{$downloadConflictRecordsUrl}">{ts}Download Conflicts{/ts}</a></p>
+            {/if}
         </td>
     </tr>
 
     <tr{if $duplicateRowCount && $dupeError} class="error"{/if}><td class="label">{ts}Duplicate Rows{/ts}</td>
         <td class="data">{$duplicateRowCount}</td>
         <td class="explanation">{ts}Rows which are duplicates of existing CiviCRM contact records.  {/ts}{$dupeActionString}
-            <p><a href="{$downloadDuplicateRecordsUrl}">{ts}Download Duplicates{/ts}</a></p>
+            {if $duplicateRowCount}
+                <p><a href="{$downloadDuplicateRecordsUrl}">{ts}Download Duplicates{/ts}</a></p>
+            {/if}
         </td>
     </tr>
     <tr><td class="label">{ts}Records Imported{/ts}</td>

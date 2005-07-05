@@ -246,7 +246,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `crm_location_type` DISABLE KEYS */;
 LOCK TABLES `crm_location_type` WRITE;
-INSERT INTO `crm_location_type` VALUES (1,1,'Home','Place of residence',1,1),(2,1,'Work','Work location',1,1),(3,1,'Main','Main office location',0,1),(4,1,'Other','Another location',0,1);
+INSERT INTO `crm_location_type` VALUES (1,1,'Home','Place of residence',1,1,0),(2,1,'Work','Work location',1,1,1),(3,1,'Main','Main office location',0,1,0),(4,1,'Other','Another location',0,1,0);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `crm_location_type` ENABLE KEYS */;
 

@@ -73,18 +73,26 @@ class CRM_Import_Field {
      public $_dataPattern;
 
     /**
+     * does this field have a location type
+     * @var boolean
+     */
+    public $_hasLocationType;
+
+    /**
      * value of this field
      * @var object
      */
     public $_value;
 
-    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//') {
+
+    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//', $hasLocationType = false) {
         $this->_name      = $name;
         $this->_title     = $title;
         $this->_type      = $type;
         $this->_headerPattern = $headerPattern;
         $this->_dataPattern = $dataPattern;
-        
+        $this->_hasLocationType = $hasLocationType;
+
         $this->_value     = null;
     }
 

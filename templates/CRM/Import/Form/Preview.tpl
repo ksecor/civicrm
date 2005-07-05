@@ -35,14 +35,18 @@
     <tr{if $invalidRowCount} class="error"{/if}><td class="label">{ts}Rows with Errors{/ts}</td>
         <td class="data">{$invalidRowCount}</td>
         <td class="explanation">{ts}Rows with invalid data in one or more fields (for example, invalid email address formatting). These rows will be skipped (not imported).{/ts}
-            <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+            {if $invalidRowCount}
+                <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+            {/if}
         </td>
     </tr>
     
     <tr{if $conflictRowCount} class="error"{/if}><td class="label">{ts}Conflicting Rows{/ts}</td>
         <td class="data">{$conflictRowCount}</td>
         <td class="explanation">{ts}Rows with conflicting email addresses within this file. These rows will be skipped (not imported).{/ts}
-            <p><a href="{$downloadConflictRecordsUrl}">{ts}Download Conflicts{/ts}</a></p>
+            {if $conflictRowCount}
+                <p><a href="{$downloadConflictRecordsUrl}">{ts}Download Conflicts{/ts}</a></p>
+            {/if}
         </td>
     </tr>
 

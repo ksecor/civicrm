@@ -449,6 +449,14 @@ abstract class CRM_Import_Parser {
         return $values;
     }
 
+    function getSelectTypes() {
+        $values = array();
+        foreach ($this->_fields as $name => $field ) {
+            $values[$name] = $field->_hasLocationType;
+        }
+        return $values;
+    }
+
     function getHeaderPatterns() {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
@@ -465,8 +473,8 @@ abstract class CRM_Import_Parser {
         return $values;
     }
 
-    function addField( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//') {
-        $this->_fields[$name] =& new CRM_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
+    function addField( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//', $hasLocationType = false) {
+        $this->_fields[$name] =& new CRM_Import_Field($name, $title, $type, $headerPattern, $dataPattern, $hasLocationType);
     }
 
     /**
@@ -495,6 +503,8 @@ abstract class CRM_Import_Parser {
             $store->set( 'lineCount'  , $this->_lineCount         );
             $store->set( 'seperator'  , $this->_seperator         );
             $store->set( 'fields'     , $this->getSelectValues( ) );
+            $store->set( 'fieldTypes' , $this->getSelectTypes( )  );
+
             $store->set( 'headerPatterns', $this->getHeaderPatterns( ) );
             $store->set( 'dataPatterns', $this->getDataPatterns( ) );
             $store->set( 'columnCount', $this->_activeFieldCount  );

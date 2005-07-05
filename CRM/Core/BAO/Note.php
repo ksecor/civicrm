@@ -70,7 +70,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      * @access public
      * @static
      */
-    static function add( &$params ) 
+    static function &add( &$params ) 
     {
         $dataExists = self::dataExists( $params );
         if ( ! $dataExists ) {
