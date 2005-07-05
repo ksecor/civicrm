@@ -31,52 +31,24 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/Controller.php';
 
-/**
- * Meta information about the mailing
- *
- */
-class CRM_Mailing_Form_Name extends CRM_Core_Form {
+class CRM_Mailing_Controller_Send extends CRM_Core_Controller {
 
     /**
-     * Function to actually build the form
-     *
-     * @return None
-     * @access public
+     * class constructor
      */
-    public function buildQuickForm( ) {
-        $this->add( 'text', 'name', 'Name Your Mailing',
-                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
-                    true );
+    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
+        parent::__construct( $title, $modal );
 
-        $template =& CRM_Mailing_PseudoConstant::template( );
-        if ( ! empty( $template ) ) {
-            $template = array( '' => '-select-' ) + $template;
-            $this->add('select'  , 'template'    , ts('Mailing Template'), $template );
-        }
+        $this->_stateMachine =& new CRM_Mailing_StateMachine_Send( $this, $action );
 
-        $this->add('checkbox', 'is_template' , ts('Mailing Template?'));
+        // create and instantiate the pages
+        $this->addPages( $this->_stateMachine, $action );
 
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Next >>'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
-
-    }
-
-    /**
-     * Display Name of the form
-     *
-     * @access public
-     * @return string
-     */
-    public function getTitle( ) {
-        return ts( 'Name Mailing' );
+        // add all the actions
+        $config =& CRM_Core_Config::singleton( );
+        $this->addActions( $config->uploadDir, array( 'textFile', 'htmlFile' ) );
     }
 
 }

@@ -138,10 +138,10 @@ class CRM_Core_PseudoConstant {
      * @param string  $filter   the field that we want to filter the result set with
      *
      * @return void
-     * @access private
+     * @access protected
      * @static
      */
-    private static function populate( &$var, $name, $all = false, $retrieve = 'name', $filter = 'is_active' ) {
+    protected static function populate( &$var, $name, $all = false, $retrieve = 'name', $filter = 'is_active' ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object =& new ' . $name . '( );' );
         $object->domain_id = CRM_Core_Config::domainID( );

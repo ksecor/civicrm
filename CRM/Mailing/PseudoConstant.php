@@ -42,21 +42,58 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
      * @var array
      * @static
      */
-    private static $mailingTemplate;
+    private static $template;
 
     /**
      * completed mailings
      * @var array
      * @static
      */
-    private static $completedMailing;
+    private static $completed;
 
     /**
      * mailing components
      * @var array
      * @static
      */
-    private static $components;
+    private static $component;
+
+    /**
+     * Get all the mailing components of a particular type
+     *
+     * @param $type the type of component needed
+     * @access public
+     * @return array - array reference of all mailing components
+     * @static
+     */
+    public static function &component( $type = null ) {
+        $name = $type ? $type : 'ALL';
+
+        if ( ! self::$component || ! array_key_exists( $name, self::$component ) ) {
+            if ( ! self::$component ) {
+                self::$component = array( );
+            }
+            if ( ! $type ) {
+                self::$component[$name] = null;
+                CRM_Core_PseudoConstant::populate( self::$component[$name], 'CRM_Mailing_DAO_Component' );
+            } else {
+                // we need to add an additional filter for $type
+                self::$component[$name] = array( );
+                $object = new CRM_Mailing_DAO_Component( );
+                $object->domain_id = CRM_Core_Config::domainID( );
+                $object->component_type = $type;
+                $object->selectAdd( );
+                $object->selectAdd( "id, name" );
+                $object->orderBy( 'is_default, name' );
+                $object->is_active = 1;
+                $object->find( );
+                while ( $object->fetch( ) ) {
+                    self::$component[$name][$object->id] = $object->name;
+                }
+            }
+        }
+        return self::$component[$name];
+    }
 
     /**
      * Get all the mailing templates
@@ -65,11 +102,11 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
      * @return array - array reference of all mailing templates if any
      * @static
      */
-    public static function &mailingTemplate( ) {
-        if ( ! self::$mailingTemplate ) {
-            self::populate( self::$mailingTemplate, 'CRM_Mailing_DAO_Mailing', true, 'name', 'is_template' );
+    public static function &template( ) {
+        if ( ! self::$template ) {
+            CRM_Core_PseudoConstant::populate( self::$template, 'CRM_Mailing_DAO_Mailing', true, 'name', 'is_template' );
         }
-        return self::$mailingTemplate;
+        return self::$template;
     }
 
     /**
@@ -79,11 +116,11 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
      * @return array - array reference of all mailing templates if any
      * @static
      */
-    public static function &completedMailing( ) {
-        if ( ! self::$completedMailing ) {
-            self::populate( self::$completedMailing, 'CRM_Mailing_DAO_Mailing', true, 'name', 'is_completed' );
+    public static function &completed( ) {
+        if ( ! self::$completed ) {
+            self::populate( self::$completed, 'CRM_Mailing_DAO_Mailing', true, 'name', 'is_completed' );
         }
-        return self::$completedMailing;
+        return self::$completed;
     }
 
 

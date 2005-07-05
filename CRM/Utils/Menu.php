@@ -393,6 +393,12 @@ class CRM_Utils_Menu {
                             'type'   => self::CALLBACK,
                             'crmType'=> self::CALLBACK,
                             ),
+                      array(
+                            'path'   => 'civicrm/mailing/send',
+                            'title'  => ts('Mailing Message'),
+                            'type'   => self::CALLBACK,
+                            'crmType'=> self::CALLBACK,
+                            ),
                       );
             
             self::initialize( );

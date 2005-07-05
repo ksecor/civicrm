@@ -31,43 +31,10 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-
 /**
- * Meta information about the mailing
  *
  */
-class CRM_Mailing_Form_Name extends CRM_Core_Form {
-
-    /**
-     * Function to actually build the form
-     *
-     * @return None
-     * @access public
-     */
-    public function buildQuickForm( ) {
-        $this->add( 'text', 'name', 'Name Your Mailing',
-                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
-                    true );
-
-        $template =& CRM_Mailing_PseudoConstant::template( );
-        if ( ! empty( $template ) ) {
-            $template = array( '' => '-select-' ) + $template;
-            $this->add('select'  , 'template'    , ts('Mailing Template'), $template );
-        }
-
-        $this->add('checkbox', 'is_template' , ts('Mailing Template?'));
-
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Next >>'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
-
-    }
+class CRM_Mailing_Form_Schedule extends CRM_Core_Form {
 
     /**
      * Display Name of the form
@@ -76,7 +43,7 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
      * @return string
      */
     public function getTitle( ) {
-        return ts( 'Name Mailing' );
+        return ts( 'Schedule / Send Mailing' );
     }
 
 }

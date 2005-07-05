@@ -347,8 +347,16 @@ class CRM_Core_Invoke {
             return;
         }
 
-        $view =& new CRM_Mailing_Page_Component( );
-        return $view->run( );
+        if ( $args[2] == 'component' ) {
+            $view =& new CRM_Mailing_Page_Component( );
+            return $view->run( );
+        }
+
+        if ( $args[2] == 'send' ) {
+            $controller =& new CRM_Mailing_Controller_Send( ts( 'Send Mailing' ) );
+            return $controller->run( );
+        }
+
     }
 
     static function export( $args ) {

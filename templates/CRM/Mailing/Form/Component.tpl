@@ -1,4 +1,4 @@
-{* this template is used for adding/editing location type  *}
+{* this template is used for adding/editing a mailing component  *}
 <div class="form-item">
 <fieldset><legend>{if $action eq 1}{ts}New Mailing Component{/ts}{else}{ts}Edit Mailing Component{/ts}{/if}</legend>
   <dl>

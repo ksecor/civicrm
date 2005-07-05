@@ -31,52 +31,34 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/StateMachine.php';
 
 /**
- * Meta information about the mailing
+ * State machine for managing different states of the Import process.
  *
  */
-class CRM_Mailing_Form_Name extends CRM_Core_Form {
+class CRM_Mailing_StateMachine_Send extends CRM_Core_StateMachine {
 
     /**
-     * Function to actually build the form
+     * class constructor
      *
-     * @return None
-     * @access public
-     */
-    public function buildQuickForm( ) {
-        $this->add( 'text', 'name', 'Name Your Mailing',
-                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
-                    true );
-
-        $template =& CRM_Mailing_PseudoConstant::template( );
-        if ( ! empty( $template ) ) {
-            $template = array( '' => '-select-' ) + $template;
-            $this->add('select'  , 'template'    , ts('Mailing Template'), $template );
-        }
-
-        $this->add('checkbox', 'is_template' , ts('Mailing Template?'));
-
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Next >>'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                           );
-
-    }
-
-    /**
-     * Display Name of the form
+     * @param object  CRM_Mailing_Controller
+     * @param int     $action
      *
-     * @access public
-     * @return string
+     * @return object CRM_Mailing_StateMachine
      */
-    public function getTitle( ) {
-        return ts( 'Name Mailing' );
+    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
+        parent::__construct( $controller, $action );
+        
+        $this->_pages = array(
+                              'CRM_Mailing_Form_Name',
+                              'CRM_Mailing_Form_Group',
+                              'CRM_Mailing_Form_Upload',
+                              'CRM_Mailing_Form_Test',
+                              'CRM_Mailing_Form_Schedule',
+                              );
+        
+        $this->addSequentialPages( $this->_pages, $action );
     }
 
 }

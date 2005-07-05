@@ -31,18 +31,10 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-
 /**
- * Choose include / exclude groups and mailings
  *
  */
-class CRM_Mailing_Form_Group extends CRM_Core_Form {
-
-    /**
-     * The number of groups / mailings we will process
-     */
-    const NUMBER_OF_ELEMENTS = 5;
+class CRM_Mailing_Form_Upload extends CRM_Core_Form {
 
     /**
      * Function to actually build the form
@@ -51,34 +43,18 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
      * @access public
      */
     public function buildQuickForm( ) {
-        $group       = array( '' => '-select-' ) + CRM_Core_PseudoConstant::group( );
-        $groupCount  = min( self::NUMBER_OF_ELEMENTS, count( $group ) - 1 );
-        $groupType   = array( 'include' => 'Include All Members from this Group',
-                              'exclude' => 'Exclude All Members from this Group' );
+        $this->addElement( 'file', 'textFile', ts('Upload Text Message'), 'size=30 maxlength=60' );
+        $this->setMaxFileSize( 1024 * 1024 );
+        $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
+        $this->addRule( 'textFile', ts('File must be in ascii format'), 'asciiFile' );
 
-        $mailing      = array( '' => '-select-' ) + CRM_Mailing_PseudoConstant::completed( );
-        $mailingCount = min( self::NUMBER_OF_ELEMENTS, count( $mailing ) - 1 );
-        $mailingType  = array( 'include' => 'Include All Members from this Mailing',
-                               'exclude' => 'Exclude All Members from this Mailing' );
-
-
-        for ( $i = 1; $i <= $groupCount; $i++ ) {
-            $this->add( 'select', "group[$i]"      , null, $group       );
-            $this->add( 'select', "groupType[$i]"  , null, $groupType   );
-        }
-        $this->assign( 'groupCount', $groupCount );
-        
-        for ( $i = 1; $i <= $mailingCount; $i++ ) {
-            $this->add( 'select', "mailing[$i]"    , null, $mailing     );
-            $this->add( 'select', "mailingType[$i]", null, $mailingType );
-        }
-        $this->assign( 'mailingCount', $mailingCount );
-
-        $this->add( 'select', 'mailingHeader', ts( 'Mailing Header' ), CRM_Mailing_PseudoConstant::component( 'Header' ) );
-        $this->add( 'select', 'mailingFooter', ts( 'Mailing Footer' ), CRM_Mailing_PseudoConstant::component( 'Footer' ) );
+        $this->addElement( 'file', 'htmlFile', ts('Upload HTML Message'), 'size=30 maxlength=60' );
+        $this->setMaxFileSize( 1024 * 1024 );
+        $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
+        $this->addRule( 'htmlFile', ts('File must be in ascii format'), 'asciiFile' );
 
         $this->addButtons( array(
-                                 array ( 'type'      => 'next',
+                                 array ( 'type'      => 'upload',
                                          'name'      => ts('Next >>'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'back',
@@ -96,9 +72,8 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form {
      * @return string
      */
     public function getTitle( ) {
-        return ts( 'Select Mailing Recipients' );
+        return ts( 'Upload Message' );
     }
-
 }
 
 ?>
