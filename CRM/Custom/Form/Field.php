@@ -387,6 +387,18 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             }
         }
         
+        //Check for duplicate Field Label
+        $fieldLabel = $fields['label'];
+        $dao =& new CRM_Core_DAO();
+        $query = "SELECT * FROM crm_custom_field WHERE label = '$fieldLabel'";
+        $dao->query($query);
+        
+        $result = $dao->getDatabaseResult();
+        $row    = $result->fetchRow();
+        if ($row > 0)
+            $errors['label'] = "There is a Custom Field with same name.";
+            
+        
         return empty($errors) ? true : $errors;
     }
 
