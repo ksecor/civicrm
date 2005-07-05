@@ -161,6 +161,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetailForSearch();
 
         $this->assign('groupTree', $groupDetails);
+        $customData = array();
 
         foreach ($groupDetails as $group) {
             $_groupTitle[]           = $group['title'];
@@ -170,21 +171,18 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             foreach ($group['fields'] as $field) {
 
                 $fieldId = $field['id'];                
-                $elementName = $groupId . '_' . $fieldId . '_' . $field['name']; 
-
-                // if custom data exists use it, else use the default value if it exists
-                $elementData = isset($field['customValue']['data']) ? $field['customValue']['data'] : $field['default_value'];
+                $elementName = 'customData_' . $groupId . '_' . $fieldId . '_' . $field['name']; 
 
                 switch($field['html_type']) {
 
                 case 'Text':
                 case 'TextArea':
-                    $element = $this->add(strtolower($field['html_type']), $elementName, $field['label'],
+                    $customData[] = $this->add(strtolower($field['html_type']), $elementName, $field['label'],
                                           $field['attributes']);
                     break;
 
                 case 'Select Date':
-                    $this->add('date', $elementName, $field['label'], CRM_Core_SelectValues::date( 'custom' ));
+                    $customData[] = $this->add('date', $elementName, $field['label'], CRM_Core_SelectValues::date( 'custom' ));
                     break;
 
                 case 'Radio':
@@ -192,22 +190,24 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                     if($field['data_type'] != 'Boolean') {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         foreach ($customOption as $v) {
-                            $choice[] = $this->createElement('radio', null, '', $v['label'], $v['value'], $field['attributes']);
+                            $choice[] = $this->add('radio', null, '', $v['label'], $v['value'], $field['attributes']);
                         }
-                        $this->addGroup($choice, $elementName, $field['label']);
+                        $customData[] = $this->addGroup($choice, $elementName, $field['label']);
                     } else {
-                        $choice[] = $this->createElement('radio', null, '', ts('Yes'), 'yes', $field['attributes']);
-                        $choice[] = $this->createElement('radio', null, '', ts('No') , 'no' , $field['attributes']);
-                        $this->addGroup($choice, $elementName, $field['label']);
+                        $choice[] = $this->add('radio', null, '', ts('Yes'), 'yes', $field['attributes']);
+                        $choice[] = $this->add('radio', null, '', ts('No') , 'no' , $field['attributes']);
+                        $customData[] = $this->addGroup($choice, $elementName, $field['label']);
                     }
 
                 case 'Select':
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                     $selectOption = array();
+                    
                     foreach ($customOption as $v) {
                         $selectOption[$v['value']] = $v['label'];
                     }
-                    $this->add('select', $elementName, $field['label'], $selectOption);
+                    $selectOption = array('' => ts('- select -')) + $selectOption;
+                    $customData[] = $this->add('select', $elementName, $field['label'], $selectOption);
                     break;
 
                 case 'CheckBox':
@@ -215,26 +215,25 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                     $check = array();
                     foreach ($customOption as $v) {
                         $checked = array();
-                        $check[] = $this->createElement('checkbox', $v['value'], null, $v['label']);
+                        $check[] = $this->add('checkbox', $v['value'], null, $v['label']);
                     }
-                    $this->addGroup($check, $elementName, $field['label']);
-                    if ($field['is_required']) {
-                        $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
-                    }
+                    $customData[] = $this->addGroup($check, $elementName, $field['label']);
                     break;
 
                 case 'Select State/Province':
                     $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
-                    $this->add('select', $elementName, $field['label'], $stateOption);
+                    $customData[] = $this->add('select', $elementName, $field['label'], $stateOption);
                     break;
 
                 case 'Select Country':
                     $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
-                    $this->add('select', $elementName, $field['label'], $countryOption);
+                    $customData[] = $this->add('select', $elementName, $field['label'], $countryOption);
                     break;
                 }
             }            
         }
+
+        //$this->addGroup($customData, 'CustomData', ts('Custom Data'));
         $this->setShowHide($_groupTitle);
     }
     
