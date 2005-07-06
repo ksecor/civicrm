@@ -1036,6 +1036,8 @@ function _setup_run(&$edit)
 function _setup_link() {
 
     $db_path         = $_SESSION['db_path'];
+    $db_user         = $_SESSION['db_user'];
+    $db_pass         = $_SESSION['db_pass'];
     $cms_path        = $_SESSION['cms_path'];
     $cms_module_path = $_SESSION['cms_path'].'/modules/';
     $cms_sql_path    = $_SESSION['cms_path'].'/sql/';
@@ -1049,8 +1051,8 @@ function _setup_link() {
     exec('ln -s '.$crm_path.' '.$cms_module_path.'civicrm');
     chdir($crm_path."/sql");
     
-    system($db_path.'/bin/mysql -u civicrm -pMt!Everest civicrm < Contacts.sql');
-    system($db_path.'/bin/mysql -u civicrm -pMt!Everest civicrm < FixedData.sql');
+    system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' civicrm < Contacts.sql');
+    system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' civicrm < FixedData.sql');
     
     chdir($crm_path);
 }
@@ -1074,7 +1076,7 @@ function _install_dump_and_serve(&$edit) {
     }
     
     _setup_config($edit);
-    _setup_run($edit);
+    //_setup_run($edit);
     _setup_link();
 
     print install_step_page('Finishing up');
