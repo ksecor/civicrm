@@ -54,17 +54,21 @@ class CRM_Core_I18n
      */
     function __construct()
     {
+        // we use PHP-gettext only if the locale's set and it's not en_US
         $config =& CRM_Core_Config::singleton();
-        $streamer = new FileReader( $config->gettextResourceDir . '/' . $config->lcMessages . '/LC_MESSAGES/civicrm.mo' );
-        $this->_phpgettext = new gettext_reader($streamer);
-    
-        if (function_exists('gettext')) {
-            $config =& CRM_Core_Config::singleton();
-            setlocale(LC_MESSAGES, $config->lcMessages);
-            bindtextdomain($config->gettextDomain, $config->gettextResourceDir);
-            bind_textdomain_codeset($config->gettextDomain, $config->gettextCodeset);
-            textdomain($config->gettextDomain);
+        if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
+            $streamer = new FileReader( $config->gettextResourceDir . '/' . $config->lcMessages . '/LC_MESSAGES/civicrm.mo' );
+            $this->_phpgettext = new gettext_reader($streamer);
         }
+    
+// commented out, as we're not using PHP's gettext support, but PHP-gettext instead
+//      if (function_exists('gettext')) {
+//          $config =& CRM_Core_Config::singleton();
+//          setlocale(LC_MESSAGES, $config->lcMessages);
+//          bindtextdomain($config->gettextDomain, $config->gettextResourceDir);
+//          bind_textdomain_codeset($config->gettextDomain, $config->gettextCodeset);
+//          textdomain($config->gettextDomain);
+//      }
     }
 
     /**
@@ -126,14 +130,23 @@ class CRM_Core_I18n
             }
         }
 
+        // bind to config for LC_MESSAGES setting
+        $config =& CRM_Core_Config::singleton();
+
         // use plural if required parameters are set
         if (isset($count) && isset($plural)) {
 
-            // if there's gettext support, use it
-            if (function_exists('ngettext')) {
+// commented out, as we're not using PHP's gettext support, but PHP-gettext instead
+//          // if there's gettext support, use it
+//          if (function_exists('ngettext')) {
+//              $text = ngettext($text, $plural, $count);
+
+            // if the locale's set and it's not en_US
+            if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
                 $text = $this->_phpgettext->ngettext($text, $plural, $count);
 
-            // if there's no gettext support, we have to do ngettext work by hand
+//          // if there's no gettext support, we have to do ngettext work by hand
+            // if the locale's empty or en_US, we do ngettext work by hand
             // if $count == 1 then $text = $text, else $text = $plural
             } else {
                 if ($count != 1) {
@@ -147,7 +160,12 @@ class CRM_Core_I18n
         // use normal gettext() if present, otherwise $text = $text
         } else {
 
-            if (function_exists('gettext')) {
+// commented out, as we're not using PHP's gettext support, but PHP-gettext instead
+//          if (function_exists('gettext')) {
+//              $text = gettext($text);
+//          }
+
+            if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
                 $text = $this->_phpgettext->translate($text);
             }
         
