@@ -666,20 +666,21 @@ function install_warning_messages() {
 
 
 function install_database_form($edit = array()) {
+    $edit['db_path'] = isset($edit['db_path']) ? $edit['db_path'] : '';
     $edit['db_user'] = isset($edit['db_user']) ? $edit['db_user'] : '';
     $edit['db_pass'] = isset($edit['db_pass']) ? $edit['db_pass'] : '';
     $edit['db_host'] = isset($edit['db_host']) ? $edit['db_host'] : '';
     //$edit['db_db'] = isset($edit['db_db']) ? $edit['db_db'] : '';
     //$edit['db_prefix'] = isset($edit['db_prefix']) ? $edit['db_prefix'] : '';
-  
-    $form = form_textfield('User name', 'db_user', $edit['db_user'], 20, 64, '<span class="tip"><strong>Tip</strong>: Allowed characters include letters, digits, \'_\', and \'-\' with a maximum of 16 characters.</span>', NULL, TRUE);
+    $form = form_textfield('Mysql path', 'db_path', $edit['db_path'], 40, 255, '<span class="tip"><strong>Tip</strong>: Enter your Database path. eg: /opt/mysql4/</span>', NULL, TRUE);
+    $form .= form_textfield('User name', 'db_user', $edit['db_user'], 20, 64, '<span class="tip"><strong>Tip</strong>: Allowed characters include letters, digits, \'_\', and \'-\' with a maximum of 16 characters.</span>', NULL, TRUE);
     $form .= form_password('Password', 'db_pass', $edit['db_pass'] , 20, 64, '<span class="tip"><strong>Tip</strong>:  Allowed characters include <strong>letters</strong>, <strong>digits</strong>, and any of the following: -_!#$%^&*()+={}[]|&lt;&gt;;:?,.~</span>', NULL, TRUE);
     $form .= form_textfield('Host', 'db_host', $edit['db_host'] ? $edit['db_host'] : 'localhost', 20, 64, '<span class="tip"><strong>Tip</strong>: If your database is on the same machine as your Civicrm installation, just enter "localhost". Leaving this item blank will default the value to "localhost".</span>', NULL, TRUE);
-    //$form .= form_textfield('Database name', 'db_db', $edit['db_db'], 20, 64, NULL, NULL, TRUE);
+    $form .= form_textfield('Database name', 'db_db', $edit['db_db'], 20, 64, NULL, NULL, TRUE);
     //$form .= form_textfield('Table prefix', 'db_prefix', $edit['db_prefix'], 20, 64, '<span class="tip"><strong>Tip</strong>:  If you are using a shared database account or only have one database account, you may wish to prefix your database tables to avoid a "naming collision." For example: "my_new_site_".</span>');
     //$form .= form_checkbox('Install US zipcode database?', 'use_us_zipcodes', 1, isset($edit['use_us_zipcodes']) ? $edit['use_us_zipcodes'] : 1, '<span class="tip"><strong>Tip</strong>: <a href="javascript:alert(\'zipcode help!\');">Certain features</a> require the list of US zipcodes. Check this box to install.</span>');
     //$form .= form_checkbox('Install Civicrm Site Configuration Guide?', 'install_docs', 1, isset($edit['install_docs']) ? $edit['install_docs'] : 0, 'Check this box to install documentation for configuring your site.');
-    $form .= form_hidden('db_db', 'civicrm');
+    //$form .= form_hidden('db_db', 'civicrm');
     $form .= form_hidden('db_type', 'mysql');
     if (isset($_POST['op']) && ($_POST['op'] == 'Retry table creation' || $_POST['op'] == 'Create tables')) {
         $form .= form_submit('Retry table creation');
@@ -692,7 +693,6 @@ function install_database_form($edit = array()) {
 }
 
 function install_test_dbinfo(&$edit, &$error_status) {
-  $edit['db_host'] = isset($edit['db_host']) ? trim($edit['db_host']) : 'localhost';
   $edit['db_host'] = strlen($edit['db_host']) ? $edit['db_host'] : 'localhost';
   $edit['db_user'] = isset($edit['db_user']) ? trim($edit['db_user']) : '';
   $edit['db_pass'] = isset($edit['db_pass']) ? trim($edit['db_pass']) : '';
@@ -731,6 +731,11 @@ function install_test_dbinfo(&$edit, &$error_status) {
     return FALSE;
   }
   
+  if (! is_readable($edit['db_path'])) {
+      $error_status = 'db_path_check';
+      return  FALSE;
+  }
+
   return TRUE;
 }
 
@@ -1025,15 +1030,15 @@ function _setup_run(&$edit)
 
     system('chmod +x '.$crm_bin_path.'setup.sh');
     
-
-   
     chdir('install');
 }
 
 function _setup_link() {
-    
-    $cms_path = $_SESSION['cms_path'];
+
+    $db_path         = $_SESSION['db_path'];
+    $cms_path        = $_SESSION['cms_path'];
     $cms_module_path = $_SESSION['cms_path'].'/modules/';
+    $cms_sql_path    = $_SESSION['cms_path'].'/sql/';
 
     $crm_path = getcwd();
     chdir($crm_path); 
@@ -1043,11 +1048,11 @@ function _setup_link() {
     chdir($cms_module_path);
     exec('ln -s '.$crm_path.' '.$cms_module_path.'civicrm');
     chdir($crm_path."/sql");
-    echo getcwd();
-    shell_exec('mysql -u civicrm -pMt!Everest civicrm < Contacts.sql');
-    shell_exec('mysql -u civicrm -pMt!Everest civicrm < GeneratedData.sql');
-    chdir($crm_path);
     
+    system($db_path.'/bin/mysql -u civicrm -pMt!Everest civicrm < Contacts.sql');
+    system($db_path.'/bin/mysql -u civicrm -pMt!Everest civicrm < FixedData.sql');
+    
+    chdir($crm_path);
 }
 
 function _install_dump_and_serve(&$edit) {
@@ -1060,6 +1065,7 @@ function _install_dump_and_serve(&$edit) {
         $_SESSION['db_pass'] = $edit['db_pass'];
         $_SESSION['db_host'] = $edit['db_host'];
         $_SESSION['db_db']   = $edit['db_db'];
+        $_SESSION['db_path'] = $edit['db_path'];
     } else {
         $edit['db_user'] = $_SESSION['db_user'];
         $edit['db_pass'] = $_SESSION['db_pass'];
@@ -1530,46 +1536,52 @@ function install_step_messages($title, $edit = array()) {
           $messages .= "\n".'          <div class="messages">'."\n";
           
           if ($failed_status == 'invalid_user' || $failed_status == 'invalid_pass') {
-            if ($failed_status == 'invalid_user') {
-              $messages .= _install_msg_failed('The user name you submitted for connecting to the database is not compatible with Civicrm.  Please select one that is 1-16 characters along and consists only of letters, digits, \'_\', and \'-\'.  If your database account has been set up with this user name, we recommend that you change it to the format described above if you wish to install Civicrm with this installer.', NULL, 'http://www.civicrmlabs.org/installer_help/081/invalid_dbuser');
-            }
-            if ($failed_status == 'invalid_pass') {
-              $messages .= _install_msg_failed('The password you submitted for connecting to the database is not compatible with Civicrm.  Please select one that consists only of letters, digits, \'_\', and \'-\'.', NULL, 'http://www.civicrmlabs.org/installer_help/081/invalid_dbpass');
-            }
-            $messages .= "\n          </div>\n";
+              if ($failed_status == 'invalid_user') {
+                  $messages .= _install_msg_failed('The user name you submitted for connecting to the database is not compatible with Civicrm.  Please select one that is 1-16 characters along and consists only of letters, digits, \'_\', and \'-\'.  If your database account has been set up with this user name, we recommend that you change it to the format described above if you wish to install Civicrm with this installer.', NULL, 'http://www.civicrmlabs.org/installer_help/081/invalid_dbuser');
+              }
+              if ($failed_status == 'invalid_pass') {
+                  $messages .= _install_msg_failed('The password you submitted for connecting to the database is not compatible with Civicrm.  Please select one that consists only of letters, digits, \'_\', and \'-\'.', NULL, 'http://www.civicrmlabs.org/installer_help/081/invalid_dbpass');
+              }
+              $messages .= "\n          </div>\n";
           }
           else {
-            if ($failed_status == 'connection') {
-              $messages .= _install_msg_failed('The installer was not able to create a connection to the database with the information you submitted.  Please make sure your database hostname, username, and password are correct.', NULL, 'http://www.civicrmlabs.org/installer_help/081/db_connection');
-              $messages .= "\n          </div>\n";
-            }
-            else {
-              $messages .= _install_msg_successful('The installer was able to connect to the database with the database hostname, username, and password that you submitted.');
-      
-              if ($failed_status == 'database_name') {
-                $messages .= _install_msg_failed('There is no database by the name <em>'. $edit['db_db'] .'</em>.  '. 'Please make sure you have the correct database name.', NULL, 'http://www.civicrmlabs.org/installer_help/081/invalid_db');
-                $messages .= "\n          </div>\n";
+              if ($failed_status == 'connection') {
+                  $messages .= _install_msg_failed('The installer was not able to create a connection to the database with the information you submitted.  Please make sure your database hostname, username, and password are correct.', NULL, 'http://www.civicrmlabs.org/installer_help/081/db_connection');
+                  $messages .= "\n          </div>\n";
               }
               else {
-                $messages .= _install_msg_successful('The installer was able to access the database specified by the database name you gave.');
-
-                if ($failed_status == 'collision') {
-                  $collision_msg = 'The installer encountered a naming collision. ';
-
-                  if (trim($edit['db_prefix']) != '') {
-                    $collision_msg .= ' You should select a prefix different from <em>'. $edit['db_prefix'] .'</em> since table names with this prefix already exist. ';
+                  $messages .= _install_msg_successful('The installer was able to connect to the database with the database hostname, username, and password that you submitted.');
+                  
+                  if ($failed_status == 'database_name') {
+                      $messages .= _install_msg_failed('There is no database by the name <em>'. $edit['db_db'] .'</em>.  '. 'Please make sure you have the correct database name.', NULL, 'http://www.civicrmlabs.org/installer_help/081/invalid_db');
+                      $messages .= "\n          </div>\n";
                   }
                   else {
-                    $collision_msg .= ' You should enter a prefix since one or more non-prefixed table names refer to existing tables. ';
+                      $messages .= _install_msg_successful('The installer was able to access the database specified by the database name you gave.');
+                      
+                      if ($failed_status == 'collision') {
+                          $collision_msg = 'The installer encountered a naming collision. ';
+                          
+                          if (trim($edit['db_prefix']) != '') {
+                              $collision_msg .= ' You should select a prefix different from <em>'. $edit['db_prefix'] .'</em> since table names with this prefix already exist. ';
+                          }
+                          else {
+                              $collision_msg .= ' You should enter a prefix since one or more non-prefixed table names refer to existing tables. ';
+                          }
+                          $messages .= _install_msg_failed($collision_msg, NULL, 'http://www.civicrmlabs.org/installer_help/081/prefix_collision');
+                      }
+                      else { // By process of elimination, error is failure to run "show tables" in _install_tablenames_collide.
+                          $messages .= _install_msg_failed('The installer could not query the database to see if conflicting table names already exist.  This problem may be occurring due to a lack of privileges for your database account.', NULL, 'http://www.civicrmlabs.org/installer_help/081/prefix_collision');
+                      }
+
+                      if ($failed_status == 'db_path_check') {
+                          //kurund
+                          $messages .= _install_msg_failed('The <code>'.$edit['db_path'].'/</code> directory is not readable.', NULL, '');
+                      }
+                      
+                      $messages .= "\n          </div>\n";
                   }
-                  $messages .= _install_msg_failed($collision_msg, NULL, 'http://www.civicrmlabs.org/installer_help/081/prefix_collision');
-                }
-                else { // By process of elimination, error is failure to run "show tables" in _install_tablenames_collide.
-                  $messages .= _install_msg_failed('The installer could not query the database to see if conflicting table names already exist.  This problem may be occurring due to a lack of privileges for your database account.', NULL, 'http://www.civicrmlabs.org/installer_help/081/prefix_collision');
-                }
-                $messages .= "\n          </div>\n";
               }
-            }
           }
         }
       }
