@@ -463,6 +463,15 @@
       <filename>civicrm/templates/CRM/UF/Page/Field.tpl</filename>
       <filename>civicrm/templates/CRM/UF/Page/Group.tpl</filename>
       <filename>civicrm/templates/CRM/WizardHeader.tpl</filename>
+      <filename>civicrm/mambo/admin.civicrm.php</filename>
+      <filename>civicrm/mambo/civicrm.php</filename>
+      <filename>civicrm/mambo/civicrm.xml</filename>
+      <filename>civicrm/mambo/config.inc.php</filename>
+      <filename>civicrm/mambo/config.main.php</filename>
+      <filename>civicrm/mambo/config.user.php</filename>
+      <filename>civicrm/mambo/install.civicrm.php</filename>
+      <filename>civicrm/mambo/toolbar.civicrm.php</filename>
+      <filename>civicrm/mambo/uninstall.civicrm.php</filename>
     </files>
   </administration>
 </mosinstall>

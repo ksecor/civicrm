@@ -18,7 +18,7 @@ if( isset( $GLOBALS['_ENV']['DM_GENFILESDIR'] ) ) {
 require_once "$sourceCheckoutDir/modules/config.inc.php";
 require_once 'Smarty/Smarty.class.php';
 
-$path = array( 'CRM', 'api', 'bin', 'css', 'gmaps', 'i', 'js', 'l10n', 'sql', 'templates' );
+$path = array( 'CRM', 'api', 'bin', 'css', 'gmaps', 'i', 'js', 'l10n', 'sql', 'templates', 'mambo' );
 $files = array( 'license.txt' => 1 );
 foreach ( $path as $v ) {
     $rootDir = "$sourceCheckoutDir/$v";
