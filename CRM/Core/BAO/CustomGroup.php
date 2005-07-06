@@ -401,7 +401,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                 if (isset($field['customValue'])) {
                     // customValue exists hence we need a DAO.
                     $customValueDAO =& new CRM_Core_DAO_CustomValue();
-                    $customValueDAO->entity_table = 'contact'; // hard coded for now.
+                    $customValueDAO->entity_table = 'crm_contact'; // hard coded for now.
                     $customValueDAO->custom_field_id = $fieldId;
                     $customValueDAO->entity_id = $entityId;
                     

@@ -128,7 +128,8 @@ SELECT DISTINCT
                          'crm_email'          => 1,
                          'crm_phone'          => 1,
                          'crm_state_province' => 1,
-                         'crm_country'        => 1 );
+                         'crm_country'        => 1,
+                         'crm_custom_value'   => 1 );
         $query .= self::fromClause( $tables );
 
         $query .= " WHERE crm_contact.id = $id";
@@ -292,6 +293,7 @@ ORDER BY
         $tables['crm_email']          = 1;
         $tables['crm_state_province'] = 1;
         $tables['crm_country']        = 1;
+        $tables['crm_custom_value']    = 1;
 
         return "
 SELECT DISTINCT crm_contact.id as contact_id,
@@ -638,7 +640,7 @@ SELECT DISTINCT crm_contact.id as contact_id,
                     continue;
                 }
                 $tables['crm_custom_value'] = 1;
-
+                
                 list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
                 
                 if ( $str == 'customData' && $v != '') {
@@ -680,10 +682,17 @@ SELECT DISTINCT crm_contact.id as contact_id,
                     // process records
                     while($crmDAO->fetch()) {
                         $dataType = $crmDAO->crm_custom_field_data_type;
-                        
+                        $htmlType = $crmDAO->crm_custom_field_html_type;
                         switch ($dataType) {
                         case 'String':
-                            $cdANDArray[] = " ( crm_custom_value.char_data LIKE '%". $v ."%' )";
+                            if ( $htmlType == 'CheckBox' ) {
+                                
+                                $strChkBox = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($v));
+                                
+                                $cdANDArray[] = " ( crm_custom_value.char_data LIKE '". $strChkBox ."' )";                            
+                            } else {
+                                $cdANDArray[] = " ( crm_custom_value.char_data LIKE '%". $v ."%' )";
+                            }
                             break;
                         case 'Int':
                         case 'Boolean':
@@ -697,7 +706,24 @@ SELECT DISTINCT crm_contact.id as contact_id,
                             $cdANDArray[] = " ( crm_custom_value.memo_data LIKE '%". $v . "%' )";
                             break;
                         case 'Date':
-                            $cdANDArray[] = " ( crm_custom_value.date_data = '". $v . "' )";
+                            if ( !empty($v['d']) ) {
+                                $date = CRM_Utils_Date::format( $v );
+                                if ( ! $date ) {
+                                    $date = '';
+                                }
+                                $cdANDArray[] = " ( crm_custom_value.date_data = '". $v . "' )";
+                            }
+                            
+                            if ( !empty($v['M']) ) {
+                                $cdANDArray[] = " ( MONTH(crm_custom_value.date_data) = '". $v['M'] . "' AND YEAR(crm_custom_value.date_data) = '". $v['Y'] . "' )";
+                            } else {
+                                $cdANDArray[] = " ( YEAR(crm_custom_value.date_data) = '". $v['Y'] . "' )";
+                            }
+                            /*$date = CRM_Utils_Date::format( $v );
+                            if ( ! $date ) {
+                                $date = '';
+                            }
+                            $cdANDArray[] = " ( crm_custom_value.date_data = '". $v . "' )";*/
                             break;
                         case 'StateProvince':
                             $cdANDArray[] = " ( crm_custom_value.int_data = '". $v . "' )";
@@ -712,7 +738,7 @@ SELECT DISTINCT crm_contact.id as contact_id,
         }
         
         if( !empty( $cdANDArray )) {
-            $andArray['custom_data'] = ' ( ' . implode( ' AND ', $cdANDArray ) . ' ) ';
+            $andArray['custom_data'] = ' ( ' . implode( ' OR ', $cdANDArray ) . ' ) ';
         }
         
         // final AND ing of the entire query.

@@ -374,7 +374,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     if (!empty($fields['option_label'][$idx])) {
                         $_showHide->addShow($showBlocks);
                     } else {
-                        echo "Entering row $idx <br>";                        
                         $_showHide->addHide($showBlocks);
                     }
                 }
