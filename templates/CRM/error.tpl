@@ -13,7 +13,7 @@
 
 <div id="crm-container">
 
-<div class="message status">
+<div class="messages status">
   <dl>
   <dt><img src="{$config->resourceBase}i/Error.gif" alt="{ts}unrecoverable error{/ts}"></dt>
   <dd>

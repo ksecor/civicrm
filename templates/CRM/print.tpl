@@ -26,7 +26,7 @@
 
 {* Check for Status message for the page (stored in session->getStatus). Status is cleared on retrieval. *}
 {if $session->getStatus(false)}
-<div class="message status">
+<div class="messages status">
   <dl>
   <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
   <dd>{$session->getStatus(true)}</dd>

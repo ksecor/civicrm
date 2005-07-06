@@ -15,7 +15,7 @@
 {foreach from=$groupTree item=cd_edit key=group_id}
     <p>
     <fieldset>{if $preview_type eq 'group'}<legend>{$smarty.capture.legend}</legend>{/if}
-    {if $cd_edit.help_pre}<div class="message help">{$cd_edit.help_pre}</div><br />{/if}
+    {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div><br />{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
         {assign var="name" value=`$element.name`} 

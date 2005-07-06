@@ -9,7 +9,7 @@
     <div id="{$cd_edit.title}">
     <p>
     <fieldset><legend><a href="#" onClick="hide('{$cd_edit.title}'); show('{$cd_edit.title}[show]'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"></a>{ts}{$cd_edit.title}{/ts}</legend>
-    {if $cd_edit.help_pre}<div class="message help">{$cd_edit.help_pre}</div><br />{/if}
+    {if $cd_edit.help_pre}<div class="messages help">{$cd_edit.help_pre}</div><br />{/if}
     <dl>
     {foreach from=$cd_edit.fields item=element key=field_id}
         {assign var="name" value=`$element.name`} 

@@ -39,7 +39,7 @@
                 </div>
             </div>
         {else}
-            <div class="message status">
+            <div class="messages status">
                 <dl>
                     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
                     {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}{/capture}

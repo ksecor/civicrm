@@ -20,7 +20,7 @@
        {/foreach}
        </table>
      {else}
-     <div class="message status">	
+     <div class="messages status">	
      <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"> &nbsp;
       {ts}This contact does not belong to any groups.{/ts}
      </div>	
