@@ -984,7 +984,7 @@ function _setup_config(&$edit)
 
     //get the base directory for CMS system
     $cms_base_folder = 'drupal';
-
+    /*
     // read the bak config file
     $handle = fopen($crm_module_path.'config.inc.php.bak','r');
     $contents = fread($handle, filesize($crm_module_path."config.inc.php.bak"));
@@ -993,11 +993,18 @@ function _setup_config(&$edit)
     // replace the tags defined in configure file
     $file_contents = str_replace('USER_HOME', $crm_base_path, $contents );
     $file_contents = str_replace('CMS_BASE', $cms_base_folder, $file_contents );
-
+    */
     // build the db dsn
     $dsn = 'mysql://'.$edit['db_user'].':'.$edit['db_pass'].'@'.$edit['db_host'].DIRECTORY_SEPARATOR.'civicrm?new_link=true';   
 
-    $file_contents = str_replace('DATABASE_DSN', $dsn, $file_contents );
+    //$file_contents = str_replace('DATABASE_DSN', $dsn, $file_contents );
+
+    //build the config page
+    $params['user_home'] = $crm_base_path;
+    $params['cms_base']  = $cms_base_folder;
+    $params['db_dsn']    = $dsn;
+
+    $file_contents = _setup_config_file($params);
 
     // write the config file
     $handle = fopen($crm_module_path.'config.inc.php','w+');
@@ -1038,6 +1045,7 @@ function _setup_link() {
     $db_path         = $_SESSION['db_path'];
     $db_user         = $_SESSION['db_user'];
     $db_pass         = $_SESSION['db_pass'];
+    $db_db           = $_SESSION['db_db'];
     $cms_path        = $_SESSION['cms_path'];
     $cms_module_path = $_SESSION['cms_path'].'/modules/';
     $cms_sql_path    = $_SESSION['cms_path'].'/sql/';
@@ -1051,10 +1059,44 @@ function _setup_link() {
     exec('ln -s '.$crm_path.' '.$cms_module_path.'civicrm');
     chdir($crm_path."/sql");
     
-    system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' civicrm < Contacts.sql');
-    system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' civicrm < FixedData.sql');
+    system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' '.$db_db.' < Contacts.sql');
+    system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' '.$db_db.' < FixedData.sql');
     
     chdir($crm_path);
+}
+
+function _setup_config_file (&$params) 
+{
+    $contents = '<?php'."\n";
+
+    $contents .= 'global $user_home;'."\n";
+
+    $contents .= '// this is the path where you have installed the civicrm code'."\n";
+    $contents .= '$user_home = \''.$params['user_home'].'\' ;'."\n\n";
+
+    $contents .= '// these variables define the absolute urls to access drupal and civicrm'."\n";
+    $contents .= '// note that the trailing slash is important'."\n";
+    $contents .= 'define( \'CRM_HTTPBASE\'    , \'/'.$params['cms_base'].'/\'                  );'."\n";
+    $contents .= 'define( \'CRM_RESOURCEBASE\', \'/'.$params['cms_base'].'/modules/civicrm/\' );'."\n\n";
+
+    $contents .= '// the new_link option is super important if u r reusing the same user id across both drupal and civicrm'."\n";
+    $contents .= 'define( \'CRM_DSN\'         , \''.$params['db_dsn'].'\' );'."\n\n";
+
+    $contents .= 'define( \'CRM_LC_MESSAGES\' , \'en_US\' );'."\n\n";
+
+    $contents .= '// this is used for formatting the various date displays. Change this to match'."\n";
+    $contents .= '// your locale if different.'."\n";
+    $contents .= 'define( \'CRM_DATEFORMAT_FULL\', \'%B %E%f, %Y %h:%i %A\' );'."\n";
+    $contents .= 'define( \'CRM_DATEFORMAT_PARTIAL\', \'%B %Y\' );'."\n";
+    $contents .= 'define( \'CRM_DATEFORMAT_YEAR\', \'%Y\' );'."\n\n";
+
+    $contents .= 'define( \'CRM_SMTP_SERVER\' , \'YOUR SMTP SERVER\' );'."\n\n";
+
+    $contents .= 'include_once \'config.main.php\';'."\n\n";
+
+    $contents .= '?>'."\n";
+
+    return $contents;
 }
 
 function _install_dump_and_serve(&$edit) {
@@ -1077,6 +1119,7 @@ function _install_dump_and_serve(&$edit) {
     
     _setup_config($edit);
     //_setup_run($edit);
+    _setup_config_file($edit);
     _setup_link();
 
     print install_step_page('Finishing up');
@@ -1644,7 +1687,7 @@ function _install_check_server() {
     else {
         $status['messages'] .= _install_msg_successful('The <code>modules/</code> directory is readable and writable.');
     }
-    
+    /*
     // check that the ../bin directory is writable
     if (!(is_writable('../bin') && is_readable('../bin'))) {
         $status['server_ok']  = FALSE;
@@ -1653,16 +1696,17 @@ function _install_check_server() {
     else {
         $status['messages'] .= _install_msg_successful('The <code>bin/</code> directory is readable and writable.');
     }
-    /*
+    */
+    
     // check that the ../sql directory is writable
-    if (!(is_writable('../sql') && is_readable('../sql'))) {
+    if (!is_readable('../sql')) {
         $status['server_ok']  = FALSE;
         $status['messages'] .= _install_msg_failed('The <code>sql/</code> directory is not readable and writeable.', NULL, '');
     }
     else {
         $status['messages'] .= _install_msg_successful('The <code>sql/</code> directory is readable and writable.');
     }
-    */
+    
     $cms_path = $_SESSION['cms_path'];
     // check that the ../bin directory is writable
     if (!(is_writable($cms_path.'/modules') && is_readable($cms_path.'/modules'))) {
