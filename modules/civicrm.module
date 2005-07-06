@@ -85,7 +85,7 @@ function civicrm_help($section)
     switch ($section) {
     case 'admin/modules#description':
         // This description is shown in the listing at admin/modules.
-        return ts('CiviCRM module v1.0');
+        return ts('CiviCRM module DEV version');
     }
 }
 
