@@ -984,18 +984,18 @@ function _setup_config(&$edit)
     chdir('install');
     $cms_base_folder = $_SESSION['cms_path'];
     $cms_base_folder = explode(DIRECTORY_SEPARATOR,$cms_base_folder);
-    for($i=0;$i<count($cms_base_folder);$i++){
-        if($cms_base_folder[$i] == "htdocs"){
+    
+    for( $i=0; $i < count($cms_base_folder); $i++) {
+        if($cms_base_folder[$i] == "htdocs") {
             $flag = 0;
         }
-        if($flag == 0){
+        if($flag == 0) {
             $subpath .= "/".$cms_base_folder[$i+1];
-            
         }
-            
     }
+    
     $cms_base_folder = $subpath;
-        //print_r($cms_base_folder);
+    //print_r($cms_base_folder);
 
     //get the base directory for CMS system
     //$cms_base_folder = 'drupal';
@@ -1010,7 +1010,7 @@ function _setup_config(&$edit)
     $file_contents = str_replace('CMS_BASE', $cms_base_folder, $file_contents );
     */
     // build the db dsn
-    $dsn = 'mysql://'.$edit['db_user'].':'.$edit['db_pass'].'@'.$edit['db_host'].DIRECTORY_SEPARATOR.'civicrm?new_link=true';   
+    $dsn = 'mysql://'.$edit['db_user'].':'.$edit['db_pass'].'@'.$edit['db_host'].DIRECTORY_SEPARATOR.$edit['db_db'].'?new_link=true';   
 
     //$file_contents = str_replace('DATABASE_DSN', $dsn, $file_contents );
 
