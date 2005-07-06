@@ -123,7 +123,7 @@ class CRM_Contact_Page_Activity {
         if ($action & CRM_Core_Action::DELETE) {
             $url   = 'civicrm/contact/view/activity';
             $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext(CRM_Utils_System::url($url, 'action=browse&history=0'));
+            $session->pushUserContext(CRM_Utils_System::url($url, 'action=browse&history=1'));
             $controller =& new CRM_Core_Controller_Simple('CRM_History_Form_Activity', ts('Delete Activity History'), $action);
             $controller->set('activityHistoryId', $activityHistoryId);
             $controller->setEmbedded(true);
