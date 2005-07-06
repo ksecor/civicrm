@@ -71,8 +71,14 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     }
 
     static function permissionedContact( $id, $type = CRM_Core_Permission::VIEW ) {
-        $query = ' SELECT count(DISTINCT crm_contact.id) ' . self::fromClause( ) .
-                  ' WHERE crm_contact.id = ' . $id . ' AND ' . CRM_Core_Permission::whereClause( $type ) . ' ';
+        $tables     = array( );
+        $permission = CRM_Core_Permission::whereClause( $type, $tables );
+        $from       = self::fromClause( $tables );
+        $query = "
+SELECT count(DISTINCT crm_contact.id) 
+       $from
+WHERE crm_contact.id = $id AND $permission
+";
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
@@ -115,8 +121,16 @@ SELECT DISTINCT
   crm_country.name                as country       ,
   crm_email.email                 as email         ,
   crm_phone.phone                 as phone         ";
-        
-        $query .= self::individualFromClause( );
+
+        $tables = array( 'crm_individual'     => 1,
+                         'crm_location'       => 1,
+                         'crm_address'        => 1,
+                         'crm_email'          => 1,
+                         'crm_phone'          => 1,
+                         'crm_state_province' => 1,
+                         'crm_country'        => 1 );
+        $query .= self::fromClause( $tables );
+
         $query .= " WHERE crm_contact.id = $id";
 
         $dao =& new CRM_Core_DAO( );
@@ -131,19 +145,21 @@ SELECT DISTINCT
      * Find contacts which match the criteria
      *
      * @param string $matchClause the matching clause
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
      * @param int    $id          the current contact id (hence excluded from matching)
      *
      * @return string                contact ids if match found, else null
      * @static
      * @access public
      */
-    static function matchContact( $matchClause, $id = null ) {
+    static function matchContact( $matchClause, &$tables, $id = null ) {
         $query  = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
-        $query .= self::individualFromClause( );
+        $query .= self::fromClause( $tables );
         $query .= " WHERE $matchClause ";
         if ( $id ) {
             $query .= " AND crm_contact.id != $id ";
         }
+        // CRM_Core_Error::debug( 'qs', $query );
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
@@ -213,6 +229,7 @@ ORDER BY
     {
         $select = $from = $where = $order = $limit = '';
 
+        $tables = array( );
         if( $count ) {
             $select = "SELECT count(DISTINCT crm_contact.id) ";
         } else if ( $sortByChar ) {
@@ -220,18 +237,18 @@ ORDER BY
         } else if ( $groupContacts ) {
             $select = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
         } else {
-            $select = self::selectClause( );
+            $select = self::selectClause( $tables );
         }
 
-        $from = self::fromClause( );
-
-        $where = self::whereClause( $fv, $includeContactIds );
-
+        $where      = self::whereClause( $fv, $includeContactIds, $tables );
+        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables );
         if ( empty( $where ) ) {
-            $where = ' WHERE ' . CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW ) . ' ';
+            $where = " WHERE $permission ";
         } else {
-            $where = ' WHERE ' . $where . ' AND ' . CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW ) . ' ';
+            $where = " WHERE $where AND $permission ";
         }
+
+        $from = self::fromClause( $tables );
 
         if (!$count) {
             if ($sort) {
@@ -262,11 +279,20 @@ ORDER BY
     /**
      * create the default select clause
      *
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
+     *
      * @return string the select clause
      * @access public
      * @static
      */
-    static function selectClause( ) {
+    static function selectClause( &$tables ) {
+        $tables['crm_location']       = 1;
+        $tables['crm_address']        = 1;
+        $tables['crm_phone']          = 1;
+        $tables['crm_email']          = 1;
+        $tables['crm_state_province'] = 1;
+        $tables['crm_country']        = 1;
+
         return "
 SELECT DISTINCT crm_contact.id as contact_id,
   crm_contact.sort_name as sort_name,
@@ -287,40 +313,90 @@ SELECT DISTINCT crm_contact.id as contact_id,
     /**
      * create the from clause
      *
+     * @param array $tables tables that need to be included in this from clause
+     *                      if null, return mimimal from clause (i.e. crm_contact)
      * @return string the from clause
      * @access public
      * @static
      */
-    static function fromClause( ) {
-        return " FROM crm_contact
-                        LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-                        LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
-                        LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
-                        LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-                        LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
-                        LEFT JOIN crm_country ON crm_address.country_id = crm_country.id
-                        LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id
-                        LEFT JOIN crm_entity_tag ON crm_contact.id = crm_entity_tag.entity_id 
-                        LEFT JOIN crm_activity_history ON crm_contact.id = crm_activity_history.entity_id
-                        LEFT JOIN crm_custom_value ON crm_contact.id = crm_custom_value.entity_id";
-    }
+    static function fromClause( &$tables ) {
+        $from = ' FROM crm_contact ';
+        if ( empty( $tables ) ) {
+            return $from;
+        }
 
-    /**
-     * create the from clause for crm_individual data
-     *
-     * @return string the from clause
-     * @access public
-     * @static
-     */
-    static function individualFromClause( ) {
-        return " FROM crm_contact
-LEFT JOIN crm_individual ON (crm_contact.id = crm_individual.contact_id)
-LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1)
-LEFT JOIN crm_address ON crm_location.id = crm_address.location_id
-LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1)
-LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1)
-LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id
-LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
+        // add location table if address / phone / email is set
+        if ( CRM_Utils_Array::value( 'crm_address', $tables ) ||
+             CRM_Utils_Array::value( 'crm_phone'  , $tables ) ||
+             CRM_Utils_Array::value( 'crm_email'  , $tables ) ) {
+            $tables['crm_location'] = 1;
+        }
+
+        // add group_contact table if group table is present
+        if ( CRM_Utils_Array::value( 'crm_group', $tables ) ) {
+            $tables['crm_group_contact'] = 1;
+        }
+
+        foreach ( $tables as $name => $value ) {
+            if ( ! $value ) {
+                continue;
+            }
+
+            switch ( $name ) {
+            case 'crm_individual':
+                $from .= ' LEFT JOIN crm_individual ON (crm_contact.id = crm_individual.contact_id) ';
+                continue;
+
+            case 'crm_location':
+                $from .= ' LEFT JOIN crm_location ON (crm_contact.id = crm_location.contact_id AND crm_location.is_primary = 1) ';
+                continue;
+
+            case 'crm_address':
+                $from .= ' LEFT JOIN crm_address ON crm_location.id = crm_address.location_id ';
+                continue;
+
+            case 'crm_phone':
+                $from .= ' LEFT JOIN crm_phone ON (crm_location.id = crm_phone.location_id AND crm_phone.is_primary = 1) ';
+                continue;
+
+            case 'crm_email':
+                $from .= ' LEFT JOIN crm_email ON (crm_location.id = crm_email.location_id AND crm_email.is_primary = 1) ';
+                continue;
+
+            case 'crm_state_province':
+                $from .= ' LEFT JOIN crm_state_province ON crm_address.state_province_id = crm_state_province.id ';
+                continue;
+
+            case 'crm_country':
+                $from .= ' LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ';
+                continue;
+
+            case 'crm_group':
+                $from .= ' LEFT JOIN crm_group ON crm_group.id =  crm_group_contact.group_id ';
+                continue;
+
+            case 'crm_group_contact':
+                $from .= ' LEFT JOIN crm_group_contact ON crm_contact.id = crm_group_contact.contact_id ';
+                continue;
+
+            case 'crm_entity_tag':
+                $from .= " LEFT JOIN crm_entity_tag ON ( crm_entity_tag.entity_table = 'crm_contact' AND
+                                                         crm_contact.id = crm_entity_tag.entity_id ) ";
+                continue;
+
+            case 'crm_activity_history':
+                $from .= " LEFT JOIN crm_activity_history ON ( crm_activity_history.entity_table = 'crm_contact' AND  
+                                                               crm_contact.id = crm_activity_history.entity_id ) ";
+                continue;
+
+            case 'crm_custom_value':
+                $from .= " LEFT JOIN crm_custom_value ON ( crm_custom_value.entity_table = 'crm_contact' AND
+                                                           crm_contact.id = crm_custom_value.entity_id ) ";
+                continue;
+            }
+        }
+
+        return $from;
     }
 
     /**
@@ -328,12 +404,13 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
      *
      * @param array    $formValues array of reference of the form values submitted
      * @param boolean  $includeContactIds should we include contact ids?
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
      *
      * @return string  the where clause without the permissions hook (important)
      * @access public
      * @static
      */
-    static function whereClause( &$fv, $includeContactIds = false)
+    static function whereClause( &$fv, $includeContactIds = false, &$tables)
     {
         $where = '';
 
@@ -397,11 +474,15 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         if ( CRM_Utils_Array::value( 'cb_group', $fv ) ) {
             $andArray['group'] = "(crm_group_contact.group_id IN (" . implode( ',', array_keys($fv['cb_group']) ) . '))';
             $andArray['groupStatus'] = '(crm_group_contact.status = "In")';
+            
+            $tables['crm_group_contact'] = 1;
         }
         
         // check for tag restriction
         if ( CRM_Utils_Array::value( 'cb_tag', $fv ) ) {
             $andArray['tag'] .= "(tag_id IN (" . implode( ',', array_keys($fv['cb_tag']) ) . '))';
+
+            $tables['crm_entity_tag'] = 1;
         }
         
         // check for last name, as of now only working with sort name
@@ -452,13 +533,21 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
             }
         }
         
-        $fields = array( 'street_name'=> 1, 'city' => 1, 'state_province' => 2, 'country' => 2 );
+        $fields = array( 'street_name'=> 1, 'city' => 1, 'state_province' => 2, 'country' => 3 );
         foreach ( $fields as $field => $value ) {
             if ( CRM_Utils_Array::value( $field, $fv ) ) {
+                $tables['crm_location'] = 1;
+
                 if ( $value == 1 ) {
+                    $tables['crm_address'] = 1;
                     $andArray[$field] = " ( LOWER(crm_address." . $field .  ") LIKE '%" . strtolower( addslashes( $fv[$field] ) ) . "%' )";
                 } else { 
                     $andArray[$field] = ' ( crm_address.' . $field .  '_id = ' . $fv[$field] . ') ';
+                    if ( $value == 2 ) {
+                        $tables['crm_state_province'] = 1;
+                    } else {
+                        $tables['crm_country'] = 1;
+                    }
                 }
             }
         }
@@ -467,6 +556,8 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         if ( CRM_Utils_Array::value( 'postal_code'     , $fv ) ||
              CRM_Utils_Array::value( 'postal_code_low' , $fv ) ||
              CRM_Utils_Array::value( 'postal_code_high', $fv ) ) {
+            $tables['crm_location'] = 1;
+            $tables['crm_address']   = 1;
 
             // we need to do postal code processing
             $pcORArray   = array();
@@ -490,6 +581,7 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         }
 
         if ( CRM_Utils_Array::value( 'cb_location_type', $fv ) ) {
+            
             // processing for location type - check if any locations checked
             $andArray['location_type'] = "(crm_location.location_type_id IN (" . implode( ',', array_keys($fv['cb_location_type']) ) . '))';
         }
@@ -497,6 +589,8 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         // processing for primary location
         if ( CRM_Utils_Array::value( 'cb_primary_location', $fv ) ) {
             $andArray['cb_primary_location'] = ' ( crm_location.is_primary = 1 ) ';
+            
+            $tables['crm_location'] = 1;
         }
 
 
@@ -518,6 +612,8 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
             }
             $cond .= ' ) ';
             $andArray['activity_type'] = "( $cond )";
+
+            $tables['crm_activity_history'] = 1;
         }
 
         // from date
@@ -525,10 +621,12 @@ LEFT JOIN crm_country ON crm_address.country_id = crm_country.id ";
         if ( isset($fv['activity_from_date']) &&
              ( $activityFromDate = CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_from_date', $fv))))) {
             $andArray['activity_from_date'] = " ( crm_activity_history.activity_date >= '$activityFromDate' ) ";
+            $tables['crm_activity_history'] = 1;
         }
         if (isset($fv['activity_to_date']) &&
             ($activityToDate = (CRM_Utils_Date::format(array_reverse(CRM_Utils_Array::value('activity_to_date', $fv)))))) {            
             $andArray['activity_to_date'] = " ( crm_activity_history.activity_date <= '$activityToDate' ) ";
+            $tables['crm_activity_history'] = 1;
         }
         
         //Start Custom data Processing 

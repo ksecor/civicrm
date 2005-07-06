@@ -116,16 +116,17 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
      * get the where clause for a saved search
      *
      * @param int $id saved search id
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
      *
      * @return string the where clause for this saved search
      * @access public
      * @static
      */
-    static function whereClause( $id ) {
+    static function whereClause( $id, &$tables ) {
         $fv = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'form_values' );
         if ( $fv ) {
             $fv = unserialize( $fv );
-            return CRM_Contact_BAO_Contact::whereClause( $fv, $false );
+            return CRM_Contact_BAO_Contact::whereClause( $fv, $false, $tables );
         }
         return null;
 

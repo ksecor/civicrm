@@ -291,12 +291,13 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      *
      * @param array   $params  the list of values to be used in the where clause
      * @param boolean $flatten should we flatten the input params
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
      *
      * @return string the where clause to include in a sql query
      * @static
      * @access public
      */
-    static function getMatchClause( $params, $flatten = false ) {
+    static function getMatchClause( $params, &$tables, $flatten = false ) {
         if ( $flatten ) {
             $params['email'] = $params['location'][1]['email'][1]['email'];
             $params['phone'] = $params['location'][1]['phone'][1]['phone'];
@@ -315,11 +316,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
                 self::$_matchClause = array_merge( self::$_matchClause, $subset );
             }
         }
-        $where = array( );
+
+        $where  = array( );
         foreach ( self::$_matchClause as $field ) {
             $value = CRM_Utils_Array::value( $field['name'], $params );
             if ( $value ) {
                 $where[] = $field['where'] . ' = "' . addslashes( $value ) . '"';
+                list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );
+                if ( isset( $tableName ) ) {
+                    $tables[$tableName] = 1;
+                }
             }
         }
         $clause = null;
@@ -341,11 +347,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
      * @static
      */
     public static function findContact( &$params, $id = null, $flatten = false ) {
-        $clause = self::getMatchClause( $params, $flatten );
+        $tables = array( );
+        $clause = self::getMatchClause( $params, $tables, $flatten );
         if ( ! $clause ) {
             return null;
         }
-        return CRM_Contact_BAO_Contact::matchContact( $clause, $id );
+        return CRM_Contact_BAO_Contact::matchContact( $clause, $tables, $id );
     }
 
 }

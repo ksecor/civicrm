@@ -60,13 +60,15 @@ class CRM_Core_Permission {
     /**
      * Get the permissioned where clause for the user
      *
-     * @param none
+     * @param int $type the type of permission needed
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
+     *
      * @return string the group where clause for this user
      * @access public
      */
-    public static function whereClause( $type = self::VIEW ) {
+    public static function whereClause( $type, $tables ) {
         $config   =& CRM_Core_Config::singleton( );
-        return eval( 'return ' . $config->userPermissionClass . '::whereClause( ' . $type . ' );' );
+        return eval( 'return ' . $config->userPermissionClass . '::whereClause( $type, $tables );' );
     }
 
     /**

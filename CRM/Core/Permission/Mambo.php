@@ -47,11 +47,13 @@ class CRM_Core_Permission_Mambo {
     /**
      * Get the permissioned where clause for the user
      *
-     * @param none
+     * @param int $type the type of permission needed
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
+     *
      * @return string the group where clause for this user
      * @access public
      */
-    public static function whereClause( $type = CRM_Core_Permission::VIEW ) {
+    public static function whereClause( $type, &$tables ) {
         return '( 1 )';
     }
 

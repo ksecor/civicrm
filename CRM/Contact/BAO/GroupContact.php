@@ -252,14 +252,17 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                              crm_group_contact.out_method as out_method, crm_group.id as group_id ';
         }
 
-        $from   = ' FROM crm_group, crm_group_contact ';
-
-        $where  = ' WHERE crm_group.id = crm_group_contact.group_id AND crm_group_contact.contact_id = ' . $contactId;
+        $where  = ' WHERE crm_contact.id = ' . $contactId;
         
         if ( ! empty( $status ) ) {
             $where .= ' AND crm_group_contact.status = "' . $status . '"';
-        }    
-        $where .= ' AND ' . CRM_Core_Permission::whereClause( ) . ' ';
+        }
+        $tables     = array( 'crm_group_contact' => 1,
+                             'crm_group'         => 1, );
+        $permission = CRM_Core_Permission::whereClause( CRM_Core_Permission::VIEW, $tables ); 
+        $where .= " AND $permission ";
+        
+        $from = CRM_Contact_BAO_Contact::fromClause( $tables );
 
         $order = $limit = '';
         if (! $count ) {
@@ -271,6 +274,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         }
 
         $sql = $select . $from . $where . $order . $limit;
+        // CRM_Core_Error::debug( 'sql', $sql );
 
         $groupContact->query($sql);
 

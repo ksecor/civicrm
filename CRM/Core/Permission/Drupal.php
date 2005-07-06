@@ -157,11 +157,13 @@ class CRM_Core_Permission_Drupal {
     /**
      * Get group clause for this user
      *
-     * @param none
+     * @param int $type the type of permission needed
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
+     *
      * @return string the group where clause for this user
      * @access public
      */
-    public static function groupClause( $type = CRM_Core_Permission::VIEW ) {
+    public static function groupClause( $type = CRM_Core_Permission::VIEW, &$tables ) {
         if (! isset( self::$_viewPermissionedGroups ) ) {
             self::group( );
         }
@@ -174,6 +176,7 @@ class CRM_Core_Permission_Drupal {
             } else {
                 $groups = implode( ', ', self::$_editPermissionedGroups );
                 $clause = ' ( crm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_editPermissionedGroups ) ) . ') ) ';
+                $tables['crm_group_contact'] = 1;
             }
         } else {
             if ( self::$_viewAdminUser ) {
@@ -183,6 +186,7 @@ class CRM_Core_Permission_Drupal {
             } else {
                 $groups = implode( ', ', self::$_viewPermissionedGroups );
                 $clause = ' ( crm_group_contact.group_id IN (' . implode( ', ', array_keys( self::$_viewPermissionedGroups ) ) . ') ) ';
+                $tables['crm_group_contact'] = 1;
             }
         }
         return $clause;
@@ -191,7 +195,9 @@ class CRM_Core_Permission_Drupal {
     /**
      * Get savedSearch clause for this user
      *
-     * @param none
+     * @param int $type the type of permission needed
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
+     *
      * @return string the savedSearch where clause for this user
      * @access public
      */
@@ -208,7 +214,7 @@ class CRM_Core_Permission_Drupal {
             } else {
                 $clauses = array( );
                 foreach ( self::$_editPermissionedSavedSearches as $savedSearchId => $dontCare ) {
-                    $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $savedSearchId );
+                    $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $savedSearchId, $tables );
                 }
                 $clause = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
             }
@@ -220,7 +226,7 @@ class CRM_Core_Permission_Drupal {
             } else {
                 $clauses = array( );
                 foreach ( self::$_viewPermissionedSavedSearches as $savedSearchId => $dontCare ) {
-                    $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $savedSearchId );
+                    $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $savedSearchId, $tables );
                 }
                 $clause = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
             }
@@ -248,11 +254,13 @@ class CRM_Core_Permission_Drupal {
     /**
      * Get the permissioned where clause for the user
      *
-     * @param none
+     * @param int $type the type of permission needed
+     * @param  array $tables (reference ) add the tables that are needed for the select clause
+     *
      * @return string the group where clause for this user
      * @access public
      */
-    public static function whereClause( $type = CRM_Core_Permission::VIEW ) {
+    public static function whereClause( $type, &$tables ) {
         self::group( );
         self::savedSearch( );
 
@@ -263,8 +271,8 @@ class CRM_Core_Permission_Drupal {
         CRM_Core_Error::debug( 'VG', self::$_viewPermissionedGroups );
         **/
         $clauses = array( );
-        $clauses[] = self::groupClause( $type );
-        $clauses[] = self::savedSearchClause( $type );
+        $clauses[] = self::groupClause( $type, $tables );
+        $clauses[] = self::savedSearchClause( $type, $tables );
         return ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
     }
 
