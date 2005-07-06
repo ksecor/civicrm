@@ -26,7 +26,7 @@ require_once 'PHP/Beautifier.php';
   */
 function createDir( $dir, $perm = 0755 ) {
     if ( ! is_dir( $dir ) ) {
-	echo "Outdir: $dir\n";
+        echo "Outdir: $dir\n";
         mkdir( $dir, $perm, true );
     }
 }
