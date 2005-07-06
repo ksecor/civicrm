@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-04 10:13+0200\n"
-"PO-Revision-Date: 2005-07-04 10:27+0200\n"
+"POT-Creation-Date: 2005-07-06 10:33+0200\n"
+"PO-Revision-Date: 2005-07-06 10:34+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -20,8 +20,8 @@ msgstr ""
 
 #: CRM/Activity/Form/Meeting.php:61 CRM/Activity/Form/Phonecall.php:65
 #: CRM/Contact/Form/Task/Email.php:112 CRM/Contact/Selector/Activity.php:253
-#: CRM/Core/DAO/EmailHistory.php:144 CRM/Core/DAO/Meeting.php:196
-#: CRM/Core/DAO/Phonecall.php:204 templates/CRM/Contact/Page/View/Contact.tpl
+#: CRM/Core/DAO/EmailHistory.php:141 CRM/Core/DAO/Meeting.php:193
+#: CRM/Core/DAO/Phonecall.php:201 templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Subject"
 msgstr "Temat"
 
@@ -33,20 +33,20 @@ msgstr "Data i czas"
 msgid "Select a valid date."
 msgstr "Wybierz poprawną datę."
 
-#: CRM/Activity/Form/Meeting.php:71 CRM/Core/DAO/Meeting.php:214
+#: CRM/Activity/Form/Meeting.php:71 CRM/Core/DAO/Meeting.php:211
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Location"
 msgstr "Lokalizacja"
 
 #: CRM/Activity/Form/Meeting.php:73 CRM/Activity/Form/Phonecall.php:80
-#: CRM/Core/DAO/Meeting.php:220 CRM/Core/DAO/Phonecall.php:231
+#: CRM/Core/DAO/Meeting.php:217 CRM/Core/DAO/Phonecall.php:228
 #: CRM/History/Selector/Activity.php:122
 msgid "Details"
 msgstr "Szczegóły"
 
 #: CRM/Activity/Form/Meeting.php:75 CRM/Activity/Form/Phonecall.php:77
-#: CRM/Contact/DAO/GroupContact.php:188 CRM/Contact/Selector/Activity.php:261
-#: CRM/Core/DAO/Meeting.php:224 CRM/Core/DAO/Phonecall.php:235
+#: CRM/Contact/DAO/GroupContact.php:185 CRM/Contact/Selector/Activity.php:261
+#: CRM/Core/DAO/Meeting.php:221 CRM/Core/DAO/Phonecall.php:232
 #: templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Status"
@@ -56,7 +56,7 @@ msgstr "Stan"
 msgid "Please select status."
 msgstr "Wybierz stan."
 
-#: CRM/Activity/Form/Phonecall.php:71 CRM/Core/DAO/Phonecall.php:225
+#: CRM/Activity/Form/Phonecall.php:71 CRM/Core/DAO/Phonecall.php:222
 msgid "Phone Number"
 msgstr "Numer telefonu"
 
@@ -97,11 +97,11 @@ msgstr "Anuluj"
 
 #: CRM/Admin/Form/IMProvider.php:52 CRM/Admin/Form/LocationType.php:52
 #: CRM/Admin/Form/MobileProvider.php:52 CRM/Admin/Form/Tag.php:63
-#: CRM/Contact/DAO/Group.php:170 CRM/Contact/DAO/Tag.php:149
+#: CRM/Contact/DAO/Group.php:167 CRM/Contact/DAO/Tag.php:146
 #: CRM/Contact/Form/Search.php:310 CRM/Contact/Form/Task/SaveSearch.php:78
-#: CRM/Contact/Selector.php:488 CRM/Core/DAO/CustomField.php:226
-#: CRM/Core/DAO/CustomGroup.php:183 CRM/Core/DAO/Domain.php:113
-#: CRM/Core/DAO/MobileProvider.php:144
+#: CRM/Contact/Selector.php:488 CRM/Core/DAO/CustomField.php:223
+#: CRM/Core/DAO/CustomGroup.php:180 CRM/Core/DAO/Domain.php:112
+#: CRM/Core/DAO/MobileProvider.php:141
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -133,13 +133,13 @@ msgid "Enabled?"
 msgstr "Włączony?"
 
 #: CRM/Admin/Form/LocationType.php:57 CRM/Admin/Form/RelationshipType.php:68
-#: CRM/Admin/Form/Tag.php:69 CRM/Contact/DAO/Group.php:182
-#: CRM/Contact/DAO/LocationType.php:165
-#: CRM/Contact/DAO/RelationshipType.php:188
-#: CRM/Contact/DAO/SavedSearch.php:180 CRM/Contact/DAO/Tag.php:155
+#: CRM/Admin/Form/Tag.php:69 CRM/Contact/DAO/Group.php:179
+#: CRM/Contact/DAO/LocationType.php:162
+#: CRM/Contact/DAO/RelationshipType.php:185
+#: CRM/Contact/DAO/SavedSearch.php:177 CRM/Contact/DAO/Tag.php:152
 #: CRM/Contact/Form/Task/SaveSearch.php:79
-#: CRM/Contact/Selector/Activity.php:164 CRM/Core/DAO/Domain.php:119
-#: CRM/Core/DAO/Validation.php:171 CRM/History/Selector/Activity.php:169;257
+#: CRM/Contact/Selector/Activity.php:164 CRM/Core/DAO/Domain.php:118
+#: CRM/Core/DAO/Validation.php:168 CRM/History/Selector/Activity.php:169;257
 #: templates/CRM/Admin/Page/LocationType.tpl templates/CRM/Admin/Page/Tag.tpl
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 #: templates/CRM/Contact/Page/View/Contact.tpl
@@ -189,15 +189,15 @@ msgstr "Włącz"
 msgid "View"
 msgstr "Zobacz"
 
-#: CRM/Contact/DAO/Address.php:292 CRM/Contact/Form/Address.php:55
+#: CRM/Contact/DAO/Address.php:289 CRM/Contact/Form/Address.php:55
 msgid "Street Address"
 msgstr "Adres"
 
-#: CRM/Contact/DAO/Address.php:318 CRM/Contact/Form/Search/Advanced.php:78
+#: CRM/Contact/DAO/Address.php:315 CRM/Contact/Form/Search/Advanced.php:78
 msgid "Street Name"
 msgstr "Nazwa ulicy"
 
-#: CRM/Contact/DAO/Address.php:368 CRM/Contact/Form/Address.php:65
+#: CRM/Contact/DAO/Address.php:365 CRM/Contact/Form/Address.php:65
 #: CRM/Contact/Form/Search/Advanced.php:79 CRM/Contact/Import/Base.php:22
 #: CRM/Contact/Selector.php:494 templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -208,27 +208,27 @@ msgstr "Nazwa ulicy"
 msgid "City"
 msgstr "Miejscowość"
 
-#: CRM/Contact/DAO/Address.php:384 CRM/Contact/Form/Search/Advanced.php:90
+#: CRM/Contact/DAO/Address.php:381 CRM/Contact/Form/Search/Advanced.php:90
 #: CRM/Contact/Import/Base.php:25
 msgid "Postal Code"
 msgstr "Kod pocztowy"
 
-#: CRM/Contact/DAO/Address.php:427 CRM/Core/BAO/CustomField.php:59
-#: CRM/Core/DAO/Note.php:162 templates/CRM/Contact/Page/View/Contact.tpl
+#: CRM/Contact/DAO/Address.php:424 CRM/Core/BAO/CustomField.php:59
+#: CRM/Core/DAO/Note.php:159 templates/CRM/Contact/Page/View/Contact.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Note"
 msgstr "Notatka"
 
-#: CRM/Contact/DAO/Contact.php:221 CRM/Contact/Selector.php:193;486
+#: CRM/Contact/DAO/Contact.php:218 CRM/Contact/Selector.php:193;486
 msgid "Contact Type"
 msgstr "Rodzaj kontaktu"
 
-#: CRM/Contact/DAO/Contact.php:269 CRM/Contact/DAO/Group.php:192
+#: CRM/Contact/DAO/Contact.php:266 CRM/Contact/DAO/Group.php:189
 msgid "Source"
 msgstr "Źródło"
 
-#: CRM/Contact/DAO/Email.php:141 CRM/Contact/Import/Base.php:26
-#: CRM/Contact/Selector.php:514 CRM/Core/DAO/UFMatch.php:157
+#: CRM/Contact/DAO/Email.php:138 CRM/Contact/Import/Base.php:26
+#: CRM/Contact/Selector.php:514 CRM/Core/DAO/UFMatch.php:154
 #: CRM/Core/SelectValues.php:143 templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -238,65 +238,65 @@ msgstr "Źródło"
 msgid "Email"
 msgstr "Email"
 
-#: CRM/Contact/DAO/EntityTag.php:137 CRM/Core/DAO/ActivityHistory.php:187
-#: CRM/Core/DAO/CustomValue.php:176 CRM/Core/DAO/Note.php:151
+#: CRM/Contact/DAO/EntityTag.php:134 CRM/Core/DAO/ActivityHistory.php:184
+#: CRM/Core/DAO/CustomValue.php:173 CRM/Core/DAO/Note.php:148
 msgid "Entity Table"
 msgstr "Tabela jednostek"
 
-#: CRM/Contact/DAO/Group.php:176 CRM/Core/DAO/CustomGroup.php:189
-#: CRM/Core/DAO/UFGroup.php:155
+#: CRM/Contact/DAO/Group.php:173 CRM/Core/DAO/CustomGroup.php:186
+#: CRM/Core/DAO/UFGroup.php:152
 msgid "Title"
 msgstr "Tytuł"
 
-#: CRM/Contact/DAO/Household.php:149 CRM/Contact/Form/Household.php:57
+#: CRM/Contact/DAO/Household.php:146 CRM/Contact/Form/Household.php:57
 msgid "Household Name"
 msgstr "Nazwa mieszkania"
 
-#: CRM/Contact/DAO/Household.php:155 CRM/Contact/DAO/Organization.php:175
+#: CRM/Contact/DAO/Household.php:152 CRM/Contact/DAO/Organization.php:172
 #: CRM/Contact/Form/Household.php:60 CRM/Contact/Form/Organization.php:64
 msgid "Nick Name"
 msgstr "Ksywa"
 
-#: CRM/Contact/DAO/Individual.php:221 CRM/Contact/Form/Individual.php:61
+#: CRM/Contact/DAO/Individual.php:218 CRM/Contact/Form/Individual.php:61
 #: CRM/Contact/Import/Base.php:14
 msgid "First Name"
 msgstr "Imię"
 
-#: CRM/Contact/DAO/Individual.php:231 CRM/Contact/Import/Base.php:15
+#: CRM/Contact/DAO/Individual.php:228 CRM/Contact/Import/Base.php:15
 msgid "Middle Name"
 msgstr "Drugie imię"
 
-#: CRM/Contact/DAO/Individual.php:237 CRM/Contact/Form/Individual.php:64
+#: CRM/Contact/DAO/Individual.php:234 CRM/Contact/Form/Individual.php:64
 #: CRM/Contact/Import/Base.php:16
 msgid "Last Name"
 msgstr "Nazwisko"
 
-#: CRM/Contact/DAO/Individual.php:247 CRM/Contact/Import/Base.php:17
+#: CRM/Contact/DAO/Individual.php:244 CRM/Contact/Import/Base.php:17
 msgid "Prefix"
 msgstr "Prefiks"
 
-#: CRM/Contact/DAO/Individual.php:257 CRM/Contact/Import/Base.php:18
+#: CRM/Contact/DAO/Individual.php:254 CRM/Contact/Import/Base.php:18
 msgid "Suffix"
 msgstr "Przyrostek"
 
-#: CRM/Contact/DAO/Individual.php:277 CRM/Contact/Import/Base.php:19
+#: CRM/Contact/DAO/Individual.php:274 CRM/Contact/Import/Base.php:19
 msgid "Job Title"
 msgstr "Stanowisko"
 
-#: CRM/Contact/DAO/Individual.php:283
+#: CRM/Contact/DAO/Individual.php:280
 #: CRM/Contact/Form/Individual.php:77;78;79;80
 msgid "Gender"
 msgstr "Płeć"
 
-#: CRM/Contact/DAO/Organization.php:163 CRM/Contact/Form/Organization.php:58
+#: CRM/Contact/DAO/Organization.php:160 CRM/Contact/Form/Organization.php:58
 msgid "Organization Name"
 msgstr "Nazwa organizacji"
 
-#: CRM/Contact/DAO/Organization.php:169 CRM/Contact/Form/Organization.php:61
+#: CRM/Contact/DAO/Organization.php:166 CRM/Contact/Form/Organization.php:61
 msgid "Legal Name"
 msgstr "Nazwa prawna"
 
-#: CRM/Contact/DAO/Phone.php:156 CRM/Contact/Form/Phone.php:55
+#: CRM/Contact/DAO/Phone.php:153 CRM/Contact/Form/Phone.php:55
 #: CRM/Contact/Import/Base.php:27 CRM/Contact/Selector.php:518
 #: CRM/Core/SelectValues.php:106;142
 #: templates/CRM/Contact/Form/Relationship.tpl
@@ -308,11 +308,11 @@ msgstr "Nazwa prawna"
 msgid "Phone"
 msgstr "Telefon"
 
-#: CRM/Contact/DAO/Relationship.php:172 CRM/Contact/Form/Relationship.php:153
+#: CRM/Contact/DAO/Relationship.php:169 CRM/Contact/Form/Relationship.php:153
 msgid "Start Date"
 msgstr "Data rozpoczęcia"
 
-#: CRM/Contact/DAO/Relationship.php:176 CRM/Contact/Form/Relationship.php:154
+#: CRM/Contact/DAO/Relationship.php:173 CRM/Contact/Form/Relationship.php:154
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "End Date"
 msgstr "Data zakończenia"
@@ -325,8 +325,8 @@ msgstr "- wybierz -"
 
 #: CRM/Contact/Form/Address.php:74 CRM/Contact/Form/Search/Advanced.php:87
 #: CRM/Contact/Import/Base.php:24 CRM/Contact/Selector.php:509
-#: CRM/Core/BAO/CustomField.php:63 CRM/Core/DAO/Country.php:134
-#: CRM/Core/DAO/County.php:137 templates/CRM/Contact/Form/Task/Print.tpl
+#: CRM/Core/BAO/CustomField.php:63 CRM/Core/DAO/Country.php:133
+#: CRM/Core/DAO/County.php:134 templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
 msgstr "Kraj"
 
@@ -427,7 +427,7 @@ msgstr "Rodzaje lokalizacji"
 
 #: CRM/Contact/Form/Search/Advanced.php:111
 #: CRM/Contact/Selector/Activity.php:164;249
-#: CRM/Core/DAO/ActivityHistory.php:197
+#: CRM/Core/DAO/ActivityHistory.php:194
 #: CRM/History/Selector/Activity.php:169;253
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Activity Type"
@@ -478,7 +478,7 @@ msgstr "Powiązania nie stworzone – powielenia istniejących powiązań: %1."
 msgid "Delete Contacts"
 msgstr "Usuń kontakty"
 
-#: CRM/Contact/Form/Task/Email.php:113 CRM/Core/DAO/EmailHistory.php:150
+#: CRM/Contact/Form/Task/Email.php:113 CRM/Core/DAO/EmailHistory.php:147
 msgid "Message"
 msgstr "Wiadomość"
 
@@ -495,7 +495,7 @@ msgid "Update Saved Search"
 msgstr "Zaktualizuj zapisane wyszukanie"
 
 #: CRM/Contact/Import/Base.php:23 CRM/Contact/Selector.php:499
-#: CRM/Core/DAO/StateProvince.php:137
+#: CRM/Core/DAO/StateProvince.php:134
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -521,7 +521,7 @@ msgstr "Usuń historię zdarzenia"
 msgid "Delete Activity"
 msgstr "Usuń zdarzenie"
 
-#: CRM/Contact/Selector/Activity.php:164 CRM/Core/DAO/ActivityHistory.php:225
+#: CRM/Contact/Selector/Activity.php:164 CRM/Core/DAO/ActivityHistory.php:222
 #: CRM/History/Selector/Activity.php:169;259
 #: templates/CRM/Contact/Page/View/Contact.tpl
 msgid "Activity Date"
@@ -570,22 +570,22 @@ msgstr "Nowa organizacja"
 msgid "New Household"
 msgstr "Nowe mieszkanie"
 
-#: CRM/Core/DAO/CustomField.php:232 CRM/Core/DAO/CustomOption.php:155
+#: CRM/Core/DAO/CustomField.php:229 CRM/Core/DAO/CustomOption.php:152
 #: CRM/Custom/Form/Field.php:182 templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Label"
 msgstr "Etykieta"
 
-#: CRM/Core/DAO/CustomField.php:238 CRM/Custom/Form/Field.php:169
+#: CRM/Core/DAO/CustomField.php:235 CRM/Custom/Form/Field.php:169
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
 msgstr "Rodzaj danych"
 
-#: CRM/Core/DAO/CustomField.php:246 CRM/Custom/Form/Field.php:203
+#: CRM/Core/DAO/CustomField.php:243 CRM/Custom/Form/Field.php:203
 msgid "Default Value"
 msgstr "Wartość domyślna"
 
-#: CRM/Core/DAO/CustomField.php:255 CRM/Core/DAO/CustomGroup.php:215
-#: CRM/Core/DAO/CustomOption.php:167 CRM/Core/DAO/UFField.php:212
+#: CRM/Core/DAO/CustomField.php:252 CRM/Core/DAO/CustomGroup.php:212
+#: CRM/Core/DAO/CustomOption.php:164 CRM/Core/DAO/UFField.php:209
 #: CRM/Custom/Form/Field.php:186;196 CRM/Custom/Form/Group.php:101
 #: CRM/Custom/Form/Option.php:120 CRM/UF/Form/Field.php:135
 #: templates/CRM/Custom/Form/Optionfields.tpl
@@ -594,42 +594,42 @@ msgstr "Wartość domyślna"
 msgid "Weight"
 msgstr "Waga"
 
-#: CRM/Core/DAO/CustomField.php:263 CRM/Core/DAO/CustomGroup.php:203
+#: CRM/Core/DAO/CustomField.php:260 CRM/Core/DAO/CustomGroup.php:200
 msgid "Help Pre"
 msgstr "Pomoc przed"
 
-#: CRM/Core/DAO/CustomField.php:267 CRM/Core/DAO/CustomGroup.php:209
-#: CRM/Core/DAO/UFField.php:217
+#: CRM/Core/DAO/CustomField.php:264 CRM/Core/DAO/CustomGroup.php:206
+#: CRM/Core/DAO/UFField.php:214
 msgid "Help Post"
 msgstr "Pomoc za"
 
-#: CRM/Core/DAO/CustomField.php:271 CRM/Custom/Form/Field.php:205
+#: CRM/Core/DAO/CustomField.php:268 CRM/Custom/Form/Field.php:205
 msgid "Mask"
 msgstr "Maska"
 
-#: CRM/Core/DAO/CustomOption.php:161 CRM/Custom/Form/Field.php:184
+#: CRM/Core/DAO/CustomOption.php:158 CRM/Custom/Form/Field.php:184
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Value"
 msgstr "Wartość"
 
-#: CRM/Core/DAO/Meeting.php:202 CRM/Core/DAO/Phonecall.php:210
+#: CRM/Core/DAO/Meeting.php:199 CRM/Core/DAO/Phonecall.php:207
 msgid "Scheduled Date Time"
 msgstr "Zaplanowany termin"
 
-#: CRM/Core/DAO/Meeting.php:206 CRM/Core/DAO/Phonecall.php:214
+#: CRM/Core/DAO/Meeting.php:203 CRM/Core/DAO/Phonecall.php:211
 msgid "Duration Hours"
 msgstr "Czas trwania (godziny)"
 
-#: CRM/Core/DAO/Meeting.php:210 CRM/Core/DAO/Phonecall.php:218
+#: CRM/Core/DAO/Meeting.php:207 CRM/Core/DAO/Phonecall.php:215
 msgid "Duration Minutes"
 msgstr "Czas trwania (minuty)"
 
-#: CRM/Core/DAO/UFField.php:227 CRM/UF/Form/Field.php:132
+#: CRM/Core/DAO/UFField.php:224 CRM/UF/Form/Field.php:132
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Visibility"
 msgstr "Widoczność"
 
-#: CRM/Core/DAO/UFField.php:231 CRM/UF/Form/Field.php:141
+#: CRM/Core/DAO/UFField.php:228 CRM/UF/Form/Field.php:141
 msgid "Listings Title"
 msgstr "Tytuł spisu"
 
@@ -923,199 +923,199 @@ msgstr "-nie importuj-"
 msgid "The tag \"%1\" has been saved."
 msgstr "Znacznik „%1” został skasowany."
 
-#: CRM/Contact/DAO/Address.php:302
+#: CRM/Contact/DAO/Address.php:299
 msgid "Street Number"
 msgstr "Numer domu"
 
-#: CRM/Contact/DAO/Address.php:306
+#: CRM/Contact/DAO/Address.php:303
 msgid "Street Number Suffix"
 msgstr "Przyrostek numeru domu"
 
-#: CRM/Contact/DAO/Address.php:312
+#: CRM/Contact/DAO/Address.php:309
 msgid "Street Number Predirectional"
 msgstr "Przedrostek numeru domu"
 
-#: CRM/Contact/DAO/Address.php:324
+#: CRM/Contact/DAO/Address.php:321
 msgid "Street Type"
 msgstr "Rodzaj ulicy"
 
-#: CRM/Contact/DAO/Address.php:330
+#: CRM/Contact/DAO/Address.php:327
 msgid "Street Number Postdirectional"
 msgstr "Przyrostek numeru domu"
 
-#: CRM/Contact/DAO/Address.php:336
+#: CRM/Contact/DAO/Address.php:333
 msgid "Street Unit"
 msgstr "Jednostka ulicy"
 
-#: CRM/Contact/DAO/Address.php:342
+#: CRM/Contact/DAO/Address.php:339
 msgid "Supplemental Address 1"
 msgstr "Dodatkowy adres 1"
 
-#: CRM/Contact/DAO/Address.php:352
+#: CRM/Contact/DAO/Address.php:349
 msgid "Supplemental Address 2"
 msgstr "Dodatkowy adres 2"
 
-#: CRM/Contact/DAO/Address.php:362
+#: CRM/Contact/DAO/Address.php:359
 msgid "Supplemental Address 3"
 msgstr "Dodatkowy adres 3"
 
-#: CRM/Contact/DAO/Address.php:395
+#: CRM/Contact/DAO/Address.php:392
 msgid "Postal Code Suffix"
 msgstr "Przyrostek kodu pocztowego"
 
-#: CRM/Contact/DAO/Address.php:401
+#: CRM/Contact/DAO/Address.php:398
 msgid "Usps Adc"
 msgstr "Adres USPS"
 
-#: CRM/Contact/DAO/Address.php:413
+#: CRM/Contact/DAO/Address.php:410
 msgid "Geo Code 1"
 msgstr "Współrzędna geograficzna 1"
 
-#: CRM/Contact/DAO/Address.php:417
+#: CRM/Contact/DAO/Address.php:414
 msgid "Geo Code 2"
 msgstr "Współrzędna geograficzna 2"
 
-#: CRM/Contact/DAO/Address.php:421
+#: CRM/Contact/DAO/Address.php:418
 msgid "Timezone"
 msgstr "Strefa czasowa"
 
-#: CRM/Contact/DAO/Contact.php:225
+#: CRM/Contact/DAO/Contact.php:222
 msgid "Legal Identifier"
 msgstr "Identyfikator prawny"
 
-#: CRM/Contact/DAO/Contact.php:235
+#: CRM/Contact/DAO/Contact.php:232
 msgid "External Identifier"
 msgstr "Identyfikator zewnętrzny"
 
-#: CRM/Contact/DAO/Contact.php:245
+#: CRM/Contact/DAO/Contact.php:242
 msgid "Sort Name"
 msgstr "Nazwa do sortowania"
 
-#: CRM/Contact/DAO/Contact.php:251
+#: CRM/Contact/DAO/Contact.php:248
 msgid "Display Name"
 msgstr "Nazwa wyświetlana"
 
-#: CRM/Contact/DAO/Contact.php:257
+#: CRM/Contact/DAO/Contact.php:254
 msgid "Home Url"
 msgstr "URL strony domowej"
 
-#: CRM/Contact/DAO/Contact.php:263
+#: CRM/Contact/DAO/Contact.php:260
 msgid "Image Url"
 msgstr "URL obrazka"
 
-#: CRM/Contact/DAO/Contact.php:275
+#: CRM/Contact/DAO/Contact.php:272
 msgid "Preferred Communication Method"
 msgstr "Preferowany sposób komunikacji"
 
-#: CRM/Contact/DAO/Contact.php:279
+#: CRM/Contact/DAO/Contact.php:276
 msgid "Do Not Phone"
 msgstr "Nie dzwonić"
 
-#: CRM/Contact/DAO/Contact.php:283
+#: CRM/Contact/DAO/Contact.php:280
 msgid "Do Not Email"
 msgstr "Nie wysyłać emaili"
 
-#: CRM/Contact/DAO/Contact.php:287
+#: CRM/Contact/DAO/Contact.php:284
 msgid "Do Not Mail"
 msgstr "Nie pisać listów"
 
-#: CRM/Contact/DAO/Contact.php:291
+#: CRM/Contact/DAO/Contact.php:288
 msgid "Do Not Trade"
 msgstr "Nie przekazywać"
 
-#: CRM/Contact/DAO/Contact.php:295
+#: CRM/Contact/DAO/Contact.php:292
 msgid "Hash"
 msgstr "Hash"
 
-#: CRM/Contact/DAO/GroupContact.php:192
+#: CRM/Contact/DAO/GroupContact.php:189
 msgid "Pending Date"
 msgstr "Czas oczekiwania"
 
-#: CRM/Contact/DAO/GroupContact.php:196
+#: CRM/Contact/DAO/GroupContact.php:193
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "In Date"
 msgstr "Data przyjścia"
 
-#: CRM/Contact/DAO/GroupContact.php:200
+#: CRM/Contact/DAO/GroupContact.php:197
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "Out Date"
 msgstr "Data wyjścia"
 
-#: CRM/Contact/DAO/GroupContact.php:204
+#: CRM/Contact/DAO/GroupContact.php:201
 msgid "Pending Method"
 msgstr "Metoda oczekiwania"
 
-#: CRM/Contact/DAO/GroupContact.php:208
+#: CRM/Contact/DAO/GroupContact.php:205
 msgid "In Method"
 msgstr "Metoda wejściowa"
 
-#: CRM/Contact/DAO/GroupContact.php:212
+#: CRM/Contact/DAO/GroupContact.php:209
 msgid "Out Method"
 msgstr "Metoda wyjściowa"
 
-#: CRM/Contact/DAO/Group.php:188
+#: CRM/Contact/DAO/Group.php:185
 msgid "Group Type"
 msgstr "Rodzaj grupy"
 
-#: CRM/Contact/DAO/IM.php:149
+#: CRM/Contact/DAO/IM.php:146
 msgid "IM Screen Name"
 msgstr "Identyfikator w komunikatorze"
 
-#: CRM/Contact/DAO/Individual.php:267
+#: CRM/Contact/DAO/Individual.php:264
 msgid "Greeting Type"
 msgstr "Rodzaj powitania"
 
-#: CRM/Contact/DAO/Individual.php:271
+#: CRM/Contact/DAO/Individual.php:268
 msgid "Custom Greeting"
 msgstr "Powitanie dodatkowe"
 
-#: CRM/Contact/DAO/Individual.php:287
+#: CRM/Contact/DAO/Individual.php:284
 msgid "Birth Date"
 msgstr "Data urodzenia"
 
-#: CRM/Contact/DAO/LocationType.php:155
+#: CRM/Contact/DAO/LocationType.php:152
 msgid "Location Type"
 msgstr "Rodzaj lokalizacji"
 
-#: CRM/Contact/DAO/Organization.php:181
+#: CRM/Contact/DAO/Organization.php:178
 msgid "Sic Code"
 msgstr "Kod SIC"
 
-#: CRM/Contact/DAO/Phone.php:166
+#: CRM/Contact/DAO/Phone.php:163
 msgid "Phone Type"
 msgstr "Rodzaj telefonu"
 
-#: CRM/Contact/DAO/RelationshipType.php:176
+#: CRM/Contact/DAO/RelationshipType.php:173
 msgid "Name A B"
 msgstr "Nazwa A B"
 
-#: CRM/Contact/DAO/RelationshipType.php:182
+#: CRM/Contact/DAO/RelationshipType.php:179
 msgid "Name B A"
 msgstr "Nazwa B A"
 
-#: CRM/Contact/DAO/RelationshipType.php:194
+#: CRM/Contact/DAO/RelationshipType.php:191
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type A"
 msgstr "Rodzaj kontaktu A"
 
-#: CRM/Contact/DAO/RelationshipType.php:198
+#: CRM/Contact/DAO/RelationshipType.php:195
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type B"
 msgstr "Rodzaj kontaktu B"
 
-#: CRM/Contact/DAO/SavedSearch.php:162
+#: CRM/Contact/DAO/SavedSearch.php:159
 msgid "Search Name"
 msgstr "Nazwa wyszukiwania"
 
-#: CRM/Contact/DAO/SavedSearch.php:172
+#: CRM/Contact/DAO/SavedSearch.php:169
 msgid "Identify form associated with saved search"
 msgstr "Wskaż formularz powiązany z zapisanym wyszukiwaniem"
 
-#: CRM/Contact/DAO/SavedSearch.php:190
+#: CRM/Contact/DAO/SavedSearch.php:187
 msgid "SQL Query"
 msgstr "Zapytanie SQL"
 
-#: CRM/Contact/DAO/SavedSearch.php:198
+#: CRM/Contact/DAO/SavedSearch.php:195
 msgid "Submitted Form Values"
 msgstr "Wysłane wartości formularza"
 
@@ -1749,123 +1749,123 @@ msgstr "Menu CiviCRM"
 msgid "New Group"
 msgstr "Nowa grupa"
 
-#: CRM/Core/DAO/ActivityHistory.php:203
+#: CRM/Core/DAO/ActivityHistory.php:200
 msgid "Module"
 msgstr "Moduł"
 
-#: CRM/Core/DAO/ActivityHistory.php:209
+#: CRM/Core/DAO/ActivityHistory.php:206
 msgid "Callback"
 msgstr "Oddzwonienie"
 
-#: CRM/Core/DAO/ActivityHistory.php:219
+#: CRM/Core/DAO/ActivityHistory.php:216
 msgid "Activity Summary"
 msgstr "Podsumowanie zdarzenia"
 
-#: CRM/Core/DAO/Country.php:144
+#: CRM/Core/DAO/Country.php:143
 msgid "Iso Code"
 msgstr "Kod ISO"
 
-#: CRM/Core/DAO/Country.php:150
+#: CRM/Core/DAO/Country.php:149
 msgid "Country Code"
 msgstr "Kod kraju"
 
-#: CRM/Core/DAO/Country.php:156
+#: CRM/Core/DAO/Country.php:155
 msgid "Idd Prefix"
 msgstr "Przedrostek Idd"
 
-#: CRM/Core/DAO/Country.php:162
+#: CRM/Core/DAO/Country.php:161
 msgid "Ndd Prefix"
 msgstr "Przedrostek Ndd"
 
-#: CRM/Core/DAO/County.php:143
+#: CRM/Core/DAO/County.php:140
 msgid "Country Abbreviation"
 msgstr "Skrót nazwy kraju"
 
-#: CRM/Core/DAO/CustomField.php:242
+#: CRM/Core/DAO/CustomField.php:239
 msgid "Html Type"
 msgstr "Rodzaj HTML"
 
-#: CRM/Core/DAO/CustomField.php:277
+#: CRM/Core/DAO/CustomField.php:274
 msgid "Attributes"
 msgstr "Własności"
 
-#: CRM/Core/DAO/CustomField.php:283
+#: CRM/Core/DAO/CustomField.php:280
 msgid "Javascript"
 msgstr "Javascript"
 
-#: CRM/Core/DAO/CustomGroup.php:195
+#: CRM/Core/DAO/CustomGroup.php:192
 msgid "Extends"
 msgstr "Rozszerza"
 
-#: CRM/Core/DAO/CustomGroup.php:199
+#: CRM/Core/DAO/CustomGroup.php:196
 msgid "Style"
 msgstr "Styl"
 
-#: CRM/Core/DAO/CustomValue.php:186
+#: CRM/Core/DAO/CustomValue.php:183
 msgid "Int Data"
 msgstr "Dane całkowitoliczbowe"
 
-#: CRM/Core/DAO/CustomValue.php:190
+#: CRM/Core/DAO/CustomValue.php:187
 msgid "Float Data"
 msgstr "Dane zmiennoprzecinkowe"
 
-#: CRM/Core/DAO/CustomValue.php:194
+#: CRM/Core/DAO/CustomValue.php:191
 msgid "Char Data"
 msgstr "Dane znakowe"
 
-#: CRM/Core/DAO/CustomValue.php:200
+#: CRM/Core/DAO/CustomValue.php:197
 msgid "Date Data"
 msgstr "Dane w postaci daty"
 
-#: CRM/Core/DAO/CustomValue.php:204
+#: CRM/Core/DAO/CustomValue.php:201
 msgid "Memo Data"
 msgstr "Dane w postaci notatki"
 
-#: CRM/Core/DAO/EmailHistory.php:160
+#: CRM/Core/DAO/EmailHistory.php:157
 msgid "Sent Date"
 msgstr "Data wysłania"
 
-#: CRM/Core/DAO/GeoCoord.php:120
+#: CRM/Core/DAO/GeoCoord.php:119
 msgid "Coord Type"
 msgstr "Rodzaj współrzędnych"
 
-#: CRM/Core/DAO/GeoCoord.php:124
+#: CRM/Core/DAO/GeoCoord.php:123
 msgid "Coord Units"
 msgstr "Jednowski współrzędnych"
 
-#: CRM/Core/DAO/GeoCoord.php:128
+#: CRM/Core/DAO/GeoCoord.php:127
 msgid "Coord Ogc Wkt String"
 msgstr "Współrzędne OGC WKT"
 
-#: CRM/Core/DAO/IMProvider.php:144
+#: CRM/Core/DAO/IMProvider.php:141
 msgid "IM Provider Name"
 msgstr "Nazwa komunikatora"
 
-#: CRM/Core/DAO/Note.php:172
+#: CRM/Core/DAO/Note.php:169
 msgid "Modified Date"
 msgstr "Data modyfikacji"
 
-#: CRM/Core/DAO/StateProvince.php:147
+#: CRM/Core/DAO/StateProvince.php:144
 msgid "State Abbreviation"
 msgstr "Skrót stanu/województwa"
 
-#: CRM/Core/DAO/UFField.php:197
+#: CRM/Core/DAO/UFField.php:194
 msgid "Field Name"
 msgstr "Nazwa pola"
 
-#: CRM/Core/DAO/UFGroup.php:151
+#: CRM/Core/DAO/UFGroup.php:148
 msgid "Form Type"
 msgstr "Rodzaj formularza"
 
-#: CRM/Core/DAO/Validation.php:155
+#: CRM/Core/DAO/Validation.php:152
 msgid "Type"
 msgstr "Rodzaj"
 
-#: CRM/Core/DAO/Validation.php:159
+#: CRM/Core/DAO/Validation.php:156
 msgid "Parameters"
 msgstr "Parametry"
 
-#: CRM/Core/DAO/Validation.php:165
+#: CRM/Core/DAO/Validation.php:162
 msgid "Function Name"
 msgstr "Nazwa funkcji"
 
