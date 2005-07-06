@@ -64,9 +64,9 @@
              <td>{$row.activity_type}</td>
              <td>
              {if $row.activity_type eq 'Meeting'}  
-               <a href="{crmURL p='civicrm/contact/view/meeting' q="action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
+               <a href="{crmURL p='civicrm/contact/view/meeting' q="action=view&id=`$row.id`&cid=$contactId&history=0"}">{$row.subject|mb_truncate:33:"...":true}</a>
              {else}
-               <a href="{crmURL p='civicrm/contact/view/call' q="action=view&id=`$row.id`&cid=$contactId"}">{$row.subject|mb_truncate:33:"...":true}</a>
+               <a href="{crmURL p='civicrm/contact/view/call' q="action=view&id=`$row.id`&cid=$contactId&history=0"}">{$row.subject|mb_truncate:33:"...":true}</a>
              {/if}
              </td>
              <td>{$row.sourceName}</td>
