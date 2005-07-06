@@ -18,7 +18,11 @@
         {/if}
 	<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
     <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
-	<dt>{$form.scheduled_date_time.label}</dt><dd>{$form.scheduled_date_time.html}</dd>
+    {if $action eq 4}
+        <dt>{$form.scheduled_date_time.label}</dt><dd>{$scheduled_date_time|crmDate}</dd>
+    {else}
+        <dt>{$form.scheduled_date_time.label}</dt><dd>{$form.scheduled_date_time.html}</dd>
+    {/if}
 	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
     {if $action neq 4}
@@ -33,4 +37,5 @@
     <dt></dt><dd>{$form.buttons.html}</dd>
   </dl>
 </fieldset>
+<p>{$kangur}</p>
 </div>
