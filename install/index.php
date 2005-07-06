@@ -1071,6 +1071,10 @@ function _setup_link() {
     $crm_path = getcwd();
     $crm_module_path = $crm_base_path;    
     chdir($cms_module_path);
+    if(is_link($cms_module_path.'civicrm')) {
+        exec('unlink '.$cms_module_path. 'civicrm');
+    }
+
     exec('ln -s '.$crm_path.' '.$cms_module_path.'civicrm');
     chdir($crm_path."/sql");
     
