@@ -1076,7 +1076,7 @@ function _setup_link() {
     
     system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' '.$db_db.' < Contacts.sql');
     system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' '.$db_db.' < FixedData.sql',$var);
-    echo $var; 
+    
     chdir($crm_path);
 }
 
