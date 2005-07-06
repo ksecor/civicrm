@@ -1104,9 +1104,12 @@ function _setup_config_file (&$params)
 
     $contents .= '// this is used for formatting the various date displays. Change this to match'."\n";
     $contents .= '// your locale if different.'."\n";
-    $contents .= 'define( \'CRM_DATEFORMAT_FULL\', \'%B %E%f, %Y %h:%i %A\' );'."\n";
+    $contents .= 'define( \'CRM_DATEFORMAT_DATETIME\', \'%B %E%f, %Y %l:%M %P\' );'."\n";
+    $contents .= 'define( \'CRM_DATEFORMAT_FULL\', \'%B %E%f, %Y\' );'."\n";
     $contents .= 'define( \'CRM_DATEFORMAT_PARTIAL\', \'%B %Y\' );'."\n";
-    $contents .= 'define( \'CRM_DATEFORMAT_YEAR\', \'%Y\' );'."\n\n";
+    $contents .= 'define( \'CRM_DATEFORMAT_YEAR\', \'%Y\' );'."\n";
+    $contents .= 'define( \'CRM_DATEFORMAT_QF_DATE\', \'%b %d %Y\' );'."\n";
+    $contents .= 'define( \'CRM_DATEFORMAT_QF_DATETIME\', \'%b %d %Y, %I : %M %P\' );'."\n\n";
 
     $contents .= 'define( \'CRM_SMTP_SERVER\' , \'YOUR SMTP SERVER\' );'."\n\n";
 

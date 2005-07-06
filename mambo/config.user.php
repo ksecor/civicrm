@@ -16,9 +16,12 @@ define( 'CRM_USERFRAMEWORK'       , 'Mambo' );
 define( 'CRM_USERFRAMEWORK_URLVAR', 'task'  );
 
 define( 'CRM_LC_MESSAGES' , 'en_US' );
-define( 'CRM_DATEFORMAT_FULL', '%B %e, %Y' );
+define( 'CRM_DATEFORMAT_DATETIME', '%B %E%f, %Y %l:%M %P' );
+define( 'CRM_DATEFORMAT_FULL', '%B %E%f, %Y' );
 define( 'CRM_DATEFORMAT_PARTIAL', '%B %Y' );
 define( 'CRM_DATEFORMAT_YEAR', '%Y' );
+define( 'CRM_DATEFORMAT_QF_DATE', '%b %d %Y' );
+define( 'CRM_DATEFORMAT_QF_DATETIME', '%b %d %Y, %I : %M %P' );
 define( 'CRM_SMTP_SERVER' , 'smtp.sbcglobal.net' );
 
 include_once 'config.main.php';

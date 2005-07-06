@@ -239,19 +239,20 @@ class CRM_Utils_Date {
     /**
      * create a date and time string in a provided format
      *
-     * format keywords (with examples based on '2005-01-02 15:04:00' and C locale):
-     * %b - abbreviated month name ('Jan')
-     * %B - full month name ('January')
-     * %d - day of the month as a decimal number, 0-padded ('02')
-     * %e - day of the month as a decimal number, blank-padded (' 2')
-     * %E - day of the month as a decimal number ('2')
-     * %f - English ordinal suffix for the day of the month ('st')
-     * %H - hour in 24-hour format ('15')
-     * %I - hour in 12-hour format, 0-padded ('03')
-     * %m - month as a decimal number, 0-padded ('01')
-     * %M - minute, 0-padded ('04')
-     * %p - lowercase ante/post meridiem ('pm')
-     * %P - uppercase ante/post meridiem ('PM')
+     * %b - abbreviated month name ('Jan'..'Dec')
+     * %B - full month name ('January'..'December')
+     * %d - day of the month as a decimal number, 0-padded ('01'..'31')
+     * %e - day of the month as a decimal number, blank-padded (' 1'..'31')
+     * %E - day of the month as a decimal number ('1'..'31')
+     * %f - English ordinal suffix for the day of the month ('st', 'nd', 'rd', 'th')
+     * %H - hour in 24-hour format, 0-padded ('00'..'23')
+     * %I - hour in 12-hour format, 0-padded ('01'..'12')
+     * %k - hour in 24-hour format, blank-padded (' 0'..'23')
+     * %l - hour in 12-hour format, blank-padded (' 1'..'12')
+     * %m - month as a decimal number, 0-padded ('01'..'12')
+     * %M - minute, 0-padded ('00'..'60')
+     * %p - lowercase ante/post meridiem ('am', 'pm')
+     * %P - uppercase ante/post meridiem ('AM', 'PM')
      * %Y - year as a decimal number including the century ('2005')
      * 
      * @param string $date    date and time in 'YYYY-MM-DD hh:mm:ss' format
@@ -299,6 +300,8 @@ class CRM_Utils_Date {
                           '%f' => $suffix,
                           '%H' => $hour24 > 9 ? $hour24 : '0' . $hour24,
                           '%I' => $hour12 > 9 ? $hour12 : '0' . $hour12,
+                          '%k' => $hour24 > 9 ? $hour24 : ' ' . $hour24,
+                          '%l' => $hour12 > 9 ? $hour12 : ' ' . $hour12,
                           '%m' => $month  > 9 ? $month  : '0' . $month,
                           '%M' => $minute > 9 ? $minute : '0' . $minute,
                           '%p' => strtolower($type),
@@ -318,6 +321,7 @@ class CRM_Utils_Date {
      * converts the format string from POSIX notation to PHP notation
      *
      * example: converts '%Y-%m-%d' to 'Y-M-d'
+     * note: the blank-padded sequences are converted to non-blank-padded ones
      *
      * @param string $format  format string in POSIX % notation
      *
@@ -331,10 +335,13 @@ class CRM_Utils_Date {
             '%b' => 'M',
             '%B' => 'F',
             '%d' => 'd',
+            '%e' => 'j',
             '%E' => 'j',
             '%f' => 'S',
             '%H' => 'H',
             '%I' => 'h',
+            '%k' => 'G',
+            '%l' => 'g',
             '%m' => 'm',
             '%M' => 'i',
             '%p' => 'a',
