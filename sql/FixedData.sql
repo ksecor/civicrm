@@ -461,3 +461,9 @@ VALUES
     (1,'state_province',6,1,0,0,0,0,'Public User Pages and Listings','','Your state/province and country of residence will be shared with others so folks can find others in their community.'),
     (1,'country',7,1,0,0,0,0,'Public User Pages and Listings','',''),
     (1,'email',8,1,1,0,0,1,'Public User Pages and Listings','','');
+
+INSERT INTO crm_mailing_component
+    (domain_id,name,component_type,subject,body_html,body_text,is_default,is_active)
+VALUES
+    (1,'Mailing Header','Header','This is the Header','HTML Body of Header','Text Body of Header',1,1),
+    (1,'Mailing Footer','Footer','This is the Footer','HTML Body of Footer','Text Body of Footer',1,1);

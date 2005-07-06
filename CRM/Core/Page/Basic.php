@@ -171,6 +171,9 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
      * browse all entities.
      *
      * @param int $action
+     *
+     * @return void
+     * @access public
      */
     function browse($action = null) {
         $links =& $this->links();

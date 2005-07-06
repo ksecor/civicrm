@@ -632,74 +632,80 @@ SELECT DISTINCT crm_contact.id as contact_id,
         //Start Custom data Processing 
         
         $cdANDArray = array();
-        foreach($fv as $k => $v) {
-            list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
-
-            
-            if ( $str == 'customData' && $v != '') {
-
-                $strSelect = $strFrom = $strWhere = $orderBy = ''; 
-                
-                $tableData = array();
-                
-                // using tableData to build the queryString 
-                $tableData = array(
-                                   'crm_custom_value' => array('id', 'int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
-                                   'crm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type'),
-                                   );
-                
-                // create select
-                $strSelect = "SELECT"; 
-                foreach ($tableData as $tableName => $tableColumn) {
-                    foreach ($tableColumn as $columnName) {
-                        $alias = $tableName . '_' . $columnName;
-                        $strSelect .= " $tableName.$columnName as $alias,";
-                    }
+        if ( ! empty( $fv ) ) {
+            foreach ($fv as $k => $v) {
+                if ( substr( $k, 0, 10 ) != 'customData' ) {
+                    continue;
                 }
-                $strSelect = rtrim($strSelect, ',');
+                $tables['crm_custom_value'] = 1;
+
+                list($str, $groupId, $fieldId, $elementName) = explode('_', $k, 4);
                 
-                // from, where, order by
-                $strFrom = " FROM crm_custom_value, crm_custom_field ";
-                $strWhere = " WHERE crm_custom_value.custom_field_id = $fieldId
+                if ( $str == 'customData' && $v != '') {
+                    
+                    $strSelect = $strFrom = $strWhere = $orderBy = ''; 
+                    
+                    $tableData = array();
+                    
+                    // using tableData to build the queryString 
+                    $tableData = array(
+                                       'crm_custom_value' => array('id', 'int_data', 'float_data', 'char_data', 'date_data', 'memo_data'),
+                                       'crm_custom_field' => array('id', 'name', 'label', 'data_type', 'html_type'),
+                                       );
+                    
+                    // create select
+                    $strSelect = "SELECT"; 
+                    foreach ($tableData as $tableName => $tableColumn) {
+                        foreach ($tableColumn as $columnName) {
+                            $alias = $tableName . '_' . $columnName;
+                            $strSelect .= " $tableName.$columnName as $alias,";
+                        }
+                    }
+                    $strSelect = rtrim($strSelect, ',');
+                    
+                    // from, where, order by
+                    $strFrom = " FROM crm_custom_value, crm_custom_field ";
+                    $strWhere = " WHERE crm_custom_value.custom_field_id = $fieldId
                               AND crm_custom_value.custom_field_id = crm_custom_field.id
                               AND crm_custom_field.is_active = 1";
-                $orderBy = " ORDER BY crm_custom_field.weight";
-                
-                // final query string
-                $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-                
-                // dummy dao needed
-                $crmDAO =& new CRM_Core_DAO();
-                $crmDAO->query($queryString);
-                
-                // process records
-                while($crmDAO->fetch()) {
-                    $dataType = $crmDAO->crm_custom_field_data_type;
+                    $orderBy = " ORDER BY crm_custom_field.weight";
                     
-                    switch ($dataType) {
-                    case 'String':
-                        $cdANDArray[] = " ( crm_custom_value.char_data LIKE '%". $v ."%' )";
-                        break;
-                    case 'Int':
-                    case 'Boolean':
-                        $cdANDArray[] = " ( crm_custom_value.int_data = '". $v . "' )";;
-                        break;
-                    case 'Float':
-                    case 'Money':
-                        $cdANDArray[] = " ( crm_custom_value.float_data = '". $v . "' ) ";
-                        break;
-                    case 'Memo':
-                        $cdANDArray[] = " ( crm_custom_value.memo_data LIKE '%". $v . "%' )";
-                        break;
-                    case 'Date':
-                        $cdANDArray[] = " ( crm_custom_value.date_data = '". $v . "' )";
-                        break;
-                    case 'StateProvince':
-                        $cdANDArray[] = " ( crm_custom_value.int_data = '". $v . "' )";
-                        break;
-                    case 'Country':
-                        $cdANDArray[] = " ( crm_custom_value.int_data = '". $v . "' )";
-                        break;
+                    // final query string
+                    $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
+                    
+                    // dummy dao needed
+                    $crmDAO =& new CRM_Core_DAO();
+                    $crmDAO->query($queryString);
+                    
+                    // process records
+                    while($crmDAO->fetch()) {
+                        $dataType = $crmDAO->crm_custom_field_data_type;
+                        
+                        switch ($dataType) {
+                        case 'String':
+                            $cdANDArray[] = " ( crm_custom_value.char_data LIKE '%". $v ."%' )";
+                            break;
+                        case 'Int':
+                        case 'Boolean':
+                            $cdANDArray[] = " ( crm_custom_value.int_data = '". $v . "' )";;
+                            break;
+                        case 'Float':
+                        case 'Money':
+                            $cdANDArray[] = " ( crm_custom_value.float_data = '". $v . "' ) ";
+                            break;
+                        case 'Memo':
+                            $cdANDArray[] = " ( crm_custom_value.memo_data LIKE '%". $v . "%' )";
+                            break;
+                        case 'Date':
+                            $cdANDArray[] = " ( crm_custom_value.date_data = '". $v . "' )";
+                            break;
+                        case 'StateProvince':
+                            $cdANDArray[] = " ( crm_custom_value.int_data = '". $v . "' )";
+                            break;
+                        case 'Country':
+                            $cdANDArray[] = " ( crm_custom_value.int_data = '". $v . "' )";
+                            break;
+                        }
                     }
                 }
             }

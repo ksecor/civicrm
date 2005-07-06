@@ -106,6 +106,27 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $savedSearch->save();
         $this->set('ssID',$savedSearch->id);
         CRM_Core_Session::setStatus( ts('Your search has been saved as "%1".', array(1 => $formValues['name'])) );
+
+        // also create a group that is associated with this saved search only if new saved search
+        if ( ! $this->_id ) {
+            $group                  =& new CRM_Contact_DAO_Group( );
+            $group->domain_id       =  CRM_Core_Config::domainID( );
+            $group->name            =  $formValues['name'];
+            $group->title           =  $formValues['name'];
+            $group->description     =  $formValues['description'];
+            $group->saved_search_id =  $savedSearch->id;
+            $group->save( );
+        } else {
+            // retrieve group
+            $group                  =& new CRM_Contact_DAO_Group( );
+            $group->saved_search_id =  $savedSearch->id;
+            if ( $group->find( true ) ) {
+                $group->name            =  $formValues['name'];
+                $group->title           =  $formValues['name'];
+                $group->description     =  $formValues['description'];
+                $group->save( );
+            }
+        }
     }
 }
 ?>

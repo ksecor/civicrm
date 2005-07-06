@@ -174,7 +174,7 @@ class CRM_Core_Invoke {
         $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
 
         if ( $thirdArg == 'saved' ) {
-            $page =& new CRM_Contact_Page_SavedSearch( '', CRM_Contact_Page_View::MODE_NONE );
+            $page =& new CRM_Contact_Page_SavedSearch( );
             return $page->run( );
         }
 

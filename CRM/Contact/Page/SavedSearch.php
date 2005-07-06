@@ -58,6 +58,13 @@ class CRM_Contact_Page_SavedSearch extends CRM_Core_Page {
      */
     function delete($id)
     {
+        // first delete the group associated with this saved search
+        $group =& new CRM_Contact_DAO_Group( );
+        $group->saved_search_id =  $id;
+        if ( $group->find( true ) ) {
+            CRM_Contact_BAO_Group::discard( $group->id );
+        }
+        
         $savedSearch =& new CRM_Contact_DAO_SavedSearch();
         $savedSearch->id = $id;
         $savedSearch->delete();

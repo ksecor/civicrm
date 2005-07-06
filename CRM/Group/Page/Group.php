@@ -40,6 +40,13 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
      * @var array
      */
     static $_links = null;
+    
+    /**
+     * The action links that we need to display for saved search items
+     *
+     * @var array
+     */
+    static $_savedSearchLinks = null;
 
     function getBAOName( ) {
         return 'CRM_Contact_BAO_Group';
@@ -70,6 +77,28 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
             );
         }
         return self::$_links;
+    }
+
+    function &savedSearchLinks( ) {
+        if ( ! self::$_savedSearchLinks ) {
+            $deleteExtra = ts('Do you really want to remove this Saved Search?');
+            self::$_savedSearchLinks =
+                array(
+                      CRM_Core_Action::VIEW   => array(
+                                                       'name'  => ts('Search'),
+                                                       'url'   => 'civicrm/contact/search/advanced',
+                                                       'qs'    => 'reset=1&force=1&ssID=%%ssid%%',
+                                                       'title' => ts('Search')
+                                                       ),
+                      CRM_Core_Action::DELETE => array(
+                                                       'name'  => ts('Delete'),
+                                                       'url'   => 'civicrm/contact/search/saved',
+                                                       'qs'    => 'action=delete&id=%%ssid%%',
+                                                       'extra' => 'onclick="return confirm(\'' . $deleteExtra . '\');"',
+                                                       ),
+                      );
+        }
+        return self::$_savedSearchLinks;
     }
 
     function editForm( ) {
@@ -116,6 +145,47 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic {
         
         return null;
     }
+
+    /**
+     * We need to do slightly different things for groups vs saved search groups, hence we
+     * reimplement browse from Page_Basic
+     * @param int $action
+     *
+     * @return void
+     * @access public
+     */
+    function browse($action = null) {
+        $config =& CRM_Core_Config::singleton( );
+        $values =  array( );
+
+        $object = new CRM_Contact_BAO_Group( );
+        $object->domain_id = $config->domainID( );
+        $object->orderBy ( 'saved_search_id asc, title asc' );
+        $object->find();
+
+        while ($object->fetch()) {
+            $permission = $this->checkPermission( $object->id, $object->title );
+            if ( $permission ) {
+                $values[$object->id] = array( );
+                CRM_Core_DAO::storeValues( $object, $values[$object->id]);
+                if ( $object->saved_search_id ) {
+                    $links =& $this->savedSearchLinks( );
+                } else {
+                    $links =& $this->links( );
+                }
+                if ( $action == null ) {
+                    $action = array_sum(array_keys($links));
+                }
+                $action = $action & CRM_Core_Action::mask( $permission );
+                $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
+                                                                            $action,
+                                                                            array( 'id'   => $object->id,
+                                                                                   'ssid' => $object->saved_search_id ) );
+            }
+        }
+
+        $this->assign( 'rows', $values );
+    }           
 
 }
 
