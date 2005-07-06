@@ -1,15 +1,76 @@
-#!/bin/bash -v
+#!/bin/sh
+ 
+# define your database name here, will be overriden by 
+# FIRST command line argument if given
+DBNAME=
+# define your database usernamename here, will be overriden by 
+# SECOND command line argument if given
+DBUSER=
+# define your database password here, will be overriden by 
+# THIRD command line argument if given
+DBPASS=
+# set your PHP5 bin dir path here, if it's not in PATH
+# The path should be terminated with dir separator!
+PHP5PATH=
 
-cd ../xml
-php GenCode.php
+# ==========================================================
+# No changes below, please.
+# ==========================================================
 
-cd ../sql
-mysql -u civicrm -pPASSWORD civicrm < Contacts.sql
-mysql -u civicrm -pPASSWORD civicrm < GeneratedData.sql
+CALLEDPATH=`dirname $0`
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
+	echo; echo Usage: setup.sh [database name] [database user] [database password]; echo
+	exit 0
+fi
+
+
+# fetch command line arguments if available
+if [ ! -z $1 ] ; then DBNAME=$1; fi
+if [ ! -z $2 ] ; then DBUSER=$2; fi
+if [ ! -z $3 ] ; then DBPASS=$3; fi
+
+# verify if we have at least DBNAME given
+if [ -z $DBNAME ] ; then
+	echo "No database name defined!"
+	exit 1
+fi
+if [ -z $DBUSER ] ; then
+	echo "No database username defined!"
+	exit 1
+fi
+if [ -z $DBPASS ] ; then
+	read -p "Database password:"
+	DBPASS=$REPLY
+fi
+
+# run code generator
+cd $CALLEDPATH/../xml
+"$PHP5PATH"php GenCode.php
+
+# someone might want to use empty password for development,
+# let's make it possible - we asked before.
+if [ -z $DBPASS ]; then # password still empty
+	PASSWDSECTION=""
+else
+	PASSWDSECTION="-p$DBPASS"
+fi
+
+cd $CALLEDPATH/../sql
+echo; echo Dropping $DBNAME database
+mysqladmin -f -u $DBUSER $PASSWDSECTION drop $DBNAME
+echo; echo Creating $DBNAME database
+mysqladmin -f -u $DBUSER $PASSWDSECTION create $DBNAME
+echo; echo Creating database structure
+mysql -u $DBUSER $PASSWDSECTION $DBNAME < Contacts.sql
+echo; echo Populating database with example data
+mysql -u $DBUSER $PASSWDSECTION $DBNAME < GeneratedData.sql
+
+echo; echo "DONE!"
 
 # to generate a new data file do the foll:
-# mysql -u civicrm -pPASSWORD civicrm < Contacts.sql
-# mysql -u civicrm -pPASSWORD civicrm < FixedData.sql
+# mysql -u civicrm -pMt\!Everest civicrm < Contacts.sql
+# mysql -u civicrm -pMt\!Everest civicrm < FixedData.sql
 # php GenerateContactData.php
-# mysqldump -t -u civicrm -pPASSWORD civicrm  > GeneratedData.sql
+# mysqldump -t -n -u civicrm -pMt\!Everest civicrm  > GeneratedData.sql
 

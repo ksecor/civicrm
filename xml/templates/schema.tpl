@@ -2,10 +2,12 @@
 
 {$database.comments}
 
-DROP DATABASE IF EXISTS {$database.name};
 
-CREATE DATABASE {$database.name} {$database.attributes};
-use {$database.name};
+
+/* DROP DATABASE IF EXISTS {$database.name}; */
+
+/* CREATE DATABASE {$database.name} {$database.attributes}; */
+/* use {$database.name}; */
 
 /*******************************************************
 *
