@@ -913,43 +913,6 @@ function install_write_conf($edit) {
 }
 
 
-function install_create_tables($edit) {
-
-    /*
-  include_once('includes/database.inc');
-  
-  $filename = 'database/civicrm.'. $edit['db_type'];
-  $handle = fopen($filename, 'r');
-  $dump = fread($handle, filesize($filename));
-  fclose($handle);
-  
-  $insert_into_sequences = 'INSERT INTO '. $edit['db_prefix'] .'sequences';
-  foreach (preg_split('/;\n/', preg_replace('/--[^\n]*\n/', '', preg_replace('/(CREATE TABLE|CREATE INDEX|INSERT INTO|REPLACE) (\w+)/', '\1 '. $edit['db_prefix'] .'\2', $dump))) as $query) {
-    if ($query = trim($query)) {
-      // For insert statements into the {sequences} table, the string value being inserted also itself needs to be prefixed.
-      // That's what the preg_replace shown directly below does.
-      if ($edit['db_prefix'] && substr_count($query, $insert_into_sequences)) {
-        $query = preg_replace("/INSERT INTO ([a-zA-Z0-9_]*)sequences VALUES \('([a-zA-Z_]*)'(.*)/", 'INSERT INTO \1sequences VALUES (\'\1\2\''.'\3', $query);
-      }
-      _db_query($query);
-    }
-  }
-
-  
-  $filename = 'database/zipcodes.'. $edit['db_type'];
-  $handle = fopen($filename, 'r');
-  $dump = fread($handle, filesize($filename));
-  fclose($handle);
-  foreach (preg_split('/;\n/', preg_replace('/--[^\n]*\n/', '', preg_replace('/(CREATE TABLE|CREATE INDEX|INSERT INTO|REPLACE) (\w+)/', '\1 '. $edit['db_prefix'] .'\2', $dump))) as $query) {
-    if ($query = trim($query)) {
-      _db_query($query);
-    }
-  }
-
-    */
-}
-
-
 function _install_db_query($edit, $dump) {
   $insert_into_sequences = 'INSERT INTO '. $edit['db_prefix'] .'sequences';
   
@@ -995,20 +958,10 @@ function _setup_config(&$edit)
     }
     
     $cms_base_folder = $subpath;
-    //print_r($cms_base_folder);
 
     //get the base directory for CMS system
     //$cms_base_folder = 'drupal';
-    /*
-    // read the bak config file
-    $handle = fopen($crm_module_path.'config.inc.php.bak','r');
-    $contents = fread($handle, filesize($crm_module_path."config.inc.php.bak"));
-    fclose($handle);
-    
-    // replace the tags defined in configure file
-    $file_contents = str_replace('USER_HOME', $crm_base_path, $contents );
-    $file_contents = str_replace('CMS_BASE', $cms_base_folder, $file_contents );
-    */
+
     // build the db dsn
     $dsn = 'mysql://'.$edit['db_user'].':'.$edit['db_pass'].'@'.$edit['db_host'].DIRECTORY_SEPARATOR.$edit['db_db'].'?new_link=true';   
 
@@ -1145,126 +1098,6 @@ function _install_dump_and_serve(&$edit) {
 
     print install_step_page('Finishing up');
     exit();
-
-  
-   /*
-  // CYCLE PATTERN: (1) DUMP QUERIES, (2) SERVE PAGE
-  if (count($_SESSION['install_dump_files']) < 2) { // count() >= 2 if zipcodes.mysql needs to be dumped
-    $handle = fopen('database/civicrm.'. $_SESSION['db_type'], 'r');
-    while ($query = _install_get_next_query($handle)) {
-      _install_db_query($edit, $query);
-    }
-    
-    $query = "CREATE TABLE zipcodes (".
-                 "zip int(5) NOT NULL default '0',".
-                 "city varchar(30) NOT NULL default '',".
-                 "state char(2) NOT NULL default '',".
-                 "latitude decimal(10,6) NOT NULL default '0.000000',".
-                 "longitude decimal(10,6) NOT NULL default '0.000000',".
-                 "timezone tinyint(2) NOT NULL default '0',".
-                 "dst tinyint(1) NOT NULL default '0',".
-                 "PRIMARY KEY  (zip),".
-                 "KEY zip (zip),".
-                 "KEY latitude (latitude),".
-                 "KEY longitude (longitude)".
-                 ") TYPE=MyISAM;";
-    
-    _install_db_query($edit, $query);
-    install_write_conf($edit);
-    print install_step_page('Finishing up');    
-  }
-  else { // This is the case where the zipcodes table is actually loaded
-    // STEP #1: Set up query count information
-    // ----------------------------------------------------------------------------------------------------------------
-    
-    $_SESSION['finished_query_count'] = isset($_SESSION['finished_query_count']) ? $_SESSION['finished_query_count'] : 0;
-    
-    // This is a good place to check if we've executed all of our queries.  If we have, then we just serve the final
-    // page of the installation wizard
-    if ($_SESSION['finished_query_count'] >= $_SESSION['total_query_count']) {
-      foreach ($_SESSION as $key => $value) {
-        unset($_SESSION[$key]);
-      }
-      install_write_conf($edit);
-      print install_step_page('Finishing up');
-      exit();
-    }
-    
-    // What is one-tenth of the total number of queries being dumped?
-    $one_tenth = round($_SESSION['total_query_count'] / 10);
-    
-    $_SESSION['current_tenth'] = isset($_SESSION['current_tenth']) ? $_SESSION['current_tenth'] : 1;
-  
-    // Need to know the total number of queries that need to be executed for
-    // completion of the current tenth of queries
-    $current_limit = $_SESSION['current_tenth'] * $one_tenth;
-    
-    // Rounded (tenth * current_tenth) does not give $_SESSION['total_query_count']
-    // This number will be off by a few, force the limit to be the total_query_count,
-    // when we get to the last tenth.
-    if ($_SESSION['current_tenth'] == 10) {
-      $current_limit = $_SESSION['total_query_count'];
-    }
-    // -------------------------------------------------------------------------------------------------------------------
-
-    
-    // STEP #2: Set up marker for which file needs to be dumped; create handles if necessary
-    // Serve final page if there are no more files that need to be dumped
-    // -------------------------------------------------------------------------------------------------------------------    
-    if (!isset($_SESSION['current_file_handle_offset'])) {
-      $_SESSION['current_file_index'] = isset($_SESSION['current_file_index']) ? $_SESSION['current_file_index'] + 1 : 0;
-      if ($_SESSION['current_file_index'] >= count($_SESSION['install_dump_files'])) {
-        foreach ($_SESSION as $key => $value) {
-          unset($_SESSION[$key]);
-        }
-        
-        install_write_conf($edit);
-        print install_step_page('Finishing up');
-        exit();
-      }
-      else {
-        $current_file_handle = fopen('database/'. $_SESSION['install_dump_files'][$_SESSION['current_file_index']] .'.'. $_SESSION['db_type'], 'r');
-      }
-    }
-    else {
-      $current_file_handle = fopen('database/'. $_SESSION['install_dump_files'][$_SESSION['current_file_index']] .'.'. $_SESSION['db_type'], 'r');
-      fseek($current_file_handle, $_SESSION['current_file_handle_offset']);
-    }
-    
-    // Execute the queries here.  Stop when the end of a file is reached or when the current number of tenths has been completed.
-    while ($_SESSION['finished_query_count'] < $current_limit) {
-      if ($query = _install_get_next_query($current_file_handle)) {
-        _install_db_query($edit, $query);
-        $_SESSION['finished_query_count'] += 1;
-      }
-      else {
-        break;
-      }
-    }
-
-    
-    // $query == NULL or EOF or something that equivalent to FALSE if there were no more queries in the current file
-    // In this case, we close the file and unset the $_SESSION variable that stores it so this function knows to open
-    // the next one when the client-browser is redirected back to this function
-    if (feof($current_file_handle)) {
-      unset($_SESSION['current_file_handle_offset']);
-      $_SESSION['continue_dump'] = TRUE;
-    }
-    else {
-      $_SESSION['current_file_handle_offset'] = ftell($current_file_handle);
-    }
-    
-    if ($_SESSION['finished_query_count'] >= $current_limit) {
-      $_SESSION['current_tenth'] += 1;
-      $_SESSION['continue_dump'] = TRUE;
-    }
-    
-   
-    //header('Location: http://'. install_base_uri() . '/index.php?op=continue_dump');
-    print _install_dump_interstitial_page(round(100 * $_SESSION['finished_query_count'] / $_SESSION['total_query_count']));
-    exit;
-  } */  
-
 }
 
 
@@ -1298,89 +1131,6 @@ function _install_dump_interstitial_page($percentage) {
   $output .= install_step_main_content('Setting up database...', $percentage);
   $output .= install_page_footer();
   print $output;
-}
-
-
-function _install_create_conf_file($edit) {
-  $contents  = '<?php'."\n";
-  $contents .= "\n";
-  $contents .= '/**'."\n";
-  $contents .= ' * @file'."\n";
-  $contents .= ' * This file stores basic but essential Drupal site-specific settings. '."\n";
-  $contents .= ' */'."\n";
-  $contents .= "\n";
-  $contents .= '#'."\n";
-  $contents .= '# Instructions:'."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   You will need to set the values of two mandatory variables in this file.'."\n";
-  $contents .= '#   The first concerns your database connection and the second tells Drupal'."\n";
-  $contents .= '#   where you website will be located. Optionally, you can specify additional'."\n";
-  $contents .= '#   PHP settings at the end of this file.'."\n";
-  $contents .= '#'."\n";
-  $contents .= "\n";
-  $contents .= '#'."\n";
-  $contents .= '# 1. Set your database connection and optional prefix.'."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   The database connection string tells Drupal how to connect to your database,'."\n";
-  $contents .= '#   where it\'s located and what its name is.'."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   Some examples are:'."\n";
-  $contents .= '#     $db_url = \'mysql://user:password@hostname/database\';'."\n";
-  $contents .= '#     $db_url = \'pgsql://user:password@hostname/database\'; '."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   You should be able to get this information from your webhost or systems'."\n";
-  $contents .= '#   administrator. Drupal cannot retreive or set this information for you.'."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   Advanced users: To specify multiple connections for your site (i.e. for '."\n";
-  $contents .= '#   complex custom modules) you can also specify an associative array of $db_url '."\n";
-  $contents .= '#   variables with the \'default\' element used until otherwise requested.'."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   To set the value of the variable, please fill in a value:'."\n";
-  if ($edit['db_type'] == 'mysql') {
-    $contents .= '$db_url = \''. $edit['db_type'] .'://'. $edit['db_user'] .':'. $edit['db_pass'] .'@'. $edit['db_host'] .'/'. $edit['db_db'] .'\';'."\n";
-  }
-  else {
-    $contents .= '$db_url = \''. $edit['db_type'] .'://'. $edit['db_user'] .':'. $edit['db_pass'] .'@'. $edit['db_host'] .'/"'. $edit['db_db'] .'"\';'."\n";
-  }
-  $contents .= "\n";
-  $contents .= '#   Optional: If you would like to prefix the database tables used for this '."\n";
-  $contents .= '#   Drupal site, you may specify an alphanumeric prefix string. This setting'."\n";
-  $contents .= '#   can be helpful if you are working with only one database.'."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   Some examples could be:'."\n";
-  $contents .= '#     $db_prefix = \'demosite_\';'."\n";
-  $contents .= '#     $db_prefix = \'userblog_\';'."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   If you do not want to prefix your tables, set the value to an empty string "".'."\n";
-  $contents .= '$db_prefix = \''. $edit['db_prefix'] .'\';'."\n";
-  $contents .= "\n"; 
-  $contents .= '#'."\n";
-  $contents .= '#  2. Set your site address:'."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   The $base_url tells Drupal where to look for your website files. The value'."\n";
-  $contents .= '#   should be a standard URL without a slash ("/") on the end. '."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   Some examples are:'."\n";
-  $contents .= '#   $base_url = \'http://www.hostname.org\';'."\n";
-  $contents .= '#   $base_url = \'http://www.hostname.com/drupalsite\';'."\n";
-  $contents .= '$base_url = \'http://'. install_base_uri() .'\';'."\n";
-  $contents .= "\n";
-  $contents .= '#'."\n";
-  $contents .= '# 3. Advanced PHP settings:'."\n";
-  $contents .= '#'."\n";
-  $contents .= '#   Normally, you will not need to change your PHP settings. However, if you would '."\n";
-  $contents .= '#   like to make changes, take a look at the .htaccesss file in Drupal\'s root '."\n";
-  $contents .= '#   directory for an idea of the settings to override. If you get unexpected '."\n";
-  $contents .= '#   warnings or errors, double-check your PHP settings.'."\n";
-  $contents .= "\n";
-  $contents .= '#   If required, you may set an alternate path to include your PEAR directory.'."\n";
-  $contents .= '#   Simply remove the comment slashes ("//") and replace ".:/path/to/pear" with'."\n";
-  $contents .= '#   the location of your PEAR directory.'."\n";
-  $contents .= '// ini_set("include_path", ".:/path/to/pear");'."\n";
-  $contents .= "\n";
-  $contents .= "\n";
-  $contents .= '?>'."\n";
-  return $contents;
 }
 
 
@@ -1480,20 +1230,6 @@ function install_step_explanation($title, $percent = NULL) {
       $output .= ''."\n";
       break;
     case 'Database setup':
-/*      $output .= "\n\n";
-      $output .= '         <p>In order for this step to proceed correctly, three conditions must be met:</p>'."\n";
-      $output .= '            <ol>'."\n";
-      $output .= '                <li>'."\n";
-      $output .= '                    You must provide a valid MySQL database account and password.'."\n";
-      $output .= '                </li>'."\n";
-      $output .= '                <li>'."\n";
-      $output .= '                    The database that you specify must already exist.'."\n";
-      $output .= '                </li>'."\n";
-      $output .= '                <li>'."\n";
-      $output .= '                    There can no table name collisions between your database and another using the same account.'."\n";
-      $output .= '                </li>'."\n";
-      $output .= '            </ol>'."\n";
-      $output .= '         </p>'."\n"; */
       break;
     case 'Setting up database...':
       $output .= "\n\n";
@@ -1738,22 +1474,6 @@ function _install_check_server() {
         $status['messages'] .= _install_msg_successful('The <code>'.$cms_path.'/modules</code> directory is readable and writable.');
     }
 
-    /*
-     // phplist check - doesn't work on Win, must be executable on linux
-  if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    $status['messages'] .= _install_msg_warning('Please note that the PHPList module is not supported on Windows.  You may proceed with the installation, but you will not be able to use the <em>mass mailer</em> module.');
-  } else {
-    if (!is_executable('modules/phplist/bin/phplist')) {
-      $status['server_ok'] = FALSE;
-      $status['messages'] .= _install_msg_failed('The <code>modules/phplist/bin/phplist</code> script is not executable by the web server.', NULL, 'http://www.civicrmlabs.org/installer_help/081/phplist_perms');
-    }
-    else {
-      $status['messages'] .= _install_msg_successful('The <code>modules/phplist/bin/phplist</code> script is executable by the web server.');
-    }
-  }
-  
-    */
-    
     $status['messages'] .= "          </div>\n";
     return $status;
 }
