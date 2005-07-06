@@ -976,14 +976,29 @@ function _install_save_cms(&$edit){
 function _setup_config(&$edit)
 {
     // get the working directory of the CiviCRM module
+    $flag = 1;
     getcwd();
     chdir('../'); 
     $crm_base_path = getcwd();
     $crm_module_path = $crm_base_path.'/modules/';    
     chdir('install');
+    $cms_base_folder = $_SESSION['cms_path'];
+    $cms_base_folder = explode(DIRECTORY_SEPARATOR,$cms_base_folder);
+    for($i=0;$i<count($cms_base_folder);$i++){
+        if($cms_base_folder[$i] == "htdocs"){
+            $flag = 0;
+        }
+        if($flag == 0){
+            $subpath .= "/".$cms_base_folder[$i+1];
+            
+        }
+            
+    }
+    $cms_base_folder = $subpath;
+        //print_r($cms_base_folder);
 
     //get the base directory for CMS system
-    $cms_base_folder = 'drupal';
+    //$cms_base_folder = 'drupal';
     /*
     // read the bak config file
     $handle = fopen($crm_module_path.'config.inc.php.bak','r');
@@ -1060,8 +1075,8 @@ function _setup_link() {
     chdir($crm_path."/sql");
     
     system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' '.$db_db.' < Contacts.sql');
-    system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' '.$db_db.' < FixedData.sql');
-    
+    system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' '.$db_db.' < FixedData.sql',$var);
+    echo $var; 
     chdir($crm_path);
 }
 
@@ -1070,14 +1085,13 @@ function _setup_config_file (&$params)
     $contents = '<?php'."\n";
 
     $contents .= 'global $user_home;'."\n";
-
     $contents .= '// this is the path where you have installed the civicrm code'."\n";
     $contents .= '$user_home = \''.$params['user_home'].'\' ;'."\n\n";
 
     $contents .= '// these variables define the absolute urls to access drupal and civicrm'."\n";
     $contents .= '// note that the trailing slash is important'."\n";
-    $contents .= 'define( \'CRM_HTTPBASE\'    , \'/'.$params['cms_base'].'/\'                  );'."\n";
-    $contents .= 'define( \'CRM_RESOURCEBASE\', \'/'.$params['cms_base'].'/modules/civicrm/\' );'."\n\n";
+    $contents .= 'define( \'CRM_HTTPBASE\'    , \''.$params['cms_base'].                 '\' );'."\n";
+    $contents .= 'define( \'CRM_RESOURCEBASE\', \''.$params['cms_base'].'modules/civicrm/\');'."\n\n";
 
     $contents .= '// the new_link option is super important if u r reusing the same user id across both drupal and civicrm'."\n";
     $contents .= 'define( \'CRM_DSN\'         , \''.$params['db_dsn'].'\' );'."\n\n";
