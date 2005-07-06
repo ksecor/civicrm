@@ -176,19 +176,18 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         
         // form fields of Custom Option rows
         $defaultOption = array();
-        //$_link = ""; 
+        $_showHide =& new CRM_Core_ShowHideBlocks('','');
         for($i = 1; $i <= self::NUM_OPTION; $i++) {
-            /*for ($index = $i; $index <= self::NUM_OPTION; $index++) {
-                $_link .=  "hide('optionField[$index]'); hide('optionField[$index][show]'); ";
-            }*/
-                
-            //$hideLink = $_link . "show('optionField[$i][show]'); return false;";
-
-            //CRM_Core_ShowHideBlocks::linksForArray($this, $i, self::NUM_OPTION, 'optionField', ts('Add option'), ts('Hide row'), 'table-row', $hideLink);
             
-            //Reset the value for fresh next hide link cascade string
-            //$_link = "";
-            
+            //the show hide blocks
+            $showBlocks = 'optionField['.$i.']';
+            if ($i > 2) {
+                $_showHide->addHide($showBlocks);
+                if ($i == self::NUM_OPTION)
+                    $_showHide->addHide('additionalOption');
+            } else {
+                $_showHide->addShow($showBlocks);
+            }
             // label
             $this->add('text','option_label['.$i.']', ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'));
 
@@ -202,23 +201,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
             $defaultOption[$i] = $this->createElement('radio', null, null, null, $i);
         }
-        
-        //set the default show/hide blocks
-        /*$_showHideBlocks =& new CRM_Core_ShowHideBlocks('','');
-        for($count = 2; $count <= self::NUM_OPTION; $count++) {
-            $showBlocks = 'optionField['.$count.']';
-            $hideBlocks = 'optionField['.$count.'][show]';
-            
-            if ($count > 2) {
-                $_showHideBlocks->addHide($showBlocks);
-                $_showHideBlocks->addHide($hideBlocks);
-            } else {
-                $_showHideBlocks->addShow($showBlocks);
-                $_showHideBlocks->addHide($hideBlocks);
-            }
-        }
-        $_showHideBlocks->addTotemplate();*/
-        
+        $_showHide->addToTemplate();                
         //default option selection
         $tt =& $this->addGroup($defaultOption, 'default_option');
 		
@@ -384,19 +367,34 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $_fieldError = 0;
                     CRM_CORE_Page::assign('fieldError', $_fieldError);
                 }
+                
+                
+                for ($idx=1; $idx<= self::NUM_OPTION; $idx++) {
+                    $showBlocks = 'optionField['.$idx.']';
+                    if (!empty($fields['option_label'][$idx])) {
+                        $_showHide->addShow($showBlocks);
+                    } else {
+                        echo "Entering row $idx <br>";                        
+                        $_showHide->addHide($showBlocks);
+                    }
+                }
+                $_showHide->addToTemplate();
             }
+
+            //Check for duplicate Field Label
+            $fieldLabel = $fields['label'];
+            $dao =& new CRM_Core_DAO();
+            $query = "SELECT * FROM crm_custom_field WHERE label = '$fieldLabel' AND custom_group_id = '$_gid'";
+            $dao->query($query);
+            
+            $result = $dao->getDatabaseResult();
+            $row    = $result->fetchRow();
+            if ($row > 0)
+                $errors['label'] = "There is a Custom Field with same name.";
         }
         
-        //Check for duplicate Field Label
-        $fieldLabel = $fields['label'];
-        $dao =& new CRM_Core_DAO();
-        $query = "SELECT * FROM crm_custom_field WHERE label = '$fieldLabel'";
-        $dao->query($query);
-        
-        $result = $dao->getDatabaseResult();
-        $row    = $result->fetchRow();
-        if ($row > 0)
-            $errors['label'] = "There is a Custom Field with same name.";
+
+       
             
         
         return empty($errors) ? true : $errors;

@@ -36,10 +36,10 @@
     {/strip}
     
 </fieldset>
-{assign var=showRows value="'optionField[1]','optionField[2]'"}
-{assign var=hideBlocks value="'optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]','optionField[11]','additionalOption'"}
+{*assign var=showRows value="'optionField[1]','optionField[2]'"*}
+{*assign var=hideBlocks value="'optionField[3]','optionField[4]','optionField[5]','optionField[6]','optionField[7]','optionField[8]','optionField[9]','optionField[10]','optionField[11]','additionalOption'"*}
 <script type="text/javascript">
-    var showRows   = new Array({$showRows});
+    var showRows   = new Array({$showBlocks});
     var hideBlocks = new Array({$hideBlocks});
     var rowcounter = 0;
 
