@@ -177,7 +177,7 @@ class CRM_Core_Config {
     /**
      * Default smtp server and port
      */
-    public $smtpServer         = 'smtp.sbcglobal.net';
+    public $smtpServer         = 'localhost';
     public $smtpPort           = 25;
 
     /**
