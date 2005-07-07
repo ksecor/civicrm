@@ -50,6 +50,7 @@ $tables   =& getTables( $dbXML, $database );
 
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );
+$smarty->assign_by_ref( 'dropOrder', array_reverse( array_keys( $tables ) ) );
 
 echo "Generating sql file\n";
 

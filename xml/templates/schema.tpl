@@ -2,10 +2,14 @@
 
 {$database.comments}
 
-DROP DATABASE IF EXISTS {$database.name};
-
-CREATE DATABASE {$database.name} {$database.attributes};
-use {$database.name};
+/*******************************************************
+*
+* DROP TABLES IN REVERSE ORDER OF CREATION
+*
+*******************************************************/
+{foreach from=$dropOrder item=name}
+DROP TABLE IF EXISTS {$name};
+{/foreach}
 
 /*******************************************************
 *
@@ -23,7 +27,6 @@ use {$database.name};
 {/if}
 *
 *******************************************************/
-DROP TABLE IF EXISTS {$table.name};
 CREATE TABLE {$table.name} (
 {assign var='first' value=true}
 
