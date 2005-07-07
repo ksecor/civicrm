@@ -74,9 +74,6 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
      */
     function preProcess( )
     {
-
-        //CRM_Core_Error::le_method();
-
         $this->_id = CRM_Utils_Request::retrieve( 'id', $this );
         $this->assign( 'id', $this->_id );
         

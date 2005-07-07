@@ -55,8 +55,6 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
      */
     public function __construct($groupId)
     {
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::debug_var('groupId', $groupId);
         $this->_groupId = $groupId;
         parent::__construct();
     }
@@ -85,11 +83,7 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
 
-        $doneURL = 'civicrm/contact/view/cd';
-
-        if ($this->_groupId) {
-            $doneURL .= "/$this->_groupId";
-        }
+        $doneURL = 'civicrm/contact/view/cd/' . $this->_groupId;
 
         $session->pushUserContext(CRM_Utils_System::url($doneURL, 'action=browse'));
         $controller->set('tableId'   , $this->_contactId );
@@ -100,6 +94,5 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
 
         return parent::run();
     }
-
 }
 ?>

@@ -49,9 +49,6 @@ class CRM_Core_Invoke {
      * @access public
      */    
     static function invoke( $args ) {
-
-        //CRM_Core_Error::le_method();
-
         if ( $args[0] !== 'civicrm' ) {
             return;
         }

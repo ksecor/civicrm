@@ -320,16 +320,13 @@ class CRM_Utils_Menu {
                             'title'   => ts('Tags'),
                             'type'    => self::CALLBACK,
                             'crmType' => self::LOCAL_TASK,
-                            'weight'  => 500
+                            'weight'  => 5
                             ),
 
                       array(
                             'path'    => 'civicrm/contact/view/cd',
-                            'qs'      => 'reset=1&cid=%%cid%%',
-                            'title'   => ts('Custom Data'),
                             'type'    => self::CALLBACK,
-                            'crmType' => self::LOCAL_TASK,
-                            'weight'  => 64
+                            'crmType' => self::CALLBACK,
                             ),
 
                       array(

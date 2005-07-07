@@ -108,7 +108,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @param string $entity   - of the contact whose contact type is needed
      * @param int    $entityId - optional - id of entity if we need to populate the tree with custom values. 
      * @param int    $groupId  - optional group id (if we need it for a single group only)
-     *
+     *                         - if groupId is 0 it gets for inline groups only
      * @return array $groupTree - array consisting of all groups and fields and optionally populated with custom data values.
      *
      *
@@ -119,9 +119,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function getTree($entity, $entityId=null, $groupId=0)
     {
-        CRM_Core_Error::le_method();
-        CRM_Core_Error::debug_var('groupId', $groupId);
-
         // create a new tree
         $groupTree = array();
         $strSelect = $strFrom = $strWhere = $orderBy = ''; 
@@ -134,7 +131,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                            'crm_custom_group' => array('id', 'title', 'help_pre', 'collapse_display'),
                            );
 
-
+        // since we have an entity id, lets get it's custom values too.
         if ($entityId) {
             $tableData['crm_custom_value'] = array('id', 'int_data', 'float_data', 'char_data', 'date_data', 'memo_data');
         }
@@ -150,7 +147,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         $strSelect = rtrim($strSelect, ',');
 
         // from, where, order by
-        //$strFrom = " FROM crm_custom_field, crm_custom_group";
         $strFrom = " FROM crm_custom_group LEFT JOIN crm_custom_field ON (crm_custom_field.custom_group_id = crm_custom_group.id)";
         if ($entityId) {
             $strFrom .= " LEFT JOIN crm_custom_value ON (crm_custom_value.custom_field_id = crm_custom_field.id AND crm_custom_value.entity_id = $entityId)";
@@ -169,21 +165,16 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
             // since we want a specific group id we add it to the where clause
             $strWhere .= " AND crm_custom_group.id = $groupId";
             $strWhere .= " AND crm_custom_group.style = 'Tab'";
+            $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
         } else {
             // since groupId is 0 we need to show all Inline groups
             $strWhere .= " AND crm_custom_group.style = 'Inline'";
+            // for inline we are ordering by - group weight, group title and then field weight
+            $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_group.title, crm_custom_field.weight";
         }
-
-        if ($entityId) {
-            //$strWhere .= " AND crm_custom_value.entity_id = $entityId";
-        }
-
-        $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
 
         // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-
-        CRM_Core_Error::debug_var('queryString', $queryString);
 
         // dummy dao needed
         $crmDAO =& new CRM_Core_DAO();
@@ -198,9 +189,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
             // create an array for groups if it does not exist
             if (!array_key_exists($groupId, $groupTree)) {
-
-                CRM_Core_Error::debug_log_message("adding group id - $groupId ...");
-
                 $groupTree[$groupId] = array();
                 $groupTree[$groupId]['id'] = $groupId;
 
@@ -681,7 +669,12 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
     }
 
     /**
-     * Adds weight for custom groups for an entity
+     *
+     * This function does 2 things - 
+     *   1 - Create menu tabs for all custom groups with style 'Tab'
+     *   2 - Updates tab for custom groups with style 'Inline'. If there
+     *       are no inline groups it removes the 'Custom Data' tab
+     *
      *
      * @param string $entity      - what entity are we extending here ?
      * @param string $path        - what should be the starting path for the new menus ?
@@ -695,48 +688,44 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      */
     public static function addMenuTabs($entity, $path, $startWeight)
     {
-
-        //        CRM_Core_Error::le_method();
-        //         CRM_Core_Error::debug_var('entity', $entity);
-
         $customGroupDAO = new CRM_Core_DAO_CustomGroup();
         $menus = array();
 
+        // get only 'Inline' groups
+        $customGroupDAO->whereAdd("style = 'Inline'");
+        $customGroupDAO->whereAdd("is_active = 1");
+        // add whereAdd for entity type
+        CRM_Core_BAO_CustomGroup::_addWhereAdd($customGroupDAO, $entity);
+
+        // order by weight
+        $customGroupDAO->orderBy('weight, title');
+        if ($customGroupDAO->find(1)) {
+            $menu = array();
+            $menu['path']    = "$path/0";
+            $menu['title']   = "$customGroupDAO->title";
+            $menu['qs']      = 'reset=1&cid=%%cid%%';
+            $menu['type']    = CRM_Utils_Menu::CALLBACK;
+            $menu['crmType'] = CRM_Utils_Menu::LOCAL_TASK;
+            $menu['weight']  = $startWeight++;
+            $menus[] = $menu;
+        }
+
+        // for Tab's
+        $customGroupDAO = new CRM_Core_DAO_CustomGroup();
+
+        // get only 'Tab' groups
         $customGroupDAO->whereAdd("style = 'Tab'");
         $customGroupDAO->whereAdd("is_active = 1");
-        
-        // if contact, get all related to contact
-        if ($entity == 'Contact') {
-            $customGroupDAO->whereAdd("extends = 'Contact'");
-            $customGroupDAO->whereAdd("extends = 'Individual'", 'OR');
-            $customGroupDAO->whereAdd("extends = 'Household'",  'OR');
-            $customGroupDAO->whereAdd("extends = 'Organization'",  'OR');
-        }
-        // is I/H/O then get I/H/O and contact
-        if ($entity == "Individual" || $entity == 'Organization' || $entity == 'Household') {
-            $customGroupDAO->whereAdd("extends = 'Contact'");
-            $customGroupDAO->whereAdd("extends = '$entity'", 'OR');
-        }
 
-        // tentative logic for location and address
-        if ($entity == "Location" || $entity == 'Address') {
-            $customGroupDAO->whereAdd("extends = '$entity'");
-        }
-
-        // make sure they are tabs and are active
-        //$customGroupDAO->style     = 'Tab';
-        //$customGroupDAO->is_active = 1;        
+        // add whereAdd for entity type
+        CRM_Core_BAO_CustomGroup::_addWhereAdd($customGroupDAO, $entity);
 
         // order by weight
         $customGroupDAO->orderBy('weight');
-
         $customGroupDAO->find();
 
+        // process each group with menu tab
         while($customGroupDAO->fetch()) {
-
-            //CRM_Core_Error::debug_var("Style", $customGroupDAO->style);
-            //CRM_Core_Error::debug_var("Title", $customGroupDAO->title);            
-
             $menu = array();
             $menu['path']    = "$path/$customGroupDAO->id";
             $menu['title']   = "$customGroupDAO->title";
@@ -750,9 +739,38 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
         foreach($menus as $menu) {
             CRM_Utils_Menu::add($menu);
         }
+    }
 
-        //CRM_Core_Error::debug_var('menus', $menus);
-        //CRM_Core_Error::ll_method();
+
+
+    /**
+     * Add the whereAdd clause for the DAO depending on the type of entity
+     * the custom group is extending.
+     *
+     * @param object CRM_Core_DAO_CustomGroup (reference) - Custom Group DAO.
+     * @param string $entity      - what entity are we extending here ?
+     *
+     * @return none
+     *
+     * @access private
+     * @static
+     *
+     */
+    private static function _addWhereAdd(&$customGroupDAO, $entity)
+    {
+        // if contact, get all related to contact
+        if ($entity == 'Contact') {
+            $customGroupDAO->whereAdd("extends IN ('Contact', 'Individual', 'Household', 'Organization')");
+        }
+        // is I/H/O then get I/H/O and contact
+        if ($entity == "Individual" || $entity == 'Organization' || $entity == 'Household') {
+            $customGroupDAO->whereAdd("extends IN ('Contact', '$entity')");
+         }
+
+        // tentative logic for location and address
+        if ($entity == "Location" || $entity == 'Address') {
+            $customGroupDAO->whereAdd("extends = '$entity'");
+        }
     }
 }
 ?>
