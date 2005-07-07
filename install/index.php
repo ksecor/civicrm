@@ -947,17 +947,23 @@ function _setup_config(&$edit)
     chdir('install');
     $cms_base_folder = $_SESSION['cms_path'];
     $cms_base_folder = explode(DIRECTORY_SEPARATOR,$cms_base_folder);
-    
+    //print_r($cms_base_folder);
     for( $i=0; $i < count($cms_base_folder); $i++) {
         if($cms_base_folder[$i] == "htdocs") {
             $flag = 0;
         }
         if($flag == 0) {
+            if($cms_base_folder[$i+1] =='') {
+                continue ;
+            }
             $subpath .= "/".$cms_base_folder[$i+1];
         }
     }
     
-    $cms_base_folder = $subpath;
+    //$path = explode(DIRECTORY_SEPARATOR,$subpath);
+    //echo implode(DIRECTORY_SEPARATOR,$path);
+    //echo $subpath;
+    $cms_base_folder = $subpath.DIRECTORY_SEPARATOR;
 
     //get the base directory for CMS system
     //$cms_base_folder = 'drupal';
@@ -1030,10 +1036,8 @@ function _setup_link() {
 
     exec('ln -s '.$crm_path.' '.$cms_module_path.'civicrm');
     chdir($crm_path."/sql");
-    
-    system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' '.$db_db.' < Contacts.sql');
+    system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' '.$db_db.' < Contacts.sql',$var1);
     system($db_path.'/bin/mysql -u '.$db_user.' -p'.$db_pass.' '.$db_db.' < FixedData.sql',$var);
-    
     chdir($crm_path);
 }
 
@@ -1377,7 +1381,6 @@ function install_step_messages($title, $edit = array()) {
                       }
 
                       if ($failed_status == 'db_path_check') {
-                          //kurund
                           $messages .= _install_msg_failed('The <code>'.$edit['db_path'].'/</code> directory is not readable.', NULL, '');
                       }
                       
