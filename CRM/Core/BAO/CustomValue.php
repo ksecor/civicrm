@@ -125,25 +125,6 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
                 $customValue->date_data = $params['value'];
                 break;
         }
-
-        switch($params['extends']) {
-            case 'Contact':
-                $customValue->entity_table = 'contact';
-                $customValue->entity_id = $params['contact_id'];
-                break;
-            case 'Individual':
-                $customValue->entity_table = 'individual';
-                $customValue->entity_id = $params['individual_id'];
-                break;
-            case 'Household':
-                $customValue->entity_table = 'household';
-                $customValue->entity_id = $params['household_id'];
-                break;
-            case 'Organization':
-                $customValue->entity_table = 'organization';
-                $customValue->entity_id = $params['organization_id'];
-                break;
-        }
         $customValue->save();
         
         return $customValue;

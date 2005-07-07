@@ -586,7 +586,8 @@ function _crm_add_formatted_param(&$values, &$params) {
             $customBlock = count($params['custom']) + 1;
             $params['custom'][$customBlock] = array(
                 'custom_field_id'    => $customFieldID,
-                'value' => $value
+                'value' => $value,
+                'type' => $customFields[$customFieldID][2],
             );
         }
     }
