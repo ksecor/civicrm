@@ -145,7 +145,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $mapperKeys[$key] = $mapper[$key][0];
             $mapperTypes[$key] = $mapper[$key][1];
         }
-        $parser =& new CRM_Import_Parser_Contact( $mapperKeys );
+        $parser =& new CRM_Import_Parser_Contact( $mapperKeys, $mapperTypes );
         $parser->run( $fileName, $seperator, 
                       $mapperKeys,
                       $skipColumnHeader,

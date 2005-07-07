@@ -214,7 +214,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         }
             
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-            $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)));
+            $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null, "<br />");
             
 //             $this->add( 'select', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), $this->_mapperFields );
 //             $this->_defaults["mapper[$i]"] = $mapperKeys[$i];
@@ -269,7 +269,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
         $mapperKeysMain = array();
         $mapperKeysType = array();
-        
+       
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
             $mapperKeysMain[$i] = $mapperKeys[$i][0];
@@ -277,9 +277,9 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         }
 
         $this->set( 'mapper'    , $mapper     );
-//         CRM_Core_Error::debug('mapperKeys', $mapperKeys);
 
-        $parser =& new CRM_Import_Parser_Contact( $mapperKeysMain );
+        $parser =& new CRM_Import_Parser_Contact(   $mapperKeysMain,
+                                                    $mapperKeysType );
         $parser->run( $fileName, $seperator,
                       $mapper, 
                       $skipColumnHeader,

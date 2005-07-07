@@ -41,7 +41,8 @@ require_once 'api/crm.php';
 class CRM_Import_Parser_Contact extends CRM_Import_Parser {
 
     protected $_mapperKeys;
-    
+    protected $_mapperKeysType;
+
     protected $_emailIndex;
     protected $_firstNameIndex;
     protected $_lastNameIndex;
@@ -60,9 +61,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     /**
      * class constructor
      */
-    function __construct( &$mapperKeys ) {
+    function __construct( &$mapperKeys, &$mapperKeysType = null ) {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
+        $this->_mapperKeysType = $mapperKeysType;
     }
 
     /**
@@ -81,7 +83,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         $this->_newContacts = array();
 
         $this->setActiveFields( $this->_mapperKeys );
-        
+        $this->setActiveFieldLocationTypes( $this->_mapperKeysType );
+
         $this->_phoneIndex = -1;
         $this->_emailIndex = -1;
         $this->_firstNameIndex = -1;
@@ -217,9 +220,61 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         }
 
         $params =& $this->getActiveFieldParams( );
-        
-        $params['location_type_id'] = 1;
 
+        /* Search for multi-valued fields (ie multiple email addresses) */
+        $multiField = false;
+        $location_type_id = null;
+        $flatParams = array();
+        
+        /* Search for any field for which we have multiple values */
+        foreach ($params as $key => $field) {
+            if (is_array($field)) {
+                $count = count($field);
+                if ($count == 0) {
+                    continue;
+                } else if ($count == 1) {
+                    if (isset($location_type_id) && $location_type_id !=
+                        $field[0]['location_type_id']) {
+                            $multiField = true;
+                            break;
+                    } else {
+                        $location_type_id = $field[0]['location_type_id'];
+                    }
+                } else {
+                    $multiField = true;
+                    break;
+                }
+            } 
+        }
+
+
+        if ($multiField) {
+            /* Crawl the parameters again and group location data by location
+             * type */
+            $multiParams = array();
+            foreach ($params as $key => $field) {
+                if (is_array($field)) {
+                    foreach ($field as $value) {
+                        $location = $value['location_type_id'];
+                        if (! isset($multiParams[$location])) {
+                            $multiParams[$location] = array(
+                                'location_type_id' => $location
+                            );
+                        }
+                        $multiParams[$location][$key] = $value['value'];
+                    }
+                } else {
+                    $flatParams[$key] = $field;
+                }
+            }
+            $flatParams = array_merge($flatParams, array_shift($multiParams));
+        } else {
+            $flatParams['location_type_id'] = ($location_type_id != null)
+                                        ? $location_type_id
+                                        : 1;
+        }
+
+        $params =& $flatParams;
         //if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Core_Error ) {
         if ( is_a($newContact = crm_create_contact( $params, 'Individual' ), CRM_Core_Error) ) {
 
@@ -253,6 +308,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             
 //             return self::DUPLICATE;
             return CRM_Import_Parser::DUPLICATE;
+        } else {
+            if ($multiField) {
+                foreach ($multiParams as $location) {
+                    crm_create_location($newContact, $location);
+                }
+            }
         }
         $this->_newContacts[] = $newContact->id;
 //         return self::VALID;

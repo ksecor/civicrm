@@ -259,7 +259,6 @@ function _crm_format_params( &$params, &$values ) {
             );
         }
     }
-    
     CRM_Contact_BAO_Contact::resolveDefaults( $values, true );
     return null;
 }

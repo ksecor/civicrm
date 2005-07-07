@@ -62,6 +62,38 @@ require_once 'api/CustomGroup.php';
  * @access public
  */
 function crm_create_location(&$contact, $params) {
+
+    $values = array(
+        'contact_id'    => $contact->id,
+        'location'      => array(1 => array()),
+    );
+
+    $loc =& $values['location'][1];
+
+    $loc['address'] = array( );
+    $fields =& CRM_Contact_DAO_Address::fields( );
+    _crm_store_values($fields, $params, $loc['address']);
+    $ids = array( 'county', 'country', 'state_province', 'supplemental_address_1', 'supplemental_address_2', 'StateProvince.name' );
+    foreach ( $ids as $id ) {
+        if ( array_key_exists( $id, $params ) ) {
+            $loc['address'][$id] = $params[$id];
+        }
+    }
+
+    $blocks = array( 'Email', 'Phone', 'IM' );
+    foreach ( $blocks as $block ) {
+        $name = strtolower($block);
+        $loc[$name]    = array( );
+        $loc[$name][1] = array( );
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $block) . ".php");
+        eval( '$fields =& CRM_Contact_DAO_' . $block . '::fields( );' );
+        _crm_store_values( $fields, $params, $loc[$name][1] );
+    }
+    $loc['location_type_id'] = $params['location_type_id'];
+ 
+    $ids = array();
+    CRM_Contact_BAO_Location::add($values, $ids, null);
+    return $contact;
 }
 
 function crm_update_location(&$contact, $context_name, $params) {

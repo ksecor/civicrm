@@ -398,7 +398,7 @@ abstract class CRM_Import_Parser {
     function setActiveFields( $fieldKeys ) {
         $this->_activeFieldCount = count( $fieldKeys );
         foreach ( $fieldKeys as $key ) {
-            $this->_activeFields[] =& $this->_fields[$key];
+            $this->_activeFields[] = clone $this->_fields[$key];
         }
     }
 
@@ -425,6 +425,12 @@ abstract class CRM_Import_Parser {
         return $valid;
     }
 
+    function setActiveFieldLocationTypes( $elements ) {
+        for ($i = 0; $i < count( $elements ); $i++) {
+            $this->_activeFields[$i]->_hasLocationType = $elements[$i];
+        }
+    }
+
     /**
      * function to format the field values for input to the api
      *
@@ -435,7 +441,18 @@ abstract class CRM_Import_Parser {
         $params = array( );
         for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
             if ( isset( $this->_activeFields[$i]->_value ) ) {
-                $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
+                if ( isset( $this->_activeFields[$i]->_hasLocationType)) {
+                    if (! isset($params[$this->_activeFields[$i]->_name])) {
+                        $params[$this->_activeFields[$i]->name] = array();
+                    }
+                    $params[$this->_activeFields[$i]->_name][] = array(
+                        'value' => 
+                                $this->_activeFields[$i]->_value,
+                        'location_type_id' => 
+                                $this->_activeFields[$i]->_hasLocationType);
+                } else {
+                    $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
+                    }
             }
         }
         return $params;
