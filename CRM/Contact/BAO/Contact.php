@@ -877,8 +877,16 @@ SELECT DISTINCT crm_contact.id as contact_id,
         $contact->location = $location;
 
         // add notes
-        $contact->note =& CRM_Core_BAO_Note::add($params);
-
+//         $contact->note =& CRM_Core_BAO_Note::add($params);
+        if (is_array($params['note'])) {
+            foreach ($params['note'] as $note) {
+                $noteParams = array(
+                    'contact_id'     => $contact->id,
+                    'note'          => $note['note']
+                );
+                CRM_Core_BAO_Note::add($noteParams);
+            }
+        }
         // update the UF email if that has changed
         CRM_Core_BAO_UFMatch::updateUFEmail( $contact->id );
 
