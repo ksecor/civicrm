@@ -338,8 +338,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
                             if ( $fields['option_label'][$start] == $fields['option_label'][$nextIndex] && !empty($fields['option_label'][$nextIndex]) ) {
 
-                                $errors['option_label['.$start.']'] = 'Duplicate Option values';
-                                $errors['option_label['.$nextIndex.']'] = 'Duplicate Option values'; 
+                                $errors['option_label['.$start.']'] = 'Duplicate Option label';
+                                $errors['option_label['.$nextIndex.']'] = 'Duplicate Option label'; 
                                 $_flagOption = 1;
                             }
                             $nextIndex++;
