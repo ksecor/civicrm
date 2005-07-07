@@ -32,7 +32,7 @@
                 
                 <div class="action-link">
                 {if $groupId}
-                <a href="{crmURL p='civicrm/contact/view/cd/`$groupId` q="cid=`$contactId`&action=update&reset=1"}">&raquo; {ts}Edit custom data{/ts}</a>
+                <a href="{crmURL p='civicrm/contact/view/cd/`$groupId` q="cid=`$contactId`&action=update&reset=1"}">&raquo; {ts} Edit {/ts}{$groupTree.$groupId.title}</a>
                 {else}
                 <a href="{crmURL p='civicrm/contact/view/cd q="cid=`$contactId`&action=update&reset=1"}">&raquo; {ts}Edit custom data{/ts}</a>
                 {/if}
@@ -40,11 +40,20 @@
             </div>
         {else}
             <div class="messages status">
+                {if $groupId}       
+                <dl>
+                    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
+                    {capture assign=crmURL1}{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}{/capture}
+                    {capture assign=crmURL2}{crmURL p='civicrm/admin/custom/group/field' q="reset=1&action=add&gid=`$groupId`"}{/capture}
+                    <dd>{ts 1=$crmURL1, 2=$crmURL2}There are either no Custom Groups or no Custom Fields entered for this Contact. You can either <a href="%1">add Custom Group</a> or <a href="%2">add Custom Field</a>.{/ts}</dd>
+                </dl>    
+                {else}    
                 <dl>
                     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
                     {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}{/capture}
                     <dd>{ts 1=$crmURL}There are no (Inline) Custom Groups entered for this Contact. You can <a href="%1">add one</a>.{/ts}</dd>
                 </dl>
+                {/if}
             </div>
         {/if}    
     {/if}
