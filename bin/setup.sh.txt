@@ -44,9 +44,12 @@ if [ -z $DBPASS ] ; then
 	DBPASS=$REPLY
 fi
 
-# run code generator
-cd $CALLEDPATH/../xml
-"$PHP5PATH"php GenCode.php
+# run code generator if it's there - which means it's
+# checkout, not packaged code
+if [ -d $CALLEDPATH/../xml ]; then
+	cd $CALLEDPATH/../xml
+	"$PHP5PATH"php GenCode.php
+fi
 
 # someone might want to use empty password for development,
 # let's make it possible - we asked before.
