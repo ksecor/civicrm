@@ -16,3 +16,4 @@
  <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>
+ {$initHideBoxes}

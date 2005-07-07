@@ -217,8 +217,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             }
         }
             
+        $js = "<script type='text/javascript'>\n";
+        $formName = 'document.forms.' . $this->_name;
+        
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-            $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null, "<br />");
+            $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_".$i."_');\n";
+            $sel =& $this->addElement('hierselect', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), null);
             
 //             $this->add( 'select', "mapper[$i]", ts('Mapper for Field %1', array(1 => $i)), $this->_mapperFields );
 //             $this->_defaults["mapper[$i]"] = $mapperKeys[$i];
@@ -238,6 +242,9 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             }
             $sel->setOptions(array($sel1, $sel2, $sel3));
         }
+        $js .= "</script>\n";
+        $this->assign('initHideBoxes', $js);
+
         $this->setDefaults( $this->_defaults );
 
         $this->addButtons( array(

@@ -358,7 +358,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
             for ($i = 0; $i < $nbElementsUsingFnc; $i++) {
                 $select =& $this->_elements[$keys[$i]];
                 $select->updateAttributes(
-                    array('onChange' => 'swapOptions(this, \''.$this->getName().'\', '.$keys[$i].', '.$nbElements.', \''.$this->_jsArrayName.'\');')
+                    array('onChange' => 'swapOptions(this.form, \''.$this->getName().'\', '.$keys[$i].', '.$nbElements.', \''.$this->_jsArrayName.'\');')
                 );
             }
             
@@ -369,9 +369,9 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
                              ."    var n = \"\";\n"
                              ."    var ctl;\n\n"
                              ."    for (var i = 0; i < nbElements; i++) {\n"
-                             ."        ctl = frm.form[grpName+'['+i+']'];\n"
+                             ."        ctl = frm[grpName+'['+i+']'];\n"
                              ."        if (!ctl) {\n"
-                             ."            ctl = frm.form[grpName+'['+i+'][]'];\n"
+                             ."            ctl = frm[grpName+'['+i+'][]'];\n"
                              ."        }\n"
                              ."        if (i <= eleIndex) {\n"
                              ."            n += \"_\"+ctl.value;\n"
@@ -384,13 +384,23 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
                              ."        var the_array = eval(arName+n);\n"
                              ."        var j = 0;\n"
                              ."        n = eleIndex + 1;\n"
-                             ."        ctl = frm.form[grpName+'['+ n +']'];\n"
+                             ."        ctl = frm[grpName+'['+ n +']'];\n"
                              ."        if (!ctl) {\n"
-                             ."            ctl = frm.form[grpName+'['+ n +'][]'];\n"
+                             ."            ctl = frm[grpName+'['+ n +'][]'];\n"
                              ."        }\n"
+                             ."        ctl.style.display = 'block';\n"
                              ."        for (var i in the_array) {\n"
                              ."            opt = new Option(the_array[i], i, false, false);\n"
                              ."            ctl.options[j++] = opt;\n"
+                             ."        }\n"
+                             ."    } else {\n"
+                             ."        n = eleIndex + 1;\n"
+                             ."        ctl = frm[grpName+'['+n+']'];\n"
+                             ."        if (!ctl) {\n"
+                             ."            ctl = frm[grpName+'['+ n +'][]'];\n"
+                             ."        }\n"
+                             ."        if (ctl) {\n"
+                             ."            ctl.style.display = 'none';\n"
                              ."        }\n"
                              ."    }\n"
                              ."    if (eleIndex+1 < nbElements) {\n"
