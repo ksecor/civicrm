@@ -69,8 +69,9 @@ mysql -u $DBUSER $PASSWDSECTION $DBNAME < GeneratedData.sql
 echo; echo "DONE!"
 
 # to generate a new data file do the foll:
-# mysql -u civicrm -pMt\!Everest civicrm < Contacts.sql
-# mysql -u civicrm -pMt\!Everest civicrm < FixedData.sql
+# mysqladmin -f -uYourDBUser -pYourDBPassword drop YourDBName
+# mysqladmin -f -uYourDBUser -pYourDBPassword create YourDBName
+# mysql -uYourDBUser -pYourDBPassword YourDBName < Contacts.sql
+# mysql -uYourDBUser -pYourDBPassword YourDBName < FixedData.sql
 # php GenerateContactData.php
-# mysqldump -t -n -u civicrm -pMt\!Everest civicrm  > GeneratedData.sql
-
+# mysqldump -t -n -uYourDBUser -pYourDBPassword YourDBName  > GeneratedData.sql

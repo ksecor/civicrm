@@ -105,7 +105,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $this->add('select', 'style', ts('Display Style'), CRM_Core_SelectValues::customGroupStyle());
 
         // is this group collapsed or expanded ?
-        $this->addElement('checkbox', 'collapse_display', ts('Collapse this group on intial display'));
+        $this->addElement('checkbox', 'collapse_display', ts('Collapse this group on initial display'));
 
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
