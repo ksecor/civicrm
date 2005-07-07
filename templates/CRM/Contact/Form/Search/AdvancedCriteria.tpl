@@ -106,7 +106,7 @@
         </tr>
     </table>
     </fieldset>
-
+    {if $groupTree}
     <fieldset><legend>{ts}Custom Data{/ts}</legend>
 	{foreach from=$groupTree item=cd_edit key=group_id}
 
@@ -130,8 +130,9 @@
 	{/foreach}
 
     </fieldset>
+    {/if}
     {/strip}
-
+	
     <div class="element-right">{$form.buttons.html}</div>
     <div>&nbsp;</div>
     <div class="spacer"></div>
