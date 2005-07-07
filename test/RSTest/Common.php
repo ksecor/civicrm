@@ -61,19 +61,18 @@ class test_RSTest_Common
     const ARRAY_SHIFT_USE              =    2;
     
     // gender types
-    public static $genderType  = array('Male','Female','Transgender');
+    public static $genderType   = array('Male','Female','Transgender');
     
-
     //group contact enums
-    public static $groupStatus = array('1' => 'Pending',
-                                       '2' => 'In',
-                                       '3' => 'Out'
-                                       );
-    public static $groupMethod = array('1' => 'Admin',
-                                       '2' => 'Email',
-                                       '3' => 'Web',
-                                       '4' => 'API'
-                                       );
+    public static $groupStatus  = array('1' => 'Pending',
+                                        '2' => 'In',
+                                        '3' => 'Out'
+                                        );
+    public static $groupMethod  = array('1' => 'Admin',
+                                        '2' => 'Email',
+                                        '3' => 'Web',
+                                        '4' => 'API'
+                                        );
     
     // constructor
     function __construct()

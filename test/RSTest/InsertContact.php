@@ -38,15 +38,51 @@
 require_once '../../modules/config.inc.php';
 require_once '../../CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
-require_once 'test/RecordsetTest/Common.php';
+require_once 'CRM/Core/I18n.php';
+require_once 'test/RSTest/Common.php';
+require_once 'test/RSTest/GenDataset.php';
 
-class test_RSTest_InsertContact
+class test_RSTest_InsertContact extends test_RSTest_GenDataset
 {
+    private $_startID;
+    
     function __construct($record=10)
     {
-        $this->numContact = $record;
+        parent::__construct($record);
     }
 
+    function run($recordSize=0, $ID=0)
+    {
+        
+        $this->_startID = $recordSize + $ID;
+        //$this->_startID = $recordSize;
+        //echo "Hello I 1 \n";
+        parent::initID($this->_startID);
+        //echo "Hello I 2 \n";
+        parent::parseDataFile();
+        //echo "Hello I 3 \n";
+        parent::initDB();
+        //echo "Hello I 4 \n";
+        parent::addContact();
+        //echo "Hello I 5 \n";
+        parent::addIndividual();
+        //echo "Hello I 6 \n";
+        parent::addHousehold();
+        //echo "Hello I 7 \n";
+        parent::addOrganization();
+        //echo "Hello I 8 \n";
+        parent::addRelationship();
+        //echo "Hello I 9 \n";
+        parent::addLocation();
+        //echo "Hello I 10 \n";
+        parent::addEntityTag();
+        //echo "Hello I 11 \n";
+        parent::addGroup(false);
+        //echo "Hello I 12 \n";
+        parent::addNote();
+        //echo "Hello I 13 \n";
+        parent::addActivityHistory();
+    }
 }
 
 ?>
