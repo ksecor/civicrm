@@ -50,8 +50,10 @@ class CRM_Utils_System {
                                                 'activityhistory'    => 'ActivityHistory',
                                                 'addtogroup'         => 'AddToGroup',
                                                 'addtohousehold'     => 'AddToHousehold',
+                                                'addtoorganization'  => 'AddToOrganization',
                                                 'addtotag'           => 'AddToTag',
                                                 'api'                => 'API',
+                                                'at'                 => 'AT',
                                                 'bao'                => 'BAO',
                                                 'customdata'         => 'CustomData',
                                                 'customfield'        => 'CustomField',
@@ -63,15 +65,18 @@ class CRM_Utils_System {
                                                 'emailhistory'       => 'EmailHistory',
                                                 'entitycategory'     => 'EntityCategory',
                                                 'entitytag'          => 'EntityTag',
+                                                'emptyresults'       => 'EmptyResults',
                                                 'geocoord'           => 'GeoCoord',
                                                 'groupcontact'       => 'GroupContact',
                                                 'groupmember'        => 'GroupMember',
+                                                'gmapsinput'         => 'GMapsInput',
                                                 'im'                 => 'IM',
                                                 'improvider'         => 'IMProvider',
                                                 'locationtype'       => 'LocationType',
                                                 'mapfield'           => 'MapField',
                                                 'mobileprovider'     => 'MobileProvider',
                                                 'pseudoconstant'     => 'PseudoConstant',
+                                                'pagerAToZ'          => 'pagerAToZ',//not needed here 
                                                 'relationshiptype'   => 'RelationshipType',
                                                 'removefromgroup'    => 'RemoveFromGroup',
                                                 'savedsearch'        => 'SavedSearch',
@@ -85,7 +90,7 @@ class CRM_Utils_System {
                                                 'ufmatch'            => 'UFMatch',
                                                 'uploadfile'         => 'UploadFile',
                                                 'uf'                 => 'UF',
-                                                );
+                                               );
     
     /**
      * Compose a new url string from the current url string
