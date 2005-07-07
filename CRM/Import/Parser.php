@@ -430,6 +430,12 @@ abstract class CRM_Import_Parser {
             $this->_activeFields[$i]->_hasLocationType = $elements[$i];
         }
     }
+    
+    function setActiveFieldPhoneTypes( $elements ) {
+        for ($i = 0; $i < count( $elements ); $i++) {
+            $this->_activeFields[$i]->_phoneType = $elements[$i];
+        }
+    }
 
     /**
      * function to format the field values for input to the api
@@ -441,18 +447,27 @@ abstract class CRM_Import_Parser {
         $params = array( );
         for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
             if ( isset( $this->_activeFields[$i]->_value ) ) {
-                if ( isset( $this->_activeFields[$i]->_hasLocationType)) {
+                if (isset( $this->_activeFields[$i]->_hasLocationType)) {
                     if (! isset($params[$this->_activeFields[$i]->_name])) {
-                        $params[$this->_activeFields[$i]->name] = array();
+                        $params[$this->_activeFields[$i]->_name] = array();
                     }
-                    $params[$this->_activeFields[$i]->_name][] = array(
-                        'value' => 
+                    
+                    $value = array(
+                        $this->_activeFields[$i]->_name => 
                                 $this->_activeFields[$i]->_value,
                         'location_type_id' => 
                                 $this->_activeFields[$i]->_hasLocationType);
-                } else {
-                    $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
+                    
+                    if (isset( $this->_activeFields[$i]->_phoneType)) {
+                        $value['phone_type'] =
+                            $this->_activeFields[$i]->_phoneType;
                     }
+                    
+                    $params[$this->_activeFields[$i]->_name][] = $value;
+                }
+                if (!isset($params[$this->_activeFields[$i]->_name])) {
+                    $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
+                }
             }
         }
         return $params;

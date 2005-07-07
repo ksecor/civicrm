@@ -139,13 +139,17 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
 
         $mapperKeys = array();
-        $mapperTypes = array();
-
+        $mapperLocTypes = array();
+        $mapperPhoneTypes = array();
+        
         foreach ($mapper as $key => $value) {
             $mapperKeys[$key] = $mapper[$key][0];
-            $mapperTypes[$key] = $mapper[$key][1];
+            $mapperLocTypes[$key] = $mapper[$key][1];
+            $mapperPhoneTypes[$key] = $mapper[$key][2];
         }
-        $parser =& new CRM_Import_Parser_Contact( $mapperKeys, $mapperTypes );
+
+        $parser =& new CRM_Import_Parser_Contact( $mapperKeys, $mapperLocTypes,
+                                                $mapperPhoneTypes);
         $parser->run( $fileName, $seperator, 
                       $mapperKeys,
                       $skipColumnHeader,

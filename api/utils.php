@@ -406,4 +406,191 @@ function _crm_check_required_fields(&$params, $daoName)
 
     return true;
 }
+
+
+/**
+ * This function adds the contact variable in $values to the
+ * parameter list $params.  For most cases, $values should have length 1.  If
+ * the variable being added is a child of Location, a location_type_id must
+ * also be included.  If it is a child of phone, a phone_type must be included.
+ *
+ * @param array  $values    The variable(s) to be added
+ * @param array  $params    The structured parameter list
+ * 
+ * @return bool|CRM_Utils_Error
+ * @access public
+ */
+function _crm_add_formatted_param(&$values, &$params) {
+    /* Crawl through the possible classes: 
+     * Contact 
+     *      Individual 
+     *      Household
+     *      Organization
+     *          Location 
+     *              Address 
+     *              Email 
+     *              Phone 
+     *              IM 
+     *      Note
+     *      Custom 
+     */
+    
+    if (isset($values['contact_type'])) {
+        /* we're an individual/household/org property */
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, 
+                'CRM_Contact_DAO_' .  $values['contact_type']) . '.php');
+        eval(
+            '$fields =& CRM_Contact_DAO_'.$values['contact_type'].'::fields();'
+        );
+        
+        _crm_store_values( $fields, $values, $params );
+        return true;
+    }
+    
+    if (isset($values['location_type_id'])) {
+        /* find and/or initialize the correct location block in $params */
+        $locBlock = null;
+        if (!isset($params['location'])) {
+            /* if we don't have a location field yet, make one */
+            $locBlock = 1;
+            $params['location'] = array(
+                $locBlock => 
+                    array( 'location_type_id' => $values['location_type_id'])
+            );
+        } else {
+            /* search through the location array for a matching loc. type */
+            foreach ($params['location'] as $key => $loc) {
+                if ($loc['location_type_id'] == $values['location_type_id']) {
+                    $locBlock = $key;
+                }
+            }
+            /* if no locBlock has the correct type, make a new one */
+            if ($locBlock == null) {
+                $locBlock = count($params['location']) + 1;
+                $params['location'][$locBlock] = 
+                    array('location_type_id' => $values['location_type_id']);
+            }
+        }
+        
+        /* if this is a phone value, find or create the correct block */
+        if (isset($values['phone_type'])) {
+            if (!isset($params['location'][$locBlock]['phone'])) {
+                /* if we don't have a phone array yet, make one */
+                $params['location'][$locBlock]['phone'] = array();
+            } 
+            
+            /* add a new phone block to the array */
+            $phoneBlock = count($params['location'][$locBlock]['phone']) + 1;
+                        
+            $params['location'][$locBlock]['phone'][$phoneBlock] = array();
+
+            $fields = CRM_Contact_DAO_Phone::fields();
+            
+            _crm_store_values($fields, $values,
+                $params['location'][$locBlock]['phone'][$phoneBlock]);
+                
+            return true;
+        }
+        
+        /* If this is an email value, create a new block to store it */
+        if (isset($values['email'])) {
+            if (!isset($params['location'][$locBlock]['email'])) {
+                $params['location'][$locBlock]['email'] = array();
+            } 
+            /* add a new email block */
+            $emailBlock = count($params['location'][$locBlock]['email']) + 1;
+            
+            $params['location'][$locBlock]['email'][$emailBlock] = array();
+
+            $fields = CRM_Contact_DAO_Email::fields();
+
+            _crm_store_values($fields, $values,
+                $params['location'][$locBlock]['email'][$emailBlock]);
+
+            return true;
+        }
+
+        /* if this is an IM value, create a new block */
+        if (isset($values['im'])) {
+            if (!isset($params['location'][$locBlock]['im'])) {
+                $params['location'][$locBlock]['im'] = array();
+            }
+            /* add a new IM block */
+            $imBlock = count($params['location'][$locBlock]['im']) + 1;
+
+            $params['location'][$locBlock]['im'][$imBlock] = array();
+
+            $fields = CRM_Contact_DAO_IM::fields();
+
+            _crm_store_values($fields, $values,
+                $params['location'][$locBlock]['im'][$imBlock]);
+
+            return true;
+        }
+
+        /* Otherwise we must be an address */
+        if (!isset($params['location'][$locBlock]['address'])) {
+            $params['location'][$locBlock]['address'] = array();
+        }
+        
+        $fields = CRM_Contact_DAO_Address::fields();
+
+        _crm_store_values($fields, $values,
+            $params['location'][$locBlock]['address']);
+
+        $ids = array(   'county', 'country', 'state_province', 
+                        'supplemental_address_1', 'supplemental_address_2', 
+                        'StateProvince.name' );
+        foreach ( $ids as $id ) {
+            if ( array_key_exists( $id, $values ) ) {
+                $params['location'][$locBlock]['address'][$id] = $values[$id];
+            }
+        }
+
+        return true;
+    }
+
+    if (isset($values['note'])) {
+        /* add a note field */
+        if (!isset($params['note'])) {
+            $params['note'] = array();
+        }
+        $noteBlock = count($params['note']) + 1;
+        
+        $params['note'][$noteBlock] = array();
+
+        $fields = CRM_Core_DAO_Note::fields();
+
+        _crm_store_values($fields, $values, $params['note'][$noteBlock]);
+
+        return true;
+    }
+
+    /* Check for custom field values */
+    
+    $customFields = CRM_Core_BAO_CustomField::getFields();
+    
+    foreach ($values as $key => $value) {
+        if (substr($key, 0, 7) === 'custom_') {
+            /* get the ID out of the key */
+            $customFieldID = substr($key, 7);
+
+            /* check if it's a valid custom field id */
+            if (!array_key_exists($customFieldID, $customFields)) {
+                return _crm_error('Invalid custom field ID');
+            }
+            
+            if (!isset($params['custom'])) {
+                $params['custom'] = array();
+            }
+            $customBlock = count($params['custom']) + 1;
+            $params['custom'][$customBlock] = array(
+                'custom_field_id'    => $customFieldID,
+                'value' => $value
+            );
+        }
+    }
+}
+
+
 ?>

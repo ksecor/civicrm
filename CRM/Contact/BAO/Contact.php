@@ -884,23 +884,21 @@ SELECT DISTINCT crm_contact.id as contact_id,
 
 
         // add custom field values
-        if (is_array($params['custom_data'])) {  
-            foreach ($params['custom_data'] as $customFieldID => $customValue) {
-                $cvParams = array_merge(
-                                        array(
-                                              'custom_field_id' => $customFieldID,
-                                              'contact_id' => $params['contact_id'],
-                                              ),
-                                        $customValue);
-                
-                /* add the appropriate id for the contact type */
-                $contact_type_key = strtolower($cvParams['extends']) . '_id';
-                $cvParams[$contact_type_key] = $contact->contact_type_object->id;
-                
-                CRM_Core_BAO_CustomValue::create($cvParams);
-                
-            }
-        }
+//         if (is_array($params['custom'])) {  
+//             foreach ($params['custom'] as $customValue) {
+//                 $cvParams = array(
+//                                 'custom_field_id' => $customValue['custom_field_id'],
+//                                 'contact_id' => $params['contact_id'],
+//                                 'value' => $customValue['value'],
+//                             );
+//                 
+//                 /* add the appropriate id for the contact type */
+//                 $cvParams[$contact_type_key] = $contact->contact_type_object->id;
+//                 
+//                 CRM_Core_BAO_CustomValue::create($cvParams);
+//                 
+//             }
+//         }
 
         CRM_Core_DAO::transaction('COMMIT');
 

@@ -96,8 +96,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             if (empty($re)) continue;
             
             /* if we've already used this field, move on */
-            if ($this->_fieldUsed[$key])
-                continue;
+//             if ($this->_fieldUsed[$key])
+//                 continue;
             /* Scan through the headerPatterns defined in the schema for a
              * match */
             if (preg_match($re, $header)) {
@@ -124,8 +124,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         foreach ($patterns as $key => $re) {
             if (empty($re)) continue;
 
-            if ($this->_fieldUsed[$key])
-                continue;
+//             if ($this->_fieldUsed[$key])
+//                 continue;
 
             /* Take a vote over the preview data set */
             $hits = 0;
@@ -204,7 +204,11 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $sel1 = $this->_mapperFields;
 
         $sel2[''] = null;
-
+        $phoneTypes = CRM_Core_SelectValues::phoneType();
+        array_shift($phoneTypes);
+        foreach ($location_types as $key => $value) {
+            $sel3['phone'][$key] =& $phoneTypes;
+        }
         foreach ($mapperKeys as $key) {
             if ($hasLocationTypes[$key]) {
                 $sel2[$key] = $location_types;
@@ -232,7 +236,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                     $this->defaultFromData($dataPatterns, $i),
                     $defaultLocationType->id);
             }
-            $sel->setOptions(array($sel1, $sel2));
+            $sel->setOptions(array($sel1, $sel2, $sel3));
         }
         $this->setDefaults( $this->_defaults );
 
@@ -267,19 +271,21 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $mapperKeys = array( );
         $mapper     = array( );
         $mapperKeys = $this->controller->exportValue( $this->_name, 'mapper' );
-        $mapperKeysMain = array();
-        $mapperKeysType = array();
-       
+        $mapperKeysMain     = array();
+        $mapperLocType      = array();
+        $mapperPhoneType    = array();
+        
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
             $mapperKeysMain[$i] = $mapperKeys[$i][0];
-            $mapperKeysType[$i] = $mapperKeys[$i][1];
+            $mapperLocType[$i] = $mapperKeys[$i][1];
+            $mapperPhoneType[$i] = $mapperKeys[$i][2];
         }
-
         $this->set( 'mapper'    , $mapper     );
 
         $parser =& new CRM_Import_Parser_Contact(   $mapperKeysMain,
-                                                    $mapperKeysType );
+                                                    $mapperLocType,
+                                                    $mapperPhoneType );
         $parser->run( $fileName, $seperator,
                       $mapper, 
                       $skipColumnHeader,

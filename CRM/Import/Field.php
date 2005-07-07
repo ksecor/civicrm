@@ -73,10 +73,16 @@ class CRM_Import_Field {
      public $_dataPattern;
 
     /**
-     * does this field have a location type
-     * @var boolean
+     * location type
+     * @var int
      */
     public $_hasLocationType;
+
+    /**
+     * does this field have a phone type
+     * @var string
+     */
+    public $_phoneType;
 
     /**
      * value of this field
@@ -85,14 +91,15 @@ class CRM_Import_Field {
     public $_value;
 
 
-    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//', $hasLocationType = false) {
+    function __construct( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//', $hasLocationType = null, $phoneType = null) {
         $this->_name      = $name;
         $this->_title     = $title;
         $this->_type      = $type;
         $this->_headerPattern = $headerPattern;
         $this->_dataPattern = $dataPattern;
         $this->_hasLocationType = $hasLocationType;
-
+        $this->_phoneType = $phoneType;
+        
         $this->_value     = null;
     }
 
