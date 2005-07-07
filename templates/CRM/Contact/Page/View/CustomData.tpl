@@ -51,7 +51,7 @@
                 <dl>
                     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"></dt>
                     {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group' q="action=add&reset=1"}{/capture}
-                    <dd>{ts 1=$crmURL}There are no (Inline) Custom Groups entered for this Contact. You can <a href="%1">add one</a>.{/ts}</dd>
+                    <dd>{ts 1=$crmURL}There are either no (Inline) Custom Groups or no Custom Fields entered for this Contact.{/ts}</dd>
                 </dl>
                 {/if}
             </div>
