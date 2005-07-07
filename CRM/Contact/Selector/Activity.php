@@ -122,7 +122,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                      'name'     => ts('Delete'),
                                                                      'url'      => $url,
                                                                      'qs'       => 'action=delete&reset=1&id=%%id%%&cid=%%cid%%',
-                                                                     //'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
+                                                                     'extra' => 'onclick = "this.href+=\'&confirmed=1\';return confirm(\'' . $deleteExtra . '\');"',
                                                                      'title'    => ts('Delete Activity'),
                                                                      ),
                                     );

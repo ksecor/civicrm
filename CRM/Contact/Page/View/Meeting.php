@@ -46,8 +46,14 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse&reset=1&history='.$history.'&cid='.$this->_contactId ) );
+        $url = CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse&reset=1&history='.$history.'&cid='.$this->_contactId );
+        $session->pushUserContext( $url );
         
+        if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
+            CRM_Core_BAO_Meeting::del( $this->_id);
+            CRM_Utils_System::redirect($url);
+        }
+
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Meeting', 'Contact Meetings', $this->_action );
         $controller->reset( );
         $controller->setEmbedded( true );
@@ -74,6 +80,5 @@ class CRM_Contact_Page_View_Meeting extends CRM_Contact_Page_View
 
         return parent::run( );
     }
-    
 }
 ?>

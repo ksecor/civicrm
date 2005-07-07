@@ -51,6 +51,15 @@ class CRM_History_Form_Activity extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
+        $id = $this->get('id');
+        
+        $url = CRM_Utils_System::url('civicrm/contact/view/activity', 'action=browse&history=1');
+        if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
+            CRM_Core_BAO_History::del( $id );
+            CRM_Core_Session::setStatus( "Selected Activity History record has been deleted." );
+            CRM_Utils_System::redirect($url);
+        }
+        
         // only used for delete confirmation
         $this->addButtons(array(
                                 array ('type'      => 'next',
@@ -63,7 +72,7 @@ class CRM_History_Form_Activity extends CRM_Core_Form
 
         // get values for activity date, summary and type from db
         // and set them up for smarty variables
-        $id = $this->get('id');
+        
 
         $params = array('id' => $id);
         $row = CRM_Core_BAO_History::getHistory($params);
