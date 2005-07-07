@@ -278,6 +278,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                     $errors['default_value'] = 'Please enter a valid date as default value using YYYY-MM-DD format. Example: 2004-12-31.';
                 }
                 break;
+            case 'Country':
+            case 'StateProvince':
+                if( !empty($default) ) {
+                    $errors['default_value'] = 'The default value for State/Province or Country should be kept empty';
+                }
+                break;
             }
         }
         
@@ -290,6 +296,58 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $_flagOption = $_rowError = 0;
             $_showHide =& new CRM_Core_ShowHideBlocks('','');
             $dataType = self::$_dataTypeKeys[$fields['data_type']];
+            
+            //capture duplicate Custom option values
+            if( !empty($fields['option_value']) ) {
+                $countValue = count($fields['option_value']);
+                $uniqueCount = count(array_unique($fields['option_value']));
+
+                if ( $countValue > $uniqueCount) {
+
+                    $start=1;
+                    while ($start < self::NUM_OPTION) { 
+                        $nextIndex = $start + 1;
+
+                        while ($nextIndex <= self::NUM_OPTION) {
+
+                            if ( $fields['option_value'][$start] == $fields['option_value'][$nextIndex] && !empty($fields['option_value'][$nextIndex]) ) {
+
+                                $errors['option_value['.$start.']'] = 'Duplicate Option values';
+                                $errors['option_value['.$nextIndex.']'] = 'Duplicate Option values'; 
+                                $_flagOption = 1;
+                            }
+                            $nextIndex++;
+                        }
+                        $start++;
+                    }
+                }
+            }
+            
+            //capture duplicate Custom Option label
+            if( !empty($fields['option_label']) ) {
+                $countValue = count($fields['option_label']);
+                $uniqueCount = count(array_unique($fields['option_label']));
+
+                if ( $countValue > $uniqueCount) {
+
+                    $start=1;
+                    while ($start < self::NUM_OPTION) { 
+                        $nextIndex = $start + 1;
+
+                        while ($nextIndex <= self::NUM_OPTION) {
+
+                            if ( $fields['option_label'][$start] == $fields['option_label'][$nextIndex] && !empty($fields['option_label'][$nextIndex]) ) {
+
+                                $errors['option_label['.$start.']'] = 'Duplicate Option values';
+                                $errors['option_label['.$nextIndex.']'] = 'Duplicate Option values'; 
+                                $_flagOption = 1;
+                            }
+                            $nextIndex++;
+                        }
+                        $start++;
+                    }
+                }
+            }
 
             for($i=1; $i<= self::NUM_OPTION; $i++) {
                 if (!$fields['option_label'][$i]) {
@@ -302,7 +360,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                             $errors['option_value['.$i.']'] = 'Option value cannot be empty';
                             $_flagOption = 1;
                         } else {
-                            //The row is empty
+                            //The Custom Option row is empty
                             $_emptyRow = 1;
                         }
                     }
@@ -325,6 +383,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                         }
                     }
                 }
+                
+                
                 $showBlocks = 'optionField['.$i.']';
                 if ($_flagOption) {
                     $_showHide->addShow($showBlocks);
@@ -379,7 +439,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 }
                 $_showHide->addToTemplate();
             }
-
+            
             //Check for duplicate Field Label
             $fieldLabel = $fields['label'];
             $dao =& new CRM_Core_DAO();
@@ -457,7 +517,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                  }
              }
          }
-        CRM_Core_Session::setStatus(ts('Your custom field "%1" has been saved', array(1 => $customField->label)));
+         CRM_Core_Session::setStatus(ts('Your custom field "%1" has been saved', array(1 => $customField->label)));
     }
 }
 ?>
