@@ -84,6 +84,7 @@ class CRM_Utils_System {
                                                 'ufform'             => 'UFForm',
                                                 'ufmatch'            => 'UFMatch',
                                                 'uploadfile'         => 'UploadFile',
+                                                'uf'                 => 'UF',
                                                 );
     
     /**
