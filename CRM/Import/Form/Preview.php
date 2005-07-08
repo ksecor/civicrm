@@ -71,7 +71,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         }
 
         
-        $properties = array( 'mapper', 'dataValues', 'columnCount',
+        $properties = array( 'mapper', 'locations', 'phones',
+                             'dataValues', 'columnCount',
                              'totalRowCount', 'validRowCount', 
                              'invalidRowCount', 'conflictRowCount',
                              'downloadErrorRecordsUrl', 'downloadConflictRecordsUrl');

@@ -192,7 +192,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $dataPatterns    = $this->get( 'dataPatterns' );
         $hasLocationTypes = $this->get( 'fieldTypes' );
 
-        $location_types  =& CRM_Core_PseudoConstant::locationType();
+        $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
 
         $defaultLocationType =& CRM_Contact_BAO_LocationType::getDefault();
 
@@ -206,12 +206,12 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $sel2[''] = null;
         $phoneTypes = CRM_Core_SelectValues::phoneType();
         array_shift($phoneTypes);
-        foreach ($location_types as $key => $value) {
+        foreach ($this->_location_types as $key => $value) {
             $sel3['phone'][$key] =& $phoneTypes;
         }
         foreach ($mapperKeys as $key) {
             if ($hasLocationTypes[$key]) {
-                $sel2[$key] = $location_types;
+                $sel2[$key] = $this->_location_types;
             } else {
                 $sel2[$key] = null;
             }
@@ -282,14 +282,21 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $mapperLocType      = array();
         $mapperPhoneType    = array();
         
+        $locations = array();
+        
         for ( $i = 0; $i < $this->_columnCount; $i++ ) {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
             $mapperKeysMain[$i] = $mapperKeys[$i][0];
             $mapperLocType[$i] = $mapperKeys[$i][1];
+            $locations[$i]  =   isset($mapperLocType[$i])
+                            ?   $this->_location_types[$mapperLocType[$i]]
+                            :   null;
+
             $mapperPhoneType[$i] = $mapperKeys[$i][2];
         }
         $this->set( 'mapper'    , $mapper     );
-
+        $this->set( 'locations' , $locations  );
+        $this->set( 'phones', $mapperPhoneType);
         $parser =& new CRM_Import_Parser_Contact(   $mapperKeysMain,
                                                     $mapperLocType,
                                                     $mapperPhoneType );

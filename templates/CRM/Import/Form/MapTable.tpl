@@ -32,7 +32,13 @@
                 {* Display mapper <select> field for 'Map Fields', and mapper value for 'Preview' *}
                 <td class="form-item even-row{if $wizard.currentStepTitle == 'Preview'} labels{/if}">
                     {if $wizard.currentStepTitle == 'Preview'}
+                        {if $locations[$i]}
+                            {$locations[$i]}
+                        {/if}
                         {$mapper[$i]}
+                        {if $phones[$i]}
+                            / {$phones[$i]}
+                        {/if}
                     {else}
                         {$form.mapper[$i].html}
                     {/if}

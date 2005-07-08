@@ -57,19 +57,17 @@
  </table>
  <br /> 
 
- {* Group options *}
- <div>
-    <dt>{$form.newGroup.html}</dt><dd>{$form.newGroup.label}</dd>
-    <dt>{$form.newGroupName.label}</dt><dd>{$form.newGroupName.html}</dd>
-    <dt>{$form.newGroupDesc.label}</dt><dd>{$form.newGroupDesc.html}</dd>
-    <dt> </dt><dd>{$form.groups.label}</dd>
-    <dt> </dt><dd>{$form.groups.html}</dd>
- </div>
-
  {* Table for mapping preview *}
  {include file="CRM/Import/Form/MapTable.tpl}
  <br />
  
+ {* Group options *}
+ <div class="form-item">
+    <dt class="description">{$form.newGroup.html}</dt><dd>{$form.newGroup.label}</dd>
+    <dt class="description">{$form.newGroupName.label}</dt><dd>{$form.newGroupName.html}</dd>
+    <dt class="description">{$form.newGroupDesc.label}</dt><dd>{$form.newGroupDesc.html}</dd>
+    <dt class="description">{$form.groups.label}</dt> <dd><br />{$form.groups.html}</dd>
+ </div>
  <div id="crm-submit-buttons">
     {$form.buttons.html}
  </div>

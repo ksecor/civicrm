@@ -143,7 +143,10 @@ function &crm_create_contact_formatted( &$params ) {
     if ( empty( $params ) ) {
         return _crm_error( 'Input Parameters empty' );
     }
+    /* TODO check for required fields */
 
+    /* TODO check for duplicates */
+    
     $ids = array();
     $contact = CRM_Contact_BAO_Contact::create( $params, $ids, 
         count($params['location']));
