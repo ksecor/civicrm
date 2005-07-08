@@ -251,37 +251,45 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         if ( is_a($newContact = crm_create_contact_formatted( $formatted ),
                     CRM_Core_Error) ) 
         {
-            $urls = array( );
-            $base = CRM_Utils_System::baseURL() . '/';
+            $code = $newContact->_errors[0]['code'];
+            if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
+                $urls = array( );
+                $base = CRM_Utils_System::baseURL() . '/';
             
-            foreach ($newContact->_errors[0]['params'] as $cid) {
-                $urls[] = $base . CRM_Utils_System::url('civicrm/contact/view',
-                'reset=1&cid=' . $cid, false);
-            }
+                foreach ($newContact->_errors[0]['params'] as $cid) {
+                    $urls[] = $base 
+                            . CRM_Utils_System::url('civicrm/contact/view',
+                                    'reset=1&cid=' . $cid, false);
+                }
             
-            $url_string = implode("\n", $urls);
-            array_unshift($values, $url_string); 
+                $url_string = implode("\n", $urls);
+                array_unshift($values, $url_string); 
            
-            /* If we duplicate more than one record, skip no matter what */
-            if (count($newContact->_errors[0]['params']) > 1) {
-                return CRM_Import_Parser::DUPLICATE |
-                            CRM_Import_Parser::MULTIPLE_DUPE;
-            }
+                /* If we duplicate more than one record, skip no matter what */
+                if (count($newContact->_errors[0]['params']) > 1) {
+                    return CRM_Import_Parser::DUPLICATE |
+                                CRM_Import_Parser::MULTIPLE_DUPE;
+                }
            
-            /* Params only had one id, so shift it out */
-            $contactId = array_shift($newContact->_errors[0]['params']);
+                /* Params only had one id, so shift it out */
+                $contactId = array_shift($newContact->_errors[0]['params']);
             
-            if ($onDuplicate == CRM_Import_Parser::DUPLICATE_REPLACE) {
+                if ($onDuplicate == CRM_Import_Parser::DUPLICATE_REPLACE) {
+                    crm_replace_contact_formatted($contactId, $formatted);
+                } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) {
+                    crm_update_contact_formatted($contactId, $formatted, true);
 
-            } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) {
-
-            } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_FILL) {
-
-            } // else skip does nothing and just returns an error code.
+                } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_FILL) {
+                    crm_update_contact_formatted($contactId, $formatted, false);
+                } // else skip does nothing and just returns an error code.
             
 //             return self::DUPLICATE;
-            return CRM_Import_Parser::DUPLICATE;
-        } 
+                return CRM_Import_Parser::DUPLICATE;
+            } 
+            /* Not a dupe, so we had an error */
+            /* TODO stick this in an error array */
+            return CRM_Import_Parser::ERROR;
+        }
         
         $this->_newContacts[] = $newContact->id;
 //         return self::VALID;

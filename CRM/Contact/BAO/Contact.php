@@ -952,7 +952,7 @@ WHERE  crm_contact.id = $id
      * Get the values for pseudoconstants for name->value and reverse.
      *
      * @param array   $defaults (reference) the default values, some of which need to be resolved.
-     * @param boolean $reverse  true if we want to resolve the values in the recerse direction (value -> name)
+     * @param boolean $reverse  true if we want to resolve the values in the reverse direction (value -> name)
      *
      * @return none
      * @access public

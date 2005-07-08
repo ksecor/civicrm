@@ -263,20 +263,32 @@ function _crm_format_params( &$params, &$values ) {
     return null;
 }
 
-function _crm_update_contact( $contact, $values ) {
+function _crm_update_contact( $contact, $values, $overwrite = true ) {
     // fix sort_name and display_name
     if ( $contact->contact_type == 'Individual' ) {
-        $firstName = CRM_Utils_Array::value( 'first_name', $values );
+        if ($overwrite || ! isset($contact->contact_type_object->first_name)) {
+            $firstName = CRM_Utils_Array::value( 'first_name', $values );
+        } else {
+            $firstName = null;
+        }
         if ( ! $firstName ) {
             $firstName = isset( $contact->contact_type_object->first_name ) ? $contact->contact_type_object->first_name : '';
         }
         
-        $middleName = CRM_Utils_Array::value( 'middle_name', $values );
+        if ($overwrite || ! isset($contact->contact_type_object->middle_name)) {
+            $middleName = CRM_Utils_Array::value( 'middle_name', $values );
+        } else {
+            $middleName = null;
+        }
         if ( ! $middleName ) {
             $middleName = isset( $contact->contact_type_object->middle_name ) ? $contact->contact_type_object->middle_name : '';
         }
         
-        $lastName = CRM_Utils_Array::value( 'last_name', $values );
+        if ($overwrite || ! isset($contact->contact_type_object->last_name)) {
+            $lastName = CRM_Utils_Array::value( 'last_name', $values );
+        } else {
+            $lastName = null;
+        }
         if ( ! $lastName ) {
             $lastName = isset( $contact->contact_type_object->last_name ) ? $contact->contact_type_object->last_name : '';
         }
@@ -284,19 +296,26 @@ function _crm_update_contact( $contact, $values ) {
         $values['sort_name'] = "$lastName, $firstName";
         $values['display_name'] = "$firstName $middleName $lastName";
     } else if ( $contact->contact_type == 'Household' ) {
-        $householdName = CRM_Utils_Array::value( 'household_name', $values );
+        if ($overwrite || ! isset($contact->contact_type_object->household_name)) {
+            $householdName = CRM_Utils_Array::value( 'household_name', $values );
+        } else {
+            $householdName = null;
+        }
         if ( ! $householdName ) {
             $householdName = isset( $contact->contact_type_object->household_name ) ? $contact->contact_type_object->household_name : '';
         }
         $values['sort_name'] = $householdName;
     } else {
-        $organizationName = CRM_Utils_Array::value( 'organization_name', $values );
+        if ($overwrite || ! isset($contact->contact_type_object->organization_name)) {
+            $organizationName = CRM_Utils_Array::value( 'organization_name', $values );
+        } else {
+            $organizationName = null;
+        }
         if ( ! $organizationName ) {
             $organizationName = isset( $contact->contact_type_object->organization_name ) ? $contact->contact_type_object->organization_name : '';
         }
         $values['sort_name'] = $organizationName;
     }
-
     _crm_update_object( $contact, $values );
 
     // fix display_name
@@ -305,6 +324,7 @@ function _crm_update_contact( $contact, $values ) {
     if ( ! isset( $contact->location ) ) {
         $contact->location    = array( );
     }
+
     if ( ! array_key_exists( 0, $contact->location ) || empty( $contact->location[1] ) ) {
         $contact->location[1] =& new CRM_Contact_BAO_Location( );
     }
@@ -695,8 +715,9 @@ function _crm_validate_formatted_contact(&$params) {
 
 function _crm_duplicate_formatted_contact(&$params) {
     if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params, null, true ) ) != null ) {
-        $error = _crm_error( "Found matching contacts: $ids", 8000, 'Fatal',
-                                $ids );
+        $error = _crm_error( "Found matching contacts: $ids",
+                            CRM_Core_Error::DUPLICATE_CONTACT, 
+                            'Fatal', $ids );
         return $error;
     }
     return true;

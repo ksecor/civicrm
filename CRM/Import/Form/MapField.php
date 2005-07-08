@@ -205,7 +205,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
         $sel2[''] = null;
         $phoneTypes = CRM_Core_SelectValues::phoneType();
-        array_shift($phoneTypes);
         foreach ($this->_location_types as $key => $value) {
             $sel3['phone'][$key] =& $phoneTypes;
         }
@@ -232,13 +231,15 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $this->_defaults["mapper[$i]"] = array(
                     $this->defaultFromHeader($this->_columnHeaders[$i], 
                                             $headerPatterns),
-                                            $defaultLocationType->id);
+                    $defaultLocationType->id
+                );
 
             } else {
                 // Otherwise guess the default from the form of the data
                 $this->_defaults["mapper[$i]"] = array(
                     $this->defaultFromData($dataPatterns, $i),
-                    $defaultLocationType->id);
+                    $defaultLocationType->id
+                );
             }
             $sel->setOptions(array($sel1, $sel2, $sel3));
         }

@@ -168,6 +168,17 @@ function &crm_create_contact_formatted( &$params ) {
     return $contact;
 }
 
+function &crm_replace_contact_formatted($contactId, &$params) {
+    $contact = crm_get_contact(array('contact_id' => $contactId));
+    crm_delete_contact($contact);
+    return crm_create_contact_formatted($params);
+}
+
+function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) {
+    $contact = crm_get_contact(array('contact_id' => $contactId));
+    _crm_update_contact($contact, $params, $overwrite);
+}
+
 
 /**
  * Get an existing contact.
