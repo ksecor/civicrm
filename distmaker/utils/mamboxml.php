@@ -18,7 +18,7 @@ if( isset( $GLOBALS['_ENV']['DM_GENFILESDIR'] ) ) {
 require_once "$sourceCheckoutDir/modules/config.inc.php";
 require_once 'Smarty/Smarty.class.php';
 
-$path = array( 'CRM', 'api', 'bin', 'css', 'gmaps', 'i', 'js', 'l10n', 'sql', 'templates', 'mambo' );
+$path = array( 'CRM', 'api', 'bin', 'css', 'gmaps', 'i', 'js', 'l10n', 'sql', 'templates', 'mambo', 'packages' );
 $files = array( 'license.txt' => 1 );
 foreach ( $path as $v ) {
     $rootDir = "$sourceCheckoutDir/$v";
@@ -67,6 +67,7 @@ function walkDirectory( $iter, &$files, $length ) {
              $node->isReadable( ) &&
              ! $node->isDot( )    &&
              $name != '.svn' ) {
+            $files[ substr( $path, $length + 1 ) . '/' ] = 1;
             walkDirectory(new DirectoryIterator( $path ), $files, $length);
         } else if ( $node->isFile( ) ) {
             if ( substr( $name, -1, 1 ) != '~' && substr( $name, 0, 1 ) != '#' ) {

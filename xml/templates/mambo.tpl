@@ -26,10 +26,12 @@
                         <menu task="civicrm/group&reset=1">Manage Groups</menu>
                         <menu task="civicrm/import&reset=1">Import Contacts</menu>
                         <menu task="civicrm/contact/search&reset=1">Find Contacts</menu>
-                        <menu> -- </menu>
                         <menu task="civicrm/admin&reset=1">Administer CiviCRM</menu>
                 </submenu>
     <files>
+      <filename>admin.civicrm.php</filename>
+      <filename>config.main.php</filename>
+      <filename>config.inc.php</filename>
 {foreach from=$files item=file}
       <filename>civicrm/{$file}</filename>
 {/foreach}
