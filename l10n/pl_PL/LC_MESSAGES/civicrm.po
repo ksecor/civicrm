@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-06 13:39+0200\n"
-"PO-Revision-Date: 2005-07-06 13:39+0200\n"
+"POT-Creation-Date: 2005-07-08 10:51+0200\n"
+"PO-Revision-Date: 2005-07-08 10:54+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgid "Done"
 msgstr "OK"
 
 #: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98
-#: CRM/Contact/Form/CustomData.php:294 CRM/Contact/Form/Edit.php:265
+#: CRM/Contact/Form/CustomData.php:287 CRM/Contact/Form/Edit.php:265
 #: CRM/Custom/Form/Field.php:229 CRM/Custom/Form/Group.php:115
 #: CRM/Custom/Form/Option.php:132 CRM/Group/Form/Edit.php:101
 #: CRM/Mailing/Form/Component.php:93 CRM/Note/Form/Note.php:120
@@ -86,15 +86,15 @@ msgid "Save"
 msgstr "Zapisz"
 
 #: CRM/Activity/Form.php:178;190 CRM/Admin/Form.php:101
-#: CRM/Admin/Form/Tag.php:57 CRM/Contact/Form/CustomData.php:297
+#: CRM/Admin/Form/Tag.php:57 CRM/Contact/Form/CustomData.php:290
 #: CRM/Contact/Form/Edit.php:272 CRM/Contact/Form/Relationship.php:153;190;197
 #: CRM/Contact/Form/Task/AddToHousehold.php:84;92
 #: CRM/Contact/Form/Task/AddToOrganization.php:86;94
 #: CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:232
 #: CRM/Custom/Form/Group.php:119 CRM/Custom/Form/Option.php:135
 #: CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76
-#: CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:60
-#: CRM/Import/Form/MapField.php:247 CRM/Import/Form/Preview.php:104
+#: CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:69
+#: CRM/Import/Form/MapField.php:258 CRM/Import/Form/Preview.php:105
 #: CRM/Import/Form/UploadFile.php:78 CRM/Mailing/Form/Component.php:96
 #: CRM/Mailing/Form/Group.php:87 CRM/Mailing/Form/Name.php:66
 #: CRM/Mailing/Form/Upload.php:63 CRM/Note/Form/Note.php:109;123
@@ -107,7 +107,7 @@ msgstr "Anuluj"
 #: CRM/Contact/Page/SavedSearch.php:147 CRM/Contact/Page/View/Note.php:172
 #: CRM/Contact/Page/View/Relationship.php:186
 #: CRM/Contact/Selector/Activity.php:122 CRM/Group/Page/Group.php:72;94
-#: CRM/History/Form/Activity.php:57 CRM/History/Selector/Activity.php:129
+#: CRM/History/Form/Activity.php:66 CRM/History/Selector/Activity.php:129
 #: CRM/Note/Form/Note.php:106
 msgid "Delete"
 msgstr "Usuń"
@@ -202,18 +202,18 @@ msgstr "Włącz"
 msgid "View"
 msgstr "Zobacz"
 
-#: CRM/Contact/BAO/Contact.php:932 CRM/Contact/Form/Edit.php:313
+#: CRM/Contact/BAO/Contact.php:936 CRM/Contact/Form/Edit.php:313
 #: CRM/Contact/Form/Relationship.php:352 CRM/Contact/Selector.php:264
 msgid "Individual"
 msgstr "Osoba"
 
-#: CRM/Contact/BAO/Contact.php:935 CRM/Contact/Form/Edit.php:316
+#: CRM/Contact/BAO/Contact.php:939 CRM/Contact/Form/Edit.php:316
 #: CRM/Contact/Form/Relationship.php:355 CRM/Contact/Selector.php:267
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "Mieszkanie"
 
-#: CRM/Contact/BAO/Contact.php:938 CRM/Contact/Form/Edit.php:319
+#: CRM/Contact/BAO/Contact.php:942 CRM/Contact/Form/Edit.php:319
 #: CRM/Contact/Form/Relationship.php:358 CRM/Contact/Selector.php:270
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
@@ -359,7 +359,7 @@ msgstr "Data rozpoczęcia"
 msgid "End Date"
 msgstr "Data zakończenia"
 
-#: CRM/Contact/Form/Address.php:72;75 CRM/Contact/Form/CustomData.php:256;264
+#: CRM/Contact/Form/Address.php:72;75 CRM/Contact/Form/CustomData.php:249;257
 #: CRM/Contact/Form/Relationship.php:162
 #: CRM/Contact/Form/Search/Advanced.php:210;225;230
 #: CRM/Custom/Form/Preview.php:194;199 CRM/UF/Form/Dynamic.php:114;117
@@ -374,7 +374,7 @@ msgstr "- wybierz -"
 msgid "Country"
 msgstr "Kraj"
 
-#: CRM/Contact/Form/CustomData.php:222
+#: CRM/Contact/Form/CustomData.php:215
 #: CRM/Contact/Form/Search/Advanced.php:198 CRM/Custom/Form/Preview.php:158
 #: templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -385,7 +385,7 @@ msgstr "Kraj"
 msgid "Yes"
 msgstr "Tak"
 
-#: CRM/Contact/Form/CustomData.php:223
+#: CRM/Contact/Form/CustomData.php:216
 #: CRM/Contact/Form/Search/Advanced.php:199 CRM/Custom/Form/Preview.php:160
 #: templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -396,20 +396,20 @@ msgstr "Tak"
 msgid "No"
 msgstr "Nie"
 
-#: CRM/Contact/Form/CustomData.php:227;249 CRM/Custom/Form/Preview.php:164;189
+#: CRM/Contact/Form/CustomData.php:220;242 CRM/Custom/Form/Preview.php:164;189
 msgid "%1 is a required field."
 msgstr "%1 jest polem wymaganym."
 
-#: CRM/Contact/Form/CustomData.php:272 CRM/Custom/Form/Preview.php:207
+#: CRM/Contact/Form/CustomData.php:265 CRM/Custom/Form/Preview.php:207
 msgid "%1 must be an integer (whole number)."
 msgstr "%1 musi być liczbą całkowitą."
 
-#: CRM/Contact/Form/CustomData.php:276
+#: CRM/Contact/Form/CustomData.php:269
 #: CRM/Contact/Form/Search/Advanced.php:186 CRM/Custom/Form/Preview.php:211
 msgid "%1 is not a valid date."
 msgstr "%1 nie jest poprawną datą."
 
-#: CRM/Contact/Form/CustomData.php:281 CRM/Custom/Form/Preview.php:216
+#: CRM/Contact/Form/CustomData.php:274 CRM/Custom/Form/Preview.php:216
 msgid "%1 must be a number (with or without decimal point)."
 msgstr "%1 musi być liczbą (całkowitą lub nie)."
 
@@ -435,7 +435,7 @@ msgstr[2] "Znaleziono %count pasujących kontaktów. Można je edytować tu: %1"
 #: CRM/Contact/Form/Relationship.php:189 CRM/Contact/Form/Search.php:274;279
 #: CRM/Contact/Form/Task/AddToHousehold.php:83
 #: CRM/Contact/Form/Task/AddToOrganization.php:85
-#: CRM/Contact/Page/SavedSearch.php:141;144 CRM/Core/Invoke.php:188
+#: CRM/Contact/Page/SavedSearch.php:141;144 CRM/Core/Invoke.php:185
 #: CRM/Group/Page/Group.php:88;91 templates/CRM/Block/Search.tpl
 msgid "Search"
 msgstr "Szukaj"
@@ -555,7 +555,7 @@ msgstr "Na pewno usunąć zapisane wyszukiwanie?"
 msgid "Delete Activity History"
 msgstr "Usuń historię zdarzenia"
 
-#: CRM/Contact/Selector/Activity.php:126 CRM/Utils/Menu.php:379
+#: CRM/Contact/Selector/Activity.php:126 CRM/Utils/Menu.php:376
 msgid "Delete Activity"
 msgstr "Usuń zdarzenie"
 
@@ -675,27 +675,27 @@ msgstr "Widoczność"
 msgid "Listings Title"
 msgstr "Tytuł spisu"
 
-#: CRM/Core/Invoke.php:184 CRM/Utils/Menu.php:209
+#: CRM/Core/Invoke.php:181 CRM/Utils/Menu.php:209
 #: templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "Advanced Search"
 msgstr "Szukanie zaawansowane"
 
-#: CRM/Core/Invoke.php:277 CRM/UF/Page/Group.php:148
+#: CRM/Core/Invoke.php:274 CRM/UF/Page/Group.php:148
 #: templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile Group"
 msgstr "Grupa profilu CiviCRM"
 
-#: CRM/Core/Invoke.php:279 CRM/UF/Page/Field.php:166
+#: CRM/Core/Invoke.php:276 CRM/UF/Page/Field.php:166
 #: templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
 msgstr "Pole profilu CiviCRM"
 
-#: CRM/Core/Invoke.php:303 CRM/Utils/Menu.php:361
+#: CRM/Core/Invoke.php:300 CRM/Utils/Menu.php:358
 msgid "Import Contacts"
 msgstr "Importuj kontakty"
 
-#: CRM/Core/Invoke.php:323 CRM/Utils/Menu.php:302
+#: CRM/Core/Invoke.php:320 CRM/Utils/Menu.php:302
 msgid "Groups"
 msgstr "Grupy"
 
@@ -719,6 +719,7 @@ msgid "Field Help"
 msgstr "Pomoc do pola"
 
 #: CRM/Custom/Form/Group.php:64 CRM/UF/Form/Group.php:66
+#: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
 msgstr "Edytuj %1"
 
@@ -739,15 +740,15 @@ msgstr "Edytuj grupę"
 msgid "Delete Group"
 msgstr "Usuń grupę"
 
-#: CRM/Group/Page/Group.php:63 CRM/Utils/Menu.php:347
+#: CRM/Group/Page/Group.php:63 CRM/Utils/Menu.php:344
 msgid "Group Members"
 msgstr "Członkowie grupy"
 
-#: CRM/Import/Form/MapField.php:241 CRM/Import/Form/Preview.php:98
+#: CRM/Import/Form/MapField.php:252 CRM/Import/Form/Preview.php:99
 msgid "<< Previous"
 msgstr "<< Wstecz"
 
-#: CRM/Import/Form/MapField.php:243 CRM/Import/Form/UploadFile.php:74
+#: CRM/Import/Form/MapField.php:254 CRM/Import/Form/UploadFile.php:74
 msgid "Continue >>"
 msgstr "Dalej >>"
 
@@ -1032,7 +1033,7 @@ msgstr "Edytuj znacznik"
 msgid "Delete Tag"
 msgstr "Usuń znacznik"
 
-#: CRM/Contact/BAO/Contact.php:1262
+#: CRM/Contact/BAO/Contact.php:1266
 msgid "-do not import-"
 msgstr "-nie importuj-"
 
@@ -1655,7 +1656,7 @@ msgstr "Edytuj notatkę"
 msgid "Delete Note"
 msgstr "Usuń notatkę"
 
-#: CRM/Contact/Page/View.php:91
+#: CRM/Contact/Page/View.php:88
 msgid "You do not have the necessary permission to view this contact."
 msgstr "Nie masz wystarczających uprawnień, by obejrzeć ten kontakt."
 
@@ -2034,51 +2035,51 @@ msgstr "Nazwa funkcji"
 msgid "%1 is a required field"
 msgstr "%1 jest polem wymaganym"
 
-#: CRM/Core/Invoke.php:104
+#: CRM/Core/Invoke.php:101
 msgid "<a href=\"%1\">Search Results</a>"
 msgstr "<a href=\"%1\">Wyniki wyszukiwania</a>"
 
-#: CRM/Core/Invoke.php:116
+#: CRM/Core/Invoke.php:113
 msgid "Email a Contact"
 msgstr "Napisz emaila do kontaktu"
 
-#: CRM/Core/Invoke.php:208
+#: CRM/Core/Invoke.php:205
 msgid "Contact Page"
 msgstr "Strona kontaktu"
 
-#: CRM/Core/Invoke.php:248
+#: CRM/Core/Invoke.php:245
 msgid "View Location Types"
 msgstr "Zobacz rodzaje lokalizacji"
 
-#: CRM/Core/Invoke.php:251
+#: CRM/Core/Invoke.php:248
 msgid "View Instant Messenger Providers"
 msgstr "Zobacz komunikatory"
 
-#: CRM/Core/Invoke.php:254
+#: CRM/Core/Invoke.php:251
 msgid "View Mobile Providers"
 msgstr "Zobacz sieci komórkowe"
 
-#: CRM/Core/Invoke.php:257
+#: CRM/Core/Invoke.php:254
 msgid "View Relationship Types"
 msgstr "Zobacz rodzaje powiązań"
 
-#: CRM/Core/Invoke.php:262 templates/CRM/Custom/Form/Group.tpl
+#: CRM/Core/Invoke.php:259 templates/CRM/Custom/Form/Group.tpl
 msgid "Custom Data Group"
 msgstr "Grupa danych dodatkowych"
 
-#: CRM/Core/Invoke.php:265;267;268 templates/CRM/Custom/Form/Field.tpl
+#: CRM/Core/Invoke.php:262;264;265 templates/CRM/Custom/Form/Field.tpl
 msgid "Custom Data Field"
 msgstr "Pole danych dodatkowych"
 
-#: CRM/Core/Invoke.php:284
+#: CRM/Core/Invoke.php:281
 msgid "View Tags"
 msgstr "Zobacz znaczniki"
 
-#: CRM/Core/Invoke.php:332
+#: CRM/Core/Invoke.php:329
 msgid "View Groups"
 msgstr "Zobacz grupy"
 
-#: CRM/Core/Invoke.php:356
+#: CRM/Core/Invoke.php:353
 msgid "Send Mailing"
 msgstr "Zrób wysyłkę"
 
@@ -2314,7 +2315,7 @@ msgstr "Wprowadź rodzaj pola"
 msgid "Searchable?"
 msgstr "Przeszukiwalne?"
 
-#: CRM/Custom/Form/Field.php:460
+#: CRM/Custom/Form/Field.php:520
 msgid "Your custom field \"%1\" has been saved"
 msgstr "Pole dodatkowe „%1” zostało zapisane"
 
@@ -2339,7 +2340,7 @@ msgid "Display Style"
 msgstr "Styl wyświetlania"
 
 #: CRM/Custom/Form/Group.php:108
-msgid "Collapse this group on intial display"
+msgid "Collapse this group on initial display"
 msgstr "Zwiń tę grupę podczas wstępnego wyświetlania"
 
 #: CRM/Custom/Form/Group.php:111
@@ -2550,35 +2551,35 @@ msgstr "Na pewno usunąć tę historię zdarzenia?"
 msgid "View Activity Details"
 msgstr "Zobacz szczegóły zdarzenia"
 
-#: CRM/Import/Form/MapField.php:217
+#: CRM/Import/Form/MapField.php:225
 msgid "Mapper for Field %1"
 msgstr "Przypisywacz dla pola %1"
 
-#: CRM/Import/Form/MapField.php:301
+#: CRM/Import/Form/MapField.php:321
 msgid "Match Fields"
 msgstr "Dopasuj pola"
 
-#: CRM/Import/Form/Preview.php:90
+#: CRM/Import/Form/Preview.php:91
 msgid "Create a new group from imported records"
 msgstr "Stwórz nową grupę dla zaimportowanych wpisów"
 
-#: CRM/Import/Form/Preview.php:91
+#: CRM/Import/Form/Preview.php:92
 msgid "Name for new group"
 msgstr "Nazwa nowej grupy"
 
-#: CRM/Import/Form/Preview.php:92
+#: CRM/Import/Form/Preview.php:93
 msgid "Description of new group"
 msgstr "Opis nowej grupy"
 
-#: CRM/Import/Form/Preview.php:94
+#: CRM/Import/Form/Preview.php:95
 msgid "Join new contacts to existing group(s)"
 msgstr "Dopisz nowe kontakty do istniejących grup"
 
-#: CRM/Import/Form/Preview.php:100
+#: CRM/Import/Form/Preview.php:101
 msgid "Import Now >>"
 msgstr "Importuj >>"
 
-#: CRM/Import/Form/Preview.php:116
+#: CRM/Import/Form/Preview.php:117
 msgid "Preview"
 msgstr "Podgląd"
 
@@ -2638,15 +2639,15 @@ msgstr "W powtórzonych wpisach"
 msgid "Upload Data"
 msgstr "Wgraj dane"
 
-#: CRM/Import/Parser/Contact.php:158;181
+#: CRM/Import/Parser/Contact.php:165;188
 msgid "Missing required fields"
 msgstr "Brak wymaganych pól"
 
-#: CRM/Import/Parser/Contact.php:166
+#: CRM/Import/Parser/Contact.php:173
 msgid "Invalid Email address"
 msgstr "Błędy adres email"
 
-#: CRM/Import/Parser/Contact.php:172
+#: CRM/Import/Parser/Contact.php:179
 msgid "Email address conflicts with record %1"
 msgstr "Adres email koliduje z wpisem %1"
 
@@ -2877,7 +2878,7 @@ msgstr "Znaczniki"
 msgid "Relationship Types"
 msgstr "Rodzaje powiązań"
 
-#: CRM/Utils/Menu.php:129;329
+#: CRM/Utils/Menu.php:129
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "Custom Data"
 msgstr "Dane dodatkowe"
@@ -2934,27 +2935,27 @@ msgstr "Zdarzenia"
 msgid "Relationships"
 msgstr "Powiązania"
 
-#: CRM/Utils/Menu.php:337
+#: CRM/Utils/Menu.php:334
 msgid "Manage Groups"
 msgstr "Zarządzaj grupami"
 
-#: CRM/Utils/Menu.php:354
+#: CRM/Utils/Menu.php:351
 msgid "Create New Group"
 msgstr "Stwórz nową grupę"
 
-#: CRM/Utils/Menu.php:372
+#: CRM/Utils/Menu.php:369
 msgid "Activity Detail"
 msgstr "Szczegóły zdarzenia"
 
-#: CRM/Utils/Menu.php:386 templates/CRM/History/Page/Email.tpl
+#: CRM/Utils/Menu.php:383 templates/CRM/History/Page/Email.tpl
 msgid "Sent Email Message"
 msgstr "Wysłany email"
 
-#: CRM/Utils/Menu.php:392
+#: CRM/Utils/Menu.php:389
 msgid "Mailing Header / Footer"
 msgstr "Nagłówek / stopka wysyłki"
 
-#: CRM/Utils/Menu.php:398
+#: CRM/Utils/Menu.php:395
 msgid "Mailing Message"
 msgstr "Wiadomość wysyłki"
 
@@ -3872,11 +3873,19 @@ msgstr "Edytuj dodatkowe dane"
 
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid ""
-"There are no (Inline) Custom Groups entered for this Contact. You can <a "
-"href=\"%1\">add one</a>."
+"There are either no Custom Groups or no Custom Fields entered for this "
+"Contact. You can either <a href=\"%1\">add Custom Group</a> or <a href=\"%2"
+"\">add Custom Field</a>."
 msgstr ""
-"Ten kontakt nie ma (śródtekstowych) grup dodatkowych. <a href=\"%1\">Możesz "
-"je dodać</a>."
+"Ten kontakt nie ma dodatkowych grup lub pól. Możesz <a href=\"%1\">dodać "
+"grupę dodatkową</a> i <a href=\"%2\">dodać pole dodatkowe</a>."
+
+#: templates/CRM/Contact/Page/View/CustomData.tpl
+msgid ""
+"There are either no (Inline) Custom Groups or no Custom Fields entered for "
+"this Contact."
+msgstr ""
+"Ten kontakt nie ma (śródtekstowych) grup dodatkowych lub pól dodatkowych."
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "This contact does not currently belong to any groups."
@@ -4026,6 +4035,24 @@ msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
+"Use this form to setup the title, group-level help, and display "
+"characteristics of each group of Custom Data fields. The 'Display Style' you "
+"select determines whether this group is edited and displayed together with "
+"other Custom Data Groups on a single consolidated form ('Inline' style), or "
+"has it's own menu tab ('Tab' style)."
+msgstr ""
+"Skorzystaj z tego formularza by ustawić tytuł, pomoc dla grupy oraz ustawienia wyświetlania dla każdej z grup danych dodatkowych. Wybrany „styl wyświetlania” określa, czy dana grupa ma być edytowana i wyświetlana razem z innymi grupami danych dodatkowych na wspólnym formularzu (styl „śródtekstowy”) czy ma mieć swoją własną zakładkę w menu (styl „zakładek”)."
+
+#: templates/CRM/Custom/Form/Group.tpl
+msgid ""
+"For 'inline' custom groups, the menu tab will use the title for the first "
+"'inline' group."
+msgstr ""
+"W przypadku „śródtekstowych” grup dodatkowych, zakładka w menu będzie "
+"zawierała tytuł pierwszej takiej grupy."
+
+#: templates/CRM/Custom/Form/Group.tpl
+msgid ""
 "Select the type of record that this group of custom data is available for."
 msgstr ""
 "Wybierz rodzaje wpisów, dla których ta grupa danych dodatkowych będzie "
@@ -4040,6 +4067,22 @@ msgstr ""
 "Waga decyduje o kolejności, w jakiej przedstawiane są grupy danych "
 "dodatkowych, gdy jest ich więcej niż jedna. Wprowadź dodatnią lub ujemną "
 "liczbę całkowitą – mniejsze liczby będą wyświetlane przed wyższymi."
+
+#: templates/CRM/Custom/Form/Group.tpl
+msgid ""
+"Select 'inline' to display this group on a shared form with other 'inline' "
+"custom data groups."
+msgstr ""
+"Wybierz „śródtekstowo” by wyświetlić tę grupę na wspólnym formularzu z "
+"innymi „śródtekstowymi” grupami danych dodatkowych."
+
+#: templates/CRM/Custom/Form/Group.tpl
+msgid ""
+"Check this box if you want only the title for this fieldset to be displayed "
+"when the edit form is initially loaded (fields are hidden)."
+msgstr ""
+"Zaznacz tę opcję, jeśli po załadowaniu formularza ma być wyświetlany tylko "
+"tytuł grupy pól, a same pola mają być ukryte."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid "Explanatory text displayed at the beginning of the group fieldset."
