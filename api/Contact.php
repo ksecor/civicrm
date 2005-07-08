@@ -143,11 +143,21 @@ function &crm_create_contact_formatted( &$params ) {
     if ( empty( $params ) ) {
         return _crm_error( 'Input Parameters empty' );
     }
-    /* TODO check for required fields */
 
-    /* TODO validate all fields */
-
-    /* TODO check for duplicates */
+    $error = _crm_required_formatted_contact($params);
+    if (is_a( $error, CRM_Core_Error)) {
+        return $error;
+    }
+    
+    $error = _crm_validate_formatted_contact($params);
+    if (is_a( $error, CRM_Core_Error)) {
+        return $error;
+    }
+    
+    $error = _crm_duplicate_formatted_contact($params);
+    if (is_a( $error, CRM_Core_Error)) {
+        return $error;
+    }
     
     $ids = array();
     

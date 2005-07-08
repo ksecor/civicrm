@@ -606,5 +606,100 @@ function _crm_add_formatted_param(&$values, &$params) {
     }
 }
 
+/**
+ * Check a formatted parameter list for required fields.  Note that this
+ * function does no validation or dupe checking.
+ *
+ * @param array $params  Structured parameter list (as in crm_format_params)
+ *
+ * @return bool|CRM_core_Error  Parameter list has all required fields
+ * @access public
+ */
+function _crm_required_formatted_contact(&$params) {
+    
+    if (! isset($params['contact_type'])) {
+        return _crm_error('No contact type specified');
+    }
+    
+    switch ($params['contact_type']) {
+        case 'Individual':
+            if (isset($params['first_name']) && isset($params['last_name'])) {
+                return true;
+            }
+            if (is_array($params['location'])) {
+                foreach ($params['location'] as $location) {
+                    if (is_array($location['email']) 
+                        && count($location['email']) >= 1) {
+                        return true;
+                    }
+                }
+            }
+            break;
+        case 'Household':
+            if (isset($params['household_name'])) {
+                return true;
+            }
+            break;
+        case 'Organization':
+            if (isset($params['organization_name'])) {
+                return true;
+            }
+            break;
+        default:
+            return 
+            _crm_error('Invalid Contact Type: ' . $params['contact_type'] );
+    }
+
+    return _crm_error('Missing required fields');
+}
+
+/**
+ * Validate a formatted contact parameter list.
+ *
+ * @param array $params  Structured parameter list (as in crm_format_params)
+ *
+ * @return bool|CRM_Core_Error
+ * @access public
+ */
+function _crm_validate_formatted_contact(&$params) {
+
+    /* Look for offending email addresses */
+    if (is_array($params['location'])) {
+        foreach ($params['location'] as $loc) {
+            if (is_array($loc['email'])) {
+                foreach ($loc['email'] as $email) {
+                    if (! CRM_Utils_Rule::email( $email['email']) ) {
+                        return 
+                        _crm_error( 'Email not valid ' . $email['email'] );
+                    }
+                }
+            }
+        }
+    }
+
+    /* Validate custom data fields */
+    if (is_array($params['custom'])) {
+        foreach ($params['custom'] as $custom) {
+            if (is_array($custom)) {
+                $valid = CRM_Core_BAO_CustomValue::typecheck(
+                    $custom['type'], $custom['value']);
+                if (! $valid) {
+                    return _crm_error( 'Invalid custom field data: ' 
+                                        . $custom['value']);
+                }
+            }
+        }
+    }
+    return true;
+}
+
+function _crm_duplicate_formatted_contact(&$params) {
+    if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params, null, true ) ) != null ) {
+        $error = _crm_error( "Found matching contacts: $ids", 8000, 'Fatal',
+                                $ids );
+        return $error;
+    }
+    return true;
+}
 
 ?>
