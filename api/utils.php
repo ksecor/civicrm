@@ -455,7 +455,8 @@ function _crm_add_formatted_param(&$values, &$params) {
             $locBlock = 1;
             $params['location'] = array(
                 $locBlock => 
-                    array( 'location_type_id' => $values['location_type_id'])
+                    array( 'location_type_id' => $values['location_type_id'],
+                            'is_primary'      => true)
             );
         } else {
             /* search through the location array for a matching loc. type */
@@ -489,6 +490,10 @@ function _crm_add_formatted_param(&$values, &$params) {
             _crm_store_values($fields, $values,
                 $params['location'][$locBlock]['phone'][$phoneBlock]);
                 
+            if ($phoneBlock == 1) {
+                $params['location'][$locBlock]['phone'][$phoneBlock]['is_primary']
+                = true;
+            }
             return true;
         }
         
@@ -507,6 +512,10 @@ function _crm_add_formatted_param(&$values, &$params) {
             _crm_store_values($fields, $values,
                 $params['location'][$locBlock]['email'][$emailBlock]);
 
+            if ($emailBlock == 1) {
+                $params['location'][$locBlock]['email'][$emailBlock]['is_primary']
+                = true;
+            }
             return true;
         }
 
@@ -525,6 +534,10 @@ function _crm_add_formatted_param(&$values, &$params) {
             _crm_store_values($fields, $values,
                 $params['location'][$locBlock]['im'][$imBlock]);
 
+            if ($imBlock == 1) {
+                $params['location'][$locBlock]['im'][$imBlock]['is_primary']
+                = true;
+            }
             return true;
         }
 

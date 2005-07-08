@@ -145,9 +145,14 @@ function &crm_create_contact_formatted( &$params ) {
     }
     /* TODO check for required fields */
 
+    /* TODO validate all fields */
+
     /* TODO check for duplicates */
     
     $ids = array();
+    
+    CRM_Contact_BAO_Contact::resolveDefaults($params, true);
+
     $contact = CRM_Contact_BAO_Contact::create( $params, $ids, 
         count($params['location']));
     return $contact;
