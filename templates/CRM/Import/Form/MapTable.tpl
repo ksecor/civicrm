@@ -35,9 +35,10 @@
                         {if $locations[$i]}
                             {$locations[$i]}
                         {/if}
-                        {$mapper[$i]}
                         {if $phones[$i]}
-                            / {$phones[$i]}
+                            {$phones[$i]}
+                        {else}
+                            {$mapper[$i]}
                         {/if}
                     {else}
                         {$form.mapper[$i].html}
