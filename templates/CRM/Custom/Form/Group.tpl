@@ -4,9 +4,7 @@
     <fieldset><legend>{ts}Custom Data Group{/ts}</legend>
     <div id="help">
         <p>
-        {ts}Use this form to setup the title, group-level help, and display characteristics of each group of Custom Data fields.
-        The 'Display Style' you select determines whether this group is edited and displayed together with other Custom Data Groups
-        on a single consolidated form ('Inline' style), or has it's own menu tab ('Tab' style).{/ts}
+        {ts}Use this form to setup the title, group-level help, and display characteristics of each group of Custom Data fields. The 'Display Style' you select determines whether this group is edited and displayed together with other Custom Data Groups on a single consolidated form ('Inline' style), or has it's own menu tab ('Tab' style).{/ts}
         </p>
     </div>
     <dl>
