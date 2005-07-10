@@ -1,8 +1,5 @@
 #!/bin/bash -v
 
-cd ../xml
-php GenCode.php
-
 cd ../sql
 mysql -u civicrm -pPASSWORD civicrm < Contacts.sql
 mysql -u civicrm -pPASSWORD civicrm < GeneratedData.sql
