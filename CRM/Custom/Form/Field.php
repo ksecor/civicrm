@@ -120,6 +120,16 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             CRM_Core_BAO_CustomField::retrieve($params, $defaults);
             $this->_gid = $defaults['custom_group_id'];
 
+            if ( $defaults['data_type'] == 'StateProvince' ) {
+                $daoState =& new CRM_Core_DAO();
+                $stateId = $defaults['default_value'];
+                $query = "SELECT * FROM crm_state_province WHERE id = $stateId";
+                $daoState->query($query);
+                $daoState->fetch();
+                
+                $defaults['default_value'] = $daoState->name;
+            }
+
             if (CRM_Utils_Array::value('data_type', $defaults)) {
                 $defaults['data_type'] = array('0' => array_search($defaults['data_type'], self::$_dataTypeKeys));
             }
@@ -129,13 +139,15 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $this->assign('html_type',$defaults['html_type']);
                 $defaults['html_type'] = array('0' => array_search($defaults['html_type'], self::$_dataToHTML[$defaults['data_type'][0]]));
             }
-
+           
         } else {
             $defaults['is_active'] = 1;
             for($i=1; $i<=self::NUM_OPTION; $i++) {
                 $defaults['option_status['.$i.']'] = 1;
             }
         }
+
+        
         return $defaults;
     }
 
@@ -221,7 +233,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->add('checkbox', 'is_active', ts('Active?'));
 
         // is searchable ?
-        $this->add('checkbox', 'is_searchable', ts('Searchable?'));
+        $this->add('checkbox', 'is_searchable', ts('Is this Field Searchable?'));
         
         // add buttons
         $this->addButtons(array(
@@ -279,9 +291,30 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 }
                 break;
             case 'Country':
+                if( !empty($default) ) {
+                    $fieldCountry = $fields['default_value'];
+                    $daoCountry =& new CRM_Core_DAO();
+                    $query = "SELECT * FROM crm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
+                    $daoCountry->query($query);
+                    
+                    $result = $daoCountry->getDatabaseResult();
+                    $row    = $result->fetchRow();
+                    if (!($row))
+                        $errors['default_value'] = 'The invalid default value for Country Data Type';
+                }
+                break;
             case 'StateProvince':
                 if( !empty($default) ) {
-                    $errors['default_value'] = 'The default value for State/Province or Country should be kept empty';
+                    $fieldStateProvince = $fields['default_value'];
+                    $daoState =& new CRM_Core_DAO();
+                    $query = "SELECT * FROM crm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
+                    //echo "$query";
+                    $daoState->query($query);
+                    
+                    $result = $daoState->getDatabaseResult();
+                    $row    = $result->fetchRow();
+                    if (!($row))
+                        $errors['default_value'] = 'The invalid default value for State/Province data type';
                 }
                 break;
             }
@@ -452,10 +485,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $errors['label'] = "There is a Custom Field with same name.";
         }
         
-
-       
-            
-        
         return empty($errors) ? true : $errors;
     }
 
@@ -478,12 +507,42 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->data_type     = self::$_dataTypeKeys[$params['data_type']];
         $customField->html_type     = self::$_dataToHTML[$params['data_type']][$params['html_type']];
         $customField->weight        = $params['weight'];
-        $customField->default_value = $params['default_value'];
+        
+        //$customField->default_value = $params['default_value'];
+        //store the primary key for State/Province or Country as default value.
+        if ( !empty($params['default_value'])) {
+            switch (self::$_dataTypeKeys[$params['data_type']]) {
+            case 'StateProvince':
+                $daoState =& new CRM_Core_DAO();
+                $fieldStateProvince = $params['default_value'];
+                $query = "SELECT * FROM crm_state_province WHERE name = '$fieldStateProvince' OR abbreviation = '$fieldStateProvince'";
+                $daoState->query($query);
+                $daoState->fetch();
+                $customField->default_value = $daoState->id;
+                break;
+                
+            case 'Country':
+                
+                $daoState =& new CRM_Core_DAO();
+                $fieldCountry = $params['default_value'];
+                $query = "SELECT * FROM crm_country WHERE name = '$fieldCountry' OR abbreviation = '$fieldCountry'";
+                $daoCountry->query($query);
+                $daoCountry->fetch();
+                $customField->default_value = $daoCountry->id;
+            
+                break;
+                
+            default:     
+                $customField->default_value = $params['default_value'];
+            }
+        } 
+       
         $customField->help_post     = $params['help_post'];
         $customField->mask          = $params['mask'];
         $customField->is_required   = CRM_Utils_Array::value( 'is_required', $params, false );
-        $customField->is_searchable   = CRM_Utils_Array::value( 'is_searchable', $params, false );
+        $customField->is_searchable = CRM_Utils_Array::value( 'is_searchable', $params, false );
         $customField->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
+
         if ( strtolower( $customField->html_type ) == 'textarea' ) {
             $customField->attributes = 'rows=4, cols=80';
         }

@@ -107,7 +107,14 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
-
+        
+        if (CRM_Core_Action::UPDATE) {
+            $this->add('hidden', 'optionId', $this->_id);
+        } else {
+            //hidden field ID for validation use
+            $this->add('hidden', 'fieldId', $this->_fid); 
+        }
+        
         // label
         $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
         //$this->addRule('label', ts('Please enter a valid label for this field.'), 'label');
@@ -126,6 +133,9 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         // Set the default value for Custom Field
         $this->add('checkbox', 'default_value', ts('Default'));
 
+        // add a custom form rule
+        $this->addFormRule( array( 'CRM_Custom_Form_Option', 'formRule' ) );
+        
         // add buttons
         $this->addButtons(array(
                                 array ('type'      => 'next',
@@ -142,6 +152,83 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
             $this->freeze();
             $this->addElement('button', 'done', ts('Done'), array('onClick' => "location.href='civicrm/admin/custom/group/field/option?reset=1&action=browse&fid=" . $this->_fid . "'"));
         }
+    }
+
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields ) {
+
+        if (CRM_Core_Action::ADD && $fields['fieldId']) {
+            $optionLabel = $fields['label'];
+            $optionValue = $fields['value'];
+            $fieldId = $fields['fieldId'];
+            
+            //check label duplicates within a custom field
+            $daoLabel =& new CRM_Core_DAO();
+            $query = "SELECT * FROM crm_custom_option WHERE custom_field_id = '$fieldId' AND label = '$optionLabel'";
+            $daoLabel->query($query);
+                    
+            $result = $daoLabel->getDatabaseResult();
+            $row    = $result->fetchRow();
+            
+            if ($row > 0) {
+                $errors['label'] = 'There is an entry with same Label';
+            }
+            
+            //check value duplicates within a custom field
+            $daoValue =& new CRM_Core_DAO();
+            $query = "SELECT * FROM crm_custom_option WHERE custom_field_id = '$fieldId' AND value = '$optionValue'";
+            $daoValue->query($query);
+                    
+            $result = $daoValue->getDatabaseResult();
+            $row    = $result->fetchRow();
+            
+            if ($row > 0) {
+                $errors['value'] = 'There is an entry with same value';
+            }
+                
+        }
+
+        //capture duplicate entries while updating Custom Options
+        if (CRM_Core_Action::UPDATE && $fields['optionId']) {
+            $optionLabel = $fields['label'];
+            $optionValue = $fields['value'];
+            $optionId = $fields['optionId'];
+            
+            //check label duplicates within a custom field
+            $daoLabel =& new CRM_Core_DAO();
+            $query = "SELECT * FROM crm_custom_option WHERE id != '$optionId' AND label = '$optionLabel'";
+
+            $daoLabel->query($query);
+                    
+            $result = $daoLabel->getDatabaseResult();
+            $row    = $result->fetchRow();
+            
+            if ($row > 0) {
+
+                $errors['label'] = 'There is an entry with same Label';
+            }
+            
+            //check value duplicates within a custom field
+            $daoValue =& new CRM_Core_DAO();
+            $query = "SELECT * FROM crm_custom_option WHERE id != '$optionId' AND value = '$optionValue'";
+            $daoValue->query($query);
+                    
+            $result = $daoValue->getDatabaseResult();
+            $row    = $result->fetchRow();
+            
+            if ($row > 0) {
+                $errors['value'] = 'There is an entry with same value';
+            }
+        }
+        return empty($errors) ? true : $errors;
     }
 
     /**
