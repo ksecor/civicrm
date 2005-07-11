@@ -553,7 +553,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         }
 
         // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, $this->_tableId);
+        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, $this->_entityType, $this->_tableId);
     }
 }
 
