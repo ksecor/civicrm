@@ -1023,7 +1023,7 @@ function _setup_link() {
     $cms_path        = $_SESSION['cms_path'];
     $cms_module_path = $_SESSION['cms_path'].'/modules/';
     $cms_sql_path    = $_SESSION['cms_path'].'/sql/';
-
+     
     $crm_path = getcwd();
     chdir($crm_path); 
     chdir("../");
@@ -1220,7 +1220,7 @@ function install_step_explanation($title, $percent = NULL) {
                           'Second, you will need to know drupal path', 
                                                      'Finally, you need to <strong>set some file permissions</strong>: <ul style="margin-bottom: 1.2em;">
                           <li><code>modules/config.inc.php</code> must be writable</li>
-                          <li>the <code>modules/</code> directory must be writable and readable</li> 
+                          <li>the <code>CRM-Home/modules/</code> directory must be writable and readable</li> 
                           <li>the <code>bin/</code> directory must be writable and readable</li> 
                           <!--li>the <code>sql/</code> directory must be writable and readable</li> 
                           <li>In your <code>CMS/modules/<code> directory must be writable.</li--></ul>'))."\n";
@@ -1442,10 +1442,10 @@ function _install_check_server() {
   // check that the ../modules directory is writable
     if (!(is_writable('../modules') && is_readable('../modules'))) {
         $status['server_ok']  = FALSE;
-        $status['messages'] .= _install_msg_failed('The <code>modules/</code> directory is not readable and writeable.', NULL, '');
+        $status['messages'] .= _install_msg_failed('The <code>CRM-Home/modules/</code> directory is not readable and writeable.', NULL, '');
     }
     else {
-        $status['messages'] .= _install_msg_successful('The <code>modules/</code> directory is readable and writable.');
+        $status['messages'] .= _install_msg_successful('The <code>CRM-Home/modules/</code> directory is readable and writable.');
     }
     /*
     // check that the ../bin directory is writable
