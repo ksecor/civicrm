@@ -130,6 +130,16 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $defaults['default_value'] = $daoState->name;
             }
 
+            if ( $defaults['data_type'] == 'Country' ) {
+                $daoCountry =& new CRM_Core_DAO();
+                $countryId = $defaults['default_value'];
+                $query = "SELECT * FROM crm_country WHERE id = $countryId";
+                $daoCountry->query($query);
+                $daoCountry->fetch();
+                
+                $defaults['default_value'] = $daoCountry->name;
+            }
+
             if (CRM_Utils_Array::value('data_type', $defaults)) {
                 $defaults['data_type'] = array('0' => array_search($defaults['data_type'], self::$_dataTypeKeys));
             }

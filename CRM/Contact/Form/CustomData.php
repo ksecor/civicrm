@@ -245,8 +245,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
                 case 'Select State/Province':
                     //Add State
-                    
-                    $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
+                    if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+                        $stateOption = array('' => ts('')) + CRM_Core_PseudoConstant::stateProvince();
+                    } else { 
+                        $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
+                    }
                     $this->add('select', $elementName, $field['label'], $stateOption, $field['is_required']);
                     $_flag++;
                     break;
@@ -254,7 +257,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                 case 'Select Country':
                     //Add Country
                     $_flag++;
-                    $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
+                    if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+                        $countryOption = array('' => ts('')) + CRM_Core_PseudoConstant::country();
+                    } else {
+                        $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
+                    }
                     $this->add('select', $elementName, $field['label'], $countryOption, $field['is_required']);
                     break;
                 }

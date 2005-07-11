@@ -107,13 +107,15 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
 
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
-        
+
         if (CRM_Core_Action::UPDATE) {
+            // hidden Option Id for validation use
             $this->add('hidden', 'optionId', $this->_id);
-        } else {
-            //hidden field ID for validation use
-            $this->add('hidden', 'fieldId', $this->_fid); 
         }
+
+        //hidden field ID for validation use
+        $this->add('hidden', 'fieldId', $this->_fid); 
+        
         
         // label
         $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
@@ -165,7 +167,7 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
      */
     static function formRule( &$fields ) {
 
-        if (CRM_Core_Action::ADD && $fields['fieldId']) {
+        if (CRM_Core_Action::ADD && $fields['optionId'] == '') {
             $optionLabel = $fields['label'];
             $optionValue = $fields['value'];
             $fieldId = $fields['fieldId'];
@@ -197,34 +199,36 @@ class CRM_Custom_Form_Option extends CRM_Core_Form {
         }
 
         //capture duplicate entries while updating Custom Options
-        if (CRM_Core_Action::UPDATE && $fields['optionId']) {
+        if (CRM_Core_Action::UPDATE) {
+
             $optionLabel = $fields['label'];
             $optionValue = $fields['value'];
             $optionId = $fields['optionId'];
-            
+            $fieldId = $fields['fieldId'];
+
             //check label duplicates within a custom field
             $daoLabel =& new CRM_Core_DAO();
-            $query = "SELECT * FROM crm_custom_option WHERE id != '$optionId' AND label = '$optionLabel'";
-
+            $query = "SELECT * FROM crm_custom_option WHERE custom_field_id ='$fieldId' AND id != '$optionId' AND label = '$optionLabel'";
+            
             $daoLabel->query($query);
                     
-            $result = $daoLabel->getDatabaseResult();
-            $row    = $result->fetchRow();
+            $resultLabel = $daoLabel->getDatabaseResult();
+            $rowLabel    = count($resultLabel->fetchRow());
             
-            if ($row > 0) {
+            if ($rowLabel > 0) {
 
                 $errors['label'] = 'There is an entry with same Label';
             }
             
             //check value duplicates within a custom field
             $daoValue =& new CRM_Core_DAO();
-            $query = "SELECT * FROM crm_custom_option WHERE id != '$optionId' AND value = '$optionValue'";
+            $query = "SELECT * FROM crm_custom_option WHERE custom_field_id ='$fieldId' AND id != '$optionId' AND value = '$optionValue'";
             $daoValue->query($query);
                     
-            $result = $daoValue->getDatabaseResult();
-            $row    = $result->fetchRow();
-            
-            if ($row > 0) {
+            $resultValue = $daoValue->getDatabaseResult();
+            $rowValue    = $resultValue->fetchRow();
+
+            if ($rowValue > 0) {
                 $errors['value'] = 'There is an entry with same value';
             }
         }
