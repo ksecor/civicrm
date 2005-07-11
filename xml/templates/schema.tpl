@@ -66,7 +66,7 @@ CREATE TABLE {$table.name} (
 {/foreach} {* table.foreignKey *}
 {/if} {* table.foreignKey *}
 
-) {$table.attributes};
+) {if $mysql eq 'modern' }{$table.attributes}{/if};
 
 
 {/foreach} {* tables *}

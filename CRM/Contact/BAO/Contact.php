@@ -154,22 +154,34 @@ SELECT DISTINCT
      * @access public
      */
     static function matchContact( $matchClause, &$tables, $id = null ) {
-        $query  = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->mysqlVersion >= 4.1 ) {
+            $query  = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
+        } else {
+            $query  = "SELECT DISTINCT crm_contact.id as id";
+        }
         $query .= self::fromClause( $tables );
         $query .= " WHERE $matchClause ";
         if ( $id ) {
             $query .= " AND crm_contact.id != $id ";
         }
-        // CRM_Core_Error::debug( 'qs', $query );
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
-        $result = $dao->getDatabaseResult();
-        if ( $result ) {
-            $row = $result->fetchRow();
-            if ( $row ) {
-                return $row[0];
+        if ( $config->mysqlVersion >= 4.1 ) {
+            $result = $dao->getDatabaseResult();
+            if ( $result ) {
+                $row = $result->fetchRow();
+                if ( $row ) {
+                    return $row[0];
+                }
             }
+        } else {
+            $ids = array( );
+            while ( $dao->fetch( ) ) {
+                $ids[] = $dao->id;
+            }
+            return implode( ',', $ids );
         }
         return null;
     }
@@ -228,6 +240,8 @@ ORDER BY
                          $count = false, $includeContactIds = false, $sortByChar = false,
                          $groupContacts = false )
     {
+        $config =& CRM_Core_Config::singleton( );
+
         $select = $from = $where = $order = $limit = '';
 
         $tables = array( );
@@ -235,8 +249,10 @@ ORDER BY
             $select = "SELECT count(DISTINCT crm_contact.id) ";
         } else if ( $sortByChar ) {
             $select = "SELECT DISTINCT UPPER(LEFT(crm_contact.sort_name, 1)) as sort_name";
+        } else if ( $groupContacts && $config->mysqlVersion < 4.1 ) {
+            $select  = "SELECT DISTINCT crm_contact.id as id";
         } else if ( $groupContacts ) {
-            $select = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
+            $select  = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
         } else {
             $select = self::selectClause( $tables );
         }
@@ -264,14 +280,20 @@ ORDER BY
 
         // building the query string
         $queryString = $select . $from . $where . $order . $limit;
-        //echo "<pre>$queryString</pre>";
-        // CRM_Core_Error::debug( 'qs', $queryString );
         $this->query($queryString);
 
         if ($count || $groupContacts) {
-            $result = $this->getDatabaseResult();
-            $row    = $result->fetchRow();
-            return $row[0];
+            if ( $groupContacts && $config->mysqlVersion < 4.1 ) {
+                $ids = array( );
+                while ( $this->fetch( ) ) {
+                    $ids[] = $this->id;
+                }
+                return implode( ',', $ids );
+            } else {
+                $result = $this->getDatabaseResult();
+                $row    = $result->fetchRow();
+                return $row[0];
+            }
         }
 
         return $this;

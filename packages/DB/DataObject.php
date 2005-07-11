@@ -113,6 +113,9 @@ define('DB_DATAOBJECT_MYSQLTIMESTAMP'   , 256);           // mysql timestamps (i
  * Define this before you include DataObjects.php to  disable overload - if it segfaults due to Zend optimizer..
  */
 //define('DB_DATAOBJECT_NO_OVERLOAD',true)  
+if ( phpversion() == '4.3.10' ) {
+    define('DB_DATAOBJECT_NO_OVERLOAD',true);
+}
 
 
 /**
@@ -2059,7 +2062,10 @@ class DB_DataObject extends DB_DataObject_Overload
             $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = DB::connect($dsn);
         }
 
-        $this->query("SET NAMES 'utf8'");
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->mysqlVersion >= 4.1 ) {
+            $this->query("SET NAMES 'utf8'");
+        }
         
         if (!empty($_DB_DATAOBJECT['CONFIG']['debug'])) {
             $this->debug(serialize($_DB_DATAOBJECT['CONNECTIONS']), "CONNECT",5);

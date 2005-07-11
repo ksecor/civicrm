@@ -2,12 +2,13 @@
 
 ini_set( 'include_path', ".:../packages" );
 
-define( 'CRM_PHP_VERSION' , 5 );
-if ( substr( phpversion( ), 0, 1 ) != CRM_PHP_VERSION ) {
+if ( substr( phpversion( ), 0, 1 ) != 5 ) {
     echo phpversion( ) . ', ' . substr( phpversion( ), 0, 1 ) . "\n";
-    echo 'CiviCRM requires a PHP Version >= ' . CRM_PHP_VERSION . "\n";
-    echo "Please upgrade your php / webserver configuration\n";
-    echo "Alternatively you can get a version of CiviCRM that matches your PHP version\n\n";
+    echo "
+CiviCRM requires a PHP Version >= 5
+Please upgrade your php / webserver configuration
+Alternatively you can get a version of CiviCRM that matches your PHP version
+";
     exit( );
 }
 
@@ -53,17 +54,23 @@ $tables = orderTables( $tables );
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );
 $smarty->assign_by_ref( 'dropOrder', array_reverse( array_keys( $tables ) ) );
+$smarty->assign( 'mysql', 'modern' );
 
 echo "Generating sql file\n";
-
 $sql = $smarty->fetch( 'schema.tpl' );
-
-//echo "\n\n\n\n\n\n*****************************************************************************\n\n";
-//echo "sql = \n\n$sql";
-
 
 createDir( $sqlCodePath );
 $fd = fopen( $sqlCodePath . "Contacts.sql", "w" );
+fputs( $fd, $sql );
+fclose($fd);
+
+// now generate the mysql4.0 version
+$smarty->assign( 'mysql', 'simple' );
+echo "Generating mysql 4.0 file\n";
+$sql = $smarty->fetch( 'schema.tpl' );
+
+createDir( $sqlCodePath );
+$fd = fopen( $sqlCodePath . "Contacts.mysql40.sql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
@@ -112,6 +119,7 @@ function &getDatabase( &$dbXML ) {
     checkAndAppend( $attributes, $dbXML, 'collate', 'COLLATE ', '' );
     $database['attributes'] = $attributes;
 
+    
     $tableAttributes = '';
     checkAndAppend( $tableAttributes, $dbXML, 'table_type', 'ENGINE=', '' );
     $database['tableAttributes'] = trim( $tableAttributes . ' ' . $attributes );

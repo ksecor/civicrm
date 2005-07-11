@@ -27,6 +27,10 @@ define( 'CRM_PHP_VERSION' , 5 );
 
 define( 'CRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
 
+// what version of mysql are u using. CiviCRM has been designed for mysql4.1
+// this is an attempt to provide fixes for mysql 4.0
+define( 'CRM_MYSQL_VERSION', 4.0 );
+
 include_once 'config.main.php';
 
 ?>
