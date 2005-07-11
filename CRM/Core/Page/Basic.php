@@ -313,8 +313,16 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url( $this->userContext( $mode ),
-                                                          $this->userContextParams( $mode ) ) );
+        
+        $url = CRM_Utils_System::url( $this->userContext( $mode ), $this->userContextParams( $mode ) );
+        
+        $session->pushUserContext( $url );
+
+        if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
+            eval( $this->getBAOName() . '::del( $id );' );
+            CRM_Utils_System::redirect($url);
+        }
 
         if ( $id ) {
             $controller->set( 'id'   , $id );

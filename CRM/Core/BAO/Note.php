@@ -173,10 +173,8 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         $note =& new CRM_Core_DAO_Note( );
         $note->id = $id;
         $note->delete();
-        
+        CRM_Core_Session::setStatus( ts('Selected Note has been Deleted Successfuly.') );        
     }
-
-
 
     /**
      * delete all records for this contact id

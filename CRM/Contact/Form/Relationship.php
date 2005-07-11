@@ -224,9 +224,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $ids['contact'] = $this->_contactId;
         
         if ($this->_action & CRM_Core_Action::DELETE ){
-        
             CRM_Contact_BAO_Relationship::del($this->_relationshipId); 
-            $status =ts('Selected Reletionship has been Deleted Successfuly.');
+            return;
         }
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {

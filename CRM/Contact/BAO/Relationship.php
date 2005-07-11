@@ -249,6 +249,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship {
         $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->id = $id;
         $relationship->delete();
+        CRM_Core_Session::setStatus( ts('Selected Relationship has been Deleted Successfuly.') );
     }
 
     /**

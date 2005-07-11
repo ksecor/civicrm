@@ -95,7 +95,14 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
 
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view/rel', 'action=browse' ) );
+
+        $url = CRM_Utils_System::url('civicrm/contact/view/rel', 'action=browse' );
+        $session->pushUserContext( $url );
+
+        if (CRM_Utils_Request::retrieve('confirmed', $form, '', '', 'GET') ) {
+            CRM_Contact_BAO_Relationship::del( $this->_id);
+            CRM_Utils_System::redirect($url);
+        }
         
         $controller->set( 'contactId', $this->_contactId );
         $controller->set( 'id'       , $this->_id );
@@ -186,7 +193,7 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/contact/view/rel',
                                                                     'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
-                                                                    //'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
+                                                                    'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&confirmed=1\'; else return false;"',
                                                                     'title' => ts('Delete Relationship')
                                                                     ),
                                   );
