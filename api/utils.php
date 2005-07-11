@@ -325,7 +325,8 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
         $contact->location    = array( );
     }
 
-    if ( ! array_key_exists( 0, $contact->location ) || empty( $contact->location[1] ) ) {
+    /* FIXME for now we're only supporting update on single-location entries */
+    if ( ! array_key_exists( 1, $contact->location ) || empty( $contact->location[1] ) ) {
         $contact->location[1] =& new CRM_Contact_BAO_Location( );
     }
 
@@ -341,7 +342,9 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     $blocks = array( 'Email', 'Phone', 'IM' );
     foreach ( $blocks as $block ) {
         $name = strtolower($block);
-
+        if ( ! isset($values['location'][1][$name][1]) ) {
+            continue;
+        }
         if ( ! isset( $contact->location[1]->$name ) ) {
             $contact->location[1]->$name = array( );
             require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $block) . ".php");
