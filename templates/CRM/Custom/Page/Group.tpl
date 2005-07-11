@@ -15,6 +15,7 @@
             <th>{ts}Status?{/ts}</th>
             <th>{ts}Used For{/ts}</th>
             <th>{ts}Weight{/ts}</th>
+            <th>{ts}Style{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}
@@ -23,6 +24,7 @@
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{if $row.extends eq 'Contact'}{ts}All Contact Types{/ts}{else}{$row.extends}s{/if}</td>
             <td>{$row.weight}</td>
+            <td>{$row.style}</td>
             <td>{$row.action}</td>
         </tr>
         {/foreach}

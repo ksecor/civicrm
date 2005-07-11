@@ -203,7 +203,7 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $config =& CRM_Core_Config::singleton( );
         $dao->domain_id = $config->domainID( );
 
-        $dao->orderBy('weight');
+        $dao->orderBy('weight, title');
         $dao->find();
 
         while ($dao->fetch()) {
