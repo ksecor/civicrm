@@ -917,7 +917,7 @@ SELECT DISTINCT crm_contact.id as contact_id,
         if (is_array($params['custom'])) {  
             foreach ($params['custom'] as $customValue) {
                 $cvParams = array(
-                    'entity_table' => 'contact',
+                    'entity_table' => 'crm_contact',
                     'entity_id' => $contact->id,
                     'value' => $customValue['value'],
                     'type' => $customValue['type'],

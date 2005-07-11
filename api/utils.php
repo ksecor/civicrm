@@ -56,6 +56,20 @@ function _crm_update_object(&$object, &$values)
     }
 }
 
+
+function _crm_update_from_object(&$object, &$values) {
+    $fields =& $object->fields();
+
+    foreach ($fields as $name => $field) {
+        if ($name == 'id') {
+            continue;
+        }
+
+        $values[$name] = $object->$name;
+    }
+}
+
+
 /**
  * This function ensures that we have the right input parameters
  *
@@ -331,12 +345,23 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     }
 
     $values['location'][1]['contact_id'] = $contact->id;
+    
+    /* If we're not overwriting, copy old data back before updating */
+    if (! $overwrite) {
+        _crm_update_from_object($contact->location[1], $values['location'][1]);
+    }
+    
     _crm_update_object( $contact->location[1], $values['location'][1] );
 
     if ( ! isset( $contact->location[1]->address ) ) {
         $contact->location[1]->address =& new CRM_Contact_BAO_Address( );
     }
     $values['location'][1]['address']['location_id'] = $contact->location[1]->id;
+    
+    if (! $overwrite) {
+        _crm_update_from_object($contact->location[1]->address, $values['location'][1]['address']);
+    }
+    
     _crm_update_object( $contact->location[1]->address, $values['location'][1]['address'] );
 
     $blocks = array( 'Email', 'Phone', 'IM' );
@@ -351,7 +376,59 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
             eval( '$contact->location[1]->{$name}[1] =& new CRM_Contact_BAO_' . $block . '( );' );
         }
         $values['location'][1][$name][1]['location_id'] = $contact->location[1]->id;
+    
+        if (! $overwrite) {
+            _crm_update_from_object($contact->location[1]->{$name}[1], $values['location'][1][$name][1]);
+        }
         _crm_update_object( $contact->location[1]->{$name}[1], $values['location'][1][$name][1] );
+    }
+
+    /* Custom data */
+//     CRM_Core_Error::debug('custom', $contact);
+//     CRM_Core_Error::debug('values', $values);
+//     exit();
+
+    foreach ($values['custom'] as $customValue) {
+        /* get the field for the data type */
+        $field = CRM_Core_BAO_CustomValue::typeToField($customValue['type']);
+        if (! $field) {
+            /* FIXME failure! */
+            continue;
+        }
+        
+        /* adjust the value if it's boolean */
+        if ($customValue['type'] == 'Boolean') {
+            $value = CRM_Utils_String::strtobool($customValue['value']);
+        } else {
+            $value = $customValue['value'];
+        }
+
+        /* look for a matching existing custom value */
+        $match = false;
+        
+        foreach ($contact->custom_values as $cv) {
+            if ($cv->custom_field_id == $customValue['custom_field_id']) {
+                /* match */
+                $match = true;
+                if ($overwrite) {
+                    $cv->$field = $value;
+                    $cv->save();
+                    break;
+                }
+            }
+        }
+
+        if (! $match) {
+            /* no match, so create a new CustomValue */
+            $cvParams = array(
+                    'entity_table' => 'crm_contact',
+                    'entity_id' => $contact->id,
+                    'value' => $value,
+                    'type' => $customValue['type'],
+                    'custom_field_id' => $customValue['custom_field_id'],
+                );
+            CRM_Core_BAO_CustomValue::create($cvParams);
+        }
     }
     return $contact;
 }

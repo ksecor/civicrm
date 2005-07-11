@@ -129,5 +129,49 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         
         return $customValue;
     }
+
+    public static function typeToField($type) {
+        switch ($type) {
+            case 'String':
+            case 'StateProvince':
+            case 'Country':
+                return 'char_data';
+            case 'Boolean':
+            case 'Int':
+                return 'int_data';
+            case 'Float':
+            case 'Money':
+                return 'float_data';
+            case 'Memo':
+                return 'memo_data';
+            case 'Date':
+                return 'date_data';
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Find all the custom values for a given contact.
+     *
+     * @param int $contactId  the id of the contact
+     * @return array $values  Array of CustomValue objects
+     * @access public
+     * @static
+     */
+    public static function getContactValues($contactId) {
+        $customValue =& new CRM_Core_BAO_CustomValue();
+
+        $customValue->entity_id = $contactId;
+        $customValue->entity_table = 'crm_contact';
+
+        $customValue->find();
+        $values = array();
+
+        while ($customValue->fetch()) {
+            $values[] = $customValue;
+        }
+        return $values;
+    }
 }
 ?>
