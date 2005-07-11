@@ -23,6 +23,8 @@ define( 'CRM_DATEFORMAT_YEAR', '%Y' );
 
 define( 'CRM_SMTP_SERVER' , 'YOUR SMTP SERVER' );
 
+define( 'CRM_MYSQL_VERSION', 4.1 );
+
 include_once 'config.main.php';
 
 ?>

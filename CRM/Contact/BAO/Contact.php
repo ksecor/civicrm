@@ -138,6 +138,12 @@ SELECT DISTINCT
      * @access public
      */
     static function matchContact( $matchClause, $id = null ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->mysqlVersion >= 4.1 ) {
+            $query  = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
+        } else {
+            $query  = "SELECT DISTINCT crm_contact.id as id";
+        }
         $query  = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
         $query .= self::individualFromClause( );
         $query .= " WHERE $matchClause ";
@@ -147,12 +153,20 @@ SELECT DISTINCT
 
         $dao =& new CRM_Core_DAO( );
         $dao->query($query);
-        $result = $dao->getDatabaseResult();
-        if ( $result ) {
-            $row = $result->fetchRow();
-            if ( $row ) {
-                return $row[0];
+        if ( $config->mysqlVersion >= 4.1 ) {
+            $result = $dao->getDatabaseResult();
+            if ( $result ) {
+                $row = $result->fetchRow();
+                if ( $row ) {
+                    return $row[0];
+                }
             }
+        } else {
+            $ids = array( );
+            while ( $dao->fetch( ) ) {
+                $ids[] = $dao->id;
+            }
+            return implode( ',', $ids );
         }
         return null;
     }
@@ -217,8 +231,10 @@ ORDER BY
             $select = "SELECT count(DISTINCT crm_contact.id) ";
         } else if ( $sortByChar ) {
             $select = "SELECT DISTINCT UPPER(LEFT(crm_contact.sort_name, 1)) as sort_name";
+        } else if ( $groupContacts && $config->mysqlVersion < 4.1 ) {
+            $select  = "SELECT DISTINCT crm_contact.id as id";
         } else if ( $groupContacts ) {
-            $select = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
+            $select  = "SELECT GROUP_CONCAT(DISTINCT crm_contact.id)";
         } else {
             $select = self::selectClause( );
         }
@@ -251,9 +267,17 @@ ORDER BY
         $this->query($queryString);
 
         if ($count || $groupContacts) {
-            $result = $this->getDatabaseResult();
-            $row    = $result->fetchRow();
-            return $row[0];
+            if ( $groupContacts && $config->mysqlVersion < 4.1 ) {
+                $ids = array( );
+                while ( $this->fetch( ) ) {
+                    $ids[] = $this->id;
+                }
+                return implode( ',', $ids );
+            } else {
+                $result = $this->getDatabaseResult();
+                $row    = $result->fetchRow();
+                return $row[0];
+            }
         }
 
         return $this;

@@ -171,6 +171,11 @@ class CRM_Core_Config {
     public $userFrameworkURLVar = 'q';
 
     /**
+     * The default mysql version that we are using
+     */
+    public $mysqlVersion = 4.1;
+
+    /**
      * the domainID for this instance. 
      *
      * @var int
@@ -315,6 +320,10 @@ class CRM_Core_Config {
 
         if ( defined( 'CRM_USERFRAMEWORK_URLVAR' ) ) {
             $this->userFrameworkURLVar = CRM_USERFRAMEWORK_URLVAR;
+        }
+
+        if ( defined( 'CRM_MYSQL_VERSION' ) ) {
+            $this->mysqlVersion = CRM_MYSQL_VERSION;
         }
 
         // initialize the framework

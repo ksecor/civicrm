@@ -51,17 +51,23 @@ $tables   =& getTables( $dbXML, $database );
 $smarty->assign_by_ref( 'database', $database );
 $smarty->assign_by_ref( 'tables'  , $tables   );
 $smarty->assign_by_ref( 'dropOrder', array_reverse( array_keys( $tables ) ) );
+$smarty->assign( 'mysql', 'modern' );
 
 echo "Generating sql file\n";
-
 $sql = $smarty->fetch( 'schema.tpl' );
-
-//echo "\n\n\n\n\n\n*****************************************************************************\n\n";
-//echo "sql = \n\n$sql";
-
 
 createDir( $sqlCodePath );
 $fd = fopen( $sqlCodePath . "Contacts.sql", "w" );
+fputs( $fd, $sql );
+fclose($fd);
+
+// now generate the mysql4.0 version
+$smarty->assign( 'mysql', 'simple' );
+echo "Generating mysql 4.0 file\n";
+$sql = $smarty->fetch( 'schema.tpl' );
+
+createDir( $sqlCodePath );
+$fd = fopen( $sqlCodePath . "Contacts.mysql40.sql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
