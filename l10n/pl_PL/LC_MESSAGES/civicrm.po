@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-08 10:51+0200\n"
-"PO-Revision-Date: 2005-07-08 10:54+0200\n"
+"POT-Creation-Date: 2005-07-11 10:43+0200\n"
+"PO-Revision-Date: 2005-07-11 10:48+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -66,8 +66,8 @@ msgstr "Numer telefonu"
 
 #: CRM/Activity/Form.php:168 CRM/Admin/Form/RelationshipType.php:76
 #: CRM/Contact/Form/Task/Print.php:80 CRM/Contact/Form/Task/Result.php:88
-#: CRM/Custom/Form/Field.php:242 CRM/Custom/Form/Group.php:126
-#: CRM/Custom/Form/Option.php:143 CRM/Group/Form/DynamicGroup.php:69
+#: CRM/Custom/Form/Field.php:254 CRM/Custom/Form/Group.php:126
+#: CRM/Custom/Form/Option.php:153 CRM/Group/Form/DynamicGroup.php:69
 #: CRM/Import/Form/Summary.php:103 CRM/UF/Form/Field.php:166
 #: CRM/UF/Form/Group.php:104 templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
@@ -76,8 +76,8 @@ msgstr "OK"
 
 #: CRM/Activity/Form.php:175 CRM/Admin/Form.php:98
 #: CRM/Contact/Form/CustomData.php:287 CRM/Contact/Form/Edit.php:265
-#: CRM/Custom/Form/Field.php:229 CRM/Custom/Form/Group.php:115
-#: CRM/Custom/Form/Option.php:132 CRM/Group/Form/Edit.php:101
+#: CRM/Custom/Form/Field.php:241 CRM/Custom/Form/Group.php:115
+#: CRM/Custom/Form/Option.php:142 CRM/Group/Form/Edit.php:101
 #: CRM/Mailing/Form/Component.php:93 CRM/Note/Form/Note.php:120
 #: CRM/UF/Form/Dynamic.php:129 CRM/UF/Form/Field.php:154
 #: CRM/UF/Form/Group.php:93 CRM/UF/Form/Register.php:117
@@ -90,11 +90,11 @@ msgstr "Zapisz"
 #: CRM/Contact/Form/Edit.php:272 CRM/Contact/Form/Relationship.php:153;190;197
 #: CRM/Contact/Form/Task/AddToHousehold.php:84;92
 #: CRM/Contact/Form/Task/AddToOrganization.php:86;94
-#: CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:232
-#: CRM/Custom/Form/Group.php:119 CRM/Custom/Form/Option.php:135
+#: CRM/Contact/Form/Task.php:164 CRM/Custom/Form/Field.php:244
+#: CRM/Custom/Form/Group.php:119 CRM/Custom/Form/Option.php:145
 #: CRM/Group/Form/Delete.php:87 CRM/Group/Form/DynamicGroup.php:76
 #: CRM/Group/Form/Edit.php:104 CRM/History/Form/Activity.php:69
-#: CRM/Import/Form/MapField.php:258 CRM/Import/Form/Preview.php:105
+#: CRM/Import/Form/MapField.php:259 CRM/Import/Form/Preview.php:105
 #: CRM/Import/Form/UploadFile.php:78 CRM/Mailing/Form/Component.php:96
 #: CRM/Mailing/Form/Group.php:87 CRM/Mailing/Form/Name.php:66
 #: CRM/Mailing/Form/Upload.php:63 CRM/Note/Form/Note.php:109;123
@@ -202,18 +202,18 @@ msgstr "Włącz"
 msgid "View"
 msgstr "Zobacz"
 
-#: CRM/Contact/BAO/Contact.php:936 CRM/Contact/Form/Edit.php:313
+#: CRM/Contact/BAO/Contact.php:958 CRM/Contact/Form/Edit.php:313
 #: CRM/Contact/Form/Relationship.php:352 CRM/Contact/Selector.php:264
 msgid "Individual"
 msgstr "Osoba"
 
-#: CRM/Contact/BAO/Contact.php:939 CRM/Contact/Form/Edit.php:316
+#: CRM/Contact/BAO/Contact.php:961 CRM/Contact/Form/Edit.php:316
 #: CRM/Contact/Form/Relationship.php:355 CRM/Contact/Selector.php:267
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "Mieszkanie"
 
-#: CRM/Contact/BAO/Contact.php:942 CRM/Contact/Form/Edit.php:319
+#: CRM/Contact/BAO/Contact.php:964 CRM/Contact/Form/Edit.php:319
 #: CRM/Contact/Form/Relationship.php:358 CRM/Contact/Selector.php:270
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
@@ -609,25 +609,25 @@ msgid "New Household"
 msgstr "Nowe mieszkanie"
 
 #: CRM/Core/DAO/CustomField.php:236 CRM/Core/DAO/CustomOption.php:152
-#: CRM/Custom/Form/Field.php:192
+#: CRM/Custom/Form/Field.php:204
 #: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Label"
 msgstr "Etykieta"
 
-#: CRM/Core/DAO/CustomField.php:242 CRM/Custom/Form/Field.php:169
+#: CRM/Core/DAO/CustomField.php:242 CRM/Custom/Form/Field.php:181
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
 msgstr "Rodzaj danych"
 
-#: CRM/Core/DAO/CustomField.php:250 CRM/Custom/Form/Field.php:216
+#: CRM/Core/DAO/CustomField.php:250 CRM/Custom/Form/Field.php:228
 msgid "Default Value"
 msgstr "Wartość domyślna"
 
 #: CRM/Core/DAO/CustomField.php:262 CRM/Core/DAO/CustomGroup.php:223
 #: CRM/Core/DAO/CustomOption.php:164 CRM/Core/DAO/UFField.php:209
-#: CRM/Custom/Form/Field.php:198;209 CRM/Custom/Form/Group.php:101
-#: CRM/Custom/Form/Option.php:120 CRM/UF/Form/Field.php:135
+#: CRM/Custom/Form/Field.php:210;221 CRM/Custom/Form/Group.php:101
+#: CRM/Custom/Form/Option.php:127 CRM/UF/Form/Field.php:135
 #: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
@@ -644,11 +644,11 @@ msgstr "Pomoc przed"
 msgid "Help Post"
 msgstr "Pomoc za"
 
-#: CRM/Core/DAO/CustomField.php:278 CRM/Custom/Form/Field.php:218
+#: CRM/Core/DAO/CustomField.php:278 CRM/Custom/Form/Field.php:230
 msgid "Mask"
 msgstr "Maska"
 
-#: CRM/Core/DAO/CustomOption.php:158 CRM/Custom/Form/Field.php:195
+#: CRM/Core/DAO/CustomOption.php:158 CRM/Custom/Form/Field.php:207
 #: templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Value"
@@ -699,22 +699,22 @@ msgstr "Importuj kontakty"
 msgid "Groups"
 msgstr "Grupy"
 
-#: CRM/Custom/Form/Field.php:201;221 CRM/Custom/Form/Option.php:124
+#: CRM/Custom/Form/Field.php:213;233 CRM/Custom/Form/Option.php:131
 #: CRM/UF/Form/Field.php:146 templates/CRM/Custom/Form/OptionFieldsError.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 msgid "Active?"
 msgstr "Aktywne?"
 
-#: CRM/Custom/Form/Field.php:210 CRM/Custom/Form/Group.php:102
-#: CRM/Custom/Form/Option.php:121 CRM/UF/Form/Field.php:136
+#: CRM/Custom/Form/Field.php:222 CRM/Custom/Form/Group.php:102
+#: CRM/Custom/Form/Option.php:128 CRM/UF/Form/Field.php:136
 msgid " is a numeric field"
 msgstr " jest polem numerycznym"
 
-#: CRM/Custom/Form/Field.php:213 CRM/UF/Form/Field.php:145
+#: CRM/Custom/Form/Field.php:225 CRM/UF/Form/Field.php:145
 msgid "Required?"
 msgstr "Wymagane?"
 
-#: CRM/Custom/Form/Field.php:217 CRM/UF/Form/Field.php:138
+#: CRM/Custom/Form/Field.php:229 CRM/UF/Form/Field.php:138
 msgid "Field Help"
 msgstr "Pomoc do pola"
 
@@ -744,11 +744,11 @@ msgstr "Usuń grupę"
 msgid "Group Members"
 msgstr "Członkowie grupy"
 
-#: CRM/Import/Form/MapField.php:252 CRM/Import/Form/Preview.php:99
+#: CRM/Import/Form/MapField.php:253 CRM/Import/Form/Preview.php:99
 msgid "<< Previous"
 msgstr "<< Wstecz"
 
-#: CRM/Import/Form/MapField.php:254 CRM/Import/Form/UploadFile.php:74
+#: CRM/Import/Form/MapField.php:255 CRM/Import/Form/UploadFile.php:74
 msgid "Continue >>"
 msgstr "Dalej >>"
 
@@ -1033,7 +1033,7 @@ msgstr "Edytuj znacznik"
 msgid "Delete Tag"
 msgstr "Usuń znacznik"
 
-#: CRM/Contact/BAO/Contact.php:1266
+#: CRM/Contact/BAO/Contact.php:1288
 msgid "-do not import-"
 msgstr "-nie importuj-"
 
@@ -1955,7 +1955,7 @@ msgstr "Javascript"
 msgid "Extends"
 msgstr "Rozszerza"
 
-#: CRM/Core/DAO/CustomGroup.php:203
+#: CRM/Core/DAO/CustomGroup.php:203 templates/CRM/Custom/Page/Group.tpl
 msgid "Style"
 msgstr "Styl"
 
@@ -2295,27 +2295,27 @@ msgstr "pokaż pole lub sekcję"
 msgid "hide field or section"
 msgstr "ukryj pole lub sekcję"
 
-#: CRM/Custom/Form/Field.php:146
+#: CRM/Custom/Form/Field.php:158
 msgid "HTML Type"
 msgstr "Rodzaj HTML"
 
-#: CRM/Custom/Form/Field.php:165 templates/CRM/Custom/Page/Field.tpl
+#: CRM/Custom/Form/Field.php:177 templates/CRM/Custom/Page/Field.tpl
 msgid "Field Label"
 msgstr "Etykieta pola"
 
-#: CRM/Custom/Form/Field.php:166
+#: CRM/Custom/Form/Field.php:178
 msgid "Please enter a valid label for this field."
 msgstr "Wprowadź poprawną etykietę dla tego pola."
 
-#: CRM/Custom/Form/Field.php:170
+#: CRM/Custom/Form/Field.php:182
 msgid "Input Field Type"
 msgstr "Wprowadź rodzaj pola"
 
-#: CRM/Custom/Form/Field.php:224
-msgid "Searchable?"
-msgstr "Przeszukiwalne?"
+#: CRM/Custom/Form/Field.php:236
+msgid "Is this Field Searchable?"
+msgstr "Czy to pole jest przeszukiwalne?"
 
-#: CRM/Custom/Form/Field.php:520
+#: CRM/Custom/Form/Field.php:577
 msgid "Your custom field \"%1\" has been saved"
 msgstr "Pole dodatkowe „%1” zostało zapisane"
 
@@ -2359,19 +2359,19 @@ msgstr ""
 "Grupa „%1” została dodana. Można do niej teraz <a href=\"%2\">dodać "
 "dodatkowe pola</a>."
 
-#: CRM/Custom/Form/Option.php:112 templates/CRM/Custom/Page/Option.tpl
+#: CRM/Custom/Form/Option.php:119 templates/CRM/Custom/Page/Option.tpl
 msgid "Option Label"
 msgstr "Etykieta opcji"
 
-#: CRM/Custom/Form/Option.php:116 templates/CRM/Custom/Page/Option.tpl
+#: CRM/Custom/Form/Option.php:123 templates/CRM/Custom/Page/Option.tpl
 msgid "Option Value"
 msgstr "Wartość opcji"
 
-#: CRM/Custom/Form/Option.php:127 templates/CRM/Custom/Page/Option.tpl
+#: CRM/Custom/Form/Option.php:134 templates/CRM/Custom/Page/Option.tpl
 msgid "Default"
 msgstr "Domyślnie"
 
-#: CRM/Custom/Form/Option.php:189
+#: CRM/Custom/Form/Option.php:276
 msgid "Your multiple choice option \"%1\" has been saved"
 msgstr "Opcja wielokrotnego wyboru „%1” została zapisana"
 
@@ -2551,11 +2551,11 @@ msgstr "Na pewno usunąć tę historię zdarzenia?"
 msgid "View Activity Details"
 msgstr "Zobacz szczegóły zdarzenia"
 
-#: CRM/Import/Form/MapField.php:225
+#: CRM/Import/Form/MapField.php:224
 msgid "Mapper for Field %1"
 msgstr "Przypisywacz dla pola %1"
 
-#: CRM/Import/Form/MapField.php:321
+#: CRM/Import/Form/MapField.php:322
 msgid "Match Fields"
 msgstr "Dopasuj pola"
 
@@ -4041,7 +4041,11 @@ msgid ""
 "other Custom Data Groups on a single consolidated form ('Inline' style), or "
 "has it's own menu tab ('Tab' style)."
 msgstr ""
-"Skorzystaj z tego formularza by ustawić tytuł, pomoc dla grupy oraz ustawienia wyświetlania dla każdej z grup danych dodatkowych. Wybrany „styl wyświetlania” określa, czy dana grupa ma być edytowana i wyświetlana razem z innymi grupami danych dodatkowych na wspólnym formularzu (styl „śródtekstowy”) czy ma mieć swoją własną zakładkę w menu (styl „zakładek”)."
+"Skorzystaj z tego formularza by ustawić tytuł, pomoc dla grupy oraz "
+"ustawienia wyświetlania dla każdej z grup danych dodatkowych. Wybrany „styl "
+"wyświetlania” określa, czy dana grupa ma być edytowana i wyświetlana razem z "
+"innymi grupami danych dodatkowych na wspólnym formularzu (styl "
+"„śródtekstowy”) czy ma mieć swoją własną zakładkę w menu (styl „zakładek”)."
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""

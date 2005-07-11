@@ -1,4 +1,4 @@
-# Drupal-CiviCRM POT file
+# Drupal-CiviCRM Spanish file
 # Copyright (C) 2005 Donald A. Lobo
 # This file is distributed under the same license as the CiviCRM package.
 # Piotr Szotkowski <shot@caltha.pl>, 2005
@@ -6,16 +6,16 @@
 # 
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2005-07-10 04:44+0200\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-06-30 10:58+0200\n"
+"PO-Revision-Date: 2005-06-30 10:58+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"POT-Creation-Date: 2005-06-30 10:58+0200\n"
-"Content-Type: text/plain; charset=utf-8\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "add contacts"
 msgstr "agregue los contactos"
@@ -31,4 +31,3 @@ msgstr "corrija a grupos"
 
 msgid "administer CiviCRM"
 msgstr "administre CiviCRM"
-
