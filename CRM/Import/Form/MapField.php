@@ -196,6 +196,18 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
         $defaultLocationType =& CRM_Contact_BAO_LocationType::getDefault();
 
+        /* FIXME: dirty hack to make the default option show up first.  This
+         * avoids a mozilla browser bug with defaults on dynamically constructed
+         * selector widgets. */
+        if ($defaultLocationType) {
+            $defaultLocation = $this->_location_types[$defaultLocationType->id];
+            unset($this->_location_types[$defaultLocationType->id]);
+            $this->_location_types = array_merge(
+                array($defaultLocationType->id => $defaultLocation),
+                $this->_location_types
+            );
+        }
+
         /* Initialize all field usages to false */
         foreach ($mapperKeys as $key) {
             $this->_fieldUsed[$key] = false;
@@ -231,14 +243,16 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                 $this->_defaults["mapper[$i]"] = array(
                     $this->defaultFromHeader($this->_columnHeaders[$i], 
                                             $headerPatterns),
-                    $defaultLocationType->id
+//                     $defaultLocationType->id
+                        0
                 );
 
             } else {
                 // Otherwise guess the default from the form of the data
                 $this->_defaults["mapper[$i]"] = array(
                     $this->defaultFromData($dataPatterns, $i),
-                    $defaultLocationType->id
+//                     $defaultLocationType->id
+                    0
                 );
             }
             $sel->setOptions(array($sel1, $sel2, $sel3));
