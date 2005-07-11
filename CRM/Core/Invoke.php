@@ -90,6 +90,8 @@ class CRM_Core_Invoke {
      * @access public
      */
     static function contact( $args ) {
+
+        $session =& CRM_Core_Session::singleton();
         if ( $args[1] !== 'contact' ) {
             return;
         }
@@ -98,7 +100,7 @@ class CRM_Core_Invoke {
             return self::form( CRM_Core_Action::ADD );
         }
 
-        $additionalBreadCrumb = ts('<a href="%1">Search Results</a>', array(1 => 'civicrm/contact/search?force=1'));
+        $additionalBreadCrumb = ts('<a href="%1">Search Results</a>', array(1 => $session->readUserContext()));
         if ( $args[2] == 'edit' ) {
             CRM_Utils_System::appendBreadCrumb( $additionalBreadCrumb );
             return self::form( CRM_Core_Action::UPDATE );
