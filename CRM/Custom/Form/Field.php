@@ -521,15 +521,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                 $customField->default_value = $daoState->id;
                 break;
                 
-            case 'Country':
-                
-                $daoState =& new CRM_Core_DAO();
+            case 'Country':                
+                $daoCountry =& new CRM_Core_DAO();
                 $fieldCountry = $params['default_value'];
-                $query = "SELECT * FROM crm_country WHERE name = '$fieldCountry' OR abbreviation = '$fieldCountry'";
+                $query = "SELECT * FROM crm_country WHERE name = '$fieldCountry' OR iso_code = '$fieldCountry'";
                 $daoCountry->query($query);
                 $daoCountry->fetch();
-                $customField->default_value = $daoCountry->id;
-            
+                $customField->default_value = $daoCountry->id;            
                 break;
                 
             default:     
