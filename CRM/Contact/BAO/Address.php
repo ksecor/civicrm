@@ -69,7 +69,7 @@ class CRM_Contact_BAO_Address extends CRM_Contact_DAO_Address {
 
         // currently copy values populates empty fields with the string "null"
         // and hence need to check for the string null
-        if ( is_numeric( $address->state_province_id ) && ($address->country_id == 'null')) {
+        if ( is_numeric( $address->state_province_id ) && !isset($address->country_id)) {
             // since state id present and country id not present, hence lets populate it
             // jira issue http://objectledge.org/jira/browse/CRM-56
             $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
