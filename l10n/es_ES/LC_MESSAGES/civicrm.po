@@ -26,15 +26,15 @@ msgstr ""
 #: templates/CRM/History/Page/Email.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Subject"
-msgstr "Estado"
+msgstr ""
 
 #: CRM/Activity/Form/Meeting.php:81 CRM/Activity/Form/Phonecall.php:83
 msgid "Date and Time"
-msgstr "Seleccione por favor el estado."
+msgstr ""
 
 #: CRM/Activity/Form/Meeting.php:82 CRM/Contact/Form/Individual.php:85
 msgid "Select a valid date."
-msgstr "Número De Teléfono"
+msgstr ""
 
 #: CRM/Activity/Form/Meeting.php:88 CRM/Core/DAO/Meeting.php:211
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
