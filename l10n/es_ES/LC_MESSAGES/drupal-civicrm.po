@@ -18,16 +18,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "add contacts"
-msgstr ""
+msgstr "agregue los contactos"
 
 msgid "view all contacts"
-msgstr ""
+msgstr "vea todos los contactos"
 
 msgid "edit all contacts"
-msgstr ""
+msgstr "corrija todos los contactos"
 
 msgid "edit groups"
-msgstr ""
+msgstr "corrija a grupos"
 
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "administre CiviCRM"
