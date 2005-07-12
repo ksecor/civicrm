@@ -151,7 +151,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         }
     }
     
-    public function getField(&$isBool = null) {
+    public function getField(&$isBool = false) {
         $cf =& new CRM_Core_BAO_CustomField();
         $cf->id = $this->custom_field_id;
         
