@@ -118,12 +118,34 @@ function crm_delete_group(&$group) {
 }
 
 function crm_add_group_contacts(&$group, $contacts, $status = 'In') {
+    
+    foreach($contacts as $contact){
+        if ( ! isset( $contact->id )) {
+            return _crm_error( 'Invalid contact object passed in' );
+        }
+        $contactID[] = $contact->id;
+    } 
+    
+    CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactID ,$group->id );
+    return null;
 }
 
 function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In', $sort = null, $offset = 0, $row_count = 25 ) {
+
+
 }
 
 function crm_delete_group_contacts(&$group, $contacts) {
+     
+    
+    foreach($contacts as $contact){
+        if ( ! isset( $contact->id )) {
+            return _crm_error( 'Invalid contact object passed in' );
+        }
+        $contactID[] = $contact->id;
+    } 
+    CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactId, $group->id );
+    return null;
 }
 
 function crm_create_relationship(&$contact, &$target_contact, $relationship_type_name) {
