@@ -278,6 +278,13 @@ function _crm_format_params( &$params, &$values ) {
 }
 
 function _crm_update_contact( $contact, $values, $overwrite = true ) {
+    // first check to make sure the location arrays sync up
+    $locMatch = _crm_location_match($contact, $values);
+
+    if (! $locMatch) {
+        return _crm_error('Cannot update contact location');
+    }
+    
     // fix sort_name and display_name
     if ( $contact->contact_type == 'Individual' ) {
         if ($overwrite || ! isset($contact->contact_type_object->first_name)) {
@@ -335,59 +342,171 @@ function _crm_update_contact( $contact, $values, $overwrite = true ) {
     // fix display_name
     _crm_update_object( $contact->contact_type_object, $values );
 
+
     if ( ! isset( $contact->location ) ) {
         $contact->location    = array( );
     }
 
-    /* FIXME for now we're only supporting update on single-location entries */
     if ( ! array_key_exists( 1, $contact->location ) || empty( $contact->location[1] ) ) {
         $contact->location[1] =& new CRM_Contact_BAO_Location( );
     }
-
-    $values['location'][1]['contact_id'] = $contact->id;
     
-    /* If we're not overwriting, copy old data back before updating */
-    if (! $overwrite) {
-        _crm_update_from_object($contact->location[1], $values['location'][1]);
-    }
-    
-    _crm_update_object( $contact->location[1], $values['location'][1] );
-
-    if ( ! isset( $contact->location[1]->address ) ) {
-        $contact->location[1]->address =& new CRM_Contact_BAO_Address( );
-    }
-    $values['location'][1]['address']['location_id'] = $contact->location[1]->id;
-    
-    if (! $overwrite) {
-        _crm_update_from_object($contact->location[1]->address, $values['location'][1]['address']);
-    }
-    
-    _crm_update_object( $contact->location[1]->address, $values['location'][1]['address'] );
-
-    $blocks = array( 'Email', 'Phone', 'IM' );
-    foreach ( $blocks as $block ) {
-        $name = strtolower($block);
-        if ( ! isset($values['location'][1][$name][1]) ) {
-            continue;
+    $primary_location = null;
+    foreach ($contact->location as $key => $loc) {
+        if ($loc->is_primary) {
+            $primary_location = $key;
+            break;
         }
-        if ( ! isset( $contact->location[1]->$name ) ) {
-            $contact->location[1]->$name = array( );
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $block) . ".php");
-            eval( '$contact->location[1]->{$name}[1] =& new CRM_Contact_BAO_' . $block . '( );' );
+    }
+   
+    foreach ($values['location'] as $updateLocation) {
+        $emptyBlock = $contactLocationBlock = null;
+        
+        /* Scan the location array for the correct block to update */
+        foreach ($contact->location as $key => $loc) {
+            if ($loc->location_type_id == $updateLocation['location_type_id']) {
+                $contactLocationBlock = $key;
+                break;
+            } else if (! isset($loc->location_type_id)) {
+                $emptyBlock = $key;
+            }
         }
-        $values['location'][1][$name][1]['location_id'] = $contact->location[1]->id;
-    
+        
+        if ($contactLocationBlock == null) {
+            if ($emptyBlock != null) {
+                $contactLocationBlock = $emptyBlock;
+            } else {
+                /* no matching blocks and no empty blocks, make a new one */
+                $contact->location[] =& new CRM_Contact_BAO_Location();
+                $contactLocationBlock = count($contact->location);
+            }
+        }
+        
+        $updateLocation['contact_id'] = $contact->id;
+        
+        /* If we're not overwriting, copy old data back before updating */
         if (! $overwrite) {
-            _crm_update_from_object($contact->location[1]->{$name}[1], $values['location'][1][$name][1]);
+            _crm_update_from_object($contact->location[$contactLocationBlock], $updateLocation);
         }
-        _crm_update_object( $contact->location[1]->{$name}[1], $values['location'][1][$name][1] );
+        
+        /* Make sure we only have one primary location */
+        if ($primary_location == null && $updateLocation['is_primary']) {
+            $primary_location = $contactLocationBlock;
+        } else if ($primary_location != $contactLocationBlock) {
+            $updateLocation['is_primary'] = false;
+        }
+
+        _crm_update_object( $contact->location[$contactLocationBlock], $updateLocation );
+    
+        if ( ! isset( $contact->location[$contactLocationBlock]->address ) ) {
+            $contact->location[$contactLocationBlock]->address =& new CRM_Contact_BAO_Address( );
+        }
+        $updateLocation['address']['location_id'] = $contact->location[$contactLocationBlock]->id;
+        
+        if (! $overwrite) {
+            _crm_update_from_object($contact->location[$contactLocationBlock]->address, $updateLocation['address']);
+        }
+        
+        _crm_update_object( $contact->location[$contactLocationBlock]->address, $updateLocation['address'] );
+    
+        $blocks = array( 'Email', 'IM' );
+        foreach ( $blocks as $block ) {
+            $name = strtolower($block);
+            if ( ! is_array($updateLocation[$name]) ) {
+                continue;
+            }
+
+
+            
+            if ( ! isset( $contact->location[$contactLocationBlock]->$name ) ) {
+                $contact->location[$contactLocationBlock]->$name = array( );
+            }
+            
+            $primary = null;
+            foreach ($contact->location[$contactLocationBlock]->$name as $key => $value) {
+                if ($value->is_primary) {
+                    $primary = $key;
+                    break;
+                }
+            }
+
+            $propertyBlock = 1;
+            foreach ($updateLocation[$name] as $property) {
+                
+                if (! isset($contact->location[$contactLocationBlock]->{$name}[$propertyBlock])) {
+                    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $block) . ".php");
+                    eval( '$contact->location[$contactLocationBlock]->{$name}[$propertyBlock] =& new CRM_Contact_BAO_' . $block . '( );' );
+                }
+                
+                $property['location_id'] = $contact->location[$contactLocationBlock]->id;
+        
+                if (! $overwrite) {
+                    _crm_update_from_object($contact->location[$contactLocationBlock]->{$name}[$propertyBlock], $property);
+                }
+
+                if ($primary == null && $property['is_primary']) {
+                    $primary = $propertyBlock;
+                } else if ($primary != $propertyBlock) {
+                    $property['is_primary'] = false;
+                }
+                
+                _crm_update_object( $contact->location[$contactLocationBlock]->{$name}[$propertyBlock], $property );
+                $propertyBlock++;
+            }
+        }
+
+        /* handle multiple phones */
+        if (is_array($updateLocation['phone'])) {
+        
+            if (! isset($contact->location[$contactLocationBlock]->phone)) {
+                $contact->location[$contactLocationBlock]->phone = array();
+            }
+
+            $primary_phone = null;
+            foreach ($contact->location[$contactLocationBlock]->phone as $key => $value) {
+                if ($value->is_primary) {
+                    $primary_phone = $key;
+                    break;
+                }
+            }
+            
+            foreach ($updateLocation['phone'] as $phone) {
+                /* scan through the contact record for matching phone type at this location */
+                $contactPhoneBlock = null;
+                foreach ($contact->location[$contactLocationBlock]->phone as $key => $contactPhoneBlock) {
+                    if ($contactPhoneBlock->phone_type_id == $phone['phone_type_id']) {
+                        $contactPhoneBlock = $key;
+                        break;
+                    }
+                }
+                if ($contactPhoneBlock == null) {
+                    if (empty($contact->location[$contactLocationBlock]->phone)) {
+                        $contactPhoneBlock = 1;
+                    } else {
+                        $contactPhoneBlock = count($contact->location[$contactLocationBlock]->phone) + 1;
+                    }
+                    $contact->location[$contactLocationBlock]->phone[$contactPhoneBlock] =& new CRM_Contact_BAO_Phone();
+                }
+    
+                $phone['location_id'] = $contact->location[$contactLocationBlock]->id;
+                if (! $overwrite) {
+                    _crm_update_from_object($contact->location[$contactLocationBlock]->phone[$contactPhoneblock], $phone);
+                }
+                
+                if ($primary_phone == null && $phone['is_primary']) {
+                    $primary_phone = $contactPhoneBlock;
+                } else if ($primary_phone != $contactPhoneBlock) {
+                    $phone['is_primary'] = false;
+                }
+                
+                _crm_update_object($contact->location[$contactLocationBlock]->phone[$contactPhoneblock], $phone);
+            }
+        }
+        
     }
 
+    
     /* Custom data */
-//     CRM_Core_Error::debug('custom', $contact);
-//     CRM_Core_Error::debug('values', $values);
-//     exit();
-
     foreach ($values['custom'] as $customValue) {
         /* get the field for the data type */
         $field = CRM_Core_BAO_CustomValue::typeToField($customValue['type']);
@@ -802,5 +921,28 @@ function _crm_duplicate_formatted_contact(&$params) {
     }
     return true;
 }
+
+
+function _crm_location_match(&$contact, &$values) {
+    if (! is_array($values['location']) || empty($contact->location)) {
+        return true;
+    }
+
+    foreach ($values['location'] as $loc) {
+        /* count the number of locations in the contact with matching type */
+        $count = 0;
+        foreach ($contact->location as $contactLocation) {
+            if ($contactLocation->location_type_id == $loc['location_type_id'])
+            {
+                $count++;
+            }
+        }
+        if ($count > 1) {
+            return false;
+        }
+    }
+    return true;
+}
+
 
 ?>

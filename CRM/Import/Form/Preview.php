@@ -70,6 +70,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2'));
         }
 
+        $groups =& CRM_Core_PseudoConstant::group();
+        $this->set('groups', $groups);
         
         $properties = array( 'mapper', 'locations', 'phones',
                              'dataValues', 'columnCount',
@@ -91,7 +93,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
         $this->addElement( 'text', 'newGroupName', ts('Name for new group'));
         $this->addElement( 'text', 'newGroupDesc', ts('Description of new group'));
-        $groups =& CRM_Core_PseudoConstant::group();
+        $groups =& $this->get('groups');
+        
         $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => true, 'size' => 5));
 
         $this->addButtons( array(
@@ -134,7 +137,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $newGroupName       = $this->controller->exportValue( $this->_name, 'newGroupName');
         $newGroupDesc       = $this->controller->exportValue( $this->_name, 'newGroupDesc');
         $groups             = $this->controller->exportValue( $this->_name, 'groups');
-        
+        $allGroups          = $this->get('groups');
+
         $seperator = ',';
 
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
@@ -160,7 +164,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
 
         // add the new contacts to selected groups
         $contactIds =& $parser->getImportedContacts();
-
+        
+        $newGroupId = null;
         if ($newGroup) {
             /* Create a new group */
             /* FIXME: this requires some heavy validation */
@@ -170,13 +175,28 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             $group->title     = $newGroupName;
             $group->description = $newGroupDesc;
             $group->save();
-            $groups[] = $group->id;
+            $groups[] = $newGroupId = $group->id;
         }
 
         if(is_array($groups)) {
+            $groupAdditions = array();
             foreach ($groups as $groupId) {
-                CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds, $groupId);
+                $addCount =& CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds, $groupId);
+                if ($groupId == $newGroupId) {
+                    $name = $newGroupName;
+                    $new = true;
+                } else {
+                    $name = $allGroups[$groupId];
+                    $new = false;
+                }
+                $groupAdditions[] = array(
+                    'name'  => $name,
+                    'added' => $addCount[1],
+                    'notAdded' => $addCount[2],
+                    'new'   => $new
+                );
             }
+            $this->set('groupAdditions', $groupAdditions);
         }
 
         // add all the necessary variables to the form
