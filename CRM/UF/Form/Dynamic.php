@@ -107,6 +107,13 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
         $this->assign( 'action',  $this->_action );
         $this->assign( 'fields', $this->_fields );
 
+        // do we need inactive options ?
+        if ($this->_action & CRM_Core_Action::VIEW ) {
+            $inactiveNeeded = true;
+        } else {
+            $inactiveNeeded = false;
+        }
+
         // add the form elements
         foreach ($this->_fields as $name => $field ) {
             if ( $field['name'] === 'state_province_id' ) {
@@ -115,6 +122,9 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             } else if ( $field['name'] === 'country_id' ) {
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $field['is_required']);
+            } else if (preg_match('/^custom_(\d+)$/', $field['name'], $matches)) {
+                $customFieldID = $matches[1];
+                CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded);
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $field['is_required'] );
             }
@@ -228,6 +238,14 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                     if ( $this->_contact->country ) {
                         $defaults[$name] = array_search( $this->_contact->country, $country );
                     }
+                } else if ( preg_match('/^custom_(\d+)$/', $objName, $matches) ) {
+                    $cv =& new CRM_Core_BAO_CustomValue();
+                    $cv->custom_field_id = $matches[1];
+                    $cv->entity_table = 'crm_contact';
+                    $cv->entity_id = $this->_id;
+                    if ($cv->find(true)) {
+                        $defaults[$name] = $cv->getValue(true);
+                    }
                 } else {
                     $defaults[$name] = $this->_contact->$objName;
                 }
@@ -246,6 +264,9 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( 'Dynamic' );
+
+        CRM_Core_Error::debug('params', $params);
+        exit();
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( );

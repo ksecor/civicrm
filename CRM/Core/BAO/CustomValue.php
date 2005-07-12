@@ -151,6 +151,23 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         }
     }
 
+    public function getValue($translateBoolean = false) {
+        $cf =& new CRM_Core_BAO_CustomField();
+        $cf->id = $this->custom_field_id;
+        if (! $cf->find(true)) {
+            return null;
+        }
+        $field = self::typeToField($cf->data_type);
+        if ($field == null) {
+            return null;
+        }
+
+        if ($translateBoolean && $cf->data_type == 'Boolean') {
+            return $this->$field ? 'yes' : 'no';
+        }
+        
+        return $this->$field;
+    }
     /**
      * Find all the custom values for a given contact.
      *

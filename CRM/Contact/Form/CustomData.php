@@ -190,96 +190,11 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
 
                 // if custom data exists use it, else use the default value if it exists
                 $elementData = isset($field['customValue']['data']) ? $field['customValue']['data'] : $field['default_value'];
-
-                switch($field['html_type']) {
-
-                case 'Text':
-                case 'TextArea':
-                    $element = $this->add(strtolower($field['html_type']), $elementName, $field['label'],
-                                          $field['attributes'], $field['is_required']);
-                    break;
-
-                case 'Select Date':
-                    $this->add('date', $elementName, $field['label'], CRM_Core_SelectValues::date( 'custom' ), $field['required']);
-                    break;
-
-                case 'Radio':
-                    $choice = array();
-                    if($field['data_type'] != 'Boolean') {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        foreach ($customOption as $v) {
-                            $choice[] = $this->createElement('radio', null, '', $v['label'], $v['value'], $field['attributes']);
-                        }
-                        $this->addGroup($choice, $elementName, $field['label']);
-                    } else {
-                        $choice[] = $this->createElement('radio', null, '', ts('Yes'), 'yes', $field['attributes']);
-                        $choice[] = $this->createElement('radio', null, '', ts('No') , 'no' , $field['attributes']);
-                        $this->addGroup($choice, $elementName, $field['label']);
-                    }
-                    if ($field['is_required']) {
-                        $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
-                    }
-                    break;
-
-                case 'Select':
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                    $selectOption = array();
-                    foreach ($customOption as $v) {
-                        $selectOption[$v['value']] = $v['label'];
-                    }
-                    $this->add('select', $elementName, $field['label'], $selectOption, $field['is_required']);
-                    break;
-
-                case 'CheckBox':
-                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                    $check = array();
-                    foreach ($customOption as $v) {
-                        $checked = array();
-                        $check[] = $this->createElement('checkbox', $v['value'], null, $v['label']);
-                    }
-                    $this->addGroup($check, $elementName, $field['label']);
-                    if ($field['is_required']) {
-                        $this->addRule($elementName, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
-                    }
-                    break;
-
-                case 'Select State/Province':
-                    //Add State
-                    if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                        $stateOption = array('' => ts('')) + CRM_Core_PseudoConstant::stateProvince();
-                    } else { 
-                        $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
-                    }
-                    $this->add('select', $elementName, $field['label'], $stateOption, $field['is_required']);
-                    $_flag++;
-                    break;
-
-                case 'Select Country':
-                    //Add Country
-                    $_flag++;
-                    if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-                        $countryOption = array('' => ts('')) + CRM_Core_PseudoConstant::country();
-                    } else {
-                        $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
-                    }
-                    $this->add('select', $elementName, $field['label'], $countryOption, $field['is_required']);
-                    break;
-                }
                 
-                switch ( $field['data_type'] ) {
-                case 'Int':
-                    // integers will have numeric rule applied to them.
-                    $this->addRule($elementName, ts('%1 must be an integer (whole number).', array(1 => $field['label'])), 'integer');
-                    break;
-
-                case 'Date':
-                    $this->addRule($elementName, ts('%1 is not a valid date.', array(1 => $field['label'])), 'qfDate');
-                    break;
-
-                case 'Float':
-                case 'Money':
-                    $this->addRule($elementName, ts('%1 must be a number (with or without decimal point).', array(1 => $field['label'])), 'numeric');
-                    break;
+                CRM_Core_BAO_CustomField::addQuickFormElement($this, $elementName, $fieldId, $inactiveNeeded);
+                
+                if ($field['html_type'] == 'Select State/Province' || $field['html_type'] == 'Select Country') {
+                    $_flag++;
                 }
                 if ( $_flag == 2 ) {
                     // add a form rule to check default value

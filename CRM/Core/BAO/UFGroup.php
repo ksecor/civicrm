@@ -302,29 +302,31 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup {
 //             $params['email'] = $params['location'][1]['email'][1]['email'];
 //             $params['phone'] = $params['location'][1]['phone'][1]['phone'];
 
-            $params['email'] = array();
-            $params['phone'] = array();
+            if (is_array($params['location'])) {
+                $params['email'] = array();
+                $params['phone'] = array();
             
-            foreach($params['location'] as $loc) {
-                foreach (array('email', 'phone') as $key) {
-                    if (is_array($loc[$key])) {
-                        foreach ($loc[$key] as $value) {
-                            $params[$key][] = 
-                                '"' . addslashes($value[$key]) . '"';
+                foreach($params['location'] as $loc) {
+                    foreach (array('email', 'phone') as $key) {
+                        if (is_array($loc[$key])) {
+                            foreach ($loc[$key] as $value) {
+                                $params[$key][] = 
+                                    '"' . addslashes($value[$key]) . '"';
+                            }
                         }
                     }
                 }
-            }
             
-            foreach (array('email', 'phone') as $key) {
-                if (count($params[$key]) == 0) {
-                    unset($params[$key]);
+                foreach (array('email', 'phone') as $key) {
+                    if (count($params[$key]) == 0) {
+                        unset($params[$key]);
+                    }
                 }
-            }
             
-            foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
-                             'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
-                $params[$fld] = $params['location'][1]['address'][$fld];
+                foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
+                        'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
+                    $params[$fld] = $params['location'][1]['address'][$fld];
+                }
             }
         }
 
