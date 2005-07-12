@@ -138,11 +138,19 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 
                 $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), 'is_int' );
                 sort( $locationTypeKeys );
+                
 
                 // also set the location types for each location block
                 for ( $i = 0; $i < self::LOCATION_BLOCKS; $i++ ) {
                     $defaults['location'][$i+1] = array( );
-                    $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
+                    //$defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
+                    if ( $i == 0 ) {
+                        $defaultLocation =& new CRM_Contact_BAO_LocationType();
+                        $locationType = $defaultLocation->getDefault();
+                        $defaults['location'][$i+1]['location_type_id'] = $locationType->id;
+                    } else {
+                        $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
+                    }
                 }
                 $defaults['location'][1]['is_primary'] = true;
             }

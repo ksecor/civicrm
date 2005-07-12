@@ -58,6 +58,7 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
+        $this->add('checkbox', 'is_default', ts('Default?'));
         parent::buildQuickForm( );
     }
 
@@ -73,6 +74,7 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
         // store the submitted values in an array
         $params = $this->exportValues();
         $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
+        $params['is_default'] =  CRM_Utils_Array::value( 'is_default', $params, false );
 
         // action is taken depending upon the mode
         $locationType               =& new CRM_Contact_DAO_LocationType( );
@@ -80,6 +82,13 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
         $locationType->name         = $params['name'];
         $locationType->description  = $params['description'];
         $locationType->is_active    = $params['is_active'];
+        $locationType->is_default   = $params['is_default'];
+        
+        if ($params['is_default']) {
+            $unsetDefault =& new CRM_Core_DAO();
+            $query = 'UPDATE crm_location_type SET is_default = 0';
+            $unsetDefault->query($query);
+        }
 
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $locationType->id = $this->_id;

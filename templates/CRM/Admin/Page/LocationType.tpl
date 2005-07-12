@@ -17,6 +17,7 @@
             <th>{ts}Description{/ts}</th>
             <th>{ts}Reserved?{/ts}</th>
             <th>{ts}Enabled?{/ts}</th>
+	    <th>{ts}Default?{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}
@@ -25,6 +26,7 @@
             <td>{$row.description}</td>
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+		<td>{if $row.is_default eq 1} [X] {else}  {/if}</td>
 	        <td>{$row.action}</td>
         </tr>
         {/foreach}
