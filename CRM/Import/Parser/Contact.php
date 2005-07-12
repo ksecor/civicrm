@@ -246,6 +246,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
             _crm_add_formatted_param($value, $formatted);
         }
 
+
         //if ( crm_create_contact( $params, 'Individual' ) instanceof CRM_Core_Error ) {
 //         if ( is_a($newContact = crm_create_contact( $params, 'Individual' ), CRM_Core_Error) ) {
         if ( is_a($newContact = crm_create_contact_formatted( $formatted ),
@@ -275,15 +276,18 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 $contactId = array_shift($newContact->_errors[0]['params']);
             
                 if ($onDuplicate == CRM_Import_Parser::DUPLICATE_REPLACE) {
-                    crm_replace_contact_formatted($contactId, $formatted);
+                    $newContact = crm_replace_contact_formatted($contactId, $formatted);
                 } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) {
-                    crm_update_contact_formatted($contactId, $formatted, true);
+                    $newContact = crm_update_contact_formatted($contactId, $formatted, true);
 
                 } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_FILL) {
-                    crm_update_contact_formatted($contactId, $formatted, false);
+                    $newContact = crm_update_contact_formatted($contactId, $formatted, false);
                 } // else skip does nothing and just returns an error code.
             
 //             return self::DUPLICATE;
+                if (! is_a($newContact, CRM_Core_Error)) {
+                    $this->_newContacts[] = $newContact->id;
+                }
                 return CRM_Import_Parser::DUPLICATE;
             } 
             /* Not a dupe, so we had an error */

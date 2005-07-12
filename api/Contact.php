@@ -176,7 +176,7 @@ function &crm_replace_contact_formatted($contactId, &$params) {
 
 function &crm_update_contact_formatted($contactId, &$params, $overwrite = true) {
     $contact = crm_get_contact(array('contact_id' => $contactId));
-    _crm_update_contact($contact, $params, $overwrite);
+    return _crm_update_contact($contact, $params, $overwrite);
 }
 
 

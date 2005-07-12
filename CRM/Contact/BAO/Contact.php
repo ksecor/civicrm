@@ -823,7 +823,6 @@ SELECT DISTINCT crm_contact.id as contact_id,
         }
         $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
-
         return $contact->save();
     }
 

@@ -202,10 +202,9 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         if ($defaultLocationType) {
             $defaultLocation = $this->_location_types[$defaultLocationType->id];
             unset($this->_location_types[$defaultLocationType->id]);
-            $this->_location_types = array_merge(
-                array($defaultLocationType->id => $defaultLocation),
-                $this->_location_types
-            );
+            $this->_location_types = 
+                array($defaultLocationType->id => $defaultLocation) + 
+                $this->_location_types;
         }
 
         /* Initialize all field usages to false */
