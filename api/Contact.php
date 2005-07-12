@@ -319,6 +319,12 @@ function &crm_update_contact( &$contact, $params ) {
  *
  */
 function crm_delete_contact( &$contact ) {
+    
+    if ( ! isset( $contact->id ) || ! isset( $contact->contact_type ) ) {
+        return _crm_error( 'Invalid contact object passed in' );
+    }
+    
+    CRM_Contact_BAO_Contact::deleteContact( $contact->id );
 }
 
 ?>
