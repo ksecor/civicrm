@@ -33,7 +33,7 @@ class TestOfDeleteContactAPI extends UnitTestCase
         $contact =& crm_create_contact($params, 'Household');
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
         $this->assertEqual($contact->contact_type, 'Household');
-        $this->_houseHold =  $contact;
+        $this->_houseHold = $contact;
     }
     
     function testCreateOrganization() 
@@ -57,11 +57,11 @@ class TestOfDeleteContactAPI extends UnitTestCase
         $contact = $this->_individual->id;
         $contact =& crm_get_contact(& $contact);
         $val =& crm_delete_contact(& $contact);
-        $this->AssertIsA($val, 'CRM_Error');
+        $this->AssertIsA($val, 'CRM_Core_Error');
     }
     function testDeleteHousehold()
     {
-        $contact = $this->_household;
+        $contact = $this->_houseHold;
         $val = crm_delete_contact(& $contact);
         $this->assertNull($val);
     }    
