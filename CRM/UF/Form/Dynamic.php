@@ -44,6 +44,9 @@ require_once 'CRM/Core/Form.php';
   */
 class CRM_UF_Form_Dynamic extends CRM_Core_Form
 {
+    const
+        CUSTOM_REGEXP = '/^custom_(\d+)$/';
+
     /**
      * The contact id that we are editing
      *
@@ -122,9 +125,12 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
             } else if ( $field['name'] === 'country_id' ) {
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $field['is_required']);
-            } else if (preg_match('/^custom_(\d+)$/', $field['name'], $matches)) {
+            } else if (preg_match(self::CUSTOM_REGEXP, $field['name'], $matches)) {
                 $customFieldID = $matches[1];
-                CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded);
+                CRM_Core_BAO_CustomField::addQuickFormElement($this, $name, $customFieldID, $inactiveNeeded, false);
+                if ($field['is_required']) {
+                    $this->addRule($name, ts('%1 is a required field.', array(1 => $field['label'])) , 'required');
+                }
             } else {
                 $this->add('text', $name, $field['title'], $field['attributes'], $field['is_required'] );
             }
@@ -238,7 +244,7 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                     if ( $this->_contact->country ) {
                         $defaults[$name] = array_search( $this->_contact->country, $country );
                     }
-                } else if ( preg_match('/^custom_(\d+)$/', $objName, $matches) ) {
+                } else if ( preg_match(self::CUSTOM_REGEXP, $objName, $matches) ) {
                     $cv =& new CRM_Core_BAO_CustomValue();
                     $cv->custom_field_id = $matches[1];
                     $cv->entity_table = 'crm_contact';
@@ -264,9 +270,6 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( 'Dynamic' );
-
-        CRM_Core_Error::debug('params', $params);
-        exit();
 
         $objects = array( 'contact', 'individual', 'location', 'address', 'email', 'phone' );
         $ids = array( );
@@ -310,6 +313,15 @@ class CRM_UF_Form_Dynamic extends CRM_Core_Form
                 $email->save( );
             }
 
+        }
+
+        /* Process custom field values */
+        foreach ($params['edit'] as $key => $value) {
+            if (! preg_match(self::CUSTOM_REGEXP, $key, $matches)) {
+                continue;
+            }
+            $custom_field_id = $matches[1];
+            CRM_Core_BAO_CustomValue::updateValue($this->_contact->_id, $custom_field_id, $value);
         }
     }
 }

@@ -150,18 +150,22 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
                 return null;
         }
     }
-
-    public function getValue($translateBoolean = false) {
+    
+    public function getField(&$isBool = null) {
         $cf =& new CRM_Core_BAO_CustomField();
         $cf->id = $this->custom_field_id;
+        
         if (! $cf->find(true)) {
             return null;
         }
-        $field = self::typeToField($cf->data_type);
-        if ($field == null) {
-            return null;
-        }
+        $isBool = $cf->data_type == Boolean ? true : false;
 
+        return $this->typeToField($cf->data_type);
+    }
+
+    public function getValue($translateBoolean = false) {
+        $field = $this->getField();
+        
         if ($translateBoolean && $cf->data_type == 'Boolean') {
             return $this->$field ? 'yes' : 'no';
         }
@@ -189,6 +193,25 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
             $values[] = $customValue;
         }
         return $values;
+    }
+
+
+    public static function updateValue($contactId, $cfId, $value) {
+        $customValue =& new CRM_Core_BAO_CustomValue();
+
+        $customValue->custom_field_id = $cfId;
+        $customValue->entity_table = 'crm_contact';
+        $customValue->entity_id = $contactId;
+        
+        $customValue->find(true);
+        
+        $field = $customValue->getField($isBool);
+        if ($isBool) {
+            $value = CRM_Utils_String::strtobool($value);
+        }
+        $customValue->$field = $value;
+        
+        $customValue->save();
     }
 }
 ?>

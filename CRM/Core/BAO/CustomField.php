@@ -228,7 +228,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
     }
 
     /* static wrapper for _addQuickFormElement */
-    public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded) {
+    public static function addQuickFormElement(&$qf, $elementName, $fieldId, $inactiveNeeded, $useRequired) {
         $field =& new CRM_Core_BAO_CustomField();
         $field->id = $fieldId;
         if (! $field->find(true)) {
@@ -236,19 +236,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
             return null;
         }
         
-        return $field->_addQuickFormElement($qf, $elementName, $inactiveNeeded);
+        return $field->_addQuickFormElement($qf, $elementName, $inactiveNeeded, $useRequired);
     }
 
-    public function _addQuickFormElement(&$qf, $elementName, $inactiveNeeded) {
+    public function _addQuickFormElement(&$qf, $elementName, $inactiveNeeded, $useRequired) {
         switch($this->html_type) {
             case 'Text':
             case 'TextArea':
                 $element = $qf->add(strtolower($this->html_type), $elementName, $this->label,
-                                        $this->attributes, $this->is_required);
+                                        $this->attributes, ($useRequired && $this->is_required));
                 break;
 
             case 'Select Date':
-                $qf->add('date', $elementName, $this->label, CRM_Core_SelectValues::date( 'custom' ), $this->required);
+                $qf->add('date', $elementName, $this->label, CRM_Core_SelectValues::date( 'custom' ), ($useRequired && $this->is_required));
                 break;
 
             case 'Radio':
@@ -264,7 +264,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                     $choice[] = $qf->createElement('radio', null, '', ts('No') , 'no' , $this->attributes);
                     $qf->addGroup($choice, $elementName, $this->label);
                 }
-                if ($this->is_required) {
+                if ($useRequired && $this->is_required) {
                     $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $this->label)) , 'required');
                 }
                 break;
@@ -275,7 +275,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 foreach ($customOption as $v) {
                     $selectOption[$v['value']] = $v['label'];
                 }
-                $qf->add('select', $elementName, $this->label, $selectOption, $this->is_required);
+                $qf->add('select', $elementName, $this->label, $selectOption, ($useRequired && $this->is_required));
                 break;
 
             case 'CheckBox':
@@ -286,7 +286,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                     $check[] = $qf->createElement('checkbox', $v['value'], null, $v['label']);
                 }
                 $qf->addGroup($check, $elementName, $this->label);
-                if ($this->is_required) {
+                if ($useRequired && $this->is_required) {
                     $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $this->label)) , 'required');
                 }
                 break;
@@ -298,7 +298,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 } else { 
                     $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
                 }
-                $qf->add('select', $elementName, $this->label, $stateOption, $this->is_required);
+                $qf->add('select', $elementName, $this->label, $stateOption, ($useRequired && $this->is_required));
                 break;
 
             case 'Select Country':
@@ -308,7 +308,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField {
                 } else {
                     $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
                 }
-                $qf->add('select', $elementName, $this->label, $countryOption, $this->is_required);
+                $qf->add('select', $elementName, $this->label, $countryOption, ($useRequired && $this->is_required));
                 break;
             }
                 
