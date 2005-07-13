@@ -228,8 +228,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
         $formatted = array('contact_type' => 'Individual');
 
         $indieFields = CRM_Contact_DAO_Individual::import();
-       
+        
         foreach ($params as $key => $field) {
+            if ($field == null || $field === '') {
+                continue;
+            }
             if (is_array($field)) {
                 foreach ($field as $value) {
                     _crm_add_formatted_param($value, $formatted);
