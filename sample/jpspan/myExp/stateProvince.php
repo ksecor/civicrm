@@ -78,27 +78,6 @@ function getWord(input, evt) {
           
     // Call the remote method
     a.getword(input.value);
-
-    var state = document.getElementById('state_id');
-
-    if ( state.value ) {
-
-        var b = new autocomplete(CompletionHandlerCountry);
-        
-        // Set a timeout for responses which take too long
-        b.timeout = 3000;
-        
-        // Ignore timeouts
-        b.clientErrorFunc = function(e) {
-            if ( e.code == 1003 ) {
-                // Ignore...
-            } else {
-                alert(e);
-            }
-        }
-         
-        b.getcountry(state.value);
-    }
 }
 
 // Callback handler
@@ -108,7 +87,6 @@ var CompletionHandler = {
     
     // Callback method
     getword: function(result) {
-        
         if (result.length < 1 ) {
             return;
         }        
@@ -119,6 +97,8 @@ var CompletionHandler = {
         var input1 = document.getElementById('state_id');
         input1.value = result.length;
 
+        var b = new autocomplete(CompletionHandlerCountry);
+        b.getcountry(input1.value);
 
         try {
             input.setSelectionRange(this.lastLength, input.value.length);
@@ -145,14 +125,12 @@ var CompletionHandlerCountry = {
 
         var input1 = document.getElementById('country_id');
         input1.value = result.length;
-        
 
         try {
             input.setSelectionRange(this.lastLength, input.value.length);
         } catch(e) {
         }
     }
-  
 }
 
 
@@ -161,7 +139,7 @@ var CompletionHandlerCountry = {
 </head>
 <body>
 <form id="autoCompleteForm" name="autoCompleteForm">
-Enter a State: <input type="text" id="state" name="state" value="" onkeyup="getWord(this,event);" autocomplete="off">
+Enter a State: <input type="text" id="state" name="state" value="" onkeyup="getWord(this,event);" autocomplete="off" onblur="getWord(this,event);">
 <!-- Note the autocomplete="off": without it you get errors like;
 
 "Permission denied to get property XULElement.selectedIndex..."
