@@ -54,6 +54,42 @@ class CRM_Utils_Type {
         FORTYFIVE    = 45,
         HUGE         = 45;
 
+   
+
+/**
+ * Convert Constant Data type to String
+ *
+ * @param  $const_datatype       integer datatype
+ * 
+ * @return $string_datatype     String datatype respective to integer datatype
+ *
+ * @access public
+ */
+
+
+    function ConstToString($const_datatype)
+    {
+        switch($const_datatype) {
+        case 1:$string_datatype ='Int';break;
+        case 2:$string_datatype ='String';break;
+        case 3:$string_datatype ='Enum';break;
+        case 4:$string_datatype ='Date';break; 
+        case 8:$string_datatype ='Time';break;
+        case 16:$string_datatype ='Boolean';break;    
+        case 32:$string_datatype ='Text';break;
+        case 64:$string_datatype ='Blob';break;    
+        case 256:$string_datatype ='Timestamp';break;
+        case 512:$string_datatype ='Float';break;
+        case 1024:$string_datatype ='Money';break;
+        case 2048:$string_datatype ='Date';break;
+        case 4096:$string_datatype ='Email';break;
+        }
+        
+        return $string_datatype;
+
+    }
+
+
 }
 
 ?>

@@ -132,6 +132,10 @@ function crm_add_group_contacts(&$group, $contacts, $status = 'In') {
 
 function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In', $sort = null, $offset = 0, $row_count = 25 ) {
 
+    $params = array("id"=>$group->id);
+    $sort   = array("last_name"=>"DESC","first_name"=>"DESC");
+
+
 
 }
 
@@ -178,7 +182,56 @@ function crm_add_option_value($property, $filter = null, $option_values) {
 function crm_get_option_values($property, $filter = null) {
 }
 
+
+/**
+ * Returns an array of property objects for the requested class.
+ *
+ * @param String      $class_name      'class_name' (string) A valid class name.
+ * @param Striing     $filter           filter' (string) Limits properties returned ("core", "custom", "default", "all).
+ *  
+ * @return $property_object  Array of property objects containing the properties like id ,name ,data_type, description;
+ *
+ * @access public
+ */
+
 function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
+    $property_object = array(); 
+    $error = eval( '$fields =& CRM_Contact_DAO_' .$class_name  . '::fields( );' );
+    if($error) {
+        
+        return $error;
+    }
+    
+    $id = -1;
+
+    foreach($fields as $key => $values) {
+       
+        $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::ConstToString($values['type']),"description"=>$values['title']);
+    }
+    eval( '$fields =& CRM_Contact_DAO_Contact::fields( );' );
+    
+    foreach($fields as $key => $values) {
+       
+        $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::ConstToString($values['type']) ,"description"=>$values['title']);
+    }
+        
+    if($filter == 'custom' || $filter == 'all' ) {
+       
+        $groupTree = CRM_Core_BAO_CustomGroup::getTree($class_name, null, -1);
+        foreach($groupTree as $node) {
+            $fields = $node["fields"];
+            
+            foreach($fields as $key => $values) {
+       
+                $property_object[] = array("id"=>$values['id'],"name"=>$values['name'],"data_type"=>$values['data_type'] ,"description"=>$values['help_post']);
+            }
+            
+        }
+
+    }
+    
+    return $property_object;
+
 }
 
 function crm_create_extended_property_group($class_name, $params) {
