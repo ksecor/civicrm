@@ -117,6 +117,18 @@ function crm_update_group(&$group, $params) {
 function crm_delete_group(&$group) {
 }
 
+/**
+ * Add one or more contacts to an existing group.
+ *
+ * @param CRM_Contact $group       A valid group object (passed by reference)
+ * @param array       $contact     An array of one or more valid Contact objects (passed by reference).
+ * @param text        status       A valid status value ('In', 'Pending', 'Out').
+ *  
+ * @return null if success or CRM_Error (db error or contact was not valid)
+ *
+ * @access public
+ */
+
 function crm_add_group_contacts(&$group, $contacts, $status = 'In') {
     
     foreach($contacts as $contact){
@@ -132,12 +144,25 @@ function crm_add_group_contacts(&$group, $contacts, $status = 'In') {
 
 function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In', $sort = null, $offset = 0, $row_count = 25 ) {
 
-    $params = array("id"=>$group->id);
-    $sort   = array("last_name"=>"DESC","first_name"=>"DESC");
+    
 
 
 
 }
+
+
+/**
+ * Remove one or more contacts from an existing 'static' group
+ * 
+ * @param CRM_Contact $group       A valid group object (passed by reference).
+ * @param array       $contacts    An array of one or more valid Contact objects (passed by reference).
+ *
+ *  
+ * @return null if success or CRM_Error (db error or contact was not valid)
+ *
+ * @access public
+ */
+
 
 function crm_delete_group_contacts(&$group, $contacts) {
      
@@ -151,6 +176,8 @@ function crm_delete_group_contacts(&$group, $contacts) {
     CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactId, $group->id );
     return null;
 }
+
+
 
 function crm_create_relationship(&$contact, &$target_contact, $relationship_type_name) {
 }
