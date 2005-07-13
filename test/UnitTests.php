@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config.inc.php';
+require_once '../modules/config.inc.php';
 
 require_once 'SimpleTest/unit_tester.php';
 require_once 'SimpleTest/reporter.php';
@@ -23,9 +23,10 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetContact.php'    );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
 
-        /*
-        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
-        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
+        
+        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
+        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/getClassProperties.php'    );
+        /*$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
         $this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetLocation.php'    );
         $this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateLocation.php'    );
         $this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteLocation.php'    );
@@ -38,7 +39,7 @@ class UnitTests extends GroupTest {
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteActivityHistory.php' );
 
         // custom group api
-        $this->addTestFile(CRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
+        //$this->addTestFile(CRM_TEST_DIR . 'CRM/api/CreateCustomGroup.php');
         
     }
 

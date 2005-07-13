@@ -223,7 +223,7 @@ function crm_get_option_values($property, $filter = null) {
 
 function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
     $property_object = array(); 
-    $error = eval( '$fields =& CRM_Contact_DAO_' .$class_name  . '::fields( );' );
+    $error = eval( '$fields = CRM_Contact_DAO_' .$class_name  . '::fields( );' );
     if($error) {
         
         return $error;
@@ -235,15 +235,17 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
        
         $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::ConstToString($values['type']),"description"=>$values['title']);
     }
-    eval( '$fields =& CRM_Contact_DAO_Contact::fields( );' );
     
-    foreach($fields as $key => $values) {
-       
-        $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::ConstToString($values['type']) ,"description"=>$values['title']);
-    }
+    if($class_name =='Individual' || $class_name =='Organization' || $class_name =='Household') {
+        eval( '$fields = CRM_Contact_DAO_Contact::fields( );' );
         
+        foreach($fields as $key => $values) {
+            
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::ConstToString($values['type']) ,"description"=>$values['title']);
+        }
+        $fields="";
+    }
     if($filter == 'custom' || $filter == 'all' ) {
-       
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($class_name, null, -1);
         foreach($groupTree as $node) {
             $fields = $node["fields"];
