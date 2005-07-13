@@ -333,7 +333,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
                             } 
                         } else {
                             if (isset($field['customValue']['data'])) {
-                                $defaults[$elementName] =  isset($field['customValue']['data']) ? 'yes' : 'no';
+                                $defaults[$elementName] =  $field['customValue']['data'] ? 'yes' : 'no';
                             } else {
                                 $field['customValue']['data'] = strtolower($field['default_value']);
                             }
