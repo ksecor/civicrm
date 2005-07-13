@@ -337,6 +337,9 @@ abstract class CRM_Import_Parser {
                 $this->_duplicateCount++;
                 array_unshift($values, $this->_lineCount);
                 $this->_duplicates[] = $values;
+                if ($onDuplicate != self::DUPLICATE_SKIP) {
+                    $this->_validCount++;
+                }
             }
 
             // we give the derived class a way of aborting the process
@@ -353,11 +356,18 @@ abstract class CRM_Import_Parser {
 
         fclose( $fd );
 
-        if ($mode == self::MODE_PREVIEW) {
+        if ($mode == self::MODE_PREVIEW || $mode == self::MODE_IMPORT) {
+            $customHeaders = $mapper;
+            $customfields = CRM_Core_BAO_CustomField::getFields();
+            foreach ($customHeaders as $key => $value) {
+                if (preg_match('/^custom_(\d+)$/', $value, $match)) {
+                    $id = $match[1];
+                    $customHeaders[$key] = $customfields[$id][0];
+                }
+            }
             $headers = array_merge( array(  ts('Record Number'),
                                             ts('Reason')), 
-                                    $mapper);
-                
+                                    $customHeaders);
             if ($this->_invalidRowCount) {
                 $this->_errorFileName = $fileName . '.errors';
                 self::exportCSV($this->_errorFileName, $headers, $this->_errors);
@@ -366,14 +376,14 @@ abstract class CRM_Import_Parser {
                 $this->_conflictFileName = $fileName . '.conflicts';
                 self::exportCSV($this->_conflictFileName, $headers, $this->_conflicts);
             }
-        }
-        if ($mode == self::MODE_IMPORT && $this->_duplicateCount) {
-            $headers = array_merge( array(  ts('Record Number'), 
-                                            ts('View Contact URL')),
-                                    $mapper);
+            if ($this->_duplicateCount) {
+                $headers = array_merge( array(  ts('Record Number'), 
+                                                ts('View Contact URL')),
+                                        $customHeaders);
 
-            $this->_duplicateFileName = $fileName . '.duplicates';
-            self::exportCSV($this->_duplicateFileName, $headers, $this->_duplicates);
+                $this->_duplicateFileName = $fileName . '.duplicates';
+                self::exportCSV($this->_duplicateFileName, $headers, $this->_duplicates);
+            }
         }
 
         return $this->fini();
@@ -530,7 +540,7 @@ abstract class CRM_Import_Parser {
      * @access public
      */
     function set( $store, $mode = self::MODE_SUMMARY ) {
-        if ($mode == self::MODE_SUMMARY ) {
+//         if ($mode == self::MODE_SUMMARY ) {
             $store->set( 'fileSize'   , $this->_fileSize          );
             $store->set( 'lineCount'  , $this->_lineCount         );
             $store->set( 'seperator'  , $this->_seperator         );
@@ -555,7 +565,8 @@ abstract class CRM_Import_Parser {
             if ( isset( $this->_rows ) && ! empty( $this->_rows ) ) {
                 $store->set( 'dataValues', $this->_rows );
             }
-        } else if ($mode == self::MODE_IMPORT) {
+//         } else 
+        if ($mode == self::MODE_IMPORT) {
             $store->set( 'duplicateRowCount', $this->_duplicateCount );
             if ($this->_duplicateCount) {
                 $store->set( 'duplicatesFileName', $this->_duplicateFileName );

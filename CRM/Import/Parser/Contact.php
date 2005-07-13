@@ -215,7 +215,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
      * @return boolean      the result of this processing
      * @access public
      */
-    function import( $onDuplicate, &$values ) {
+    function import( $onDuplicate, &$values) {
         // first make sure this is a valid line
         $response = $this->summary( $values );
 //         if ( $response != self::VALID ) {
@@ -268,8 +268,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
            
                 /* If we duplicate more than one record, skip no matter what */
                 if (count($newContact->_errors[0]['params']) > 1) {
-                    return CRM_Import_Parser::DUPLICATE |
-                                CRM_Import_Parser::MULTIPLE_DUPE;
+                    array_unshift($values, ts('Record duplicates multiple contacts'));
+                    return CRM_Import_Parser::ERROR;
+//                     CRM_Import_Parser::DUPLICATE |
+//                                 CRM_Import_Parser::MULTIPLE_DUPE;
                 }
            
                 /* Params only had one id, so shift it out */
@@ -291,7 +293,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
                 return CRM_Import_Parser::DUPLICATE;
             } 
             /* Not a dupe, so we had an error */
-            /* TODO stick this in an error array */
+            array_unshift($values, $newContact->_errors[0]['message']);
             return CRM_Import_Parser::ERROR;
         }
         

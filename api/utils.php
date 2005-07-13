@@ -263,7 +263,8 @@ function _crm_format_params( &$params, &$values ) {
                             $customFields[$customFieldID][2], $value);
 
             if (! $valid) {
-                return _crm_error('Invalid custom field data');
+                return _crm_error('Invalid value for custom field ' .
+                    $customFields[$customFieldID][1]);
             }
             
             $values['custom_data'][$customFieldID] = array( 
@@ -820,6 +821,7 @@ function _crm_add_formatted_param(&$values, &$params) {
                 'custom_field_id'    => $customFieldID,
                 'value' => $value,
                 'type' => $customFields[$customFieldID][2],
+                'name' => $customFields[$customFieldID][0]
             );
         }
     }
@@ -903,8 +905,8 @@ function _crm_validate_formatted_contact(&$params) {
                 $valid = CRM_Core_BAO_CustomValue::typecheck(
                     $custom['type'], $custom['value']);
                 if (! $valid) {
-                    return _crm_error( 'Invalid custom field data: ' 
-                                        . $custom['value']);
+                    return _crm_error('Invalid value for custom field \'' .
+                        $custom['name']. '\'');
                 }
             }
         }
