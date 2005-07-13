@@ -276,7 +276,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                                  )        
                            );
 
-        $this->add('submit', $this->_searchButtonName, ts('Search'), array( 'class' => 'form-submit' ) );
+        //commented this button since i was not sure if we used this button
+        //$this->add('submit', $this->_searchButtonName, ts('Search'), array( 'class' => 'form-submit' ) );
         $this->add('submit', $this->_exportButtonName, ts('Export'),
                    array( 'class' => 'form-submit',
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
@@ -371,11 +372,12 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         /**
          * set the button names
          */
-        $this->_searchButtonName = $this->getButtonName( 'refresh', 'search' );
+        // $this->_searchButtonName = $this->getButtonName( 'refresh', 'search' ); we never use this button
+        $this->_searchButtonName = $this->getButtonName( 'refresh');
         $this->_exportButtonName = $this->getButtonName( 'refresh', 'export' );
         $this->_printButtonName  = $this->getButtonName( 'next'   , 'print' );
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' );
-
+        
         /*
          * we allow the controller to set force/reset externally, useful when we are being
          * driven by the wizard framework
@@ -523,16 +525,21 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $this->_formValues, $this->_sortByCharacter );
         $this->set( 'AToZBar', $aToZBar );
 
+        //get the button name
+        $buttonName = $this->controller->getButtonName( );
+        
+
         // we dont want to store the sortByCharacter in the formValue, it is more like 
         // a filter on the result set
-        if ( $this->_sortByCharacter && $this->_sortByCharacter != '1' ) {
+        //this filter is reset if we click on the search button
+
+        if ( $this->_sortByCharacter && $this->_sortByCharacter != '1' && $buttonName != $this->_searchButtonName) {
             $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
         }
 
         $this->set( 'type'      , $this->_action );
         $this->set( 'formValues', $this->_formValues );
-
-        $buttonName = $this->controller->getButtonName( );
+        
         if ( $buttonName == $this->_actionButtonName || $buttonName == $this->_printButtonName ) {
             // check actionName and if next, then do not repeat a search, since we are going to the next page
             return;
