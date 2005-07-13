@@ -109,6 +109,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @param int    $entityId   - optional - id of entity if we need to populate the tree with custom values. 
      * @param int    $groupId    - optional group id (if we need it for a single group only)
      *                           - if groupId is 0 it gets for inline groups only
+     *                           - if groupId is -1 we get for all groups
      *
      * @return array $groupTree  - array consisting of all groups and fields and optionally populated with custom data values.
      *
@@ -164,14 +165,19 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
 
         $strWhere = " WHERE crm_custom_group.is_active = 1 AND crm_custom_field.is_active = 1 AND crm_custom_group.extends IN ($in)";
 
-        if ($groupId) {
+        if ($groupId > 0) {
             // since we want a specific group id we add it to the where clause
             $strWhere .= " AND crm_custom_group.id = $groupId";
             $strWhere .= " AND crm_custom_group.style = 'Tab'";
             $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_field.weight";
-        } else {
+        } else if ($groupId == 0){
             // since groupId is 0 we need to show all Inline groups
             $strWhere .= " AND crm_custom_group.style = 'Inline'";
+            // for inline we are ordering by - group weight, group title and then field weight
+            $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_group.title, crm_custom_field.weight";
+        } else if ($groupId == -1) {
+            // since groupId is -1 we need to show all groups
+            // $strWhere .= " AND crm_custom_group.style = 'Inline'";
             // for inline we are ordering by - group weight, group title and then field weight
             $orderBy = " ORDER BY crm_custom_group.weight, crm_custom_group.title, crm_custom_field.weight";
         }
