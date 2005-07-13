@@ -59,7 +59,7 @@
     {/if}
     {$loc.address.country}
   </div>
-
+  <div class="spacer"></div>
   </fieldset>
  </div>
 {/foreach}
@@ -82,6 +82,7 @@
   <div class="col2">
     <label>{ts}Prefers:{/ts}</label> {$preferred_communication_method}
   </div>
+  <div class="spacer"></div>
  </fieldset>
 </div>
 
@@ -102,6 +103,7 @@
    <div class="col2">
     <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}
    </div>
+   <div class="spacer"></div>
   </fieldset>
  </div>
  {/if}
@@ -110,7 +112,9 @@
   {if $openActivity.totalCount}
     <a href="#" onClick="hide('openActivities[show]'); show('openActivities'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Open Activities{/ts}</label> ({$openActivity.totalCount})<br />
   {else}
-    <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts}No open activities.{/ts}</dd></dl>
+    {capture assign=mtgURL}{crmURL p='civicrm/contact/view/meeting' q="action=add&reset=1&cid=$contactId"}{/capture}
+    {capture assign=callURL}{crmURL p='civicrm/contact/view/call' q="action=add&reset=1&cid=$contactId"}{/capture}
+    <dl><dt>{ts}Open Activities{/ts}</dt><dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2"}">call</a>.{/ts}</dd></dl>
   {/if}
 </div>
 
@@ -186,7 +190,7 @@
   {if $relationship.totalCount}
     <a href="#" onClick="hide('relationships[show]'); show('relationships'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Relationships{/ts}</label> ({$relationship.totalCount})<br />
   {else}
-    <dl><dt>{ts}Relationships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No relationships. Use the <a href="%1">Relationships tab</a> to add them.{/ts}</dd></dl>
+    <dl><dt>{ts}Relationships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No relationships. You can <a href="%1">create a new relationship</a>.{/ts}</dd></dl>
   {/if}
 </div>
 
@@ -239,7 +243,7 @@
   {if $group.totalCount}
     <a href="#" onClick="hide('groups[show]'); show('groups'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Group Memberships{/ts}</label> ({$group.totalCount})<br />
   {else}
-    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No group memberships. Use the <a href="%1">Groups tab</a> to add them.{/ts}</dd></dl>
+    <dl><dt>{ts}Group Memberships{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No group memberships. You can <a href="%1">add {$display_name} to a group</a>.{/ts}</dd></dl>
   {/if}
 </div>
 
@@ -274,7 +278,7 @@
   {if $noteTotalCount}
     <a href="#" onClick="hide('notes[show]'); show('notes'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"></a><label>{ts}Notes{/ts}</label> ({$noteTotalCount})<br />
   {else}
-    <dl><dt>{ts}Notes{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No notes. Use the <a href="%1">Notes tab</a> to add them.{/ts}</dd></dl>
+    <dl><dt>{ts}Notes{/ts}</dt><dd>{capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No notes. You can <a href="%1">enter notes</a> about this contact.{/ts}</dd></dl>
   {/if}
 </div>
 
