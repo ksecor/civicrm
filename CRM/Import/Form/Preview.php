@@ -92,6 +92,8 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
     public function buildQuickForm( ) {
         $this->addElement( 'checkbox', 'newGroup', ts('Create a new group from imported records'));
         $this->addElement( 'text', 'newGroupName', ts('Name for new group'));
+        $this->addRule('newGroupName', ts('Name already exists in Database.'),
+        'objectExists', array('CRM_Contact_DAO_Group', $this->_id));
         $this->addElement( 'text', 'newGroupDesc', ts('Description of new group'));
         $groups =& $this->get('groups');
         
