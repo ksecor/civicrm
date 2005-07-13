@@ -49,16 +49,17 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
     public function buildQuickForm( ) 
     {
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name'       , ts('Name')       ,
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
+        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'name' ) );
         $this->addRule( 'name', ts('Please enter a valid location type name.'), 'required' );
         $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Contact_DAO_LocationType', $this->_id ) );
         
-        $this->add('text', 'description', ts('Description'), 
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
+        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_LocationType', 'description' ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
         $this->add('checkbox', 'is_default', ts('Default?'));
+        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_LocationType', $this->_id, 'is_reserved' )) { 
+            $this->freeze(array('name', 'description', 'is_active' ));
+        }
         parent::buildQuickForm( );
     }
 
