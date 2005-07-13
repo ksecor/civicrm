@@ -12,7 +12,7 @@ require_once JPSPAN . 'Server/PostOffice.php';
 class Autocomplete {
 
     function getWord($fragment='') {
-         
+        
         $fraglen = strlen($fragment);
         
         //get the list of states
@@ -81,7 +81,6 @@ class Autocomplete {
 
 $S = & new JPSpan_Server_PostOffice();
 $S->addHandler(new Autocomplete());
-
 
 //-----------------------------------------------------------------------------------
 // Generates the Javascript client by adding ?client to the server URL
