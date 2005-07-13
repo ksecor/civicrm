@@ -151,7 +151,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         }
     }
     
-    public function getField(&$isBool = false) {
+    public function getField(&$isBool) {
         $cf =& new CRM_Core_BAO_CustomField();
         $cf->id = $this->custom_field_id;
         
@@ -164,7 +164,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
     }
 
     public function getValue($translateBoolean = false) {
-        $field = $this->getField();
+        $field = $this->getField($var1);
         
         if ($translateBoolean && $cf->data_type == 'Boolean') {
             return $this->$field ? 'yes' : 'no';
@@ -204,7 +204,8 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue {
         $customValue->entity_id = $contactId;
         
         $customValue->find(true);
-        
+
+        $isBool = false;
         $field = $customValue->getField($isBool);
         if ($isBool) {
             $value = CRM_Utils_String::strtobool($value);
