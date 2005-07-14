@@ -108,7 +108,64 @@ function crm_get_locations(&$contact) {
 function crm_create_group($params) {
 }
 
+
+/**
+ * Returns array of group object(s) matching a set of one or Group properties.
+ *
+ *
+ * @param array       $param                 Array of one or more valid property_name=>value pairs. Limits the set of groups returned.
+ * @param array       $returnProperties      Which properties should be included in the returned group objects. 
+ *  
+ * @return  An array of group objects.
+ *
+ * @access public
+ */
+
 function crm_get_groups($params = null, $returnProperties = null) {
+    
+    $queryString = "SELECT";
+    if ($returnProperties == null) {
+    $queryString .= " *";
+    } else {
+        $count = count($returnProperties);
+        $counter = 1;
+        foreach($returnProperties as $retProp) {
+            if($counter < $count) {
+                $queryString .=" ".$retProp.",";
+            } else {
+                $queryString .=" ".$retProp;
+            }
+            $counter++;
+        }
+    }
+    $queryString .= " FROM crm_group";
+    if ($params != null) {
+        $total = count($params);
+        $counter = 1;
+        $queryString .= " WHERE";
+        foreach($params as $key => $param) {
+            if($counter < $total) {
+                $queryString .=" $key". " LIKE". " '%$param%' ,";
+            } else {
+                $queryString .=" $key". " LIKE". " '%$param%' ";
+            }
+            $counter++;
+        }
+    }
+
+    $crmDAO =& new CRM_Contact_DAO_Group();
+    $crmDAO->query($queryString);
+    $groupArray = array();
+    
+    while($crmDAO->fetch()) { 
+        $rows = array();
+        CRM_Core_DAO::storeValues($crmDAO,$rows);
+        $groupArray[] = $rows;
+    }
+    
+    return $groupArray;
+
+
 }
 
 function crm_update_group(&$group, $params) {
@@ -142,12 +199,105 @@ function crm_add_group_contacts(&$group, $contacts, $status = 'In') {
     return null;
 }
 
+/**
+ * Returns array of contacts who are members of the specified group.
+ *
+ * @param CRM_Contact $group                A valid group object (passed by reference)
+ * @param array       $returnProperties     Which properties should be included in the returned Contact object(s). If NULL, the default set of contact properties will be included. group_contact properties (such as 'status', 'in_date', etc.) are included automatically.
+ * @param text        $status               A valid status value ('In', 'Pending', 'Out').
+ * @param text        $sort                 Associative array of one or more "property_name"=>"sort direction" pairs which will control order of Contact objects returned.
+ * @param Int         $offset               Starting row index.
+ * @param Int         $row_count            Maximum number of rows to returns.
+ *
+ *
+ * @return            $contactArray         Array of contacts who are members of the specified group
+ *
+ * @access public
+ */
+
+
 function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In', $sort = null, $offset = 0, $row_count = 25 ) {
-
     
+    if ( ! isset( $group->id )) {
+        return _crm_error( 'Invalid group object passed in' );
+    }
+   
 
+    $queryString = "SELECT";
+    if ($returnProperties == null) {
+        $queryString .= "*";
+    } else {
+        $count = count($returnProperties);
+        $counter = 1;
+        foreach($returnProperties as $retProp) {
+            if($counter < $count) {
+                $queryString .=" ".$retProp.",";
+            } else {
+                $queryString .=" ".$retProp;
+            }
+            $counter++;
+        }
+    }
 
+    $queryString .= " FROM crm_contact RIGHT JOIN  crm_group_contact ON (crm_contact.id =crm_group_contact.contact_id )";
+    $queryString .= " WHERE crm_group_contact.status = '$status' AND crm_group_contact.group_id = '$group->id' ";
+    
+    if($sort != null) {
+        $queryString .= " ORDER BY ";
+        $count = count($sort);
+        $counter = 1;
+        foreach($sort as $key=> $direction) {
+           if($counter < $count) {
+                
+                $queryString .= " ".$key." ".$direction. ",";
+            }else{
+                $queryString .= " ".$key." ".$direction;
+            }
+            $counter++; 
+        }
 
+    }
+    $queryString.=" LIMIT $offset,$row_count";
+    $crmDAO =& new CRM_Core_DAO();
+    $crmDAO->query($queryString);
+    $contactArray = array();
+    while($crmDAO->fetch()) { 
+        if($returnProperties != null) {
+            foreach($returnProperties as $retProp) {
+                $contactArray[$crmDAO->contact_id][$retProp]=$crmDAO->$retProp; 
+                    }
+        }else{
+            $contactArray[$crmDAO->contact_id]['id'] = $crmDAO->id;
+            $contactArray[$crmDAO->contact_id]['domain_id'] = $crmDAO->domain_id;
+            $contactArray[$crmDAO->contact_id]['contact_type'] = $crmDAO->contact_type;
+            $contactArray[$crmDAO->contact_id]['legal_identifier'] = $crmDAO->legal_identifier;
+            $contactArray[$crmDAO->contact_id]['external_identifier'] = $crmDAO->external_identifier;
+            $contactArray[$crmDAO->contact_id]['sort_name'] = $crmDAO->sort_name;
+            $contactArray[$crmDAO->contact_id]['display_name'] = $crmDAO->display_name;
+            $contactArray[$crmDAO->contact_id]['home_URL'] = $crmDAO->home_URL ;
+            $contactArray[$crmDAO->contact_id]['image_URL'] = $crmDAO->image_URL ;
+            $contactArray[$crmDAO->contact_id]['source'] = $crmDAO->source;
+            $contactArray[$crmDAO->contact_id]['preferred_communication_method'] = $crmDAO->preferred_communication_method;
+            $contactArray[$crmDAO->contact_id]['preferred_mail_format'] = $crmDAO->preferred_mail_format;
+            $contactArray[$crmDAO->contact_id]['do_not_phone'] = $crmDAO->do_not_phone;
+            $contactArray[$crmDAO->contact_id]['do_not_email'] = $crmDAO->do_not_email;
+            $contactArray[$crmDAO->contact_id]['do_not_mail'] = $crmDAO->do_not_mail;
+            $contactArray[$crmDAO->contact_id]['do_not_trade'] = $crmDAO->do_not_trade;
+            $contactArray[$crmDAO->contact_id]['hash'] = $crmDAO->hash;
+            $contactArray[$crmDAO->contact_id]['group_id'] = $crmDAO->group_id;
+            $contactArray[$crmDAO->contact_id]['contact_id'] = $crmDAO->contact_id;
+            $contactArray[$crmDAO->contact_id]['status'] = $crmDAO->status;
+            $contactArray[$crmDAO->contact_id]['pending_date'] = $crmDAO->pending_date;
+            $contactArray[$crmDAO->contact_id]['in_date'] = $crmDAO->in_date;
+            $contactArray[$crmDAO->contact_id]['out_date'] = $crmDAO->out_date;
+            $contactArray[$crmDAO->contact_id]['pending_method'] = $crmDAO->pending_method;
+            $contactArray[$crmDAO->contact_id]['in_method'] = $crmDAO->in_method;
+            $contactArray[$crmDAO->contact_id]['out_method'] = $crmDAO->out_method;
+        }
+    }
+   
+    return $contactArray;
+    
 }
 
 
