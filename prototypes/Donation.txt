@@ -1,0 +1,46 @@
+Donation
+--------
+Donations are an integral top level component of CiviCRM and allow site admins
+to create customized donation flows (and pages) and site users to make donations
+of various kinds.
+
+
+Donation Work Flows
+-------------------
+- Multiple Page Form with conditional ordering
+
+   Page1 - Donation Intro/Overview
+           This page describes the need/cause of the donation.
+
+   Page2 - Amount and Type of Donation
+           Choose donation amount and type (Single or Recurring)
+           If recurring capture type of recurrence and frequency
+           for example - quaterly donation of USD 5.00 till Dec 06.
+
+   Page3 - Choose Payment Options.
+           Payment Options offered are
+              - Inhouse
+              - Paypal
+              - Other Payment Solutions
+
+   Page4 - If Inhouse payment method is selected in Page3
+           Allow user to choose their PaymentAccount
+
+           OR
+
+           Enter Credit Card details manually
+
+           Payment Accounts store information about different financial instruments a contact can use to make payments.
+           A contact can have multiple Payment Accounts.
+
+   Page5 - Verify the following
+               - Donation Amount and Type
+               - Payment Information (partial Credit card details)
+               - Billing/Shipping information (where the receipt will be sent)
+
+           Confirm above details and "Donate".
+
+   Page6 - Status of "Donate" action
+              Success - Thank You Page
+              Failure - Why it failed and option to go back to Page3 or Page4.
+
