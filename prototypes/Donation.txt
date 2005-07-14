@@ -44,3 +44,57 @@ Donation Work Flows
               Success - Thank You Page
               Failure - Why it failed and option to go back to Page3 or Page4.
 
+
+
+Implementation
+--------------
+
+Administrator will be provided the capability to customize the 6 different type of pages
+in the donation work flow.
+
+Customizations allowed would be in the terms of various blocks in different locations
+of the pages.
+
+Site users will be able to see their donation details such as donation history,
+recurring donations etc.
+
+
+
+
+
+Sample Pages
+Page1 - Intro
+-------------
+|----------------------------------------------------------------|
+|                                                                |
+| Donation for <Cause>                                           |
+|                                                                |
+| Page1 - Header                                                 |
+|----------------------------------------------------------------|
+|                                                                |
+|                                                                |
+|                                                                |
+| Page1 - Central Block                                          |
+|                                                                |
+| <textbox for more description>                                 |
+|                                                                |
+|                                                                |
+|                                                                |
+|                                                                |
+|                                                                |
+|                                                                |
+|                                                                |
+|----------------------------------------------------------------|
+|                                                                |
+| Buttons                                                        |
+|                                                                |
+|----------------------------------------------------------------|
+|                                                                |
+|                                                                |
+| Page1 Footer                                                   |
+|                                                                |
+|----------------------------------------------------------------|
+
+In the above Page1 customizations are allowed for header, central block and footer.
+Currently customized text will be allowed for the 3 sections.
+
