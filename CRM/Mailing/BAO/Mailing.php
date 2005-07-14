@@ -47,6 +47,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
 
     /**
+     * The HTML content of the message
+     */
+    private $html = null;
+
+    /**
+     * The text content of the message;
+     */
+    private $text = null;
+    
+
+    /**
      * class constructor
      */
     function __construct( ) {
@@ -72,8 +83,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $location   = CRM_Contact_DAO_Location::tableName();
         $group      = CRM_Contact_DAO_Group::tableName();
         $g2contact  = CRM_Contact_DAO_GroupContact::tableName();
-        
+       
+        /* FIXME Make this mysql 4.0-friendly (no subselects) */
+
+       
         /* Get the contact ids to exclude */
+        /* TODO This should also factor in recipients of the same mailing when
+         * we're doing a retry */
         $excludeSubGroup =
                     "SELECT DISTINCT    $g2contact.contact_id
                     FROM                $g2contact
@@ -105,47 +121,58 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         /* Get all the group contacts we want to include */
         $queryGroup = 
                     "SELECT DISTINCT    $email.id as email_id,
-                                        $contact.id as contact_id
+                                        $contact.id as contact_id,
+                                        $contact.display_name as display_name
                     FROM                $email
                     INNER JOIN          $location
                             ON          $email.location_id = $location.id
                     INNER JOIN          $contact
                             ON          $location.contact_id = $contact.id
-                    INNER JOIN          $g2contact
-                            ON          $contact.id = $g2contact.contact_id
-                    INNER JOIN          $mg
-                            ON          $g2contact.group_id = $mg.entity_id
+                            
+                            
+                        INNER JOIN          $g2contact
+                                ON          $contact.id = $g2contact.contact_id
+                        INNER JOIN          $mg
+                                ON          $g2contact.group_id = $mg.entity_id
+                                
                     WHERE           
-                                        $mg.entity_table = '$group'
-                        AND             $mg.mailing_id = " . $this->id . "
-                        AND             $mg.group_type = 'Include'
-                        AND             $g2contact.status = 'In'
+                                            $mg.entity_table = '$group'
+                            AND             $mg.group_type = 'Include'
+                            AND             $g2contact.status = 'In'
+                        
                         AND             $contact.do_not_email = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
+                        AND             $mg.mailing_id = " . $this->id . "
                         AND             $contact.id NOT IN ($excludeSubQuery)";
                         
         $queryMailing =
                     "SELECT DISTINCT    $email.id as email_id,
-                                        $contact.id as contact_id
+                                        $contact.id as contact_id,
+                                        $contact.display_name as display_name
                     FROM                $email
                     INNER JOIN          $location
                             ON          $email.location_id = $location.id
                     INNER JOIN          $contact
                             ON          $location.contact_id = $contact.id
-                    INNER JOIN          $eq
-                            ON          $eq.contact_id = $contact.id
-                    INNER JOIN          $job
-                            ON          $eq.job_id = $job.id
-                    INNER JOIN          $mg
-                            ON          $job.mailing_id = $mg.mailing_id
+                    
+                    
+                        INNER JOIN          $eq
+                                ON          $eq.contact_id = $contact.id
+                        INNER JOIN          $job
+                                ON          $eq.job_id = $job.id
+                        INNER JOIN          $mg
+                                ON          $job.mailing_id = $mg.mailing_id
+                    
+                    
                     WHERE
-                                        $mg.entity_table = '$mailing'
-                        AND             $mg.mailing_id = " . $this->id . "
-                        AND             $mg.group_type = 'Include'
+                                            $mg.entity_table = '$mailing'
+                            AND             $mg.group_type = 'Include'
+                        
                         AND             $contact.do_not_email = 0
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
+                        AND             $mg.mailing_id = " . $this->id . "
                         AND             $contact.id NOT IN ($excludeSubQuery)";
 
         $query = "($queryGroup) UNION DISTINCT ($queryMailing)";
@@ -156,9 +183,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailingGroup->find();
 
         while ($mailingGroup->fetch()) {
-            $results[] =    array(  'email_id'  => $mailingGroup->email_id,
-                                    'contact_id'=> $mailingGroup->contact_id
-                            );
+            $results[] =    
+                array(  'email_id'  => $mailingGroup->email_id,
+                        'contact_id'=> $mailingGroup->contact_id
+                        'display_name' => $mailingGroup->display_name
+                );
         }
         return $results;
     }
@@ -186,30 +215,44 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      *
      * @param int $job_id           ID of the Job associated with this message
      * @param int $event_queue_id   ID of the EventQueue
+     * @param int $hash             Hash of the EventQueue
      * @param int $email            Destination address
      * @return object               The mail object
      * @access public
      */
-    public function &compose($job_id, $event_queue_id, $email) {
+    public function &compose($job_id, $event_queue_id, $hash, $email) {
     
-        if ($this->header == null || $this->footer == null) {
+        if ($this->html == null || $this->text == null) {
             $this->getHeaderFooter();
+        
+            $this->html = $this->header->body_html 
+                        . $this->body_html 
+                        . $this->footer->body_html;
+                        
+            $this->text = $this->header->body_text
+                        . $this->body_text
+                        . $this->footer->body_text;
+        }
+
+        $domain = "@FIXME.COM";
+
+        foreach (array('reply', 'owner', 'unsubscribe') as $key) {
+            $address[$key] = implode('.', 
+                        array(
+                            $key, 
+                            $job_id, 
+                            $event_queue_id,
+                            $hash
+                        )
+                    ) . "@$domain";
         }
         
-        $html   = $this->header->body_html 
-                . $this->body_html 
-                . $this->footer->body_html;
-                        
-        $text   = $this->header->body_text
-                . $this->body_text
-                . $this->footer->body_text;
-
-        /* TODO VERP this stuff */
         $headers = array(
             'To'        => $email,
             'Subject'   => $this->subject,
             'From'      => $this->from_name . ' <' . $this->from_email . '>',
-            'Reply-To'  => $this->reply_to_email
+            'Reply-To'  => CRM_Utils_Verp::encode($address['reply'], $email),
+            'Return-path' => CRM_Utils_Verp::encode($address['owner'], $email),
         );
 
         
@@ -217,8 +260,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         $message =& new Mail_Mime("\n");
 
-        $message->setTxtBody($text);
-        $message->setHTMLBody($html);
+        $message->setTxtBody($this->text);
+        $message->setHTMLBody($this->html);
         $message->headers($headers);
 
         return $message;

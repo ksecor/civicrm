@@ -128,7 +128,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
         while ($eq->fetch()) {
             /* Compose the mailing */
-            $message = $mailing->compose($this->id, $eq->id, $eq->email);
+            $message = 
+                $mailing->compose($this->id, $eq->id, $eq->hash, $eq->email);
             
             /* Send the mailing */
 
