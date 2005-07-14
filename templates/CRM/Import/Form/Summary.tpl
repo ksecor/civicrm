@@ -82,7 +82,7 @@
                 <label>{$group.name}</label>:
                 {if $group.new}{assign var="grpStatus" value="new"}{else}{assign var="grpStatus" value="existing"}{/if}
                 {ts count=$group.added 2=$grpStatus plural='%count contacts added to this %2 group.'}%count contact added to this %2 group.{/ts}
-                {if $group.notAdded}{ts count=$group.notAdded plural='%count contacts NOT added (already in this group).'}%count contact NOT added (already in this group){/ts}{/if}<br>
+                {if $group.notAdded}{ts count=$group.notAdded plural='%count contacts NOT added (already in this group).'}%count contact NOT added (already in this group).{/ts}{/if}<br>
             {/foreach}
         </td>
     </tr>
