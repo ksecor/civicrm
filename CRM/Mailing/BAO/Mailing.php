@@ -62,30 +62,97 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     function &getRecipients() {
         $mailingGroup =& new CRM_Mailing_DAO_MailingGroup();
         
-        $mg         = $mailingGroup->tableName();
+        $mailing    = CRM_Mailing_DAO_Mailing::tableName();
+        $mg         = CRM_Mailing_DAO_MailingGroup::tableName();
+        $eq         = CRM_Mailing_DAO_MailingEventQueue::tableName();
+        $job        = CRM_Mailing_DAO_Job::tableName();
+        
         $email      = CRM_Contact_DAO_Email::tableName();
         $contact    = CRM_Contact_DAO_Contact::tableName();
         $location   = CRM_Contact_DAO_Location::tableName();
+        $group      = CRM_Contact_DAO_Group::tableName();
+        $g2contact  = CRM_Contact_DAO_GroupContact::tableName();
+        
+        /* Get the contact ids to exclude */
+        $excludeSubGroup =
+                    "SELECT DISTINCT    $g2contact.contact_id
+                    FROM                $g2contact
+                    INNER JOIN          $mg
+                            ON          $g2contact.group_id = $mg.entity_id
+                    WHERE
+                                        $mg.mailing_id = " . $this->id . "
+                        AND             $mg.entity_table = '$group'
+                        AND             $g2contact.status = 'In'
+                        AND             $mg.group_type = 'Exclude'
+                    ORDER BY            $g2contact.contact_id";
        
+        $excludeSubMailing = 
+                    "SELECT DISTINCT    $eq.contact_id
+                    FROM                $eq
+                    INNER JOIN          $job
+                            ON          $eq.job_id = $job.id
+                    INNER JOIN          $mg
+                            ON          $job.mailing_id = $mg.entity_id
+                    WHERE
+                                        $mg.mailing_id = " . $this->id . "
+                        AND             $mg.entity_table '$mailing'
+                        AND             $mg.group_type = 'Exclude'
+                    ORDER BY            $eq.contact_id";
+       
+        $excludeSubQuery = 
+            "($excludeSubGroup) UNION DISTINCT ($excludeSubMailing)";
+
         /* Get all the group contacts we want to include */
-        $queryGroupInclude = 
-                    "SELECT         $email.id as email_id,
-                                    $contact.id as contact_id
-                    FROM            $email
-                    INNER JOIN      $location
-                            ON      $email.location_id = $location.id
-                    INNER JOIN      $contact
-                            ON      $location.contact_id = $contact.id
-                    INNER JOIN      $mg
-                            ON      $contact.id = $mg.entity_id
-                    WHERE           $mg.entity_table = '$contact'
-                        AND         $mg.mailing_id = " . $this->id . "
-                        AND         $mg.group_type = 'Include'
-                        AND         $location.is_primary = 1
-                        AND         $email.is_primary = 1";
+        $queryGroup = 
+                    "SELECT DISTINCT    $email.id as email_id,
+                                        $contact.id as contact_id
+                    FROM                $email
+                    INNER JOIN          $location
+                            ON          $email.location_id = $location.id
+                    INNER JOIN          $contact
+                            ON          $location.contact_id = $contact.id
+                    INNER JOIN          $g2contact
+                            ON          $contact.id = $g2contact.contact_id
+                    INNER JOIN          $mg
+                            ON          $g2contact.group_id = $mg.entity_id
+                    WHERE           
+                                        $mg.entity_table = '$group'
+                        AND             $mg.mailing_id = " . $this->id . "
+                        AND             $mg.group_type = 'Include'
+                        AND             $g2contact.status = 'In'
+                        AND             $contact.do_not_email = 0
+                        AND             $location.is_primary = 1
+                        AND             $email.is_primary = 1
+                        AND             $contact.id NOT IN ($excludeSubQuery)";
+                        
+        $queryMailing =
+                    "SELECT DISTINCT    $email.id as email_id,
+                                        $contact.id as contact_id
+                    FROM                $email
+                    INNER JOIN          $location
+                            ON          $email.location_id = $location.id
+                    INNER JOIN          $contact
+                            ON          $location.contact_id = $contact.id
+                    INNER JOIN          $eq
+                            ON          $eq.contact_id = $contact.id
+                    INNER JOIN          $job
+                            ON          $eq.job_id = $job.id
+                    INNER JOIN          $mg
+                            ON          $job.mailing_id = $mg.mailing_id
+                    WHERE
+                                        $mg.entity_table = '$mailing'
+                        AND             $mg.mailing_id = " . $this->id . "
+                        AND             $mg.group_type = 'Include'
+                        AND             $contact.do_not_email = 0
+                        AND             $location.is_primary = 1
+                        AND             $email.is_primary = 1
+                        AND             $contact.id NOT IN ($excludeSubQuery)";
+
+        $query = "($queryGroup) UNION DISTINCT ($queryMailing)";
+        
         $results = array();
 
-        $mailingGroup->query($queryGroupInclude);
+        $mailingGroup->query($query);
         $mailingGroup->find();
 
         while ($mailingGroup->fetch()) {
@@ -94,28 +161,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             );
         }
         return $results;
-        //  TODO:   2005-07-13 13:26:23 by Brian McFee <brmcfee@gmail.com>
-        //  This only handles the very simple case of mailing to groups.  It
-        //  doesn't handle exclusion or prior mailings yet.
-
-        
-        /* Get all the group contacts we want to exclude*/
-        $queryGroupExclude = 
-                    "SELECT         $email.id as email_id,
-                                    $contact.id as contact_id
-                    FROM            $email
-                    INNER JOIN      $location
-                            ON      $email.location_id = $location.id
-                    INNER JOIN      $contact
-                            ON      $location.contact_id = $contact.id
-                    INNER JOIN      $mg
-                            ON      $contact.id = $mg.entity_id
-                    WHERE           $mg.entity_table = '$contact'
-                        AND         $mg.id = " . $mailingGroup->mailing_id . "
-                        AND         $mg.group_type = 'Exclude'
-                        AND         $location.is_primary = 1
-                        AND         $email.is_primary = 1";
-
     }
 
     /**
