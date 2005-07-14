@@ -52,28 +52,38 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $job =& new CRM_Mailing_BAO_Job();
         $jobTable = CRM_Mailing_DAO_Job::getTableName();
         
-        $query = "  SELECT  *
-                    FROM    $jobTable
-                    WHERE   $jobTable.start_date IS null
-                    AND     $jobTable.scheduled_date <= NOW()
-                    ORDER BY $jobTable.scheduled_date ASC"
+        $query = "  SELECT      *
+                    FROM        $jobTable
+                    WHERE       start_date IS null
+                    AND         scheduled_date <= NOW()
+                    ORDER BY    scheduled_date ASC"
 
         $job->query($query);
         $job->find();
 
         while ($job->fetch()) {
-            $job->execute();
+            /* Set the start date */
+            $job->start_date = time();
+            $job->save();
+
+            /* Queue up recipients for all jobs being launched */
+            $job->queue();
+        
+            /* Compose and deliver */
+            $job->deliver();
         }
+
+
     }
 
     /**
-     * Execute a job.  Queue recipients and generate content.
+     * Queue recipients of a job.
      *
      * @param void
      * @return void
      * @access public
      */
-    public function execute() {
+    public function queue() {
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->mailing_id;
         
@@ -86,6 +96,46 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                 'contact_id'    => $recipient['contact_id']
             );
             CRM_Mailing_BAO_MailingEventQueue::create($params);
+        }
+    }
+
+
+    /**
+     * Send the mailing
+     *
+     * @param void
+     * @return void
+     * @access public
+     */
+    public function deliver() {
+        $mailing =& new CRM_Mailing_BAO_Mailing();
+        $mailing->id = $this->mailing_id;
+        $mailing->find(true);
+
+        $eq =& new CRM_Mailing_BAO_MailingEventQueue();
+        $eqTable = CRM_Mailing_BAO_MailingEventQueue()::tableName();
+        $emailTable = CRM_Contact_BAO_Contact::tableName();
+
+        $query = "  SELECT      $eqTable.id,
+                                $emailTable.email as email
+                    FROM        $eqTable
+                    INNER JOIN  $emailTable
+                            ON  $eqTable.email_id = $emailTable.id
+                    WHERE       $eqTable.job_id = " . $this->id;
+                    
+        $eq->query($query);
+        $eq->find();
+
+        while ($eq->fetch()) {
+            /* Compose the mailing */
+            $message = $mailing->compose($this->id, $eq->id, $eq->email);
+            
+            /* Send the mailing */
+
+            /* Register the delivery event */
+            $ed =& new CRM_Mailing_DAO_MailingEventDelivered();
+            $ed->event_queue_id = $eq->id;
+            $ed->save();
         }
     }
 }

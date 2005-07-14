@@ -31,7 +31,20 @@
  *
  */
 
+require_once 'Mail/mime.php';
+
 class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
+
+    /**
+     * The header associated with this mailing
+     */
+    private $header = null;
+
+    /**
+     * The footer associated with this mailing
+     */
+    private $footer = null;
+
 
     /**
      * class constructor
@@ -105,7 +118,66 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
     }
 
+    /**
+     * Retrieve the header and footer for this mailing
+     *
+     * @param void
+     * @return void
+     * @access private
+     */
+    private function getHeaderFooter() {
+        $this->header =& new CRM_Mailing_BAO_Component();
+        $this->header->id = $this->header_id;
+        $this->header->find(true);
+        
+        $this->footer =& new CRM_Mailing_BAO_Component();
+        $this->footer->id = $ this->footer_id;
+        $this->footer->find(true);
+    }
 
+
+    /**
+     * Compose a message
+     *
+     * @param int $job_id           ID of the Job associated with this message
+     * @param int $event_queue_id   ID of the EventQueue
+     * @param int $email            Destination address
+     * @return object               The mail object
+     * @access public
+     */
+    public function &compose($job_id, $event_queue_id, $email) {
+    
+        if ($this->header == null || $this->footer == null) {
+            $this->getHeaderFooter();
+        }
+        
+        $html   = $this->header->body_html 
+                . $this->body_html 
+                . $this->footer->body_html;
+                        
+        $text   = $this->header->body_text
+                . $this->body_text
+                . $this->footer->body_text;
+
+        /* TODO VERP this stuff */
+        $headers = array(
+            'To'        => $email,
+            'Subject'   => $this->subject,
+            'From'      => $this->from_name . ' <' . $this->from_email . '>',
+            'Reply-To'  => $this->reply_to_email
+        );
+
+        
+        /* TODO Token replacement */
+
+        $message =& new Mail_Mime("\n");
+
+        $message->setTxtBody($text);
+        $message->setHTMLBody($html);
+        $message->headers($headers);
+
+        return $message;
+    }
 }
 
 ?>
