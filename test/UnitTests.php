@@ -21,12 +21,13 @@ class UnitTests extends GroupTest {
         // contact api
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateContact.php' );
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetContact.php'    );
-        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
+        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateContact.php' );
 
         
         //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteContact.php'    );
-        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/getClassProperties.php'    );
-        /*$this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
+        //$this->addTestFile( CRM_TEST_DIR . 'CRM/api/getClassProperties.php'    );
+        /*
+        $this->addTestFile( CRM_TEST_DIR . 'CRM/api/CreateLocation.php'    );
         $this->addTestFile( CRM_TEST_DIR . 'CRM/api/GetLocation.php'    );
         $this->addTestFile( CRM_TEST_DIR . 'CRM/api/UpdateLocation.php'    );
         $this->addTestFile( CRM_TEST_DIR . 'CRM/api/DeleteLocation.php'    );
