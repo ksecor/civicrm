@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-13 10:04+0200\n"
-"PO-Revision-Date: 2005-07-13 10:05+0200\n"
+"POT-Creation-Date: 2005-07-14 11:51+0200\n"
+"PO-Revision-Date: 2005-07-14 11:52+0200\n"
 "Last-Translator: Piotr Szotkowski <shot@caltha.pl>\n"
 "Language-Team: <>\n"
 "MIME-Version: 1.0\n"
@@ -135,7 +135,7 @@ msgstr "Nazwa"
 msgid "Please enter a valid name."
 msgstr "Wprowadź poprawną nazwę."
 
-#: CRM/Admin/Form/IMProvider.php:55 CRM/Admin/Form/LocationType.php:55
+#: CRM/Admin/Form/IMProvider.php:55 CRM/Admin/Form/LocationType.php:54
 #: CRM/Admin/Form/MobileProvider.php:55
 #: CRM/Admin/Form/RelationshipType.php:56;61 CRM/Admin/Form/Tag.php:67
 #: CRM/Contact/Form/Task/SaveSearch.php:80 CRM/Group/Form/Edit.php:93
@@ -143,7 +143,7 @@ msgstr "Wprowadź poprawną nazwę."
 msgid "Name already exists in Database."
 msgstr "Nazwa już występuje w bazie danych."
 
-#: CRM/Admin/Form/IMProvider.php:57 CRM/Admin/Form/LocationType.php:60
+#: CRM/Admin/Form/IMProvider.php:57 CRM/Admin/Form/LocationType.php:58
 #: CRM/Admin/Form/MobileProvider.php:57 CRM/Admin/Form/RelationshipType.php:70
 #: CRM/Mailing/Form/Component.php:89 templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -152,7 +152,7 @@ msgstr "Nazwa już występuje w bazie danych."
 msgid "Enabled?"
 msgstr "Włączony?"
 
-#: CRM/Admin/Form/LocationType.php:57 CRM/Admin/Form/RelationshipType.php:68
+#: CRM/Admin/Form/LocationType.php:56 CRM/Admin/Form/RelationshipType.php:68
 #: CRM/Admin/Form/Tag.php:69 CRM/Contact/DAO/Group.php:179
 #: CRM/Contact/DAO/LocationType.php:169
 #: CRM/Contact/DAO/RelationshipType.php:185
@@ -167,7 +167,7 @@ msgstr "Włączony?"
 msgid "Description"
 msgstr "Opis"
 
-#: CRM/Admin/Form/LocationType.php:61 CRM/Mailing/Form/Component.php:88
+#: CRM/Admin/Form/LocationType.php:59 CRM/Mailing/Form/Component.php:88
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Default?"
@@ -892,11 +892,11 @@ msgstr "Rozmowa „%1” została zapisana."
 msgid "The IM Provider \"%1\" has been saved."
 msgstr "Komunikator „%1” został zapisany"
 
-#: CRM/Admin/Form/LocationType.php:54
+#: CRM/Admin/Form/LocationType.php:53
 msgid "Please enter a valid location type name."
 msgstr "Wprowadź nazwę poprawnego rodzaju lokalizacji."
 
-#: CRM/Admin/Form/LocationType.php:99
+#: CRM/Admin/Form/LocationType.php:100
 msgid "The location type \"%1\" has been saved."
 msgstr "Rodzaj lokalizacji „%1” został zapisany."
 
@@ -1827,7 +1827,8 @@ msgstr "Ograniczony do kontaktów zaczynających się od \"%1\""
 msgid "CiviCRM Contact Search"
 msgstr "Wyszukiwarka kontaktów CiviCRM"
 
-#: CRM/Contact/Selector.php:492 templates/CRM/Contact/Form/Task/Print.tpl
+#: CRM/Contact/Selector.php:492 templates/CRM/Contact/Form/Address.tpl
+#: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Address"
 msgstr "Adres"
 
@@ -2663,15 +2664,19 @@ msgstr "Błędy adres email"
 msgid "Email address conflicts with record %1"
 msgstr "Adres email koliduje z wpisem %1"
 
-#: CRM/Import/Parser.php:357;371
+#: CRM/Import/Parser/Contact.php:274
+msgid "Record duplicates multiple contacts"
+msgstr "Wpis powiela wiele kontaktów"
+
+#: CRM/Import/Parser.php:368;380
 msgid "Record Number"
 msgstr "Liczba wpisów"
 
-#: CRM/Import/Parser.php:358
+#: CRM/Import/Parser.php:369
 msgid "Reason"
 msgstr "Powód"
 
-#: CRM/Import/Parser.php:372
+#: CRM/Import/Parser.php:381
 msgid "View Contact URL"
 msgstr "Zobacz URL kontaktu"
 
@@ -3315,10 +3320,6 @@ msgid "Recently Viewed:"
 msgstr "Ostatnio oglądane:"
 
 #: templates/CRM/Contact/Form/Address.tpl
-msgid "Mailing Address"
-msgstr "Adres pocztowy"
-
-#: templates/CRM/Contact/Form/Address.tpl
 msgid "Street number, street name, apartment/unit/suite - OR P.O. box"
 msgstr "Numer ulicy, jej nazwa, apartament – lub nr skrzynki pocztowej"
 
@@ -3775,8 +3776,13 @@ msgid "Open Activities"
 msgstr "Otwarte zdarzenia"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "No open activities."
-msgstr "Brak otwartych zdarzeń."
+#: templates/CRM/History/Selector/Activity.tpl
+msgid ""
+"No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
+"href=\"%2\"}\">call</a>."
+msgstr ""
+"Brak otwartych zdarzeń. Możesz zaplanować <a href=\"%1\">spotkanie</a> lub "
+"<a href=\"%2\">rozmowę</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Open Activities (3 of %1)"
@@ -3803,9 +3809,8 @@ msgid "View All Activity History..."
 msgstr "Zobacz pełną historię zdarzenia…"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-msgid ""
-"No relationships. Use the <a href=\"%1\">Relationships tab</a> to add them."
-msgstr "Brak powiązań. By je dodać, Użyj <a href=\"%1\">zakładki powiązań</a>."
+msgid "No relationships. You can <a href=\"%1\">create a new relationship</a>."
+msgstr "Brak powiązań. Można <a href=\"%1\">stworzyć nowe powiązanie</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Relationships (3 of %1)"
@@ -3823,13 +3828,6 @@ msgstr "Zobacz wszystkie powiązania…"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Group Memberships"
 msgstr "Przynależność do grup"
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid ""
-"No group memberships. Use the <a href=\"%1\">Groups tab</a> to add them."
-msgstr ""
-"Brak przynależności do grup. By ją stworzyć, użyj <a href=\"%1\">zakładki "
-"grup</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Group Memberships (3 of %1)"
@@ -3854,8 +3852,9 @@ msgid "New Group Membership"
 msgstr "Nowa przynależność do grupy"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "No notes. Use the <a href=\"%1\">Notes tab</a> to add them."
-msgstr "Brak notatek. By je dodać użyj <a href=\"%1\">zakładki notatek</a>."
+msgid "No notes. You can <a href=\"%1\">enter notes</a> about this contact."
+msgstr ""
+"Brak notatek. Możesz <a href=\"%1\">wprowadzić notatki</a> dla tego kontaktu."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Notes (3 of %1)"
@@ -4339,14 +4338,6 @@ msgid "(display name not available)"
 msgstr "(nazwa niedostępna)"
 
 #: templates/CRM/History/Selector/Activity.tpl
-msgid ""
-"No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
-"href=\"%2\"}\">call</a>."
-msgstr ""
-"Brak otwartych zdarzeń. Możesz zaplanować <a href=\"%1\">spotkanie</a> lub "
-"<a href=\"%2\">rozmowę</a>."
-
-#: templates/CRM/History/Selector/Activity.tpl
 msgid "No activity history for this contact."
 msgstr "Brak historii zdarzeń dla tego kontaktu."
 
@@ -4559,6 +4550,24 @@ msgstr "Wpisy zaimportowane"
 msgid "Rows imported successfully."
 msgstr "Wiersze zaimportowane."
 
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "Import to Groups"
+msgstr "Importuj do grup"
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "%count contact added to this %2 group."
+msgid_plural "%count contacts added to this %2 group."
+msgstr[0] "%count kontakt dodany do grupy %2."
+msgstr[1] "%count kontakty dodane do grupy %2."
+msgstr[2] "%count kontaktów dodanych do grupy %2."
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "%count contact NOT added (already in this group)."
+msgid_plural "%count contacts NOT added (already in this group)."
+msgstr[0] "%count kontakt NIE dodany (już należy do tej grupy)."
+msgstr[1] "%count kontakty NIE dodane (już należą do tej grupy)."
+msgstr[2] "%count kontaktów NIE dodanych (już należą do tej grupy)."
+
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "The Import Wizard allows you to easily upload contact records from other "
@@ -4602,20 +4611,40 @@ msgstr ""
 "(przykład: „Imię”, „Nazwisko”, „Email”)"
 
 #: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Skip: preserve existing records in database (default)"
-msgstr "Pomiń: nie zmieniaj istniejących wpisów w bazie (domyślne)"
+msgid ""
+"If a contact in the import file appears to be a duplicate of an existing "
+"CiviCRM contact..."
+msgstr ""
+"Jeśli kontakt w importowanym pliku wydaje się powtórzeniem istniejącego w CiviCRM-ie kontaktu…"
 
 #: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Replace: replace old records with new imported data"
-msgstr "Zastąp: zastąp wpisy w CiviCRM-ie danymi zaimportowanymi"
+msgid ""
+"<label>Skip:</label> Reports and then Skips duplicate import file rows - "
+"leaving the matching record in the database as-is (default)."
+msgstr ""
+"<label>Pomiń:</label> Podaje, a następnie pomija powtórzone wiersze importowanego pliku, pozostawiając pasujące wpisy w bazie bez zmian (domyślne)."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Update: modify existing records to match imported data"
-msgstr "Uaktualnij: uaktualnij wpisy w CiviCRM-ie danymi zaimportowanymi"
+msgid ""
+"<label>Replace:</label> Replaces the entire matching record in the database "
+"with imported contact data."
+msgstr ""
+"<label>Zastąp:</label> Całkowicie zastępuje pasujące wpisy w bazie zaimportowanymi danymi kontaktu."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Fill: only import those fields which currently have no values."
-msgstr "Wypełnij: zaimportuj tylko te pola, które aktualnie są puste."
+msgid ""
+"<label>Update:</label> Updates database fields with available import data. "
+"Fields in the database which are NOT included in the import row are left as-"
+"is."
+msgstr ""
+"<label>Uaktualnij:</label> Uaktualnia pola bazy danych dostępnymi danymi importu. Pola w bazie których NIE MA w importowanym wierszu bedą pozostawiane bez zmian."
+
+#: templates/CRM/Import/Form/UploadFile.tpl
+msgid ""
+"<label>Fill:</label> Fills in additional contact data only. Database fields "
+"which currently have values are left as-is."
+msgstr ""
+"<label>Wypełnij:</label> Wypełnij tylko dodatkowe dane kontaktu. Pola bazy danych, które mają już jakąś wartość będą pozostawione bez zmian."
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -4761,6 +4790,30 @@ msgstr ""
 #: templates/CRM/WizardHeader.tpl
 msgid "(step %1 of %2)"
 msgstr "(krok %1 z %2)"
+
+#~ msgid "Mailing Address"
+#~ msgstr "Adres pocztowy"
+
+#~ msgid "No open activities."
+#~ msgstr "Brak otwartych zdarzeń."
+
+#~ msgid ""
+#~ "No group memberships. Use the <a href=\"%1\">Groups tab</a> to add them."
+#~ msgstr ""
+#~ "Brak przynależności do grup. By ją stworzyć, użyj <a href=\"%1\">zakładki "
+#~ "grup</a>."
+
+#~ msgid "Skip: preserve existing records in database (default)"
+#~ msgstr "Pomiń: nie zmieniaj istniejących wpisów w bazie (domyślne)"
+
+#~ msgid "Replace: replace old records with new imported data"
+#~ msgstr "Zastąp: zastąp wpisy w CiviCRM-ie danymi zaimportowanymi"
+
+#~ msgid "Update: modify existing records to match imported data"
+#~ msgstr "Uaktualnij: uaktualnij wpisy w CiviCRM-ie danymi zaimportowanymi"
+
+#~ msgid "Fill: only import those fields which currently have no values."
+#~ msgstr "Wypełnij: zaimportuj tylko te pola, które aktualnie są puste."
 
 #~ msgid ""
 #~ "<p>This site is running our v1.0 beta codebase. We strongly encourage "

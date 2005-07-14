@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-13 10:04+0200\n"
+"POT-Creation-Date: 2005-07-14 11:51+0200\n"
 "PO-Revision-Date: 2005-07-13 10:06+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -134,7 +134,7 @@ msgstr ""
 msgid "Please enter a valid name."
 msgstr ""
 
-#: CRM/Admin/Form/IMProvider.php:55 CRM/Admin/Form/LocationType.php:55
+#: CRM/Admin/Form/IMProvider.php:55 CRM/Admin/Form/LocationType.php:54
 #: CRM/Admin/Form/MobileProvider.php:55
 #: CRM/Admin/Form/RelationshipType.php:56;61 CRM/Admin/Form/Tag.php:67
 #: CRM/Contact/Form/Task/SaveSearch.php:80 CRM/Group/Form/Edit.php:93
@@ -142,7 +142,7 @@ msgstr ""
 msgid "Name already exists in Database."
 msgstr ""
 
-#: CRM/Admin/Form/IMProvider.php:57 CRM/Admin/Form/LocationType.php:60
+#: CRM/Admin/Form/IMProvider.php:57 CRM/Admin/Form/LocationType.php:58
 #: CRM/Admin/Form/MobileProvider.php:57 CRM/Admin/Form/RelationshipType.php:70
 #: CRM/Mailing/Form/Component.php:89 templates/CRM/Admin/Page/IMProvider.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Enabled?"
 msgstr ""
 
-#: CRM/Admin/Form/LocationType.php:57 CRM/Admin/Form/RelationshipType.php:68
+#: CRM/Admin/Form/LocationType.php:56 CRM/Admin/Form/RelationshipType.php:68
 #: CRM/Admin/Form/Tag.php:69 CRM/Contact/DAO/Group.php:179
 #: CRM/Contact/DAO/LocationType.php:169
 #: CRM/Contact/DAO/RelationshipType.php:185
@@ -166,7 +166,7 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: CRM/Admin/Form/LocationType.php:61 CRM/Mailing/Form/Component.php:88
+#: CRM/Admin/Form/LocationType.php:59 CRM/Mailing/Form/Component.php:88
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Default?"
@@ -888,11 +888,11 @@ msgstr ""
 msgid "The IM Provider \"%1\" has been saved."
 msgstr ""
 
-#: CRM/Admin/Form/LocationType.php:54
+#: CRM/Admin/Form/LocationType.php:53
 msgid "Please enter a valid location type name."
 msgstr ""
 
-#: CRM/Admin/Form/LocationType.php:99
+#: CRM/Admin/Form/LocationType.php:100
 msgid "The location type \"%1\" has been saved."
 msgstr ""
 
@@ -1801,7 +1801,8 @@ msgstr ""
 msgid "CiviCRM Contact Search"
 msgstr ""
 
-#: CRM/Contact/Selector.php:492 templates/CRM/Contact/Form/Task/Print.tpl
+#: CRM/Contact/Selector.php:492 templates/CRM/Contact/Form/Address.tpl
+#: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Address"
 msgstr ""
 
@@ -2633,15 +2634,19 @@ msgstr ""
 msgid "Email address conflicts with record %1"
 msgstr ""
 
-#: CRM/Import/Parser.php:357;371
+#: CRM/Import/Parser/Contact.php:274
+msgid "Record duplicates multiple contacts"
+msgstr ""
+
+#: CRM/Import/Parser.php:368;380
 msgid "Record Number"
 msgstr ""
 
-#: CRM/Import/Parser.php:358
+#: CRM/Import/Parser.php:369
 msgid "Reason"
 msgstr ""
 
-#: CRM/Import/Parser.php:372
+#: CRM/Import/Parser.php:381
 msgid "View Contact URL"
 msgstr ""
 
@@ -3240,10 +3245,6 @@ msgid "Recently Viewed:"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Address.tpl
-msgid "Mailing Address"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Address.tpl
 msgid "Street number, street name, apartment/unit/suite - OR P.O. box"
 msgstr ""
 
@@ -3664,7 +3665,10 @@ msgid "Open Activities"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "No open activities."
+#: templates/CRM/History/Selector/Activity.tpl
+msgid ""
+"No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
+"href=\"%2\"}\">call</a>."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -3692,8 +3696,7 @@ msgid "View All Activity History..."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-msgid ""
-"No relationships. Use the <a href=\"%1\">Relationships tab</a> to add them."
+msgid "No relationships. You can <a href=\"%1\">create a new relationship</a>."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -3711,11 +3714,6 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Group Memberships"
-msgstr ""
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid ""
-"No group memberships. Use the <a href=\"%1\">Groups tab</a> to add them."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -3741,7 +3739,7 @@ msgid "New Group Membership"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "No notes. Use the <a href=\"%1\">Notes tab</a> to add them."
+msgid "No notes. You can <a href=\"%1\">enter notes</a> about this contact."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -4169,12 +4167,6 @@ msgid "(display name not available)"
 msgstr ""
 
 #: templates/CRM/History/Selector/Activity.tpl
-msgid ""
-"No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
-"href=\"%2\"}\">call</a>."
-msgstr ""
-
-#: templates/CRM/History/Selector/Activity.tpl
 msgid "No activity history for this contact."
 msgstr ""
 
@@ -4349,6 +4341,22 @@ msgstr ""
 msgid "Rows imported successfully."
 msgstr ""
 
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "Import to Groups"
+msgstr ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "%count contact added to this %2 group."
+msgid_plural "%count contacts added to this %2 group."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/CRM/Import/Form/Summary.tpl
+msgid "%count contact NOT added (already in this group)."
+msgid_plural "%count contacts NOT added (already in this group)."
+msgstr[0] ""
+msgstr[1] ""
+
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "The Import Wizard allows you to easily upload contact records from other "
@@ -4381,19 +4389,34 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Skip: preserve existing records in database (default)"
+msgid ""
+"If a contact in the import file appears to be a duplicate of an existing "
+"CiviCRM contact..."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Replace: replace old records with new imported data"
+msgid ""
+"<label>Skip:</label> Reports and then Skips duplicate import file rows - "
+"leaving the matching record in the database as-is (default)."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Update: modify existing records to match imported data"
+msgid ""
+"<label>Replace:</label> Replaces the entire matching record in the database "
+"with imported contact data."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
-msgid "Fill: only import those fields which currently have no values."
+msgid ""
+"<label>Update:</label> Updates database fields with available import data. "
+"Fields in the database which are NOT included in the import row are left as-"
+"is."
+msgstr ""
+
+#: templates/CRM/Import/Form/UploadFile.tpl
+msgid ""
+"<label>Fill:</label> Fills in additional contact data only. Database fields "
+"which currently have values are left as-is."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Component.tpl
