@@ -45,7 +45,7 @@ if [ ! -d $TRG/sql ] ; then
 	mkdir $TRG/sql
 fi
 
-for F in Contacts.sql FixedData.sql GeneratedData.sql MySQL40_dump.sql; do 
+for F in Contacts.sql FixedData.sql GeneratedData.sql Contacts.mysql40.sql; do 
 	cp $SRC/sql/$F $TRG/sql
 done
 
