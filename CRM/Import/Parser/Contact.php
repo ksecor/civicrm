@@ -62,8 +62,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser {
     /**
      * class constructor
      */
-    function __construct( &$mapperKeys, &$mapperLocType = null,
-                            &$mapperPhoneType = null ) {
+    function __construct( &$mapperKeys, &$mapperLocType, &$mapperPhoneType) {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
         $this->_mapperLocType = $mapperLocType;
