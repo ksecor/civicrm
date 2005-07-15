@@ -127,6 +127,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
 
+        //hidden field to catch the group id in profile
+        $this->add('hidden', 'group_id', $this->_gid);
+
         // field name
         $this->add( 'select', 'field_name', ts('CiviCRM Field Name'), $this->_selectFields, true );
         $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true );
@@ -218,7 +221,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
     static function formRule( &$fields ) {
         $is_required     = CRM_Utils_Array::value( 'is_required'    , $fields, false );
         $is_registration = CRM_Utils_Array::value( 'is_registration', $fields, false );
-        $is_view         = CRM_Utils_Array::value( 'is_view'        , $fields, false );
+        $is_view         = CRM_Utils_Array::value( 'is_view'        , $fields, false );     
 
         $errors = array( );
         if ( $is_view && $is_registration ) {
@@ -227,6 +230,18 @@ class CRM_UF_Form_Field extends CRM_Core_Form {
         if ( $is_view && $is_required ) {
             $errors['is_view'] = 'A View Only field cannot be required';
         }
+
+        $daoFieldName =& new CRM_Core_DAO_UFField();
+        $fieldName = $fields['field_name'];
+        $groupId = $fields['group_id'];
+        $query = "SELECT * FROM crm_uf_field WHERE uf_group_id = '$groupId' AND field_name = '$fieldName'";
+        $daoFieldName->query($query);
+        $result = $daoFieldName->getDatabaseResult();
+        $row    = $result->fetchRow();
+        
+        if($row > 0)
+            $errors['field_name'] = 'Duplicate Field Name choosen. Select different field name';
+        
         return empty($errors) ? true : $errors;
     }
 }
