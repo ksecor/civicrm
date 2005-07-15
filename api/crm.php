@@ -47,6 +47,7 @@ require_once 'api/utils.php';
 require_once 'api/Contact.php';
 require_once 'api/History.php';
 require_once 'api/CustomGroup.php';
+require_once 'CRM/Contact/BAO/Group.php';
 
 
 
