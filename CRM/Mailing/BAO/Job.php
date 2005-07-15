@@ -61,6 +61,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $job->query($query);
         $job->find();
 
+
+        /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
             /* Set the start date */
             $job->start_date = time();
@@ -76,6 +78,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $job->end_date = time();
             $job->save();
         }
+
+        /* TODO Resume aborted jobs */
 
 
     }

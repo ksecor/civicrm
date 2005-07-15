@@ -130,9 +130,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ORDER BY            $eq.contact_id";
 
                     
-        $excludeSubQuery =  "($excludeSubGroup) 
-                            UNION DISTINCT ($excludeSubMailing) 
-                            UNION DISTINCT ($excludeRetry)";
+        $excludeSubQuery =  "               ($excludeSubGroup) 
+                            UNION DISTINCT  ($excludeSubMailing) 
+                            UNION DISTINCT  ($excludeRetry)";
 
         /* Get all the group contacts we want to include */
         /* TODO: support bounce status */
@@ -251,7 +251,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         . $this->footer->body_text;
         }
 
-        /* FIXME */
+        /* FIXME put the email domain in config or crm_domain */
         $domain = "@FIXME.COM";
 
         foreach (array('reply', 'owner', 'unsubscribe') as $key) {
