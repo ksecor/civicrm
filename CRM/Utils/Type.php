@@ -67,7 +67,7 @@ class CRM_Utils_Type {
  */
 
 
-    function ConstToString($const_datatype)
+    function typeToString($const_datatype)
     {
         switch($const_datatype) {
         case 1:$string_datatype ='Int';break;

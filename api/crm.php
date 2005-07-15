@@ -130,10 +130,20 @@ function crm_get_groups($params = null, $returnProperties = null) {
         $count = count($returnProperties);
         $counter = 1;
         foreach($returnProperties as $retProp) {
+            if($retProp == 'member_count') {
+                $count--;
+                break;
+            }
+        }
+        foreach($returnProperties as $retProp) {
             if($counter < $count) {
+                if($retProp != 'member_count') {
                 $queryString .=" ".$retProp.",";
+                }
             } else {
-                $queryString .=" ".$retProp;
+                if($retProp != 'member_count') {
+                $queryString .=" ".$retProp.',id';
+                }
             }
             $counter++;
         }
@@ -152,14 +162,31 @@ function crm_get_groups($params = null, $returnProperties = null) {
             $counter++;
         }
     }
-
     $crmDAO =& new CRM_Contact_DAO_Group();
-    $crmDAO->query($queryString);
+    $error = $crmDAO->query($queryString);
+    if($error) {
+        return _crm_error($error);
+    }
     $groupArray = array();
-    
+    $flag = 0;
+    if($returnProperties != null) {
+        foreach($returnProperties as $ret) {
+            if($ret == 'member_count'){
+                $flag = 1;
+            }
+        }
+
+    }
     while($crmDAO->fetch()) { 
         $rows = array();
+        
         CRM_Core_DAO::storeValues($crmDAO,$rows);
+        if($flag) {
+            $group =new CRM_Contact_DAO_Group();
+            $group->id = $crmDAO->id;
+            $count=count(crm_get_group_contacts(&$group));
+            $rows['member_count']=$count;
+        }
         $groupArray[] = $rows;
     }
     
@@ -316,14 +343,14 @@ function crm_get_group_contacts(&$group, $returnProperties = null, $status = 'In
 
 function crm_delete_group_contacts(&$group, $contacts) {
      
-    
     foreach($contacts as $contact){
-        if ( ! isset( $contact->id )) {
+        if ( ! isset($contact->id)) {
             return _crm_error( 'Invalid contact object passed in' );
         }
         $contactID[] = $contact->id;
     } 
-    CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactId, $group->id );
+  
+    CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactID, $group->id );
     return null;
 }
 
@@ -375,15 +402,12 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
     $property_object = array(); 
     $error = eval( '$fields = CRM_Contact_DAO_' .$class_name  . '::fields( );' );
     if($error) {
-        
-        return $error;
+        return _crm_error($error);
     }
-    
     $id = -1;
-
+    
     foreach($fields as $key => $values) {
-       
-        $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::ConstToString($values['type']),"description"=>$values['title']);
+        $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
     }
     
     if($class_name =='Individual' || $class_name =='Organization' || $class_name =='Household') {
@@ -391,10 +415,11 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
         
         foreach($fields as $key => $values) {
             
-            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::ConstToString($values['type']) ,"description"=>$values['title']);
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']) ,"description"=>$values['title']);
         }
         $fields="";
     }
+    
     if($filter == 'custom' || $filter == 'all' ) {
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($class_name, null, -1);
         foreach($groupTree as $node) {
@@ -406,7 +431,7 @@ function crm_get_class_properties($class_name = 'Individual', $filter = 'all') {
             }
             
         }
-
+        
     }
     
     return $property_object;

@@ -4,10 +4,7 @@ require_once 'api/crm.php';
 
 class TestOfGetClassProperties extends UnitTestCase 
 {
-    protected $_individual;
-    protected $_houseHold;
-    protected $_organization;
-
+    
     function setUp() 
     {
     }
@@ -16,26 +13,160 @@ class TestOfGetClassProperties extends UnitTestCase
     {
     }
 
-    function testGetClassProperties() 
+    function testGetClassPropertiesIndividualCore() 
     {
+        $property_object = array();
+        $prop = crm_get_class_properties("Individual","core");
+        $this->assertNotA($prop,'CRM_Core_Error');
+        $fields = CRM_Contact_DAO_Individual::fields( );
+        $id = -1;
+        foreach($fields as $key => $values) {
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        }
+        $fields = CRM_Contact_DAO_Contact::fields( );
+        foreach($fields as $key => $values) {
+            
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']) ,"description"=>$values['title']);
+        }
+        
+        $this->assertEqual($prop,$property_object);
+    }
+    
+    function testGetClassPropertiesIndividualCustom() 
+    {
+        $property_object = array();
         $prop = crm_get_class_properties("Individual","custom");
-        echo "Individual"."\n";
-        print_r($prop);
-        $prop = crm_get_class_properties("Organization","core");
-        echo "Organization"."\n";
-        print_r($prop);
-        $prop = crm_get_class_properties("Household","core");
-        echo "Household"."\n";
-        print_r($prop);
-        $prop = crm_get_class_properties("Location","core");
-        echo "Location"."\n";
-        print_r($prop);
-        $prop = crm_get_class_properties("Group","core");
-        echo "Group"."\n";
-        print_r($prop);
+        $this->assertNotA($prop,'CRM_Core_Error');
 
+        $fields = CRM_Contact_DAO_Individual::fields( );
+        $id = -1;
+        foreach($fields as $key => $values) {
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        }
+        $fields = CRM_Contact_DAO_Contact::fields( );
+        foreach($fields as $key => $values) {
+            
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']) ,"description"=>$values['title']);
+        }
+        $class_name = 'Individual';
+        $groupTree = CRM_Core_BAO_CustomGroup::getTree($class_name, null, -1);
+        foreach($groupTree as $node) {
+            $fields = $node["fields"];
+            
+            foreach($fields as $key => $values) {
+       
+                $property_object[] = array("id"=>$values['id'],"name"=>$values['name'],"data_type"=>$values['data_type'] ,"description"=>$values['help_post']);
+            }
+            
+        }
+        $this->assertEqual($prop,$property_object);
+        
     }
 
+    function testGetClassPropertiesOrganizationCore() 
+    {
+        $prop = crm_get_class_properties("Organization","Core");
+        $this->assertNotA($prop,'CRM_Core_Error');
+        
+        $fields = CRM_Contact_DAO_Organization::fields( );
+        $id = -1;
+        foreach($fields as $key => $values) {
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        }
+        $fields = CRM_Contact_DAO_Contact::fields( );
+        foreach($fields as $key => $values) {
+            
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']) ,"description"=>$values['title']);
+        }
+        
+        $this->assertEqual($prop,$property_object);
+        
+
+    }
     
+    function testGetClassPropertiesOrganizationCustom() 
+    {
+        $prop = crm_get_class_properties("Organization","custom");
+        $this->assertNotA($prop,'CRM_Core_Error');
+
+        $fields = CRM_Contact_DAO_Organization::fields( );
+        $id = -1;
+        foreach($fields as $key => $values) {
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        }
+        $fields = CRM_Contact_DAO_Contact::fields( );
+        foreach($fields as $key => $values) {
+            
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']) ,"description"=>$values['title']);
+        }
+        $class_name = 'Organization';
+        $groupTree = CRM_Core_BAO_CustomGroup::getTree($class_name, null, -1);
+        foreach($groupTree as $node) {
+            $fields = $node["fields"];
+            
+            foreach($fields as $key => $values) {
+       
+                $property_object[] = array("id"=>$values['id'],"name"=>$values['name'],"data_type"=>$values['data_type'] ,"description"=>$values['help_post']);
+            }
+            
+        }
+        $this->assertEqual($prop,$property_object);
+    }
+
+    function testGetClassPropertiesHouseholdCore() 
+    {
+        $prop = crm_get_class_properties("Household","Core");
+        $this->assertNotA($prop,'CRM_Core_Error');
+
+        $fields = CRM_Contact_DAO_Household::fields( );
+        $id = -1;
+        foreach($fields as $key => $values) {
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        }
+        $fields = CRM_Contact_DAO_Contact::fields( );
+        foreach($fields as $key => $values) {
+            
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']) ,"description"=>$values['title']);
+        }
+        
+        $this->assertEqual($prop,$property_object);
+    }
+    
+    function testGetClassPropertiesHouseholdCustom() 
+    {
+        
+        $prop = crm_get_class_properties("Household","custom");
+        $this->assertNotA($prop,'CRM_Core_Error');
+
+        $fields = CRM_Contact_DAO_Household::fields( );
+        $id = -1;
+        foreach($fields as $key => $values) {
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']),"description"=>$values['title']);
+        }
+        $fields = CRM_Contact_DAO_Contact::fields( );
+        foreach($fields as $key => $values) {
+            
+            $property_object[] = array("id"=>$id,"name"=>$key,"data_type"=>CRM_Utils_Type::typeToString($values['type']) ,"description"=>$values['title']);
+        }
+        $class_name = 'Household';
+        $groupTree = CRM_Core_BAO_CustomGroup::getTree($class_name, null, -1);
+        foreach($groupTree as $node) {
+            $fields = $node["fields"];
+            
+            foreach($fields as $key => $values) {
+       
+                $property_object[] = array("id"=>$values['id'],"name"=>$values['name'],"data_type"=>$values['data_type'] ,"description"=>$values['help_post']);
+            }
+            
+        }
+        $this->assertEqual($prop,$property_object);
+
+        
+    }
+
+
+
+
+
 }
 ?>
