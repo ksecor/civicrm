@@ -101,7 +101,7 @@
     {/if}
    </div>
    <div class="col2">
-    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate format='%m/%d/%y'}
+    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}
    </div>
    <div class="spacer"></div>
   </fieldset>
