@@ -806,13 +806,17 @@ SELECT DISTINCT crm_contact.id as contact_id,
             if ($firstName && $lastName) {
                 $sortName = "$lastName, $firstName";
             } else {
+
                 $individual =& new CRM_Contact_BAO_Individual();
                 $individual->contact_id = $contact->id;
                 $individual->find();
                 while($individual->fetch()) {
                     $individualLastName = $individual->last_name;
                     $individualFirstName = $individual->first_name;
+                    $individualPrefix = $individual->prefix;
+                    $individualSuffix = $individual->suffix;
                 }
+
                 if (empty($lastName)) {
                     $sortName = "$individualLastName, $firstName";
                     $lastName = $individualLastName;
@@ -821,6 +825,14 @@ SELECT DISTINCT crm_contact.id as contact_id,
                     $firstName = $individualFirstName;
                 } else {
                     $sortName = $lastName . $firstName;
+                }
+                
+                if (empty($prefix)) {
+                    $prefix = $individualPrefix;
+                }
+
+                if (empty($suffix)) {
+                    $suffix = $individualSuffix;
                 }
             }
             $contact->sort_name    = trim($sortName);
